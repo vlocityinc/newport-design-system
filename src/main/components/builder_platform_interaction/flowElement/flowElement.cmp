@@ -1,0 +1,5 @@
+<aura:component extends="ui:button" description="">
+
+    <aura:attribute name="data" type="Object" description="" />
+
+</aura:component>

@@ -1,0 +1,35 @@
+<aura:component extends="visualEditor:baseEditorPanel"
+    description="Aura component for Flow Builder RH side component. This component will house the propery editor">
+    <aura:import library="visualEditor:utils" property="commons" />
+
+    <aura:attribute name="connectorType" type="String" description="The connector the panel should use" />
+    <aura:attribute name="displayPropertyEditor" type="boolean" default="true"
+        description="Flag for whether to display propertyEditor or not" />
+    <aura:attribute name="_pendingSave" type="boolean" default="false"
+        description="If waiting on property editor validation to do a save" />
+
+    <aura:handler event="flexipageEditor:saveInitiated" action="{!c.handleSaveInitiated}" />
+    <aura:handler event="flexipageEditor:triggerPropertyEditor" action="{!c.doTriggerPropertyEditor}"
+        description="Launch property Editor" />
+    <aura:handler event="visualEditor:propertiesChanged" name="propertiesChanged" action="{!c.firePropertiesChanged}"
+        description="The property editor was used to change the properties of a component" />
+    <aura:handler event="visualEditor:componentValidated" name="componentValidated" action="{!c.fireComponentValidated}"
+        description="The property editor was used to validate the properties of a component" />
+
+    <aura:set attribute="ariaDescribedby" value="rightPanelHeaderAssistive" />
+    <aura:set attribute="keyCode" value="{!53}" />
+
+    <div>
+        <aura:if isTrue="{!v.displayPropertyEditor}">
+            <div class="rightPanelBody">
+                <!-- TODO adheip to remove when halo fixes their stuff -->
+                {!v.body}
+            </div>
+            <aura:set attribute="else">
+                <div class="rightPanelBody">
+                    <visualEditor:infoHeader infoDesc="{#$Label.Palette.placeHolderText}" />
+                </div>
+            </aura:set>
+        </aura:if>
+    </div>
+</aura:component>

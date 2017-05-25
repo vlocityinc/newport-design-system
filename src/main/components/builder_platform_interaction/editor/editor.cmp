@@ -1,0 +1,40 @@
+<aura:component extends="visualEditor:baseEditor"
+    controller="serviceComponent://visualeditor.aura.builder.BuilderController">
+
+    <aura:import library="visualEditor:utils" property="utils" />
+
+    <aura:attribute name="flowId" type="String" description="The id of the flow currently edited, null if new flow" />
+    <aura:attribute name="connectorType" type="String" default="flow" description="The connector the builder uses" />
+    <aura:attribute name="retUrl" type="String" description="A return URL to allow returning to previous page" />
+    <aura:attribute name="cloneable" type="Boolean" description="Is flow cloneable" default="false" />
+
+    <aura:attribute name="_flow" type="Object" description="The current flow" />
+    <aura:attribute name="_undoRedoManager" type="Object" description="The (private) instance of the undo redo manager" />
+    <aura:attribute name="_canvasReady" type="Boolean" default="false" description="If the canvas is ready to consume" />
+
+    <aura:attribute name="_readOnly" type="Boolean" default="false" description="Flow is read only" />
+
+    <aura:registerEvent name="modelChangedPropertiesChanged" type="flexipageEditor:modelChangedPropertiesChanged" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="flexipageEditor:selectNode" action="{!c.handleSelectComponent}" />
+    <aura:handler event="flexipageEditor:propertiesChanged" action="{!c.handlePropertiesChanged}" />
+    <aura:handler event="flexipageEditor:save" action="{!c.handleSave}" />
+    <aura:handler event="visualEditor:undo" action="{!c.handleUndo}" />
+    <aura:handler event="visualEditor:redo" action="{!c.handleRedo}" />
+
+    <aura:set attribute="toolbar">
+        <flexipageEditor:topToolbar aura:id="topToolbar" readOnly="{!v._readOnly}" />
+    </aura:set>
+    <aura:set attribute="left">
+        <flexipageEditor:leftPanel aura:id="leftPanel" connectorType="{!v.connectorType}" pageId="{!v.flowId}"
+            cloneable="{!v.cloneable}" />
+    </aura:set>
+    <aura:set attribute="middle">
+        <builder_platform_interaction:canvas aura:id="canvas" />
+    </aura:set>
+    <aura:set attribute="right">
+        <builder_platform_interaction:rightPanel aura:id="rightPanel" connectorType="{!v.connectorType}" />
+    </aura:set>
+
+</aura:component>

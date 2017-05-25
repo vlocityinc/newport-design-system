@@ -1,9 +1,0 @@
-<!--
-  ~ Copyright, 1999-2015, salesforce.com
-  ~ All Rights Reserved
-  ~ Company Confidential
-  -->
-
-<aura:component>
-    Hello world!!
-</aura:component>

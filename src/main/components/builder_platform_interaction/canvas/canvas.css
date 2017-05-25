@@ -1,0 +1,14 @@
+.THIS {
+    background-color: t(colorBackgroundShade);
+    width: 100%;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.5) inset;
+    position: relative;
+}
+
+.THIS .outerOuter {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
