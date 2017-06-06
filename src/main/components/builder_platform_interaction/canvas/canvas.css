@@ -5,10 +5,18 @@
     position: relative;
 }
 
-.THIS .outerOuter {
+.THIS .canvas {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+.THIS .canvas.active {
+    box-shadow: 0 0 10px rgb(0, 112, 210);
+}
+
+.THIS .canvas.hover {
+    box-shadow: 0 0 20px rgb(0, 112, 210);
 }

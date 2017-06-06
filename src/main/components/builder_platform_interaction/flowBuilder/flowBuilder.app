@@ -4,7 +4,7 @@
     <aura:attribute name="flowId" type="String" description="The id of the flow to load" />
 
     <div class="flowBuilder">
-        <div class="editor">
+        <div class="editor slds-grid">
             <builder_platform_interaction:editor flowId="{#v.flowId}" />
         </div>
     </div>

@@ -123,6 +123,31 @@
         cmp.set("v._undoRedoManager", undoRedoManager);
     },
 
+    //This method handles when a new component is added in the canvas. It is doing exactly same as handle select component.
+    //Todo: It needs to be rewritten once backend plumbing is done.
+    handleAddComponent: function(cmp, event) {
+        var componentInstance, label, properties;
+        componentInstance = event.getParam("componentInstance");
+        label = componentInstance.label;
+        if (componentInstance.properties != null && componentInstance.properties.label != null) {
+            label = componentInstance.properties.label;
+        }
+        properties = {
+            'elementName' : componentInstance.id,
+            'elementLabel' : label,
+            'data' : componentInstance.properties.data,
+            'elementType' : componentInstance.properties.elementType
+        };
+        $A.getEvt("markup://flexipageEditor:triggerPropertyEditor").setParams({
+            componentType : "Element",
+            context : componentInstance.id,
+            properties : properties,
+            componentLabel : componentInstance.id,
+            isValid : false,
+            params : null
+        }).fire();
+    },
+
     handleSelectComponent : function(cmp, event, helper) {
         var elementId = event.getParam('id');
         var flowObject = cmp.get('v._flow');

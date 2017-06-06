@@ -1,0 +1,30 @@
+/*
+ * Copyright 2017 salesforce.com, inc.
+ * All Rights Reserved
+ * Company Confidential
+ */
+
+.THIS.node {
+    position: absolute;
+    border: 1px solid black;
+    background-color: #f4f6f9
+}
+
+.THIS.node.Rectangle {
+    width: 100px;
+    height: 30px;
+    text-align: center;
+}
+
+/*TODO: update as per designs*/
+.THIS.node.Diamond {
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Safari */
+    transform: rotate(45deg);
+    width: 100px;
+    height: 100px;
+}
+
+.THIS.node.dragging {
+    box-shadow: 0 0 10px rgb(0, 112, 210);
+}

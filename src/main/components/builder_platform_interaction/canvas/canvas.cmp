@@ -1,18 +1,21 @@
 <aura:component extends="visualEditor:baseEditorPanel" description="The canvas of the Flow Builder">
 
-    <aura:attribute name="list1" type="Object[]" default="" />
-
     <aura:set attribute="ariaDescribedby" value="canvasHeaderAssistive" />
     <aura:set attribute="keyCode" value="{!52}" />
 
-    <aura:registerEvent name="selectNode" type="flexipageEditor:selectNode" />
-
     <aura:handler event="flexipageEditor:pageLoaded" action="{!c.onModelLoaded}" />
-    <aura:handler event="flexipageEditor:modelChangedPropertiesChanged" action="{!c.onPropertiesChanged}" />
+    <!--Even though name of event says item drop but this event is fired on drag stop-->
+    <aura:handler event="visualEditor:paletteItemDrop" action="{!c.onPaletteItemDragStop}"/>
 
-    <div class="outerOuter">
-        <aura:iteration aura:id="list" items="{!v.list1}" var="item">
-            <builder_platform_interaction:flowElement label="{!item.label}" data="{!item}" press="{!c.onItemClick}" />
-        </aura:iteration>
-    </div>
+    <visualEditor:droppable
+            accept=".visualEditorPaletteItemDraggable"
+            activeClass="active"
+            hoverClass="hover"
+            tolerance="fit"
+            onDropOver="{!c.onDropOver}"
+            onDropOut="{!c.onDropOut}">
+        <div class="canvas">
+            {!v.body}
+        </div>
+    </visualEditor:droppable>
 </aura:component>
