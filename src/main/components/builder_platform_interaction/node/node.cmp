@@ -15,10 +15,10 @@
                             containment=".canvas"
                             cursor="auto"
                             onDragStart="{!c.onDragStartNode}">
-        <div class="node" onclick="{!c.onNodeClick}">
+        <a class="node" onclick="{!c.onNodeClick}">
             <div class="label">
                 {!v.data.label}
             </div>
-        </div>
+        </a>
     </visualEditor:draggable>
 </aura:component>
