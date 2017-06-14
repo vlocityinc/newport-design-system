@@ -5,6 +5,7 @@
 
     onPaletteItemDragStop: function(cmp, event, helper) {
         helper.createNode(cmp, event);
+        helper.setBroadcastDragEvent(event, false);
     },
 
     onDropOver: function(cmp, event, helper) {
