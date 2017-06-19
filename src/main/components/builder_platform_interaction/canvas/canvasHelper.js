@@ -65,11 +65,11 @@
 
     //When broadcastDragEvent is set to true, then only we will create a new node in canvas.
     setBroadcastDragEvent: function(event, value) {
-        var jqueryUI, draggable;
+        var jqueryUI, helper;
         jqueryUI = event.getParam("ui");
-        draggable = jqueryUI.draggable;
-        if (!$A.util.isUndefinedOrNull(draggable) && draggable.isInstanceOf("visualEditor:paletteItem")) {
-            draggable.set('v.broadcastDragEvent', value);
+        helper = jqueryUI.helper;
+        if (!$A.util.isUndefinedOrNull(helper) && helper.isInstanceOf("visualEditor:paletteItem")) {
+            helper.set('v.broadcastDragEvent', value);
         }
     }
 })
