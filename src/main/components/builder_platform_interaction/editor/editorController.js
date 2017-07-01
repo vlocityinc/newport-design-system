@@ -40,8 +40,8 @@
                         return true;
                     } else {
                         return false;// need to return false so
-                        // undoRedoManager doesn't enqueue this
-                        // failed action
+                                        // undoRedoManager doesn't enqueue this
+                                        // failed action
                     }
                 } else {// UNDO
                     var out = flow.remove(message.data.id);
@@ -51,8 +51,8 @@
                         return true;
                     } else {
                         return false;// need to return false so
-                        // undoRedoManager doesn't enqueue this
-                        // failed action
+                                        // undoRedoManager doesn't enqueue this
+                                        // failed action
                     }
                 }
             },
@@ -80,8 +80,8 @@
                         return true;
                     } else {
                         return false;// need to return false so
-                        // undoRedoManager doesn't enqueue this
-                        // failed action
+                                        // undoRedoManager doesn't enqueue this
+                                        // failed action
                     }
 
                 } else {// UNDO
@@ -93,8 +93,8 @@
                         return true;
                     } else {
                         return false;// need to return false so
-                        // undoRedoManager doesn't enqueue this
-                        // failed action
+                                        // undoRedoManager doesn't enqueue this
+                                        // failed action
                     }
                 }
             },
@@ -123,23 +123,20 @@
         cmp.set("v._undoRedoManager", undoRedoManager);
     },
 
-    // This method handles when a new component is added in the canvas. It is
-    // doing exactly same as handle select component.
-    // It needs to be rewritten once backend plumbing is done.
-    handleAddComponent : function(cmp, event) {
+    //This method handles when a new component is added in the canvas. It is doing exactly same as handle select component.
+    //Todo: It needs to be rewritten once backend plumbing is done.
+    handleAddComponent: function(cmp, event) {
         var componentInstance, label, properties;
         componentInstance = event.getParam("componentInstance");
         label = componentInstance.label;
-        if (componentInstance.properties != null
-                && componentInstance.properties.label != null) {
+        if (componentInstance.properties != null && componentInstance.properties.label != null) {
             label = componentInstance.properties.label;
         }
         properties = {
             'elementName' : componentInstance.id,
             'elementLabel' : label,
-            'data' : componentInstance,
-            // TODO: Fix this - the element type should not be hard coded
-            'elementType' : "assignment"// componentInstance.properties.elementType
+            'data' : componentInstance.properties.data,
+            'elementType' : componentInstance.properties.elementType
         };
         $A.getEvt("markup://flexipageEditor:triggerPropertyEditor").setParams({
             componentType : "Element",
@@ -186,16 +183,14 @@
         var id = event.getParam("context");
         var props = event.getParam("props");
         var isValid = event.getParam("isValid");
-        if (id) {
-            cmp.get("v._undoRedoManager").perform({
-                type : "PropertyChange",
-                data : {
-                    id : id,
-                    properties : props,
-                    isValid : isValid
-                }
-            });
-        }
+        cmp.get("v._undoRedoManager").perform({
+            type : "PropertyChange",
+            data : {
+                id : id,
+                properties : props,
+                isValid : isValid
+            }
+        });
     },
     /* when we receive a save aura event */
     handleSave : function(cmp, event, helper) {
@@ -214,5 +209,15 @@
         }, function(error) {
             helper.fireSaveCompleted(false, null);
         });
+    },
+
+    /* when we receive an undo aura event */
+    handleUndo : function(cmp, event, helper) {
+        cmp.get("v._undoRedoManager").undo();
+    },
+
+    /* when we receive a redo aura event */
+    handleRedo : function(cmp, event, helper) {
+        cmp.get("v._undoRedoManager").redo();
     }
 });
