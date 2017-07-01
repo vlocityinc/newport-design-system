@@ -1,0 +1,3 @@
+<aura:library description="Validation for assignment item editor properties">
+    <aura:include name="validation" />
+</aura:library>

@@ -1,0 +1,34 @@
+<aura:component extends="visualEditor:itemListRow"
+    description="Allows viewing and editing of a specific assignmentItem.">
+
+    <aura:import library="visualEditor:utils" property="commons" />
+
+    <aura:attribute name="index" type="String" description="Index of this assignmentItem in the list." />
+    <aura:attribute name="params" type="Object" description="Page level params." />
+    <aura:attribute name="hasError" type="Boolean" default="false"
+        description="If this specific assignmentItem has an error." />
+    <aura:attribute name="isValid" type="Boolean" default="true" description="If the editor is valid." />
+
+    <aura:registerEvent name="assignmentItemUpdated" type="builder_platform_interaction:assignmentItemUpdated" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler event="visualEditor:propertiesChanged" name="propertiesChanged" action="{!c.handlePropertiesChanged}"
+        description="The property editor was used to change the properties of a component" />
+    <aura:handler event="visualEditor:componentValidated" name="componentValidated"
+        action="{!c.handlePropertiesChanged}"
+        description="The property editor was used to validate the properties of a component" />
+
+    <tr class="{! 'assignmentItemEditor' + v.index }">
+        <th scope="row">
+            <div class="index">{!v.index + 1}</div>
+        </th>
+
+        <td class="assignmentItemBox">{!v.body} <aura:if isTrue="{!not(v.readOnly)}">
+                <!-- TODO: localize "delete" -->
+                <a aura:id="deleteIcon" onclick="{!c.onDeleteRow}"> <force:icon key="close" class="deleteIcon"
+                        alt="{!'delete ' + (v.index + 1)}" />
+                </a>
+            </aura:if>
+        </td>
+    </tr>
+</aura:component>

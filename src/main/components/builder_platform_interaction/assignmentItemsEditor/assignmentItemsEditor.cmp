@@ -1,0 +1,27 @@
+<aura:component extends="visualEditor:propertyEditor" description="The editor for assignmentItems">
+    <aura:import library="builder_platform_interaction:assignmentItemValidation" property="validation" />
+
+    <aura:attribute name="listOfAssignmentItems" type="List"
+        description="List of assignmentItems associated with an assignment." />
+    <aura:attribute name="errorComponent" type="Aura.Component[]"
+        description="Error component specific to the assignmentItem list" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler name="change" value="{! (v.listOfAssignmentItems.length) }" action="{!c.onAssignmentItemListChanged}" />
+    <aura:handler name="change" value="{!v.errors}" action="{!c.onErrorsUpdated}" />
+    <aura:handler name="assignmentItemUpdated" event="builder_platform_interaction:assignmentItemUpdated"
+        action="{!c.onAssignmentItemUpdated}" />
+
+    <ui:inputText type="hidden" label="{!v.label}" disabled="true" click="{!c.showDialog}"
+        labelPosition="{!v.labelPosition}" value="{!v.value}" maxlength="{!v.maxValue}"
+        placeholder="{!v.placeholderText}" required="{!v.isRequired}" />
+
+    <div class="{!v.listOfAssignmentItems.length > 0 ? 'assignmentItemList' : 'emptyAssignmentItemList'}">
+        <builder_platform_interaction:assignmentItemList aura:id="assignmentItemList" addRowLabel="Add Row"
+            items="{!v.listOfAssignmentItems}" minLength="1" readOnly="false"
+            enableAddRow="{!v.listOfAssignmentItems.length lt 10}" />
+    </div>
+
+    {!v.errorComponent}
+
+</aura:component>

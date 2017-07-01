@@ -1,0 +1,9 @@
+<aura:event type="Component"
+    description="Fired when an assignmentItem object has been updated to let assignment editor handle it.">
+    <aura:attribute name="index" type="Integer" required="true"
+        description="Index of the assignmentItem changed in relation to the assignmentItem list." />
+    <aura:attribute name="newAssignmentItem" type="Object" required="true"
+        description="The updated assignmentItem object." />
+    <aura:attribute name="isValid" type="Boolean" required="true"
+        description="If the newly created assignmentItem is valid." />
+</aura:event>
