@@ -7,6 +7,7 @@
         var flowModel = flowObject.getModel();
         var id;
         var flow;
+        var node;
         for ( var nodeId in flowModel) {
             node = flowModel[nodeId];
             if (node.isTopLevel) {

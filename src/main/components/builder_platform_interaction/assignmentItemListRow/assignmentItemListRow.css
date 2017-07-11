@@ -1,0 +1,44 @@
+/*
+ * Copyright 2016 salesforce.com, inc.
+ * All Rights Reserved
+ * Company Confidential
+ */
+.THIS {
+    font-size: t(fontSizeTextSmall);
+    font-weight: t(fontWeightRegular);
+    color: t(colorTextLabel);
+}
+
+.THIS .input {
+    width: 70px;
+}
+
+.THIS .Items .uiLabel {
+    width: 70px;
+}
+
+.THIS .assignmentItemBox {
+    width: 100%;
+    display: flex;
+    padding: 0 t(spacingXxSmall);
+    border: t(borderWidthThin) solid t(colorBorder);
+    border-radius: t(borderRadiusMedium);
+    width: t(sizeSmall);
+    margin: t(spacingXxSmall);
+}
+
+.THIS .deleteIcon {
+    color: t(colorTextIconUtility);
+    width: t(squareIconUtilitySmall);
+    margin: t(spacingXSmall) 0;
+}
+
+.THIS .Items {
+    width: 100%;
+    display: flex;
+    padding: 0 t(spacingXxSmall);
+    border: t(borderWidthThin) none t(colorBorder);
+    border-radius: t(borderRadiusMedium);
+    width: t(sizeSmall);
+    margin: t(spacingXxSmall);
+}

@@ -20,7 +20,7 @@
     <aura:handler event="flexipageEditor:selectNode" action="{!c.handleSelectComponent}" />
     <aura:handler event="visualEditor:addComponent" action="{!c.handleAddComponent}" />
     <aura:handler event="flexipageEditor:propertiesChanged" action="{!c.handlePropertiesChanged}" />
-    <aura:handler event="flexipageEditor:save" action="{!c.handleSave}" />
+    <aura:handler event="flexipageEditor:saveInitiated" action="{!c.handleSave}" />
     <aura:handler event="visualEditor:undo" action="{!c.handleUndo}" />
     <aura:handler event="visualEditor:redo" action="{!c.handleRedo}" />
 

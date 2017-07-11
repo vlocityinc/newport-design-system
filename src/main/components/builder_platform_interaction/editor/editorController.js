@@ -3,13 +3,13 @@
 
         var connectorType = "flow";
         var fid = cmp.get('v.flowId');
-        if (fid == null) {
+        if (fid === null) {
             // Add code to handle the case where we are creating a new flow
         } else {
             // Editing an existing flow
             var flowRef = {
-                id : fid,
-            }
+                id : fid
+            };
             helper.getInstances(cmp, connectorType, [ flowRef ], function(
                     result) {
                 var flow = new helper.utils.model(result,
@@ -25,8 +25,9 @@
         var observer = {
             action_doAddComponent : function(message, undo, redo) {
                 var flow = cmp.get("v._flow");
+                var out;
                 if (!undo) {// DO
-                    var out = flow.add(message.data.node,
+                    out = flow.add(message.data.node,
                             message.data.parentId,
                             message.data.insertBeforeComponentId);
                     if (out.SUCCESS === true) {
@@ -40,26 +41,26 @@
                         return true;
                     } else {
                         return false;// need to return false so
-                                        // undoRedoManager doesn't enqueue this
-                                        // failed action
+                        // undoRedoManager doesn't enqueue this
+                        // failed action
                     }
                 } else {// UNDO
-                    var out = flow.remove(message.data.id);
+                    out = flow.remove(message.data.id);
                     if (out.SUCCESS === true) {
                         helper.fireComponentRemoved(message.data.parentId,
                                 message.data.index);
                         return true;
                     } else {
                         return false;// need to return false so
-                                        // undoRedoManager doesn't enqueue this
-                                        // failed action
+                        // undoRedoManager doesn't enqueue this
+                        // failed action
                     }
                 }
             },
 
             action_doPropertyChange : function(message, undo, redo) {
                 var flow = cmp.get("v._flow");
-
+                var out;
                 if (!undo) {
                     var currentNode = flow.find(message.data.id);
                     message.data.old_props = currentNode.properties;
@@ -72,7 +73,7 @@
                         }
                     }
                     var isValid = message.data.isValid;
-                    var out = flow.setProperties(message.data.id,
+                    out = flow.setProperties(message.data.id,
                             message.data.properties, isValid);
                     if (out.SUCCESS === true) {
                         helper.fireComponentPropertiesChanged(out.RESULT.node,
@@ -80,12 +81,12 @@
                         return true;
                     } else {
                         return false;// need to return false so
-                                        // undoRedoManager doesn't enqueue this
-                                        // failed action
+                        // undoRedoManager doesn't enqueue this
+                        // failed action
                     }
 
                 } else {// UNDO
-                    var out = flow.setProperties(message.data.id,
+                    out = flow.setProperties(message.data.id,
                             message.data.old_props, message.data.old_isValid);
                     if (out.SUCCESS === true) {
                         helper.fireComponentPropertiesChanged(out.RESULT.node,
@@ -93,8 +94,8 @@
                         return true;
                     } else {
                         return false;// need to return false so
-                                        // undoRedoManager doesn't enqueue this
-                                        // failed action
+                        // undoRedoManager doesn't enqueue this
+                        // failed action
                     }
                 }
             },
@@ -110,33 +111,36 @@
 
         var undoRedoManager = new helper.utils.undoRedo.Manager({
             updateUndoRedoState : function(undoEnabled, redoEnabled) {
-                var event = $A
+                var toggleEvent = $A
                         .getEvt("markup://visualEditor:toggleUndoRedoState");
-                event.setParams({
+                toggleEvent.setParams({
                     undoEnabled : undoEnabled,
                     redoEnabled : redoEnabled
                 });
-                event.fire();
+                toggleEvent.fire();
             }
         });
         undoRedoManager.addObserver(observer);
         cmp.set("v._undoRedoManager", undoRedoManager);
     },
 
-    //This method handles when a new component is added in the canvas. It is doing exactly same as handle select component.
-    //Todo: It needs to be rewritten once backend plumbing is done.
-    handleAddComponent: function(cmp, event) {
+    // This method handles when a new component is added in the canvas. It is
+    // doing exactly same as handle select component.
+    // It needs to be rewritten once backend plumbing is done.
+    handleAddComponent : function(cmp, event) {
         var componentInstance, label, properties;
         componentInstance = event.getParam("componentInstance");
         label = componentInstance.label;
-        if (componentInstance.properties != null && componentInstance.properties.label != null) {
+        if (componentInstance.properties !== null
+                && componentInstance.properties.label !== null) {
             label = componentInstance.properties.label;
         }
         properties = {
             'elementName' : componentInstance.id,
             'elementLabel' : label,
-            'data' : componentInstance.properties.data,
-            'elementType' : componentInstance.properties.elementType
+            'data' : componentInstance,
+            // TODO: Fix this - the element type should not be hard coded
+            'elementType' : "assignment"// componentInstance.properties.elementType
         };
         $A.getEvt("markup://flexipageEditor:triggerPropertyEditor").setParams({
             componentType : "Element",
@@ -152,20 +156,20 @@
         var elementId = event.getParam('id');
         var flowObject = cmp.get('v._flow');
         var data = null;
-        if (elementId != null && flowObject != null) {
+        if (elementId !== null && flowObject !== null) {
             data = flowObject.find(elementId, null);
         }
         var properties = {};
         if (data) {
             var label = data.label;
-            if (data.properties != null && data.properties.label != null) {
+            if (data.properties !== null && data.properties.label !== null) {
                 label = data.properties.label;
             }
             properties = {
-                'elementName' : data.id,
-                'elementLabel' : label,
-                'data' : data.properties.data,
-                'elementType' : data.properties.elementType
+                'elementName' : {'value': data.id},
+                'elementLabel' : {'value': label},
+                'data' : {'value': data.properties.data},
+                'elementType' : {'value': data.properties.elementType}
             };
         }
 
@@ -183,14 +187,16 @@
         var id = event.getParam("context");
         var props = event.getParam("props");
         var isValid = event.getParam("isValid");
-        cmp.get("v._undoRedoManager").perform({
-            type : "PropertyChange",
-            data : {
-                id : id,
-                properties : props,
-                isValid : isValid
-            }
-        });
+        if (id) {
+            cmp.get("v._undoRedoManager").perform({
+                type : "PropertyChange",
+                data : {
+                    id : id,
+                    properties : props,
+                    isValid : isValid
+                }
+            });
+        }
     },
     /* when we receive a save aura event */
     handleSave : function(cmp, event, helper) {
@@ -209,15 +215,5 @@
         }, function(error) {
             helper.fireSaveCompleted(false, null);
         });
-    },
-
-    /* when we receive an undo aura event */
-    handleUndo : function(cmp, event, helper) {
-        cmp.get("v._undoRedoManager").undo();
-    },
-
-    /* when we receive a redo aura event */
-    handleRedo : function(cmp, event, helper) {
-        cmp.get("v._undoRedoManager").redo();
     }
 });
