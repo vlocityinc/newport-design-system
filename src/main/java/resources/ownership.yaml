@@ -1,0 +1,18 @@
+#
+# This file describes which scrum team(s) own this module.  More info at:
+#
+# https://sfdc.co/ownershipYaml
+#
+# IMPORTANT: This file may occasionally get reprocessed in a manner that
+# is not guaranteed to preserve formatting or yaml comments.
+#
+
+module:
+  groupId: ~
+  artifactId: ui-interaction-builder-components
+  isTest: false
+
+ownership:
+- team: Process Automation UI
+  status: UNCONFIRMED
+
