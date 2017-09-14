@@ -1,7 +1,7 @@
 <aura:component extends="visualEditor:baseEditorPanel" description="The canvas of the Flow Builder">
 
     <aura:set attribute="ariaDescribedby" value="canvasHeaderAssistive" />
-    <aura:set attribute="keyCode" value="{!52}" />
+    <aura:set attribute="panelOrder" value="{!4}" />
 
     <aura:handler event="flexipageEditor:pageLoaded" action="{!c.onModelLoaded}" />
     <!--Even though name of event says item drop but this event is fired on drag stop-->

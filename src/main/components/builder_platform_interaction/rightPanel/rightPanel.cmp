@@ -19,7 +19,7 @@
         description="The property editor was used to validate the properties of a component" />
 
     <aura:set attribute="ariaDescribedby" value="rightPanelHeaderAssistive" />
-    <aura:set attribute="keyCode" value="{!53}" />
+    <aura:set attribute="panelOrder" value="{!5}" />
 
     <div>
         <aura:if isTrue="{!v.displayPropertyEditor}">
