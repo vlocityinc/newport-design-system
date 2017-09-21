@@ -23,6 +23,7 @@
             }
         }
 
+        flow.properties.canvasConfig = {};
         // trigger the page loaded
         $A.getEvt("markup://flexipageEditor:pageLoaded").setParams({
             "model" : flow
