@@ -3,7 +3,7 @@
     <aura:set attribute="ariaDescribedby" value="canvasHeaderAssistive" />
     <aura:set attribute="panelOrder" value="{!4}" />
 
-    <aura:handler event="flexipageEditor:pageLoaded" action="{!c.onModelLoaded}" />
+    <aura:handler event="visualEditor:modelLoaded" action="{!c.onModelLoaded}" />
     <!--Even though name of event says item drop but this event is fired on drag stop-->
     <aura:handler event="visualEditor:paletteItemDrop" action="{!c.onPaletteItemDragStop}"/>
 

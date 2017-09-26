@@ -25,7 +25,7 @@
 
         flow.properties.canvasConfig = {};
         // trigger the page loaded
-        $A.getEvt("markup://flexipageEditor:pageLoaded").setParams({
+        $A.getEvt("markup://visualEditor:modelLoaded").setParams({
             "model" : flow
         }).fire();
     },
