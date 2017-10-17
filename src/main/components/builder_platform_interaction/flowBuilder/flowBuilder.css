@@ -7,3 +7,38 @@
 .THIS .editor {
     height: 100vh;
 }
+
+.THIS .panelHeader {
+    font-size: t(fontSizeMedium);
+}
+
+.THIS .panelHeader:after {
+    content: '';
+    display: block;
+    border-bottom: solid t(borderWidthThin) t(colorBorderSeparatorAlt);
+    margin-left: t(spacingMedium);
+    margin-right: t(spacingMedium);
+}
+
+/* Our current design assumes max 960px (e.g. new page dialog), we should probably fix that to handle 90% width */
+.THIS.panelContainer .uiPanelManager2 .uiModal--large .modal-container {
+    max-width: 960px;
+}
+
+/* This will override .slds-p-around--medium to make all editor modal bleeding to edge*/
+.THIS.panelContainer .uiPanelManager2 .uiModal--large .modal-body {
+    padding: 0;
+}
+
+.THIS.panelContainer {
+    position: absolute;
+}
+
+.THIS.panelContainer,
+.THIS.uiContainerManager {
+    z-index: 11;
+}
+
+.THIS.uiContainerManager {
+    pointer-events: none;
+}
