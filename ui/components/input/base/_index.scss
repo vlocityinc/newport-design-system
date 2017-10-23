@@ -13,16 +13,14 @@
 .slds-input {
   @include form-states;
   display: inline-block;
-  padding: side-values(0 $spacing-medium 0 $spacing-small);
+  padding: 0;
   line-height: $height-input;
   min-height: calc(#{$height-input} + (#{$border-width-thin} * 2)); // For IE
-
   /**
    * @selector [readonly]
    * @restrict .slds-input
    */
   &[readonly] {
-    padding-#{$left}: 0;
     border-color: transparent;
     background-color: transparent;
     font-size: $input-static-font-size;
@@ -49,7 +47,6 @@
     padding: {
       top: 0;
       bottom: 0;
-      #{$left}: $spacing-small;
     }
     color: $color-text-default;
     line-height: $height-input;
@@ -122,14 +119,10 @@
   &_left,
   &--left {
 
-    .slds-input__icon {
-      #{$left}: $spacing-small;
-    }
-
     .slds-input,
     .slds-input_bare,
     .slds-input--bare {
-      padding-#{$left}: $spacing-x-large;
+      padding-#{$left}: $spacing-large;
     }
   }
 
@@ -143,13 +136,13 @@
   &--right {
 
     .slds-input__icon {
-      #{$right}: $spacing-small;
+      #{$right}: 0;
     }
 
     .slds-input,
     .slds-input_bare,
     .slds-input--bare {
-      padding-#{$right}: $spacing-x-large;
+      padding-#{$right}: $spacing-large;
     }
   }
 
@@ -169,7 +162,7 @@
      */
     .slds-input__icon_left,
     .slds-input__icon--left {
-      #{$left}: $spacing-small;
+      #{$left}: 0;
     }
 
     /**
@@ -180,13 +173,13 @@
      */
     .slds-input__icon_right,
     .slds-input__icon--right {
-      #{$right}: $spacing-small;
+      #{$right}: 0;
     }
 
     .slds-input,
     .slds-input_bare,
     .slds-input--bare {
-      padding: 0 $spacing-x-large;
+      padding: 0 $spacing-large;
     }
   }
 }

@@ -53,6 +53,12 @@
   &__header,
   &__content {
     background: $color-background-alt;
+    
+    .slds-text-heading--medium, 
+    .slds-text-heading_medium {
+      font-size: 1.125rem;
+      color: #1564BF;
+    }
   }
 
   &__header,

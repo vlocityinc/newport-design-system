@@ -13,9 +13,25 @@
 .slds-textarea {
   @include form-states;
   resize: vertical;
-  padding: $spacing-x-small $spacing-small;
+  border: none;
+  border-bottom: 1px solid $color-border-input;
+  padding: $spacing-x-small 0;
+  border-radius: 0;
+
+  &:active,
+  &:focus {
+    box-shadow: none;
+  }
 }
 
 .slds-has-error {
   @include form-input-error('.slds-textarea');
+}
+
+.slds-has-error .slds-textarea {
+  &,
+  &:active,
+	&:focus {
+		box-shadow: none;
+	}
 }

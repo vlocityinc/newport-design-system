@@ -165,7 +165,7 @@ async.series(
    */
     done => {
       gulp
-        .src('fonts/**/*', {
+        .src(['fonts/**/*', '!**/*.ttf'], {
           cwd: paths.assets
         })
         .pipe(gulp.dest(distPath('assets/fonts')))
@@ -190,9 +190,9 @@ async.series(
     // Images
     // //////////////////////////////////
 
-    /**
-   * Copy select images directories
-   */
+    //   /**
+    //  * Copy select images directories
+    //  */
     done => {
       gulp
         .src('images/**/*', {
@@ -288,8 +288,10 @@ async.series(
         .pipe(postcss([autoprefixer({ remove: false })]))
         .pipe(
           gulprename(function(path) {
-            path.basename =
-              MODULE_NAME + path.basename.substring('index'.length);
+            if (!/slds-fonts/.test(path.basename)) {
+              path.basename =
+                MODULE_NAME + path.basename.substring('index'.length);
+            }
             path.extname = '.css';
             return path;
           })
@@ -380,6 +382,24 @@ async.series(
    */
     done => {
       rimraf(distPath('README-dist.md'), done);
+    },
+    done => {
+      rimraf(distPath('swatches'), done);
+    },
+    done => {
+      rimraf(distPath('design-tokens'), done);
+    },
+    done => {
+      rimraf(distPath('ui'), done);
+    },
+    done => {
+      rimraf(distPath('scss'), done);
+    },
+    done => {
+      rimraf(distPath('__internal'), done);
+    },
+    done => {
+      rimraf(distPath('assets/icons/**/*.png'), done);
     },
 
     /**

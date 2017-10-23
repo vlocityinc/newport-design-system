@@ -13,7 +13,7 @@
 $dir: rtl;
 
 @import 'init';
-
+@include url(./slds-fonts.css);
 #{$reset-wrapping-class} {
 
   // Resets

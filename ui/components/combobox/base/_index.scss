@@ -306,8 +306,8 @@
 .slds-has-object-switcher {
   flex-direction: row;
   background: $color-background-input;
-  border: $border-width-thin solid $color-border;
-  border-radius: $border-radius-medium;
+  border: 0;
+  border-bottom: $border-width-thin solid $color-border;
 
   /**
    * Input field within a combobox

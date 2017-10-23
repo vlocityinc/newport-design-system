@@ -53,7 +53,10 @@
     &:checked ~ .slds-checkbox--faux,
     &:checked + .slds-checkbox__label .slds-checkbox_faux,
     &:checked + .slds-checkbox__label .slds-checkbox--faux {
-
+      background: $color-brand;
+      border: none;
+      outline: unset;
+      
       &:after {
         display: block;
         content: '';
@@ -63,8 +66,8 @@
         top: 50%;
         left: 50%;
         transform: translate3d(-50%, -50%, 0) rotate(-45deg);
-        border-bottom: $border-width-thick solid $color-brand;
-        border-left: $border-width-thick solid $color-brand;
+        border-bottom: $border-width-thick solid $color-border-toggle-checked;
+        border-left: $border-width-thick solid $color-border-toggle-checked;
       }
     }
 
@@ -88,7 +91,7 @@
       &:checked + .slds-checkbox__label .slds-checkbox_faux,
       &:checked + .slds-checkbox__label .slds-checkbox--faux {
         border-color: $color-border-input-active;
-        background-color: $color-background-input;
+        background-color: $color-brand;
       }
     }
 
@@ -148,10 +151,10 @@
   &:checked + .slds-checkbox__label .slds-checkbox_faux,
   &:checked + .slds-checkbox__label .slds-checkbox--faux {
     border-color: $color-border-error;
-    background-color: $color-background-input;
+    background-color: $color-border-error;
 
     &:after {
-      border-color: $color-background-error;
+      border-color: $color-background-input;
     }
   }
 }

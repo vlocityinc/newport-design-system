@@ -3,8 +3,9 @@
 
 @mixin form-input-container {
   background-color: $color-background-input;
-  border: $border-width-thin solid $color-border-input;
-  border-radius: $border-radius-medium;
+  border: 0;
+  border-bottom: $border-width-thin solid $color-border-input;
+  border-radius: 0;
   width: 100%;
 }
 
@@ -12,7 +13,7 @@
   outline: 0;
   border-color: $color-border-input-active;
   background-color: $color-background-input-active;
-  box-shadow: $shadow-button-focus;
+  box-shadow: none;
 }
 
 @mixin form-input-disabled {
@@ -53,13 +54,7 @@
     #{$element} {
       background-color: $color-background-input;
       border-color: $color-border-error;
-      box-shadow: $color-border-error 0 0 0 $border-width-thin inset;
       background-clip: padding-box;
-
-      &:focus,
-      &:active {
-        box-shadow: $color-border-error 0 0 0 $border-width-thin inset, $shadow-button-focus;
-      }
     }
   }
 }

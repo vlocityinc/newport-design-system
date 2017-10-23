@@ -28,7 +28,7 @@ const previewer = createPreviewer({
     '/assets/icons': [paths.icons]
   },
   // where is your css?
-  cssUrl: '/assets/styles/index.rtl.css', // ignored by git
+  cssUrl: '/assets/styles/index.css', // ignored by git
   // get me the js bundle
   scriptUrl: `/dist/__internal/slds.umd.js`
 });
