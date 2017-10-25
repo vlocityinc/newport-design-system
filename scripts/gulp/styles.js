@@ -79,7 +79,13 @@ gulp.task('styles:sass', [], () =>
         .on('error', sass.logError)
     )
     .pipe(autoprefixer({ remove: false }))
-    .pipe(minifycss({ advanced: false, roundingPrecision: '-1' }))
+    .pipe(
+      minifycss({
+        advanced: false,
+        roundingPrecision: '-1',
+        processImport: false
+      })
+    )
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('assets/styles'))
 );
