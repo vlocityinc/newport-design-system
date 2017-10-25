@@ -1,0 +1,69 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+
+/**
+ * @summary Custom animation with label on input focus
+ *
+ * @name animate
+ * @selector .animate-input
+ * @restrict .slds-input
+ * @variant
+ */
+
+.animate-input {
+	font-size: .75rem;
+
+	.slds-input {
+	  line-height: 1.5rem;
+	  min-height: calc(1.5rem + (#{$border-width-thin} * 2)); // For IE
+	}
+}
+
+
+.slds-form-element__control.animate-input .slds-form-element__label {
+	top: 0.25rem;
+	left: 0;
+	position: absolute;
+}
+
+.slds-form-element__control.animate-input input:focus ~ label,
+.slds-form-element__control.animate-input input:not(:focus):valid ~ label,
+.slds-form-element__control.animate-input input.ng-dirty.ng-not-empty ~ label,
+.slds-form-element__control.animate-input input.ng-dirty.ng-not-empty + label,
+.slds-form-element__control.animate-input input[cloned='dirty'] + label,
+.slds-form-element__control.animate-input input.slds-input[cloned='dirty'] ~ label,
+.slds-form-element__control.animate-input input.slds-input.ng-dirty.ng-not-empty.ng-touched[vlc-slds-lookup-control] ~ label,
+.slds-form-element__control.animate-input input.ng-touched.ng-not-empty.td-input + label {
+	-webkit-transform: translate3d(0, -1.2rem, 0);
+	transform: translate3d(0, -1.2rem, 0);
+	-webkit-transition-duration: 300ms;
+	transition-duration: 300ms;
+	z-index: 0;
+	top: 0.4rem;
+	left: 0;
+ }
+
+ .slds-form-element__control.animate-input input:focus ~ label {
+	color: $color-border-input-active;
+ }
+
+
+ .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.animate-input .slds-form-element__label,
+ .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left-right.animate-input .slds-form-element__label {
+	left: 1.25rem;
+}
+
+
+.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.animate-input input:focus ~ label,
+.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left-right.animate-input input:focus ~ label,
+.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.animate-input input:not(:focus):valid ~ label {
+	left: 0;
+}
+
+.slds-form-element__control.animate-input input[readonly] ~ label {
+	-webkit-transform: translate3d(0, -1.2rem, 0);
+	transform: translate3d(0, -1.2rem, 0);
+	top: 0.4rem;
+	left: 0;
+}
