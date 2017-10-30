@@ -1,0 +1,39 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+
+/**
+ * @summary Custom animation with label on textarea focus
+ *
+ * @name animate
+ * @selector .slds-form-element__control-animated-label
+ * @restrict .slds-textarea
+ * @variant
+ */
+
+.slds-form-element__control-animated-label {
+	font-size: .75rem;
+}
+
+.slds-form-element__control.slds-form-element__control-animated-label .slds-form-element__label {
+	top: 0.25rem;
+	left: 0;
+	position: absolute;
+}
+
+.slds-form-element__control.slds-form-element__control-animated-label textarea:focus~label,
+.slds-form-element__control.slds-form-element__control-animated-label textarea.slds-has-value:not(:focus):valid ~ label,
+.slds-form-element__control.slds-form-element__control-animated-label textarea.ng-not-empty.ng-dirty~label, 
+.slds-form-element__control.slds-form-element__control-animated-label textarea[cloned=dirty]+label {
+	-webkit-transform: translate3d(0,-1.2rem,0);
+	transform: translate3d(0,-1.2rem,0);
+	-webkit-transition-duration: 300ms;
+	transition-duration: 300ms;
+	z-index: 0;
+	top: 0.6rem;
+	left: 0;
+ }
+
+ .slds-form-element__control.slds-form-element__control-animated-label textarea:focus ~ label {
+	color: $color-border-input-active;
+ }

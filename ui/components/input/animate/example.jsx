@@ -31,7 +31,7 @@ export let FormElementLabel = props => (
 export let FormElementControl = props => (
   <div
     className={classNames(
-      'slds-form-element__control animate-input',
+      'slds-form-element__control slds-form-element__control-animated-label',
       props.className
     )}
   >
@@ -44,7 +44,7 @@ export let AnimateLabelInput = props => {
     <input
       {...props}
       id={props.id || inputId}
-      className={classNames('slds-input', props.className)}
+      className={classNames('slds-input slds-has-value', props.className)}
       type={props.type || 'text'}
       readOnly={props['readOnly']}
       defaultValue={props.defaultValue}
