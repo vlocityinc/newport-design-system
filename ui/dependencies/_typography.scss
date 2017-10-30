@@ -9,10 +9,10 @@
 ///
 /// @require $static-font-path - See _config.scss where this setting is defined
 @mixin font-face($font-face-setting: Regular, $font-style-setting: null, $font-weight-setting: null) {
-  $font-path: '#{$static-font-path}/SalesforceSans-#{$font-face-setting}';
+  $font-path: '#{$static-font-path}/Lato-#{$font-face-setting}';
 
   @font-face {
-    font-family: 'Salesforce Sans';
+    font-family: 'Lato';
 
     src: url('#{$font-path}.woff2') format('woff2'),
       url('#{$font-path}.woff') format('woff');
