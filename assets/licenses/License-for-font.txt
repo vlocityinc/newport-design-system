@@ -1,106 +1,94 @@
-FONT LICENSE AGREEMENT
+Copyright (c) 2010-2015, Łukasz Dziedzic (dziedzic@typoland.com),
+with Reserved Font Name Lato.
 
-THIS FONT LICENSE AGREEMENT (“AGREEMENT”) IS A LEGAL AGREEMENT BETWEEN YOU AND
-SALESFORCE.COM, INC. (“WE”, “US”, “OUR”, AND “SALESFORCE”) THAT GOVERNS YOUR
-ACQUISITION AND USE OF THE SALESFORCE SANS FONT (E.G., TYPEFACE, TYPOGRAPHIC
-CHARACTERS, ALPHANUMERICS, SYMBOLS, DESIGNS, AND ORNAMENTS) AND THE RELATED
-FONT FILES (E.G., TRUETYPE (TTF), WEB OPEN FONT FORMAT (WOFF,WOFF2), EMBEDDED
-OPENTYPE (EOT), AND SCALABLE VECTOR GRAPHICS (SVG) FILES) (COLLECTIVELY, THE
-“FONT”). BY DOWNLOADING OR USING THE FONT, YOU AGREE TO THE TERMS OF THIS
-AGREEMENT.  IF YOU ARE DOWNLOADING OR USING THE FONT ON BEHALF OF A COMPANY OR
-OTHER LEGAL ENTITY, YOU REPRESENT THAT YOU HAVE THE AUTHORITY TO BIND SUCH
-ENTITY AND ITS AFFILIATES TO THIS AGREEMENT, IN WHICH CASE THE TERMS “YOU” OR
-“YOUR” WILL REFER TO SUCH ENTITY AND ITS AFFILIATES.  IF YOU DO NOT HAVE SUCH
-AUTHORITY, OR IF YOU DO NOT AGREE WITH THE TERMS OF THIS AGREEMENT, YOU MUST
-NOT DOWNLOAD OR USE THE FONT. This Agreement was last updated on August 21,
-2015.  It is effective between You and Us as of the date You accept this
-Agreement by downloading or using the Font.
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
 
-1. License Grant
-Subject to the terms of this Agreement and any other
-applicable Salesforce terms, conditions, and acceptable use policies (AUPs),
-We hereby grant to You a revocable, non-transferable, non-exclusive, and non-
-sublicenseable limited license to, without modification, reproduce and use the
-Font solely to create applications with the Salesforce Lightning Design System
-that run in Salesforce or on a Salesforce platform (e.g., Lightning, Heroku,
-Visualforce) (“Applications”).
 
-2. Restrictions
-To the extent your Application contains copyright notices,
-together with all other copyright notices included with each Application, You
-will include the following copyright notice: “The Salesforce Sans Font is used
-under license from salesforce.com, inc.  Copyright 2015 Salesforce.com, Inc.”
-You may not modify, adapt, translate, reverse engineer, decompile,
-disassemble, or create derivative works based on the Font.  You must include
-the Font in an Application in a manner that does not allow a user to access
-the Font outside of the Application.  You will not use the Font on a
-standalone basis and will only use the Font as part of the Salesforce
-Lightning Design System.  You must not take any action which will have the
-direct or indirect effect of causing the Font to become subject to the terms
-of an open source license or any similar terms.  You may refer to the Font as
-“Salesforce Sans”, but You may not use any other Salesforce trademark in
-connection with the Font except as may be expressly agreed to by Salesforce in
-writing or as set forth in other applicable Salesforce terms, conditions, and
-acceptable use policies (AUPs) and in any event You must comply at all times
-with the Salesforce Trademark and Copyright Usage Guidelines located at http:/
-/www2.sfdcstatic.com/assets/pdf/misc/salesforce_Trademark_Usage_Guidelines.pdf
-and any other supplemental guidelines that may apply to you.  You must not
-license, sublicense, sell, resell, rent, lease, transfer, assign, distribute,
-time share, or otherwise commercially exploit the Font nor make the Font
-available to any third party, other than as expressly permitted by this
-Agreement.  To the extent any Font documentation, style guides, or other
-applicable Salesforce terms, conditions, and acceptable use policies (AUPs)
-impose guidelines or restrictions for the use of the Font, You will abide by
-those guidelines and restrictions.
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
 
-3. Ownership
-Subject to the limited rights expressly granted hereunder, We
-reserve all rights, title, and interest in and to the Font, including all
-related intellectual property rights.  No rights are granted to You hereunder
-other than as expressly set forth herein.  We shall have a royalty-free,
-worldwide, irrevocable, perpetual license to use and incorporate into the Font
-any suggestions, enhancement requests, recommendations, or other feedback
-provided by You.
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
 
-4. Term and Termination
-This Agreement will take effect when you download or
-use the Font and will terminate upon the earlier of:  (a) Your failure to
-comply with any term of this Agreement or any other applicable Salesforce
-terms, conditions, and acceptable use policies (AUPs); (b) return,
-destruction, or deletion of all copies of the Font in your possession; or, (c)
-60 days after Salesforce provides You with written notice of termination.
-Salesforce’s rights and your obligations will survive the termination of this
-Agreement.  Upon termination of this Agreement by Salesforce, if requested by
-Salesforce, you will destroy or delete all copies of the Font in your
-possession and cease using the Font in all Applications.
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
 
-5. No Warranty
-THE FONT IS PROVIDED “AS-IS,” EXCLUSIVE OF ANY WARRANTY
-WHATSOEVER.  WE DISCLAIM ALL IMPLIED WARRANTIES, INCLUDING WITHOUT LIMITATION
-ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
-TITLE, AND NON-INFRINGEMENT.  The Font may contain bugs or errors.  Any use of
-the Font is at Your sole risk.  You acknowledge that We may discontinue making
-the Font available to You at any time in Our sole discretion.
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
 
-6. No Damages
-IN NO EVENT SHALL WE HAVE ANY LIABILITY HEREUNDER TO YOU FOR
-ANY DAMAGES WHATSOEVER, INCLUDING BUT NOT LIMITED TO DIRECT, INDIRECT,
-SPECIAL, INCIDENTAL, PUNITIVE, OR CONSEQUENTIAL DAMAGES, OR DAMAGES BASED ON
-LOST PROFITS, DATA OR USE, HOWEVER CAUSED AND, WHETHER IN CONTRACT, TORT OR
-UNDER ANY OTHER THEORY OF LIABILITY, WHETHER OR NOT YOU HAVE BEEN ADVISED OF
-THE POSSIBILITY OF SUCH DAMAGES.
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
 
-7. General Provisions
-You may not assign any of Your rights or obligations
-hereunder, whether by operation of law or otherwise, without Our prior written
-consent.  This Agreement shall be governed exclusively by the internal laws of
-the State of California, without regard to its conflicts of laws rules.  Each
-party hereby consents to the exclusive jurisdiction of the state and federal
-courts located in San Francisco County, California to adjudicate any dispute
-arising out of or relating to this Agreement.  This Agreement constitutes the
-entire agreement between the parties, and supersedes all prior and
-contemporaneous agreements, proposals or representations, written or oral,
-concerning its subject matter.  No modification, amendment, or waiver of any
-provision of this Agreement shall be effective unless in writing and either
-signed or accepted electronically by the party against whom the modification,
-amendment or waiver is to be asserted.
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.

@@ -1,18 +1,19 @@
-# Salesforce Lightning Design System
+# Vlocity Newport Design System
 
-Welcome to the [Salesforce Lightning Design System](https://www.lightningdesignsystem.com) brought to you by [Salesforce UX](https://twitter.com/salesforceux).
+Welcome to the Vlocity Newport Design System brought to you by [Vlocity](https://www.vlocity.com).
 
-* Tailored for building Salesforce apps: Using the Lightning Design System markup and CSS framework results in UIs that reflect the Salesforce Lightning look and feel.
-* Continuously updated: As long as you’re using the latest version of the Lightning Design System, your pages are always up to date with Salesforce UI changes.
+* Tailored for building Vlocity Newport apps: Using the Newport Design System markup and CSS framework results in UIs that reflect the Vlocity Newport look and feel.
+* Based on the [Salesforce Lightning Design System](https://lightningdesignsystem.com).
 
 ## Documentation
 
-[Salesforce Lightning Design System web site](https://www.lightningdesignsystem.com)
+<!--[Vlocity Newport Design System web site](https://www.lightningdesignsystem.com)-->
+Coming Soon
 
 ## Contents
 
 * assets/
-  - fonts/ - the Salesforce Sans font
+  - fonts/ - the Lato font
   - icons/ - PNG, SVG and SVG spritemap versions of icons
   - images/ - including spinners
   - styles/

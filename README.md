@@ -1,13 +1,13 @@
-# Salesforce Lightning Design System [![Build Status](https://travis-ci.org/salesforce-ux/design-system.svg?branch=master)](https://travis-ci.org/salesforce-ux/design-system) [![Greenkeeper badge](https://badges.greenkeeper.io/salesforce-ux/design-system-internal.svg?token=daad1067bbfc5d75c4fb2372360b4b0869bed68d4dc370f6b618b1db22b8f052)](https://greenkeeper.io/)
+# Vlocity Newport Design System
 
-Welcome to the [Salesforce Lightning Design System](https://www.lightningdesignsystem.com) brought to you by [Salesforce UX](https://twitter.com/salesforceux).
+Welcome to the [Vlocity Newport Design System] brought to you by [Vlocity](https://vlocity.com).
 
-* Tailored for building Salesforce apps: Using the Lightning Design System markup and CSS framework results in UIs that reflect the Salesforce Lightning look and feel.
-* Continuously updated: As long as you’re using the latest version of the Lightning Design System, your pages are always up to date with Salesforce UI changes.
+* Tailored for building Vlocity Newport apps: Using the Newport Design System markup and CSS framework results in UIs that reflect the Vlocity Newport look and feel.
+* Based on the [Salesforce Lightning Design System](https://lightningdesignsystem.com).
 
 ## Quick start
 
-1. Clone the project with `git clone https://github.com/salesforce-ux/design-system.git`
+1. Clone the project with `git clone https://github.com/vlocityinc/newport-design-system.git`
 2. Run `npm install` in the root design-system folder.
 3. Run `npm start` to launch the Previewer.
 4. Visit http://localhost:3003/local/preview
@@ -156,7 +156,7 @@ Delete temporary build and local files.
 
 ### npm and Node.js
 
-The Salesforce Lightning Design System uses `npm` to manage dependencies. Please [install Node.js](https://nodejs.org), and try running `npm install` again.
+The Vlocity Newport Design System uses `npm` to manage dependencies. Please [install Node.js](https://nodejs.org), and try running `npm install` again.
 
 If Node.js is already installed, make sure you’re running v6 or up.
 

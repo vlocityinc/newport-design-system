@@ -1,8 +1,8 @@
 {
-  "name": "design-system",
-  "description": "Salesforce Lightning Design System",
-  "version": "2.4.3",
-  "author": "Salesforce",
+  "name": "newport-design-system",
+  "description": "Vlocity Newport Design System",
+  "version": "0.0.0",
+  "author": "Vlocity",
   "slds": {
     "name": "Winter ’18",
     "id": "210"
@@ -160,7 +160,7 @@
   "license": "SEE LICENSE IN README.md",
   "repository": {
     "type": "git",
-    "url": "git@github.com:salesforce-ux/design-system.git"
+    "url": "git@github.com:vlocityinc/newport-design-system.git"
   },
   "greenkeeper": {
     "ignore": [
