@@ -67,7 +67,7 @@ gulp.task('stylestats', ['styles'], done => {
 
 gulp.task('styles:sass', [], () =>
   gulp
-    .src(['ui/index.scss', 'ui/index.rtl.scss'])
+    .src(['ui/slds-fonts.scss', 'ui/index.scss', 'ui/index.rtl.scss'])
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(
