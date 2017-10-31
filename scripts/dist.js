@@ -23,8 +23,8 @@ const paths = require('./helpers/paths');
 const releaseNotes = require('./npm/release-notes');
 
 const SLDS_VERSION = packageJSON.version;
-const DISPLAY_NAME = 'Lightning Design System';
-const MODULE_NAME = 'salesforce-lightning-design-system';
+const DISPLAY_NAME = 'Vlocity Newport Design System';
+const MODULE_NAME = 'vlocity-newport-design-system';
 
 // /////////////////////////////////////////////////////////////
 // Helpers
@@ -71,7 +71,7 @@ async.series(
       const packageJSON = JSON.parse(
         fs.readFileSync(distPath('package.json')).toString()
       );
-      packageJSON.name = '@salesforce-ux/design-system';
+      packageJSON.name = '@vlocity-inc/newport-design-system';
       _.set(
         packageJSON,
         ['slds', 'dependencies'],
@@ -195,7 +195,7 @@ async.series(
     //  */
     done => {
       gulp
-        .src('images/**/*', {
+        .src(['images/**/*', '!images/themes/**/*'], {
           base: 'assets/images',
           cwd: paths.assets
         })
@@ -272,10 +272,8 @@ async.series(
     done => {
       gulp
         .src([
-          distPath('scss/index-ltng.scss'),
-          distPath('scss/index-ltng.rtl.scss'),
-          distPath('scss/index-vf.scss'),
-          distPath('scss/index-vf.rtl.scss'),
+          distPath('scss/index-scoped.scss'),
+          distPath('scss/index-scoped.rtl.scss'),
           distPath('scss/slds-fonts.scss')
         ])
         .pipe(
@@ -290,7 +288,7 @@ async.series(
           gulprename(function(path) {
             if (!/slds-fonts/.test(path.basename)) {
               path.basename =
-                MODULE_NAME + path.basename.substring('index'.length);
+                MODULE_NAME + path.basename.substring('index-scoped'.length);
             }
             path.extname = '.css';
             return path;
