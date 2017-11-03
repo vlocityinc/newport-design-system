@@ -17,8 +17,8 @@
     <aura:registerEvent name="modelChangedPropertiesChanged" type="flexipageEditor:modelChangedPropertiesChanged" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="addComponent" event="visualEditor:addComponent" action="{!c.handleAddComponent}" />
     <aura:handler event="flexipageEditor:selectNode" action="{!c.handleSelectComponent}" />
-    <aura:handler event="visualEditor:addComponent" action="{!c.handleAddComponent}" />
     <aura:handler event="flexipageEditor:propertiesChanged" action="{!c.handlePropertiesChanged}" />
     <aura:handler event="flexipageEditor:saveInitiated" action="{!c.handleSave}" />
     <aura:handler event="visualEditor:undo" action="{!c.handleUndo}" />

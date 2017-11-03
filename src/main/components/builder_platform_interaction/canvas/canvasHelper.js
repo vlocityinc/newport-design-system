@@ -49,7 +49,7 @@
                     body = cmp.get("v.body");
                     body.push(nodeCmp);
                     cmp.set("v.body", body);
-                    $A.getEvt("markup://visualEditor:addComponent").setParams({
+                    cmp.getEvent("addComponent").setParams({
                         componentInstance: nodeCmp.get("v.data")
                     }).fire();
                 }
