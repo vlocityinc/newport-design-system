@@ -1,0 +1,29 @@
+/************* Place holder for Editor.html css *****************/
+
+
+/************* Header *****************/
+.THIS builder_platform_interaction-header .header {
+    line-height: t(lineHeightTab);
+    background-color: t(colorBackgroundIndicatorDot);
+}
+
+.THIS builder_platform_interaction-header .header lightning-icon {
+    background-color: t(colorBackgroundIndicatorDot);
+}
+
+/************* Toolbar *****************/
+.THIS builder_platform_interaction-toolbar .toolbar {
+    line-height: t(lineHeightTab);
+}
+
+/************* Left Panel *****************/
+.THIS builder_platform_interaction-left-panel .left-panel .left-panel-label {
+    font-weight: t(fontWeightBold);
+    font-size: t(fontSizeTextMedium);
+}
+
+/************* Canvas *****************/
+.THIS builder_platform_interaction-canvas .canvas {
+    background-color: t(colorContrastPrimary);
+    height: 100%;
+}

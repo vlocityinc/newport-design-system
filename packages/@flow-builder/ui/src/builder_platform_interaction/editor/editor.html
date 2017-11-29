@@ -1,0 +1,14 @@
+<template>
+    <div class="editor slds-grid slds-grid_frame slds-grid_vertical">
+        <builder_platform_interaction-header></builder_platform_interaction-header>
+        <builder_platform_interaction-toolbar onsave={handleSaveFlow}></builder_platform_interaction-toolbar>
+        <div class="editor-body slds-grid slds-grow">
+            <div class="slds-col slds-size_1-of-5 slds-border_right">
+                <builder_platform_interaction-left-panel></builder_platform_interaction-left-panel>
+            </div>
+            <div class="slds-col slds-size_4-of-5">
+                <builder_platform_interaction-canvas></builder_platform_interaction-canvas>
+            </div>
+        </div>
+    </div>
+</template>

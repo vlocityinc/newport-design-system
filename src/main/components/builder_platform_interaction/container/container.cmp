@@ -1,0 +1,13 @@
+<aura:component controller="serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController" description="This container is responsible for rendering raptor components and get data from java controller">
+
+    <!--Attributes-->
+    <aura:attribute name="flowId" type="String" description="The id of the flow to load" />
+    <aura:attribute name="flow" type="Map" description="This object contains information about the flow" />
+
+    <!--Handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+
+    <div class="flow-builder-container">
+        <builder_platform_interaction:editor flow="{!v.flow}" onsaveflow="{!c.handleSaveFlow}" />
+    </div>
+</aura:component>
