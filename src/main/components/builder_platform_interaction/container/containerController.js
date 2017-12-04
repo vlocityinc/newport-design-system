@@ -1,6 +1,6 @@
 ({
     onInit: function(cmp, event, helper) {
-        var flowId = cmp.get("v.flowId");
+        var flowId = cmp.get('v.flowId');
         if (!$A.util.isUndefinedOrNull(flowId)) {
             helper.getFlow(cmp, flowId);
         } else {

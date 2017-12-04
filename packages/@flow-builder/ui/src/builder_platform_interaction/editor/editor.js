@@ -1,4 +1,5 @@
-import { Element, unwrap } from "engine";
+import { Element, unwrap } from 'engine';
+import {SAVE_FLOW} from 'builder_platform_interaction-constant';
 
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -23,8 +24,8 @@ export default class Editor extends Element {
     }
 
     @api
-    set flow(newValue) {
-        this.appState.flow = newValue || {};
+    set flow(newValue = {}) {
+        this.appState.flow = newValue;
     }
 
     /**
@@ -34,7 +35,7 @@ export default class Editor extends Element {
      */
     handleSaveFlow = () => {
         const saveEvent = new CustomEvent(
-            "saveflow",
+            SAVE_FLOW,
             {
                 composed: true
             },
