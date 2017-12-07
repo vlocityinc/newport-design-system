@@ -27,3 +27,8 @@
     background-color: t(colorContrastPrimary);
     height: 100%;
 }
+
+/************* Node *****************/
+.THIS builder_platform_interaction-node .label {
+    font-weight: t(fontWeightBold);
+}

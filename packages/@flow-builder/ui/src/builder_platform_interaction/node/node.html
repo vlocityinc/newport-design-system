@@ -1,0 +1,14 @@
+<template>
+    <div class="slds-is-absolute" id={node.id} style={styling}>
+        <!--Node icon -->
+        <div class="slds-text-align_center">
+            <lightning-icon icon-name={iconName} size="large" class="slds-line-height_reset"></lightning-icon>
+        </div>
+
+        <!--Label and description-->
+        <div class="slds-text-align_center">
+            <div class="label">{node.label}</div>
+            <div>{node.description}</div>
+        </div>
+    </div>
+</template>
