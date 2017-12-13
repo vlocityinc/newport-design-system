@@ -37,10 +37,8 @@ export default class Editor extends Element {
         const saveEvent = new CustomEvent(
             SAVE_FLOW,
             {
+                detail: unwrap(this.appState.flow),
                 composed: true
-            },
-            {
-                detail: unwrap(this.appState.flow)
             }
         );
         this.dispatchEvent(saveEvent);
