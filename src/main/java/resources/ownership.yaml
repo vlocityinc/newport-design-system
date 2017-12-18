@@ -8,7 +8,7 @@
 #
 
 module:
-  groupId: ~
+  groupId: sfdc.ui
   artifactId: ui-interaction-builder-components
   isTest: false
 
