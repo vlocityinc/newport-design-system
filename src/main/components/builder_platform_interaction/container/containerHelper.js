@@ -15,7 +15,7 @@
         action.setCallback(this, function(result) {
             // TODO add a library method to generically handle success, error,
             // and other states
-            if (result.getState() === this.constant.SUCCESS) {
+            if (result.getState() === this.constant.STATE.SUCCESS) {
                 var flow = result.getReturnValue();
                 cmp.set("v.flow", flow);
             }
@@ -40,7 +40,7 @@
         // TODO add a library method to generically handle success, error, and
         // other states
         action.setCallback(this, function(result) {
-            if (result.getState() === this.constant.SUCCESS) {
+            if (result.getState() === this.constant.STATE.SUCCESS) {
                 // TODO
             }
         });

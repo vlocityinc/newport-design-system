@@ -1,0 +1,21 @@
+<aura:component  implements="builder_platform_interaction:propertyEditorBody">
+
+    <!-- callback to update-->
+    <aura:attribute name="nodeUpdate" type="Object"/>
+    <!-- factory override -->
+    <aura:attribute name="override" type="Object" />
+    
+    <!--  Dependencies -->
+    <aura:dependency resource="markup://builder_platform_interaction:assignmentEditor" type="COMPONENT" />
+    
+    <!-- notify to close the panel -->
+    <aura:registerEvent name="notify" type="ui:notify"/>
+    
+    <!-- Handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>    
+    {!v.body}
+  
+  <!-- The below buttons will be replaced by lightning buttons after looking at the designs -->
+    <button  onclick="{!c.handleOk}">OK</button>
+    <button title="Cancel" onclick="{!c.handleCancel}">Cancel</button>
+</aura:component>

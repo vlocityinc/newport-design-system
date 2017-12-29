@@ -9,6 +9,12 @@
     <!--Handlers-->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
 
+    <!-- Dependencies -->
+    <aura:dependency resource="markup://builder_platform_interaction:propertyEditor" type="COMPONENT" />
+   
+   <!-- Events -->
+   <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />
+   
     <div class="flow-builder-container">
         <builder_platform_interaction:editor flow="{!v.flow}" onsaveflow="{!c.handleSaveFlow}" />
     </div>

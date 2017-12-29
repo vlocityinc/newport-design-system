@@ -1,0 +1,4 @@
+<aura:interface description="builder_platform_interaction:propertyEditorBody : Interface to be implemented by all types of property editors">
+    <aura:attribute name="node" type="Object" description="Node object containing all node information" />
+    <aura:attribute name="preNodeUpdateCallback" type="Object" description="Validations specific to a type of property editor defined by the specific property editor" />
+</aura:interface>

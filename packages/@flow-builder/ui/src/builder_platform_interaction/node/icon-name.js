@@ -1,5 +1,5 @@
 import { Element } from 'engine';
-import {ASSIGNMENT} from 'builder_platform_interaction-constant';
+import {ELEMENT_TYPE} from 'builder_platform_interaction-constant';
 
 /**
  * Map to associate each node type with it's respective icon-name.
@@ -10,7 +10,7 @@ import {ASSIGNMENT} from 'builder_platform_interaction-constant';
  */
 
 export const nodeIconMap = new Map([
-    [ASSIGNMENT, 'standard:lead_list']
+    [ELEMENT_TYPE.ASSIGNMENT, 'standard:lead_list']
 ]);
 
 export class IconName extends Element {}

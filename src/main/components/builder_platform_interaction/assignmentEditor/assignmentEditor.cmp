@@ -1,0 +1,4 @@
+<aura:component implements="builder_platform_interaction:propertyEditorBody">
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>   
+    Assignment Editor body - {!v.node.label}
+</aura:component>
