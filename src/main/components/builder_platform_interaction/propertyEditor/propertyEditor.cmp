@@ -14,8 +14,6 @@
     <!-- Handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>    
     {!v.body}
-  
-  <!-- The below buttons will be replaced by lightning buttons after looking at the designs -->
-    <button  onclick="{!c.handleOk}">OK</button>
-    <button title="Cancel" onclick="{!c.handleCancel}">Cancel</button>
+    <lightning:button  onclick="{!c.handleOk}">OK</lightning:button>
+    <lightning:button title="Cancel" onclick="{!c.handleCancel}">Cancel</lightning:button>
 </aura:component>
