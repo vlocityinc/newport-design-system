@@ -26,6 +26,12 @@
 .THIS builder_platform_interaction-canvas .canvas {
     background-color: t(colorContrastPrimary);
     height: 100%;
+    overflow: hidden;
+}
+
+.THIS builder_platform_interaction-canvas .canvas .innerCanvas {
+    height: 100%;
+    width: 100%;    
 }
 
 /************* Node *****************/

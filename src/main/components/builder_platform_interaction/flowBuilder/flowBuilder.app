@@ -15,4 +15,7 @@
             </ui:modal>
         </aura:set>
     </ui:panelManager2>
+
+    <!-- Importing jsplumb as an aura lib. This attaches jsplumb in window scope, but one should only use the instance created in drawing-lib from the canvas component -->
+    <aura:import library="builder_platform_interaction:jsplumb" property="lib" />
 </aura:application>

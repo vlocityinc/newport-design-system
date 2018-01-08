@@ -1,0 +1,3 @@
+<aura:library description="Jsplumb aura lib, include it to get jsplumb in the window object">
+    <aura:include name="jsplumb"/>
+</aura:library>
