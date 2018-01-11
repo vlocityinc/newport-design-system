@@ -1,0 +1,1 @@
+export { canvasSelector } from './canvas-selector';

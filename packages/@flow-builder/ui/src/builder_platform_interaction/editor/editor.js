@@ -1,7 +1,12 @@
-import { Element, unwrap } from 'engine';
-import {EVENT, PROPERTY_EDITOR} from 'builder_platform_interaction-constant';
-import {invokePanel, getComponentDefForNodeType} from 'builder_platform_interaction-builder-utils';
+import { Element } from 'engine';
+import { EVENT, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
+import { invokePanel, getComponentDefForNodeType } from 'builder_platform_interaction-builder-utils';
+import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
+import { canvasSelector } from 'builder_platform_interaction-selectors';
+import { updateElement } from 'builder_platform_interaction-actions';
 
+let unsubscribeStore;
+let storeInstance;
 
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -13,21 +18,15 @@ import {invokePanel, getComponentDefForNodeType} from 'builder_platform_interact
  * @since 214
  */
 export default class Editor extends Element {
-    @api flow;
-
     @track
     appState = {
-        flow: {}
+        canvas: [],
     };
 
-    @api
-    get flow() {
-        return this.appState.flow;
-    }
-
-    @api
-    set flow(newValue = {}) {
-        this.appState.flow = newValue;
+    constructor() {
+        super();
+        storeInstance = Store.getStore();
+        unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
     }
 
     /**
@@ -39,7 +38,7 @@ export default class Editor extends Element {
         const saveEvent = new CustomEvent(
             EVENT.SAVE_FLOW,
             {
-                detail: unwrap(this.appState.flow),
+                bubbles: true,
                 composed: true
             }
         );
@@ -51,25 +50,39 @@ export default class Editor extends Element {
      * It uses builder-util library to fire up the ui:panel
      * @param {object} event - node clicked event coming from node.js
      */
-    handleNodeClicked(event) {
+    handleNodeClicked = (event) => {
         if (event && event.detail) {
             const override = {};
-            override.body = getComponentDefForNodeType(event.detail.node.type);
+            const node = deepCopy(storeInstance.getCurrentState().elements[event.detail.nodeGUID]);
+            override.body = getComponentDefForNodeType(node.type);
             override.body.attr = {
-                node : event.detail.node
+                node
             };
             const nodeUpdate = this.updateNodeCollection;
             invokePanel(PROPERTY_EDITOR, {nodeUpdate, override});
         }
-    }
+    };
 
     /**
      * Method for talking to validation library and store for updating the node collection/flow data
      * @param {object} node - node object for the particular property editor update
-     * TODO: Add the node param to the function when we use it else it is a eslint warning
      */
-    updateNodeCollection() {
-        // call validations & talk to store for updating state
-        // console.log("UpdateNode Collection with node name", node.label);
+    updateNodeCollection(node) {
+        // TODO: add validations if needed
+        if (node) {
+            storeInstance.dispatch(updateElement(node));
+        }
+    }
+
+    /**
+     * Method to map appstate to store. This method get called when store changes.
+     */
+    mapAppStateToStore = () => {
+        const currentState = storeInstance.getCurrentState();
+        this.appState.canvas = canvasSelector(currentState);
+    };
+
+    disconnectedCallback() {
+        unsubscribeStore();
     }
 }

@@ -1,10 +1,15 @@
 <aura:component controller="serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController" description="This container is responsible for rendering raptor components and get data from java controller">
     <!-- Imports -->
     <aura:import library="builder_platform_interaction:constant" property="constant" />
-    
+    <aura:import library="builder_platform_interaction:storeLib" property="storeLib" />
+    <aura:import library="builder_platform_interaction:reducers" property="reducers" />
+    <aura:import library="builder_platform_interaction:actions" property="actions" />
+
     <!--Attributes-->
     <aura:attribute name="flowId" type="String" description="The id of the flow to load" />
-    <aura:attribute name="flow" type="java://ui.interaction.builder.components.data.BuilderFlow" description="This object contains information about the flow" />
+
+    <!--Private Attributes-->
+    <aura:attribute name="storeInstance" type="Object" description="This is instance of global store." />
 
     <!--Handlers-->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
@@ -16,6 +21,6 @@
    <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />
    
     <div class="flow-builder-container">
-        <builder_platform_interaction:editor flow="{!v.flow}" onsaveflow="{!c.handleSaveFlow}" />
+        <builder_platform_interaction:editor onsaveflow="{!c.handleSaveFlow}" />
     </div>
 </aura:component>

@@ -14,21 +14,25 @@ export default class Node extends Element {
     @api node;
 
     get styling() {
-        const style = `left: ${this.node.positionX}px; top: ${this.node.positionY}px`;
-        return style;
+        return `left: ${this.node.locationX}px; top: ${this.node.locationY}px`;
     }
 
     get iconName() {
-        return nodeIconMap.get(this.node.type);
+        return nodeIconMap.get(this.node.elementType);
     }
 
     /**
      * Handles the native double click event on node div and fires off a nodeClicked event
      */
-    handleDblClick() {
-        const nodeClickedEvent = new CustomEvent(EVENT.NODE_CLICKED, {bubbles: true, cancelable: true, detail: {
-            node : this.node
-        }});
+    handleDblClick = () => {
+        const nodeClickedEvent = new CustomEvent(EVENT.NODE_CLICKED, {
+            bubbles: true,
+            composed: true,
+            cancelable: true,
+            detail: {
+                nodeGUID : this.node.guid
+            }
+        });
         this.dispatchEvent(nodeClickedEvent);
-    }
+    };
 }

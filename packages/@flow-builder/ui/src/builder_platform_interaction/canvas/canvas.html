@@ -2,7 +2,7 @@
     <div class="canvas slds-is-relative" id="canvas">
         <div class="innerCanvas slds-is-relative">
             <template for:each={nodes} for:item="node">
-                <builder_platform_interaction-node node={node} key={node.id}></builder_platform_interaction-node>
+                <builder_platform_interaction-node node={node} key={node.guid}></builder_platform_interaction-node>
             </template>
         </div>
     </div>

@@ -1,12 +1,13 @@
 ({
     /***************************************************************************
      * Get the flow from java controllers
-     * 
-     * @param cmp
-     * @param flowId
+     *
+     * @param {Object} cmp component definition
+     * @param {String} flowId id of a flow
      */
     getFlow : function(cmp, flowId) {
-        var action = cmp.get("c.retrieveFlow");
+        var action, flow, storeInstance;
+        action = cmp.get("c.retrieveFlow");
 
         action.setParams({
             id : flowId
@@ -16,8 +17,9 @@
             // TODO add a library method to generically handle success, error,
             // and other states
             if (result.getState() === this.constant.STATE.SUCCESS) {
-                var flow = result.getReturnValue();
-                cmp.set("v.flow", flow);
+                flow = result.getReturnValue();
+                storeInstance = cmp.get("v.storeInstance");
+                storeInstance.dispatch(this.actions.updateFlow(flow));
             }
         });
 
@@ -26,9 +28,9 @@
 
     /**
      * Save the flow in the backend
-     * 
-     * @param cmp
-     * @param flow
+     *
+     * @param {Object} cmp component definition
+     * @param {Object} flow flow object to be saved
      */
     saveFlow : function(cmp, flow) {
         var action = cmp.get("c.saveFlow");
@@ -46,6 +48,16 @@
         });
 
         $A.enqueueAction(action);
+    },
+
+    /**
+     * Initialize store to be used by entire app
+     * @param {Object} cmp component definition
+     */
+    initStore: function(cmp) {
+        var storeInstance;
+        storeInstance = this.storeLib.Store.getStore(this.reducers.reducer);
+        cmp.set("v.storeInstance", storeInstance);
     }
 
     /************* Private Methods *****************/

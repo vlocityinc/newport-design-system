@@ -7,7 +7,8 @@ export const EVENT = {
     SAVE: 'save'
 };
 export const ELEMENT_TYPE = {
-    ASSIGNMENT: 'Assignment',
+    ASSIGNMENT: 'ASSIGNMENT',
+    VARIABLE: 'VARIABLE',
     DEFAULT: 'defaultElement'
 };
 export const PROPERTY_EDITOR = 'builder_platform_interaction:propertyEditor';

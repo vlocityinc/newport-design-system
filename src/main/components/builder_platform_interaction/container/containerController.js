@@ -1,6 +1,8 @@
 ({
     onInit: function(cmp, event, helper) {
-        var flowId = cmp.get('v.flowId');
+        var flowId;
+        helper.initStore(cmp);
+        flowId = cmp.get('v.flowId');
         if (!$A.util.isUndefinedOrNull(flowId)) {
             helper.getFlow(cmp, flowId);
         } else {
@@ -9,7 +11,7 @@
     },
 
     handleSaveFlow: function(cmp, event, helper) {
-        var flow = event.getParams();
+        var flow = cmp.get('v.storeInstance').getCurrentState().elements;
         helper.saveFlow(cmp, flow);
     }
 });
