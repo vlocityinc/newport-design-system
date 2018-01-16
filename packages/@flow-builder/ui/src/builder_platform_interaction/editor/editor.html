@@ -1,14 +1,23 @@
 <template>
     <div class="editor slds-grid slds-grid_frame slds-grid_vertical">
+        <!--Header-->
         <builder_platform_interaction-header></builder_platform_interaction-header>
+
+        <!--Toolbar-->
         <builder_platform_interaction-toolbar onsave={handleSaveFlow}></builder_platform_interaction-toolbar>
+
+        <!--Editor-->
         <div class="editor-body slds-grid slds-grow">
+
+            <!--Left Panel-->
             <div class="slds-col slds-size_1-of-5 slds-border_right">
                 <builder_platform_interaction-left-panel></builder_platform_interaction-left-panel>
             </div>
+
+            <!--Canvas-->
             <div class="slds-col slds-size_4-of-5">
                 <builder_platform_interaction-canvas 
-                    nodes={appState.canvas} onnodeclicked={handleNodeClicked}>
+                    nodes={appState.canvas} onnodeclicked={handleNodeClicked} onaddconnection={handleAddConnection}>
                 </builder_platform_interaction-canvas>
             </div>
         </div>

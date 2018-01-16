@@ -29,12 +29,40 @@
     overflow: hidden;
 }
 
+.THIS builder_platform_interaction-canvas .canvas .jtk-overlay {
+    background-color: t(colorBackgroundNotification); /*White*/
+    opacity: t(opacity8);
+    padding: t(spacingXxSmall);
+    border-radius: t(borderRadiusMedium);
+    border: t(borderWidthThin) solid t(colorBorderBrand);
+    cursor: pointer;
+    transition: background-color t(durationSlide) ease-in; /*0.25s*/
+}
+
+.THIS builder_platform_interaction-canvas .canvas .jtk-overlay.jtk-hover {
+    background-color: t(sliderHandleColorBackgroundHover);
+    color: t(colorTextLinkInverse);
+}
+
 .THIS builder_platform_interaction-canvas .canvas .innerCanvas {
     height: 100%;
-    width: 100%;    
+    width: 100%;
+}
+
+.THIS builder_platform_interaction-canvas .canvas .innerCanvas .jtk-drag-hover {
+    outline: t(borderWidthThick) solid t(colorBorderBrand);
 }
 
 /************* Node *****************/
+.THIS builder_platform_interaction-node .end-point {
+    cursor: pointer;
+    width: t(squareIconUtilityLarge); /*1.5rem*/
+    margin-left: auto;
+    margin-right: auto;
+    border: t(borderWidthThick) solid t(colorBorderBrand);
+    border-radius: t(borderRadiusCircle);
+}
+
 .THIS builder_platform_interaction-node .label {
     font-weight: t(fontWeightBold);
 }

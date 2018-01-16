@@ -75,6 +75,13 @@ export default class Editor extends Element {
     }
 
     /**
+     * Method for talking to the store and updating the connectors for a given source and target
+     */
+    handleAddConnection() {
+        // TODO: Update store
+    }
+
+    /**
      * Method to map appstate to store. This method get called when store changes.
      */
     mapAppStateToStore = () => {

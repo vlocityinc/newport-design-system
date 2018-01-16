@@ -19,6 +19,7 @@ const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((a
     newElement.label = element.label;
     newElement.locationX = element.locationX;
     newElement.locationY = element.locationY;
+    newElement.connector = Object.assign({}, element.connector);
     acc.push(newElement);
     return acc;
 }, []);

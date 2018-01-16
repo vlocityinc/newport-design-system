@@ -4,7 +4,8 @@ export const STATE = {
 export const EVENT = {
     NODE_CLICKED: 'nodeclicked',
     SAVE_FLOW: 'saveflow',
-    SAVE: 'save'
+    SAVE: 'save',
+    ADD_CONNECTION: 'addconnection'
 };
 export const ELEMENT_TYPE = {
     ASSIGNMENT: 'ASSIGNMENT',
