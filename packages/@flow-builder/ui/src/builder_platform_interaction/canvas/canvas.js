@@ -1,8 +1,6 @@
 import { Element } from 'engine';
 import { EVENT } from 'builder_platform_interaction-constant';
-import { getJSPlumbInstance, setContainer, setSuspendDrawing, setDraggable, makeSource, makeTarget,
-    setExistingConnections, setNewConnection } from './drawing-lib.js';
-
+import { drawingLibInstance as lib } from './drawing-lib';
 /**
  * Canvas component for flow builder.
  *
@@ -15,8 +13,7 @@ export default class Canvas extends Element {
 
     constructor() {
         super();
-        getJSPlumbInstance();
-        setNewConnection(this.connectionAdded);
+        lib.setNewConnection(this.connectionAdded);
     }
 
     // Adding a new connection
@@ -38,19 +35,19 @@ export default class Canvas extends Element {
     };
 
     renderedCallback() {
-        setContainer("canvas");
+        lib.setContainer("innerCanvas");
 
-        setSuspendDrawing(true, true);
+        lib.setSuspendDrawing(true, true);
 
         // Setting up existing node elements and creating a list of all the existing connectors
         const connectorList = [];
         this.nodes.forEach((node) => {
-            setDraggable(node.guid);
+            lib.setDraggable(node.guid);
 
             // TODO: Set the number of connections for the nodes based on their type
-            makeSource(node.guid, 1);
+            lib.makeSource(node.guid, 1);
 
-            makeTarget(node.guid);
+            lib.makeTarget(node.guid);
 
             if (node.connector.targetReference) {
                 const source = node.guid;
@@ -61,9 +58,9 @@ export default class Canvas extends Element {
 
         // Setting up all the existing connectors
         connectorList.forEach((connector) => {
-            setExistingConnections(connector.source, connector.target, 'Label');
+            lib.setExistingConnections(connector.source, connector.target, 'Label');
         });
 
-        setSuspendDrawing(false, true);
+        lib.setSuspendDrawing(false, true);
     }
 }
