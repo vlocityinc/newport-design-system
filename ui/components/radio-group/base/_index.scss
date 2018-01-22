@@ -24,7 +24,7 @@
     display: inline-block;
     position: relative;
     vertical-align: middle;
-    border: $border-width-thin solid $color-border-input;
+    border: $border-width-thick solid $color-border-input;
     border-radius: $border-radius-circle;
     background: $color-background-input;
     transition: border $duration-quickly linear, background-color $duration-quickly linear;
@@ -33,7 +33,8 @@
   .slds-form-element__label {
     display: inline;
     vertical-align: middle;
-    font-size: $font-size-medium;
+    font-size: $font-size-medium-a;
+    color: #54698D;
   }
 
   [type="radio"] {
@@ -52,6 +53,7 @@
     &:checked + .slds-radio__label .slds-radio_faux,
     &:checked + .slds-radio__label .slds-radio--faux {
       background: $color-background-input;
+      border-color: $color-brand;
 
       &:after {
         @include square(0.5rem);
@@ -91,6 +93,10 @@
   }
 }
 
+.slds-form-element__control .slds-checkbox, .slds-form-element__control .slds-radio {
+  display: inline-block;
+}
+
 .slds-has-error .slds-radio [type='radio'] {
 
   + .slds-radio_faux,
@@ -123,5 +129,5 @@
 .slds-form-element .slds-radio [type='radio'] ~ .slds-radio--faux,
 .slds-radio [type='radio'] + .slds-radio__label .slds-radio_faux,
 .slds-radio [type='radio'] + .slds-radio__label .slds-radio--faux {
-  margin-#{$right}: $spacing-x-small;
+  margin-#{$right}: $spacing-medium;
 }

@@ -10,13 +10,17 @@ import { Fieldset, Legend } from '../../radio-group/base/example';
 // Partial(s)
 /// ////////////////////////////////////////
 
-let RadioButtonGroup = props =>
-  <div className="slds-radio_button-group">
-    {props.children}
-  </div>;
+let RadioButtonGroup = props => (
+  <div className="slds-radio_button-group">{props.children}</div>
+);
 
-let RadioButton = props =>
-  <span className={classNames('slds-button slds-radio_button', props.className)}>
+let RadioButton = props => (
+  <span
+    className={classNames(
+      'slds-button slds-radio_button slds-size--6-of-12',
+      props.className
+    )}
+  >
     <input
       name="radio"
       type="radio"
@@ -25,11 +29,11 @@ let RadioButton = props =>
       aria-describedby={props.errorId}
     />
     <label className="slds-radio_button__label" htmlFor={props.id}>
-      <span className="slds-radio_faux">
-        {props.children}
-      </span>
+      <span className="slds-radio_faux">{props.children}</span>
+      <div className="slds-radio-overlay" />
     </label>
-  </span>;
+  </span>
+);
 
 /// ////////////////////////////////////////
 // Export
@@ -40,11 +44,8 @@ export default (
     <Legend>Radio Group Label</Legend>
     <FormElementControl>
       <RadioButtonGroup>
-        <RadioButton id="monday">Mon</RadioButton>
-        <RadioButton id="tuesday">Tue</RadioButton>
-        <RadioButton id="wednesday">Wed</RadioButton>
-        <RadioButton id="thursday">Thu</RadioButton>
-        <RadioButton id="friday">Fri</RadioButton>
+        <RadioButton id="male">Male</RadioButton>
+        <RadioButton id="female">Female</RadioButton>
       </RadioButtonGroup>
     </FormElementControl>
   </Fieldset>
@@ -54,57 +55,61 @@ export let states = [
   {
     id: 'disabled',
     label: 'Disabled',
-    element:
+    element: (
       <Fieldset>
         <Legend>Radio Group Label</Legend>
         <FormElementControl>
           <RadioButtonGroup>
-            <RadioButton id="monday" disabled="true">Mon</RadioButton>
-            <RadioButton id="tuesday" disabled="true">Tue</RadioButton>
-            <RadioButton id="wednesday" disabled="true">Wed</RadioButton>
-            <RadioButton id="thursday" disabled="true">Thu</RadioButton>
-            <RadioButton id="friday" disabled="true">Fri</RadioButton>
+            <RadioButton id="male">Male</RadioButton>
+            <RadioButton id="female">Female</RadioButton>
           </RadioButtonGroup>
         </FormElementControl>
       </Fieldset>
+    )
   },
   {
     id: 'required',
     label: 'Required',
-    element:
+    element: (
       <Fieldset>
         <Legend>
-          <abbr className="slds-required" title="required">*</abbr>Radio Group Label
+          <abbr className="slds-required" title="required">
+            *
+          </abbr>Radio Group Label
         </Legend>
         <FormElementControl>
           <RadioButtonGroup>
-            <RadioButton id="monday">Mon</RadioButton>
-            <RadioButton id="tuesday">Tue</RadioButton>
-            <RadioButton id="wednesday">Wed</RadioButton>
-            <RadioButton id="thursday">Thu</RadioButton>
-            <RadioButton id="friday">Fri</RadioButton>
+            <RadioButton id="male">Male</RadioButton>
+            <RadioButton id="female">Female</RadioButton>
           </RadioButtonGroup>
         </FormElementControl>
       </Fieldset>
+    )
   },
   {
     id: 'error',
     label: 'Has error',
-    element:
+    element: (
       <Fieldset className="slds-has-error">
         <Legend>
-          <abbr className="slds-required" title="required">*</abbr>Radio Group Label
+          <abbr className="slds-required" title="required">
+            *
+          </abbr>Radio Group Label
         </Legend>
         <FormElementControl>
           <RadioButtonGroup>
-            <RadioButton errorId="error_01" id="monday">Mon</RadioButton>
-            <RadioButton errorId="error_01" id="tuesday">Tue</RadioButton>
-            <RadioButton errorId="error_01" id="wednesday">Wed</RadioButton>
-            <RadioButton errorId="error_01" id="thursday">Thu</RadioButton>
-            <RadioButton errorId="error_01" id="friday">Fri</RadioButton>
+            <RadioButton errorId="error_01" id="male">
+              Male
+            </RadioButton>
+            <RadioButton errorId="error_01" id="female">
+              Female
+            </RadioButton>
           </RadioButtonGroup>
-          <div id="error_01" className="slds-form-element__help">This field is required</div>
+          <div id="error_01" className="slds-form-element__help">
+            This field is required
+          </div>
         </FormElementControl>
       </Fieldset>
+    )
   }
 ];

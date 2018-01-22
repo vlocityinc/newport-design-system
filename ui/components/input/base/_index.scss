@@ -25,6 +25,7 @@
     background-color: transparent;
     font-size: $input-static-font-size;
     font-weight: $input-readonly-font-weight; // This is a plain readonly input. It should not have the text treatment that static has.
+    border-bottom: 1px solid #dddbda;
   }
 
   &[type="search"]::-ms-clear {
@@ -281,3 +282,20 @@
     color: $color-text-error;
   }
 }
+
+
+/*  Added action class on icon container */
+.slds-control-action__container {
+  display: inline-block;
+  z-index: 1;
+  white-space: nowrap;
+  position: relative;
+  top: -2px;
+  margin-left: 5px;
+}
+
+.slds-control-action__container svg {
+  cursor: pointer;
+}
+
+/**********************************/
