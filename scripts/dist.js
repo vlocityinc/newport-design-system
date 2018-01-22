@@ -24,7 +24,7 @@ const releaseNotes = require('./npm/release-notes');
 
 const SLDS_VERSION = packageJSON.version;
 const DISPLAY_NAME = 'Vlocity Newport Design System';
-const MODULE_NAME = 'vlocity-newport-design-system';
+const MODULE_NAME = 'salesforce-lightning-design-system-vf';
 
 // /////////////////////////////////////////////////////////////
 // Helpers
