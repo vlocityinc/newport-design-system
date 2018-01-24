@@ -1,4 +1,4 @@
-import { Element } from 'engine';
+import { Element, api } from 'engine';
 import { nodeIconMap } from './icon-name.js';
 import { EVENT } from 'builder_platform_interaction-constant';
 

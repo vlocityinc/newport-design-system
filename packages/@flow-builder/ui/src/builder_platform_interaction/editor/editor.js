@@ -1,4 +1,4 @@
-import { Element } from 'engine';
+import { Element, track } from 'engine';
 import { EVENT, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { invokePanel, getComponentDefForNodeType } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
