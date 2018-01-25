@@ -7,24 +7,36 @@
  *
  * @name animate
  * @selector .slds-form-element__control-animated-label
- * @restrict .slds-form-element__control
+ * @restrict .slds-input
  * @variant
  */
 
 .slds-form-element__control-animated-label {
-	font-size: .75rem;
-
-	.slds-input {
-	  line-height: 1.5rem;
-	  min-height: calc(1.5rem + (#{$border-width-thin} * 2)); // For IE
-	}
+	font-size: 0.875rem;
+	position: relative;
 }
 
+
+.slds-input {
+	font-size: 0.875rem;
+	letter-spacing: 1px;
+	font-weight: 400;
+}
 
 .slds-form-element__control.slds-form-element__control-animated-label .slds-form-element__label {
 	top: 0.25rem;
 	left: 0;
 	position: absolute;
+	width: 100%;
+	right: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	pointer-events: none;
+	white-space: nowrap;
+	font-weight: 400;
+	font-size: 0.875rem;
+	letter-spacing: 1px;
+	color: $color-input-font-kashmiri-blue;
 }
 
 .slds-form-element__control.slds-form-element__control-animated-label input:focus ~ label,
@@ -40,17 +52,24 @@
 	-webkit-transition-duration: 300ms;
 	transition-duration: 300ms;
 	z-index: 0;
+	font-size: 0.75rem;
+	font-weight: 300;
 	top: 0.4rem;
 	left: 0;
  }
 
- .slds-form-element__control.slds-form-element__control-animated-label input:focus ~ label {
+.slds-form-element__control.slds-form-element__control-animated-label input:focus ~ label,
+.slds-form-element__control.slds-form-element__control-animated-label input:focus ~ label .slds-required {
 	color: $color-border-input-active;
- }
+}
+
+.slds-form-element__control.slds-input-has-icon svg.slds-icon {
+	fill: $color-input-icon-blue-hue;
+}
 
 
- .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.slds-form-element__control-animated-label .slds-form-element__label,
- .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left-right.slds-form-element__control-animated-label .slds-form-element__label {
+.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.slds-form-element__control-animated-label .slds-form-element__label,
+.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left-right.slds-form-element__control-animated-label .slds-form-element__label {
 	left: 1.25rem;
 }
 
@@ -67,3 +86,21 @@
 	top: 0.4rem;
 	left: 0;
 }
+
+.slds-form-element__control.slds-form-element__control-animated-label input[type="email"].ng-dirty.ng-invalid, 
+.slds-form-element__control.slds-form-element__control-animated-label input[type="password"].ng-dirty.ng-invalid, 
+.slds-form-element__control.slds-form-element__control-animated-label input[type="tel"].ng-dirty.ng-invalid, 
+.slds-form-element__control.slds-form-element__control-animated-label input[type="text"].ng-dirty.ng-invalid, 
+.slds-form-element__control.slds-form-element__control-animated-label input[type="url"].ng-dirty.ng-invalid, 
+.slds-form-element__control.slds-form-element__control-animated-label textarea.ng-dirty.ng-invalid {
+	border-bottom: 1px solid $color-border-error;
+	border-image: initial;
+}
+
+.slds-has-error .slds-form-element__help {
+	letter-spacing: 1px;
+	color: $color-border-error;
+	font-size: 0.75rem;
+	font-weight: 400;
+	text-transform: capitalize;
+ }

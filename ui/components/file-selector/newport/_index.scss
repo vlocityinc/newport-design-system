@@ -17,9 +17,9 @@
 	.slds-file-selector__dropzone {
 	    width: inherit;
 	    padding: 0;
-	    border: 1px solid #dddbda;
+	    border: 1px solid $color-border-input;
 	    border-radius: .25rem;
-	    background-color: #F8FBFE;
+	    background-color: $card-color-background;
 	}
 
 	.slds-file-selector__body,
@@ -35,9 +35,9 @@
 			height: inherit;
 			max-height: 2.3rem;
     		line-height: 2.3rem;
-    		background-color: #F8FBFE;
+    		background-color: $card-color-background;
     		border: none;
-    		color: #54698D;
+    		color: $color-input-icon-blue-hue;
     		font-size: 0.75rem;
 		}
 
@@ -46,10 +46,10 @@
 			right: 0.5rem;
 			padding: 0.3rem;
 			border-radius: 0.25rem;
-			border: 1px solid #dddbda;
+			border: 1px solid $color-border-input;
 
 			svg.slds-button__icon {
-				fill: #54698D;
+				fill: $color-input-icon-blue-hue;
 				width: 1.2rem;
 				height: 1.2rem;
 			}
@@ -61,23 +61,23 @@
 
 		li {
 			position: relative;
-		    width: 100%;
-		    height: 2.15rem;
-		    margin: 0.5rem 0;
-		    border: 1px solid #dddbda;
-		    background-color: white;
-		    border-radius: 0.25rem;
-
+			width: 100%;
+			height: 2.15rem;
+			margin: 0.5rem 0;
+			border: 1px solid $color-border-input;
+			background-color: white;
+			border-radius: 0.25rem;
+			
 		    .slds-button.slds-button_neutral {
-		    	border: none;
-		    	color: #061C3F;
-		    	font-size: 0.75rem;
+				border: none;
+				color: $color-text-highlight;
+				font-size: 0.75rem;
 		    }
 		}
 
 		.slds-file-selector__button {
 			height: inherit;
-    		max-height: 2rem;
+			max-height: 2rem;
 		}
 
 		span.vlocity-newport-file-icon {
@@ -86,7 +86,7 @@
 			padding: 0.4rem 0;
 
 			svg.slds-button__icon {
-				fill: #54698D;
+				fill: $color-input-icon-blue-hue;
 				width: 1.2rem;
 				height: 1.2rem;
 			}

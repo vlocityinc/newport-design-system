@@ -25,6 +25,7 @@
     background-color: transparent;
     font-size: $input-static-font-size;
     font-weight: $input-readonly-font-weight; // This is a plain readonly input. It should not have the text treatment that static has.
+    border-bottom: 1px solid $color-border-input;
   }
 
   &[type="search"]::-ms-clear {
@@ -281,3 +282,52 @@
     color: $color-text-error;
   }
 }
+
+
+/*  Added action class on icon container */
+.slds-control-action__container {
+  display: inline-block;
+  z-index: 1;
+  white-space: nowrap;
+  position: relative;
+  top: -0.05rem;
+  margin-#{$left}: 5px;
+}
+
+.slds-control-action__container svg {
+  cursor: pointer;
+}
+
+/**********************************/
+
+
+ul.slds-dropdown-list {
+    position: absolute;
+    border: 2px solid $color-dropdown-border;
+    border-top: none;
+    z-index: 9999;
+    top: 2rem;
+    width: 100%;
+    border-radius: 0.25rem;
+    box-shadow: 0px 15px 10px -15px $color-dropdown-shadow;
+
+    li {
+      background-color: $color-background-input;
+      font-weight: 400;
+      padding: 0.4rem 1rem;
+      letter-spacing: 1px;
+      color: $color-dropdown-text;
+      cursor: pointer;
+      &:hover {
+        background-color: $color-dropdown-border;
+      }
+    }
+}
+
+
+.slds-cont-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+
