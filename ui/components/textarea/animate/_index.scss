@@ -30,7 +30,7 @@
 	left: 0;
 	position: absolute;
 	width: 100%;
-	right: 0;
+	#{$right}: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -52,7 +52,7 @@
 	font-size: 0.75rem;
 	font-weight: 300;
 	top: 0.25rem;
-	left: 0;
+	#{$left}: 0;
  }
 
  .slds-form-element__control.slds-form-element__control-animated-label textarea:focus ~ label {
