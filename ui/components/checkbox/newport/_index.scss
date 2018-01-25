@@ -54,7 +54,7 @@
       margin: 0;
       margin-#{$right}: 1.25rem;
       margin-bottom: 2.5rem;
-      border-left: none;
+      border-#{$left}: none;
 
       .slds-checkbox_button__label {
         width: 100%;
@@ -168,7 +168,7 @@
     letter-spacing: 1px;
     font-weight: 400;
     color: $color-background-brand-primary;
-    left:0;
+    #{$left}:0;
     font-size: 0.875rem;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -177,9 +177,9 @@
 
   .slds-checkbox_button__label img {
     position: relative;
-    float: left;
+    float: #{$left};
     top: 50%;
-    left: 50%;
+    #{$left}: 50%;
     max-width: 100%;
     max-height: 100%;
     transform: translate(-50%, -50%);
@@ -189,9 +189,9 @@
   .slds-checkbox_button__label span.slds-title {
     width: 100%;
     position: relative;
-    float: left;
+    float: #{$left};
     top: 50%;
-    left: 50%;
+    #{$left}: 50%;
     transform: translate(-50%, -50%);
     background-color: $color-background-input;
     height: 4rem;

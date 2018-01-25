@@ -113,8 +113,8 @@
       position: absolute;
       border: 2px solid $color-border-input-active;
       top: -0.125rem;
-      right: -0.125rem;
-      left: -0.125rem;
+      #{$right}: -0.125rem;
+      #{$left}: -0.125rem;
       bottom: -0.125rem;
       display: block;
       z-index: 999;

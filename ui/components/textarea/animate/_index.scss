@@ -27,7 +27,7 @@
 
 .slds-form-element__control.slds-form-element__control-animated-label .slds-form-element__label {
 	top: 0.25rem;
-	left: 0;
+	#{$left}: 0;
 	position: absolute;
 	width: 100%;
 	#{$right}: 0;
