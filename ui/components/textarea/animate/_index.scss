@@ -22,7 +22,7 @@
     letter-spacing: 1px;	
     font-size: $font-size-medium-a;
     font-weight: 400;
-    color: #556A8C;
+    color: $color-input-font-kashmiri-blue;
 }
 
 .slds-form-element__control.slds-form-element__control-animated-label .slds-form-element__label {
@@ -37,7 +37,7 @@
 	font-weight: 400;
 	font-size: 0.875rem;
 	letter-spacing: 1px;
-    color: #556A8C;
+    color: $color-input-font-kashmiri-blue;
 }
 
 .slds-form-element__control.slds-form-element__control-animated-label textarea:focus~label,

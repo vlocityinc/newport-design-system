@@ -41,7 +41,6 @@
     background-clip: padding-box;
     margin-right: 1.25rem;
     margin-bottom: 2.5rem;
-    // width: 10rem;
     height: 10rem;
     border-radius: 0.25rem;
 
@@ -65,13 +64,13 @@
     + .slds-radio_button,
     + .slds-radio--button {
       margin: 0;
-      margin-right: 1.25rem;
+      margin-#{$right}: 1.25rem;
       margin-bottom: 2.5rem;
       border-left: none;
 
       .slds-radio_button__label {
         width: 100%;
-        border: 1px solid #D8DDE6;
+        border: 1px solid $button-color-border-primary;
       }
     }
 
@@ -81,7 +80,7 @@
     &:first-child > .slds-radio--faux,
     &:first-child > .slds-radio_button__label,
     &:first-child > .slds-radio--button__label {
-      border: 1px solid #D8DDE6;
+      border: 1px solid $button-color-border-primary;
       width: 100%;
       border-radius: 0.25rem;
     }
@@ -118,7 +117,7 @@
         background-color: transparent;
         color: $color-text-button-brand;
         width: 100%; 
-        border: 2px solid #FF6D00;
+        border: 2px solid $button-color-border-primary;
         // Need something stronger when the input is checked
         &:hover,
         &:focus {
@@ -181,7 +180,7 @@
     text-transform: capitalize;
     letter-spacing: 1px;
     font-weight: 400;
-    color: #1564BF;
+    color: $color-background-brand-primary;
     font-size: 0.875rem;
     left: 0;
     overflow: hidden;
@@ -197,7 +196,7 @@
     max-width: 100%;
     max-height: 100%;
     transform: translate(-50%, -50%);
-    background-color: #ffffff;
+    background-color: $color-background-input;
   }
 
   .slds-radio_button__label div.slds-title,
@@ -207,7 +206,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #ffffff;
+    background-color: $color-background-input;
     height: 4rem;
     line-height: 4rem;
   }

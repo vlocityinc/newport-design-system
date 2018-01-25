@@ -35,7 +35,7 @@
     border: 0;
     border-radius: 0;
     background-clip: padding-box;
-    margin-right: 1.25rem;
+    margin-#{$right}: 1.25rem;
     border-radius: 0.25rem;
     margin-bottom: 2.5rem;
     height: 10rem;
@@ -52,13 +52,13 @@
     + .slds-checkbox_button,
     + .slds-checkbox--button {
       margin: 0;
-      margin-right: 1.25rem;
+      margin-#{$right}: 1.25rem;
       margin-bottom: 2.5rem;
       border-left: none;
 
       .slds-checkbox_button__label {
         width: 100%;
-        border: 1px solid #D8DDE6;
+        border: 1px solid $button-color-border-primary;
       }
 
     }
@@ -69,7 +69,7 @@
     &:first-child > .slds-checkbox--faux,
     &:first-child > .slds-checkbox_button__label,
     &:first-child > .slds-checkbox--button__label {
-      border: 1px solid #D8DDE6;
+      border: 1px solid $button-color-border-primary;
       border-radius: 0.25rem;
       width: 100%;
     }
@@ -104,7 +104,7 @@
         background-color: transparent;
         color: $color-text-button-brand;
         width: 100%; 
-        border: 2px solid #FF6D00;
+        border: 2px solid $color-brand;
         // Need something stronger when the input is checked
         &:hover,
         &:focus {
@@ -167,7 +167,7 @@
     text-transform: capitalize;
     letter-spacing: 1px;
     font-weight: 400;
-    color: #1564BF;
+    color: $color-background-brand-primary;
     left:0;
     font-size: 0.875rem;
     overflow: hidden;
@@ -183,7 +183,7 @@
     max-width: 100%;
     max-height: 100%;
     transform: translate(-50%, -50%);
-    background-color: #ffffff;
+    background-color: $color-background-input;
   }
 
   .slds-checkbox_button__label span.slds-title {

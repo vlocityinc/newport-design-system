@@ -43,7 +43,7 @@
     padding-#{$right}: $spacing-medium;
     text-align: center;
     vertical-align: middle;
-    color: #54698D;
+    color: $color-input-icon-blue-hue;
     font-size: 0.75rem;
     letter-spacing: 1px;
 
@@ -100,7 +100,7 @@
     &:checked + .slds-radio_button__label,
     &:checked + .slds-radio--button__label {
       background-color: $button-color-background-primary;
-      color: #54698D;
+      color: $color-input-icon-blue-hue;
 
       // Need something stronger when the input is checked
       &:hover,
@@ -111,11 +111,11 @@
 
     &:checked + .slds-radio_button__label .slds-radio-overlay {
       position: absolute;
-      border: 2px solid #FF6D00;
-      top: -2px;
-      right: -2px;
-      left: -2px;
-      bottom: -2px;
+      border: 2px solid $color-border-input-active;
+      top: -0.125rem;
+      right: -0.125rem;
+      left: -0.125rem;
+      bottom: -0.125rem;
       display: block;
       z-index: 999;
       border-radius: 0.25rem;
