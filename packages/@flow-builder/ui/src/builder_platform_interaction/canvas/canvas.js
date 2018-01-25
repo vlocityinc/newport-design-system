@@ -1,6 +1,7 @@
 import { Element, api } from 'engine';
 import { EVENT } from 'builder_platform_interaction-constant';
-import { drawingLibInstance as lib } from './drawing-lib';
+import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
+
 /**
  * Canvas component for flow builder.
  *

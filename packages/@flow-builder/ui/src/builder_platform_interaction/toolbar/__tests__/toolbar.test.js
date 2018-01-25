@@ -15,12 +15,6 @@ const selectors = {
 };
 
 describe('toolbar', () => {
-    beforeEach(() => {
-        while (document.body.firstChild) {
-            document.body.removeChild(document.body.firstChild);
-        }
-    });
-
     it('fires save event when save button is clicked', () => {
         const toolbarComponent = createComponentUnderTest();
 
