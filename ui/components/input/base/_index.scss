@@ -303,23 +303,23 @@
 
 ul.slds-dropdown-list {
     position: absolute;
-    border: 2px solid #EEEEEE;
+    border: 2px solid $color-dropdown-border;
     border-top: none;
     z-index: 9999;
     top: 2rem;
     width: 100%;
     border-radius: 0.25rem;
-    box-shadow: 0px 15px 10px -15px #111;
+    box-shadow: 0px 15px 10px -15px $color-dropdown-shadow;
 
     li {
-      background-color: #FFF;
+      background-color: $color-background-input;
       font-weight: 400;
       padding: 0.4rem 1rem;
       letter-spacing: 1px;
-      color: #4D5B72;
+      color: $color-dropdown-text;
       cursor: pointer;
       &:hover {
-        background-color: #EEEEEE;
+        background-color: $color-dropdown-border;
       }
     }
 }
@@ -329,3 +329,5 @@ ul.slds-dropdown-list {
   position: relative;
   width: 100%;
 }
+
+
