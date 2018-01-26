@@ -25,10 +25,10 @@
 
 .slds-form-element__control.slds-form-element__control-animated-label .slds-form-element__label {
 	top: 0.25rem;
-	left: 0;
+	#{$left}: 0;
 	position: absolute;
 	width: 100%;
-	right: 0;
+	#{$right}: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	pointer-events: none;
@@ -55,7 +55,7 @@
 	font-size: 0.75rem;
 	font-weight: 300;
 	top: 0.4rem;
-	left: 0;
+	#{$left}: 0;
  }
 
 .slds-form-element__control.slds-form-element__control-animated-label input:focus ~ label,
@@ -70,21 +70,21 @@
 
 .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.slds-form-element__control-animated-label .slds-form-element__label,
 .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left-right.slds-form-element__control-animated-label .slds-form-element__label {
-	left: 1.25rem;
+	#{$left}: 1.25rem;
 }
 
 
 .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.slds-form-element__control-animated-label input:focus ~ label,
 .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left-right.slds-form-element__control-animated-label input:focus ~ label,
 .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.slds-form-element__control-animated-label input:not(:focus):valid ~ label {
-	left: 0;
+	#{$left}: 0;
 }
 
 .slds-form-element__control.slds-form-element__control-animated-label input[readonly] ~ label {
 	-webkit-transform: translate3d(0, -1.2rem, 0);
 	transform: translate3d(0, -1.2rem, 0);
 	top: 0.4rem;
-	left: 0;
+	#{$left}: 0;
 }
 
 .slds-form-element__control.slds-form-element__control-animated-label input[type="email"].ng-dirty.ng-invalid, 

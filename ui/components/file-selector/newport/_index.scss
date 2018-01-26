@@ -43,7 +43,7 @@
 
 		span.vlocity-newport-file-icon {
 			position: absolute;
-			right: 0.5rem;
+			#{$right}: 0.5rem;
 			padding: 0.3rem;
 			border-radius: 0.25rem;
 			border: 1px solid $color-border-input;
@@ -82,7 +82,7 @@
 
 		span.vlocity-newport-file-icon {
 			position: absolute;
-			right: 0.3rem;
+			#{$right}: 0.3rem;
 			padding: 0.4rem 0;
 
 			svg.slds-button__icon {
