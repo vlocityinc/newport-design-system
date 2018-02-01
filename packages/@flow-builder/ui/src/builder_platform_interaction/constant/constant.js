@@ -12,4 +12,9 @@ export const ELEMENT_TYPE = {
     VARIABLE: 'VARIABLE',
     DEFAULT: 'defaultElement'
 };
+export const EXPRESSION_PROPERTY_TYPE = {
+    LEFT_HAND_SIDE: 'leftHandSide',
+    RIGHT_HAND_SIDE: 'rightHandSide',
+    OPERATOR: 'operator'
+};
 export const PROPERTY_EDITOR = 'builder_platform_interaction:propertyEditor';
