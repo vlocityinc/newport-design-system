@@ -1,4 +1,5 @@
 import { createSelector } from 'builder_platform_interaction-store-lib';
+import { pick } from 'builder_platform_interaction-data-mutation-lib';
 
 const elementsSelector = (state) => state.elements;
 
@@ -12,13 +13,8 @@ const canvasElementsSelector = (state) => state.canvasElements;
  */
 const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((acc, guid) => {
     const element = elements[guid];
-    const newElement = {};
-    newElement.guid = element.guid;
-    newElement.elementType = element.elementType;
-    newElement.description = element.description;
-    newElement.label = element.label;
-    newElement.locationX = element.locationX;
-    newElement.locationY = element.locationY;
+    const newElement = pick(element, ['guid', 'elementType', 'description', 'label', 'locationX', 'locationY']);
+    // TODO: pick doesn't support deep copy, so relying on object.assign. Need to fix it after pick support deepcopy
     newElement.connector = Object.assign({}, element.connector);
     acc.push(newElement);
     return acc;

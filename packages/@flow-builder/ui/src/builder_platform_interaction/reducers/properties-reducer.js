@@ -1,4 +1,5 @@
 import { UPDATE_FLOW, UPDATE_PROPERTIES } from 'builder_platform_interaction-actions';
+import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 
 /**
  * Reducer for properties
@@ -10,18 +11,7 @@ export default function propertiesReducer(state = {}, action) {
     switch (action.type) {
         case UPDATE_FLOW:
         case UPDATE_PROPERTIES:
-            return _updateProperties(state, action.payload);
+            return updateProperties(state, action.payload);
         default: return state;
     }
-}
-
-/**
- * Update properties in store and create new properties object
- * @param {Object} currentState current values of the property
- * @param {Object} newValue new values to be updated
- * @returns {Object} if new value is defined, then returns a new object with update values. Else returns current state.
- * @private
- */
-function _updateProperties(currentState, newValue) {
-    return newValue ? Object.assign({}, currentState, newValue) : currentState;
 }

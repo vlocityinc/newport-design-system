@@ -1,5 +1,6 @@
 import { UPDATE_FLOW, ADD_CANVAS_ELEMENT, UPDATE_CANVAS_ELEMENT, DELETE_CANVAS_ELEMENT, ADD_VARIABLE, UPDATE_VARIABLE, DELETE_VARIABLE } from 'builder_platform_interaction-actions';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
+import { updateProperties, omit } from 'builder_platform_interaction-data-mutation-lib';
 
 /**
  * Reducer for elements
@@ -18,7 +19,7 @@ export default function elementsReducer(state = {}, action) {
             return _addOrUpdateElement(state, action.payload.guid, action.payload);
         case DELETE_CANVAS_ELEMENT:
         case DELETE_VARIABLE:
-            return _deleteElement(state, action.payload.guid);
+            return omit(state, [action.payload.guid]);
         default: return state;
     }
 }
@@ -32,18 +33,7 @@ export default function elementsReducer(state = {}, action) {
  * @private
  */
 function _addOrUpdateElement(state, guid, element) {
-    return Object.assign(deepCopy(state), {[guid]: deepCopy(element)});
-}
-
-/**
- * Helper function to delete an element from store
- * @param {Object} state current state of elements in the store
- * @param {String} guid guid of element to be deleted
- * @return {Object} new state
- * @private
- */
-function _deleteElement(state, guid) {
-    const newState = deepCopy(state);
-    delete newState[guid];
+    const newState = updateProperties(state);
+    newState[guid] = updateProperties(newState[guid], element);
     return newState;
 }
