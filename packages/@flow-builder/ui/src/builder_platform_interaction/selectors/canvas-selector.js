@@ -15,9 +15,19 @@ const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((a
     const element = elements[guid];
     const newElement = pick(element, ['guid', 'elementType', 'description', 'label', 'locationX', 'locationY']);
     // TODO: pick doesn't support deep copy, so relying on object.assign. Need to fix it after pick support deepcopy
-    newElement.connector = Object.assign({}, element.connector);
-    acc.push(newElement);
+    newElement.isSelected = false;
+    acc.nodes.push(newElement);
+
+    const connector = {};
+    if (elements[guid].connector.targetReference !== undefined) {
+        connector.source = elements[guid].guid;
+        connector.target = elements[guid].connector.targetReference;
+        connector.label = 'Label';
+        connector.isSelected = false;
+        acc.connectors.push(connector);
+    }
+
     return acc;
-}, []);
+}, {nodes: [], connectors: []});
 
 export const canvasSelector = createSelector([elementsSelector, canvasElementsSelector], getCanvasElements);

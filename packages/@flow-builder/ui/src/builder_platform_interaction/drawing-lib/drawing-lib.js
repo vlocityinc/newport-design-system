@@ -8,24 +8,25 @@ class DrawingLib {
     constructor() {
         if (instance === null) {
             instance = window.jsPlumb.getInstance({
-                Connector: ['Flowchart', { gap: 2, stub: [10, 10], alwaysRespectStubs: true, cornerRadius: 5 }],
+                Container: 'innerCanvas',
+                Connector: ['Flowchart', { gap: 4, stub: [10, 10], alwaysRespectStubs: true, cornerRadius: 12 }],
                 Anchor: 'Continuous',
                 Endpoint: 'Blank',
                 PaintStyle: {
                     strokeWidth: 2,
-                    stroke: '#61B7CF',
+                    stroke: '#919297',
                     joinstyle: 'round'
                 },
                 HoverPaintStyle: {
-                    strokeWidth: 3,
-                    stroke: '#216477'
+                    strokeWidth: 2,
+                    stroke: '#1589ee'
                 },
                 ConnectionOverlays: [
-                    ['Arrow', {
-                        location: 1,
+                    ['PlainArrow', {
+                        location: -1,
                         visible:true,
-                        width:15,
-                        length:15,
+                        width:14,
+                        length:8,
                         id:'ARROW'
                     }],
                     ['Label', {
@@ -39,10 +40,18 @@ class DrawingLib {
 
     /**
      * Sets the container as the main area for all the jsplumb activity.
-     * @param {string} container - class name to be used as the container for all nodes in jsplumb instance
+     * @param {String} container - class name to be used as the container for all nodes in jsplumb instance
      */
     setContainer = (container) => {
         instance.setContainer(container);
+    };
+
+    /**
+     * Gets the container where jsPlumb has been initialised.
+     * @returns {Object} The HTML container where jsPlumb is set
+     */
+    getContainer = () => {
+        return instance.getContainer();
     };
 
     /**
@@ -56,19 +65,29 @@ class DrawingLib {
 
     /**
      * Sets all the nodes within the canvas to be draggable.
-     * @param {String} nodeGuid - ID of the node
+     * @param {Object} nodeElement - The node element
+     * @param {Object} config - Configuration for the nodeElement we are setting as draggable
      */
-    setDraggable = (nodeGuid) => {
-        instance.draggable(nodeGuid);
+    setDraggable = (nodeElement, config) => {
+        instance.draggable(nodeElement, config);
+    };
+
+    /**
+     * Checks if the given iconSection is a source or not.
+     * @param {Object} iconSection - The node icon
+     * @returns {Boolean} Indicating if the iconSection is a source or not
+     */
+    isSource = (iconSection) => {
+        return instance.isSource(iconSection);
     };
 
     /**
      * Makes the end-points of all the nodes a source point to start creating connectors from.
-     * @param {String} nodeGuid - ID of the node
+     * @param {Object} iconSection - The node icon
      * @param {Number} connections - Maximum number of connections a node can have
      */
-    makeSource = (nodeGuid, connections) => {
-        instance.makeSource(nodeGuid, {
+    makeSource = (iconSection, connections) => {
+        instance.makeSource(iconSection, {
             filter: '.end-point',
             allowLoopback: false,
             maxConnections: connections
@@ -76,13 +95,23 @@ class DrawingLib {
     };
 
     /**
-     * Makes all the nodes a target region for the connectors to be dropped at.
-     * @param {String} nodeGuid - ID of the node
+     * Checks if the given iconSection is a target or not.
+     * @param {Object} iconSection - The node icon
+     * @returns {Boolean} Indicating if the iconSection is a source or not
      */
-    makeTarget = (nodeGuid) => {
-        instance.makeTarget(nodeGuid, {
+    isTarget = (iconSection) => {
+        return instance.isTarget(iconSection);
+    };
+
+    /**
+     * Makes all the nodes a target region for the connectors to be dropped at.
+     * @param {Object} iconSection - The node icon
+     */
+    makeTarget = (iconSection) => {
+        instance.makeTarget(iconSection, {
             allowLoopback: false,
-            maxConnections: -1
+            maxConnections: -1,
+            dropOptions: {hoverClass: 'targetHover'}
         });
     };
 
@@ -98,10 +127,26 @@ class DrawingLib {
 
     /**
      * Sets up a new connection when a connector is dragged from a source and dropped at a target.
-     * @param {function} connectionAdded - Function to dispatch an addConnection event to the editor
+     * @param {Function} connectionAdded - Function to dispatch an addConnection event to the editor
      */
     setNewConnection = (connectionAdded) => {
-        instance.bind('connection', connectionAdded);
+        instance.bind('beforeDrop', connectionAdded);
+    };
+
+    /**
+     * Add the given element to the drag selection.
+     * @param {Object} nodeElement - The passed element
+     */
+    addToDragSelection = (nodeElement) => {
+        instance.addToDragSelection(nodeElement);
+    };
+
+    /**
+     * Removes the given element from the drag selection.
+     * @param {Object} nodeElement - The passed element
+     */
+    removeFromDragSelection = (nodeElement) => {
+        instance.removeFromDragSelection(nodeElement);
     };
 }
 

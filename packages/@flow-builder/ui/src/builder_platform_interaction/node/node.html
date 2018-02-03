@@ -1,19 +1,20 @@
 <template>
-    <div class="slds-is-absolute" id={node.guid} style={styling} ondblclick={handleDblClick}>
-        <!--Node icon -->
-        <div class="slds-text-align_center">
-            <lightning-icon icon-name={iconName} size="large" class="slds-line-height_reset"></lightning-icon>
-        </div>
+    <div class='node-container slds-is-absolute slds-text-align_center' style={nodeLocation} ondblclick={handleDblClick}>
+        <div class={nodeClasses} id={node.guid}>
+            <!--Node icon -->
+            <lightning-icon icon-name={iconName} size='large' class='icon' onclick={handleNodeClick}></lightning-icon>
 
-        <!--End Point-->
-        <div class="end-point slds-text-align_center">
-            ep
+            <!--End Point-->
+            <div class='end-point slds-is-absolute'></div>
+
+            <!--Trash can-->
+            <lightning-button-icon if:true={node.isSelected} icon-name='utility:delete' variant='bare' size='small' alternative-text='Delete' class='trash-can slds-is-absolute slds-button-icon_small'></lightning-button-icon>
         </div>
 
         <!--Label and description-->
-        <div class="slds-text-align_center">
-            <div class="label">{node.label}</div>
-            <div>{node.description}</div>
+        <div class='text-container slds-is-absolute'>
+            <strong class='slds-text-body_regular slds-truncate'>{node.label}</strong>
+            <div class='slds-text-body_regular slds-truncate'>{node.description}</div>
         </div>
     </div>
 </template>

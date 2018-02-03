@@ -1,8 +1,14 @@
 <template>
-    <div class="canvas slds-is-relative" id="canvas">
-        <div class="innerCanvas slds-is-relative" id="innerCanvas">
-            <template for:each={nodes} for:item="node">
+    <div class='canvas slds-is-relative' id='canvas' onmousedown={handleMouseDown} onmousemove={handleMouseMove} onmouseup={handleMouseUp} oncontextmenu={handleContextMenu}>
+        <div class='innerCanvas slds-is-relative' id='innerCanvas'>
+            <!--Iterating over the nodes-->
+            <template for:each={nodes} for:item='node'>
                 <builder_platform_interaction-node node={node} key={node.guid}></builder_platform_interaction-node>
+            </template>
+
+            <!--Iterating over the connectors-->
+            <template for:each={connectors} for:item='connector'>
+                <builder_platform_interaction-connector connector={connector} key={connector.source}></builder_platform_interaction-connector>
             </template>
         </div>
     </div>

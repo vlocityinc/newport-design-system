@@ -3,7 +3,9 @@ export const STATE = {
     ERROR: 'ERROR'
 };
 export const EVENT = {
-    NODE_CLICKED: 'nodeclicked',
+    DRAG_STOP: 'dragnodestop',
+    NODE_SELECTED: 'nodeselected',
+    NODE_DBLCLICKED: 'nodedblclicked',
     SAVE_FLOW: 'saveflow',
     SAVE: 'save',
     ADD_CONNECTION: 'addconnection'

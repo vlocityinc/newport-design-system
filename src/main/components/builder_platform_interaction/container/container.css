@@ -1,6 +1,5 @@
 /************* Place holder for Editor.html css *****************/
 
-
 /************* Header *****************/
 .THIS builder_platform_interaction-header .header {
     line-height: t(lineHeightTab);
@@ -24,24 +23,9 @@
 
 /************* Canvas *****************/
 .THIS builder_platform_interaction-canvas .canvas {
-    background-color: t(colorContrastPrimary);
+    background-color: t(colorForegroundPrimary);
     height: 100%;
     overflow: hidden;
-}
-
-.THIS builder_platform_interaction-canvas .canvas .jtk-overlay {
-    background-color: t(colorBackgroundNotification); /*White*/
-    opacity: t(opacity8);
-    padding: t(spacingXxSmall);
-    border-radius: t(borderRadiusMedium);
-    border: t(borderWidthThin) solid t(colorBorderBrand);
-    cursor: pointer;
-    transition: background-color t(durationSlide) ease-in; /*0.25s*/
-}
-
-.THIS builder_platform_interaction-canvas .canvas .jtk-overlay.jtk-hover {
-    background-color: t(sliderHandleColorBackgroundHover);
-    color: t(colorTextLinkInverse);
 }
 
 .THIS builder_platform_interaction-canvas .canvas .innerCanvas {
@@ -49,20 +33,103 @@
     width: 100%;
 }
 
-.THIS builder_platform_interaction-canvas .canvas .innerCanvas .jtk-drag-hover {
-    outline: t(borderWidthThick) solid t(colorBorderBrand);
-}
-
 /************* Node *****************/
-.THIS builder_platform_interaction-node .end-point {
+.THIS builder_platform_interaction-node .node-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    width: t(squareIconUtilityLarge); /*1.5rem*/
-    margin-left: auto;
-    margin-right: auto;
-    border: t(borderWidthThick) solid t(colorBorderBrand);
-    border-radius: t(borderRadiusCircle);
+    transition: box-shadow 0.15s ease-in;
+    z-index: 1000;
 }
 
-.THIS builder_platform_interaction-node .label {
-    font-weight: t(fontWeightBold);
+.THIS builder_platform_interaction-node .node-container:active {
+    z-index: 100000;
+}
+
+.THIS builder_platform_interaction-node .targetHover .icon {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px t(colorBorderSelection), 0 0 6px 3px t(colorBorderSelection);
+}
+
+.THIS builder_platform_interaction-node .icon-section:hover .icon {
+    transform: scale(1.05);
+}
+
+.THIS builder_platform_interaction-node .icon-section.selected .icon {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px t(colorBorderSelection), 0 0 6px 3px t(colorBorderSelection);
+}
+
+.THIS builder_platform_interaction-node .icon {
+    transition: transform 0.12s ease, box-shadow .1s ease-in;
+    transform-origin: 50% 100%;
+}
+
+.THIS builder_platform_interaction-node .end-point {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    border: t(borderWidthThick) solid white;
+    box-shadow: inset 0px 0px 0px 2px t(colorBackgroundToggleHover);
+    background-color: t(colorBackgroundButtonDefault);
+    transition: box-shadow 0.1s ease, background-color 0.25s ease-out;
+    top: 38px;
+    left: 13px;
+    z-index: 10000;
+}
+
+.THIS builder_platform_interaction-node .end-point:hover {
+    background-color: t(colorBackgroundAlt2);
+    transform: scale(1.1);
+ }
+.THIS builder_platform_interaction-node .end-point:active {
+    box-shadow: inset 0px 0px 0px 2px t(colorBrandDark), t(shadowButtonFocus);
+    transform: scale(1.2);
+}
+
+.THIS builder_platform_interaction-node .trash-can {
+    top: -34px;
+    left: 57px;
+}
+
+.THIS builder_platform_interaction-node .text-container {
+    bottom: -45px;
+    width: 132px;
+    background-color: t(colorBackgroundBackdrop);
+}
+
+/************* Connector *****************/
+.THIS builder_platform_interaction-canvas .canvas .jtk-connector {
+    z-index: 100;
+}
+
+.THIS builder_platform_interaction-canvas .canvas .jtk-connector.jtk-dragging {
+    z-index: 100001;
+}
+
+
+.THIS builder_platform_interaction-canvas .canvas .jtk-overlay {
+    color: t(colorTextPrimary) !important;
+    font-size: t(fontSizeTextXxSmall) !important;
+    border: 1px solid #919297;
+    background-color: white;
+    text-transform: none;
+    letter-spacing: normal;
+    padding: 0.25rem 0.5rem;
+    border-radius: 15rem;
+    line-height: normal !important;
+    vertical-align: bottom;
+    white-space: nowrap;
+    z-index: 1000;
+}
+
+.THIS builder_platform_interaction-canvas .canvas .jtk-overlay.jtk-hover {
+    border-color: t(colorBrand);
+    color: t(colorBrand) !important;
+}
+
+.THIS builder_platform_interaction-canvas .canvas .jtk-overlay.label-selected {
+    border-color: t(colorBrandDark);
+    color: t(colorBrandDarker) !important;
 }
