@@ -1,4 +1,6 @@
 <aura:component  implements="builder_platform_interaction:propertyEditorBody">
+    <!-- Library imports -->
+    <aura:import library="builder_platform_interaction:constant" property="constant" />
 
     <!-- callback to update-->
     <aura:attribute name="nodeUpdate" type="Object"/>
@@ -16,4 +18,5 @@
     {!v.body}
     <lightning:button  onclick="{!c.handleOk}">OK</lightning:button>
     <lightning:button title="Cancel" onclick="{!c.handleCancel}">Cancel</lightning:button>
+    
 </aura:component>

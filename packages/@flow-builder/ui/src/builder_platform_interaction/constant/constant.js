@@ -1,5 +1,6 @@
 export const STATE = {
-    SUCCESS: 'SUCCESS'
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR'
 };
 export const EVENT = {
     NODE_CLICKED: 'nodeclicked',

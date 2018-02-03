@@ -4,6 +4,7 @@ import { invokePanel, getComponentDefForNodeType } from 'builder_platform_intera
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector } from 'builder_platform_interaction-selectors';
 import { updateElement } from 'builder_platform_interaction-actions';
+import { hydrateWithErrors, dehydrate } from 'builder_platform_interaction-data-mutation-lib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -54,9 +55,10 @@ export default class Editor extends Element {
         if (event && event.detail) {
             const override = {};
             const node = deepCopy(storeInstance.getCurrentState().elements[event.detail.nodeGUID]);
+            const nodeWithErrorObjects = hydrateWithErrors(node);
             override.body = getComponentDefForNodeType(node.type);
             override.body.attr = {
-                node
+                node: nodeWithErrorObjects
             };
             const nodeUpdate = this.updateNodeCollection;
             invokePanel(PROPERTY_EDITOR, {nodeUpdate, override});
@@ -69,8 +71,9 @@ export default class Editor extends Element {
      */
     updateNodeCollection(node) {
         // TODO: add validations if needed
-        if (node) {
-            storeInstance.dispatch(updateElement(node));
+        const dehydratedNode = dehydrate(node);
+        if (dehydratedNode) {
+            storeInstance.dispatch(updateElement(dehydratedNode));
         }
     }
 
