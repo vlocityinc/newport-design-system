@@ -20,7 +20,7 @@ export default class Node extends Element {
 
     get nodeClasses() {
         let classes = 'icon-section';
-        if (this.node.isSelected) {
+        if (this.node.config.isSelected) {
             classes = 'icon-section selected';
         }
         return classes;
@@ -54,14 +54,35 @@ export default class Node extends Element {
      */
     handleNodeClick = (event) => {
         event.stopPropagation();
-        if ((!this.node.isSelected || event.shiftKey)) {
-            const nodeSelectedEvent = new CustomEvent('nodeselected', {
+        if ((!this.node.config.isSelected || event.shiftKey)) {
+            const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
                 detail: {
                     nodeGUID : this.node.guid,
                     isMultiSelect: event.shiftKey
+                }
+            });
+
+            this.dispatchEvent(nodeSelectedEvent);
+        }
+    };
+
+    /**
+     * Marks the current node selected and deselects the rest (if not multi-selected)
+     * as soon as drag begins
+     * @param {object} event - drag start event
+     */
+    dragStart = (event) => {
+        if (!this.node.config.isSelected) {
+            const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    nodeGUID : this.node.guid,
+                    isMultiSelect: event.e.shiftKey
                 }
             });
 
@@ -93,6 +114,7 @@ export default class Node extends Element {
         if (lib.getContainer().classList.contains('innerCanvas')) {
             const nodeContainer = document.getElementById(this.node.guid).parentElement;
             lib.setDraggable(nodeContainer, {
+                start : (event) => this.dragStart(event),
                 stop: (event) => this.dragStop(event)
             });
 
@@ -104,7 +126,7 @@ export default class Node extends Element {
                 lib.makeTarget(this.node.guid);
             }
 
-            if (this.node.isSelected) {
+            if (this.node.config.isSelected) {
                 lib.addToDragSelection(nodeContainer);
             } else {
                 lib.removeFromDragSelection(nodeContainer);

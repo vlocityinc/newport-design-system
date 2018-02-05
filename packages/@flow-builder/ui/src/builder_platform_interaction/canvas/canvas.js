@@ -74,7 +74,7 @@ export default class Canvas extends Element {
         isMouseDown = false;
 
         if ((event.srcElement.classList.contains('canvas') || event.srcElement.classList.contains('innerCanvas')) && !isPanning) {
-            const nodeSelectedEvent = new CustomEvent('nodeselected', {
+            const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,

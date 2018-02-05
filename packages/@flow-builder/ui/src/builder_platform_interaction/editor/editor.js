@@ -90,12 +90,12 @@ export default class Editor extends Element {
         this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
             if (node.guid === event.detail.nodeGUID) {
                 if (event.detail.isMultiSelect) {
-                    node.isSelected = !node.isSelected;
+                    node.config.isSelected = !node.config.isSelected;
                 } else {
-                    node.isSelected = true;
+                    node.config.isSelected = true;
                 }
             } else if (!event.detail.isMultiSelect) {
-                node.isSelected = false;
+                node.config.isSelected = false;
             }
             return node;
         });

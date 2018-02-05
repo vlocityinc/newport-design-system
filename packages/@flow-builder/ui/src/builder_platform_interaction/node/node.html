@@ -8,7 +8,7 @@
             <div class='end-point slds-is-absolute'></div>
 
             <!--Trash can-->
-            <lightning-button-icon if:true={node.isSelected} icon-name='utility:delete' variant='bare' size='small' alternative-text='Delete' class='trash-can slds-is-absolute slds-button-icon_small'></lightning-button-icon>
+            <lightning-button-icon if:true={node.config.isSelected} icon-name='utility:delete' variant='bare' size='small' alternative-text='Delete' class='trash-can slds-is-absolute slds-button-icon_small'></lightning-button-icon>
         </div>
 
         <!--Label and description-->
