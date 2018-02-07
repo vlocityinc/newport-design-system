@@ -1,11 +1,19 @@
 import { Element, api, track, unwrap } from 'engine';
 import { assignmentReducer } from './assignment-reducer';
 
+/**
+ * @constant UPDATE_PROPERTY
+ * @type {string}
+ */
+const UPDATE_PROPERTY = 'UPDATE_PROPERTY';
+
 export default class AssignmentEditor extends Element {
     /**
      * Internal state for the assignment editor
      */
     @track assignmentNode = {};
+
+    static UPDATE_PROPERTY = UPDATE_PROPERTY;
 
     @api
     get node() {
@@ -59,10 +67,10 @@ export default class AssignmentEditor extends Element {
      * @param {object} event - property changed event coming from name desc component
      */
     handlePropertyChanged(event) {
-        const propName = event.propertyName;
-        const newValue = event.value;
+        const propertyName = event.propertyName;
+        const value = event.value;
         const error = event.error;
         // TODO: may be extract the action creation in actions.js, will need a bit of refactor in acitons.js
-        this.node = assignmentReducer(this.node, {type: "UPDATE_PROPERTY", payload: { propName, newValue, error}});
+        this.assignmentNode = assignmentReducer(this.node, {type: UPDATE_PROPERTY, payload: { propertyName, value, error}});
     }
 }
