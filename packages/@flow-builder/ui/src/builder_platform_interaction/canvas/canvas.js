@@ -15,8 +15,8 @@ let isMouseDown = false;
 let isPanning = false;
 
 export default class Canvas extends Element {
-    @api nodes;
-    @api connectors;
+    @api nodes = [];
+    @api connectors = [];
 
     constructor() {
         super();
@@ -93,6 +93,29 @@ export default class Canvas extends Element {
         isMouseDown = false;
         isPanning = false;
     };
+
+    /**
+     * Handling key down event for canvas and deleting selected nodes in the canvas if delete key is pressed.
+     * TODO: Need to update it to delete associated connectors as well
+     */
+    handleKeyDown = document.addEventListener('keydown', (event) => {
+        if (event.key === 'Backspace') {
+            const iconSection = document.getElementsByClassName('selected');
+            const iconSectionLength = iconSection.length;
+            for (let i = 0; i < iconSectionLength; i++) {
+                lib.removeNodeFromLib(iconSection[i].id);
+            }
+            if (iconSectionLength > 0) {
+                const nodeDeleteEvent = new CustomEvent(EVENT.NODE_DELETE, {
+                    bubbles: true,
+                    composed: true,
+                    cancelable: true,
+                    detail: {}
+                });
+                this.dispatchEvent(nodeDeleteEvent);
+            }
+        }
+    });
 
     renderedCallback() {
         if (!jsPlumbContainer) {

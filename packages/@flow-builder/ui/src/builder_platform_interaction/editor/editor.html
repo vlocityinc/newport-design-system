@@ -18,8 +18,9 @@
             <div class="slds-col slds-size_4-of-5">
                 <builder_platform_interaction-canvas 
                     nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}
-                    ondragnodestop={handleDragNodeStop} onnodeselected={handleNodeSelection}
-                    onnodedblclicked={handleNodeDblClicked} onaddconnection={handleAddConnection}>
+                    onnodedblclicked={handleNodeDblClicked} onnodeselected={handleNodeSelection}
+                    ondragnodestop={handleDragNodeStop} onnodedelete={handleNodeDelete}
+                    onaddconnection={handleAddConnection}>
                 </builder_platform_interaction-canvas>
             </div>
         </div>

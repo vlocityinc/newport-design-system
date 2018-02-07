@@ -12,7 +12,11 @@ import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-
  */
 
 export default class Node extends Element {
-    @api node;
+    @api node = {};
+
+    get nodeGuid() {
+        return this.node.guid;
+    }
 
     get nodeLocation() {
         return `left: ${this.node.locationX}px; top: ${this.node.locationY}px`;
@@ -28,6 +32,18 @@ export default class Node extends Element {
 
     get iconName() {
         return nodeIconMap.get(this.node.elementType);
+    }
+
+    get isSelected() {
+        return this.node.config.isSelected;
+    }
+
+    get nodeLabel() {
+        return this.node.label;
+    }
+
+    get nodeDescription() {
+        return this.node.description;
     }
 
     /**
@@ -67,6 +83,25 @@ export default class Node extends Element {
 
             this.dispatchEvent(nodeSelectedEvent);
         }
+    };
+
+    /**
+     * Removes the node from jsPlumb and fires an event to remove the node from the dom.
+     * TODO: Need to update it to delete associated connectors as well
+     * @param {object} event - trash can click event
+     */
+    handleTrashClick = (event) => {
+        event.stopPropagation();
+        lib.removeNodeFromLib(this.node.guid);
+        const nodeDeleteEvent = new CustomEvent(EVENT.NODE_DELETE, {
+            bubbles: true,
+            composed: true,
+            cancelable: true,
+            detail: {
+                nodeGUID : this.node.guid
+            }
+        });
+        this.dispatchEvent(nodeDeleteEvent);
     };
 
     /**

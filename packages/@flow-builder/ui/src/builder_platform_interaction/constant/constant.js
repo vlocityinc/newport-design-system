@@ -6,6 +6,7 @@ export const EVENT = {
     DRAG_STOP: 'dragnodestop',
     NODE_SELECTED: 'nodeselected',
     NODE_DBLCLICKED: 'nodedblclicked',
+    NODE_DELETE: 'nodedelete',
     SAVE_FLOW: 'saveflow',
     SAVE: 'save',
     ADD_CONNECTION: 'addconnection'

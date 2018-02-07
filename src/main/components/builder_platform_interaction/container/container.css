@@ -40,11 +40,11 @@
     align-items: center;
     cursor: pointer;
     transition: box-shadow 0.15s ease-in;
-    z-index: 1000;
+    z-index: 200;
 }
 
 .THIS builder_platform_interaction-node .node-container:active {
-    z-index: 100000;
+    z-index: 400;
 }
 
 .THIS builder_platform_interaction-node .targetHover .icon {
@@ -76,7 +76,7 @@
     transition: box-shadow 0.1s ease, background-color 0.25s ease-out;
     top: 38px;
     left: 13px;
-    z-index: 10000;
+    z-index: 300;
 }
 
 .THIS builder_platform_interaction-node .end-point:hover {
@@ -105,9 +105,8 @@
 }
 
 .THIS builder_platform_interaction-canvas .canvas .jtk-connector.jtk-dragging {
-    z-index: 100001;
+    z-index: 401;
 }
-
 
 .THIS builder_platform_interaction-canvas .canvas .jtk-overlay {
     color: t(colorTextPrimary) !important;
@@ -121,7 +120,7 @@
     line-height: normal !important;
     vertical-align: bottom;
     white-space: nowrap;
-    z-index: 1000;
+    z-index: 200;
 }
 
 .THIS builder_platform_interaction-canvas .canvas .jtk-overlay.jtk-hover {

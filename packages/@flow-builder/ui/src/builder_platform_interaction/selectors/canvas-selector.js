@@ -13,8 +13,9 @@ const canvasElementsSelector = (state) => state.canvasElements;
  */
 const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((acc, guid) => {
     const element = elements[guid];
-    const newElement = pick(element, ['guid', 'elementType', 'description', 'label', 'locationX', 'locationY']);
     // TODO: pick doesn't support deep copy, so relying on object.assign. Need to fix it after pick support deepcopy
+    const newElement = pick(element, ['guid', 'elementType', 'description', 'label', 'locationX', 'locationY']);
+    // TODO: Update it so that node stays selected after editing it
     newElement.config = {isSelected: false};
     acc.nodes.push(newElement);
 

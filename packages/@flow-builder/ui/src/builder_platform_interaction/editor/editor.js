@@ -3,7 +3,7 @@ import { EVENT, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { invokePanel, getComponentDefForNodeType } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector } from 'builder_platform_interaction-selectors';
-import { updateElement } from 'builder_platform_interaction-actions';
+import { updateElement, deleteElement } from 'builder_platform_interaction-actions';
 import { hydrateWithErrors, dehydrate } from 'builder_platform_interaction-data-mutation-lib';
 
 let unsubscribeStore;
@@ -21,7 +21,10 @@ let storeInstance;
 export default class Editor extends Element {
     @track
     appState = {
-        canvas: [],
+        canvas: {
+            nodes: [],
+            connectors: []
+        },
     };
 
     constructor() {
@@ -46,22 +49,6 @@ export default class Editor extends Element {
     };
 
     /**
-     * Handles the drag node stop event and updates the location of the node.
-     * @param {object} event - node stop event coming from node.js
-     */
-    handleDragNodeStop = (event) => {
-        if (event && event.detail) {
-            this.appState.canvas.nodes = this.appState.canvas.nodes.map((element) => {
-                if (element.guid === event.detail.nodeGUID) {
-                    element.locationX = event.detail.locationX;
-                    element.locationY = event.detail.locationY;
-                }
-                return element;
-            });
-        }
-    };
-
-    /**
      * Handles the node double clicked event and fires up the property editor based on node type
      * It uses builder-util library to fire up the ui:panel.
      * @param {object} event - node double clicked event coming from node.js
@@ -82,7 +69,7 @@ export default class Editor extends Element {
 
     /**
      * Handles the node clicked event and marks the node as selected or unselected based on whether the
-     * user is trying to multi-select or not. Also hand;es clicks on canvas to deselect all currently
+     * user is trying to multi-select or not. Also handles clicks on canvas to deselect all currently
      * selected nodes.
      * @param {object} event - node clicked event coming from node.js and canvas.js
      */
@@ -102,15 +89,45 @@ export default class Editor extends Element {
     };
 
     /**
+     * Handles the drag node stop event and updates the location of the node.
+     * @param {object} event - node stop event coming from node.js
+     */
+    handleDragNodeStop = (event) => {
+        if (event && event.detail) {
+            this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
+                if (node.guid === event.detail.nodeGUID) {
+                    node.locationX = event.detail.locationX;
+                    node.locationY = event.detail.locationY;
+                    this.updateNodeCollection(node, false);
+                }
+                return node;
+            });
+        }
+    };
+
+    /**
+     * Handles the node delete event and updates the store accordingly.
+     * TODO: Need to update it to delete associated connectors as well
+     * @param {object} event - node delete event coming from node.js
+     */
+    handleNodeDelete(event) {
+        this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
+            if (node.config.isSelected && (event.detail.nodeGUID === undefined || node.guid === event.detail.nodeGUID)) {
+                storeInstance.dispatch(deleteElement(node));
+            }
+            return node;
+        });
+    }
+
+    /**
      * Method for talking to validation library and store for updating the node collection/flow data.
      * @param {object} node - node object for the particular property editor update
+     * @param {boolean} needsDehydration - if dehydration is needed for the updated node
      */
-    updateNodeCollection(node) {
+    updateNodeCollection(node, needsDehydration = true) {
         // TODO: add validations if needed
-        const dehydratedNode = dehydrate(node);
-        if (dehydratedNode) {
-            storeInstance.dispatch(updateElement(dehydratedNode));
-        }
+        const nodeForStore = needsDehydration ? dehydrate(node) : node;
+        storeInstance.dispatch(updateElement(nodeForStore));
     }
 
     /**

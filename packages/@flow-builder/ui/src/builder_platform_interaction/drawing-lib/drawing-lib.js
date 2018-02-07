@@ -74,20 +74,20 @@ class DrawingLib {
 
     /**
      * Checks if the given iconSection is a source or not.
-     * @param {Object} iconSection - The node icon
+     * @param {String} nodeId - The node id
      * @returns {Boolean} Indicating if the iconSection is a source or not
      */
-    isSource = (iconSection) => {
-        return instance.isSource(iconSection);
+    isSource = (nodeId) => {
+        return instance.isSource(nodeId);
     };
 
     /**
      * Makes the end-points of all the nodes a source point to start creating connectors from.
-     * @param {Object} iconSection - The node icon
+     * @param {String} nodeId - The node id
      * @param {Number} connections - Maximum number of connections a node can have
      */
-    makeSource = (iconSection, connections) => {
-        instance.makeSource(iconSection, {
+    makeSource = (nodeId, connections) => {
+        instance.makeSource(nodeId, {
             filter: '.end-point',
             allowLoopback: false,
             maxConnections: connections
@@ -96,19 +96,19 @@ class DrawingLib {
 
     /**
      * Checks if the given iconSection is a target or not.
-     * @param {Object} iconSection - The node icon
+     * @param {String} nodeId - The node id
      * @returns {Boolean} Indicating if the iconSection is a source or not
      */
-    isTarget = (iconSection) => {
-        return instance.isTarget(iconSection);
+    isTarget = (nodeId) => {
+        return instance.isTarget(nodeId);
     };
 
     /**
      * Makes all the nodes a target region for the connectors to be dropped at.
-     * @param {Object} iconSection - The node icon
+     * @param {String} nodeId - The node id
      */
-    makeTarget = (iconSection) => {
-        instance.makeTarget(iconSection, {
+    makeTarget = (nodeId) => {
+        instance.makeTarget(nodeId, {
             allowLoopback: false,
             maxConnections: -1,
             dropOptions: {hoverClass: 'targetHover'}
@@ -147,6 +147,18 @@ class DrawingLib {
      */
     removeFromDragSelection = (nodeElement) => {
         instance.removeFromDragSelection(nodeElement);
+    };
+
+    /**
+     * Removes the node from jsPlumb's instance but not from the dom.
+     * TODO: Need to update it to delete associated connectors as well
+     * @param {String} nodeId - The node id
+     */
+    removeNodeFromLib = (nodeId) => {
+        instance.removeFromDragSelection(document.getElementById(nodeId).parentElement);
+        instance.unmakeSource(nodeId);
+        delete instance.sourceEndpointDefinitions[nodeId];
+        instance.unmakeSource(nodeId);
     };
 }
 
