@@ -20,9 +20,9 @@ const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((a
     acc.nodes.push(newElement);
 
     const connector = {};
-    if (elements[guid].connector.targetReference !== undefined) {
-        connector.source = elements[guid].guid;
-        connector.target = elements[guid].connector.targetReference;
+    if (element && element.connector && element.connector.targetReference !== undefined) {
+        connector.source = element.guid;
+        connector.target = element.connector.targetReference;
         connector.label = 'Label';
         connector.config = {isSelected: false};
         acc.connectors.push(connector);
