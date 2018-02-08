@@ -64,9 +64,10 @@ export default class AssignmentEditor extends Element {
     }
 
     /**
-     * @param {object} event - property changed event coming from name desc component
+     * @param {object} event - property changed event coming from label-description component
      */
     handlePropertyChanged(event) {
+        event.stopPropagation();
         const propertyName = event.propertyName;
         const value = event.value;
         const error = event.error;

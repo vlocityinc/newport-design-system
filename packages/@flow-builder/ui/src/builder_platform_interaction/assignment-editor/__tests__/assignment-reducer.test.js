@@ -35,6 +35,20 @@ describe('assignment reducer functions', () => {
         expect(resultObj).not.toBe(state);
     });
 
+    it('test action type update properties with error in it, should not run the validations at the assignment level and keep the child level errors', () => {
+        const action = {
+            type: AssignmentEditor.UPDATE_PROPERTY,
+            payload: {
+                propertyName: 'label',
+                value: 'newlabel',
+                error: 'errorFromChildComponent'
+            }
+        };
+        const resultObj = assignmentReducer(state, action);
+        expect(resultObj).toBeDefined();
+        expect(resultObj.label.error).toBe('errorFromChildComponent');
+        expect(resultObj).not.toBe(state);
+    });
     it('test default action case in switch for assignment reducer', () => {
         const action = {
         };

@@ -10,7 +10,7 @@ import AssignmentEditor from './assignment-editor';
 export const assignmentReducer = (state, action) => {
     switch (action.type) {
         case AssignmentEditor.UPDATE_PROPERTY:
-            action.payload.error = action.payload.error === null ? assignmentValidation.validateProperty(action.payload.propName, action.payload.value) : null;
+            action.payload.error = action.payload.error === null ? assignmentValidation.validateProperty(action.payload.propName, action.payload.value) : action.payload.error;
             return updateProperties(state, {[action.payload.propertyName]: {error: action.payload.error, value: action.payload.value}});
         default: return state;
     }
