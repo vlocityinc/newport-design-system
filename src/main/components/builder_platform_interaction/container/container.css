@@ -99,6 +99,10 @@
     background-color: t(colorBackgroundBackdrop);
 }
 
+.THIS builder_platform_interaction-node .text-container .text-label{
+    font-weight: t(fontWeightBold);
+}
+
 /************* Connector *****************/
 .THIS builder_platform_interaction-canvas .canvas .jtk-connector {
     z-index: 100;

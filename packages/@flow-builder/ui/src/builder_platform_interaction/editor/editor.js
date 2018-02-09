@@ -55,6 +55,7 @@ export default class Editor extends Element {
      */
     handleNodeDblClicked = (event) => {
         if (event && event.detail) {
+            this.handleNodeSelection(event);
             const override = {};
             const node = deepCopy(storeInstance.getCurrentState().elements[event.detail.nodeGUID]);
             const nodeWithErrorObjects = hydrateWithErrors(node);
@@ -76,12 +77,12 @@ export default class Editor extends Element {
     handleNodeSelection = (event) => {
         this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
             if (node.guid === event.detail.nodeGUID) {
-                if (event.detail.isMultiSelect) {
+                if (event.detail.isMultiSelectKeyPressed) {
                     node.config.isSelected = !node.config.isSelected;
                 } else {
                     node.config.isSelected = true;
                 }
-            } else if (!event.detail.isMultiSelect) {
+            } else if (!event.detail.isMultiSelectKeyPressed) {
                 node.config.isSelected = false;
             }
             return node;
@@ -136,7 +137,8 @@ export default class Editor extends Element {
      */
     handleAddConnection(event) {
         // TODO: Update once the store is fixed
-        this.appState.canvas.connectors = [...this.appState.canvas.connectors, ({source: event.detail.source, target: event.detail.target, label: event.detail.label})];
+        this.appState.canvas.connectors = [...this.appState.canvas.connectors, ({source: event.detail.source,
+            target: event.detail.target, label: event.detail.label, config: {isSelected: false}})];
     }
 
     /**

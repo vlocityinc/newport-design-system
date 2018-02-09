@@ -72,8 +72,7 @@ export default class Canvas extends Element {
     handleMouseUp = (event) => {
         event.preventDefault();
         isMouseDown = false;
-
-        if ((event.srcElement.classList.contains('canvas') || event.srcElement.classList.contains('innerCanvas')) && !isPanning) {
+        if ((event.target.classList.contains('canvas') || event.target.classList.contains('innerCanvas')) && !isPanning) {
             const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
                 bubbles: true,
                 composed: true,

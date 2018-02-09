@@ -5,6 +5,15 @@
 let mock = {
     setNewConnection : () => {},
     setContainer : () => {},
+    getContainer : () => {
+        return {
+            classList: {
+                // TODO: probably want to mock this for different cases
+                contains: () => {}
+            }
+        }
+    },
+    removeNodeFromLib : () => {},
     setSuspendDrawing : () => {},
 };
 

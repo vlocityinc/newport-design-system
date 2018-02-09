@@ -1,4 +1,4 @@
-import { Element } from 'engine';
+import { Element, api } from 'engine';
 
 /**
  * Dummy lightning button component for use by Jest tests
