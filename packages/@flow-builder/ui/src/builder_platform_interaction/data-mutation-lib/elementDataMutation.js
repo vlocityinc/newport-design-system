@@ -17,6 +17,7 @@ export const hydrateWithErrors = (element, blackListFields = ['guid']) => {
     );
     return element;
 };
+
 /**
  * Exported function for dehydrating element object with errors
  * @param {Object} element hydrated element data object
@@ -43,4 +44,32 @@ export const dehydrate = (element) => {
     );
     return element;
 };
-// TODO: add function to check if errors are present in the element.
+
+/**
+ * Exported function for getting a list of errors from a hydrated element object
+ * @param {Object} element hydrated element data object
+ * @param {Object[]} errorsList list of errors, empty list by default
+ * @returns {Object[]} List of errors
+ */
+export const getErrorsFromHydratedElement = (element, errorsList = []) => {
+    const listOfErrors = errorsList;
+    Object.entries(element).forEach(
+        ([key, value]) => {
+            if (typeof value === 'object') {
+                if (Array.isArray(value)) {
+                    value.forEach((item) => {
+                        getErrorsFromHydratedElement(item, listOfErrors);
+                    });
+                } else if (element[key] && element[key].hasOwnProperty('value') && element[key].hasOwnProperty('error')) {
+                    const errorString = element[key].error;
+                    if (errorString !== null) {
+                        listOfErrors.push({key, errorString});
+                    }
+                } else {
+                    getErrorsFromHydratedElement(value, listOfErrors);
+                }
+            }
+        }
+    );
+    return listOfErrors;
+};

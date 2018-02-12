@@ -1,12 +1,13 @@
-import { hydrateWithErrors, dehydrate } from '../elementDataMutation';
+import { hydrateWithErrors, dehydrate, getErrorsFromHydratedElement } from '../elementDataMutation';
 
+/** Mock data objects - Start **/
+// TODO: think about moving all these move objects to a mock util that can be used by all the tests
 const testObj = {
     assignmentItems : [{
         operator: 'Assign',
-        valueType: '',
         leftHandSide: '1bdec16ccb-1919d-1868a-1bb1b-1f2881327c187d0',
-        // After discussion with Derek, we are not sure if right Hand side is going to look like something like this or a simple string value.
-
+        rightHandSide: 'xyz'
+        // After discussion with Derek, we are not sure if right Hand side is going to look something like this or a simple string value.
         //        rightHandSide: {
         //            dateValue: null,
         //            stringValue: '23',
@@ -18,83 +19,136 @@ const testObj = {
         //                value: null
         //                }
         //        },
-        rightHandSide: 'xyz',
-        inputDataType: ''
     }],
-    description : '',
+    description : 'test desc',
     elementType : 'ASSIGNMENT',
     guid : '141f916fee-1c6f3-108bf-1ca54-16c041fcba152a7',
-    isCanvasElemen : true,
-    label : 'testAss',
+    isCanvasElement : true,
+    label : 'testAssignmentLabel',
     locationX : 358,
     locationY : 227,
-    name : 'testAss'
+    name : 'testAssignmentName'
 };
 
 const hydratedObject = {
     assignmentItems : [{
         operator: {value: 'Assign', error: null},
-        valueType: {value: '', error: null},
         leftHandSide: {value: '1bdec16ccb-1919d-1868a-1bb1b-1f2881327c187d0', error: null},
         rightHandSide: {value: 'xyz', error: null},
-        inputDataType: {value: '', error: null}
     }],
-    description : '',
+    description : 'test desc',
     elementType : {value: 'ASSIGNMENT', error: null},
     guid : '141f916fee-1c6f3-108bf-1ca54-16c041fcba152a7',
-    isCanvasElemen : true,
-    label : {value: 'testAss', error:null},
+    isCanvasElement : true,
+    label : {value: 'testAssignmentLabel', error:null},
     locationX : 358,
     locationY : 227,
-    name : {value: 'testAss', error: null}
+    name : {value: 'testAssignmentName', error: null}
 };
 
+const testObjectForGetErrorsFromHydratedElementFunction = {
+    assignmentItems : [{
+        operator: {value: 'Assign', error: null},
+        leftHandSide: {value: '1bdec16ccb-1919d-1868a-1bb1b-1f2881327c187d0', error: "Test Error1"},
+        rightHandSide: {value: 'xyz', error: null},
+    }],
+    description : 'test desc',
+    elementType : {value: 'ASSIGNMENT', error: null},
+    guid : '141f916fee-1c6f3-108bf-1ca54-16c041fcba152a7',
+    isCanvasElement : true,
+    label : {value: 'testAssignmentLabel', error:"Test Error2"},
+    locationX : 358,
+    locationY : 227,
+    name : {value: 'testAssignmentName', error: null}
+};
+/** Mock data objects - End **/
+
+/** Helper Functions - Start **/
 /**
- * @param {string[]} listOfFields - list of field names to run test on
+ * @param {Object} field - field object to be tested
  */
-function expectFieldsToHaveValueAndErrorProperty(listOfFields) {
-    listOfFields.forEach((field) => {
-        it(`${field.value} needs to have an error and value property`, () => {
-            expect(field).toHaveProperty('value');
-            expect(field).toHaveProperty('error');
-            expect(field.error).toBeNull();
-        });
-    });
+function expectFieldToHaveValueAndErrorProperty(field) {
+    expect(field).toHaveProperty('value');
+    expect(field).toHaveProperty('error');
+    expect(field.error).toBeNull();
 }
 
 /**
- * @param {string[]} listOfFields - list of field names to run test on
+ * @param {Object} field - field object to be tested
  */
-function expectCleanObjectWithNoErrors(listOfFields) {
-    listOfFields.forEach((field) => {
-        it(`${field} should not have the error or value property on itself`, () => {
-            expect(field).not.toHaveProperty('value');
-            expect(field).not.toHaveProperty('error');
-        });
-    });
+function expectCleanFieldWithNoErrors(field) {
+    expect(field).not.toHaveProperty('value');
+    expect(field).not.toHaveProperty('error');
 }
+/** Helper Functions - End **/
 
-describe('hydrateWithErrors function test', () => {
+describe('hydrateWithErrors function', () => {
     const blackListFields = ['guid', 'description'];
     const resultObj = hydrateWithErrors(testObj, blackListFields);
-    expectFieldsToHaveValueAndErrorProperty([
-        resultObj.name,
-        resultObj.label,
-        resultObj.assignmentItems[0].leftHandSide,
-        resultObj.assignmentItems[0].operator,
-        resultObj.assignmentItems[0].rightHandSide
-    ]);
+    const fieldsToBeTestedForHydration = {
+        name: resultObj.name,
+        label: resultObj.label,
+        elementType: resultObj.elementType,
+        leftHandSide: resultObj.assignmentItems[0].leftHandSide,
+        operator: resultObj.assignmentItems[0].operator,
+        rightHandSide: resultObj.assignmentItems[0].rightHandSide
+    };
 
-    expectCleanObjectWithNoErrors([resultObj.guid, resultObj.description]);
+    Object.entries(fieldsToBeTestedForHydration).forEach(([fieldKey, fieldValue]) => {
+        it(`${fieldKey}:Needs to have a value and an empty error property`, () => {
+            expectFieldToHaveValueAndErrorProperty(fieldValue);
+        });
+    });
+
+    const fieldsNotToBeHydrated = {
+        description: resultObj.description, // Blacklisted
+        guid: resultObj.guid, // Blacklisted
+        locationX: resultObj.locationX, // number
+        locationY: resultObj.locationY, // number
+        isCanvasElement: resultObj.isCanvasElement // boolean
+    };
+    Object.entries(fieldsNotToBeHydrated).forEach(([fieldKey, fieldValue]) => {
+        it(`${fieldKey} should not have the error or value property on itself`, () => {
+            expectCleanFieldWithNoErrors(fieldValue);
+        });
+    });
 });
 
-describe('dehydrate function test', () => {
+describe('dehydrate function', () => {
     const dehydratedObj = dehydrate(hydratedObject);
-    expectCleanObjectWithNoErrors([
-        dehydratedObj.name,
-        dehydratedObj.label,
-        dehydratedObj.assignmentItems[0].leftHandSide,
-        dehydratedObj.assignmentItems[0].operator,
-        dehydratedObj.assignmentItems[0].rightHandSide
-    ]);
+    const fieldsToBeTestedForDeHydration = {
+        name: dehydratedObj.name,
+        label: dehydratedObj.label,
+        elementType: dehydratedObj.elementType,
+        leftHandSide: dehydratedObj.assignmentItems[0].leftHandSide,
+        operator: dehydratedObj.assignmentItems[0].operator,
+        rightHandSide: dehydratedObj.assignmentItems[0].rightHandSide
+    };
+    Object.entries(fieldsToBeTestedForDeHydration).forEach(([fieldKey, fieldValue]) => {
+        it(`${fieldKey} should not have the error or value property on itself`, () => {
+            expectCleanFieldWithNoErrors(fieldValue);
+        });
+    });
+});
+
+describe('getErrorsFromHydratedElement function', () => {
+    it('should recursively include all errors for element values including arrays', () => {
+        const errorsList = getErrorsFromHydratedElement(testObjectForGetErrorsFromHydratedElementFunction);
+        expect(errorsList.length).toBe(2);
+        expect(errorsList[0].key).toBe("leftHandSide");
+        expect(errorsList[1].key).toBe("label");
+        expect(errorsList[0].errorString).toBe("Test Error1");
+        expect(errorsList[1].errorString).toBe("Test Error2");
+    });
+    it('should include all errors passed in via errorList argument', () => {
+        const testItem = {name:"Test Error3"};
+        const errorsList = getErrorsFromHydratedElement(testObjectForGetErrorsFromHydratedElementFunction, [testItem]);
+        expect(errorsList.length).toBe(3);
+        expect(errorsList).toContain(testItem);
+    });
+    it('should return an empty list if element contains no values with errors', () => {
+        const errorsList = getErrorsFromHydratedElement(hydratedObject);
+        expect(errorsList).toBeDefined();
+        expect(errorsList.length).toBe(0);
+    });
 });

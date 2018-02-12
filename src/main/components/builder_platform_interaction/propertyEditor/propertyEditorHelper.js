@@ -5,7 +5,7 @@
             if (status === this.constant.STATE.SUCCESS) {
               cmp.set("v.body", newCmp); // setting the newly created assignment editor here in body
           } else if (status === this.constant.STATE.ERROR) {
-              throw new Error("Error creating the property editor", errorMessage);
+              throw new Error("Error creating the property editor" + errorMessage);
           }              
       }.bind(this));
     },
