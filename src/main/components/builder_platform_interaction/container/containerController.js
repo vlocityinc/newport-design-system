@@ -11,7 +11,7 @@
     },
 
     handleSaveFlow: function(cmp, event, helper) {
-        var flow = cmp.get('v.storeInstance').getCurrentState().elements;
+        var flow = cmp.get('v.storeInstance').getCurrentState();
         helper.saveFlow(cmp, flow);
     }
 });

@@ -11,7 +11,7 @@ export default function propertiesReducer(state = {}, action) {
     switch (action.type) {
         case UPDATE_FLOW:
         case UPDATE_PROPERTIES:
-            return updateProperties(state, action.payload);
+            return updateProperties(state, action.payload.properties);
         default: return state;
     }
 }
