@@ -3,7 +3,7 @@
 
 // scss-lint:disable SpaceAfterComma
 
-@if ($slds-load-webfonts) {
+@if ($nds-load-webfonts) {
   @include font-face(Light,                 $font-weight-setting: $font-weight-light);
   @include font-face(LightItalic,   italic, $font-weight-light);
   @include font-face(Regular,               $font-weight-setting: $font-weight-regular);

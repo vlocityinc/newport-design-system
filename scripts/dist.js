@@ -22,7 +22,7 @@ const packageJSON = require('../package.json');
 const paths = require('./helpers/paths');
 const releaseNotes = require('./npm/release-notes');
 
-const SLDS_VERSION = packageJSON.version;
+const NDS_VERSION = packageJSON.version;
 const DISPLAY_NAME = 'Vlocity Newport Design System';
 const MODULE_NAME = 'vlocity-newport-design-system';
 
@@ -60,7 +60,7 @@ async.series(
    * Make release notes
    */
     // done =>
-    //   releaseNotes({ isInternal: packageJSON.config.slds.internal })
+    //   releaseNotes({ isInternal: packageJSON.config.nds.internal })
     //     .pipe(fs.createWriteStream(distPath("RELEASENOTES.md")))
     //     .on("finish", () => done()),
 
@@ -74,7 +74,7 @@ async.series(
       packageJSON.name = '@vlocity-inc/newport-design-system';
       _.set(
         packageJSON,
-        ['slds', 'dependencies'],
+        ['nds', 'dependencies'],
         Immutable.fromJS(packageJSON.devDependencies)
           .filter((v, k) => /^@salesforce-ux/.test(k))
           .toJS()
@@ -274,7 +274,7 @@ async.series(
         .src([
           distPath('scss/index-scoped.scss'),
           distPath('scss/index-scoped.rtl.scss'),
-          distPath('scss/slds-fonts.scss')
+          distPath('scss/nds-fonts.scss')
         ])
         .pipe(
           sass({
@@ -286,7 +286,7 @@ async.series(
         .pipe(postcss([autoprefixer({ remove: false })]))
         .pipe(
           gulprename(function(path) {
-            if (!/slds-fonts/.test(path.basename)) {
+            if (!/nds-fonts/.test(path.basename)) {
               path.basename =
                 MODULE_NAME + path.basename.substring('index-scoped'.length);
             }
@@ -339,7 +339,7 @@ async.series(
           base: distPath(),
           cwd: distPath()
         })
-        .pipe(gulpinsert.prepend(`/*! ${DISPLAY_NAME} ${SLDS_VERSION} */\n`))
+        .pipe(gulpinsert.prepend(`/*! ${DISPLAY_NAME} ${NDS_VERSION} */\n`))
         .pipe(gulp.dest(distPath()))
         .on('error', done)
         .on('finish', done);
@@ -350,7 +350,7 @@ async.series(
           base: distPath(),
           cwd: distPath()
         })
-        .pipe(gulpinsert.prepend(`// ${DISPLAY_NAME} ${SLDS_VERSION}\n`))
+        .pipe(gulpinsert.prepend(`// ${DISPLAY_NAME} ${NDS_VERSION}\n`))
         .pipe(gulp.dest(distPath()))
         .on('error', done)
         .on('finish', done);
@@ -365,9 +365,7 @@ async.series(
         .pipe(gulprename('README.md'))
         .on('error', done)
         .pipe(
-          gulpinsert.prepend(
-            `# ${DISPLAY_NAME} \n# Version: ${SLDS_VERSION} \n`
-          )
+          gulpinsert.prepend(`# ${DISPLAY_NAME} \n# Version: ${NDS_VERSION} \n`)
         )
         .on('error', done)
         .pipe(gulp.dest(distPath()))

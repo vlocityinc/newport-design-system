@@ -5,19 +5,19 @@
  * @summary Initiates a panel
  *
  * @name detail
- * @selector .slds-panel
+ * @selector .nds-panel
  * @restrict div
  * @variant
  */
-.slds-panel {
+.nds-panel {
   background: $color-background-alt;
   border-radius: $border-radius-medium;
 
   /**
    * Contains sub sections of a panel
    *
-   * @selector .slds-panel__section
-   * @restrict .slds-panel div
+   * @selector .nds-panel__section
+   * @restrict .nds-panel div
    * @required
    */
   &__section {
@@ -27,15 +27,15 @@
   /**
    * Contains form actions at the bottom of a panel
    *
-   * @selector .slds-panel__actions
-   * @restrict .slds-panel div
+   * @selector .nds-panel__actions
+   * @restrict .nds-panel div
    * @required
    */
   &__actions {
     padding: $spacing-small;
   }
 
-  &.slds-is-editing {
+  &.nds-is-editing {
     box-shadow: $shadow-drop-down;
   }
 }

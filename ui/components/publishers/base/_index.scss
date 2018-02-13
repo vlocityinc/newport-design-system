@@ -10,8 +10,8 @@
  * the collapsed state, this indicates the user has not interacted with the
  * discussion feed publisher. When the user initiates an interaction with the
  * publisher, by either focusing of the textara or clicking the "Share" button,
- * through javascript the class of `slds-is-active` should be applied to the
- * `slds-publisher` div. This class will expand the publisher box and display
+ * through javascript the class of `nds-is-active` should be applied to the
+ * `nds-publisher` div. This class will expand the publisher box and display
  * additional publisher actions.
  *
  * During the active state, before the user has begun typing or attaching
@@ -22,26 +22,26 @@
  * @summary Initializes a publisher
  *
  * @name base
- * @selector .slds-publisher
+ * @selector .nds-publisher
  * @restrict div
  * @variant
  */
-.slds-publisher {
+.nds-publisher {
   display: flex;
 
   /**
-   * @selector .slds-is-active
-   * @restrict .slds-publisher
+   * @selector .nds-is-active
+   * @restrict .nds-publisher
    * @modifier
    */
-  &.slds-is-active {
+  &.nds-is-active {
     display: block;
 
-    .slds-publisher__toggle-visibility {
+    .nds-publisher__toggle-visibility {
       display: inherit;
     }
 
-    .slds-publisher__input {
+    .nds-publisher__input {
       line-height: $line-height-text;
       height: auto;
       max-height: 10rem;
@@ -56,8 +56,8 @@
   /**
    * Abstraction of the text input styles
    *
-   * @selector .slds-publisher__input
-   * @restrict .slds-publisher textarea
+   * @selector .nds-publisher__input
+   * @restrict .nds-publisher textarea
    * @required
    */
   &__input {
@@ -72,22 +72,22 @@
   /**
    * Bottom row of actionable items
    *
-   * @selector .slds-publisher__actions
-   * @restrict .slds-publisher div
+   * @selector .nds-publisher__actions
+   * @restrict .nds-publisher div
    * @required
    */
-  &__actions > .slds-button {
+  &__actions > .nds-button {
     margin-#{$left}: $spacing-small;
   }
 
   /**
    *
    *
-   * @selector .slds-publisher__toggle-visibility
-   * @restrict .slds-publisher label, .slds-publisher ul
+   * @selector .nds-publisher__toggle-visibility
+   * @restrict .nds-publisher label, .nds-publisher ul
    * @required
    */
-  .slds-publisher__toggle-visibility {
+  .nds-publisher__toggle-visibility {
     display: none;
   }
 }

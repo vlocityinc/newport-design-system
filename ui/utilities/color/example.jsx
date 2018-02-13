@@ -12,56 +12,75 @@ export let examples = [
     label: 'Gray Palette',
     element: (
       <div>
-        <h2 className="slds-text-heading_large slds-m-bottom_medium">Background Colors</h2>
-        <div className="slds-m-bottom_large">
+        <h2 className="nds-text-heading_large nds-m-bottom_medium">
+          Background Colors
+        </h2>
+        <div className="nds-m-bottom_large">
           {paletteKeys.map((key, index) => {
-            const textClass = key > 8 ? 'slds-color__text_gray-1' : null;
+            const textClass = key > 8 ? 'nds-color__text_gray-1' : null;
 
             return (
-              <div key={index} className={`slds-color__background_gray-${key} slds-p-around_medium`}>
-                <p className={textClass}>.slds-color__background_gray-{key}</p>
+              <div
+                key={index}
+                className={`nds-color__background_gray-${key} nds-p-around_medium`}
+              >
+                <p className={textClass}>.nds-color__background_gray-{key}</p>
               </div>
             );
           })}
         </div>
 
-        <h2 className="slds-text-heading_large slds-m-bottom_medium">Text Colors</h2>
-        <div className="slds-m-bottom_large">
-          {paletteKeys.map((key, index) => (
-            <div key={index} className="slds-grid slds-grid_vertical-align-center">
-              <div className={`slds-color__background_gray-${key}`} style={{
-                height: '3rem',
-                width: '3rem',
-                display: 'inline-block'
-              }} />
-              <p className="slds-p-left_small">.slds-color__text_gray-{key}</p>
-            </div>
-          ))}
-        </div>
-
-        <h2 className="slds-text-heading_large slds-m-bottom_medium">Border Colors</h2>
-        <div className="slds-m-bottom_large">
+        <h2 className="nds-text-heading_large nds-m-bottom_medium">
+          Text Colors
+        </h2>
+        <div className="nds-m-bottom_large">
           {paletteKeys.map((key, index) => (
             <div
               key={index}
-              className={`slds-color__border_gray-${key} slds-p-around_medium slds-m-bottom_small`}
-              style={{'border-width': '1px', 'border-style': 'solid'}}
+              className="nds-grid nds-grid_vertical-align-center"
             >
-              .slds-color__border_gray-{key}
+              <div
+                className={`nds-color__background_gray-${key}`}
+                style={{
+                  height: '3rem',
+                  width: '3rem',
+                  display: 'inline-block'
+                }}
+              />
+              <p className="nds-p-left_small">.nds-color__text_gray-{key}</p>
             </div>
           ))}
         </div>
 
-        <h2 className="slds-text-heading_large slds-m-bottom_medium">SVG Fill Colors</h2>
-        <div className="slds-m-bottom_large">
+        <h2 className="nds-text-heading_large nds-m-bottom_medium">
+          Border Colors
+        </h2>
+        <div className="nds-m-bottom_large">
           {paletteKeys.map((key, index) => (
-            <div key={index} className="slds-p-around_small">
+            <div
+              key={index}
+              className={`nds-color__border_gray-${key} nds-p-around_medium nds-m-bottom_small`}
+              style={{ 'border-width': '1px', 'border-style': 'solid' }}
+            >
+              .nds-color__border_gray-{key}
+            </div>
+          ))}
+        </div>
+
+        <h2 className="nds-text-heading_large nds-m-bottom_medium">
+          SVG Fill Colors
+        </h2>
+        <div className="nds-m-bottom_large">
+          {paletteKeys.map((key, index) => (
+            <div key={index} className="nds-p-around_small">
               <SvgIcon
-                className={`slds-color__fill_gray-${key} slds-icon_small`}
+                className={`nds-color__fill_gray-${key} nds-icon_small`}
                 sprite="action"
                 symbol="check"
               />
-              <span className="slds-p-left_small">.slds-color__fill_gray-{key}</span>
+              <span className="nds-p-left_small">
+                .nds-color__fill_gray-{key}
+              </span>
             </div>
           ))}
         </div>

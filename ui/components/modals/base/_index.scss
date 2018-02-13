@@ -3,11 +3,11 @@
 
 /**
  * @name base
- * @selector .slds-modal
+ * @selector .nds-modal
  * @restrict section
  * @variant
  */
-.slds-modal {
+.nds-modal {
   opacity: 0;
   visibility: hidden;
   transition:
@@ -23,9 +23,9 @@
   /**
    * Centers and sizes the modal horizontally and confines modal within viewport height
    *
-   * @selector .slds-modal__container
-   * @restrict .slds-modal div
-   * @notes This should be nested immediately inside `.slds-modal` with nothing else nested on the same level.
+   * @selector .nds-modal__container
+   * @restrict .nds-modal div
+   * @notes This should be nested immediately inside `.nds-modal` with nothing else nested on the same level.
    * @required
    */
   &__container {
@@ -54,8 +54,8 @@
   &__content {
     background: $color-background-alt;
     
-    .slds-text-heading--medium, 
-    .slds-text-heading_medium {
+    .nds-text-heading--medium, 
+    .nds-text-heading_medium {
       font-size: 1.125rem;
       color: #1564BF;
     }
@@ -69,9 +69,9 @@
   /**
    * Creates the Modal Header container.
    *
-   * @selector .slds-modal__header
-   * @restrict .slds-modal header
-   * @notes This should be nested immediately inside `.slds-modal__container` as the first element.
+   * @selector .nds-modal__header
+   * @restrict .nds-modal header
+   * @notes This should be nested immediately inside `.nds-modal__container` as the first element.
    * @required
    */
   &__header {
@@ -86,7 +86,7 @@
     padding: $spacing-medium;
     text-align: center;
 
-    + .slds-modal__menu {
+    + .nds-modal__menu {
       border-top: {
         left-radius: 0;
         right-radius: 0;
@@ -97,8 +97,8 @@
   /**
    * Use when modal header has no content
    *
-   * @selector .slds-modal__header_empty
-   * @restrict .slds-modal__header
+   * @selector .nds-modal__header_empty
+   * @restrict .nds-modal__header
    */
   &__header_empty,
   &__header--empty {
@@ -106,8 +106,8 @@
     border-bottom: 0;
   }
 
-  &__header_empty + .slds-modal__content,
-  &__header--empty + .slds-modal__content {
+  &__header_empty + .nds-modal__content,
+  &__header--empty + .nds-modal__content {
     border: {
       top: {
         right-radius: $border-radius-medium;
@@ -119,8 +119,8 @@
   /**
    * Creates the scrollable content area for the modal.
    *
-   * @selector .slds-modal__content
-   * @restrict .slds-modal div
+   * @selector .nds-modal__content
+   * @restrict .nds-modal div
    * @required
    */
   &__content {
@@ -141,9 +141,9 @@
   /**
    * Creates the shaded menu area for the modal.
    *
-   * @selector .slds-modal__menu
-   * @restrict .slds-modal div
-   * @notes Either `.slds-modal__menu` or `.slds-modal__content` must be used. If you’re using this class, you do not need the other. This should be nested immediately inside `.slds-modal_container` and immediately after `.slds-modal__header`.
+   * @selector .nds-modal__menu
+   * @restrict .nds-modal div
+   * @notes Either `.nds-modal__menu` or `.nds-modal__content` must be used. If you’re using this class, you do not need the other. This should be nested immediately inside `.nds-modal_container` and immediately after `.nds-modal__header`.
    * @required
    */
   &__menu {
@@ -154,7 +154,7 @@
 
     @include mq-medium-max {
 
-      .slds-button {
+      .nds-button {
         width: 100%;
         margin: $spacing-xxx-small 0;
       }
@@ -164,9 +164,9 @@
   /**
    * Creates the Modal Footer container.
    *
-   * @selector .slds-modal__footer
-   * @restrict .slds-modal footer
-   * @notes This should be nested immediately inside `.slds-modal_container` and immediately after `.slds-modal__container`. Nothing should follow it. Note that by default, elements will be aligned to the right.
+   * @selector .nds-modal__footer
+   * @restrict .nds-modal footer
+   * @notes This should be nested immediately inside `.nds-modal_container` and immediately after `.nds-modal__container`. Nothing should follow it. Note that by default, elements will be aligned to the right.
    * @required
    */
   &__footer {
@@ -185,18 +185,18 @@
     /**
      * Makes buttons inside the footer spread to both left and right.
      *
-     * @selector .slds-modal__footer_directional
-     * @restrict .slds-modal__footer
+     * @selector .nds-modal__footer_directional
+     * @restrict .nds-modal__footer
      * @notes This is only needed when you have two buttons that indicate a back and forward navigation.
      * @modifier
      * @group direction
      */
-    &_directional .slds-button:first-child,
-    &--directional .slds-button:first-child {
+    &_directional .nds-button:first-child,
+    &--directional .nds-button:first-child {
       float: $left;
     }
 
-    .slds-button + .slds-button {
+    .nds-button + .nds-button {
       margin-#{$left}: $spacing-x-small;
     }
   }
@@ -204,9 +204,9 @@
   /**
    * Positions the close button to the top right outside of the modal.
    *
-   * @selector .slds-modal__close
-   * @restrict .slds-modal button
-   * @notes Either `.slds-modal__content` or `.slds-modal__menu` must be used. If you’re using this class, you do not need the other. This should be nested immediately inside `.slds-modal_container` and immediately after `.slds-modal__header`.
+   * @selector .nds-modal__close
+   * @restrict .nds-modal button
+   * @notes Either `.nds-modal__content` or `.nds-modal__menu` must be used. If you’re using this class, you do not need the other. This should be nested immediately inside `.nds-modal_container` and immediately after `.nds-modal__header`.
    * @required
    */
   &__close {
@@ -234,8 +234,8 @@
   /**
    * Allows the backdrop to be visible.
    *
-   * @selector .slds-backdrop_open
-   * @restrict .slds-backdrop
+   * @selector .nds-backdrop_open
+   * @restrict .nds-backdrop
    * @notes Apply this class to a modal backdrop with JavaScript to make it visible.
    * @modifier
    * @required
@@ -251,13 +251,13 @@
 /**
  * Widens the modal to take more horizontal space
  *
- * @selector .slds-modal_large
- * @restrict .slds-modal
+ * @selector .nds-modal_large
+ * @restrict .nds-modal
  * @modifier
  * @group size
  */
-.slds-modal_large .slds-modal__container,
-.slds-modal--large .slds-modal__container {
+.nds-modal_large .nds-modal__container,
+.nds-modal--large .nds-modal__container {
 
   // TODO: We'll want to readdress this to do the .99 thing
   @include mq-medium-min {
@@ -268,7 +268,7 @@
 }
 
 // old class
-.slds-modal-backdrop {
+.nds-modal-backdrop {
   @include deprecate('4.0.0') {
     @include backdrop;
   }
@@ -277,12 +277,12 @@
 /**
  * Creates the shaded backdrop used behind the modal.
  *
- * @selector .slds-backdrop
- * @restrict .slds-modal ~ div
- * @notes This should follow after the `.slds-modal` as an empty element.
+ * @selector .nds-backdrop
+ * @restrict .nds-modal ~ div
+ * @notes This should follow after the `.nds-modal` as an empty element.
  * @required
  */
-.slds-backdrop {
+.nds-backdrop {
   // new class
   @include backdrop;
 }
@@ -290,18 +290,18 @@
 /**
  * Allows the modal to be visible.
  *
- * @selector .slds-fade-in-open
- * @restrict .slds-modal
+ * @selector .nds-fade-in-open
+ * @restrict .nds-modal
  * @notes Apply this class to a modal with JavaScript to make it visible.
  * @modifier
  * @group animation
  */
-.slds-fade-in-open {
+.nds-fade-in-open {
   opacity: 1;
   visibility: visible;
   transition: opacity $duration-quickly linear;
 
-  .slds-modal__container-reset {
+  .nds-modal__container-reset {
     opacity: 1;
     visibility: visible;
     transform: translate(0, 0);
@@ -311,12 +311,12 @@
 /**
  *
  *
- * @selector .slds-slide-up-open
- * @restrict .slds-modal
+ * @selector .nds-slide-up-open
+ * @restrict .nds-modal
  * @modifier
  * @group animation
  */
-.slds-slide-up-open {
+.nds-slide-up-open {
   opacity: 1;
   visibility: visible;
   transform: translate(0, 0);
@@ -324,7 +324,7 @@
     opacity $duration-quickly linear,
     transform $duration-promptly linear;
 
-  .slds-modal__container-reset {
+  .nds-modal__container-reset {
     opacity: 0;
     visibility: hidden;
     transform: translate(0, $spacing-medium);
@@ -337,12 +337,12 @@
 /**
  *
  *
- * @selector .slds-slide-up-saving
- * @restrict .slds-modal
+ * @selector .nds-slide-up-saving
+ * @restrict .nds-modal
  * @modifier
  * @group animation
  */
-.slds-slide-up-saving {
+.nds-slide-up-saving {
   opacity: 1;
   visibility: visible;
   transform: translate(0, -$spacing-medium);
@@ -351,12 +351,12 @@
 /**
  *
  *
- * @selector .slds-slide-down-cancel
- * @restrict .slds-modal
+ * @selector .nds-slide-down-cancel
+ * @restrict .nds-modal
  * @modifier
  * @group animation
  */
-.slds-slide-down-cancel {
+.nds-slide-down-cancel {
   opacity: 1;
   visibility: visible;
   transform: translate(0, $spacing-medium);

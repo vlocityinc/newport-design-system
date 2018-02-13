@@ -12,7 +12,12 @@ import classNames from 'classnames';
 
 export default (
   <Avatar>
-    <abbr className="slds-avatar__initials slds-icon-standard-account" title="company name">Ac</abbr>
+    <abbr
+      className="nds-avatar__initials nds-icon-standard-account"
+      title="company name"
+    >
+      Ac
+    </abbr>
   </Avatar>
 );
 
@@ -20,49 +25,85 @@ export let states = [
   {
     id: 'avatar-square-initials',
     label: 'Square Initials',
-    element:
-      <Avatar className="slds-avatar_medium">
-        <abbr className="slds-avatar__initials slds-icon-standard-account" title="company name">Ac</abbr>
+    element: (
+      <Avatar className="nds-avatar_medium">
+        <abbr
+          className="nds-avatar__initials nds-icon-standard-account"
+          title="company name"
+        >
+          Ac
+        </abbr>
       </Avatar>
+    )
   },
   {
     id: 'avatar-circle-initials',
     label: 'Circle Initials',
-    element:
-      <Avatar className="slds-avatar_circle slds-avatar_medium">
-        <abbr className="slds-avatar__initials slds-icon-standard-user" title="person name">AB</abbr>
+    element: (
+      <Avatar className="nds-avatar_circle nds-avatar_medium">
+        <abbr
+          className="nds-avatar__initials nds-icon-standard-user"
+          title="person name"
+        >
+          AB
+        </abbr>
       </Avatar>
+    )
   },
   {
     id: 'size-x-small',
     label: 'Size - X Small',
-    element:
-      <Avatar className="slds-avatar_x-small">
-        <abbr className="slds-avatar__initials slds-icon-standard-account" title="company name">Ac</abbr>
+    element: (
+      <Avatar className="nds-avatar_x-small">
+        <abbr
+          className="nds-avatar__initials nds-icon-standard-account"
+          title="company name"
+        >
+          Ac
+        </abbr>
       </Avatar>
+    )
   },
   {
     id: 'size-small',
     label: 'Size - Small',
-    element:
-      <Avatar className="slds-avatar_small">
-        <abbr className="slds-avatar__initials slds-icon-standard-account" title="company name">Ac</abbr>
+    element: (
+      <Avatar className="nds-avatar_small">
+        <abbr
+          className="nds-avatar__initials nds-icon-standard-account"
+          title="company name"
+        >
+          Ac
+        </abbr>
       </Avatar>
+    )
   },
   {
     id: 'size-medium',
     label: 'Size - Medium',
-    element:
-      <Avatar className="slds-avatar_medium">
-        <abbr className="slds-avatar__initials slds-icon-standard-account" title="company name">Ac</abbr>
+    element: (
+      <Avatar className="nds-avatar_medium">
+        <abbr
+          className="nds-avatar__initials nds-icon-standard-account"
+          title="company name"
+        >
+          Ac
+        </abbr>
       </Avatar>
+    )
   },
   {
     id: 'size-large',
     label: 'Size - Large',
-    element:
-      <Avatar className="slds-avatar_large">
-        <abbr className="slds-avatar__initials slds-icon-standard-account" title="company name">Ac</abbr>
+    element: (
+      <Avatar className="nds-avatar_large">
+        <abbr
+          className="nds-avatar__initials nds-icon-standard-account"
+          title="company name"
+        >
+          Ac
+        </abbr>
       </Avatar>
+    )
   }
 ];

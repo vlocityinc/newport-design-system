@@ -5,13 +5,13 @@ ignoreFiles:
   - site/assets/styles/_vendor/**
 
 # Default rules based on
-# https://github.com/salesforce-ux/stylelint-config-slds
-extends: "stylelint-config-slds"
+# https://github.com/salesforce-ux/stylelint-config-nds
+extends: "stylelint-config-nds"
 
 # Overrides
 rules:
   "selector-class-pattern":
-    - "^(slds|site|demo)(-[a-z0-9_-]+|)$"
+    - "^(nds|site|demo)(-[a-z0-9_-]+|)$"
     -
       severity: warning
       resolveNestedSelectors: true

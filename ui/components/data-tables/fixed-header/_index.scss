@@ -2,8 +2,8 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 // This code creates the fixed header (faux header) used in the inline-edit data-table. I don't think we'll surface this for customers as it's very complex when scrolling horizontally and requires some other code for containers, etc
-.slds-table_header-fixed_container,
-.slds-table--header-fixed_container {
+.nds-table_header-fixed_container,
+.nds-table--header-fixed_container {
   position: relative;
   padding-top: 2rem; // This matches the height of the hover state w/border
   background-color: $table-color-background-header; // This has to exist due to pixel paint diffs between the headers
@@ -18,15 +18,15 @@
   }
 }
 
-.slds-cell-fixed {
+.nds-cell-fixed {
   background-color: $table-color-background-header;
   position: absolute;
   top: 0;
   min-height: 2rem;
 }
 
-.slds-table_header-fixed,
-.slds-table--header-fixed {
+.nds-table_header-fixed,
+.nds-table--header-fixed {
   border-top: 0;
 
   thead th {

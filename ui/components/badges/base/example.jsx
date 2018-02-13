@@ -9,40 +9,37 @@ import classNames from 'classnames';
 // State Constructor(s)
 /// ///////////////////////////////////////////
 
-export let Badge = props =>
-  <span className={classNames('slds-badge', props.className)}>
+export let Badge = props => (
+  <span className={classNames('nds-badge', props.className)}>
     {props.children}
-  </span>;
+  </span>
+);
 
 /// ///////////////////////////////////////////
 // Export
 /// ///////////////////////////////////////////
 
-export default (
-  <Badge>Badge Label</Badge>
-);
+export default <Badge>Badge Label</Badge>;
 
 export let examples = [
   {
     id: 'inverse',
     label: 'Inverse',
-    element:
-      <Badge className="slds-badge_inverse">
-        Badge Label
-      </Badge>
+    element: <Badge className="nds-badge_inverse">Badge Label</Badge>
   },
   {
     id: 'light-with-icon',
     label: 'Light with Icon',
-    element:
-      <Badge className="slds-badge_lightest">
+    element: (
+      <Badge className="nds-badge_lightest">
         <UtilityIcon
-          containerClassName="slds-m-right_xx-small"
-          className="slds-icon_xx-small slds-icon-text-default"
+          containerClassName="nds-m-right_xx-small"
+          className="nds-icon_xx-small nds-icon-text-default"
           assistiveText={false}
           symbol="moneybag"
         />
         423 Credits Available
       </Badge>
+    )
   }
 ];

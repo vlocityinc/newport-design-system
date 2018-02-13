@@ -3,27 +3,27 @@
 
 /**
  * A scoped tabset style has a closed container with a defined border. Initialize
- * a scoped tab set by applying the `.slds-tab_scoped` class to the containing
+ * a scoped tab set by applying the `.nds-tab_scoped` class to the containing
  * `<div>` around the tab list and tab panels. The `<ul>` element also requires
- * the class `.slds-tab_scoped__nav` to prevent styles from bleeding into nested tabs.
+ * the class `.nds-tab_scoped__nav` to prevent styles from bleeding into nested tabs.
  *
  * @summary Initializes scoped tabs
  *
  * @name base
- * @selector .slds-tabs_scoped
+ * @selector .nds-tabs_scoped
  * @restrict div
  * @required
  * @variant
  */
-.slds-tabs_scoped,
-.slds-tabs--scoped {
+.nds-tabs_scoped,
+.nds-tabs--scoped {
   @include tabs;
 
   /**
    * Creates the container for the default tabs
    *
-   * @selector .slds-tabs_scoped__nav
-   * @restrict .slds-tabs_scoped ul
+   * @selector .nds-tabs_scoped__nav
+   * @restrict .nds-tabs_scoped ul
    * @required
    */
   &__nav {
@@ -35,11 +35,11 @@
 
   @include deprecate('4.0.0') {
 
-    .slds-tabs__item {
+    .nds-tabs__item {
       position: relative;
       margin-bottom: ($border-width-thin * -1);
 
-      + .slds-tabs__item {
+      + .nds-tabs__item {
         margin-#{$left}: ($border-width-thin * -1);
       }
 
@@ -66,7 +66,7 @@
         }
       }
       // scss-lint:disable SelectorDepth
-      .slds-active > a {
+      .nds-active > a {
         background-color: $color-background-alt;
         color: $color-text-link;
         border-color: $color-border;
@@ -77,7 +77,7 @@
       }
     }
 
-    > .slds-tabs__content {
+    > .nds-tabs__content {
       background-color: $color-background-alt;
       border: $border-width-thin solid $color-border-button-default;
       border-top: 0;
@@ -90,22 +90,22 @@
 /**
  * Styles each list item as a single tab
  *
- * @selector .slds-tabs_scoped__item
- * @restrict .slds-tabs_scoped ul li
+ * @selector .nds-tabs_scoped__item
+ * @restrict .nds-tabs_scoped ul li
  * @required
  */
-.slds-tabs_scoped__item,
-.slds-tabs--scoped__item {
+.nds-tabs_scoped__item,
+.nds-tabs--scoped__item {
   position: relative;
   margin-bottom: ($border-width-thin * -1);
 
-  + .slds-tabs_scoped__item,
-  + .slds-tabs--scoped__item {
+  + .nds-tabs_scoped__item,
+  + .nds-tabs--scoped__item {
     margin-#{$left}: ($border-width-thin * -1);
   }
 
-  &:first-child .slds-tabs_scoped__link,
-  &:first-child .slds-tabs--scoped__link {
+  &:first-child .nds-tabs_scoped__link,
+  &:first-child .nds-tabs--scoped__link {
     border-#{$left}: 0;
     border-radius: corner-values($border-radius-medium 0 0 0);
   }
@@ -114,12 +114,12 @@
 /**
  * Styles each tab content wrapper
  *
- * @selector .slds-tabs_scoped__content
- * @restrict .slds-tabs_scoped div
+ * @selector .nds-tabs_scoped__content
+ * @restrict .nds-tabs_scoped div
  * @required
  */
-.slds-tabs_scoped__content,
-.slds-tabs--scoped__content {
+.nds-tabs_scoped__content,
+.nds-tabs--scoped__content {
   background-color: $color-foreground-primary;
   border: $border-width-thin solid $color-border-button-default;
   border-top: 0;
@@ -130,12 +130,12 @@
 /**
  * Styles each actionable element inside each tab item
  *
- * @selector .slds-tabs_scoped__link
- * @restrict .slds-tabs_scoped__item a
+ * @selector .nds-tabs_scoped__link
+ * @restrict .nds-tabs_scoped__item a
  * @required
  */
-.slds-tabs_scoped__link,
-.slds-tabs--scoped__link {
+.nds-tabs_scoped__link,
+.nds-tabs--scoped__link {
   @include tabs-link;
   height: $line-height-tab;
   line-height: $line-height-tab;
@@ -158,15 +158,15 @@
 /**
  * Active state for a tab item
  *
- * @selector .slds-is-active
- * @restrict .slds-tabs_scoped__item
+ * @selector .nds-is-active
+ * @restrict .nds-tabs_scoped__item
  * @notes Required on the `<li>` element that is associated with the active tab panel
  * @modifier
  */
-.slds-active .slds-tabs_scoped__link,
-.slds-active .slds-tabs--scoped__link,
-.slds-is-active .slds-tabs_scoped__link,
-.slds-is-active .slds-tabs--scoped__link {
+.nds-active .nds-tabs_scoped__link,
+.nds-active .nds-tabs--scoped__link,
+.nds-is-active .nds-tabs_scoped__link,
+.nds-is-active .nds-tabs--scoped__link {
   background-color: $color-foreground-primary;
   color: $color-text-link;
   border-color: $color-border;

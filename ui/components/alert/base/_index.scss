@@ -5,12 +5,12 @@
  * @summary Initializes alert notification
  *
  * @name base
- * @selector .slds-notify_alert
+ * @selector .nds-notify_alert
  * @restrict div
  * @variant
  */
-.slds-notify_alert,
-.slds-notify--alert {
+.nds-notify_alert,
+.nds-notify--alert {
   @include inverse-text;
   display: inline-flex;
   align-items: center;
@@ -25,10 +25,10 @@
   /**
    * Alert close button
    *
-   * @selector .slds-notify__close
-   * @restrict .slds-notify button
+   * @selector .nds-notify__close
+   * @restrict .nds-notify button
    */
-  .slds-notify__close {
+  .nds-notify__close {
     float: $right;
     position: absolute;
     top: 50%;

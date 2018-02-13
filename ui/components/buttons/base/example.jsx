@@ -5,18 +5,20 @@ import React from 'react';
 import SvgIcon from '../../../shared/svg-icon';
 import classNames from 'classnames';
 
-export let Button = props =>
-  <button className={classNames('slds-button', props.className)} disabled={props.disabled}>
+export let Button = props => (
+  <button
+    className={classNames('nds-button', props.className)}
+    disabled={props.disabled}
+  >
     {props.children}
-  </button>;
+  </button>
+);
 
 /// ////////////////////////////////////////
 // Export
 /// ////////////////////////////////////////
 
-export default (
-  <Button>Button</Button>
-);
+export default <Button>Button</Button>;
 
 export let states = [
   {
@@ -30,27 +32,29 @@ export let examples = [
   {
     id: 'with-icon-left',
     label: 'With left icon',
-    element:
-      <Button className="slds-button_neutral">
+    element: (
+      <Button className="nds-button_neutral">
         <SvgIcon
-          className="slds-button__icon slds-button__icon_left"
+          className="nds-button__icon nds-button__icon_left"
           sprite="utility"
           symbol="download"
         />
         Button Neutral
       </Button>
+    )
   },
   {
     id: 'with-icon-right',
     label: 'With right icon',
-    element:
-      <Button className="slds-button_neutral">
+    element: (
+      <Button className="nds-button_neutral">
         Button Neutral
         <SvgIcon
-          className="slds-button__icon slds-button__icon_right"
+          className="nds-button__icon nds-button__icon_right"
           sprite="utility"
           symbol="download"
         />
       </Button>
+    )
   }
 ];

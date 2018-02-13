@@ -7,11 +7,11 @@
  *
  * @summary Creates truncated text
  *
- * @selector .slds-truncate
+ * @selector .nds-truncate
  * @restrict [title]
  * @modifier
  */
-.slds-truncate {
+.nds-truncate {
   @include truncate;
 }
 
@@ -19,54 +19,54 @@
 /**
  * @summary Truncates text at 25% of its parent container
  *
- * @selector .slds-truncate_container_25
+ * @selector .nds-truncate_container_25
  * @modifier
  */
-.slds-truncate_container_25,
-.slds-truncate_container--25 {
+.nds-truncate_container_25,
+.nds-truncate_container--25 {
   max-width: 25%;
 }
 
 /**
  * @summary Truncates text at 50% of its parent container
  *
- * @selector .slds-truncate_container_50
+ * @selector .nds-truncate_container_50
  * @modifier
  */
-.slds-truncate_container_50,
-.slds-truncate_container--50 {
+.nds-truncate_container_50,
+.nds-truncate_container--50 {
   max-width: 50%;
 }
 
 /**
  * @summary Truncates text at 75% of its parent container
  *
- * @selector .slds-truncate_container_75
+ * @selector .nds-truncate_container_75
  * @modifier
  */
-.slds-truncate_container_75,
-.slds-truncate_container--75 {
+.nds-truncate_container_75,
+.nds-truncate_container--75 {
   max-width: 75%;
 }
 
 /**
  * @summary Truncates text at 33% of its parent container
  *
- * @selector .slds-truncate_container_33
+ * @selector .nds-truncate_container_33
  * @modifier
  */
-.slds-truncate_container_33,
-.slds-truncate_container--33 {
+.nds-truncate_container_33,
+.nds-truncate_container--33 {
   max-width: 33%;
 }
 
 /**
  * @summary Truncates text at 66% of its parent container
  *
- * @selector .slds-truncate_container_66
+ * @selector .nds-truncate_container_66
  * @modifier
  */
-.slds-truncate_container_66,
-.slds-truncate_container--66 {
+.nds-truncate_container_66,
+.nds-truncate_container--66 {
   max-width: 66%;
 }

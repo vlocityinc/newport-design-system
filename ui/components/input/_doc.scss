@@ -3,7 +3,7 @@
 
 /**
  * You can style the HTML `<input>` element to align with the Salesforce brand
- * by using the `.slds-input` class on the `<input>` element.
+ * by using the `.nds-input` class on the `<input>` element.
  *
  * The `<input>` element includes support for all HTML5 types: `text`,
  * `password`, `datetime`, `datetime-local`, `date`, `month`, `time`, `week`,
@@ -27,13 +27,13 @@
  * the tooltip has an `id="help"`, then the `<button>` containing the icon should
  * have `aria-describedby="help"`.
  *
- * In some cases, the read-only field state is swapped and has no `<input>`. This is called `static` in the examples. In that case, don’t use a `<label>`. This provides better accessibility for screen readers and keyboard navigators. Instead, use a `<span>` with the `.slds-form-element__label` class. Instead of an `<input>`, use the `.slds-form-element__static` class inside the `.slds-form-element__control` wrapper.
+ * In some cases, the read-only field state is swapped and has no `<input>`. This is called `static` in the examples. In that case, don’t use a `<label>`. This provides better accessibility for screen readers and keyboard navigators. Instead, use a `<span>` with the `.nds-form-element__label` class. Instead of an `<input>`, use the `.nds-form-element__static` class inside the `.nds-form-element__control` wrapper.
  *
  * @summary Text inputs are used for freeform data entry
  *
  * @base
  * @name input
- * @selector .slds-input
+ * @selector .nds-input
  * @support dev-ready
  * @category base
  * @type data-entry

@@ -6,11 +6,11 @@
  *
  * @summary Creates an avatar component
  * @name base
- * @selector .slds-avatar
+ * @selector .nds-avatar
  * @restrict div, span, a
  * @variant
  */
-.slds-avatar {
+.nds-avatar {
   @include square($square-icon-medium-boundary);
   overflow: hidden;
   display: inline-block;
@@ -28,17 +28,17 @@
 /**
  * Size modifier for avatars - x-small
  *
- * @selector .slds-avatar_x-small
- * @restrict .slds-avatar
+ * @selector .nds-avatar_x-small
+ * @restrict .nds-avatar
  * @modifier
  * @group size
  */
-.slds-avatar_x-small,
-.slds-avatar--x-small {
+.nds-avatar_x-small,
+.nds-avatar--x-small {
   @include square($square-icon-x-small-boundary);
   font-size: $font-size-heading-xx-small;
 
-  .slds-icon {
+  .nds-icon {
     @include square($square-icon-x-small-boundary);
   }
 }
@@ -46,17 +46,17 @@
 /**
  * Size modifier for avatars - small
  *
- * @selector .slds-avatar_small
- * @restrict .slds-avatar
+ * @selector .nds-avatar_small
+ * @restrict .nds-avatar
  * @modifier
  * @group size
  */
-.slds-avatar_small,
-.slds-avatar--small {
+.nds-avatar_small,
+.nds-avatar--small {
   @include square($square-icon-small-boundary);
   font-size: $font-size-heading-xx-small;
 
-  .slds-icon {
+  .nds-icon {
     @include square($square-icon-small-boundary);
   }
 }
@@ -64,17 +64,17 @@
 /**
  * Size modifier for avatars - medium
  *
- * @selector .slds-avatar_medium
- * @restrict .slds-avatar
+ * @selector .nds-avatar_medium
+ * @restrict .nds-avatar
  * @modifier
  * @group size
  */
-.slds-avatar_medium,
-.slds-avatar--medium {
+.nds-avatar_medium,
+.nds-avatar--medium {
   @include square($square-icon-medium-boundary);
   font-size: $font-size-heading-small;
 
-  .slds-icon {
+  .nds-icon {
     @include square($square-icon-medium-boundary);
   }
 }
@@ -82,19 +82,19 @@
 /**
  * Size modifier for avatars - large
  *
- * @selector .slds-avatar_large
- * @restrict .slds-avatar
+ * @selector .nds-avatar_large
+ * @restrict .nds-avatar
  * @modifier
  * @group size
  */
-.slds-avatar_large,
-.slds-avatar--large {
+.nds-avatar_large,
+.nds-avatar--large {
   @include square($square-icon-large-boundary);
   font-size: $font-size-heading-medium;
   font-weight: $font-weight-light;
   line-height: $line-height-heading;
 
-  .slds-icon {
+  .nds-icon {
     @include square($square-icon-large-boundary);
   }
 }
@@ -102,18 +102,18 @@
 /**
  * Make avatar a circle
  *
- * @selector .slds-avatar_circle
- * @restrict .slds-avatar
+ * @selector .nds-avatar_circle
+ * @restrict .nds-avatar
  * @modifier
  */
-.slds-avatar_circle,
-.slds-avatar--circle {
+.nds-avatar_circle,
+.nds-avatar--circle {
   border-radius: $border-radius-circle;
 }
 
 // This isn't a thing so lets not document it
-.slds-avatar_empty,
-.slds-avatar--empty {
+.nds-avatar_empty,
+.nds-avatar--empty {
   border: $border-width-thin dashed $color-border;
 }
 
@@ -127,14 +127,14 @@
  * the fallback should be the icon for the entity or object.
  *
  * @summary Used for initials inside an avatar
- * @selector .slds-avatar__initials
- * @restrict .slds-avatar abbr
+ * @selector .nds-avatar__initials
+ * @restrict .nds-avatar abbr
  */
-.slds-avatar__initials {
+.nds-avatar__initials {
   @include absolute-center;
   height: 100%;
 
-  &[title] { // This selector with title attribute (specificity) gets rid of a bug where the question cursor flashes for a split second as the mouse hits the .slds-avatar. Since we can't rely on someone always including it, the main selector leaves it off.
+  &[title] { // This selector with title attribute (specificity) gets rid of a bug where the question cursor flashes for a split second as the mouse hits the .nds-avatar. Since we can't rely on someone always including it, the main selector leaves it off.
     cursor: default;
     text-decoration: none;
   }

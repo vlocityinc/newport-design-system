@@ -6,10 +6,10 @@
  *
  * @summary Creates hyphenated text
  *
- * @selector .slds-hyphenate
+ * @selector .nds-hyphenate
  * @notes Hyphenation will occur at the parent width if a width is not specified
  * @modifier
  */
-.slds-hyphenate {
+.nds-hyphenate {
   @include hyphenate;
 }

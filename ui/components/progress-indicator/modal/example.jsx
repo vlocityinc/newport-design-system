@@ -3,31 +3,38 @@
 
 import React from 'react';
 import { Progress, Step } from '../base/example';
-import { Modal, ModalHeader, ModalContent, ModalFooter } from '../../modals/base/example';
+import {
+  Modal,
+  ModalHeader,
+  ModalContent,
+  ModalFooter
+} from '../../modals/base/example';
 
 /// ///////////////////////////////////////////
 // Export
 /// ///////////////////////////////////////////
 
 export default (
-  <div className="demo-only" style={{height: '640px'}}>
-    <Modal className="slds-modal_large" aria-labelledby="header43">
+  <div className="demo-only" style={{ height: '640px' }}>
+    <Modal className="nds-modal_large" aria-labelledby="header43">
       <ModalHeader>
-        <h2 id="header43" className="slds-text-heading_medium">Modal Header</h2>
+        <h2 id="header43" className="nds-text-heading_medium">
+          Modal Header
+        </h2>
       </ModalHeader>
-      <ModalContent className="slds-grow slds-p-around_medium" />
-      <ModalFooter className="slds-grid slds-grid_align-spread">
-        <button className="slds-button slds-button_neutral">Cancel</button>
-        <Progress className="slds-progress_shade" value="25">
+      <ModalContent className="nds-grow nds-p-around_medium" />
+      <ModalFooter className="nds-grid nds-grid_align-spread">
+        <button className="nds-button nds-button_neutral">Cancel</button>
+        <Progress className="nds-progress_shade" value="25">
           <Step done>Step 1</Step>
           <Step active>Step 2</Step>
           <Step>Step 3</Step>
           <Step>Step 4</Step>
           <Step>Step 5</Step>
         </Progress>
-        <button className="slds-button slds-button_brand">Save</button>
+        <button className="nds-button nds-button_brand">Save</button>
       </ModalFooter>
     </Modal>
-    <div className="slds-backdrop slds-backdrop_open" />
+    <div className="nds-backdrop nds-backdrop_open" />
   </div>
 );

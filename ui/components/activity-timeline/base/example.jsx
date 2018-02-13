@@ -10,37 +10,39 @@ import { ActivityTimelineItem as Task } from '../task/example';
 import SvgIcon from '../../../shared/svg-icon';
 import classNames from 'classnames';
 
-export let TimelineIcon = props =>
+export let TimelineIcon = props => (
   <div
     className={classNames(
-      'slds-icon_container',
+      'nds-icon_container',
       props.symbol == 'log_a_call'
-        ? 'slds-icon-standard-log-a-call'
-      : 'slds-icon-standard-' + props.symbol
+        ? 'nds-icon-standard-log-a-call'
+        : 'nds-icon-standard-' + props.symbol
     )}
     title={props.symbol == 'log_a_call' ? 'call' : props.symbol}
   >
     <SvgIcon
-      className="slds-icon slds-icon_small"
+      className="nds-icon nds-icon_small"
       sprite="standard"
       symbol={props.symbol}
     />
-  </div>;
+  </div>
+);
 
-export let TimelineActions = props =>
-  <div className="slds-timeline__actions">
-    <p className="slds-timeline__date">{ props.date || 'Feb 24' }</p>
+export let TimelineActions = props => (
+  <div className="nds-timeline__actions">
+    <p className="nds-timeline__date">{props.date || 'Feb 24'}</p>
     <ButtonIcon
-      className="slds-button_icon-border-filled slds-button_icon-x-small"
+      className="nds-button_icon-border-filled nds-button_icon-x-small"
       symbol="down"
       assistiveText={props.assistiveText || 'More Options'}
       aria-haspopup="true"
       title={props.title || 'More Options'}
     />
-  </div>;
+  </div>
+);
 
 export default (
-  <ul className="slds-timeline">
+  <ul className="nds-timeline">
     <li>
       <Task />
     </li>

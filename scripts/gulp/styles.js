@@ -19,9 +19,9 @@ const sign = x => (x < 0 ? '' : '+');
 const toKB = n => (n / 1024).toFixed(2);
 
 gulp.task('stylestats', ['styles'], done => {
-  const localFile = 'assets/styles/slds.rtl.css';
+  const localFile = 'assets/styles/nds.rtl.css';
   const remoteFile =
-    'https://www.lightningdesignsystem.com/assets/styles/slds.css';
+    'https://www.lightningdesignsystem.com/assets/styles/nds.css';
 
   const localStats = new StyleStats(localFile, '.stylestatsrc');
   const remoteStats = new StyleStats(remoteFile, '.stylestatsrc');
@@ -43,7 +43,7 @@ gulp.task('stylestats', ['styles'], done => {
       diff.selectors = result.selectors - remote.selectors;
 
       gutil.log(
-        gutil.colors.green(`slds.scss (minified):
+        gutil.colors.green(`nds.scss (minified):
             ${toKB(result.size)}KB (${toKB(result.gzippedSize)}KB gzipped)`)
       );
 
@@ -67,7 +67,7 @@ gulp.task('stylestats', ['styles'], done => {
 
 gulp.task('styles:sass', [], () =>
   gulp
-    .src(['ui/slds-fonts.scss', 'ui/index.scss', 'ui/index.rtl.scss'])
+    .src(['ui/nds-fonts.scss', 'ui/index.scss', 'ui/index.rtl.scss'])
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(

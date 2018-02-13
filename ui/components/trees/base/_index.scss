@@ -2,7 +2,7 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * A tree is composed of two core elements `.slds-tree` and `.slds-tree__item`. The tree wrapper, the outer most parent `ul`, will receive the class `.slds-tree`. This class will be used for scoping a tree, which allows for particular styling based on states in which the tree may enter.
+ * A tree is composed of two core elements `.nds-tree` and `.nds-tree__item`. The tree wrapper, the outer most parent `ul`, will receive the class `.nds-tree`. This class will be used for scoping a tree, which allows for particular styling based on states in which the tree may enter.
  *
  * A tree will need helper classes added and removed to help structure the layout. Each child node list item needs an `aria-level` attribute with its value being the number of levels deep it is nested to indicate the distinct grouping is nested within.
  *
@@ -51,33 +51,33 @@
  * @summary A tree is visualization of a structure hierarchy. A branch can be expanded or collapsed.
  *
  * @name base
- * @selector .slds-tree_container
+ * @selector .nds-tree_container
  * @restrict div
  * @support dev-ready
  * @variant
  * @s1 false
  */
-.slds-tree-container,
-.slds-tree_container {
-  @include deprecate('4.0.0', '.slds-tree-container is deprecated, use .slds-tree_container instead.');
+.nds-tree-container,
+.nds-tree_container {
+  @include deprecate('4.0.0', '.nds-tree-container is deprecated, use .nds-tree_container instead.');
   min-width: rem(120px);
   max-width: rem(400px);
 
-  > .slds-text-heading_label,
-  > .slds-text-heading--label {
+  > .nds-text-heading_label,
+  > .nds-text-heading--label {
     margin-bottom: $spacing-x-small;
   }
 }
 
 /**
- * @selector .slds-tree
- * @restrict .slds-tree_container ul, table
+ * @selector .nds-tree
+ * @restrict .nds-tree_container ul, table
  * @required
  */
-.slds-tree {
+.nds-tree {
   /**
-   * @selector .slds-tree__item
-   * @restrict .slds-tree div, .slds-tree th
+   * @selector .nds-tree__item
+   * @restrict .nds-tree div, .nds-tree th
    * @required
    */
   &__item {
@@ -86,18 +86,18 @@
     padding-#{$left}: $spacing-medium;
 
     /**
-     * When a branch doesn't have children, apply slds-is-disabled to the button icon
+     * When a branch doesn't have children, apply nds-is-disabled to the button icon
      *
-     * @selector .slds-is-disabled
-     * @restrict .slds-tree__item button
+     * @selector .nds-is-disabled
+     * @restrict .nds-tree__item button
      * @required
      * @modifier
      */
-    .slds-is-disabled {
+    .nds-is-disabled {
       visibility: hidden;
     }
 
-    @include deprecate('5.0.0', 'Use of anchor tags is deprecated in slds-tree') {
+    @include deprecate('5.0.0', 'Use of anchor tags is deprecated in nds-tree') {
 
       a {
         color: $color-text-default;
@@ -116,13 +116,13 @@
     /**
      * Hover state for a tree item
      *
-     * @selector .slds-is-hovered
-     * @restrict .slds-tree__item
+     * @selector .nds-is-hovered
+     * @restrict .nds-tree__item
      * @notes Class should be applied via Javascript
      * @required
      * @modifier
      */
-    &.slds-is-hovered,
+    &.nds-is-hovered,
     &:hover {
       background: $color-background-row-hover;
       cursor: pointer;
@@ -134,14 +134,14 @@
     &:focus {
       outline: 0;
 
-      > .slds-tree__item {
+      > .nds-tree__item {
         background: $color-background-row-hover;
         cursor: pointer;
         text-decoration: underline;
       }
     }
 
-    &[aria-selected="true"] > .slds-tree__item {
+    &[aria-selected="true"] > .nds-tree__item {
       background: $color-background-row-selected;
       box-shadow: $color-background-button-brand 4px 0 0 inset;
     }
@@ -158,15 +158,15 @@
   /**
    * Selected state for a tree item
    *
-   * @selector .slds-is-selected
-   * @restrict .slds-tree__item
+   * @selector .nds-is-selected
+   * @restrict .nds-tree__item
    * @notes Class should be applied via Javascript
    * @required
    * @modifier
    */
-  @include deprecate('5.0.0', '.slds-is-selected is deprecated in .slds-tree, rely on aria-selected attrbiute') {
+  @include deprecate('5.0.0', '.nds-is-selected is deprecated in .nds-tree, rely on aria-selected attrbiute') {
 
-    .slds-is-selected {
+    .nds-is-selected {
       background: $color-background-row-selected;
       box-shadow: $color-background-button-brand 4px 0 0 inset;
     }
@@ -175,14 +175,14 @@
   /**
    * Focus state for a tree item
    *
-   * @selector .slds-is-focused
-   * @restrict .slds-tree__item
+   * @selector .nds-is-focused
+   * @restrict .nds-tree__item
    * @required
    * @modifier
    */
-  @include deprecate('5.0.0', '.slds-is-focused is deprecated in .slds-tree, rely on the :focus psuedo class on the role="treeitem" element') {
+  @include deprecate('5.0.0', '.nds-is-focused is deprecated in .nds-tree, rely on the :focus psuedo class on the role="treeitem" element') {
 
-    .slds-is-focused {
+    .nds-is-focused {
       text-decoration: underline;
     }
   };
@@ -192,43 +192,43 @@
 
   @for $current-level from 1 through $max-nesting-depth {
 
-    [aria-level="#{$current-level}"] > .slds-tree__item {
+    [aria-level="#{$current-level}"] > .nds-tree__item {
       padding-#{$left}: ((($spacing-medium * $current-level) + ($spacing-x-small * $current-level)));
     }
   }
 
-  @include deprecate('5.0.0', 'Use of aria-controls in slds-tree is deprecated') {
+  @include deprecate('5.0.0', 'Use of aria-controls in nds-tree is deprecated') {
     // scss-lint:disable SelectorDepth
-    [aria-expanded="false"] > .slds-tree__item > .slds-button[aria-controls] > .slds-button__icon,
-    [aria-expanded="false"] > .slds-tree__item > .slds-button[aria-controls] > span > .slds-button__icon {
+    [aria-expanded="false"] > .nds-tree__item > .nds-button[aria-controls] > .nds-button__icon,
+    [aria-expanded="false"] > .nds-tree__item > .nds-button[aria-controls] > span > .nds-button__icon {
       transition: $duration-promptly transform ease-in-out;
       transform: rotate(0deg);
     }
 
-    [aria-expanded="true"] > .slds-tree__item > .slds-button[aria-controls] > .slds-button__icon,
-    [aria-expanded="true"] > .slds-tree__item > .slds-button[aria-controls] > span > .slds-button__icon {
+    [aria-expanded="true"] > .nds-tree__item > .nds-button[aria-controls] > .nds-button__icon,
+    [aria-expanded="true"] > .nds-tree__item > .nds-button[aria-controls] > span > .nds-button__icon {
       transition: $duration-promptly transform ease-in-out;
       transform: rotate(90deg);
     }
   }
 
   // scss-lint:disable SelectorDepth
-  [aria-expanded="false"] > .slds-tree__item .slds-button__icon {
+  [aria-expanded="false"] > .nds-tree__item .nds-button__icon {
     transition: $duration-promptly transform ease-in-out;
     transform: rotate(0deg);
   }
 
-  [aria-expanded="true"] > .slds-tree__item .slds-button__icon {
+  [aria-expanded="true"] > .nds-tree__item .nds-button__icon {
     transition: $duration-promptly transform ease-in-out;
     transform: rotate(90deg);
   }
   // scss-lint:enable SelectorDepth
 
-  .slds-button {
+  .nds-button {
     align-self: center;
   }
 
-  .slds-pill {
+  .nds-pill {
     margin-#{$left}: $spacing-small;
   }
 }

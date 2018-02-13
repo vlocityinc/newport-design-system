@@ -4,18 +4,21 @@
 import React from 'react';
 import { Avatar } from '../../avatar/base/example';
 import { StandardIcon } from '../../icons/standard/example';
-import { ComboboxContainer, Listbox, ListboxItem, EntityOption }
-  from '../base/example';
-import { ListboxPill }
-  from '../../pills/listbox-of-pill-options/example';
+import {
+  ComboboxContainer,
+  Listbox,
+  ListboxItem,
+  EntityOption
+} from '../base/example';
+import { ListboxPill } from '../../pills/listbox-of-pill-options/example';
 import SvgIcon from '../../../shared/svg-icon';
 
 const listboxSelectionsId = 'listbox-selections-unique-id';
 const listboxOptionId01 = 'listbox-option-unique-id-01';
 const listboxOptionId02 = 'listbox-option-unique-id-02';
 
-const ListboxDropdown = props =>
-  <Listbox className="slds-dropdown slds-dropdown_fluid" vertical>
+const ListboxDropdown = props => (
+  <Listbox className="nds-dropdown nds-dropdown_fluid" vertical>
     <ListboxItem>
       <EntityOption
         id={listboxOptionId01}
@@ -31,7 +34,8 @@ const ListboxDropdown = props =>
         entityMeta
       />
     </ListboxItem>
-  </Listbox>;
+  </Listbox>
+);
 
 export default (
   <div className="demo-only" style={{ height: '10rem' }}>
@@ -50,10 +54,10 @@ export let states = [
   {
     id: 'focused',
     label: 'Focused',
-    element:
+    element: (
       <div className="demo-only" style={{ height: '10rem' }}>
         <ComboboxContainer
-          containerClassName="slds-has-input-focus"
+          containerClassName="nds-has-input-focus"
           inputIcon="right"
           inputIconRightSymbol="search"
           objectSwitcherInline
@@ -62,7 +66,8 @@ export let states = [
           listbox={<ListboxDropdown />}
           objectSwitcher
         />
-      </div>,
+      </div>
+    ),
     script: `
       document.getElementById('combobox-unique-id').focus()
     `
@@ -70,7 +75,7 @@ export let states = [
   {
     id: 'open-item-focused',
     label: 'Open - Item Focused',
-    element:
+    element: (
       <div className="demo-only" style={{ height: '10rem' }}>
         <ComboboxContainer
           inputIcon="right"
@@ -83,11 +88,12 @@ export let states = [
           aria-activedescendant={listboxOptionId01}
         />
       </div>
+    )
   },
   {
     id: 'options-selected',
     label: 'Option(s) Selected',
-    element:
+    element: (
       <ComboboxContainer
         inputIcon="right"
         inputIconRightSymbol="search"
@@ -98,34 +104,35 @@ export let states = [
         <Listbox
           id={listboxSelectionsId}
           aria-label="Selected Options:"
-          className="slds-p-top_xxx-small"
+          className="nds-p-top_xxx-small"
           inline
         >
           <ListboxItem>
             <ListboxPill label="Acme" tabIndex="0">
-              <Avatar className="slds-avatar_x-small slds-pill__icon_container">
+              <Avatar className="nds-avatar_x-small nds-pill__icon_container">
                 <StandardIcon symbol="account" />
               </Avatar>
             </ListboxPill>
           </ListboxItem>
           <ListboxItem>
             <ListboxPill label="Salesforce.com, Inc.">
-              <Avatar className="slds-avatar_x-small slds-pill__icon_container">
+              <Avatar className="nds-avatar_x-small nds-pill__icon_container">
                 <StandardIcon symbol="opportunity" />
               </Avatar>
             </ListboxPill>
           </ListboxItem>
         </Listbox>
       </ComboboxContainer>
+    )
   },
   {
     id: 'focused-options-selected',
     label: 'Focused - Option(s) Selected',
-    element:
+    element: (
       <div className="demo-only" style={{ height: '10rem' }}>
         <ComboboxContainer
           isOpen
-          containerClassName="slds-has-input-focus"
+          containerClassName="nds-has-input-focus"
           inputIcon="right"
           inputIconRightSymbol="search"
           objectSwitcherInline
@@ -136,26 +143,27 @@ export let states = [
           <Listbox
             id={listboxSelectionsId}
             aria-label="Selected Options:"
-            className="slds-p-top_xxx-small"
+            className="nds-p-top_xxx-small"
             inline
           >
             <ListboxItem>
               <ListboxPill label="Acme" tabIndex="0">
-                <Avatar className="slds-avatar_x-small slds-pill__icon_container">
+                <Avatar className="nds-avatar_x-small nds-pill__icon_container">
                   <StandardIcon symbol="account" />
                 </Avatar>
               </ListboxPill>
             </ListboxItem>
             <ListboxItem>
               <ListboxPill label="Salesforce.com, Inc.">
-                <Avatar className="slds-avatar_x-small slds-pill__icon_container">
+                <Avatar className="nds-avatar_x-small nds-pill__icon_container">
                   <StandardIcon symbol="opportunity" />
                 </Avatar>
               </ListboxPill>
             </ListboxItem>
           </Listbox>
         </ComboboxContainer>
-      </div>,
+      </div>
+    ),
     script: `
       document.getElementById('combobox-unique-id').focus()
     `

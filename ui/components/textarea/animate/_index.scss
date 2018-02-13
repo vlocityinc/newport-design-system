@@ -6,17 +6,17 @@
  * @summary Custom animation with label on textarea focus
  *
  * @name animate
- * @selector .slds-form-element__control-animated-label
- * @restrict .slds-textarea
+ * @selector .nds-form-element__control-animated-label
+ * @restrict .nds-textarea
  * @variant
  */
 
-.slds-form-element__control-animated-label {
+.nds-form-element__control-animated-label {
 	font-size: 0.875rem;
 	position: relative;
 }
 
-.slds-textarea {
+.nds-textarea {
 	padding-top: 0;
     margin-top: 0.25rem;
     letter-spacing: 1px;	
@@ -25,7 +25,7 @@
     color: $color-input-font-kashmiri-blue;
 }
 
-.slds-form-element__control.slds-form-element__control-animated-label .slds-form-element__label {
+.nds-form-element__control.nds-form-element__control-animated-label .nds-form-element__label {
 	top: 0.25rem;
 	#{$left}: 0;
 	position: absolute;
@@ -40,10 +40,10 @@
     color: $color-input-font-kashmiri-blue;
 }
 
-.slds-form-element__control.slds-form-element__control-animated-label textarea:focus~label,
-.slds-form-element__control.slds-form-element__control-animated-label textarea.slds-has-value:not(:focus):valid ~ label,
-.slds-form-element__control.slds-form-element__control-animated-label textarea.ng-not-empty.ng-dirty~label, 
-.slds-form-element__control.slds-form-element__control-animated-label textarea[cloned=dirty]+label {
+.nds-form-element__control.nds-form-element__control-animated-label textarea:focus~label,
+.nds-form-element__control.nds-form-element__control-animated-label textarea.nds-has-value:not(:focus):valid ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label textarea.ng-not-empty.ng-dirty~label, 
+.nds-form-element__control.nds-form-element__control-animated-label textarea[cloned=dirty]+label {
 	-webkit-transform: translate3d(0,-1.2rem,0);
 	transform: translate3d(0,-1.2rem,0);
 	-webkit-transition-duration: 300ms;
@@ -55,6 +55,6 @@
 	#{$left}: 0;
  }
 
- .slds-form-element__control.slds-form-element__control-animated-label textarea:focus ~ label {
+ .nds-form-element__control.nds-form-element__control-animated-label textarea:focus ~ label {
 	color: $color-border-input-active;
  }

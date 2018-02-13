@@ -5,12 +5,12 @@
  * @summary Initializes data table
  *
  * @name base
- * @selector .slds-table
+ * @selector .nds-table
  * @restrict table
  * @required
  * @variant
  */
-.slds-table {
+.nds-table {
   // scss-lint:disable SelectorDepth
   background-color: $color-background-alt;
   font-size: inherit; // forces table to respect body font
@@ -41,12 +41,12 @@
   /**
    * Default Table Row Hover
    *
-   * @selector .slds-no-row-hover
-   * @restrict .slds-table
+   * @selector .nds-no-row-hover
+   * @restrict .nds-table
    * @modifier
    */
-  &:not(.slds-no-row-hover) tbody tr:hover,
-  &:not(.slds-no-row-hover) tbody tr:focus {
+  &:not(.nds-no-row-hover) tbody tr:hover,
+  &:not(.nds-no-row-hover) tbody tr:focus {
 
     outline: 0;
 
@@ -59,12 +59,12 @@
   /**
    * Selected Table Row + Hover
    *
-   * @selector .slds-is-selected
-   * @restrict .slds-table tr
+   * @selector .nds-is-selected
+   * @restrict .nds-table tr
    * @modifier
    */
-  tbody tr.slds-is-selected,
-  &:not(.slds-no-row-hover) tr.slds-is-selected:hover {
+  tbody tr.nds-is-selected,
+  &:not(.nds-no-row-hover) tr.nds-is-selected:hover {
 
     > td,
     > th {
@@ -75,42 +75,42 @@
   /**
    * By default, nowrap is applied
    *
-   * @selector .slds-cell-wrap
-   * @restrict .slds-table th, .slds-table td
+   * @selector .nds-cell-wrap
+   * @restrict .nds-table th, .nds-table td
    * @modifier
    */
-  .slds-cell-wrap {
+  .nds-cell-wrap {
     white-space: normal;
     overflow-wrap: break-word;
     word-wrap: break-word;
   }
 
   // Reduce cell to the width of its content, if space is available
-  .slds-cell-shrink {
+  .nds-cell-shrink {
     width: 1%;
   }
 
   /**
    * Use to add a left padding buffer to cells
    *
-   * @selector .slds-cell-buffer_left
-   * @restrict .slds-table th, .slds-table td
+   * @selector .nds-cell-buffer_left
+   * @restrict .nds-table th, .nds-table td
    * @modifier
    */
-  .slds-cell-buffer_left,
-  .slds-cell-buffer--left {
+  .nds-cell-buffer_left,
+  .nds-cell-buffer--left {
     padding-#{$left}: $spacing-large;
   }
 
   /**
    * Use to add a right padding buffer to cells
    *
-   * @selector .slds-cell-buffer_right
-   * @restrict .slds-table th, .slds-table td
+   * @selector .nds-cell-buffer_right
+   * @restrict .nds-table th, .nds-table td
    * @modifier
    */
-  .slds-cell-buffer_right,
-  .slds-cell-buffer--right {
+  .nds-cell-buffer_right,
+  .nds-cell-buffer--right {
     padding-#{$right}: $spacing-large;
   }
 
@@ -121,7 +121,7 @@
     }
   }
 
-  .slds-row-number {
+  .nds-row-number {
     // Add the counter number
     &:after {
       content: counter(row-number);
@@ -131,8 +131,8 @@
   /**
    * Focus state on a cell
    *
-   * @selector .slds-has-focus
-   * @restrict .slds-table th, .slds-table td
+   * @selector .nds-has-focus
+   * @restrict .nds-table th, .nds-table td
    * @modifier
    */
   th:focus,
@@ -141,9 +141,9 @@
   }
 
   th:focus,
-  th.slds-has-focus,
+  th.nds-has-focus,
   [role="gridcell"]:focus,
-  [role="gridcell"].slds-has-focus {
+  [role="gridcell"].nds-has-focus {
     box-shadow: $color-border-selection 0 0 0 1px inset;
   }
 
@@ -156,13 +156,13 @@
 /**
  * Add left and right padding to the first and last cells of a table
  *
- * @selector .slds-table_cell-buffer
- * @restrict .slds-table
+ * @selector .nds-table_cell-buffer
+ * @restrict .nds-table
  * @required
  * @modifier
  */
-.slds-table_cell-buffer,
-.slds-table--cell-buffer {
+.nds-table_cell-buffer,
+.nds-table--cell-buffer {
 
   // First cells in a row
   tr > th:first-child,
@@ -180,12 +180,12 @@
 /**
  * Add vertical borders to a table
  *
- * @selector .slds-table_bordered
- * @restrict .slds-table
+ * @selector .nds-table_bordered
+ * @restrict .nds-table
  * @modifier
  */
-.slds-table_bordered,
-.slds-table--bordered {
+.nds-table_bordered,
+.nds-table--bordered {
   border-collapse: separate;
   // scss-lint:disable SelectorDepth
   border: {
@@ -212,10 +212,10 @@
   // This retains the selected state when a row is hovered
   //
   // Box shadow used to eliminate jumpiness on hover
-  &:not(.slds-no-row-hover) tbody tr:hover > td:not(.slds-is-selected),
-  &:not(.slds-no-row-hover) tbody tr:hover > th:not(.slds-is-selected),
-  &:not(.slds-no-row-hover) tbody tr:focus > td:not(.slds-is-selected),
-  &:not(.slds-no-row-hover) tbody tr:focus > th:not(.slds-is-selected) {
+  &:not(.nds-no-row-hover) tbody tr:hover > td:not(.nds-is-selected),
+  &:not(.nds-no-row-hover) tbody tr:hover > th:not(.nds-is-selected),
+  &:not(.nds-no-row-hover) tbody tr:focus > td:not(.nds-is-selected),
+  &:not(.nds-no-row-hover) tbody tr:focus > th:not(.nds-is-selected) {
     box-shadow:
       $color-border 0 ($border-width-thin * -1) 0 inset,
       $color-border 0 ($border-width-thin) 0 inset;
@@ -225,12 +225,12 @@
 /**
  * Add column borders
  *
- * @selector .slds-table_col-bordered
- * @restrict .slds-table
+ * @selector .nds-table_col-bordered
+ * @restrict .nds-table
  * @modifier
  */
-.slds-table_col-bordered,
-.slds-table--col-bordered {
+.nds-table_col-bordered,
+.nds-table--col-bordered {
 
   td + td,
   th + th,
@@ -243,12 +243,12 @@
 /**
  * Add alternating strips to rows
  *
- * @selector .slds-table_striped
- * @restrict .slds-table
+ * @selector .nds-table_striped
+ * @restrict .nds-table
  * @modifier
  */
-.slds-table_striped,
-.slds-table--striped {
+.nds-table_striped,
+.nds-table--striped {
   // scss-lint:disable SelectorDepth
   tbody tr:nth-of-type(even) > td,
   tbody tr:nth-of-type(even) > th {
@@ -260,12 +260,12 @@
  * @summary Set table to use fixed layout for width and truncation purposes
  *
  * @name advanced
- * @selector .slds-table_fixed-layout
- * @restrict .slds-table
+ * @selector .nds-table_fixed-layout
+ * @restrict .nds-table
  * @variant
  */
-.slds-table_fixed-layout,
-.slds-table--fixed-layout {
+.nds-table_fixed-layout,
+.nds-table--fixed-layout {
   table-layout: fixed;
   width: 100%;
   white-space: nowrap;
@@ -279,7 +279,7 @@
     transform: translateZ(0);
   }
 
-  .slds-cell-shrink {
+  .nds-cell-shrink {
     width: $square-icon-large-boundary;
 
     &:nth-child(n) {
@@ -305,20 +305,20 @@
  * If the column is sortable than lets handle the actionable
  * region of the `<th>` cell
  *
- * @selector .slds-is-sortable
- * @restrict .slds-table_fixed-layout th
+ * @selector .nds-is-sortable
+ * @restrict .nds-table_fixed-layout th
  */
-.slds-is-sortable {
+.nds-is-sortable {
 
-  .slds-th__action:hover,
-  .slds-th__action:focus,
-  &.slds-has-focus .slds-th__action,
-  &.slds-has-focus .slds-th__action:hover,
-  &.slds-has-focus .slds-th__action:focus {
+  .nds-th__action:hover,
+  .nds-th__action:focus,
+  &.nds-has-focus .nds-th__action,
+  &.nds-has-focus .nds-th__action:hover,
+  &.nds-has-focus .nds-th__action:focus {
     background-color: $table-color-background-header-hover;
     color: currentColor;
 
-    .slds-icon {
+    .nds-icon {
       display: inline-block;
       fill: $color-text-link;
     }
@@ -328,13 +328,13 @@
 /**
  * Actionable area inside th
  *
- * @selector .slds-th__action
- * @restrict .slds-table_fixed-layout th div, .slds-table_fixed-layout th a
+ * @selector .nds-th__action
+ * @restrict .nds-table_fixed-layout th div, .nds-table_fixed-layout th a
  */
-.slds-th__action {
+.nds-th__action {
   display: flex;
   padding: $table-cell-spacing;
-  height: 2rem; // Keep in sync with the padding of .slds-table--header-fixed_container
+  height: 2rem; // Keep in sync with the padding of .nds-table--header-fixed_container
   align-items: center;
 
   &:focus,
@@ -346,8 +346,8 @@
   /**
    * Allows for alignment of form element, such as a checkbox
    *
-   * @selector .slds-th__action_form
-   * @restrict .slds-th__action
+   * @selector .nds-th__action_form
+   * @restrict .nds-th__action
    */
   &_form,
   &--form {
@@ -358,10 +358,10 @@
 /**
  * Icon inside sortable th
  *
- * @selector .slds-is-sortable__icon
- * @restrict .slds-is-sortable .slds-icon
+ * @selector .nds-is-sortable__icon
+ * @restrict .nds-is-sortable .nds-icon
  */
-.slds-is-sortable__icon {
+.nds-is-sortable__icon {
   @include square($square-icon-small-content);
   margin-#{$left}: $spacing-xx-small;
   display: none;
@@ -370,12 +370,12 @@
 /**
  * Active state of sorted column
  *
- * @selector .slds-is-sorted
- * @restrict .slds-table_fixed-layout th
+ * @selector .nds-is-sorted
+ * @restrict .nds-table_fixed-layout th
  */
-.slds-is-sorted {
+.nds-is-sorted {
 
-  .slds-is-sortable__icon {
+  .nds-is-sortable__icon {
     display: inline-block;
   }
 
@@ -383,12 +383,12 @@
    * Change direction of arrow
    *
    * @name sorted-ascending
-   * @selector .slds-is-sorted_asc
-   * @restrict .slds-is-sorted
+   * @selector .nds-is-sorted_asc
+   * @restrict .nds-is-sorted
    * @modifier
    */
-  &_asc .slds-is-sortable__icon,
-  &--asc .slds-is-sortable__icon {
+  &_asc .nds-is-sortable__icon,
+  &--asc .nds-is-sortable__icon {
     transform: rotate(180deg);
   }
 }
@@ -396,11 +396,11 @@
 /**
  * Resizable data table columns
  *
- * @selector .slds-table_resizable-cols
- * @restrict .slds-table_fixed-layout
+ * @selector .nds-table_resizable-cols
+ * @restrict .nds-table_fixed-layout
  */
-.slds-table_resizable-cols thead th,
-.slds-table--resizable-cols thead th {
+.nds-table_resizable-cols thead th,
+.nds-table--resizable-cols thead th {
   padding: 0; // Reset padding so actionable link bleeds to edge
 }
 
@@ -408,13 +408,13 @@
 /**
  * Provide an indicator that resizing is available
  *
- * @selector .slds-is-resizable
- * @restrict .slds-table_resizable-cols th
+ * @selector .nds-is-resizable
+ * @restrict .nds-table_resizable-cols th
  */
-.slds-is-resizable {
+.nds-is-resizable {
 
-  .slds-th__action:hover,
-  .slds-th__action:focus {
+  .nds-th__action:hover,
+  .nds-th__action:focus {
     box-shadow: $color-border-separator-alt ($spacing-xx-small * -1) 0 0 inset;
   }
 }
@@ -422,17 +422,17 @@
 /**
  * Resizable handle
  *
- * @selector .slds-resizable
- * @restrict .slds-is-resizable div
+ * @selector .nds-resizable
+ * @restrict .nds-is-resizable div
  */
-.slds-resizable {
+.nds-resizable {
   max-width: 100%;
 
   /**
    * Grab handle to resize column
    *
-   * @selector .slds-resizable__handle
-   * @restrict .slds-resizable span
+   * @selector .nds-resizable__handle
+   * @restrict .nds-resizable span
    */
   &__handle {
     position: absolute;
@@ -456,8 +456,8 @@
   /**
    * Grab handle divider indicator when resizing column
    *
-   * @selector .slds-resizable__divider
-   * @restrict .slds-resizable__handle span
+   * @selector .nds-resizable__divider
+   * @restrict .nds-resizable__handle span
    */
   &__divider {
     position: absolute;
@@ -469,7 +469,7 @@
 
   // No idea what this does
   // It looks like it would make the resizable handle show up when the input in the header has focus?
-  &__input:focus ~ .slds-resizable__handle {
+  &__input:focus ~ .nds-resizable__handle {
     opacity: 1;
   }
 }

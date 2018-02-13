@@ -5,11 +5,11 @@
  * @summary Create badge component
  *
  * @name base
- * @selector .slds-badge
+ * @selector .nds-badge
  * @restrict span
  * @variant
  */
-.slds-badge {
+.nds-badge {
   background-color: $color-background-shade;
   padding: $spacing-xx-small $spacing-x-small;
   border-radius: $border-radius-pill;
@@ -21,7 +21,7 @@
   vertical-align: bottom;
   white-space: nowrap;
 
-  + .slds-badge {
+  + .nds-badge {
     margin-#{$left}: $spacing-x-small;
   }
 
@@ -34,10 +34,10 @@
  * @summary Inverse badge component
  *
  * @name inverse
- * @selector .slds-badge_inverse
- * @restrict .slds-badge
+ * @selector .nds-badge_inverse
+ * @restrict .nds-badge
  */
-.slds-badge_inverse {
+.nds-badge_inverse {
   background-color: $badge-color-background-inverse;
   color: $color-text-inverse;
 }
@@ -46,10 +46,10 @@
  * @summary Light badge with icon
  *
  * @name lightest
- * @selector .slds-badge_lightest
- * @restrict .slds-badge
+ * @selector .nds-badge_lightest
+ * @restrict .nds-badge
  */
-.slds-badge_lightest {
+.nds-badge_lightest {
   border: $border-width-thin solid $color-border;
   background-color: $badge-color-background-lightest;
   font-size: $font-size-text-x-small;

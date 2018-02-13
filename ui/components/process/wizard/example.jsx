@@ -5,41 +5,66 @@ import React from 'react';
 
 export default (
   <div className="demo-only">
-    <div className="slds-wizard" role="navigation">
-      <ol className="slds-wizard__list">
-        <li className="slds-wizard__item slds-is-active">
-          <a href="javascript:void(0);" className="slds-wizard__link">
-            <span className="slds-wizard__marker" />
-            <span className="slds-wizard__label slds-text-title_caps slds-truncate" title="Navigation">Navigation</span>
+    <div className="nds-wizard" role="navigation">
+      <ol className="nds-wizard__list">
+        <li className="nds-wizard__item nds-is-active">
+          <a href="javascript:void(0);" className="nds-wizard__link">
+            <span className="nds-wizard__marker" />
+            <span
+              className="nds-wizard__label nds-text-title_caps nds-truncate"
+              title="Navigation"
+            >
+              Navigation
+            </span>
           </a>
         </li>
-        <li className="slds-wizard__item slds-is-active">
-          <a href="javascript:void(0);" className="slds-wizard__link">
-            <span className="slds-wizard__marker" />
-            <span className="slds-wizard__label slds-text-title_caps slds-truncate" title="Actions">Actions</span>
+        <li className="nds-wizard__item nds-is-active">
+          <a href="javascript:void(0);" className="nds-wizard__link">
+            <span className="nds-wizard__marker" />
+            <span
+              className="nds-wizard__label nds-text-title_caps nds-truncate"
+              title="Actions"
+            >
+              Actions
+            </span>
           </a>
         </li>
-        <li className="slds-wizard__item slds-is-active">
-          <a href="javascript:void(0);" className="slds-wizard__link">
-            <span className="slds-wizard__marker" />
-            <span className="slds-wizard__label slds-text-title_caps slds-truncate" title="Compact Layout">Compact Layout</span>
+        <li className="nds-wizard__item nds-is-active">
+          <a href="javascript:void(0);" className="nds-wizard__link">
+            <span className="nds-wizard__marker" />
+            <span
+              className="nds-wizard__label nds-text-title_caps nds-truncate"
+              title="Compact Layout"
+            >
+              Compact Layout
+            </span>
           </a>
         </li>
-        <li className="slds-wizard__item">
-          <a href="javascript:void(0);" className="slds-wizard__link">
-            <span className="slds-wizard__marker" />
-            <span className="slds-wizard__label slds-text-title_caps slds-truncate" title="Review">Review</span>
+        <li className="nds-wizard__item">
+          <a href="javascript:void(0);" className="nds-wizard__link">
+            <span className="nds-wizard__marker" />
+            <span
+              className="nds-wizard__label nds-text-title_caps nds-truncate"
+              title="Review"
+            >
+              Review
+            </span>
           </a>
         </li>
-        <li className="slds-wizard__item">
-          <a href="javascript:void(0);" className="slds-wizard__link">
-            <span className="slds-wizard__marker" />
-            <span className="slds-wizard__label slds-text-title_caps slds-truncate" title="Invite">Invite</span>
+        <li className="nds-wizard__item">
+          <a href="javascript:void(0);" className="nds-wizard__link">
+            <span className="nds-wizard__marker" />
+            <span
+              className="nds-wizard__label nds-text-title_caps nds-truncate"
+              title="Invite"
+            >
+              Invite
+            </span>
           </a>
         </li>
       </ol>
-      <span className="slds-wizard__progress">
-        <span className="slds-wizard__progress-bar" style={{ width: '50%' }} />
+      <span className="nds-wizard__progress">
+        <span className="nds-wizard__progress-bar" style={{ width: '50%' }} />
       </span>
     </div>
   </div>

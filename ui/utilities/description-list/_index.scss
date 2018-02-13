@@ -4,18 +4,18 @@
 /**
  * @summary Causes description list to display horizontally with `dt` followed immediately by the `dd`.
  *
- * @selector .slds-dl_inline
+ * @selector .nds-dl_inline
  * @modifier
  */
-.slds-dl_inline,
-.slds-dl--inline {
+.nds-dl_inline,
+.nds-dl--inline {
   @include clearfix;
 
   @include mq-medium-min {
     /**
      * Marks a term
      *
-     * @selector .slds-dl_inline__label
+     * @selector .nds-dl_inline__label
      * @modifier
      */
     &__label {
@@ -26,7 +26,7 @@
     /**
      * Marks a description
      *
-     * @selector .slds-dl_inline__detail
+     * @selector .nds-dl_inline__detail
      * @modifier
      */
     &__detail {
@@ -39,11 +39,11 @@
 /**
  * @summary Causes description list to display horizontally with `dt` consuming 33% of the space and the `dd` taking up the rest.
  *
- * @selector .slds-dl_horizontal
+ * @selector .nds-dl_horizontal
  * @modifier
  */
-.slds-dl_horizontal,
-.slds-dl--horizontal {
+.nds-dl_horizontal,
+.nds-dl--horizontal {
   @include mq-medium-min {
     @include flex-wrap(true);
     display: flex;
@@ -51,7 +51,7 @@
     /**
      * Marks a term
      *
-     * @selector .slds-dl_horizontal__label
+     * @selector .nds-dl_horizontal__label
      * @modifier
      */
     &__label {
@@ -62,7 +62,7 @@
     /**
      * Marks a description
      *
-     * @selector .slds-dl_horizontal__detail
+     * @selector .nds-dl_horizontal__detail
      * @modifier
      */
     &__detail {

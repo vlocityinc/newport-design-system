@@ -11,13 +11,13 @@ import { Fieldset, Legend } from '../../radio-group/base/example';
 /// ////////////////////////////////////////
 
 let RadioButtonGroup = props => (
-  <div className="slds-radio_button-group">{props.children}</div>
+  <div className="nds-radio_button-group">{props.children}</div>
 );
 
 let RadioButton = props => (
   <span
     className={classNames(
-      'slds-button slds-radio_button slds-size--6-of-12',
+      'nds-button nds-radio_button nds-size--6-of-12',
       props.className
     )}
   >
@@ -28,9 +28,9 @@ let RadioButton = props => (
       disabled={props.disabled}
       aria-describedby={props.errorId}
     />
-    <label className="slds-radio_button__label" htmlFor={props.id}>
-      <span className="slds-radio_faux">{props.children}</span>
-      <div className="slds-radio-overlay" />
+    <label className="nds-radio_button__label" htmlFor={props.id}>
+      <span className="nds-radio_faux">{props.children}</span>
+      <div className="nds-radio-overlay" />
     </label>
   </span>
 );
@@ -73,7 +73,7 @@ export let states = [
     element: (
       <Fieldset>
         <Legend>
-          <abbr className="slds-required" title="required">
+          <abbr className="nds-required" title="required">
             *
           </abbr>Radio Group Label
         </Legend>
@@ -90,9 +90,9 @@ export let states = [
     id: 'error',
     label: 'Has error',
     element: (
-      <Fieldset className="slds-has-error">
+      <Fieldset className="nds-has-error">
         <Legend>
-          <abbr className="slds-required" title="required">
+          <abbr className="nds-required" title="required">
             *
           </abbr>Radio Group Label
         </Legend>
@@ -105,7 +105,7 @@ export let states = [
               Female
             </RadioButton>
           </RadioButtonGroup>
-          <div id="error_01" className="slds-form-element__help">
+          <div id="error_01" className="nds-form-element__help">
             This field is required
           </div>
         </FormElementControl>

@@ -5,12 +5,12 @@
  * @summary Initialize textarea
  *
  * @name base
- * @selector .slds-textarea
+ * @selector .nds-textarea
  * @restrict textarea
  * @required
  * @variant
  */
-.slds-textarea {
+.nds-textarea {
   @include form-states;
   resize: vertical;
   border: none;
@@ -24,11 +24,11 @@
   }
 }
 
-.slds-has-error {
-  @include form-input-error('.slds-textarea');
+.nds-has-error {
+  @include form-input-error('.nds-textarea');
 }
 
-.slds-has-error .slds-textarea {
+.nds-has-error .nds-textarea {
   &,
   &:active,
 	&:focus {

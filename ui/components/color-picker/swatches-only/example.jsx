@@ -3,13 +3,18 @@
 
 import React from 'react';
 import ColorPicker, { ColorPickerSwatches } from '../';
-import { Menu, MenuList, MenuItem, Trigger } from '../../menus/dropdown/example';
+import {
+  Menu,
+  MenuList,
+  MenuItem,
+  Trigger
+} from '../../menus/dropdown/example';
 
 export default (
   <Trigger>
-    <div className="slds-dropdown slds-dropdown--left">
-      <div className="slds-color-picker slds-color-picker_swatches-only">
-        <div className="slds-color-picker__selector">
+    <div className="nds-dropdown nds-dropdown--left">
+      <div className="nds-color-picker nds-color-picker_swatches-only">
+        <div className="nds-color-picker__selector">
           <ColorPickerSwatches isMenuRole />
         </div>
       </div>
@@ -22,11 +27,11 @@ export const states = [
     id: 'open-swatches-only-color-picker',
     label: 'Open',
     element: (
-      <div style={{height: '12rem'}}>
-        <Trigger className="slds-is-open">
-          <div className="slds-dropdown slds-dropdown--left">
-            <div className="slds-color-picker slds-color-picker_swatches-only">
-              <div className="slds-color-picker__selector">
+      <div style={{ height: '12rem' }}>
+        <Trigger className="nds-is-open">
+          <div className="nds-dropdown nds-dropdown--left">
+            <div className="nds-color-picker nds-color-picker_swatches-only">
+              <div className="nds-color-picker__selector">
                 <ColorPickerSwatches isMenuRole />
               </div>
             </div>

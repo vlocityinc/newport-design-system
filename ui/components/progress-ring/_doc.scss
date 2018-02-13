@@ -29,7 +29,7 @@
  *
  * ### Accessibility Guidelines
  *
- * `.slds-progress-ring__progress` is the visual indicator of progress and needs proper aria roles and settings:
+ * `.nds-progress-ring__progress` is the visual indicator of progress and needs proper aria roles and settings:
  * - `role` : `progressbar`
  * - `aria-valuemin` : `0` // the smallest valid value
  * - `aria-valuemax` : `100` // the largest valid value
@@ -41,7 +41,7 @@
  *
  * @base
  * @name progress-ring
- * @selector .slds-progress-ring
+ * @selector .nds-progress-ring
  * @support dev-ready
  * @category base
  */

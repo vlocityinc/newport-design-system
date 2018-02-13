@@ -8,12 +8,12 @@
  *
  * @variant
  * @name base
- * @selector .slds-page-header
+ * @selector .nds-page-header
  * @restrict div
  * @support dev-ready
  */
 
-.slds-page-header {
+.nds-page-header {
   padding: $page-header-spacing-padding;
   border-bottom: $border-width-thin solid $page-header-color-border;
   border-radius: $page-header-border-radius;
@@ -25,15 +25,15 @@
 /**
  * Page title (header text).
  *
- * @selector .slds-page-header__title
- * @restrict .slds-page-header h1
+ * @selector .nds-page-header__title
+ * @restrict .nds-page-header h1
  */
-.slds-page-header__title {
+.nds-page-header__title {
   font-size: $page-header-title-font-size;
   font-weight: $page-header-title-font-weight;
   line-height: $line-height-heading;
 
-  .slds-icon {
+  .nds-icon {
     fill: currentColor;
   }
 }

@@ -3,7 +3,7 @@
 
 /**
  * @name base
- * @selector .slds-form
+ * @selector .nds-form
  * @restrict form, div, fieldset
  * @variant
  */
@@ -11,21 +11,21 @@
 /**
  * Vertically aligns form label and control, provides spacing between form elements
  *
- * @selector .slds-form_stacked
- * @restrict .slds-form:not(.slds-form_compound)
+ * @selector .nds-form_stacked
+ * @restrict .nds-form:not(.nds-form_compound)
  * @modifier
  * @group layout
  */
-.slds-form_stacked .slds-form-element,
-.slds-form--stacked .slds-form-element {
+.nds-form_stacked .nds-form-element,
+.nds-form--stacked .nds-form-element {
   display: block;
 
-  + .slds-form-element {
+  + .nds-form-element {
     @include form-element-vertical-spacing;
   }
 
-  .slds-checkbox,
-  .slds-radio {
+  .nds-checkbox,
+  .nds-radio {
     display: block;
   }
 }
@@ -33,21 +33,21 @@
 /**
  * Horizontally aligns a single form label and control on the same line
  *
- * @selector .slds-form_horizontal
- * @restrict .slds-form:not(.slds-form_compound)
+ * @selector .nds-form_horizontal
+ * @restrict .nds-form:not(.nds-form_compound)
  * @modifier
  * @group layout
  */
-.slds-form_horizontal,
-.slds-form--horizontal {
+.nds-form_horizontal,
+.nds-form--horizontal {
   @include mq-medium-min {
     text-align: $right;
   }
 
-  .slds-form-element {
+  .nds-form-element {
 
-    > .slds-form-element__legend,
-    > .slds-form-element__label {
+    > .nds-form-element__legend,
+    > .nds-form-element__label {
       @include mq-medium-min {
         float: $left;
         text-align: $right;
@@ -61,12 +61,12 @@
       }
     }
 
-    + .slds-form-element {
+    + .nds-form-element {
       @include form-element-vertical-spacing;
     }
   }
 
-  .slds-form-element__control {
+  .nds-form-element__control {
     width: 100%;
 
     @include mq-medium-min {
@@ -80,35 +80,35 @@
 /**
  * Horizontally align multiple form elements on the same axis
  *
- * @selector .slds-form_inline
- * @restrict .slds-form
+ * @selector .nds-form_inline
+ * @restrict .nds-form
  */
-.slds-form_inline,
-.slds-form--inline {
+.nds-form_inline,
+.nds-form--inline {
 
-  .slds-form-element,
-  .slds-form-element__label,
-  .slds-form-element__control {
+  .nds-form-element,
+  .nds-form-element__label,
+  .nds-form-element__control {
     display: block;
   }
 
-  .slds-form-element + .slds-form-element {
+  .nds-form-element + .nds-form-element {
     margin-top: $spacing-small;
   }
 
   @include mq-small-min {
 
-    .slds-form-element {
+    .nds-form-element {
       margin-#{$right}: $spacing-x-small;
 
-      + .slds-form-element {
+      + .nds-form-element {
         margin-top: 0;
       }
     }
 
-    .slds-form-element,
-    .slds-form-element__label,
-    .slds-form-element__control {
+    .nds-form-element,
+    .nds-form-element__label,
+    .nds-form-element__control {
       display: inline-block;
       vertical-align: middle;
       margin-bottom: 0;

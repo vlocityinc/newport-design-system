@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-.slds-spinner_container {
+.nds-spinner_container {
   position: absolute;
   top: 0;
   #{$right}: 0;
@@ -15,16 +15,16 @@
   transition-delay: 0s, 0.3s;
 }
 
-/* Follow production class names (not starting with slds-) */
+/* Follow production class names (not starting with nds-) */
 /* stylelint-disable selector-class-pattern */
-.slds-spinner_container.is-hidden {
+.nds-spinner_container.is-hidden {
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.2s ease, visibility 0s;
   transition-delay: 0s, 0s;
 }
 
-.slds-spinner_container.hide {
+.nds-spinner_container.hide {
   display: none;
 }
 /* stylelint-enable selector-class-pattern */
@@ -33,54 +33,54 @@
  * This is the gray base class for spinner
  *
  * @name base
- * @selector .slds-spinner
+ * @selector .nds-spinner
  * @restrict div
  * @variant
  */
 
-.slds-spinner {
+.nds-spinner {
   position: absolute;
   top: 50%;
   #{$left}: 50%;
   transform: translate(-50%, -50%) rotate(90deg);
 }
 
-.slds-spinner,
-.slds-spinner__dot-a,
-.slds-spinner__dot-b {
+.nds-spinner,
+.nds-spinner__dot-a,
+.nds-spinner__dot-b {
   transform-origin: 50% 50%;
 }
 
 /**
  * This creates two of the circles
  *
- * @selector .slds-spinner__dot-a
- * @restrict .slds-spinner div
+ * @selector .nds-spinner__dot-a
+ * @restrict .nds-spinner div
  * @required
  */
 
 /**
  * This creates two of the circles
  *
- * @selector .slds-spinner__dot-b
- * @restrict .slds-spinner div
+ * @selector .nds-spinner__dot-b
+ * @restrict .nds-spinner div
  * @required
  */
 
-.slds-spinner__dot-a,
-.slds-spinner__dot-b {
+.nds-spinner__dot-a,
+.nds-spinner__dot-b {
   position: absolute;
   top: 0;
   #{$left}: 0;
   width: 100%;
 }
 
-.slds-spinner:before,
-.slds-spinner:after,
-.slds-spinner__dot-a:before,
-.slds-spinner__dot-b:before,
-.slds-spinner__dot-a:after,
-.slds-spinner__dot-b:after {
+.nds-spinner:before,
+.nds-spinner:after,
+.nds-spinner__dot-a:before,
+.nds-spinner__dot-b:before,
+.nds-spinner__dot-a:after,
+.nds-spinner__dot-b:after {
   position: absolute;
   content: '';
   background: $color-background-spinner-dot;
@@ -89,35 +89,35 @@
   animation-iteration-count: infinite;
 }
 
-.slds-spinner__dot-a {
+.nds-spinner__dot-a {
   transform: rotate(60deg) translateY(0);
 }
 
-.slds-spinner__dot-b {
+.nds-spinner__dot-b {
   transform: rotate(120deg) translateY(0);
 }
 
-.slds-spinner:before {
+.nds-spinner:before {
   animation-delay: -83.33333ms;
 }
 
-.slds-spinner__dot-a:before {
+.nds-spinner__dot-a:before {
   animation-delay: 83.33333ms;
 }
 
-.slds-spinner__dot-b:before {
+.nds-spinner__dot-b:before {
   animation-delay: 250ms;
 }
 
-.slds-spinner:after {
+.nds-spinner:after {
   animation-delay: 416.66667ms;
 }
 
-.slds-spinner__dot-a:after {
+.nds-spinner__dot-a:after {
   animation-delay: 583.33333ms;
 }
 
-.slds-spinner__dot-b:after {
+.nds-spinner__dot-b:after {
   animation-delay: 750ms;
 }
 
@@ -125,21 +125,21 @@
 /**
  * This creates the blue brand spinner
  *
- * @selector .slds-spinner_brand
- * @restrict .slds-spinner
+ * @selector .nds-spinner_brand
+ * @restrict .nds-spinner
  * @modifier
  * @group color
  */
 
-.slds-spinner_brand,
-.slds-spinner--brand {
+.nds-spinner_brand,
+.nds-spinner--brand {
 
-  &.slds-spinner:before,
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:before,
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     background-color: $color-brand;
   }
 }
@@ -147,21 +147,21 @@
 /**
  * This creates the inverse spinner
  *
- * @selector .slds-spinner_inverse
- * @restrict .slds-spinner
+ * @selector .nds-spinner_inverse
+ * @restrict .nds-spinner
  * @modifier
  * @group color
  */
 
-.slds-spinner_inverse,
-.slds-spinner--inverse {
+.nds-spinner_inverse,
+.nds-spinner--inverse {
 
-  &.slds-spinner:before,
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:before,
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     background-color: $color-background-alt;
   }
 }
@@ -170,37 +170,37 @@
 /**
  * This is the extra extra small spinner
  *
- * @selector .slds-spinner_xx-small
- * @restrict .slds-spinner
+ * @selector .nds-spinner_xx-small
+ * @restrict .nds-spinner
  * @modifier
  * @group size
  */
 
-.slds-spinner_xx-small,
-.slds-spinner--xx-small {
+.nds-spinner_xx-small,
+.nds-spinner--xx-small {
   width: 0.5rem;
 
-  &.slds-spinner:before,
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:before,
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     width: 0.125rem;
     height: 0.125rem;
   }
 
-  &.slds-spinner:before,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before {
+  &.nds-spinner:before,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before {
     top: -0.0625rem;
     #{$left}: -0.0625rem;
     animation-name: dotsBounceBefore-extraExtraSmall;
   }
 
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     top: -0.0625rem;
     #{$right}: -0.0625rem;
     animation-name: dotsBounceAfter-extraExtraSmall;
@@ -244,37 +244,37 @@
 /**
  * This is the extra small spinner
  *
- * @selector .slds-spinner_x-small
- * @restrict .slds-spinner
+ * @selector .nds-spinner_x-small
+ * @restrict .nds-spinner
  * @modifier
  * @group size
  */
 
-.slds-spinner_x-small,
-.slds-spinner--x-small {
+.nds-spinner_x-small,
+.nds-spinner--x-small {
   width: 1rem;
 
-  &.slds-spinner:before,
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:before,
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     width: 0.25rem;
     height: 0.25rem;
   }
 
-  &.slds-spinner:before,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before {
+  &.nds-spinner:before,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before {
     top: -0.125rem;
     #{$left}: -0.125rem;
     animation-name: dotsBounceBefore-extraSmall;
   }
 
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     top: -0.125rem;
     #{$right}: -0.125rem;
     animation-name: dotsBounceAfter-extraSmall;
@@ -318,37 +318,37 @@
 /**
  * This is the small spinner
  *
- * @selector .slds-spinner_small
- * @restrict .slds-spinner
+ * @selector .nds-spinner_small
+ * @restrict .nds-spinner
  * @modifier
  * @group size
  */
 
-.slds-spinner_small,
-.slds-spinner--small {
+.nds-spinner_small,
+.nds-spinner--small {
   width: 1.25rem;
 
-  &.slds-spinner:before,
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:before,
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     width: 0.25rem;
     height: 0.25rem;
   }
 
-  &.slds-spinner:before,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before {
+  &.nds-spinner:before,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before {
     top: -0.125rem;
     #{$left}: -0.125rem;
     animation-name: dotsBounceBefore-small;
   }
 
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     top: -0.125rem;
     #{$right}: -0.125rem;
     animation-name: dotsBounceAfter-small;
@@ -392,37 +392,37 @@
 /**
  * This is the medium spinner
  *
- * @selector .slds-spinner_medium
- * @restrict .slds-spinner
+ * @selector .nds-spinner_medium
+ * @restrict .nds-spinner
  * @modifier
  * @group size
  */
 
-.slds-spinner_medium,
-.slds-spinner--medium {
+.nds-spinner_medium,
+.nds-spinner--medium {
   width: 2rem;
 
-  &.slds-spinner:before,
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:before,
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     width: 0.5rem;
     height: 0.5rem;
   }
 
-  &.slds-spinner:before,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before {
+  &.nds-spinner:before,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before {
     animation-name: dotsBounceBefore-medium;
     top: -0.25rem;
     #{$left}: -0.25rem;
   }
 
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     animation-name: dotsBounceAfter-medium;
     top: -0.25rem;
     #{$right}: -0.25rem;
@@ -466,37 +466,37 @@
 /**
  * This is the large spinner
  *
- * @selector .slds-spinner_large
- * @restrict .slds-spinner
+ * @selector .nds-spinner_large
+ * @restrict .nds-spinner
  * @modifier
  * @group size
  */
 
-.slds-spinner_large,
-.slds-spinner--large {
+.nds-spinner_large,
+.nds-spinner--large {
   width: 2.75rem;
 
-  &.slds-spinner:before,
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:before,
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     width: 0.625rem;
     height: 0.625rem;
   }
 
-  &.slds-spinner:before,
-  .slds-spinner__dot-a:before,
-  .slds-spinner__dot-b:before {
+  &.nds-spinner:before,
+  .nds-spinner__dot-a:before,
+  .nds-spinner__dot-b:before {
     animation-name: dotsBounceBefore-medium;
     top: -0.3125rem;
     #{$left}: -0.3125rem;
   }
 
-  &.slds-spinner:after,
-  .slds-spinner__dot-a:after,
-  .slds-spinner__dot-b:after {
+  &.nds-spinner:after,
+  .nds-spinner__dot-a:after,
+  .nds-spinner__dot-b:after {
     animation-name: dotsBounceAfter-medium;
     top: -0.3125rem;
     #{$right}: -0.3125rem;

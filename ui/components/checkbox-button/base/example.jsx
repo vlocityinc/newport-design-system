@@ -14,17 +14,19 @@ export let CheckboxAddButton = props => {
   const uniqueId = _.uniqueId('add-checkbox-');
 
   return (
-    <div className="slds-checkbox_add-button">
+    <div className="nds-checkbox_add-button">
       <input
-        className="slds-assistive-text"
+        className="nds-assistive-text"
         type="checkbox"
         id={uniqueId}
         disabled={props.disabled}
         defaultChecked={props.checked}
         tabIndex={props.tabIndex}
       />
-      <label htmlFor={uniqueId} className="slds-checkbox_faux">
-        <span className="slds-assistive-text">{ props.label || 'Add product' }</span>
+      <label htmlFor={uniqueId} className="nds-checkbox_faux">
+        <span className="nds-assistive-text">
+          {props.label || 'Add product'}
+        </span>
       </label>
     </div>
   );
@@ -34,9 +36,7 @@ export let CheckboxAddButton = props => {
 // Export
 /// ////////////////////////////////////////
 
-export default (
-  <CheckboxAddButton />
-);
+export default <CheckboxAddButton />;
 
 export let states = [
   {

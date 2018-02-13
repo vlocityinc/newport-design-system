@@ -5,21 +5,21 @@
  * @summary Initializes radio button
  *
  * @name base
- * @selector .slds-radio
+ * @selector .nds-radio
  * @restrict span
  * @variant
  */
-.slds-radio {
+.nds-radio {
   display: inline-block;
 
   /**
    * Creates a custom styled radio button
    *
-   * @selector .slds-radio_faux
-   * @restrict [class*='slds-radio'] span
+   * @selector .nds-radio_faux
+   * @restrict [class*='nds-radio'] span
    */
-  .slds-radio_faux,
-  .slds-radio--faux {
+  .nds-radio_faux,
+  .nds-radio--faux {
     @include square($square-icon-medium-content);
     display: inline-block;
     position: relative;
@@ -30,7 +30,7 @@
     transition: border $duration-quickly linear, background-color $duration-quickly linear;
   }
 
-  .slds-form-element__label {
+  .nds-form-element__label {
     display: inline;
     vertical-align: middle;
     font-size: $font-size-medium-a;
@@ -46,12 +46,12 @@
     padding: 0;
     position: absolute;
 
-    &:checked + .slds-radio_faux,
-    &:checked + .slds-radio--faux,
-    &:checked ~ .slds-radio_faux,
-    &:checked ~ .slds-radio--faux,
-    &:checked + .slds-radio__label .slds-radio_faux,
-    &:checked + .slds-radio__label .slds-radio--faux {
+    &:checked + .nds-radio_faux,
+    &:checked + .nds-radio--faux,
+    &:checked ~ .nds-radio_faux,
+    &:checked ~ .nds-radio--faux,
+    &:checked + .nds-radio__label .nds-radio_faux,
+    &:checked + .nds-radio__label .nds-radio--faux {
       background: $color-background-input;
       border-color: $color-brand;
 
@@ -67,12 +67,12 @@
       }
     }
 
-    &:focus + .slds-radio_faux,
-    &:focus + .slds-radio--faux,
-    &:focus ~ .slds-radio_faux,
-    &:focus ~ .slds-radio--faux,
-    &:focus + .slds-radio__label .slds-radio_faux,
-    &:focus + .slds-radio__label .slds-radio--faux {
+    &:focus + .nds-radio_faux,
+    &:focus + .nds-radio--faux,
+    &:focus ~ .nds-radio_faux,
+    &:focus ~ .nds-radio--faux,
+    &:focus + .nds-radio__label .nds-radio_faux,
+    &:focus + .nds-radio__label .nds-radio--faux {
       border-color: $color-border-input-active;
       box-shadow: $shadow-button-focus;
     }
@@ -82,10 +82,10 @@
       cursor: not-allowed;
       user-select: none;
 
-      ~ .slds-radio_faux,
-      ~ .slds-radio--faux,
-      + .slds-radio__label .slds-radio_faux,
-      + .slds-radio__label .slds-radio--faux {
+      ~ .nds-radio_faux,
+      ~ .nds-radio--faux,
+      + .nds-radio__label .nds-radio_faux,
+      + .nds-radio__label .nds-radio--faux {
         background-color: $color-background-input-disabled;
         border-color: $color-border-input-disabled;
       }
@@ -93,28 +93,28 @@
   }
 }
 
-.slds-form-element__control .slds-checkbox, .slds-form-element__control .slds-radio {
+.nds-form-element__control .nds-checkbox, .nds-form-element__control .nds-radio {
   display: inline-block;
 }
 
-.slds-has-error .slds-radio [type='radio'] {
+.nds-has-error .nds-radio [type='radio'] {
 
-  + .slds-radio_faux,
-  + .slds-radio--faux,
-  ~ .slds-radio_faux,
-  ~ .slds-radio--faux,
-  + .slds-radio__label .slds-radio_faux,
-  + .slds-radio__label .slds-radio--faux {
+  + .nds-radio_faux,
+  + .nds-radio--faux,
+  ~ .nds-radio_faux,
+  ~ .nds-radio--faux,
+  + .nds-radio__label .nds-radio_faux,
+  + .nds-radio__label .nds-radio--faux {
     border-color: $color-border-error;
     border-width: $border-width-thick;
   }
 
-  &:checked + .slds-radio_faux,
-  &:checked + .slds-radio--faux,
-  &:checked ~ .slds-radio_faux,
-  &:checked ~ .slds-radio--faux,
-  &:checked + .slds-radio__label .slds-radio_faux,
-  &:checked + .slds-radio__label .slds-radio--faux {
+  &:checked + .nds-radio_faux,
+  &:checked + .nds-radio--faux,
+  &:checked ~ .nds-radio_faux,
+  &:checked ~ .nds-radio--faux,
+  &:checked + .nds-radio__label .nds-radio_faux,
+  &:checked + .nds-radio__label .nds-radio--faux {
     background: $color-background-input;
 
     &:after {
@@ -123,11 +123,11 @@
   }
 }
 
-.slds-form-element .slds-radio [type='radio'] + .slds-radio_faux,
-.slds-form-element .slds-radio [type='radio'] + .slds-radio--faux,
-.slds-form-element .slds-radio [type='radio'] ~ .slds-radio_faux,
-.slds-form-element .slds-radio [type='radio'] ~ .slds-radio--faux,
-.slds-radio [type='radio'] + .slds-radio__label .slds-radio_faux,
-.slds-radio [type='radio'] + .slds-radio__label .slds-radio--faux {
+.nds-form-element .nds-radio [type='radio'] + .nds-radio_faux,
+.nds-form-element .nds-radio [type='radio'] + .nds-radio--faux,
+.nds-form-element .nds-radio [type='radio'] ~ .nds-radio_faux,
+.nds-form-element .nds-radio [type='radio'] ~ .nds-radio--faux,
+.nds-radio [type='radio'] + .nds-radio__label .nds-radio_faux,
+.nds-radio [type='radio'] + .nds-radio__label .nds-radio--faux {
   margin-#{$right}: $spacing-medium;
 }

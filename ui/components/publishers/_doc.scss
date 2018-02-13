@@ -2,7 +2,7 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * To initialize the publisher, apply the `.slds-publisher` class to a containing
+ * To initialize the publisher, apply the `.nds-publisher` class to a containing
  * `<div>`. The publisher consists of, but not limited to, a text input form
  * element that is either a plain text or rich text editor. A row of actionable
  * interactions, such as attaching additional content, adding followers and a submit button.
@@ -14,7 +14,7 @@
  *
  * @base
  * @name publishers
- * @selector .slds-publisher
+ * @selector .nds-publisher
  * @support dev-ready
  * @category feature
  * @type data-entry

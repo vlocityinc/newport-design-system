@@ -3,12 +3,12 @@
 
 /**
  * @name base
- * @selector .slds-notify_container
+ * @selector .nds-notify_container
  * @restrict div
  * @variant
  */
-.slds-notify-container,
-.slds-notify_container {
+.nds-notify-container,
+.nds-notify_container {
   @include deprecate('4.0.0', '`notify-container` is deprecated, use `notify_container` instead.');
   position: fixed;
   width: 100%;
@@ -21,12 +21,12 @@
 /**
  * Initializes toast notification
  *
- * @selector .slds-notify_toast
- * @restrict .slds-notify_container div
+ * @selector .nds-notify_toast
+ * @restrict .nds-notify_container div
  * @required
  */
-.slds-notify_toast,
-.slds-notify--toast {
+.nds-notify_toast,
+.nds-notify--toast {
   @include inverse-text;
   display: inline-flex;
   align-items: center;
@@ -43,11 +43,11 @@
   /**
    * Alert close button
    *
-   * @selector .slds-notify__close
-   * @restrict .slds-notify_toast button
+   * @selector .nds-notify__close
+   * @restrict .nds-notify_toast button
    * @required
    */
-  .slds-notify__close {
+  .nds-notify__close {
     float: $right;
     position: absolute;
     top: $spacing-small;
@@ -58,12 +58,12 @@
 }
 
 // Modify toasts when in a narrow column
-.slds-region_narrow {
+.nds-region_narrow {
 
-  // Modifying .slds-notify--toast when inside a region with the
-  // class .slds-region--narrow
-  .slds-notify_toast,
-  .slds-notify--toast {
+  // Modifying .nds-notify--toast when inside a region with the
+  // class .nds-region--narrow
+  .nds-notify_toast,
+  .nds-notify--toast {
     min-width: auto;
     width: 100%;
     margin-#{$left}: 0;

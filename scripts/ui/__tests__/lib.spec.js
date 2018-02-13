@@ -11,7 +11,7 @@ const React = require('react');
 const ReactDOM = require('react-dom/server');
 
 describe('scripts/lib.js', () => {
-  let uiJson, SLDS;
+  let uiJson, NDS;
 
   beforeAll(() => {
     ui().fork(
@@ -20,26 +20,26 @@ describe('scripts/lib.js', () => {
       },
       r => {
         uiJson = r;
-        SLDS = createInstance(uiJson);
+        NDS = createInstance(uiJson);
       }
     );
   });
 
   it('returns a list of components', () => {
-    const comps = SLDS.components();
+    const comps = NDS.components();
     expect(comps.count()).toBeGreaterThan(1);
     expect(comps.first()).toEqual('buttons');
   });
 
   it('returns a component', () => {
-    const comp = SLDS.component('buttons').getOrElse(null);
+    const comp = NDS.component('buttons').getOrElse(null);
     expect(comp.get('id')).toEqual('buttons');
     expect(comp.get('restrictees').count()).toBeGreaterThan(0);
   });
 
   it('finds a variant', () => {
-    const comp = SLDS.component('buttons').getOrElse(null);
-    const variant = SLDS.findVariant(comp, 'stateful').getOrElse(null);
+    const comp = NDS.component('buttons').getOrElse(null);
+    const variant = NDS.findVariant(comp, 'stateful').getOrElse(null);
     expect(variant.get('id')).toEqual('stateful');
     expect(variant.get('restrictees').count()).toBeGreaterThan(0);
   });
@@ -47,7 +47,7 @@ describe('scripts/lib.js', () => {
   it('gets every example in the system', () => {
     const allMarkup = uiJson.flatMap((group, name) =>
       group.map(item =>
-        SLDS.variants(item).flatMap(variant =>
+        NDS.variants(item).flatMap(variant =>
           showcase(item.get('showcasePath'), true).flatMap(section =>
             section
               .get('items')

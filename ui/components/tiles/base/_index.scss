@@ -5,35 +5,35 @@
  * @summary Initializes tile
  *
  * @name base
- * @selector .slds-tile
+ * @selector .nds-tile
  * @restrict article
  * @variant
  */
-.slds-tile {
+.nds-tile {
 
-  + .slds-tile {
+  + .nds-tile {
     margin-top: $spacing-x-small;
   }
 
   /**
-   * @selector .slds-tile__detail
-   * @restrict .slds-tile div
+   * @selector .nds-tile__detail
+   * @restrict .nds-tile div
    */
   &__detail {
     position: relative;
   }
 
   /**
-   * @selector .slds-tile__meta
-   * @restrict .slds-tile div
+   * @selector .nds-tile__meta
+   * @restrict .nds-tile div
    */
   &__meta {
     color: $color-text-default;
   }
 }
 
-.slds-tile_board,
-.slds-tile--board {
+.nds-tile_board,
+.nds-tile--board {
   position: relative;
 
   &__icon {
@@ -43,7 +43,7 @@
     #{$right}: $spacing-xx-small;
   }
 
-  .slds-has-alert {
+  .nds-has-alert {
     padding-#{$right}: $spacing-large;
   }
 }

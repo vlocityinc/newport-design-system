@@ -9,15 +9,17 @@ export let CustomIcon = props => {
   const symbol = props.symbol || 'custom5';
   return (
     <span
-      className={classNames('slds-icon_container slds-icon-custom-' + symbol)}
+      className={classNames('nds-icon_container nds-icon-custom-' + symbol)}
       title={props.title || 'Description of icon when needed'}
     >
       <SvgIcon
-        className={classNames('slds-icon', props.className)}
+        className={classNames('nds-icon', props.className)}
         sprite="custom"
         symbol={symbol}
       />
-      <span className="slds-assistive-text">{ props.assistiveText || 'Description of icon' }</span>
+      <span className="nds-assistive-text">
+        {props.assistiveText || 'Description of icon'}
+      </span>
     </span>
   );
 };
@@ -26,6 +28,4 @@ export let CustomIcon = props => {
 // Export
 /// ///////////////////////////////////////////
 
-export default (
-  <CustomIcon />
-);
+export default <CustomIcon />;

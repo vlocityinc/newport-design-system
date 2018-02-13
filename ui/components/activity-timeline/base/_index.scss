@@ -5,15 +5,15 @@
  * @summary Create each activity timeline item in a list
  *
  * @name base
- * @selector .slds-timeline__media
- * @restrict .slds-media
+ * @selector .nds-timeline__media
+ * @restrict .nds-media
  * @support dev-ready
  * @variant
  */
-.slds-timeline__media,
-.slds-media_timeline,
-.slds-media--timeline {
-  @include deprecate('4.0.0', 'Use .slds-timeline__media instead of .slds-media--timeline');
+.nds-timeline__media,
+.nds-media_timeline,
+.nds-media--timeline {
+  @include deprecate('4.0.0', 'Use .nds-timeline__media instead of .nds-media--timeline');
   @include feed-vertical-rule($square-icon-small-boundary, $border-width-thick);
   padding-bottom: $spacing-large;
 
@@ -23,12 +23,12 @@
 }
 
 /**
- * @selector .slds-timeline__title
- * @restrict .slds-timeline__media h3
+ * @selector .nds-timeline__title
+ * @restrict .nds-timeline__media h3
  * @deprecated
  */
-.slds-timeline__title {
-  @include deprecate('4.0.0', '.slds-timeline__title is no longer in use, please remove from DOM.') {
+.nds-timeline__title {
+  @include deprecate('4.0.0', '.nds-timeline__title is no longer in use, please remove from DOM.') {
     position: relative;
 
     &-content {
@@ -51,12 +51,12 @@
   }
 }
 
-.slds-timeline {
+.nds-timeline {
   /**
    * Icon associated with timeline item
    *
-   * @selector .slds-timeline__icon
-   * @restrict .slds-timeline__media .slds-media__figure
+   * @selector .nds-timeline__icon
+   * @restrict .nds-timeline__media .nds-media__figure
    */
   &__icon {
     margin-top: ($spacing-small * -1);
@@ -68,9 +68,9 @@
   /**
    * Container for date and action overflow on the right of a timeline item
    *
-   * @selector .slds-timeline__actions
-   * @restrict .slds-timeline__item div
-   * @notes This is directly inside the `.slds-media--reverse` > `.slds-media__figure`
+   * @selector .nds-timeline__actions
+   * @restrict .nds-timeline__item div
+   * @notes This is directly inside the `.nds-media--reverse` > `.nds-media__figure`
    */
   &__actions {
     display: flex;
@@ -79,10 +79,10 @@
   }
 
   /**
-   * Styles the date inside `.slds-timeline__actions`
+   * Styles the date inside `.nds-timeline__actions`
    *
-   * @selector .slds-timeline__date
-   * @restrict .slds-timeline__actions p
+   * @selector .nds-timeline__date
+   * @restrict .nds-timeline__actions p
    */
   &__date {
     margin-bottom: $spacing-xx-small;
@@ -92,8 +92,8 @@
 
   /**
    * @name call
-   * @selector .slds-timeline__media_call
-   * @restrict .slds-timeline__media
+   * @selector .nds-timeline__media_call
+   * @restrict .nds-timeline__media
    * @variant
    */
   &__media_call:before,
@@ -103,8 +103,8 @@
 
   /**
    * @name email
-   * @selector .slds-timeline__media_email
-   * @restrict .slds-timeline__media
+   * @selector .nds-timeline__media_email
+   * @restrict .nds-timeline__media
    * @variant
    */
   &__media_email:before,
@@ -114,8 +114,8 @@
 
   /**
    * @name event
-   * @selector .slds-timeline__media_event
-   * @restrict .slds-timeline__media
+   * @selector .nds-timeline__media_event
+   * @restrict .nds-timeline__media
    * @variant
    */
   &__media_event:before,
@@ -125,8 +125,8 @@
 
   /**
    * @name task
-   * @selector .slds-timeline__media_task
-   * @restrict .slds-timeline__media
+   * @selector .nds-timeline__media_task
+   * @restrict .nds-timeline__media
    * @variant
    */
   &__media_task:before,

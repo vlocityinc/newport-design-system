@@ -3,10 +3,10 @@
 
 /**
  *
- * @selector .slds-notification-container
+ * @selector .nds-notification-container
  * @restrict div
  */
-.slds-notification-container {
+.nds-notification-container {
   position: fixed;
   display: block;
   width: ($size-medium + $spacing-x-small); // this is 320, not 300px
@@ -19,18 +19,18 @@
 /**
  *
  * @name base
- * @selector .slds-notification
- * @restrict .slds-notification-container section, .slds-notification-container div
+ * @selector .nds-notification
+ * @restrict .nds-notification-container section, .nds-notification-container div
  * @variant
  */
-.slds-notification {
+.nds-notification {
   position: relative;
   width: $size-medium; // this is 320, not 300px
   border: 1px solid $color-border-reminder;
   border-radius: $border-radius-medium;
   box-shadow: $shadow-reminder;
 
-  + .slds-notification {
+  + .nds-notification {
     margin-top: $spacing-small;
   }
 
@@ -49,17 +49,17 @@
 /**
  * @summary The body of the notification
  *
- * @selector .slds-notification__body
- * @restrict .slds-notification div
+ * @selector .nds-notification__body
+ * @restrict .nds-notification div
  */
 
 /**
  * @summary Main reminder component
  *
- * @selector .slds-notification__target
- * @restrict .slds-notification__body a
+ * @selector .nds-notification__target
+ * @restrict .nds-notification__body a
  */
-.slds-notification__target {
+.nds-notification__target {
   padding: side-values($spacing-small $spacing-large $spacing-medium $spacing-small);
   border-radius: $border-radius-medium;
   background-color: $color-background-alt;
@@ -75,20 +75,20 @@
 /**
  * @summary Optional notification footer
  *
- * @selector .slds-notification__footer
- * @restrict .slds-notification div
+ * @selector .nds-notification__footer
+ * @restrict .nds-notification div
  */
-.slds-notification__footer {
+.nds-notification__footer {
   padding: side-values($spacing-small $spacing-small $spacing-medium $spacing-small);
 }
 
 /**
  * @summary Notification close button
  *
- * @selector .slds-notification__close
- * @restrict .slds-notification__body button
+ * @selector .nds-notification__close
+ * @restrict .nds-notification__body button
  */
-.slds-notification__close {
+.nds-notification__close {
   position: absolute;
   top: 0;
   #{$right}: 0;

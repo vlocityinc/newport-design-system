@@ -5,11 +5,11 @@
  * Checkmark that is visibily toggled when input is checked
  *
  * @name non-coverable-content
- * @selector .slds-visual-picker__text-check
- * @restrict .slds-visual-picker span
+ * @selector .nds-visual-picker__text-check
+ * @restrict .nds-visual-picker span
  * @variant
  */
-.slds-visual-picker__text-check {
+.nds-visual-picker__text-check {
   position: absolute;
   top: rem(-1px);
   #{$right}: rem(10px);

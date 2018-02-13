@@ -2,31 +2,31 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * To create a pill, apply the `.slds-pill` class on a `<span>`.
+ * To create a pill, apply the `.nds-pill` class on a `<span>`.
  *
  * Depending on your context, you will either need a linked pill or a pill option inside of a listbox.
  *
- * For linked pills, a modifier class of `slds-pill--link` needs to be added to the existing `<span>` with the classname of `slds-pill`. You need an `<a>` inside of the span with the `slds-pill--link` class. The `<a>` will get the classname of `slds-pill__action`. This will treat the interactions differently from an unlinked pill option inside of a listbox.
+ * For linked pills, a modifier class of `nds-pill--link` needs to be added to the existing `<span>` with the classname of `nds-pill`. You need an `<a>` inside of the span with the `nds-pill--link` class. The `<a>` will get the classname of `nds-pill__action`. This will treat the interactions differently from an unlinked pill option inside of a listbox.
  *
- * For both linked pills and unlinked pill options, a `<span>` with the classname of `slds-pill__label` should contain the string of text describing the pill object.
+ * For both linked pills and unlinked pill options, a `<span>` with the classname of `nds-pill__label` should contain the string of text describing the pill object.
  *
  * Note, that a linked pill should not be used as a pill option inside of a listbox.
  *
- * Additionally, a pill can have an icon or image that sits to the left-hand side of the `.slds-pill__label`. That icon or image should receive the class `.slds-pill__icon_container`.
+ * Additionally, a pill can have an icon or image that sits to the left-hand side of the `.nds-pill__label`. That icon or image should receive the class `.nds-pill__icon_container`.
  *
- * You may also want the functionality to remove the pill as a selection. An "X" icon is normally used and will sit to the right-hand side of the `.slds-pill__label`. That icon should receive the class `.slds-pill__remove`.
+ * You may also want the functionality to remove the pill as a selection. An "X" icon is normally used and will sit to the right-hand side of the `.nds-pill__label`. That icon should receive the class `.nds-pill__remove`.
  *
- * A `.slds-pill_container` can be used as a visual container for multiple pill(s).
+ * A `.nds-pill_container` can be used as a visual container for multiple pill(s).
  *
  * @summary Initializes pill
  *
  * @name base
- * @selector .slds-pill
+ * @selector .nds-pill
  * @restrict span
  * @support dev-ready
  * @variant
  */
-.slds-pill {
+.nds-pill {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -38,7 +38,7 @@
   position: relative;
   min-height: $height-pill;
 
-  + .slds-pill {
+  + .nds-pill {
     margin-#{$left}: $spacing-xxx-small;
   }
 
@@ -60,8 +60,8 @@
   /**
    * Modifier that removes border and background from a pill
    *
-   * @selector .slds-pill_bare
-   * @restrict .slds-pill
+   * @selector .nds-pill_bare
+   * @restrict .nds-pill
    * @modifier
    */
   &_bare,
@@ -77,13 +77,13 @@
   /**
    * Container to hold pill(s) with borders
    *
-   * @selector .slds-pill_container
+   * @selector .nds-pill_container
    * @restrict div
    */
   &__container,
   &-container,
   &_container {
-    @include deprecate('4.0.0', 'Use .slds-pill_container');
+    @include deprecate('4.0.0', 'Use .nds-pill_container');
     display: flex;
     min-height: calc(#{$height-input} + 2px);
     padding: $spacing-xxx-small;
@@ -95,8 +95,8 @@
   /**
    * Container to hold pill(s) with no borders
    *
-   * @selector .slds-pill_container_bare
-   * @restrict .slds-pill_container
+   * @selector .nds-pill_container_bare
+   * @restrict .nds-pill_container
    * @modifier
    * @deprecated
    */
@@ -115,8 +115,8 @@
   /**
    * Line of text inside a pill
    *
-   * @selector .slds-pill__label
-   * @restrict .slds-pill a, .slds-pill span
+   * @selector .nds-pill__label
+   * @restrict .nds-pill a, .nds-pill span
    */
   &__label {
     white-space: nowrap;
@@ -133,22 +133,22 @@
   /**
    * Initializes pill icon or avatar that sits to the left of the label
    *
-   * @selector .slds-pill__icon_container
-   * @restrict .slds-pill span
+   * @selector .nds-pill__icon_container
+   * @restrict .nds-pill span
    */
   &__icon,
   &__icon_container {
     @include square($square-icon-x-small-boundary);
     margin-#{$right}: $spacing-xx-small;
 
-    .slds-icon,
-    .slds-avatar {
+    .nds-icon,
+    .nds-avatar {
       @include square($square-icon-x-small-boundary);
       display: block;
       font-size: $font-size-heading-xx-small;
     }
 
-    ~ .slds-pill__action {
+    ~ .nds-pill__action {
       padding-#{$left}: calc(#{$square-icon-x-small-boundary} + #{$spacing-xx-small} + 2px);
     }
   }
@@ -156,8 +156,8 @@
   /**
    * Initializes remove icon in pill that sits to the right of the label
    *
-   * @selector .slds-pill__remove
-   * @restrict .slds-pill button, .slds-pill span
+   * @selector .nds-pill__remove
+   * @restrict .nds-pill button, .nds-pill span
    */
   &__remove {
     @include square ($square-icon-xx-small-boundary);
@@ -176,15 +176,15 @@
 /**
  * Creates a pill with a hyperlink
  *
- * @selector .slds-pill_link
- * @restrict .slds-pill
+ * @selector .nds-pill_link
+ * @restrict .nds-pill
  */
-.slds-pill_link,
-.slds-pill--link {
+.nds-pill_link,
+.nds-pill--link {
   border: 0;
   padding: 0;
 
-  .slds-pill__icon_container {
+  .nds-pill__icon_container {
     display: inline-block;
     position: absolute;
     top: 50%;
@@ -192,7 +192,7 @@
     transform: translateY(-50%);
   }
 
-  .slds-pill__remove {
+  .nds-pill__remove {
     position: absolute;
     top: 50%;
     #{$right}: $spacing-xxx-small;
@@ -203,10 +203,10 @@
 /**
  * Actionable element inside of pill with hyperlink
  *
- * @selector .slds-pill__action
- * @restrict .slds-pill_link a
+ * @selector .nds-pill__action
+ * @restrict .nds-pill_link a
  */
-.slds-pill__action {
+.nds-pill__action {
   padding: $spacing-xxx-small;
   padding-#{$right}: calc(#{$square-icon-xx-small-boundary} + #{$spacing-xx-small} + 2px);
   border: $border-width-thin solid $color-border;
@@ -226,19 +226,19 @@
 /**
  * Pill error styles
  *
- * @selector .slds-has-error
- * @restrict .slds-pill
+ * @selector .nds-has-error
+ * @restrict .nds-pill
  * @modifier
  */
-.slds-has-error {
+.nds-has-error {
   border-color: $color-border-error;
 
-  .slds-pill__label {
+  .nds-pill__label {
     font-weight: $font-weight-bold;
     color: $color-text-error;
   }
 
-  .slds-pill__action {
+  .nds-pill__action {
     border-color: $color-border-error;
   }
 }

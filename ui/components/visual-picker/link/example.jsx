@@ -4,40 +4,45 @@
 import React from 'react';
 import SvgIcon from '../../../shared/svg-icon';
 import classNames from 'classnames';
-import {UtilityIcon} from '../../icons/base/example';
+import { UtilityIcon } from '../../icons/base/example';
 
 /// ////////////////////////////////////////
 // Partial(s)
 /// ////////////////////////////////////////
 
-export let VisualPickerMediaObject = props =>
+export let VisualPickerMediaObject = props => (
   <a
     href="javascript:void(0);"
     className={classNames(
-      'slds-box slds-box_link slds-box_x-small slds-media',
+      'nds-box nds-box_link nds-box_x-small nds-media',
       props.className
     )}
   >
-    <div className="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small">
-      <UtilityIcon
-        className="slds-icon-text-default"
-        symbol="knowledge_base"
-      />
+    <div className="nds-media__figure nds-media__figure_fixed-width nds-align_absolute-center nds-m-left_xx-small">
+      <UtilityIcon className="nds-icon-text-default" symbol="knowledge_base" />
     </div>
-    <div className="slds-media__body slds-border_left slds-p-around_small">
+    <div className="nds-media__body nds-border_left nds-p-around_small">
       {props.children}
     </div>
-  </a>;
+  </a>
+);
 
 /// ////////////////////////////////////////
 // Export
 /// ////////////////////////////////////////
 
 export default (
-  <div className="demo-only" style={{width: '24rem'}}>
+  <div className="demo-only" style={{ width: '24rem' }}>
     <VisualPickerMediaObject symbol="user">
-      <h2 className="slds-truncate slds-text-heading_small" title="Share the knowledge">Share the knowledge</h2>
-      <p className="slds-m-top_small">Harness your team's collective know-how with our powerful knowledge base</p>
+      <h2
+        className="nds-truncate nds-text-heading_small"
+        title="Share the knowledge"
+      >
+        Share the knowledge
+      </h2>
+      <p className="nds-m-top_small">
+        Harness your team's collective know-how with our powerful knowledge base
+      </p>
     </VisualPickerMediaObject>
   </div>
 );

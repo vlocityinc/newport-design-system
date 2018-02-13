@@ -3,7 +3,7 @@
 exports[`doesn't change configs 1`] = `
 Array [
   Object {
-    "entry": "./scripts/compile/slds.js",
+    "entry": "./scripts/compile/nds.js",
     "module": Object {
       "rules": Array [
         Object {
@@ -60,8 +60,8 @@ Array [
       ],
     },
     "output": Object {
-      "filename": "__internal/slds.umd.js",
-      "library": "SLDS",
+      "filename": "__internal/nds.umd.js",
+      "library": "NDS",
       "libraryTarget": "umd",
       "publicPath": "/assets/scripts/bundle/",
     },
@@ -149,9 +149,9 @@ Array [
     },
     "output": Object {
       "filename": "[name]",
-      "jsonpFunction": "webpackJsonpSLDS___internal_chunked_showcase",
+      "jsonpFunction": "webpackJsonpNDS___internal_chunked_showcase",
       "library": Array [
-        "SLDS",
+        "NDS",
         "[name]",
       ],
       "publicPath": "/assets/scripts/bundle/",
@@ -233,9 +233,9 @@ Array [
     },
     "output": Object {
       "filename": "[name]",
-      "jsonpFunction": "webpackJsonpSLDS___internal_chunked_docs",
+      "jsonpFunction": "webpackJsonpNDS___internal_chunked_docs",
       "library": Array [
-        "SLDS",
+        "NDS",
         "[name]",
       ],
       "publicPath": "/assets/scripts/bundle/",

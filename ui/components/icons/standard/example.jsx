@@ -9,17 +9,22 @@ export let StandardIcon = props => {
   const symbol = props.symbol || 'account';
   return (
     <span
-      className={classNames('slds-icon_container slds-icon-standard-' + symbol, props.containerClassName)}
+      className={classNames(
+        'nds-icon_container nds-icon-standard-' + symbol,
+        props.containerClassName
+      )}
       title={props.title || 'Description of icon when needed'}
     >
       <SvgIcon
-        className={classNames('slds-icon', props.className)}
+        className={classNames('nds-icon', props.className)}
         sprite="standard"
         symbol={symbol}
       />
-      {props.assistiveText != false
-        ? <span className="slds-assistive-text">{ props.assistiveText || 'Description of icon' }</span>
-      : null}
+      {props.assistiveText != false ? (
+        <span className="nds-assistive-text">
+          {props.assistiveText || 'Description of icon'}
+        </span>
+      ) : null}
     </span>
   );
 };
@@ -28,6 +33,4 @@ export let StandardIcon = props => {
 // Export
 /// ///////////////////////////////////////////
 
-export default (
-  <StandardIcon />
-);
+export default <StandardIcon />;

@@ -27,17 +27,17 @@ const listboxOptionId03 = 'listbox-option-unique-id-03';
 const ListboxDropdown = props => (
   <Listbox
     aria-label={props.heading ? props.heading : null}
-    className="slds-dropdown slds-dropdown_fluid"
+    className="nds-dropdown nds-dropdown_fluid"
     vertical
   >
     {props.heading ? (
-      <li role="presentation" className="slds-listbox__item">
+      <li role="presentation" className="nds-listbox__item">
         <span
-          className="slds-media slds-listbox__option slds-listbox__option_plain"
+          className="nds-media nds-listbox__option nds-listbox__option_plain"
           role="presentation"
           id={listboxOptionId00}
         >
-          <h3 className="slds-text-title_caps" role="presentation">
+          <h3 className="nds-text-title_caps" role="presentation">
             {props.heading}
           </h3>
         </span>
@@ -80,8 +80,8 @@ export const Context = props => (
 // Default
 export default (
   <ComboboxContainer
-    className="slds-combobox-picklist"
-    containerClassName="slds-size_small"
+    className="nds-combobox-picklist"
+    containerClassName="nds-size_small"
     inputIcon="right"
     inputIconRightSymbol="chevrondown"
     listbox={<ListboxDropdown />}
@@ -96,7 +96,7 @@ export let states = [
     label: 'Focused',
     element: (
       <ComboboxContainer
-        containerClassName="slds-size_small"
+        containerClassName="nds-size_small"
         isOpen
         inputIcon="right"
         inputIconRightSymbol="chevrondown"
@@ -113,7 +113,7 @@ export let states = [
     label: 'Open - Item Focused',
     element: (
       <ComboboxContainer
-        containerClassName="slds-size_small"
+        containerClassName="nds-size_small"
         isOpen
         inputIcon="right"
         inputIconRightSymbol="chevrondown"
@@ -128,7 +128,7 @@ export let states = [
     label: 'Open - Option Selected',
     element: (
       <ComboboxContainer
-        containerClassName="slds-size_small"
+        containerClassName="nds-size_small"
         isOpen
         inputIcon="right"
         inputIconRightSymbol="chevrondown"
@@ -143,7 +143,7 @@ export let states = [
     label: 'Open - Options Selected',
     element: (
       <ComboboxContainer
-        containerClassName="slds-size_small"
+        containerClassName="nds-size_small"
         isOpen
         inputIcon="right"
         inputIconRightSymbol="chevrondown"
@@ -158,7 +158,7 @@ export let states = [
     label: 'Closed - Option Selected',
     element: (
       <ComboboxContainer
-        containerClassName="slds-size_small"
+        containerClassName="nds-size_small"
         inputIcon="right"
         inputIconRightSymbol="chevrondown"
         value="Option A"
@@ -172,7 +172,7 @@ export let states = [
     label: 'Closed - Options Selected',
     element: (
       <ComboboxContainer
-        containerClassName="slds-size_small"
+        containerClassName="nds-size_small"
         inputIcon="right"
         inputIconRightSymbol="chevrondown"
         value="2 Options Selected"
@@ -182,7 +182,7 @@ export let states = [
         <Listbox
           id={listboxSelectionsId}
           aria-label="Selected Options:"
-          className="slds-p-top_xxx-small"
+          className="nds-p-top_xxx-small"
           horizontal
         >
           <ListboxItem>
@@ -200,7 +200,7 @@ export let states = [
     label: 'Group heading label',
     element: (
       <ComboboxContainer
-        containerClassName="slds-size_small"
+        containerClassName="nds-size_small"
         isOpen
         inputIcon="right"
         inputIconRightSymbol="chevrondown"

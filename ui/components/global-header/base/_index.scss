@@ -6,11 +6,11 @@
  * contains global header element
  *
  * @name base
- * @selector .slds-global-header_container
+ * @selector .nds-global-header_container
  * @restrict header
  * @variant
  */
-.slds-global-header_container {
+.nds-global-header_container {
   position: fixed;
   width: 100%;
   top: 0;
@@ -18,18 +18,18 @@
   z-index: $z-index-sticky;
 
   // Position for when assistive text becomes into focus
-  .slds-assistive-text_focus,
-  .slds-assistive-text--focus {
+  .nds-assistive-text_focus,
+  .nds-assistive-text--focus {
     background: $global-header-color-background;
     top: 0;
   }
 }
 
 /**
- * @selector .slds-global-header
- * @restrict .slds-global-header_container div
+ * @selector .nds-global-header
+ * @restrict .nds-global-header_container div
  */
-.slds-global-header {
+.nds-global-header {
   background: $global-header-color-background;
   box-shadow: $shadow-header;
   padding: $spacing-x-small 0;
@@ -39,8 +39,8 @@
   /**
    * A region within the global header
    *
-   * @selector .slds-global-header__item
-   * @restrict .slds-global-header div, .slds-global-header ul
+   * @selector .nds-global-header__item
+   * @restrict .nds-global-header div, .nds-global-header ul
    */
   &__item {
     padding: 0 $spacing-medium;
@@ -49,20 +49,20 @@
   /**
    * Region that contains the search input, handles sizing
    *
-   * @selector .slds-global-header__item_search
-   * @restrict .slds-global-header__item:nth-child(2)
+   * @selector .nds-global-header__item_search
+   * @restrict .nds-global-header__item:nth-child(2)
    */
   &__item_search,
   &__item--search {
     flex: 0 1 rem(440px);
     padding: 0;
 
-    .slds-input {
+    .nds-input {
       padding-#{$left}: ($spacing-large * 2);
     }
 
-    .slds-input__icon_left,
-    .slds-input__icon--left {
+    .nds-input__icon_left,
+    .nds-input__icon--left {
       #{$left}: ($spacing-medium + $spacing-xx-small);
     }
   }
@@ -70,8 +70,8 @@
   /**
    * Container of the global header logo
    *
-   * @selector .slds-global-header__logo
-   * @restrict .slds-global-header__item div
+   * @selector .nds-global-header__logo
+   * @restrict .nds-global-header__item div
    * @required
    */
   &__logo {
@@ -82,8 +82,8 @@
   /**
    * Button icons on the global header
    *
-   * @selector .slds-global-header__button_icon
-   * @restrict .slds-global-header__item button
+   * @selector .nds-global-header__button_icon
+   * @restrict .nds-global-header__item button
    * @required
    */
   &__button_icon,
@@ -91,7 +91,7 @@
     margin: 0 $spacing-xx-small;
     color: $fill-header-button;
 
-    .slds-icon {
+    .nds-icon {
       fill: $fill-header-button; // backwards compatible for old implementations
     }
 
@@ -100,8 +100,8 @@
       color: $fill-header-button-hover;
     }
 
-    &:hover:not(:disabled) .slds-icon,
-    &:focus .slds-icon {
+    &:hover:not(:disabled) .nds-icon,
+    &:focus .nds-icon {
       fill: $fill-header-button-hover; // backwards compatible for old implementations
     }
   }
@@ -109,8 +109,8 @@
   /**
    * Button icon specifically for global actions
    *
-   * @selector .slds-global-header__button_icon-actions
-   * @restrict .slds-global-header__item button
+   * @selector .nds-global-header__button_icon-actions
+   * @restrict .nds-global-header__item button
    * @required
    */
   &__button_icon-actions,
@@ -129,16 +129,16 @@
   /**
    * Button icon specifically for global actions
    *
-   * @selector .slds-global-header__button_icon-favorites
-   * @restrict .slds-global-header__item button
+   * @selector .nds-global-header__button_icon-favorites
+   * @restrict .nds-global-header__item button
    * @required
    */
   &__button_icon-favorites,
   &__button--icon-favorites {
     color: $color-text-icon-inverse;
 
-    .slds-icon,
-    .slds-button__icon {
+    .nds-icon,
+    .nds-button__icon {
       color: $color-text-icon-inverse;
       stroke: $color-stroke-header-button;
       stroke-width: $border-stroke-width-thick;
@@ -146,46 +146,46 @@
       stroke-linecap: round;
     }
 
-    &:hover .slds-icon,
-    &:hover .slds-button__icon,
-    &:focus .slds-icon,
-    &:focus .slds-button__icon {
+    &:hover .nds-icon,
+    &:hover .nds-button__icon,
+    &:focus .nds-icon,
+    &:focus .nds-button__icon {
       color: $color-text-icon-inverse;
       stroke: $color-stroke-brand-hover;
     }
 
-    &:active .slds-icon,
-    &:active .slds-button__icon {
+    &:active .nds-icon,
+    &:active .nds-button__icon {
       stroke: $color-stroke-brand-active;
     }
 
     /**
      * Selected state for favorites button
      *
-     * @selector .slds-is-selected
-     * @restrict .slds-global-header__button_icon-favorites
+     * @selector .nds-is-selected
+     * @restrict .nds-global-header__button_icon-favorites
      * @modifier
      * @group stateful
      */
-    &.slds-is-selected {
+    &.nds-is-selected {
 
-      .slds-icon,
-      .slds-button__icon {
+      .nds-icon,
+      .nds-button__icon {
         color: $fill-brand;
         stroke: $color-stroke-brand;
         stroke-width: $border-stroke-width-thin;
       }
 
-      &:hover .slds-icon,
-      &:hover .slds-button__icon,
-      &:focus .slds-icon,
-      &:focus .slds-button__icon {
+      &:hover .nds-icon,
+      &:hover .nds-button__icon,
+      &:focus .nds-icon,
+      &:focus .nds-button__icon {
         color: $fill-brand-hover;
         stroke: $color-stroke-brand-hover;
       }
 
-      &:active .slds-icon,
-      &:active .slds-button__icon {
+      &:active .nds-icon,
+      &:active .nds-button__icon {
         color: $fill-brand-active;
         stroke: $color-stroke-brand-active;
       }
@@ -194,14 +194,14 @@
     /**
      * Disabled state for favorites button
      *
-     * @selector .slds-is-disabled
-     * @restrict .slds-global-header__button_icon-favorites
+     * @selector .nds-is-disabled
+     * @restrict .nds-global-header__button_icon-favorites
      * @modifier
      */
-    &.slds-is-disabled .slds-icon,
-    &.slds-is-disabled .slds-button__icon,
-    &:disabled .slds-icon,
-    &:disabled .slds-button__icon {
+    &.nds-is-disabled .nds-icon,
+    &.nds-is-disabled .nds-button__icon,
+    &:disabled .nds-icon,
+    &:disabled .nds-button__icon {
       stroke: $color-stroke-disabled;
     }
   }
@@ -210,12 +210,12 @@
    * Deal with sizing for global header icons
    *
    * @selector .global-header__icon
-   * @restrict .slds-global-header__item svg
+   * @restrict .nds-global-header__item svg
    * @required
    */
   &__icon,
-  &__icon .slds-icon,
-  &__icon .slds-button__icon {
+  &__icon .nds-icon,
+  &__icon .nds-button__icon {
     @include square($square-icon-global-identity-icon);
   }
 }

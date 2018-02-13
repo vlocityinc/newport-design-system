@@ -1,4 +1,4 @@
-# Contributing to SLDS
+# Contributing to NDS
 
 Do you ❤️ the Salesforce Lightning Design System and want to get involved? We would love your help! We are always looking for both internal and external contributors of Salesforce and there are plenty of ways you can help!
 
@@ -51,7 +51,7 @@ Good pull requests - patches, improvements, new features - are a fantastic help.
 
 *External contributors are required to sign a Contributor’s License Agreement. You will be prompted to sign it when you open a pull request.*
 
-Before starting down the long journey of any significant pull request, **please ask first** if someone else is working on the same feature or ask a core developer if your feature is in-scope for SLDS. This will help reduce the risk of spending a lot of time working on something where in the end conflicts with someone else's changes or developers determine it does not want to be merged.
+Before starting down the long journey of any significant pull request, **please ask first** if someone else is working on the same feature or ask a core developer if your feature is in-scope for NDS. This will help reduce the risk of spending a lot of time working on something where in the end conflicts with someone else's changes or developers determine it does not want to be merged.
 
 Salesforce has a very large ecosystem and the design system has a lot of touch-points within that ecosystem. A small change can have a large-scale effect (which is AWESOME but we have to be aware about what we are changing).
 
@@ -121,24 +121,24 @@ The most intriguing part is the `@selector/@restrict` pair. Each CSS selector sh
 
 ```scss
 /**
- * @selector .slds-button
+ * @selector .nds-button
  * @restrict button, a, span
  */
-.slds-button {
+.nds-button {
   ...
 }
 /**
- * @selector .slds-button_brand
- * @restrict .slds-button
+ * @selector .nds-button_brand
+ * @restrict .nds-button
  */
-.slds-button_brand {
+.nds-button_brand {
   ...
 }
 ```
 
-In this example we can see that `.slds-button_brand` must be applied to a `.slds-button`, which, in turn, must be applied to a `button, a, span`.
+In this example we can see that `.nds-button_brand` must be applied to a `.nds-button`, which, in turn, must be applied to a `button, a, span`.
 
-It's important to know that `slds-button_brand` will only be associated to the button component via this `@restrict`chain. Each rule uses its `@restrict` to declare its place in the hierarchy - **it is not the the file that tells us to which component a selector belongs**
+It's important to know that `nds-button_brand` will only be associated to the button component via this `@restrict`chain. Each rule uses its `@restrict` to declare its place in the hierarchy - **it is not the the file that tells us to which component a selector belongs**
 
 For a more complex example, see: https://github.com/salesforce-ux/design-system-internal/blob/summer-17/ui/components/combobox/base/_index.scss
 
@@ -155,8 +155,8 @@ The markup for a `@variant` will be required from the `/ui/:component/:variant/e
 ```scss
 /**
  * @name advanced
- * @selector .slds-table_fixed-layout
- * @restrict .slds-table
+ * @selector .nds-table_fixed-layout
+ * @restrict .nds-table
  * @variant
  */
 ```
@@ -199,14 +199,14 @@ import CodeView from '../../../shared/components/CodeView'
 
 Even _you_ can use buttons. Check out these rendered flavors:
 
-  * Success <Button className="slds-button_success">Success</Button>
-  * Destructive <Button className="slds-button_destructive">Destructive</Button>
-  * Brand <Button className="slds-button_brand">Brand</Button>
+  * Success <Button className="nds-button_success">Success</Button>
+  * Destructive <Button className="nds-button_destructive">Destructive</Button>
+  * Brand <Button className="nds-button_brand">Brand</Button>
 
 Here is the markup:
 
 <CodeView>
-  <Button className="slds-button_success">Success</Button>
+  <Button className="nds-button_success">Success</Button>
 </CodeView>
 
 Enjoy your buttons!

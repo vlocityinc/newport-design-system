@@ -5,12 +5,12 @@
  * @summary Initializes text input
  *
  * @name base
- * @selector .slds-input
+ * @selector .nds-input
  * @restrict input
  * @required
  * @variant
  */
-.slds-input {
+.nds-input {
   @include form-states;
   display: inline-block;
   padding: 0;
@@ -18,7 +18,7 @@
   min-height: calc(#{$height-input} + (#{$border-width-thin} * 2)); // For IE
   /**
    * @selector [readonly]
-   * @restrict .slds-input
+   * @restrict .nds-input
    */
   &[readonly] {
     border-color: transparent;
@@ -37,8 +37,8 @@
   /**
    * Removes aesthetic nature from an input
    *
-   * @selector .slds-input_bare
-   * @restrict .slds-input, input, textarea
+   * @selector .nds-input_bare
+   * @restrict .nds-input, input, textarea
    * @modifier
    */
   &_bare,
@@ -63,8 +63,8 @@
    * Used to apply an input size to another element thats a non input
    * Because sometimes I need elements the same height as inputs
    *
-   * @selector .slds-input_height
-   * @restrict .slds-input
+   * @selector .nds-input_height
+   * @restrict .nds-input
    */
   &_height,
   &--height {
@@ -75,10 +75,10 @@
 /**
  * @summary Modifier to allow a [readonly] input to have borders
  *
- * @selector .slds-input_borders
- * @restrict .slds-input
+ * @selector .nds-input_borders
+ * @restrict .nds-input
  */
-.slds-input_borders {
+.nds-input_borders {
   padding-#{$left}: $spacing-small;
   border-color: $color-border-input;
 }
@@ -86,19 +86,19 @@
 /**
  * @summary Modifier if text input has svg icon adjacent to input
  *
- * @selector .slds-input-has-icon
- * @restrict .slds-form-element div
+ * @selector .nds-input-has-icon
+ * @restrict .nds-form-element div
  */
-.slds-input-has-icon {
+.nds-input-has-icon {
   position: relative;
 
   /**
-   * Hook for .slds-input-has-icon
+   * Hook for .nds-input-has-icon
    *
-   * @selector .slds-input__icon
-   * @restrict .slds-input-has-icon svg, .slds-input-has-icon button, .slds-input-has-icon span
+   * @selector .nds-input__icon
+   * @restrict .nds-input-has-icon svg, .nds-input-has-icon button, .nds-input-has-icon span
    */
-  .slds-input__icon {
+  .nds-input__icon {
     @include square($square-icon-medium-content);
     position: absolute;
     top: 50%;
@@ -106,80 +106,80 @@
     line-height: 1;
 
     /* @Todo - we need to be sure this is deprecated since the color sems to be the correct gray I see in specs */
-    @include deprecate('4.0.0', 'Use .slds-icon-text-default on the SVG icon instead') {
+    @include deprecate('4.0.0', 'Use .nds-icon-text-default on the SVG icon instead') {
       fill: $color-text-input-icon;
     }
   }
 
   /**
-   * Positions .slds-input__icon to the left of the text input
+   * Positions .nds-input__icon to the left of the text input
    *
-   * @selector .slds-input-has-icon_left
-   * @restrict .slds-input-has-icon
+   * @selector .nds-input-has-icon_left
+   * @restrict .nds-input-has-icon
    */
   &_left,
   &--left {
 
-    .slds-input,
-    .slds-input_bare,
-    .slds-input--bare {
+    .nds-input,
+    .nds-input_bare,
+    .nds-input--bare {
       padding-#{$left}: $spacing-large;
     }
   }
 
   /**
-   * Positions .slds-input__icon to the right of the text input
+   * Positions .nds-input__icon to the right of the text input
    *
-   * @selector .slds-input-has-icon_right
-   * @restrict .slds-input-has-icon
+   * @selector .nds-input-has-icon_right
+   * @restrict .nds-input-has-icon
    */
   &_right,
   &--right {
 
-    .slds-input__icon {
+    .nds-input__icon {
       #{$right}: 0;
     }
 
-    .slds-input,
-    .slds-input_bare,
-    .slds-input--bare {
+    .nds-input,
+    .nds-input_bare,
+    .nds-input--bare {
       padding-#{$right}: $spacing-large;
     }
   }
 
   /**
-   * Positions .slds-input__icon_left to the left of the text input and .slds-input__icon_right to the right of the text input
+   * Positions .nds-input__icon_left to the left of the text input and .nds-input__icon_right to the right of the text input
    *
-   * @selector .slds-input-has-icon_left-right
-   * @restrict .slds-input-has-icon
+   * @selector .nds-input-has-icon_left-right
+   * @restrict .nds-input-has-icon
    */
   &_left-right,
   &--left-right {
     /**
-     * Hook for .slds-input-has-icon--left-right
+     * Hook for .nds-input-has-icon--left-right
      *
-     * @selector .slds-input__icon_left
-     * @restrict .slds-input__icon
+     * @selector .nds-input__icon_left
+     * @restrict .nds-input__icon
      */
-    .slds-input__icon_left,
-    .slds-input__icon--left {
+    .nds-input__icon_left,
+    .nds-input__icon--left {
       #{$left}: 0;
     }
 
     /**
-     * Hook for .slds-input-has-icon_left-right
+     * Hook for .nds-input-has-icon_left-right
      *
-     * @selector .slds-input__icon_right
-     * @restrict .slds-input__icon
+     * @selector .nds-input__icon_right
+     * @restrict .nds-input__icon
      */
-    .slds-input__icon_right,
-    .slds-input__icon--right {
+    .nds-input__icon_right,
+    .nds-input__icon--right {
       #{$right}: 0;
     }
 
-    .slds-input,
-    .slds-input_bare,
-    .slds-input--bare {
+    .nds-input,
+    .nds-input_bare,
+    .nds-input--bare {
       padding: 0 $spacing-large;
     }
   }
@@ -188,10 +188,10 @@
 /**
  * Positions two items (icons and/or spinners) on one side or the other of the input
  *
- * @selector .slds-input__icon-group
- * @restrict .slds-input-has-icon div
+ * @selector .nds-input__icon-group
+ * @restrict .nds-input-has-icon div
  */
-.slds-input__icon-group {
+.nds-input__icon-group {
   position: absolute;
   height: $square-icon-medium-content;
   margin-top: (($square-icon-medium-content / 2) * -1);
@@ -200,19 +200,19 @@
 /**
  * Positions the close icon and spinner on the right side of the input while searching
  *
- * @selector .slds-input__icon-group_right
- * @restrict .slds-input__icon-group
+ * @selector .nds-input__icon-group_right
+ * @restrict .nds-input__icon-group
  */
-.slds-input__icon-group_right {
+.nds-input__icon-group_right {
   #{$right}: 0;
   top: 50%;
 
-  .slds-input__icon_right,
-  .slds-input__icon--right {
+  .nds-input__icon_right,
+  .nds-input__icon--right {
     #{$right}: $spacing-x-small;
   }
 
-  .slds-input__spinner {
+  .nds-input__spinner {
     #{$right}: if-ltr($spacing-large, $spacing-xx-large);
     #{$left}: auto;
   }
@@ -221,20 +221,20 @@
 /**
  * @summary Use on input container to let it know there is fixed text to the left or right of the input
  *
- * @selector .slds-input-has-fixed-addon
- * @restrict .slds-form-element .slds-form-element__control
+ * @selector .nds-input-has-fixed-addon
+ * @restrict .nds-form-element .nds-form-element__control
  */
-.slds-input-has-fixed-addon {
+.nds-input-has-fixed-addon {
   display: flex;
 }
 
 /**
  * Fixed text that sits to the left or right of an input
  *
- * @selector .slds-form-element__addon
- * @restrict .slds-form-element span
+ * @selector .nds-form-element__addon
+ * @restrict .nds-form-element span
  */
-.slds-form-element__addon {
+.nds-form-element__addon {
   display: inline-block;
   margin: 0 $spacing-x-small;
   align-self: center;
@@ -245,10 +245,10 @@
  *
  * @summary Initializes read-only form element
  *
- * @selector .slds-form-element__static
- * @restrict .slds-form-element span, .slds-form-element div
+ * @selector .nds-form-element__static
+ * @restrict .nds-form-element span, .nds-form-element div
  */
-.slds-form-element__static {
+.nds-form-element__static {
   display: inline-block;
   padding-top: $spacing-xx-small;
   padding-bottom: $spacing-xx-small;
@@ -259,25 +259,25 @@
 
   // If read only state is longform
   // Apply text line height
-  &.slds-text-longform {
+  &.nds-text-longform {
     line-height: $line-height-text;
   }
 
   /**
    * Inline Edit on static form element
    *
-   * @selector .slds-form-element__static_edit
-   * @restrict .slds-form-element__static
+   * @selector .nds-form-element__static_edit
+   * @restrict .nds-form-element__static
    */
   &--edit {
     width: calc(100% - #{$square-icon-small-boundary}); // Leave space for edit icon
   }
 }
 
-.slds-has-error {
-  @include form-input-error('.slds-input');
+.nds-has-error {
+  @include form-input-error('.nds-input');
 
-  .slds-input__icon {
+  .nds-input__icon {
     fill: $color-text-error;
     color: $color-text-error;
   }
@@ -285,7 +285,7 @@
 
 
 /*  Added action class on icon container */
-.slds-control-action__container {
+.nds-control-action__container {
   display: inline-block;
   z-index: 1;
   white-space: nowrap;
@@ -294,14 +294,14 @@
   margin-#{$left}: 5px;
 }
 
-.slds-control-action__container svg {
+.nds-control-action__container svg {
   cursor: pointer;
 }
 
 /**********************************/
 
 
-ul.slds-dropdown-list {
+ul.nds-dropdown-list {
     position: absolute;
     border: 2px solid $color-dropdown-border;
     border-top: none;
@@ -325,7 +325,7 @@ ul.slds-dropdown-list {
 }
 
 
-.slds-cont-wrapper {
+.nds-cont-wrapper {
   position: relative;
   width: 100%;
 }

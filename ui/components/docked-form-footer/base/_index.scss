@@ -12,13 +12,13 @@
  * @summary Creates a docked form footer
  *
  * @name base
- * @selector .slds-docked-form-footer
+ * @selector .nds-docked-form-footer
  * @restrict div
  * @required
  * @variant
  */
 
-.slds-docked-form-footer {
+.nds-docked-form-footer {
   @include docked-bar;
   display: flex;
   justify-content: center;

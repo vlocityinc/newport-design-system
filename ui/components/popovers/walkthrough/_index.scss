@@ -7,31 +7,31 @@
  * @summary Initializes a walkthrough non-modal dialog
  *
  * @name walkthrough
- * @selector .slds-popover_walkthrough
- * @restrict .slds-popover
+ * @selector .nds-popover_walkthrough
+ * @restrict .nds-popover
  * @variant
  */
-.slds-popover_walkthrough,
-.slds-popover--walkthrough {
+.nds-popover_walkthrough,
+.nds-popover--walkthrough {
   @include inverse-text($support: ('borders', 'text-utilities', 'icons'));
   background: $color-background-inverse;
 
-  .slds-popover__header {
+  .nds-popover__header {
     background: $color-background-alt-inverse;
     border-color: inherit;
     padding: $spacing-small $spacing-medium;
   }
 
-  .slds-popover__body,
-  .slds-popover__footer {
+  .nds-popover__body,
+  .nds-popover__footer {
     padding: $spacing-medium;
   }
 
-  .slds-popover__footer {
+  .nds-popover__footer {
     border: 0;
   }
 
-  .slds-popover__close {
+  .nds-popover__close {
     margin-top: $spacing-x-small;
     margin-#{$right}: $spacing-x-small;
   }
@@ -40,11 +40,11 @@
 /**
  * Alternate background for walkthrough non-modal dialog
  *
- * @selector .slds-popover_walkthrough-alt
- * @restrict .slds-popover_walkthrough
+ * @selector .nds-popover_walkthrough-alt
+ * @restrict .nds-popover_walkthrough
  * @modifier
  */
-.slds-popover_walkthrough-alt {
+.nds-popover_walkthrough-alt {
   border-color: $color-border-brand-dark;
   background: $color-brand-dark;
   color: $color-text-inverse;

@@ -38,41 +38,54 @@ const pathContent10Id = 'path-content-10';
 const pathContent11Id = 'path-content-11';
 const pathContent12Id = 'path-content-12';
 
-let Demo = props =>
+let Demo = props => (
   <div className={classNames('demo-only', props.className)} {...props}>
     {props.children}
-  </div>;
+  </div>
+);
 
-let Coach = props =>
-  <div className={classNames('slds-path', { 'slds-is-expanded': props.isExpanded })}>
+let Coach = props => (
+  <div
+    className={classNames('nds-path', { 'nds-is-expanded': props.isExpanded })}
+  >
     {props.children}
-  </div>;
+  </div>
+);
 
-let Path = props =>
-  <div className={classNames('slds-grid slds-path__track', props.className)}>
+let Path = props => (
+  <div className={classNames('nds-grid nds-path__track', props.className)}>
     {props.children}
-  </div>;
+  </div>
+);
 
-let Trigger = props =>
+let Trigger = props => (
   <ButtonIcon
     assistiveText="Expand Sales Coach Tab Panels"
-    className="slds-button_icon-border-filled slds-path__trigger"
+    className="nds-button_icon-border-filled nds-path__trigger"
     symbol="chevrondown"
     title="Expand Sales Coaching Tab Panels"
-  />;
+  />
+);
 
-let Triggerup = props =>
+let Triggerup = props => (
   <ButtonIcon
     assistiveText="Collapse Sales Coach Tab Panels"
-    className="slds-button_icon-border-filled slds-path__trigger slds-flip_vertical"
+    className="nds-button_icon-border-filled nds-path__trigger nds-flip_vertical"
     symbol="chevrondown"
     title="Collapse Sales Coaching Tab Panels"
-  />;
+  />
+);
 
-let Action = props =>
-  <button className={classNames('slds-button slds-button_brand slds-path__mark-complete', props.className)}>
+let Action = props => (
+  <button
+    className={classNames(
+      'nds-button nds-button_brand nds-path__mark-complete',
+      props.className
+    )}
+  >
     {props.children}
-  </button>;
+  </button>
+);
 
 let ListMain = props => {
   let ariaOrientation;
@@ -80,28 +93,35 @@ let ListMain = props => {
     ariaOrientation = 'horizontal';
   }
   return (
-    <div className={classNames('slds-path__scroller', props.className)} role="application">
-        <div className="slds-path__scroller_inner">
-          <ul className="slds-path__nav" role={props.listRole} aria-orientation={ariaOrientation}>
-            {props.children}
-          </ul>
-          <div className="slds-path__scroll-controls">
-            <ButtonIcon
-              assistiveText="Scroll left"
-              className="slds-button_icon-border-filled"
-              symbol="left"
-              title="Scroll left"
-              tabIndex="-1"
-            />
-            <ButtonIcon
-              assistiveText="Scroll right"
-              className="slds-button_icon-border-filled"
-              symbol="right"
-              title="Scroll right"
-              tabIndex="-1"
-            />
-          </div>
+    <div
+      className={classNames('nds-path__scroller', props.className)}
+      role="application"
+    >
+      <div className="nds-path__scroller_inner">
+        <ul
+          className="nds-path__nav"
+          role={props.listRole}
+          aria-orientation={ariaOrientation}
+        >
+          {props.children}
+        </ul>
+        <div className="nds-path__scroll-controls">
+          <ButtonIcon
+            assistiveText="Scroll left"
+            className="nds-button_icon-border-filled"
+            symbol="left"
+            title="Scroll left"
+            tabIndex="-1"
+          />
+          <ButtonIcon
+            assistiveText="Scroll right"
+            className="nds-button_icon-border-filled"
+            symbol="right"
+            title="Scroll right"
+            tabIndex="-1"
+          />
         </div>
+      </div>
     </div>
   );
 };
@@ -113,14 +133,17 @@ let ListItem = props => {
   }
 
   return (
-    <li className={classNames('slds-path__item', props.className, {
-      'slds-is-active': props.tabIndex
-    })} role="presentation">
+    <li
+      className={classNames('nds-path__item', props.className, {
+        'nds-is-active': props.tabIndex
+      })}
+      role="presentation"
+    >
       <a
         aria-controls={props.ariaControls}
         aria-expanded={ariaExpanded}
         aria-selected={props.tabIndex ? 'true' : 'false'}
-        className="slds-path__link"
+        className="nds-path__link"
         href="javascript:void(0);"
         id={props.id}
         role={props.role}
@@ -133,13 +156,10 @@ let ListItem = props => {
 };
 
 let CoachContent = props => {
-  const contentClassNames = classNames(
-    'slds-path__content',
-    {
-      'slds-hide': !props.isActive,
-      'slds-show': props.isActive
-    }
-  );
+  const contentClassNames = classNames('nds-path__content', {
+    'nds-hide': !props.isActive,
+    'nds-show': props.isActive
+  });
 
   return (
     <div
@@ -148,202 +168,354 @@ let CoachContent = props => {
       id={props.id}
       role="tabpanel"
     >
-      { props.children }
+      {props.children}
     </div>
   );
 };
 
-let CoachExample1 = props =>
-  <div className="slds-path__coach slds-grid">
-    <div className="slds-path__keys slds-form slds-form_stacked">
-      <div className="slds-grid slds-grid_align-spread slds-path__coach-title">
+let CoachExample1 = props => (
+  <div className="nds-path__coach nds-grid">
+    <div className="nds-path__keys nds-form nds-form_stacked">
+      <div className="nds-grid nds-grid_align-spread nds-path__coach-title">
         <h2>Key Fields This Stage</h2>
-        <button className="slds-button slds-button_reset slds-text-body_small">Edit</button>
+        <button className="nds-button nds-button_reset nds-text-body_small">
+          Edit
+        </button>
       </div>
       <ul>
         <FormElementStatic inlineEdit label="Expected Budget" text="$10,000" />
-        <FormElementStatic inlineEdit label="Lead Source" text="Marketing and Web Referral" />
-        <FormElementStatic inlineEdit label="Support Engineer" text="Jack Arthur" />
+        <FormElementStatic
+          inlineEdit
+          label="Lead Source"
+          text="Marketing and Web Referral"
+        />
+        <FormElementStatic
+          inlineEdit
+          label="Support Engineer"
+          text="Jack Arthur"
+        />
       </ul>
     </div>
-    <div className="slds-path__guidance">
-      <h2 className="slds-path__coach-title">Guidance for Success</h2>
-      <div className="slds-text-longform slds-path__guidance-content">
-        <p>Regularly cross-sell related products using <a href="javascript:void(0);">cross-sell tactics and principles</a>.</p>
-        <p>Prepare demo deck using the <a href="javascript:void(0);">latest template</a> and review with Marketing and Sales teams. Review demo copy with Legal and Doc team.</p>
-        <p>Look up <a href="javascript:void(0);">needs analysis principles</a> and review selling plan with Sales Engineer.</p>
+    <div className="nds-path__guidance">
+      <h2 className="nds-path__coach-title">Guidance for Success</h2>
+      <div className="nds-text-longform nds-path__guidance-content">
+        <p>
+          Regularly cross-sell related products using{' '}
+          <a href="javascript:void(0);">cross-sell tactics and principles</a>.
+        </p>
+        <p>
+          Prepare demo deck using the{' '}
+          <a href="javascript:void(0);">latest template</a> and review with
+          Marketing and Sales teams. Review demo copy with Legal and Doc team.
+        </p>
+        <p>
+          Look up <a href="javascript:void(0);">
+            needs analysis principles
+          </a>{' '}
+          and review selling plan with Sales Engineer.
+        </p>
       </div>
     </div>
-  </div>;
+  </div>
+);
 
-let CoachExample2 = props =>
-  <div className="slds-path__coach slds-grid">
-    <div className="slds-path__keys slds-form slds-form_stacked">
-      <div className="slds-grid slds-grid_align-spread slds-path__coach-title">
+let CoachExample2 = props => (
+  <div className="nds-path__coach nds-grid">
+    <div className="nds-path__keys nds-form nds-form_stacked">
+      <div className="nds-grid nds-grid_align-spread nds-path__coach-title">
         <h2>Key Fields This Stage</h2>
-        <button className="slds-button slds-button_reset slds-text-body_small">Edit</button>
+        <button className="nds-button nds-button_reset nds-text-body_small">
+          Edit
+        </button>
       </div>
       <ul>
         <FormElementStatic inlineEdit label="Build State" text="In Motion" />
-        <FormElementStatic inlineEdit label="Expected Sign Date" text="&nbsp;" />
+        <FormElementStatic
+          inlineEdit
+          label="Expected Sign Date"
+          text="&nbsp;"
+        />
         <FormElementStatic inlineEdit label="Key Buyer" text="&nbsp;" />
       </ul>
     </div>
-    <div className="slds-path__guidance">
-      <h2 className="slds-path__coach-title">Guidance for Success</h2>
-      <div className="slds-text-longform slds-path__guidance-content">
-        <p>Check out the latest Negotiation and Review tactics on our <a href="javascript:void(0);">online portal here</a>.</p>
-        <p>Review Quote with the Legal and Marketing team and be sure to approve with Exec.</p>
+    <div className="nds-path__guidance">
+      <h2 className="nds-path__coach-title">Guidance for Success</h2>
+      <div className="nds-text-longform nds-path__guidance-content">
+        <p>
+          Check out the latest Negotiation and Review tactics on our{' '}
+          <a href="javascript:void(0);">online portal here</a>.
+        </p>
+        <p>
+          Review Quote with the Legal and Marketing team and be sure to approve
+          with Exec.
+        </p>
         <p>Set up at time to delivery schedule and check with Inventory.</p>
       </div>
     </div>
-  </div>;
+  </div>
+);
 
 /// ////////////////////////////////////////////
 // State Constructor(s)
 /// ///////////////////////////////////////////
 
-let Default = props =>
+let Default = props => (
   <Coach>
     <Path>
-      <div className="slds-grid slds-path__scroller-container">
+      <div className="nds-grid nds-path__scroller-container">
         <ListMain listRole="listbox">
-          <ListItem className="slds-is-current" id={path1Id} role="option" tabIndex="0">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Stage Complete</span>
+          <ListItem
+            className="nds-is-current"
+            id={path1Id}
+            role="option"
+            tabIndex="0"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Stage Complete</span>
             </span>
-            <span className="slds-path__title">Contacted</span>
+            <span className="nds-path__title">Contacted</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path2Id} role="option">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Stage Complete</span>
+          <ListItem className="nds-is-incomplete" id={path2Id} role="option">
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Stage Complete</span>
             </span>
-            <span className="slds-path__title">Open</span>
+            <span className="nds-path__title">Open</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path3Id} role="option">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Current Stage:</span>
+          <ListItem className="nds-is-incomplete" id={path3Id} role="option">
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Current Stage:</span>
             </span>
-            <span className="slds-path__title">Unqualified</span>
+            <span className="nds-path__title">Unqualified</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path4Id} role="option">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+          <ListItem className="nds-is-incomplete" id={path4Id} role="option">
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
             </span>
-            <span className="slds-path__title">Nurturing</span>
+            <span className="nds-path__title">Nurturing</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path5Id} role="option">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+          <ListItem className="nds-is-incomplete" id={path5Id} role="option">
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
             </span>
-            <span className="slds-path__title">Closed</span>
+            <span className="nds-path__title">Closed</span>
           </ListItem>
         </ListMain>
       </div>
-      <div className="slds-grid slds-path__action">
-        <span className="slds-path__stage-name">Stage: Unqualified</span>
-        <Action><SvgIcon className="slds-button__icon slds-button__icon_left" sprite="utility" symbol="check" />
-          Mark Status as Complete</Action>
+      <div className="nds-grid nds-path__action">
+        <span className="nds-path__stage-name">Stage: Unqualified</span>
+        <Action>
+          <SvgIcon
+            className="nds-button__icon nds-button__icon_left"
+            sprite="utility"
+            symbol="check"
+          />
+          Mark Status as Complete
+        </Action>
       </div>
     </Path>
-  </Coach>;
+  </Coach>
+);
 
-let PathNoCoachStageSelected = props =>
+let PathNoCoachStageSelected = props => (
   <Coach>
     <Path>
-      <div className="slds-grid slds-path__scroller-container">
+      <div className="nds-grid nds-path__scroller-container">
         <ListMain listRole="listbox">
-          <ListItem className="slds-is-complete" id={path1Id} role="option">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Stage Complete</span>
+          <ListItem className="nds-is-complete" id={path1Id} role="option">
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Stage Complete</span>
             </span>
-            <span className="slds-path__title">Contacted</span>
+            <span className="nds-path__title">Contacted</span>
           </ListItem>
-          <ListItem className="slds-is-complete" id={path2Id} role="option">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Stage Complete</span>
+          <ListItem className="nds-is-complete" id={path2Id} role="option">
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Stage Complete</span>
             </span>
-            <span className="slds-path__title">Open</span>
+            <span className="nds-path__title">Open</span>
           </ListItem>
-          <ListItem className="slds-is-current" id={path3Id} role="option" tabIndex="0">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Current Stage:</span>
+          <ListItem
+            className="nds-is-current"
+            id={path3Id}
+            role="option"
+            tabIndex="0"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Current Stage:</span>
             </span>
-            <span className="slds-path__title">Unqualified</span>
+            <span className="nds-path__title">Unqualified</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path4Id} role="option">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+          <ListItem className="nds-is-incomplete" id={path4Id} role="option">
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
             </span>
-            <span className="slds-path__title">Nurturing</span>
+            <span className="nds-path__title">Nurturing</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path5Id} role="option">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+          <ListItem className="nds-is-incomplete" id={path5Id} role="option">
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
             </span>
-            <span className="slds-path__title">Closed</span>
+            <span className="nds-path__title">Closed</span>
           </ListItem>
         </ListMain>
       </div>
-      <div className="slds-grid slds-path__action">
-        <span className="slds-path__stage-name">Stage: Unqualified</span>
-        <Action><SvgIcon className="slds-button__icon slds-button__icon_left" sprite="utility" symbol="check" />
-          Mark Status as Complete</Action>
+      <div className="nds-grid nds-path__action">
+        <span className="nds-path__stage-name">Stage: Unqualified</span>
+        <Action>
+          <SvgIcon
+            className="nds-button__icon nds-button__icon_left"
+            sprite="utility"
+            symbol="check"
+          />
+          Mark Status as Complete
+        </Action>
       </div>
     </Path>
-  </Coach>;
+  </Coach>
+);
 
-let PathCoach = props =>
+let PathCoach = props => (
   <Coach>
     <Path>
-      <div className="slds-grid slds-path__scroller-container">
+      <div className="nds-grid nds-path__scroller-container">
         <Trigger />
         <ListMain listRole="tablist">
-          <ListItem className="slds-is-complete" id={path1Id} ariaControls={pathContent1Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Stage Complete</span>
+          <ListItem
+            className="nds-is-complete"
+            id={path1Id}
+            ariaControls={pathContent1Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Stage Complete</span>
             </span>
-            <span className="slds-path__title">Contacted</span>
+            <span className="nds-path__title">Contacted</span>
           </ListItem>
-          <ListItem className="slds-is-complete" id={path2Id} ariaControls={pathContent2Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Stage Complete</span>
+          <ListItem
+            className="nds-is-complete"
+            id={path2Id}
+            ariaControls={pathContent2Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Stage Complete</span>
             </span>
-            <span className="slds-path__title">Open</span>
+            <span className="nds-path__title">Open</span>
           </ListItem>
-          <ListItem className="slds-is-current" id={path3Id} ariaControls={pathContent3Id} role="tab" tabIndex="0">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Current Stage:</span>
+          <ListItem
+            className="nds-is-current"
+            id={path3Id}
+            ariaControls={pathContent3Id}
+            role="tab"
+            tabIndex="0"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Current Stage:</span>
             </span>
-            <span className="slds-path__title">Unqualified</span>
+            <span className="nds-path__title">Unqualified</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path4Id} ariaControls={pathContent4Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+          <ListItem
+            className="nds-is-incomplete"
+            id={path4Id}
+            ariaControls={pathContent4Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
             </span>
-            <span className="slds-path__title">Nurturing</span>
+            <span className="nds-path__title">Nurturing</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path5Id} ariaControls={pathContent5Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+          <ListItem
+            className="nds-is-incomplete"
+            id={path5Id}
+            ariaControls={pathContent5Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
             </span>
-            <span className="slds-path__title">Closed</span>
+            <span className="nds-path__title">Closed</span>
           </ListItem>
         </ListMain>
       </div>
-      <div className="slds-grid slds-path__action">
-        <span className="slds-path__stage-name">Stage: Unqualified</span>
-        <Action><SvgIcon className="slds-button__icon slds-button__icon_left" sprite="utility" symbol="check" />
-          Mark Status as Complete</Action>
+      <div className="nds-grid nds-path__action">
+        <span className="nds-path__stage-name">Stage: Unqualified</span>
+        <Action>
+          <SvgIcon
+            className="nds-button__icon nds-button__icon_left"
+            sprite="utility"
+            symbol="check"
+          />
+          Mark Status as Complete
+        </Action>
       </div>
     </Path>
     <CoachContent id={pathContent1Id} ariaLabelledby={path1Id}>
@@ -361,54 +533,112 @@ let PathCoach = props =>
     <CoachContent id={pathContent5Id} ariaLabelledby={path5Id}>
       <h2>Path 5 Content</h2>
     </CoachContent>
-  </Coach>;
+  </Coach>
+);
 
-let PathCoachVisible = props =>
+let PathCoachVisible = props => (
   <Demo>
     <Coach isExpanded>
       <Path>
-        <div className="slds-grid slds-path__scroller-container">
+        <div className="nds-grid nds-path__scroller-container">
           <Triggerup />
           <ListMain listRole="tablist">
-            <ListItem className="slds-is-complete" id={path1Id} ariaControls={pathContent1Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path1Id}
+              ariaControls={pathContent1Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path2Id} ariaControls={pathContent2Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path2Id}
+              ariaControls={pathContent2Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-current" id={path3Id} ariaControls={pathContent3Id} ariaExpanded="true" role="tab" tabIndex="0">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Current Stage:</span>
+            <ListItem
+              className="nds-is-current"
+              id={path3Id}
+              ariaControls={pathContent3Id}
+              ariaExpanded="true"
+              role="tab"
+              tabIndex="0"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Current Stage:</span>
               </span>
-              <span className="slds-path__title">Unqualified</span>
+              <span className="nds-path__title">Unqualified</span>
             </ListItem>
-            <ListItem className="slds-is-incomplete" id={path4Id} ariaControls={pathContent4Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+            <ListItem
+              className="nds-is-incomplete"
+              id={path4Id}
+              ariaControls={pathContent4Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
               </span>
-              <span className="slds-path__title">Nurturing</span>
+              <span className="nds-path__title">Nurturing</span>
             </ListItem>
-            <ListItem className="slds-is-incomplete" id={path5Id} ariaControls={pathContent5Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+            <ListItem
+              className="nds-is-incomplete"
+              id={path5Id}
+              ariaControls={pathContent5Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
               </span>
-              <span className="slds-path__title">Closed</span>
+              <span className="nds-path__title">Closed</span>
             </ListItem>
           </ListMain>
         </div>
-        <div className="slds-grid slds-path__action">
-          <span className="slds-path__stage-name">Stage: Unqualified</span>
-          <Action><SvgIcon className="slds-button__icon slds-button__icon_left" sprite="utility" symbol="check" />
-            Mark Status as Complete</Action>
+        <div className="nds-grid nds-path__action">
+          <span className="nds-path__stage-name">Stage: Unqualified</span>
+          <Action>
+            <SvgIcon
+              className="nds-button__icon nds-button__icon_left"
+              sprite="utility"
+              symbol="check"
+            />
+            Mark Status as Complete
+          </Action>
         </div>
       </Path>
       <CoachContent id={pathContent1Id} ariaLabelledby={path1Id}>
@@ -427,54 +657,107 @@ let PathCoachVisible = props =>
         <h2>Path 5 Content</h2>
       </CoachContent>
     </Coach>
-  </Demo>;
+  </Demo>
+);
 
-let PathStageSelected = props =>
+let PathStageSelected = props => (
   <Demo>
     <Coach isExpanded>
       <Path>
-        <div className="slds-grid slds-path__scroller-container">
+        <div className="nds-grid nds-path__scroller-container">
           <Triggerup />
           <ListMain listRole="tablist">
-            <ListItem className="slds-is-complete" id={path1Id} ariaControls={pathContent1Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path1Id}
+              ariaControls={pathContent1Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path2Id} ariaControls={pathContent2Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path2Id}
+              ariaControls={pathContent2Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-current" id={path3Id} ariaControls={pathContent3Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Current Stage:</span>
+            <ListItem
+              className="nds-is-current"
+              id={path3Id}
+              ariaControls={pathContent3Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Current Stage:</span>
               </span>
-              <span className="slds-path__title">Unqualified</span>
+              <span className="nds-path__title">Unqualified</span>
             </ListItem>
-            <ListItem className="slds-is-incomplete slds-is-active" id={path4Id} ariaControls={pathContent4Id} ariaExpanded="true" role="tab" tabIndex="0">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+            <ListItem
+              className="nds-is-incomplete nds-is-active"
+              id={path4Id}
+              ariaControls={pathContent4Id}
+              ariaExpanded="true"
+              role="tab"
+              tabIndex="0"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
               </span>
-              <span className="slds-path__title">Nurturing</span>
+              <span className="nds-path__title">Nurturing</span>
             </ListItem>
-            <ListItem className="slds-is-incomplete" id={path5Id} ariaControls={pathContent5Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+            <ListItem
+              className="nds-is-incomplete"
+              id={path5Id}
+              ariaControls={pathContent5Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
               </span>
-              <span className="slds-path__title">Closed</span>
+              <span className="nds-path__title">Closed</span>
             </ListItem>
           </ListMain>
         </div>
-        <div className="slds-grid slds-path__action">
-          <span className="slds-path__stage-name">Stage: Unqualified</span>
-          <Action className="slds-path__mark-current">
-            Mark as Current Stage</Action>
+        <div className="nds-grid nds-path__action">
+          <span className="nds-path__stage-name">Stage: Unqualified</span>
+          <Action className="nds-path__mark-current">
+            Mark as Current Stage
+          </Action>
         </div>
       </Path>
       <CoachContent id={pathContent1Id} ariaLabelledby={path1Id}>
@@ -493,53 +776,99 @@ let PathStageSelected = props =>
         <h2>Path 5 Content</h2>
       </CoachContent>
     </Coach>
-  </Demo>;
+  </Demo>
+);
 
-let PathStageLost = props =>
+let PathStageLost = props => (
   <Coach>
     <Path>
-      <div className="slds-grid slds-path__scroller-container">
+      <div className="nds-grid nds-path__scroller-container">
         <Trigger />
         <ListMain listRole="tablist">
-          <ListItem className="slds-is-incomplete" id={path1Id} ariaControls={pathContent1Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Stage Complete</span>
+          <ListItem
+            className="nds-is-incomplete"
+            id={path1Id}
+            ariaControls={pathContent1Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Stage Complete</span>
             </span>
-            <span className="slds-path__title">Contacted</span>
+            <span className="nds-path__title">Contacted</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path2Id} ariaControls={pathContent2Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Stage Complete</span>
+          <ListItem
+            className="nds-is-incomplete"
+            id={path2Id}
+            ariaControls={pathContent2Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Stage Complete</span>
             </span>
-            <span className="slds-path__title">Open</span>
+            <span className="nds-path__title">Open</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path3Id} ariaControls={pathContent3Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+          <ListItem
+            className="nds-is-incomplete"
+            id={path3Id}
+            ariaControls={pathContent3Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
             </span>
-            <span className="slds-path__title">Unqualified</span>
+            <span className="nds-path__title">Unqualified</span>
           </ListItem>
-          <ListItem className="slds-is-incomplete" id={path4Id} ariaControls={pathContent4Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+          <ListItem
+            className="nds-is-incomplete"
+            id={path4Id}
+            ariaControls={pathContent4Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
             </span>
-            <span className="slds-path__title">Nurturing</span>
+            <span className="nds-path__title">Nurturing</span>
           </ListItem>
-          <ListItem className="slds-is-lost" id={path5Id} ariaControls={pathContent5Id} role="tab" tabIndex="0">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Current Stage:</span>
+          <ListItem
+            className="nds-is-lost"
+            id={path5Id}
+            ariaControls={pathContent5Id}
+            role="tab"
+            tabIndex="0"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Current Stage:</span>
             </span>
-            <span className="slds-path__title">Closed Lost</span>
+            <span className="nds-path__title">Closed Lost</span>
           </ListItem>
         </ListMain>
       </div>
-      <div className="slds-grid slds-path__action">
-        <span className="slds-path__stage-name">Stage: Closed Lost</span>
-        <Action>
-          Change Closed State</Action>
+      <div className="nds-grid nds-path__action">
+        <span className="nds-path__stage-name">Stage: Closed Lost</span>
+        <Action>Change Closed State</Action>
       </div>
     </Path>
     <CoachContent id={pathContent1Id} ariaLabelledby={path1Id}>
@@ -557,53 +886,99 @@ let PathStageLost = props =>
     <CoachContent id={pathContent5Id} ariaLabelledby={path5Id}>
       <h2>Path 5 Content</h2>
     </CoachContent>
-  </Coach>;
+  </Coach>
+);
 
-let PathStageWon = props =>
+let PathStageWon = props => (
   <Coach>
     <Path>
-      <div className="slds-grid slds-path__scroller-container">
+      <div className="nds-grid nds-path__scroller-container">
         <Trigger />
         <ListMain listRole="tablist">
-          <ListItem className="slds-is-complete" id={path1Id} ariaControls={pathContent1Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Stage Complete</span>
+          <ListItem
+            className="nds-is-complete"
+            id={path1Id}
+            ariaControls={pathContent1Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Stage Complete</span>
             </span>
-            <span className="slds-path__title">Contacted</span>
+            <span className="nds-path__title">Contacted</span>
           </ListItem>
-          <ListItem className="slds-is-complete" id={path2Id} ariaControls={pathContent2Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Stage Complete</span>
+          <ListItem
+            className="nds-is-complete"
+            id={path2Id}
+            ariaControls={pathContent2Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Stage Complete</span>
             </span>
-            <span className="slds-path__title">Open</span>
+            <span className="nds-path__title">Open</span>
           </ListItem>
-          <ListItem className="slds-is-complete" id={path3Id} ariaControls={pathContent3Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+          <ListItem
+            className="nds-is-complete"
+            id={path3Id}
+            ariaControls={pathContent3Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
             </span>
-            <span className="slds-path__title">Unqualified</span>
+            <span className="nds-path__title">Unqualified</span>
           </ListItem>
-          <ListItem className="slds-is-complete" id={path4Id} ariaControls={pathContent4Id} role="tab">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+          <ListItem
+            className="nds-is-complete"
+            id={path4Id}
+            ariaControls={pathContent4Id}
+            role="tab"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
             </span>
-            <span className="slds-path__title">Nurturing</span>
+            <span className="nds-path__title">Nurturing</span>
           </ListItem>
-          <ListItem className="slds-is-complete slds-is-won" id={path5Id} ariaControls={pathContent5Id} role="tab" tabIndex="0">
-            <span className="slds-path__stage">
-              <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-              <span className="slds-assistive-text">Current Stage:</span>
+          <ListItem
+            className="nds-is-complete nds-is-won"
+            id={path5Id}
+            ariaControls={pathContent5Id}
+            role="tab"
+            tabIndex="0"
+          >
+            <span className="nds-path__stage">
+              <SvgIcon
+                className="nds-icon nds-icon_x-small"
+                sprite="utility"
+                symbol="check"
+              />
+              <span className="nds-assistive-text">Current Stage:</span>
             </span>
-            <span className="slds-path__title">Closed Won</span>
+            <span className="nds-path__title">Closed Won</span>
           </ListItem>
         </ListMain>
       </div>
-      <div className="slds-grid slds-path__action">
-        <span className="slds-path__stage-name">Stage: Closed Won</span>
-        <Action>
-          Change Closed State</Action>
+      <div className="nds-grid nds-path__action">
+        <span className="nds-path__stage-name">Stage: Closed Won</span>
+        <Action>Change Closed State</Action>
       </div>
     </Path>
     <CoachContent id={pathContent1Id} ariaLabelledby={path1Id}>
@@ -621,188 +996,356 @@ let PathStageWon = props =>
     <CoachContent id={pathContent5Id} ariaLabelledby={path5Id}>
       <h2>Path 5 Content</h2>
     </CoachContent>
-  </Coach>;
+  </Coach>
+);
 
-let PathOverflow = props =>
+let PathOverflow = props => (
   <Demo>
     <Coach>
-      <Path className="slds-has-overflow">
-        <div className="slds-grid slds-path__scroller-container">
+      <Path className="nds-has-overflow">
+        <div className="nds-grid nds-path__scroller-container">
           <ListMain listRole="listbox">
-            <ListItem className="slds-is-complete" id={path11Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem className="nds-is-complete" id={path11Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path12Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem className="nds-is-complete" id={path12Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path1Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem className="nds-is-complete" id={path1Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path2Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem className="nds-is-complete" id={path2Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path3Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem className="nds-is-complete" id={path3Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path4Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem className="nds-is-complete" id={path4Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path5Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem className="nds-is-complete" id={path5Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path6Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem className="nds-is-complete" id={path6Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path7Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem className="nds-is-complete" id={path7Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-current" id={path8Id} role="option" tabIndex="0">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Current Stage:</span>
+            <ListItem
+              className="nds-is-current"
+              id={path8Id}
+              role="option"
+              tabIndex="0"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Current Stage:</span>
               </span>
-              <span className="slds-path__title">Unqualified</span>
+              <span className="nds-path__title">Unqualified</span>
             </ListItem>
-            <ListItem className="slds-is-incomplete" id={path9Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+            <ListItem className="nds-is-incomplete" id={path9Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
               </span>
-              <span className="slds-path__title">Nurturing</span>
+              <span className="nds-path__title">Nurturing</span>
             </ListItem>
-            <ListItem className="slds-is-incomplete" id={path10Id} role="option">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+            <ListItem className="nds-is-incomplete" id={path10Id} role="option">
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
               </span>
-              <span className="slds-path__title">Closed</span>
+              <span className="nds-path__title">Closed</span>
             </ListItem>
           </ListMain>
         </div>
-        <div className="slds-grid slds-path__action">
-          <span className="slds-path__stage-name">Stage: Unqualified</span>
-          <Action><SvgIcon className="slds-button__icon slds-button__icon_left" sprite="utility" symbol="check" />
-            Mark Status as Complete</Action>
+        <div className="nds-grid nds-path__action">
+          <span className="nds-path__stage-name">Stage: Unqualified</span>
+          <Action>
+            <SvgIcon
+              className="nds-button__icon nds-button__icon_left"
+              sprite="utility"
+              symbol="check"
+            />
+            Mark Status as Complete
+          </Action>
         </div>
       </Path>
     </Coach>
-  </Demo>;
+  </Demo>
+);
 
-let PathMediumCoaching = props =>
-  <Demo className="slds-region_medium" style={{ width: '700px' }}>
+let PathMediumCoaching = props => (
+  <Demo className="nds-region_medium" style={{ width: '700px' }}>
     <Coach isExpanded>
-      <Path className="slds-has-overflow">
-        <div className="slds-grid slds-path__scroller-container">
+      <Path className="nds-has-overflow">
+        <div className="nds-grid nds-path__scroller-container">
           <Triggerup />
           <ListMain listRole="tablist">
-            <ListItem className="slds-is-complete" id={path1Id} ariaControls={pathContent1Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path1Id}
+              ariaControls={pathContent1Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path2Id} ariaControls={pathContent2Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path2Id}
+              ariaControls={pathContent2Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path3Id} ariaControls={pathContent3Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path3Id}
+              ariaControls={pathContent3Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path4Id} ariaControls={pathContent4Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path4Id}
+              ariaControls={pathContent4Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path5Id} ariaControls={pathContent5Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path5Id}
+              ariaControls={pathContent5Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path6Id} ariaControls={pathContent6Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path6Id}
+              ariaControls={pathContent6Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path7Id} ariaControls={pathContent7Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path7Id}
+              ariaControls={pathContent7Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-current" id={path8Id} ariaControls={pathContent8Id} ariaExpanded="true" role="tab" tabIndex="0">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Current Stage:</span>
+            <ListItem
+              className="nds-is-current"
+              id={path8Id}
+              ariaControls={pathContent8Id}
+              ariaExpanded="true"
+              role="tab"
+              tabIndex="0"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Current Stage:</span>
               </span>
-              <span className="slds-path__title">Unqualified</span>
+              <span className="nds-path__title">Unqualified</span>
             </ListItem>
-            <ListItem className="slds-is-incomplete" id={path9Id} ariaControls={pathContent9Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+            <ListItem
+              className="nds-is-incomplete"
+              id={path9Id}
+              ariaControls={pathContent9Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
               </span>
-              <span className="slds-path__title">Nurturing</span>
+              <span className="nds-path__title">Nurturing</span>
             </ListItem>
-            <ListItem className="slds-is-incomplete" id={path10Id} ariaControls={pathContent10Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+            <ListItem
+              className="nds-is-incomplete"
+              id={path10Id}
+              ariaControls={pathContent10Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
               </span>
-              <span className="slds-path__title">Closed</span>
+              <span className="nds-path__title">Closed</span>
             </ListItem>
           </ListMain>
         </div>
-        <div className="slds-grid slds-path__action">
-          <span className="slds-path__stage-name">Stage: Unqualified</span>
-          <Action><SvgIcon className="slds-button__icon slds-button__icon_left" sprite="utility" symbol="check" />
-            Mark Status as Complete</Action>
+        <div className="nds-grid nds-path__action">
+          <span className="nds-path__stage-name">Stage: Unqualified</span>
+          <Action>
+            <SvgIcon
+              className="nds-button__icon nds-button__icon_left"
+              sprite="utility"
+              symbol="check"
+            />
+            Mark Status as Complete
+          </Action>
         </div>
       </Path>
       <CoachContent id={pathContent1Id} ariaLabelledby={path1Id}>
@@ -836,89 +1379,197 @@ let PathMediumCoaching = props =>
         <h2>Path 5 Content</h2>
       </CoachContent>
     </Coach>
-  </Demo>;
+  </Demo>
+);
 
-let PathSmallCoaching = props =>
-  <Demo className="slds-region_small" style={{ width: '360px' }}>
+let PathSmallCoaching = props => (
+  <Demo className="nds-region_small" style={{ width: '360px' }}>
     <Coach isExpanded>
-      <Path className="slds-has-overflow">
-        <div className="slds-grid slds-path__scroller-container">
+      <Path className="nds-has-overflow">
+        <div className="nds-grid nds-path__scroller-container">
           <Triggerup />
           <ListMain listRole="tablist">
-            <ListItem className="slds-is-complete" id={path1Id} ariaControls={pathContent1Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path1Id}
+              ariaControls={pathContent1Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path2Id} ariaControls={pathContent2Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path2Id}
+              ariaControls={pathContent2Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path3Id} ariaControls={pathContent3Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path3Id}
+              ariaControls={pathContent3Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path4Id} ariaControls={pathContent4Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path4Id}
+              ariaControls={pathContent4Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path5Id} ariaControls={pathContent5Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path5Id}
+              ariaControls={pathContent5Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path6Id} ariaControls={pathContent6Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path6Id}
+              ariaControls={pathContent6Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Open</span>
+              <span className="nds-path__title">Open</span>
             </ListItem>
-            <ListItem className="slds-is-complete" id={path7Id} ariaControls={pathContent7Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Stage Complete</span>
+            <ListItem
+              className="nds-is-complete"
+              id={path7Id}
+              ariaControls={pathContent7Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Stage Complete</span>
               </span>
-              <span className="slds-path__title">Contacted</span>
+              <span className="nds-path__title">Contacted</span>
             </ListItem>
-            <ListItem className="slds-is-current" id={path8Id} ariaControls={pathContent8Id} ariaExpanded="true" role="tab" tabIndex="0">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
-                <span className="slds-assistive-text">Current Stage:</span>
+            <ListItem
+              className="nds-is-current"
+              id={path8Id}
+              ariaControls={pathContent8Id}
+              ariaExpanded="true"
+              role="tab"
+              tabIndex="0"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
+                <span className="nds-assistive-text">Current Stage:</span>
               </span>
-              <span className="slds-path__title">Unqualified</span>
+              <span className="nds-path__title">Unqualified</span>
             </ListItem>
-            <ListItem className="slds-is-incomplete" id={path9Id} ariaControls={pathContent9Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+            <ListItem
+              className="nds-is-incomplete"
+              id={path9Id}
+              ariaControls={pathContent9Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
               </span>
-              <span className="slds-path__title">Nurturing</span>
+              <span className="nds-path__title">Nurturing</span>
             </ListItem>
-            <ListItem className="slds-is-incomplete" id={path10Id} ariaControls={pathContent10Id} ariaExpanded="true" role="tab">
-              <span className="slds-path__stage">
-                <SvgIcon className="slds-icon slds-icon_x-small" sprite="utility" symbol="check" />
+            <ListItem
+              className="nds-is-incomplete"
+              id={path10Id}
+              ariaControls={pathContent10Id}
+              ariaExpanded="true"
+              role="tab"
+            >
+              <span className="nds-path__stage">
+                <SvgIcon
+                  className="nds-icon nds-icon_x-small"
+                  sprite="utility"
+                  symbol="check"
+                />
               </span>
-              <span className="slds-path__title">Closed</span>
+              <span className="nds-path__title">Closed</span>
             </ListItem>
           </ListMain>
         </div>
-        <div className="slds-grid slds-path__action">
-          <span className="slds-path__stage-name">Stage: Unqualified</span>
-          <Action><SvgIcon className="slds-button__icon slds-button__icon_left" sprite="utility" symbol="check" />
-            Mark Status as Complete</Action>
+        <div className="nds-grid nds-path__action">
+          <span className="nds-path__stage-name">Stage: Unqualified</span>
+          <Action>
+            <SvgIcon
+              className="nds-button__icon nds-button__icon_left"
+              sprite="utility"
+              symbol="check"
+            />
+            Mark Status as Complete
+          </Action>
         </div>
       </Path>
       <CoachContent id={pathContent1Id} ariaLabelledby={path1Id}>
@@ -952,15 +1603,14 @@ let PathSmallCoaching = props =>
         <h2>Path 5 Content</h2>
       </CoachContent>
     </Coach>
-  </Demo>;
+  </Demo>
+);
 
 /// ////////////////////////////////////////////
 // Export
 /// ///////////////////////////////////////////
 
-export default (
-  <Default />
-);
+export default <Default />;
 
 export let states = [
   {

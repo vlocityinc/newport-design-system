@@ -3,9 +3,9 @@
 
 /**
  * An avatar can be circular or a rounded rectangle, depending on usage. The
- * default is a rounded rectangle and requires `.slds-avatar` as the base class.
+ * default is a rounded rectangle and requires `.nds-avatar` as the base class.
  * Use a circle for all people-oriented objects that could potentially render
- * as avatars. For a fully round avatar, add the `.slds-avatar_circle` class.
+ * as avatars. For a fully round avatar, add the `.nds-avatar_circle` class.
  * Four additional classes are available for sizing.
 
  * If an image is unavailable, up to two letters can be used instead. If the
@@ -18,7 +18,7 @@
  *
  * @base
  * @name avatar
- * @selector .slds-avatar
+ * @selector .nds-avatar
  * @support dev-ready
  * @category base
  * @type data-display

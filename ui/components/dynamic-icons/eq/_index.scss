@@ -6,11 +6,11 @@ $_eq-bar-height-max: 14px;
 
 /**
  * @name eq
- * @selector .slds-icon-eq
+ * @selector .nds-icon-eq
  * @restrict div
  * @variant
  */
-.slds-icon-eq {
+.nds-icon-eq {
   position: relative;
   width: fix-ie-rounding(14);
   height: fix-ie-rounding($_eq-bar-height-max / 1px);
@@ -18,13 +18,13 @@ $_eq-bar-height-max: 14px;
   /**
    * @summary Turn animation on for animated icon
    *
-   * @selector .slds-is-animated
-   * @restrict .slds-icon-eq
+   * @selector .nds-is-animated
+   * @restrict .nds-icon-eq
    */
-  &.slds-is-animated {
+  &.nds-is-animated {
 
-    .slds-icon-eq__bar {
-      animation: slds-icon-eq 0.25s ease-in-out infinite alternate;
+    .nds-icon-eq__bar {
+      animation: nds-icon-eq 0.25s ease-in-out infinite alternate;
       will-change: transform;
       // Reset bar height
       height: rem($_eq-bar-height-min);
@@ -43,10 +43,10 @@ $_eq-bar-height-max: 14px;
 /**
  * @summary Vertical bar for equalizer icon
  *
- * @selector .slds-icon-eq__bar
- * @restrict .slds-icon-eq div
+ * @selector .nds-icon-eq__bar
+ * @restrict .nds-icon-eq div
  */
-.slds-icon-eq__bar {
+.nds-icon-eq__bar {
   position: absolute;
   bottom: 0;
   #{$left}: 0;
@@ -67,7 +67,7 @@ $_eq-bar-height-max: 14px;
   }
 }
 
-@keyframes slds-icon-eq {
+@keyframes nds-icon-eq {
 
   to {
     transform: scaleY(#{$_eq-bar-height-max / $_eq-bar-height-min});

@@ -56,9 +56,9 @@ gulp.task('generate:examples', () => {
   const stream = through.obj();
   ui()
     .chain(uiJSON =>
-      Task.of(createInstance(uiJSON)).map(SLDS =>
+      Task.of(createInstance(uiJSON)).map(NDS =>
         uiJSON.get('components').map(comp =>
-          SLDS.variants(comp)
+          NDS.variants(comp)
             .filter(variant => variant.get('showcasePath'))
             .map(variant =>
               showcase(variant.get('showcasePath'), true).map(section =>

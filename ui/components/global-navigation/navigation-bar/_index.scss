@@ -7,11 +7,11 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
  * @summary Navigation bar wrapper
  *
  * @name navigation-bar
- * @selector .slds-context-bar
+ * @selector .nds-context-bar
  * @restrict div
  * @variant
  */
-.slds-context-bar {
+.nds-context-bar {
   display: flex;
   height: $height-context-bar;
   background-color: $color-background-context-bar;
@@ -23,8 +23,8 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
   /**
    * Primary zone
    *
-   * @selector .slds-context-bar__primary
-   * @restrict .slds-context-bar div
+   * @selector .nds-context-bar__primary
+   * @restrict .nds-context-bar div
    */
   &__primary,
   &__secondary,
@@ -37,8 +37,8 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
   /**
    * Secondary zone
    *
-   * @selector .slds-context-bar__secondary
-   * @restrict .slds-context-bar nav, .slds-context-bar div
+   * @selector .nds-context-bar__secondary
+   * @restrict .nds-context-bar nav, .nds-context-bar div
    */
   // Context nav items go in the secondary region
   // and secondary region needs to respect the width
@@ -52,8 +52,8 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
   /**
    * Manually add a vertical divider between elements
    *
-   * @selector .slds-context-bar__vertical-divider
-   * @restrict .slds-context-bar div
+   * @selector .nds-context-bar__vertical-divider
+   * @restrict .nds-context-bar div
    */
   &__vertical-divider {
     width: 0;
@@ -66,8 +66,8 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
    * Interactions such as hovers + active are defaults, bottom of the
    * file deals with light / dark theme thresholds
    *
-   * @selector .slds-context-bar__item
-   * @restrict .slds-context-bar div, .slds-context-bar li
+   * @selector .nds-context-bar__item
+   * @restrict .nds-context-bar div, .nds-context-bar li
    */
   &__item {
     display: flex;
@@ -81,12 +81,12 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
     /**
      * Active state of an item
      *
-     * @selector .slds-is-active
-     * @restrict .slds-context-bar__item:not(.slds-no-hover)
+     * @selector .nds-is-active
+     * @restrict .nds-context-bar__item:not(.nds-no-hover)
      * @modifier
      */
-    &:not(.slds-no-hover):hover,
-    &.slds-is-active {
+    &:not(.nds-no-hover):hover,
+    &.nds-is-active {
       outline: 0;
       border-radius: 0;
       background-color: $color-background-context-bar-brand-light;
@@ -94,7 +94,7 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
       cursor: pointer;
     }
 
-    &:not(.slds-no-hover):hover:after {
+    &:not(.nds-no-hover):hover:after {
       content: '';
       width: 100%;
       height: 3px;
@@ -111,7 +111,7 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
       }
     }
 
-    &.slds-is-active {
+    &.nds-is-active {
       animation: bkAnim 0.135s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 
       @keyframes bkAnim {
@@ -165,12 +165,12 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
     /**
      * Toggled focused class applied via JavaScript
      *
-     * @selector .slds-has-focus
-     * @restrict .slds-context-bar__item
+     * @selector .nds-has-focus
+     * @restrict .nds-context-bar__item
      * @modifier
      */
-    &.slds-has-focus,
-    &.slds-has-focus:hover {
+    &.nds-has-focus,
+    &.nds-has-focus:hover {
 
       &:before,
       &:after {
@@ -181,8 +181,8 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
     /**
      * Add a left border to a context bar item
      *
-     * @selector .slds-context-bar__item_divider-left
-     * @restrict .slds-context-bar div, .slds-context-bar li
+     * @selector .nds-context-bar__item_divider-left
+     * @restrict .nds-context-bar div, .nds-context-bar li
      */
     &_divider-left,
     &--divider-left {
@@ -192,8 +192,8 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
     /**
      * Add a right border to a context bar item
      *
-     * @selector .slds-context-bar__item_divider-right
-     * @restrict .slds-context-bar div, .slds-context-bar li
+     * @selector .nds-context-bar__item_divider-right
+     * @restrict .nds-context-bar div, .nds-context-bar li
      */
     &_divider-right,
     &--divider-right {
@@ -204,8 +204,8 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
   /**
    * Actionable Text Links
    *
-   * @selector .slds-context-bar__label-action
-   * @restrict .slds-context-bar__item a, .slds-context-bar__item span, .slds-context-bar__item button
+   * @selector .nds-context-bar__label-action
+   * @restrict .nds-context-bar__item a, .nds-context-bar__item span, .nds-context-bar__item button
    */
   &__label-action {
     display: flex;
@@ -242,8 +242,8 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
   /**
    * Actionable Icons
    *
-   * @selector .slds-context-bar__icon-action
-   * @restrict .slds-context-bar div
+   * @selector .nds-context-bar__icon-action
+   * @restrict .nds-context-bar div
    */
   &__icon-action {
     display: flex;
@@ -257,11 +257,11 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
     &:focus {
       outline: 0;
 
-      .slds-context-bar__button {
+      .nds-context-bar__button {
         @include focus-button;
       }
 
-      ~ .slds-dropdown {
+      ~ .nds-dropdown {
         visibility: visible;
         opacity: 1;
       }
@@ -276,7 +276,7 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
       color: $color-text-context-bar;
     }
 
-    .slds-icon-waffle_container {
+    .nds-icon-waffle_container {
       @include square($square-icon-large-content);
       margin: {
         #{$right}: $spacing-xx-small;
@@ -284,7 +284,7 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
       }
     }
 
-    .slds-icon-waffle {
+    .nds-icon-waffle {
       margin: {
         #{$right}: auto;
         #{$left}: auto;
@@ -293,12 +293,12 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
   }
 
   // Button inside of actionable container
-  .slds-context-bar__button {
+  .nds-context-bar__button {
     color: inherit;
   }
 
   // Need to reset styles from default
-  .slds-context-bar__icon-action {
+  .nds-context-bar__icon-action {
     margin-#{$left}: auto;
   }
 
@@ -307,8 +307,8 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
    * @summary Tab modifier when using a tabset
    *
    * @name navigation-tab-bar
-   * @selector .slds-context-bar_tabs
-   * @restrict .slds-context-bar
+   * @selector .nds-context-bar_tabs
+   * @restrict .nds-context-bar
    * @variant
    */
   &_tabs,
@@ -325,8 +325,8 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
    * set the value of `aria-controls` on the Split View Toggle button, to the `ID` of the
    * wrapper element that contains the Split View List.
    *
-   * @selector .slds-context-bar__item_tab
-   * @restrict .slds-context-bar_tabs .slds-context-bar__item
+   * @selector .nds-context-bar__item_tab
+   * @restrict .nds-context-bar_tabs .nds-context-bar__item
    * @notes Only use on tabset version
    * @required
    *
@@ -336,7 +336,7 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
     width: $size-x-small;
     border-#{$right}: $border-width-thin solid $color-border;
 
-    .slds-context-bar__label-action {
+    .nds-context-bar__label-action {
       padding: 0 $spacing-x-small;
     }
 
@@ -344,50 +344,50 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
      * Pinned state
      * Toggles visibility of elements inside of tab
      *
-     * @selector .slds-is-pinned
-     * @restrict .slds-context-bar__item_tab
+     * @selector .nds-is-pinned
+     * @restrict .nds-context-bar__item_tab
      * @modifier
      */
-    &.slds-is-pinned {
+    &.nds-is-pinned {
       width: auto;
       padding-#{$right}: $spacing-x-small;
 
-      .slds-context-bar__label-action {
+      .nds-context-bar__label-action {
         padding: 0 $spacing-x-small;
       }
     }
   }
 
   // Dirty state of tabs
-  .slds-is-unsaved {
+  .nds-is-unsaved {
 
-    .slds-context-bar__label-action {
+    .nds-context-bar__label-action {
       position: relative;
       padding-#{$left}: $spacing-x-small;
       font-style: italic;
       line-height: normal;
     }
 
-    .slds-indicator_unread {
+    .nds-indicator_unread {
       margin-#{$left}: -0.35rem; // Random but matches spec
     }
   }
 
   /**
    * @summary Notifications style - Styling a tab or overflow item to indicate the tab has unread activity
-   * @selector .slds-has-notification
-   * @restrict .slds-context-bar__item, .slds-context-bar__item .slds-dropdown__item
+   * @selector .nds-has-notification
+   * @restrict .nds-context-bar__item, .nds-context-bar__item .nds-dropdown__item
    */
-  .slds-has-notification {
+  .nds-has-notification {
     background: $color-background-context-bar-brand-light;
     color: $color-text-default;
 
     /**
      * @summary Unread notification icon
-     * @selector .slds-indicator_unread
-     * @restrict .slds-has-notification span
+     * @selector .nds-indicator_unread
+     * @restrict .nds-has-notification span
      */
-    .slds-indicator_unread {
+    .nds-indicator_unread {
       display: inline-block;
       flex-shrink: 0;
       height: 6px;
@@ -402,11 +402,11 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
 /**
  * Unsaved indicator - This can probably be used in other locations as well
  *
- * @selector .slds-indicator_unsaved
- * @restrict .slds-context-bar__item span, abbr
+ * @selector .nds-indicator_unsaved
+ * @restrict .nds-context-bar__item span, abbr
  */
-.slds-indicator_unsaved,
-.slds-indicator--unsaved {
+.nds-indicator_unsaved,
+.nds-indicator--unsaved {
   color: $color-text-brand;
   align-self: flex-start;
   font-size: $font-size-medium-a;
@@ -414,9 +414,9 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
 }
 
 // Context Bar dropdown trigger specifics
-.slds-context-bar__dropdown-trigger {
+.nds-context-bar__dropdown-trigger {
 
-  .slds-dropdown {
+  .nds-dropdown {
     margin-top: 3px;
 
     // Add a hoverable zone below the action so that the dropdown doesn't
@@ -434,10 +434,10 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
 /**
  * Styles for application name region
  *
- * @selector .slds-context-bar__app-name
- * @restrict .slds-context-bar__label-action
+ * @selector .nds-context-bar__app-name
+ * @restrict .nds-context-bar__label-action
  */
-.slds-context-bar__app-name {
+.nds-context-bar__app-name {
   padding: side-values(0 $spacing-large 0 0);
   font-size: rem(18px); // @todo tokenize
   font-weight: $font-weight-light;
@@ -447,11 +447,11 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
 /**
  * Styles for object switcher region
  *
- * @selector .slds-context-bar__object-switcher
- * @restrict .slds-context-bar__item
+ * @selector .nds-context-bar__object-switcher
+ * @restrict .nds-context-bar__item
  * @required
  */
-.slds-context-bar__object-switcher {
+.nds-context-bar__object-switcher {
   min-width: rem(144px); // @todo tokenize
   max-width: $size-x-small;
   border-#{$left}: $border-width-thin solid $color-border;
@@ -462,15 +462,15 @@ $color-background-context-bar-brand-light: rgba(desaturate($color-background-con
 // Using mixin to determine text color and interactive states
 //
 // Marketing - temp
-.slds-context-bar_theme-marketing,
-.slds-context-bar--theme-marketing {
+.nds-context-bar_theme-marketing,
+.nds-context-bar--theme-marketing {
   border-bottom-color: #f59331;
 
-  .slds-context-bar__item:not(.slds-no-hover):hover {
+  .nds-context-bar__item:not(.nds-no-hover):hover {
     border-bottom-color: #f59331;
   }
 
-  .slds-context-bar__item.slds-is-active {
+  .nds-context-bar__item.nds-is-active {
 
     &:before {
       background: #f59331;

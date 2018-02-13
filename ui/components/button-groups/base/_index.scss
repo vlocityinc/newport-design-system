@@ -5,30 +5,30 @@
  * @summary Creates button group container
  *
  * @name base
- * @selector .slds-button-group
+ * @selector .nds-button-group
  * @restrict div
  * @variant
  */
-.slds-button-group,
-.slds-button-group-list {
+.nds-button-group,
+.nds-button-group-list {
   display: inline-flex;
 
-  .slds-button {
+  .nds-button {
     border-radius: 0;
     border-width: $border-width-thin;
   }
 }
 
-.slds-button-group .slds-button + .slds-button,
-.slds-button-group .slds-button + .slds-button_last .slds-button,
-.slds-button-group .slds-button + .slds-button--last .slds-button,
-.slds-button-group-list li + li .slds-button {
+.nds-button-group .nds-button + .nds-button,
+.nds-button-group .nds-button + .nds-button_last .nds-button,
+.nds-button-group .nds-button + .nds-button--last .nds-button,
+.nds-button-group-list li + li .nds-button {
   margin-#{$left}: (-1 * $border-width-thin);
 }
 
 // These selectors must remain in long hand in order to zero out borders that we don't want on last-child buttons
-.slds-button-group-list li:first-child .slds-button,
-.slds-button-group .slds-button:first-child {
+.nds-button-group-list li:first-child .nds-button,
+.nds-button-group .nds-button:first-child {
   border-radius: corner-values($button-border-radius 0 0 $button-border-radius);
 }
 
@@ -36,38 +36,38 @@
  * These selectors must remain in long hand in order to zero out borders that
  * we don't want on last-child or :only-child wrapped buttons
  *
- * @selector .slds-button_last
- * @restrict .slds-button-group div, .slds-button-group-list div
+ * @selector .nds-button_last
+ * @restrict .nds-button-group div, .nds-button-group-list div
  */
-.slds-button-group .slds-button:last-child,
-.slds-button-group-list li:last-child .slds-button,
-.slds-button-group .slds-button_last .slds-button,
-.slds-button-group .slds-button--last .slds-button,
-.slds-button-group .slds-button.slds-button_last,
-.slds-button-group .slds-button.slds-button--last,
-.slds-button-group .slds-button_last .slds-button:only-child,
-.slds-button-group .slds-button--last .slds-button:only-child,
-.slds-button-group .slds-button.slds-button_last,
-.slds-button-group .slds-button.slds-button--last {
+.nds-button-group .nds-button:last-child,
+.nds-button-group-list li:last-child .nds-button,
+.nds-button-group .nds-button_last .nds-button,
+.nds-button-group .nds-button--last .nds-button,
+.nds-button-group .nds-button.nds-button_last,
+.nds-button-group .nds-button.nds-button--last,
+.nds-button-group .nds-button_last .nds-button:only-child,
+.nds-button-group .nds-button--last .nds-button:only-child,
+.nds-button-group .nds-button.nds-button_last,
+.nds-button-group .nds-button.nds-button--last {
   border-radius: corner-values(0 $button-border-radius $button-border-radius 0);
 }
 
 // The following rule must stay at the **bottom** due to the cascade
-.slds-button-group .slds-button:only-child,
-.slds-button-group-list li:only-child .slds-button {
+.nds-button-group .nds-button:only-child,
+.nds-button-group-list li:only-child .nds-button {
   border-radius: $button-border-radius;
 }
 
-.slds-button-group + .slds-button-group,
-.slds-button-group + .slds-button-group-list,
-.slds-button-group + .slds-button,
-.slds-button-group-list + .slds-button-group-list,
-.slds-button-group-list + .slds-button-group,
-.slds-button-group-list + .slds-button {
+.nds-button-group + .nds-button-group,
+.nds-button-group + .nds-button-group-list,
+.nds-button-group + .nds-button,
+.nds-button-group-list + .nds-button-group-list,
+.nds-button-group-list + .nds-button-group,
+.nds-button-group-list + .nds-button {
   margin-#{$left}: $spacing-xx-small;
 }
 
-// The .slds-button--last class should be placed on the wrapper
+// The .nds-button--last class should be placed on the wrapper
 // of a button that's the final one in a button-group
 //
 // A bit of history:

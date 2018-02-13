@@ -6,36 +6,36 @@ import SvgIcon from '../../../shared/svg-icon';
 import { TileMedia } from '../base/example';
 
 const icon = (
-  <span className="slds-icon_container" title="description of icon when needed">
-    <SvgIcon className="slds-icon" sprite="doctype" symbol="zip" />
+  <span className="nds-icon_container" title="description of icon when needed">
+    <SvgIcon className="nds-icon" sprite="doctype" symbol="zip" />
   </span>
 );
 
 export default (
-  <ul className="slds-has-dividers_bottom-space">
-    <li className="slds-item">
-      <TileMedia title="SLDS_038.zip" media={icon}>
-        <ul className="slds-list_horizontal slds-has-dividers_right">
-          <li className="slds-item">May 9th, 2015</li>
-          <li className="slds-item">3.6mb</li>
+  <ul className="nds-has-dividers_bottom-space">
+    <li className="nds-item">
+      <TileMedia title="NDS_038.zip" media={icon}>
+        <ul className="nds-list_horizontal nds-has-dividers_right">
+          <li className="nds-item">May 9th, 2015</li>
+          <li className="nds-item">3.6mb</li>
         </ul>
       </TileMedia>
     </li>
-    <li className="slds-item">
-    <TileMedia title="SLDS_038.zip" media={icon}>
-      <ul className="slds-list_horizontal slds-has-dividers_right">
-        <li className="slds-item">May 9th, 2015</li>
-        <li className="slds-item">3.6mb</li>
-      </ul>
-    </TileMedia>
+    <li className="nds-item">
+      <TileMedia title="NDS_038.zip" media={icon}>
+        <ul className="nds-list_horizontal nds-has-dividers_right">
+          <li className="nds-item">May 9th, 2015</li>
+          <li className="nds-item">3.6mb</li>
+        </ul>
+      </TileMedia>
     </li>
-    <li className="slds-item">
-    <TileMedia title="SLDS_038.zip" media={icon}>
-      <ul className="slds-list_horizontal slds-has-dividers_right">
-        <li className="slds-item">May 9th, 2015</li>
-        <li className="slds-item">3.6mb</li>
-      </ul>
-    </TileMedia>
+    <li className="nds-item">
+      <TileMedia title="NDS_038.zip" media={icon}>
+        <ul className="nds-list_horizontal nds-has-dividers_right">
+          <li className="nds-item">May 9th, 2015</li>
+          <li className="nds-item">3.6mb</li>
+        </ul>
+      </TileMedia>
     </li>
   </ul>
 );

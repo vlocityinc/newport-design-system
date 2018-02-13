@@ -3,18 +3,20 @@
 
 import React from 'react';
 
-export let EqIcon = () =>
-  <div className="slds-icon-eq slds-is-animated" title="Description of the icon when needed">
-    <div className="slds-icon-eq__bar" />
-    <div className="slds-icon-eq__bar" />
-    <div className="slds-icon-eq__bar" />
-    <span className="slds-assistive-text">Text alternative when needed</span>
-  </div>;
+export let EqIcon = () => (
+  <div
+    className="nds-icon-eq nds-is-animated"
+    title="Description of the icon when needed"
+  >
+    <div className="nds-icon-eq__bar" />
+    <div className="nds-icon-eq__bar" />
+    <div className="nds-icon-eq__bar" />
+    <span className="nds-assistive-text">Text alternative when needed</span>
+  </div>
+);
 
 /* -----------------------------------------------------------------------------
     Exports
 ----------------------------------------------------------------------------- */
 
-export default (
-  <EqIcon />
-);
+export default <EqIcon />;

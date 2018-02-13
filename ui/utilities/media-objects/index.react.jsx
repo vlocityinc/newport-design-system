@@ -5,38 +5,38 @@ import React from 'react';
 import classNames from 'classnames';
 
 class Component extends React.Component {
-  render () {
-    const className = classNames('slds-media', this.props.className, {
-      [`slds-media_${this.props.flavor}`]: this.props.flavor
+  render() {
+    const className = classNames('nds-media', this.props.className, {
+      [`nds-media_${this.props.flavor}`]: this.props.flavor
     });
     return (
       <div className={className}>
         {this.renderFigure(
           this.props.figureCenter,
-          classNames('slds-media__figure_stacked', this.props.figureCenterClassName)
+          classNames(
+            'nds-media__figure_stacked',
+            this.props.figureCenterClassName
+          )
         )}
         {this.renderFigure(
           this.props.figureLeft,
           this.props.figureLeftClassName
         )}
-        <div className="slds-media__body">
-          {this.props.children}
-        </div>
+        <div className="nds-media__body">{this.props.children}</div>
         {this.renderFigure(
           this.props.figureRight,
-          classNames('slds-media__figure_reverse', this.props.figureRightClassName)
+          classNames(
+            'nds-media__figure_reverse',
+            this.props.figureRightClassName
+          )
         )}
       </div>
     );
   }
-  renderFigure (figure, className) {
+  renderFigure(figure, className) {
     if (!figure) return null;
-    className = classNames('slds-media__figure', className);
-    return (
-      <div className={className}>
-        {figure}
-      </div>
-    );
+    className = classNames('nds-media__figure', className);
+    return <div className={className}>{figure}</div>;
   }
 }
 

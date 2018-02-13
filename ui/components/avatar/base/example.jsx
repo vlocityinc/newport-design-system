@@ -10,10 +10,11 @@ import classNames from 'classnames';
 // Partial(s)
 /// ////////////////////////////////////////
 
-export let Avatar = props =>
-  <span className={classNames('slds-avatar', props.className)}>
-    { props.children }
-  </span>;
+export let Avatar = props => (
+  <span className={classNames('nds-avatar', props.className)}>
+    {props.children}
+  </span>
+);
 
 /// ///////////////////////////////////////////
 // Export
@@ -33,33 +34,47 @@ export let examples = [
   {
     id: 'fallback-user-initials',
     label: 'Fallback - User initials',
-    element:
-      <Avatar className="slds-avatar_circle">
-        <abbr className="slds-avatar__initials slds-icon-standard-user" title="person name">AB</abbr>
+    element: (
+      <Avatar className="nds-avatar_circle">
+        <abbr
+          className="nds-avatar__initials nds-icon-standard-user"
+          title="person name"
+        >
+          AB
+        </abbr>
       </Avatar>
+    )
   },
   {
     id: 'fallback-user-icon',
     label: 'Fallback - User icon',
-    element:
-      <Avatar className="slds-avatar_circle">
+    element: (
+      <Avatar className="nds-avatar_circle">
         <StandardIcon symbol="user" />
       </Avatar>
+    )
   },
   {
     id: 'fallback-entity-initials',
     label: 'Fallback - Entity Initials',
-    element:
+    element: (
       <Avatar>
-        <abbr className="slds-avatar__initials slds-icon-standard-account" title="company name">Ac</abbr>
+        <abbr
+          className="nds-avatar__initials nds-icon-standard-account"
+          title="company name"
+        >
+          Ac
+        </abbr>
       </Avatar>
+    )
   },
   {
     id: 'fallback-entity-icon',
     label: 'Fallback - Entity Icon',
-    element:
+    element: (
       <Avatar>
         <StandardIcon />
       </Avatar>
+    )
   }
 ];

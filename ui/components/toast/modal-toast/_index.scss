@@ -3,15 +3,15 @@
 
 @include deprecate('4.0.0', 'No longer a pattern that should be used') {
 
-  .slds-modal__header {
+  .nds-modal__header {
 
-    .slds-notify-container,
-    .slds-notify_container {
+    .nds-notify-container,
+    .nds-notify_container {
       position: absolute;
     }
 
-    .slds-notify_toast,
-    .slds-notify--toast {
+    .nds-notify_toast,
+    .nds-notify--toast {
       display: block;
     }
   }

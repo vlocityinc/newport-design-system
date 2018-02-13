@@ -12,25 +12,47 @@ import classNames from 'classnames';
 // Partial(s)
 /// ////////////////////////////////////////
 
-export let ListboxPill = props =>
-  <span className={classNames('slds-pill', props.className)} role="option" tabIndex={props.tabIndex} aria-selected="true">
+export let ListboxPill = props => (
+  <span
+    className={classNames('nds-pill', props.className)}
+    role="option"
+    tabIndex={props.tabIndex}
+    aria-selected="true"
+  >
     {props.children}
-    <span className="slds-pill__label" title={props.label || 'Full pill label verbiage mirrored here'}>{props.label || 'Pill Label'}</span>
-    <span className="slds-icon_container slds-pill__remove" title="Remove">
-      <SvgIcon className="slds-icon slds-icon_x-small slds-icon-text-default" sprite="utility" symbol="close" />
-      <span className="slds-assistive-text">Press delete or backspace to remove</span>
+    <span
+      className="nds-pill__label"
+      title={props.label || 'Full pill label verbiage mirrored here'}
+    >
+      {props.label || 'Pill Label'}
     </span>
-  </span>;
+    <span className="nds-icon_container nds-pill__remove" title="Remove">
+      <SvgIcon
+        className="nds-icon nds-icon_x-small nds-icon-text-default"
+        sprite="utility"
+        symbol="close"
+      />
+      <span className="nds-assistive-text">
+        Press delete or backspace to remove
+      </span>
+    </span>
+  </span>
+);
 
-export let ListboxHoriz = props =>
-  <ul className="slds-listbox slds-listbox_horizontal" role="listbox" aria-label="Selected Options:" aria-orientation="horizontal">
+export let ListboxHoriz = props => (
+  <ul
+    className="nds-listbox nds-listbox_horizontal"
+    role="listbox"
+    aria-label="Selected Options:"
+    aria-orientation="horizontal"
+  >
     {props.children}
-  </ul>;
+  </ul>
+);
 
-export let ListItemHoriz = props =>
-  <li role="presentation">
-    {props.children}
-  </li>;
+export let ListItemHoriz = props => (
+  <li role="presentation">{props.children}</li>
+);
 
 /// ////////////////////////////////////////
 // Export
@@ -53,37 +75,48 @@ export let states = [
   {
     id: 'listbox-pill-with-icon',
     label: 'With icon',
-    element:
+    element: (
       <PillContainer>
         <ListboxHoriz>
           <ListItemHoriz>
             <ListboxPill tabIndex="0">
-              <span className="slds-icon_container slds-icon-standard-account slds-pill__icon_container" title="Account">
-                <SvgIcon className="slds-icon" sprite="standard" symbol="account" />
-                <span className="slds-assistive-text">Account</span>
+              <span
+                className="nds-icon_container nds-icon-standard-account nds-pill__icon_container"
+                title="Account"
+              >
+                <SvgIcon
+                  className="nds-icon"
+                  sprite="standard"
+                  symbol="account"
+                />
+                <span className="nds-assistive-text">Account</span>
               </span>
             </ListboxPill>
           </ListItemHoriz>
           <ListItemHoriz>
             <ListboxPill>
-              <span className="slds-icon_container slds-icon-standard-case slds-pill__icon_container" title="Case">
-                <SvgIcon className="slds-icon" sprite="standard" symbol="case" />
-                <span className="slds-assistive-text">Case</span>
+              <span
+                className="nds-icon_container nds-icon-standard-case nds-pill__icon_container"
+                title="Case"
+              >
+                <SvgIcon className="nds-icon" sprite="standard" symbol="case" />
+                <span className="nds-assistive-text">Case</span>
               </span>
             </ListboxPill>
           </ListItemHoriz>
         </ListboxHoriz>
       </PillContainer>
+    )
   },
   {
     id: 'listbox-pill-with-avatar',
     label: 'With avatar',
-    element:
+    element: (
       <PillContainer>
         <ListboxHoriz>
           <ListItemHoriz>
             <ListboxPill tabIndex="0">
-              <Avatar className="slds-avatar_x-small slds-pill__icon_container">
+              <Avatar className="nds-avatar_x-small nds-pill__icon_container">
                 <img
                   alt="Person name"
                   src="/assets/images/avatar2.jpg"
@@ -94,7 +127,7 @@ export let states = [
           </ListItemHoriz>
           <ListItemHoriz>
             <ListboxPill>
-              <Avatar className="slds-avatar_x-small slds-pill__icon_container">
+              <Avatar className="nds-avatar_x-small nds-pill__icon_container">
                 <img
                   alt="Person name"
                   src="/assets/images/avatar2.jpg"
@@ -105,5 +138,6 @@ export let states = [
           </ListItemHoriz>
         </ListboxHoriz>
       </PillContainer>
+    )
   }
 ];

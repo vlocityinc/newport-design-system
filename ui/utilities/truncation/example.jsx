@@ -4,51 +4,62 @@
 import React from 'react';
 import classNames from 'classnames';
 
-let ListItem = props =>
+let ListItem = props => (
   <li
     className={classNames(
-      'slds-list__item slds-m-right_large slds-grid',
+      'nds-list__item nds-m-right_large nds-grid',
       props.className
     )}
   >
     <span>To:</span>
-    <span className="slds-m-left_xx-small slds-truncate" title={props.title}>
-      {props.children}</span>
-    <span className="slds-m-left_xx-small slds-no-flex"> + 44 more</span>
-  </li>;
+    <span className="nds-m-left_xx-small nds-truncate" title={props.title}>
+      {props.children}
+    </span>
+    <span className="nds-m-left_xx-small nds-no-flex"> + 44 more</span>
+  </li>
+);
 
-let List = props =>
+let List = props => (
   <ul>
-    <ListItem title="Lei Chan" className={'slds-truncate_container_' + props.width}>
+    <ListItem
+      title="Lei Chan"
+      className={'nds-truncate_container_' + props.width}
+    >
       <a href="javascript:void(0);">Lei Chan</a>
     </ListItem>
     <ListItem
       title="Lei Chan with Long Name"
-      className={'slds-truncate_container_' + props.width}
+      className={'nds-truncate_container_' + props.width}
     >
       <a href="javascript:void(0);">Lei Chan with Long Name</a>
     </ListItem>
     <ListItem
       title="Lei Chan with Long Name that might go on for quite some distance futher than you might expect"
-      className={'slds-truncate_container_' + props.width}
+      className={'nds-truncate_container_' + props.width}
     >
-      <a href="javascript:void(0);">Lei Chan with Long Name that might go on for quite some distance futher than you might expect</a>
+      <a href="javascript:void(0);">
+        Lei Chan with Long Name that might go on for quite some distance futher
+        than you might expect
+      </a>
     </ListItem>
-  </ul>;
+  </ul>
+);
 
 export let examples = [
   {
     id: 'fluid',
     label: 'Fluid',
-    element:
-      <div className="slds-size_1-of-2">
+    element: (
+      <div className="nds-size_1-of-2">
         <p
-          className="slds-truncate"
+          className="nds-truncate"
           title="Long text field with many lines and truncation will look like this. Even though the text might go on for ages and ages."
         >
-          Long text field with many lines and truncation will look like this. Even though the text might go on for ages and ages.
+          Long text field with many lines and truncation will look like this.
+          Even though the text might go on for ages and ages.
         </p>
       </div>
+    )
   },
   {
     id: '25%',

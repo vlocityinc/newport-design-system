@@ -9,7 +9,7 @@
  *
  * The add button is useful for increasing clarity. Since the button only adds
  * or removes entities, the user knows the action they will prompt upon click.
- * The add button also provides a clear visual affordance (in SLDS, we use the
+ * The add button also provides a clear visual affordance (in NDS, we use the
  * ‘+’ icon as an metaphor for ‘add’) and a large target to take this action.
  *
  * Use the add button if the component you’re building:
@@ -21,7 +21,7 @@
  *
  * @base
  * @name checkbox-button
- * @selector .slds-checkbox_add-button
+ * @selector .nds-checkbox_add-button
  * @support dev-ready
  * @category base
  * @type data-entry

@@ -2,70 +2,76 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 import React from 'react';
-import BreadCrumbs, { Crumb} from '../../breadcrumbs/index.react';
+import BreadCrumbs, { Crumb } from '../../breadcrumbs/index.react';
 import { ButtonIcon } from '../../button-icons/base/example';
 import SvgIcon from '../../../shared/svg-icon';
 import Heading from '../../heading/index.react';
 
 export default (
-  <div className="slds-page-header">
-    <div className="slds-grid">
-      <div className="slds-col slds-has-flexi-truncate">
-        <BreadCrumbs className="slds-m-bottom_xx-small">
+  <div className="nds-page-header">
+    <div className="nds-grid">
+      <div className="nds-col nds-has-flexi-truncate">
+        <BreadCrumbs className="nds-m-bottom_xx-small">
           <Crumb href="javascript:void(0);">Accounts</Crumb>
           <Crumb href="javascript:void(0);">Company One</Crumb>
         </BreadCrumbs>
-        <h1 className="slds-page-header__title slds-truncate" title="Contacts (will truncate)">Contacts (will truncate)
+        <h1
+          className="nds-page-header__title nds-truncate"
+          title="Contacts (will truncate)"
+        >
+          Contacts (will truncate)
         </h1>
       </div>
-      <div className="slds-col slds-no-flex slds-grid slds-align-top">
-        <div className="slds-button-group" role="group">
-          <button className="slds-button slds-button_neutral">
-            Add Contact
-          </button>
-          <div className="slds-dropdown-trigger slds-dropdown-trigger_click slds-button_last">
+      <div className="nds-col nds-no-flex nds-grid nds-align-top">
+        <div className="nds-button-group" role="group">
+          <button className="nds-button nds-button_neutral">Add Contact</button>
+          <div className="nds-dropdown-trigger nds-dropdown-trigger_click nds-button_last">
             <ButtonIcon
-              className="slds-button_icon-border-filled"
+              className="nds-button_icon-border-filled"
               symbol="down"
               aria-haspopup="true"
               assistiveText="More Actions"
-              title="More Actions" />
+              title="More Actions"
+            />
           </div>
         </div>
       </div>
     </div>
-    <div className="slds-grid">
-      <div className="slds-col slds-align-bottom">
-        <p className="slds-text-body_small">10 items &bull; sorted by name</p>
+    <div className="nds-grid">
+      <div className="nds-col nds-align-bottom">
+        <p className="nds-text-body_small">10 items &bull; sorted by name</p>
       </div>
-      <div className="slds-col slds-no-flex slds-grid slds-align-bottom">
-        <div className="slds-dropdown-trigger slds-dropdown-trigger_click">
+      <div className="nds-col nds-no-flex nds-grid nds-align-bottom">
+        <div className="nds-dropdown-trigger nds-dropdown-trigger_click">
           <ButtonIcon
-            className="slds-button_icon-more"
+            className="nds-button_icon-more"
             symbol="table"
             hasDropdown
             assistiveText="Change view"
-            title="Change view" />
+            title="Change view"
+          />
         </div>
-        <div className="slds-button-group slds-m-left_xx-small" role="group">
+        <div className="nds-button-group nds-m-left_xx-small" role="group">
           <ButtonIcon
-            className="slds-button_icon-border"
+            className="nds-button_icon-border"
             symbol="chart"
             assistiveText="Chart"
-            title="Chart" />
+            title="Chart"
+          />
           <ButtonIcon
-            className="slds-button_icon-border"
+            className="nds-button_icon-border"
             symbol="filterList"
             assistiveText="Filter List"
             title="Filter List"
           />
-          <div className="slds-dropdown-trigger slds-dropdown-trigger_click slds-button_last">
+          <div className="nds-dropdown-trigger nds-dropdown-trigger_click nds-button_last">
             <ButtonIcon
-              className="slds-button_icon-more"
+              className="nds-button_icon-more"
               symbol="sort"
               hasDropdown
               assistiveText="Sort"
-              title="Sort" />
+              title="Sort"
+            />
           </div>
         </div>
       </div>

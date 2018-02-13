@@ -10,7 +10,7 @@ Object {
         "layout": "responsive",
         "name": "buttons",
         "role": "button",
-        "selector": ".slds-button",
+        "selector": ".nds-button",
         "summary": "Buttons are used to invoke an event",
         "support": "dev-ready",
         "type": "action",
@@ -26,35 +26,35 @@ Use a disabled attribute when a button can’t be clicked.",
           "annotations": Object {
             "name": "base",
             "restrict": "button, a, span",
-            "selector": ".slds-button",
+            "selector": ".nds-button",
             "summary": "This neutralizes all the base styles making it look like a text link",
             "variant": true,
           },
-          "description": "The base \`.slds-button\` looks like a plain text link. It removes all the
+          "description": "The base \`.nds-button\` looks like a plain text link. It removes all the
 styling of the native button. It’s typically used to trigger a modal or
 display a “like” link. All button variations are built by adding another
-class to \`.slds-button\`.
+class to \`.nds-button\`.
 
-Add the \`.slds-button_neutral\` class to create a neutral button, which
+Add the \`.nds-button_neutral\` class to create a neutral button, which
 has a white background and gray border.
 
 Use a neutral icon button is for buttons with an icon on the left or
-right (not for stateful buttons). Add the \`.slds-button_neutral\` class
-to \`.slds-button\`.
+right (not for stateful buttons). Add the \`.nds-button_neutral\` class
+to \`.nds-button\`.
 
-The SVG inside receives the \`.slds-button__icon\` class. You can position
-the icon on the right or the left using \`.slds-button__icon_right\` or
-\`.slds-button__icon_left\` , which apply the correct amount of space
+The SVG inside receives the \`.nds-button__icon\` class. You can position
+the icon on the right or the left using \`.nds-button__icon_right\` or
+\`.nds-button__icon_left\` , which apply the correct amount of space
 between the icon and the text.
 
-To create the brand button, add the \`.slds-button_brand\` class to
-the \`.slds-button\` class.
+To create the brand button, add the \`.nds-button_brand\` class to
+the \`.nds-button\` class.
 
-To create the destructive button, add the \`.slds-button_destructive\`
-class to the \`.slds-button\` class.
+To create the destructive button, add the \`.nds-button_destructive\`
+class to the \`.nds-button\` class.
 
-Use the inverse button on dark backgrounds. Add the \`.slds-button_inverse\`
-class to the \`.slds-button\` class.",
+Use the inverse button on dark backgrounds. Add the \`.nds-button_inverse\`
+class to the \`.nds-button\` class.",
           "docPath": null,
           "id": "base",
           "restrictees": Array [
@@ -62,12 +62,12 @@ class to the \`.slds-button\` class.",
               "annotations": Object {
                 "group": "theme",
                 "modifier": true,
-                "restrict": ".slds-button",
-                "selector": ".slds-button_neutral",
+                "restrict": ".nds-button",
+                "selector": ".nds-button_neutral",
               },
               "description": "Creates the gray border with white background default style",
               "docPath": null,
-              "id": ".slds-button_neutral",
+              "id": ".nds-button_neutral",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -76,12 +76,12 @@ class to the \`.slds-button\` class.",
               "annotations": Object {
                 "group": "theme",
                 "modifier": true,
-                "restrict": ".slds-button",
-                "selector": ".slds-button_brand",
+                "restrict": ".nds-button",
+                "selector": ".nds-button_brand",
               },
               "description": "Creates the brand blue Salesforce style",
               "docPath": null,
-              "id": ".slds-button_brand",
+              "id": ".nds-button_brand",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -90,12 +90,12 @@ class to the \`.slds-button\` class.",
               "annotations": Object {
                 "group": "theme",
                 "modifier": true,
-                "restrict": ".slds-button",
-                "selector": ".slds-button_inverse",
+                "restrict": ".nds-button",
+                "selector": ".nds-button_inverse",
               },
               "description": "Creates the inverse style for dark backgrounds",
               "docPath": null,
-              "id": ".slds-button_inverse",
+              "id": ".nds-button_inverse",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -104,12 +104,12 @@ class to the \`.slds-button\` class.",
               "annotations": Object {
                 "group": "theme",
                 "modifier": true,
-                "restrict": ".slds-button",
-                "selector": ".slds-button_destructive",
+                "restrict": ".nds-button",
+                "selector": ".nds-button_destructive",
               },
               "description": "Creates a red button style",
               "docPath": null,
-              "id": ".slds-button_destructive",
+              "id": ".nds-button_destructive",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -118,12 +118,12 @@ class to the \`.slds-button\` class.",
               "annotations": Object {
                 "group": "theme",
                 "modifier": true,
-                "restrict": ".slds-button",
-                "selector": ".slds-button_success",
+                "restrict": ".nds-button",
+                "selector": ".nds-button_success",
               },
               "description": "Creates a green button style",
               "docPath": null,
-              "id": ".slds-button_success",
+              "id": ".nds-button_success",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -131,12 +131,12 @@ class to the \`.slds-button\` class.",
             Object {
               "annotations": Object {
                 "deprecated": true,
-                "restrict": ".slds-button",
-                "selector": ".slds-button_small",
+                "restrict": ".nds-button",
+                "selector": ".nds-button_small",
               },
               "description": "Creates a smaller button style",
               "docPath": null,
-              "id": ".slds-button_small",
+              "id": ".nds-button_small",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -144,18 +144,18 @@ class to the \`.slds-button\` class.",
             Object {
               "annotations": Object {
                 "name": "stateful",
-                "restrict": ".slds-button",
-                "selector": ".slds-button_stateful",
+                "restrict": ".nds-button",
+                "selector": ".nds-button_stateful",
                 "summary": "Initiates a stateful button",
                 "variant": true,
               },
-              "description": "The stateful button requires the \`.slds-button--neutral\` class in addition to the \`.slds-button\` class.
+              "description": "The stateful button requires the \`.nds-button--neutral\` class in addition to the \`.nds-button\` class.
 
-The stateful inverse button works just like the stateful button. It requires the \`.slds-button--inverse\` class in addition to the \`.slds-button\` class.
+The stateful inverse button works just like the stateful button. It requires the \`.nds-button--inverse\` class in addition to the \`.nds-button\` class.
 
-It uses the class \`.slds-not-selected\` in its initial state. When the user activates the button, use JavaScript to toggle the class to \`.slds-is-selected\`. The button contains three spans with classes that hide or show the content of the spans based on the class on the button. Each span contains text and a corresponding icon. The SVG will have the \`.slds-button__icon--stateful\` class as well as the \`.slds-button__icon--left\` class setting the icon on the left.
+It uses the class \`.nds-not-selected\` in its initial state. When the user activates the button, use JavaScript to toggle the class to \`.nds-is-selected\`. The button contains three spans with classes that hide or show the content of the spans based on the class on the button. Each span contains text and a corresponding icon. The SVG will have the \`.nds-button__icon--stateful\` class as well as the \`.nds-button__icon--left\` class setting the icon on the left.
 
-Stateful icons can be toggled on and off and retain their state. Like stateful buttons, the initial state is \`.slds-not-selected\`, and JavaScript is used to toggle it to \`.slds-is-selected\` when activated.
+Stateful icons can be toggled on and off and retain their state. Like stateful buttons, the initial state is \`.nds-not-selected\`, and JavaScript is used to toggle it to \`.nds-is-selected\` when activated.
 
 #### Accessibility
 
@@ -168,12 +168,12 @@ For accessibility, include the attribute \`aria-live=\\"assertive\\"\` on the bu
                     "group": "interaction",
                     "modifier": true,
                     "notes": "This class should be toggled with JavaScript",
-                    "restrict": ".slds-button_stateful",
-                    "selector": ".slds-not-selected",
+                    "restrict": ".nds-button_stateful",
+                    "selector": ".nds-not-selected",
                   },
                   "description": "Default state of a stateful button",
                   "docPath": null,
-                  "id": ".slds-not-selected",
+                  "id": ".nds-not-selected",
                   "restrictees": Array [],
                   "showcase": Array [],
                   "showcasePath": null,
@@ -183,12 +183,12 @@ For accessibility, include the attribute \`aria-live=\\"assertive\\"\` on the bu
                     "group": "interaction",
                     "modifier": true,
                     "notes": "This class should be toggled with JavaScript",
-                    "restrict": ".slds-button_stateful",
-                    "selector": ".slds-is-selected-clicked",
+                    "restrict": ".nds-button_stateful",
+                    "selector": ".nds-is-selected-clicked",
                   },
                   "description": "When button is selected and still has focus from click",
                   "docPath": null,
-                  "id": ".slds-is-selected-clicked",
+                  "id": ".nds-is-selected-clicked",
                   "restrictees": Array [],
                   "showcase": Array [],
                   "showcasePath": null,
@@ -198,12 +198,12 @@ For accessibility, include the attribute \`aria-live=\\"assertive\\"\` on the bu
                     "group": "interaction",
                     "modifier": true,
                     "notes": "This class should be toggled with JavaScript",
-                    "restrict": ".slds-button_stateful",
-                    "selector": ".slds-is-selected",
+                    "restrict": ".nds-button_stateful",
+                    "selector": ".nds-is-selected",
                   },
                   "description": "When button is pressed and selected",
                   "docPath": null,
-                  "id": ".slds-is-selected",
+                  "id": ".nds-is-selected",
                   "restrictees": Array [],
                   "showcase": Array [],
                   "showcasePath": null,
@@ -224,8 +224,8 @@ For accessibility, include the attribute \`aria-live=\\"assertive\\"\` on the bu
             Object {
               "annotations": Object {
                 "name": "with-icon",
-                "restrict": ".slds-button svg",
-                "selector": ".slds-button__icon",
+                "restrict": ".nds-button svg",
+                "selector": ".nds-button__icon",
                 "variant": true,
               },
               "description": "Sizing for icon that sits inside button__icon",
@@ -236,12 +236,12 @@ For accessibility, include the attribute \`aria-live=\\"assertive\\"\` on the bu
                   "annotations": Object {
                     "group": "icon-size",
                     "modifier": true,
-                    "restrict": ".slds-button__icon",
-                    "selector": ".slds-button__icon_large",
+                    "restrict": ".nds-button__icon",
+                    "selector": ".nds-button__icon_large",
                   },
                   "description": "Large size button icon svg",
                   "docPath": null,
-                  "id": ".slds-button__icon_large",
+                  "id": ".nds-button__icon_large",
                   "restrictees": Array [],
                   "showcase": Array [],
                   "showcasePath": null,
@@ -250,12 +250,12 @@ For accessibility, include the attribute \`aria-live=\\"assertive\\"\` on the bu
                   "annotations": Object {
                     "group": "icon-size",
                     "modifier": true,
-                    "restrict": ".slds-button__icon",
-                    "selector": ".slds-button__icon_small",
+                    "restrict": ".nds-button__icon",
+                    "selector": ".nds-button__icon_small",
                   },
                   "description": "Small size button icon svg",
                   "docPath": null,
-                  "id": ".slds-button__icon_small",
+                  "id": ".nds-button__icon_small",
                   "restrictees": Array [],
                   "showcase": Array [],
                   "showcasePath": null,
@@ -264,12 +264,12 @@ For accessibility, include the attribute \`aria-live=\\"assertive\\"\` on the bu
                   "annotations": Object {
                     "group": "icon-size",
                     "modifier": true,
-                    "restrict": ".slds-button__icon",
-                    "selector": ".slds-button__icon_x-small",
+                    "restrict": ".nds-button__icon",
+                    "selector": ".nds-button__icon_x-small",
                   },
                   "description": "x-small size button icon svg",
                   "docPath": null,
-                  "id": ".slds-button__icon_x-small",
+                  "id": ".nds-button__icon_x-small",
                   "restrictees": Array [],
                   "showcase": Array [],
                   "showcasePath": null,
@@ -331,12 +331,12 @@ For accessibility, include the attribute \`aria-live=\\"assertive\\"\` on the bu
         "role": "grid",
         "s1": "false",
         "scroller": true,
-        "selector": ".slds-table",
+        "selector": ".nds-table",
         "summary": "Data tables are an enhanced version of an HTML table and are used to display tabular data.",
         "support": "dev-ready",
         "type": "data-display, data-entry, navigation",
       },
-      "description": "To initialize a data table, apply the \`slds-table\` class to the
+      "description": "To initialize a data table, apply the \`nds-table\` class to the
 \`table\` element. This class creates a \`table\`
 with formatted cells and allows you to use data table utilities.
 
@@ -354,7 +354,7 @@ or menu) column in each row should be marked as a \`th\` with a
             "name": "base",
             "required": true,
             "restrict": "table",
-            "selector": ".slds-table",
+            "selector": ".nds-table",
             "summary": "Initializes data table",
             "variant": true,
           },
@@ -365,12 +365,12 @@ or menu) column in each row should be marked as a \`th\` with a
             Object {
               "annotations": Object {
                 "modifier": true,
-                "restrict": ".slds-table",
-                "selector": ".slds-no-row-hover",
+                "restrict": ".nds-table",
+                "selector": ".nds-no-row-hover",
               },
               "description": "Default Table Row Hover",
               "docPath": null,
-              "id": ".slds-no-row-hover",
+              "id": ".nds-no-row-hover",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -378,12 +378,12 @@ or menu) column in each row should be marked as a \`th\` with a
             Object {
               "annotations": Object {
                 "modifier": true,
-                "restrict": ".slds-table tr",
-                "selector": ".slds-is-selected",
+                "restrict": ".nds-table tr",
+                "selector": ".nds-is-selected",
               },
               "description": "Selected Table Row + Hover",
               "docPath": null,
-              "id": ".slds-is-selected",
+              "id": ".nds-is-selected",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -391,12 +391,12 @@ or menu) column in each row should be marked as a \`th\` with a
             Object {
               "annotations": Object {
                 "modifier": true,
-                "restrict": ".slds-table th, .slds-table td",
-                "selector": ".slds-cell-wrap",
+                "restrict": ".nds-table th, .nds-table td",
+                "selector": ".nds-cell-wrap",
               },
               "description": "By default, nowrap is applied",
               "docPath": null,
-              "id": ".slds-cell-wrap",
+              "id": ".nds-cell-wrap",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -404,12 +404,12 @@ or menu) column in each row should be marked as a \`th\` with a
             Object {
               "annotations": Object {
                 "modifier": true,
-                "restrict": ".slds-table th, .slds-table td",
-                "selector": ".slds-cell-buffer_left",
+                "restrict": ".nds-table th, .nds-table td",
+                "selector": ".nds-cell-buffer_left",
               },
               "description": "Use to add a left padding buffer to cells",
               "docPath": null,
-              "id": ".slds-cell-buffer_left",
+              "id": ".nds-cell-buffer_left",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -417,12 +417,12 @@ or menu) column in each row should be marked as a \`th\` with a
             Object {
               "annotations": Object {
                 "modifier": true,
-                "restrict": ".slds-table th, .slds-table td",
-                "selector": ".slds-cell-buffer_right",
+                "restrict": ".nds-table th, .nds-table td",
+                "selector": ".nds-cell-buffer_right",
               },
               "description": "Use to add a right padding buffer to cells",
               "docPath": null,
-              "id": ".slds-cell-buffer_right",
+              "id": ".nds-cell-buffer_right",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -430,12 +430,12 @@ or menu) column in each row should be marked as a \`th\` with a
             Object {
               "annotations": Object {
                 "modifier": true,
-                "restrict": ".slds-table th, .slds-table td",
-                "selector": ".slds-has-focus",
+                "restrict": ".nds-table th, .nds-table td",
+                "selector": ".nds-has-focus",
               },
               "description": "Focus state on a cell",
               "docPath": null,
-              "id": ".slds-has-focus",
+              "id": ".nds-has-focus",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -444,12 +444,12 @@ or menu) column in each row should be marked as a \`th\` with a
               "annotations": Object {
                 "modifier": true,
                 "required": true,
-                "restrict": ".slds-table",
-                "selector": ".slds-table_cell-buffer",
+                "restrict": ".nds-table",
+                "selector": ".nds-table_cell-buffer",
               },
               "description": "Add left and right padding to the first and last cells of a table",
               "docPath": null,
-              "id": ".slds-table_cell-buffer",
+              "id": ".nds-table_cell-buffer",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -457,12 +457,12 @@ or menu) column in each row should be marked as a \`th\` with a
             Object {
               "annotations": Object {
                 "modifier": true,
-                "restrict": ".slds-table",
-                "selector": ".slds-table_bordered",
+                "restrict": ".nds-table",
+                "selector": ".nds-table_bordered",
               },
               "description": "Add vertical borders to a table",
               "docPath": null,
-              "id": ".slds-table_bordered",
+              "id": ".nds-table_bordered",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -470,12 +470,12 @@ or menu) column in each row should be marked as a \`th\` with a
             Object {
               "annotations": Object {
                 "modifier": true,
-                "restrict": ".slds-table",
-                "selector": ".slds-table_col-bordered",
+                "restrict": ".nds-table",
+                "selector": ".nds-table_col-bordered",
               },
               "description": "Add column borders",
               "docPath": null,
-              "id": ".slds-table_col-bordered",
+              "id": ".nds-table_col-bordered",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -483,12 +483,12 @@ or menu) column in each row should be marked as a \`th\` with a
             Object {
               "annotations": Object {
                 "modifier": true,
-                "restrict": ".slds-table",
-                "selector": ".slds-table_striped",
+                "restrict": ".nds-table",
+                "selector": ".nds-table_striped",
               },
               "description": "Add alternating strips to rows",
               "docPath": null,
-              "id": ".slds-table_striped",
+              "id": ".nds-table_striped",
               "restrictees": Array [],
               "showcase": Array [],
               "showcasePath": null,
@@ -496,8 +496,8 @@ or menu) column in each row should be marked as a \`th\` with a
             Object {
               "annotations": Object {
                 "name": "advanced",
-                "restrict": ".slds-table",
-                "selector": ".slds-table_fixed-layout",
+                "restrict": ".nds-table",
+                "selector": ".nds-table_fixed-layout",
                 "summary": "Set table to use fixed layout for width and truncation purposes",
                 "variant": true,
               },
@@ -507,22 +507,22 @@ or menu) column in each row should be marked as a \`th\` with a
               "restrictees": Array [
                 Object {
                   "annotations": Object {
-                    "restrict": ".slds-table_fixed-layout th",
-                    "selector": ".slds-is-sortable",
+                    "restrict": ".nds-table_fixed-layout th",
+                    "selector": ".nds-is-sortable",
                   },
                   "description": "If the column is sortable than lets handle the actionable
 region of the \`<th>\` cell",
                   "docPath": null,
-                  "id": ".slds-is-sortable",
+                  "id": ".nds-is-sortable",
                   "restrictees": Array [
                     Object {
                       "annotations": Object {
-                        "restrict": ".slds-is-sortable .slds-icon",
-                        "selector": ".slds-is-sortable__icon",
+                        "restrict": ".nds-is-sortable .nds-icon",
+                        "selector": ".nds-is-sortable__icon",
                       },
                       "description": "Icon inside sortable th",
                       "docPath": null,
-                      "id": ".slds-is-sortable__icon",
+                      "id": ".nds-is-sortable__icon",
                       "restrictees": Array [],
                       "showcase": Array [],
                       "showcasePath": null,
@@ -533,21 +533,21 @@ region of the \`<th>\` cell",
                 },
                 Object {
                   "annotations": Object {
-                    "restrict": ".slds-table_fixed-layout th div, .slds-table_fixed-layout th a",
-                    "selector": ".slds-th__action",
+                    "restrict": ".nds-table_fixed-layout th div, .nds-table_fixed-layout th a",
+                    "selector": ".nds-th__action",
                   },
                   "description": "Actionable area inside th",
                   "docPath": null,
-                  "id": ".slds-th__action",
+                  "id": ".nds-th__action",
                   "restrictees": Array [
                     Object {
                       "annotations": Object {
-                        "restrict": ".slds-th__action",
-                        "selector": ".slds-th__action_form",
+                        "restrict": ".nds-th__action",
+                        "selector": ".nds-th__action_form",
                       },
                       "description": "Allows for alignment of form element, such as a checkbox",
                       "docPath": null,
-                      "id": ".slds-th__action_form",
+                      "id": ".nds-th__action_form",
                       "restrictees": Array [],
                       "showcase": Array [],
                       "showcasePath": null,
@@ -558,19 +558,19 @@ region of the \`<th>\` cell",
                 },
                 Object {
                   "annotations": Object {
-                    "restrict": ".slds-table_fixed-layout th",
-                    "selector": ".slds-is-sorted",
+                    "restrict": ".nds-table_fixed-layout th",
+                    "selector": ".nds-is-sorted",
                   },
                   "description": "Active state of sorted column",
                   "docPath": null,
-                  "id": ".slds-is-sorted",
+                  "id": ".nds-is-sorted",
                   "restrictees": Array [
                     Object {
                       "annotations": Object {
                         "modifier": true,
                         "name": "sorted-ascending",
-                        "restrict": ".slds-is-sorted",
-                        "selector": ".slds-is-sorted_asc",
+                        "restrict": ".nds-is-sorted",
+                        "selector": ".nds-is-sorted_asc",
                       },
                       "description": "Change direction of arrow",
                       "docPath": null,
@@ -585,48 +585,48 @@ region of the \`<th>\` cell",
                 },
                 Object {
                   "annotations": Object {
-                    "restrict": ".slds-table_fixed-layout",
-                    "selector": ".slds-table_resizable-cols",
+                    "restrict": ".nds-table_fixed-layout",
+                    "selector": ".nds-table_resizable-cols",
                   },
                   "description": "Resizable data table columns",
                   "docPath": null,
-                  "id": ".slds-table_resizable-cols",
+                  "id": ".nds-table_resizable-cols",
                   "restrictees": Array [
                     Object {
                       "annotations": Object {
-                        "restrict": ".slds-table_resizable-cols th",
-                        "selector": ".slds-is-resizable",
+                        "restrict": ".nds-table_resizable-cols th",
+                        "selector": ".nds-is-resizable",
                       },
                       "description": "Provide an indicator that resizing is available",
                       "docPath": null,
-                      "id": ".slds-is-resizable",
+                      "id": ".nds-is-resizable",
                       "restrictees": Array [
                         Object {
                           "annotations": Object {
-                            "restrict": ".slds-is-resizable div",
-                            "selector": ".slds-resizable",
+                            "restrict": ".nds-is-resizable div",
+                            "selector": ".nds-resizable",
                           },
                           "description": "Resizable handle",
                           "docPath": null,
-                          "id": ".slds-resizable",
+                          "id": ".nds-resizable",
                           "restrictees": Array [
                             Object {
                               "annotations": Object {
-                                "restrict": ".slds-resizable span",
-                                "selector": ".slds-resizable__handle",
+                                "restrict": ".nds-resizable span",
+                                "selector": ".nds-resizable__handle",
                               },
                               "description": "Grab handle to resize column",
                               "docPath": null,
-                              "id": ".slds-resizable__handle",
+                              "id": ".nds-resizable__handle",
                               "restrictees": Array [
                                 Object {
                                   "annotations": Object {
-                                    "restrict": ".slds-resizable__handle span",
-                                    "selector": ".slds-resizable__divider",
+                                    "restrict": ".nds-resizable__handle span",
+                                    "selector": ".nds-resizable__divider",
                                   },
                                   "description": "Grab handle divider indicator when resizing column",
                                   "docPath": null,
-                                  "id": ".slds-resizable__divider",
+                                  "id": ".nds-resizable__divider",
                                   "restrictees": Array [],
                                   "showcase": Array [],
                                   "showcasePath": null,
@@ -651,8 +651,8 @@ region of the \`<th>\` cell",
                   "annotations": Object {
                     "name": "inline-edit",
                     "required": true,
-                    "restrict": ".slds-table_fixed-layout",
-                    "selector": ".slds-table_edit",
+                    "restrict": ".nds-table_fixed-layout",
+                    "selector": ".nds-table_edit",
                     "summary": "Initiates inline-edit mode for data-tables",
                     "variant": true,
                   },
@@ -661,7 +661,7 @@ region of the \`<th>\` cell",
 #### Accessibility
 The Advanced Data Table and Inline Edit Data Table are based on the semantics,
 roles and interaction model of the [ARIA Grid](http://w3c.github.io/aria/practices/aria-practices.html#grid).
-In SLDS we overlay the ARIA Grid on top of native HTML table semantics.
+In NDS we overlay the ARIA Grid on top of native HTML table semantics.
 
 The role of Grid comes with 2 distinct modes, Navigation mode and Actionable
 mode. Both come with very specific keyboard interaction modals. Navigation
@@ -689,34 +689,34 @@ representative of Navigation mode, all other states are assumed to be in Actiona
                     Object {
                       "annotations": Object {
                         "required": true,
-                        "restrict": ".slds-table_edit td",
-                        "selector": ".slds-cell-error",
+                        "restrict": ".nds-table_edit td",
+                        "selector": ".nds-cell-error",
                       },
                       "description": "Cell that has error icon appear within",
                       "docPath": null,
-                      "id": ".slds-cell-error",
+                      "id": ".nds-cell-error",
                       "restrictees": Array [],
                       "showcase": Array [],
                       "showcasePath": null,
                     },
                     Object {
                       "annotations": Object {
-                        "restrict": ".slds-table_edit th, .slds-table_edit td",
-                        "selector": ".slds-cell-edit",
+                        "restrict": ".nds-table_edit th, .nds-table_edit td",
+                        "selector": ".nds-cell-edit",
                       },
                       "description": "Informs a table cell that it has editing capabilities",
                       "docPath": null,
-                      "id": ".slds-cell-edit",
+                      "id": ".nds-cell-edit",
                       "restrictees": Array [
                         Object {
                           "annotations": Object {
                             "modifier": true,
-                            "restrict": ".slds-cell-edit",
-                            "selector": ".slds-is-edited",
+                            "restrict": ".nds-cell-edit",
+                            "selector": ".nds-is-edited",
                           },
                           "description": "Informs a cell that it has been edited but not saved",
                           "docPath": null,
-                          "id": ".slds-is-edited",
+                          "id": ".nds-is-edited",
                           "restrictees": Array [],
                           "showcase": Array [],
                           "showcasePath": null,
@@ -724,24 +724,24 @@ representative of Navigation mode, all other states are assumed to be in Actiona
                         Object {
                           "annotations": Object {
                             "modifier": true,
-                            "restrict": ".slds-cell-edit",
-                            "selector": ".slds-has-error",
+                            "restrict": ".nds-cell-edit",
+                            "selector": ".nds-has-error",
                           },
                           "description": "Informs a cell that it has an error inside of it",
                           "docPath": null,
-                          "id": ".slds-has-error",
+                          "id": ".nds-has-error",
                           "restrictees": Array [],
                           "showcase": Array [],
                           "showcasePath": null,
                         },
                         Object {
                           "annotations": Object {
-                            "restrict": ".slds-cell-edit button",
-                            "selector": ".slds-cell-edit__button",
+                            "restrict": ".nds-cell-edit button",
+                            "selector": ".nds-cell-edit__button",
                           },
                           "description": "",
                           "docPath": null,
-                          "id": ".slds-cell-edit__button",
+                          "id": ".nds-cell-edit__button",
                           "restrictees": Array [],
                           "showcase": Array [],
                           "showcasePath": null,
@@ -753,12 +753,12 @@ representative of Navigation mode, all other states are assumed to be in Actiona
                     Object {
                       "annotations": Object {
                         "modifier": true,
-                        "restrict": ".slds-table_edit",
-                        "selector": ".slds-no-cell-focus",
+                        "restrict": ".nds-table_edit",
+                        "selector": ".nds-no-cell-focus",
                       },
                       "description": "Handles children of the table where we don't want any focusable cells",
                       "docPath": null,
-                      "id": ".slds-no-cell-focus",
+                      "id": ".nds-no-cell-focus",
                       "restrictees": Array [],
                       "showcase": Array [],
                       "showcasePath": null,
@@ -811,7 +811,7 @@ representative of Navigation mode, all other states are assumed to be in Actiona
     "alignment": Object {
       "annotations": Object {
         "name": "alignment",
-        "selector": "[class*='slds-align_']",
+        "selector": "[class*='nds-align_']",
         "summary": "Alignment utilities will assist with general alignment problems",
         "support": "dev-ready",
         "utility": true,
@@ -825,7 +825,7 @@ representative of Navigation mode, all other states are assumed to be in Actiona
             "modifier": true,
             "name": "absolute-center",
             "restrict": "*",
-            "selector": ".slds-align_absolute-center",
+            "selector": ".nds-align_absolute-center",
             "summary": "Class will absolutely center children content",
           },
           "description": "",
@@ -852,16 +852,16 @@ representative of Navigation mode, all other states are assumed to be in Actiona
     "floats": Object {
       "annotations": Object {
         "name": "floats",
-        "selector": "[class*='slds-float_']",
+        "selector": "[class*='nds-float_']",
         "summary": "Use a float to pull an element out of the document’s normal flow and to align it with the left or right side of the container.",
         "support": "dev-ready",
         "utility": true,
       },
-      "description": "To float an element on the left, add the \`.slds-float_left\` class to the element. To float it on the right, add the \`.slds-float_right\` class.
+      "description": "To float an element on the left, add the \`.nds-float_left\` class to the element. To float it on the right, add the \`.nds-float_right\` class.
 
 Note: The floated element must be first in the document flow, even if it renders on the right.
 
-If you want the parent of the floated element to contain the floats, add the \`.slds-clearfix\` class to the parent.",
+If you want the parent of the floated element to contain the floats, add the \`.nds-clearfix\` class to the parent.",
       "docPath": null,
       "id": "floats",
       "restrictees": Array [
@@ -870,7 +870,7 @@ If you want the parent of the floated element to contain the floats, add the \`.
             "modifier": true,
             "name": "float-left",
             "restrict": "*",
-            "selector": ".slds-float_left",
+            "selector": ".nds-float_left",
             "summary": "Pulls element from document flow and floats left. Text and other elements wrap around it.",
           },
           "description": "",
@@ -885,7 +885,7 @@ If you want the parent of the floated element to contain the floats, add the \`.
             "modifier": true,
             "name": "float-none",
             "restrict": "*",
-            "selector": ".slds-float_none",
+            "selector": ".nds-float_none",
             "summary": "Removes float from an element that has attribute already",
           },
           "description": "",
@@ -900,7 +900,7 @@ If you want the parent of the floated element to contain the floats, add the \`.
             "modifier": true,
             "name": "float-right",
             "restrict": "*",
-            "selector": ".slds-float_right",
+            "selector": ".nds-float_right",
             "summary": "Pulls element from document flow and floats right. Text and other elements wrap around it.",
           },
           "description": "",

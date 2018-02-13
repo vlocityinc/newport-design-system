@@ -13,17 +13,23 @@ import { MenuItem } from '../dropdown/example';
 /// ////////////////////////////////////////
 
 const settingsIcon = (
-  <ButtonIcon className="slds-button_icon-container" symbol="settings" assistiveText="Settings" title="Settings" aria-haspopup="true" />
+  <ButtonIcon
+    className="nds-button_icon-container"
+    symbol="settings"
+    assistiveText="Settings"
+    title="Settings"
+    aria-haspopup="true"
+  />
 );
 
 /// ///////////////////////////////////////////
 // State Constructor(s)
 /// ///////////////////////////////////////////
 
-let TopLeft = props =>
-  <div className="demo-only" style={{height: '185px', paddingLeft: '2rem'}}>
-    <Trigger className="slds-is-open" triggerIcon={settingsIcon}>
-      <Menu className="slds-dropdown_left slds-nubbin_top-left">
+let TopLeft = props => (
+  <div className="demo-only" style={{ height: '185px', paddingLeft: '2rem' }}>
+    <Trigger className="nds-is-open" triggerIcon={settingsIcon}>
+      <Menu className="nds-dropdown_left nds-nubbin_top-left">
         <MenuList>
           <MenuItem tabIndex="0">Menu Item One</MenuItem>
           <MenuItem>Menu Item Two</MenuItem>
@@ -31,12 +37,13 @@ let TopLeft = props =>
         </MenuList>
       </Menu>
     </Trigger>
-  </div>;
+  </div>
+);
 
-let Top = props =>
-  <div className="demo-only" style={{height: '185px', textAlign: 'center'}}>
-    <Trigger className="slds-is-open" triggerIcon={settingsIcon}>
-      <Menu className="slds-nubbin_top">
+let Top = props => (
+  <div className="demo-only" style={{ height: '185px', textAlign: 'center' }}>
+    <Trigger className="nds-is-open" triggerIcon={settingsIcon}>
+      <Menu className="nds-nubbin_top">
         <MenuList>
           <MenuItem tabIndex="0">Menu Item One</MenuItem>
           <MenuItem>Menu Item Two</MenuItem>
@@ -44,12 +51,16 @@ let Top = props =>
         </MenuList>
       </Menu>
     </Trigger>
-  </div>;
+  </div>
+);
 
-let TopRight = props =>
-  <div className="demo-only" style={{height: '185px', textAlign: 'right', paddingRight: '2rem'}}>
-    <Trigger className="slds-is-open" triggerIcon={settingsIcon}>
-      <Menu className="slds-dropdown_right slds-nubbin_top-right">
+let TopRight = props => (
+  <div
+    className="demo-only"
+    style={{ height: '185px', textAlign: 'right', paddingRight: '2rem' }}
+  >
+    <Trigger className="nds-is-open" triggerIcon={settingsIcon}>
+      <Menu className="nds-dropdown_right nds-nubbin_top-right">
         <MenuList>
           <MenuItem tabIndex="0">Menu Item One</MenuItem>
           <MenuItem>Menu Item Two</MenuItem>
@@ -57,12 +68,16 @@ let TopRight = props =>
         </MenuList>
       </Menu>
     </Trigger>
-  </div>;
+  </div>
+);
 
-let BottomLeft = props =>
-  <div className="demo-only slds-grid slds-grid_vertical-align-end" style={{height: '185px', paddingLeft: '2rem'}}>
-    <Trigger className="slds-is-open" triggerIcon={settingsIcon}>
-      <Menu className="slds-dropdown_bottom slds-dropdown_left slds-nubbin_bottom-left">
+let BottomLeft = props => (
+  <div
+    className="demo-only nds-grid nds-grid_vertical-align-end"
+    style={{ height: '185px', paddingLeft: '2rem' }}
+  >
+    <Trigger className="nds-is-open" triggerIcon={settingsIcon}>
+      <Menu className="nds-dropdown_bottom nds-dropdown_left nds-nubbin_bottom-left">
         <MenuList>
           <MenuItem tabIndex="0">Menu Item One</MenuItem>
           <MenuItem>Menu Item Two</MenuItem>
@@ -70,12 +85,16 @@ let BottomLeft = props =>
         </MenuList>
       </Menu>
     </Trigger>
-  </div>;
+  </div>
+);
 
-let Bottom = props =>
-  <div className="demo-only slds-grid slds-grid_vertical-align-end slds-grid_align-center" style={{height: '185px'}}>
-    <Trigger className="slds-is-open" triggerIcon={settingsIcon}>
-      <Menu className="slds-dropdown_bottom slds-nubbin_bottom">
+let Bottom = props => (
+  <div
+    className="demo-only nds-grid nds-grid_vertical-align-end nds-grid_align-center"
+    style={{ height: '185px' }}
+  >
+    <Trigger className="nds-is-open" triggerIcon={settingsIcon}>
+      <Menu className="nds-dropdown_bottom nds-nubbin_bottom">
         <MenuList>
           <MenuItem tabIndex="0">Menu Item One</MenuItem>
           <MenuItem>Menu Item Two</MenuItem>
@@ -83,12 +102,16 @@ let Bottom = props =>
         </MenuList>
       </Menu>
     </Trigger>
-  </div>;
+  </div>
+);
 
-let BottomRight = props =>
-  <div className="demo-only slds-grid slds-grid_vertical-align-end slds-grid_align-end" style={{height: '185px', paddingRight: '2rem'}}>
-    <Trigger className="slds-is-open" triggerIcon={settingsIcon}>
-      <Menu className="slds-dropdown_bottom slds-dropdown_right slds-nubbin_bottom-right">
+let BottomRight = props => (
+  <div
+    className="demo-only nds-grid nds-grid_vertical-align-end nds-grid_align-end"
+    style={{ height: '185px', paddingRight: '2rem' }}
+  >
+    <Trigger className="nds-is-open" triggerIcon={settingsIcon}>
+      <Menu className="nds-dropdown_bottom nds-dropdown_right nds-nubbin_bottom-right">
         <MenuList>
           <MenuItem tabIndex="0">Menu Item One</MenuItem>
           <MenuItem>Menu Item Two</MenuItem>
@@ -96,7 +119,8 @@ let BottomRight = props =>
         </MenuList>
       </Menu>
     </Trigger>
-  </div>;
+  </div>
+);
 
 /// ///////////////////////////////////////////
 // Export

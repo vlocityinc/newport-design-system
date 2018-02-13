@@ -2,22 +2,22 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * A discussion feed consists of a list of posts. A `.slds-feed__item` contains a post and comments related to that post.
+ * A discussion feed consists of a list of posts. A `.nds-feed__item` contains a post and comments related to that post.
  *
  * @name base
- * @selector .slds-feed
+ * @selector .nds-feed
  * @restrict div
  * @support dev-ready
  * @variant
  */
-.slds-feed {
+.nds-feed {
   position: relative;
   max-width: rem(784px);
   margin: auto;
 
   /**
-   * @selector .slds-feed__list
-   * @restrict .slds-feed ul
+   * @selector .nds-feed__list
+   * @restrict .nds-feed ul
    * @required
    */
   &__list {
@@ -26,8 +26,8 @@
   }
 
   /**
-   * @selector .slds-feed__item
-   * @restrict .slds-feed__list li
+   * @selector .nds-feed__item
+   * @restrict .nds-feed__list li
    * @required
    */
   &__item {

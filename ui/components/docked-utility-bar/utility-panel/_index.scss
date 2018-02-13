@@ -4,10 +4,10 @@
 /**
  * Container of the utility panel
  *
- * @selector .slds-utility-panel
- * @restrict .slds-utility-bar_container section
+ * @selector .nds-utility-panel
+ * @restrict .nds-utility-bar_container section
  */
-.slds-utility-panel {
+.nds-utility-panel {
   position: fixed;
   bottom: $line-height-button;
   width: rem(340px);
@@ -20,11 +20,11 @@
   transform: translateY(100%);
 
   /**
-   * @selector .slds-is-open
-   * @restrict .slds-utility-panel
+   * @selector .nds-is-open
+   * @restrict .nds-utility-panel
    * @modifier
    */
-  &.slds-is-open {
+  &.nds-is-open {
     box-shadow: $shadow-docked;
     transform: translateY(0);
   }
@@ -32,7 +32,7 @@
   /**
    * Header that contains an icon, title and panel actions such as minimizing the panel
    *
-   * @selector .slds-utility-panel__header
+   * @selector .nds-utility-panel__header
    * @restrict header
    */
   &__header {
@@ -45,7 +45,7 @@
   /**
    * Area that contains the utility panel feature
    *
-   * @selector .slds-utility-panel__body
+   * @selector .nds-utility-panel__body
    * @restrict div
    */
   &__body {

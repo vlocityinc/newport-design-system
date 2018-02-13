@@ -25,11 +25,11 @@ const externals = {
 const chunked = prefix =>
   webpackConfig
     .set('externals', externals)
-    .setIn(['output', 'library'], ['SLDS', '[name]'])
+    .setIn(['output', 'library'], ['NDS', '[name]'])
     .setIn(['output', 'filename'], '[name]') // [name] will already have ".js" appended
     .setIn(
       ['output', 'jsonpFunction'],
-      `webpackJsonpSLDS_${prefix.replace(new RegExp(path.sep, 'g'), '_')}`
+      `webpackJsonpNDS_${prefix.replace(new RegExp(path.sep, 'g'), '_')}`
     )
     .set(
       'plugins',
@@ -48,10 +48,10 @@ const chunkedConfigs = entry.map(entryMap =>
 
 // umd :: WebpackCfg
 const umd = webpackConfig
-  .set('entry', './scripts/compile/slds.js')
-  .setIn(['output', 'library'], 'SLDS')
+  .set('entry', './scripts/compile/nds.js')
+  .setIn(['output', 'library'], 'NDS')
   .setIn(['output', 'libraryTarget'], 'umd')
-  .setIn(['output', 'filename'], `${FOLDERNAME}/slds.umd.js`);
+  .setIn(['output', 'filename'], `${FOLDERNAME}/nds.umd.js`);
 
 // Task Error (List WebpackCfg)
 const configs = chunkedConfigs.map(cfgs =>

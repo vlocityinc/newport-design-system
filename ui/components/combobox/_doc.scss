@@ -26,8 +26,8 @@
  * The listbox of options can be displayed as just a simple single list, or that list can be grouped with
  * headings, to better organise the options.
  *
- * The target HTML element, `slds-combobox` and dropdown need to be wrapped in the class
- * `.slds-dropdown-trigger dropdown-trigger--click`.
+ * The target HTML element, `nds-combobox` and dropdown need to be wrapped in the class
+ * `.nds-dropdown-trigger dropdown-trigger--click`.
  *
  * #### Accessibility
  *
@@ -47,7 +47,7 @@
  * ##### Combobox
  *
  * - A Combobox must come with an associated `label` element, with an appropriate `for` attribute
- * - `slds-combobox` acts as the root node to the composite Combobox widget. It takes the `role="combobox"` attribute as a result
+ * - `nds-combobox` acts as the root node to the composite Combobox widget. It takes the `role="combobox"` attribute as a result
  *   - `aria-haspopup="listbox"` attribute is then applied to indicate the Combobox will display a popup, of type `listbox`
  *   - `aria-expanded="true|false"` attribute is applied to describe whether the popup of `listbox` is currently visible or not
  *
@@ -110,7 +110,7 @@
  *
  * @base
  * @name combobox
- * @selector .slds-combobox_container
+ * @selector .nds-combobox_container
  * @support dev-ready
  * @category experience
  * @type user-input

@@ -5,15 +5,15 @@
  * @summary Initializes checkbox add button
  *
  * @name base
- * @selector .slds-checkbox_add-button
+ * @selector .nds-checkbox_add-button
  * @restrict div
  * @variant
  */
-.slds-checkbox_add-button,
-.slds-checkbox--add-button {
+.nds-checkbox_add-button,
+.nds-checkbox--add-button {
 
-  .slds-checkbox_faux,
-  .slds-checkbox--faux {
+  .nds-checkbox_faux,
+  .nds-checkbox--faux {
     @include square($square-icon-medium-boundary);
     position: relative;
     display: inline-block;
@@ -54,10 +54,10 @@
 
   input[type="checkbox"]:checked {
 
-    ~ .slds-checkbox_faux,
-    ~ .slds-checkbox--faux,
-    + .slds-checkbox_faux,
-    + .slds-checkbox--faux {
+    ~ .nds-checkbox_faux,
+    ~ .nds-checkbox--faux,
+    + .nds-checkbox_faux,
+    + .nds-checkbox--faux {
       border-color: transparent;
       background: $color-background-success;
 
@@ -86,10 +86,10 @@
 
   input[type="checkbox"]:focus {
 
-    ~ .slds-checkbox_faux,
-    ~ .slds-checkbox--faux,
-    + .slds-checkbox_faux,
-    + .slds-checkbox--faux {
+    ~ .nds-checkbox_faux,
+    ~ .nds-checkbox--faux,
+    + .nds-checkbox_faux,
+    + .nds-checkbox--faux {
       @include focus-button;
       border-color: $color-border-input-active;
     }
@@ -97,10 +97,10 @@
 
   input[type="checkbox"][disabled] {
 
-    ~ .slds-checkbox_faux,
-    ~ .slds-checkbox--faux,
-    + .slds-checkbox_faux,
-    + .slds-checkbox--faux {
+    ~ .nds-checkbox_faux,
+    ~ .nds-checkbox--faux,
+    + .nds-checkbox_faux,
+    + .nds-checkbox--faux {
       background-color: $color-background-button-brand-disabled;
       border-color: $color-border-button-brand-disabled;
       color: $color-text-button-brand-disabled;

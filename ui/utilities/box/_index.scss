@@ -4,17 +4,17 @@
 /**
  * @summary Provides 1rem base padding and borders
  *
- * @selector .slds-box
+ * @selector .nds-box
  * @modifier
  */
-.slds-box {
+.nds-box {
   @include box($borders: around);
 
   /**
    * @summary Changes padding to .25rem
    *
-   * @selector .slds-box_xx-small
-   * @restrict .slds-box
+   * @selector .nds-box_xx-small
+   * @restrict .nds-box
    * @modifier
    */
   &_xx-small,
@@ -25,8 +25,8 @@
   /**
    * @summary Changes padding to .5rem
    *
-   * @selector .slds-box_x-small
-   * @restrict .slds-box
+   * @selector .nds-box_x-small
+   * @restrict .nds-box
    * @modifier
    */
   &_x-small,
@@ -37,8 +37,8 @@
   /**
    * @summary Changes padding to .75rem
    *
-   * @selector .slds-box_small
-   * @restrict .slds-box
+   * @selector .nds-box_small
+   * @restrict .nds-box
    * @modifier
    */
   &_small,
@@ -46,7 +46,7 @@
     padding: $spacing-small;
   }
 
-  // Deprecate for slds-border--around
+  // Deprecate for nds-border--around
   &_border,
   &--border {
     @include box($padding: 0, $borders: around);
@@ -56,11 +56,11 @@
 /**
  * @summary Handles interactions if the box is applied to an actionable element
  *
- * @selector .slds-box_link
- * @restrict .slds-box
+ * @selector .nds-box_link
+ * @restrict .nds-box
  * @modifier
  */
-.slds-box_link {
+.nds-box_link {
 
   &,
   &:active,

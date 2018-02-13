@@ -4,28 +4,28 @@
 /**
  * Container for feed item comments
  *
- * @selector .slds-feed__item-comments
- * @restrict .slds-feed__item div
+ * @selector .nds-feed__item-comments
+ * @restrict .nds-feed__item div
  * @notes Contains comment replies and publisher
  * @required
  */
-.slds-feed__item-comments {
+.nds-feed__item-comments {
   background: $color-background-post;
   border-top: $border-width-thin solid $color-border;
   border-bottom: $border-width-thin solid $color-border;
 
-  .slds-comment {
+  .nds-comment {
     padding: $spacing-x-small $spacing-medium;
   }
 }
 
 /**
  * @name post
- * @selector .slds-post
- * @restrict .slds-feed article
+ * @selector .nds-post
+ * @restrict .nds-feed article
  * @variant
  */
-.slds-post {
+.nds-post {
   background: $color-background-alt;
   padding: $spacing-small $spacing-medium;
 
@@ -40,8 +40,8 @@
   /**
    * Header region of a feed post
    *
-   * @selector .slds-post__header
-   * @restrict .slds-post header
+   * @selector .nds-post__header
+   * @restrict .nds-post header
    */
   &__header {
     margin-bottom: $spacing-small;
@@ -50,8 +50,8 @@
   /**
    * Content region of a feed post
    *
-   * @selector .slds-post__content
-   * @restrict .slds-post div
+   * @selector .nds-post__content
+   * @restrict .nds-post div
    */
   &__content {
     margin-bottom: $spacing-small;
@@ -64,8 +64,8 @@
   /**
    * Footer region of a feed post
    *
-   * @selector .slds-post__footer
-   * @restrict .slds-post footer
+   * @selector .nds-post__footer
+   * @restrict .nds-post footer
    */
   &__footer {
     display: flex;
@@ -81,10 +81,10 @@
 /**
  * Footer region that contains quick action items for post
  *
- * @selector .slds-post__footer-actions-list
- * @restrict .slds-post__footer ul
+ * @selector .nds-post__footer-actions-list
+ * @restrict .nds-post__footer ul
  */
-.slds-post__footer-actions-list {
+.nds-post__footer-actions-list {
   justify-content: space-between;
   text-align: center;
   order: 1;
@@ -103,10 +103,10 @@
 /**
  * Action items within the feed post footer
  *
- * @selector .slds-post__footer-action
- * @restrict .slds-post__footer-actions-list button
+ * @selector .nds-post__footer-action
+ * @restrict .nds-post__footer-actions-list button
  */
-.slds-post__footer-action {
+.nds-post__footer-action {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,24 +119,24 @@
     padding: 0;
   }
 
-  .slds-icon {
+  .nds-icon {
     margin-#{$right}: $spacing-xx-small;
   }
 
   /**
    * Active state for like button
    *
-   * @selector .slds-is-active
-   * @restrict .slds-post__footer-action
+   * @selector .nds-is-active
+   * @restrict .nds-post__footer-action
    * @modifier
    */
   &:hover,
   &:focus,
-  &.slds-is-active {
+  &.nds-is-active {
     color: $color-text-link-hover;
     text-decoration: none;
 
-    .slds-icon {
+    .nds-icon {
       fill: currentColor;
     }
   }
@@ -145,10 +145,10 @@
 /**
  * Footer region that contains read only items for post
  *
- * @selector .slds-post__footer-meta-list
- * @restrict .slds-post__footer ul
+ * @selector .nds-post__footer-meta-list
+ * @restrict .nds-post__footer ul
  */
-.slds-post__footer-meta-list {
+.nds-post__footer-meta-list {
   margin-bottom: $spacing-medium;
 
   @include mq-medium-min {
@@ -161,50 +161,50 @@
 
 // A feed post is altered when inside a narrow region of the application
 // We take the existing media-queries properties that are being used on
-// slds-post and applying them to slds-post when it finds a parent class
-// named .slds-region--narrow.
+// nds-post and applying them to nds-post when it finds a parent class
+// named .nds-region--narrow.
 //
 // If styles are being updated via media-queries, please make sure you update
-// the .slds-region--narrow references as the goal is for slds-post to
+// the .nds-region--narrow references as the goal is for nds-post to
 // inherit the styles from mobile.
-.slds-region_narrow,
-.slds-region--narrow {
+.nds-region_narrow,
+.nds-region--narrow {
 
-  // Modifying .slds-post when inside a region with the
-  // class .slds-region--narrow
-  .slds-post {
+  // Modifying .nds-post when inside a region with the
+  // class .nds-region--narrow
+  .nds-post {
     border: 0;
     padding: $spacing-small $spacing-medium;
   }
 
-  // Modifying .slds-post__content when inside a region with the class
-  // .slds-region--narrow
-  .slds-post__content {
+  // Modifying .nds-post__content when inside a region with the class
+  // .nds-region--narrow
+  .nds-post__content {
     margin-bottom: $spacing-small;
   }
 
-  // Modifying .slds-post__footer when inside a region with the class
-  // .slds-region--narrow
-  .slds-post__footer {
+  // Modifying .nds-post__footer when inside a region with the class
+  // .nds-region--narrow
+  .nds-post__footer {
     flex-direction: column;
   }
 
-  .slds-post__footer-action {
+  .nds-post__footer-action {
     padding: $spacing-small 0;
   }
 
-  // Modifying .slds-post__footer-actions-list when inside a region with the
-  // class .slds-region--narrow
-  .slds-post__footer-actions-list {
+  // Modifying .nds-post__footer-actions-list when inside a region with the
+  // class .nds-region--narrow
+  .nds-post__footer-actions-list {
     order: 1;
     border-top: $border-width-thin solid $color-border;
     margin: 0 ($spacing-small * -1) ($spacing-small * -1);
     padding: 0 $spacing-medium;
   }
 
-  // Modifying .slds-post__footer-meta-list when inside a region with the
-  // class .slds-region--narrow
-  .slds-post__footer-meta-list {
+  // Modifying .nds-post__footer-meta-list when inside a region with the
+  // class .nds-region--narrow
+  .nds-post__footer-meta-list {
     margin: {
       #{$left}: 0;
       bottom: $spacing-medium;

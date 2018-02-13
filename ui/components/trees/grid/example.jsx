@@ -10,33 +10,55 @@ import SvgIcon from '../../../shared/svg-icon';
 // State Constructor(s)
 /// ///////////////////////////////////////////
 
-const TreeGrid = props =>
-  <table className="slds-table slds-table_bordered slds-tree slds-table_tree" role="treegrid" aria-readonly="true">
+const TreeGrid = props => (
+  <table
+    className="nds-table nds-table_bordered nds-tree nds-table_tree"
+    role="treegrid"
+    aria-readonly="true"
+  >
     <thead>
-      <tr className="slds-text-title_caps">
-        <th className="slds-cell-buffer_left" scope="col">
-          <div className="slds-grid slds-grid_vertical-align-center">
+      <tr className="nds-text-title_caps">
+        <th className="nds-cell-buffer_left" scope="col">
+          <div className="nds-grid nds-grid_vertical-align-center">
             <ButtonIcon
               assistiveText="Expand all rows"
-              className="slds-button_icon-border-filled slds-button_icon-x-small slds-m-right_x-small slds-shrink-none slds-table_tree__toggle"
-              iconClassName="slds-button__icon_small"
+              className="nds-button_icon-border-filled nds-button_icon-x-small nds-m-right_x-small nds-shrink-none nds-table_tree__toggle"
+              iconClassName="nds-button__icon_small"
               symbol="chevrondown"
               tabIndex="-1"
               title="Expand all rows"
             />
-            <div className="slds-truncate" title="Account Name">Account Name</div>
+            <div className="nds-truncate" title="Account Name">
+              Account Name
+            </div>
           </div>
         </th>
-        <th scope="col"><div className="slds-truncate" title="Employees">Employees</div></th>
-        <th scope="col"><div className="slds-truncate" title="Phone Number">Phone Number</div></th>
-        <th scope="col"><div className="slds-truncate" title="Account Owner">Account Owner</div></th>
-        <th scope="col"><div className="slds-truncate" title="Billing City">Billing City</div></th>
-        <th className="slds-cell-shrink" scope="col">
+        <th scope="col">
+          <div className="nds-truncate" title="Employees">
+            Employees
+          </div>
+        </th>
+        <th scope="col">
+          <div className="nds-truncate" title="Phone Number">
+            Phone Number
+          </div>
+        </th>
+        <th scope="col">
+          <div className="nds-truncate" title="Account Owner">
+            Account Owner
+          </div>
+        </th>
+        <th scope="col">
+          <div className="nds-truncate" title="Billing City">
+            Billing City
+          </div>
+        </th>
+        <th className="nds-cell-shrink" scope="col">
           <ButtonIcon
             aria-haspopup="true"
             assistiveText="Show More"
-            className="slds-button_icon-border-filled slds-button_icon-x-small"
-            iconClassName="slds-button__icon_hint slds-button__icon_small"
+            className="nds-button_icon-border-filled nds-button_icon-x-small"
+            iconClassName="nds-button__icon_hint nds-button__icon_small"
             symbol="down"
             tabIndex="-1"
             title="Show More"
@@ -45,73 +67,86 @@ const TreeGrid = props =>
       </tr>
     </thead>
     {props.children}
-  </table>;
+  </table>
+);
 
-const Row = props =>
+const Row = props => (
   <tr
     aria-expanded={props['aria-expanded']}
     aria-level={props['aria-level']}
     aria-posinset={props['aria-posinset']}
     aria-setsize={props['aria-setsize']}
-    className="slds-hint-parent"
+    className="nds-hint-parent"
     tabIndex={props.focusable ? '0' : null}
   >
-    <th
-      className="slds-tree__item"
-      data-label="Account Name"
-      scope="row"
-    >
+    <th className="nds-tree__item" data-label="Account Name" scope="row">
       <ButtonIcon
         aria-hidden="true"
-        assistiveText={props['aria-expanded'] ? `Expand ${props.name}` : `Collapse ${props.name}`}
-        className={classNames('slds-button_icon slds-button_icon-x-small slds-m-right_x-small', (props['aria-expanded']) ? null : 'slds-is-disabled')}
-        iconClassName="slds-button__icon_small"
+        assistiveText={
+          props['aria-expanded'] ? (
+            `Expand ${props.name}`
+          ) : (
+            `Collapse ${props.name}`
+          )
+        }
+        className={classNames(
+          'nds-button_icon nds-button_icon-x-small nds-m-right_x-small',
+          props['aria-expanded'] ? null : 'nds-is-disabled'
+        )}
+        iconClassName="nds-button__icon_small"
         symbol="chevronright"
         tabIndex="-1"
-        title={props['aria-expanded'] ? `Collapse ${props.name}` : `Expand ${props.name}`}
+        title={
+          props['aria-expanded'] ? (
+            `Collapse ${props.name}`
+          ) : (
+            `Expand ${props.name}`
+          )
+        }
       />
-      <div className="slds-truncate" title={props.name}>
-          <a href="javascript:void(0);" tabIndex="-1">
-            {props.name}
-          </a>
+      <div className="nds-truncate" title={props.name}>
+        <a href="javascript:void(0);" tabIndex="-1">
+          {props.name}
+        </a>
       </div>
     </th>
     <td data-label="Employees">
-      <div className="slds-truncate" title={props.employees}>
+      <div className="nds-truncate" title={props.employees}>
         {props.employees}
       </div>
     </td>
     <td data-label="Phone Number">
-      <div className="slds-truncate" title={props.phone}>
+      <div className="nds-truncate" title={props.phone}>
         {props.phone}
       </div>
     </td>
     <td data-label="Account Owner">
-      <div className="slds-truncate" title={props.owner}>
+      <div className="nds-truncate" title={props.owner}>
         <a href="javascript:void(0);" tabIndex="-1">
           {props.owner}
         </a>
       </div>
     </td>
     <td data-label="Billing City">
-      <div className="slds-truncate" title={props.city}>
+      <div className="nds-truncate" title={props.city}>
         {props.city}
       </div>
     </td>
-    <td className="slds-cell-shrink">
+    <td className="nds-cell-shrink">
       <ButtonIcon
         aria-haspopup="true"
         assistiveText={`More actions for ${props.name}`}
-        className="slds-button_icon-border-filled slds-button_icon-x-small"
-        iconClassName="slds-button__icon_hint slds-button__icon_small"
+        className="nds-button_icon-border-filled nds-button_icon-x-small"
+        iconClassName="nds-button__icon_hint nds-button__icon_small"
         symbol="down"
         tabIndex="-1"
         title={`More actions for ${props.name}`}
       />
     </td>
-  </tr>;
+  </tr>
+);
 
-const Default = props =>
+const Default = props => (
   <tbody>
     <Row
       aria-level="1"
@@ -157,9 +192,10 @@ const Default = props =>
       owner="Jane Doe"
       city="Paris, France"
     />
-  </tbody>;
+  </tbody>
+);
 
-const Expanded = props =>
+const Expanded = props => (
   <Row
     aria-level="2"
     aria-posinset="1"
@@ -169,9 +205,10 @@ const Expanded = props =>
     phone="837-555-1212"
     owner="John Doe"
     city="New York, NY"
-  />;
+  />
+);
 
-const DeepNesting = props =>
+const DeepNesting = props => (
   <tbody>
     <Row
       aria-level="1"
@@ -321,31 +358,36 @@ const DeepNesting = props =>
       owner="John Doe"
       city="Los Angeles, CA"
     />
-  </tbody>;
+  </tbody>
+);
 
 /// ///////////////////////////////////////////
 // Export
 /// ///////////////////////////////////////////
 
 export default (
-  <TreeGrid><Default /></TreeGrid>
+  <TreeGrid>
+    <Default />
+  </TreeGrid>
 );
 
 export let states = [
   {
     id: 'expanded',
     label: 'Expanded',
-    element:
-    <TreeGrid>
-      <Default isExpanded additionalItem={<Expanded />} />
-    </TreeGrid>
+    element: (
+      <TreeGrid>
+        <Default isExpanded additionalItem={<Expanded />} />
+      </TreeGrid>
+    )
   },
   {
     id: 'deep-nesting',
     label: 'Deeply nested branches',
-    element:
-    <TreeGrid>
-      <DeepNesting />
-    </TreeGrid>
+    element: (
+      <TreeGrid>
+        <DeepNesting />
+      </TreeGrid>
+    )
   }
 ];

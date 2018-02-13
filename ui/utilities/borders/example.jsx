@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-export const Context = props =>
+export const Context = props => (
   <div style={{ background: '##F4F6F9', padding: '1rem' }}>
     <div
-      className="slds-align_absolute-center"
+      className="nds-align_absolute-center"
       style={{
         textAlign: 'center',
         width: '8rem',
@@ -15,31 +15,38 @@ export const Context = props =>
     >
       {props.children}
     </div>
-  </div>;
-
-export default (
-  <div>This should have a border.</div>
+  </div>
 );
+
+export default <div>This should have a border.</div>;
 
 export let examples = [
   {
     id: 'top',
     label: 'Top',
-    element: <div className="slds-border_top">This should have a top border.</div>
+    element: (
+      <div className="nds-border_top">This should have a top border.</div>
+    )
   },
   {
     id: 'right',
     label: 'Right',
-    element: <div className="slds-border_right">This should have a right border.</div>
+    element: (
+      <div className="nds-border_right">This should have a right border.</div>
+    )
   },
   {
     id: 'bottom',
     label: 'Bottom',
-    element: <div className="slds-border_bottom">This should have a bottom border.</div>
+    element: (
+      <div className="nds-border_bottom">This should have a bottom border.</div>
+    )
   },
   {
     id: 'left',
     label: 'Left',
-    element: <div className="slds-border_left">This should have a left border.</div>
+    element: (
+      <div className="nds-border_left">This should have a left border.</div>
+    )
   }
 ];

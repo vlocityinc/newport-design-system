@@ -3,7 +3,7 @@
 
 @include deprecate('4.0', 'Use Progress Indicator instead') {
 
-  .slds-wizard {
+  .nds-wizard {
     position: relative;
 
     &__list {
@@ -34,7 +34,7 @@
         outline: 0;
         text-decoration: none;
 
-        .slds-wizard__marker {
+        .nds-wizard__marker {
           background: rgb(216, 221, 230); // @TODO - no matching token
         }
       }
@@ -79,16 +79,16 @@
       transition: width $duration-promptly ease;
     }
 
-    .slds-is-active {
+    .nds-is-active {
 
-      .slds-wizard__marker {
+      .nds-wizard__marker {
         background: #0076de; // @TODO: Need a token for this
       }
 
       a:hover,
       a:focus {
 
-        .slds-wizard__marker {
+        .nds-wizard__marker {
           background: rgb(0, 95, 178); // @TODO: Need a token for this
         }
       }

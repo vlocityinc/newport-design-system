@@ -10,7 +10,7 @@ import { Avatar } from '../../components/avatar/base/example';
 /// ///////////////////////////////////////////
 
 const image = (
-  <Avatar className="slds-avatar_large">
+  <Avatar className="nds-avatar_large">
     <img
       alt="Person name"
       src="/assets/images/avatar3.jpg"
@@ -23,12 +23,21 @@ const image = (
 // State Constructor(s)
 /// ///////////////////////////////////////////
 
-let MediaExample = props =>
-<div className="demo-only slds-size_3-of-4">
-  <MediaObject figureLeft={props.figureLeft} figureRight={props.figureRight} flavor={props.flavor}>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat minus molestias reprehenderit consequuntur sapiente. Modi veritatis totam accusantium numquam assumenda.</p>
-  </MediaObject>
-</div>;
+let MediaExample = props => (
+  <div className="demo-only nds-size_3-of-4">
+    <MediaObject
+      figureLeft={props.figureLeft}
+      figureRight={props.figureRight}
+      flavor={props.flavor}
+    >
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat minus
+        molestias reprehenderit consequuntur sapiente. Modi veritatis totam
+        accusantium numquam assumenda.
+      </p>
+    </MediaObject>
+  </div>
+);
 
 /// ///////////////////////////////////////////
 // Export
@@ -63,11 +72,16 @@ export let examples = [
   {
     id: 'responsive',
     label: 'Responsive',
-    element:
-    <div className="demo-only slds-size_3-of-4">
-      <MediaObject figureLeft={image} flavor="responsive">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat minus molestias reprehenderit consequuntur sapiente. Modi veritatis totam accusantium numquam assumenda.</p>
-      </MediaObject>
-    </div>
+    element: (
+      <div className="demo-only nds-size_3-of-4">
+        <MediaObject figureLeft={image} flavor="responsive">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat
+            minus molestias reprehenderit consequuntur sapiente. Modi veritatis
+            totam accusantium numquam assumenda.
+          </p>
+        </MediaObject>
+      </div>
+    )
   }
 ];

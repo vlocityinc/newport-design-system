@@ -5,16 +5,16 @@
  * @summary Initializes checkbox toggle
  *
  * @name base
- * @selector .slds-checkbox_toggle
+ * @selector .nds-checkbox_toggle
  * @restrict label
  * @variant
  */
-.slds-checkbox_toggle,
-.slds-checkbox--toggle {
+.nds-checkbox_toggle,
+.nds-checkbox--toggle {
   width: 100%;
 
-  .slds-checkbox_faux,
-  .slds-checkbox--faux {
+  .nds-checkbox_faux,
+  .nds-checkbox--faux {
     display: block;
     position: relative;
     width: $width-toggle;
@@ -53,30 +53,30 @@
     padding: 0;
     position: absolute;
 
-    + .slds-checkbox_faux_container,
-    + .slds-checkbox--faux_container {
+    + .nds-checkbox_faux_container,
+    + .nds-checkbox--faux_container {
       font-size: $font-size-x-small;
       color: $color-text-label;
 
-      .slds-checkbox_off,
-      .slds-checkbox--off {
+      .nds-checkbox_off,
+      .nds-checkbox--off {
         display: block;
       }
 
-      .slds-checkbox_on,
-      .slds-checkbox--on {
+      .nds-checkbox_on,
+      .nds-checkbox--on {
         display: none;
       }
     }
 
     &:focus {
 
-      + .slds-checkbox_faux,
-      + .slds-checkbox--faux,
-      ~ .slds-checkbox_faux,
-      ~ .slds-checkbox--faux,
-      + .slds-checkbox_faux_container .slds-checkbox_faux,
-      + .slds-checkbox--faux_container .slds-checkbox--faux {
+      + .nds-checkbox_faux,
+      + .nds-checkbox--faux,
+      ~ .nds-checkbox_faux,
+      ~ .nds-checkbox--faux,
+      + .nds-checkbox_faux_container .nds-checkbox_faux,
+      + .nds-checkbox--faux_container .nds-checkbox--faux {
         background-color: $color-background-toggle-hover;
         border-color: $color-border-input-active;
         box-shadow: $shadow-button-focus;
@@ -86,22 +86,22 @@
     // Checked State with Interactions
     &:checked {
 
-      + .slds-checkbox_faux_container .slds-checkbox_off,
-      + .slds-checkbox--faux_container .slds-checkbox--off {
+      + .nds-checkbox_faux_container .nds-checkbox_off,
+      + .nds-checkbox--faux_container .nds-checkbox--off {
         display: none;
       }
 
-      + .slds-checkbox_faux_container .slds-checkbox_on,
-      + .slds-checkbox--faux_container .slds-checkbox--on {
+      + .nds-checkbox_faux_container .nds-checkbox_on,
+      + .nds-checkbox--faux_container .nds-checkbox--on {
         display: block;
       }
 
-      + .slds-checkbox_faux,
-      + .slds-checkbox--faux,
-      ~ .slds-checkbox_faux,
-      ~ .slds-checkbox--faux,
-      + .slds-checkbox_faux_container .slds-checkbox_faux,
-      + .slds-checkbox--faux_container .slds-checkbox--faux {
+      + .nds-checkbox_faux,
+      + .nds-checkbox--faux,
+      ~ .nds-checkbox_faux,
+      ~ .nds-checkbox--faux,
+      + .nds-checkbox_faux_container .nds-checkbox_faux,
+      + .nds-checkbox--faux_container .nds-checkbox--faux {
         border-color: $color-background-toggle-active;
         background-color: $color-background-toggle-active;
 
@@ -139,12 +139,12 @@
 
       &:focus {
 
-        + .slds-checkbox_faux,
-        + .slds-checkbox--faux,
-        ~ .slds-checkbox_faux,
-        ~ .slds-checkbox--faux,
-        + .slds-checkbox_faux_container .slds-checkbox_faux,
-        + .slds-checkbox--faux_container .slds-checkbox--faux {
+        + .nds-checkbox_faux,
+        + .nds-checkbox--faux,
+        ~ .nds-checkbox_faux,
+        ~ .nds-checkbox--faux,
+        + .nds-checkbox_faux_container .nds-checkbox_faux,
+        + .nds-checkbox--faux_container .nds-checkbox--faux {
           background-color: $color-background-toggle-active-hover;
         }
       }
@@ -153,12 +153,12 @@
 
     &[disabled] {
 
-      + .slds-checkbox_faux,
-      + .slds-checkbox--faux,
-      ~ .slds-checkbox_faux,
-      ~ .slds-checkbox--faux,
-      + .slds-checkbox_faux_container .slds-checkbox_faux,
-      + .slds-checkbox--faux_container .slds-checkbox--faux {
+      + .nds-checkbox_faux,
+      + .nds-checkbox--faux,
+      ~ .nds-checkbox_faux,
+      ~ .nds-checkbox--faux,
+      + .nds-checkbox_faux_container .nds-checkbox_faux,
+      + .nds-checkbox--faux_container .nds-checkbox--faux {
 
         background-color: $color-background-toggle-disabled;
         pointer-events: none;
@@ -176,8 +176,8 @@
 
       &:checked {
 
-        + .slds-checkbox_faux_container .slds-checkbox_faux,
-        + .slds-checkbox--faux_container .slds-checkbox--faux {
+        + .nds-checkbox_faux_container .nds-checkbox_faux,
+        + .nds-checkbox--faux_container .nds-checkbox--faux {
 
           &:before {
             background-color: $color-background-input-checkbox-disabled;

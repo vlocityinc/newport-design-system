@@ -5,33 +5,33 @@
  * @summary Creates a form that consists of multiple form groups
  *
  * @name compound
- * @selector .slds-form_compound
- * @restrict .slds-form
+ * @selector .nds-form_compound
+ * @restrict .nds-form
  * @variant
  */
 
-.slds-form_compound,
-.slds-form--compound {
+.nds-form_compound,
+.nds-form--compound {
 
-  .slds-form-element__row {
+  .nds-form-element__row {
     display: flex;
     margin-bottom: $spacing-x-small;
 
-    + .slds-form-element__row {
+    + .nds-form-element__row {
       clear: both;
     }
 
-    .slds-form-element + .slds-form-element {
+    .nds-form-element + .nds-form-element {
       margin-#{$left}: $spacing-x-small;
     }
   }
 
   @include deprecate('4.0.0') {
 
-    .slds-form-element__control {
+    .nds-form-element__control {
       position: relative;
 
-      + .slds-form-element__control {
+      + .nds-form-element__control {
         padding-#{$left}: $spacing-x-small;
       }
     }

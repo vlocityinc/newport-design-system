@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-.slds-theme {
+.nds-theme {
   /**
    * @summary Sets the background color to white
    *
-   * @selector .slds-theme_default
+   * @selector .nds-theme_default
    * @modifier
    */
   &_default,
@@ -16,7 +16,7 @@
   /**
    * @summary Sets the background color to gray
    *
-   * @selector .slds-theme_shade
+   * @selector .nds-theme_shade
    * @modifier
    */
   &_shade,
@@ -27,7 +27,7 @@
   /**
    * @summary Sets the background color to dark blue
    *
-   * @selector .slds-theme_inverse
+   * @selector .nds-theme_inverse
    * @modifier
    */
   &_inverse,
@@ -39,7 +39,7 @@
   /**
    * @summary Sets the background color to darker blue
    *
-   * @selector .slds-theme_alt-inverse
+   * @selector .nds-theme_alt-inverse
    * @modifier
    */
   &_alt-inverse,
@@ -51,7 +51,7 @@
   /**
    * @summary Sets the background color to green
    *
-   * @selector .slds-theme_success
+   * @selector .nds-theme_success
    * @modifier
    */
   &_success,
@@ -63,7 +63,7 @@
   /**
    * @summary Sets the background color to gray-ish blue
    *
-   * @selector .slds-theme_info
+   * @selector .nds-theme_info
    * @modifier
    */
   &_info,
@@ -75,7 +75,7 @@
   /**
    * @summary Sets the background color to yellow
    *
-   * @selector .slds-theme_warning
+   * @selector .nds-theme_warning
    * @modifier
    */
   &_warning,
@@ -83,13 +83,13 @@
     background-color: $color-background-warning;
     color: $color-text-default;
 
-    .slds-icon,
-    .slds-button__icon {
+    .nds-icon,
+    .nds-button__icon {
       fill: $color-text-icon-default;
     }
 
-    a:not(.slds-button--neutral),
-    button:not(.slds-button--neutral) {
+    a:not(.nds-button--neutral),
+    button:not(.nds-button--neutral) {
       color: $color-text-default;
       text-decoration: underline;
     }
@@ -98,7 +98,7 @@
   /**
    * @summary Sets the background color to red
    *
-   * @selector .slds-theme_error
+   * @selector .nds-theme_error
    * @modifier
    */
   &_error,
@@ -110,7 +110,7 @@
   /**
    * @summary Sets the background color to black
    *
-   * @selector .slds-theme_offline
+   * @selector .nds-theme_offline
    * @modifier
    */
   &_offline,
@@ -122,7 +122,7 @@
   /**
    * @summary Adds striped background
    *
-   * @selector .slds-theme_alert-texture
+   * @selector .nds-theme_alert-texture
    * @modifier
    */
   &_alert-texture,

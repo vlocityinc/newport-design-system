@@ -8,24 +8,29 @@ import classNames from 'classnames';
 // Partial(s)
 /// ////////////////////////////////////////
 
-let FormElement = props =>
-  <div className={classNames('slds-form-element', props.className)}>
+let FormElement = props => (
+  <div className={classNames('nds-form-element', props.className)}>
     {props.children}
-  </div>;
+  </div>
+);
 
-let FormElementLabel = props =>
-  <label className="slds-form-element__label" htmlFor="select-01">{props.children}</label>;
-
-let FormElementControl = props =>
-  <div className={classNames('slds-form-element__control', props.className)}>
+let FormElementLabel = props => (
+  <label className="nds-form-element__label" htmlFor="select-01">
     {props.children}
-  </div>;
+  </label>
+);
 
-export let Select = props =>
-  <div className="slds-select_container">
+let FormElementControl = props => (
+  <div className={classNames('nds-form-element__control', props.className)}>
+    {props.children}
+  </div>
+);
+
+export let Select = props => (
+  <div className="nds-select_container">
     <select
       aria-describedby={props['aria-describedby']}
-      className={classNames('slds-select', props.className)}
+      className={classNames('nds-select', props.className)}
       disabled={props.disabled}
       id={props.id || 'select-01'}
       required={props.required}
@@ -33,60 +38,77 @@ export let Select = props =>
     >
       {props.children}
     </select>
-  </div>;
+  </div>
+);
 
 /// ///////////////////////////////////////////
 // State Constructor(s)
 /// ///////////////////////////////////////////
 
-let Required = props =>
-    <FormElement>
-      <FormElementLabel><abbr className="slds-required" title="required">*</abbr> Select Label</FormElementLabel>
-      <FormElementControl>
-        <Select required>
-          <option>Option One</option>
-          <option>Option Two</option>
-          <option>Option Three</option>
-        </Select>
-      </FormElementControl>
-    </FormElement>;
+let Required = props => (
+  <FormElement>
+    <FormElementLabel>
+      <abbr className="nds-required" title="required">
+        *
+      </abbr>{' '}
+      Select Label
+    </FormElementLabel>
+    <FormElementControl>
+      <Select required>
+        <option>Option One</option>
+        <option>Option Two</option>
+        <option>Option Three</option>
+      </Select>
+    </FormElementControl>
+  </FormElement>
+);
 
-let ErrorState = props =>
-    <FormElement className="slds-has-error">
-      <FormElementLabel><abbr className="slds-required" title="required">*</abbr> Select Label</FormElementLabel>
-      <FormElementControl>
-        <Select aria-describedby="error-02" required>
-          <option>Option One</option>
-          <option>Option Two</option>
-          <option>Option Three</option>
-        </Select>
-      </FormElementControl>
-      <div className="slds-form-element__help" id="error-02">This field is required</div>
-    </FormElement>;
+let ErrorState = props => (
+  <FormElement className="nds-has-error">
+    <FormElementLabel>
+      <abbr className="nds-required" title="required">
+        *
+      </abbr>{' '}
+      Select Label
+    </FormElementLabel>
+    <FormElementControl>
+      <Select aria-describedby="error-02" required>
+        <option>Option One</option>
+        <option>Option Two</option>
+        <option>Option Three</option>
+      </Select>
+    </FormElementControl>
+    <div className="nds-form-element__help" id="error-02">
+      This field is required
+    </div>
+  </FormElement>
+);
 
-let Disabled = props =>
-    <FormElement>
-      <FormElementLabel>Select Label</FormElementLabel>
-      <FormElementControl>
-        <Select disabled>
-          <option>Option One</option>
-          <option>Option Two</option>
-          <option>Option Three</option>
-        </Select>
-      </FormElementControl>
-    </FormElement>;
+let Disabled = props => (
+  <FormElement>
+    <FormElementLabel>Select Label</FormElementLabel>
+    <FormElementControl>
+      <Select disabled>
+        <option>Option One</option>
+        <option>Option Two</option>
+        <option>Option Three</option>
+      </Select>
+    </FormElementControl>
+  </FormElement>
+);
 
-let Multiple = props =>
-    <FormElement>
-      <FormElementLabel>Select Label</FormElementLabel>
-      <FormElementControl>
-        <select id="select-01" className="slds-select" multiple>
-          <option>Option One</option>
-          <option>Option Two</option>
-          <option>Option Three</option>
-        </select>
-      </FormElementControl>
-    </FormElement>;
+let Multiple = props => (
+  <FormElement>
+    <FormElementLabel>Select Label</FormElementLabel>
+    <FormElementControl>
+      <select id="select-01" className="nds-select" multiple>
+        <option>Option One</option>
+        <option>Option Two</option>
+        <option>Option Three</option>
+      </select>
+    </FormElementControl>
+  </FormElement>
+);
 
 /// ///////////////////////////////////////////
 // Export

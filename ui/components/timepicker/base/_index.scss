@@ -8,15 +8,15 @@
  * @summary Initializes a timepicker
  *
  * @name base
- * @selector .slds-timepicker
+ * @selector .nds-timepicker
  * @restrict div
  * @variant
  */
 
 @include deprecate('4.0.0', 'Time picker should use a picklist') {
 
-  .slds-datepicker_time,
-  .slds-datepicker--time {
+  .nds-datepicker_time,
+  .nds-datepicker--time {
     max-width: $size-x-small;
     max-height: (($line-height-text + ($spacing-x-small * 2)) * 6) - ($spacing-small * 2);
     overflow: hidden {

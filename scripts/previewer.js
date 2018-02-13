@@ -10,7 +10,7 @@ const I = require('immutable');
 const { writeToDist } = require('./ui');
 
 const createPreviewer =
-  process.env.SLDS_PREVIEWER === 'development'
+  process.env.NDS_PREVIEWER === 'development'
     ? require('../../design-system-previewer')
     : require('@salesforce-ux/design-system-previewer');
 
@@ -30,7 +30,7 @@ const previewer = createPreviewer({
   // where is your css?
   cssUrl: '/assets/styles/index.css', // ignored by git
   // get me the js bundle
-  scriptUrl: `/dist/__internal/slds.umd.js`
+  scriptUrl: `/dist/__internal/nds.umd.js`
 });
 
 const listen = () =>

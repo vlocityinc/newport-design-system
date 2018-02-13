@@ -15,18 +15,18 @@ $_sizes: (
 );
 
 /**
- * @selector .slds-size_small
+ * @selector .nds-size_small
  * @modifier
  */
 
 // Absolute sizes (rem)
 @each $name, $width in $_sizes {
   /*
-   * @selector .slds-size_#{$name}
+   * @selector .nds-size_#{$name}
    * @modifier
    */
-  .slds-size_#{$name},
-  .slds-size--#{$name} {
+  .nds-size_#{$name},
+  .nds-size--#{$name} {
     width: $width;
   }
 }
@@ -37,8 +37,8 @@ $_sizes: (
 // Ordering helpers
 @for $i from 1 through 12 {
 
-  .slds-order_#{$i},
-  .slds-order--#{$i} {
+  .nds-order_#{$i},
+  .nds-order--#{$i} {
     order: $i;
   }
 }
@@ -57,11 +57,11 @@ $_sizes: (
   @media (min-width: #{pem($breakpoint)}) {
 
     // Generate responsive absolute (rem) width names,
-    // e.g. <div class="slds-medium-size--x-small">
+    // e.g. <div class="nds-medium-size--x-small">
     @each $name, $width in $_sizes {
 
-      .slds-#{$size}-size_#{$name},
-      .slds-#{$size}-size--#{$name} {
+      .nds-#{$size}-size_#{$name},
+      .nds-#{$size}-size--#{$name} {
         width: $width;
         flex: 0 0 $width;
         max-width: $width; // IE fix
@@ -69,15 +69,15 @@ $_sizes: (
     }
 
     // Generate responsive relative (%) width names,
-    // e.g. <div class="slds-medium-size--3-of-6">
+    // e.g. <div class="nds-medium-size--3-of-6">
     @include width($breakpoint: #{$size});
 
     // Loop through column spread and generate
-    // ordering helpers, e.g. <div class="slds-medium-order--2">
+    // ordering helpers, e.g. <div class="nds-medium-order--2">
     @for $i from 1 through 12 {
 
-      .slds-#{$size}-order_#{$i},
-      .slds-#{$size}-order--#{$i} {
+      .nds-#{$size}-order_#{$i},
+      .nds-#{$size}-order--#{$i} {
         order: $i;
       }
     }
@@ -86,11 +86,11 @@ $_sizes: (
   @media (max-width: #{pem($breakpoint)}) {
 
     // Generate responsive absolute (rem) width names (up to size),
-    // e.g. <div class="slds-max-medium-size--x-small">
+    // e.g. <div class="nds-max-medium-size--x-small">
     @each $name, $width in $_sizes {
 
-      .slds-max-#{$size}-size_#{$name},
-      .slds-max-#{$size}-size--#{$name} {
+      .nds-max-#{$size}-size_#{$name},
+      .nds-max-#{$size}-size--#{$name} {
         width: $width;
         flex: 0 0 $width;
         max-width: $width; // IE fix
@@ -98,15 +98,15 @@ $_sizes: (
     }
 
     // Generate responsive relative (%) width names (up to size),
-    // e.g. <div class="slds-max-medium-size--3-of-6">
+    // e.g. <div class="nds-max-medium-size--3-of-6">
     @include width($breakpoint: #{$size}, $max: true);
 
     // Loop through column spread and generate
-    // ordering helpers, e.g. <div class="slds-max-medium-order--2">
+    // ordering helpers, e.g. <div class="nds-max-medium-order--2">
     @for $i from 1 through 12 {
 
-      .slds-max-#{$size}-order_#{$i},
-      .slds-max-#{$size}-order--#{$i} {
+      .nds-max-#{$size}-order_#{$i},
+      .nds-max-#{$size}-order--#{$i} {
         order: $i;
       }
     }

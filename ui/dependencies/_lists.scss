@@ -29,7 +29,7 @@
 // Apply theme on selection for list items
 @mixin list-has-selections {
 
-  &.slds-is-selected {
+  &.nds-is-selected {
     box-shadow: $color-border-selection 0 0 0 $border-width-thin inset;
     background-color: $color-background-row-selected;
 

@@ -3,25 +3,25 @@
 
 /**
  * @name base
- * @selector .slds-nav-vertical
+ * @selector .nds-nav-vertical
  * @restrict nav
  * @variant
  */
-.slds-nav-vertical {
+.nds-nav-vertical {
   position: relative;
 }
 
 /**
  * Modifer to reduce spacing between navigation items
  *
- * @selector .slds-nav-vertical_compact
- * @restrict .slds-nav-vertical
+ * @selector .nds-nav-vertical_compact
+ * @restrict .nds-nav-vertical
  * @modifier
  */
-.slds-nav-vertical_compact {
+.nds-nav-vertical_compact {
 
-  .slds-nav-vertical__title,
-  .slds-nav-vertical__action {
+  .nds-nav-vertical__title,
+  .nds-nav-vertical__action {
     padding: $spacing-xx-small $spacing-large;
   }
 }
@@ -29,13 +29,13 @@
 /**
  * Modifier to adjust list item when vertical navigation is sitting on top of a shaded background
  *
- * @selector .slds-nav-vertical_shade
- * @restrict .slds-nav-vertical
+ * @selector .nds-nav-vertical_shade
+ * @restrict .nds-nav-vertical
  * @modifier
  */
-.slds-nav-vertical_shade {
+.nds-nav-vertical_shade {
 
-  .slds-nav-vertical__action {
+  .nds-nav-vertical__action {
 
     &:hover {
       background-color: $vertical-navigation-color-background-shade-row-hover;
@@ -46,7 +46,7 @@
     }
   }
 
-  .slds-is-active .slds-nav-vertical__action {
+  .nds-is-active .nds-nav-vertical__action {
     background-color: $color-background-alt;
     border-color: $color-border;
   }
@@ -55,10 +55,10 @@
 /**
  * Section title of the vertical navigation
  *
- * @selector .slds-nav-vertical__title
- * @restrict .slds-nav-vertical h2
+ * @selector .nds-nav-vertical__title
+ * @restrict .nds-nav-vertical h2
  */
-.slds-nav-vertical__title {
+.nds-nav-vertical__title {
   padding: $spacing-x-small $spacing-medium;
   padding-#{$left}: $spacing-large;
 
@@ -67,20 +67,20 @@
   }
 }
 
-.slds-nav-vertical__section:not(:first-of-type) {
+.nds-nav-vertical__section:not(:first-of-type) {
   margin-top: $spacing-x-small;
 }
 
 /**
  * List of the vertical navigation
  *
- * @selector .slds-nav-vertical__item
- * @restrict .slds-nav-vertical li
+ * @selector .nds-nav-vertical__item
+ * @restrict .nds-nav-vertical li
  */
-.slds-nav-vertical__item {
+.nds-nav-vertical__item {
   position: relative;
 
-  &.slds-is-active:before {
+  &.nds-is-active:before {
     content: '';
     width: 4px;
     #{$left}: 0;
@@ -94,10 +94,10 @@
 /**
  * Actionable element inside of vertical navigation list item
  *
- * @selector .slds-nav-vertical__action
- * @restrict .slds-nav-vertical a, .slds-nav-vertical button
+ * @selector .nds-nav-vertical__action
+ * @restrict .nds-nav-vertical a, .nds-nav-vertical button
  */
-.slds-nav-vertical__action {
+.nds-nav-vertical__action {
   display: flex;
   align-items: center;
   width: 100%;
@@ -136,41 +136,41 @@
 /**
  * Active state of a list item within a vertical navigation
  *
- * @selector .slds-is-active
- * @restrict .slds-nav-vertical__item
+ * @selector .nds-is-active
+ * @restrict .nds-nav-vertical__item
  * @modifier
  */
-.slds-nav-vertical__item.slds-is-active {
+.nds-nav-vertical__item.nds-is-active {
   color: $color-text-link;
 
-  .slds-nav-vertical__action {
+  .nds-nav-vertical__action {
     background-color: $color-background-row-selected;
   }
 }
 
 /**
  * @name base
- * @selector .slds-navigation-list_vertical
+ * @selector .nds-navigation-list_vertical
  * @restrict div
  * @variant
  * @deprecated
  */
-@include deprecate('4.0.0', 'Do not use slds-navigation-list--vertical anymore, please use newer version slds-nav-vertical') {
+@include deprecate('4.0.0', 'Do not use nds-navigation-list--vertical anymore, please use newer version nds-nav-vertical') {
 
-  .slds-navigation-list-vertical,
-  .slds-navigation-list--vertical {
+  .nds-navigation-list-vertical,
+  .nds-navigation-list--vertical {
     /**
      * Active item in vertical navigation list
      *
-     * @selector .slds-is-active
-     * @restrict .slds-navigation-list-vertical li
+     * @selector .nds-is-active
+     * @restrict .nds-navigation-list-vertical li
      * @modifier
      */
-    .slds-is-active {
+    .nds-is-active {
       color: $color-text-link;
 
-      .slds-navigation-list-vertical__action,
-      .slds-navigation-list--vertical__action {
+      .nds-navigation-list-vertical__action,
+      .nds-navigation-list--vertical__action {
         background-color: $color-background-row-selected;
         border-color: $color-border;
         border-#{$left}-color: $color-background-button-brand-hover;
@@ -186,17 +186,17 @@
   /**
    * Vertical Navigation on tinted background
    *
-   * @selector .slds-navigation-list-vertical_shade
-   * @restrict .slds-navigation-list-vertical
+   * @selector .nds-navigation-list-vertical_shade
+   * @restrict .nds-navigation-list-vertical
    * @modifier
    * @group theme
    */
-  .slds-navigation-list-vertical_shade,
-  .slds-navigation-list-vertical--shade,
-  .slds-navigation-list--vertical-inverse { // <= bad legacy
+  .nds-navigation-list-vertical_shade,
+  .nds-navigation-list-vertical--shade,
+  .nds-navigation-list--vertical-inverse { // <= bad legacy
 
-    .slds-is-active .slds-navigation-list-vertical__action,
-    .slds-is-active .slds-navigation-list--vertical__action {
+    .nds-is-active .nds-navigation-list-vertical__action,
+    .nds-is-active .nds-navigation-list--vertical__action {
       background-color: $color-background-alt;
     }
   }
@@ -204,12 +204,12 @@
   /**
    * Actionable item inside a vertical navigation list
    *
-   * @selector .slds-navigation-list-vertical__action
-   * @restrict .slds-navigation-list-vertical a
+   * @selector .nds-navigation-list-vertical__action
+   * @restrict .nds-navigation-list-vertical a
    * @required
    */
-  .slds-navigation-list-vertical__action,
-  .slds-navigation-list--vertical__action {
+  .nds-navigation-list-vertical__action,
+  .nds-navigation-list--vertical__action {
     display: block;
     border: {
       #{$left}: $spacing-xx-small solid transparent;

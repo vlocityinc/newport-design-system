@@ -11,13 +11,13 @@ import { Fieldset, Legend } from '../../radio-group/base/example';
 /// ////////////////////////////////////////
 
 let RadioButtonGroup = props => (
-  <div className="slds-radio_custom-group slds-clearfix">{props.children}</div>
+  <div className="nds-radio_custom-group nds-clearfix">{props.children}</div>
 );
 
 let RadioButton = props => (
   <span
     className={classNames(
-      'slds-button slds-radio_button slds-float_left slds-cont-width',
+      'nds-button nds-radio_button nds-float_left nds-cont-width',
       props.className
     )}
   >
@@ -28,9 +28,9 @@ let RadioButton = props => (
       disabled={props.disabled}
       aria-describedby={props.errorId}
     />
-    <label className="slds-radio_button__label" htmlFor={props.id}>
+    <label className="nds-radio_button__label" htmlFor={props.id}>
       <img src="https://vlocity.com/cms/resources/vlocity-comms-bugreversed.svg" />
-      <div className="slds-radio_custom-faux">{props.children}</div>
+      <div className="nds-radio_custom-faux">{props.children}</div>
     </label>
   </span>
 );
@@ -38,7 +38,7 @@ let RadioButton = props => (
 let RadioButtonNoimage = props => (
   <span
     className={classNames(
-      'slds-button slds-radio_button slds-float_left slds-cont-width',
+      'nds-button nds-radio_button nds-float_left nds-cont-width',
       props.className
     )}
   >
@@ -49,8 +49,8 @@ let RadioButtonNoimage = props => (
       disabled={props.disabled}
       aria-describedby={props.errorId}
     />
-    <label className="slds-radio_button__label" htmlFor={props.id}>
-      <div className="slds-radio_custom-faux slds-title">{props.children}</div>
+    <label className="nds-radio_button__label" htmlFor={props.id}>
+      <div className="nds-radio_custom-faux nds-title">{props.children}</div>
     </label>
   </span>
 );
@@ -129,7 +129,7 @@ export let states = [
     element: (
       <Fieldset>
         <Legend>
-          <abbr className="slds-required" title="required">
+          <abbr className="nds-required" title="required">
             *
           </abbr>Radio Group Label
         </Legend>
@@ -149,9 +149,9 @@ export let states = [
     id: 'error',
     label: 'Has error',
     element: (
-      <Fieldset className="slds-has-error">
+      <Fieldset className="nds-has-error">
         <Legend>
-          <abbr className="slds-required" title="required">
+          <abbr className="nds-required" title="required">
             *
           </abbr>Radio Group Label
         </Legend>
@@ -173,7 +173,7 @@ export let states = [
               Fri
             </RadioButton>
           </RadioButtonGroup>
-          <div id="error_01" className="slds-form-element__help">
+          <div id="error_01" className="nds-form-element__help">
             This field is required
           </div>
         </FormElementControl>

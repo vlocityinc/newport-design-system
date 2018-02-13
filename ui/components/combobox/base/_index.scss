@@ -5,11 +5,11 @@
  * @summary Container that manages layout when a listbox of pill options sit next to a combobox search input
  *
  * @name base
- * @selector .slds-combobox_container
+ * @selector .nds-combobox_container
  * @restrict div
  * @variant
  */
-.slds-combobox_container {
+.nds-combobox_container {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -17,11 +17,11 @@
   /**
    * Opens listbox dropdown
    *
-   * @selector .slds-is-open
-   * @restrict .slds-combobox
+   * @selector .nds-is-open
+   * @restrict .nds-combobox
    * @modifier
    */
-  &.slds-is-open .slds-dropdown {
+  &.nds-is-open .nds-dropdown {
     display: block;
   }
 }
@@ -29,10 +29,10 @@
 /**
  * Container around form element with combobox input
  *
- * @selector .slds-combobox
- * @restrict .slds-combobox_container > div
+ * @selector .nds-combobox
+ * @restrict .nds-combobox_container > div
  */
-.slds-combobox {
+.nds-combobox {
   position: static;
   display: flex;
   flex-direction: column;
@@ -42,10 +42,10 @@
 /**
  * Form element with combobox input
  *
- * @selector .slds-combobox__form-element
- * @restrict .slds-combobox > div
+ * @selector .nds-combobox__form-element
+ * @restrict .nds-combobox > div
  */
-.slds-combobox__form-element {
+.nds-combobox__form-element {
   flex: 1 1 auto;
 }
 
@@ -64,22 +64,22 @@
 /**
  * Listbox container
  *
- * @selector .slds-listbox
+ * @selector .nds-listbox
  * @restrict ul
  */
-.slds-listbox {
+.nds-listbox {
   font-size: $font-size-medium;
 }
 
 /**
  * Inline listbox
  *
- * @selector .slds-listbox_inline
- * @restrict .slds-listbox
+ * @selector .nds-listbox_inline
+ * @restrict .nds-listbox
  * @modifier
  */
-.slds-listbox_inline,
-.slds-listbox--inline {
+.nds-listbox_inline,
+.nds-listbox--inline {
   display: inline-flex;
   flex-wrap: wrap;
   flex-shrink: 0;
@@ -99,12 +99,12 @@
 /**
  * Horizontal listbox
  *
- * @selector .slds-listbox_horizontal
- * @restrict .slds-listbox
+ * @selector .nds-listbox_horizontal
+ * @restrict .nds-listbox
  * @modifier
  */
-.slds-listbox_horizontal,
-.slds-listbox--horizontal {
+.nds-listbox_horizontal,
+.nds-listbox--horizontal {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
@@ -117,10 +117,10 @@
 /**
  * Choosable option within listbox
  *
- * @selector .slds-listbox__option
- * @restrict .slds-listbox__item > span
+ * @selector .nds-listbox__option
+ * @restrict .nds-listbox__item > span
  */
-.slds-listbox__option {
+.nds-listbox__option {
 
   &:hover {
     cursor: pointer;
@@ -130,7 +130,7 @@
     outline: 0;
   }
 
-  .slds-truncate {
+  .nds-truncate {
     display: inline-block;
     vertical-align: middle;
   }
@@ -139,27 +139,27 @@
 /**
  * Creates a vertical listbox
  *
- * @selector .slds-listbox_vertical
- * @restrict .slds-listbox
+ * @selector .nds-listbox_vertical
+ * @restrict .nds-listbox
  * @modifier
  */
-.slds-listbox_vertical,
-.slds-listbox--vertical {
+.nds-listbox_vertical,
+.nds-listbox--vertical {
   /**
    * Focus state of a vertical listbox option
    *
-   * @selector .slds-has-focus
-   * @restrict .slds-listbox__option
+   * @selector .nds-has-focus
+   * @restrict .nds-listbox__option
    * @modifier
    */
-  .slds-listbox__option:focus,
-  .slds-listbox__option:hover,
-  .slds-listbox__option.slds-has-focus {
+  .nds-listbox__option:focus,
+  .nds-listbox__option:hover,
+  .nds-listbox__option.nds-has-focus {
     background-color: $color-background-row-hover;
     text-decoration: none;
   }
 
-  .slds-listbox__option[role="presentation"]:hover {
+  .nds-listbox__option[role="presentation"]:hover {
     background-color: transparent;
     cursor: default;
   }
@@ -167,25 +167,25 @@
   /**
    * Modifies the listbox option if it contains an plain object or string
    *
-   * @selector .slds-listbox__option_plain
-   * @restrict .slds-listbox__option
+   * @selector .nds-listbox__option_plain
+   * @restrict .nds-listbox__option
    */
-  .slds-listbox__option_plain,
-  .slds-listbox__option--plain {
+  .nds-listbox__option_plain,
+  .nds-listbox__option--plain {
     padding: $spacing-x-small $spacing-small;
   }
 
   /**
    * Modifies the listbox option if it contains an entity object
    *
-   * @selector .slds-listbox__option_entity
-   * @restrict .slds-listbox__option
+   * @selector .nds-listbox__option_entity
+   * @restrict .nds-listbox__option
    */
-  .slds-listbox__option_entity,
-  .slds-listbox__option--entity {
+  .nds-listbox__option_entity,
+  .nds-listbox__option--entity {
     padding: $spacing-xx-small $spacing-small;
 
-    .slds-media__figure {
+    .nds-media__figure {
       margin-#{$right}: $spacing-x-small;
     }
   }
@@ -193,37 +193,37 @@
   /**
    * If the listbox option has metadata or secondary information that sits below its primary text
    *
-   * @selector .slds-listbox__option_has-meta
-   * @restrict .slds-listbox__option
+   * @selector .nds-listbox__option_has-meta
+   * @restrict .nds-listbox__option
    */
-  .slds-listbox__option_has-meta,
-  .slds-listbox__option--has-meta {
+  .nds-listbox__option_has-meta,
+  .nds-listbox__option--has-meta {
 
-    .slds-media__figure {
+    .nds-media__figure {
       margin-top: $spacing-xx-small;
     }
   }
 }
 
-[class*="slds-input-has-icon_left"] .slds-combobox__input[value],
-[class*="slds-input-has-icon--left"] .slds-combobox__input[value] {
+[class*="nds-input-has-icon_left"] .nds-combobox__input[value],
+[class*="nds-input-has-icon--left"] .nds-combobox__input[value] {
   padding-#{$left}: ($square-icon-small-boundary + $spacing-small);
 }
 
 /**
  * If readonly selection is an entity, use this class
  *
- * @selector .slds-combobox__input-entity-icon
- * @restrict .slds-combobox__form-element span
+ * @selector .nds-combobox__input-entity-icon
+ * @restrict .nds-combobox__form-element span
  */
-.slds-combobox__input-entity-icon {
+.nds-combobox__input-entity-icon {
   @include square($square-icon-x-small-boundary);
   position: absolute;
   top: 50%;
   #{$left}: calc(#{$spacing-xx-small} + 1px);
   transform: translateY(-50%);
 
-  .slds-icon {
+  .nds-icon {
     @include square($square-icon-x-small-boundary);
   }
 }
@@ -231,20 +231,20 @@
 /**
  * Icon that is a direct sibling of a combobox container. This is not the same as an input icon.
  *
- * @selector .slds-combobox_container__icon
- * @restrict .slds-combobox_container svg
+ * @selector .nds-combobox_container__icon
+ * @restrict .nds-combobox_container svg
  */
-.slds-combobox_container__icon {
+.nds-combobox_container__icon {
   color: $color-text-input-icon;
 }
 
 /**
  * The icon within a plain listbox that indicates if an option has been selected or not.
  *
- * @selector .slds-listbox__icon-selected
- * @restrict .slds-listbox__item svg
+ * @selector .nds-listbox__icon-selected
+ * @restrict .nds-listbox__item svg
  */
-.slds-listbox__icon-selected {
+.nds-listbox__icon-selected {
   opacity: 0;
   fill: $color-text-icon-default-hover;
 }
@@ -252,13 +252,13 @@
 /**
  * Modifier that makes selected icon visible
  *
- * @selector .slds-is-selected
- * @restrict .slds-listbox__option
+ * @selector .nds-is-selected
+ * @restrict .nds-listbox__option
  * @modifier
  */
-.slds-listbox__option.slds-is-selected {
+.nds-listbox__option.nds-is-selected {
 
-  .slds-listbox__icon-selected {
+  .nds-listbox__icon-selected {
     opacity: 1;
   }
 }
@@ -266,11 +266,11 @@
 /**
  * The main text of an entity listbox
  *
- * @selector .slds-listbox__option-text_entity
- * @restrict .slds-listbox__option span
+ * @selector .nds-listbox__option-text_entity
+ * @restrict .nds-listbox__option span
  */
-.slds-listbox__option-text_entity,
-.slds-listbox__option-text--entity {
+.nds-listbox__option-text_entity,
+.nds-listbox__option-text--entity {
   @include truncate; // truncate mixin used so class wouldn't need to be repeated in DOM
   display: block;
   margin-bottom: $spacing-xxx-small;
@@ -279,18 +279,18 @@
 /**
  * The metadata or secondary text of an entity listbox
  *
- * @selector .slds-listbox__option-meta_entity
- * @restrict .slds-listbox__option span
+ * @selector .nds-listbox__option-meta_entity
+ * @restrict .nds-listbox__option span
  */
-.slds-listbox__option-meta_entity,
-.slds-listbox__option-meta--entity {
+.nds-listbox__option-meta_entity,
+.nds-listbox__option-meta--entity {
   display: block;
   margin-top: ($spacing-xx-small * -1); // Offset $line-height-text from result-text
   color: $color-text-label;
 }
 
-.slds-listbox_object-switcher,
-.slds-listbox--object-switcher {
+.nds-listbox_object-switcher,
+.nds-listbox--object-switcher {
   flex-shrink: 0;
   padding: $spacing-xxx-small;
 }
@@ -299,11 +299,11 @@
  * If combo has a selection model that requires a listbox of pills to be displayed
  * inside of a combobox
  *
- * @selector .slds-has-inline-listbox
- * @restrict .slds-combobox_container
+ * @selector .nds-has-inline-listbox
+ * @restrict .nds-combobox_container
  */
-.slds-has-inline-listbox,
-.slds-has-object-switcher {
+.nds-has-inline-listbox,
+.nds-has-object-switcher {
   flex-direction: row;
   background: $color-background-input;
   border: 0;
@@ -312,10 +312,10 @@
   /**
    * Input field within a combobox
    *
-   * @selector .slds-combobox__input
-   * @restrict .slds-combobox input
+   * @selector .nds-combobox__input
+   * @restrict .nds-combobox input
    */
-  .slds-combobox__input {
+  .nds-combobox__input {
     min-height: $height-pill;
     line-height: $height-pill;
     border: 0;
@@ -329,29 +329,29 @@
     }
   }
 
-  .slds-listbox_object-switcher ~ .slds-listbox_inline,
-  .slds-listbox--object-switcher ~ .slds-listbox--inline,
-  .slds-combobox_container__icon ~ .slds-listbox_inline,
-  .slds-combobox_container__icon ~ .slds-listbox--inline {
+  .nds-listbox_object-switcher ~ .nds-listbox_inline,
+  .nds-listbox--object-switcher ~ .nds-listbox--inline,
+  .nds-combobox_container__icon ~ .nds-listbox_inline,
+  .nds-combobox_container__icon ~ .nds-listbox--inline {
     margin-#{$left}: $spacing-x-small;
   }
 
   /**
    * Modifier to the combobox when an SVG icon sits adjacent to the combobox form element
    *
-   * @selector .slds-has-icon_left
-   * @restrict .slds-combobox
+   * @selector .nds-has-icon_left
+   * @restrict .nds-combobox
    */
-  &.slds-has-icon_left {
+  &.nds-has-icon_left {
     padding-#{$left}: ($spacing-x-large + $spacing-xx-small);
 
     /**
      * SVG icon that sits adjacent to the combobox form element
      *
-     * @selector .slds-combobox_container__icon
-     * @restrict .slds-combobox_container svg
+     * @selector .nds-combobox_container__icon
+     * @restrict .nds-combobox_container svg
      */
-    .slds-combobox_container__icon {
+    .nds-combobox_container__icon {
       @include square($square-icon-utility-small);
       position: absolute;
       #{$left}: ($spacing-medium + $spacing-xxx-small);
@@ -361,13 +361,13 @@
   }
 }
 
-.slds-has-inline-listbox {
+.nds-has-inline-listbox {
 
   [role="listbox"] {
     display: inline-flex;
   }
 
-  .slds-combobox__input[value] {
+  .nds-combobox__input[value] {
     box-shadow: 0 0 0 2px #fff inset, 0 0 0 3px $color-border inset;
   }
 }

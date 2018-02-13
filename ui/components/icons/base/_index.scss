@@ -5,21 +5,21 @@
  * @summary Container for icons
  *
  * @name base
- * @selector .slds-icon_container
+ * @selector .nds-icon_container
  * @restrict span, div
- * @notes Used when an icon with a background color is accompanied by `.slds-assistive-text` and also receives a `background-color` class
+ * @notes Used when an icon with a background color is accompanied by `.nds-assistive-text` and also receives a `background-color` class
  * @variant
  */
-.slds-icon_container,
-.slds-icon__container {
-  @include deprecate('4.0.0', 'slds-icon__container is deprecated. Use slds-icon_container instead.');
+.nds-icon_container,
+.nds-icon__container {
+  @include deprecate('4.0.0', 'nds-icon__container is deprecated. Use nds-icon_container instead.');
   display: inline-block;
   border-radius: $border-radius-medium;
 
   /**
    * @summary Circle container for icons
-   * @selector .slds-icon_container_circle
-   * @restrict .slds-icon_container
+   * @selector .nds-icon_container_circle
+   * @restrict .nds-icon_container
    */
   &_circle,
   &--circle {
@@ -28,20 +28,20 @@
   }
 }
 
-[class*='slds-icon-action-'] {
+[class*='nds-icon-action-'] {
   padding: $spacing-x-small;
   border-radius: $border-radius-circle;
 }
 // action-{icon-name} comes from the map
 @each $name, $color in $bg-actions-map {
 
-  .slds-icon-#{$name} {
+  .nds-icon-#{$name} {
     background-color: $color;
   }
 }
 
 
-// TODO: Depend on a correct map to generate icons named slds-icon-custom-customXX
+// TODO: Depend on a correct map to generate icons named nds-icon-custom-customXX
 @each $name, $color in $bg-custom-map {
   $prefix-length: str-length('custom-');
   // In Sass, str-slice's first character is 1 (instead of 0 in other languages)
@@ -49,12 +49,12 @@
   $id: str-slice($name, $prefix-length + 1);
 
   // We generate both icons named:
-  // 1. slds-icon-custom-customXX (new: consistent with icon names)
-  // 2. slds-icon-custom-XX (legacy: depends on a map that is inconsistent with icon names)
-  @include deprecate('4.0.0', 'slds-icon-custom-XX classes are deprecated, use slds-icon-custom-customXX instead');
+  // 1. nds-icon-custom-customXX (new: consistent with icon names)
+  // 2. nds-icon-custom-XX (legacy: depends on a map that is inconsistent with icon names)
+  @include deprecate('4.0.0', 'nds-icon-custom-XX classes are deprecated, use nds-icon-custom-customXX instead');
 
-  .slds-icon-custom-custom#{$id},
-  .slds-icon-#{$name} {
+  .nds-icon-custom-custom#{$id},
+  .nds-icon-#{$name} {
     background-color: $color;
     color: $color-text-inverse; // This is for text based icon created with just the first letters of the words
   }
@@ -72,108 +72,108 @@ $bg-standard-map: map-merge($task2-monkey-patch, $bg-standard-map);
 
 @each $name, $color in $bg-standard-map {
 
-  .slds-icon-standard-#{$name} {
+  .nds-icon-standard-#{$name} {
     background-color: $color;
   }
 }
 
 /**
- * @selector .slds-icon
- * @restrict .slds-icon_container svg, svg
+ * @selector .nds-icon
+ * @restrict .nds-icon_container svg, svg
  */
-.slds-icon {
+.nds-icon {
   @include square($square-icon-medium-boundary);
   fill: $color-text-icon-inverse;
 }
 
 // Crispy
-[class*='slds-icon-standard-'],
-[class*='slds-icon-action-'],
-[class*='slds-icon-custom-'] {
+[class*='nds-icon-standard-'],
+[class*='nds-icon-action-'],
+[class*='nds-icon-custom-'] {
 
-  .slds-icon,
-  &.slds-icon {
+  .nds-icon,
+  &.nds-icon {
     border-radius: $border-radius-medium;
   }
 }
 
-.slds-icon_xx-small,
-.slds-icon--xx-small {
+.nds-icon_xx-small,
+.nds-icon--xx-small {
   @include square($square-icon-xx-small-content);
   line-height: $line-height-reset;
 }
 
 /**
- * @selector .slds-icon_x-small
- * @restrict .slds-icon
+ * @selector .nds-icon_x-small
+ * @restrict .nds-icon
  * @modifier
  * @group size
  */
-.slds-icon_x-small,
-.slds-icon--x-small {
+.nds-icon_x-small,
+.nds-icon--x-small {
   @include square($square-icon-utility-small);
   line-height: $line-height-reset;
 }
 
 /**
- * @selector .slds-icon_small
- * @restrict .slds-icon
+ * @selector .nds-icon_small
+ * @restrict .nds-icon
  * @modifier
  * @group size
  */
-.slds-icon_small,
-.slds-icon--small {
+.nds-icon_small,
+.nds-icon--small {
   @include square($square-icon-small-boundary);
   line-height: $line-height-reset;
 }
 
 /**
- * @selector .slds-icon_large
- * @restrict .slds-icon
+ * @selector .nds-icon_large
+ * @restrict .nds-icon
  * @modifier
  * @group size
  */
-.slds-icon_large,
-.slds-icon--large {
+.nds-icon_large,
+.nds-icon--large {
   @include square($square-icon-large-boundary);
 }
 
 /**
- * @selector .slds-icon-text-default
- * @restrict .slds-icon
+ * @selector .nds-icon-text-default
+ * @restrict .nds-icon
  * @modifier
  * @group color
  */
-.slds-icon-text-default {
+.nds-icon-text-default {
   fill: $color-text-icon-default;
 }
 
 /**
- * @selector .slds-icon-text-warning
- * @restrict .slds-icon
+ * @selector .nds-icon-text-warning
+ * @restrict .nds-icon
  * @modifier
  * @group color
  */
-.slds-icon-text-warning {
+.nds-icon-text-warning {
   fill: $color-text-warning;
 }
 
 /**
- * @selector .slds-icon-text-error
- * @restrict .slds-icon
+ * @selector .nds-icon-text-error
+ * @restrict .nds-icon
  * @modifier
  * @group color
  */
-.slds-icon-text-error {
+.nds-icon-text-error {
   fill: $color-text-error;
 }
 
 /**
- * @selector .slds-icon-text-light
- * @restrict .slds-icon, svg
+ * @selector .nds-icon-text-light
+ * @restrict .nds-icon, svg
  * @modifier
  * @group color
  */
-.slds-icon-text-light {
+.nds-icon-text-light {
   fill: $color-text-input-icon;
 }

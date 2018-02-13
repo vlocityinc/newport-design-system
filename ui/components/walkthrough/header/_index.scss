@@ -4,18 +4,18 @@
 /**
  * @summary Sets styles for trial header bar
  * @name header
- * @selector .slds-trial-header
+ * @selector .nds-trial-header
  * @restrict div
  * @variant
  */
-.slds-trial-header {
+.nds-trial-header {
   @include inverse-text($support: ('buttons', 'icons'));
   height: $height-header;
   background: $color-background-inverse;
   padding: 0 $spacing-medium;
 
-  .slds-icon_selected,
-  .slds-icon--selected {
+  .nds-icon_selected,
+  .nds-icon--selected {
     fill: $color-text-success-inverse;
   }
 }

@@ -46,13 +46,13 @@
 
 @mixin popover-nubbins($color: inherit, $shadow: true) {
   /**
-   * @selector .slds-nubbin_top
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_top
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_top,
-  .slds-nubbin--top {
+  .nds-nubbin_top,
+  .nds-nubbin--top {
     @include nubbin(top, 'before', $color);
 
     @if $shadow != null {
@@ -66,13 +66,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_top-left
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_top-left
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_top-left,
-  .slds-nubbin--top-left {
+  .nds-nubbin_top-left,
+  .nds-nubbin--top-left {
     @include nubbin(top, 'before', $color);
 
     @if $shadow != null {
@@ -92,13 +92,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_top-right
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_top-right
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_top-right,
-  .slds-nubbin--top-right {
+  .nds-nubbin_top-right,
+  .nds-nubbin--top-right {
     @include nubbin(top, 'before', $color);
 
     @if $shadow != null {
@@ -120,13 +120,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_bottom
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_bottom
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_bottom,
-  .slds-nubbin--bottom {
+  .nds-nubbin_bottom,
+  .nds-nubbin--bottom {
     @include nubbin(bottom, 'before', $color);
 
     @if $shadow != null {
@@ -140,13 +140,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_bottom-left
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_bottom-left
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_bottom-left,
-  .slds-nubbin--bottom-left {
+  .nds-nubbin_bottom-left,
+  .nds-nubbin--bottom-left {
     @include nubbin(bottom, 'before', $color);
 
     @if $shadow != null {
@@ -167,13 +167,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_bottom-right
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_bottom-right
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_bottom-right,
-  .slds-nubbin--bottom-right {
+  .nds-nubbin_bottom-right,
+  .nds-nubbin--bottom-right {
     @include nubbin(bottom, 'before', $color);
 
     @if $shadow != null {
@@ -196,13 +196,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_left
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_left
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_left,
-  .slds-nubbin--left {
+  .nds-nubbin_left,
+  .nds-nubbin--left {
     @include nubbin(left, 'before', $color);
 
     @if $shadow != null {
@@ -216,13 +216,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_left-top
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_left-top
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_left-top,
-  .slds-nubbin--left-top {
+  .nds-nubbin_left-top,
+  .nds-nubbin--left-top {
     @include nubbin(left, 'before', $color);
 
     @if $shadow != null {
@@ -241,13 +241,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_left-bottom
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_left-bottom
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_left-bottom,
-  .slds-nubbin--left-bottom {
+  .nds-nubbin_left-bottom,
+  .nds-nubbin--left-bottom {
     @include nubbin(left, 'before', $color);
 
     @if $shadow != null {
@@ -271,13 +271,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_right
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_right
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_right,
-  .slds-nubbin--right {
+  .nds-nubbin_right,
+  .nds-nubbin--right {
     @include nubbin(right, 'before', $color);
 
     @if $shadow != null {
@@ -291,13 +291,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_right-top
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_right-top
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_right-top,
-  .slds-nubbin--right-top {
+  .nds-nubbin_right-top,
+  .nds-nubbin--right-top {
     @include nubbin(right, 'before', $color);
 
     @if $shadow != null {
@@ -316,13 +316,13 @@
   }
 
   /**
-   * @selector .slds-nubbin_right-bottom
-   * @restrict .slds-popover, .slds-dropdown
+   * @selector .nds-nubbin_right-bottom
+   * @restrict .nds-popover, .nds-dropdown
    * @modifier
    * @group nubbins
    */
-  .slds-nubbin_right-bottom,
-  .slds-nubbin--right-bottom {
+  .nds-nubbin_right-bottom,
+  .nds-nubbin--right-bottom {
     @include nubbin(right, 'before', $color);
 
     @if $shadow != null {

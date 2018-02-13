@@ -5,20 +5,20 @@
  * @summary Container that manages layout when a listbox of pill options sit next to a combobox search input
  *
  * @name base
- * @selector .slds-combobox-lookup
+ * @selector .nds-combobox-lookup
  * @restrict div
  * @variant
  */
 
-.slds-lookup {
+.nds-lookup {
   position: relative;
   width: 100%; // Fill up parent container
 
   /**
    * Initializes lookup results list
    *
-   * @selector .slds-lookup__list
-   * @restrict .slds-lookup ul
+   * @selector .nds-lookup__list
+   * @restrict .nds-lookup ul
    */
   &__list {
     // crazy calc - line height of primary text + line height of meta text - the offset to bring the meta up a bit + the top/bottom padding multipied by how many items I want to show
@@ -29,8 +29,8 @@
   /**
    * Initializes lookup results list container
    *
-   * @selector .slds-lookup__menu
-   * @restrict .slds-lookup div
+   * @selector .nds-lookup__menu
+   * @restrict .nds-lookup div
    * @notes Applies positioning and container styles
    * @required
    */
@@ -45,7 +45,7 @@
     display: none;
   }
 
-  @include deprecate('4.0.0', 'Use .slds-lookup__item-action instead') {
+  @include deprecate('4.0.0', 'Use .nds-lookup__item-action instead') {
 
     &__item {
 
@@ -68,7 +68,7 @@
           text-decoration: none;
         }
 
-        .slds-icon {
+        .nds-icon {
           margin-#{$right}: $spacing-x-small;
         }
       }
@@ -78,8 +78,8 @@
   /**
    * Non-actionable label inside of a lookup item
    *
-   * @selector .slds-lookup__item_label
-   * @restrict .slds-lookup h3
+   * @selector .nds-lookup__item_label
+   * @restrict .nds-lookup h3
    */
   &__item_label,
   &__item--label {
@@ -91,8 +91,8 @@
   /**
    * Actionable element inside of a lookup item
    *
-   * @selector .slds-lookup__item-action
-   * @restrict .slds-lookup a, .slds-lookup button, .slds-lookup span
+   * @selector .nds-lookup__item-action
+   * @restrict .nds-lookup a, .nds-lookup button, .nds-lookup span
    */
   &__item-action {
     font-size: $font-size-medium;
@@ -108,13 +108,13 @@
     /**
      * Hover/focus state for actionable lookup item
      *
-     * @selector .slds-has-focus
-     * @restrict .slds-lookup__item-action
+     * @selector .nds-has-focus
+     * @restrict .nds-lookup__item-action
      * @modifier
      */
     &:hover,
     &:focus,
-    &.slds-has-focus {
+    &.nds-has-focus {
       outline: 0;
       cursor: pointer;
       background-color: $color-background-row-hover;
@@ -123,7 +123,7 @@
     }
 
     // Icon in results, here so it doesn't need to be repeated in DOM
-    .slds-media__figure {
+    .nds-media__figure {
       margin-#{$right}: $spacing-x-small;
       margin-top: $spacing-xx-small;
     }
@@ -132,14 +132,14 @@
   /**
    * Actionable element inside of a lookup item that's output is single line text
    *
-   * @selector .slds-lookup__item-action_label
-   * @restrict .slds-lookup__item-action
+   * @selector .nds-lookup__item-action_label
+   * @restrict .nds-lookup__item-action
    */
   &__item-action_label,
   &__item-action--label {
     padding: $spacing-x-small $spacing-medium;
 
-    .slds-icon {
+    .nds-icon {
       margin-#{$left}: $spacing-xx-small;
       margin-#{$right}: $spacing-small;
     }
@@ -148,8 +148,8 @@
   /**
    * Search input inside of lookup
    *
-   * @selector .slds-lookup__search-input
-   * @restrict .slds-lookup input
+   * @selector .nds-lookup__search-input
+   * @restrict .nds-lookup input
    */
   &__search-input {
     width: 100%;
@@ -158,8 +158,8 @@
   /**
    * Primary entity name within lookup item
    *
-   * @selector .slds-lookup__result-text
-   * @restrict .slds-lookup__item-action span
+   * @selector .nds-lookup__result-text
+   * @restrict .nds-lookup__item-action span
    */
   &__result-text {
     @include truncate; // truncate mixin used so class wouldn't need to be repeated in DOM
@@ -170,8 +170,8 @@
   /**
    * Secondary info of primary entity name within lookup item
    *
-   * @selector .slds-lookup__result-meta
-   * @restrict .slds-lookup__item-action span
+   * @selector .nds-lookup__result-meta
+   * @restrict .nds-lookup__item-action span
    */
   &__result-meta {
     display: block;
@@ -179,7 +179,7 @@
     color: $color-text-label;
   }
 
-  @include deprecate('4.0.0', 'slds-lookup__pill-container not needed anymore, use slds-pill_container instead') {
+  @include deprecate('4.0.0', 'nds-lookup__pill-container not needed anymore, use nds-pill_container instead') {
 
     &__pill-container {
       padding: 0 $spacing-x-small $spacing-xx-small; // center aligns pills within selection area due to top padding on menu
@@ -195,14 +195,14 @@
   /**
    * Deal with Lookup when user activates the lookup
    *
-   * @selector .slds-is-open
-   * @restrict .slds-lookup
+   * @selector .nds-is-open
+   * @restrict .nds-lookup
    * @modifier
    */
-  &.slds-is-open {
+  &.nds-is-open {
 
     // Show and remove border and border radius
-    .slds-lookup__menu {
+    .nds-lookup__menu {
       display: block;
     }
   }
@@ -210,25 +210,25 @@
   /**
    * Deal with lookup if selection has been made
    *
-   * @selector .slds-has-selection
-   * @restrict .slds-lookup
+   * @selector .nds-has-selection
+   * @restrict .nds-lookup
    */
-  &.slds-has-selection {
+  &.nds-has-selection {
 
     // If developer needs to keep the input in the DOM and not able to remove it
-    .slds-input,
-    .slds-input__icon,
-    .slds-lookup__search-input {
+    .nds-input,
+    .nds-input__icon,
+    .nds-lookup__search-input {
       display: none;
     }
 
     // Stretch pill 100% of container
-    .slds-pill {
+    .nds-pill {
       display: flex;
     }
 
     // Send close button to the end of the pill
-    .slds-pill__remove {
+    .nds-pill__remove {
       margin-#{$left}: auto;
     }
   }

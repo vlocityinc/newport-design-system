@@ -1,20 +1,21 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-import React from "react";
-import classNames from "classnames";
+import React from 'react';
+import classNames from 'classnames';
 
-let StatefulButton = props =>
+let StatefulButton = props => (
   <button
-    className={classNames("slds-button slds-button_stateful", props.className)}
+    className={classNames('nds-button nds-button_stateful', props.className)}
     disabled={props.disabled}
     aria-live="assertive"
-  />;
+  />
+);
 
 /// ////////////////////////////////////////
 // Export
 /// ////////////////////////////////////////
 
 export default (
-  <StatefulButton className="slds-button_neutral slds-not-selected" />
+  <StatefulButton className="nds-button_neutral nds-not-selected" />
 );

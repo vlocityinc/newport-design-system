@@ -4,10 +4,10 @@
 /**
  * Intializes docked composer container window
  *
- * @selector .slds-docked_container
+ * @selector .nds-docked_container
  * @restrict div
  */
-.slds-docked_container {
+.nds-docked_container {
   display: flex;
   align-items: flex-end;
   position: fixed;
@@ -20,11 +20,11 @@
 /**
  * @variant
  * @name base
- * @selector .slds-docked-composer
+ * @selector .nds-docked-composer
  * @restrict section, div
  * @support dev-ready
  */
-.slds-docked-composer {
+.nds-docked-composer {
   position: relative;
   border-radius: corner-values($border-radius-medium $border-radius-medium 0 0);
   width: 480px;
@@ -37,41 +37,41 @@
   background-color: $color-background-docked-panel;
 
   /**
-   * @selector .slds-has-focus
-   * @restrict .slds-docked-composer
+   * @selector .nds-has-focus
+   * @restrict .nds-docked-composer
    * @modifier
    * @group interaction
    */
-  &.slds-has-focus {
+  &.nds-has-focus {
     box-shadow: 0 0 4px 2px $color-border-brand;
   }
 
   /**
-   * @selector .slds-is-open
-   * @restrict .slds-docked-composer
+   * @selector .nds-is-open
+   * @restrict .nds-docked-composer
    * @modifier
    * @group visibility
    */
-  &.slds-is-open {
+  &.nds-is-open {
     height: 480px;
   }
 
   /**
-   * @selector .slds-is-closed
-   * @restrict .slds-docked-composer
+   * @selector .nds-is-closed
+   * @restrict .nds-docked-composer
    * @modifier
    * @group visibility
    */
-  &.slds-is-closed {
+  &.nds-is-closed {
     height: $height-docked-bar;
 
-    .slds-docked-composer__body,
-    .slds-docked-composer__footer {
+    .nds-docked-composer__body,
+    .nds-docked-composer__footer {
       display: none;
     }
   }
 
-  + .slds-docked-composer {
+  + .nds-docked-composer {
     margin-#{$left}: $spacing-large;
   }
 
@@ -79,8 +79,8 @@
    * Bar at the top of the composer that contains actionable items to invoke,
    * such as minimizing, popping out the composer and removing the composer.
    *
-   * @selector .slds-docked-composer__header
-   * @restrict .slds-docked-composer header
+   * @selector .nds-docked-composer__header
+   * @restrict .nds-docked-composer header
    */
   &__header {
     background: $color-background-docked-panel-header;
@@ -89,15 +89,15 @@
     padding: $spacing-x-small $spacing-small;
   }
 
-  &__actions .slds-button {
+  &__actions .nds-button {
     margin-#{$left}: $spacing-small;
   }
 
   /**
    * Primary area within docked composer that contains specific task
    *
-   * @selector .slds-docked-composer__body
-   * @restrict .slds-docked-composer div
+   * @selector .nds-docked-composer__body
+   * @restrict .nds-docked-composer div
    */
   &__body {
     display: flex;
@@ -107,8 +107,8 @@
   }
 
   /**
-   * @selector .slds-docked-composer__body_form
-   * @restrict .slds-docked-composer__body
+   * @selector .nds-docked-composer__body_form
+   * @restrict .nds-docked-composer__body
    */
   &__body_form,
   &__body--form {
@@ -119,8 +119,8 @@
   /**
    * Within the docked composer body, the lead is the first region
    *
-   * @selector .slds-docked-composer__lead
-   * @restrict .slds-docked-composer div
+   * @selector .nds-docked-composer__lead
+   * @restrict .nds-docked-composer div
    */
   &__lead {
     display: flex;
@@ -129,8 +129,8 @@
   }
 
   /**
-   * @selector .slds-docked-composer__toolbar
-   * @restrict .slds-docked-composer div
+   * @selector .nds-docked-composer__toolbar
+   * @restrict .nds-docked-composer div
    */
   &__toolbar {
     background: $color-background;
@@ -157,8 +157,8 @@
    * Bar at the bottom of the composer that contains actionable items to
    * invoke, such as saving, associating relationships and adding content.
    *
-   * @selector .slds-docked-composer__footer
-   * @restrict .slds-docked-composer footer
+   * @selector .nds-docked-composer__footer
+   * @restrict .nds-docked-composer footer
    */
   &__footer {
     display: flex;
@@ -170,8 +170,8 @@
   /**
    * When the number of docked composer exceed the width of the viewport, this class modifies the docked composer styles
    *
-   * @selector .slds-docked-composer_overflow
-   * @restrict .slds-docked-composer
+   * @selector .nds-docked-composer_overflow
+   * @restrict .nds-docked-composer
    * @required
    */
   &_overflow,
@@ -211,8 +211,8 @@
         text-decoration: none;
       }
 
-      .slds-text-body_small,
-      .slds-text-body--small {
+      .nds-text-body_small,
+      .nds-text-body--small {
         color: $color-text-inverse;
         margin-#{$left}: $spacing-x-small;
       }
@@ -221,13 +221,13 @@
 }
 
 // Composer Modal
-.slds-docked-composer-modal {
+.nds-docked-composer-modal {
 
-  .slds-modal__content {
+  .nds-modal__content {
     border-radius: $border-radius-medium;
   }
 
-  .slds-docked-composer {
+  .nds-docked-composer {
     width: 100%;
     height: 100%;
     border: 0;

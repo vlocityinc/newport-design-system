@@ -9,11 +9,11 @@
  * @summary Renders a vertical tablist.
  *
  * @name base
- * @selector .slds-vertical-tabs
+ * @selector .nds-vertical-tabs
  * @restrict div, section
  * @variant
  */
-.slds-vertical-tabs {
+.nds-vertical-tabs {
   display: flex;
   overflow: hidden;
   border: $border-width-thin solid $color-border;
@@ -23,10 +23,10 @@
 /**
  * @summary Tab navigation container element
  *
- * @selector .slds-vertical-tabs__nav
- * @restrict .slds-vertical-tabs > ul
+ * @selector .nds-vertical-tabs__nav
+ * @restrict .nds-vertical-tabs > ul
  */
-.slds-vertical-tabs__nav {
+.nds-vertical-tabs__nav {
   width: $size-x-small;
   border-#{$right}: $border-width-thin solid $color-border;
   background: $color-background;
@@ -35,10 +35,10 @@
 /**
  * @summary Tab navigation item
  *
- * @selector .slds-vertical-tabs__nav-item
- * @restrict .slds-vertical-tabs__nav li
+ * @selector .nds-vertical-tabs__nav-item
+ * @restrict .nds-vertical-tabs__nav li
  */
-.slds-vertical-tabs__nav-item {
+.nds-vertical-tabs__nav-item {
   overflow: hidden;
   border-bottom: $border-width-thin solid $color-border;
   color: $color-text-action-label;
@@ -51,10 +51,10 @@
 /**
  * @summary Tab Navigation Link
  *
- * @selector .slds-vertical-tabs__link
- * @restrict .slds-vertical-tabs__nav-item a
+ * @selector .nds-vertical-tabs__link
+ * @restrict .nds-vertical-tabs__nav-item a
  */
-.slds-vertical-tabs__link {
+.nds-vertical-tabs__link {
   display: block;
   padding: $spacing-small;
   color: currentColor;
@@ -69,10 +69,10 @@
 /**
  * @summary Tab Content Container
  *
- * @selector .slds-vertical-tabs__content
- * @restrict .slds-vertical-tabs div
+ * @selector .nds-vertical-tabs__content
+ * @restrict .nds-vertical-tabs div
  */
-.slds-vertical-tabs__content {
+.nds-vertical-tabs__content {
   flex: 1;
   padding: $spacing-medium;
   background: $color-background-alt;
@@ -81,18 +81,18 @@
 /**
  * @summary Active state for a tab navigation item
  *
- * @selector .slds-is-active
- * @restrict .slds-vertical-tabs__nav-item
+ * @selector .nds-is-active
+ * @restrict .nds-vertical-tabs__nav-item
  * @notes Required on the `<li>` element that is associated with the current active tab
  * @modifier
  */
-.slds-vertical-tabs__nav-item.slds-is-active {
+.nds-vertical-tabs__nav-item.nds-is-active {
   margin-#{$right}: -1px;
   border-#{$right}: 0;
   background: $color-background-alt;
   color: $color-text-brand;
 
-  .slds-vertical-tabs__link:hover {
+  .nds-vertical-tabs__link:hover {
     background: $color-background-alt;
     color: currentColor;
   }
@@ -101,16 +101,16 @@
 /**
  * @summary Focus state for a tab navigation item
  *
- * @selector .slds-has-focus
- * @restrict .slds-vertical-tabs__nav-item
+ * @selector .nds-has-focus
+ * @restrict .nds-vertical-tabs__nav-item
  * @modifier
  */
-.slds-vertical-tabs__nav-item.slds-has-focus {
+.nds-vertical-tabs__nav-item.nds-has-focus {
   text-decoration: underline;
 }
 
 /**
- * @selector .slds-truncate
- * @restrict .slds-vertical-tabs__link
+ * @selector .nds-truncate
+ * @restrict .nds-vertical-tabs__link
  * @modifier
  */

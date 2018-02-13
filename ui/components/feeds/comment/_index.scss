@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-.slds-comment {
+.nds-comment {
 
   &__content {
     padding: $spacing-xx-small 0;
@@ -10,12 +10,12 @@
 
 @include deprecate('4.0.0', 'Feeds have been redesigned') {
   // Comment with replies
-  .slds-comment__replies {
+  .nds-comment__replies {
     padding-top: $spacing-medium;
     margin-#{$left}: ($square-icon-large-boundary + $spacing-small);
 
     > :last-child,
-    > :last-child .slds-comment {
+    > :last-child .nds-comment {
       padding-bottom: 0;
 
       &:before {
@@ -23,19 +23,19 @@
       }
     }
 
-    .slds-comment {
+    .nds-comment {
       @include feed-vertical-rule($square-icon-medium-boundary-alt);
       margin-bottom: 0;
       padding-bottom: $spacing-medium;
     }
 
-    .slds-avatar {
+    .nds-avatar {
       border: $border-width-thick solid $color-background-alt;
     }
   }
 
   // Comment entity tags
-  .slds-tags {
+  .nds-tags {
     display: flex;
 
     &__list {
@@ -56,7 +56,7 @@
   }
 
   // Comment + Publisher Attachments
-  .slds-attachments {
+  .nds-attachments {
     padding-bottom: $spacing-x-small;
 
     &:empty {
@@ -64,7 +64,7 @@
     }
   }
 
-  .slds-attachments__item + .slds-attachments__item {
+  .nds-attachments__item + .nds-attachments__item {
     margin-top: $spacing-medium;
   }
 }

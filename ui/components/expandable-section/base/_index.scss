@@ -5,11 +5,11 @@
  * @summary Container for a expandable section
  *
  * @name base
- * @selector .slds-section
+ * @selector .nds-section
  * @restrict article, div
  * @variant
  */
-.slds-section {
+.nds-section {
   margin: {
     top: $spacing-x-small;
     bottom: $spacing-x-small;
@@ -18,8 +18,8 @@
   /**
    * @summary Element containing the title of a section
    *
-   * @selector .slds-section__title
-   * @restrict .slds-section h3
+   * @selector .nds-section__title
+   * @restrict .nds-section h3
    */
   &__title {
     display: flex;
@@ -33,8 +33,8 @@
   /**
    * @summary Element containing the action inside of an expandable section title
    *
-   * @selector .slds-section__title-action
-   * @restrict .slds-section__title button
+   * @selector .nds-section__title-action
+   * @restrict .nds-section__title button
    */
   &__title-action {
     display: flex;
@@ -58,8 +58,8 @@
   /**
    * @summary Element containing the content of an expandable section
    *
-   * @selector .slds-section__content
-   * @restrict .slds-section div
+   * @selector .nds-section__content
+   * @restrict .nds-section div
    */
   &__content {
     visibility: hidden;
@@ -74,19 +74,19 @@
   /**
    * @summary Toggle visibility of section content
    *
-   * @selector .slds-is-open
-   * @restrict .slds-section
+   * @selector .nds-is-open
+   * @restrict .nds-section
    * @modifier
    * @group visibility
    */
-  &.slds-is-open {
+  &.nds-is-open {
 
-    .slds-section__title-action-icon {
+    .nds-section__title-action-icon {
       transform: rotate(0deg);
       transform-origin: 45%;
     }
 
-    .slds-section__content {
+    .nds-section__content {
       padding-top: $spacing-small;
       visibility: visible;
       opacity: 1;
@@ -95,9 +95,9 @@
   }
 }
 
-@include deprecate('4.0.0', 'Use .slds-section__title instead') {
+@include deprecate('4.0.0', 'Use .nds-section__title instead') {
 
-  .slds-section-title {
+  .nds-section-title {
     font-size: $font-size-large;
 
     > a {
@@ -118,20 +118,20 @@
       }
     }
 
-    .slds-icon {
+    .nds-icon {
       @include square($square-icon-medium-content);
       fill: currentColor;
     }
 
-    .slds-section-group_is-closed .slds-icon,
-    .slds-section-group--is-closed .slds-icon {
+    .nds-section-group_is-closed .nds-icon,
+    .nds-section-group--is-closed .nds-icon {
       transform: rotate(-90deg);
     }
   }
 }
 
-.slds-section-title_divider,
-.slds-section-title--divider {
+.nds-section-title_divider,
+.nds-section-title--divider {
   @include text-heading--label;
   padding: $spacing-small $spacing-medium;
   background: $color-background;

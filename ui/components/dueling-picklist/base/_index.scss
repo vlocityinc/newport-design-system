@@ -1,32 +1,32 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-// Anything [class*='slds-picklist'] is deprecated and should not be used
+// Anything [class*='nds-picklist'] is deprecated and should not be used
 
 /**
  * A dueling picklist inherits styles from the listbox component
  * @summary Initializes a dueling picklist
  *
  * @name base
- * @selector .slds-dueling-list
+ * @selector .nds-dueling-list
  * @restrict div
  * @variant
  */
-.slds-dueling-list {
+.nds-dueling-list {
   display: flex;
 }
 
 /**
  * @summary Handles the layout of the dueling picklist
  *
- * @selector .slds-dueling-list__column
- * @restrict .slds-dueling-list div
+ * @selector .nds-dueling-list__column
+ * @restrict .nds-dueling-list div
  */
-.slds-dueling-list__column {
+.nds-dueling-list__column {
   display: inline-flex;
   flex-direction: column;
 
-  .slds-button {
+  .nds-button {
     margin: $spacing-xx-small;
 
     &:first-of-type {
@@ -43,7 +43,7 @@
       cursor: not-allowed;
     }
 
-    .slds-listbox__option {
+    .nds-listbox__option {
 
       &:hover {
         cursor: not-allowed;
@@ -60,11 +60,11 @@
 /**
  * @summary Bounding visual container for listbox of options
  *
- * @selector .slds-dueling-list__options
- * @restrict .slds-dueling-list div
+ * @selector .nds-dueling-list__options
+ * @restrict .nds-dueling-list div
  */
-.slds-dueling-list__options,
-.slds-picklist__options {
+.nds-dueling-list__options,
+.nds-picklist__options {
   border: $border-width-thin solid $color-border-input;
   border-radius: $border-radius-medium;
   padding: $spacing-xx-small 0;
@@ -85,13 +85,13 @@
   }
 }
 
-@include deprecate('4.0.0', 'Use slds-listbox__item instead of slds-picklist__item') {
+@include deprecate('4.0.0', 'Use nds-listbox__item instead of nds-picklist__item') {
 
-  .slds-picklist_draggable,
-  .slds-picklist--draggable {
+  .nds-picklist_draggable,
+  .nds-picklist--draggable {
     display: flex;
 
-    .slds-button {
+    .nds-button {
       margin: $spacing-xx-small;
 
       &:first-of-type {
@@ -100,7 +100,7 @@
     }
   }
 
-  .slds-picklist__item {
+  .nds-picklist__item {
     position: relative;
     line-height: $line-height-text;
 

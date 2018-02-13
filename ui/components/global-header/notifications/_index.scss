@@ -5,11 +5,11 @@
  * @summary Handles styling for notification item interactions
  *
  * @name notifications
- * @selector .slds-global-header__notification
- * @restrict .slds-global-header_container li
+ * @selector .nds-global-header__notification
+ * @restrict .nds-global-header_container li
  * @variant
  */
-.slds-global-header__notification {
+.nds-global-header__notification {
   border-bottom: 1px solid $color-border;
 
   &_unread,

@@ -12,7 +12,7 @@
 !/.hound.yml
 !/.scss-lint.yml
 !/.stylelintrc.yml
-!/.sldsrc.defaults.yml
+!/.ndsrc.defaults.yml
 !/.stylestatsrc
 !/.travis.yml
 
@@ -39,7 +39,7 @@ design-tokens/components.yml
 /node_modules
 
 # Ignore assets
-/_slds/images/themes/oneSalesforce
+/_nds/images/themes/oneSalesforce
 
 # Ignore logs
 *.log

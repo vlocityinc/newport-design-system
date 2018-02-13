@@ -6,13 +6,13 @@
  *
  * Notifications should contain `role="alert"` on the container to signal to
  * assistive technology that they require the user’s immediate attention. Use a
- * span with `.slds-assistive-text` to let the user know what type of notification it is.
+ * span with `.nds-assistive-text` to let the user know what type of notification it is.
  *
  * @summary Alert banners communicate a state that affects the entire system, not just a feature or page. It persists over a session and appears without the user initiating the action.
  *
  * @base
  * @name alert
- * @selector .slds-notify_alert
+ * @selector .nds-notify_alert
  * @support dev-ready
  * @category experience
  * @type messaging

@@ -6,11 +6,11 @@
 /**
  * @summary Hides an element yet enables a screen reader to read the element that is hidden
  *
- * @selector .slds-assistive-text
+ * @selector .nds-assistive-text
  * @notes This should be used over other methods when you don't want to hide from screenreaders
  * @modifier
  */
-.slds-assistive-text {
+.nds-assistive-text {
   // scss-lint:disable ImportantRule
   position: absolute !important;
   margin: -1px !important;
@@ -25,14 +25,14 @@
 }
 
 /**
- * @summary Enables `.slds-assistive-text` to become visible on focus
+ * @summary Enables `.nds-assistive-text` to become visible on focus
  *
- * @selector .slds-assistive-text_focus
- * @restrict .slds-assistive-text
+ * @selector .nds-assistive-text_focus
+ * @restrict .nds-assistive-text
  * @modifier
  */
-.slds-assistive-text_focus,
-.slds-assistive-text--focus {
+.nds-assistive-text_focus,
+.nds-assistive-text--focus {
   // scss-lint:disable ImportantRule
   &:focus {
     margin: inherit !important;
@@ -48,15 +48,15 @@
 /**
  * @summary Hides elements inside a parent
  *
- * @selector .slds-is-collapsed
+ * @selector .nds-is-collapsed
  * @modifier
  */
-.slds-is-collapsed {
+.nds-is-collapsed {
   height: 0;
   overflow: hidden;
 }
 
-.slds-collapsed {
+.nds-collapsed {
   @include deprecate('4.0.0') {
     height: 0;
     overflow: hidden;
@@ -66,15 +66,15 @@
 /**
  * @summary Shows the elements inside the parent
  *
- * @selector .slds-is-collapsed
+ * @selector .nds-is-collapsed
  * @modifier
  */
-.slds-is-expanded {
+.nds-is-expanded {
   height: auto;
   overflow: visible;
 }
 
-.slds-expanded {
+.nds-expanded {
   @include deprecate('4.0.0') {
     height: auto;
     overflow: visible;
@@ -84,68 +84,68 @@
 /**
  * @summary Hides an element from the page by setting the visibility property to `hidden`
  *
- * @selector .slds-hidden
+ * @selector .nds-hidden
  * @notes An element hidden with this class will reserve the normal space on the page and will not be announced by screenreaders.
  * @modifier
  */
-.slds-hidden {
+.nds-hidden {
   visibility: hidden;
 }
 
 /**
  * @summary Shows the element by setting the visibility property to `visible`
  *
- * @selector .slds-visible
- * @notes This is toggled on the element. `.slds-hidden` class is removed and `.slds-visible` is added.
+ * @selector .nds-visible
+ * @notes This is toggled on the element. `.nds-hidden` class is removed and `.nds-visible` is added.
  * @modifier
  */
-.slds-visible {
+.nds-visible {
   visibility: visible; // @TODO - This may need !important;
 }
 
 /**
  * @summary Hides an element from the page by setting display propery to `none`
  *
- * @selector .slds-hide
+ * @selector .nds-hide
  * @notes An element hidden with this class will take up no space on the page and will not be announced by screenreaders.
  * @modifier
  */
-.slds-hide {
+.nds-hide {
   display: none;
 }
 
 /**
  * @summary Shows the element by setting display property to `block`
  *
- * @selector .slds-show
- * @notes This is toggled on the element. `.slds-hide` class is removed and `.slds-show` is added.
+ * @selector .nds-show
+ * @notes This is toggled on the element. `.nds-hide` class is removed and `.nds-show` is added.
  * @modifier
  */
-.slds-show {
+.nds-show {
   display: block;
 }
 
 /**
  * @summary Shows the element by setting display to `inline-block`
  *
- * @selector .slds-show_inline-block
- * @notes This is toggled on the element. `.slds-hide` class is removed and `.slds-show--inline-block` is added.
+ * @selector .nds-show_inline-block
+ * @notes This is toggled on the element. `.nds-hide` class is removed and `.nds-show--inline-block` is added.
  * @modifier
  */
-.slds-show_inline-block,
-.slds-show--inline-block {
+.nds-show_inline-block,
+.nds-show--inline-block {
   display: inline-block;
 }
 
 /**
  * @summary Shows the element by setting display to `inline`
  *
- * @selector .slds-show_inline
- * @notes This is toggled on the element. `.slds-hide` class is removed and `.slds-show--inline` is added.
+ * @selector .nds-show_inline
+ * @notes This is toggled on the element. `.nds-hide` class is removed and `.nds-show--inline` is added.
  * @modifier
  */
-.slds-show_inline,
-.slds-show--inline {
+.nds-show_inline,
+.nds-show--inline {
   display: inline;
 }
 
@@ -153,10 +153,10 @@
  * @summary Hides an element from the page by setting the opacity property set to `0`
  *
  * @selector .transition-hide
- * @notes This works like the `.slds-hidden` class and reserves the space but allows you to add the `transition` property to transition the speed that it is shown or hidden.
+ * @notes This works like the `.nds-hidden` class and reserves the space but allows you to add the `transition` property to transition the speed that it is shown or hidden.
  * @modifier
  */
-.slds-transition-hide {
+.nds-transition-hide {
   opacity: 0;
 }
 
@@ -164,10 +164,10 @@
  * @summary Shows the element using the opacity property set to `1`
  *
  * @selector .transition-show
- * @notes This is toggled on the element. `.slds-transition-hide` class is removed and `.slds-transition-show` is added.
+ * @notes This is toggled on the element. `.nds-transition-hide` class is removed and `.nds-transition-show` is added.
  * @modifier
  */
-.slds-transition-show {
+.nds-transition-show {
   opacity: 1;
 }
 
@@ -188,12 +188,12 @@
     /**
      * @summary Hides the element when the window is bigger than the specific size. Sizes can be: x-small, small, medium, large, and * x-large.
      *
-     * @selector .slds-hide_*
+     * @selector .nds-hide_*
      * @notes Element will be displayed normally when the window is smaller
      * @modifier
      */
-    .slds-hide_#{$key},
-    .slds-hide--#{$key} {
+    .nds-hide_#{$key},
+    .nds-hide--#{$key} {
       // scss-lint:disable ImportantRule
       display: none !important;
     }
@@ -203,12 +203,12 @@
     /**
      * @summary Shows the element when the window is bigger than the specific size. Sizes can be: x-small, small, medium, large, and * x-large.
      *
-     * @selector .slds-show_*
+     * @selector .nds-show_*
      * @notes Element will be displayed normally when the window is bigger
      * @modifier
      */
-    .slds-show_#{$key},
-    .slds-show--#{$key} {
+    .nds-show_#{$key},
+    .nds-show--#{$key} {
       // scss-lint:disable ImportantRule
       display: none !important;
     }

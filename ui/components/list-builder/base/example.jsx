@@ -2,7 +2,12 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 import React from 'react';
-import { Modal, ModalHeader, ModalContent, ModalFooter } from '../../modals/base/example';
+import {
+  Modal,
+  ModalHeader,
+  ModalContent,
+  ModalFooter
+} from '../../modals/base/example';
 import { CheckboxAddButton } from '../../checkbox-button/base/example';
 import {
   ComboboxContainer,
@@ -24,54 +29,63 @@ const listboxSelectionsId = 'listbox-selections-unique-id';
 const listboxOptionId01 = 'listbox-option-unique-id-01';
 const listboxOptionId02 = 'listbox-option-unique-id-02';
 const columns = ['Name', 'Product Code', 'List Price', 'Product Family'];
-const rows = [{
-  'name': 'Analytics',
-  'productCode': 'ANTLY',
-  'listPrice': '5000.00',
-  'productFamily': 'Analytics Product'
-}, {
-  'name': 'Analytics',
-  'productCode': 'ANTLY',
-  'listPrice': '5000.00',
-  'productFamily': 'Analytics Product'
-}, {
-  'name': 'Analytics',
-  'productCode': 'ANTLY',
-  'listPrice': '5000.00',
-  'productFamily': 'Analytics Product'
-}, {
-  'name': 'Analytics',
-  'productCode': 'ANTLY',
-  'listPrice': '5000.00',
-  'productFamily': 'Analytics Product'
-}, {
-  'name': 'Analytics',
-  'productCode': 'ANTLY',
-  'listPrice': '5000.00',
-  'productFamily': 'Analytics Product'
-}, {
-  'name': 'Analytics',
-  'productCode': 'ANTLY',
-  'listPrice': '5000.00',
-  'productFamily': 'Analytics Product'
-}, {
-  'name': 'Analytics',
-  'productCode': 'ANTLY',
-  'listPrice': '5000.00',
-  'productFamily': 'Analytics Product'
-}, {
-  'name': 'Analytics',
-  'productCode': 'ANTLY',
-  'listPrice': '5000.00',
-  'productFamily': 'Analytics Product'
-}];
+const rows = [
+  {
+    name: 'Analytics',
+    productCode: 'ANTLY',
+    listPrice: '5000.00',
+    productFamily: 'Analytics Product'
+  },
+  {
+    name: 'Analytics',
+    productCode: 'ANTLY',
+    listPrice: '5000.00',
+    productFamily: 'Analytics Product'
+  },
+  {
+    name: 'Analytics',
+    productCode: 'ANTLY',
+    listPrice: '5000.00',
+    productFamily: 'Analytics Product'
+  },
+  {
+    name: 'Analytics',
+    productCode: 'ANTLY',
+    listPrice: '5000.00',
+    productFamily: 'Analytics Product'
+  },
+  {
+    name: 'Analytics',
+    productCode: 'ANTLY',
+    listPrice: '5000.00',
+    productFamily: 'Analytics Product'
+  },
+  {
+    name: 'Analytics',
+    productCode: 'ANTLY',
+    listPrice: '5000.00',
+    productFamily: 'Analytics Product'
+  },
+  {
+    name: 'Analytics',
+    productCode: 'ANTLY',
+    listPrice: '5000.00',
+    productFamily: 'Analytics Product'
+  },
+  {
+    name: 'Analytics',
+    productCode: 'ANTLY',
+    listPrice: '5000.00',
+    productFamily: 'Analytics Product'
+  }
+];
 
 /* -----------------------------------------------------------------------------
     Private
 ----------------------------------------------------------------------------- */
 
-const ListboxDropdown = props =>
-  <Listbox className="slds-dropdown slds-dropdown_fluid" vertical>
+const ListboxDropdown = props => (
+  <Listbox className="nds-dropdown nds-dropdown_fluid" vertical>
     <ListboxItem>
       <EntityOption
         id={listboxOptionId01}
@@ -87,10 +101,11 @@ const ListboxDropdown = props =>
         entityMeta
       />
     </ListboxItem>
-  </Listbox>;
+  </Listbox>
+);
 
-let ProductListHeader = props =>
-  <div className="slds-p-vertical_x-small slds-p-horizontal_large slds-shrink-none slds-theme_shade">
+let ProductListHeader = props => (
+  <div className="nds-p-vertical_x-small nds-p-horizontal_large nds-shrink-none nds-theme_shade">
     <ComboboxContainer
       autocomplete
       hideLabel
@@ -98,65 +113,88 @@ let ProductListHeader = props =>
       inputIconRightSymbol="search"
       listbox={<ListboxDropdown />}
     />
-    { props.selectedFilters ? props.selectedFilters : null }
-    <div className="slds-text-title slds-m-top_x-small" aria-live="polite">{ props.itemsSelected || '0' } Item(s) Selected</div>
-  </div>;
+    {props.selectedFilters ? props.selectedFilters : null}
+    <div className="nds-text-title nds-m-top_x-small" aria-live="polite">
+      {props.itemsSelected || '0'} Item(s) Selected
+    </div>
+  </div>
+);
 
-let ProductList = props =>
-  <div className="slds-scrollable slds-grow">
-    <table role="grid" className="slds-table slds-table_fixed-layout slds-table_bordered slds-table_resizable-cols slds-no-row-hover slds-scrollable_none">
+let ProductList = props => (
+  <div className="nds-scrollable nds-grow">
+    <table
+      role="grid"
+      className="nds-table nds-table_fixed-layout nds-table_bordered nds-table_resizable-cols nds-no-row-hover nds-scrollable_none"
+    >
       <thead>
-        <tr className="slds-line-height_reset">
+        <tr className="nds-line-height_reset">
           <th scope="col" style={{ width: '3.75rem' }} />
-          { _.times(columns.length, i =>
-            <Th key={i}
-              columnName={columns[i]}
-              aria-label={columns[i]}
-            />
-          )}
+          {_.times(columns.length, i => (
+            <Th key={i} columnName={columns[i]} aria-label={columns[i]} />
+          ))}
         </tr>
       </thead>
-      <tbody>
-        { props.children }
-      </tbody>
+      <tbody>{props.children}</tbody>
     </table>
-  </div>;
+  </div>
+);
 
 let RowData = props => {
   let checkboxLabel = 'Select item ' + props.index;
 
   return (
-    <tr className={classNames('slds-hint-parent', props.className)} aria-selected={props.checked}>
-      <td role="gridcell" tabIndex={(props.index === 1) ? '0' : '-1'} className="slds-text-align_right" style={{ width: '3.75rem' }}>
-        <CheckboxAddButton label={checkboxLabel} checked={props.checked} tabIndex="-1" />
+    <tr
+      className={classNames('nds-hint-parent', props.className)}
+      aria-selected={props.checked}
+    >
+      <td
+        role="gridcell"
+        tabIndex={props.index === 1 ? '0' : '-1'}
+        className="nds-text-align_right"
+        style={{ width: '3.75rem' }}
+      >
+        <CheckboxAddButton
+          label={checkboxLabel}
+          checked={props.checked}
+          tabIndex="-1"
+        />
       </td>
       <th scope="row">
-        <div className="slds-truncate" title={props.name}>{ props.name }</div>
+        <div className="nds-truncate" title={props.name}>
+          {props.name}
+        </div>
       </th>
       <td role="gridcell">
-        <div className="slds-truncate" title={props.productCode}>{ props.productCode }</div>
+        <div className="nds-truncate" title={props.productCode}>
+          {props.productCode}
+        </div>
       </td>
       <td role="gridcell">
-        <div className="slds-truncate" title={props.listPrice}>{ props.listPrice }</div>
+        <div className="nds-truncate" title={props.listPrice}>
+          {props.listPrice}
+        </div>
       </td>
       <td role="gridcell">
-        <div className="slds-truncate" title={props.productFamily}>{ props.productFamily }</div>
+        <div className="nds-truncate" title={props.productFamily}>
+          {props.productFamily}
+        </div>
       </td>
     </tr>
   );
 };
 
-let FilteredItem = props =>
-  <PillContainer className="slds-pill_container_bare">
+let FilteredItem = props => (
+  <PillContainer className="nds-pill_container_bare">
     <Listbox horizonta>
       <ListboxItem>
         <ListboxPill label="Analytics" tabIndex="0" />
       </ListboxItem>
     </Listbox>
-  </PillContainer>;
+  </PillContainer>
+);
 
-let FilteredItems = props =>
-  <PillContainer className="slds-pill_container_bare">
+let FilteredItems = props => (
+  <PillContainer className="nds-pill_container_bare">
     <Listbox horizontal>
       <ListboxItem>
         <ListboxPill label="Option A" tabIndex="0" />
@@ -165,24 +203,30 @@ let FilteredItems = props =>
         <ListboxPill label="Option B" />
       </ListboxItem>
     </Listbox>
-  </PillContainer>;
+  </PillContainer>
+);
 
 /* -----------------------------------------------------------------------------
     Exports
 ----------------------------------------------------------------------------- */
 
 export default (
-  <div className="demo-only" style={{height: '640px'}}>
-    <Modal className="slds-modal_large slds-list-builder" aria-labelledby="id-of-modalheader-h2">
+  <div className="demo-only" style={{ height: '640px' }}>
+    <Modal
+      className="nds-modal_large nds-list-builder"
+      aria-labelledby="id-of-modalheader-h2"
+    >
       <ModalHeader>
-        <h2 id="id-of-modalheader-h2" className="slds-text-heading_medium">Add Products</h2>
-        <p className="slds-m-top_x-small">Pricebook: Salesforce Products</p>
+        <h2 id="id-of-modalheader-h2" className="nds-text-heading_medium">
+          Add Products
+        </h2>
+        <p className="nds-m-top_x-small">Pricebook: Salesforce Products</p>
       </ModalHeader>
-      <ModalContent className="slds-grid slds-grow">
-        <div className="slds-grid slds-grid_vertical">
+      <ModalContent className="nds-grid nds-grow">
+        <div className="nds-grid nds-grid_vertical">
           <ProductListHeader />
           <ProductList>
-            { _.times(rows.length, i =>
+            {_.times(rows.length, i => (
               <RowData
                 key={i}
                 index={i + 1}
@@ -191,16 +235,16 @@ export default (
                 listPrice={rows[i].listPrice}
                 productFamily={rows[i].productFamily}
               />
-            )}
+            ))}
           </ProductList>
         </div>
       </ModalContent>
       <ModalFooter>
-        <button className="slds-button slds-button_neutral">Cancel</button>
-        <button className="slds-button slds-button_brand">Next</button>
+        <button className="nds-button nds-button_neutral">Cancel</button>
+        <button className="nds-button nds-button_brand">Next</button>
       </ModalFooter>
     </Modal>
-    <div className="slds-backdrop slds-backdrop_open" />
+    <div className="nds-backdrop nds-backdrop_open" />
   </div>
 );
 
@@ -208,52 +252,69 @@ export let states = [
   {
     id: 'items-selected',
     label: 'Items selected',
-    element:
-    <div className="demo-only" style={{height: '640px'}}>
-      <Modal className="slds-modal_large" aria-labelledby="id-of-modalheader-h2">
-        <ModalHeader>
-          <h2 id="id-of-modalheader-h2" className="slds-text-heading_medium">Add Products</h2>
-          <p className="slds-m-top_x-small">Pricebook: Salesforce Products</p>
-        </ModalHeader>
-        <ModalContent className="slds-grid slds-nowrap">
-          <div className="slds-col slds-grid slds-grid_vertical slds-nowrap">
-            <ProductListHeader selectedFilters={<FilteredItem />} itemsSelected="1" />
-            <ProductList>
-              { _.times(rows.length, i =>
-                <RowData
-                  key={i}
-                  index={i + 1}
-                  checked={(i === 0) ? true : null}
-                  name={rows[i].name}
-                  productCode={rows[i].productCode}
-                  listPrice={rows[i].listPrice}
-                  productFamily={rows[i].productFamily}
-                />
-              )}
-            </ProductList>
-          </div>
-        </ModalContent>
-        <ModalFooter>
-          <button className="slds-button slds-button_neutral">Cancel</button>
-          <button className="slds-button slds-button_brand">Next</button>
-        </ModalFooter>
-      </Modal>
-      <div className="slds-backdrop slds-backdrop_open" />
-    </div>
+    element: (
+      <div className="demo-only" style={{ height: '640px' }}>
+        <Modal
+          className="nds-modal_large"
+          aria-labelledby="id-of-modalheader-h2"
+        >
+          <ModalHeader>
+            <h2 id="id-of-modalheader-h2" className="nds-text-heading_medium">
+              Add Products
+            </h2>
+            <p className="nds-m-top_x-small">Pricebook: Salesforce Products</p>
+          </ModalHeader>
+          <ModalContent className="nds-grid nds-nowrap">
+            <div className="nds-col nds-grid nds-grid_vertical nds-nowrap">
+              <ProductListHeader
+                selectedFilters={<FilteredItem />}
+                itemsSelected="1"
+              />
+              <ProductList>
+                {_.times(rows.length, i => (
+                  <RowData
+                    key={i}
+                    index={i + 1}
+                    checked={i === 0 ? true : null}
+                    name={rows[i].name}
+                    productCode={rows[i].productCode}
+                    listPrice={rows[i].listPrice}
+                    productFamily={rows[i].productFamily}
+                  />
+                ))}
+              </ProductList>
+            </div>
+          </ModalContent>
+          <ModalFooter>
+            <button className="nds-button nds-button_neutral">Cancel</button>
+            <button className="nds-button nds-button_brand">Next</button>
+          </ModalFooter>
+        </Modal>
+        <div className="nds-backdrop nds-backdrop_open" />
+      </div>
+    )
   },
   {
     id: 'filtered',
     label: 'Filtered Results',
-    element:
-      <div className="demo-only" style={{height: '640px'}}>
-        <Modal className="slds-modal_large" aria-labelledby="id-of-modalheader-h2">
+    element: (
+      <div className="demo-only" style={{ height: '640px' }}>
+        <Modal
+          className="nds-modal_large"
+          aria-labelledby="id-of-modalheader-h2"
+        >
           <ModalHeader>
-            <h2 id="id-of-modalheader-h2" className="slds-text-heading_medium">Add Products</h2>
-            <p className="slds-m-top_x-small">Pricebook: Salesforce Products</p>
+            <h2 id="id-of-modalheader-h2" className="nds-text-heading_medium">
+              Add Products
+            </h2>
+            <p className="nds-m-top_x-small">Pricebook: Salesforce Products</p>
           </ModalHeader>
-          <ModalContent className="slds-grid slds-grow">
-            <div className="slds-grid slds-grid_vertical">
-              <ProductListHeader selectedFilters={<FilteredItems />} itemsSelected="2" />
+          <ModalContent className="nds-grid nds-grow">
+            <div className="nds-grid nds-grid_vertical">
+              <ProductListHeader
+                selectedFilters={<FilteredItems />}
+                itemsSelected="2"
+              />
               <ProductList>
                 <RowData
                   index={1}
@@ -266,11 +327,12 @@ export let states = [
             </div>
           </ModalContent>
           <ModalFooter>
-            <button className="slds-button slds-button_neutral">Cancel</button>
-            <button className="slds-button slds-button_brand">Next</button>
+            <button className="nds-button nds-button_neutral">Cancel</button>
+            <button className="nds-button nds-button_brand">Next</button>
           </ModalFooter>
         </Modal>
-        <div className="slds-backdrop slds-backdrop_open" />
+        <div className="nds-backdrop nds-backdrop_open" />
       </div>
+    )
   }
 ];

@@ -13,30 +13,33 @@ let inputId = 'text-input-id-1';
 /// ////////////////////////////////////////
 
 // Might need to move this to its own component example
-export let FormElement = props =>
-  <div className={classNames('slds-form-element', props.className)}>
+export let FormElement = props => (
+  <div className={classNames('nds-form-element', props.className)}>
     {props.children}
-  </div>;
+  </div>
+);
 
-export let FormElementLabel = props =>
+export let FormElementLabel = props => (
   <label
-    className={classNames('slds-form-element__label', props.className)}
+    className={classNames('nds-form-element__label', props.className)}
     htmlFor={inputId}
   >
     {props.children}
-  </label>;
+  </label>
+);
 
-export let FormElementControl = props =>
-  <div className={classNames('slds-form-element__control', props.className)}>
+export let FormElementControl = props => (
+  <div className={classNames('nds-form-element__control', props.className)}>
     {props.children}
-  </div>;
+  </div>
+);
 
 export let Input = props => {
   return (
     <input
       {...props}
       id={props.id || inputId}
-      className={classNames('slds-input', props.className)}
+      className={classNames('nds-input', props.className)}
       type={props.type || 'text'}
       placeholder={props.placeholder || 'Placeholder Text'}
       readOnly={props['readOnly']}
@@ -49,56 +52,81 @@ export let Input = props => {
 // State Constructor(s)
 /// ///////////////////////////////////////////
 
-let Default = props =>
-    <FormElement>
-      <FormElementLabel>Input Label</FormElementLabel>
-      <FormElementControl>
-        <Input />
-      </FormElementControl>
-    </FormElement>;
+let Default = props => (
+  <FormElement>
+    <FormElementLabel>Input Label</FormElementLabel>
+    <FormElementControl>
+      <Input />
+    </FormElementControl>
+  </FormElement>
+);
 
-let Required = props =>
-    <FormElement>
-      <FormElementLabel><abbr className="slds-required" title="required">*</abbr> Input Label</FormElementLabel>
-      <FormElementControl>
-        <Input required />
-      </FormElementControl>
-    </FormElement>;
+let Required = props => (
+  <FormElement>
+    <FormElementLabel>
+      <abbr className="nds-required" title="required">
+        *
+      </abbr>{' '}
+      Input Label
+    </FormElementLabel>
+    <FormElementControl>
+      <Input required />
+    </FormElementControl>
+  </FormElement>
+);
 
-let ErrorState = props =>
-    <FormElement className="slds-has-error">
-      <FormElementLabel><abbr className="slds-required" title="required">*</abbr> Input Label</FormElementLabel>
-      <FormElementControl>
-        <Input required aria-describedby={props.errorId} />
-      </FormElementControl>
-      <div id={props.errorId} className="slds-form-element__help">This field is required</div>
-    </FormElement>;
+let ErrorState = props => (
+  <FormElement className="nds-has-error">
+    <FormElementLabel>
+      <abbr className="nds-required" title="required">
+        *
+      </abbr>{' '}
+      Input Label
+    </FormElementLabel>
+    <FormElementControl>
+      <Input required aria-describedby={props.errorId} />
+    </FormElementControl>
+    <div id={props.errorId} className="nds-form-element__help">
+      This field is required
+    </div>
+  </FormElement>
+);
 
-let ErrorIcon = props =>
-    <FormElement className="slds-has-error">
-      <FormElementLabel><abbr className="slds-required" title="required">*</abbr> Input Label</FormElementLabel>
-      <FormElementControl className="slds-input-has-icon slds-input-has-icon_left">
-        <SvgIcon className="slds-input__icon" sprite="utility" symbol="warning" />
-        <Input required aria-describedby={props.errorId} />
-      </FormElementControl>
-      <div id={props.errorId} className="slds-form-element__help">This field is required</div>
-    </FormElement>;
+let ErrorIcon = props => (
+  <FormElement className="nds-has-error">
+    <FormElementLabel>
+      <abbr className="nds-required" title="required">
+        *
+      </abbr>{' '}
+      Input Label
+    </FormElementLabel>
+    <FormElementControl className="nds-input-has-icon nds-input-has-icon_left">
+      <SvgIcon className="nds-input__icon" sprite="utility" symbol="warning" />
+      <Input required aria-describedby={props.errorId} />
+    </FormElementControl>
+    <div id={props.errorId} className="nds-form-element__help">
+      This field is required
+    </div>
+  </FormElement>
+);
 
-let Disabled = props =>
-    <FormElement>
-      <FormElementLabel>Input Label</FormElementLabel>
-      <FormElementControl>
-        <Input disabled />
-      </FormElementControl>
-    </FormElement>;
+let Disabled = props => (
+  <FormElement>
+    <FormElementLabel>Input Label</FormElementLabel>
+    <FormElementControl>
+      <Input disabled />
+    </FormElementControl>
+  </FormElement>
+);
 
-let Readonly = props =>
+let Readonly = props => (
   <FormElement>
     <FormElementLabel>Input Label</FormElementLabel>
     <FormElementControl>
       <Input readOnly defaultValue="Read Only" placeholder="" />
     </FormElementControl>
-  </FormElement>;
+  </FormElement>
+);
 
 /// ///////////////////////////////////////////
 // Export
@@ -142,13 +170,14 @@ export let states = [
   {
     id: 'static',
     label: 'Static',
-    element:
+    element: (
       <FormElement>
-        <span className="slds-form-element__label">Input Label</span>
+        <span className="nds-form-element__label">Input Label</span>
         <FormElementControl>
-          <span className="slds-form-element__static">Read Only</span>
+          <span className="nds-form-element__static">Read Only</span>
         </FormElementControl>
       </FormElement>
+    )
   }
 ];
 
@@ -156,135 +185,158 @@ export let examples = [
   {
     id: 'left-icon',
     label: 'Left Icon',
-    element:
+    element: (
       <FormElement>
         <FormElementLabel>Input Label</FormElementLabel>
-        <FormElementControl className="slds-input-has-icon slds-input-has-icon_left" >
+        <FormElementControl className="nds-input-has-icon nds-input-has-icon_left">
           <SvgIcon
-            className="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default"
+            className="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default"
             sprite="utility"
             symbol="search"
           />
           <Input />
         </FormElementControl>
       </FormElement>
+    )
   },
   {
     id: 'right-icon',
     label: 'Right Icon',
-    element:
+    element: (
       <FormElement>
         <FormElementLabel>Input Label</FormElementLabel>
-        <FormElementControl className="slds-input-has-icon slds-input-has-icon_right" >
+        <FormElementControl className="nds-input-has-icon nds-input-has-icon_right">
           <SvgIcon
-            className="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+            className="nds-icon nds-input__icon nds-input__icon_right nds-icon-text-default"
             sprite="utility"
             symbol="search"
           />
           <Input />
         </FormElementControl>
       </FormElement>
+    )
   },
   {
     id: 'double-icon',
     label: 'Left & Right Icon',
-    element:
+    element: (
       <FormElement>
         <FormElementLabel>Input Label</FormElementLabel>
-        <FormElementControl className="slds-input-has-icon slds-input-has-icon_left-right" >
+        <FormElementControl className="nds-input-has-icon nds-input-has-icon_left-right">
           <SvgIcon
-            className="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default"
+            className="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default"
             sprite="utility"
             symbol="search"
           />
           <Input />
-          <button className="slds-input__icon slds-input__icon_right slds-button slds-button_icon">
+          <button className="nds-input__icon nds-input__icon_right nds-button nds-button_icon">
             <SvgIcon
-              className="slds-button__icon slds-icon-text-light"
+              className="nds-button__icon nds-icon-text-light"
               sprite="utility"
               symbol="clear"
             />
-            <span className="slds-assistive-text">Clear</span>
+            <span className="nds-assistive-text">Clear</span>
           </button>
         </FormElementControl>
       </FormElement>
+    )
   },
   {
     id: 'double-icon-spinner',
     label: 'Icons with Spinner',
-    element:
+    element: (
       <FormElement>
         <FormElementLabel>Input Label</FormElementLabel>
-        <FormElementControl className="slds-input-has-icon slds-input-has-icon_left-right" >
+        <FormElementControl className="nds-input-has-icon nds-input-has-icon_left-right">
           <SvgIcon
-            className="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default"
+            className="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default"
             sprite="utility"
             symbol="search"
           />
           <Input />
-          <div className="slds-input__icon-group slds-input__icon-group_right">
-            <Spinner className="slds-spinner_brand slds-spinner_x-small slds-input__spinner" />
-            <button className="slds-input__icon slds-input__icon_right slds-button slds-button_icon">
+          <div className="nds-input__icon-group nds-input__icon-group_right">
+            <Spinner className="nds-spinner_brand nds-spinner_x-small nds-input__spinner" />
+            <button className="nds-input__icon nds-input__icon_right nds-button nds-button_icon">
               <SvgIcon
-                className="slds-button__icon slds-icon-text-light"
+                className="nds-button__icon nds-icon-text-light"
                 sprite="utility"
                 symbol="clear"
               />
-              <span className="slds-assistive-text">Clear</span>
+              <span className="nds-assistive-text">Clear</span>
             </button>
           </div>
         </FormElementControl>
       </FormElement>
+    )
   },
   {
     id: 'fixed-text',
     label: 'Fixed text',
-    element:
+    element: (
       <FormElement>
         <FormElementLabel>Input Label</FormElementLabel>
-        <FormElementControl className="slds-input-has-fixed-addon">
-          <span className="slds-form-element__addon">$</span>
+        <FormElementControl className="nds-input-has-fixed-addon">
+          <span className="nds-form-element__addon">$</span>
           <Input />
-          <span className="slds-form-element__addon">euro</span>
+          <span className="nds-form-element__addon">euro</span>
         </FormElementControl>
       </FormElement>
+    )
   },
   {
     id: 'field-level-help',
     label: 'Field level help',
-    element:
-    <div className="demo-only" style={{ paddingTop: '5rem' }}>
-      <div className="slds-form-element">
-        <label className="slds-form-element__label slds-align-middle" htmlFor="form-help">Text Label</label>
-        <div className="slds-form-element__icon">
-          <button aria-describedby="help" className="slds-button slds-button_icon">
-            <SvgIcon
-              className="slds-icon slds-icon_x-small slds-icon-text-default"
-              sprite="utility"
-              symbol="info"
+    element: (
+      <div className="demo-only" style={{ paddingTop: '5rem' }}>
+        <div className="nds-form-element">
+          <label
+            className="nds-form-element__label nds-align-middle"
+            htmlFor="form-help"
+          >
+            Text Label
+          </label>
+          <div className="nds-form-element__icon">
+            <button
+              aria-describedby="help"
+              className="nds-button nds-button_icon"
+            >
+              <SvgIcon
+                className="nds-icon nds-icon_x-small nds-icon-text-default"
+                sprite="utility"
+                symbol="info"
+              />
+              <span className="nds-assistive-text">Help</span>
+            </button>
+          </div>
+          <div className="nds-form-element__control">
+            <input
+              className="nds-input"
+              id="form-help"
+              placeholder="Field Level Help"
+              type="text"
             />
-            <span className="slds-assistive-text">Help</span>
-          </button>
+          </div>
         </div>
-        <div className="slds-form-element__control">
-          <input
-            className="slds-input"
-            id="form-help"
-            placeholder="Field Level Help"
-            type="text"
-          />
+        <div
+          className="nds-popover nds-popover_tooltip nds-nubbin_bottom-left"
+          id="help"
+          role="tooltip"
+          style={{
+            position: 'absolute',
+            top: '15px',
+            left: '72px',
+            marginLeft: '-1rem',
+            width: '20rem'
+          }}
+        >
+          <div className="nds-popover__body nds-text-longform">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
+              facere eligendi reiciendis obcaecati.
+            </p>
+          </div>
         </div>
       </div>
-      <div
-        className="slds-popover slds-popover_tooltip slds-nubbin_bottom-left"
-        id="help"
-        role="tooltip"
-        style={{position: 'absolute', top: '15px', left: '72px', marginLeft: '-1rem', width: '20rem'}}
-      >
-        <div className="slds-popover__body slds-text-longform">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci facere eligendi reiciendis obcaecati.</p>
-        </div>
-      </div>
-    </div>
+    )
   }
 ];

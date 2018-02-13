@@ -2,151 +2,151 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 
-.slds-path-coach {
-  @include deprecate('4.0.0', 'Use .slds-path instead of .slds-path-coach') {
+.nds-path-coach {
+  @include deprecate('4.0.0', 'Use .nds-path instead of .nds-path-coach') {
     border: transparent $border-width-thin solid;
     border-top: 0;
 
-    &.slds-is-expanded {
+    &.nds-is-expanded {
       border-color: $color-border;
       padding-bottom: $spacing-medium;
     }
   }
 }
 
-.slds-tabs_path,
-.slds-tabs--path {
-  @include deprecate('4.0.0', 'Use .sslds-path__scroller with internal scrolling DOM nodes instead of .slds-tabs_path') {
+.nds-tabs_path,
+.nds-tabs--path {
+  @include deprecate('4.0.0', 'Use .snds-path__scroller with internal scrolling DOM nodes instead of .nds-tabs_path') {
     @include tabs;
 
     &__nav {
       @include tabs-nav;
     }
 
-    .slds-is-complete {
+    .nds-is-complete {
       background-color: $color-background-path-complete;
 
-      .slds-tabs_path__stage,
-      .slds-tabs--path__stage {
+      .nds-tabs_path__stage,
+      .nds-tabs--path__stage {
         transform: rotateX(0deg);
       }
 
-      .slds-tabs_path__title,
-      .slds-tabs--path__title {
+      .nds-tabs_path__title,
+      .nds-tabs--path__title {
         transform: rotateX(180deg);
       }
 
-      .slds-tabs_path__link,
-      .slds-tabs--path__link {
+      .nds-tabs_path__link,
+      .nds-tabs--path__link {
         color: $color-text-action-label-active;
       }
 
       &:hover {
         background-color: $color-background-path-complete-hover;
 
-        .slds-tabs_path__stage,
-        .slds-tabs--path__stage {
+        .nds-tabs_path__stage,
+        .nds-tabs--path__stage {
           transform: rotateX(-180deg);
         }
 
-        .slds-tabs_path__title,
-        .slds-tabs--path__title {
+        .nds-tabs_path__title,
+        .nds-tabs--path__title {
           transform: rotateX(0deg);
         }
 
-        .slds-tabs_path__link,
-        .slds-tabs--path__link {
+        .nds-tabs_path__link,
+        .nds-tabs--path__link {
           color: $color-text-inverse;
         }
       }
     }
 
-    .slds-is-current {
+    .nds-is-current {
       background-color: $color-background-path-current;
 
       &:hover {
         background-color: $color-background-path-current-hover;
       }
 
-      + .slds-is-incomplete:before {
+      + .nds-is-incomplete:before {
         background-color: $color-background-path-current;
       }
 
-      &:hover + .slds-is-incomplete:before {
+      &:hover + .nds-is-incomplete:before {
         background-color: $color-background-path-current-hover;
       }
     }
 
-    .slds-is-incomplete {
+    .nds-is-incomplete {
       background-color: $color-background-path-incomplete;
 
       &:hover {
         background-color: $color-background-path-incomplete-hover;
       }
 
-      .slds-tabs_path__link,
-      .slds-tabs--path__link {
+      .nds-tabs_path__link,
+      .nds-tabs--path__link {
         color: $color-text-default;
       }
     }
 
-    .slds-is-lost,
-    .slds-is-lost:hover {
+    .nds-is-lost,
+    .nds-is-lost:hover {
       background-color: $color-background-path-lost;
     }
 
     // Lets make sure we have the right color when these steps are activated
-    .slds-is-current,
-    .slds-is-lost {
+    .nds-is-current,
+    .nds-is-lost {
 
-      .slds-tabs_path__link,
-      .slds-tabs--path__link {
+      .nds-tabs_path__link,
+      .nds-tabs--path__link {
         color: $color-text-inverse;
       }
     }
 
-    .slds-is-active {
+    .nds-is-active {
       background-color: $color-background-inverse;
 
-      .slds-tabs_path__link,
-      .slds-tabs--path__link {
+      .nds-tabs_path__link,
+      .nds-tabs--path__link {
         color: $color-text-inverse;
       }
 
       &:hover {
         background-color: $color-background-alt-inverse;
 
-        + .slds-tabs_path__item:before,
-        + .slds-tabs--path__item:before {
+        + .nds-tabs_path__item:before,
+        + .nds-tabs--path__item:before {
           background-color: $color-background-alt-inverse;
         }
       }
 
-      + .slds-tabs_path__item:before,
-      + .slds-tabs--path__item:before {
+      + .nds-tabs_path__item:before,
+      + .nds-tabs--path__item:before {
         background-color: $color-background-inverse;
       }
     }
 
-    .slds-is-active,
-    .slds-is-won {
+    .nds-is-active,
+    .nds-is-won {
 
-      .slds-tabs_path__title,
-      .slds-tabs--path__title {
+      .nds-tabs_path__title,
+      .nds-tabs--path__title {
         transform: rotateX(0deg);
       }
 
-      .slds-tabs_path__stage,
-      .slds-tabs--path__stage {
+      .nds-tabs_path__stage,
+      .nds-tabs--path__stage {
         transform: rotateX(-180deg);
       }
     }
   }
 }
 
-.slds-tabs_path__item,
-.slds-tabs--path__item {
-  @include deprecate('4.0.0', 'Use .slds-path__item instead of .slds-tabs_path__item') {
+.nds-tabs_path__item,
+.nds-tabs--path__item {
+  @include deprecate('4.0.0', 'Use .nds-path__item instead of .nds-tabs_path__item') {
     overflow: hidden;
     position: relative;
     flex: 1 1 0%;
@@ -187,38 +187,38 @@
     }
 
     // The below logic makes the :before (which is actually a part of the previous section) the proper color based on tabs--path__item order
-    + .slds-is-complete:before,
-    + .slds-is-current:before {
+    + .nds-is-complete:before,
+    + .nds-is-current:before {
       background-color: $color-background-path-complete;
     }
 
-    &:hover + .slds-is-complete:before,
-    &:hover + .slds-is-current:before {
+    &:hover + .nds-is-complete:before,
+    &:hover + .nds-is-current:before {
       background-color: $color-background-path-complete-hover;
     }
 
-    + .slds-is-incomplete:before,
-    + .slds-is-lost:before {
+    + .nds-is-incomplete:before,
+    + .nds-is-lost:before {
       background-color: $color-background-path-incomplete;
     }
 
-    &:hover + .slds-is-incomplete:before,
-    &:hover + .slds-is-lost:before {
+    &:hover + .nds-is-incomplete:before,
+    &:hover + .nds-is-lost:before {
       background-color: $color-background-path-incomplete-hover;
     }
   }
 }
 
-.slds-tabs_path__title,
-.slds-tabs--path__title {
-  @include deprecate('4.0.0', 'Use .slds-path__title instead of .slds-tabs_path__title') {
+.nds-tabs_path__title,
+.nds-tabs--path__title {
+  @include deprecate('4.0.0', 'Use .nds-path__title instead of .nds-tabs_path__title') {
     @include truncate;
   }
 }
 
-.slds-tabs_path__stage,
-.slds-tabs--path__stage {
-  @include deprecate('4.0.0', 'Use .slds-path__stage instead of .slds-tabs_path__stage') {
+.nds-tabs_path__stage,
+.nds-tabs--path__stage {
+  @include deprecate('4.0.0', 'Use .nds-path__stage instead of .nds-tabs_path__stage') {
     position: absolute;
     top: 50%;
     #{$left}: ($square-icon-medium-content / 2);
@@ -228,9 +228,9 @@
   }
 }
 
-.slds-tabs_path__link,
-.slds-tabs--path__link {
-  @include deprecate('4.0.0', 'Use .slds-path__link instead of .slds-tabs_path__link') {
+.nds-tabs_path__link,
+.nds-tabs--path__link {
+  @include deprecate('4.0.0', 'Use .nds-path__link instead of .nds-tabs_path__link') {
     display: flex;
     justify-content: center;
     position: relative;
@@ -249,10 +249,10 @@
   }
 }
 
-.slds-tabs_path__title,
-.slds-tabs--path__title,
-.slds-tabs_path__stage,
-.slds-tabs--path__stage {
+.nds-tabs_path__title,
+.nds-tabs--path__title,
+.nds-tabs_path__stage,
+.nds-tabs--path__stage {
   display: block;
   transition: transform 0.2s linear;
   // we should be able to get rid of this prefix once this issue is fixed
@@ -262,23 +262,23 @@
   backface-visibility: hidden;
 }
 
-.slds-tabs_path__content,
-.slds-tabs--path__content {
-  @include deprecate('4.0.0', 'Use .slds-path__content instead of .slds-tabs_path__content') {
+.nds-tabs_path__content,
+.nds-tabs--path__content {
+  @include deprecate('4.0.0', 'Use .nds-path__content instead of .nds-tabs_path__content') {
     position: relative;
     padding-#{$left}: $spacing-large;
     padding-#{$right}: $spacing-medium;
   }
 }
 
-.slds-coach__keys {
-  @include deprecate('4.0.0', 'Use .slds-path__keys instead of .slds-coach__keys') {
+.nds-coach__keys {
+  @include deprecate('4.0.0', 'Use .nds-path__keys instead of .nds-coach__keys') {
     padding-#{$left}: $spacing-small;
   }
 }
 
-.slds-coach__guidance {
-  @include deprecate('4.0.0', 'Use .slds-path__guidance instead of .slds-coach__guidance') {
+.nds-coach__guidance {
+  @include deprecate('4.0.0', 'Use .nds-path__guidance instead of .nds-coach__guidance') {
     padding-#{$left}: $spacing-large;
     padding-bottom: $spacing-xx-small;
     background-color: $color-background-guidance;
@@ -286,23 +286,23 @@
 }
 
 // Layout adjustments for sub sections of expanded tabpanel
-.slds-coach__keys,
-.slds-coach__guidance {
+.nds-coach__keys,
+.nds-coach__guidance {
   margin-top: $spacing-medium;
   padding-top: $spacing-medium;
   padding-#{$right}: $spacing-large;
 }
 
-.slds-coach__item {
-  @include deprecate('4.0.0', 'Remove dt .slds-coach__item in favor of the new form markup, .slds-form-element__label') {
+.nds-coach__item {
+  @include deprecate('4.0.0', 'Remove dt .nds-coach__item in favor of the new form markup, .nds-form-element__label') {
     border-top: $color-border $border-width-thin solid;
     padding: $spacing-medium 0;
     color: $color-text-weak;
   }
 }
 
-.slds-coach__value {
-  @include deprecate('4.0.0', 'Remove dd .slds-coach__value in favor of the new form markup, .slds-form-element__static') {
+.nds-coach__value {
+  @include deprecate('4.0.0', 'Remove dd .nds-coach__value in favor of the new form markup, .nds-form-element__static') {
     border-top: $color-border $border-width-thin solid;
     padding-top: $spacing-medium;
     color: $color-text-default;

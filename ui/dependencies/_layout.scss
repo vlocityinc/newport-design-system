@@ -103,8 +103,8 @@
 
     @for $i from 1 through $denominator {
 
-      .slds-#{$breakpoint-string}size_#{$i}-of-#{$denominator},
-      .slds-#{$breakpoint-string}size--#{$i}-of-#{$denominator} {
+      .nds-#{$breakpoint-string}size_#{$i}-of-#{$denominator},
+      .nds-#{$breakpoint-string}size--#{$i}-of-#{$denominator} {
         width: ($i / $denominator) * 100%;
         flex: 0 0 ($i / $denominator) * 100%;
         max-width: ($i / $denominator) * 100%; // IE fix
@@ -224,8 +224,8 @@
         @if $size == 0 {
 
           // stylelint-disable max-nesting-depth,declaration-no-important
-          .slds-#{$prop-prefix}-#{$position}_#{$spacing},
-          .slds-#{$prop-prefix}-#{$position}--#{$spacing} {
+          .nds-#{$prop-prefix}-#{$position}_#{$spacing},
+          .nds-#{$prop-prefix}-#{$position}--#{$spacing} {
             @if ($position == left) {
               // stylelint-disable
               #{$property}-#{$left}: 0 !important;
@@ -243,8 +243,8 @@
         }
         // Generate directional spacing utilities
         @else {
-          .slds-#{$prop-prefix}-#{$position}_#{$spacing},
-          .slds-#{$prop-prefix}-#{$position}--#{$spacing} {
+          .nds-#{$prop-prefix}-#{$position}_#{$spacing},
+          .nds-#{$prop-prefix}-#{$position}--#{$spacing} {
             @if ($position == left) {
               #{$property}-#{$left}: $size;
             }
@@ -259,20 +259,20 @@
       }
 
       // Generate vertical spacing utilities
-      .slds-#{$prop-prefix}-vertical_#{$spacing},
-      .slds-#{$prop-prefix}-vertical--#{$spacing} {
+      .nds-#{$prop-prefix}-vertical_#{$spacing},
+      .nds-#{$prop-prefix}-vertical--#{$spacing} {
         #{$property}-top: $size;
         #{$property}-bottom: $size;
       }
       // Generate horizontal spacing utilities
-      .slds-#{$prop-prefix}-horizontal_#{$spacing},
-      .slds-#{$prop-prefix}-horizontal--#{$spacing} {
+      .nds-#{$prop-prefix}-horizontal_#{$spacing},
+      .nds-#{$prop-prefix}-horizontal--#{$spacing} {
         #{$property}-right: $size;
         #{$property}-left: $size;
       }
       // Generate vertical + horizontal spacing utilities
-      .slds-#{$prop-prefix}-around_#{$spacing},
-      .slds-#{$prop-prefix}-around--#{$spacing} {
+      .nds-#{$prop-prefix}-around_#{$spacing},
+      .nds-#{$prop-prefix}-around--#{$spacing} {
         #{$property}: $size;
       }
     }
@@ -287,7 +287,7 @@
 
 @mixin visibility($class-name, $min: null, $max: null) {
 
-  .slds-#{$class-name} {
+  .nds-#{$class-name} {
     /* Allow class interpolation with parent selector for easier utility class generation */
     /* stylelint-disable selector-class-pattern */
     &-show {
@@ -333,7 +333,7 @@
 
   @if $max {
 
-    .slds-max-#{$class-name}-hide {
+    .nds-max-#{$class-name}-hide {
       @media (max-width: $max - 1) {
         display: none;
       }

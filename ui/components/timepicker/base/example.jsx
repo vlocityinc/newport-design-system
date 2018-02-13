@@ -36,9 +36,9 @@ const listboxOptionId12 = 'listbox-option-unique-id-12';
     Private
 ----------------------------------------------------------------------------- */
 
-const ListboxDropdown = props =>
+const ListboxDropdown = props => (
   <Listbox
-    className="slds-dropdown slds-dropdown--fluid slds-dropdown--length-5"
+    className="nds-dropdown nds-dropdown--fluid nds-dropdown--length-5"
     vertical
   >
     <ListboxItem>
@@ -85,23 +85,23 @@ const ListboxDropdown = props =>
     <ListboxItem>
       <Option id={listboxOptionId12} title="5:00pm" />
     </ListboxItem>
-  </Listbox>;
+  </Listbox>
+);
 
 /* -----------------------------------------------------------------------------
     Exports
 ----------------------------------------------------------------------------- */
 
 // Demo wrapper
-export const Context = props =>
-  <div style={{ height: '15rem' }}>
-    {props.children}
-  </div>;
+export const Context = props => (
+  <div style={{ height: '15rem' }}>{props.children}</div>
+);
 
 // Default
 export default (
   <ComboboxContainer
     label="Time"
-    className="slds-combobox-picklist slds-timepicker"
+    className="nds-combobox-picklist nds-timepicker"
     inputIcon="right"
     inputIconRightSymbol="clock"
     placeholder=" "
@@ -113,24 +113,25 @@ export let states = [
   {
     id: 'focused',
     label: 'Focused',
-    element:
+    element: (
       <ComboboxContainer
         label="Time"
-        className="slds-combobox-picklist slds-timepicker"
+        className="nds-combobox-picklist nds-timepicker"
         isOpen
         inputIcon="right"
         inputIconRightSymbol="clock"
         placeholder=" "
         listbox={<ListboxDropdown />}
       />
+    )
   },
   {
     id: 'open-item-focused',
     label: 'Open - Item Focused',
-    element:
+    element: (
       <ComboboxContainer
         label="Time"
-        className="slds-combobox-picklist slds-timepicker"
+        className="nds-combobox-picklist nds-timepicker"
         isOpen
         inputIcon="right"
         inputIconRightSymbol="clock"
@@ -138,14 +139,15 @@ export let states = [
         listbox={<ListboxDropdown optionFocused />}
         aria-activedescendant={listboxOptionId01}
       />
+    )
   },
   {
     id: 'time-selection',
     label: 'Open - Time selected',
-    element:
+    element: (
       <ComboboxContainer
         label="Time"
-        className="slds-combobox-picklist slds-timepicker"
+        className="nds-combobox-picklist nds-timepicker"
         isOpen
         inputIcon="right"
         inputIconRightSymbol="clock"
@@ -153,5 +155,6 @@ export let states = [
         value="8:00am"
         listbox={<ListboxDropdown optionSelected />}
       />
+    )
   }
 ];

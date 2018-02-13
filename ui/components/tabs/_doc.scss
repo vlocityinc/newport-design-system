@@ -9,13 +9,13 @@
  *
  * The active tab has two markup requirements:
  *
- * - The `.slds-active` class should be placed on the `li` with `.slds-tabs_{variant}__item`.
- * - The corresponding `.slds-tabs_{variant}__content` container receives `.slds-show`.
- * - In order to achieve the focus state styling, apply `.slds-has-focus` to the parent `li`.
+ * - The `.nds-active` class should be placed on the `li` with `.nds-tabs_{variant}__item`.
+ * - The corresponding `.nds-tabs_{variant}__content` container receives `.nds-show`.
+ * - In order to achieve the focus state styling, apply `.nds-has-focus` to the parent `li`.
  *
- * Inactive `.slds-tabs_{variant}__content` containers receive `.slds-hide`.
- * When the user clicks a different tab, move the `.slds-active` class and
- * toggle the `.slds-hide`/`.slds-show` classes.
+ * Inactive `.nds-tabs_{variant}__content` containers receive `.nds-hide`.
+ * When the user clicks a different tab, move the `.nds-active` class and
+ * toggle the `.nds-hide`/`.nds-show` classes.
  *
  * #### Accessibility
  *
@@ -43,7 +43,7 @@
  *
  * @base
  * @name tabs
- * @selector .slds-tabs_default
+ * @selector .nds-tabs_default
  * @support dev-ready
  * @category base
  * @type navigation

@@ -11,26 +11,26 @@
  *
  * @summary Initializes a trigger element around the dropdown
  * @name dropdown
- * @selector .slds-dropdown-trigger
+ * @selector .nds-dropdown-trigger
  * @restrict div, span, li
  * @variant
  */
-.slds-dropdown-trigger {
+.nds-dropdown-trigger {
   position: relative;
   display: inline-block;
 
-  .slds-dropdown {
+  .nds-dropdown {
     top: 100%;
   }
 
-  .slds-dropdown_bottom,
-  .slds-dropdown--bottom {
+  .nds-dropdown_bottom,
+  .nds-dropdown--bottom {
     top: auto;
   }
 
-  @include deprecate('4.0.0', 'Use .slds-dropdown-trigger--hover instead') {
+  @include deprecate('4.0.0', 'Use .nds-dropdown-trigger--hover instead') {
 
-    .slds-dropdown {
+    .nds-dropdown {
       visibility: hidden;
       opacity: 0;
       transition: opacity $duration-quickly linear, visibility $duration-quickly linear;
@@ -40,7 +40,7 @@
     &:focus {
       outline: 0;
 
-      .slds-dropdown {
+      .nds-dropdown {
         visibility: visible;
         opacity: 1;
         transition: opacity $duration-quickly linear, visibility $duration-quickly linear;
@@ -50,13 +50,13 @@
 
   /**
    * @summary If someone is using javascript for click to toggle - this modifier will help
-   * @selector .slds-dropdown-trigger_hover
-   * @restrict .slds-dropdown-trigger
+   * @selector .nds-dropdown-trigger_hover
+   * @restrict .nds-dropdown-trigger
    */
   &_hover,
   &--hover {
 
-    .slds-dropdown {
+    .nds-dropdown {
       visibility: hidden;
       opacity: 0;
       transition: opacity $duration-quickly linear, visibility $duration-quickly linear;
@@ -66,7 +66,7 @@
     &:focus {
       outline: 0;
 
-      .slds-dropdown {
+      .nds-dropdown {
         visibility: visible;
         opacity: 1;
         transition: opacity $duration-quickly linear, visibility $duration-quickly linear;
@@ -76,24 +76,24 @@
 
   /**
    * @summary If someone is using javascript for click to toggle - this modifier will help
-   * @selector .slds-dropdown-trigger_click
-   * @restrict .slds-dropdown-trigger
+   * @selector .nds-dropdown-trigger_click
+   * @restrict .nds-dropdown-trigger
    */
   &_click,
   &--click {
 
-    .slds-dropdown {
+    .nds-dropdown {
       display: none;
     }
 
     /**
      * @summary Opens dropdown menu when invoked on click
-     * @selector .slds-is-open
-     * @restrict .slds-dropdown-trigger_click
+     * @selector .nds-is-open
+     * @restrict .nds-dropdown-trigger_click
      * @modifier
      * @group visibility
      */
-    &.slds-is-open .slds-dropdown {
+    &.nds-is-open .nds-dropdown {
       display: block;
       visibility: visible;
       opacity: 1;
@@ -101,16 +101,16 @@
   }
 
   // Deal with positioning when target is just an icon
-  > [class*="slds-button_icon"],
-  > [class*="slds-button--icon"] {
+  > [class*="nds-button_icon"],
+  > [class*="nds-button--icon"] {
 
-    ~ .slds-dropdown_left[class*="slds-nubbin"],
-    ~ .slds-dropdown--left[class*="slds-nubbin"] {
+    ~ .nds-dropdown_left[class*="nds-nubbin"],
+    ~ .nds-dropdown--left[class*="nds-nubbin"] {
       #{$left}: ($spacing-x-small * -1);
     }
 
-    ~ .slds-dropdown_right[class*="slds-nubbin"],
-    ~ .slds-dropdown--right[class*="slds-nubbin"] {
+    ~ .nds-dropdown_right[class*="nds-nubbin"],
+    ~ .nds-dropdown--right[class*="nds-nubbin"] {
       #{$right}: ($spacing-x-small * -1);
     }
   }
@@ -118,11 +118,11 @@
 
 /**
  * @summary Initializes dropdown
- * @selector .slds-dropdown
- * @restrict .slds-dropdown-trigger div, .slds-dropdown-trigger ul
+ * @selector .nds-dropdown
+ * @restrict .nds-dropdown-trigger div, .nds-dropdown-trigger ul
  * @notes Applies positioning and container styles, by default, dropdown appears below and center of target
  */
-.slds-dropdown {
+.nds-dropdown {
   position: absolute;
   z-index: $z-index-dropdown;
   #{$left}: 50%;
@@ -141,8 +141,8 @@
 
   /**
    * @summary Positions dropdown to left side of target
-   * @selector .slds-dropdown_left
-   * @restrict .slds-dropdown
+   * @selector .nds-dropdown_left
+   * @restrict .nds-dropdown
    * @modifier
    * @group position
    */
@@ -154,8 +154,8 @@
 
   /**
    * @summary Positions dropdown to right side of target
-   * @selector .slds-dropdown_right
-   * @restrict .slds-dropdown
+   * @selector .nds-dropdown_right
+   * @restrict .nds-dropdown
    * @modifier
    * @group position
    */
@@ -168,8 +168,8 @@
 
   /**
    * @summary Positions dropdown to above target
-   * @selector .slds-dropdown_bottom
-   * @restrict .slds-dropdown
+   * @selector .nds-dropdown_bottom
+   * @restrict .nds-dropdown
    * @modifier
    * @group position
    */
@@ -180,8 +180,8 @@
 
   /**
    * @summary Sets min-width of 6rem/96px
-   * @selector .slds-dropdown_xx-small
-   * @restrict .slds-dropdown
+   * @selector .nds-dropdown_xx-small
+   * @restrict .nds-dropdown
    * @modifier
    * @group width
    */
@@ -192,8 +192,8 @@
 
   /**
    * @summary Sets min-width of 12rem/192px
-   * @selector .slds-dropdown_x-small
-   * @restrict .slds-dropdown
+   * @selector .nds-dropdown_x-small
+   * @restrict .nds-dropdown
    * @modifier
    * @group width
    */
@@ -204,8 +204,8 @@
 
   /**
    * @summary Sets min-width of 15rem/240px
-   * @selector .slds-dropdown_small
-   * @restrict .slds-dropdown
+   * @selector .nds-dropdown_small
+   * @restrict .nds-dropdown
    * @modifier
    * @group width
    */
@@ -216,8 +216,8 @@
 
   /**
    * @summary Sets min-width of 20rem/320px
-   * @selector .slds-dropdown_medium
-   * @restrict .slds-dropdown
+   * @selector .nds-dropdown_medium
+   * @restrict .nds-dropdown
    * @modifier
    * @group width
    */
@@ -228,8 +228,8 @@
 
   /**
    * @summary Sets min-width of 25rem/400px
-   * @selector .slds-dropdown_large
-   * @restrict .slds-dropdown
+   * @selector .nds-dropdown_large
+   * @restrict .nds-dropdown
    * @modifier
    * @group width
    */
@@ -241,8 +241,8 @@
 
   /**
    * @summary Sets min-width of 25rem/400px
-   * @selector .slds-dropdown_large
-   * @restrict .slds-dropdown
+   * @selector .nds-dropdown_large
+   * @restrict .nds-dropdown
    * @modifier
    * @group width
    */
@@ -255,8 +255,8 @@
 
   /**
    * @summary Forces overflow scrolling after 5 list items
-   * @selector .slds-dropdown_length-5
-   * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox
+   * @selector .nds-dropdown_length-5
+   * @restrict .nds-dropdown, .nds-dropdown__list, .nds-listbox
    * @modifier
    * @group height
    */
@@ -267,8 +267,8 @@
 
   /**
    * @summary Forces overflow scrolling after 7 list items
-   * @selector .slds-dropdown_length-7
-   * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox
+   * @selector .nds-dropdown_length-7
+   * @restrict .nds-dropdown, .nds-dropdown__list, .nds-listbox
    * @modifier
    * @group height
    */
@@ -279,8 +279,8 @@
 
   /**
    * @summary Forces overflow scrolling after 10 list items
-   * @selector .slds-dropdown_length-10
-   * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox
+   * @selector .nds-dropdown_length-10
+   * @restrict .nds-dropdown, .nds-dropdown__list, .nds-listbox
    * @modifier
    * @group height
    */
@@ -291,8 +291,8 @@
 
   /**
    * @summary Forces overflow scrolling after 5 list items with an icon
-   * @selector .slds-dropdown_length-with-icon-5
-   * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox
+   * @selector .nds-dropdown_length-with-icon-5
+   * @restrict .nds-dropdown, .nds-dropdown__list, .nds-listbox
    * @modifier
    * @group height
    */
@@ -303,8 +303,8 @@
 
   /**
    * @summary Forces overflow scrolling after 7 list items with an icon
-   * @selector .slds-dropdown_length-with-icon-7
-   * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox
+   * @selector .nds-dropdown_length-with-icon-7
+   * @restrict .nds-dropdown, .nds-dropdown__list, .nds-listbox
    * @modifier
    * @group height
    */
@@ -315,8 +315,8 @@
 
   /**
    * @summary Forces overflow scrolling after 10 list items with an icon
-   * @selector .slds-dropdown_length-with-icon-10
-   * @restrict .slds-dropdown, .slds-dropdown__list, .slds-listbox
+   * @selector .nds-dropdown_length-with-icon-10
+   * @restrict .nds-dropdown, .nds-dropdown__list, .nds-listbox
    * @modifier
    * @group height
    */
@@ -327,8 +327,8 @@
 
   /**
    * @summary Theme
-   * @selector .slds-dropdown_inverse
-   * @restrict .slds-dropdown
+   * @selector .nds-dropdown_inverse
+   * @restrict .nds-dropdown
    * @modifier
    * @group theme
    */
@@ -337,7 +337,7 @@
     background: $color-background-inverse;
     border-color: $color-border-inverse;
 
-    .slds-dropdown__item > a {
+    .nds-dropdown__item > a {
       color: $color-text-inverse;
 
       &:hover,
@@ -369,14 +369,14 @@
   }
 
   // Adjust position of dropdown with top nubbin
-  &[class*="slds-nubbin_top"],
-  &[class*="slds-nubbin--top"] {
+  &[class*="nds-nubbin_top"],
+  &[class*="nds-nubbin--top"] {
     margin-top: ($square-tooltip-nubbin / 2);
   }
 
   // Adjust position of dropdown with bottom nubbin
-  &[class*="slds-nubbin_bottom"],
-  &[class*="slds-nubbin--bottom"] {
+  &[class*="nds-nubbin_bottom"],
+  &[class*="nds-nubbin--bottom"] {
     margin-bottom: ($square-tooltip-nubbin / 2);
   }
 
@@ -398,8 +398,8 @@
         z-index: -1;
       }
 
-      &.slds-dropdown_left,
-      &.slds-dropdown--left {
+      &.nds-dropdown_left,
+      &.nds-dropdown--left {
         #{$left}: ($spacing-medium * -1);
 
         &:before,
@@ -409,8 +409,8 @@
         }
       }
 
-      &.slds-dropdown_right,
-      &.slds-dropdown--right {
+      &.nds-dropdown_right,
+      &.nds-dropdown--right {
         #{$right}: ($spacing-medium * -1);
 
         &:before,
@@ -425,8 +425,8 @@
 
   /**
    * @summary Adds padding to area above dropdown menu list
-   * @selector .slds-dropdown__header
-   * @restrict .slds-dropdown li
+   * @selector .nds-dropdown__header
+   * @restrict .nds-dropdown li
    */
   &__header {
     padding: $spacing-x-small $spacing-small;
@@ -434,8 +434,8 @@
 
   /**
    * @summary Initializes dropdown item
-   * @selector .slds-dropdown__item
-   * @restrict .slds-dropdown li
+   * @selector .nds-dropdown__item
+   * @restrict .nds-dropdown li
    * @required
    */
   &__item {
@@ -474,30 +474,30 @@
 
     /**
      * @summary If menu contains menuitemcheckbox then this toggles the selected icon when it is selected
-     * @selector .slds-icon_selected
-     * @restrict .slds-dropdown__item svg
+     * @selector .nds-icon_selected
+     * @restrict .nds-dropdown__item svg
      */
-    .slds-icon_selected,
-    .slds-icon--selected {
+    .nds-icon_selected,
+    .nds-icon--selected {
       opacity: 0;
       transition: opacity $duration-immediately ease;
     }
 
     /**
      * @summary If menu contains menuitemcheckbox then this handles the selected states
-     * @selector .slds-is-selected
-     * @restrict .slds-dropdown__item
+     * @selector .nds-is-selected
+     * @restrict .nds-dropdown__item
      * @modifier
      */
-    &.slds-is-selected .slds-icon_selected,
-    &.slds-is-selected .slds-icon--selected {
+    &.nds-is-selected .nds-icon_selected,
+    &.nds-is-selected .nds-icon--selected {
       opacity: 1;
     }
   }
 
   @include deprecate('4.0.0') {
 
-    .slds-has-icon {
+    .nds-has-icon {
       position: relative;
 
       &_left > a,
@@ -524,7 +524,7 @@
         }
       }
 
-      .slds-icon {
+      .nds-icon {
         @include square($square-icon-medium-content);
         position: absolute;
         top: 50%;

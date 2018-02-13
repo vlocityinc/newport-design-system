@@ -3,32 +3,32 @@
 
 /**
  * @name base
- * @selector .slds-file-selector
+ * @selector .nds-file-selector
  * @restrict div
  * @variant
  */
-.slds-file-selector {
+.nds-file-selector {
   display: inline-flex;
 }
 
 /**
  * Region that a file can be dropped within
  *
- * @selector .slds-file-selector__dropzone
- * @restrict .slds-file-selector div
+ * @selector .nds-file-selector__dropzone
+ * @restrict .nds-file-selector div
  * @required
  */
-.slds-file-selector__dropzone {
+.nds-file-selector__dropzone {
   padding: $spacing-xxx-small;
   border: $border-width-thin dashed $color-border;
   border-radius: $border-radius-medium;
 
   /**
-   * @selector .slds-has-drag-over
-   * @restrict .slds-file-selector__dropzone
+   * @selector .nds-has-drag-over
+   * @restrict .nds-file-selector__dropzone
    * @modifier
    */
-  &.slds-has-drag-over {
+  &.nds-has-drag-over {
     outline: 0;
     border-color: $color-border-input-active;
     box-shadow: $shadow-button-focus;
@@ -39,26 +39,26 @@
 /**
  * Hidden input element
  *
- * @selector .slds-file-selector__input
- * @restrict .slds-file-selector input
+ * @selector .nds-file-selector__input
+ * @restrict .nds-file-selector input
  * @required
  */
-.slds-file-selector__input {
+.nds-file-selector__input {
 
-  &:focus ~ .slds-file-selector__body > .slds-file-selector__button {
+  &:focus ~ .nds-file-selector__body > .nds-file-selector__button {
     box-shadow: $shadow-button-focus;
   }
 
-  &[disabled] ~ .slds-file-selector__body {
+  &[disabled] ~ .nds-file-selector__body {
     color: $color-text-button-default-disabled;
 
-    > .slds-file-selector__button {
+    > .nds-file-selector__button {
       background: $color-background-button-brand-disabled;
       border-color: $color-border-button-brand-disabled;
       color: $color-text-button-brand-disabled;
     }
 
-    > .slds-file-selector__body-icon {
+    > .nds-file-selector__body-icon {
       fill: currentColor;
     }
   }
@@ -67,11 +67,11 @@
 /**
  * Faux button
  *
- * @selector .slds-file-selector__button
- * @restrict .slds-file-selector button, .slds-file-selector span
+ * @selector .nds-file-selector__button
+ * @restrict .nds-file-selector button, .nds-file-selector span
  * @required
  */
-.slds-file-selector__button {
+.nds-file-selector__button {
   display: inline-flex;
   align-items: center;
 }
@@ -83,25 +83,25 @@
  * Dedicated dropzone when there are multiple dropzones in the form or when
  * the input is positioned among other form inputs.
  *
- * @selector .slds-file-selector_files
- * @restrict .slds-file-selector
+ * @selector .nds-file-selector_files
+ * @restrict .nds-file-selector
  * @required
  */
-.slds-file-selector_files,
-.slds-file-selector--files {
+.nds-file-selector_files,
+.nds-file-selector--files {
   /**
    * Container for file selector content, specifically within the dropzone
    *
-   * @selector .slds-file-selector__body
-   * @restrict .slds-file-selector label
+   * @selector .nds-file-selector__body
+   * @restrict .nds-file-selector label
    * @required
    */
-  .slds-file-selector__body {
+  .nds-file-selector__body {
     display: flex;
     align-items: center;
   }
 
-  .slds-file-selector__button {
+  .nds-file-selector__button {
     max-height: $height-pill;
     line-height: $height-pill;
   }
@@ -109,11 +109,11 @@
   /**
    * Descriptive call back text
    *
-   * @selector .slds-file-selector__text
-   * @restrict .slds-file-selector span
+   * @selector .nds-file-selector__text
+   * @restrict .nds-file-selector span
    * @required
    */
-  .slds-file-selector__text {
+  .nds-file-selector__text {
     margin-#{$left}: $spacing-x-small;
     margin-#{$right}: $spacing-small;
   }
@@ -126,16 +126,16 @@
  * cropping control.
  *
  * @name image
- * @selector .slds-file-selector_images
- * @restrict .slds-file-selector
+ * @selector .nds-file-selector_images
+ * @restrict .nds-file-selector
  * @required
  * @variant
  */
-.slds-file-selector_images,
-.slds-file-selector--images {
+.nds-file-selector_images,
+.nds-file-selector--images {
   display: block;
 
-  .slds-file-selector__dropzone {
+  .nds-file-selector__dropzone {
     @include absolute-center;
 
     // Maintains a 1:1 ratio based on the width
@@ -146,11 +146,11 @@
     }
   }
 
-  .slds-file-selector__body {
+  .nds-file-selector__body {
     text-align: center;
   }
 
-  .slds-file-selector__text {
+  .nds-file-selector__text {
     margin-top: $spacing-small;
   }
 }
@@ -162,13 +162,13 @@
  * The container should have a visible boundary, like a modal, composer, or page.
  *
  * @name integrated
- * @selector .slds-file-selector_integrated
- * @restrict .slds-file-selector
+ * @selector .nds-file-selector_integrated
+ * @restrict .nds-file-selector
  * @required
  * @variant
  */
-.slds-file-selector_integrated,
-.slds-file-selector--integrated {
+.nds-file-selector_integrated,
+.nds-file-selector--integrated {
   @include square(100%);
   position: relative;
   display: block;
@@ -177,12 +177,12 @@
 /**
  * Specific to integrated file selector — region that a file can be dropped within
  *
- * @selector .slds-file-selector__dropzone_integrated
- * @restrict .slds-file-selector_integrated div
+ * @selector .nds-file-selector__dropzone_integrated
+ * @restrict .nds-file-selector_integrated div
  * @required
  */
-.slds-file-selector__dropzone_integrated,
-.slds-file-selector__dropzone--integrated {
+.nds-file-selector__dropzone_integrated,
+.nds-file-selector__dropzone--integrated {
   @include absolute-center;
   position: absolute;
   top: 0;
@@ -196,13 +196,13 @@
   /**
    * Informs dropzone that file has been dragged into the viewport
    *
-   * @selector .slds-has-drag
-   * @restrict .slds-file-selector__dropzone_integrated
+   * @selector .nds-has-drag
+   * @restrict .nds-file-selector__dropzone_integrated
    * @notes To be added with JavaScript
    * @required
    * @modifier
    */
-  &.slds-has-drag {
+  &.nds-has-drag {
     background: $color-background-backdrop;
     opacity: 1;
     z-index: $z-index-overlay;
@@ -211,13 +211,13 @@
   /**
    * Informs dropzone that file has been dragged into its region
    *
-   * @selector .slds-has-drag-over
-   * @restrict .slds-file-selector__dropzone_integrated
+   * @selector .nds-has-drag-over
+   * @restrict .nds-file-selector__dropzone_integrated
    * @notes To be added with JavaScript
    * @required
    * @modifier
    */
-  &.slds-has-drag-over {
+  &.nds-has-drag-over {
     background: $color-background-backdrop-tint;
     box-shadow: 0 0 0 4px $color-border-brand inset;
   }
@@ -227,12 +227,12 @@
  * Specific to integrated file selector — container for file selector
  * content, specifically within the dropzone
  *
- * @selector .slds-file-selector__body_integrated
- * @restrict .slds-file-selector_integrated label
+ * @selector .nds-file-selector__body_integrated
+ * @restrict .nds-file-selector_integrated label
  * @required
  */
-.slds-file-selector__body_integrated,
-.slds-file-selector__body--integrated {
+.nds-file-selector__body_integrated,
+.nds-file-selector__body--integrated {
   @include square($size-x-small);
   @include absolute-center;
   background: $color-background-alt;
@@ -245,11 +245,11 @@
 /**
  * Specific to integrated file selector — Descriptive call back text
  *
- * @selector .slds-file-selector__text_integrated
- * @restrict .slds-file-selector_integrated span
+ * @selector .nds-file-selector__text_integrated
+ * @restrict .nds-file-selector_integrated span
  * @required
  */
-.slds-file-selector__text_integrated,
-.slds-file-selector__text--integrated {
+.nds-file-selector__text_integrated,
+.nds-file-selector__text--integrated {
   margin-top: $spacing-small;
 }

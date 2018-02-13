@@ -4,14 +4,14 @@
 /**
  * @variant
  * @name base
- * @selector .slds-brand-band
+ * @selector .nds-brand-band
  * @restrict div
  * @support dev-ready
  */
 
 // If the brand band is standalone, use this modifier. If the brand band is being extended
-// into another component use slds-brand-band without this modifier
-.slds-brand-band {
+// into another component use nds-brand-band without this modifier
+.nds-brand-band {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -47,13 +47,13 @@
     background-image: linear-gradient(to bottom, $brand-band-color-background-primary-transparent 60%, $brand-band-color-background-primary);
   }
 
-  &.slds-brand-band_cover {
+  &.nds-brand-band_cover {
     background-repeat: no-repeat;
     background-size: cover;
   }
 
   // Small Height Modifier (Made the default as a test)
-  &.slds-brand-band_small {
+  &.nds-brand-band_small {
 
     &:before {
       height: $brand-band-image-height-small;
@@ -66,7 +66,7 @@
   }
 
   // Medium Height Modifier
-  &.slds-brand-band_medium {
+  &.nds-brand-band_medium {
 
     &:before {
       height: $brand-band-image-height-medium;
@@ -79,7 +79,7 @@
   }
 
   // Large Height Modifier
-  &.slds-brand-band_large {
+  &.nds-brand-band_large {
 
     &:before {
       height: $brand-band-image-height-large;
@@ -92,25 +92,25 @@
   }
 
   // Full Height Modifier
-  &.slds-brand-band_full {
+  &.nds-brand-band_full {
 
     &:before {
       height: 100%;
     }
   }
 
-  &.slds-brand-band_bottom:before {
+  &.nds-brand-band_bottom:before {
     background-position: bottom;
     top: initial;
   }
 
   // No image
-  &.slds-brand-band_none:before {
+  &.nds-brand-band_none:before {
     height: 0;
   }
 
   // White page for iframes
-  .slds-brand-band_blank {
+  .nds-brand-band_blank {
     background: $color-background-alt;
 
     &:before,
@@ -121,46 +121,46 @@
 }
 
 // This resets the boundaries from templates that have absolute positioning
-.slds-template__container {
+.nds-template__container {
   position: relative;
   height: 100%;
   width: 100%;
 }
 
-.slds-template_default {
+.nds-template_default {
   padding: $template-gutters;
 
-  &.slds-brand-band:before {
+  &.nds-brand-band:before {
     position: fixed;
     top: 5.625rem; // Height of global nav + header
   }
 
-  &.slds-brand-band.slds-brand-band_medium:after {
+  &.nds-brand-band.nds-brand-band_medium:after {
     position: fixed;
     top: 15rem;
   }
 }
 
-.slds-template_bottom-magnet {
+.nds-template_bottom-magnet {
   padding: side-values($template-gutters $template-gutters 0 $template-gutters);
 }
 
-.slds-template_profile {
+.nds-template_profile {
   padding: $template-profile-gutters;
 }
 
 // This template is typically used on a content area where there's a left sticky nav especially when it will scroll and needs no right or bottom gutter
-.slds-template__content {
+.nds-template__content {
   padding: side-values($template-gutters $template-gutters 0 $template-gutters);
 }
 
 // This template is used on an iframe with an app inside that will scroll and needs no right or bottom gutter
-.slds-template_app {
+.nds-template_app {
   padding: side-values($template-gutters 0 0 $template-gutters);
 }
 
 // This template is used on the oneAloha wrapper surrounding an iframed page and has now been extended so that it effectively neutralizes the space created by brand band
-.slds-template_iframe {
+.nds-template_iframe {
   width: calc(100% + (#{$template-gutters} * 2));
   height: calc(100% + (#{$template-gutters} * 2));
   margin: ($template-gutters * -1);

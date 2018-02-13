@@ -2,9 +2,9 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * Buttons in a group are surrounded by a parent with the `.slds-button-group` class, unless they are in a list (in which case they use `.slds-button-group-list`. If the last button is an icon, like the down triangle, use the `.slds-button_icon-border-filled` class when accompanying a `.slds-button_neutral` group.
+ * Buttons in a group are surrounded by a parent with the `.nds-button-group` class, unless they are in a list (in which case they use `.nds-button-group-list`. If the last button is an icon, like the down triangle, use the `.nds-button_icon-border-filled` class when accompanying a `.nds-button_neutral` group.
  *
- * If the last button in a group needs to be wrapped in another element (for example, a drop-down trigger), add the `.slds-button_last` class to the wrapper element to create proper spacing and borders.
+ * If the last button in a group needs to be wrapped in another element (for example, a drop-down trigger), add the `.nds-button_last` class to the wrapper element to create proper spacing and borders.
  *
  * #### Accessibility
  *
@@ -14,7 +14,7 @@
  *
  * @name button-groups
  * @base
- * @selector .slds-button-group
+ * @selector .nds-button-group
  * @category base
  * @type action
  * @role button

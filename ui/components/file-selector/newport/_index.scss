@@ -7,14 +7,14 @@
  *
  * @name newport
  * @selector .vlocity-newport-file-selector
- * @restrict .slds-file-selector
+ * @restrict .nds-file-selector
  * @variant
  */
 
 .vlocity-newport-file-selector {
 	width: 15rem;
 
-	.slds-file-selector__dropzone {
+	.nds-file-selector__dropzone {
 	    width: inherit;
 	    padding: 0;
 	    border: 1px solid $color-border-input;
@@ -22,16 +22,16 @@
 	    background-color: $card-color-background;
 	}
 
-	.slds-file-selector__body,
-	.slds-file-selector__button  {
+	.nds-file-selector__body,
+	.nds-file-selector__button  {
 		width: 100%;
 	}
 
-	.slds-file-selector__body {
+	.nds-file-selector__body {
 		position: relative;
 		height: inherit;
 
-		.slds-file-selector__button {
+		.nds-file-selector__button {
 			height: inherit;
 			max-height: 2.3rem;
     		line-height: 2.3rem;
@@ -48,7 +48,7 @@
 			border-radius: 0.25rem;
 			border: 1px solid $color-border-input;
 
-			svg.slds-button__icon {
+			svg.nds-button__icon {
 				fill: $color-input-icon-blue-hue;
 				width: 1.2rem;
 				height: 1.2rem;
@@ -68,14 +68,14 @@
 			background-color: white;
 			border-radius: 0.25rem;
 			
-		    .slds-button.slds-button_neutral {
+		    .nds-button.nds-button_neutral {
 				border: none;
 				color: $color-text-highlight;
 				font-size: 0.75rem;
 		    }
 		}
 
-		.slds-file-selector__button {
+		.nds-file-selector__button {
 			height: inherit;
 			max-height: 2rem;
 		}
@@ -85,7 +85,7 @@
 			#{$right}: 0.3rem;
 			padding: 0.4rem 0;
 
-			svg.slds-button__icon {
+			svg.nds-button__icon {
 				fill: $color-input-icon-blue-hue;
 				width: 1.2rem;
 				height: 1.2rem;

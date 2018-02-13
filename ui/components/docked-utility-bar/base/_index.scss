@@ -5,22 +5,22 @@
  * Fixed bar at the bottom of viewport, contains items
  *
  * @name base
- * @selector .slds-utility-bar_container
+ * @selector .nds-utility-bar_container
  * @restrict footer
  * @support dev-ready
  * @variant
  */
-.slds-utility-bar_container {
+.nds-utility-bar_container {
   position: relative;
 }
 
 /**
  * Fixed bar at the bottom of viewport, contains items
  *
- * @selector .slds-utility-bar
- * @restrict .slds-utility-bar_container ul
+ * @selector .nds-utility-bar
+ * @restrict .nds-utility-bar_container ul
  */
-.slds-utility-bar {
+.nds-utility-bar {
   display: flex;
   position: fixed;
   bottom: 0;
@@ -34,11 +34,11 @@
   /**
    * Notification indicator
    *
-   * @selector .slds-indicator_unread
-   * @restrict .slds-utility-bar abbr
+   * @selector .nds-indicator_unread
+   * @restrict .nds-utility-bar abbr
    */
-  .slds-indicator_unread,
-  .slds-indicator--unread {
+  .nds-indicator_unread,
+  .nds-indicator--unread {
     background: $utility-bar-color-background-notification-badge;
     top: $spacing-x-small;
   }
@@ -47,10 +47,10 @@
 /**
  * Items that invoke specific utility bar panel
  *
- * @selector .slds-utility-bar__item
- * @restrict .slds-utility-bar li
+ * @selector .nds-utility-bar__item
+ * @restrict .nds-utility-bar li
  */
-.slds-utility-bar__item {
+.nds-utility-bar__item {
   display: flex;
   margin-#{$right}: $border-width-thin;
 }
@@ -58,10 +58,10 @@
 /**
  * Button that invokes utility panel
  *
- * @selector .slds-utility-bar__action
- * @restrict .slds-utility-bar button
+ * @selector .nds-utility-bar__action
+ * @restrict .nds-utility-bar button
  */
-.slds-utility-bar__action {
+.nds-utility-bar__action {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -97,11 +97,11 @@
   }
 
   /**
-   * @selector .slds-is-active
-   * @restrict .slds-utility-bar__action
+   * @selector .nds-is-active
+   * @restrict .nds-utility-bar__action
    * @modifier
    */
-  &.slds-is-active {
+  &.nds-is-active {
     background: $color-background-utility-bar-hover;
     color: inherit;
 
@@ -114,10 +114,10 @@
 /**
  * Container for utility bar item text, allows for multi-line text output
  *
- * @selector .slds-utility-bar__text
- * @restrict .slds-utility-bar__action > span
+ * @selector .nds-utility-bar__text
+ * @restrict .nds-utility-bar__action > span
  */
-.slds-utility-bar__text {
+.nds-utility-bar__text {
   display: flex;
   flex-direction: column;
   line-height: 1;
@@ -127,12 +127,12 @@
 /**
  * Creates styles for a utility bar item when it has a notification within its panel
  *
- * @selector .slds-has-notification
- * @restrict .slds-utility-bar__item
+ * @selector .nds-has-notification
+ * @restrict .nds-utility-bar__item
  */
-.slds-has-notification {
+.nds-has-notification {
 
-  .slds-utility-bar__action {
+  .nds-utility-bar__action {
     background: $color-background-info;
     color: $color-text-inverse;
 

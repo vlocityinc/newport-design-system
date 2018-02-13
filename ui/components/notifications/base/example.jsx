@@ -12,10 +12,9 @@ import classNames from 'classnames';
 // State Constructor(s)
 /// ///////////////////////////////////////////
 
-let NotificationContainer = props =>
-  <div className="slds-notification-container">
-    { props.children }
-  </div>;
+let NotificationContainer = props => (
+  <div className="nds-notification-container">{props.children}</div>
+);
 
 let Notification = props => {
   const headingUniqueId = _.uniqueId('dialog-heading-id-');
@@ -23,40 +22,53 @@ let Notification = props => {
 
   return (
     <section
-      className="slds-notification"
+      className="nds-notification"
       role="dialog"
       aria-labelledby={props.headingID}
       aria-describedby={bodyUniqueId}
     >
-      <div className="slds-notification__body" id={bodyUniqueId}>
-        <a className="slds-notification__target slds-media" href="javascript:void(0);">
+      <div className="nds-notification__body" id={bodyUniqueId}>
+        <a
+          className="nds-notification__target nds-media"
+          href="javascript:void(0);"
+        >
           <StandardIcon
-            containerClassName="slds-media__figure"
-            className="slds-icon--small"
+            containerClassName="nds-media__figure"
+            className="nds-icon--small"
             assistiveText={false}
             symbol={props.type}
             title={props.type}
           />
-          <div className="slds-media__body">
-            <h2 className="slds-text-heading--small slds-m-bottom--xx-small" id={props.headingID}>
-              <span className="slds-assistive-text">{props.type + " notification:"}</span>
+          <div className="nds-media__body">
+            <h2
+              className="nds-text-heading--small nds-m-bottom--xx-small"
+              id={props.headingID}
+            >
+              <span className="nds-assistive-text">
+                {props.type + ' notification:'}
+              </span>
               {props.title}
             </h2>
             <p>{props.description}</p>
           </div>
         </a>
         <ButtonIcon
-          className="slds-button--icon-container slds-notification__close"
+          className="nds-button--icon-container nds-notification__close"
           symbol="close"
-          assistiveText={"Dismiss " + props.title + " notification"}
-          title={"Dismiss " + props.title + " notification"}
+          assistiveText={'Dismiss ' + props.title + ' notification'}
+          title={'Dismiss ' + props.title + ' notification'}
         />
       </div>
-        { props.footer
-        ? <footer className={classNames('slds-notification__footer', props.footerClassName)}>
-          { props.footer }
+      {props.footer ? (
+        <footer
+          className={classNames(
+            'nds-notification__footer',
+            props.footerClassName
+          )}
+        >
+          {props.footer}
         </footer>
-      : null }
+      ) : null}
     </section>
   );
 };
@@ -66,16 +78,16 @@ let Notification = props => {
 /// ///////////////////////////////////////////
 
 export default (
-  <div className="demo-only slds-is-relative" style={{ height: '4.5rem' }}>
+  <div className="demo-only nds-is-relative" style={{ height: '4.5rem' }}>
     <NotificationContainer>
       <div
         aria-live="assertive"
         aria-atomic="true"
-        className="slds-assistive-text"
+        className="nds-assistive-text"
       >
         event notification: Tesla - Renewal meeting
       </div>
-      <Notification 
+      <Notification
         headingID="noti52"
         type="event"
         title="Tesla - Renewal meeting"
@@ -89,13 +101,13 @@ export let examples = [
   {
     id: 'task-notification',
     label: 'Task Notification',
-    element:
-      <div className="demo-only slds-is-relative" style={{ height: '4.5rem' }}>
+    element: (
+      <div className="demo-only nds-is-relative" style={{ height: '4.5rem' }}>
         <NotificationContainer>
           <div
             aria-live="assertive"
             aria-atomic="true"
-            className="slds-assistive-text"
+            className="nds-assistive-text"
           >
             task notification: Call Two: Jane Johnson
           </div>
@@ -107,17 +119,18 @@ export let examples = [
           />
         </NotificationContainer>
       </div>
+    )
   },
   {
     id: 'stacked-2',
     label: 'Stacked Notifications',
-    element:
-      <div className="demo-only slds-is-relative" style={{ height: '15rem' }}>
+    element: (
+      <div className="demo-only nds-is-relative" style={{ height: '15rem' }}>
         <NotificationContainer>
           <div
             aria-live="assertive"
             aria-atomic="true"
-            className="slds-assistive-text"
+            className="nds-assistive-text"
           >
             task notification: Call Two: Jane Johnson
           </div>
@@ -135,17 +148,18 @@ export let examples = [
           />
         </NotificationContainer>
       </div>
+    )
   },
   {
     id: 'stacked-3',
     label: 'Three Stacked Notifications',
-    element:
-      <div className="demo-only slds-is-relative" style={{ height: '15rem' }}>
+    element: (
+      <div className="demo-only nds-is-relative" style={{ height: '15rem' }}>
         <NotificationContainer>
           <div
             aria-live="assertive"
             aria-atomic="true"
-            className="slds-assistive-text"
+            className="nds-assistive-text"
           >
             task notification: Call Two: Jane Johnson
           </div>
@@ -169,17 +183,18 @@ export let examples = [
           />
         </NotificationContainer>
       </div>
+    )
   },
   {
     id: 'overflow-six',
     label: 'Six Stacked Notifications',
-    element:
-      <div className="demo-only slds-is-relative" style={{ height: '17rem' }}>
+    element: (
+      <div className="demo-only nds-is-relative" style={{ height: '17rem' }}>
         <NotificationContainer>
           <div
             aria-live="assertive"
             aria-atomic="true"
-            className="slds-assistive-text"
+            className="nds-assistive-text"
           >
             task notification: Call Two: Jane Johnson
           </div>
@@ -221,6 +236,6 @@ export let examples = [
           />
         </NotificationContainer>
       </div>
+    )
   }
 ];
-

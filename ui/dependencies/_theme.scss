@@ -33,7 +33,7 @@
 @mixin inverse-links {
   color: $color-text-inverse;
 
-  a:not(.slds-button--neutral) {
+  a:not(.nds-button--neutral) {
     color: $color-text-link-inverse;
     text-decoration: underline;
 
@@ -68,15 +68,15 @@
   @for $i from 1 through length($support) {
     @if nth($support, $i) == 'text-utilities' {
 
-      .slds-text-title,
-      .slds-text-title_caps,
-      .slds-text-title--caps {
+      .nds-text-title,
+      .nds-text-title_caps,
+      .nds-text-title--caps {
         color: $color-text-inverse-weak;
       }
     }
 
     @else if nth($support, $i) == 'buttons' {
-      $link-selector: 'a:not(.slds-button--neutral), button:not(.slds-button--neutral)';
+      $link-selector: 'a:not(.nds-button--neutral), button:not(.nds-button--neutral)';
     }
 
     @else if nth($support, $i) == 'borders' {
@@ -85,7 +85,7 @@
 
     @else if nth($support, $i) == 'icons' {
 
-      .slds-icon {
+      .nds-icon {
         fill: currentColor;
       }
     }

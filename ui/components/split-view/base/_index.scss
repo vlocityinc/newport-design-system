@@ -5,11 +5,11 @@
  * @summary Wrapper of split view
  *
  * @name base
- * @selector .slds-split-view_container
+ * @selector .nds-split-view_container
  * @restrict div
  * @variant
  */
-.slds-split-view_container {
+.nds-split-view_container {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -17,67 +17,67 @@
 
   /**
    * @summary Modifier to rotate the left arrow icon on close
-   * @selector .slds-is-closed
-   * @restrict .slds-split-view_container, .slds-split-view__toggle-button
+   * @selector .nds-is-closed
+   * @restrict .nds-split-view_container, .nds-split-view__toggle-button
    * @modifier
    * @group toggle
    */
-  &.slds-is-closed {
+  &.nds-is-closed {
 
-    .slds-split-view {
+    .nds-split-view {
       display: none;
     }
 
-    .slds-split-view__toggle-button .slds-button__icon {
+    .nds-split-view__toggle-button .nds-button__icon {
       transform: rotate(180deg);
     }
   }
 
   /**
    * @summary Toggles open/close state of split view container
-   * @selector .slds-is-open
-   * @restrict .slds-split-view_container, .slds-split-view__toggle-button
+   * @selector .nds-is-open
+   * @restrict .nds-split-view_container, .nds-split-view__toggle-button
    * @modifier
    * @group toggle
    */
-  &.slds-is-open {
+  &.nds-is-open {
     flex: 1 1 auto;
 
-    .slds-split-view {
+    .nds-split-view {
       display: inherit;
     }
 
-    .slds-split-view__toggle-button .slds-button__icon {
+    .nds-split-view__toggle-button .nds-button__icon {
       transform: rotate(0);
     }
   }
 }
 
 /**
- * @selector .slds-split-view
- * @restrict .slds-split-view_container article
+ * @selector .nds-split-view
+ * @restrict .nds-split-view_container article
  */
-.slds-split-view {
+.nds-split-view {
   background: $split-view-color-background;
   color: $color-text-weak;
 }
 
 /**
  * @summary Header of split view
- * @selector .slds-split-view__header
- * @restrict .slds-split-view header
+ * @selector .nds-split-view__header
+ * @restrict .nds-split-view header
  * @notes Contains elements such as the list filter, view switcher and refresh button
  */
-.slds-split-view__header {
+.nds-split-view__header {
   padding: side-values($spacing-medium $spacing-medium $spacing-x-small $spacing-large);
 }
 
 /**
  * @summary Column headers
- * @selector .slds-split-view__list-header
- * @restrict .slds-split-view div
+ * @selector .nds-split-view__list-header
+ * @restrict .nds-split-view div
  */
-.slds-split-view__list-header {
+.nds-split-view__list-header {
   border: {
     top: $border-width-thin solid $split-view-color-border;
     bottom: $border-width-thin solid $split-view-color-border;
@@ -87,10 +87,10 @@
 
 /**
  * @summary Each row of the list of split view
- * @selector .slds-split-view__list-item
- * @restrict .slds-split-view li
+ * @selector .nds-split-view__list-item
+ * @restrict .nds-split-view li
  */
-.slds-split-view__list-item {
+.nds-split-view__list-item {
   display: flex;
   position: relative;
   border-bottom: $border-width-thin solid $split-view-color-border;
@@ -101,19 +101,19 @@
     background: $split-view-color-background-row-hover;
   }
 
-  .slds-indicator_unread,
-  .slds-indicator--unread {
+  .nds-indicator_unread,
+  .nds-indicator--unread {
     background: $color-brand;
   }
 }
 
 /**
  * @summary Unread states
- * @selector .slds-indicator_unread
- * @restrict .slds-split-view__list-item abbr
+ * @selector .nds-indicator_unread
+ * @restrict .nds-split-view__list-item abbr
  */
-.slds-indicator_unread,
-.slds-indicator--unread {
+.nds-indicator_unread,
+.nds-indicator--unread {
   @include square(8px);
   position: absolute;
   top: $spacing-medium;
@@ -125,10 +125,10 @@
 
 /**
  * @summary Actionable row of split view
- * @selector .slds-split-view__list-item-action
- * @restrict .slds-split-view__list-item a
+ * @selector .nds-split-view__list-item-action
+ * @restrict .nds-split-view__list-item a
  */
-.slds-split-view__list-item-action {
+.nds-split-view__list-item-action {
   color: currentColor;
   padding: side-values($spacing-small $spacing-medium $spacing-small $spacing-large);
 
@@ -155,10 +155,10 @@
 
 /**
  * @summary Expand/Collapse button to toggle open/close state of split view
- * @selector .slds-split-view__toggle-button
- * @restrict .slds-split-view_container button
+ * @selector .nds-split-view__toggle-button
+ * @restrict .nds-split-view_container button
  */
-.slds-split-view__toggle-button {
+.nds-split-view__toggle-button {
   position: absolute;
   #{$right}: (0.75rem * -1);
   height: 100%;
@@ -172,7 +172,7 @@
     background: $split-view-color-background-row-hover;
   }
 
-  &.slds-is-closed .slds-button__icon {
+  &.nds-is-closed .nds-button__icon {
     transform: rotate(180deg);
   }
 }

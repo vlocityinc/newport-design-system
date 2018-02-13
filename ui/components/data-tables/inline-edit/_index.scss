@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-.slds-table_edit_container,
-.slds-table--edit_container {
+.nds-table_edit_container,
+.nds-table--edit_container {
 
   &:focus {
     outline: none;
@@ -19,8 +19,8 @@
       box-shadow: 0 0 0 4px $color-border-brand inset;
     }
 
-    .slds-table_edit_container-message,
-    .slds-table--edit_container-message {
+    .nds-table_edit_container-message,
+    .nds-table--edit_container-message {
       display: block;
       position: absolute;
       top: 50%;
@@ -35,8 +35,8 @@
   }
 }
 
-.slds-table_edit_container-message,
-.slds-table--edit_container-message {
+.nds-table_edit_container-message,
+.nds-table--edit_container-message {
   display: none;
 }
 
@@ -46,7 +46,7 @@
  * #### Accessibility
  * The Advanced Data Table and Inline Edit Data Table are based on the semantics,
  * roles and interaction model of the [ARIA Grid](http://w3c.github.io/aria/practices/aria-practices.html#grid).
- * In SLDS we overlay the ARIA Grid on top of native HTML table semantics.
+ * In NDS we overlay the ARIA Grid on top of native HTML table semantics.
  *
  * The role of Grid comes with 2 distinct modes, Navigation mode and Actionable
  * mode. Both come with very specific keyboard interaction modals. Navigation
@@ -72,13 +72,13 @@
  * @summary Initiates inline-edit mode for data-tables
  *
  * @name inline-edit
- * @selector .slds-table_edit
- * @restrict .slds-table_fixed-layout
+ * @selector .nds-table_edit
+ * @restrict .nds-table_fixed-layout
  * @required
  * @variant
  */
-.slds-table_edit,
-.slds-table--edit {
+.nds-table_edit,
+.nds-table--edit {
 
   thead th {
     padding: 0;
@@ -87,63 +87,63 @@
   /**
    * Cell that has error icon appear within
    *
-   * @selector .slds-cell-error
-   * @restrict .slds-table_edit td
+   * @selector .nds-cell-error
+   * @restrict .nds-table_edit td
    * @required
    */
-  .slds-cell-error {
+  .nds-cell-error {
     padding-#{$left}: 0;
   }
 
-  // Check if slds-no-cell-focus is on the table element, if not then find
+  // Check if nds-no-cell-focus is on the table element, if not then find
   // our editable cell and make sure the focus style persists on row hover
   // scss-lint:disable SelectorDepth
-  &:not(.slds-no-cell-focus) tbody tr:hover > .slds-cell-edit {
+  &:not(.nds-no-cell-focus) tbody tr:hover > .nds-cell-edit {
 
-    &.slds-has-focus { // This is the focused state
+    &.nds-has-focus { // This is the focused state
       background-color: $color-background-alt;
       box-shadow: $color-border-selection 0 0 0 1px inset;
     }
   }
 
   // scss-lint:disable SelectorDepth
-  &.slds-table tbody tr:hover > .slds-cell-edit {
+  &.nds-table tbody tr:hover > .nds-cell-edit {
 
     &:hover {
       background-color: $color-background-alt;
     }
 
-    &.slds-is-edited {
+    &.nds-is-edited {
       background-color: $color-background-highlight;
     }
 
-    &.slds-has-error {
+    &.nds-has-error {
       background-color: $color-background-highlight;
       box-shadow: $color-border-error 0 0 0 ($border-width-thick) inset;
     }
   }
 
-  .slds-button__icon_edit:focus,
-  .slds-button__icon--edit:focus {
+  .nds-button__icon_edit:focus,
+  .nds-button__icon--edit:focus {
     fill: $color-text-brand;
   }
 }
 
 // Table Heading cell focus styles
 //
-// Requires .slds-th__action inside the <th>
-.slds-has-focus .slds-th__action {
+// Requires .nds-th__action inside the <th>
+.nds-has-focus .nds-th__action {
   background-color: $color-background-alt;
   box-shadow: $color-border-selection 0 0 0 1px inset;
 }
 
 // Handles focus for resizable columns
-.slds-has-focus.slds-is-resizable .slds-th__action,
-.slds-has-focus.slds-is-resizable .slds-th__action:focus,
-.slds-has-focus.slds-is-resizable .slds-th__action:hover,
-.slds-has-focus.slds-is-resizable .slds-th__action:focus:hover,
-.slds-is-resizable .slds-th__action:focus,
-.slds-is-resizable .slds-th__action:focus:hover {
+.nds-has-focus.nds-is-resizable .nds-th__action,
+.nds-has-focus.nds-is-resizable .nds-th__action:focus,
+.nds-has-focus.nds-is-resizable .nds-th__action:hover,
+.nds-has-focus.nds-is-resizable .nds-th__action:focus:hover,
+.nds-is-resizable .nds-th__action:focus,
+.nds-is-resizable .nds-th__action:focus:hover {
   background-color: $table-color-background-header-hover;
   box-shadow: $color-border-selection 0 0 0 1px inset, $color-border-selection -0.25rem 0 0 inset;
 }
@@ -153,20 +153,20 @@
 /**
  * Informs a table cell that it has editing capabilities
  *
- * @selector .slds-cell-edit
- * @restrict .slds-table_edit th, .slds-table_edit td
+ * @selector .nds-cell-edit
+ * @restrict .nds-table_edit th, .nds-table_edit td
  */
-.slds-cell-edit {
+.nds-cell-edit {
   outline: 0; // @TODO: This came from `has-focus` (watch for overreaching)
 
-  &.slds-has-focus { // This is the focused state
+  &.nds-has-focus { // This is the focused state
     background-color: $color-background-alt;
     box-shadow: $color-border-selection 0 0 0 1px inset;
 
-    .slds-button__icon_edit,
-    .slds-button__icon--edit,
-    .slds-button__icon_lock,
-    .slds-button__icon--lock {
+    .nds-button__icon_edit,
+    .nds-button__icon--edit,
+    .nds-button__icon_lock,
+    .nds-button__icon--lock {
       opacity: 1;
     }
 
@@ -183,11 +183,11 @@
   /**
    * Informs a cell that it has been edited but not saved
    *
-   * @selector .slds-is-edited
-   * @restrict .slds-cell-edit
+   * @selector .nds-is-edited
+   * @restrict .nds-cell-edit
    * @modifier
    */
-  &.slds-is-edited {
+  &.nds-is-edited {
 
     &,
     &:hover {
@@ -198,11 +198,11 @@
   /**
    * Informs a cell that it has an error inside of it
    *
-   * @selector .slds-has-error
-   * @restrict .slds-cell-edit
+   * @selector .nds-has-error
+   * @restrict .nds-cell-edit
    * @modifier
    */
-  &.slds-has-error {
+  &.nds-has-error {
 
     &,
     &:hover {
@@ -213,15 +213,15 @@
 }
 
 /**
- * @selector .slds-cell-edit__button
- * @restrict .slds-cell-edit button
+ * @selector .nds-cell-edit__button
+ * @restrict .nds-cell-edit button
  */
-.slds-cell-edit__button {
+.nds-cell-edit__button {
   @include square($square-icon-utility-medium);
   flex-shrink: 0;
 
-  &:focus .slds-button__icon_edit,
-  &:focus .slds-button__icon--edit {
+  &:focus .nds-button__icon_edit,
+  &:focus .nds-button__icon--edit {
     opacity: 1;
   }
 }
@@ -229,59 +229,59 @@
 /**
  * Handles children of the table where we don't want any focusable cells
  *
- * @selector .slds-no-cell-focus
- * @restrict .slds-table_edit
+ * @selector .nds-no-cell-focus
+ * @restrict .nds-table_edit
  * @modifier
  */
-.slds-no-cell-focus {
+.nds-no-cell-focus {
 
-  // If no cell focus is applied but were dynamically adding slds-has-focus, handle
+  // If no cell focus is applied but were dynamically adding nds-has-focus, handle
   // it here
-  .slds-has-focus {
+  .nds-has-focus {
     background: $color-background-row-hover;
     box-shadow: none;
 
-    .slds-th__action,
-    .slds-th__action:hover,
-    .slds-th__action:focus,
-    .slds-th__action:focus:hover {
+    .nds-th__action,
+    .nds-th__action:hover,
+    .nds-th__action:focus,
+    .nds-th__action:focus:hover {
       color: inherit;
       background-color: $table-color-background-header-hover;
       box-shadow: none;
     }
 
-    .slds-button__icon_edit,
-    .slds-button__icon--edit {
+    .nds-button__icon_edit,
+    .nds-button__icon--edit {
       opacity: 1;
     }
 
     // Handle the difference on resizeable columns
-    &.slds-is-resizable:hover .slds-th__action {
+    &.nds-is-resizable:hover .nds-th__action {
       background-color: $table-color-background-header-hover;
       box-shadow: $color-border -0.25rem 0 0 inset;
     }
   }
 
   // Lets make sure icon doesnt appear on sortable cells
-  .slds-is-sortable.slds-has-focus {
+  .nds-is-sortable.nds-has-focus {
 
-    .slds-is-sortable__icon {
+    .nds-is-sortable__icon {
       display: none;
     }
   }
 
   // Lets make sure were not altering the color of the icon when a column has been
   // sorted already, since thats what we do by default
-  .slds-is-sorted.slds-has-focus {
+  .nds-is-sorted.nds-has-focus {
 
-    .slds-is-sortable__icon {
+    .nds-is-sortable__icon {
       display: inline-block;
       fill: $color-text-icon-default;
     }
   }
 
   // Lets make sure our cell keeps its edited style
-  .slds-is-edited {
+  .nds-is-edited {
 
     &,
     &:hover {
@@ -290,7 +290,7 @@
   }
 
   // Lets make sure our cell keeps its error style
-  .slds-has-error {
+  .nds-has-error {
 
     &,
     &:hover {
@@ -301,30 +301,30 @@
 
   // Lets make sure hover behavior acts as the default when in a no focus state
   // scss-lint:disable SelectorDepth
-  thead .slds-has-focus:hover {
+  thead .nds-has-focus:hover {
     color: $color-text-link;
 
-    .slds-is-sortable__icon {
+    .nds-is-sortable__icon {
       display: inline-block;
       fill: $color-text-link;
     }
   }
 }
 
-.slds-hint-parent .slds-cell-edit {
+.nds-hint-parent .nds-cell-edit {
 
-  .slds-button__icon_edit,
-  .slds-button__icon--edit,
-  .slds-button__icon_lock,
-  .slds-button__icon--lock {
+  .nds-button__icon_edit,
+  .nds-button__icon--edit,
+  .nds-button__icon_lock,
+  .nds-button__icon--lock {
     opacity: 0;
   }
 
   &:hover,
   &:focus {
 
-    .slds-button__icon_edit,
-    .slds-button__icon--edit {
+    .nds-button__icon_edit,
+    .nds-button__icon--edit {
       opacity: 0.5;
 
       &:hover,
@@ -334,46 +334,46 @@
       }
     }
 
-    .slds-button__icon_lock,
-    .slds-button__icon--lock {
+    .nds-button__icon_lock,
+    .nds-button__icon--lock {
       opacity: 0.5;
     }
   }
 
-  &.slds-has-focus .slds-button__icon_edit,
-  &.slds-has-focus .slds-button__icon--edit {
+  &.nds-has-focus .nds-button__icon_edit,
+  &.nds-has-focus .nds-button__icon--edit {
     fill: $color-text-icon-default;
     opacity: 1;
   }
 }
 
 /**
- * @selector .slds-form-element__label_edit
- * @restrict .slds-popover_edit label
+ * @selector .nds-form-element__label_edit
+ * @restrict .nds-popover_edit label
  */
-.slds-form-element__label_edit,
-.slds-form-element__label--edit {
+.nds-form-element__label_edit,
+.nds-form-element__label--edit {
   margin: 0 $spacing-xxx-small 0;
 }
 
 /**
  * Dialog specific for inline-edit popover
  *
- * @selector .slds-popover_edit
- * @restrict .slds-popover
+ * @selector .nds-popover_edit
+ * @restrict .nds-popover
  * @required
  */
-.slds-popover_edit,
-.slds-popover--edit {
+.nds-popover_edit,
+.nds-popover--edit {
   border-top: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 
-  .slds-popover__body {
+  .nds-popover__body {
     padding: side-values($spacing-xx-small $spacing-xx-small $spacing-xx-small 0);
   }
 
-  .slds-form-element__help {
+  .nds-form-element__help {
     width: 100%;
     padding-#{$left}: $spacing-small;
   }

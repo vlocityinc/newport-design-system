@@ -7,18 +7,18 @@
  * The datepicker has the following markup requirements:
  *
  * **Desktop**
- * - Add `.slds-is-open` to the element with `.slds-dropdown-trigger` to invoke the dropdown that contains the datepicker.
- * - The `.slds-is-selected` modifier class is required on the `td` element that has the selected day.
- * - The `.slds-is-today` modifier class is required on the `td` element that is the current day.
- * - The `.slds-has-multi-selection` modifier class is required on the `tr` element that contains multiple days selected in the **same** week.
- * - The `.slds-has-multi-row-selection` modifier class is required on any `tr` element that contains multiple days selected in the **multiple** weeks.
- * - The `.slds-is-selected-multi` modifier class is required on the `td` element that contains a selected day within a range.
+ * - Add `.nds-is-open` to the element with `.nds-dropdown-trigger` to invoke the dropdown that contains the datepicker.
+ * - The `.nds-is-selected` modifier class is required on the `td` element that has the selected day.
+ * - The `.nds-is-today` modifier class is required on the `td` element that is the current day.
+ * - The `.nds-has-multi-selection` modifier class is required on the `tr` element that contains multiple days selected in the **same** week.
+ * - The `.nds-has-multi-row-selection` modifier class is required on any `tr` element that contains multiple days selected in the **multiple** weeks.
+ * - The `.nds-is-selected-multi` modifier class is required on the `td` element that contains a selected day within a range.
  *
  * **Mobile**
  * - When on mobile, we want to leverage the native date picker by changing the `input` type from `text` to `date`
  * - The `input type="date"` will create an input field allowing a date and time to be easily entered — this includes year, month, day.
  * - When switching `input type="text"` to `input type="date"` for mobile, we need to remove the ARIA attributes. The native rendering doesn't require these.
- *   - On the element with the class `slds-combobox`, please remove `role="combobox"`, `aria-expanded`, and `aria-haspopup`.
+ *   - On the element with the class `nds-combobox`, please remove `role="combobox"`, `aria-expanded`, and `aria-haspopup`.
  *   - On the `input` that we just added `type="date"` to, please remove `aria-controls`, `aria-autocomplete`, and `role="textbox"`.
  *
  * #### Accessibility
@@ -62,7 +62,7 @@
  *
  * @base
  * @name datepickers
- * @selector .slds-datepicker
+ * @selector .nds-datepicker
  * @support dev-ready
  * @category experience
  * @type data-entry

@@ -1,66 +1,66 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-// I need to associate slds-icon-animated with something since there isn't a base variant
+// I need to associate nds-icon-animated with something since there isn't a base variant
 
 
 /**
  * @summary Containing actionable element that holds the waffle icon
  *
  * @name waffle
- * @selector .slds-icon-waffle_container
+ * @selector .nds-icon-waffle_container
  * @restrict button
  * @variant
  */
-.slds-icon-waffle_container {
+.nds-icon-waffle_container {
   border: 0;
   outline: 0;
 
   &:hover,
   &:focus {
 
-    [class*="slds-r"] {
-      animation: slds-icon-waffle-throb 2 200ms alternate;
+    [class*="nds-r"] {
+      animation: nds-icon-waffle-throb 2 200ms alternate;
     }
 
-    .slds-r1,
-    .slds-r2,
-    .slds-r3 {
+    .nds-r1,
+    .nds-r2,
+    .nds-r3 {
       background-color: #418fde;
     }
 
-    .slds-r4,
-    .slds-r5,
-    .slds-r7 {
+    .nds-r4,
+    .nds-r5,
+    .nds-r7 {
       background-color: #ed8b00;
     }
 
-    .slds-r6,
-    .slds-r8,
-    .slds-r9 {
+    .nds-r6,
+    .nds-r8,
+    .nds-r9 {
       background-color: #ffb60f;
     }
 
-    .slds-r2,
-    .slds-r4 {
+    .nds-r2,
+    .nds-r4 {
       transition-delay: 50ms;
       animation-delay: 50ms;
     }
 
-    .slds-r3,
-    .slds-r5,
-    .slds-r7 {
+    .nds-r3,
+    .nds-r5,
+    .nds-r7 {
       transition-delay: 100ms;
       animation-delay: 100ms;
     }
 
-    .slds-r6,
-    .slds-r8 {
+    .nds-r6,
+    .nds-r8 {
       transition-delay: 150ms;
       animation-delay: 150ms;
     }
 
-    .slds-r9 {
+    .nds-r9 {
       transition-delay: 200ms;
       animation-delay: 200ms;
     }
@@ -70,16 +70,16 @@
 /**
  * @summary Element container circles for the waffle icon
  *
- * @selector .slds-icon-waffle
- * @restrict .slds-icon-waffle_container > span
+ * @selector .nds-icon-waffle
+ * @restrict .nds-icon-waffle_container > span
  */
-.slds-icon-waffle {
+.nds-icon-waffle {
   @include square(rem(21px));
   position: relative;
   display: block;
   cursor: pointer;
 
-  [class*="slds-r"] {
+  [class*="nds-r"] {
     @include square(rem(5px));
     background-color: $color-background-icon-waffle;
     display: inline-block;
@@ -91,75 +91,75 @@
   }
 
   // Positioning
-  .slds-r1 {
+  .nds-r1 {
     top: 0;
     #{$left}: 0;
   }
 
-  .slds-r2 {
+  .nds-r2 {
     top: 0;
     #{$left}: rem(8px);
   }
 
-  .slds-r3 {
+  .nds-r3 {
     top: 0;
     #{$right}: 0;
   }
 
-  .slds-r4 {
+  .nds-r4 {
     top: rem(8px);
     #{$left}: 0;
   }
 
-  .slds-r5 {
+  .nds-r5 {
     top: rem(8px);
     #{$left}: rem(8px);
   }
 
-  .slds-r6 {
+  .nds-r6 {
     top: rem(8px);
     #{$right}: 0;
   }
 
-  .slds-r7 {
+  .nds-r7 {
     bottom: 0;
     #{$left}: 0;
   }
 
-  .slds-r8 {
+  .nds-r8 {
     bottom: 0;
     #{$left}: rem(8px);
   }
 
-  .slds-r9 {
+  .nds-r9 {
     bottom: 0;
     #{$right}: 0;
   }
 
   // Default delays
   // scss-lint:disable MergeableSelector
-  .slds-r1 {
+  .nds-r1 {
     transition-delay: 200ms;
   }
 
-  .slds-r2,
-  .slds-r4 {
+  .nds-r2,
+  .nds-r4 {
     transition-delay: 150ms;
   }
 
-  .slds-r3,
-  .slds-r5,
-  .slds-r7 {
+  .nds-r3,
+  .nds-r5,
+  .nds-r7 {
     transition-delay: 100ms;
   }
 
-  .slds-r6,
-  .slds-r8 {
+  .nds-r6,
+  .nds-r8 {
     transition-delay: 50ms;
   }
 }
 
-@keyframes slds-icon-waffle-throb {
+@keyframes nds-icon-waffle-throb {
 
   to {
     transform: scale(1.5);

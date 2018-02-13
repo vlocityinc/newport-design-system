@@ -4,18 +4,18 @@
 /**
 * The base card is used primarily on desktop within a &ldquo;wide&rdquo; column
 * or &ldquo;main content area&rdquo;, which uses two-thirds of the viewport.
-* In addition, the `.slds-card` class is used for layout purposes
+* In addition, the `.nds-card` class is used for layout purposes
 * when a card has an adjacent card, those proceeding the initial will provide margin
 * to give the cards spacing between each other.
 *
 * @summary Initializes card
 *
 * @name base
-* @selector .slds-card
+* @selector .nds-card
 * @restrict article, div
 * @variant
 */
-.slds-card {
+.nds-card {
   position: relative;
   padding: 0;
   background: $card-color-background;
@@ -25,7 +25,7 @@
   box-shadow: $card-shadow;
 
   // Adds spacing between cards
-  + .slds-card {
+  + .nds-card {
     margin-top: $card-spacing-margin;
   }
 
@@ -37,8 +37,8 @@
   /**
    * Initializes card header
    *
-   * @selector .slds-card__header
-   * @restrict .slds-card div
+   * @selector .nds-card__header
+   * @restrict .nds-card div
    */
   &__header {
     padding: $card-header-padding;
@@ -53,8 +53,8 @@
   /**
    * Initializes card body
    *
-   * @selector .slds-card__body
-   * @restrict .slds-card div
+   * @selector .nds-card__body
+   * @restrict .nds-card div
    */
   &__body {
     margin-bottom: $spacing-small;
@@ -68,8 +68,8 @@
   /**
    * Initializes card footer
    *
-   * @selector .slds-card__footer
-   * @restrict .slds-card footer
+   * @selector .nds-card__footer
+   * @restrict .nds-card footer
    */
   &__footer {
     padding: $card-footer-padding;
@@ -81,8 +81,8 @@
 
   @include deprecate('4.0.0', 'Use a text-align--center utility class instead') {
 
-    .slds-card_empty .slds-card__body,
-    .slds-card--empty .slds-card__body {
+    .nds-card_empty .nds-card__body,
+    .nds-card--empty .nds-card__body {
       text-align: center;
     }
   }
@@ -91,10 +91,10 @@
 /**
  * Use class if card consumes any form of a tile
  *
- * @selector .slds-card__tile
- * @restrict .slds-tile
+ * @selector .nds-card__tile
+ * @restrict .nds-tile
  */
-.slds-card__tile {
+.nds-card__tile {
   margin-top: $spacing-x-small;
 }
 

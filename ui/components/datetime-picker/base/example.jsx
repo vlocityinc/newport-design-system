@@ -37,9 +37,9 @@ const listboxOptionId12 = 'listbox-option-unique-id-12';
     Private
 ----------------------------------------------------------------------------- */
 
-const ListboxDropdown = props =>
+const ListboxDropdown = props => (
   <Listbox
-    className="slds-dropdown slds-dropdown--fluid slds-dropdown--length-5"
+    className="nds-dropdown nds-dropdown--fluid nds-dropdown--length-5"
     vertical
   >
     <ListboxItem>
@@ -82,27 +82,27 @@ const ListboxDropdown = props =>
     <ListboxItem>
       <Option id={listboxOptionId12} title="5:00pm" />
     </ListboxItem>
-  </Listbox>;
+  </Listbox>
+);
 
 /* -----------------------------------------------------------------------------
     Exports
 ----------------------------------------------------------------------------- */
 
 // Demo wrapper
-export const Context = props =>
-  <div style={{ height: '25rem' }}>
-    {props.children}
-  </div>;
+export const Context = props => (
+  <div style={{ height: '25rem' }}>{props.children}</div>
+);
 
 // Default
 export default (
-  <div className="slds-form slds-form--compound">
-    <fieldset className="slds-form-element">
-      <legend className="slds-form-element__label">Date and Time</legend>
-      <div className="slds-form-element__group">
-        <div className="slds-form-element__row">
+  <div className="nds-form nds-form--compound">
+    <fieldset className="nds-form-element">
+      <legend className="nds-form-element__label">Date and Time</legend>
+      <div className="nds-form-element__group">
+        <div className="nds-form-element__row">
           <FormElement
-            className="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+            className="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open"
             label="Date"
             inputId={dateInputId}
             inputIcon="right"
@@ -110,7 +110,7 @@ export default (
           >
             <Input id={dateInputId} placeholder=" " />
             <ButtonIcon
-              className="slds-input__icon slds-input__icon--right"
+              className="nds-input__icon nds-input__icon--right"
               symbol="event"
               assistiveText="Select a date"
               title="Select a date"
@@ -119,7 +119,7 @@ export default (
           <ComboboxContainer
             label="Time"
             autocomplete
-            className="slds-combobox-picklist slds-timepicker"
+            className="nds-combobox-picklist nds-timepicker"
             inputIcon="right"
             inputIconRightSymbol="clock"
             inputIconRightAssistiveText="Select a time"
@@ -136,22 +136,32 @@ export let states = [
   {
     id: 'date-selection',
     label: 'Date selected',
-    element:
-      <div className="slds-form slds-form--compound">
-        <fieldset className="slds-form-element">
-          <legend className="slds-form-element__label">Date and Time</legend>
-          <div className="slds-form-element__group">
-            <div className="slds-form-element__row">
+    element: (
+      <div className="nds-form nds-form--compound">
+        <fieldset className="nds-form-element">
+          <legend className="nds-form-element__label">Date and Time</legend>
+          <div className="nds-form-element__group">
+            <div className="nds-form-element__row">
               <FormElement
-                className="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                className="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open"
                 label="Date"
                 inputId={dateInputId}
                 inputIcon="right"
-                dropdown={<DatePicker todayActive dateSelected="single" dateRange="week-4" />}
+                dropdown={
+                  <DatePicker
+                    todayActive
+                    dateSelected="single"
+                    dateRange="week-4"
+                  />
+                }
               >
-                <Input id={dateInputId} placeholder=" " defaultValue="06/24/2014" />
+                <Input
+                  id={dateInputId}
+                  placeholder=" "
+                  defaultValue="06/24/2014"
+                />
                 <ButtonIcon
-                  className="slds-input__icon slds-input__icon--right"
+                  className="nds-input__icon nds-input__icon--right"
                   symbol="event"
                   assistiveText="Select a date"
                   title="Select a date"
@@ -160,7 +170,7 @@ export let states = [
               <ComboboxContainer
                 label="Time"
                 autocomplete
-                className="slds-combobox-picklist slds-timepicker"
+                className="nds-combobox-picklist nds-timepicker"
                 inputIcon="right"
                 inputIconRightSymbol="clock"
                 inputIconRightAssistiveText="Select a time"
@@ -171,26 +181,37 @@ export let states = [
           </div>
         </fieldset>
       </div>
+    )
   },
   {
     id: 'time-selection',
     label: 'Time selected',
-    element:
-      <div className="slds-form slds-form--compound">
-        <fieldset className="slds-form-element">
-          <legend className="slds-form-element__label">Date and Time</legend>
-          <div className="slds-form-element__group">
-            <div className="slds-form-element__row">
+    element: (
+      <div className="nds-form nds-form--compound">
+        <fieldset className="nds-form-element">
+          <legend className="nds-form-element__label">Date and Time</legend>
+          <div className="nds-form-element__group">
+            <div className="nds-form-element__row">
               <FormElement
-                className="slds-dropdown-trigger slds-dropdown-trigger_click"
+                className="nds-dropdown-trigger nds-dropdown-trigger_click"
                 label="Date"
                 inputId={dateInputId}
                 inputIcon="right"
-                dropdown={<DatePicker todayActive dateSelected="single" dateRange="week-4" />}
+                dropdown={
+                  <DatePicker
+                    todayActive
+                    dateSelected="single"
+                    dateRange="week-4"
+                  />
+                }
               >
-                <Input id={dateInputId} placeholder=" " defaultValue="06/24/2014" />
+                <Input
+                  id={dateInputId}
+                  placeholder=" "
+                  defaultValue="06/24/2014"
+                />
                 <ButtonIcon
-                  className="slds-input__icon slds-input__icon--right"
+                  className="nds-input__icon nds-input__icon--right"
                   symbol="event"
                   assistiveText="Select a date"
                   title="Select a date"
@@ -200,7 +221,7 @@ export let states = [
                 label="Time"
                 autocomplete
                 isOpen
-                className="slds-combobox-picklist slds-timepicker"
+                className="nds-combobox-picklist nds-timepicker"
                 inputIcon="right"
                 inputIconRightSymbol="clock"
                 inputIconRightAssistiveText="Select a time"
@@ -212,5 +233,6 @@ export let states = [
           </div>
         </fieldset>
       </div>
+    )
   }
 ];

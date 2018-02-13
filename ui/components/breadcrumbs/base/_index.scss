@@ -5,20 +5,20 @@
  * @summary Create breadcrumbs component
  *
  * @name base
- * @selector .slds-breadcrumb
+ * @selector .nds-breadcrumb
  * @restrict ol
  * @support dev-ready
  * @variant
  */
-.slds-breadcrumb {
+.nds-breadcrumb {
   /**
    * Item of the breadcrumb list
    *
-   * @selector .slds-breadcrumb__item
-   * @restrict .slds-breadcrumb li
+   * @selector .nds-breadcrumb__item
+   * @restrict .nds-breadcrumb li
    * @required
    */
-  .slds-list__item,
+  .nds-list__item,
   &__item {
     position: relative;
 

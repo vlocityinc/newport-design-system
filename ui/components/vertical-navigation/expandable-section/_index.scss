@@ -5,13 +5,13 @@
 /**
  * Actionable element that toggles visibility of overflown list items
  *
- * @selector .slds-nav-vertical__action_overflow
- * @restrict .slds-nav-vertical__action
+ * @selector .nds-nav-vertical__action_overflow
+ * @restrict .nds-nav-vertical__action
  */
-.slds-nav-vertical__action_overflow {
+.nds-nav-vertical__action_overflow {
   color: $color-text-icon-default;
 
-  &[aria-expanded="true"] .slds-button__icon {
+  &[aria-expanded="true"] .nds-button__icon {
     transform: rotate(90deg);
   }
 }
@@ -19,9 +19,9 @@
 /**
  * Text inside of actionable element that toggles visibility of overflown list items
  *
- * @selector .slds-nav-vertical__action-text
- * @restrict .slds-nav-vertical__action_overflow span
+ * @selector .nds-nav-vertical__action-text
+ * @restrict .nds-nav-vertical__action_overflow span
  */
-.slds-nav-vertical__action-text {
+.nds-nav-vertical__action-text {
   color: $color-text-link;
 }

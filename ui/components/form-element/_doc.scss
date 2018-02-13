@@ -2,13 +2,13 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * Error states alert the user when content in the form is invalid. The `.slds-has-error` class is placed on the `<div class="slds-form-element">`. Place the error message for the user in a `<span>` with the `.slds-form-element__help` class.
+ * Error states alert the user when content in the form is invalid. The `.nds-has-error` class is placed on the `<div class="nds-form-element">`. Place the error message for the user in a `<span>` with the `.nds-form-element__help` class.
  *
  * The native form elements, `<input>`, `<textarea>`, `<select>`, `<input type='checkbox'>`, and `<input type='radio'>`, receive validation styling for `disabled`, `checked`, and `checked disabled`, if applicable.
  *
  * The read-only state is for form elements that can’t be modified. It is used for small, non-editable form fields that sit next to inputs and allows the size and height to align. It is not meant for large paragraphs of text.
  *
- * Because the read-only field state has no `<input>`, don’t use a `<label>` to provide better accessibility for screen readers and keyboard navigators. Instead, use a `<span>` with the `.slds-form-element__label` class. Instead of an `<input>`, use the `.slds-form-element__static` class inside the `.slds-form-element__control` wrapper.
+ * Because the read-only field state has no `<input>`, don’t use a `<label>` to provide better accessibility for screen readers and keyboard navigators. Instead, use a `<span>` with the `.nds-form-element__label` class. Instead of an `<input>`, use the `.nds-form-element__static` class inside the `.nds-form-element__control` wrapper.
  *
  * #### Accessibility
  *
@@ -22,7 +22,7 @@
  *
  * @base
  * @name form-element
- * @selector .slds-form-element
+ * @selector .nds-form-element
  * @support dev-ready
  * @category structure
  * @type layout

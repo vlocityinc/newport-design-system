@@ -10,56 +10,62 @@ import classNames from 'classnames';
 // Partial(s)
 /// ////////////////////////////////////////
 
-export let Pill = props =>
-  <span className={classNames('slds-pill slds-pill_link', props.className)}>
-    { props.children }
-    <a href="javascript:void(0);" className="slds-pill__action" title={props.label || 'Full pill label verbiage mirrored here'}>
-      <span className="slds-pill__label">
-        { props.label || 'Pill Label' }
-      </span>
+export let Pill = props => (
+  <span className={classNames('nds-pill nds-pill_link', props.className)}>
+    {props.children}
+    <a
+      href="javascript:void(0);"
+      className="nds-pill__action"
+      title={props.label || 'Full pill label verbiage mirrored here'}
+    >
+      <span className="nds-pill__label">{props.label || 'Pill Label'}</span>
     </a>
     <ButtonIcon
-      className="slds-button_icon slds-pill__remove"
+      className="nds-button_icon nds-pill__remove"
       symbol="close"
       assistiveText="Remove"
       title="Remove"
     />
-  </span>;
+  </span>
+);
 
-export let PillContainer = props =>
-  <div className={classNames('slds-pill_container', props.className)}>
+export let PillContainer = props => (
+  <div className={classNames('nds-pill_container', props.className)}>
     {props.children}
-  </div>;
+  </div>
+);
 
 /// ////////////////////////////////////////
 // Export
 /// ////////////////////////////////////////
 
-export default (
-  <Pill />
-);
+export default <Pill />;
 
 export let examples = [
   {
     id: 'icon',
     label: 'With icon',
-    element:
+    element: (
       <Pill>
-        <span className="slds-pill__icon_container">
-          <span className="slds-icon_container slds-icon-standard-account" title="Account">
-            <SvgIcon className="slds-icon" sprite="standard" symbol="account" />
-            <span className="slds-assistive-text">Account</span>
+        <span className="nds-pill__icon_container">
+          <span
+            className="nds-icon_container nds-icon-standard-account"
+            title="Account"
+          >
+            <SvgIcon className="nds-icon" sprite="standard" symbol="account" />
+            <span className="nds-assistive-text">Account</span>
           </span>
         </span>
       </Pill>
+    )
   },
   {
     id: 'avatar',
     label: 'With avatar',
-    element:
+    element: (
       <Pill>
-        <span className="slds-pill__icon_container">
-          <span className="slds-avatar slds-avatar_circle" title="User avatar">
+        <span className="nds-pill__icon_container">
+          <span className="nds-avatar nds-avatar_circle" title="User avatar">
             <img
               alt="Person name"
               src="/assets/images/avatar2.jpg"
@@ -68,38 +74,46 @@ export let examples = [
           </span>
         </span>
       </Pill>
+    )
   },
   {
     id: 'truncated',
     label: 'Truncated',
-    element:
+    element: (
       <div className="demo-only" style={{ width: '220px' }}>
         <PillContainer>
           <Pill label="Pill label that is longer than the area that contains it" />
         </PillContainer>
       </div>
+    )
   },
   {
     id: 'container',
     label: 'Pill with Container',
-    element:
+    element: (
       <PillContainer>
         <Pill />
         <Pill />
         <Pill />
       </PillContainer>
+    )
   },
   {
     id: 'error',
     label: 'Error',
-    element:
-      <Pill className="slds-has-error">
-        <span className="slds-pill__icon_container">
-          <span className="slds-icon_container" title="Error">
-            <SvgIcon className="slds-icon slds-icon-text-error" sprite="utility" symbol="warning" />
-            <span className="slds-assistive-text">Warning</span>
+    element: (
+      <Pill className="nds-has-error">
+        <span className="nds-pill__icon_container">
+          <span className="nds-icon_container" title="Error">
+            <SvgIcon
+              className="nds-icon nds-icon-text-error"
+              sprite="utility"
+              symbol="warning"
+            />
+            <span className="nds-assistive-text">Warning</span>
           </span>
         </span>
       </Pill>
+    )
   }
 ];

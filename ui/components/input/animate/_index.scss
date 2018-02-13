@@ -6,24 +6,24 @@
  * @summary Custom animation with label on input focus
  *
  * @name animate
- * @selector .slds-form-element__control-animated-label
- * @restrict .slds-input
+ * @selector .nds-form-element__control-animated-label
+ * @restrict .nds-input
  * @variant
  */
 
-.slds-form-element__control-animated-label {
+.nds-form-element__control-animated-label {
 	font-size: 0.875rem;
 	position: relative;
 }
 
 
-.slds-input {
+.nds-input {
 	font-size: 0.875rem;
 	letter-spacing: 1px;
 	font-weight: 400;
 }
 
-.slds-form-element__control.slds-form-element__control-animated-label .slds-form-element__label {
+.nds-form-element__control.nds-form-element__control-animated-label .nds-form-element__label {
 	top: 0.25rem;
 	#{$left}: 0;
 	position: absolute;
@@ -39,14 +39,14 @@
 	color: $color-input-font-kashmiri-blue;
 }
 
-.slds-form-element__control.slds-form-element__control-animated-label input:focus ~ label,
-.slds-form-element__control.slds-form-element__control-animated-label input.slds-has-value:not(:focus):valid ~ label,
-.slds-form-element__control.slds-form-element__control-animated-label input.ng-dirty.ng-not-empty ~ label,
-.slds-form-element__control.slds-form-element__control-animated-label input.ng-dirty.ng-not-empty + label,
-.slds-form-element__control.slds-form-element__control-animated-label input[cloned='dirty'] + label,
-.slds-form-element__control.slds-form-element__control-animated-label input.slds-input[cloned='dirty'] ~ label,
-.slds-form-element__control.slds-form-element__control-animated-label input.slds-input.ng-dirty.ng-not-empty.ng-touched[vlc-slds-lookup-control] ~ label,
-.slds-form-element__control.slds-form-element__control-animated-label input.ng-touched.ng-not-empty.td-input + label {
+.nds-form-element__control.nds-form-element__control-animated-label input:focus ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label input.nds-has-value:not(:focus):valid ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label input.ng-dirty.ng-not-empty ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label input.ng-dirty.ng-not-empty + label,
+.nds-form-element__control.nds-form-element__control-animated-label input[cloned='dirty'] + label,
+.nds-form-element__control.nds-form-element__control-animated-label input.nds-input[cloned='dirty'] ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control] ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label input.ng-touched.ng-not-empty.td-input + label {
 	-webkit-transform: translate3d(0, -1.2rem, 0);
 	transform: translate3d(0, -1.2rem, 0);
 	-webkit-transition-duration: 300ms;
@@ -58,46 +58,46 @@
 	#{$left}: 0;
  }
 
-.slds-form-element__control.slds-form-element__control-animated-label input:focus ~ label,
-.slds-form-element__control.slds-form-element__control-animated-label input:focus ~ label .slds-required {
+.nds-form-element__control.nds-form-element__control-animated-label input:focus ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label input:focus ~ label .nds-required {
 	color: $color-border-input-active;
 }
 
-.slds-form-element__control.slds-input-has-icon svg.slds-icon {
+.nds-form-element__control.nds-input-has-icon svg.nds-icon {
 	fill: $color-input-icon-blue-hue;
 }
 
 
-.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.slds-form-element__control-animated-label .slds-form-element__label,
-.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left-right.slds-form-element__control-animated-label .slds-form-element__label {
+.nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label .nds-form-element__label,
+.nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left-right.nds-form-element__control-animated-label .nds-form-element__label {
 	#{$left}: 1.25rem;
 }
 
 
-.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.slds-form-element__control-animated-label input:focus ~ label,
-.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left-right.slds-form-element__control-animated-label input:focus ~ label,
-.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_left.slds-form-element__control-animated-label input:not(:focus):valid ~ label {
+.nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label input:focus ~ label,
+.nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left-right.nds-form-element__control-animated-label input:focus ~ label,
+.nds-form-element__control.nds-input-has-icon.nds-input-has-icon_left.nds-form-element__control-animated-label input:not(:focus):valid ~ label {
 	#{$left}: 0;
 }
 
-.slds-form-element__control.slds-form-element__control-animated-label input[readonly] ~ label {
+.nds-form-element__control.nds-form-element__control-animated-label input[readonly] ~ label {
 	-webkit-transform: translate3d(0, -1.2rem, 0);
 	transform: translate3d(0, -1.2rem, 0);
 	top: 0.4rem;
 	#{$left}: 0;
 }
 
-.slds-form-element__control.slds-form-element__control-animated-label input[type="email"].ng-dirty.ng-invalid, 
-.slds-form-element__control.slds-form-element__control-animated-label input[type="password"].ng-dirty.ng-invalid, 
-.slds-form-element__control.slds-form-element__control-animated-label input[type="tel"].ng-dirty.ng-invalid, 
-.slds-form-element__control.slds-form-element__control-animated-label input[type="text"].ng-dirty.ng-invalid, 
-.slds-form-element__control.slds-form-element__control-animated-label input[type="url"].ng-dirty.ng-invalid, 
-.slds-form-element__control.slds-form-element__control-animated-label textarea.ng-dirty.ng-invalid {
+.nds-form-element__control.nds-form-element__control-animated-label input[type="email"].ng-dirty.ng-invalid, 
+.nds-form-element__control.nds-form-element__control-animated-label input[type="password"].ng-dirty.ng-invalid, 
+.nds-form-element__control.nds-form-element__control-animated-label input[type="tel"].ng-dirty.ng-invalid, 
+.nds-form-element__control.nds-form-element__control-animated-label input[type="text"].ng-dirty.ng-invalid, 
+.nds-form-element__control.nds-form-element__control-animated-label input[type="url"].ng-dirty.ng-invalid, 
+.nds-form-element__control.nds-form-element__control-animated-label textarea.ng-dirty.ng-invalid {
 	border-bottom: 1px solid $color-border-error;
 	border-image: initial;
 }
 
-.slds-has-error .slds-form-element__help {
+.nds-has-error .nds-form-element__help {
 	letter-spacing: 1px;
 	color: $color-border-error;
 	font-size: 0.75rem;

@@ -1,23 +1,23 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-.slds-has-block-links {
+.nds-has-block-links {
 
   a {
     display: block;
     text-decoration: none;
   }
 
-  .slds-is-nested {
+  .nds-is-nested {
     margin-#{$left}: $spacing-medium;
   }
 
   &_space,
   &--space {
 
-    .slds-list__item,
-    .slds-item {
-      padding: 0; // Reset padding if used in conjunction with .slds-has-dividers--{position}-space
+    .nds-list__item,
+    .nds-item {
+      padding: 0; // Reset padding if used in conjunction with .nds-has-dividers--{position}-space
     }
 
     a {
@@ -32,7 +32,7 @@
   }
 }
 
-.slds-has-inline-block-links {
+.nds-has-inline-block-links {
 
   a {
     display: inline-block;
@@ -54,14 +54,14 @@
 /**
  * @summary Marks a vertical list with .5rem spacing around
  *
- * @selector .slds-list_vertical-space
+ * @selector .nds-list_vertical-space
  * @modifier
  */
-.slds-list_vertical-space,
-.slds-list--vertical-space {
+.nds-list_vertical-space,
+.nds-list--vertical-space {
 
-  .slds-list__item + .slds-list__item,
-  .slds-item + .slds-item {
+  .nds-list__item + .nds-list__item,
+  .nds-item + .nds-item {
     margin-top: $spacing-x-small;
   }
 }
@@ -69,14 +69,14 @@
 /**
  * @summary Marks a vertical list with 1rem spacing around
  *
- * @selector .slds-list_vertical-space-medium
+ * @selector .nds-list_vertical-space-medium
  * @modifier
  */
-.slds-list_vertical-space-medium,
-.slds-list--vertical-space-medium {
+.nds-list_vertical-space-medium,
+.nds-list--vertical-space-medium {
 
-  .slds-list__item + .slds-list__item,
-  .slds-item + .slds-item {
+  .nds-list__item + .nds-list__item,
+  .nds-item + .nds-item {
     margin-top: $spacing-medium;
   }
 }
@@ -84,32 +84,32 @@
 /**
  * @summary Provides styles for a nested lists
  *
- * @selector .slds-is-nested
+ * @selector .nds-is-nested
  * @modifier
  */
-.slds-is-nested {
+.nds-is-nested {
   margin-#{$left}: $spacing-medium;
 }
 
 /**
  * @summary Creates an unordered list with markers
  *
- * @selector .slds-list_dotted
+ * @selector .nds-list_dotted
  * @modifier
  */
-.slds-list_dotted,
-.slds-list--dotted {
+.nds-list_dotted,
+.nds-list--dotted {
   @include list-has-bullets;
 }
 
 /**
  * @summary Creates an ordered list with decimals
  *
- * @selector .slds-list_ordered
+ * @selector .nds-list_ordered
  * @modifier
  */
-.slds-list_ordered,
-.slds-list--ordered {
+.nds-list_ordered,
+.nds-list--ordered {
   @include list-has-numbers;
 }
 
@@ -117,25 +117,25 @@
 /**
  * @summary Adds 1px border divider above list items
  *
- * @selector .slds-has-dividers_top
+ * @selector .nds-has-dividers_top
  * @modifier
  */
-.slds-has-dividers_top,
-.slds-has-dividers--top {
+.nds-has-dividers_top,
+.nds-has-dividers--top {
 
-  > .slds-list__item,
-  > .slds-item {
+  > .nds-list__item,
+  > .nds-item {
     @include border(top);
   }
 
   /**
    * @summary Adds 1px border divider above list items and 0.5rem padding between items
    *
-   * @selector .slds-has-dividers_top-space
+   * @selector .nds-has-dividers_top-space
    * @modifier
    */
-  &-space > .slds-list__item,
-  &-space > .slds-item {
+  &-space > .nds-list__item,
+  &-space > .nds-item {
     @include border(top);
     padding: $spacing-small;
 
@@ -148,25 +148,25 @@
 /**
  * @summary Adds 1px border divider below list items
  *
- * @selector .slds-has-dividers_top
+ * @selector .nds-has-dividers_top
  * @modifier
  */
-.slds-has-dividers_bottom,
-.slds-has-dividers--bottom {
+.nds-has-dividers_bottom,
+.nds-has-dividers--bottom {
 
-  > .slds-list__item,
-  > .slds-item {
+  > .nds-list__item,
+  > .nds-item {
     @include border(bottom);
   }
 
   /**
    * @summary Adds 1px border divider below list items and 0.5rem padding between items
    *
-   * @selector .slds-has-dividers_bottom-space
+   * @selector .nds-has-dividers_bottom-space
    * @modifier
    */
-  &-space > .slds-list__item,
-  &-space > .slds-item {
+  &-space > .nds-list__item,
+  &-space > .nds-item {
     @include border(bottom);
     padding: $spacing-small;
 
@@ -179,16 +179,16 @@
 /**
  * @summary Adds 1px border divider around list items
  *
- * @selector .slds-has-dividers_around
+ * @selector .nds-has-dividers_around
  * @modifier
  */
-.slds-has-dividers_around,
-.slds-has-dividers--around {
+.nds-has-dividers_around,
+.nds-has-dividers--around {
 
-  > .slds-item {
+  > .nds-item {
     @include border(around, $border-radius-medium);
 
-    + .slds-item {
+    + .nds-item {
       margin-top: $spacing-x-small;
     }
   }
@@ -196,12 +196,12 @@
   /**
    * @summary Adds 1px border divider around list items and 0.5rem padding between items
    *
-   * @selector .slds-has-dividers_around-space
+   * @selector .nds-has-dividers_around-space
    * @modifier
    */
   &-space {
 
-    > .slds-item {
+    > .nds-item {
       @include border(around, $border-radius-medium);
       padding: $spacing-small;
 
@@ -209,7 +209,7 @@
         padding: $spacing-x-small;
       }
 
-      + .slds-item {
+      + .nds-item {
         margin-top: $spacing-x-small;
       }
     }
@@ -217,10 +217,10 @@
 }
 
 // Interactions on items
-.slds-has-list-interactions {
+.nds-has-list-interactions {
 
-  > .slds-list__item,
-  > .slds-item {
+  > .nds-list__item,
+  > .nds-item {
     @include list-has-hovers;
     @include list-has-selections;
   }
@@ -229,8 +229,8 @@
 // Deprecate for directional dividers
 @include deprecate('4.0.0', 'Use has-dividers--{position} helpers instead') {
 
-  .slds-list_vertical.slds-has-dividers > .slds-list__item,
-  .slds-list--vertical.slds-has-dividers > .slds-list__item {
+  .nds-list_vertical.nds-has-dividers > .nds-list__item,
+  .nds-list--vertical.nds-has-dividers > .nds-list__item {
     @include box($padding: $spacing-x-small, $border-radius: null, $borders: bottom);
     @include list-has-hovers;
     @include list-has-selections;
@@ -240,12 +240,12 @@
 // Deprecate for has-dividers--around instead
 @include deprecate('4.0.0', 'Use has-dividers--around instead') {
 
-  .slds-has-cards {
+  .nds-has-cards {
 
-    > .slds-list__item {
+    > .nds-list__item {
       @include border(around, $border-radius-medium);
 
-      + .slds-list__item {
+      + .nds-list__item {
         margin-top: $spacing-x-small;
       }
     }
@@ -253,7 +253,7 @@
     &_space,
     &--space {
 
-      > .slds-list__item {
+      > .nds-list__item {
         @include border(around, $border-radius-medium);
         padding: $spacing-small;
 
@@ -261,7 +261,7 @@
           padding: $spacing-x-small;
         }
 
-        + .slds-list__item {
+        + .nds-list__item {
           margin-top: $spacing-x-small;
         }
       }
@@ -269,7 +269,7 @@
   }
 }
 
-.slds-has-divider {
+.nds-has-divider {
   @include deprecate('4.0.0') {
     margin-top: $spacing-x-small;
     padding-top: $spacing-x-small;
@@ -279,7 +279,7 @@
   /**
    * @summary Adds 1px border divider above an HTML element
    *
-   * @selector .slds-has-divider_top
+   * @selector .nds-has-divider_top
    * @restrict li
    * @modifier
    */
@@ -297,7 +297,7 @@
   /**
    * @summary Adds dot separator to the right of an HTML element
    *
-   * @selector .slds-has-divider_right
+   * @selector .nds-has-divider_right
    * @restrict li
    * @modifier
    */
@@ -309,7 +309,7 @@
   /**
    * @summary Adds 1px border divider below an HTML element
    *
-   * @selector .slds-has-divider_bottom
+   * @selector .nds-has-divider_bottom
    * @restrict li
    * @modifier
    */
@@ -327,7 +327,7 @@
   /**
    * @summary Adds dot separator to the left of an HTML element
    *
-   * @selector .slds-has-divider_left
+   * @selector .nds-has-divider_left
    * @restrict li
    * @modifier
    */

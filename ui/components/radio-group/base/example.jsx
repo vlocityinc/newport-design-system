@@ -9,24 +9,34 @@ import _ from '../../../shared/helpers';
 // Partial(s)
 /// ////////////////////////////////////////
 
-export let Fieldset = props =>
-  <fieldset className={classNames('slds-form-element', props.className)}>
+export let Fieldset = props => (
+  <fieldset className={classNames('nds-form-element', props.className)}>
     {props.children}
-  </fieldset>;
+  </fieldset>
+);
 
-export let Legend = props =>
-  <legend className={classNames('slds-form-element__legend slds-form-element__label', props.className)}>{props.children}</legend>;
-
-export let FormElementControl = props =>
-  <div className={classNames('slds-form-element__control', props.className)}>
+export let Legend = props => (
+  <legend
+    className={classNames(
+      'nds-form-element__legend nds-form-element__label',
+      props.className
+    )}
+  >
     {props.children}
-  </div>;
+  </legend>
+);
+
+export let FormElementControl = props => (
+  <div className={classNames('nds-form-element__control', props.className)}>
+    {props.children}
+  </div>
+);
 
 export let Radio = props => {
   const uniqueId = _.uniqueId('radio-');
 
   return (
-    <span className={classNames('slds-radio', props.className)}>
+    <span className={classNames('nds-radio', props.className)}>
       <input
         type="radio"
         id={uniqueId}
@@ -35,9 +45,9 @@ export let Radio = props => {
         defaultChecked={props.checked}
         aria-describedby={props.errorId}
       />
-      <label className="slds-radio__label" htmlFor={uniqueId}>
-        <span className="slds-radio_faux" />
-        <span className="slds-form-element__label">{props.label}</span>
+      <label className="nds-radio__label" htmlFor={uniqueId}>
+        <span className="nds-radio_faux" />
+        <span className="nds-form-element__label">{props.label}</span>
       </label>
     </span>
   );
@@ -61,7 +71,7 @@ export let states = [
   {
     id: 'disabled',
     label: 'Disabled',
-    element:
+    element: (
       <Fieldset>
         <Legend>Radio Group Label</Legend>
         <FormElementControl>
@@ -69,30 +79,45 @@ export let states = [
           <Radio disable label="Radio Label Two" />
         </FormElementControl>
       </Fieldset>
+    )
   },
   {
     id: 'required',
     label: 'Required',
-    element:
+    element: (
       <Fieldset>
-        <Legend><abbr className="slds-required" title="required">*</abbr> Radio Group Label</Legend>
+        <Legend>
+          <abbr className="nds-required" title="required">
+            *
+          </abbr>{' '}
+          Radio Group Label
+        </Legend>
         <FormElementControl>
           <Radio checked label="Radio Label One" />
           <Radio label="Radio Label Two" />
         </FormElementControl>
       </Fieldset>
+    )
   },
   {
     id: 'error',
     label: 'Error',
-    element:
-      <Fieldset className="slds-has-error">
-        <Legend><abbr className="slds-required" title="required">*</abbr> Radio Group Label</Legend>
+    element: (
+      <Fieldset className="nds-has-error">
+        <Legend>
+          <abbr className="nds-required" title="required">
+            *
+          </abbr>{' '}
+          Radio Group Label
+        </Legend>
         <FormElementControl>
           <Radio errorId="error_01" checked label="Radio Label One" />
           <Radio errorId="error_01" label="Radio Label Two" />
         </FormElementControl>
-        <div id="error_01" className="slds-form-element__help">This field is required</div>
+        <div id="error_01" className="nds-form-element__help">
+          This field is required
+        </div>
       </Fieldset>
+    )
   }
 ];

@@ -14,8 +14,8 @@
  * The listbox of pills is positioned below the read-only input, each pill represents a selected option.
  * This allows a user to easily see and remove selected items.
  *
- * The target HTML element, `slds-combobox` and dropdown need to be wrapped in the class
- * `.slds-dropdown-trigger dropdown-trigger_click`.
+ * The target HTML element, `nds-combobox` and dropdown need to be wrapped in the class
+ * `.nds-dropdown-trigger dropdown-trigger_click`.
  *
  * #### Accessibility
  *
@@ -34,7 +34,7 @@
  *
  * @base
  * @name picklist
- * @selector .slds-combobox-picklist
+ * @selector .nds-combobox-picklist
  * @support dev-ready
  * @category experience
  * @type user-input

@@ -29,11 +29,11 @@
  * @summary Initializes slider component
  *
  * @name base
- * @selector .slds-slider
+ * @selector .nds-slider
  * @restrict div
  * @variant
  */
-.slds-slider {
+.nds-slider {
   display: flex;
   position: relative;
 }
@@ -41,10 +41,10 @@
 /**
  * @summary Range track for slider
  *
- * @selector .slds-slider__range
+ * @selector .nds-slider__range
  * @restrict input
  */
-.slds-slider__range {
+.nds-slider__range {
   appearance: none;
   width: 100%;
   margin: ($slider-handle-size / 2) 0;
@@ -142,40 +142,40 @@
 /**
  * @summary Element that contains value of input range
  *
- * @selector .slds-slider__value
- * @restrict .slds-slider span
+ * @selector .nds-slider__value
+ * @restrict .nds-slider span
  */
-.slds-slider__value {
+.nds-slider__value {
   padding: 0 $spacing-x-small;
 }
 
 /**
  * @summary Contains the label and range for the slider label - not required
  *
- * @selector .slds-slider-label
+ * @selector .nds-slider-label
  * @restrict span
  */
-.slds-slider-label {
+.nds-slider-label {
   // Hook for adding a11y class if needed to hide
 }
 
 /**
- * @summary Contains the label for the slider and adds a hook for adding `.slds-assistive-text` class to visually hide the label, but not the range
+ * @summary Contains the label for the slider and adds a hook for adding `.nds-assistive-text` class to visually hide the label, but not the range
  *
- * @selector .slds-slider-label__label
- * @restrict .slds-slider-label span
+ * @selector .nds-slider-label__label
+ * @restrict .nds-slider-label span
  */
-.slds-slider-label__label {
+.nds-slider-label__label {
   display: block;
 }
 
 /**
  * @summary Contains the range for the slider
  *
- * @selector .slds-slider-label__range
- * @restrict .slds-slider-label span
+ * @selector .nds-slider-label__range
+ * @restrict .nds-slider-label span
  */
-.slds-slider-label__range {
+.nds-slider-label__range {
   // Hook for adding a11y class to hide
 }
 
@@ -183,21 +183,21 @@
 /**
  * @summary Modifier that makes the slider vertical
  *
- * @selector .slds-slider_vertical
- * @restrict .slds-slider
+ * @selector .nds-slider_vertical
+ * @restrict .nds-slider
  * @modifier
  */
-.slds-slider_vertical {
+.nds-slider_vertical {
   height: ($size-x-small + $height-input);
 
-  .slds-slider__range {
+  .nds-slider__range {
     width: $size-x-small;
     height: $slider-handle-size;
     transform: rotate(-90deg);
     transform-origin: ($size-x-small / 2) ($size-x-small / 2);
   }
 
-  .slds-slider__value {
+  .nds-slider__value {
     position: absolute;
     #{$left}: 0;
     bottom: 0;

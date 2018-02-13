@@ -3,7 +3,7 @@ Thank you for opening an issue!
 Before posting, please check that your issue hasn’t already been discussed (https://github.com/salesforce-ux/design-system/search).
 
 Note: GitHub issues are for Design System bugs and enhancements.
-If you’re looking for help or support with SLDS, someone from the team will
+If you’re looking for help or support with NDS, someone from the team will
 triage your request and direct you to the appropriate avenue for your question.
 
 Please answer the following questions in our issue template to the best of your
@@ -33,7 +33,7 @@ reduced test case.
   e.g. 2.2.2
 
   If you're not sure, be specific about the environment:
-  e.g. The bug happens in Visualforce when importing SLDS via `<apex:slds />` in a Spring ’17 org.
+  e.g. The bug happens in Visualforce when importing NDS via `<apex:nds />` in a Spring ’17 org.
 -->
 
 > What steps and/or code are needed to reproduce this issue?
@@ -42,7 +42,7 @@ reduced test case.
 e.g.
 
 ```html
-<button class="slds-button">Button</button>
+<button class="nds-button">Button</button>
 ```
 -->
 

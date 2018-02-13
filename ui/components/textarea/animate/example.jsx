@@ -11,13 +11,13 @@ const textareaId = 'textarea-id-01';
 /// ////////////////////////////////////////
 
 export let FormElement = props => (
-  <div className={classNames('slds-form-element', props.className)}>
+  <div className={classNames('nds-form-element', props.className)}>
     {props.children}
   </div>
 );
 
 export let FormElementLabel = props => (
-  <label className="slds-form-element__label" htmlFor={textareaId}>
+  <label className="nds-form-element__label" htmlFor={textareaId}>
     {props.children}
   </label>
 );
@@ -25,7 +25,7 @@ export let FormElementLabel = props => (
 export let FormElementControl = props => (
   <div
     className={classNames(
-      'slds-form-element__control slds-form-element__control-animated-label',
+      'nds-form-element__control nds-form-element__control-animated-label',
       props.className
     )}
   >
@@ -37,7 +37,7 @@ export let AnimatedTextarea = props => (
   <textarea
     {...props}
     id={props.id || textareaId}
-    className={classNames('slds-textarea slds-has-value', props.className)}
+    className={classNames('nds-textarea nds-has-value', props.className)}
     required
   />
 );
@@ -76,7 +76,7 @@ export let states = [
         <FormElementControl>
           <AnimatedTextarea required />
           <FormElementLabel>
-            <abbr className="slds-required" title="required">
+            <abbr className="nds-required" title="required">
               *
             </abbr>{' '}
             Textarea Label
@@ -89,17 +89,17 @@ export let states = [
     id: 'error',
     label: 'Error',
     element: (
-      <FormElement className="slds-has-error">
+      <FormElement className="nds-has-error">
         <FormElementControl>
           <AnimatedTextarea required aria-describedby="error-01" />
           <FormElementLabel>
-            <abbr className="slds-required" title="required">
+            <abbr className="nds-required" title="required">
               *
             </abbr>{' '}
             Textarea Label
           </FormElementLabel>
         </FormElementControl>
-        <div className="slds-form-element__help" id="error-01">
+        <div className="nds-form-element__help" id="error-01">
           This field is required
         </div>
       </FormElement>
@@ -110,9 +110,9 @@ export let states = [
     label: 'Read only',
     element: (
       <FormElement>
-        <span className="slds-form-element__label">Textarea Label</span>
-        <FormElementControl className="slds-border_bottom">
-          <div className="slds-form-element__static">
+        <span className="nds-form-element__label">Textarea Label</span>
+        <FormElementControl className="nds-border_bottom">
+          <div className="nds-form-element__static">
             <p>
               Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
               nibh, ut fermentum massa justo sit amet risus. Maecenas sed diam

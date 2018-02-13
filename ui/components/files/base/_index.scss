@@ -2,17 +2,17 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * A figure component is a self-contained unit of content, such as an image with an optional caption. The figure component should NOT be used with icons or logos. A figure can optionally be cropped to a specific ratio such as 16x9, 4x3 and 1x1 with the use of `.slds-image__crop` and passing in a ratio class such as `.slds-image__crop_16-by-9`.
+ * A figure component is a self-contained unit of content, such as an image with an optional caption. The figure component should NOT be used with icons or logos. A figure can optionally be cropped to a specific ratio such as 16x9, 4x3 and 1x1 with the use of `.nds-image__crop` and passing in a ratio class such as `.nds-image__crop_16-by-9`.
  *
  * @summary Initializes a file component
  *
  * @name base
- * @selector .slds-file
+ * @selector .nds-file
  * @restrict figure, div
  * @variant
  */
-.slds-image,
-.slds-file {
+.nds-image,
+.nds-file {
   display: block;
   position: relative;
 
@@ -29,8 +29,8 @@
   /**
    * Set crop boundaries to a file component, set to 16:9 by default
    *
-   * @selector .slds-file__crop
-   * @restrict .slds-file div, .slds-file a
+   * @selector .nds-file__crop
+   * @restrict .nds-file div, .nds-file a
    */
   &__crop {
     display: block;
@@ -54,8 +54,8 @@
     /**
      * Crops file to a ratio of 1:1
      *
-     * @selector .slds-file__crop_1-by-1
-     * @restrict .slds-file__crop
+     * @selector .nds-file__crop_1-by-1
+     * @restrict .nds-file__crop
      * @modifier
      * @group ratio
      */
@@ -67,8 +67,8 @@
     /**
      * Crops file to a ratio of 16:9
      *
-     * @selector .slds-file__crop_16-by-9
-     * @restrict .slds-file__crop
+     * @selector .nds-file__crop_16-by-9
+     * @restrict .nds-file__crop
      * @modifier
      * @group ratio
      */
@@ -80,8 +80,8 @@
     /**
      * Crops file to a ratio of 4:3
      *
-     * @selector .slds-file__crop_4-by-3
-     * @restrict .slds-file__crop
+     * @selector .nds-file__crop_4-by-3
+     * @restrict .nds-file__crop
      * @modifier
      * @group ratio
      */
@@ -94,8 +94,8 @@
   /**
    * Image caption associated to a file
    *
-   * @selector .slds-file__title
-   * @restrict .slds-file figcaption, .slds-file div
+   * @selector .nds-file__title
+   * @restrict .nds-file figcaption, .nds-file div
    */
   &__title {
     display: flex;
@@ -105,8 +105,8 @@
     /**
      * Adds overlay to file
      *
-     * @selector .slds-file__title_overlay
-     * @restrict .slds-file__title
+     * @selector .nds-file__title_overlay
+     * @restrict .nds-file__title
      */
 
     &_overlay,
@@ -118,7 +118,7 @@
       #{$right}: 0;
       bottom: 0;
 
-      .slds-media__body {
+      .nds-media__body {
         z-index: 1;
       }
     }
@@ -126,8 +126,8 @@
     /**
      * Creates card title bar on file
      *
-     * @selector .slds-file__title_card
-     * @restrict .slds-file__title
+     * @selector .nds-file__title_card
+     * @restrict .nds-file__title
      */
 
     &_card,
@@ -142,8 +142,8 @@
     /**
      * Creates gradient scrim bar on file
      *
-     * @selector .slds-file__title_scrim
-     * @restrict .slds-file__title
+     * @selector .nds-file__title_scrim
+     * @restrict .nds-file__title
      */
 
     &_scrim {
@@ -159,8 +159,8 @@
   /**
    * Hack to accomodate for text truncation next to actions menu buttons
    *
-   * @selector .slds-file-has-actions
-   * @restrict .slds-file__title
+   * @selector .nds-file-has-actions
+   * @restrict .nds-file__title
    */
 
   &-has-actions {
@@ -170,8 +170,8 @@
   /**
    * If text sits on top of image, apply an overlay with this class
    *
-   * @selector .slds-file_overlay
-   * @restrict .slds-file div
+   * @selector .nds-file_overlay
+   * @restrict .nds-file div
    */
   &_overlay,
   &--overlay {
@@ -189,8 +189,8 @@
   /**
    * Change style of image to a card look
    *
-   * @selector .slds-file_card
-   * @restrict .slds-file
+   * @selector .nds-file_card
+   * @restrict .nds-file
    */
   &_card,
   &--card {
@@ -201,8 +201,8 @@
   /**
    * When only image type is available, this class help position the file type icon
    *
-   * @selector .slds-file__icon
-   * @restrict .slds-file div, .slds-file span
+   * @selector .nds-file__icon
+   * @restrict .nds-file div, .nds-file span
    */
   &__icon {
     position: absolute;
@@ -215,8 +215,8 @@
   /**
    * This positions the action menu on the title bar
    *
-   * @selector .slds-file__actions-menu
-   * @restrict .slds-file div
+   * @selector .nds-file__actions-menu
+   * @restrict .nds-file div
    */
   &__actions-menu {
     position: absolute;
@@ -227,8 +227,8 @@
   /**
    * This adds an external icon to the top left side of the card
    *
-   * @selector .slds-file__external-icon
-   * @restrict .slds-file div
+   * @selector .nds-file__external-icon
+   * @restrict .nds-file div
    * @required
    */
 
@@ -241,8 +241,8 @@
   /**
    * This changes the color of the loading icon
    *
-   * @selector .slds-file__loading-icon
-   * @restrict .slds-file svg
+   * @selector .nds-file__loading-icon
+   * @restrict .nds-file svg
    * @required
    */
 
@@ -253,13 +253,13 @@
   /**
    * This vertically centers the icon when there is no title bar
    *
-   * @selector .slds-file_center-icon
-   * @restrict .slds-file
+   * @selector .nds-file_center-icon
+   * @restrict .nds-file
    */
 
   &_center-icon {
 
-    .slds-file__icon {
+    .nds-file__icon {
       margin-top: 0;
     }
   }

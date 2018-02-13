@@ -40,7 +40,7 @@
       text-align: $left;
 
       // Remove max width from truncate definition
-      &.slds-truncate {
+      &.nds-truncate {
         max-width: 100%;
       }
 
@@ -57,7 +57,7 @@
       padding: $spacing-small;
     }
 
-    &:not(.slds-no-row-hover) tbody tr:hover {
+    &:not(.nds-no-row-hover) tbody tr:hover {
 
       // scss-lint:disable ImportantRule
       /* stylelint-disable declaration-no-important */
@@ -69,11 +69,11 @@
       /* stylelint-enable declaration-no-important */
     }
 
-    .slds-is-interactive .slds-button {
+    .nds-is-interactive .nds-button {
       visibility: visible;
     }
 
-    .slds-cell-shrink {
+    .nds-cell-shrink {
       width: auto;
     }
   }

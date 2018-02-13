@@ -2,7 +2,7 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * Nubbins are indicators that inform the user of the direction of the content associated with the tooltip. A tooltip can accept the following nubbin position classes, `.slds-nubbin_left`, `.slds-nubbin_left-top`, `.slds-nubbin_left-bottom`, `.slds-nubbin_top-left`, `.slds-nubbin_top-right`, `.slds-nubbin_right-top`, `.slds-nubbin_right-bottom`, `.slds-nubbin_bottom-left`, `.slds-nubbin_bottom-right`.
+ * Nubbins are indicators that inform the user of the direction of the content associated with the tooltip. A tooltip can accept the following nubbin position classes, `.nds-nubbin_left`, `.nds-nubbin_left-top`, `.nds-nubbin_left-bottom`, `.nds-nubbin_top-left`, `.nds-nubbin_top-right`, `.nds-nubbin_right-top`, `.nds-nubbin_right-bottom`, `.nds-nubbin_bottom-left`, `.nds-nubbin_bottom-right`.
  *
  * Learn more about how to use them at the [Nubbins documentation](/components/popovers/#flavor-nubbins).
  *
@@ -14,7 +14,7 @@
  *
  * @base
  * @name tooltips
- * @selector .slds-popover_tooltip
+ * @selector .nds-popover_tooltip
  * @support dev-ready
  * @category base
  * @type messaging

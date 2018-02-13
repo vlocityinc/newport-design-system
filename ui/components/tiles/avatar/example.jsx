@@ -7,7 +7,7 @@ import { TileMedia } from '../base/example';
 import classNames from 'classnames';
 
 const avatar = (
-  <span className="slds-avatar slds-avatar_circle slds-avatar_medium">
+  <span className="nds-avatar nds-avatar_circle nds-avatar_medium">
     <img
       alt=""
       src="/assets/images/avatar2.jpg"
@@ -24,17 +24,19 @@ export let states = [
   {
     id: 'tile-avatar',
     label: 'Default',
-    element:
+    element: (
       <div className="demo-only" style={{ width: '30rem' }}>
         <TileMedia title="Lexee L. Jackson" media={avatar} />
       </div>
+    )
   },
   {
     id: 'tile-avatar-with-action',
     label: 'With actions',
-    element:
+    element: (
       <div className="demo-only" style={{ width: '30rem' }}>
         <TileMedia title="Lexee L. Jackson" media={avatar} actions />
       </div>
+    )
   }
 ];

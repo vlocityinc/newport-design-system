@@ -14,7 +14,7 @@
  * path like this:
  *
  * ```
- * <svg aria-hidden="true" class="slds-icon" title="when needed">
+ * <svg aria-hidden="true" class="nds-icon" title="when needed">
  *   <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
  * </svg>
  * ```
@@ -28,38 +28,38 @@
  * Change a background color using composed class names:
  *
  * ```css
- * .slds-icon-[sprite name]-[icon name] {}
+ * .nds-icon-[sprite name]-[icon name] {}
  * ```
  *
- * Place the class on the `.slds-icon_container`.
+ * Place the class on the `.nds-icon_container`.
  *
  * ```html
  * <!-- "account" icon in the "standard" icon set -->
- * <div class="slds-icon_container slds-icon-standard-account">
+ * <div class="nds-icon_container nds-icon-standard-account">
  *   ...
  * </div>
  * ```
  *
  * Some icon names have more than one word, separated by `_` underscores.
  * Replace underscores with dashes when composing the class name. So `log_a_call`
- * in the standard icon set becomes `.slds-icon-action-log-a-call`.
+ * in the standard icon set becomes `.nds-icon-action-log-a-call`.
  *
- * - For [action](/components/icons?variant=action) icons, add the `.slds-icon_container_circle` class to the container (`.slds-icon_container`), which changes the background shape to a circle.
+ * - For [action](/components/icons?variant=action) icons, add the `.nds-icon_container_circle` class to the container (`.nds-icon_container`), which changes the background shape to a circle.
  * - [Doctype](/components/icons?variant=doctype) icons have no background color.
  * - [Standard](/components/icons?variant=standard) and [Custom](/components/icons?variant=custom) icons have a rounded square shape and use a class on the container for the background color.
  * - [Utility](/components/icons?variant=base) icons have no background color.
  *
  * #### Accessibility
  *
- * Icons require a `span` with the `.slds-icon_container` class. This contains
- * both the `svg` with the base `.slds-icon` class and, if needed, the
+ * Icons require a `span` with the `.nds-icon_container` class. This contains
+ * both the `svg` with the base `.nds-icon` class and, if needed, the
  * description for assistive screen readers inside a `span` with the
- * `.slds-assistive-text` class. A `title` attribute is necessary if the icon
+ * `.nds-assistive-text` class. A `title` attribute is necessary if the icon
  * sits alone and a sighted user might need to hover for a description. If an
- * icon has visible descriptive text, no `title` or extra `.slds-assistive-text`
+ * icon has visible descriptive text, no `title` or extra `.nds-assistive-text`
  * is required.
  *
- * - **Note:** You must require SLDS in your application for SVG sprites to work.
+ * - **Note:** You must require NDS in your application for SVG sprites to work.
  * If you’re using Visualforce, see [the Visualforce tutorial](/platforms/visualforce).
  * If you’re using [Lightning components, see this documentation](/platforms/lightning).
  *
@@ -90,6 +90,6 @@
  *
  * @base
  * @name icons
- * @selector .slds-icon_container
+ * @selector .nds-icon_container
  * @support dev-ready
  */

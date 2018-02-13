@@ -5,24 +5,24 @@
  * @summary Initializes an accordion list with more than one section that will have its display toggled by invoking an interaction on the summary title
  *
  * @name base
- * @selector .slds-accordion
+ * @selector .nds-accordion
  * @restrict ul
  * @variant
  * @required
  * @support dev-ready
  */
-.slds-accordion {
+.nds-accordion {
   position: relative;
 }
 
 /**
  * List item for each accordion section
  *
- * @selector .slds-accordion__list-item
- * @restrict .slds-accordion li
+ * @selector .nds-accordion__list-item
+ * @restrict .nds-accordion li
  * @required
  */
-.slds-accordion__list-item {
+.nds-accordion__list-item {
   border-top: $border-width-thin solid $color-border;
 
   &:first-child {
@@ -33,22 +33,22 @@
 /**
  * Summary title for each expandable panel inside of an accordion
  *
- * @selector .slds-accordion__summary
- * @restrict .slds-accordion__section div
+ * @selector .nds-accordion__summary
+ * @restrict .nds-accordion__section div
  * @required
  */
-.slds-accordion__summary {
+.nds-accordion__summary {
   display: flex;
 }
 
 /**
  * Summary title for each expandable panel inside of an accordion
  *
- * @selector .slds-accordion__summary-heading
- * @restrict .slds-accordion__section h3
+ * @selector .nds-accordion__summary-heading
+ * @restrict .nds-accordion__section h3
  * @required
  */
-.slds-accordion__summary-heading {
+.nds-accordion__summary-heading {
   display: flex;
   flex-grow: 1;
 }
@@ -56,11 +56,11 @@
 /**
  * Actionable button inside of accordion summary that would toggle the visibility of each section
  *
- * @selector .slds-accordion__summary-action
- * @restrict .slds-accordion__summary button
+ * @selector .nds-accordion__summary-action
+ * @restrict .nds-accordion__summary button
  * @required
  */
-.slds-accordion__summary-action {
+.nds-accordion__summary-action {
   display: inline-flex;
   flex-grow: 1;
   align-items: center;
@@ -70,11 +70,11 @@
 /**
  * Icon inside of actionable button within an accordion section
  *
- * @selector .slds-accordion__summary-action-icon
- * @restrict .slds-accordion__summary-action svg
+ * @selector .nds-accordion__summary-action-icon
+ * @restrict .nds-accordion__summary-action svg
  * @required
  */
-.slds-accordion__summary-action-icon {
+.nds-accordion__summary-action-icon {
   flex-shrink: 0;
   transform: rotate(-90deg);
 }
@@ -82,22 +82,22 @@
 /**
  * Each expandable panel inside of an accordion
  *
- * @selector .slds-accordion__section
- * @restrict .slds-accordion section
+ * @selector .nds-accordion__section
+ * @restrict .nds-accordion section
  * @required
  */
-.slds-accordion__section {
+.nds-accordion__section {
   padding: $spacing-small;
 }
 
 /**
  * Each expandable panel inside of an accordion
  *
- * @selector .slds-accordion__content
- * @restrict .slds-accordion__section div
+ * @selector .nds-accordion__content
+ * @restrict .nds-accordion__section div
  * @required
  */
-.slds-accordion__content {
+.nds-accordion__content {
   visibility: hidden;
   opacity: 0;
   height: 0;
@@ -106,21 +106,21 @@
 /**
  * Toggle visibility of accordion section + rotate icon
  *
- * @selector .slds-is-open
- * @restrict .slds-accordion__section
+ * @selector .nds-is-open
+ * @restrict .nds-accordion__section
  * @modifier
  */
-.slds-is-open {
+.nds-is-open {
 
-  .slds-accordion__summary {
+  .nds-accordion__summary {
     margin-bottom: $spacing-small;
   }
 
-  .slds-accordion__summary-action-icon {
+  .nds-accordion__summary-action-icon {
     transform: rotate(0deg);
   }
 
-  .slds-accordion__content {
+  .nds-accordion__content {
     visibility: visible;
     opacity: 1;
     height: auto;

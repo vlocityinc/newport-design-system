@@ -12,27 +12,27 @@
  * The accessibility requirements for this Variant are slightly different from
  * the others:
  *
- * #### `.slds-color-picker__swatches`
+ * #### `.nds-color-picker__swatches`
  *
  * This element _needs_ a `role` of `menu`.
  *
- * #### `.slds-color-picker__swatch-trigger`
+ * #### `.nds-color-picker__swatch-trigger`
  *
  * This element _needs_ a `role` of `option`
  *
  * @summary Swatches Only UI
  *
  * @name swatches-only
- * @selector .slds-color-picker_swatches-only
- * @restrict .slds-color-picker
+ * @selector .nds-color-picker_swatches-only
+ * @restrict .nds-color-picker
  * @variant
  */
 
-.slds-color-picker.slds-color-picker_swatches-only {
+.nds-color-picker.nds-color-picker_swatches-only {
   width: $color-picker-swatches-width;
   padding: $spacing-x-small;
 
-  .slds-color-picker__selector {
+  .nds-color-picker__selector {
     margin: 0;
   }
 }

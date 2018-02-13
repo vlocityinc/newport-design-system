@@ -34,7 +34,7 @@ const listboxOptionId02 = 'listbox-option-unique-id-02';
 * @prop {boolean} inline - Horizontal Orientation but inlined with adjacent elements
 * @prop {string}  aria-label -
 */
-export let Listbox = props =>
+export let Listbox = props => (
   <div
     id={props.id || listboxId}
     role="listbox"
@@ -42,11 +42,11 @@ export let Listbox = props =>
   >
     <ul
       className={classNames(
-        'slds-listbox',
+        'nds-listbox',
         {
-          'slds-listbox_vertical': props.vertical,
-          'slds-listbox_horizontal': props.horizontal,
-          'slds-listbox_inline': props.inline
+          'nds-listbox_vertical': props.vertical,
+          'nds-listbox_horizontal': props.horizontal,
+          'nds-listbox_inline': props.inline
         },
         props.className
       )}
@@ -55,34 +55,36 @@ export let Listbox = props =>
     >
       {props.children}
     </ul>
-  </div>;
+  </div>
+);
 
 /**
 * Generic list item within a listbox
 * @name ListboxItem
 * @prop {string}  className - A CSS class for the outer element
 */
-export let ListboxItem = props =>
+export let ListboxItem = props => (
   <li
     role="presentation"
-    className={classNames('slds-listbox__item', props.className)}
+    className={classNames('nds-listbox__item', props.className)}
   >
     {props.children}
-  </li>;
+  </li>
+);
 
 /**
 * Generic listbox option within a listbox
 * @name ListboxItemOption
 * @prop {string}  className - A CSS class for the outer element
 */
-export let ListboxOption = props =>
+export let ListboxOption = props => (
   <span
     id={props.id || 'listbox-option-unique-id'}
     className={classNames(
-      'slds-media slds-listbox__option',
+      'nds-media nds-listbox__option',
       {
-        'slds-listbox__option_plain': props.type === 'plain',
-        'slds-listbox__option_entity': props.type === 'entity'
+        'nds-listbox__option_plain': props.type === 'plain',
+        'nds-listbox__option_entity': props.type === 'entity'
       },
       props.className
     )}
@@ -90,7 +92,8 @@ export let ListboxOption = props =>
     tabIndex={props.tabIndex}
   >
     {props.children}
-  </span>;
+  </span>
+);
 
 /**
 * Combobox container for text input, text input icons, listbox of options,
@@ -117,56 +120,55 @@ export let ListboxOption = props =>
 * @prop {boolean} hideLabel
 * @prop {string}  placeholder
 */
-export let ComboboxContainer = props =>
-  <div className={classNames('slds-form-element', props.formClassName)}>
+export let ComboboxContainer = props => (
+  <div className={classNames('nds-form-element', props.formClassName)}>
     <label
-      className={classNames(
-        'slds-form-element__label',
-        { 'slds-assistive-text': props.hideLabel }
-      )}
+      className={classNames('nds-form-element__label', {
+        'nds-assistive-text': props.hideLabel
+      })}
       htmlFor={props.id || comboboxId}
     >
-      { props.label || 'Search' }
+      {props.label || 'Search'}
     </label>
     {/* Form Element Control */}
     <div
       className={classNames(
-        'slds-form-element__control',
+        'nds-form-element__control',
         props.formControlClassName
       )}
     >
       {/* Combobox container */}
       <div
         className={classNames(
-          'slds-combobox_container',
+          'nds-combobox_container',
           {
-            'slds-has-inline-listbox': props.selectedOptionsInline,
-            'slds-has-object-switcher': props.objectSwitcherInline
+            'nds-has-inline-listbox': props.selectedOptionsInline,
+            'nds-has-object-switcher': props.objectSwitcherInline
           },
           props.containerClassName
         )}
       >
         {/* Search icon before the listbox of selected items */}
-        { props.inputIcon === 'left' && props.selectedOptionsInline
-          ? <UtilityIcon
+        {props.inputIcon === 'left' && props.selectedOptionsInline ? (
+          <UtilityIcon
             assistiveText={false}
-            className="slds-icon slds-icon_x-small slds-combobox_container__icon"
+            className="nds-icon nds-icon_x-small nds-combobox_container__icon"
             sprite="utility"
             symbol="search"
             title={false}
           />
-        : null }
+        ) : null}
         {/* Show object switcher here */}
-        { props.objectSwitcher ? <ObjectSwitcher /> : null }
+        {props.objectSwitcher ? <ObjectSwitcher /> : null}
         {/* If inline listbox - Show selected options here */}
-        { props.selectedOptionsInline ? props.children : null }
+        {props.selectedOptionsInline ? props.children : null}
         {/* Combobox - role=combobox */}
         <div
           className={classNames(
-            'slds-combobox',
+            'nds-combobox',
             {
-              'slds-dropdown-trigger slds-dropdown-trigger_click': !props.staticListbox,
-              'slds-is-open': props.isOpen
+              'nds-dropdown-trigger nds-dropdown-trigger_click': !props.staticListbox,
+              'nds-is-open': props.isOpen
             },
             props.className
           )}
@@ -176,12 +178,14 @@ export let ComboboxContainer = props =>
         >
           <div
             className={classNames(
-              'slds-combobox__form-element',
+              'nds-combobox__form-element',
               {
-
-                'slds-input-has-icon slds-input-has-icon_left': props.inputIcon === 'left',
-                'slds-input-has-icon slds-input-has-icon_right': props.inputIcon === 'right',
-                'slds-input-has-icon slds-input-has-icon_left-right': props.inputIcon === 'both'
+                'nds-input-has-icon nds-input-has-icon_left':
+                  props.inputIcon === 'left',
+                'nds-input-has-icon nds-input-has-icon_right':
+                  props.inputIcon === 'right',
+                'nds-input-has-icon nds-input-has-icon_left-right':
+                  props.inputIcon === 'both'
               },
               props.inputContainerClassName
             )}
@@ -191,26 +195,42 @@ export let ComboboxContainer = props =>
               If inputIcon is on both sides of input AND a standard sprite,
               Makes autocomplete single selection look like a pill
             */}
-            {props.inputIcon === 'both' && props.inputIconLeftSprite === 'standard'
-            ? <StandardIcon
-              containerClassName="slds-combobox__input-entity-icon"
-              className="slds-icon_small"
-              symbol={props.inputIconLeftSymbol || 'account'}
-              title={props.inputIconLeftSymbol || 'account'}
-              assistiveText={props.inputIconLeftSymbol + ' ' + props.value || 'account ' + props.value}
+            {props.inputIcon === 'both' &&
+            props.inputIconLeftSprite === 'standard' ? (
+              <StandardIcon
+                containerClassName="nds-combobox__input-entity-icon"
+                className="nds-icon_small"
+                symbol={props.inputIconLeftSymbol || 'account'}
+                title={props.inputIconLeftSymbol || 'account'}
+                assistiveText={
+                  props.inputIconLeftSymbol + ' ' + props.value ||
+                  'account ' + props.value
+                }
               />
-            : (props.inputIcon === 'left' || props.inputIcon === 'both'
-              ? <UtilityIcon
-                assistiveText={props.inputIconLeftSymbol === 'search' ? false : props.inputIconLeftAssistiveText}
-                containerClassName="slds-input__icon slds-input__icon_left"
-                className="slds-icon slds-icon_x-small slds-icon-text-default"
+            ) : props.inputIcon === 'left' || props.inputIcon === 'both' ? (
+              <UtilityIcon
+                assistiveText={
+                  props.inputIconLeftSymbol === 'search' ? (
+                    false
+                  ) : (
+                    props.inputIconLeftAssistiveText
+                  )
+                }
+                containerClassName="nds-input__icon nds-input__icon_left"
+                className="nds-icon nds-icon_x-small nds-icon-text-default"
                 symbol={props.inputIconLeftSymbol || 'search'}
-                title={props.inputIconLeftSymbol === 'search' ? false : props.inputIconLeftAssistiveText}
+                title={
+                  props.inputIconLeftSymbol === 'search' ? (
+                    false
+                  ) : (
+                    props.inputIconLeftAssistiveText
+                  )
+                }
               />
-            : null)}
+            ) : null}
             {/* Input */}
             <Input
-              className="slds-combobox__input"
+              className="nds-combobox__input"
               id={props.id || comboboxId}
               aria-activedescendant={props['aria-activedescendant']}
               aria-autocomplete={props.autocomplete ? 'list' : null}
@@ -218,51 +238,72 @@ export let ComboboxContainer = props =>
               autoComplete="off"
               role="textbox"
               type="text"
-              placeholder={!props.placeholder ? (props.autocomplete ? 'Search Salesforce' : 'Select an Option') : props.placeholder}
+              placeholder={
+                !props.placeholder ? props.autocomplete ? (
+                  'Search Salesforce'
+                ) : (
+                  'Select an Option'
+                ) : (
+                  props.placeholder
+                )
+              }
               readOnly={props['readonly']}
               defaultValue={props.value}
               tabIndex={props.tabIndex}
             />
             {/* If inputIcon is right, show icon here  */}
-            { props.inputIcon === 'right' && props.inputButtonIcon != true
-              ? <UtilityIcon
-                title={props.inputIconRightSymbol === 'search' ? false : props.inputIconRightAssistiveText}
-                containerClassName="slds-input__icon slds-input__icon_right"
-                className="slds-icon slds-icon_x-small slds-icon-text-default"
+            {props.inputIcon === 'right' && props.inputButtonIcon != true ? (
+              <UtilityIcon
+                title={
+                  props.inputIconRightSymbol === 'search' ? (
+                    false
+                  ) : (
+                    props.inputIconRightAssistiveText
+                  )
+                }
+                containerClassName="nds-input__icon nds-input__icon_right"
+                className="nds-icon nds-icon_x-small nds-icon-text-default"
                 symbol={props.inputIconRightSymbol || 'search'}
-                assistiveText={props.inputIconRightSymbol === 'search' ? false : props.inputIconRightAssistiveText}
+                assistiveText={
+                  props.inputIconRightSymbol === 'search' ? (
+                    false
+                  ) : (
+                    props.inputIconRightAssistiveText
+                  )
+                }
               />
-            : null }
+            ) : null}
             {/* If loading, show buttonIcon and spinner here */}
-            { props.loading ? (
-              <div className="slds-input__icon-group slds-input__icon-group_right">
-                <Spinner className="slds-spinner_brand slds-spinner--x-small slds-input__spinner" />
+            {props.loading ? (
+              <div className="nds-input__icon-group nds-input__icon-group_right">
+                <Spinner className="nds-spinner_brand nds-spinner--x-small nds-input__spinner" />
                 <ButtonIcon
-                  className="slds-input__icon slds-input__icon--right"
+                  className="nds-input__icon nds-input__icon--right"
                   symbol={props.inputIconRightSymbol || 'close'}
                   title="Remove selected option"
                   assistiveText="Remove selected option"
                 />
               </div>
-            ) : null }
+            ) : null}
             {/* If close button, show buttonIcon here */}
-            { props.inputButtonIcon && props.inputIconRightSymbol === 'close'
-              ? <ButtonIcon
-                className="slds-input__icon slds-input__icon_right"
+            {props.inputButtonIcon && props.inputIconRightSymbol === 'close' ? (
+              <ButtonIcon
+                className="nds-input__icon nds-input__icon_right"
                 symbol="close"
                 title="Remove selected option"
                 assistiveText="Remove selected option"
               />
-            : null }
+            ) : null}
           </div>
           {/* Pass listbox into combobox here */}
-          { props.listbox }
+          {props.listbox}
         </div>
       </div>
       {/* If NOT inline listbox - Show selected options here */}
-      { !props.selectedOptionsInline ? props.children : null }
+      {!props.selectedOptionsInline ? props.children : null}
     </div>
-  </div>;
+  </div>
+);
 
 /**
 * An entity option is a type of listbox option, it contains a standard icon,
@@ -277,38 +318,44 @@ export let ComboboxContainer = props =>
 * @prop {string}  entityTitle - Name of result
 * @prop {string}  entityLocation - Physical location of entity, such as 'San Francisco'
 */
-export let EntityOption = props =>
+export let EntityOption = props => (
   <ListboxOption
     type="entity"
     id={props.id}
     tabIndex={props.tabIndex}
     className={classNames(
       {
-        'slds-media_center': !props.entityMeta,
-        'slds-listbox__option_has-meta': props.entityMeta,
-        'slds-is-selected': props.selected,
-        'slds-has-focus': props.focused
+        'nds-media_center': !props.entityMeta,
+        'nds-listbox__option_has-meta': props.entityMeta,
+        'nds-is-selected': props.selected,
+        'nds-has-focus': props.focused
       },
       props.className
     )}
   >
-    <span className="slds-media__figure">
+    <span className="nds-media__figure">
       <StandardIcon
-        className="slds-icon_small"
+        className="nds-icon_small"
         symbol={props.entityType || 'account'}
       />
     </span>
-    <span className="slds-media__body">
-      <span className="slds-listbox__option-text slds-listbox__option-text_entity">
-        { props.typeahead ? props.children : props.entityTitle || 'Salesforce.com, Inc.' }
+    <span className="nds-media__body">
+      <span className="nds-listbox__option-text nds-listbox__option-text_entity">
+        {props.typeahead ? (
+          props.children
+        ) : (
+          props.entityTitle || 'Salesforce.com, Inc.'
+        )}
       </span>
-      { props.entityMeta
-        ? <span className="slds-listbox__option-meta slds-listbox__option-meta_entity">
-        { _.upperFirst(props.entityType) || 'Account' } &bull; { _.upperFirst(props.entityLocation) || ' San Francisco' }
+      {props.entityMeta ? (
+        <span className="nds-listbox__option-meta nds-listbox__option-meta_entity">
+          {_.upperFirst(props.entityType) || 'Account'} &bull;{' '}
+          {_.upperFirst(props.entityLocation) || ' San Francisco'}
         </span>
-      : null }
+      ) : null}
     </span>
-  </ListboxOption>;
+  </ListboxOption>
+);
 
 /**
 * A plain option is a type of listbox option, it contains a string of text and
@@ -320,34 +367,38 @@ export let EntityOption = props =>
 * @prop {boolean} focused
 * @prop {string}  title
 */
-export let Option = props =>
+export let Option = props => (
   <ListboxOption
     type="plain"
     id={props.id}
     className={classNames(
-      'slds-media_small slds-media_center',
+      'nds-media_small nds-media_center',
       {
-        'slds-is-selected': props.selected,
-        'slds-has-focus': props.focused
+        'nds-is-selected': props.selected,
+        'nds-has-focus': props.focused
       },
       props.className
     )}
   >
-    { !props.hideIcon
-      ? <span className="slds-media__figure">
+    {!props.hideIcon ? (
+      <span className="nds-media__figure">
         <SvgIcon
-          className="slds-icon slds-icon_x-small slds-listbox__icon-selected"
+          className="nds-icon nds-icon_x-small nds-listbox__icon-selected"
           sprite="utility"
           symbol="check"
         />
       </span>
-    : null }
-    <span className="slds-media__body">
-      <span className="slds-truncate" title={props.title}>
-        { props.selected ? <span className="slds-assistive-text">Current Selection:</span> : null } { props.title }
+    ) : null}
+    <span className="nds-media__body">
+      <span className="nds-truncate" title={props.title}>
+        {props.selected ? (
+          <span className="nds-assistive-text">Current Selection:</span>
+        ) : null}{' '}
+        {props.title}
       </span>
     </span>
-  </ListboxOption>;
+  </ListboxOption>
+);
 
 /**
 * Object switcher is a popup menu button, its visually displayed inlined with
@@ -355,34 +406,44 @@ export let Option = props =>
 * @name ObjectSwitcher
 * @prop {string}  className
 */
-let ObjectSwitcher = props =>
-  <div className={classNames(
-    'slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click',
-    props.className
-  )}>
+let ObjectSwitcher = props => (
+  <div
+    className={classNames(
+      'nds-listbox_object-switcher nds-dropdown-trigger nds-dropdown-trigger_click',
+      props.className
+    )}
+  >
     <button
-      className="slds-button slds-button_icon"
+      className="nds-button nds-button_icon"
       aria-haspopup="true"
       title="Select object to search in"
     >
-      <span className="slds-icon_container slds-icon-standard-account" title="Accounts">
-        <SvgIcon className="slds-icon slds-icon_small" sprite="standard" symbol="account" />
-        <span className="slds-assistive-text">Searching in: Accounts</span>
+      <span
+        className="nds-icon_container nds-icon-standard-account"
+        title="Accounts"
+      >
+        <SvgIcon
+          className="nds-icon nds-icon_small"
+          sprite="standard"
+          symbol="account"
+        />
+        <span className="nds-assistive-text">Searching in: Accounts</span>
       </span>
       <SvgIcon
-        className="slds-button__icon slds-button__icon_x-small"
+        className="nds-button__icon nds-button__icon_x-small"
         sprite="utility"
         symbol="down"
       />
     </button>
-  </div>;
+  </div>
+);
 
 /* -----------------------------------------------------------------------------
     Private
 ----------------------------------------------------------------------------- */
 
-const ListboxDropdown = props =>
-  <Listbox className="slds-dropdown slds-dropdown_fluid" vertical>
+const ListboxDropdown = props => (
+  <Listbox className="nds-dropdown nds-dropdown_fluid" vertical>
     <ListboxItem>
       <EntityOption
         id={listboxOptionId01}
@@ -398,7 +459,8 @@ const ListboxDropdown = props =>
         entityMeta
       />
     </ListboxItem>
-  </Listbox>;
+  </Listbox>
+);
 
 /* -----------------------------------------------------------------------------
     Exports
@@ -421,7 +483,7 @@ export let states = [
   {
     id: 'focused',
     label: 'Focused',
-    element:
+    element: (
       <div className="demo-only" style={{ height: '10rem' }}>
         <ComboboxContainer
           isOpen
@@ -430,7 +492,8 @@ export let states = [
           inputIconRightSymbol="search"
           listbox={<ListboxDropdown />}
         />
-      </div>,
+      </div>
+    ),
     script: `
       document.getElementById('combobox-unique-id').focus()
     `
@@ -438,7 +501,7 @@ export let states = [
   {
     id: 'open-item-focused',
     label: 'Open - Item Focused',
-    element:
+    element: (
       <div className="demo-only" style={{ height: '10rem' }}>
         <ComboboxContainer
           isOpen
@@ -449,11 +512,12 @@ export let states = [
           aria-activedescendant={listboxOptionId01}
         />
       </div>
+    )
   },
   {
     id: 'closed-options-selected',
     label: 'Option(s) Selected',
-    element:
+    element: (
       <div className="demo-only" style={{ height: '10rem' }}>
         <ComboboxContainer
           inputIcon="right"
@@ -464,19 +528,19 @@ export let states = [
           <Listbox
             id={listboxSelectionsId}
             aria-label="Selected Options:"
-            className="slds-p-top_xxx-small"
+            className="nds-p-top_xxx-small"
             horizontal
           >
             <ListboxItem>
               <ListboxPill label="Acme" tabIndex="0">
-                <Avatar className="slds-avatar_x-small slds-pill__icon_container">
+                <Avatar className="nds-avatar_x-small nds-pill__icon_container">
                   <StandardIcon />
                 </Avatar>
               </ListboxPill>
             </ListboxItem>
             <ListboxItem>
               <ListboxPill label="Salesforce.com, Inc.">
-                <Avatar className="slds-avatar_x-small slds-pill__icon_container">
+                <Avatar className="nds-avatar_x-small nds-pill__icon_container">
                   <StandardIcon />
                 </Avatar>
               </ListboxPill>
@@ -484,5 +548,6 @@ export let states = [
           </Listbox>
         </ComboboxContainer>
       </div>
+    )
   }
 ];

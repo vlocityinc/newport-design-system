@@ -4,47 +4,47 @@
 /**
  * @summary Adds a bottom border to an element
  *
- * @selector .slds-border_bottom
+ * @selector .nds-border_bottom
  * @modifier
  * @group position
  */
-.slds-border_bottom,
-.slds-border--bottom {
+.nds-border_bottom,
+.nds-border--bottom {
   border-bottom: $border-width-thin solid $color-border;
 }
 
 /**
  * @summary Adds a left border to an element
  *
- * @selector .slds-border_left
+ * @selector .nds-border_left
  * @modifier
  * @group position
  */
-.slds-border_left,
-.slds-border--left {
+.nds-border_left,
+.nds-border--left {
   border-#{$left}: $border-width-thin solid $color-border;
 }
 
 /**
  * @summary Adds a right border to an element
  *
- * @selector .slds-border_right
+ * @selector .nds-border_right
  * @modifier
  * @group position
  */
-.slds-border_right,
-.slds-border--right {
+.nds-border_right,
+.nds-border--right {
   border-#{$right}: $border-width-thin solid $color-border;
 }
 
 /**
  * @summary Adds a top border to an element
  *
- * @selector .slds-border_top
+ * @selector .nds-border_top
  * @modifier
  * @group position
  */
-.slds-border_top,
-.slds-border--top {
+.nds-border_top,
+.nds-border--top {
   border-top: $border-width-thin solid $color-border;
 }

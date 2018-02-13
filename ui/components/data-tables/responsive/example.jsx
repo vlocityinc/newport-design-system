@@ -10,92 +10,178 @@ import classNames from 'classnames';
 // Partial(s)
 /// ////////////////////////////////////////
 
-let Table = props =>
-  <table className={classNames('slds-table slds-table_bordered', props.className)}>
+let Table = props => (
+  <table
+    className={classNames('nds-table nds-table_bordered', props.className)}
+  >
     {props.children}
-  </table>;
+  </table>
+);
 
-let Checkbox = props =>
-  <label className="slds-checkbox">
-    <input type="checkbox" name="options" disabled={props.disabled} defaultChecked={props.checked} />
-    <span className="slds-checkbox_faux" />
-    <span className="slds-assistive-text">{props.label}</span>
-  </label>;
+let Checkbox = props => (
+  <label className="nds-checkbox">
+    <input
+      type="checkbox"
+      name="options"
+      disabled={props.disabled}
+      defaultChecked={props.checked}
+    />
+    <span className="nds-checkbox_faux" />
+    <span className="nds-assistive-text">{props.label}</span>
+  </label>
+);
 
-let HeadRowData = props =>
-  <tr className="slds-text-title_caps">
-    <th className="slds-cell-shrink" scope="col"><Checkbox label="Select All" checked={props.checked} /></th>
+let HeadRowData = props => (
+  <tr className="nds-text-title_caps">
+    <th className="nds-cell-shrink" scope="col">
+      <Checkbox label="Select All" checked={props.checked} />
+    </th>
     <th scope="col">
-      <div className="slds-truncate" title="Close Date">
+      <div className="nds-truncate" title="Close Date">
         Opportunity Name
-        <ButtonIcon className="slds-button_icon" iconClassName="slds-button__icon_small" symbol="arrowdown" assistiveText="Sort" title="Sort" />
+        <ButtonIcon
+          className="nds-button_icon"
+          iconClassName="nds-button__icon_small"
+          symbol="arrowdown"
+          assistiveText="Sort"
+          title="Sort"
+        />
       </div>
     </th>
     <th scope="col">
-      <div className="slds-truncate" title="Account Name">
+      <div className="nds-truncate" title="Account Name">
         Account Name
-        <ButtonIcon className="slds-button_icon" iconClassName="slds-button__icon_small" symbol="arrowdown" assistiveText="Sort" title="Sort" />
+        <ButtonIcon
+          className="nds-button_icon"
+          iconClassName="nds-button__icon_small"
+          symbol="arrowdown"
+          assistiveText="Sort"
+          title="Sort"
+        />
       </div>
     </th>
     <th scope="col">
-      <div className="slds-truncate" title="Close Date">
+      <div className="nds-truncate" title="Close Date">
         Close Date
-        <ButtonIcon className="slds-button_icon" iconClassName="slds-button__icon_small" symbol="arrowdown" assistiveText="Sort" title="Sort" />
+        <ButtonIcon
+          className="nds-button_icon"
+          iconClassName="nds-button__icon_small"
+          symbol="arrowdown"
+          assistiveText="Sort"
+          title="Sort"
+        />
       </div>
     </th>
     <th scope="col">
-      <div className="slds-truncate" title="Stage">
+      <div className="nds-truncate" title="Stage">
         Stage
-        <ButtonIcon className="slds-button_icon" iconClassName="slds-button__icon_small" symbol="arrowdown" assistiveText="Sort" title="Sort" />
+        <ButtonIcon
+          className="nds-button_icon"
+          iconClassName="nds-button__icon_small"
+          symbol="arrowdown"
+          assistiveText="Sort"
+          title="Sort"
+        />
       </div>
     </th>
     <th scope="col">
-      <div className="slds-truncate" title="Confidence">
+      <div className="nds-truncate" title="Confidence">
         Confidence
-        <ButtonIcon className="slds-button_icon" iconClassName="slds-button__icon_small" symbol="arrowdown" assistiveText="Sort" title="Sort" />
+        <ButtonIcon
+          className="nds-button_icon"
+          iconClassName="nds-button__icon_small"
+          symbol="arrowdown"
+          assistiveText="Sort"
+          title="Sort"
+        />
       </div>
     </th>
     <th scope="col">
-      <div className="slds-truncate" title="Amount">
+      <div className="nds-truncate" title="Amount">
         Amount
-        <ButtonIcon className="slds-button_icon" iconClassName="slds-button__icon_small" symbol="arrowdown" assistiveText="Sort" title="Sort" />
+        <ButtonIcon
+          className="nds-button_icon"
+          iconClassName="nds-button__icon_small"
+          symbol="arrowdown"
+          assistiveText="Sort"
+          title="Sort"
+        />
       </div>
     </th>
     <th scope="col">
-      <div className="slds-truncate" title="Contact">
+      <div className="nds-truncate" title="Contact">
         Contact
-        <ButtonIcon className="slds-button_icon" iconClassName="slds-button__icon_small" symbol="arrowdown" assistiveText="Sort" title="Sort" />
+        <ButtonIcon
+          className="nds-button_icon"
+          iconClassName="nds-button__icon_small"
+          symbol="arrowdown"
+          assistiveText="Sort"
+          title="Sort"
+        />
       </div>
     </th>
-    <th className="slds-cell-shrink" scope="col" />
-  </tr>;
+    <th className="nds-cell-shrink" scope="col" />
+  </tr>
+);
 
-let RowData = props =>
-  <tr className="slds-hint-parent">
-    <td className="slds-cell-shrink" data-label="Select Row"><Checkbox label="Select Row" checked={props.checked} /></td>
-    <th scope="row" data-label="Opportunity Name"><div className="slds-truncate" title={props.title}>{props.title}</div></th>
-    <td data-label="Account Name"><div className="slds-truncate" title="Cloudhub">Cloudhub</div></td>
-    <td data-label="Close Date"><div className="slds-truncate" title="4/14/2015">4/14/2015</div></td>
-    <td data-label="Prospecting"><div className="slds-truncate" title="Prospecting">Prospecting</div></td>
-    <td data-label="Confidence"><div className="slds-truncate" title="20%">20%</div></td>
-    <td data-label="Amount"><div className="slds-truncate" title="$25k">$25k</div></td>
-    <td data-label="Contact"><div className="slds-truncate" title="jrogers@cloudhub.com"><a href="javascript:void(0);">jrogers@cloudhub.com</a></div></td>
-    <td className="slds-cell-shrink" data-label="Actions">
+let RowData = props => (
+  <tr className="nds-hint-parent">
+    <td className="nds-cell-shrink" data-label="Select Row">
+      <Checkbox label="Select Row" checked={props.checked} />
+    </td>
+    <th scope="row" data-label="Opportunity Name">
+      <div className="nds-truncate" title={props.title}>
+        {props.title}
+      </div>
+    </th>
+    <td data-label="Account Name">
+      <div className="nds-truncate" title="Cloudhub">
+        Cloudhub
+      </div>
+    </td>
+    <td data-label="Close Date">
+      <div className="nds-truncate" title="4/14/2015">
+        4/14/2015
+      </div>
+    </td>
+    <td data-label="Prospecting">
+      <div className="nds-truncate" title="Prospecting">
+        Prospecting
+      </div>
+    </td>
+    <td data-label="Confidence">
+      <div className="nds-truncate" title="20%">
+        20%
+      </div>
+    </td>
+    <td data-label="Amount">
+      <div className="nds-truncate" title="$25k">
+        $25k
+      </div>
+    </td>
+    <td data-label="Contact">
+      <div className="nds-truncate" title="jrogers@cloudhub.com">
+        <a href="javascript:void(0);">jrogers@cloudhub.com</a>
+      </div>
+    </td>
+    <td className="nds-cell-shrink" data-label="Actions">
       <ButtonIcon
-        className="slds-button_icon-border-filled slds-button_icon-x-small"
-        iconClassName="slds-button__icon_hint slds-button__icon_small"
+        className="nds-button_icon-border-filled nds-button_icon-x-small"
+        iconClassName="nds-button__icon_hint nds-button__icon_small"
         symbol="down"
         assistiveText="Show More"
-        title="Show More" />
+        title="Show More"
+      />
     </td>
-  </tr>;
+  </tr>
+);
 
 /// ///////////////////////////////////////////
 // State Constructor(s)
 /// ///////////////////////////////////////////
 
-let Overflow = props =>
-  <div className="slds-scrollable_x">
+let Overflow = props => (
+  <div className="nds-scrollable_x">
     <Table>
       <thead>
         <HeadRowData />
@@ -105,10 +191,11 @@ let Overflow = props =>
         <RowData title="Cloudhub + Anypoint Connectors" />
       </tbody>
     </Table>
-  </div>;
+  </div>
+);
 
-let Stacked = props =>
-  <Table className="slds-max-medium-table_stacked">
+let Stacked = props => (
+  <Table className="nds-max-medium-table_stacked">
     <thead>
       <HeadRowData />
     </thead>
@@ -116,10 +203,11 @@ let Stacked = props =>
       <RowData title="Cloudhub" />
       <RowData title="Cloudhub + Anypoint Connectors" />
     </tbody>
-  </Table>;
+  </Table>
+);
 
-let Horizontal = props =>
-  <Table className="slds-max-medium-table_stacked-horizontal">
+let Horizontal = props => (
+  <Table className="nds-max-medium-table_stacked-horizontal">
     <thead>
       <HeadRowData />
     </thead>
@@ -127,7 +215,8 @@ let Horizontal = props =>
       <RowData title="Cloudhub" />
       <RowData title="Cloudhub + Anypoint Connectors" />
     </tbody>
-  </Table>;
+  </Table>
+);
 
 /// ///////////////////////////////////////////
 // Export

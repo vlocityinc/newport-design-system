@@ -5,9 +5,9 @@ import React from 'react';
 import MediaObject from '../../../utilities/media-objects/index.react';
 import { TimelineIcon, TimelineActions } from '../base/example';
 
-export let ActivityTimelineItem = props =>
-  <div className="slds-timeline__item">
-    <span className="slds-assistive-text">Call</span>
+export let ActivityTimelineItem = props => (
+  <div className="nds-timeline__item">
+    <span className="nds-assistive-text">Call</span>
     <MediaObject
       figureRight={
         <TimelineActions
@@ -17,28 +17,36 @@ export let ActivityTimelineItem = props =>
       }
     >
       <MediaObject
-        className="slds-timeline__media slds-timeline__media_call"
+        className="nds-timeline__media nds-timeline__media_call"
         figureLeft={<TimelineIcon symbol="log_a_call" />}
-        figureLeftClassName="slds-timeline__icon"
+        figureLeftClassName="nds-timeline__icon"
       >
-        <h3 className="slds-truncate" title="Mobile conversation on Monday">
+        <h3 className="nds-truncate" title="Mobile conversation on Monday">
           <a href="javascript:void(0);">Mobile conversation on Monday</a>
         </h3>
-        <p className="slds-truncate" title="Lei seemed interested in closing this deal quickly! Let&rsquo;s move.">Lei seemed interested in closing this deal quickly! Let&rsquo;s move.</p>
-        <ul className="slds-list_horizontal slds-wrap">
-          <li className="slds-m-right_large">
-            <span className="slds-text-title">Name:</span>
-            <span className="slds-text-body_small"><a href="javascript:void(0);">Lei Chan</a></span>
+        <p
+          className="nds-truncate"
+          title="Lei seemed interested in closing this deal quickly! Let&rsquo;s move."
+        >
+          Lei seemed interested in closing this deal quickly! Let&rsquo;s move.
+        </p>
+        <ul className="nds-list_horizontal nds-wrap">
+          <li className="nds-m-right_large">
+            <span className="nds-text-title">Name:</span>
+            <span className="nds-text-body_small">
+              <a href="javascript:void(0);">Lei Chan</a>
+            </span>
           </li>
-          <li className="slds-m-right_large">
-            <span className="slds-text-title">Assigned to:</span>
-            <span className="slds-text-body_small"><a href="javascript:void(0);">Betty Mason</a></span>
+          <li className="nds-m-right_large">
+            <span className="nds-text-title">Assigned to:</span>
+            <span className="nds-text-body_small">
+              <a href="javascript:void(0);">Betty Mason</a>
+            </span>
           </li>
         </ul>
       </MediaObject>
     </MediaObject>
-  </div>;
-
-export default (
-  <ActivityTimelineItem />
+  </div>
 );
+
+export default <ActivityTimelineItem />;

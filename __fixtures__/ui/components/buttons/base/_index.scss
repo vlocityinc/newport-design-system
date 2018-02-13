@@ -2,41 +2,41 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * The base `.slds-button` looks like a plain text link. It removes all the
+ * The base `.nds-button` looks like a plain text link. It removes all the
  * styling of the native button. It’s typically used to trigger a modal or
  * display a “like” link. All button variations are built by adding another
- * class to `.slds-button`.
+ * class to `.nds-button`.
  *
- * Add the `.slds-button_neutral` class to create a neutral button, which
+ * Add the `.nds-button_neutral` class to create a neutral button, which
  * has a white background and gray border.
  *
  * Use a neutral icon button is for buttons with an icon on the left or
- * right (not for stateful buttons). Add the `.slds-button_neutral` class
- * to `.slds-button`.
+ * right (not for stateful buttons). Add the `.nds-button_neutral` class
+ * to `.nds-button`.
  *
- * The SVG inside receives the `.slds-button__icon` class. You can position
- * the icon on the right or the left using `.slds-button__icon_right` or
- * `.slds-button__icon_left` , which apply the correct amount of space
+ * The SVG inside receives the `.nds-button__icon` class. You can position
+ * the icon on the right or the left using `.nds-button__icon_right` or
+ * `.nds-button__icon_left` , which apply the correct amount of space
  * between the icon and the text.
  *
- * To create the brand button, add the `.slds-button_brand` class to
- * the `.slds-button` class.
+ * To create the brand button, add the `.nds-button_brand` class to
+ * the `.nds-button` class.
  *
- * To create the destructive button, add the `.slds-button_destructive`
- * class to the `.slds-button` class.
+ * To create the destructive button, add the `.nds-button_destructive`
+ * class to the `.nds-button` class.
  *
- * Use the inverse button on dark backgrounds. Add the `.slds-button_inverse`
- * class to the `.slds-button` class.
+ * Use the inverse button on dark backgrounds. Add the `.nds-button_inverse`
+ * class to the `.nds-button` class.
  *
  * @summary This neutralizes all the base styles making it look like a text link
  *
  * @name base
- * @selector .slds-button
+ * @selector .nds-button
  * @restrict button, a, span
  * @variant
  */
 
-.slds-button {
+.nds-button {
   position: relative;
   display: inline-block;
   padding: 0;
@@ -86,25 +86,25 @@
   &:active,
   &[disabled] {
 
-    .slds-button__icon {
+    .nds-button__icon {
       fill: currentColor;
     }
   }
   // Add spacing when button-group is adjacent to a button
-  + .slds-button-group,
-  + .slds-button-group-list {
+  + .nds-button-group,
+  + .nds-button-group-list {
     margin-left: $spacing-xx-small;
   }
   // Add spacing when another button is adjacent to it
-  + .slds-button {
+  + .nds-button {
     @include deprecate('4.0.0') {
       margin-left: $spacing-xx-small;
     }
   }
 }
 
-// Polyfill for slds-button on links
-a.slds-button {
+// Polyfill for nds-button on links
+a.nds-button {
   text-align: center;
 
   &:focus {
@@ -112,19 +112,19 @@ a.slds-button {
   }
 }
 
-a.slds-button--inverse:focus {
+a.nds-button--inverse:focus {
   @include focus-inverse;
 }
 
 /**
- * Resets attributes of .slds-button back to the browser default
+ * Resets attributes of .nds-button back to the browser default
  *
- * @selector .slds-button_reset
+ * @selector .nds-button_reset
  * @restrict button
  * @modifier
  */
-.slds-button_reset,
-.slds-button--reset {
+.nds-button_reset,
+.nds-button--reset {
   font-size: inherit;
   color: inherit;
   line-height: inherit;
@@ -138,13 +138,13 @@ a.slds-button--inverse:focus {
 /**
  * Creates the gray border with white background default style
  *
- * @selector .slds-button_neutral
- * @restrict .slds-button
+ * @selector .nds-button_neutral
+ * @restrict .nds-button
  * @modifier
  * @group theme
  */
-.slds-button_neutral,
-.slds-button--neutral {
+.nds-button_neutral,
+.nds-button--neutral {
   @include button;
   @include button-base;
   background-color: $color-background-button-default;
@@ -158,13 +158,13 @@ a.slds-button--inverse:focus {
 /**
  * Creates the brand blue Salesforce style
  *
- * @selector .slds-button_brand
- * @restrict .slds-button
+ * @selector .nds-button_brand
+ * @restrict .nds-button
  * @modifier
  * @group theme
  */
-.slds-button_brand,
-.slds-button--brand {
+.nds-button_brand,
+.nds-button--brand {
   @include button;
   @include button-brand;
 
@@ -178,13 +178,13 @@ a.slds-button--inverse:focus {
 /**
  * Creates the inverse style for dark backgrounds
  *
- * @selector .slds-button_inverse
- * @restrict .slds-button
+ * @selector .nds-button_inverse
+ * @restrict .nds-button
  * @modifier
  * @group theme
  */
-.slds-button_inverse,
-.slds-button--inverse {
+.nds-button_inverse,
+.nds-button--inverse {
   @include button;
   @include button-base;
   background-color: $color-background-button-inverse;
@@ -195,10 +195,10 @@ a.slds-button--inverse:focus {
   }
 }
 
-.slds-button_inverse,
-.slds-button--inverse,
-.slds-button_icon-border-inverse,
-.slds-button--icon-border-inverse {
+.nds-button_inverse,
+.nds-button--inverse,
+.nds-button_icon-border-inverse,
+.nds-button--icon-border-inverse {
 
   &,
   &:link,
@@ -225,13 +225,13 @@ a.slds-button--inverse:focus {
 /**
  * Creates a red button style
  *
- * @selector .slds-button_destructive
- * @restrict .slds-button
+ * @selector .nds-button_destructive
+ * @restrict .nds-button
  * @group theme
  * @modifier
  */
-.slds-button_destructive,
-.slds-button--destructive {
+.nds-button_destructive,
+.nds-button--destructive {
   @include button;
   @include button-destructive;
 
@@ -245,13 +245,13 @@ a.slds-button--inverse:focus {
 /**
  * Creates a green button style
  *
- * @selector .slds-button_success
- * @restrict .slds-button
+ * @selector .nds-button_success
+ * @restrict .nds-button
  * @group theme
  * @modifier
  */
-.slds-button_success,
-.slds-button--success {
+.nds-button_success,
+.nds-button--success {
   @include button;
   @include button-success;
 }
@@ -259,12 +259,12 @@ a.slds-button--inverse:focus {
 /**
  * Creates a smaller button style
  *
- * @selector .slds-button_small
- * @restrict .slds-button
+ * @selector .nds-button_small
+ * @restrict .nds-button
  * @deprecated
  */
-.slds-button_small,
-.slds-button--small {
+.nds-button_small,
+.nds-button--small {
   line-height: $line-height-button-small;
   // Force icon-only buttons to be the same
   // height as small buttons since they're SVG
@@ -273,10 +273,10 @@ a.slds-button--inverse:focus {
 }
 
 /**
- * @selector .slds-button-space-left
+ * @selector .nds-button-space-left
  * @deprecated
  */
-.slds-button-space-left {
+.nds-button-space-left {
   @include deprecate('4.0.0', 'Use spacing utilities instead') {
     margin-left: $spacing-xx-small;
   }
@@ -284,8 +284,8 @@ a.slds-button--inverse:focus {
 
 // This isn't a pattern and isn't used anywhere and shouldn't be exposed,
 // rather it should probably be deleted....
-.slds-button_hint,
-.slds-button--hint {
+.nds-button_hint,
+.nds-button--hint {
   color: $color-text-button-default-hint;
 
   &:hover,
@@ -295,23 +295,23 @@ a.slds-button--inverse:focus {
   }
 }
 
-.slds-hint-parent {
+.nds-hint-parent {
 
   &:hover,
   &:focus {
 
-    .slds-button--hint {
+    .nds-button--hint {
       color: $color-text-button-default;
     }
   }
 }
 
-.slds-button__icon_left,
-.slds-button__icon--left {
+.nds-button__icon_left,
+.nds-button__icon--left {
   margin-right: $spacing-x-small;
 }
 
-.slds-button__icon_right,
-.slds-button__icon--right {
+.nds-button__icon_right,
+.nds-button__icon--right {
   margin-left: $spacing-x-small;
 }

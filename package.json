@@ -3,24 +3,9 @@
   "description": "Vlocity Newport Design System",
   "version": "0.0.0",
   "author": "Vlocity",
-  "slds": {
-    "name": "Winter ’18",
-    "id": "210"
-  },
-  "important": [
-    "'private' and 'config.slds.internal' should have the same value",
-    "to prevent any accidental public publishes on npm and on our archive server."
-  ],
-  "private": false,
-  "config": {
-    "slds": {
-      "internal": false
-    },
-    "search": {
-      "appId": "B2KKG101RI",
-      "apiKey": "f289c1dd954797a3e57158c04a897d46",
-      "indexName": "winter-18"
-    }
+  "nds": {
+    "name": "v102",
+    "id": "102"
   },
   "devDependencies": {
     "@salesforce-ux/build-server-api": "2.0.2",
@@ -173,6 +158,7 @@
     "build-prod": "gulp build",
     "build-server": "babel-node scripts/npm/build-server.js",
     "build-travis": "babel-node scripts/npm/build-travis.js",
+    "postinstall": "node scripts/nds/fix-preview.js",
     "dist": "babel-node scripts/dist.js",
     "gulp": "gulp",
     "lint": "gulp lint",

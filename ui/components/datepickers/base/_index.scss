@@ -5,11 +5,11 @@
  * @summary Initiates a datepicker component
  *
  * @name base
- * @selector .slds-datepicker
+ * @selector .nds-datepicker
  * @restrict div
  * @variant
  */
-.slds-datepicker {
+.nds-datepicker {
   padding: 0;
   font-size: $font-size-small;
 
@@ -32,10 +32,10 @@
     /**
      * @summary Style for calendar days
      *
-     * @selector .slds-day
-     * @restrict .slds-datepicker td span
+     * @selector .nds-day
+     * @restrict .nds-datepicker td span
      */
-    > .slds-day {
+    > .nds-day {
       @include square($square-icon-medium-boundary);
       display: block;
       position: relative;
@@ -48,12 +48,12 @@
     /**
      * @summary Indicates today
      *
-     * @selector .slds-is-today
-     * @restrict .slds-datepicker td
+     * @selector .nds-is-today
+     * @restrict .nds-datepicker td
      */
-    &:hover:not(.slds-disabled-text) > .slds-day,
-    &:focus:not(.slds-disabled-text) > .slds-day,
-    &.slds-is-today > .slds-day {
+    &:hover:not(.nds-disabled-text) > .nds-day,
+    &:focus:not(.nds-disabled-text) > .nds-day,
+    &.nds-is-today > .nds-day {
       background: $color-background-row-hover;
       cursor: pointer;
     }
@@ -61,7 +61,7 @@
     &:focus {
       outline: 0;
 
-      > .slds-day {
+      > .nds-day {
         box-shadow: $color-border-brand-dark 0 0 0 1px inset;
       }
     }
@@ -69,15 +69,15 @@
     /**
      * @summary Indicates selected days
      *
-     * @selector .slds-is-selected
-     * @restrict .slds-datepicker td
+     * @selector .nds-is-selected
+     * @restrict .nds-datepicker td
      */
-    &.slds-is-selected:not(.slds-is-today) > .slds-day {
+    &.nds-is-selected:not(.nds-is-today) > .nds-day {
       background: $color-background-button-brand-hover;
       color: $color-text-button-brand-hover;
     }
 
-    &.slds-is-selected:focus > .slds-day {
+    &.nds-is-selected:focus > .nds-day {
       background: $color-background-row-hover;
       box-shadow: $color-border-brand-dark 0 0 3px;
       color: currentColor;
@@ -87,13 +87,13 @@
   /**
    * @summary Aligns filter items horizontally
    *
-   * @selector .slds-datepicker__filter
-   * @restrict .slds-datepicker div
+   * @selector .nds-datepicker__filter
+   * @restrict .nds-datepicker div
    */
   &__filter {
     padding: $spacing-xx-small;
 
-    .slds-select {
+    .nds-select {
       border: 1px solid $color-border-input;
       border-radius: $border-radius-medium;
       padding-left: 0.5rem;
@@ -104,8 +104,8 @@
   /**
    * @summary Spaces out month filter
    *
-   * @selector .slds-datepicker__month_filter
-   * @restrict .slds-datepicker div
+   * @selector .nds-datepicker__month_filter
+   * @restrict .nds-datepicker div
    */
   &__filter_month,
   &__filter--month {
@@ -115,8 +115,8 @@
   /**
    * @summary Container of the month table
    *
-   * @selector .slds-datepicker__month
-   * @restrict .slds-datepicker table
+   * @selector .nds-datepicker__month
+   * @restrict .nds-datepicker table
    */
   &__month {
     font-size: $font-size-small;
@@ -126,9 +126,9 @@
 /**
  * @summary Indicates days that are in previous/next months
  *
- * @selector .slds-disabled-text
- * @restrict .slds-datepicker td
+ * @selector .nds-disabled-text
+ * @restrict .nds-datepicker td
  */
-.slds-disabled-text {
+.nds-disabled-text {
   color: $color-text-button-default-disabled;
 }

@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-.slds-tile_board,
-.slds-tile--board {
+.nds-tile_board,
+.nds-tile--board {
   position: relative;
 
   &__icon {
@@ -12,7 +12,7 @@
     #{$right}: $spacing-xx-small;
   }
 
-  .slds-has-alert {
+  .nds-has-alert {
     padding-#{$right}: $spacing-large;
   }
 }

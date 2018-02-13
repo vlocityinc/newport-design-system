@@ -69,7 +69,7 @@
   }
 
   &[disabled],
-  &.slds-is-disabled {
+  &.nds-is-disabled {
     @include form-input-disabled;
   }
 }

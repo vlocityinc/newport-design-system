@@ -5,12 +5,12 @@
  * @summary Initializes select
  *
  * @name base
- * @selector .slds-select
+ * @selector .nds-select
  * @restrict select
  * @required
  * @variant
  */
-.slds-select {
+.nds-select {
   @include form-states;
   height: calc(#{$height-input} + (#{$border-width-thin} * 2));
 
@@ -36,7 +36,7 @@
   /**
    * Initializes select container for custom styling
    *
-   * @selector .slds-select_container
+   * @selector .nds-select_container
    * @restrict div
    */
   &_container {
@@ -44,7 +44,7 @@
 
     // Normalize the <select> appearance in various browsers
     // See https://github.com/salesforce-ux/design-system/issues/122
-    .slds-select {
+    .nds-select {
       // stylelint-disable property-no-vendor-prefix
       -moz-appearance: none;
       -webkit-appearance: none;
@@ -84,6 +84,6 @@
   }
 }
 
-.slds-has-error {
-  @include form-input-error('.slds-select');
+.nds-has-error {
+  @include form-input-error('.nds-select');
 }

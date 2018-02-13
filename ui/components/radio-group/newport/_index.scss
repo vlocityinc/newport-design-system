@@ -5,36 +5,36 @@
  * @summary Vlocity Newport branded radio selector with image
  *
  * @name newport
- * @selector .slds-radio_custom-group
- * @restrict .slds-radio
+ * @selector .nds-radio_custom-group
+ * @restrict .nds-radio
  * @variant
  */
 
-.slds-radio_custom-group {
+.nds-radio_custom-group {
   position: relative;
 }
 
-.slds-radio_custom-group {
+.nds-radio_custom-group {
   border: none;
 }
 
-.slds-cont-width {
+.nds-cont-width {
     width: 10rem;
 }
 
-.slds-radio_button-group,
-.slds-radio--button-group {
+.nds-radio_button-group,
+.nds-radio--button-group {
   display: inline-flex;
   border-radius: $border-radius-medium;
 }
 
-.slds-radio_custom-group {
+.nds-radio_custom-group {
   /**
-   * @selector .slds-radio_button
-   * @restrict .slds-radio_button-group span
+   * @selector .nds-radio_button
+   * @restrict .nds-radio_button-group span
    */
-  .slds-radio_button,
-  .slds-radio--button {
+  .nds-radio_button,
+  .nds-radio--button {
     display: flex;
     border: 0;
     border-radius: 0;
@@ -47,11 +47,11 @@
     /**
      * Create styled button when adjacent to the input[radio] element
      *
-     * @selector .slds-radio_faux
-     * @restrict .slds-radio_button span
+     * @selector .nds-radio_faux
+     * @restrict .nds-radio_button span
      */
-    .slds-radio_faux,
-    .slds-radio--faux {
+    .nds-radio_faux,
+    .nds-radio--faux {
       padding-#{$left}: $spacing-medium;
       padding-#{$right}: $spacing-medium;
       text-align: center;
@@ -61,14 +61,14 @@
 
 
     // Apply left borders to anything radio button after the first button
-    + .slds-radio_button,
-    + .slds-radio--button {
+    + .nds-radio_button,
+    + .nds-radio--button {
       margin: 0;
       margin-#{$right}: 1.25rem;
       margin-bottom: 2.5rem;
       border-#{$left}: none;
 
-      .slds-radio_button__label {
+      .nds-radio_button__label {
         width: 100%;
         border: 1px solid $button-color-border-primary;
       }
@@ -76,22 +76,22 @@
 
     // Dealing with box shadows on specific n children
     // of the button group
-    &:first-child > .slds-radio_faux,
-    &:first-child > .slds-radio--faux,
-    &:first-child > .slds-radio_button__label,
-    &:first-child > .slds-radio--button__label {
+    &:first-child > .nds-radio_faux,
+    &:first-child > .nds-radio--faux,
+    &:first-child > .nds-radio_button__label,
+    &:first-child > .nds-radio--button__label {
       border: 1px solid $button-color-border-primary;
       width: 100%;
       border-radius: 0.25rem;
     }
 
     // The middle selector doesn't seem to be applied anywhere? I didn't find a .button--last anywhere?
-    &:last-child > .slds-radio_faux,
-    &:last-child > .slds-radio--faux,
-    .slds-button_last > .slds-radio_faux,
-    .slds-button--last > .slds-radio--faux,
-    &:last-child > .slds-radio_button__label,
-    &:last-child > .slds-radio--button__label {
+    &:last-child > .nds-radio_faux,
+    &:last-child > .nds-radio--faux,
+    .nds-button_last > .nds-radio_faux,
+    .nds-button--last > .nds-radio--faux,
+    &:last-child > .nds-radio_button__label,
+    &:last-child > .nds-radio--button__label {
       border-radius: 0.25rem;
       width: 100%;
     }
@@ -107,13 +107,13 @@
       position: absolute;
 
       // Checked State with Interactions
-      // +/~ slds-radio--faux selector are for legacy support
-      &:checked + .slds-radio_faux,
-      &:checked + .slds-radio--faux,
-      &:checked ~ .slds-radio_faux,
-      &:checked ~ .slds-radio--faux,
-      &:checked + .slds-radio_button__label,
-      &:checked + .slds-radio--button__label {
+      // +/~ nds-radio--faux selector are for legacy support
+      &:checked + .nds-radio_faux,
+      &:checked + .nds-radio--faux,
+      &:checked ~ .nds-radio_faux,
+      &:checked ~ .nds-radio--faux,
+      &:checked + .nds-radio_button__label,
+      &:checked + .nds-radio--button__label {
         background-color: transparent;
         color: $color-text-button-brand;
         width: 100%; 
@@ -126,26 +126,26 @@
       }
 
       // Focus State
-      // +/~ slds-radio--faux selector are for legacy support
-      &:focus + .slds-radio_faux,
-      &:focus + .slds-radio--faux,
-      &:focus ~ .slds-radio_faux,
-      &:focus ~ .slds-radio--faux,
-      &:focus + .slds-radio_button__label,
-      &:focus + .slds-radio--button__label {
+      // +/~ nds-radio--faux selector are for legacy support
+      &:focus + .nds-radio_faux,
+      &:focus + .nds-radio--faux,
+      &:focus ~ .nds-radio_faux,
+      &:focus ~ .nds-radio--faux,
+      &:focus + .nds-radio_button__label,
+      &:focus + .nds-radio--button__label {
         outline: 0;
         box-shadow: none;
         z-index: $z-index-default; // Raises box shadow above adjacent buttons
       }
 
       // Disabled State
-      // +/~ slds-radio--faux selector are for legacy support
-      &[disabled] + .slds-radio_faux,
-      &[disabled] + .slds-radio--faux,
-      &[disabled] ~ .slds-radio_faux,
-      &[disabled] ~ .slds-radio--faux,
-      &[disabled] + .slds-radio_button__label,
-      &[disabled] + .slds-radio--button__label {
+      // +/~ nds-radio--faux selector are for legacy support
+      &[disabled] + .nds-radio_faux,
+      &[disabled] + .nds-radio--faux,
+      &[disabled] ~ .nds-radio_faux,
+      &[disabled] ~ .nds-radio--faux,
+      &[disabled] + .nds-radio_button__label,
+      &[disabled] + .nds-radio--button__label {
         background-color: transparent;
         color: $color-text-button-default-disabled;
 
@@ -155,12 +155,12 @@
         }
       }
 
-      &[disabled]:checked + .slds-radio_faux,
-      &[disabled]:checked + .slds-radio--faux,
-      &[disabled]:checked ~ .slds-radio_faux,
-      &[disabled]:checked ~ .slds-radio--faux,
-      &[disabled]:checked + .slds-radio_button__label,
-      &[disabled]:checked + .slds-radio--button__label {
+      &[disabled]:checked + .nds-radio_faux,
+      &[disabled]:checked + .nds-radio--faux,
+      &[disabled]:checked ~ .nds-radio_faux,
+      &[disabled]:checked ~ .nds-radio--faux,
+      &[disabled]:checked + .nds-radio_button__label,
+      &[disabled]:checked + .nds-radio--button__label {
 
         &:hover,
         &:focus {
@@ -171,7 +171,7 @@
     }
   }
 
-  .slds-radio_custom-faux {
+  .nds-radio_custom-faux {
     position: absolute;
     bottom: -1.8rem;
     width: 100%;
@@ -188,7 +188,7 @@
     white-space: nowrap;
   }
 
-  .slds-radio_button__label img {
+  .nds-radio_button__label img {
     position: relative;
     float: #{$left};
     top: 50%;
@@ -199,8 +199,8 @@
     background-color: $color-background-input;
   }
 
-  .slds-radio_button__label div.slds-title,
-  .slds-radio_button__label span.slds-title {
+  .nds-radio_button__label div.nds-title,
+  .nds-radio_button__label span.nds-title {
     position: relative;
     float: #{$left};
     top: 50%;
@@ -214,11 +214,11 @@
   /**
    * Label element inside of a radio button
    *
-   * @selector .slds-radio_button__label
-   * @restrict .slds-radio_button label
+   * @selector .nds-radio_button__label
+   * @restrict .nds-radio_button label
    */
-  .slds-radio_button__label,
-  .slds-radio--button__label {
+  .nds-radio_button__label,
+  .nds-radio--button__label {
     background-color: transparent;
     border-radius: 0.25rem;
     padding: 1rem;

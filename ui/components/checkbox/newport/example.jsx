@@ -10,24 +10,22 @@ import { UtilityIcon } from '../../icons/base/example';
 /// ////////////////////////////////////////
 
 let Fieldset = props => (
-  <fieldset className={classNames('slds-form-element', props.className)}>
-    <legend className="slds-form-element__legend slds-form-element__label">
+  <fieldset className={classNames('nds-form-element', props.className)}>
+    <legend className="nds-form-element__legend nds-form-element__label">
       Scheduled Day(s)
     </legend>
-    <div className="slds-form-element__control">{props.children}</div>
+    <div className="nds-form-element__control">{props.children}</div>
   </fieldset>
 );
 
 let CheckboxGroup = props => (
-  <div className="slds-checkbox_custom-group slds-clearfix">
-    {props.children}
-  </div>
+  <div className="nds-checkbox_custom-group nds-clearfix">{props.children}</div>
 );
 
 let Checkbox = props => (
   <span
     className={classNames(
-      'slds-button slds-checkbox_button slds-float_left  slds-cont-width',
+      'nds-button nds-checkbox_button nds-float_left  nds-cont-width',
       props.className
     )}
   >
@@ -38,9 +36,9 @@ let Checkbox = props => (
       name="checkbox"
       type="checkbox"
     />
-    <label className="slds-checkbox_button__label" htmlFor={props.id}>
+    <label className="nds-checkbox_button__label" htmlFor={props.id}>
       <img src="https://vlocity.com/cms/resources/vlocity-comms-bugreversed.svg" />
-      <span className="slds-checkbox_custom-faux">{props.children}</span>
+      <span className="nds-checkbox_custom-faux">{props.children}</span>
     </label>
   </span>
 );
@@ -48,7 +46,7 @@ let Checkbox = props => (
 let CheckboxNoimage = props => (
   <span
     className={classNames(
-      'slds-button slds-checkbox_button slds-float_left slds-cont-width',
+      'nds-button nds-checkbox_button nds-float_left nds-cont-width',
       props.className
     )}
   >
@@ -59,13 +57,13 @@ let CheckboxNoimage = props => (
       name="checkbox"
       type="checkbox"
     />
-    <label className="slds-checkbox_button__label" htmlFor={props.id}>
-      <span className="slds-checkbox_custom-faux slds-title">
+    <label className="nds-checkbox_button__label" htmlFor={props.id}>
+      <span className="nds-checkbox_custom-faux nds-title">
         {props.children}
       </span>
 
-      <div className="slds-icon_container slds-icon-utility-check slds-multi-select">
-        <UtilityIcon className="slds-list__icon--size" symbol="check" />
+      <div className="nds-icon_container nds-icon-utility-check nds-multi-select">
+        <UtilityIcon className="nds-list__icon--size" symbol="check" />
       </div>
     </label>
   </span>
@@ -109,7 +107,7 @@ export let states = [
     id: 'has-error',
     label: 'Error',
     element: (
-      <Fieldset className="slds-has-error">
+      <Fieldset className="nds-has-error">
         <CheckboxGroup>
           <Checkbox errorId="error_01" id="monday">
             Mon
@@ -127,7 +125,7 @@ export let states = [
             Fri
           </Checkbox>
         </CheckboxGroup>
-        <div id="error_01" className="slds-form-element__help">
+        <div id="error_01" className="nds-form-element__help">
           This field is required
         </div>
       </Fieldset>

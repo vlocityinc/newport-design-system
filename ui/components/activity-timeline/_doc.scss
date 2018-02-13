@@ -10,14 +10,14 @@
  *
  * Text describing the type of timeline item is placed in a `span`. It is the
  * first element in the timeline item and should be hidden with the
- * `.slds-assistive-text` class. The `SVG` image does not need the
- * `.slds-assistive-text` class.
+ * `.nds-assistive-text` class. The `SVG` image does not need the
+ * `.nds-assistive-text` class.
  *
  * @summary The activity timeline displays each of the user’s upcoming, current, and past activities.
  *
  * @base
  * @name activity-timeline
- * @selector .slds-timeline__media
+ * @selector .nds-timeline__media
  * @support dev-ready
  * @category feature
  * @type data-display
