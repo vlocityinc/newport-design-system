@@ -117,7 +117,7 @@
         background-color: transparent;
         color: $color-text-button-brand;
         width: 100%; 
-        border: 2px solid $button-color-border-primary;
+        border: 2px solid $color-brand;
         // Need something stronger when the input is checked
         &:hover,
         &:focus {

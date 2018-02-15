@@ -290,7 +290,7 @@
   z-index: 1;
   white-space: nowrap;
   position: relative;
-  top: -0.05rem;
+  top: 0.25rem;
   margin-#{$left}: 5px;
 }
 
@@ -328,6 +328,13 @@ ul.nds-dropdown-list {
 .nds-cont-wrapper {
   position: relative;
   width: 100%;
+}
+
+.slds-large-size--0-of-12, 
+.slds-medium--0-of-12, 
+.slds-medium-size--0-of-12, 
+.slds-size--0-of-12 {
+  display: none;
 }
 
 

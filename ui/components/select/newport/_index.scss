@@ -1,0 +1,75 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary custom animation with label on select focus
+ *
+ * @name newport
+ * @selector .slds-form-element__control-animated-label
+ * @restrict .slds-select
+ * @required
+ * @variant
+ */
+.slds-form-element__control-animated-label {
+	font-size: 0.875rem;
+	position: relative;
+}
+
+.slds-select {
+	font-size: 0.875rem;
+	letter-spacing: 1px;
+	font-weight: 400;
+	&_container {
+		width: 100%;
+	}
+}
+
+
+.slds-form-element__control.slds-form-element__control-animated-label.slds-form-element__label {
+	top: 0.25rem;
+	#{$left}: 0;
+	position: absolute;
+	width: 100%;
+	#{$right}: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	pointer-events: none;
+	white-space: nowrap;
+	font-weight: 400;
+	font-size: 0.875rem;
+	letter-spacing: 1px;
+	color: $color-input-font-kashmiri-blue;
+}
+
+.slds-form-element__control.slds-form-element__control-animated-label select:focus ~ label,
+.slds-form-element__control.slds-form-element__control-animated-label select.slds-has-value:not(:focus):valid ~ label,
+.slds-form-element__control.slds-form-element__control-animated-label select.ng-dirty.ng-not-empty ~ label,
+.slds-form-element__control.slds-form-element__control-animated-label select.ng-dirty.ng-not-empty + label,
+.slds-form-element__control.slds-form-element__control-animated-label select[cloned='dirty'] + label,
+.slds-form-element__control.slds-form-element__control-animated-label select.slds-select[cloned='dirty'] ~ label,
+.slds-form-element__control.slds-form-element__control-animated-label select.slds-select.ng-dirty.ng-not-empty.ng-touched[vlc-slds-lookup-control] ~ label {
+	-webkit-transform: translate3d(0, -1.2rem, 0);
+	transform: translate3d(0, -1.2rem, 0);
+	-webkit-transition-duration: 300ms;
+	transition-duration: 300ms;
+	z-index: 0;
+	font-size: 0.75rem;
+	font-weight: 300;
+	top: 0.4rem;
+	#{$left}: 0;
+ }
+
+
+.slds-form-element__control.slds-form-element__control-animated-label select:focus ~ label,
+.slds-form-element__control.slds-form-element__control-animated-label select:focus ~ label .slds-required {
+	color: $color-border-input-active;
+}
+
+.slds-form-element__control.slds-input-has-icon svg.slds-icon {
+	fill: $color-input-icon-blue-hue;
+}
+
+.slds-select_container .slds-control-action__container {
+  top: -0.05rem;
+}
+
