@@ -12,10 +12,14 @@ export default class LightningInput extends Element {
     @api label;
     @api value;
     @api required;
+    @api maxlength;
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {
             value: textEntered
         });
     }
+
+    @api setCustomValidity = jest.fn();
+    @api showHelpMessageIfInvalid = jest.fn();
 }
