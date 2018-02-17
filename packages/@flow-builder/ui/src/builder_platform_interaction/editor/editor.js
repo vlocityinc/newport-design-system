@@ -1,6 +1,6 @@
 import { Element, track } from 'engine';
 import { EVENT, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
-import { invokePanel, getComponentDefForNodeType } from 'builder_platform_interaction-builder-utils';
+import { invokePanel, getConfigForElementType } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector } from 'builder_platform_interaction-selectors';
 import { updateElement, deleteElement } from 'builder_platform_interaction-actions';
@@ -49,6 +49,21 @@ export default class Editor extends Element {
     };
 
     /**
+     * Handles the canvas mouse up event and deselects all selected nodes and connectors.
+     */
+    handleCanvasMouseUp = () => {
+        this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
+            node.config.isSelected = false;
+            return node;
+        });
+
+        this.appState.canvas.connectors = this.appState.canvas.connectors.map((connector) => {
+            connector.config.isSelected = false;
+            return connector;
+        });
+    };
+
+    /**
      * Handles the node double clicked event and fires up the property editor based on node type
      * It uses builder-util library to fire up the ui:panel.
      * @param {object} event - node double clicked event coming from node.js
@@ -58,8 +73,8 @@ export default class Editor extends Element {
             this.handleNodeSelection(event);
             const override = {};
             const node = deepCopy(storeInstance.getCurrentState().elements[event.detail.nodeGUID]);
+            override.body = {descriptor: getConfigForElementType(node.elementType, 'descriptor')};
             const nodeWithErrorObjects = hydrateWithErrors(node);
-            override.body = getComponentDefForNodeType(node.type);
             override.body.attr = {
                 node: nodeWithErrorObjects
             };
@@ -70,9 +85,8 @@ export default class Editor extends Element {
 
     /**
      * Handles the node clicked event and marks the node as selected or unselected based on whether the
-     * user is trying to multi-select or not. Also handles clicks on canvas to deselect all currently
-     * selected nodes.
-     * @param {object} event - node clicked event coming from node.js and canvas.js
+     * user is trying to multi-select or not. Also deselects all the selected connectors if multi-select is off.
+     * @param {object} event - node clicked event coming from node.js
      */
     handleNodeSelection = (event) => {
         this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
@@ -87,6 +101,12 @@ export default class Editor extends Element {
             }
             return node;
         });
+
+        // TODO: Support multi-selection of nodes and connectors once store is fixed.
+        this.appState.canvas.connectors = this.appState.canvas.connectors.map((connector) => {
+            connector.config.isSelected = false;
+            return connector;
+        });
     };
 
     /**
@@ -95,14 +115,10 @@ export default class Editor extends Element {
      */
     handleDragNodeStop = (event) => {
         if (event && event.detail) {
-            this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
-                if (node.guid === event.detail.nodeGUID) {
-                    node.locationX = event.detail.locationX;
-                    node.locationY = event.detail.locationY;
-                    this.updateNodeCollection(node, false);
-                }
-                return node;
-            });
+            const updatedNode = this.appState.canvas.nodes.filter(node => (node.guid === event.detail.nodeGUID));
+            updatedNode[0].locationX = event.detail.locationX;
+            updatedNode[0].locationY = event.detail.locationY;
+            this.updateNodeCollection(updatedNode[0], false);
         }
     };
 
@@ -121,6 +137,43 @@ export default class Editor extends Element {
     }
 
     /**
+     * Method for talking to the store and updating the connectors for a given source and target.
+     * @param {object} event - add connection event coming from canvas.js
+     */
+    handleAddConnection(event) {
+        // TODO: Update once the store is fixed. This will also fix selection/deselection for new connectors.
+        this.appState.canvas.connectors = [...this.appState.canvas.connectors, ({source: event.detail.source,
+            target: event.detail.target, label: event.detail.label, config: {isSelected: false}, jsPlumbConnector: {}})];
+    }
+
+    /**
+     * Handles the connector clicked event and marks the connector as selected or unselected based on whether the
+     * user is trying to multi-select or not. Also deselects all the selected nodes if multi-select is off.
+     * @param {object} event - connection clicked event coming from canvas.js
+     */
+    handleConnectorSelection(event) {
+        this.appState.canvas.connectors = this.appState.canvas.connectors.map((connector) => {
+            if (connector.source === event.detail.source && connector.target === event.detail.target) {
+                connector.jsPlumbConnector = event.detail.connection;
+                if (event.detail.isMultiSelectKeyPressed) {
+                    connector.config.isSelected = !connector.config.isSelected;
+                } else {
+                    connector.config.isSelected = true;
+                }
+            } else if (!event.detail.isMultiSelectKeyPressed) {
+                connector.config.isSelected = false;
+            }
+            return connector;
+        });
+
+        // TODO: Support multi-selection of nodes and connectors once store is fixed.
+        this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
+            node.config.isSelected = false;
+            return node;
+        });
+    }
+
+    /**
      * Method for talking to validation library and store for updating the node collection/flow data.
      * @param {object} node - node object for the particular property editor update
      * @param {boolean} needsDehydration - if dehydration is needed for the updated node
@@ -129,16 +182,6 @@ export default class Editor extends Element {
         // TODO: add validations if needed
         const nodeForStore = needsDehydration ? dehydrate(node) : node;
         storeInstance.dispatch(updateElement(nodeForStore));
-    }
-
-    /**
-     * Method for talking to the store and updating the connectors for a given source and target.
-     * @param {object} event - add connection event coming from canvas.js
-     */
-    handleAddConnection(event) {
-        // TODO: Update once the store is fixed
-        this.appState.canvas.connectors = [...this.appState.canvas.connectors, ({source: event.detail.source,
-            target: event.detail.target, label: event.detail.label, config: {isSelected: false}})];
     }
 
     /**

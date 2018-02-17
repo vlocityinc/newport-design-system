@@ -1,3 +1,5 @@
+import { CONNECTOR_OVERLAY } from 'builder_platform_interaction-constant';
+
 /**
  * @type {object} instance
  */
@@ -24,13 +26,13 @@ class DrawingLib {
                 ConnectionOverlays: [
                     ['PlainArrow', {
                         location: -1,
-                        visible:true,
-                        width:14,
-                        length:8,
-                        id:'ARROW'
+                        visible: false,
+                        width: 14,
+                        length: 8,
+                        id: CONNECTOR_OVERLAY.ARROW
                     }],
                     ['Label', {
-                        id: 'label',
+                        id: CONNECTOR_OVERLAY.LABEL,
                         visible: false
                     }]
                 ]
@@ -89,6 +91,8 @@ class DrawingLib {
     makeSource = (nodeId, connections) => {
         instance.makeSource(nodeId, {
             filter: '.end-point',
+            endpoint: 'Dot',
+            endpointStyle: {},
             allowLoopback: false,
             maxConnections: connections
         });
@@ -116,13 +120,18 @@ class DrawingLib {
     };
 
     /**
-     * Sets all the existing connections while loading the flow in the canvas.
+     * Sets all the existing connections while loading the flow in the canvas. If a connection is already set
+     * then it doesn't do anything.
      * @param {String} sourceGuid - ID of the source node
      * @param {String} targetGuid - ID of the target node
      * @param {String} label - The label to display for the connector
      */
     setExistingConnections = (sourceGuid, targetGuid, label) => {
-        instance.connect({source: sourceGuid, target: targetGuid, label});
+        const existingConnection = instance.getConnections({source: sourceGuid, target: targetGuid});
+        if (existingConnection.length === 0) {
+            const connection = instance.connect({source: sourceGuid, target: targetGuid, label});
+            connection.getOverlay('__arrow').setVisible(true);
+        }
     };
 
     /**
@@ -131,6 +140,38 @@ class DrawingLib {
      */
     setNewConnection = (connectionAdded) => {
         instance.bind('beforeDrop', connectionAdded);
+    };
+
+    /**
+     * Notifies when a connections is clicked.
+     * @param {Function} connectionClicked - Function to mark the node as selected
+     */
+    clickConnection = (connectionClicked) => {
+        instance.bind('click', connectionClicked);
+    };
+
+    /**
+     * Sets up the paint style of the connector when it's selected.
+     * @param {Object} connection - The connector that has been selected
+     */
+    selectConnector = (connection) => {
+        connection.setPaintStyle({strokeWidth: 3, stroke: '#0070d2', joinstyle: 'round'});
+        connection.setHoverPaintStyle({});
+        const labelText = connection.getOverlay(CONNECTOR_OVERLAY.LABEL).label;
+        connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);
+        connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, cssClass: 'label-selected', label: labelText}]);
+    };
+
+    /**
+     * Sets up the paint style of the connector when it's deselected.
+     * @param {Object} connection - The connector that has been deselected
+     */
+    deselectConnector = (connection) => {
+        connection.setPaintStyle({strokeWidth: 2, stroke: '#919297', joinstyle: 'round'});
+        connection.setHoverPaintStyle({strokeWidth: 2, stroke: '#1589ee'});
+        const labelText = connection.getOverlay(CONNECTOR_OVERLAY.LABEL).label;
+        connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);
+        connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label: labelText}]);
     };
 
     /**

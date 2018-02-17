@@ -3,18 +3,19 @@
  * then the test should override those methods as needed.
  */
 let mock = {
-    setNewConnection : () => {},
-    setContainer : () => {},
+    setContainer : jest.fn(),
     getContainer : () => {
         return {
             classList: {
                 // TODO: probably want to mock this for different cases
-                contains: () => {}
+                contains: jest.fn()
             }
         }
     },
-    removeNodeFromLib : () => {},
-    setSuspendDrawing : () => {},
+    setNewConnection : jest.fn(),
+    clickConnection : jest.fn(),
+    removeNodeFromLib : jest.fn(),
+    setSuspendDrawing : jest.fn(),
 };
 
 export { mock as drawingLibInstance};

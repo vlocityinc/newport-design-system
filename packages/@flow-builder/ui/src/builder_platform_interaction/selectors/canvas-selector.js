@@ -25,6 +25,7 @@ const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((a
         connector.target = element.connector.targetReference;
         connector.label = 'Label';
         connector.config = {isSelected: false};
+        connector.jsPlumbConnector = {};
         acc.connectors.push(connector);
     }
 

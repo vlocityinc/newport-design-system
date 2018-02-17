@@ -214,7 +214,7 @@ describe('editor', () => {
 
     it('Checks if node deselection is handled correctly when a canvas is clicked', () => {
         const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.NODE_SELECTED, {
+        const event = new CustomEvent(EVENT.CANVAS_MOUSEUP, {
             bubbles: true,
             composed: true,
             cancelable: true,

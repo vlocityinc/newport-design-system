@@ -94,7 +94,7 @@
 }
 
 .THIS builder_platform_interaction-node .text-container {
-    bottom: -45px;
+    top: 57px;
     width: 132px;
     background-color: t(colorBackgroundBackdrop);
 }
@@ -124,15 +124,28 @@
     line-height: normal !important;
     vertical-align: bottom;
     white-space: nowrap;
-    z-index: 200;
+    z-index: 199;
 }
 
 .THIS builder_platform_interaction-canvas .canvas .jtk-overlay.jtk-hover {
     border-color: t(colorBrand);
-    color: t(colorBrand) !important;
+    color: t(colorBrandDarker) !important;
 }
 
 .THIS builder_platform_interaction-canvas .canvas .jtk-overlay.label-selected {
     border-color: t(colorBrandDark);
     color: t(colorBrandDarker) !important;
+    box-shadow: t(shadowButtonFocus);
+}
+
+.THIS builder_platform_interaction-canvas .canvas .jtk-endpoint.jtk-endpoint-anchor.jtk-draggable.jtk-endpoint-connected.jtk-dragging {
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 100%;
+    border: t(borderWidthThick) solid white;
+    box-shadow: inset 0px 0px 0px 2px #919297, 0 2px 4px 0 rgba(0, 0, 0, 0.40);
+    transform: scale(1.1);
+    background-color: t(colorBackgroundAlt2);
+    transition: box-shadow 0.1s ease, background-color 0.25s ease-out;
+    z-index: 402;
 }

@@ -18,26 +18,34 @@ const UI_CREATE_PANEL = 'ui:createPanel';
  * @constant nodeTypeToComponentMap - Map of different element types to their respective components
  * @type {object}
  */
-const nodeTypeToComponentMap = {
-    'Assignment' : {
-        descriptor: 'builder_platform_interaction:assignmentEditor'
-        // attributes this would most probably just be node object but we still need to decide on it
+const elementTypeToConfigMap = {
+    [ELEMENT_TYPE.ASSIGNMENT] : {
+        descriptor: 'builder_platform_interaction:assignmentEditor',
+        nodeConfig: {
+            iconName: 'standard:lead_list',
+            maxConnections: 1
+        }
     },
-    'defaultElement' : {
-        descriptor: 'builder_platform_interaction:assignmentEditor'
+    [ELEMENT_TYPE.DEFAULT] : {
+        descriptor: 'builder_platform_interaction:assignmentEditor',
+        nodeConfig: {
+            iconName: 'standard:lead_list',
+            maxConnections: 1
+        }
     }
 };
 
 /**
  * @param {string} nodeType - String value to choose the actual component from the map,
  *  if empty, default element is chosen
- *  @returns {object} Object containing component descriptor and attributes
+ *  @param {string} config - String value to choose the specific config for the given element type
+ *  @returns {object} Object containing component config
  */
-export function getComponentDefForNodeType(nodeType) {
+export function getConfigForElementType(nodeType, config) {
     if (nodeType === null || nodeType === undefined) {
         nodeType = ELEMENT_TYPE.DEFAULT;
     }
-    return nodeTypeToComponentMap[nodeType];
+    return elementTypeToConfigMap[nodeType][config];
 }
 
 /**

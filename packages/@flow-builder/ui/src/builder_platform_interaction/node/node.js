@@ -1,5 +1,5 @@
 import { Element, api } from 'engine';
-import { nodeIconMap } from './icon-name.js';
+import { getConfigForElementType } from 'builder_platform_interaction-builder-utils';
 import { EVENT } from 'builder_platform_interaction-constant';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 
@@ -35,7 +35,7 @@ export default class Node extends Element {
     }
 
     get iconName() {
-        return nodeIconMap.get(this.node.elementType);
+        return getConfigForElementType(this.node.elementType, 'nodeConfig').iconName;
     }
 
     get isSelected() {

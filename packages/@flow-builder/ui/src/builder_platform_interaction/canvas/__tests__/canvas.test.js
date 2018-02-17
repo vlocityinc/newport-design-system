@@ -28,7 +28,7 @@ describe('canvas', () => {
         const canvasComponent = createComponentUnderTest();
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            canvasComponent.addEventListener(EVENT.NODE_SELECTED, callback);
+            canvasComponent.addEventListener(EVENT.CANVAS_MOUSEUP, callback);
             mouseUp(canvasComponent);
             expect(callback).toHaveBeenCalled();
         });
