@@ -2,7 +2,7 @@ import { Element, track } from 'engine';
 import { EVENT, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { invokePanel, getConfigForElementType } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
-import { canvasSelector } from 'builder_platform_interaction-selectors';
+import { canvasSelector, resourcesSelector } from 'builder_platform_interaction-selectors';
 import { updateElement, deleteElement } from 'builder_platform_interaction-actions';
 import { hydrateWithErrors, dehydrate } from 'builder_platform_interaction-data-mutation-lib';
 
@@ -25,6 +25,7 @@ export default class Editor extends Element {
             nodes: [],
             connectors: []
         },
+        resources: []
     };
 
     constructor() {
@@ -190,6 +191,7 @@ export default class Editor extends Element {
     mapAppStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
         this.appState.canvas = canvasSelector(currentState);
+        this.appState.resources = resourcesSelector(currentState);
     };
 
     disconnectedCallback() {

@@ -14,6 +14,8 @@ const ACTIVETABID_DEFAULT = "left-panel-tabitem-elements";
  * @since 214
  */
 export default class LeftPanel extends Element {
+    @api resources;
+
     @track activetabid = ACTIVETABID_DEFAULT;
 
     labels = {
