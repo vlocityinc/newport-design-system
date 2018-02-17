@@ -1,28 +1,57 @@
+/** Used to match backslashes in property paths. Taken from lodash */
+const reEscapeChar = /\\(\\)?/g;
+/** Used to match property names within property paths. Taken from lodash */
+const rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+
 /**
  * Helper method that set function will call.
  * Recursively traverses an object based on the given path
- * and uses Object.assign to update the property at the end of the path with
+ * and updates the property at the end of the path with
  * the given value
  * @param {Object}      obj   current object being ispected
  * @param {Array}       path  current path
  * @param {Object}      value value that will be set once end of path is reached
- * @returns {Object}          the new object with the updated value
+ * @returns {Object}          the new object/array with the updated value
  */
 const setValue = (obj, path, value) => {
     if (path.length === 0) {
         // base case:
         // we do not have a path just return a clone of the object
-        return Object.assign({}, obj);
+        if (Array.isArray(obj)) {
+            return [...obj];
+        }
+        return {...obj};
     } else if (path.length === 1) {
         // base case:
         // we have reached the last key so we can now set the value to the desired key object pair
         const key = path[0];
+        if (Array.isArray(obj)) {
+            if (isNaN(parseInt(key, 10))) {
+                throw new Error(`the key ${key} is not a number and cannot be used in an array`);
+            }
+            // create a new array with the given value at position key
+            return [
+                ...obj.slice(0, key),
+                value,
+                ...obj.slice(key + 1),
+            ];
+        }
         // make a new object with an updated property
-        return Object.assign({}, obj, { [key] : value });
+        return {...obj, ...{ [key] : value }};
     }
     // recursively call the set function and assign the results to our current object
     const key = path[0];
-    return Object.assign({}, obj, { [key] : setValue(obj[key], path.slice(1), value) });
+    if (Array.isArray(obj)) {
+        if (isNaN(parseInt(key, 10))) {
+            throw new Error(`the key ${key} is not a number and cannot be used in an array`);
+        }
+        return [
+            ...obj.slice(0, key),
+            ...[setValue(obj[key], path.slice(1), value)],
+            ...obj.slice(key + 1),
+        ];
+    }
+    return {...obj, ...{ [key] : setValue(obj[key], path.slice(1), value) }};
 };
 
 /**
@@ -54,22 +83,21 @@ export const stringToPath = (string) => {
         // if we get a non string path we just return an empty path array
         return [];
     }
-
-    // regex that matches string paths with [digit]. and [digit] pattern in them
-    const regex = /(\[)(\d)(\])(\.{0,1})/gi;
-    // replace all matching patterns with dot notation
-    const newString = string.replace(regex, (match, leftBracket, digit, rightBracket, rightPeriod) => {
-        return rightPeriod ? '.' + digit + '.' : '.' + digit;
+    // the path array under construction
+    const path = [];
+    // leverage string replace to build our path. separating them based on dots or array indexing
+    string.replace(rePropName, (match, number, quote, str) => {
+        path.push(quote ? str.replace(reEscapeChar, '$1') : (number || match));
     });
-    // convert string path to array of keys
-    return newString.split('.');
+    return path;
 };
 
 /**
  * Set the value of the object at the given path
- * Does not mutate the given object
+ * Supports arrays and objects
+ * Does not mutate the given object/array
  * This util is meant to be used by a function that needs to
- * update a complex nested object in an immuatable way.
+ * update a complex nested object in an immuatable way
  * If you just want to update a javascript object please
  * use dot notation, that works much better.
  * @param {Object}          obj   the object given

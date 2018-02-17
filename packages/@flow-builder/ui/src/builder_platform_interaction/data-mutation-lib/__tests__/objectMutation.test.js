@@ -91,22 +91,32 @@ describe('Set function', () => {
             expect(path[3]).toEqual('lhs');
         });
 
-        it('should treat strings with non digits inside brackets as normal keys', () => {
-            const path = stringToPath('item[n].value');
-            expect(path).toHaveLength(2);
-            expect(path[0]).toEqual('item[n]');
-            expect(path[1]).toEqual('value');
-        });
-
-        it('should return a path with both non digit and digit indexes', () => {
-            const path = stringToPath('item[n][0].value');
+        it('should return a path when given a path prefixed by a period', () => {
+            const path = stringToPath('.item[0].value');
             expect(path).toHaveLength(3);
-            expect(path[0]).toEqual('item[n]');
+            expect(path[0]).toEqual('item');
             expect(path[1]).toEqual('0');
             expect(path[2]).toEqual('value');
         });
 
-        it('should return a path with multiple digit indexing ', () => {
+        it('should treat strings with non digits inside brackets as normal keys', () => {
+            const path = stringToPath('item[n].value');
+            expect(path).toHaveLength(3);
+            expect(path[0]).toEqual('item');
+            expect(path[1]).toEqual('n');
+            expect(path[2]).toEqual('value');
+        });
+
+        it('should return a path with both non digit and digit indexes', () => {
+            const path = stringToPath('item[n][0].value');
+            expect(path).toHaveLength(4);
+            expect(path[0]).toEqual('item');
+            expect(path[1]).toEqual('n');
+            expect(path[2]).toEqual('0');
+            expect(path[3]).toEqual('value');
+        });
+
+        it('should return a path with multiple digit indexing', () => {
             const path = stringToPath('item[0][1]');
             expect(path).toHaveLength(3);
             expect(path[0]).toEqual('item');
@@ -115,79 +125,143 @@ describe('Set function', () => {
         });
     });
 
-    it('should be defined', () => {
-        expect(set).toBeDefined();
+    describe('calling set on an array', () => {
+        it('should return a new array', () => {
+            const myArray = ['one', 'two'];
+            const newArray = set(myArray);
+            expect(newArray).not.toBe(myArray);
+        });
+
+        it('should return an array when setting a value at an array', () => {
+            const myArray = [{one: 'one'}, 'two'];
+            const newArray = set(myArray, '[0].one', 'newvalue');
+            expect(Array.isArray(newArray)).toBeTruthy();
+        });
+
+        it('should return an array when setting a value at an array nested within an object', () => {
+            const myObject = {"array": [{one: 'one'}, 'two']};
+            const newObject = set(myObject, 'array.[0].one', 'newvalue');
+            expect(Array.isArray(newObject.array)).toBeTruthy();
+        });
+
+        it('should update the value with a string path if given object is an array', () => {
+            const myArray = [{one: 'one'}, 'two'];
+            const newArray = set(myArray, '[0].one', 'newvalue');
+            expect(newArray[0].one).toEqual('newvalue');
+            expect(newArray[1]).toEqual('two');
+        });
+
+        it('should update the value with an array path if given object is an array', () => {
+            const myArray = [{one: 'one'}, 'two'];
+            const newArray = set(myArray, [0, 'one'], 'newvalue');
+            expect(newArray[0].one).toEqual('newvalue');
+            expect(newArray[1]).toEqual('two');
+        });
+
+        it('should update the value in an array at the given path using multiple indexing', () => {
+            const arrayOfArray = [{ 'one': ['one']}, 'two'];
+            const newArray = set(arrayOfArray, [0, 'one', '0'], 'newvalue');
+            expect(newArray[0].one[0]).toEqual('newvalue');
+            expect(newArray[1]).toEqual('two');
+        });
+
+        it('should throw an error when given an index that is not a number for an array', () => {
+            const myArray = [{one: 'one'}, 'two'];
+            expect(() => {
+                set(myArray, ['notANumber', 'one'], 'newvalue');
+            }).toThrow(`the key notANumber is not a number and cannot be used in an array`);
+        });
     });
 
-    it('should return a new object', () => {
-        const newObj = set(assignmentItem, ['lhs', 'value'], 'newvalue');
-        expect(newObj).not.toBe(assignmentItem);
-    });
+    describe('calling set on an object', () => {
+        it('should return a new object', () => {
+            const newObj = set(assignmentItem, ['lhs', 'value'], 'newvalue');
+            expect(newObj).not.toBe(assignmentItem);
+        });
 
-    it('should accept a period deliminated string path', () => {
-        expect(() => {
-            set(assignmentItem, 'lhs.value', 'newvalue');
-        }).not.toThrow();
-    });
+        it('should accept a period deliminated string path', () => {
+            expect(() => {
+                set(assignmentItem, 'lhs.value', 'newvalue');
+            }).not.toThrow();
+        });
 
-    it('should update the value at the given path using string path', () => {
-        const newObj = set(assignmentItem, 'lhs.value', 'newvalue');
-        expect(newObj.lhs.value).toEqual('newvalue');
-    });
+        it('should not throw an error when given path prefixed with period', () => {
+            expect(() => {
+                set(assignmentItem, '.lhs.value', 'newvalue');
+            }).not.toThrow();
+        });
 
-    it('should update the value with a string path using indexing', () => {
-        const newObj = set(mockAssignment, 'items[0].lhs.value', 'newvalue');
-        expect(newObj.items[0].lhs.value).toEqual('newvalue');
-    });
+        it('should update the value at the given path using string path', () => {
+            const newObj = set(assignmentItem, 'lhs.value', 'newvalue');
+            expect(newObj.lhs.value).toEqual('newvalue');
+        });
 
-    it('should update the value at the given path', () => {
-        const newObj = set(assignmentItem, ['lhs', 'value'], 'newvalue');
-        expect(newObj.lhs.value).toEqual('newvalue');
-    });
+        it('should update the value with a string path using indexing', () => {
+            const newObj = set(mockAssignment, 'items[0].lhs.value', 'newvalue');
+            expect(newObj.items[0].lhs.value).toEqual('newvalue');
+        });
 
-    it('should update the value at the given path using idexing', () => {
-        const newObj = set(mockAssignment, ['items', '0', 'lhs', 'value'], 'newvalue');
-        expect(newObj.items[0].lhs.value).toEqual('newvalue');
-    });
+        it('should update the value at the given path', () => {
+            const newObj = set(assignmentItem, ['lhs', 'value'], 'newvalue');
+            expect(newObj.lhs.value).toEqual('newvalue');
+        });
 
-    it('should return an object with keys from the given path if such a path does not already exist', () => {
-        const newObj = set(assignmentItem, ['firstNewKey', 'secondNewKey'], 'newvalue');
-        expect(newObj.firstNewKey.secondNewKey).toEqual('newvalue');
-    });
+        it('should update the value at the given path using idexing', () => {
+            const newObj = set(mockAssignment, ['items', '0', 'lhs', 'value'], 'newvalue');
+            expect(newObj.items[0].lhs.value).toEqual('newvalue');
+        });
 
-    it('should only change the value at the given path', () => {
-        const newObj = set(assignmentItem, ['lhs', 'value'], 'newvalue');
-        expect(newObj.lhs.menudata).toEqual(assignmentItem.lhs.menudata);
-        expect(newObj.operator).toBeDefined();
-        expect(newObj.operator).toEqual(assignmentItem.operator);
-        expect(newObj.rhs).toBeDefined();
-        expect(newObj.rhs).toEqual(assignmentItem.rhs);
-    });
+        it('should return an object with keys from the given path if such a path does not already exist', () => {
+            const newObj = set(assignmentItem, ['firstNewKey', 'secondNewKey'], 'newvalue');
+            expect(newObj.firstNewKey.secondNewKey).toEqual('newvalue');
+        });
 
-    it('should only change the value at the given path using indexing', () => {
-        const newObj = set(mockAssignment, ['items', '0', 'lhs', 'value'], 'newvalue');
-        expect(newObj.items[0].lhs.menudata).toEqual(mockAssignment.items[0].lhs.menudata);
-        expect(newObj.items[0].operator).toEqual(mockAssignment.items[0].operator);
-        expect(newObj.items[0].rhs).toEqual(mockAssignment.items[0].rhs);
-        expect(newObj.items[1]).toEqual(mockAssignment.items[1]);
-    });
+        it('should only change the value at the given path', () => {
+            const newObj = set(assignmentItem, ['lhs', 'value'], 'newvalue');
+            expect(newObj.lhs.menudata).toEqual(assignmentItem.lhs.menudata);
+            expect(newObj.operator).toBeDefined();
+            expect(newObj.operator).toEqual(assignmentItem.operator);
+            expect(newObj.rhs).toBeDefined();
+            expect(newObj.rhs).toEqual(assignmentItem.rhs);
+        });
 
-    it('should return a clone of the object if no path is given', () => {
-        const newObj = set(assignmentItem, undefined, 'newvalue');
-        expect(newObj.lhs.value).toEqual('testvalue');
-    });
+        it('should only change the value at the given path using indexing', () => {
+            const newObj = set(mockAssignment, ['items', '0', 'lhs', 'value'], 'newvalue');
+            expect(newObj.items[0].lhs.menudata).toEqual(mockAssignment.items[0].lhs.menudata);
+            expect(newObj.items[0].operator).toEqual(mockAssignment.items[0].operator);
+            expect(newObj.items[0].rhs).toEqual(mockAssignment.items[0].rhs);
+            expect(newObj.items[1]).toEqual(mockAssignment.items[1]);
+        });
 
-    it('should set the value to undefined if no value is given', () => {
-        const newObj = set(assignmentItem, ['lhs', 'value'], undefined);
-        expect(newObj.lhs.value).toEqual(undefined);
-    });
+        it('should return a clone of the object if no path is given', () => {
+            const newObj = set(assignmentItem, undefined, 'newvalue');
+            expect(newObj.lhs.value).toEqual('testvalue');
+        });
 
-    it('should return a new object with keys from the given path if no object is given', () => {
-        const newObj = set(undefined, ['lhs', 'value'], 'newvalue');
-        expect(newObj).toBeDefined();
-        expect(newObj.lhs).toBeDefined();
-        expect(newObj.lhs.value).toBeDefined();
-        expect(newObj.lhs.value).toEqual('newvalue');
+        it('should set the value to undefined if no value is given', () => {
+            const newObj = set(assignmentItem, ['lhs', 'value'], undefined);
+            expect(newObj.lhs.value).toEqual(undefined);
+        });
+
+        it('should return a new object with keys from the given path if no object is given', () => {
+            const newObj = set(undefined, ['lhs', 'value'], 'newvalue');
+            expect(newObj).toBeDefined();
+            expect(newObj.lhs).toBeDefined();
+            expect(newObj.lhs.value).toBeDefined();
+            expect(newObj.lhs.value).toEqual('newvalue');
+        });
+
+        it('should add at the end of an array', () => {
+            const newObj = set(mockAssignment, ['items', '2'], 'newValue');
+            expect(newObj.items).toHaveLength(3);
+            expect(newObj.items[2]).toEqual('newValue');
+        });
+
+        it('should add at the end of an array if index is greater than length of the array', () => {
+            const newObj = set(mockAssignment, ['items', '10000'], 'newValue');
+            expect(newObj.items).toHaveLength(3);
+            expect(newObj.items[2]).toEqual('newValue');
+        });
     });
 });
 
