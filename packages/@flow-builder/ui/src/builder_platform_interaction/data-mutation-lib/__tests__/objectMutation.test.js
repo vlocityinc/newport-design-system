@@ -128,7 +128,7 @@ describe('Set function', () => {
     describe('calling set on an array', () => {
         it('should return a new array', () => {
             const myArray = ['one', 'two'];
-            const newArray = set(myArray);
+            const newArray = set(myArray, ['0'], 'one');
             expect(newArray).not.toBe(myArray);
         });
 
@@ -169,7 +169,16 @@ describe('Set function', () => {
             const myArray = [{one: 'one'}, 'two'];
             expect(() => {
                 set(myArray, ['notANumber', 'one'], 'newvalue');
-            }).toThrow(`the key notANumber is not a number and cannot be used in an array`);
+            }).toThrow();
+        });
+
+        it('should throw an error if the index is out of bounds', () => {
+            expect(() => {
+                set(mockAssignment, ['items', '10000'], 'newValue');
+            }).toThrow();
+            expect(() => {
+                set(mockAssignment, ['items', '-1'], 'newValue');
+            }).toThrow();
         });
     });
 
@@ -253,12 +262,6 @@ describe('Set function', () => {
 
         it('should add at the end of an array', () => {
             const newObj = set(mockAssignment, ['items', '2'], 'newValue');
-            expect(newObj.items).toHaveLength(3);
-            expect(newObj.items[2]).toEqual('newValue');
-        });
-
-        it('should add at the end of an array if index is greater than length of the array', () => {
-            const newObj = set(mockAssignment, ['items', '10000'], 'newValue');
             expect(newObj.items).toHaveLength(3);
             expect(newObj.items[2]).toEqual('newValue');
         });

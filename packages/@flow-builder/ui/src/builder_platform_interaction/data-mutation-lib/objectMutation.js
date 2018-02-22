@@ -1,3 +1,4 @@
+import { replaceItem } from 'builder_platform_interaction-data-mutation-lib';
 /** Used to match backslashes in property paths. Taken from lodash */
 const reEscapeChar = /\\(\\)?/g;
 /** Used to match property names within property paths. Taken from lodash */
@@ -18,9 +19,9 @@ const setValue = (obj, path, value) => {
         // base case:
         // we do not have a path just return a clone of the object
         if (Array.isArray(obj)) {
-            return [...obj];
+            return replaceItem(obj);
         }
-        return {...obj};
+        return updateProperties(obj);
     } else if (path.length === 1) {
         // base case:
         // we have reached the last key so we can now set the value to the desired key object pair
@@ -30,28 +31,20 @@ const setValue = (obj, path, value) => {
                 throw new Error(`the key ${key} is not a number and cannot be used in an array`);
             }
             // create a new array with the given value at position key
-            return [
-                ...obj.slice(0, key),
-                value,
-                ...obj.slice(key + 1),
-            ];
+            return replaceItem(obj, value, key);
         }
         // make a new object with an updated property
-        return {...obj, ...{ [key] : value }};
+        return updateProperties(obj, { [key] : value });
     }
     // recursively call the set function and assign the results to our current object
     const key = path[0];
     if (Array.isArray(obj)) {
         if (isNaN(parseInt(key, 10))) {
-            throw new Error(`the key ${key} is not a number and cannot be used in an array`);
+            throw new Error(`the key ${key} is not a number and cannot be used as an index in an array`);
         }
-        return [
-            ...obj.slice(0, key),
-            ...[setValue(obj[key], path.slice(1), value)],
-            ...obj.slice(key + 1),
-        ];
+        return replaceItem(obj, setValue(obj[key], path.slice(1), value), key);
     }
-    return {...obj, ...{ [key] : setValue(obj[key], path.slice(1), value) }};
+    return updateProperties(obj, { [key] : setValue(obj[key], path.slice(1), value) });
 };
 
 /**

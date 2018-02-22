@@ -1,4 +1,4 @@
-import { addItem, insertItem, deleteItem } from '../arrayMutation';
+import { addItem, insertItem, replaceItem, deleteItem, shallowCopyArray } from '../arrayMutation';
 
 const arr = [{
     name: 'ass1',
@@ -23,7 +23,7 @@ describe('Array mutation library', () => {
 
         it('should have array length equals to 3', () => {
             const newArr = addItem(arr, newItem);
-            expect(newArr.length).toBe(3);
+            expect(newArr).toHaveLength(3);
         });
 
         it('should be same item in the array', () => {
@@ -31,9 +31,25 @@ describe('Array mutation library', () => {
             expect(newArr[newArr.length - 1]).toEqual(newItem);
         });
 
-        it('should be same array if new item is undefined', () => {
-            const newArr = addItem(arr);
-            expect(newArr).toBe(arr);
+        it('should throw an error if given an undefined item', () => {
+            expect(() => {
+                addItem(arr);
+            }).toThrow();
+        });
+    });
+
+    describe('shallow copy an array', () => {
+        it('should return a new array', () => {
+            const myArray = [1];
+            const newArray = shallowCopyArray(myArray);
+            expect(myArray).not.toBe(newArray);
+        });
+
+        it('should throw an error when given a non iterable object', () => {
+            expect(() => {
+                const myValue = 42;
+                shallowCopyArray(myValue);
+            }).toThrow();
         });
     });
 
@@ -61,10 +77,46 @@ describe('Array mutation library', () => {
             expect(newArr[index]).not.toEqual(arr[index]);
         });
 
-        it('should return same array if index is not valid', () => {
-            const index = 10;
-            const newArr = insertItem(arr, newItem, index);
-            expect(newArr).toBe(arr);
+        it('should throw an error if index is not valid', () => {
+            expect(() => {
+                const index = 10;
+                insertItem(arr, newItem, index);
+            }).toThrow();
+            expect(() => {
+                const index = -1;
+                insertItem(arr, newItem, index);
+            }).toThrow();
+        });
+    });
+
+    describe('replace item in an array', () => {
+        it('should return a new array', () => {
+            const index = 2;
+            const newArr = replaceItem(arr, newItem, index);
+            expect(newArr).not.toBe(arr);
+        });
+
+        it('should insert the item at the end of the array if given length of array', () => {
+            const index = arr.length;
+            const newArr = replaceItem(arr, newItem, index);
+            expect(newArr[index]).toEqual(newItem);
+        });
+
+        it('should set the value at the given index', () => {
+            const index = 1;
+            const newArr = replaceItem(arr, newItem, index);
+            expect(newArr[index]).toEqual(newItem);
+        });
+
+        it('should throw an error if index is not valid', () => {
+            expect(() => {
+                const index = 10;
+                replaceItem(arr, newItem, index);
+            }).toThrow();
+            expect(() => {
+                const index = -1;
+                replaceItem(arr, newItem, index);
+            }).toThrow();
         });
     });
 
@@ -78,7 +130,7 @@ describe('Array mutation library', () => {
         it('should decrease length of new array by 1', () => {
             const index = 1;
             const newArr = deleteItem(arr, index);
-            expect(newArr.length).toBe(arr.length - 1);
+            expect(newArr).toHaveLength(arr.length - 1);
         });
 
         it('should remove last item if index is of last item', () => {
@@ -91,6 +143,17 @@ describe('Array mutation library', () => {
             const index = 0;
             const newArr = deleteItem(arr, index);
             expect(newArr[index]).not.toEqual(arr[index]);
+        });
+
+        it('should throw an error if index is not valid', () => {
+            expect(() => {
+                const index = 10;
+                deleteItem(arr, index);
+            }).toThrow();
+            expect(() => {
+                const index = -1;
+                deleteItem(arr, index);
+            }).toThrow();
         });
     });
 });
