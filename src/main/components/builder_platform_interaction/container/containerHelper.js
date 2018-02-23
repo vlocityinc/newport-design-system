@@ -19,6 +19,17 @@
             if (result.getState() === this.constant.STATE.SUCCESS) {
                 flow = result.getReturnValue();
                 storeInstance = cmp.get("v.storeInstance");
+                // TODO Move to translation layer once translation is moved to client-side
+                Object.keys(flow.elements).forEach(function (element) {
+                    if (flow.elements[element].isCanvasElement) {
+                        flow.elements[element].config = {isSelected: false};
+                        if (flow.elements[element].connector
+                            && flow.elements[element].connector.targetReference !== undefined) {
+                            flow.elements[element].connector.config = {isSelected: false};
+                            flow.elements[element].connector.jsPlumbConnector = {};
+                        }
+                    }
+                });
                 storeInstance.dispatch(this.actions.updateFlow(flow));
             }
         });

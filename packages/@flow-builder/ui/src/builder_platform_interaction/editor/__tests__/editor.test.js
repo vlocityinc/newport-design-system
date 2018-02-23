@@ -28,7 +28,12 @@ jest.mock('builder_platform_interaction-store-lib', () => {
                     elementType : 'ASSIGNMENT',
                     label : 'First Node',
                     description : 'My first test node',
-                    config: {isSelected: false}
+                    config: {isSelected: false},
+                    connector: {
+                        targetReference: '2',
+                        config: {isSelected: false},
+                        jsPlumbConnector: {'a': 'a'}
+                    }
                 },
                 {
                     guid: '2',
@@ -37,7 +42,28 @@ jest.mock('builder_platform_interaction-store-lib', () => {
                     elementType : 'ASSIGNMENT',
                     label : 'Second Node',
                     description : 'My second test node',
-                    config: {isSelected: true}
+                    config: {isSelected: true},
+                    connector: {
+                        targetReference: '1',
+                        config: {isSelected: true},
+                        jsPlumbConnector: {'b': 'b'}
+                    }
+                }
+            ],
+            connectors : [
+                {
+                    source: '1',
+                    target: '2',
+                    label: 'label',
+                    config: {isSelected: false},
+                    jsPlumbConnector: {'a': 'a'}
+                },
+                {
+                    source: '2',
+                    target: '1',
+                    label: 'label',
+                    config: {isSelected: true},
+                    jsPlumbConnector: {'b': 'b'}
                 }
             ]
         };
@@ -72,6 +98,9 @@ jest.mock('builder_platform_interaction-selectors', () => {
     return {
         canvasSelector : jest.fn().mockImplementation((obj) => {
             return obj;
+        }),
+        resourcesSelector : jest.fn().mockImplementation((obj) => {
+            return obj;
         })
     };
 });
@@ -81,7 +110,8 @@ const createNodeMap = (component) => {
     const nodeElements = component.querySelectorAll('builder_platform_interaction-node');
     for (let i = 0; i < nodeElements.length; i++) {
         nodeMap.set(nodeElements[i].node.guid, {isSelected: nodeElements[i].node.config.isSelected,
-            locationX: nodeElements[i].node.locationX, locationY: nodeElements[i].node.locationY});
+            locationX: nodeElements[i].node.locationX, locationY: nodeElements[i].node.locationY,
+            connector: nodeElements[i].node.connector});
     }
     return nodeMap;
 };
@@ -90,9 +120,13 @@ const getSelectionInfo = (component) => {
     const nodeMap = createNodeMap(component);
     const isOneSelected = nodeMap.get('1').isSelected;
     const isTwoSelected = nodeMap.get('2').isSelected;
+    const isC1Selected = nodeMap.get('1').connector.config.isSelected;
+    const isC2Selected = nodeMap.get('2').connector.config.isSelected;
     return {
         isOneSelected,
-        isTwoSelected
+        isTwoSelected,
+        isC1Selected,
+        isC2Selected
     };
 };
 
@@ -107,6 +141,11 @@ const updateElement = {
         label : 'First Node',
         locationX : '80',
         locationY : '70',
+        connector: {
+            targetReference: '2',
+            config: {isSelected: false},
+            jsPlumbConnector: {'a': 'a'}
+        }
     },
     type : 'UPDATE_CANVAS_ELEMENT'
 };
@@ -122,6 +161,11 @@ const deleteElement = {
         label : 'Second Node',
         locationX : '50',
         locationY : '40',
+        connector: {
+            targetReference: '1',
+            config: {isSelected: true},
+            jsPlumbConnector: {'b': 'b'}
+        }
     },
     type : 'DELETE_CANVAS_ELEMENT'
 };
@@ -153,6 +197,8 @@ describe('editor', () => {
             const selectionInfo = getSelectionInfo(editorComponent);
             expect(selectionInfo.isOneSelected).toEqual(true);
             expect(selectionInfo.isTwoSelected).toEqual(false);
+            expect(selectionInfo.isC1Selected).toEqual(false);
+            expect(selectionInfo.isC2Selected).toEqual(false);
         });
     });
 
@@ -172,6 +218,8 @@ describe('editor', () => {
             const selectionInfo = getSelectionInfo(editorComponent);
             expect(selectionInfo.isOneSelected).toEqual(false);
             expect(selectionInfo.isTwoSelected).toEqual(true);
+            expect(selectionInfo.isC1Selected).toEqual(false);
+            expect(selectionInfo.isC2Selected).toEqual(false);
         });
     });
 
@@ -191,8 +239,11 @@ describe('editor', () => {
             const selectionInfo = getSelectionInfo(editorComponent);
             expect(selectionInfo.isOneSelected).toEqual(true);
             expect(selectionInfo.isTwoSelected).toEqual(true);
+            expect(selectionInfo.isC1Selected).toEqual(false);
+            expect(selectionInfo.isC2Selected).toEqual(true);
         });
     });
+
     it('Checks if node selection is handled correctly when a selected node is clicked with multiSelect key', () => {
         const editorComponent = createComponentUnderTest();
         const event = new CustomEvent(EVENT.NODE_SELECTED, {
@@ -209,10 +260,12 @@ describe('editor', () => {
             const selectionInfo = getSelectionInfo(editorComponent);
             expect(selectionInfo.isOneSelected).toEqual(false);
             expect(selectionInfo.isTwoSelected).toEqual(false);
+            expect(selectionInfo.isC1Selected).toEqual(false);
+            expect(selectionInfo.isC2Selected).toEqual(true);
         });
     });
 
-    it('Checks if node deselection is handled correctly when a canvas is clicked', () => {
+    it('Checks if node and connector deselection is handled correctly when a canvas is clicked', () => {
         const editorComponent = createComponentUnderTest();
         const event = new CustomEvent(EVENT.CANVAS_MOUSEUP, {
             bubbles: true,
@@ -225,6 +278,100 @@ describe('editor', () => {
             const selectionInfo = getSelectionInfo(editorComponent);
             expect(selectionInfo.isOneSelected).toEqual(false);
             expect(selectionInfo.isTwoSelected).toEqual(false);
+            expect(selectionInfo.isC1Selected).toEqual(false);
+            expect(selectionInfo.isC2Selected).toEqual(false);
+        });
+    });
+
+    it('Checks if connector selection is handled correctly when an unselected connector is clicked without multiSelect key', () => {
+        const editorComponent = createComponentUnderTest();
+        const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+            bubbles: true,
+            composed: true,
+            cancelable: true,
+            detail: {
+                source : '1',
+                target : '2',
+                connection : {'a': 'a'},
+                isMultiSelectKeyPressed: false
+            }
+        });
+        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+        return Promise.resolve().then(() => {
+            const selectionInfo = getSelectionInfo(editorComponent);
+            expect(selectionInfo.isOneSelected).toEqual(false);
+            expect(selectionInfo.isTwoSelected).toEqual(false);
+            expect(selectionInfo.isC1Selected).toEqual(true);
+            expect(selectionInfo.isC2Selected).toEqual(false);
+        });
+    });
+
+    it('Checks if connector selection is handled correctly when a selected connector is clicked without multiSelect key', () => {
+        const editorComponent = createComponentUnderTest();
+        const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+            bubbles: true,
+            composed: true,
+            cancelable: true,
+            detail: {
+                source : '2',
+                target : '1',
+                connection : {'b': 'b'},
+                isMultiSelectKeyPressed: false
+            }
+        });
+        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+        return Promise.resolve().then(() => {
+            const selectionInfo = getSelectionInfo(editorComponent);
+            expect(selectionInfo.isOneSelected).toEqual(false);
+            expect(selectionInfo.isTwoSelected).toEqual(false);
+            expect(selectionInfo.isC1Selected).toEqual(false);
+            expect(selectionInfo.isC2Selected).toEqual(true);
+        });
+    });
+
+    it('Checks if connector selection is handled correctly when an unselected connector is clicked with multiSelect key', () => {
+        const editorComponent = createComponentUnderTest();
+        const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+            bubbles: true,
+            composed: true,
+            cancelable: true,
+            detail: {
+                source : '1',
+                target : '2',
+                connection : {'a': 'a'},
+                isMultiSelectKeyPressed: true
+            }
+        });
+        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+        return Promise.resolve().then(() => {
+            const selectionInfo = getSelectionInfo(editorComponent);
+            expect(selectionInfo.isOneSelected).toEqual(false);
+            expect(selectionInfo.isTwoSelected).toEqual(true);
+            expect(selectionInfo.isC1Selected).toEqual(true);
+            expect(selectionInfo.isC2Selected).toEqual(true);
+        });
+    });
+
+    it('Checks if connector selection is handled correctly when a selected connector is clicked with multiSelect key', () => {
+        const editorComponent = createComponentUnderTest();
+        const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+            bubbles: true,
+            composed: true,
+            cancelable: true,
+            detail: {
+                source : '2',
+                target : '1',
+                connection : {'b': 'b'},
+                isMultiSelectKeyPressed: true
+            }
+        });
+        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+        return Promise.resolve().then(() => {
+            const selectionInfo = getSelectionInfo(editorComponent);
+            expect(selectionInfo.isOneSelected).toEqual(false);
+            expect(selectionInfo.isTwoSelected).toEqual(true);
+            expect(selectionInfo.isC1Selected).toEqual(false);
+            expect(selectionInfo.isC2Selected).toEqual(false);
         });
     });
 

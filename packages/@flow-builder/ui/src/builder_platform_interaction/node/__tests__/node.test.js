@@ -13,7 +13,8 @@ const createComponentUnderTest = (isSelected) => {
         elementType : 'ASSIGNMENT',
         label : 'First Node',
         description : 'My first test node',
-        config: {isSelected}
+        config: {isSelected},
+        connector: ''
     };
     document.body.appendChild(el);
     return el;
@@ -59,13 +60,13 @@ describe('node', () => {
         });
     });
 
-    it('Checks if node selected event is not dispatched when selected icon is clicked', () => {
+    it('Checks if node selected event is dispatched when selected icon is clicked', () => {
         const nodeComponent = createComponentUnderTest(true);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(EVENT.NODE_SELECTED, callback);
             nodeComponent.querySelector(selectors.icon).click();
-            expect(callback).not.toHaveBeenCalled();
+            expect(callback).toHaveBeenCalled();
         });
     });
 

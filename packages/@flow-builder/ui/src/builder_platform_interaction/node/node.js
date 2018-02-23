@@ -12,6 +12,7 @@ import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-
  */
 
 let isMultiSelectKeyPressed = false;
+let isNodeDragging = false;
 
 export default class Node extends Element {
     @api node = {
@@ -86,7 +87,20 @@ export default class Node extends Element {
                 }
             });
             this.dispatchEvent(nodeSelectedEvent);
+        } else if (!isNodeDragging) {
+            isMultiSelectKeyPressed = (event.shiftKey || event.metaKey);
+            const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    nodeGUID : this.node.guid,
+                    isMultiSelectKeyPressed
+                }
+            });
+            this.dispatchEvent(nodeSelectedEvent);
         }
+        isNodeDragging = false;
     };
 
     /**
@@ -114,6 +128,7 @@ export default class Node extends Element {
      * @param {object} event - drag start event
      */
     dragStart = (event) => {
+        isNodeDragging = true;
         if (!this.node.config.isSelected) {
             isMultiSelectKeyPressed = (event.e.shiftKey || event.e.metaKey);
             const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {

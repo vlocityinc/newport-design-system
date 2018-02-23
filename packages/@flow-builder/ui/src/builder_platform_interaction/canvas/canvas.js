@@ -54,7 +54,7 @@ export default class Canvas extends Element {
      */
     connectionClicked = (connection, event) => {
         event.stopPropagation();
-        isMultiSelectKeyPressed = (event.shiftKey || event.metaKey || event.ctrlKey);
+        isMultiSelectKeyPressed = (event.shiftKey || event.metaKey);
         const connectorSelectedEvent = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
             bubbles: true,
             composed: true,

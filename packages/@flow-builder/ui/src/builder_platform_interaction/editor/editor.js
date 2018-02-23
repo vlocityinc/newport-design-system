@@ -1,5 +1,5 @@
 import { Element, track } from 'engine';
-import { EVENT, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
+import { ELEMENT_TYPE, EVENT, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { invokePanel, getConfigForElementType } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, resourcesSelector } from 'builder_platform_interaction-selectors';
@@ -35,6 +35,15 @@ export default class Editor extends Element {
     }
 
     /**
+     * Method to map appstate to store. This method get called when store changes.
+     */
+    mapAppStateToStore = () => {
+        const currentState = storeInstance.getCurrentState();
+        this.appState.canvas = canvasSelector(currentState);
+        this.appState.resources = resourcesSelector(currentState);
+    };
+
+    /**
      * Handle save event fired by a child component. Fires another event
      * containing flow information, which is handled by container.cmp.
      */
@@ -49,17 +58,22 @@ export default class Editor extends Element {
         this.dispatchEvent(saveEvent);
     };
 
+    /** *********** Canvas and Node Event Handling *************** **/
+
     /**
      * Handles the canvas mouse up event and deselects all selected nodes and connectors.
      */
     handleCanvasMouseUp = () => {
         this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
             node.config.isSelected = false;
+            this.updateNodeCollection(node, false);
             return node;
         });
 
         this.appState.canvas.connectors = this.appState.canvas.connectors.map((connector) => {
-            connector.config.isSelected = false;
+            const connectorNode = this.appState.canvas.nodes.filter(node => (node.guid === connector.source));
+            connectorNode[0].connector.config.isSelected = false;
+            this.updateNodeCollection(connectorNode[0], false);
             return connector;
         });
     };
@@ -100,14 +114,18 @@ export default class Editor extends Element {
             } else if (!event.detail.isMultiSelectKeyPressed) {
                 node.config.isSelected = false;
             }
+            this.updateNodeCollection(node, false);
             return node;
         });
 
-        // TODO: Support multi-selection of nodes and connectors once store is fixed.
-        this.appState.canvas.connectors = this.appState.canvas.connectors.map((connector) => {
-            connector.config.isSelected = false;
-            return connector;
-        });
+        if (!event.detail.isMultiSelectKeyPressed) {
+            this.appState.canvas.connectors = this.appState.canvas.connectors.map((connector) => {
+                const connectorNode = this.appState.canvas.nodes.filter(node => (node.guid === connector.source));
+                connectorNode[0].connector.config.isSelected = false;
+                this.updateNodeCollection(connectorNode[0], false);
+                return connector;
+            });
+        }
     };
 
     /**
@@ -142,9 +160,16 @@ export default class Editor extends Element {
      * @param {object} event - add connection event coming from canvas.js
      */
     handleAddConnection(event) {
-        // TODO: Update once the store is fixed. This will also fix selection/deselection for new connectors.
-        this.appState.canvas.connectors = [...this.appState.canvas.connectors, ({source: event.detail.source,
-            target: event.detail.target, label: event.detail.label, config: {isSelected: false}, jsPlumbConnector: {}})];
+        const payload = {
+            guid: event.detail.source,
+            elementType: ELEMENT_TYPE.ASSIGNMENT,
+            connector : {
+                targetReference: event.detail.target,
+                config: {isSelected: false},
+                jsPlumbConnector: {}
+            }
+        };
+        this.updateNodeCollection(payload, false);
     }
 
     /**
@@ -154,24 +179,28 @@ export default class Editor extends Element {
      */
     handleConnectorSelection(event) {
         this.appState.canvas.connectors = this.appState.canvas.connectors.map((connector) => {
+            const connectorNode = this.appState.canvas.nodes.filter(node => (node.guid === connector.source));
             if (connector.source === event.detail.source && connector.target === event.detail.target) {
-                connector.jsPlumbConnector = event.detail.connection;
+                connectorNode[0].connector.jsPlumbConnector = event.detail.connection;
                 if (event.detail.isMultiSelectKeyPressed) {
-                    connector.config.isSelected = !connector.config.isSelected;
+                    connectorNode[0].connector.config.isSelected = !connectorNode[0].connector.config.isSelected;
                 } else {
-                    connector.config.isSelected = true;
+                    connectorNode[0].connector.config.isSelected = true;
                 }
             } else if (!event.detail.isMultiSelectKeyPressed) {
-                connector.config.isSelected = false;
+                connectorNode[0].connector.config.isSelected = false;
             }
+            this.updateNodeCollection(connectorNode[0], false);
             return connector;
         });
 
-        // TODO: Support multi-selection of nodes and connectors once store is fixed.
-        this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
-            node.config.isSelected = false;
-            return node;
-        });
+        if (!event.detail.isMultiSelectKeyPressed) {
+            this.appState.canvas.nodes = this.appState.canvas.nodes.map((node) => {
+                node.config.isSelected = false;
+                this.updateNodeCollection(node, false);
+                return node;
+            });
+        }
     }
 
     /**
@@ -184,15 +213,6 @@ export default class Editor extends Element {
         const nodeForStore = needsDehydration ? dehydrate(node) : node;
         storeInstance.dispatch(updateElement(nodeForStore));
     }
-
-    /**
-     * Method to map appstate to store. This method get called when store changes.
-     */
-    mapAppStateToStore = () => {
-        const currentState = storeInstance.getCurrentState();
-        this.appState.canvas = canvasSelector(currentState);
-        this.appState.resources = resourcesSelector(currentState);
-    };
 
     disconnectedCallback() {
         unsubscribeStore();
