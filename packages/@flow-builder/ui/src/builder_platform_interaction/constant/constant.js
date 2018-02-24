@@ -23,6 +23,10 @@ export const EXPRESSION_PROPERTY_TYPE = {
     RIGHT_HAND_SIDE: 'rightHandSide',
     OPERATOR: 'operator'
 };
+export const COMBOBOX_ITEM_DISPLAY_TYPE = {
+    OPTION_CARD: 'option-card',
+    OPTION_INLINE: 'option-inline'
+};
 export const PROPERTY_EDITOR = 'builder_platform_interaction:propertyEditor';
 export const CONNECTOR_OVERLAY = {
     ARROW: '__arrow',
