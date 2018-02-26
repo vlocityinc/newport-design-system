@@ -1,4 +1,4 @@
-<aura:application extends="force:slds" description="Flow Builder application" access="accessCheck://userCanEditFlowBuilder">
+<aura:application extends="force:slds" description="Flow Builder application" access="accessCheck://Interaction.userCanEditFlowBuilder">
     <!--Attributes -->
     <aura:attribute name="flowId" type="String" description="The id of the flow to load" />
 
