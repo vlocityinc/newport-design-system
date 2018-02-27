@@ -56,9 +56,14 @@ export function getConfigForElementType(nodeType, config) {
 export function invokePanel(cmpName,  attr) {
     createComponent(cmpName, attr, (newCmp, status) => {
         if (status === STATE.SUCCESS) {
-            dispatchGlobalEvent(UI_CREATE_PANEL, {panelType: MODAL, visible: true, panelConfig: {
-                body: newCmp
-            }
+            dispatchGlobalEvent(UI_CREATE_PANEL, {
+                panelType: MODAL,
+                visible: true,
+                panelConfig: {
+                    body: newCmp,
+                    bodyClass: "" // to remove the extra default padding class
+                    // TODO: set footer and header component here
+                }
             });
         }
     });

@@ -32,7 +32,7 @@ export const dehydrate = (element) => {
                         dehydrate(item);
                     });
                 } else if (element[key] && element[key].hasOwnProperty('value') && element[key].hasOwnProperty('error')) {
-                    if (element[key].error != null) {
+                    if (element[key].error !== null) {
                         throw new Error(key + ' should not have any error: ' + element[key].value + ':' + element[key].error);
                     }
                     element[key] = element[key].value;

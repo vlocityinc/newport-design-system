@@ -1,20 +1,25 @@
-class AssignmentValidation {
-    /**
-     * @param {string} propName - propertyName
-     * @param {string} newValue - new Value for the property
-     * @returns {string} string or null after running the rules for the property updated
-     */
-    validateProperty = (propName, newValue) => {
-        if (propName === "name") {
-            // Get rules from from a lib may be ?
-            // TODO: Run a rule to check if devName is unique, if not return with an error Message
-            if (newValue === "") {
-            //     return "Cant be empty";
-            }
-        }
-        return null;
-    }
-    // validate All properties function which runs all assignment editor validations
-}
+import * as ValidationRules from 'builder_platform_interaction-validation-rules';
+import { Validation } from 'builder_platform_interaction-validation';
+/**
+ * @constant additionalRules - map of propertyName to validation rules
+ * @type {Object}
+ */
+const additionalRules = {
+    // Example rules : actual rules will be put in after spike
+    // TODO: use constants for property Names
+    'label' : [ValidationRules.shouldNotBeMoreThan256Chars],
+    'name': [ValidationRules.shouldNotBeEmpty]
+};
 
+class AssignmentValidation extends Validation {
+    /**
+     * @param {string} propName - property name to be validated
+     * @param {string} value - value
+     * @returns {string|null} error - error string or null based on if the field value is valid or not
+     */
+    validateProperty(propName, value) {
+        return super.validateProperty(propName, value, additionalRules[propName]);
+    }
+}
 export const assignmentValidation = new AssignmentValidation();
+

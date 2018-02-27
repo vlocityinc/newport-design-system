@@ -9,5 +9,9 @@
     </builder_platform_interactioncommon-label-description>
 
     <!-- List Component -->    
-    <builder_platform_interactioncommon-list> </builder_platform_interactioncommon-list>
+     <builder_platform_interactioncommon-list items={assignmentItems}
+                                              onaddlistitem={handleAddListItem}
+                                              onupdatelistitem={handleUpdateListItem}
+                                              ondeletelistitem={handleDeleteListItem}>
+    </builder_platform_interactioncommon-list> 
 </template>

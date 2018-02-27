@@ -1,6 +1,6 @@
 import {assignmentReducer} from '../assignment-reducer';
-import AssignmentEditor from '../assignment-editor';
-
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
+import { deepCopy } from 'builder_platform_interaction-store-lib';
 const state = {
     assignmentItems : [{
         operator: {value: 'Assign', error: null},
@@ -20,16 +20,16 @@ const state = {
 };
 
 describe('assignment reducer functions', () => {
-    it('test action type update properties', () => {
+    it('test action type UPDATE_ELEMENT_PROPERTY', () => {
         const action = {
-            type: AssignmentEditor.UPDATE_PROPERTY,
+            type: PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
             payload: {
                 propertyName: 'label',
                 value: 'newlabel',
                 error: null
             }
         };
-        const resultObj = assignmentReducer(state, action);
+        const resultObj = assignmentReducer(deepCopy(state), action);
         expect(resultObj).toBeDefined();
         expect(resultObj.label.value).toBe('newlabel');
         expect(resultObj).not.toBe(state);
@@ -37,14 +37,14 @@ describe('assignment reducer functions', () => {
 
     it('test action type update properties with error in it, should not run the validations at the assignment level and keep the child level errors', () => {
         const action = {
-            type: AssignmentEditor.UPDATE_PROPERTY,
+            type: PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
             payload: {
                 propertyName: 'label',
                 value: 'newlabel',
                 error: 'errorFromChildComponent'
             }
         };
-        const resultObj = assignmentReducer(state, action);
+        const resultObj = assignmentReducer(deepCopy(state), action);
         expect(resultObj).toBeDefined();
         expect(resultObj.label.error).toBe('errorFromChildComponent');
         expect(resultObj).not.toBe(state);
@@ -56,5 +56,44 @@ describe('assignment reducer functions', () => {
         expect(resultObj).toBeDefined();
         expect(resultObj.label.value).toBe('testAssignment');
         expect(resultObj).toBe(state);
+    });
+    it('test action type ADD_LIST_ITEM', () => {
+        const testState = deepCopy(state.assignmentItems);
+        const assignmentItemsLength = testState.length;
+        const action = {
+            type: PROPERTY_EDITOR_ACTION.ADD_LIST_ITEM,
+            payload: {
+                index: assignmentItemsLength,
+                item: {leftHandSide: {value:"", error:null}, operator: {value: "", error:null},  rightHandSide: {value:"", error:null}}
+            }
+        };
+        const resultObj = assignmentReducer(testState, action);
+        expect(resultObj.length).toBe(2);
+    });
+    it('test action type DELETE_LIST_ITEM', () => {
+        const testState = deepCopy(state.assignmentItems);
+        const action = {
+            type: PROPERTY_EDITOR_ACTION.DELETE_LIST_ITEM,
+            payload: {
+                index: 0,
+            }
+        };
+        const resultObj = assignmentReducer(testState, action);
+        expect(resultObj.length).toBe(0);
+    });
+    it('test action type UPDATE_LIST_ITEM', () => {
+        const testState = deepCopy(state.assignmentItems);
+        const action = {
+            type: PROPERTY_EDITOR_ACTION.UPDATE_LIST_ITEM,
+            payload: {
+                index: 0,
+                propertyName: 'leftHandSide',
+                value: 'new value',
+                error: null
+            }
+        };
+        const resultObj = assignmentReducer(testState, action);
+        expect(resultObj.length).toBe(1);
+        expect(resultObj[0].leftHandSide.value).toBe('new value');
     });
 });

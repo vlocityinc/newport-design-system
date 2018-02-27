@@ -18,7 +18,7 @@ export const UPDATE_PROPERTIES = 'UPDATE_PROPERTIES';
  * @param {Object} payload data
  * @returns {Object} action new action based on type and payload
  */
-const _createAction = (type, payload) => ({type, payload});
+export const createAction = (type, payload) => ({type, payload});
 
 /**
  * Action for updating flow information in the store
@@ -26,14 +26,14 @@ const _createAction = (type, payload) => ({type, payload});
  * @param {Object} payload contains new flow information
  * @returns {Object} action new action based on type and payload
  */
-export const updateFlow = (payload) => _createAction(UPDATE_FLOW, payload);
+export const updateFlow = (payload) => createAction(UPDATE_FLOW, payload);
 
 /**
  * Action for updating flow properties in the store
  * @param {Object} payload contains new flow information
  * @returns {Object} action new action based on type and payload
  */
-export const updateProperties = (payload) => _createAction(UPDATE_PROPERTIES, payload);
+export const updateProperties = (payload) => createAction(UPDATE_PROPERTIES, payload);
 
 /**
  * Action for adding a new element in the store
@@ -44,9 +44,9 @@ export const addElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
             // For canvas elements
-            case ELEMENT_TYPE.ASSIGNMENT: return _createAction(ADD_CANVAS_ELEMENT, payload);
+            case ELEMENT_TYPE.ASSIGNMENT: return createAction(ADD_CANVAS_ELEMENT, payload);
             // For variables
-            case ELEMENT_TYPE.VARIABLE: return _createAction(ADD_VARIABLE, payload);
+            case ELEMENT_TYPE.VARIABLE: return createAction(ADD_VARIABLE, payload);
             default: break;
         }
     }
@@ -62,9 +62,9 @@ export const updateElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
             // For canvas elements
-            case ELEMENT_TYPE.ASSIGNMENT: return _createAction(UPDATE_CANVAS_ELEMENT, payload);
+            case ELEMENT_TYPE.ASSIGNMENT: return createAction(UPDATE_CANVAS_ELEMENT, payload);
             // For variables
-            case ELEMENT_TYPE.VARIABLE: return _createAction(UPDATE_VARIABLE, payload);
+            case ELEMENT_TYPE.VARIABLE: return createAction(UPDATE_VARIABLE, payload);
             default: break;
         }
     }
@@ -80,9 +80,9 @@ export const deleteElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
             // For canvas elements
-            case ELEMENT_TYPE.ASSIGNMENT: return _createAction(DELETE_CANVAS_ELEMENT, payload);
+            case ELEMENT_TYPE.ASSIGNMENT: return createAction(DELETE_CANVAS_ELEMENT, payload);
             // For variables
-            case ELEMENT_TYPE.VARIABLE: return _createAction(DELETE_VARIABLE, payload);
+            case ELEMENT_TYPE.VARIABLE: return createAction(DELETE_VARIABLE, payload);
             default: break;
         }
     }
