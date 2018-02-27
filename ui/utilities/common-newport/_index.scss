@@ -1,0 +1,267 @@
+ng-form {
+    display: inline-block;
+    width: 100%;
+}
+
+
+section.nds-page-header {
+    border: none;
+    box-shadow: none;
+    background: #F4F6F9;
+
+    .nds-progress {
+        .nds-progress__list {
+            top: -1px;
+        }
+    }
+
+    ol li button .nds-button__icon {
+        width: .875rem;
+        height: .875rem;
+        fill: #0070d2;
+        position: relative;
+        top: -.35rem;
+    }
+
+    ol li.nds-has-error button .nds-button__icon {
+        width: 100%;
+        height: 100%;
+        top: -.55rem;
+        fill: currentColor;
+    }
+
+    ol li.nds-progress__item {
+        cursor: pointer;
+        outline: none;
+   }
+
+    ol li.nds-has-error {
+        .nds-button {
+            background: #F4F6F9;
+            top: 0px !important;
+        }
+
+        .nds-progress__item_label {
+            top: 1.5rem;
+        }
+    }
+
+    ol li.nds-progress__item .nds-progress__marker {
+        top: 1px;
+    }
+
+    ol li.nds-is-completed .nds-button {
+        background: #F4F6F9;
+        border: 0;
+        padding: 0;
+        margin: 0px;
+        position: relative;
+        top: -3px;
+    }
+
+    ol li.nds-progress__item .nds-popover_tooltip {
+        display: none;
+        left: calc(-50% + 8px);
+        max-width: 30rem;
+        white-space: nowrap;
+        top: -2.8rem;
+    }
+
+    ol li.nds-progress__item:hover .nds-popover_tooltip {
+        display: block;
+    }
+
+}
+
+.vlocity-newport-file-selector {
+    width: 100%;
+    display: block;
+}
+
+p[vlc-bind-html] {
+    color: #49739C;
+    word-break:normal;
+    p {
+        font-size: 0.9rem;
+        color: #00396b;
+        font-weight: 300;
+        padding: 0 0 3px 0;
+    }
+}
+
+div.noUISlider[vlc-range-slider-generated] {
+    margin: 0 0.9rem;
+}
+
+.vlc-typeahead-newopt-displaynone {
+    display: none;
+}
+    
+.noUi-horizontal {
+    .noUi-handle {
+        width: 1.5rem;
+        height:1.5rem;
+    }
+}
+
+.noUi-horizontal {
+    .noUi-handle-lower, .noUi-handle {
+        .noUi-tooltip {
+            top:1rem;
+            font-size: 1rem;
+        }
+    }
+}
+
+div.noUISlider[vlc-range-slider] {
+    margin: 0 1rem;
+}
+
+.vlc-typeahead-gmap {
+    display: none;
+    height: 250px;
+    top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+hr[ng-if="!isPreviewEmbedded"] {
+    display: none;
+}
+
+a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
+    position: fixed;
+    top: 0;
+    z-index: 9998;
+    right: 1rem;
+    font-weight: 400;
+    font-size: .875rem;
+}
+
+.nds-box.nds-remote-action__container {
+    top: 43vh;
+    left: 39vw;
+    border: 1px solid #c23934;
+    font-size: 1rem;
+
+    p {
+        margin: 10px 0;
+    }
+
+    p:first-child {
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    p:last-child button {
+        text-transform: capitalize;
+        border-radius: 0;
+        color: #49739c;
+        font-weight: 700;
+    }
+}
+
+.step-step {
+    .nds-align--absolute-center h1.nds-truncate {
+        font-size: 25px;
+        font-weight: 600;
+        display: block;
+    }
+
+    .vlocity-newport-file-selector {
+        .vlocity-newport-file-list {
+            span.vlocity-newport-file-icon {
+                top: -0.4rem;
+            }
+        }
+
+        li .nds-file-selector__button{
+            white-space: nowrap;
+            overflow: hidden;
+            width: 85%;
+            text-overflow: ellipsis;
+        }
+
+        .nds-file-selector__body {
+            span.vlocity-newport-file-icon {
+                height: 2rem;
+            }
+        }
+    }
+
+    .nds-form-element__control-help {
+        letter-spacing: 1px;
+        color: #556A8C;
+        font-size: .75rem;
+        font-weight: 300;
+    }
+
+    .nds-form-element__control {
+        .nds-select_container {
+            position: relative;
+            top: -.1rem;
+        }
+        .nds-select_container + label {
+            position: relative;
+            top: -3.5rem;
+        }
+    }
+
+}
+
+.nds-control-action__container {
+  display: inline-block;
+  z-index: 1;
+  white-space: nowrap;
+  position: relative;
+  top: -0.15rem;
+  margin-#{$left}: 5px;
+}
+
+
+.nds-control-action__container svg {
+  cursor: pointer;
+}
+
+ul.nds-dropdown-list {
+    position: absolute;
+    border: 2px solid $color-dropdown-border;
+    border-top: none;
+    z-index: 9999;
+    top: 2rem;
+    width: 100%;
+    border-radius: 0.25rem;
+    box-shadow: 0px 15px 10px -15px $color-dropdown-shadow;
+
+    li {
+      background-color: $color-background-input;
+      font-weight: 400;
+      padding: 0.4rem 1rem;
+      letter-spacing: 1px;
+      color: $color-dropdown-text;
+      cursor: pointer;
+      &:hover {
+        background-color: $color-dropdown-border;
+      }
+    }
+}
+
+
+.nds-cont-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.nds-cursor-pointer {
+    cursor: pointer;
+}
+
+.nds-form--multi-input__container .nds-control-action__container {
+    top: 0.85rem;
+}
+
+.nds-popover.nds-popover_tooltip .nds-popover__body {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+

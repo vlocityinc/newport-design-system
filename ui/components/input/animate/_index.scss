@@ -14,6 +14,7 @@
 .nds-form-element__control-animated-label {
 	font-size: 0.875rem;
 	position: relative;
+	margin-top: 0.75rem;
 }
 
 
@@ -21,6 +22,10 @@
 	font-size: 0.875rem;
 	letter-spacing: 1px;
 	font-weight: 400;
+}
+
+input[placeholder]::placeholder {
+	color:transparent !important;
 }
 
 .nds-form-element__control.nds-form-element__control-animated-label .nds-form-element__label {
@@ -104,3 +109,7 @@
 	font-weight: 400;
 	text-transform: capitalize;
  }
+
+ .nds-form-element__control-animated-label .nds-control-action__container {
+  top: 0.25rem;
+}

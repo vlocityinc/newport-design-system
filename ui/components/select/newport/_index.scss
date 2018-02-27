@@ -1,0 +1,74 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary custom Animation with label on focus on Select element
+ *
+ * @name newport
+ * @selector .nds-form-element__control-animated-label
+ * @restrict .nds-select
+ * @required
+ * @variant
+ */
+.nds-form-element__control-animated-label {
+	font-size: 0.875rem;
+	position: relative;
+}
+
+.nds-select {
+	font-size: 0.875rem;
+	letter-spacing: 1px;
+	font-weight: 400;
+	&_container {
+		width: 100%;
+	}
+}
+
+
+.nds-form-element__control.nds-form-element__control-animated-label.nds-form-element__label {
+	top: 0.25rem;
+	#{$left}: 0;
+	position: absolute;
+	width: 100%;
+	#{$right}: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	pointer-events: none;
+	white-space: nowrap;
+	font-weight: 400;
+	font-size: 0.875rem;
+	letter-spacing: 1px;
+	color: $color-input-font-kashmiri-blue;
+}
+
+.nds-form-element__control.nds-form-element__control-animated-label select:focus ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label select.nds-has-value:not(:focus):valid ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label select.ng-dirty.ng-not-empty ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label select.ng-dirty.ng-not-empty + label,
+.nds-form-element__control.nds-form-element__control-animated-label select[cloned='dirty'] + label,
+.nds-form-element__control.nds-form-element__control-animated-label select.nds-select[cloned='dirty'] ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label select.nds-select.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control] ~ label {
+	-webkit-transform: translate3d(0, -1.2rem, 0);
+	transform: translate3d(0, -1.2rem, 0);
+	-webkit-transition-duration: 300ms;
+	transition-duration: 300ms;
+	z-index: 0;
+	font-size: 0.75rem;
+	font-weight: 300;
+	top: 0.4rem;
+	#{$left}: 0;
+ }
+
+
+.nds-form-element__control.nds-form-element__control-animated-label select:focus ~ label,
+.nds-form-element__control.nds-form-element__control-animated-label select:focus ~ label .nds-required {
+	color: $color-border-input-active;
+}
+
+.nds-form-element__control.nds-input-has-icon svg.nds-icon {
+	fill: $color-input-icon-blue-hue;
+}
+
+.nds-select-wrapper .nds-control-action__container {
+	top: 0.85rem;
+}
