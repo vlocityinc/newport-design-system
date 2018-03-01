@@ -4,6 +4,7 @@
     <aura:import library="builder_platform_interaction:storeLib" property="storeLib" />
     <aura:import library="builder_platform_interaction:reducers" property="reducers" />
     <aura:import library="builder_platform_interaction:actions" property="actions" />
+    <aura:import library="builder_platform_interaction:translatorLib" property="translatorLib" />
 
     <!--Attributes-->
     <aura:attribute name="flowId" type="String" description="The id of the flow to load" />

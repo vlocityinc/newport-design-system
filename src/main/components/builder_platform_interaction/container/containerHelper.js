@@ -5,32 +5,24 @@
      * @param {Object} cmp component definition
      * @param {String} flowId id of a flow
      */
-    getFlow : function(cmp, flowId) {
-        var action, flow, storeInstance;
+    getFlow: function(cmp, flowId) {
+        var action, uiModel, storeInstance;
         action = cmp.get("c.retrieveFlow");
 
         action.setParams({
-            id : flowId
+            id: flowId
         });
 
         action.setCallback(this, function(result) {
             // TODO add a library method to generically handle success, error,
             // and other states
             if (result.getState() === this.constant.STATE.SUCCESS) {
-                flow = result.getReturnValue();
+                uiModel = this.translatorLib.translateFlowToUIModel(
+                    result.getReturnValue()
+                );
+
                 storeInstance = cmp.get("v.storeInstance");
-                // TODO Move to translation layer once translation is moved to client-side
-                Object.keys(flow.elements).forEach(function (element) {
-                    if (flow.elements[element].isCanvasElement) {
-                        flow.elements[element].config = {isSelected: false};
-                        if (flow.elements[element].connector
-                            && flow.elements[element].connector.targetReference !== undefined) {
-                            flow.elements[element].connector.config = {isSelected: false};
-                            flow.elements[element].connector.jsPlumbConnector = {};
-                        }
-                    }
-                });
-                storeInstance.dispatch(this.actions.updateFlow(flow));
+                storeInstance.dispatch(this.actions.updateFlow(uiModel));
             }
         });
 
@@ -41,13 +33,15 @@
      * Save the flow in the backend
      *
      * @param {Object} cmp component definition
-     * @param {Object} flow flow object to be saved
+     * @param {Object} uiModel flow UI object to be saved
      */
-    saveFlow : function(cmp, flow) {
+    saveFlow: function(cmp, uiModel) {
         var action = cmp.get("c.saveFlow");
+        
+        var flow = this.translatorLib.translateUIModelToFlow(uiModel);
 
         action.setParams({
-            builderFlow : flow
+            flow: flow
         });
 
         // TODO add a library method to generically handle success, error, and

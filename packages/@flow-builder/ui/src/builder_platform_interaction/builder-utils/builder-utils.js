@@ -29,7 +29,7 @@ const elementTypeToConfigMap = {
     [ELEMENT_TYPE.DEFAULT] : {
         descriptor: 'builder_platform_interaction:assignmentEditor',
         nodeConfig: {
-            iconName: 'standard:lead_list',
+            iconName: 'standard:custom',
             maxConnections: 1
         }
     }
@@ -42,7 +42,9 @@ const elementTypeToConfigMap = {
  *  @returns {object} Object containing component config
  */
 export function getConfigForElementType(nodeType, config) {
-    if (nodeType === null || nodeType === undefined) {
+    if (nodeType === null ||
+        nodeType === undefined ||
+        !elementTypeToConfigMap[nodeType]) {
         nodeType = ELEMENT_TYPE.DEFAULT;
     }
     return elementTypeToConfigMap[nodeType][config];

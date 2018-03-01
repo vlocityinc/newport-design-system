@@ -3,7 +3,7 @@
  * @param {Object} obj object to be validated
  * @returns {Boolean} true if obj is valid, else false
  */
-export default function isPlainObject(obj) {
+export function isPlainObject(obj) {
     if (typeof obj !== 'object' || obj === null) {
         return false;
     }

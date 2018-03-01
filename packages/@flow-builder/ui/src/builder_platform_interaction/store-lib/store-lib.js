@@ -1,5 +1,6 @@
 export { combinedReducer } from './combinedReducer';
 export { createSelector } from './createSelector';
 export { Store } from './store';
-export { guid } from './guidGenerator';
+export { generateGuid } from './guidGenerator';
 export { deepCopy } from './deepCopy';
+export { isPlainObject } from './isPlainObject';
