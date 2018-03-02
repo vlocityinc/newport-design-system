@@ -1,4 +1,4 @@
-import { replaceItem } from 'builder_platform_interaction-data-mutation-lib';
+import { replaceItem, shallowCopyArray } from 'builder_platform_interaction-data-mutation-lib';
 /** Used to match backslashes in property paths. Taken from lodash */
 const reEscapeChar = /\\(\\)?/g;
 /** Used to match property names within property paths. Taken from lodash */
@@ -19,7 +19,7 @@ const setValue = (obj, path, value) => {
         // base case:
         // we do not have a path just return a clone of the object
         if (Array.isArray(obj)) {
-            return replaceItem(obj);
+            return shallowCopyArray(obj);
         }
         return updateProperties(obj);
     } else if (path.length === 1) {

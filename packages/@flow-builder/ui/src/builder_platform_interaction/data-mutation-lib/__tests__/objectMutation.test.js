@@ -210,6 +210,14 @@ describe('Set function', () => {
             expect(newObj.items[0].lhs.value).toEqual('newvalue');
         });
 
+        it('should update the value in the middle of an array with a string path using indexing', () => {
+            const data = [...mockAssignment.items, ...mockAssignment.items];
+            const length = data.length;
+            const newItems = set(data, '[2].lhs.value', 'newvalue');
+            expect(newItems).toHaveLength(length);
+            expect(newItems[2].lhs.value).toEqual('newvalue');
+        });
+
         it('should update the value at the given path', () => {
             const newObj = set(assignmentItem, ['lhs', 'value'], 'newvalue');
             expect(newObj.lhs.value).toEqual('newvalue');

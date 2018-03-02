@@ -46,10 +46,11 @@ export function replaceItem(arr, newItem, itemAt) {
     if (arr === undefined || newItem === undefined || itemAt === undefined || itemAt < 0 || itemAt > arr.length) {
         throw new Error(`could not replace position ${itemAt} with ${newItem}, something went wrong`);
     }
+    const end = parseInt(itemAt, 10) + 1;
     return [
         ...arr.slice(0, itemAt),
         newItem,
-        ...arr.slice(itemAt + 1)
+        ...arr.slice(end)
     ];
 }
 

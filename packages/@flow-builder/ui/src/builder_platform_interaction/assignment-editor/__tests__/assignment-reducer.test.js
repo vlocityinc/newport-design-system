@@ -96,4 +96,24 @@ describe('assignment reducer functions', () => {
         expect(resultObj.length).toBe(1);
         expect(resultObj[0].leftHandSide.value).toBe('new value');
     });
+    it('test action type UPDATE_LIST_ITEM with an update in the middle of the array', () => {
+        const testState = deepCopy(state.assignmentItems);
+        testState.push(deepCopy(state.assignmentItems[0]));
+        testState.push(deepCopy(state.assignmentItems[0]));
+        const action = {
+            type: PROPERTY_EDITOR_ACTION.UPDATE_LIST_ITEM,
+            payload: {
+                index: 1,
+                propertyName: 'leftHandSide',
+                value: 'new value',
+                error: null
+            }
+        };
+        expect(testState).toHaveLength(3);
+        const resultObj = assignmentReducer(testState, action);
+        expect(resultObj).toHaveLength(3);
+        expect(resultObj[0].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
+        expect(resultObj[1].leftHandSide.value).toBe('new value');
+        expect(resultObj[2].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
+    });
 });

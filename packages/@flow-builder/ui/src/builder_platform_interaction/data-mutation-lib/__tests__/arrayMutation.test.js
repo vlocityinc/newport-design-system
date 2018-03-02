@@ -118,6 +118,13 @@ describe('Array mutation library', () => {
                 replaceItem(arr, newItem, index);
             }).toThrow();
         });
+
+        it('should insert in the middle without deleting the end', () => {
+            const index = 1;
+            const testArr = [...arr, newItem];
+            const newArr = replaceItem(testArr, newItem, index);
+            expect(newArr).toHaveLength(3);
+        });
     });
 
     describe('delete item in an array', () => {

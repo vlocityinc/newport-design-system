@@ -41,7 +41,7 @@ describe('assignment-editor', () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
-            const event = new AddListItemEvent();
+            const event = new AddListItemEvent(1);
             assignmentElement.querySelector('builder_platform_interactioncommon-list').dispatchEvent(event);
             expect(assignmentElement.node.assignmentItems.length).toBe(2);
         });
