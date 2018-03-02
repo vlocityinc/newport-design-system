@@ -53,9 +53,9 @@ describe('variables-reducer', () => {
         expect(newVariableState).toHaveLength(1);
     });
 
-    it('with state set to defined & action type set to DELETE_VARIABLE should return the empty object', () => {
-        const newVariableState = reducer(undefined, {type: DELETE_VARIABLE, payload: {guid: oldVariablesState[0] }});
-        expect(newVariableState).toHaveLength(0);
-        expect(newVariableState).toEqual([]);
+    it('with state set to undefined & action type set to DELETE_VARIABLE should throw an error.', () => {
+        expect(() => {
+            reducer(undefined, {type: DELETE_VARIABLE, payload: {guid: oldVariablesState[0] }});
+        }).toThrow();
     });
 });

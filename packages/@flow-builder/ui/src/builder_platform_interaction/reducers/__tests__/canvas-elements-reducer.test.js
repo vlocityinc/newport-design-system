@@ -52,9 +52,9 @@ describe('canvas-elemenets-reducer', () => {
         expect(newCanvasElementState).toHaveLength(1);
     });
 
-    it('with state set to undefined & action type is DELETE_CANVAS_ELEMENT should return the empty array', () => {
-        const newCanvasElementState = canvasElementsReducer(undefined, {type: DELETE_CANVAS_ELEMENT, payload: {guid: oldCanvasElementsState[0] }});
-        expect(newCanvasElementState).toHaveLength(0);
-        expect(newCanvasElementState).toEqual([]);
+    it('with state set to undefined & action type is DELETE_CANVAS_ELEMENT should throw an error.', () => {
+        expect(() => {
+            canvasElementsReducer(undefined, {type: DELETE_CANVAS_ELEMENT, payload: {guid: oldCanvasElementsState[0] }});
+        }).toThrow();
     });
 });
