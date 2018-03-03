@@ -8,7 +8,7 @@ import { deepCopy, isPlainObject } from "builder_platform_interaction-store-lib"
  * @param {Object} elementGUIDMap       map of dev names to GUIDs
  * @param {Object} object               the object in the flow tree to be converted
  */
-const swapGUIDsForDevNames = (elementGUIDMap, object) => {
+export const swapGUIDsForDevNames = (elementGUIDMap, object) => {
     if (Array.isArray(object)) {
         object.forEach(element => {
             swapGUIDsForDevNames(elementGUIDMap, element);

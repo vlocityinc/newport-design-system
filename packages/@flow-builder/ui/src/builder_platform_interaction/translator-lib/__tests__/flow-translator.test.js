@@ -3,7 +3,7 @@ import { translateUIModelToFlow } from '../ui-to-flow-translator';
 import { deepCopy, isPlainObject } from "builder_platform_interaction-store-lib";
 
 // Fetchable from browser xhr
-const sampleFlow = {
+export const sampleFlow = {
     "createdById": "005xx000001Sv6KAAS",
     "createdDate": "2018-01-26T16:59:43.000+0000",
     "definitionId": "300xx00000002beAAA",
@@ -173,7 +173,9 @@ const EXTRA_FIELDS = ["createdById",
 
 // Only a small subset of elements are enabled right now
 // this list should be trimmed down and eventually removed
-const FUTURE_ELEMENTS = ["apexPluginCalls",
+//
+// This list can be deleted soonish if we find no issues with the minimal translation support
+export const FUTURE_ELEMENTS = ["apexPluginCalls",
     "screens",
     "choices",
     "constants",
@@ -222,16 +224,17 @@ const cleanData = (object) => {
 //
 // Since the translator also modifies the data without creating a copy we need to create a
 // deep copy of the data in order to reuse it and compare it reliably
-const cleanFlowSample = function () {
+export const cleanFlowSample = function () {
     const flow = deepCopy(sampleFlow);
     cleanData(flow);
 
     EXTRA_FIELDS.forEach(field => {
         delete flow[field];
     });
-    FUTURE_ELEMENTS.forEach(key => {
-        delete flow.metadata[key];
-    });
+    // FUTURE_ELEMENTS.forEach(key => {
+    // added in limited support for all elements to make testing easier
+    // delete flow.metadata[key];
+    // });
 
     return flow;
 };

@@ -1,5 +1,6 @@
 import { deepCopy, generateGuid, isPlainObject } from "builder_platform_interaction-store-lib";
 import { REFERENCE_FIELDS, ELEMENT_INFO_ARRAY, FLOW_PROPERTIES } from "./translation-config";
+import { ELEMENT_TYPE } from "builder_platform_interaction-constant";
 import { pick } from "builder_platform_interaction-data-mutation-lib";
 
 /**
@@ -14,6 +15,7 @@ import { pick } from "builder_platform_interaction-data-mutation-lib";
  */
 export function convertElement(element, elementType, isCanvasElement) {
     // include transient fields
+    element = deepCopy(element);
     element.elementType = elementType;
     element.isCanvasElement = isCanvasElement;
 
@@ -22,7 +24,7 @@ export function convertElement(element, elementType, isCanvasElement) {
 
         const connector = element.connector;
 
-        if (connector) {
+        if (connector && connector.targetReference) {
             connector.config = {isSelected: false};
             connector.jsPlumbConnector = {};
         }
@@ -105,8 +107,6 @@ export function translateFlowToUIModel(flow) {
     let properties = {};
     const nameToGuid = {};
 
-    flow = deepCopy(flow);
-
     // convert each type of element
     // ex: assignments, decision, variables
     ELEMENT_INFO_ARRAY.forEach(elementInfo => {
@@ -122,7 +122,7 @@ export function translateFlowToUIModel(flow) {
     Object.values(elements).forEach(element => {
         if (element.isCanvasElement) {
             canvasElements.push(element.guid);
-        } else {
+        } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
             variables.push(element.guid);
         }
     });
