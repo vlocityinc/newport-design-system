@@ -1,91 +1,12 @@
 import { getElementsForMenuData, copyFields } from '../menuDataRetrieval';
+import { numberParam } from 'mock-rule-service';
+import * as store from 'mock-store-data';
 
-const numberVariableGuid = 'guid1';
-const accountSObjectVariableGuid = 'guid2';
-const stringCollectionVariable1Guid = 'guid3';
-const stringCollectionVariable2Guid = 'guid4';
-const choiceGuid = 'guid5';
-
-const numberVariableDevName = 'numVar1';
-const accountSObjectVariableDevName = 'accVar1';
-const stringCollectionVariable1DevName = 'collStrVar1';
-const stringCollectionVariable2DevName = 'collStrVar2';
-const choiceDevName = 'numberChoice';
-
-const numberDataType = 'Number';
-const sobjectDataType = 'SObject';
-const stringDataType = 'String';
-
-const account = 'Account';
-const choiceLabel = 'Choice 1';
-const variable = 'VARIABLE';
-const collectionVariable = 'COLLECTION ' + variable;
-const sobjectVariable = 'SOBJECT ' + variable;
-
-const elements = {
-    [numberVariableGuid]: {
-        dataType: numberDataType,
-        description: '',
-        elementType: variable,
-        guid: numberVariableGuid,
-        isCanvasElement: false,
-        isCollection: false,
-        isInput: false,
-        isOutput: false,
-        name: numberVariableDevName,
-        objectType: null
-    },
-    [accountSObjectVariableGuid]: {
-        dataType: sobjectDataType,
-        description: '',
-        elementType: variable,
-        guid: accountSObjectVariableGuid,
-        isCanvasElement: false,
-        isCollection: false,
-        isInput: false,
-        isOutput: false,
-        name: accountSObjectVariableDevName,
-        objectType: account
-    },
-    [stringCollectionVariable1Guid]: {
-        dataType: stringDataType,
-        description: '',
-        elementType: variable,
-        guid: stringCollectionVariable1Guid,
-        isCanvasElement: false,
-        isCollection: true,
-        isInput: false,
-        isOutput: false,
-        name: stringCollectionVariable1DevName,
-        objectType: null
-    },
-    [stringCollectionVariable2Guid]: {
-        dataType: stringDataType,
-        description: '',
-        elementType: variable,
-        guid: stringCollectionVariable2Guid,
-        isCanvasElement: false,
-        isCollection: true,
-        isInput: false,
-        isOutput: false,
-        name: stringCollectionVariable2DevName,
-        objectType: null
-    },
-    [choiceGuid]: {
-        dataType: numberDataType,
-        description: '',
-        elementType: 'CHOICE',
-        guid: choiceGuid,
-        isCanvasElement: false,
-        name: choiceDevName,
-        label: choiceLabel
-    }
-};
-
-const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCollectionVariable1Guid, stringCollectionVariable2Guid];
+const collectionVariable = 'COLLECTION ' + store.variable;
+const sobjectVariable = 'SOBJECT ' + store.variable;
 
 /*
-    Desired format output
+    Desired format output from getElementsForMenuData
     [
         {
          label: "Collection Variable",
@@ -103,39 +24,55 @@ const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCol
     ]
  */
 
+const someVariableGuids = [store.numberVariableGuid, store.accountSObjectVariableGuid, store.stringCollectionVariable1Guid, store.stringCollectionVariable2Guid];
+
+const sampleParamTypes = {
+    Number : [numberParam],
+};
+
 describe('Menu data retrieval', () => {
     it('should sort alphabetically by category', () => {
-        const menuData = getElementsForMenuData(elements, variableGuids);
+        const menuData = getElementsForMenuData(store.elements, someVariableGuids);
         expect(menuData[0].label).toBe(collectionVariable);
         expect(menuData[1].label).toBe(sobjectVariable);
-        expect(menuData[2].label).toBe(variable);
+        expect(menuData[2].label).toBe(store.variable);
     });
     it('should sort alphabetically within category', () => {
-        const collectionVariables = getElementsForMenuData(elements, variableGuids)[0];
+        const collectionVariables = getElementsForMenuData(store.elements, someVariableGuids)[0];
         expect(collectionVariables.items.length).toBe(2);
-        expect(collectionVariables.items[0].text).toBe(stringCollectionVariable1DevName);
-        expect(collectionVariables.items[1].text).toBe(stringCollectionVariable2DevName);
+        expect(collectionVariables.items[0].text).toBe(store.stringCollectionVariable1DevName);
+        expect(collectionVariables.items[1].text).toBe(store.stringCollectionVariable2DevName);
+    });
+    it('should filter by allowed types', () => {
+        jest.mock('builder_platform_interaction-rule-lib', () => {
+            return {
+                isMatch : jest.fn().mockImplementationOnce(() => true).mockImplementationOnce(() => false),
+            };
+        });
+        const allowedVariables = getElementsForMenuData(store.elements, [store.numberVariableGuid, store.stringCollectionVariable1Guid], sampleParamTypes);
+        expect(allowedVariables.length).toBe(1);
+        expect(allowedVariables[0].items.length).toBe(1);
+        expect(allowedVariables[0].items[0].value).toBe(store.numberVariableDevName);
     });
 });
 
 describe('copying elements into combobox shape', () => {
-    it('should preserve guid and devName in fields combobox expects', () => {
-        const copiedElement = copyFields(elements[numberVariableGuid]);
-        expect(copiedElement.guid).toBe(numberVariableGuid);
-        expect(copiedElement.text).toBe(numberVariableDevName);
-        expect(copiedElement.value).toBe(numberVariableDevName);
+    it('should preserve devName in text & value field', () => {
+        const copiedElement = copyFields(store.elements[store.numberVariableGuid]);
+        expect(copiedElement.text).toBe(store.numberVariableDevName);
+        expect(copiedElement.value).toBe(store.numberVariableDevName);
     });
     it('should set subText to objectType for sObject var', () => {
-        const copiedElement = copyFields(elements[accountSObjectVariableGuid]);
-        expect(copiedElement.subText).toBe(account);
+        const copiedElement = copyFields(store.elements[store.accountSObjectVariableGuid]);
+        expect(copiedElement.subText).toBe(store.account);
     });
     it('should set subText to label if there is a label', () => {
-        const copiedElement = copyFields(elements[choiceGuid]);
-        expect(copiedElement.subText).toBe(choiceLabel);
+        const copiedElement = copyFields(store.elements[store.choiceGuid]);
+        expect(copiedElement.subText).toBe(store.choiceLabel);
     });
     it('should set subText to dataType if no objectType or label', () => {
-        const copiedElement = copyFields(elements[numberVariableGuid]);
-        expect(copiedElement.subText).toBe(numberDataType);
+        const copiedElement = copyFields(store.elements[store.numberVariableGuid]);
+        expect(copiedElement.subText).toBe(store.numberDataType);
     });
     // TODO: write tests for getting category once we switch to using labels
 });
