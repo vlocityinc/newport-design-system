@@ -1,17 +1,23 @@
 <template>
-<!-- Accordion will be put in place after talking to the global components team, probably by the end of 216 -->
+    <!-- Accordion will be put in place after talking to the global components team, probably by the end of 216
+    Created our own poor man's accordion for now :)
+    TODO: i18n
+    -->
+    <builder_platform_interaction-accordion>
+        <builder_platform_interaction-accordion-section>
+            <div slot='accordion-header'>Details</div>
+            <div slot='accordion-body'>
+                <div class='slds-m-bottom--x-small'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                <!-- Name Label Desc Component -->
+                <builder_platform_interactioncommon-label-description label={label} dev-name={devName} description={description} onpropertychanged={handlePropertyChanged}> </builder_platform_interactioncommon-label-description>
+            </div>
+        </builder_platform_interaction-accordion-section>
+    </builder_platform_interaction-accordion>
 
-    <!-- Name Label Desc Component -->    
-    <builder_platform_interactioncommon-label-description label={label} 
-                                                          dev-name={devName} 
-                                                          description={description}
-                                                          onpropertychanged={handlePropertyChanged}>
-    </builder_platform_interactioncommon-label-description>
-
-    <!-- List Component , this will eventually use slots or something, for now its tightly coupled -->    
-     <builder_platform_interactioncommon-list items={assignmentItems}
-                                              onaddlistitem={handleAddListItem}
-                                              onupdatelistitem={handleUpdateListItem}
-                                              ondeletelistitem={handleDeleteListItem}>
-    </builder_platform_interactioncommon-list> 
+    <div class='slds-m-bottom_small slds-border_top'>
+        <h3 class='slds-text-heading_small slds-p-around_small'>Assignments</h3>
+        <!-- List Component , this will eventually use slots or something, for now its tightly coupled -->
+        <builder_platform_interactioncommon-list items={assignmentItems} onaddlistitem={handleAddListItem} onupdatelistitem={handleUpdateListItem} ondeletelistitem={handleDeleteListItem}>
+        </builder_platform_interactioncommon-list>
+    </div>
 </template>

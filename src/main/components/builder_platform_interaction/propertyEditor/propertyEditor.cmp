@@ -23,7 +23,7 @@
         <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.titleForModal}</h2>
     </header>
     <!-- Body -->
-    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">{!v.body}</div>
+    <div class="slds-modal__content" id="modal-content-id-1">{!v.body}</div>
     <!-- Footer -->
     <footer class="slds-modal__footer ">
         <lightning:button title="Cancel" onclick="{!c.handleCancel}">Cancel</lightning:button>
