@@ -1,10 +1,10 @@
 import { Element, track } from 'engine';
 import { ELEMENT_TYPE, EVENT, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
-import { invokePanel, getConfigForElementType } from 'builder_platform_interaction-builder-utils';
+import { invokePanel } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, resourcesSelector } from 'builder_platform_interaction-selectors';
 import { updateElement, deleteElement } from 'builder_platform_interaction-actions';
-import { hydrateWithErrors, dehydrate } from 'builder_platform_interaction-data-mutation-lib';
+import { dehydrate } from 'builder_platform_interaction-data-mutation-lib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -86,15 +86,9 @@ export default class Editor extends Element {
     handleNodeDblClicked = (event) => {
         if (event && event.detail) {
             this.handleNodeSelection(event);
-            const override = {};
             const node = deepCopy(storeInstance.getCurrentState().elements[event.detail.nodeGUID]);
-            override.body = {descriptor: getConfigForElementType(node.elementType, 'descriptor')};
-            const nodeWithErrorObjects = hydrateWithErrors(node);
-            override.body.attr = {
-                node: nodeWithErrorObjects
-            };
             const nodeUpdate = this.updateNodeCollection;
-            invokePanel(PROPERTY_EDITOR, {nodeUpdate, override});
+            invokePanel(PROPERTY_EDITOR, {nodeUpdate, node});
         }
     };
 

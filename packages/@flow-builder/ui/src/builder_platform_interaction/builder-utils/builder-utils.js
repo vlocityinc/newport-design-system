@@ -1,6 +1,7 @@
 // eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
 import { STATE, ELEMENT_TYPE } from 'builder_platform_interaction-constant';
+import { hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 
 /**
  * @constant Panel type used for modals.
@@ -16,6 +17,15 @@ const HOVER_PANEL = 'hoverPanel';
 
 /**
  * @constant
+ * @type {string} MODAL_SIZE large or medium (default)
+ */
+const MODAL_SIZE = {
+    LARGE: 'large', // To be used by screen and decision elementType
+    MEDIUM: 'medium'
+};
+
+/**
+ * @constant
  * @type {string}
  */
 const UI_CREATE_PANEL = 'ui:createPanel';
@@ -27,6 +37,7 @@ const UI_CREATE_PANEL = 'ui:createPanel';
 const elementTypeToConfigMap = {
     [ELEMENT_TYPE.ASSIGNMENT] : {
         descriptor: 'builder_platform_interaction:assignmentEditor',
+        modalSize: MODAL_SIZE.MEDIUM,
         nodeConfig: {
             iconName: 'standard:lead_list',
             maxConnections: 1
@@ -34,6 +45,7 @@ const elementTypeToConfigMap = {
     },
     [ELEMENT_TYPE.DEFAULT] : {
         descriptor: 'builder_platform_interaction:assignmentEditor',
+        modalSize: MODAL_SIZE.MEDIUM,
         nodeConfig: {
             iconName: 'standard:custom',
             maxConnections: 1
@@ -65,20 +77,40 @@ export function getConfigForElementType(nodeType, config) {
 /**
  * Invokes the panel and creates property editor inside it
  * @param {string} cmpName - Name of the component to be created
- * @param {object} attr - contains a nodeupadate callback and attr object containing the descriptor and attributes for the inner component of property editor
+ * @param {object} attributes - contains a nodeupadate callback and actual node data
  */
-export function invokePanel(cmpName,  attr) {
-    createComponent(cmpName, attr, (newCmp, status) => {
-        if (status === STATE.SUCCESS) {
-            dispatchGlobalEvent(UI_CREATE_PANEL, {
-                panelType: MODAL,
-                visible: true,
-                panelConfig: {
-                    body: newCmp,
-                    bodyClass: "" // to remove the extra default padding class
-                    // TODO: set footer and header component here
+export function invokePanel(cmpName, attributes) {
+    if (!attributes || !attributes.node || !attributes.nodeUpdate) {
+        throw new Error("attributes passed to invoke panel method are incorrect");
+    }
+    const elementType = attributes.node.elementType;
+    const nodeUpdate = attributes.nodeUpdate;
+    const attr = {
+        elementType,
+        nodeUpdate,
+        override: {
+            body: {
+                descriptor: getConfigForElementType(elementType, 'descriptor'),
+                attr: {
+                    node: hydrateWithErrors(attributes.node)
                 }
-            });
+            }
+        }
+    };
+
+    createComponent(cmpName, attr, (newCmp, status) => {
+        const createPanelEventAttributes = {
+            panelType: MODAL,
+            visible: true,
+            panelConfig : {
+                body: newCmp,
+                flavor: this.getConfigForElementType(attr.elementType, 'modalSize'),
+                bodyClass: ''// to remove the extra default padding class
+                // TODO: set footer and header component here
+            }
+        };
+        if (status === STATE.SUCCESS) {
+            dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
         }
     });
 }
