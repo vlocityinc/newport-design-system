@@ -106,6 +106,7 @@ export default class AssignmentEditor extends Element {
      */
     handleUpdateListItem(event) {
         event.stopPropagation();
+        // TODO: convert devName(s) in value to guid
         const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_LIST_ITEM, updateProperties({}, event.detail));
         if (event.detail.index < this.assignmentItems.length) {
             this.assignmentNode.assignmentItems = assignmentReducer(this.assignmentItems, action);
