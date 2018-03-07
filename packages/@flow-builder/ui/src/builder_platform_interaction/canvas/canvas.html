@@ -1,6 +1,6 @@
-<template>
-    <div class='canvas slds-is-relative' id='canvas' onmousedown={handleMouseDown} onmousemove={handleMouseMove}
-         onmouseup={handleMouseUp} oncontextmenu={handleContextMenu}>
+﻿<template>
+    <div class='canvas slds-is-relative' id='canvas' tabindex="0" onmousedown={handleMouseDown} onmousemove={handleMouseMove}
+         onmouseup={handleMouseUp} oncontextmenu={handleContextMenu} onkeydown={handleKeyDown}>
         <div class='innerCanvas slds-is-relative' id='innerCanvas'>
             <!--Iterating over the nodes-->
             <template for:each={nodes} for:item='node'>
@@ -9,7 +9,7 @@
 
             <!--Iterating over the connectors-->
             <template for:each={connectors} for:item='connector'>
-                <builder_platform_interaction-connector connector={connector} key={connector.source}></builder_platform_interaction-connector>
+                <builder_platform_interaction-connector connector={connector} key={connector.guid}></builder_platform_interaction-connector>
             </template>
         </div>
     </div>

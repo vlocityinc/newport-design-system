@@ -29,6 +29,7 @@
     background-color: t(colorForegroundPrimary);
     height: 100%;
     overflow: hidden;
+    outline: none;
 }
 
 .THIS builder_platform_interaction-canvas .canvas .innerCanvas {
@@ -85,7 +86,7 @@
 .THIS builder_platform_interaction-node .end-point:hover {
     background-color: t(colorBackgroundAlt2);
     transform: scale(1.1);
- }
+}
 .THIS builder_platform_interaction-node .end-point:active {
     box-shadow: inset 0px 0px 0px 2px t(colorBrandDark), t(shadowButtonFocus);
     transform: scale(1.2);
@@ -98,12 +99,18 @@
 
 .THIS builder_platform_interaction-node .text-container {
     top: 57px;
-    width: 132px;
-    background-color: t(colorBackgroundBackdrop);
+    max-width: 132px;
 }
 
-.THIS builder_platform_interaction-node .text-container .text-label{
+.THIS builder_platform_interaction-node .text-container .text-label {
     font-weight: t(fontWeightBold);
+    background-color: t(colorBackgroundBackdrop);
+    padding: 0 3px;
+}
+
+.THIS builder_platform_interaction-node .text-container .text-description {
+    background-color: t(colorBackgroundBackdrop);
+    padding: 0 3px;
 }
 
 /************* Connector *****************/
@@ -128,6 +135,9 @@
     vertical-align: bottom;
     white-space: nowrap;
     z-index: 199;
+    max-width: 132px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .THIS builder_platform_interaction-canvas .canvas .jtk-overlay.jtk-hover {

@@ -7,12 +7,8 @@ import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-
  * Node component for flow builder.
  *
  * @ScrumTeam Process UI
- * @author Priya Mittal
  * @since 214
  */
-
-let isMultiSelectKeyPressed = false;
-let isNodeDragging = false;
 
 export default class Node extends Element {
     @api node = {
@@ -51,8 +47,37 @@ export default class Node extends Element {
         return this.node.description;
     }
 
+    // TODO: Move it to a library
+    isMultiSelect(event) {
+        return event.shiftKey || event.metaKey;
+    }
+
+    isNodeDragging = false;
+
     /**
-     * Handles the native double click event on node div and fires off a nodeDblClicked event.
+     * Handles the node click event on node div and fires off a nodeSelected event.
+     * @param {object} event - node clicked event
+     */
+    handleNodeClick = (event) => {
+        event.stopPropagation();
+        const isMultiSelectKeyPressed = this.isMultiSelect(event);
+        if (!this.node.config.isSelected || !this.isNodeDragging) {
+            const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    canvasElementGUID: this.node.guid,
+                    isMultiSelectKeyPressed
+                }
+            });
+            this.dispatchEvent(nodeSelectedEvent);
+        }
+        this.isNodeDragging = false;
+    };
+
+    /**
+     * Handles the node double click event on node div and fires off a nodeDblClicked event.
      * @param {object} event - node double clicked event
      */
     handleDblClick = (event) => {
@@ -62,61 +87,24 @@ export default class Node extends Element {
             composed: true,
             cancelable: true,
             detail: {
-                nodeGUID : this.node.guid
+                canvasElementGUID: this.node.guid
             }
         });
         this.dispatchEvent(nodeDblClickedEvent);
     };
 
     /**
-     * Handles the native click event on node div and fires off a nodeSelected event.
-     * TODO: Hide trash-cans when multiple elements are selected
-     * @param {object} event - node clicked event
-     */
-    handleNodeClick = (event) => {
-        event.stopPropagation();
-        if ((!this.node.config.isSelected || event.shiftKey || event.metaKey)) {
-            isMultiSelectKeyPressed = (event.shiftKey || event.metaKey);
-            const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    nodeGUID : this.node.guid,
-                    isMultiSelectKeyPressed
-                }
-            });
-            this.dispatchEvent(nodeSelectedEvent);
-        } else if (!isNodeDragging) {
-            isMultiSelectKeyPressed = (event.shiftKey || event.metaKey);
-            const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    nodeGUID : this.node.guid,
-                    isMultiSelectKeyPressed
-                }
-            });
-            this.dispatchEvent(nodeSelectedEvent);
-        }
-        isNodeDragging = false;
-    };
-
-    /**
-     * Removes the node from jsPlumb and fires an event to remove the node from the dom.
-     * TODO: Need to update it to delete associated connectors as well
+     * Fires an event to delete the node.
      * @param {object} event - trash can click event
      */
     handleTrashClick = (event) => {
         event.stopPropagation();
-        lib.removeNodeFromLib(this.node.guid);
         const nodeDeleteEvent = new CustomEvent(EVENT.NODE_DELETE, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                nodeGUID : this.node.guid
+                canvasElementGUID: this.node.guid
             }
         });
         this.dispatchEvent(nodeDeleteEvent);
@@ -128,15 +116,15 @@ export default class Node extends Element {
      * @param {object} event - drag start event
      */
     dragStart = (event) => {
-        isNodeDragging = true;
+        this.isNodeDragging = true;
         if (!this.node.config.isSelected) {
-            isMultiSelectKeyPressed = (event.e.shiftKey || event.e.metaKey);
+            const isMultiSelectKeyPressed = this.isMultiSelect(event.e);
             const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
                 detail: {
-                    nodeGUID : this.node.guid,
+                    canvasElementGUID: this.node.guid,
                     isMultiSelectKeyPressed
                 }
             });
@@ -155,7 +143,7 @@ export default class Node extends Element {
                 composed: true,
                 cancelable: true,
                 detail: {
-                    nodeGUID: this.node.guid,
+                    canvasElementGUID: this.node.guid,
                     locationX: event.finalPos[0],
                     locationY: event.finalPos[1]
                 }
@@ -186,5 +174,10 @@ export default class Node extends Element {
                 lib.removeFromDragSelection(nodeContainer);
             }
         }
+    }
+
+    disconnectedCallback() {
+        // Remove the node from JsPlumb
+        lib.removeNodeFromLib(this.node.guid);
     }
 }

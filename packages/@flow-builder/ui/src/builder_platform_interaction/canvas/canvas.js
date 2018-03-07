@@ -6,18 +6,23 @@ import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-
  * Canvas component for flow builder.
  *
  * @ScrumTeam Process UI
- * @author Ankush Bansal
  * @since 214
  */
 
+// TODO: Move it inside the class
 let jsPlumbContainer = false;
 let isMouseDown = false;
 let isPanning = false;
-let isMultiSelectKeyPressed = false;
+let isCanvasInFocus = false;
 
 export default class Canvas extends Element {
     @api nodes = [];
     @api connectors = [];
+
+    // TODO: Move it to a library
+    isMultiSelect(event) {
+        return event.shiftKey || event.metaKey;
+    }
 
     constructor() {
         super();
@@ -38,7 +43,7 @@ export default class Canvas extends Element {
                 bubbles: true,
                 composed: true,
                 detail: {
-                    source : connectorInfo.sourceId,
+                    source: connectorInfo.sourceId,
                     target: connectorInfo.targetId,
                     label: connectorInfo.connection.getOverlay('__label').getLabel()
                 }
@@ -48,21 +53,19 @@ export default class Canvas extends Element {
     };
 
     /**
-     * Fires connection selection event
+     * Fires connector selection event
      * @param {object} connection - jsPlumb's connector object
      * @param {object} event - connection click event coming from drawing-lib.js
      */
     connectionClicked = (connection, event) => {
         event.stopPropagation();
-        isMultiSelectKeyPressed = (event.shiftKey || event.metaKey);
+        const isMultiSelectKeyPressed = this.isMultiSelect(event);
         const connectorSelectedEvent = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                source : connection.sourceId,
-                target : connection.targetId,
-                connection,
+                connectorGUID: connection.id,
                 isMultiSelectKeyPressed
             }
         });
@@ -92,22 +95,29 @@ export default class Canvas extends Element {
 
     /**
      * Handling mouse up event for canvas. If mouse up happens directly on canvas/innerCanvas then marking the nodes
-     * as unselected. Also checking the isPanning condition to prevent nodes from deselecting when the user stops panning.
+     * as unselected. Also checking the isCanvasInFocus and isPanning condition to prevent nodes from deselecting when
+     * the user clicks outside canvas or stops panning.
      * @param {object} event - mouse up event
      */
     handleMouseUp = (event) => {
         event.preventDefault();
         isMouseDown = false;
-        if ((event.target.id === 'canvas' || event.target.id === 'innerCanvas') && !isPanning) {
+        // TODO: Use querySelector instead
+        const canvasArea = document.getElementById('canvas');
+        if (document.activeElement !== canvasArea) {
+            isCanvasInFocus = false;
+            canvasArea.focus();
+        }
+        if ((event.target.id === 'canvas' || event.target.id === 'innerCanvas') && isCanvasInFocus && !isPanning) {
             const canvasMouseUpEvent = new CustomEvent(EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
                 composed: true,
-                cancelable: true,
-                detail: {}
+                cancelable: true
             });
             this.dispatchEvent(canvasMouseUpEvent);
         }
 
+        isCanvasInFocus = true;
         isPanning = false;
     };
 
@@ -119,29 +129,41 @@ export default class Canvas extends Element {
         isPanning = false;
     };
 
-    // /**
-    //  * Commenting this out right now to avoid deletion of nodes when the property editor is up.
-    //  * Handling key down event for canvas and deleting selected nodes in the canvas if delete key is pressed.
-    //  * TODO: Need to update it to delete associated connectors as well
-    //  */
-    // handleKeyDown = document.addEventListener('keydown', (event) => {
-    //     if (event.key === 'Backspace') {
-    //         const iconSection = document.getElementsByClassName('selected');
-    //         const iconSectionLength = iconSection.length;
-    //         for (let i = 0; i < iconSectionLength; i++) {
-    //             lib.removeNodeFromLib(iconSection[i].id);
-    //         }
-    //         if (iconSectionLength > 0) {
-    //             const nodeDeleteEvent = new CustomEvent(EVENT.NODE_DELETE, {
-    //                 bubbles: true,
-    //                 composed: true,
-    //                 cancelable: true,
-    //                 detail: {}
-    //             });
-    //             this.dispatchEvent(nodeDeleteEvent);
-    //         }
-    //     }
-    // });
+    /**
+     * Handling key down event for canvas and deleting selected nodes from the canvas if delete key is pressed.
+     * @param {object} event - key down event
+     */
+    handleKeyDown = (event) => {
+        if (event.key === 'Backspace') {
+            const selectedCanvasElementGuids = [];
+            const selectedConnectorGuids = [];
+
+            this.nodes.map((node) => {
+                if (node.config.isSelected) {
+                    selectedCanvasElementGuids.push(node.guid);
+                }
+                return node;
+            });
+
+            this.connectors.map((connector) => {
+                if (connector.config.isSelected) {
+                    selectedConnectorGuids.push(connector.guid);
+                }
+                return connector;
+            });
+
+            const multiDeleteEvent = new CustomEvent(EVENT.MULTIPLE_DELETE, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    selectedCanvasElementGuids,
+                    selectedConnectorGuids
+                }
+            });
+            this.dispatchEvent(multiDeleteEvent);
+        }
+    };
 
     renderedCallback() {
         if (!jsPlumbContainer) {

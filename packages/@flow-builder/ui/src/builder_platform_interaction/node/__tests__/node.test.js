@@ -13,8 +13,7 @@ const createComponentUnderTest = (isSelected) => {
         elementType : 'ASSIGNMENT',
         label : 'First Node',
         description : 'My first test node',
-        config: {isSelected},
-        connector: ''
+        config: {isSelected}
     };
     document.body.appendChild(el);
     return el;

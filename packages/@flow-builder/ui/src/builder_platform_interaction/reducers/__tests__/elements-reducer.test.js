@@ -103,22 +103,16 @@ describe('elements-reducer', () => {
     });
 
     it('with state set to defined & action type is DELETE_CANVAS_ELEMENT should delete the property from the element object ', () => {
-        const omitProps = 'description';
+        const omitProps = ['guid_1'];
         const oldProperties = {
-            name: 'ass1',
-            label: 'assignment 1',
-            description: 'desc 1',
-            guid: 'guid_1'
+            'guid_1' : {
+                name: 'ass1',
+                label: 'assignment 1',
+                description: 'desc 1',
+                guid: 'guid_1'
+            }
         };
-        const newElementState = elementReducer(oldProperties, {type: DELETE_CANVAS_ELEMENT, payload: {guid: omitProps }});
-        expect(newElementState).not.toHaveProperty('description');
-        expect(newElementState).toHaveProperty('name');
-        expect(newElementState).toHaveProperty('label');
-    });
-
-    it('with state set to undefined & action type is DELETE_CANVAS_ELEMENT should return an empty object', () => {
-        const omitProps = 'description';
-        const newElementState = elementReducer(undefined, {type: DELETE_CANVAS_ELEMENT, payload: {guid: omitProps }});
+        const newElementState = elementReducer(oldProperties, {type: DELETE_CANVAS_ELEMENT, payload : { canvasElementGUIDs: omitProps }});
         expect(newElementState).toEqual({});
     });
 });

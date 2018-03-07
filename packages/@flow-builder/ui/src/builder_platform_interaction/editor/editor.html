@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="editor slds-grid slds-grid_frame slds-grid_vertical">
         <!--Header-->
         <builder_platform_interaction-header></builder_platform_interaction-header>
@@ -16,11 +16,11 @@
 
             <!--Canvas-->
             <div class="slds-col slds-size_4-of-5">
-                <builder_platform_interaction-canvas 
-                    nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}
-                    oncanvasmouseup={handleCanvasMouseUp} onnodedblclicked={handleNodeDblClicked} onnodeselected={handleNodeSelection}
-                    ondragnodestop={handleDragNodeStop} onnodedelete={handleNodeDelete}
-                    onaddconnection={handleAddConnection} onconnectorselected={handleConnectorSelection}>
+                <builder_platform_interaction-canvas
+                        nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}
+                        oncanvasmouseup={handleElementDeselection} onnodedblclicked={handleNodeDblClicked} onnodeselected={handleNodeSelection}
+                        ondragnodestop={handleDragNodeStop} onnodedelete={handleCanvasElementDelete} onmultidelete={handleMultiElementDelete}
+                        onaddconnection={handleAddConnection} onconnectorselected={handleConnectorSelection}>
                 </builder_platform_interaction-canvas>
             </div>
         </div>

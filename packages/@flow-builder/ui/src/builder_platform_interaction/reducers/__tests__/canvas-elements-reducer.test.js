@@ -47,14 +47,8 @@ describe('canvas-elemenets-reducer', () => {
     });
 
     it('with state set to defined & action type is DELETE_CANVAS_ELEMENT should return the array with excluded canvas element', () => {
-        const newCanvasElementState = canvasElementsReducer(oldCanvasElementsState, {type: DELETE_CANVAS_ELEMENT, payload: {guid: oldCanvasElementsState[1] }});
+        const newCanvasElementState = canvasElementsReducer(oldCanvasElementsState, {type: DELETE_CANVAS_ELEMENT, payload : { canvasElementGUIDs: [oldCanvasElementsState[1]] }});
         expect(newCanvasElementState).not.toBe(oldCanvasElementsState[0]);
         expect(newCanvasElementState).toHaveLength(1);
-    });
-
-    it('with state set to undefined & action type is DELETE_CANVAS_ELEMENT should throw an error.', () => {
-        expect(() => {
-            canvasElementsReducer(undefined, {type: DELETE_CANVAS_ELEMENT, payload: {guid: oldCanvasElementsState[0] }});
-        }).toThrow();
     });
 });

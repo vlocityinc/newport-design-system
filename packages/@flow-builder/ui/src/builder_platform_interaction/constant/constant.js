@@ -9,9 +9,10 @@ export const EVENT = {
     CONNECTOR_SELECTED: 'connectorselected',
     NODE_DBLCLICKED: 'nodedblclicked',
     NODE_DELETE: 'nodedelete',
+    MULTIPLE_DELETE: 'multidelete',
+    ADD_CONNECTION: 'addconnection',
     SAVE_FLOW: 'saveflow',
     SAVE: 'save',
-    ADD_CONNECTION: 'addconnection',
 };
 export const ELEMENT_TYPE = {
     ACTION_CALL: 'ACTION_CALL',

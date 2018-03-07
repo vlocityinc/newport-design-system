@@ -61,7 +61,7 @@ export function translateUIModelToFlow(uiModel) {
         // remove transient fields to avoid breaking deserialization
         element = omit(element, ['guid', 'elementType', 'isCanvasElement', 'config']);
         if (element.connector) {
-            element.connector = omit(element.connector, ['config', 'jsPlumbConnector']);
+            element.connector = omit(element.connector, ['config']);
         }
 
         metadata[elementInfo.metadataKey].push(element);

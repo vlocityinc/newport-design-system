@@ -26,7 +26,6 @@ export function convertElement(element, elementType, isCanvasElement) {
 
         if (connector && connector.targetReference) {
             connector.config = {isSelected: false};
-            connector.jsPlumbConnector = {};
         }
     }
     return element;
@@ -89,6 +88,25 @@ export const swapDevNamesToGuids = (nameToGuid, object) => {
     }
 };
 
+/**
+ * Method to create a connector object from the source element
+ *
+ * @param {Object} element                canvas element with an associated connector
+ * @returns {Object} connector            connectors object
+ */
+export const createConnectorElement = (element) => {
+    const connector = {};
+    connector.guid = generateGuid('connector');
+    connector.source = element.guid;
+    connector.target = element.connector.targetReference;
+    // TODO: update for decision and other nodes
+    connector.label = 'Label';
+    connector.config = {
+        isSelected: false
+    };
+    return connector;
+};
+
 
 /**
  * Translate flow tooling object into UI data model
@@ -104,6 +122,8 @@ export function translateFlowToUIModel(flow) {
 
     const elements = {};
 
+    const connectors = [];
+
     let properties = {};
     const nameToGuid = {};
 
@@ -118,17 +138,20 @@ export function translateFlowToUIModel(flow) {
         Object.assign(elements, convertedElements);
     });
 
+    // Swap out dev names for guids in all element references
+    swapDevNamesToGuids(nameToGuid, elements);
+
     // Construct arrays of all canvas element GUIDs and all variables GUIDs
     Object.values(elements).forEach(element => {
         if (element.isCanvasElement) {
             canvasElements.push(element.guid);
+            if (element.connector && element.connector.targetReference) {
+                connectors.push(createConnectorElement(element));
+            }
         } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
             variables.push(element.guid);
         }
     });
-
-    // Swap out dev names for guids in all element references
-    swapDevNamesToGuids(nameToGuid, elements);
 
     // Construct flow properties object
     properties = pick(flow.metadata, FLOW_PROPERTIES);
@@ -141,6 +164,7 @@ export function translateFlowToUIModel(flow) {
 
     return {
         elements,
+        connectors,
         variables,
         canvasElements,
         properties,

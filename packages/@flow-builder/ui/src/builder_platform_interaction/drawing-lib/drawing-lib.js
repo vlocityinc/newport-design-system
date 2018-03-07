@@ -125,13 +125,14 @@ class DrawingLib {
      * @param {String} sourceGuid - ID of the source node
      * @param {String} targetGuid - ID of the target node
      * @param {String} label - The label to display for the connector
+     * @param {String} connectorGuid - ID of the connector
+     * @return {Object} connection - jsPlumb's connector instance
      */
-    setExistingConnections = (sourceGuid, targetGuid, label) => {
-        const existingConnection = instance.getConnections({source: sourceGuid, target: targetGuid});
-        if (existingConnection.length === 0) {
-            const connection = instance.connect({source: sourceGuid, target: targetGuid, label});
-            connection.getOverlay('__arrow').setVisible(true);
-        }
+    setExistingConnections = (sourceGuid, targetGuid, label, connectorGuid) => {
+        const connection = instance.connect({source: sourceGuid, target: targetGuid, label});
+        connection.id = connectorGuid;
+        connection.getOverlay('__arrow').setVisible(true);
+        return connection;
     };
 
     /**
@@ -192,15 +193,24 @@ class DrawingLib {
 
     /**
      * Removes the node from jsPlumb's instance but not from the dom.
-     * TODO: Need to update it to delete associated connectors as well
      * @param {String} nodeId - The node id
      */
     removeNodeFromLib = (nodeId) => {
         instance.removeFromDragSelection(document.getElementById(nodeId).parentElement);
         instance.unmakeSource(nodeId);
         delete instance.sourceEndpointDefinitions[nodeId];
-        instance.unmakeSource(nodeId);
+        instance.unmakeTarget(nodeId);
+        instance.destroyDraggable(nodeId);
+        instance.destroyDroppable(nodeId);
     };
+
+    /**
+     * Removes the connector from jsPlumb's instance
+     * @param {Object} connector - jsPlumb connector instance
+     */
+    removeConnectorFromLib = (connector) => {
+        instance.deleteConnection(connector);
+    }
 }
 
 /** Export of the singleton instance of library **/
