@@ -6,9 +6,9 @@ export const mockRules =
             paramType:'Data',
             paramIndex:1,
             dataType:{
-                _value_:'Date'
+                value:'Date'
             },
-            isCollection:false,
+            collection:false,
             canBeField:'CanBe',
             canBeSysVar:'CanBe'
         },
@@ -18,9 +18,9 @@ export const mockRules =
                 paramType:'Data',
                 paramIndex:1,
                 dataType:{
-                    _value_:'Date'
+                    value:'Date'
                 },
-                isCollection:false,
+                collection:false,
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'
             },
@@ -28,9 +28,9 @@ export const mockRules =
                 paramType:'Data',
                 paramIndex:1,
                 dataType:{
-                    _value_:'DateTime'
+                    value:'DateTime'
                 },
-                isCollection:false,
+                collection:false,
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'
             }
@@ -42,9 +42,9 @@ export const mockRules =
             paramType:'Data',
             paramIndex:1,
             dataType:{
-                _value_:'DateTime'
+                value:'DateTime'
             },
-            isCollection:false,
+            collection:false,
             canBeField:'CanBe',
             canBeSysVar:'CanBe'
         },
@@ -54,9 +54,9 @@ export const mockRules =
                 paramType:'Data',
                 paramIndex:1,
                 dataType:{
-                    _value_:'Date'
+                    value:'Date'
                 },
-                isCollection:false,
+                collection:false,
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'
             },
@@ -64,9 +64,9 @@ export const mockRules =
                 paramType:'Data',
                 paramIndex:1,
                 dataType:{
-                    _value_:'DateTime'
+                    value:'DateTime'
                 },
-                isCollection:false,
+                collection:false,
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'
             }
@@ -77,8 +77,8 @@ export const mockRules =
         left:{
             paramType:'Element',
             paramIndex:1,
-            elemType:'STAGE',
-            isCollection:true,
+            elementType:'STAGE',
+            collection:true,
             canBeField:'CannotBe',
             canBeSysVar:'MustBe'
         },
@@ -87,8 +87,8 @@ export const mockRules =
             {
                 paramType:'Element',
                 paramIndex:1,
-                elemType:'STAGE',
-                isCollection:false,
+                elementType:'STAGE',
+                collection:false,
                 canBeField:'CannotBe',
                 canBeSysVar:'CanBe'
             }
@@ -99,8 +99,8 @@ export const mockRules =
         left:{
             paramType:'Element',
             paramIndex:1,
-            elemType:'STAGE',
-            isCollection:true,
+            elementType:'STAGE',
+            collection:true,
             canBeField:'CannotBe',
             canBeSysVar:'MustBe'
         },
@@ -109,8 +109,8 @@ export const mockRules =
             {
                 paramType:'Element',
                 paramIndex:1,
-                elemType:'STAGE',
-                isCollection:false,
+                elementType:'STAGE',
+                collection:false,
                 canBeField:'CannotBe',
                 canBeSysVar:'CanBe'
             }
@@ -123,8 +123,8 @@ export const mockRules =
         left:{
             paramType:'Element',
             paramIndex:1,
-            elemType:'STAGE',
-            isCollection:true,
+            elementType:'STAGE',
+            collection:true,
             canBeField:'CannotBe',
             canBeSysVar:'MustBe'
         },
@@ -133,8 +133,8 @@ export const mockRules =
             {
                 paramType:'Element',
                 paramIndex:1,
-                elemType:'STAGE',
-                isCollection:false,
+                elementType:'STAGE',
+                collection:false,
                 canBeField:'CannotBe',
                 canBeSysVar:'CanBe'
             }

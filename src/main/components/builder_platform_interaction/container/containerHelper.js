@@ -54,6 +54,30 @@
 
         $A.enqueueAction(action);
     },
+    
+    /***************************************************************************
+     * Get the flow operator rules from java controllers
+     *
+     * @param {Object} cmp component definition
+     */
+    initRules : function(cmp) {
+        var action, rules;
+        action = cmp.get("c.retrieveAllRules");
+        // The rules are read-only so we can cache them
+        action.setStorable();
+
+        action.setCallback(this, function(result) {
+            // TODO add a library method to generically handle success, error,
+            // and other states
+            if (result.getState() === this.constant.STATE.SUCCESS) {
+                rules = result.getReturnValue();
+                this.ruleLib.setRules(rules);
+            }
+        });
+
+        $A.enqueueAction(action);
+    },
+
 
     /**
      * Initialize store to be used by entire app

@@ -8,6 +8,7 @@
         } else {
             // Add code for creating a new flow
         }
+        helper.initRules(cmp);
     },
 
     handleSaveFlow: function(cmp, event, helper) {

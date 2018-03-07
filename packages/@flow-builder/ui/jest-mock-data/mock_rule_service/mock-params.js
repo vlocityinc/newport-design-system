@@ -9,9 +9,9 @@ export const dateParam = {
     paramType:'Data',
     paramIndex:1,
     dataType:{
-        _value_:'Date'
+        value:'Date'
     },
-    isCollection:false,
+    collection:false,
     canBeField:'CanBe',
     canBeSysVar:'CanBe'
 };
@@ -20,9 +20,9 @@ export const stringParam = {
     paramType:'Data',
     paramIndex:1,
     dataType:{
-        _value_:'String'
+        value:'String'
     },
-    isCollection:false,
+    collection:false,
     canBeField:'CanBe',
     canBeSysVar:'CanBe'
 };
@@ -31,9 +31,9 @@ export const numberParam = {
     paramType:'Data',
     paramIndex:1,
     dataType:{
-        _value_:'Number'
+        value:'Number'
     },
-    isCollection:false,
+    collection:false,
     canBeField:'CanBe',
     canBeSysVar:'CanBe'
 };
@@ -41,8 +41,8 @@ export const numberParam = {
 export const stageParam = {
     paramType:'Element',
     paramIndex:1,
-    elemType:'STAGE',
-    isCollection:true,
+    elementType:'STAGE',
+    collection:true,
     canBeField:'CannotBe',
     canBeSysVar:'MustBe'
 };

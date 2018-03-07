@@ -62,10 +62,10 @@ export const RULE_PROPERTY_INFO = {
     PARAM_TYPE: 'paramType',
     PARAM_INDEX: 'paramIndex',
     DATA_TYPE: 'dataType',
-    IS_COLLECTION: 'isCollection',
+    IS_COLLECTION: 'collection',
     CAN_BE_FIELD: 'canBeField',
     CAN_BE_SYS_VAR: 'canBeSysVar',
-    ELEMENT_TYPE: 'elemType',
+    ELEMENT_TYPE: 'elementType',
 };
 
 export const FLOW_DATA_TYPE = {

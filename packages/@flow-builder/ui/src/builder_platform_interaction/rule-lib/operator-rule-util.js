@@ -7,13 +7,13 @@ const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = RULE_PROPERTY_INFO;
 
 /**
  * Helper to get the value inside of either data type or element type. This accounts for
- * the inner _value_ inside of the rules returned by the FlowOperatorRuleUtil service
+ * the inner value inside of the rules returned by the FlowOperatorRuleUtil service
  * Hopefully we will not need this in the future
  * @param {Object} param        the param we are extracting the value from
  * @returns {String}            the value at the given property
  */
 const getDataTypeOrElementType = (param) => {
-    return param[DATA_TYPE] ? param[DATA_TYPE]._value_ : param[ELEMENT_TYPE];
+    return param[DATA_TYPE] ? param[DATA_TYPE].value : param[ELEMENT_TYPE];
 };
 
 /**
@@ -61,9 +61,10 @@ const filterByRuleType = (rules, ruleType) => {
         'paramType':'Data',
         'paramIndex':1,
         'dataType':{
-            '_value_':'Date'
+            'value':'Date'
         },
-        'isCollection':false,
+        'elementType':null,
+        'collection':false,
         'canBeField':'CanBe',
         'canBeSysVar':'CanBe'
     }
