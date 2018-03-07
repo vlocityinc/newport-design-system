@@ -1,0 +1,9 @@
+<template>
+    <th class="slds-tree__item" scope="row">
+        <lightning-icon icon-name={iconName} variant="bare" size="small" alternative-text={label} class="slds-m-right_x-small"></lightning-icon>
+        <div class="slds-truncate" title={label}><a href="javascript:void(0);" tabindex="-1">{label}</a></div>
+    </th>
+    <td class="slds-cell-shrink" role="gridcell">
+        <lightning-button-icon class="slds-hidden detail-button" icon-name="utility:chevronright" variant="bare" alternative-text="Detail"></lightning-button-icon>
+    </td>
+</template>

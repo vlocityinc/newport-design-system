@@ -116,6 +116,8 @@ export function invokePanel(cmpName, attributes) {
 }
 
 /**
+ * NOTE: Please do not use this without contacting Process UI DesignTime first!
+ *
  * Shows a popover/hoverPanel.
  *
  * Sample panelConfig for the left-panel hover:
@@ -161,7 +163,10 @@ export function showHover(cmpName, attr, hoverId, panelConfig) {
 }
 
 /**
+ * NOTE: Please do not use this without contacting Process UI DesignTime first!
+ *
  * Hides the popover/hoverPanel with the given hoverId.
+ *
  * @param {string} hoverId Identifier of the popover to hide
  */
 export function hideHover(hoverId) {

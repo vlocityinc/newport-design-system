@@ -1,0 +1,32 @@
+<template>
+    <table class="slds-table slds-tree slds-table_tree" role="treegrid" aria-readonly="true">
+        <tbody>
+            <template for:each={rows} for:item="row" for:index="rowIndex">
+                <!-- Section Header -->
+                <tr if:true={row.isSection} is="builder_platform_interaction-palette-section"
+                    key={row.key}
+                    aria-expanded={row.expanded}
+                    aria-level={row.level}
+                    aria-posinset={row.posinset}
+                    aria-setsize={row.setsize}
+                    class="slds-hint-parent"
+                    section-key={row.key}
+                    label={row.label}
+                    expanded={row.expanded}
+                    ontogglesection={handleToggleSection}>
+                </tr>
+                <!-- Item -->
+                <tr if:false={row.isSection} is="builder_platform_interaction-palette-item"
+                    key={row.key}
+                    data-key={row.key}
+                    aria-level={row.level}
+                    aria-posinset={row.posinset}
+                    aria-setsize={row.setsize}
+                    class="slds-hint-parent palette-item"
+                    label={row.label}
+                    icon-name={row.iconName}>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</template>

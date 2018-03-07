@@ -16,9 +16,12 @@
 }
 
 /************* Left Panel *****************/
-.THIS builder_platform_interaction-left-panel .left-panel .left-panel-label {
-    font-weight: t(fontWeightBold);
-    font-size: t(fontSizeTextMedium);
+/*
+ * Makes the panel item detail button appear on row hover for the panel deep
+ * nesting design pattern. This type of override doesn't work in Raptor.
+ */
+.THIS builder_platform_interaction-left-panel-resources .palette-item:hover>td lightning-button-icon.detail-button {
+    visibility: visible;
 }
 
 /************* Canvas *****************/

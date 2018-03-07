@@ -4,7 +4,7 @@ const elementsSelector = (state) => state.elements;
 const variablesSelector = (state) => state.variables;
 
 /**
- * Transforms variable guids into a form that is usable by lightning-tree.
+ * Transforms variable guids into a form that is usable by lightning-tree-grid.
  * @param {Object} elements list of all the elements
  * @param {Object} variables list of variable guids
  * @return {Array} collection of lightning-tree items
@@ -14,8 +14,10 @@ const getVariables = (elements, variables) => variables.reduce((acc, guid) => {
 
     // The guid will be helpful when showing the details of a variable.
     const variable = {
-        label: element.name,
-        name: guid
+        elementType: element.elementType,
+        guid,
+        iconName: 'standard:lead_list',
+        label: element.name
     };
     acc.push(variable);
 
@@ -34,9 +36,9 @@ const getResources = (elements, variables) => {
     // TODO: Need logic to loop through the groups and not include empty resource groups.
     const resources = [
         {
-            label: "Variables",
-            expanded: true,
-            items: getVariables(elements, variables)
+            guid: 'SECTION_VARIABLES',
+            label: 'Variables',
+            _children: getVariables(elements, variables)
         }
     ];
 
