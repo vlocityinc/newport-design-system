@@ -1,4 +1,4 @@
-import { REFERENCE_FIELDS, ELEMENT_INFOS, ELEMENT_INFO_ARRAY, FLOW_PROPERTIES } from "./translation-config";
+import { REFERENCE_FIELDS, ELEMENT_INFOS, FLOW_PROPERTIES } from "./translation-config";
 import { omit, pick, updateProperties } from "builder_platform_interaction-data-mutation-lib";
 import { deepCopy, isPlainObject } from "builder_platform_interaction-store-lib";
 
@@ -46,7 +46,7 @@ export function translateUIModelToFlow(uiModel) {
     };
 
     // create empty collections for each element type
-    ELEMENT_INFO_ARRAY.forEach(elementInfo => {
+    Object.values(ELEMENT_INFOS).forEach(elementInfo => {
         metadata[elementInfo.metadataKey] = [];
     });
 

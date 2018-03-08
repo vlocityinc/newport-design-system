@@ -1,7 +1,7 @@
 // eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
-import { STATE, ELEMENT_TYPE } from 'builder_platform_interaction-constant';
-import { hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
+import { STATE } from 'builder_platform_interaction-constant';
+import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 
 /**
  * @constant Panel type used for modals.
@@ -17,41 +17,9 @@ const HOVER_PANEL = 'hoverPanel';
 
 /**
  * @constant
- * @type {string} MODAL_SIZE large or medium (default)
- */
-const MODAL_SIZE = {
-    LARGE: 'large', // To be used by screen and decision elementType
-    MEDIUM: 'medium'
-};
-
-/**
- * @constant
  * @type {string}
  */
 const UI_CREATE_PANEL = 'ui:createPanel';
-
-/**
- * @constant nodeTypeToComponentMap - Map of different element types to their respective components
- * @type {object}
- */
-const elementTypeToConfigMap = {
-    [ELEMENT_TYPE.ASSIGNMENT] : {
-        descriptor: 'builder_platform_interaction:assignmentEditor',
-        modalSize: MODAL_SIZE.MEDIUM,
-        nodeConfig: {
-            iconName: 'standard:lead_list',
-            maxConnections: 1
-        }
-    },
-    [ELEMENT_TYPE.DEFAULT] : {
-        descriptor: 'builder_platform_interaction:assignmentEditor',
-        modalSize: MODAL_SIZE.MEDIUM,
-        nodeConfig: {
-            iconName: 'standard:custom',
-            maxConnections: 1
-        }
-    }
-};
 
 /**
  * @constant Tracks instances of created hover panels to help with management.
@@ -60,31 +28,17 @@ const elementTypeToConfigMap = {
 const hoverPanels = {};
 
 /**
- * @param {string} nodeType - String value to choose the actual component from the map,
- *  if empty, default element is chosen
- *  @param {string} config - String value to choose the specific config for the given element type
- *  @returns {object} Object containing component config
- */
-export function getConfigForElementType(nodeType, config) {
-    if (nodeType === null ||
-        nodeType === undefined ||
-        !elementTypeToConfigMap[nodeType]) {
-        nodeType = ELEMENT_TYPE.DEFAULT;
-    }
-    return elementTypeToConfigMap[nodeType][config];
-}
-
-/**
  * Invokes the panel and creates property editor inside it
  * @param {string} cmpName - Name of the component to be created
  * @param {object} attributes - contains a nodeupadate callback and actual node data
  */
 export function invokePanel(cmpName, attributes) {
-    if (!attributes || !attributes.node || !attributes.nodeUpdate) {
-        throw new Error("attributes passed to invoke panel method are incorrect");
-    }
     const elementType = attributes.node.elementType;
     const nodeUpdate = attributes.nodeUpdate;
+    const node = attributes.node;
+    if (!attributes || !node || !nodeUpdate) {
+        throw new Error("attributes passed to invoke panel method are incorrect");
+    }
     const attr = {
         elementType,
         nodeUpdate,
@@ -92,7 +46,7 @@ export function invokePanel(cmpName, attributes) {
             body: {
                 descriptor: getConfigForElementType(elementType, 'descriptor'),
                 attr: {
-                    node: hydrateWithErrors(attributes.node)
+                    node
                 }
             }
         }
@@ -104,7 +58,7 @@ export function invokePanel(cmpName, attributes) {
             visible: true,
             panelConfig : {
                 body: newCmp,
-                flavor: this.getConfigForElementType(attr.elementType, 'modalSize'),
+                flavor: getConfigForElementType(attr.elementType, 'modalSize'),
                 bodyClass: ''// to remove the extra default padding class
                 // TODO: set footer and header component here
             }

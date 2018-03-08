@@ -1,4 +1,4 @@
-import { replaceItem, shallowCopyArray } from 'builder_platform_interaction-data-mutation-lib';
+import { replaceItem, shallowCopyArray } from './arrayMutation';
 /** Used to match backslashes in property paths. Taken from lodash */
 const reEscapeChar = /\\(\\)?/g;
 /** Used to match property names within property paths. Taken from lodash */

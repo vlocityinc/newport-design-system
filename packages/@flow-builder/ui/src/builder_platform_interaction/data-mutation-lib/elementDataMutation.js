@@ -5,7 +5,7 @@
  * @param {string[]} blackListFields List of key values not to be hydrated
  * @return {Object} hydrated element object
  */
-export const hydrateWithErrors = (element, blackListFields = ['guid']) => {
+export const hydrateWithErrors = (element, blackListFields = ['guid', 'elementType']) => {
     Object.entries(element).filter(([key]) => !blackListFields.includes(key)).forEach(
         ([key, val]) => {
             if (typeof val === 'string' || val === null || val === undefined) {

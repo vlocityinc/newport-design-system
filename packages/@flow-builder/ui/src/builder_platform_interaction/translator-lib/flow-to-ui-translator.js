@@ -1,5 +1,5 @@
 import { deepCopy, generateGuid, isPlainObject } from "builder_platform_interaction-store-lib";
-import { REFERENCE_FIELDS, ELEMENT_INFO_ARRAY, FLOW_PROPERTIES } from "./translation-config";
+import { REFERENCE_FIELDS, ELEMENT_INFOS, FLOW_PROPERTIES } from "./translation-config";
 import { ELEMENT_TYPE } from "builder_platform_interaction-constant";
 import { pick } from "builder_platform_interaction-data-mutation-lib";
 
@@ -129,10 +129,10 @@ export function translateFlowToUIModel(flow) {
 
     // convert each type of element
     // ex: assignments, decision, variables
-    ELEMENT_INFO_ARRAY.forEach(elementInfo => {
+    Object.entries(ELEMENT_INFOS).forEach(([elementType, elementInfo]) => {
         const convertedElements = convertElements(nameToGuid,
             flow.metadata[elementInfo.metadataKey],
-            elementInfo.elementType,
+            elementType,
             elementInfo.canvasElement
         );
         Object.assign(elements, convertedElements);

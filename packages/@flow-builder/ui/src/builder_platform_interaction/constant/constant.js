@@ -103,3 +103,12 @@ export const PROPERTY_EDITOR_ACTION = {
     UPDATE_LIST_ITEM : 'UPDATE_LIST_ITEM',
     DELETE_LIST_ITEM : 'DELETE_LIST_ITEM'
 };
+
+export const FEROV_DATA_TYPE = {
+    STRING : 'string',
+    NUMBER : 'number',
+    DATE : 'date',
+    DATETIME: 'datetime',
+    BOOLEAN : 'boolean',
+    REFERENCE: 'reference'
+};

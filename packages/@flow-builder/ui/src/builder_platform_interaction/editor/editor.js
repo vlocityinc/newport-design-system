@@ -1,10 +1,10 @@
 import { Element, track } from 'engine';
 import { EVENT, ELEMENT_TYPE, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { invokePanel } from 'builder_platform_interaction-builder-utils';
-import { Store, deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
-import { canvasSelector, resourcesSelector } from 'builder_platform_interaction-selectors';
+import { Store, generateGuid, deepCopy } from 'builder_platform_interaction-store-lib';
+import { canvasSelector, resourcesSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
-import { dehydrate } from 'builder_platform_interaction-data-mutation-lib';
+import { dehydrate, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -78,8 +78,8 @@ export default class Editor extends Element {
     handleNodeDblClicked = (event) => {
         if (event && event.detail) {
             this.handleNodeSelection(event);
-            const node = deepCopy(storeInstance.getCurrentState().elements[event.detail.canvasElementGUID]);
-            const nodeUpdate = this.updateNodeCollection;
+            const node = elementPropertyEditorSelector(storeInstance.getCurrentState(), event.detail.canvasElementGUID);
+            const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             invokePanel(PROPERTY_EDITOR, {nodeUpdate, node});
         }
     };
@@ -179,7 +179,7 @@ export default class Editor extends Element {
                 locationX: event.detail.locationX,
                 locationY: event.detail.locationY
             };
-            this.updateNodeCollection(payload, false);
+            storeInstance.dispatch(updateElement(payload));
         }
     };
 
@@ -206,11 +206,10 @@ export default class Editor extends Element {
      * Method for talking to validation library and store for updating the node collection/flow data.
      *
      * @param {object} node - node object for the particular property editor update
-     * @param {boolean} needsDehydration - if dehydration is needed for the updated node
      */
-    updateNodeCollection(node, needsDehydration = true) {
+    deMutateAndUpdateNodeCollection(node) {
         // TODO: add validations if needed
-        const nodeForStore = needsDehydration ? dehydrate(node) : node;
+        const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)));
         storeInstance.dispatch(updateElement(nodeForStore));
     }
 

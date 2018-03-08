@@ -87,7 +87,7 @@ export default class AssignmentEditor extends Element {
         event.stopPropagation();
         // TODO : we add at the end, change if we need to add at an index
         // TODO this should come from some assignment item factory like propertyEditorDataMutation that is shared with the translation layer
-        const emptyListItem = {assignToReference: {value:'', error:null}, assignmentOperatorType: {value: '', error:null},  value: {value:'', error:null}};
+        const emptyListItem = {leftHandSide: {value:'', error:null}, operator: {value: '', error:null},  rightHandSide: {value:'', error:null}};
         const action = createAction(PROPERTY_EDITOR_ACTION.ADD_LIST_ITEM, {item: emptyListItem, index: event.detail.index});
         this.assignmentNode.assignmentItems = assignmentReducer(this.assignmentItems, action);
     }
