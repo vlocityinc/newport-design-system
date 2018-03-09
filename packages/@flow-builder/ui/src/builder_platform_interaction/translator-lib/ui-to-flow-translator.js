@@ -1,35 +1,7 @@
-import { REFERENCE_FIELDS, ELEMENT_INFOS, FLOW_PROPERTIES } from "./translation-config";
-import { omit, pick, updateProperties } from "builder_platform_interaction-data-mutation-lib";
-import { deepCopy, isPlainObject } from "builder_platform_interaction-store-lib";
-
-/**
- * Recursively replace GUIDs in references/templates with the dev name
- *
- * @param {Object} elementGUIDMap       map of dev names to GUIDs
- * @param {Object} object               the object in the flow tree to be converted
- */
-export const swapGUIDsForDevNames = (elementGUIDMap, object) => {
-    if (Array.isArray(object)) {
-        object.forEach(element => {
-            swapGUIDsForDevNames(elementGUIDMap, element);
-        });
-    } else if (isPlainObject(object)) {
-        Object.keys(object).forEach(key => {
-            const value = object[key];
-            if (REFERENCE_FIELDS.has(key)) {
-                // TODO Update this logic to account for constants, sobject fields, and mergeable flow fields
-                // Part of a separate story...
-                if (elementGUIDMap[value]) {
-                    object[key] = elementGUIDMap[value].name;
-                } else {
-                    // Default don't replace - needed until we handle the ENTIRE flow
-                    object[key] = value;
-                }
-            }
-            swapGUIDsForDevNames(elementGUIDMap, value);
-        });
-    }
-};
+import { ELEMENT_INFOS, FLOW_PROPERTIES } from './translation-config';
+import { swapUidsForDevNames } from './uid-swapping';
+import { omit, pick, updateProperties } from 'builder_platform_interaction-data-mutation-lib';
+import { deepCopy } from 'builder_platform_interaction-store-lib';
 
 /**
  * Translate UI data model to Flow tooling object
@@ -39,7 +11,7 @@ export const swapGUIDsForDevNames = (elementGUIDMap, object) => {
 export function translateUIModelToFlow(uiModel) {
     const elements = deepCopy(Object.values(uiModel.elements));
     // Swap out guids for dev names in all element references
-    swapGUIDsForDevNames(uiModel.elements, elements);
+    swapUidsForDevNames(uiModel.elements, elements);
 
     // Construct Flow metadata object
     let metadata = {
@@ -59,7 +31,7 @@ export function translateUIModelToFlow(uiModel) {
         }
 
         // remove transient fields to avoid breaking deserialization
-        element = omit(element, ['guid', 'elementType', 'isCanvasElement', 'config']);
+        element = omit(element, ['guid', 'elementType', 'isCanvasElement', 'config', 'connectorCount', 'maxConnections']);
         if (element.connector) {
             element.connector = omit(element.connector, ['config']);
         }

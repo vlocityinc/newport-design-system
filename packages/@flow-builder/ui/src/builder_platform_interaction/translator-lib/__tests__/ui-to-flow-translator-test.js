@@ -1,14 +1,38 @@
-import { swapGUIDsForDevNames } from '../ui-to-flow-translator';
+import { translateUIModelToFlow } from '../ui-to-flow-translator';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
 
-describe('UI to FLow Translator', () => {
-    it('converts dev names to uids', () => {
-        const elementGUIDMap = {'swapMe_12':{name:'swapMe'}};
-        const object = {items:[{first:{targetReference:'swapMe_12'}}]};
-        swapGUIDsForDevNames(elementGUIDMap, object);
+const UI_MODEL = {
+    elements:{
+        'assignment_1': {
+            "assignmentItems": [{
+                "assignToReference": "var",
+                "operator": "Assign",
+                "processMetadataValues": [],
+                "value": {
+                    "elementReference": "assignment_1"
+                }
+            }],
+            "connector": {},
+            "label": "Assignment",
+            "locationX": 482,
+            "locationY": 130,
+            "name": "Assignment",
+            "processMetadataValues": [],
+            'elementType':ELEMENT_TYPE.ASSIGNMENT
+        }
+    },
+    properties:{
+        fullName:'bestFlow'
+    }
+};
 
-        expect(object.items[0].first.targetReference).toEqual('swapMe');
+
+describe('UI to Flow Translator', () => {
+    it('translates from ui model to backend model', () => {
+        const flow = translateUIModelToFlow(UI_MODEL);
+
+        expect(flow.metadata.assignments).toHaveLength(1);
+        expect(flow.metadata.assignments[0].assignmentItems[0].value.elementReference).toEqual('Assignment');
+        expect(flow.fullName).toEqual('bestFlow');
     });
-
-    // desired structure of the flow ui data model is still under discussion
-    // connectors
 });

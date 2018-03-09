@@ -1,7 +1,7 @@
-import { convertElement, convertElements, swapDevNamesToGuids, translateFlowToUIModel } from '../flow-to-ui-translator';
-import { ELEMENT_TYPE } from "builder_platform_interaction-constant";
-import { deepCopy } from "builder_platform_interaction-store-lib";
-import { cleanFlowSample } from "./flow-translator.test";
+import { convertElement, convertElements, translateFlowToUIModel } from '../flow-to-ui-translator';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
+import { deepCopy } from 'builder_platform_interaction-store-lib';
+import { cleanFlowSample } from './flow-translator.test';
 
 function isUid(potential, prefix) {
     prefix = String(prefix || '').replace(/[^a-zA-Z]/g, '') || 'uid';
@@ -75,14 +75,6 @@ describe('Flow To UI Translator', () => {
 
         expect(convertedAssignment.guid).toEqual(assignmentKey);
         expect(isUid(convertedAssignment.guid)).toBeTruthy();
-    });
-
-    it('converts dev names to uids', () => {
-        const nameToGuid = {swapMe:'swapMe_12'};
-        const object = {items:[{first:{targetReference:'swapMe'}}]};
-        swapDevNamesToGuids(nameToGuid, object);
-
-        expect(object.items[0].first.targetReference).toEqual('swapMe_12');
     });
 
     it('Does Full Conversion', () => {

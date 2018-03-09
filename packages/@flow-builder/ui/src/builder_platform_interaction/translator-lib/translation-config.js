@@ -21,7 +21,14 @@ export const REFERENCE_FIELDS = new Set([
  * List of Flow metadata fields that can contain {!reference} tags referencing flow elements
  * These would also need to be replaced
  */
-export const TEMPLATE_FIELDS = new Set([]);
+export const TEMPLATE_FIELDS = new Set([
+    // TODO fill out more values and confirm that all FEROV stringValue fields allow this behaviour
+    'stringValue', // field of a ferov
+    'expression',  // represents body of a formula
+    'text',        // represents body of a text template
+    'fieldText',   // body of screen field of type Display Text
+    'helpText'     // help text for a screen or screen field
+]);
 
 export const ELEMENT_INFOS = {};
 Object.entries(elementTypeToConfigMap).forEach(([elementType, config]) => {

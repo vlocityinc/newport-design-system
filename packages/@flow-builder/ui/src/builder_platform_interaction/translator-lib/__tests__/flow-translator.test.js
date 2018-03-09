@@ -1,6 +1,6 @@
 import { translateFlowToUIModel } from '../flow-to-ui-translator';
 import { translateUIModelToFlow } from '../ui-to-flow-translator';
-import { deepCopy, isPlainObject } from "builder_platform_interaction-store-lib";
+import { deepCopy, isPlainObject } from 'builder_platform_interaction-store-lib';
 
 // Fetchable from browser xhr
 export const sampleFlow = {
@@ -231,10 +231,10 @@ export const cleanFlowSample = function () {
     EXTRA_FIELDS.forEach(field => {
         delete flow[field];
     });
-    // FUTURE_ELEMENTS.forEach(key => {
-    // added in limited support for all elements to make testing easier
-    // delete flow.metadata[key];
-    // });
+    FUTURE_ELEMENTS.forEach(key => {
+        // added in limited support for all elements to make testing easier, which was then removed
+        delete flow.metadata[key];
+    });
 
     return flow;
 };
