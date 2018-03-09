@@ -13,11 +13,21 @@
             </div>
         </builder_platform_interaction-accordion-section>
     </builder_platform_interaction-accordion>
-
     <div class='slds-m-bottom_small slds-border_top'>
         <h3 class='slds-text-heading_small slds-p-around_small'>Assignments</h3>
-        <!-- List Component , this will eventually use slots or something, for now its tightly coupled -->
-        <builder_platform_interactioncommon-list items={assignmentItems} onaddlistitem={handleAddListItem} onupdatelistitem={handleUpdateListItem} ondeletelistitem={handleDeleteListItem}>
+        <builder_platform_interactioncommon-list items={assignmentItems}
+                                              onaddlistitem={handleAddListItem}
+                                              onupdatelistitem={handleUpdateListItem}
+                                              ondeletelistitem={handleDeleteListItem}>
+            <div slot="listBody"> 
+                <template for:each={assignmentItems} for:item="item" for:index="itemIndex">
+                    <builder_platform_interactioncommon-row show-prefix=false item-index={itemIndex} show-delete={showDelete}>
+                        <div slot="rowBody"> 
+                            <builder_platform_interactioncommon-expression-builder item={item} showoperator=true lhs-label=lhs operator-label=operator rhs-label=rhs></builder_platform_interactioncommon-expression-builder>
+                        </div>
+                    </builder_platform_interactioncommon-row>
+                </template>
+            </div>
         </builder_platform_interactioncommon-list>
     </div>
 </template>

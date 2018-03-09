@@ -15,6 +15,10 @@ export default class AssignmentEditor extends Element {
      */
     @track assignmentNode = {};
 
+    get showDelete() {
+        return this.assignmentItems.length > 1;
+    }
+
     @api
     get node() {
         return this.assignmentNode;
