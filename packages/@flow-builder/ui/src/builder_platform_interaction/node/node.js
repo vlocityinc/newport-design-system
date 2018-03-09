@@ -35,6 +35,10 @@ export default class Node extends Element {
         return getConfigForElementType(this.node.elementType, 'nodeConfig').iconName;
     }
 
+    get hasAvailableConnections() {
+        return (this.node.maxConnections !== this.node.connectorCount);
+    }
+
     get isSelected() {
         return this.node.config.isSelected;
     }
@@ -99,7 +103,7 @@ export default class Node extends Element {
      */
     handleTrashClick = (event) => {
         event.stopPropagation();
-        const nodeDeleteEvent = new CustomEvent(EVENT.NODE_DELETE, {
+        const canvasElementDeleteEvent = new CustomEvent(EVENT.CANVAS_ELEMENT_DELETE, {
             bubbles: true,
             composed: true,
             cancelable: true,
@@ -107,7 +111,7 @@ export default class Node extends Element {
                 canvasElementGUID: this.node.guid
             }
         });
-        this.dispatchEvent(nodeDeleteEvent);
+        this.dispatchEvent(canvasElementDeleteEvent);
     };
 
     /**
@@ -144,6 +148,7 @@ export default class Node extends Element {
                 cancelable: true,
                 detail: {
                     canvasElementGUID: this.node.guid,
+                    elementType: this.node.elementType,
                     locationX: event.finalPos[0],
                     locationY: event.finalPos[1]
                 }
@@ -161,7 +166,7 @@ export default class Node extends Element {
             });
 
             if (!lib.isSource(this.node.guid)) {
-                lib.makeSource(this.node.guid, 1);
+                lib.makeSource(this.node.guid, this.node.maxConnections);
             }
 
             if (!lib.isTarget(this.node.guid)) {

@@ -2,6 +2,7 @@ import { deepCopy, generateGuid, isPlainObject } from "builder_platform_interact
 import { REFERENCE_FIELDS, ELEMENT_INFOS, FLOW_PROPERTIES } from "./translation-config";
 import { ELEMENT_TYPE } from "builder_platform_interaction-constant";
 import { pick } from "builder_platform_interaction-data-mutation-lib";
+import { getConfigForElementType } from "builder_platform_interaction-element-config";
 
 /**
  * Decorate the element with ui specific data
@@ -21,11 +22,15 @@ export function convertElement(element, elementType, isCanvasElement) {
 
     if (element.isCanvasElement) {
         element.config = {isSelected:false};
+        const nodeConfig = getConfigForElementType(element.elementType, 'nodeConfig');
+        element.maxConnections = nodeConfig.maxConnections;
+        element.connectorCount = 0;
 
         const connector = element.connector;
 
         if (connector && connector.targetReference) {
             connector.config = {isSelected: false};
+            element.connectorCount += 1;
         }
     }
     return element;
@@ -96,7 +101,7 @@ export const swapDevNamesToGuids = (nameToGuid, object) => {
  */
 export const createConnectorElement = (element) => {
     const connector = {};
-    connector.guid = generateGuid('connector');
+    connector.guid = generateGuid('CONNECTOR');
     connector.source = element.guid;
     connector.target = element.connector.targetReference;
     // TODO: update for decision and other nodes

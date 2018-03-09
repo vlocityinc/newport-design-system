@@ -5,7 +5,7 @@
             <lightning-icon icon-name={iconName} size='large' class='icon' onclick={handleNodeClick} ondblclick={handleDblClick}></lightning-icon>
 
             <!--End Point-->
-            <div class='end-point slds-is-absolute'></div>
+            <div if:true={hasAvailableConnections} class='end-point slds-is-absolute'></div>
 
             <!--Trash can-->
             <lightning-button-icon if:true={isSelected} icon-name='utility:delete' variant='bare' size='small' alternative-text='Delete' class='trash-can slds-is-absolute slds-button-icon_small' onclick={handleTrashClick}></lightning-button-icon>

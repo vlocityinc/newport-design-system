@@ -112,18 +112,11 @@ const deselectionAction = {
     type : 'DESELECT_ON_CANVAS'
 };
 
-const deleteCanvasElement = {
+const deleteElement = {
     payload : {
-        canvasElementGUIDs: ['2'],
-        elementType: ELEMENT_TYPE.ASSIGNMENT
-    },
-    type : 'DELETE_CANVAS_ELEMENT'
-};
-
-const deleteMultipleElements = {
-    payload : {
-        canvasElementGUIDs: ['2'],
-        connectorGUIDs: ['c2'],
+        selectedCanvasElementGUIDs: ['2'],
+        connectorGUIDs: ['c1', 'c2'],
+        canvasElementsToUpdate: ['1'],
         elementType: ELEMENT_TYPE.ASSIGNMENT
     },
     type : 'DELETE_CANVAS_ELEMENT'
@@ -141,7 +134,7 @@ const updateElement = {
 
 const connectorElement = {
     payload : {
-        guid: 'connector',
+        guid: 'CONNECTOR',
         source: '1',
         target: '2',
         label: 'Label',
@@ -330,38 +323,41 @@ describe('editor', () => {
 
     it('Checks if node deletion is handled correctly when trash-can is clicked', () => {
         const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.NODE_DELETE, {
+        const event = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                canvasElementGUID : '2'
+                selectedCanvasElementGUIDs: ['2'],
+                connectorGUIDs: ['c1', 'c2'],
+                canvasElementsToUpdate: ['1']
             }
         });
         editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
         return Promise.resolve().then(() => {
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(deleteCanvasElement);
+            expect(spy.mock.calls[0][0]).toEqual(deleteElement);
         });
     });
 
-    it('Checks if node and connector deletion is handled correctly when delete key is clicked', () => {
+    it('Checks if node and connector deletion is handled correctly when delete key is pressed', () => {
         const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.MULTIPLE_DELETE, {
+        const event = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                selectedCanvasElementGuids: ['2'],
-                selectedConnectorGuids: ['c2']
+                selectedCanvasElementGUIDs: ['2'],
+                connectorGUIDs: ['c1', 'c2'],
+                canvasElementsToUpdate: ['1']
             }
         });
         editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
         return Promise.resolve().then(() => {
             const spy = Store.getStore().dispatch;
             expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(deleteMultipleElements);
+            expect(spy.mock.calls[0][0]).toEqual(deleteElement);
         });
     });
 
@@ -373,6 +369,7 @@ describe('editor', () => {
             cancelable: true,
             detail: {
                 canvasElementGUID : '1',
+                elementType: ELEMENT_TYPE.ASSIGNMENT,
                 locationX: '80',
                 locationY: '70'
             }

@@ -11,7 +11,7 @@ import { addItem, updateProperties, replaceItem} from 'builder_platform_interact
 export default function connectorsReducer(state = [], action) {
     switch (action.type) {
         case UPDATE_FLOW: return [...action.payload.connectors];
-        case DELETE_CANVAS_ELEMENT: return _deleteConnectors(state, action.payload.canvasElementGUIDs, action.payload.connectorGUIDs);
+        case DELETE_CANVAS_ELEMENT: return _deleteConnectors(state, action.payload.connectorGUIDs);
         case ADD_CONNECTOR: return addItem(state, action.payload);
         case SELECT_ON_CANVAS: return _selectConnector(state, action.payload.guid);
         case TOGGLE_ON_CANVAS: return _toggleConnector(state, action.payload.guid);
@@ -24,26 +24,14 @@ export default function connectorsReducer(state = [], action) {
  * Helper function to delete all selected and associated connectors.
  *
  * @param {Array} connectors - current state of connectors in the store
- * @param {Array} canvasElementGUIDs - contains GUIDs of all selected canvas elements
- * @param {Array} connectorGUIDs - contains GUIDs of all selected connectors
+ * @param {Array} connectorGUIDs - contains GUIDs of all selected and associated connectors
  * @return {Array} new state of connectors after reduction
  * @private
  */
-function _deleteConnectors(connectors, canvasElementGUIDs, connectorGUIDs) {
+function _deleteConnectors(connectors, connectorGUIDs) {
     let newState = connectors;
-
-    // Deletes associated connectors
-    if (canvasElementGUIDs && canvasElementGUIDs.length > 0) {
-        newState = canvasElementGUIDs.reduce((newConnectors, guid) => {
-            return newConnectors.filter(connector => (connector.source !== guid && connector.target !== guid));
-        }, [...newState]);
-    }
-
-    // Deletes selected connectors
     if (connectorGUIDs && connectorGUIDs.length > 0) {
-        newState = connectorGUIDs.reduce((newConnectors, guid) => {
-            return newConnectors.filter(connector => (connector.guid !== guid));
-        }, [...newState]);
+        newState = connectors.filter(connector => (connectorGUIDs.indexOf(connector.guid) === -1));
     }
     return newState;
 }

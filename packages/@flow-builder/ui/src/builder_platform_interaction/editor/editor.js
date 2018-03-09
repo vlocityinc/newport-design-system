@@ -134,31 +134,16 @@ export default class Editor extends Element {
     };
 
     /**
-     * Handles the node delete event and dispatches an action to delete the clicked node.
-     *
-     * @param {object} event - node delete event coming from node.js
-     */
-    handleCanvasElementDelete = (event) => {
-        if (event && event.detail) {
-            const payload = {
-                canvasElementGUIDs: [event.detail.canvasElementGUID],
-                // TODO: Update in second iteration
-                elementType: ELEMENT_TYPE.ASSIGNMENT
-            };
-            storeInstance.dispatch(deleteElement(payload));
-        }
-    };
-
-    /**
      * Handles the multi-element delete event and dispatches an action to delete all the selected nodes and connectors.
      *
      * @param {object} event - multi delete event coming from canvas.js
      */
-    handleMultiElementDelete = (event) => {
+    handleDeleteOnCanvas = (event) => {
         if (event && event.detail) {
             const payload = {
-                canvasElementGUIDs: event.detail.selectedCanvasElementGuids,
-                connectorGUIDs: event.detail.selectedConnectorGuids,
+                selectedCanvasElementGUIDs: event.detail.selectedCanvasElementGUIDs,
+                connectorGUIDs: event.detail.connectorGUIDs,
+                canvasElementsToUpdate: event.detail.canvasElementsToUpdate,
                 // TODO: Update in second iteration
                 elementType: ELEMENT_TYPE.ASSIGNMENT
             };
@@ -175,7 +160,7 @@ export default class Editor extends Element {
         if (event && event.detail) {
             const payload = {
                 guid: event.detail.canvasElementGUID,
-                elementType: ELEMENT_TYPE.ASSIGNMENT,
+                elementType: event.detail.elementType,
                 locationX: event.detail.locationX,
                 locationY: event.detail.locationY
             };
@@ -190,7 +175,7 @@ export default class Editor extends Element {
      */
     handleAddConnection = (event) => {
         if (event && event.detail) {
-            const connectorGuid = generateGuid('connector');
+            const connectorGuid = generateGuid('CONNECTOR');
             const payload = {
                 guid: connectorGuid,
                 source: event.detail.source,

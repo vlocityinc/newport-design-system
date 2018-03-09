@@ -4,7 +4,7 @@
         <div class='innerCanvas slds-is-relative' id='innerCanvas'>
             <!--Iterating over the nodes-->
             <template for:each={nodes} for:item='node'>
-                <builder_platform_interaction-node node={node} key={node.guid}></builder_platform_interaction-node>
+                <builder_platform_interaction-node node={node} key={node.guid} oncanvaselementdelete={handleCanvasElementDelete}></builder_platform_interaction-node>
             </template>
 
             <!--Iterating over the connectors-->

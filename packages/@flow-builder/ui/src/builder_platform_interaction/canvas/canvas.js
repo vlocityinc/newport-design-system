@@ -9,15 +9,13 @@ import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-
  * @since 214
  */
 
-// TODO: Move it inside the class
-let jsPlumbContainer = false;
-let isMouseDown = false;
-let isPanning = false;
-let isCanvasInFocus = false;
-
 export default class Canvas extends Element {
     @api nodes = [];
     @api connectors = [];
+
+    jsPlumbContainer = false;
+    isMouseDown = false;
+    isPanning = false;
 
     // TODO: Move it to a library
     isMultiSelect(event) {
@@ -79,7 +77,7 @@ export default class Canvas extends Element {
      */
     handleMouseDown = (event) => {
         event.preventDefault();
-        isMouseDown = true;
+        this.isMouseDown = true;
     };
 
     /**
@@ -88,8 +86,8 @@ export default class Canvas extends Element {
      */
     handleMouseMove = (event) => {
         event.preventDefault();
-        if (isMouseDown) {
-            isPanning = true;
+        if (this.isMouseDown) {
+            this.isPanning = true;
         }
     };
 
@@ -101,14 +99,10 @@ export default class Canvas extends Element {
      */
     handleMouseUp = (event) => {
         event.preventDefault();
-        isMouseDown = false;
-        // TODO: Use querySelector instead
-        const canvasArea = document.getElementById('canvas');
-        if (document.activeElement !== canvasArea) {
-            isCanvasInFocus = false;
-            canvasArea.focus();
-        }
-        if ((event.target.id === 'canvas' || event.target.id === 'innerCanvas') && isCanvasInFocus && !isPanning) {
+        this.isMouseDown = false;
+        const canvasArea = this.root.querySelector('#canvas');
+        canvasArea.focus();
+        if ((event.target.id === 'canvas' || event.target.id === 'innerCanvas') && !this.isPanning) {
             const canvasMouseUpEvent = new CustomEvent(EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
                 composed: true,
@@ -117,16 +111,62 @@ export default class Canvas extends Element {
             this.dispatchEvent(canvasMouseUpEvent);
         }
 
-        isCanvasInFocus = true;
-        isPanning = false;
+        this.isPanning = false;
     };
 
     /**
      * Handling right click event for canvas.
      */
     handleContextMenu = () => {
-        isMouseDown = false;
-        isPanning = false;
+        this.isMouseDown = false;
+        this.isPanning = false;
+    };
+
+    /**
+     * Helper method to update connectorGUIDs and canvasElementsToUpdate arrays
+     * @param {Array} selectedCanvasElementGUIDs - Contains GUIDs of all the selected canvas elements
+     * @param {Array} connectorGUIDs - Contains GUIDs of all the connectors that need to be deleted
+     * @param {Array} canvasElementsToUpdate - Contains GUIDs of all the canvas elements that need to be updated
+     * @param {Object} connector - A single connector object
+     */
+    updateCanvasAndConnectorArray = (selectedCanvasElementGUIDs, connectorGUIDs, canvasElementsToUpdate, connector) => {
+        if (selectedCanvasElementGUIDs.indexOf(connector.target) !== -1) {
+            canvasElementsToUpdate.push(connector.source);
+            connectorGUIDs.push(connector.guid);
+        } else if (selectedCanvasElementGUIDs.indexOf(connector.source) !== -1) {
+            connectorGUIDs.push(connector.guid);
+        }
+    };
+
+    /**
+     * Handling the trash click event coming from node.js
+     * @param {object} event - canvas element delete event
+     */
+    handleCanvasElementDelete = (event) => {
+        if (event && event.detail) {
+            const selectedCanvasElementGUIDs = [event.detail.canvasElementGUID];
+            const connectorGUIDs = [];
+            const canvasElementsToUpdate = [];
+
+            // Pushing all the selected and associated connectors to connectorGUIDs and pushing all affected canvas
+            // elements to canvasElementsToUpdate to update their connector count
+            this.connectors.map((connector) => {
+                this.updateCanvasAndConnectorArray(selectedCanvasElementGUIDs, connectorGUIDs, canvasElementsToUpdate, connector);
+                return connector;
+            });
+
+            const deleteEvent = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    selectedCanvasElementGUIDs,
+                    connectorGUIDs,
+                    canvasElementsToUpdate
+                }
+            });
+            this.dispatchEvent(deleteEvent);
+        }
     };
 
     /**
@@ -135,40 +175,48 @@ export default class Canvas extends Element {
      */
     handleKeyDown = (event) => {
         if (event.key === 'Backspace') {
-            const selectedCanvasElementGuids = [];
-            const selectedConnectorGuids = [];
+            const selectedCanvasElementGUIDs = [];
+            const connectorGUIDs = [];
+            const canvasElementsToUpdate = [];
 
+            // Pushing all the selected canvas elements to selectedCanvasElementGUIDs
             this.nodes.map((node) => {
                 if (node.config.isSelected) {
-                    selectedCanvasElementGuids.push(node.guid);
+                    selectedCanvasElementGUIDs.push(node.guid);
                 }
                 return node;
             });
 
+            // Pushing all the selected and associated connectors to connectorGUIDs and pushing all affected canvas
+            // elements to canvasElementsToUpdate to update their connector count
             this.connectors.map((connector) => {
                 if (connector.config.isSelected) {
-                    selectedConnectorGuids.push(connector.guid);
+                    connectorGUIDs.push(connector.guid);
+                    canvasElementsToUpdate.push(connector.source);
+                } else {
+                    this.updateCanvasAndConnectorArray(selectedCanvasElementGUIDs, connectorGUIDs, canvasElementsToUpdate, connector);
                 }
                 return connector;
             });
 
-            const multiDeleteEvent = new CustomEvent(EVENT.MULTIPLE_DELETE, {
+            const deleteEvent = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
                 detail: {
-                    selectedCanvasElementGuids,
-                    selectedConnectorGuids
+                    selectedCanvasElementGUIDs,
+                    connectorGUIDs,
+                    canvasElementsToUpdate
                 }
             });
-            this.dispatchEvent(multiDeleteEvent);
+            this.dispatchEvent(deleteEvent);
         }
     };
 
     renderedCallback() {
-        if (!jsPlumbContainer) {
+        if (!this.jsPlumbContainer) {
             lib.setContainer('innerCanvas');
-            jsPlumbContainer = true;
+            this.jsPlumbContainer = true;
         }
     }
 }

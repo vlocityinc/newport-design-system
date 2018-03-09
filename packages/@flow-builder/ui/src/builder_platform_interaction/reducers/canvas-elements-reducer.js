@@ -12,7 +12,7 @@ export default function canvasElementsReducer(state = [], action) {
     switch (action.type) {
         case UPDATE_FLOW: return [...action.payload.canvasElements];
         case ADD_CANVAS_ELEMENT: return addItem(state, action.payload.guid);
-        case DELETE_CANVAS_ELEMENT: return _deleteCanvasElements(state, action.payload.canvasElementGUIDs);
+        case DELETE_CANVAS_ELEMENT: return _deleteCanvasElements(state, action.payload.selectedCanvasElementGUIDs);
         default: return state;
     }
 }
@@ -21,13 +21,13 @@ export default function canvasElementsReducer(state = [], action) {
  * Deletes the given canvas element GUIDs from canvasElements.
  *
  * @param {Array} canvasElements - canvas element array in the store
- * @param {Array} canvasElementGUIDs - Array containing GUIDs of all the canvas elements that are being deleted
+ * @param {Array} selectedCanvasElementGUIDs - Array containing GUIDs of all the canvas elements that are being deleted
  * @returns {Array} new state of canvas element array
  * @private
  */
-function _deleteCanvasElements(canvasElements, canvasElementGUIDs) {
-    if (canvasElementGUIDs && canvasElementGUIDs.length > 0) {
-        return canvasElementGUIDs.reduce((newCanvasElements, guid) => {
+function _deleteCanvasElements(canvasElements, selectedCanvasElementGUIDs) {
+    if (selectedCanvasElementGUIDs && selectedCanvasElementGUIDs.length > 0) {
+        return selectedCanvasElementGUIDs.reduce((newCanvasElements, guid) => {
             return newCanvasElements.filter(canvasElement => (canvasElement !== guid));
         }, [...canvasElements]);
     }

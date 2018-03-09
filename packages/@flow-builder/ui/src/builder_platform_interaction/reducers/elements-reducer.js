@@ -1,4 +1,4 @@
-import { UPDATE_FLOW, ADD_CANVAS_ELEMENT, UPDATE_CANVAS_ELEMENT, DELETE_CANVAS_ELEMENT, ADD_VARIABLE, UPDATE_VARIABLE, DELETE_VARIABLE, SELECT_ON_CANVAS, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS } from 'builder_platform_interaction-actions';
+import { UPDATE_FLOW, ADD_CANVAS_ELEMENT, UPDATE_CANVAS_ELEMENT, DELETE_CANVAS_ELEMENT, ADD_CONNECTOR, ADD_VARIABLE, UPDATE_VARIABLE, DELETE_VARIABLE, SELECT_ON_CANVAS, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS } from 'builder_platform_interaction-actions';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 import { updateProperties, omit } from 'builder_platform_interaction-data-mutation-lib';
 
@@ -17,7 +17,8 @@ export default function elementsReducer(state = {}, action) {
         case UPDATE_CANVAS_ELEMENT:
         case UPDATE_VARIABLE:
             return _addOrUpdateElement(state, action.payload.guid, action.payload);
-        case DELETE_CANVAS_ELEMENT: return omit(state, action.payload.canvasElementGUIDs);
+        case DELETE_CANVAS_ELEMENT: return _deleteElementAndDecrementCount(state, action.payload.selectedCanvasElementGUIDs, action.payload.canvasElementsToUpdate);
+        case ADD_CONNECTOR: return _incrementConnectorCount(state, action.payload.source);
         case DELETE_VARIABLE: return omit(state, [action.payload.guid]);
         case SELECT_ON_CANVAS: return _selectCanvasElement(state, action.payload.guid);
         case TOGGLE_ON_CANVAS: return _toggleCanvasElement(state, action.payload.guid);
@@ -38,6 +39,41 @@ export default function elementsReducer(state = {}, action) {
 function _addOrUpdateElement(state, guid, element) {
     const newState = updateProperties(state);
     newState[guid] = updateProperties(newState[guid], element);
+    return newState;
+}
+
+/**
+ * Helper function to delete all selected canvas elements and to update the affected canvas elements with the new connector count
+ *
+ * @param {Object} elements - current state of elements in the store
+ * @param {Array} deleteGUIDs - GUIDs of canvas elements that need to be deleted
+ * @param {Array} decrementGUIDs - GUIDs of all the canvas elements for which the connector count needs to decrement
+ * @returns {Object} new state after reduction
+ * @private
+ */
+function _deleteElementAndDecrementCount(elements, deleteGUIDs, decrementGUIDs) {
+    const newState = omit(elements, deleteGUIDs);
+    decrementGUIDs.forEach((guid) => {
+        if (newState[guid] && newState[guid].connectorCount) {
+            const connectorCount = newState[guid].connectorCount - 1;
+            newState[guid] = updateProperties(newState[guid], {connectorCount});
+        }
+    });
+    return newState;
+}
+
+/**
+ * Helper function to increment the connector count of a given canvas element when a new connection has been added
+ *
+ * @param {Object} elements - current state of elements in the store
+ * @param {String} sourceGUID - GUID of the canvas element for which the connector count needs to increment
+ * @returns {Object} new state after reduction
+ * @private
+ */
+function _incrementConnectorCount(elements, sourceGUID) {
+    const newState = updateProperties(elements);
+    const connectorCount = newState[sourceGUID].connectorCount + 1;
+    newState[sourceGUID] = updateProperties(newState[sourceGUID], {connectorCount});
     return newState;
 }
 

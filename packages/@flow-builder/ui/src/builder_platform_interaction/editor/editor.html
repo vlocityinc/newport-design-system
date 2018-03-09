@@ -19,7 +19,7 @@
                 <builder_platform_interaction-canvas
                         nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}
                         oncanvasmouseup={handleElementDeselection} onnodedblclicked={handleNodeDblClicked} onnodeselected={handleNodeSelection}
-                        ondragnodestop={handleDragNodeStop} onnodedelete={handleCanvasElementDelete} onmultidelete={handleMultiElementDelete}
+                        ondragnodestop={handleDragNodeStop} ondeleteoncanvas={handleDeleteOnCanvas}
                         onaddconnection={handleAddConnection} onconnectorselected={handleConnectorSelection}>
                 </builder_platform_interaction-canvas>
             </div>

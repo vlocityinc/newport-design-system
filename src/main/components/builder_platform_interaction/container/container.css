@@ -56,7 +56,7 @@
     box-shadow: 0 0 0 2px white, 0 0 0 3px t(colorBorderSelection), 0 0 6px 3px t(colorBorderSelection);
 }
 
-.THIS builder_platform_interaction-node .icon-section:hover .icon {
+.THIS builder_platform_interaction-node .icon:hover {
     transform: scale(1.05);
 }
 
@@ -95,6 +95,11 @@
 .THIS builder_platform_interaction-node .trash-can {
     top: -34px;
     left: 57px;
+}
+
+.THIS builder_platform_interaction-node .trash-can .slds-button.slds-button_icon-bare:active {
+    outline: 0;
+    box-shadow: 0 0 3px #0070d2;
 }
 
 .THIS builder_platform_interaction-node .text-container {

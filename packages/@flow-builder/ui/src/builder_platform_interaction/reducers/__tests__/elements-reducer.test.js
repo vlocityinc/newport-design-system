@@ -112,7 +112,8 @@ describe('elements-reducer', () => {
                 guid: 'guid_1'
             }
         };
-        const newElementState = elementReducer(oldProperties, {type: DELETE_CANVAS_ELEMENT, payload : { canvasElementGUIDs: omitProps }});
+        const newElementState = elementReducer(oldProperties, {type: DELETE_CANVAS_ELEMENT,
+            payload : { selectedCanvasElementGUIDs: omitProps, canvasElementsToUpdate:  []}});
         expect(newElementState).toEqual({});
     });
 });
