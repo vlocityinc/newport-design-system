@@ -7,6 +7,4 @@
     <!-- panel manager component with custom css -->
     <builder_platform_interaction:panelManagerWrapper></builder_platform_interaction:panelManagerWrapper>
     
-    <!-- Importing jsplumb as an aura lib. This attaches jsplumb in window scope, but one should only use the instance created in drawing-lib from the canvas component -->
-    <aura:import library="builder_platform_interaction:jsplumb" property="lib" />
 </aura:application>
