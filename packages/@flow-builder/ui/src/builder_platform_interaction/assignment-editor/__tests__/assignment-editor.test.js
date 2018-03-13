@@ -27,6 +27,22 @@ const testObj = {
     name : {value: 'testAssignment', error: null}
 };
 
+const size1 = [{
+    leftHandSide: {value: '1bdec16ccb-1919d-1868a-1bb1b-1f2881327c187d0', error: null},
+    operator: {value: 'Assign', error: null},
+    rightHandSide: {value: 'xyz', error: null},
+}];
+
+const size2 = [{
+    leftHandSide: {value: '1bdec16ccb-1919d-1868a-1bb1b-1f2881327c187d0', error: null},
+    operator: {value: 'Assign', error: null},
+    rightHandSide: {value: 'xyz', error: null},
+}, {
+    leftHandSide: {value: '1bdec16ccb-1919d-1868a-1bb1b-1f2881327c187d0', error: null},
+    operator: {value: 'Assign', error: null},
+    rightHandSide: {value: 'xyz', error: null},
+}];
+
 describe('assignment-editor', () => {
     it('handles the property changed event and updates the property', () => {
         const assignmentElement = createComponentForTest();
@@ -43,7 +59,7 @@ describe('assignment-editor', () => {
         return Promise.resolve().then(() => {
             const event = new AddListItemEvent(1);
             assignmentElement.querySelector('builder_platform_interactioncommon-list').dispatchEvent(event);
-            expect(assignmentElement.node.assignmentItems.length).toBe(2);
+            expect(assignmentElement.node.assignmentItems).toHaveLength(2);
         });
     });
     it('handles the delete list item changed event and updates the assignmentItems array', () => {
@@ -52,7 +68,7 @@ describe('assignment-editor', () => {
         return Promise.resolve().then(() => {
             const event = new DeleteListItemEvent(0);
             assignmentElement.querySelector('builder_platform_interactioncommon-list').dispatchEvent(event);
-            expect(assignmentElement.node.assignmentItems.length).toBe(0);
+            expect(assignmentElement.node.assignmentItems).toHaveLength(0);
         });
     });
     it('delete list item at non existent index does nothing', () => {
@@ -61,7 +77,7 @@ describe('assignment-editor', () => {
         return Promise.resolve().then(() => {
             const event = new DeleteListItemEvent(1);
             assignmentElement.querySelector('builder_platform_interactioncommon-list').dispatchEvent(event);
-            expect(assignmentElement.node.assignmentItems.length).toBe(1);
+            expect(assignmentElement.node.assignmentItems).toHaveLength(1);
         });
     });
     it('handles the update list item changed event and updates the assignmentItems array', () => {
@@ -79,7 +95,38 @@ describe('assignment-editor', () => {
         return Promise.resolve().then(() => {
             const event = new UpdateListItemEvent(1, "leftHandSide", "test value", null);
             assignmentElement.querySelector('builder_platform_interactioncommon-list').dispatchEvent(event);
-            expect(assignmentElement.node.assignmentItems.length).toBe(1);
+            expect(assignmentElement.node.assignmentItems).toHaveLength(1);
+        });
+    });
+    it('shows delete when more than 1 item', () => {
+        const assignmentElement = createComponentForTest();
+        assignmentElement.node = deepCopy(testObj);
+        assignmentElement.node.assignmentItems = deepCopy(size2);
+        return Promise.resolve().then(() => {
+            expect(assignmentElement).not.toBeNull();
+            expect(assignmentElement.assignmentItems).not.toBeNull();
+            expect(assignmentElement.assignmentItems).toHaveLength(2);
+            expect(assignmentElement.showdelete).toBe(true);
+        });
+    });
+    it('doesnt show delete when exactly 1 item', () => {
+        const assignmentElement = createComponentForTest();
+        assignmentElement.node = deepCopy(testObj);
+        assignmentElement.node.assignmentItems = deepCopy(size1);
+        return Promise.resolve().then(() => {
+            expect(assignmentElement.assignmentItems).not.toBeNull();
+            expect(assignmentElement.assignmentItems).toHaveLength(1);
+            expect(assignmentElement.showDelete).toBe(false);
+        });
+    });
+    it('doesnt show delete when less than 1 item', () => {
+        const assignmentElement = createComponentForTest();
+        assignmentElement.node = deepCopy(testObj);
+        assignmentElement.node.assignmentItems = [];
+        return Promise.resolve().then(() => {
+            expect(assignmentElement.assignmentItems).not.toBeNull();
+            expect(assignmentElement.assignmentItems).toHaveLength(0);
+            expect(assignmentElement.showDelete).toBe(false);
         });
     });
 });
