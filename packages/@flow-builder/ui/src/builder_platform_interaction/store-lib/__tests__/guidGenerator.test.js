@@ -2,17 +2,17 @@ import { generateGuid } from '../guidGenerator';
 
 let testCounter = 3;
 const next = function () {
-    return String(testCounter++).padStart(5, '0');
+    return String(testCounter++);
 };
 
 describe('Guid Generator', () => {
     it('Handles nulls', () => {
-        expect(generateGuid(null)).toEqual('uid_00000');
-        expect(generateGuid()).toEqual('uid_00001');
+        expect(generateGuid(null)).toEqual('uid_0');
+        expect(generateGuid()).toEqual('uid_1');
     });
 
     it('Handles numbers', () => {
-        expect(generateGuid('123984')).toEqual('uid_00002');
+        expect(generateGuid('123984')).toEqual('uid_2');
     });
 
     it('Increments', () => {

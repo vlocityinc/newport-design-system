@@ -1,4 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
+import { isCanvasElement } from 'builder_platform_interaction-element-config';
 
 export const UPDATE_FLOW = 'UPDATE_FLOW';
 
@@ -53,11 +54,12 @@ export const updateProperties = (payload) => createAction(UPDATE_PROPERTIES, pay
 export const addElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
-            // For canvas elements
-            case ELEMENT_TYPE.ASSIGNMENT: return createAction(ADD_CANVAS_ELEMENT, payload);
             // For variables
             case ELEMENT_TYPE.VARIABLE: return createAction(ADD_VARIABLE, payload);
-            default: break;
+            default:
+                if (isCanvasElement(payload.elementType)) {
+                    return createAction(ADD_CANVAS_ELEMENT, payload);
+                }
         }
     }
     return {};
@@ -72,11 +74,12 @@ export const addElement = (payload) => {
 export const updateElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
-            // For canvas elements
-            case ELEMENT_TYPE.ASSIGNMENT: return createAction(UPDATE_CANVAS_ELEMENT, payload);
             // For variables
             case ELEMENT_TYPE.VARIABLE: return createAction(UPDATE_VARIABLE, payload);
-            default: break;
+            default:
+                if (isCanvasElement(payload.elementType)) {
+                    return createAction(UPDATE_CANVAS_ELEMENT, payload);
+                }
         }
     }
     return {};
@@ -91,11 +94,12 @@ export const updateElement = (payload) => {
 export const deleteElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
-            // For canvas elements
-            case ELEMENT_TYPE.ASSIGNMENT: return createAction(DELETE_CANVAS_ELEMENT, payload);
             // For variables
             case ELEMENT_TYPE.VARIABLE: return createAction(DELETE_VARIABLE, payload);
-            default: break;
+            default:
+                if (isCanvasElement(payload.elementType)) {
+                    return createAction(DELETE_CANVAS_ELEMENT, payload);
+                }
         }
     }
     return {};

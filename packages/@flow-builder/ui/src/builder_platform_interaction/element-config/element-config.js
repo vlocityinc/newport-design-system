@@ -10,8 +10,8 @@ const MODAL_SIZE = {
 };
 
 /**
- * @constant nodeTypeToComponentMap - Map of different element types to their
- *           respective components
+ * @constant elementTypeToComponentMap - Map of different element types to their
+ *                                       respective components
  * @type {object}
  */
 export const elementTypeToConfigMap = {
@@ -19,7 +19,7 @@ export const elementTypeToConfigMap = {
         descriptor: '', // TODO: We probably need some function here to
         // determine the descriptor based on action type
         nodeConfig: {
-            iconName: 'standard:lead_list',
+            iconName: 'standard:custom',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -40,10 +40,9 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.DECISION]: {
         descriptor: 'builder_platform_interaction:decisionEditor',
         nodeConfig: {
-            iconName: 'standard:lead_list',
+            iconName: 'standard:feed',
             maxConnections: 1
         },
-        propertyEditorFields: [],
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: 'decisions',
         canvasElement: true
@@ -56,7 +55,8 @@ export const elementTypeToConfigMap = {
         canvasElement: false
     },
     [ELEMENT_TYPE.DEFAULT]: {
-        descriptor: 'builder_platform_interaction:assignmentEditor',
+        // defaultEditor doesn't exist but should lead here making it easier to debug the issue
+        descriptor: 'builder_platform_interaction:defaultEditor',
         nodeConfig: {
             iconName: 'standard:custom',
             maxConnections: 1
@@ -66,20 +66,24 @@ export const elementTypeToConfigMap = {
 
 /**
  * @param {string}
- *            nodeType - String value to choose the actual component from the
+ *            elementType - String value to choose the actual component from the
  *            map, if empty, default element is chosen
  * @param {string}
  *            config - String value to choose the specific config for the given
  *            element type
  * @returns {object} Object containing component config
  */
-export function getConfigForElementType(nodeType, config) {
+export function getConfigForElementType(elementType, config) {
     if (
-        nodeType === null ||
-        nodeType === undefined ||
-        !elementTypeToConfigMap[nodeType]
+        elementType === null ||
+        elementType === undefined ||
+        !elementTypeToConfigMap[elementType]
     ) {
-        nodeType = ELEMENT_TYPE.DEFAULT;
+        elementType = ELEMENT_TYPE.DEFAULT;
     }
-    return elementTypeToConfigMap[nodeType][config];
+    return elementTypeToConfigMap[elementType][config];
+}
+
+export function isCanvasElement(elementType) {
+    return !!getConfigForElementType(elementType, 'canvasElement');
 }
