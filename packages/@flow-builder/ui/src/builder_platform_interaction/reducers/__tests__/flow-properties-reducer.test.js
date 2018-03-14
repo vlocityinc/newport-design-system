@@ -1,4 +1,4 @@
-import reducer from '../properties-reducer';
+import reducer from '../flow-properties-reducer';
 import { UPDATE_FLOW, UPDATE_PROPERTIES  } from 'builder_platform_interaction-actions';
 
 const oldProperties = {
@@ -10,7 +10,7 @@ const newProperties = {
     org: 'salesforce'
 };
 
-describe('properties-reducer', () => {
+describe('flow-properties-reducer', () => {
     it('with state set to undefined & action type set to empty should return empty object', () => {
         expect(reducer(undefined, {})).toEqual({});
     });

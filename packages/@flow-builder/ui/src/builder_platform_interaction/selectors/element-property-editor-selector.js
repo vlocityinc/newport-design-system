@@ -11,8 +11,12 @@ import {
  * @return {Object} element in the shape required by the property editor
  */
 export const elementPropertyEditorSelector = (state, guid) => {
-    const mutatedElement = mutateEditorElement(deepCopy(state.elements[guid]));
-    const hydratedElement = hydrateWithErrors(mutatedElement);
+    let selectedElement = deepCopy(state.elements[guid]);
+    if (selectedElement) {
+        selectedElement = hydrateWithErrors(
+            mutateEditorElement(selectedElement)
+        );
+    }
 
-    return hydratedElement;
+    return selectedElement;
 };

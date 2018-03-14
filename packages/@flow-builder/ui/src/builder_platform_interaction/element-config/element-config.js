@@ -33,14 +33,6 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:lead_list',
             maxConnections: 1
         },
-        propertyEditorFields: [
-            'guid',
-            'elementType',
-            'label',
-            'name',
-            'description',
-            'assignmentItems'
-        ],
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: 'assignments',
         canvasElement: true

@@ -1,10 +1,8 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
-import { pick } from './objectMutation';
 import {
     mutateAssignment,
     deMutateAssignment
 } from './assignmentEditorDataMutation';
-import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 
 /**
  * Add property editor mutation for a given element
@@ -13,11 +11,6 @@ import { getConfigForElementType } from 'builder_platform_interaction-element-co
  * @return {Object} Element in the shape required by property editor
  */
 export const mutateEditorElement = element => {
-    element = pick(
-        element,
-        getConfigForElementType(element.elementType, 'propertyEditorFields')
-    );
-
     if (element.elementType === ELEMENT_TYPE.ASSIGNMENT) {
         mutateAssignment(element);
     }
