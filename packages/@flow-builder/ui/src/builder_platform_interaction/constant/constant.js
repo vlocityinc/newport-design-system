@@ -2,7 +2,14 @@ export const STATE = {
     SUCCESS: 'SUCCESS',
     ERROR: 'ERROR'
 };
+export const CRUD = {
+    CREATE: 'CREATE',
+    READ: 'READ',
+    UPDATE: 'UPDATE',
+    DELETE: 'DELETE'
+};
 export const EVENT = {
+    CANVAS_ELEMENT_DROP: 'canvaselementdrop',
     CANVAS_MOUSEUP: 'canvasmouseup',
     DRAG_STOP: 'dragnodestop',
     NODE_SELECTED: 'nodeselected',
@@ -13,6 +20,7 @@ export const EVENT = {
     ADD_CONNECTION: 'addconnection',
     SAVE_FLOW: 'saveflow',
     SAVE: 'save',
+    TOGGLE_SECTION: 'togglesection'
 };
 export const ELEMENT_TYPE = {
     ACTION_CALL: 'ACTION_CALL',

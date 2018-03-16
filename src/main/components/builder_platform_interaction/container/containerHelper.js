@@ -87,6 +87,28 @@
         var storeInstance;
         storeInstance = this.storeLib.Store.getStore(this.reducers.reducer);
         cmp.set("v.storeInstance", storeInstance);
+    },
+    
+    /**
+     * Retrieves a list of canvas elements that can be created for the flow.
+     * @param {Object} cmp component definition 
+     */
+    // TODO: Add support for flow types, different types may have different elements.
+    initElementsPalette: function(cmp) {
+        var action = cmp.get("c.retrieveElementsPalette");
+        
+        // The elements shown in the palette seldom change so we can cache the results.
+        action.setStorable();
+        
+        action.setCallback(this, function(result) {
+            // TODO: add a library method to generically handle success, error, and other states
+            if (result.getState() === this.constant.STATE.SUCCESS) {
+                var elements = result.getReturnValue();
+                this.paletteLib.ElementsPalette.getInstance().setElements(elements);
+            }
+        });
+        
+        $A.enqueueAction(action);
     }
 
     /************* Private Methods *****************/

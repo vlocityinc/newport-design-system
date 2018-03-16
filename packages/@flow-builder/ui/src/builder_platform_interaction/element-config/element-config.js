@@ -1,4 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
+import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 
 /**
  * @constant
@@ -35,7 +36,27 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: 'assignments',
-        canvasElement: true
+        canvasElement: true,
+        template: {
+            assignmentItems: [
+                {
+                    assignToReference: '',
+                    operator: '',
+                    value: {
+                        stringValue: ''
+                    }
+                }
+            ],
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.ASSIGNMENT,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
     },
     [ELEMENT_TYPE.DECISION]: {
         descriptor: 'builder_platform_interaction:decisionEditor',
@@ -86,4 +107,24 @@ export function getConfigForElementType(elementType, config) {
 
 export function isCanvasElement(elementType) {
     return !!getConfigForElementType(elementType, 'canvasElement');
+}
+
+/**
+ * Gets an empty instance of the given element type.
+ *
+ * @param {String}
+ *            elementType an element type such as 'ASSIGNMENT'
+ * @returns {Object} an empty element of the given elementType
+ */
+export function getElementTemplate(elementType) {
+    const config = elementTypeToConfigMap[elementType];
+    if (!config) {
+        throw new TypeError();
+    } else if (!config.template) {
+        throw new Error('Template not defined for given element type');
+    }
+    const template = deepCopy(config.template);
+    template.guid = generateGuid(elementType);
+    template.maxConnections = config.nodeConfig.maxConnections;
+    return template;
 }

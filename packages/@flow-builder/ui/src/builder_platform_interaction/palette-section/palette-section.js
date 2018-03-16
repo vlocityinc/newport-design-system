@@ -1,4 +1,5 @@
 import { Element, api } from 'engine';
+import { EVENT } from 'builder_platform_interaction-constant';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -22,7 +23,7 @@ export default class PaletteSection extends Element {
     }
 
     handleToggleClick() {
-        const toggleSectionEvent = new CustomEvent('togglesection', {
+        const toggleSectionEvent = new CustomEvent(EVENT.TOGGLE_SECTION, {
             bubbles: true,
             cancelable: true,
             composed: true,
