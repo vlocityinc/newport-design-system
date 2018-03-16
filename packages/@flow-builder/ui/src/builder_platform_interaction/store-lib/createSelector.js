@@ -6,6 +6,9 @@
  * @returns {Function} function in which user passes state and it transforms appropriate piece of data.
  */
 export function createSelector(selectors, transformation) {
+    if (!selectors || !selectors.length || !Array.isArray(selectors)) {
+        throw new Error(`could not transform the ${selectors}.`);
+    }
     return function selector(state) {
         const dataFromSelectors = selectors.map(arg => arg(state));
         return transformation(...dataFromSelectors);
