@@ -5,7 +5,9 @@
  * @author cnastasa
  * @since 214
  */
-import { RULE_TYPES, RULE_PROPERTY } from 'builder_platform_interaction-constant';
+import { RULE_TYPES, RULE_PROPERTY, ELEMENT_TYPE } from 'builder_platform_interaction-constant';
+import { set } from 'builder_platform_interaction-data-mutation-lib';
+
 /**
  * contains an instance of the rules
  */
@@ -29,11 +31,27 @@ export const setRules = (rules = null) => {
     if (allRules) {
         allRules.forEach((rule) => {
             const ruleTypeName = rule[RULE_PROPERTY.RULE_TYPE];
-            rulesInstance[ruleTypeName].push(rule);
+            // rules come in with two fields - assignmentOperator and comparisonOperator
+            // this combines those into one operator field for easier use throughout the client
+            rulesInstance[ruleTypeName].push(set(rule, RULE_PROPERTY.OPERATOR, rule[ruleTypeName + 'Operator'].value));
         });
     }
 };
 
 export const getRules = () => {
     return rulesInstance;
+};
+
+export const getRulesForElementType = (elementType) => {
+    let rules;
+
+    switch (elementType) {
+        case ELEMENT_TYPE.ASSIGNMENT:
+            rules = rulesInstance[RULE_TYPES.ASSIGNMENT];
+            break;
+        default:
+            rules = [];
+    }
+
+    return rules;
 };

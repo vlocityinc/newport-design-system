@@ -23,7 +23,7 @@
                 <template for:each={assignmentItems} for:item="item" for:index="itemIndex">
                     <builder_platform_interactioncommon-row show-prefix=false item-index={itemIndex} show-delete={showDelete} key={item}>
                         <div slot="rowBody"> 
-                            <builder_platform_interactioncommon-expression-builder item={item} showoperator=true lhs-label=lhs operator-label=operator rhs-label=rhs></builder_platform_interactioncommon-expression-builder>
+                            <builder_platform_interactioncommon-expression-builder element-type={elementType} expression={item} showoperator=true lhs-label=lhs operator-label=operator rhs-label=rhs></builder_platform_interactioncommon-expression-builder>
                         </div>
                     </builder_platform_interactioncommon-row>
                 </template>

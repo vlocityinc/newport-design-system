@@ -1,5 +1,5 @@
 // constants for the rule tree. Should be moved to the constants directory
-import { RULE_TYPES, RULE_PROPERTY, RULE_PROPERTY_INFO, FLOW_OPERATOR_TYPE } from 'builder_platform_interaction-constant';
+import { RULE_TYPES, RULE_PROPERTY, RULE_PROPERTY_INFO } from 'builder_platform_interaction-constant';
 import { shallowCopyArray } from 'builder_platform_interaction-data-mutation-lib';
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS } = RULE_PROPERTY;
@@ -170,6 +170,26 @@ export const getOperators = (lhsElement = {}, rules, ruleType) => {
 };
 
 /**
+ * The operators that come from the rule service aren't quite
+ * in the format that the lightning-combobox can use, so this
+ * provides the operators in the correct format
+ *
+ * @param {Array} operators    the list of operators as it comes from the rule service
+ * @returns {Array}            operators in the shape the combobox expects
+ */
+export const transformOperatorsForCombobox = (operators) => {
+    // TODO: labels! W-4813532
+    const operatorsForCombobox = [];
+    operators.forEach((operator) => {
+        operatorsForCombobox.push({
+            value: operator,
+            label: operator
+        });
+    });
+    return operatorsForCombobox;
+};
+
+/**
  * Gets the allowed right hand side types based on the given left hand side element, operator, and rules
  * Example: Get all the right hand side types for an assignment rule where lhs element is String and operator is add
  * getRHSTypes({ dataType: 'String', isCollection: false}, 'ADD', [...rules], 'assignment')
@@ -187,9 +207,6 @@ export const getRHSTypes = (lhsElement, operator, rules, ruleType) => {
     }
     if (!Array.isArray(rules)) {
         throw new Error(`Rule must be an Array but instead was ${typeof rules}`);
-    }
-    if (!Object.values(FLOW_OPERATOR_TYPE).includes(operator)) {
-        throw new Error(`Operator must be non empty string and valid flow operator type but instead was value: ${operator} type: ${typeof operator}`);
     }
     let allowedRules = rules;
     // if the rule type was specified then we want to filter by rule type

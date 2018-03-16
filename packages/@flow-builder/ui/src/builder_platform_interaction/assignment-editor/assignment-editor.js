@@ -1,7 +1,7 @@
 import { Element, api, track, unwrap } from 'engine';
+import { PROPERTY_EDITOR_ACTION, ELEMENT_TYPE } from 'builder_platform_interaction-constant';
 import { assignmentReducer } from './assignment-reducer';
 import { createAction } from 'builder_platform_interaction-actions';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
 import { getErrorsFromHydratedElement, updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 
 /**
@@ -14,6 +14,10 @@ export default class AssignmentEditor extends Element {
      * Internal state for the assignment editor
      */
     @track assignmentNode = {};
+
+    get elementType() {
+        return ELEMENT_TYPE.ASSIGNMENT;
+    }
 
     get showDelete() {
         return this.assignmentItems.length > 1;
