@@ -17,6 +17,7 @@
                 </tr>
                 <!-- Item -->
                 <tr if:false={row.isSection} is="builder_platform_interaction-palette-item"
+                    draggable="true"
                     key={row.key}
                     data-key={row.key}
                     aria-level={row.level}
@@ -24,7 +25,8 @@
                     aria-setsize={row.setsize}
                     class="slds-hint-parent palette-item"
                     label={row.label}
-                    icon-name={row.iconName}>
+                    icon-name={row.iconName}
+                    ondragstart={handleDragStart}>
                 </tr>
             </template>
         </tbody>

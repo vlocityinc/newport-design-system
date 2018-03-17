@@ -213,6 +213,46 @@ export default class Canvas extends Element {
         }
     };
 
+    /**
+     * Handler for when a draggable element is being dragged over the canvas.
+     *
+     * @param {Object} event drag over event
+     */
+    handleDragOver(event) {
+        event.preventDefault();
+        // NOTE: For security reasons, we don't have access to data in the dataTransfer object in
+        // the drag over event. This prevents things like dom elements from other namespaces from
+        // being able to see data they're not supposed to see.
+        event.dataTransfer.dropEffect = 'copy';
+    }
+
+    /**
+     * Handler for when a draggable element is dropped on the canvas.
+     *
+     * @param {Object} event drop event
+     */
+    handleDrop(event) {
+        event.preventDefault();
+        const elementType = event.dataTransfer.getData('text');
+
+        // TODO: utility method for offset math, needs to account for scrolling/panning/zooming
+        const canvas = this.root.querySelector('#canvas');
+        const locationX = event.clientX - canvas.offsetLeft;
+        const locationY = event.clientY - canvas.offsetTop;
+
+        const elementDropEvent = new CustomEvent(EVENT.CANVAS_ELEMENT_DROP, {
+            bubbles: true,
+            composed: true,
+            cancelable: false,
+            detail: {
+                elementType,
+                locationX,
+                locationY
+            }
+        });
+        this.dispatchEvent(elementDropEvent);
+    }
+
     renderedCallback() {
         if (!this.jsPlumbContainer) {
             lib.setContainer('innerCanvas');

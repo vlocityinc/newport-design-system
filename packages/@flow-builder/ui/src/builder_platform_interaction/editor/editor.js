@@ -1,10 +1,11 @@
 import { Element, track } from 'engine';
-import { EVENT, ELEMENT_TYPE, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
+import { CRUD, EVENT, ELEMENT_TYPE, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { invokePanel } from 'builder_platform_interaction-builder-utils';
 import { Store, generateGuid, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, resourcesSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
-import { updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
-import { dehydrate, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
+import { addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
+import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
+import { getElementTemplate } from 'builder_platform_interaction-element-config';
 
 let unsubscribeStore;
 let storeInstance;
@@ -78,9 +79,10 @@ export default class Editor extends Element {
     handleNodeDblClicked = (event) => {
         if (event && event.detail) {
             this.handleNodeSelection(event);
+            const mode = CRUD.UPDATE;
             const node = elementPropertyEditorSelector(storeInstance.getCurrentState(), event.detail.canvasElementGUID);
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
-            invokePanel(PROPERTY_EDITOR, {nodeUpdate, node});
+            invokePanel(PROPERTY_EDITOR, {mode, nodeUpdate, node});
         }
     };
 
@@ -188,6 +190,27 @@ export default class Editor extends Element {
     };
 
     /**
+     * Handles the canvas element drop event which is fired after an element from left palette is
+     * dropped on the canvas.
+     *
+     * @param {Object} event canvas element drop event
+     */
+    handleCanvasElementDrop = (event) => {
+        const mode = CRUD.CREATE;
+
+        let node = getElementTemplate(event.detail.elementType);
+        node.locationX = event.detail.locationX;
+        node.locationY = event.detail.locationY;
+
+        node = mutateEditorElement(node);
+        node = hydrateWithErrors(node);
+
+        const nodeUpdate = this.deMutateAndAddNodeCollection;
+
+        invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate });
+    };
+
+    /**
      * Method for talking to validation library and store for updating the node collection/flow data.
      *
      * @param {object} node - node object for the particular property editor update
@@ -196,6 +219,15 @@ export default class Editor extends Element {
         // TODO: add validations if needed
         const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)));
         storeInstance.dispatch(updateElement(nodeForStore));
+    }
+
+    deMutateAndAddNodeCollection(node) {
+        // TODO: add validations if needed
+        // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
+        // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
+        // action based on that.
+        const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)));
+        storeInstance.dispatch(addElement(nodeForStore));
     }
 
     disconnectedCallback() {

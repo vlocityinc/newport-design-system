@@ -1,6 +1,7 @@
 ﻿<template>
     <div class='canvas slds-is-relative' id='canvas' tabindex="0" onmousedown={handleMouseDown} onmousemove={handleMouseMove}
-         onmouseup={handleMouseUp} oncontextmenu={handleContextMenu} onkeydown={handleKeyDown}>
+         onmouseup={handleMouseUp} oncontextmenu={handleContextMenu} onkeydown={handleKeyDown}
+         ondragover={handleDragOver} ondrop={handleDrop}>
         <div class='innerCanvas slds-is-relative' id='innerCanvas'>
             <!--Iterating over the nodes-->
             <template for:each={nodes} for:item='node'>
