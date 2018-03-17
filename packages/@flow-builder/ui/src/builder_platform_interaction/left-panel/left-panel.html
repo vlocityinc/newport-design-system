@@ -1,16 +1,16 @@
 <template>
-    <builder_platform_interactioncommon-tabset ontabchange={handleTabChange}>
+    <builder_platform_interaction-tabset ontabchange={handleTabChange}>
         <!-- Tab items go into the unnamed slot. -->
-        <builder_platform_interactioncommon-tabitem tabid="left-panel-tabitem-elements" label={labels.elements} controls="left-panel-tabcontent-elements" activeid={activetabid}></builder_platform_interactioncommon-tabitem>
-        <builder_platform_interactioncommon-tabitem tabid="left-panel-tabitem-resources" label={labels.resources} controls="left-panel-tabcontent-resources" activeid={activetabid}></builder_platform_interactioncommon-tabitem>
+        <builder_platform_interaction-tabitem tabid="left-panel-tabitem-elements" label={labels.elements} controls="left-panel-tabcontent-elements" activeid={activetabid}></builder_platform_interaction-tabitem>
+        <builder_platform_interaction-tabitem tabid="left-panel-tabitem-resources" label={labels.resources} controls="left-panel-tabcontent-resources" activeid={activetabid}></builder_platform_interaction-tabitem>
         
         <div slot="contents">
-            <builder_platform_interactioncommon-tabcontent contentid="left-panel-tabcontent-elements" labelledby="left-panel-tabitem-elements" activeid={activetabid}>
+            <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-elements" labelledby="left-panel-tabitem-elements" activeid={activetabid}>
                 <builder_platform_interaction-left-panel-elements></builder_platform_interaction-left-panel-elements>
-            </builder_platform_interactioncommon-tabcontent>
-            <builder_platform_interactioncommon-tabcontent contentid="left-panel-tabcontent-resources" labelledby="left-panel-tabitem-resources" activeid={activetabid}>
+            </builder_platform_interaction-tabcontent>
+            <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-resources" labelledby="left-panel-tabitem-resources" activeid={activetabid}>
                 <builder_platform_interaction-left-panel-resources resources={resources}></builder_platform_interaction-left-panel-resources>
-            </builder_platform_interactioncommon-tabcontent>
+            </builder_platform_interaction-tabcontent>
         </div>
-    </builder_platform_interactioncommon-tabset>
+    </builder_platform_interaction-tabset>
 </template>

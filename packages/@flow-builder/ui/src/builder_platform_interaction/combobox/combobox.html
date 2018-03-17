@@ -1,0 +1,16 @@
+<template>
+    <lightning-grouped-combobox label={comboboxLabel}
+                                  items={state.filteredMenuData}
+                                  value={state.value}
+                                  variant={variant}
+                                  input-text={state.value}
+                                  input-icon-name={state.inputIcon}
+                                  placeholder={placeholder}
+                                  disabled={disabled}
+                                  message-when-value-missing={missingValueMessage}
+                                  show-activity-indicator={state.showActivityIndicator}
+                                  ontextinput={handleTextInput}
+                                  onblur={handleBlur}
+                                  onselect={handleSelect}>
+    </lightning-grouped-combobox>
+</template>

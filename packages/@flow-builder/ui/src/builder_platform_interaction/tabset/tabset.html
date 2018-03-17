@@ -1,0 +1,18 @@
+<template>
+    <div class={cssclass}>
+        <ul class={ulcssclass} role="tablist">
+            <!-- This slot should contain the tabitems. -->
+            <slot>
+                <!-- Default tabitem given as example -->
+                <builder_platform_interaction-tabitem tabid="tabitem-1" label="tab1" controls="content-1"></builder_platform_interaction-tabitem>
+            </slot>
+        </ul>
+        <div>
+            <slot name="contents">
+                <!-- Default tabcontent given as example -->
+                <builder_platform_interaction-tabcontent contentid="content-1" labelledby="tabitem-1">
+                </builder_platform_interaction-tabcontent>
+            </slot>
+        </div>
+    </div>
+</template>
