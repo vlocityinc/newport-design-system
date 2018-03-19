@@ -23,6 +23,7 @@ export function convertElement(element, elementType, isCanvasElement) {
 
     if (element.isCanvasElement) {
         element.config = {isSelected:false};
+
         const nodeConfig = getConfigForElementType(element.elementType, 'nodeConfig');
         element.maxConnections = nodeConfig.maxConnections;
         element.connectorCount = 0;
@@ -36,6 +37,36 @@ export function convertElement(element, elementType, isCanvasElement) {
     }
     return element;
 }
+
+/**
+ * Convert all decision rules to outcomes
+ * @param {Object} decision Flow decision
+ * @returns {Object} Map of guids->outcomes
+ */
+const convertDecisionRules = (decision) => {
+    return decision.rules.map((rule) => {
+        return convertElement(rule, ELEMENT_TYPE.OUTCOME, false);
+    });
+};
+
+/**
+ * Converting decision rules to outcomes and clean up decision
+ * @param {Object} decision Decision flow object
+ * @returns {Object} Array of all outcomes for the decision
+ */
+const convertDecision = (decision) => {
+    const outcomes = convertDecisionRules(decision);
+
+    // For now, just create the array of rule devNames.  These will be converted
+    // to guids when all other devName->guid conversion happens
+    decision.outcomeReferences = outcomes.map((outcome) => {
+        return {outcomeReference: outcome.name};
+    });
+
+    delete decision.rules;
+
+    return outcomes;
+};
 
 /**
  * Generates a GUID and updates the GUID map
@@ -53,10 +84,19 @@ export function convertElement(element, elementType, isCanvasElement) {
 export function convertElements(nameToGuid, elements, elementType, isCanvasElement) {
     const elementMap = {};
 
-    elements.map(element => {
-        return convertElement(element, elementType, isCanvasElement);
-    }).forEach(element => {
-        element.guid = generateGuid(elementType); // generates an id like assignment_00012
+    const convertedElements = [];
+    elements.forEach((element) => {
+        const convertedElement = convertElement(element, elementType, isCanvasElement);
+
+        if (elementType === ELEMENT_TYPE.DECISION) {
+            convertedElements.push(...convertDecision(convertedElement));
+        }
+
+        convertedElements.push(convertedElement);
+    });
+
+    convertedElements.forEach((element) => {
+        element.guid = generateGuid(element.elementType); // generates an id like assignment_00012
         nameToGuid[element.name] = element.guid;
         elementMap[element.guid] = element;
     });
@@ -93,6 +133,10 @@ export function translateFlowToUIModel(flow) {
     // All variable ids
     const variables = [];
 
+    // All outcome ids
+    // Note: outcomes are actually called rules on the backend
+    const outcomes = [];
+
     // All canvas element ids
     const canvasElements = [];
 
@@ -126,6 +170,8 @@ export function translateFlowToUIModel(flow) {
             }
         } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
             variables.push(element.guid);
+        } else if (element.elementType === ELEMENT_TYPE.OUTCOME) {
+            outcomes.push(element.guid);
         }
     });
 
@@ -144,6 +190,7 @@ export function translateFlowToUIModel(flow) {
         variables,
         canvasElements,
         properties,
+        outcomes,
         startElement
     };
 }

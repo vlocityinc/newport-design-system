@@ -14,7 +14,9 @@ export const REFERENCE_FIELDS = new Set([
     'collectionReference',
     'inputReference',
     'outputReference',
-    'assignRecordIdToReference'
+    'assignRecordIdToReference',
+    'leftValueReference',
+    'outcomeReference'
 ]);
 
 /**
