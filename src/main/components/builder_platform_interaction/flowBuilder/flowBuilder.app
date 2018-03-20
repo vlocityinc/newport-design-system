@@ -1,4 +1,4 @@
-<aura:application extends="force:slds" description="Flow Builder application" access="accessCheck://Interaction.userCanEditFlowBuilder">
+<aura:application extends="force:slds" description="Flow Builder application" access="accessCheck://Interaction.userCanEditFlowBuilder" services="lightning:configProvider">
     <!--Attributes -->
     <aura:attribute name="flowId" type="String" description="The id of the flow to load" />
 
