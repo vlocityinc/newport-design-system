@@ -24,7 +24,7 @@ export function convertElement(element, elementType, isCanvasElement) {
     if (element.isCanvasElement) {
         element.config = {isSelected:false};
 
-        const nodeConfig = getConfigForElementType(element.elementType, 'nodeConfig');
+        const nodeConfig = getConfigForElementType(element.elementType).nodeConfig;
         element.maxConnections = nodeConfig.maxConnections;
         element.connectorCount = 0;
 

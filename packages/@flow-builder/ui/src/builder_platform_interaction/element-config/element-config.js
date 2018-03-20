@@ -24,7 +24,6 @@ export const elementTypeToConfigMap = {
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        propertyEditorFields: [],
         metadataKey: 'actionCalls',
         canvasElement: true
     },
@@ -70,7 +69,6 @@ export const elementTypeToConfigMap = {
     },
     [ELEMENT_TYPE.VARIABLE]: {
         descriptor: 'builder_platform_interaction:variableEditor',
-        propertyEditorFields: [],
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: 'variables',
         canvasElement: false
@@ -89,12 +87,9 @@ export const elementTypeToConfigMap = {
  * @param {string}
  *            elementType - String value to choose the actual component from the
  *            map, if empty, default element is chosen
- * @param {string}
- *            config - String value to choose the specific config for the given
- *            element type
  * @returns {object} Object containing component config
  */
-export function getConfigForElementType(elementType, config) {
+export function getConfigForElementType(elementType) {
     if (
         elementType === null ||
         elementType === undefined ||
@@ -102,11 +97,18 @@ export function getConfigForElementType(elementType, config) {
     ) {
         elementType = ELEMENT_TYPE.DEFAULT;
     }
-    return elementTypeToConfigMap[elementType][config];
+    return elementTypeToConfigMap[elementType];
 }
 
+/**
+ * Checks if the given element type is an element that is visible on the canvas.
+ *
+ * @param {String}
+ *            elementType one of the values defined in ELEMENT_TYPE
+ * @returns {boolean} true if the given element type is a canvas element
+ */
 export function isCanvasElement(elementType) {
-    return !!getConfigForElementType(elementType, 'canvasElement');
+    return !!getConfigForElementType(elementType).canvasElement;
 }
 
 /**
@@ -116,7 +118,7 @@ export function isCanvasElement(elementType) {
  *            elementType an element type such as 'ASSIGNMENT'
  * @returns {Object} an empty element of the given elementType
  */
-export function getElementTemplate(elementType) {
+export function createFlowElement(elementType) {
     const config = elementTypeToConfigMap[elementType];
     if (!config) {
         throw new TypeError();

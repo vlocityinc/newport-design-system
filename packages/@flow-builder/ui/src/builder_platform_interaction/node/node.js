@@ -32,7 +32,7 @@ export default class Node extends Element {
     }
 
     get iconName() {
-        return getConfigForElementType(this.node.elementType, 'nodeConfig').iconName;
+        return getConfigForElementType(this.node.elementType).nodeConfig.iconName;
     }
 
     get hasAvailableConnections() {

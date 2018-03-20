@@ -44,7 +44,7 @@ export function invokePanel(cmpName, attributes) {
         nodeUpdate,
         override: {
             body: {
-                descriptor: getConfigForElementType(elementType, 'descriptor'),
+                descriptor: getConfigForElementType(elementType).descriptor,
                 attr: {
                     node
                 }
@@ -58,7 +58,7 @@ export function invokePanel(cmpName, attributes) {
             visible: true,
             panelConfig : {
                 body: newCmp,
-                flavor: getConfigForElementType(attr.elementType, 'modalSize'),
+                flavor: getConfigForElementType(attr.elementType).modalSize,
                 bodyClass: ''// to remove the extra default padding class
                 // TODO: set footer and header component here
             }

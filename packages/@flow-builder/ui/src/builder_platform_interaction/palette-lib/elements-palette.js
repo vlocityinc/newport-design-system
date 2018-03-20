@@ -28,7 +28,7 @@ export class ElementsPalette {
             }
             const item = deepCopy(element);
             item.guid = generateGuid(ITEM_PREFIX);
-            item.iconName = getConfigForElementType(element.elementType, 'nodeConfig').iconName;
+            item.iconName = getConfigForElementType(element.elementType).nodeConfig.iconName;
             delete item.section;
             sections[element.section].push(item);
         });
