@@ -19,15 +19,13 @@
                                               onaddlistitem={handleAddListItem}
                                               onupdatelistitem={handleUpdateListItem}
                                               ondeletelistitem={handleDeleteListItem}>
-            <div slot="listBody"> 
-                <template for:each={assignmentItems} for:item="item" for:index="itemIndex">
-                    <builder_platform_interaction-row show-prefix=false item-index={itemIndex} show-delete={showDelete} key={item}>
-                        <div slot="rowBody"> 
-                            <builder_platform_interaction-expression-builder element-type={elementType} expression={item} showoperator=true lhs-label=lhs operator-label=operator rhs-label=rhs></builder_platform_interaction-expression-builder>
-                        </div>
-                    </builder_platform_interaction-row>
-                </template>
-            </div>
+            <template for:each={assignmentItems} for:item='item' for:index='itemIndex' slot='listBody'>
+                <builder_platform_interaction-row show-prefix=false item-index={itemIndex} show-delete={showDelete} key={item}>
+                    <div slot='rowBody'> 
+                        <builder_platform_interaction-expression-builder element-type={elementType} expression={item} showoperator=true lhs-label='lhs' operator-label='operator' rhs-label='rhs'></builder_platform_interaction-expression-builder>
+                    </div>
+                </builder_platform_interaction-row>
+            </template>
         </builder_platform_interaction-list>
     </div>
 </template>

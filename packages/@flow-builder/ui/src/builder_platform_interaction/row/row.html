@@ -1,15 +1,14 @@
 <template>
-	<div class="slds-grid slds-grid_horizontal slds-grid_vertical-align-end slds-gutters" onrowcontentschanged={handleRowContentsChanged} >
-    	<template if:true={showPrefix}>
-            <div class="slds-col">
+	<div class='slds-grid slds-grid_horizontal slds-grid_vertical-align-end slds-gutters' onrowcontentschanged={handleRowContentsChanged}>
+        <template if:true={showPrefix}>
+            <div class='slds-col'>
                 {itemPrefix}
             </div>
         </template>
-        <slot name="rowBody" >
+        <slot name='rowBody'>
         </slot>
-
-        <div class="slds-col">
-            <lightning-button icon-name="utility:delete" onclick={handleDelete}></lightning-button>
+        <div class='slds-col'>
+            <lightning-button icon-name='utility:delete' onclick={handleDelete} disabled={disableDelete}></lightning-button>
         </div>
     </div>
 </template>

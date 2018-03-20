@@ -32,9 +32,4 @@ export default class Row extends Element {
         const itemDeletedEvent = new DeleteListItemEvent(this.itemIndex);
         this.dispatchEvent(itemDeletedEvent);
     }
-
-    renderedCallback() {
-        const deleteBtn = this.root.querySelector('lightning-button');
-        deleteBtn.attributes.disabled = this.disableDelete;
-    }
 }
