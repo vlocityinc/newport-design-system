@@ -103,10 +103,10 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         assignmentElement.node.assignmentItems = deepCopy(size2);
         return Promise.resolve().then(() => {
-            expect(assignmentElement).not.toBeNull();
-            expect(assignmentElement.assignmentItems).not.toBeNull();
-            expect(assignmentElement.assignmentItems).toHaveLength(2);
-            expect(assignmentElement.showdelete).toBe(true);
+            const rows = assignmentElement.querySelectorAll('builder_platform_interaction-row');
+            rows.forEach(row => {
+                expect(row.showDelete).toBe(true);
+            });
         });
     });
     it('doesnt show delete when exactly 1 item', () => {
@@ -114,19 +114,10 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         assignmentElement.node.assignmentItems = deepCopy(size1);
         return Promise.resolve().then(() => {
-            expect(assignmentElement.assignmentItems).not.toBeNull();
-            expect(assignmentElement.assignmentItems).toHaveLength(1);
-            expect(assignmentElement.showDelete).toBe(false);
-        });
-    });
-    it('doesnt show delete when less than 1 item', () => {
-        const assignmentElement = createComponentForTest();
-        assignmentElement.node = deepCopy(testObj);
-        assignmentElement.node.assignmentItems = [];
-        return Promise.resolve().then(() => {
-            expect(assignmentElement.assignmentItems).not.toBeNull();
-            expect(assignmentElement.assignmentItems).toHaveLength(0);
-            expect(assignmentElement.showDelete).toBe(false);
+            const rows = assignmentElement.querySelectorAll('builder_platform_interaction-row');
+            rows.forEach(row => {
+                expect(row.showDelete).toBe(false);
+            });
         });
     });
 });
