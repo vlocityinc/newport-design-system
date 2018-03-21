@@ -15,4 +15,5 @@ export default class LightningButton extends Element {
     @api iconName;
     @api iconPosition = 'left';
     @api type = 'button';
+    @api disabled = 'false';
 }
