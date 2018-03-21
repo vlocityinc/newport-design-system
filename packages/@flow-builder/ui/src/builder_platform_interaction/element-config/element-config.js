@@ -17,15 +17,62 @@ const MODAL_SIZE = {
  */
 export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.ACTION_CALL]: {
-        descriptor: '', // TODO: We probably need some function here to
+        descriptor: 'builder_platform_interaction:actioncallEditor', // TODO: We probably need some function here to
         // determine the descriptor based on action type
         nodeConfig: {
-            iconName: 'standard:custom',
+            iconName: 'standard:investment_account',
             maxConnections: 1
         },
+        propertyEditorFields: [
+            'guid',
+            'elementType',
+            'label',
+            'name',
+            'description'
+        ],
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: 'actionCalls',
-        canvasElement: true
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.ACTION_CALL,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
+    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
+        descriptor: 'builder_platform_interaction:actioncallEditor', // TODO: We probably need some function here to
+        // determine the descriptor based on action type
+        nodeConfig: {
+            iconName: 'standard:product_item_transaction',
+            maxConnections: 1
+        },
+        propertyEditorFields: [
+            'guid',
+            'elementType',
+            'label',
+            'name',
+            'description'
+        ],
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: 'apexPluginCalls',
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
     },
     [ELEMENT_TYPE.ASSIGNMENT]: {
         descriptor: 'builder_platform_interaction:assignmentEditor',

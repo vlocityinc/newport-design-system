@@ -12,6 +12,7 @@
         }
         helper.initRules(cmp);
         helper.initElementsPalette(cmp);
+        helper.initActionFunctions(cmp);
     },
 
     handleSaveFlow: function(cmp, event, helper) {

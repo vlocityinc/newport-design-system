@@ -1,0 +1,15 @@
+<template>
+        <div class="slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
+            <div class="slds-col slds-size_1-of-3">
+                <lightning-combobox label="Types" options={typesItems} value={state.selectedType} onchange={handleTypeChanged}>
+                </lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_2-of-3">
+                <builder_platform_interaction-combobox label="Referenced Action" 
+                                                       menu-data={state.actionMenuData} 
+                                                       onvaluechanged={handleActionChanged}
+                                                       onfetchmenudata={handleFetchMenuData}>
+                </builder_platform_interaction-combobox>
+            </div>
+         </div>
+</template>

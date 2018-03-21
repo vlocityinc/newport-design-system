@@ -1,5 +1,6 @@
 export const STATE = {
     SUCCESS: 'SUCCESS',
+    INCOMPLETE: 'INCOMPLETE',
     ERROR: 'ERROR'
 };
 export const CRUD = {

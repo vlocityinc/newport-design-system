@@ -1,0 +1,41 @@
+<template>
+<!-- Accordion will be put in place after talking to the global components team, probably by the end of 216 -->
+
+    <builder_platform_interaction-accordion>
+        <builder_platform_interaction-accordion-section>
+            <div slot='accordion-header'>Select Reference to Call</div>
+            <div slot='accordion-body'>
+                <builder_platform_interaction-action-selector selected-type={elementType} onvaluechanged={handleActionSelected}></builder_platform_interaction-action-selector>
+            </div>
+        </builder_platform_interaction-accordion-section>
+        <builder_platform_interaction-accordion-section>
+            <div slot='accordion-header'>Details</div>
+            <div slot='accordion-body'>
+                <div class='slds-m-bottom--x-small'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                <!-- Name Label Desc Component -->
+                <builder_platform_interaction-label-description label={label} 
+                                                                      dev-name={devName} 
+                                                                      description={description}
+                                                                      onpropertychanged={handlePropertyChanged}>
+                </builder_platform_interaction-label-description>
+            </div>
+        </builder_platform_interaction-accordion-section>
+    </builder_platform_interaction-accordion>
+
+    <builder_platform_interaction-tabset ontabchange={handleTabChanged}>
+        <!-- Tab items go into the unnamed slot. -->
+        <builder_platform_interaction-tabitem tabid="tabitem-inputs" label={labels.inputs} controls="tabcontent-inputs" activeid={activetabid}></builder_platform_interaction-tabitem>
+        <builder_platform_interaction-tabitem tabid="tabitem-outputs" label={labels.outputs} controls="tabcontent-outputs" activeid={activetabid}></builder_platform_interaction-tabitem>
+        
+        <div slot="contents">
+            <builder_platform_interaction-tabcontent contentid="tabcontent-inputs" labelledby="tabitem-inputs" activeid={activetabid}>
+                Inputs TBD
+            </builder_platform_interaction-tabcontent>
+            <builder_platform_interaction-tabcontent contentid="tabcontent-outputs" labelledby="tabitem-outputs" activeid={activetabid}>
+                Outputs TBD
+            </builder_platform_interaction-tabcontent>
+        </div>
+    </builder_platform_interaction-tabset>
+
+    
+</template>
