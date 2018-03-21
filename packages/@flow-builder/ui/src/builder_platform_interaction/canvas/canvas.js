@@ -175,6 +175,7 @@ export default class Canvas extends Element {
      */
     handleKeyDown = (event) => {
         if (event.key === 'Backspace') {
+            event.preventDefault();
             const selectedCanvasElementGUIDs = [];
             const connectorGUIDs = [];
             const canvasElementsToUpdate = [];

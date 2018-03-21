@@ -1,9 +1,23 @@
 import { Element, api, track } from 'engine';
+import { parseDateTime } from 'lightning-date-time-utils';
 import { FetchMenuDataEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { filterMatches } from 'builder_platform_interaction-data-mutation-lib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-constant';
 
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
+};
+
+/**
+ * Error message map for validation of literal value.
+ * TODO: Use labels and doc review. W-4813532
+ */
+const ERROR_MESSAGE = {
+    [FLOW_DATA_TYPE.CURRENCY]: 'Not a valid currency. Re-enter in decimal format.',
+    [FLOW_DATA_TYPE.NUMBER]: 'Not a valid number. Re-enter in decimal format.',
+    [FLOW_DATA_TYPE.DATE] : 'Re-enter date as MM/DD/YYYY.',
+    [FLOW_DATA_TYPE.DATE_TIME] : 'Re-enter datetime as MM/DD/YYYY HH:mm:ss TZD.',
+    GENERIC: 'You have entered an invalid value.',
 };
 
 export default class Combobox extends Element {
@@ -23,15 +37,15 @@ export default class Combobox extends Element {
     @api
     set label(value) {
         if (!value || value === '') {
-            this.comboboxVariant = 'label-hidden';
+            this._comboboxVariant = 'label-hidden';
         } else {
-            this.comboboxLabel = value;
+            this._comboboxLabel = value;
         }
     }
 
     @api
     get label() {
-        return this.comboboxLabel;
+        return this._comboboxLabel;
     }
 
     /**
@@ -42,11 +56,22 @@ export default class Combobox extends Element {
 
     /**
      * If true, only references are allowed in this combobox
+     * @param {Boolean} isAllowed value to set allow literals
      */
-    @api noLiteralsAllowed = false;
+    @api
+    set literalsAllowed(isAllowed) {
+        this._isLiteralAllowed = isAllowed ? isAllowed !== 'false' : false;
+    }
+
+    @api
+    get literalsAllowed() {
+        return this._isLiteralAllowed;
+    }
 
     /**
      * Input value for the combobox.
+     * Combobox expects and returns date time value in 'MM/DD/YYYY HH:mm:ss TZD' format.
+     * Note: Date time format is under discussion and might change.
      * @param {String} value - The value of the combobox
      */
     @api
@@ -61,21 +86,27 @@ export default class Combobox extends Element {
     }
 
     /**
-     * Datatype for this combobox
-     * Only needed for date/dateTime since this changes the shape of the combobox
-     * TODO We may or may not need another property for literalsAllowed (error on blur)
-     * @param {String} dataType The dataType that this combobox accepts
+     * Datatype for this combobox.
+     * Needed for validation for literal and showing date picker for date/datetime.
+     * @param {String} dataType The FlowDataType that this combobox accepts.
      */
     @api
     set type(dataType) {
-        // TODO Need to configure this once the dependency for extra combobox
-        // is completed. Show/hide certain options
-        this.dataType = dataType;
+        if (!Object.values(FLOW_DATA_TYPE).includes(dataType)) {
+            throw new Error(`Data type must be non-empty and a valid Flow Data Type but instead was ${dataType}`);
+        } else {
+            this._dataType = dataType;
+        }
+
+        // No literals allowed for SObject and Boolean data type
+        if ([FLOW_DATA_TYPE.SOBJECT, FLOW_DATA_TYPE.BOOLEAN].includes(this._dataType)) {
+            this._isLiteralAllowed = false;
+        }
     }
 
     @api
     get type() {
-        return this.dataType;
+        return this._dataType;
     }
 
     /**
@@ -85,14 +116,14 @@ export default class Combobox extends Element {
      */
     @api
     set menuData(data) {
-        this.fullMenuData = data;
+        this._fullMenuData = data;
         this.state.filteredMenuData = data;
         this.state.showActivityIndicator = false;
     }
 
     @api
     get menuData() {
-        return this.fullMenuData;
+        return this._fullMenuData;
     }
 
     /**
@@ -114,24 +145,24 @@ export default class Combobox extends Element {
      */
     @api required = false;
 
-    fullMenuData = [];
+    _fullMenuData = [];
 
-    isResourceState = false;
+    _isResourceState = false;
 
-    comboboxVariant = 'standard';
+    _comboboxVariant = 'standard';
 
-    comboboxLabel;
+    _comboboxLabel;
 
-    dataType;
+    _dataType;
+
+    _isLiteralAllowed = true;
+
 
     /**
      * Called once the component has finished rendering to set the error message
      */
     renderedCallback() {
-        const groupedCombobox = this.root.querySelector(SELECTORS.GROUPED_COMBOBOX);
-        if (groupedCombobox && this.errorMessage) {
-            groupedCombobox.setCustomValidity(this.errorMessage);
-        }
+        this.setErrorMessage(this.errorMessage);
     }
 
     /* ************************/
@@ -150,14 +181,14 @@ export default class Combobox extends Element {
 
         // set state to resource if value starts with {!, append the closing brace, and place cursor before it
         if (this.state.value.startsWith('{!') && this.state.value.length === 2 &&
-            previousValue === '{' && !this.isResourceState) {
-            this.isResourceState = true;
+            previousValue === '{' && !this._isResourceState) {
+            this._isResourceState = true;
             this.setValueAndCursor('');
         // Or if value starts with {! & ends with }
         } else if (this.state.value.startsWith('{!') && this.state.value.endsWith('}')) {
-            this.isResourceState = true;
+            this._isResourceState = true;
         } else {
-            this.isResourceState = false;
+            this._isResourceState = false;
         }
 
         const sanitizedValue = this.getSanitizedValue();
@@ -181,6 +212,8 @@ export default class Combobox extends Element {
         this.setValueAndCursor(event.detail.value);
         this.updateInputIcon();
 
+        this._isResourceState = true;
+
         // Get next level menu data
         this.fetchMenuData(this.getSanitizedValue());
     }
@@ -189,15 +222,18 @@ export default class Combobox extends Element {
      * fires an event to validate combobox value
      */
     handleBlur() {
-        // do validation
-        if (this.isResourceState && this.state.value.charAt(this.state.value.length - 2) === '.') {
+        // Remove the last dot from the expression
+        if (this._isResourceState && this.state.value.charAt(this.state.value.length - 2) === '.') {
             this.state.value = this.state.value.substring(0, this.state.value.length - 2) + '}';
         }
 
-        if (this.state.value) {
-            const valueChangedEvent = new ValueChangedEvent(
-                this.state.value);
-            this.dispatchEvent(valueChangedEvent);
+        // do validation
+        this.clearErrorMessage();
+        this.validate();
+
+        // fire value changed event with no error
+        if (this.getGroupedCombobox() ? this.getGroupedCombobox().checkValidity() : false) {
+            this.fireValueChangedEvent();
         }
     }
 
@@ -221,7 +257,7 @@ export default class Combobox extends Element {
      * @returns {Boolean} whether a period was entered or deleted
      */
     wasPeriodEnteredOrDeleted(previousValue) {
-        if (this.isResourceState) {
+        if (this._isResourceState) {
             // a period was entered or deleted in resource state
             if ((this.state.value.length === previousValue.length + 1 &&
                 this.state.value.charAt(this.state.value.length - 2) === '.') ||
@@ -252,7 +288,7 @@ export default class Combobox extends Element {
      * @returns {String} The resource value or full text
      */
     getSanitizedValue() {
-        if (this.isResourceState) {
+        if (this._isResourceState) {
             return this.state.value.substring(2, this.state.value.length - 1);
         }
         return this.state.value;
@@ -266,7 +302,7 @@ export default class Combobox extends Element {
      */
     getFilterText(sanitizedValue) {
         const lastIndex = sanitizedValue.lastIndexOf('.');
-        if (this.isResourceState && lastIndex !== -1) {
+        if (this._isResourceState && lastIndex !== -1) {
             return sanitizedValue.substring(lastIndex);
         }
         return sanitizedValue;
@@ -281,5 +317,187 @@ export default class Combobox extends Element {
         } else {
             this.state.inputIcon = 'utility:search';
         }
+    }
+
+    /**
+     * Clears an error message if any previously set on the combobox.
+     */
+    clearErrorMessage() {
+        this.setErrorMessage('');
+        this.fireValueChangedEvent();
+    }
+
+    /**
+     * Set the error message on the combobox.
+     * @param {String} customErrorMessage to be set on the combobox.
+     */
+    setErrorMessage(customErrorMessage) {
+        const groupedCombobox = this.getGroupedCombobox();
+        if (groupedCombobox) {
+            groupedCombobox.setCustomValidity(customErrorMessage);
+        }
+        this.fireValueChangedEvent(customErrorMessage);
+    }
+
+    /**
+     * Fire value change event with error message if provided
+     * @param {String} errorMessage optional error message
+     */
+    fireValueChangedEvent(errorMessage) {
+        const valueChangedEvent = errorMessage ? new ValueChangedEvent(this.state.value, errorMessage)
+            : new ValueChangedEvent(this.state.value);
+        this.dispatchEvent(valueChangedEvent);
+    }
+
+    /**
+     * Returns the lightning grouped combobox element.
+     * @returns {Object} the grouped combobox element.
+     */
+    getGroupedCombobox() {
+        return this.root.querySelector(SELECTORS.GROUPED_COMBOBOX);
+    }
+
+
+    /** *********************************/
+    /*    Validation Helper methods     */
+    /** *********************************/
+
+    // TODO: Use validation rules and move the generic methods to utils.
+
+    /**
+     * Validates the value of the combobox.
+     */
+    validate() {
+        if (this.state.value) {
+            if (this._isResourceState) {
+                this.validateResource();
+            } else {
+                this.validateLiteral();
+            }
+        } else if (this.required) {
+            this.setErrorMessage(ERROR_MESSAGE.GENERIC);
+        } else {
+            this.clearErrorMessage();
+        }
+    }
+
+    /**
+     * Validates the literal value entered in combobox.
+     */
+    validateLiteral() {
+        // literals allowed in combobox, validates number, currency (number), date and date time.
+        // date and date time converts the input date string to format 'MM/DD/YYYY HH:MM:ss TZD
+        if (this._isLiteralAllowed) {
+            this.validateLiteralForDataType(this.state.value);
+        } else {
+            this.setErrorMessage(ERROR_MESSAGE.GENERIC);
+        }
+    }
+
+    /**
+     * Validates the resource value (value enclosed in {! and } ) selected or entered.
+     */
+    validateResource() {
+        if (this.isExpressionIdentifierLiteral(this.state.value) && this._isLiteralAllowed) {
+            this.validateLiteralForDataType(this.state.value);
+        } else {
+            this.setErrorMessage(ERROR_MESSAGE.GENERIC);
+        }
+    }
+
+    /**
+     * Validates the literal value entered in the combobox against the _dataType
+     * @param {String} value literal value
+     */
+    validateLiteralForDataType(value) {
+        switch (this._dataType) {
+            case FLOW_DATA_TYPE.NUMBER:
+            case FLOW_DATA_TYPE.CURRENCY:
+                this.validateNumber(value);
+                break;
+            case FLOW_DATA_TYPE.DATE:
+                this.validateAndFormatDate(value);
+                break;
+            case FLOW_DATA_TYPE.DATE_TIME:
+                this.validateAndFormatDate(value, true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Validate the input value is a valid number and set error
+     * @param {String} value - input number string
+     */
+    validateNumber(value) {
+        if (this.isValidNumber(value)) {
+            this.clearErrorMessage();
+        } else {
+            this.setErrorMessage(ERROR_MESSAGE[this._dataType]);
+        }
+    }
+
+    /**
+     * Validates the value is a number with optional decimal.
+     * TODO: May not be needed with validation rules.
+     * @param {String} value - input number string
+     * @returns {*} false if not a number else regex result array
+     */
+    isValidNumber(value) {
+        const numRegex = new RegExp('^-?\\d*\\.?\\d+[\\.]?$');
+        return value ? numRegex.exec(value) : false;
+    }
+
+    /**
+     * Validate the input string is a valid date or date time.
+     * If valid format it otherwise set error message.
+     * @param {String} dateString input date or date time string
+     * @param {Boolean} isDateTime whether to validate for date time
+     */
+    validateAndFormatDate(dateString, isDateTime) {
+        const dateValue = this.isValidDateTime(dateString);
+        if (dateValue) {
+            this.state.value = this.formatDate(dateValue, isDateTime);
+        } else {
+            this.setErrorMessage(ERROR_MESSAGE[this._dataType]);
+        }
+    }
+
+    /**
+     * Validates the date string is a validate date time
+     * @param {String} dateString input date string
+     * @returns {*} false if invalid date string otherwise parsed DateTime
+     */
+    isValidDateTime(dateString) {
+        return dateString ? parseDateTime(dateString, 'MM/DD/YYYY HH:mm:ss') : false;
+    }
+
+    /**
+     * Formats the input date into 'MM/DD/YYYY' for date or 'MM/DD/YYYY HH:MM:SS TZ' for date time
+     * Note: Date format is not final yet and might change.
+     * @param {String} dateValue input Date value
+     * @param {boolean} isDateTime whether to append time
+     * @returns {String} formatted date string
+     */
+    formatDate(dateValue, isDateTime) {
+        const datePart = (dateValue.getMonth() + 1).toString().padStart(2, 0) + '/'
+            + dateValue.getDate().toString().padStart(2, 0) + '/' + dateValue.getFullYear();
+        if (isDateTime) {
+            return datePart + ' ' + dateValue.toTimeString();
+        }
+        return datePart;
+    }
+
+    /**
+     * Validates if the expression literal identifier is a valid dev name.
+     * TODO: May not be needed with validation rules.
+     * @param {String} inputValue expression literal string
+     * @returns {*} returns false if invalid dev name chars or regex result.
+     */
+    isExpressionIdentifierLiteral(inputValue) {
+        const value = this.getSanitizedValue(inputValue);
+        const devNameRegex = new RegExp('^[a-zA-Z]+\\w+[a-zA-Z0-9]$');
+        return value ? !devNameRegex.exec(value) : true; // {!} is valid string constant
     }
 }

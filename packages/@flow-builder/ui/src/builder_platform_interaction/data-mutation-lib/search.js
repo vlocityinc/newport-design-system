@@ -33,8 +33,10 @@ function hasHighlight(text) {
  * @param {Object} item - One item that has matching values in text and/or subText
  */
 function highlightItem(filterText, item) {
-    item.text = highlight(filterText, item.text);
-    item.subText = highlight(filterText, item.subText);
+    if (!isEmpty(filterText)) {
+        item.text = highlight(filterText, item.text);
+        item.subText = highlight(filterText, item.subText);
+    }
 }
 
 /**
@@ -71,6 +73,15 @@ function getIndex(filterText, targetText) {
 }
 
 /**
+ * Checks if the input value is undefined, null or empty string.
+ * @param {String} value input string to evaluate
+ * @returns {boolean} return true for undefined, null or empty string otherwise false
+ */
+function isEmpty(value) {
+    return value === undefined || value === null || value === '';
+}
+
+/**
  * Filters the data passed in based on the text in a format that the combobox expects
  * @param {String} filterText - The value used to filter. This should just be the final string in an expression.
  * If the full value is '{!MyAccount.FirstN}', filterText should be 'FirstN'. If the full value is '{!MyAcc', filterText should be 'MyAcc'.
@@ -78,10 +89,6 @@ function getIndex(filterText, targetText) {
  * @return {Array} The filtered and highlighted menu data
  */
 export function filterMatches(filterText, menuData) {
-    if (!filterText || filterText.length === 0) {
-        throw new Error(`Filter text must not be undefined or empty but was ${filterText}`);
-    }
-
     if (!Array.isArray(menuData)) {
         throw new Error(`Menu data must be an array but was ${menuData}`);
     }
@@ -93,7 +100,7 @@ export function filterMatches(filterText, menuData) {
         clearHighlight(menuData[i].items || []);
 
         const matchedGroupItems = menuData[i].items.filter(menuItem => {
-            return getIndex(filterText, menuItem.text) !== -1 || getIndex(filterText, menuItem.subText) !== -1;
+            return isEmpty(filterText) || getIndex(filterText, menuItem.text) !== -1 || getIndex(filterText, menuItem.subText) !== -1;
         });
 
         // Only add group with matched items
