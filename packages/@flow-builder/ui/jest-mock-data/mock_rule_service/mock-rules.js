@@ -12,7 +12,7 @@ export const mockRules =
             canBeField:'CanBe',
             canBeSysVar:'CanBe'
         },
-        operator:'ASSIGNMENT',
+        operator:'Assign',
         rhsParams:[
             {
                 paramType:'Data',
@@ -48,7 +48,7 @@ export const mockRules =
             canBeField:'CanBe',
             canBeSysVar:'CanBe'
         },
-        operator:'ASSIGNMENT',
+        operator:'Assign',
         rhsParams:[
             {
                 paramType:'Data',
@@ -82,7 +82,7 @@ export const mockRules =
             canBeField:'CannotBe',
             canBeSysVar:'MustBe'
         },
-        operator:'ADD',
+        operator:'Equals',
         rhsParams:[
             {
                 paramType:'Element',
@@ -104,7 +104,7 @@ export const mockRules =
             canBeField:'CannotBe',
             canBeSysVar:'MustBe'
         },
-        operator:'ADD',
+        operator:'Equals',
         rhsParams:[
             {
                 paramType:'Element',
@@ -128,7 +128,7 @@ export const mockRules =
             canBeField:'CannotBe',
             canBeSysVar:'MustBe'
         },
-        operator:'ADD',
+        operator:'Equals',
         rhsParams:[
             {
                 paramType:'Element',

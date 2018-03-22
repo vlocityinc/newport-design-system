@@ -1,8 +1,7 @@
 import { createElement } from 'engine';
 import ExpressionBuilder from 'builder_platform_interaction-expression-builder';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-constant';
-import { RowContentsChangedEvent } from 'builder_platform_interaction-events-rowContentsChangedEvent';
-import { ValueChangedEvent } from 'builder_platform_interaction-events-ValueChangedEvent';
+import { RowContentsChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-expression-builder', { is: ExpressionBuilder });
@@ -43,7 +42,7 @@ function createMockPopulatedItem() {
 function createDefaultComponentForTest() {
     const expressionBuilder = createComponentForTest({
         item: createMockPopulatedItem(),
-        showOperator: true
+        showoperator: true
     });
     return expressionBuilder;
 }

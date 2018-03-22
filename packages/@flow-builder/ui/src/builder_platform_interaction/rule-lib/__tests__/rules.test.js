@@ -1,12 +1,99 @@
 import { setRules, getRules } from 'builder_platform_interaction-rule-lib';
 
-const mockRulesFromServiceAssignmentAndComparison = '[{"ruleType":"comparison","left":{"paramType":"Data","paramIndex":1,"dataType":{"value":"String"},"elementType":null,"collection":false},"operator":"EQUAL","rhsParams":[{"paramType":"Data","paramIndex":1,"dataType":{"value":"String"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Date"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"DateTime"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Number"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Currency"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Boolean"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Picklist"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Multipicklist"},"elementType":null,"collection":false},{"paramType":"Element","paramIndex":1,"dataType":null,"elementType":"STAGE","collection":false}],"includeElems":null,"excludeElems":null},{"ruleType":"assignment","left":{"paramType":"Data","paramIndex":1,"dataType":{"value":"String"},"elementType":null,"collection":false},"operator":"ASSIGNMENT","rhsParams":[{"paramType":"Data","paramIndex":1,"dataType":{"value":"String"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Date"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"DateTime"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Number"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Currency"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Boolean"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Picklist"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Multipicklist"},"elementType":null,"collection":false},{"paramType":"Element","paramIndex":1,"dataType":null,"elementType":"STAGE","collection":false},{"paramType":"Element","paramIndex":1,"dataType":null,"elementType":"STAGE","collection":true}],"includeElems":null,"excludeElems":null}]';
-const mockRulesFromServiceOnlyAssignment = '[{"ruleType":"assignment","left":{"paramType":"Data","paramIndex":1,"dataType":{"value":"String"},"elementType":null,"collection":false},"operator":"ASSIGNMENT","rhsParams":[{"paramType":"Data","paramIndex":1,"dataType":{"value":"String"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Date"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"DateTime"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Number"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Currency"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Boolean"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Picklist"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"Multipicklist"},"elementType":null,"collection":false},{"paramType":"Element","paramIndex":1,"dataType":null,"elementType":"STAGE","collection":false},{"paramType":"Element","paramIndex":1,"dataType":null,"elementType":"STAGE","collection":true}],"includeElems":null,"excludeElems":null},{"ruleType":"assignment","left":{"paramType":"Data","paramIndex":1,"dataType":{"value":"Date"},"elementType":null,"collection":false},"operator":"ASSIGNMENT","rhsParams":[{"paramType":"Data","paramIndex":1,"dataType":{"value":"Date"},"elementType":null,"collection":false},{"paramType":"Data","paramIndex":1,"dataType":{"value":"DateTime"},"elementType":null,"collection":false}],"includeElems":null,"excludeElems":null}]';
+const mockRulesFromServiceAssignmentAndComparison =
+    '[{' +
+    '       "ruleType": "comparison",' +
+    '       "assignmentOperator":null,' +
+    '       "comparisonOperator":{"value":"Equal"},' +
+    '       "left":{' +
+    '           "paramType":"Data",' +
+    '           "paramIndex":1,' +
+    '           "dataType":{"value":"String"},' +
+    '           "elementType":null,' +
+    '           "collection":false' +
+    '           },' +
+    '       "rhsParams":[{' +
+    '               "paramType":"Data",' +
+    '               "paramIndex":1,' +
+    '               "dataType":{"value":"String"},' +
+    '               "elementType":null,' +
+    '               "collection":false' +
+    '           }],' +
+    '       "includeElems":null,' +
+    '       "excludeElems":null' +
+    '   },' +
+    '   {' +
+    '       "ruleType": "assignment",' +
+    '       "assignmentOperator":{"value":"Assign"},' +
+    '       "comparisonOperator":null,' +
+    '       "left":{' +
+    '           "paramType":"Data",' +
+    '           "paramIndex":1,' +
+    '           "dataType":{"value":"String"},' +
+    '           "elementType":null,' +
+    '           "collection":false' +
+    '           },' +
+    '       "rhsParams":[{' +
+    '               "paramType":"Data",' +
+    '               "paramIndex":1,' +
+    '               "dataType":{"value":"String"},' +
+    '               "elementType":null,' +
+    '               "collection":false' +
+    '           }],' +
+    '       "includeElems":null,' +
+    '       "excludeElems":null' +
+    '   }]';
+
+const mockRulesFromServiceOnlyAssignment =
+    '[{' +
+    '       "ruleType": "assignment",' +
+    '       "assignmentOperator":{"value":"Assign"},' +
+    '       "comparisonOperator":null,' +
+    '       "left":{' +
+    '           "paramType":"Data",' +
+    '           "paramIndex":1,' +
+    '           "dataType":{"value":"String"},' +
+    '           "elementType":null,' +
+    '           "collection":false' +
+    '           },' +
+    '       "rhsParams":[{' +
+    '               "paramType":"Data",' +
+    '               "paramIndex":1,' +
+    '               "dataType":{"value":"String"},' +
+    '               "elementType":null,' +
+    '               "collection":false' +
+    '           }],' +
+    '       "includeElems":null,' +
+    '       "excludeElems":null' +
+    '   },' +
+    '   {' +
+    '       "ruleType": "assignment",' +
+    '       "assignmentOperator":{"value":"Assign"},' +
+    '       "comparisonOperator":null,' +
+    '       "left":{' +
+    '           "paramType":"Data",' +
+    '           "paramIndex":1,' +
+    '           "dataType":{"value":"String"},' +
+    '           "elementType":null,' +
+    '           "collection":false' +
+    '           },' +
+    '       "rhsParams":[{' +
+    '               "paramType":"Data",' +
+    '               "paramIndex":1,' +
+    '               "dataType":{"value":"String"},' +
+    '               "elementType":null,' +
+    '               "collection":false' +
+    '           }],' +
+    '       "includeElems":null,' +
+    '       "excludeElems":null' +
+    '   }]';
+
 const verifyProperties = (testRulesVariable) => {
     expect(testRulesVariable).toHaveProperty('comparison');
     expect(testRulesVariable).toHaveProperty('assignment');
 };
 
+// new operator structure
 describe('Set Flow Operator Rules', () => {
     it('Create the rules variable with 1 assignment and 1 comparison ', () => {
         setRules(mockRulesFromServiceAssignmentAndComparison);

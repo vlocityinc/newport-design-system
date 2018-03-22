@@ -1,12 +1,12 @@
 import { isMatch, getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
-import { RULE_TYPES } from 'builder_platform_interaction-constant';
-import { FLOW_DATA_TYPE, FLOW_OPERATOR_TYPE, RULE_PROPERTY } from '../../constant/constant';
+import { RULE_TYPES, FLOW_DATA_TYPE, RULE_PROPERTY } from 'builder_platform_interaction-constant';
 import { mockRules, dateParam, stageParam } from 'mock-rule-service';
 import { elements, dateVariableGuid, stageGuid } from 'mock-store-data';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { DATE } = FLOW_DATA_TYPE;
-const { ASSIGNMENT: ASSIGNMENT_OPERATOR, ADD: ADD_OPERATOR} = FLOW_OPERATOR_TYPE;
+const ASSIGNMENT_OPERATOR = 'Assign';
+const EQUALS_OPERATOR = 'Equals';
 const { LEFT, RHS_PARAMS } = RULE_PROPERTY;
 
 describe('Operator Rule Util', () => {
@@ -115,7 +115,7 @@ describe('Operator Rule Util', () => {
             let operators = getOperators(elements[dateVariableGuid], mockRules, ASSIGNMENT);
             expect(operators[0]).toEqual(ASSIGNMENT_OPERATOR);
             operators = getOperators(elements[stageGuid], mockRules, COMPARISON);
-            expect(operators[0]).toEqual(ADD_OPERATOR);
+            expect(operators[0]).toEqual(EQUALS_OPERATOR);
         });
 
         it('should remove duplicates from the list of operators', () => {
@@ -155,7 +155,7 @@ describe('Operator Rule Util', () => {
                 'Date': expect.any(Array),
                 'DateTime': expect.any(Array),
             });
-            rhsTypes = getRHSTypes(elements[stageGuid], ADD_OPERATOR, mockRules, COMPARISON);
+            rhsTypes = getRHSTypes(elements[stageGuid], EQUALS_OPERATOR, mockRules, COMPARISON);
             expect(Object.keys(rhsTypes)).toHaveLength(1);
             expect(rhsTypes).toMatchObject({
                 'STAGE': expect.any(Array),
@@ -173,7 +173,7 @@ describe('Operator Rule Util', () => {
         });
 
         it('shoudl return all the rhsTypes for the comaprison rules', () => {
-            const rhsTypes = getRHSTypes(elements[stageGuid], ADD_OPERATOR, mockRules, COMPARISON);
+            const rhsTypes = getRHSTypes(elements[stageGuid], EQUALS_OPERATOR, mockRules, COMPARISON);
             const expectedStage = mockRules[2][RHS_PARAMS][0];
             expect(rhsTypes).toMatchObject({
                 'STAGE': [expectedStage],
@@ -195,12 +195,6 @@ describe('Operator Rule Util', () => {
         it('throws an error when the give rules are not an Array', () => {
             expect(() => {
                 getRHSTypes(elements[dateVariableGuid], ASSIGNMENT_OPERATOR, 42, ASSIGNMENT);
-            }).toThrow();
-        });
-
-        it('throws an error when given an invalid operator type', () => {
-            expect(() => {
-                getRHSTypes(elements[dateVariableGuid], 'someInvalidOperator', mockRules, ASSIGNMENT);
             }).toThrow();
         });
     });
