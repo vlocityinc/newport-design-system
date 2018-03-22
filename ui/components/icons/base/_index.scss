@@ -84,6 +84,7 @@ $bg-standard-map: map-merge($task2-monkey-patch, $bg-standard-map);
 .nds-icon {
   @include square($square-icon-medium-boundary);
   fill: $color-text-icon-inverse;
+  outline: none;
 }
 
 // Crispy

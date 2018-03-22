@@ -15,7 +15,7 @@ export let NewportFileSelector = props => (
     <div className="nds-form-element__control">
       <div
         className={classNames(
-          'nds-file-selector vlocity-newport-file-selector',
+          'nds-file-selector nds-file-custom-selector',
           props.className
         )}
       >
@@ -26,7 +26,7 @@ export let NewportFileSelector = props => (
           )}
         >
           <input
-            className="nds-file-selector__input nds-assistive-text"
+            className="nds-file-selector__input"
             accept="image/png"
             type="file"
             id="file-upload-input-01"
@@ -42,7 +42,7 @@ export let NewportFileSelector = props => (
             <span className="nds-file-selector__button nds-button nds-button_neutral">
               Attachment
             </span>
-            <span className="vlocity-newport-file-icon">
+            <span className="nds-file-icon">
               <SvgIcon
                 className="nds-button__icon"
                 sprite="utility"
@@ -72,7 +72,7 @@ export let NewportFileSelectorWithFiles = props => (
     <div className="nds-form-element__control">
       <div
         className={classNames(
-          'nds-file-selector vlocity-newport-file-selector',
+          'nds-file-selector nds-file-custom-selector',
           props.className
         )}
       >
@@ -83,7 +83,7 @@ export let NewportFileSelectorWithFiles = props => (
           )}
         >
           <input
-            className="nds-file-selector__input nds-assistive-text"
+            className="nds-file-selector__input"
             accept="image/png"
             type="file"
             id="file-upload-input-01"
@@ -99,7 +99,7 @@ export let NewportFileSelectorWithFiles = props => (
             <span className="nds-file-selector__button nds-button nds-button_neutral">
               Attachment
             </span>
-            <span className="vlocity-newport-file-icon">
+            <span className="nds-file-icon">
               <SvgIcon
                 className="nds-button__icon"
                 sprite="utility"
@@ -107,12 +107,12 @@ export let NewportFileSelectorWithFiles = props => (
               />
             </span>
           </label>
-          <ul className="vlocity-newport-file-list">
+          <ul className="nds-file-list">
             <li>
               <span className="nds-file-selector__button nds-button nds-button_neutral">
                 peel-ux.png
               </span>
-              <span className="vlocity-newport-file-icon">
+              <span className="nds-file-icon">
                 <SvgIcon
                   className="nds-button__icon"
                   sprite="utility"
@@ -124,7 +124,7 @@ export let NewportFileSelectorWithFiles = props => (
               <span className="nds-file-selector__button nds-button nds-button_neutral">
                 peel-ux.png
               </span>
-              <span className="vlocity-newport-file-icon">
+              <span className="nds-file-icon">
                 <SvgIcon
                   className="nds-button__icon"
                   sprite="utility"
@@ -136,7 +136,7 @@ export let NewportFileSelectorWithFiles = props => (
               <span className="nds-file-selector__button nds-button nds-button_neutral">
                 peel-ux.png
               </span>
-              <span className="vlocity-newport-file-icon">
+              <span className="nds-file-icon">
                 <SvgIcon
                   className="nds-button__icon"
                   sprite="utility"
