@@ -16,7 +16,7 @@
         action.setCallback(this, function(result) {
             // TODO add a library method to generically handle success, error,
             // and other states
-            if (result.getState() === this.constant.STATE.SUCCESS) {
+            if (result.getState() === 'SUCCESS') {
                 uiModel = this.translatorLib.translateFlowToUIModel(
                     result.getReturnValue()
                 );
@@ -47,7 +47,7 @@
         // TODO add a library method to generically handle success, error, and
         // other states
         action.setCallback(this, function(result) {
-            if (result.getState() === this.constant.STATE.SUCCESS) {
+            if (result.getState() === 'SUCCESS') {
                 // TODO
             }
         });
@@ -69,7 +69,7 @@
         action.setCallback(this, function(result) {
             // TODO add a library method to generically handle success, error,
             // and other states
-            if (result.getState() === this.constant.STATE.SUCCESS) {
+            if (result.getState() === 'SUCCESS') {
                 rules = result.getReturnValue();
                 this.ruleLib.setRules(rules);
             }
@@ -112,15 +112,15 @@
             action.setParams(params);
             action.setCallback(that, $A.getCallback(function(response) {
                 var state = response.getState();
-                if (state === this.constant.STATE.SUCCESS) {
+                if (state === 'SUCCESS') {
                     returnValue = response.getReturnValue();
                     functionCallback(returnValue);
-                } else if (state === this.constant.STATE.INCOMPLETE) {
+                } else if (state === 'INCOMPLETE') {
                     // TODO : add handlers for force:showOfflineMessage and force:showMessage
                     $A.getEvt('markup://force:showOfflineMessage').setParams({
                         retryAction : response
                     }).fire();
-                } else if (state === this.constant.STATE.ERROR) {
+                } else if (state === 'ERROR') {
                     $A.getEvt('markup://force:showMessage').setParams({
                         message : response.getError()[0].message,
                         severity : "error"
@@ -154,7 +154,7 @@
         
         action.setCallback(this, function(result) {
             // TODO: add a library method to generically handle success, error, and other states
-            if (result.getState() === this.constant.STATE.SUCCESS) {
+            if (result.getState() === 'SUCCESS') {
                 var elements = result.getReturnValue();
                 this.paletteLib.ElementsPalette.getInstance().setElements(elements);
             }

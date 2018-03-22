@@ -1,6 +1,6 @@
 import { Element, api } from 'engine';
 import { getConfigForElementType } from "builder_platform_interaction-element-config";
-import { EVENT } from 'builder_platform_interaction-constant';
+import { EVENT } from 'builder_platform_interaction-canvas';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 
 /**

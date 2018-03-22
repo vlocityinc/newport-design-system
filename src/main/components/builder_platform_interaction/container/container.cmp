@@ -1,6 +1,5 @@
 <aura:component controller="serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController" description="This container is responsible for rendering raptor components and get data from java controller">
     <!-- Imports -->
-    <aura:import library="builder_platform_interaction:constant" property="constant" />
     <aura:import library="builder_platform_interaction:storeLib" property="storeLib" />
     <aura:import library="builder_platform_interaction:reducers" property="reducers" />
     <aura:import library="builder_platform_interaction:actions" property="actions" />

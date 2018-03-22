@@ -1,5 +1,5 @@
 import { createElement } from 'engine';
-import { EVENT } from 'builder_platform_interaction-constant';
+import { EVENT } from 'builder_platform_interaction-canvas';
 import Node from 'builder_platform_interaction-node';
 
 const createComponentUnderTest = (isSelected) => {

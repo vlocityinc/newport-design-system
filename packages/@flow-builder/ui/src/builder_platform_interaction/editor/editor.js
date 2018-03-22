@@ -1,6 +1,6 @@
 import { Element, track } from 'engine';
-import { CRUD, EVENT, ELEMENT_TYPE, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
-import { invokePanel } from 'builder_platform_interaction-builder-utils';
+import { ELEMENT_TYPE, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
+import { CRUD, invokePanel } from 'builder_platform_interaction-builder-utils';
 import { Store, generateGuid, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, resourcesSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
@@ -9,6 +9,8 @@ import { createFlowElement } from 'builder_platform_interaction-element-config';
 
 let unsubscribeStore;
 let storeInstance;
+
+const SAVE_FLOW = 'saveflow';
 
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -59,7 +61,7 @@ export default class Editor extends Element {
      */
     handleSaveFlow = () => {
         const saveEvent = new CustomEvent(
-            EVENT.SAVE_FLOW,
+            SAVE_FLOW,
             {
                 bubbles: true,
                 composed: true

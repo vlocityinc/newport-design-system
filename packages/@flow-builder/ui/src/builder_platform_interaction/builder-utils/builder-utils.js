@@ -27,6 +27,13 @@ const UI_CREATE_PANEL = 'ui:createPanel';
  */
 const hoverPanels = {};
 
+export const CRUD = {
+    CREATE: 'CREATE',
+    READ: 'READ',
+    UPDATE: 'UPDATE',
+    DELETE: 'DELETE'
+};
+
 /**
  * Invokes the panel and creates property editor inside it
  * @param {string} cmpName - Name of the component to be created

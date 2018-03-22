@@ -1,6 +1,4 @@
 <aura:component  implements="builder_platform_interaction:propertyEditorBody">
-    <!-- Library imports -->
-    <aura:import library="builder_platform_interaction:constant" property="constant" />
 
     <!-- callback to update-->
     <aura:attribute name="nodeUpdate" type="Object"/>

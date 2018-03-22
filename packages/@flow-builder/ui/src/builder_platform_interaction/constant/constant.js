@@ -1,14 +1,19 @@
+/*
 export const STATE = {
     SUCCESS: 'SUCCESS',
     INCOMPLETE: 'INCOMPLETE',
     ERROR: 'ERROR'
 };
+*/
+/*
 export const CRUD = {
     CREATE: 'CREATE',
     READ: 'READ',
     UPDATE: 'UPDATE',
     DELETE: 'DELETE'
 };
+*/
+/*
 export const EVENT = {
     CANVAS_ELEMENT_DROP: 'canvaselementdrop',
     CANVAS_MOUSEUP: 'canvasmouseup',
@@ -23,6 +28,7 @@ export const EVENT = {
     SAVE: 'save',
     TOGGLE_SECTION: 'togglesection'
 };
+*/
 export const ELEMENT_TYPE = {
     ACTION_CALL: 'ACTION_CALL',
     ASSIGNMENT: 'ASSIGNMENT',

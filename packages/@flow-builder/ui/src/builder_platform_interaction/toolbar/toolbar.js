@@ -1,6 +1,6 @@
 import { Element } from 'engine';
-import {EVENT} from 'builder_platform_interaction-constant';
 
+const SAVE = 'save';
 /**
  * Toolbar component for flow builder.
  *
@@ -16,7 +16,7 @@ export default class Toolbar extends Element {
      */
     handleSave(event) {
         event.preventDefault();
-        const saveEvent = new CustomEvent(EVENT.SAVE);
+        const saveEvent = new CustomEvent(SAVE);
         this.dispatchEvent(saveEvent);
     }
 }

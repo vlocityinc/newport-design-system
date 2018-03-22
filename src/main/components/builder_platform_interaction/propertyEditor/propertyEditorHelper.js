@@ -7,9 +7,9 @@
                 cmp.set('v.titleForModal', override.body.attr.node.elementType);
             }
             $A.createComponent(override.body.descriptor, override.body.attr, function(newCmp, status, errorMessage){
-                if (status === this.constant.STATE.SUCCESS) {
+                if (status === 'SUCCESS') {
                   cmp.set('v.body', newCmp); // setting the newly created assignment editor here in body
-              } else if (status === this.constant.STATE.ERROR) {
+              } else if (status === 'ERROR') {
                   // TODO: handle it more elegantly using a generic user friendly error message popup instead of a stack trace.
                   throw new Error('Error creating the property editor: ' + errorMessage);
               }              
