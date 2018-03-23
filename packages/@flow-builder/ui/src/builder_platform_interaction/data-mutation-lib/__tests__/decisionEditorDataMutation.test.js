@@ -1,0 +1,91 @@
+/*
+ * Copyright 2018 salesforce.com, inc.
+ * All Rights Reserved
+ * Company Confidential
+ */
+
+import {
+    mutateDecision,
+    deMutateDecision
+} from '../decisionEditorDataMutation';
+
+describe('mutateAssignment function', () => {
+    const state = {
+        elements: {
+            OUTCOME_1: {a:21},
+            OUTCOME_2: {a:22},
+        }
+    };
+
+    it('should mutate decision with deep copied outcomes', () => {
+        const decision = {
+            outcomeReferences: [{outcomeReference: 'OUTCOME_1'}, {outcomeReference: 'OUTCOME_2'}]
+        };
+
+        mutateDecision(decision, state);
+
+        expect(decision.outcomes).toHaveLength(2);
+
+        expect(decision.outcomes[0]).toEqual(state.elements.OUTCOME_1);
+        expect(decision.outcomes[0]).not.toBe(state.elements.OUTCOME_1);
+
+        expect(decision.outcomes[1]).toEqual(state.elements.OUTCOME_2);
+        expect(decision.outcomes[1]).not.toBe(state.elements.OUTCOME_2);
+    });
+
+    it('should mutate decision with no outcomes', () => {
+        const decision = {};
+
+        mutateDecision(decision, state);
+
+        expect(decision.outcomes).toHaveLength(0);
+    });
+});
+
+describe('deMutateDecision function', () => {
+    const state = {
+        elements: {
+            OUTCOME_1: {guid: 'OUTCOME_1', a: 21},
+            OUTCOME_2: {guid: 'OUTCOME_2', a: 22},
+            DECISION_3: {
+                guid: 'DECISION_3',
+                outcomeReferences: [{outcomeReference: 'OUTCOME_1'}, {outcomeReference: 'OUTCOME_2'}]
+            },
+        }
+    };
+
+    it('should demutate decision with outcomes', () => {
+        const decision = {
+            guid: 'DECISION_3',
+            outcomes: [state.elements.OUTCOME_1, state.elements.OUTCOME_2]
+        };
+        const modifiedAndDeletedOutcomes = deMutateDecision(decision, state);
+
+        expect(modifiedAndDeletedOutcomes.modified).toHaveLength(2);
+        expect(modifiedAndDeletedOutcomes.modified).toContain(state.elements.OUTCOME_1);
+        expect(modifiedAndDeletedOutcomes.modified).toContain(state.elements.OUTCOME_2);
+
+        expect(modifiedAndDeletedOutcomes.deleted).toHaveLength(0);
+
+        expect(decision.outcomeReferences).toHaveLength(2);
+        expect(decision.outcomeReferences).toContainEqual(state.elements.DECISION_3.outcomeReferences[0]);
+        expect(decision.outcomeReferences).toContainEqual(state.elements.DECISION_3.outcomeReferences[1]);
+    });
+
+    it('should return all deleted outcomes as deleted', () => {
+        const decision = {
+            guid: 'DECISION_3',
+            outcomes: [state.elements.OUTCOME_1]
+        };
+        const modifiedAndDeletedOutcomes = deMutateDecision(decision, state);
+
+        expect(modifiedAndDeletedOutcomes.modified).toHaveLength(1);
+        expect(modifiedAndDeletedOutcomes.modified).toContain(state.elements.OUTCOME_1);
+
+        expect(modifiedAndDeletedOutcomes.deleted).toHaveLength(1);
+        expect(modifiedAndDeletedOutcomes.deleted).toContain(state.elements.OUTCOME_2);
+
+        expect(decision.outcomeReferences).toHaveLength(1);
+        expect(decision.outcomeReferences).toContainEqual(state.elements.DECISION_3.outcomeReferences[0]);
+    });
+});

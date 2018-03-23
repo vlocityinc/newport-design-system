@@ -5,7 +5,7 @@ import { Store, generateGuid, deepCopy } from 'builder_platform_interaction-stor
 import { canvasSelector, resourcesSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
-import { createFlowElement } from 'builder_platform_interaction-element-config';
+import { getElementTemplate } from 'builder_platform_interaction-element-config';
 
 let unsubscribeStore;
 let storeInstance;
@@ -200,7 +200,7 @@ export default class Editor extends Element {
     handleCanvasElementDrop = (event) => {
         const mode = CRUD.CREATE;
 
-        let node = createFlowElement(event.detail.elementType);
+        let node = getElementTemplate(event.detail.elementType);
         node.locationX = event.detail.locationX;
         node.locationY = event.detail.locationY;
 
@@ -219,7 +219,10 @@ export default class Editor extends Element {
      */
     deMutateAndUpdateNodeCollection(node) {
         // TODO: add validations if needed
+        // This deepCopy is needed as a temporary workaround because the unwrap() function that the property editor
+        // calls on OK doesn't actually work and keeps the proxy wrappers.
         const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)));
+
         storeInstance.dispatch(updateElement(nodeForStore));
     }
 

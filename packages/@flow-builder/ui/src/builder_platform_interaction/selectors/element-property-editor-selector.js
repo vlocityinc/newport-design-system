@@ -14,7 +14,7 @@ export const elementPropertyEditorSelector = (state, guid) => {
     let selectedElement = deepCopy(state.elements[guid]);
     if (selectedElement) {
         selectedElement = hydrateWithErrors(
-            mutateEditorElement(selectedElement)
+            mutateEditorElement(selectedElement, state)
         );
     }
 
