@@ -14,6 +14,7 @@
 .nds-form-element__control-animated-label {
 	font-size: 0.875rem;
 	position: relative;
+	margin-top: 0.75rem;
 }
 
 
@@ -21,6 +22,10 @@
 	font-size: 0.875rem;
 	letter-spacing: 1px;
 	font-weight: 400;
+}
+
+input[placeholder]::placeholder {
+	color:transparent !important;
 }
 
 .nds-form-element__control.nds-form-element__control-animated-label .nds-form-element__label {
@@ -97,10 +102,40 @@
 	border-image: initial;
 }
 
+.nds-form-element__control.nds-form-element__control-animated-label input[type="text"].ng-dirty.ng-valid.ng-not-empty + label span, 
+.nds-form-element__control.nds-form-element__control-animated-label input[type="email"].ng-dirty.ng-valid.ng-not-empty + label span, 
+.nds-form-element__control.nds-form-element__control-animated-label input[type="password"].ng-dirty.ng-valid.ng-not-empty + label span, 
+.nds-form-element__control.nds-form-element__control-animated-label input[type="url"].ng-dirty.ng-valid.ng-not-empty + label span, 
+.nds-form-element__control.nds-form-element__control-animated-label input[type="tel"].ng-dirty.ng-valid.ng-not-empty+ label span, 
+.nds-form-element__control.nds-form-element__control-animated-label textarea.ng-dirty.ng-valid.ng-not-empty + label span {
+	color: $color-valid-control;
+}
+
 .nds-has-error .nds-form-element__help {
 	letter-spacing: 1px;
 	color: $color-border-error;
 	font-size: 0.75rem;
 	font-weight: 400;
 	text-transform: capitalize;
+	margin-top: 0.625rem;
  }
+
+.nds-form-element__control-animated-label .nds-control-action__container {
+	top: 0.25rem;
+}
+
+.nds-form-element__control-animated-label + .nds-form-element__control-help,
+.nds-form--multi-input__container + .nds-form-element__control-help,
+.nds-select-wrapper + .nds-form-element__control-help {
+	visibility: hidden;
+	opacity: 0;
+	margin-top: -2px;
+	transition: visibility 2s, opacity 0.5s linear;
+	position: absolute;
+}
+
+.nds-input__tooltip:focus-within .nds-form-element__control-help {
+	visibility: visible;
+	opacity: 1;
+}
+

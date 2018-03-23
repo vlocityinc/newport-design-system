@@ -1,0 +1,159 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * An image is the preferred format for an avatar
+ *
+ * @summary Creates a block control
+ * @name base
+ * @selector .nds-block
+ * @restrict div
+ * @variant
+ */
+
+@mixin forIE11AndUp(){
+    @media all and (-ms-high-contrast: none),
+    (-ms-high-contrast: active) {
+        @content;
+    }
+}
+
+.nds-block {
+  & > .nds-form-element__control {
+    flex-grow: 1;
+    display: inline-block;
+    width: 100%;
+
+    @include forIE11AndUp() {
+      flex: 0 1 100%;
+      display: inline-block;
+      width: 100%;
+    }
+  }
+
+  .nds-control-action__container[vlc-bubble-canceller] {
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    padding-top: 0;
+    padding-#{$right}: 0;
+    color: $color-background-brand-primary;
+
+    & > span {
+      display: inline-block; //rtl
+      padding: 0 5px;
+      border-#{$left}: 2px solid $color-shadow-overflow;
+
+      &:first-child {
+        border-#{$left}: none;
+      }
+
+      &:last-child {
+        padding-#{$right}: 0;
+      }
+    }
+  }
+
+  //block indentation
+  label[vlc-slds-toggle='toggle'] ~ div[vlc-slds-toggle-elem='visible'] {
+    font-size: 1rem;
+    padding-top: 1.5rem;
+    font-weight: 300;
+    padding-#{$left}: 1.5625rem;
+    color: $color-midnight-blue;
+  }
+
+  div[vlc-slds-toggle-elem='visible'] {
+    & > .nds-control-action__container {
+      display: block;
+      text-align: $right;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  label[vlc-slds-toggle=toggle]~div[vlc-slds-toggle-cust-elem=visible].toggleElement {
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 1s, max-height 1s ease-out;
+    opacity: 0;
+  }
+
+  label[vlc-slds-toggle=toggle]~div[vlc-slds-toggle-cust-elem=visible] {
+    padding-top: 1.5rem;
+    padding-#{$left}: 2.5rem;
+    max-height: 125rem;
+    opacity: 1;
+    transition: opacity 1s, max-height 1s ease-in;
+  }
+}
+
+.nds-expand {
+  display: none;
+  transform: rotate(180Deg); //per daniel's input
+  background: $color-border-tab-active;
+  fill: $color-input-icon-blue-hue;
+}
+
+.nds-collapse {
+  display: initial;
+  background: $color-border-tab-active;
+  border-radius: 100%;
+  padding: 2px;
+  fill: $color-input-icon-blue-hue;
+  transform: if-rtl(rotate(90Deg),rotate(-90Deg)); //per daniel's input
+  -ms-transform: if-rtl(rotate(-90Deg),rotate(-90Deg)); //per daniel's input
+}
+
+label[vlc-slds-toggle] {
+  font-size: 1rem ; //half the size of the step title
+  display: flex;
+  font-weight: 300;
+  min-height: 0;
+  margin-#{$right}:0; //remove slds padding
+
+  .nds-icon {
+    fill: $color-midnight-blue;
+  }
+
+  .nds-form-element__label_toggleText {
+    flex-grow:1;
+    padding-#{$left}: 10px; //this will add up 30px + 10
+    color: $color-background-brand-primary;
+    font-weight: 300;
+    font-weight: 400;
+    font-size: 1rem;
+
+  }
+}
+
+.clicked {
+  & > .nds-expand {
+    display: block;
+    padding: 2px;
+  }
+
+  & > .nds-collapse {
+    display: none;
+  }
+
+  &[label-present=""] {
+    .nds-expand, .nds-expand{
+      display: none
+    }
+  }
+}
+
+.nds-control-action__container {
+  span {
+    cursor:pointer;
+  }
+}
+
+.nds-block_container .nds-form-element__label {
+  width: 100%;
+  display: -webkit-flex;
+  display: flex;
+  outline: none;
+  color: $color-background-brand-primary;
+}

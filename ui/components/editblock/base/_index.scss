@@ -1,0 +1,282 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * An image is the preferred format for an avatar
+ *
+ * @summary Creates a Edit block control
+ * @name base
+ * @selector .nds-edit-block
+ * @restrict div
+ * @variant
+ */ 
+
+.nds-edit-block {
+    position: relative;
+    padding: 0;
+}
+
+.nds-edit-block_gaction_btn {
+    svg {
+        cursor: pointer;
+    }
+    
+    .nds-popover_tooltip {
+        #{$left}: -.56rem;
+        top: 2.6rem;
+        white-space: nowrap;
+        display: none;
+     }
+}
+   
+.nds-edit-block_gaction_btn:hover .nds-popover_tooltip {
+    display: block;
+}
+
+
+.nds-table_custom {
+    .nds-table {
+        table-layout: fixed;
+     }
+
+    .nds-table_bordered {
+        border: 1px solid $color-border-input;
+        border-radius: 5px;
+    }
+
+    .nds-table thead th {
+        height: 2rem;
+        background-color: $color-border-tab-active;
+        color: #000000;
+        border-bottom: 1px solid $color-border-input;
+    }
+
+    .nds-table tr {
+        cursor: pointer;
+        .nds-required {
+            top: .28rem;
+        }
+        td {
+            border-top: none;
+        }
+        form div {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            width: calc(100% - 2rem);
+         }
+    }
+
+    .nds-editblock_add-button {
+        box-shadow: unset !important;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        color: $color-midnight-blue;
+        max-width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .nds-table_custom-row-selected {
+        background: #f5f5f5;
+     }
+}
+
+
+
+.nds-edit-block_shortcards {
+    height: 12.5rem;
+    border: 1px solid $color-border-input;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+
+    form{
+        height: inherit;
+        outline: none;
+    }
+
+    .nds-edit-block_shortcards-circle {
+        position: relative;
+        text-align: center;
+
+        .nds-icon_container_circle {
+            position: relative;
+            border: 3px solid $color-background-brand-primary;
+
+            .nds-icon {
+                fill: $color-background-brand-primary;
+            }
+        }
+    }
+
+    .nds-edit-block_shortcards-controls-container {
+        position: relative;
+        text-align: center;
+        padding: 3px;
+        overflow: hidden;
+
+        div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-bottom: 3px;
+        }
+    }
+
+    .nds-edit-block_shortcards-add-icon {
+        position: relative;
+        text-align: center;
+
+        span {
+            display: inline-block;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .nds-edit-block_cards-selected-icon {
+        top: -.6rem;
+        #{$left}: -.6rem;
+        visibility: hidden;
+
+        .nds-icon_container_circle {
+            padding: .5rem;
+            border-radius: 50%;
+            background: $color-background-brand-primary;
+        }
+    }
+
+    .nds-edit-block_cards-selected-icon.nds-edit-block_cards-selected {
+        visibility: visible;
+    }
+}
+
+.nds-edit-block_longcards {
+    height: 5rem;
+    border: 1px solid $color-border-input;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+
+    form{
+        height: inherit;
+        outline: none;
+    }
+
+    .nds-edit-block_longcards-controls-container {
+        display: inline-block;
+        position: relative;
+        width: calc(100% - 12.1rem);
+        #{$left}: 5.5rem;
+        top: -3.8rem;
+        height: 3.7rem;
+        overflow: hidden;
+
+        div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .nds-edit-block_longcards-circle {
+        display: inline-block;
+        width: 5rem;
+        height: inherit;
+
+        .nds-icon_container_circle {
+            border: 3px solid $color-background-brand-primary;
+            position: relative;
+            width: 3.4rem;
+            height: 3.4rem;
+            top: .7rem;
+            #{$left}: 1rem !important;
+
+            .nds-icon {
+                fill: $color-background-brand-primary;
+                width: 2rem;
+                height: 2rem;
+            }
+        }
+    }
+
+    .nds-edit-block_cards-action-container {
+        position: relative;
+        top: 1.5rem;
+        #{$left}: 1.2rem;
+    }
+
+    .nds-edit-block_longcards-add-icon {
+        span {
+            width: 100%;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            position: relative;
+            padding-#{$right}: 0.4rem;
+        }
+    }
+
+    .nds-edit-block_cards-selected-icon {
+        top: -.8rem;
+        #{$left}: .8rem;
+        visibility: hidden;
+        .nds-icon_container_circle {
+            padding: .5rem;
+            border-radius: 50%;
+            background: $color-background-brand-primary;
+        }
+    }
+
+    .nds-edit-block_cards-selected-icon.nds-edit-block_cards-selected {
+        visibility: visible;
+    }
+}
+
+
+
+.nds-edit-block_cards-add-card {
+    .nds-icon_container_circle {
+        border: 3px solid $color-gray-border-primary !important;
+        #{$left}: unset !important;
+
+        .nds-icon {
+            fill: $color-gray-border-primary !important;
+        }
+    }
+}
+
+.nds-edit-block_cards-action-container {
+    .nds-required {
+        position: relative;
+        top: .2rem;
+        #{$left}: .8rem
+    }
+}
+
+.nds-editblock_action-button {
+    width: 6rem;
+    border: none;
+    box-shadow: unset !important;
+    background: inherit;
+    z-index: 1;
+    svg {
+        fill: $color-background-brand-primary;
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
+.nds-edit-block_form-password {
+    width: 100%;
+    background: none;
+    border: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

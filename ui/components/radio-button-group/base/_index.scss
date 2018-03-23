@@ -45,7 +45,7 @@
     vertical-align: middle;
     color: $color-input-icon-blue-hue;
     font-size: 0.75rem;
-    letter-spacing: 1px;
+    font-weight: 300;
 
     /* added ellipsis */
     overflow: hidden;
@@ -184,5 +184,16 @@
 
   .nds-radio-overlay  {
     display: none;
+  }
+}
+
+legend.nds-form-element__legend {
+  margin-bottom: 0.25rem;
+
+  span {
+    font-size: .875rem;
+    letter-spacing: 1px;
+    font-weight: 400;
+    padding-bottom: 0.3125rem;
   }
 }
