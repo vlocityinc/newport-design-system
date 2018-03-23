@@ -29,6 +29,7 @@ export const EVENT = {
     TOGGLE_SECTION: 'togglesection'
 };
 */
+/*
 export const ELEMENT_TYPE = {
     ACTION_CALL: 'ACTION_CALL',
     ASSIGNMENT: 'ASSIGNMENT',
@@ -53,6 +54,20 @@ export const ELEMENT_TYPE = {
     WAIT: 'WAIT',
     DEFAULT: 'defaultElement'
 };
+*/
+
+export const EVENT = {
+    CANVAS_ELEMENT_DROP: 'canvaselementdrop',
+    CANVAS_MOUSEUP: 'canvasmouseup',
+    DRAG_STOP: 'dragnodestop',
+    NODE_SELECTED: 'nodeselected',
+    CONNECTOR_SELECTED: 'connectorselected',
+    NODE_DBLCLICKED: 'nodedblclicked',
+    CANVAS_ELEMENT_DELETE: 'canvaselementdelete',
+    DELETE_ON_CANVAS: 'deleteoncanvas',
+    ADD_CONNECTION: 'addconnection',
+};
+
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',
     RIGHT_HAND_SIDE: 'rightHandSide',
