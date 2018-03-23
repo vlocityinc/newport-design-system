@@ -33,6 +33,11 @@ export default class ExpressionBuilder extends Element {
         rhsMenuData: undefined,
     };
 
+    constructor() {
+        super();
+        storeInstance = Store.getStore();
+    }
+
     @api
     showoperator;
 
@@ -88,11 +93,6 @@ export default class ExpressionBuilder extends Element {
 
     @api
     rhsLabel;
-
-    constructor() {
-        super();
-        storeInstance = Store.getStore();
-    }
 
     @api
     set elementType(type) {

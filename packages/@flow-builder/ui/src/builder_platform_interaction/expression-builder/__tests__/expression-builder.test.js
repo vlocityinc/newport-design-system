@@ -2,6 +2,8 @@ import { createElement } from 'engine';
 import ExpressionBuilder from 'builder_platform_interaction-expression-builder';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-constant';
 import { RowContentsChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
+import { numberVariableGuid } from 'mock-store-data';
+import { getOperators, getRHSTypes } from "builder_platform_interaction-rule-lib";
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-expression-builder', { is: ExpressionBuilder });
@@ -12,36 +14,23 @@ function createComponentForTest(props) {
     return el;
 }
 
-const lhsId = "lhs";
-const operatorId = "op";
-const rhsId = "rhs";
-const comboBoxError = "This is required";
-const menuDataObject = "menuData";
-const comboBoxValue = "FEROV";
-
-function createMockPopulatedItem() {
+function createMockPopulatedExpression() {
     return {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-            comboBoxValue: lhsId + comboBoxValue,
-            menuData: lhsId + menuDataObject,
-            error: lhsId + comboBoxError
+            value: numberVariableGuid,
         },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
-            comboBoxValue: operatorId + comboBoxValue,
-            menuData: operatorId + menuDataObject,
-            error: operatorId + comboBoxError
+            value: 'Assign',
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-            comboBoxValue: rhsId + comboBoxValue,
-            menuData: rhsId + menuDataObject,
-            error: rhsId + comboBoxError
+            value: numberVariableGuid,
         }
     };
 }
 
 function createDefaultComponentForTest() {
     const expressionBuilder = createComponentForTest({
-        item: createMockPopulatedItem(),
+        expression: createMockPopulatedExpression(),
         showoperator: true
     });
     return expressionBuilder;
@@ -63,6 +52,22 @@ const lightningCBChangeEvent = new CustomEvent('change', {
     }
 });
 
+jest.mock('builder_platform_interaction-rule-lib', () => {
+    return {
+        getOperators: jest.fn().mockImplementation(() => {
+            return ['Assign', 'Add'];
+        }),
+        getRHSTypes: jest.fn(),
+        transformOperatorsForCombobox: jest.fn(),
+    };
+});
+
+jest.mock('builder_platform_interaction-expression-builder-utils', () => {
+    return {
+        getElementsForMenuData: jest.fn(),
+    };
+});
+
 describe('expression-builder', () => {
     const labels = ['lhsLabel', 'operatorLabel', 'rhsLabel'];
     describe('showing or hiding the operator', () => {
@@ -76,7 +81,7 @@ describe('expression-builder', () => {
         });
         it('should not show the operator when showOperator is false', () => {
             const expressionBuilder = createComponentForTest({
-                item: createMockPopulatedItem(),
+                item: createMockPopulatedExpression(),
                 showOperator: false
             });
 
@@ -92,7 +97,7 @@ describe('expression-builder', () => {
         for (let i = 0; i < 3; i++) {
             it(`has the ${labels[i]} defined`, () => {
                 const expressionBuilder = createComponentForTest({
-                    item: createMockPopulatedItem(),
+                    item: createMockPopulatedExpression(),
                     lhsLabel: "LHS",
                     operatorLabel: "operator",
                     rhsLabel: "RHS"
@@ -146,6 +151,13 @@ describe('expression-builder', () => {
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyChanged: EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE, newValue: 'hi'}});
             });
+        });
+    });
+    describe('building expression from existing item', () => {
+        it('should populate operator menu if LHS is set', () => {
+            createDefaultComponentForTest();
+            expect(getOperators).toHaveBeenCalled();
+            expect(getRHSTypes).toHaveBeenCalled();
         });
     });
 });
