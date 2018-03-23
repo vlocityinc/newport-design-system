@@ -1,5 +1,5 @@
 import { Element, api, track } from 'engine';
-import { parseDateTime } from 'lightning-date-time-utils';
+import { parseDateTime } from 'builder_platform_interaction-date-time-utils';
 import { FetchMenuDataEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { filterMatches } from 'builder_platform_interaction-data-mutation-lib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-constant';
@@ -77,6 +77,7 @@ export default class Combobox extends Element {
     @api
     set value(value) {
         this.state.value = value;
+        this._lastRecordedValue = value;
         this.updateInputIcon();
     }
 
@@ -117,6 +118,8 @@ export default class Combobox extends Element {
     @api
     set menuData(data) {
         this._fullMenuData = data;
+        // TODO need to figure out a smarter way than just clearing the cache
+        this._itemCache = {};
         this.state.filteredMenuData = data;
         this.state.showActivityIndicator = false;
     }
@@ -145,6 +148,10 @@ export default class Combobox extends Element {
      */
     @api required = false;
 
+    /* ***************** */
+    /* Private Variables */
+    /* ***************** */
+
     _fullMenuData = [];
 
     _isResourceState = false;
@@ -157,6 +164,11 @@ export default class Combobox extends Element {
 
     _isLiteralAllowed = true;
 
+    _lastRecordedValue;
+
+    _itemCache = {};
+
+    _errorMessage = '';
 
     /**
      * Called once the component has finished rendering to set the error message
@@ -165,9 +177,9 @@ export default class Combobox extends Element {
         this.setErrorMessage(this.errorMessage);
     }
 
-    /* ************************/
+    /* ********************** */
     /*     Event handlers     */
-    /* ************************/
+    /* ********************** */
 
     /**
      * Fires an event to filter the current menu data
@@ -207,15 +219,20 @@ export default class Combobox extends Element {
      * @param {Object} event - Event fired from grouped-combobox
      */
     handleSelect(event) {
-        // Replace the value with selected option value with braces
-        // TODO need to add period if hasNextLevel is true
-        this.setValueAndCursor(event.detail.value);
+        this._isResourceState = true;
         this.updateInputIcon();
 
-        this._isResourceState = true;
+        // Get next level menu data if the selected option hasNext
+        const item = this.findItem();
+        const itemHasNextLevel = item && item.hasNext;
 
-        // Get next level menu data
-        this.fetchMenuData(this.getSanitizedValue());
+        if (itemHasNextLevel) {
+            this.fetchMenuData(this.getSanitizedValue());
+        }
+
+        // Replace the value with selected option value with braces
+        // And add a period if selected option has next level
+        this.setValueAndCursor(event.detail.value, itemHasNextLevel);
     }
 
     /**
@@ -228,27 +245,63 @@ export default class Combobox extends Element {
         }
 
         // do validation
-        this.clearErrorMessage();
         this.validate();
 
-        // fire value changed event with no error
-        if (this.getGroupedCombobox() ? this.getGroupedCombobox().checkValidity() : false) {
-            this.fireValueChangedEvent();
+        // Only fire event if value has changed
+        if (this.state.value && this.state.value !== this._lastRecordedValue) {
+            let item;
+            if (this._isResourceState) {
+                item = this.findItem();
+            }
+
+            this.fireValueChangedEvent(
+                (item && item.id) ? item.id : this.state.value,
+                this._errorMessage
+            );
+
+            // Update _lastRecordedValue to the current value
+            this._lastRecordedValue = this.state.value;
         }
     }
 
-    /* ******************************/
+    /* **************************** */
     /*    Private Helper methods    */
-    /* ******************************/
+    /* **************************** */
 
     /**
-     * Dispatches the FetchMenuData Event and makes the spinner active
+     * Dispatches the FetchMenuData Event and makes the spinner active if the selected value hasNext
      * @param {String} value - the value to fetch menu data on
      */
     fetchMenuData(value) {
         const fetchMenuDataEvent = new FetchMenuDataEvent(value);
         this.dispatchEvent(fetchMenuDataEvent);
         this.state.showActivityIndicator = true;
+    }
+
+    /**
+     * Grabs the item associated with the selected value.
+     * If no value is found, returns undefined
+     * @returns {Object} the return value
+     */
+    findItem() {
+        let foundItem;
+        const groupCount = this._fullMenuData.length;
+        const sanitizedValue = this.getSanitizedValue();
+        // check if the item has already been cached to avoid running through the nested arrays
+        if (this._itemCache[sanitizedValue]) {
+            return this._itemCache[sanitizedValue];
+        }
+        for (let i = 0; i < groupCount; i++) {
+            foundItem = this._fullMenuData[i].items.find(item => {
+                // add item to the cache whether or not it's the foundItem
+                this._itemCache[item.value] = item;
+                return item.value === sanitizedValue;
+            });
+            if (foundItem) {
+                return foundItem;
+            }
+        }
+        return foundItem;
     }
 
     /**
@@ -272,10 +325,16 @@ export default class Combobox extends Element {
     /**
      * Sets the value with braces and places the cursor before the closing brace
      * @param {String} value the value to set
+     * @param {String} hasNextLevel whether or not the selected item has a next level
      */
-    setValueAndCursor(value) {
+    setValueAndCursor(value, hasNextLevel) {
         const combobox = this.root.querySelector(SELECTORS.GROUPED_COMBOBOX);
         const input = combobox.getElementsByTagName('input')[0];
+
+        // Add a period to the end if selected value has a next level
+        if (hasNextLevel) {
+            value += '.';
+        }
 
         this.state.value = input.value = '{!' + value + '}';
         // Lightning components team may provide a method to accomplish this in the future
@@ -324,7 +383,6 @@ export default class Combobox extends Element {
      */
     clearErrorMessage() {
         this.setErrorMessage('');
-        this.fireValueChangedEvent();
     }
 
     /**
@@ -336,16 +394,18 @@ export default class Combobox extends Element {
         if (groupedCombobox) {
             groupedCombobox.setCustomValidity(customErrorMessage);
         }
-        this.fireValueChangedEvent(customErrorMessage);
+        this._errorMessage = customErrorMessage;
     }
 
     /**
      * Fire value change event with error message if provided
+     * @param {String} value The value to send
      * @param {String} errorMessage optional error message
      */
-    fireValueChangedEvent(errorMessage) {
-        const valueChangedEvent = errorMessage ? new ValueChangedEvent(this.state.value, errorMessage)
-            : new ValueChangedEvent(this.state.value);
+    fireValueChangedEvent(value, errorMessage) {
+        const valueChangedEvent = (errorMessage && errorMessage !== '') ?
+            new ValueChangedEvent(value, errorMessage) :
+            new ValueChangedEvent(value);
         this.dispatchEvent(valueChangedEvent);
     }
 
@@ -368,6 +428,7 @@ export default class Combobox extends Element {
      * Validates the value of the combobox.
      */
     validate() {
+        this.clearErrorMessage();
         if (this.state.value) {
             if (this._isResourceState) {
                 this.validateResource();
@@ -376,8 +437,6 @@ export default class Combobox extends Element {
             }
         } else if (this.required) {
             this.setErrorMessage(ERROR_MESSAGE.GENERIC);
-        } else {
-            this.clearErrorMessage();
         }
     }
 

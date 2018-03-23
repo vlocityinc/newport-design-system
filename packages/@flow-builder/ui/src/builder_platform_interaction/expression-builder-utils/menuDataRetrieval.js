@@ -132,6 +132,7 @@ export function copyFields(element) {
     // TODO: remove upper case-ing once we're using labels for categories W-4813532
     newElement.category = getCategory(element.elementType, element.dataType, element.isCollection).toUpperCase();
     newElement.subText = getSubText(element.dataType, element.objectType, element.label);
+    newElement.id = element.guid;
     // TODO: fetch icon
     return newElement;
 }

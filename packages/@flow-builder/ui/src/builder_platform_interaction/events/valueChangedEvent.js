@@ -10,8 +10,10 @@ export class ValueChangedEvent extends Event {
             composed: true,
             bubbles: true,
         });
-        this.value = value;
-        this.error = error;
+        this.detail = {
+            value,
+            error
+        };
     }
 
     static EVENT_NAME = eventName;

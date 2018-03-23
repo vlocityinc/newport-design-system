@@ -1,7 +1,7 @@
 const eventName = 'rowcontentschanged';
 
 export class RowContentsChangedEvent extends Event {
-    constructor(propertyChanged = null, newValue = null) {
+    constructor(propertyChanged = null, newValue = null, error = null) {
         super(eventName, {
             cancelable: false,
             composed: true,
@@ -9,7 +9,8 @@ export class RowContentsChangedEvent extends Event {
         });
         this.detail = {
             propertyChanged,
-            newValue
+            newValue,
+            error
         };
     }
 

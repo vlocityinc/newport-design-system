@@ -1,8 +1,8 @@
 import {Element, api, track} from 'engine';
 import {EXPRESSION_PROPERTY_TYPE} from 'builder_platform_interaction-constant';
-import {RowContentsChangedEvent} from 'builder_platform_interaction-events';
+import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { Store } from 'builder_platform_interaction-store-lib';
-import { getElementsForMenuData, getElementByDevName } from 'builder_platform_interaction-expression-builder-utils';
+import { getElementsForMenuData } from 'builder_platform_interaction-expression-builder-utils';
 import { getRulesForElementType, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox } from 'builder_platform_interaction-rule-lib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
@@ -181,7 +181,7 @@ export default class ExpressionBuilder extends Element {
     handleLHSValueChanged(event) {
         event.stopPropagation();
 
-        const propertyChangedEvent = new RowContentsChangedEvent(LHS, this.getValueToPersist(event.value));
+        const propertyChangedEvent = new RowContentsChangedEvent(LHS, event.detail.value, event.detail.error);
         this.dispatchEvent(propertyChangedEvent);
     }
 
@@ -195,7 +195,7 @@ export default class ExpressionBuilder extends Element {
     handleRHSValueChanged(event) {
         event.stopPropagation();
 
-        const propertyChangedEvent = new RowContentsChangedEvent(RHS, this.getValueToPersist(event.value));
+        const propertyChangedEvent = new RowContentsChangedEvent(RHS, event.detail.value, event.detail.error);
         this.dispatchEvent(propertyChangedEvent);
     }
 
@@ -209,19 +209,6 @@ export default class ExpressionBuilder extends Element {
 
     handleFetchRHSMenuData() {
         // TODO  W-4723095
-    }
-
-    getValueToPersist(value) {
-        // if it's a merge field it will have the curly braces
-        if (value.startsWith("{!")) {
-            value = value.substring(2, value.length - 1);
-            value = getElementByDevName(storeInstance.getCurrentState().elements, value).guid;
-        } else {
-            // TODO handle literals, "hi my name is {!firstName}" W-4817362
-            // TODO handle multi-level merge fields W-4723095
-        }
-
-        return value;
     }
     // TODO: validation
 }
