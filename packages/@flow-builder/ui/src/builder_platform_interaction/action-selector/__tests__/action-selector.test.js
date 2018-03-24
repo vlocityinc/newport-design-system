@@ -1,6 +1,6 @@
 import { createElement } from 'engine';
 import ActionSelector from '../action-selector';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 
 

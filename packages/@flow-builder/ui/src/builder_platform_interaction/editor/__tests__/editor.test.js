@@ -1,8 +1,8 @@
 import { createElement } from 'engine';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 jest.unmock('builder_platform_interaction-store-lib');
 import Editor from '../editor';
-import { EVENT } from 'builder_platform_interaction-canvas';
+import { EVENT } from 'builder_platform_interaction-constant';
 import { Store } from 'builder_platform_interaction-store-lib';
 
 const createComponentUnderTest = () => {

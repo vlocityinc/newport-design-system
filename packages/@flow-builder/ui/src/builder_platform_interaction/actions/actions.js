@@ -1,5 +1,7 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
-import { isCanvasElement } from 'builder_platform_interaction-element-config';
+import {
+    ELEMENT_TYPE,
+    isCanvasElement
+} from 'builder_platform_interaction-element-config';
 
 export const UPDATE_FLOW = 'UPDATE_FLOW';
 

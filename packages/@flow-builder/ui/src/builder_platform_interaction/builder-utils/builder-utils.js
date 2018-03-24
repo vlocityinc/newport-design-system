@@ -1,10 +1,19 @@
 // eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
-import { STATE } from 'builder_platform_interaction-constant';
+
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 
 /**
- * @constant Panel type used for modals.
+ * @constant state of callback result
+ * @type {Object}
+ */
+const STATE = {
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR',
+};
+
+/**
+ * @constant Panel type  used for modals.
  * @type {string}
  */
 const MODAL = 'modal';

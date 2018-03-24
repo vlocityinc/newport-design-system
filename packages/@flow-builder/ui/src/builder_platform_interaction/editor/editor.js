@@ -1,11 +1,11 @@
 import { Element, track } from 'engine';
-import { ELEMENT_TYPE, PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
+import { PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { CRUD, invokePanel } from 'builder_platform_interaction-builder-utils';
 import { Store, generateGuid, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, resourcesSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
-import { getElementTemplate } from 'builder_platform_interaction-element-config';
+import { getElementTemplate, ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 let unsubscribeStore;
 let storeInstance;

@@ -1,4 +1,3 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 
 /**
@@ -8,6 +7,31 @@ import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 const MODAL_SIZE = {
     LARGE: 'large', // To be used by screen and decision elementType
     MEDIUM: 'medium'
+};
+
+export const ELEMENT_TYPE = {
+    ACTION_CALL: 'ACTION_CALL',
+    ASSIGNMENT: 'ASSIGNMENT',
+    VARIABLE: 'VARIABLE',
+    DECISION: 'DECISION',
+    APEX_PLUGIN_CALL: 'APEX_PLUGIN_CALLS',
+    CHOICE: 'CHOICE',
+    CONSTANT: 'CONSTANT',
+    DYNAMIC_CHOICE_SET: 'DYNAMIC_CHOICE_SET',
+    FORMULA: 'FORMULA',
+    STAGE: 'STAGE',
+    TEXT_TEMPLATE: 'TEXT_TEMPLATE',
+    LOOP: 'LOOP',
+    OUTCOME: 'OUTCOME',
+    RECORD_CREATE: 'RECORD_CREATE',
+    RECORD_DELETE: 'RECORD_DELETE',
+    RECORD_LOOKUP: 'RECORD_LOOKUP',
+    RECORD_UPDATE: 'RECORD_UPDATE',
+    SCREEN: 'SCREEN',
+    STEP: 'STEP',
+    SUBFLOW: 'SUBFLOW',
+    WAIT: 'WAIT',
+    DEFAULT: 'defaultElement'
 };
 
 /**

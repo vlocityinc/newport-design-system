@@ -1,5 +1,4 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
-import { elementTypeToConfigMap } from 'builder_platform_interaction-element-config';
+import { elementTypeToConfigMap, ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { pick } from 'builder_platform_interaction-data-mutation-lib';
 
 /**

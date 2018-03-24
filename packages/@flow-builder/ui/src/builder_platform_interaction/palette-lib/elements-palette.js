@@ -1,5 +1,5 @@
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
-import { CRUD } from 'builder_platform_interaction-constant';
+import { CRUD } from 'builder_platform_interaction-builder-utils';
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 
 const SECTION_PREFIX = 'ELEMENTS_PALETTE_SECTION';

@@ -5,7 +5,8 @@
  * @author cnastasa
  * @since 214
  */
-import { RULE_TYPES, RULE_PROPERTY, ELEMENT_TYPE } from 'builder_platform_interaction-constant';
+import { RULE_TYPES, RULE_PROPERTY } from 'builder_platform_interaction-constant';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { set } from 'builder_platform_interaction-data-mutation-lib';
 
 /**

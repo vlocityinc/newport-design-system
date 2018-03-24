@@ -1,9 +1,8 @@
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 import { ELEMENT_INFOS, FLOW_PROPERTIES } from './translation-config';
 import { swapDevNamesToUids } from './uid-swapping';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
 import { pick } from 'builder_platform_interaction-data-mutation-lib';
-import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { getConfigForElementType, ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 /**
  * Decorate the element with ui specific data

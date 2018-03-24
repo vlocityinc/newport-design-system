@@ -1,5 +1,5 @@
 import {convertElement, convertElements, translateFlowToUIModel} from '../flow-to-ui-translator';
-import {ELEMENT_TYPE} from 'builder_platform_interaction-constant';
+import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 import {deepCopy} from 'builder_platform_interaction-store-lib';
 import {cleanFlowSample} from './flow-translator.test';
 

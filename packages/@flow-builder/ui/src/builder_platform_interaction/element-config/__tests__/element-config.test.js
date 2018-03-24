@@ -1,5 +1,10 @@
-import { createFlowElement, elementTypeToConfigMap, getConfigForElementType, isCanvasElement } from '../element-config';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
+import {
+    createFlowElement,
+    elementTypeToConfigMap,
+    ELEMENT_TYPE,
+    getConfigForElementType,
+    isCanvasElement
+} from '../element-config';
 
 function verifyConfig(elementType, config) {
     let expectedConfig = elementTypeToConfigMap[elementType];

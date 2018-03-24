@@ -1,7 +1,7 @@
 import { Element, api, track } from "engine";
 import { getAllInvocableActionsForType, getApexPlugins } from 'builder_platform_interaction-actioncall-lib';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 /**
  * @constant APEXPLUGIN_ACTION_TYPE
