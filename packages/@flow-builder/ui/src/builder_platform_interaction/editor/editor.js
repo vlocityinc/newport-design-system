@@ -5,7 +5,7 @@ import { Store, generateGuid, deepCopy } from 'builder_platform_interaction-stor
 import { canvasSelector, resourcesSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
-import { getElementTemplate, ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { createFlowElement, ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 let unsubscribeStore;
 let storeInstance;
@@ -200,7 +200,7 @@ export default class Editor extends Element {
     handleCanvasElementDrop = (event) => {
         const mode = CRUD.CREATE;
 
-        let node = getElementTemplate(event.detail.elementType);
+        let node = createFlowElement(event.detail.elementType);
         node.locationX = event.detail.locationX;
         node.locationY = event.detail.locationY;
 
