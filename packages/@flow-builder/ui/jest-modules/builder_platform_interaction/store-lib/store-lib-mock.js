@@ -24,7 +24,8 @@ const MockStore = jest.fn().mockImplementation(() => {
     let _listeners = [];
     let _state = {};
     const createMockState = () => {
-        // the state of the store is a shallow copy. This means if you change the values of the mock store directly in your test, this will carry over into other tests. 
+        // the state of the store is a shallow copy. This means if you change the values of the mock store directly in
+        // your test, this will carry over into other tests.
         // call set mock state if you want to reset your dirty state
         return Object.assign({}, _state);
     };

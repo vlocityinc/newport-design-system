@@ -1,13 +1,9 @@
-/*
- * Copyright 2018 salesforce.com, inc.
- * All Rights Reserved
- * Company Confidential
- */
-
 import {
     mutateDecision,
     deMutateDecision
 } from '../decisionEditorDataMutation';
+
+import {ELEMENT_TYPE} from 'builder_platform_interaction-constant';
 
 describe('mutateAssignment function', () => {
     const state = {
@@ -59,13 +55,17 @@ describe('deMutateDecision function', () => {
             guid: 'DECISION_3',
             outcomes: [state.elements.OUTCOME_1, state.elements.OUTCOME_2]
         };
-        const modifiedAndDeletedOutcomes = deMutateDecision(decision, state);
+        const decisionWithOutcomes = deMutateDecision(decision, state);
 
-        expect(modifiedAndDeletedOutcomes.modified).toHaveLength(2);
-        expect(modifiedAndDeletedOutcomes.modified).toContain(state.elements.OUTCOME_1);
-        expect(modifiedAndDeletedOutcomes.modified).toContain(state.elements.OUTCOME_2);
+        expect(decisionWithOutcomes.elementType).toEqual(ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES);
 
-        expect(modifiedAndDeletedOutcomes.deleted).toHaveLength(0);
+        expect(decisionWithOutcomes.decision).toEqual(state.elements.DECISION_3);
+
+        expect(decisionWithOutcomes.outcomes).toHaveLength(2);
+        expect(decisionWithOutcomes.outcomes).toContain(state.elements.OUTCOME_1);
+        expect(decisionWithOutcomes.outcomes).toContain(state.elements.OUTCOME_2);
+
+        expect(decisionWithOutcomes.deletedOutcomes).toHaveLength(0);
 
         expect(decision.outcomeReferences).toHaveLength(2);
         expect(decision.outcomeReferences).toContainEqual(state.elements.DECISION_3.outcomeReferences[0]);
@@ -77,13 +77,13 @@ describe('deMutateDecision function', () => {
             guid: 'DECISION_3',
             outcomes: [state.elements.OUTCOME_1]
         };
-        const modifiedAndDeletedOutcomes = deMutateDecision(decision, state);
+        const decisionWithOutcomes = deMutateDecision(decision, state);
 
-        expect(modifiedAndDeletedOutcomes.modified).toHaveLength(1);
-        expect(modifiedAndDeletedOutcomes.modified).toContain(state.elements.OUTCOME_1);
+        expect(decisionWithOutcomes.outcomes).toHaveLength(1);
+        expect(decisionWithOutcomes.outcomes).toContain(state.elements.OUTCOME_1);
 
-        expect(modifiedAndDeletedOutcomes.deleted).toHaveLength(1);
-        expect(modifiedAndDeletedOutcomes.deleted).toContain(state.elements.OUTCOME_2);
+        expect(decisionWithOutcomes.deletedOutcomes).toHaveLength(1);
+        expect(decisionWithOutcomes.deletedOutcomes).toContain(state.elements.OUTCOME_2);
 
         expect(decision.outcomeReferences).toHaveLength(1);
         expect(decision.outcomeReferences).toContainEqual(state.elements.DECISION_3.outcomeReferences[0]);

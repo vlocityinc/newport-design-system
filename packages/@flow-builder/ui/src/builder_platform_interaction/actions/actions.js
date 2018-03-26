@@ -21,7 +21,7 @@ export const SELECT_ON_CANVAS = 'SELECT_ON_CANVAS';
 export const TOGGLE_ON_CANVAS = 'TOGGLE_ON_CANVAS';
 export const DESELECT_ON_CANVAS = 'DESELECT_ON_CANVAS';
 
-export const MODIFIED_AND_DELETED_ELEMENTS = 'MODIFIED_AND_DELETED_ELEMENTS';
+export const MODIFY_DECISION_WITH_OUTCOMES = 'MODIFY_DECISION_WITH_OUTCOMES';
 
 /**
  * Helper function to create actions.
@@ -79,12 +79,13 @@ export const updateElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
             // For variables
-            case ELEMENT_TYPE.VARIABLE: return createAction(UPDATE_VARIABLE, payload);
+            case ELEMENT_TYPE.VARIABLE:
+                return createAction(UPDATE_VARIABLE, payload);
+            case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
+                return createAction(MODIFY_DECISION_WITH_OUTCOMES, payload);
             default:
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(UPDATE_CANVAS_ELEMENT, payload);
-                } else if (typeof payload.elementType === 'undefined' && (payload.modified || payload.deleted)) {
-                    return createAction(MODIFIED_AND_DELETED_ELEMENTS, payload);
                 }
         }
     }

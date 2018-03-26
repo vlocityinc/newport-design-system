@@ -1,9 +1,4 @@
-/*
- * Copyright 2018 salesforce.com, inc.
- * All Rights Reserved
- * Company Confidential
- */
-
+import { ELEMENT_TYPE } from 'builder_platform_interaction-constant';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 
 /**
@@ -32,12 +27,15 @@ export const mutateDecision = (decision, state) => {
  *
  * @param {Object} decision Decision element to de-mutate
  * @param {Object} state State of the whole project
- * @returns {{modified: Array, deleted: Array}} Contains outcomes deleted or (potentially) new/modified
+ * @returns {{decision: Object, outcomes: Array, deletedOutcomes: Array}} Contains the decision and its outcomes as
+ * well as deleted outcomes
  */
 export const deMutateDecision = (decision, state) => {
-    const modifiedAndDeletedOutcomes = {
-        modified: [],
-        deleted: []
+    const decisionWithModifiedAndDeletedOutcomes = {
+        elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
+        decision,
+        outcomes: [],
+        deletedOutcomes: []
     };
 
     const originalOutcomeReferences = state.elements[decision.guid].outcomeReferences;
@@ -57,14 +55,16 @@ export const deMutateDecision = (decision, state) => {
     });
 
     // Note which outcomes have been modified
-    modifiedAndDeletedOutcomes.modified.push(...currentOutcomes);
+    decisionWithModifiedAndDeletedOutcomes.outcomes.push(...currentOutcomes);
 
     // Note which outcomes have been deleted
-    modifiedAndDeletedOutcomes.deleted = originalOutcomeReferences.map((outcomeReference) => {
+    decisionWithModifiedAndDeletedOutcomes.deletedOutcomes = originalOutcomeReferences.map((outcomeReference) => {
         return state.elements[outcomeReference.outcomeReference];
     }).filter((outcome) => {
         return !currentOutcomeGuids.includes(outcome.guid);
     });
 
-    return modifiedAndDeletedOutcomes;
+    delete decision.outcomes;
+
+    return decisionWithModifiedAndDeletedOutcomes;
 };

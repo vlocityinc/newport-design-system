@@ -38,23 +38,19 @@ export const mutateEditorElement = (element, state) => {
  * @return {Object} Element in the shape required by store
  */
 export const removeEditorElementMutation = (element, state) => {
-    const elements = [element];
-    const deletedElements = [];
-
     if (element.elementType === ELEMENT_TYPE.ASSIGNMENT) {
         deMutateAssignment(element);
+        return element;
     } else if (element.elementType === ELEMENT_TYPE.DECISION) {
         // deMutateDecision returns outcome elements that also need to be updated in the store
         // as well as outcomes that need to be deleted
-        const decisionOutcomesModifiedAndDeleted = deMutateDecision(element, state);
+        const decisionWithModifiedAndDeletedOutcomes = deMutateDecision(element, state);
 
-        deletedElements.push(...decisionOutcomesModifiedAndDeleted.deleted);
+        return decisionWithModifiedAndDeletedOutcomes;
     }
 
-    // TODO Add other element types
+    // TODO: Should we throw an exception if  the element type isn't recognized?
+    return element;
 
-    return {
-        modified: elements,
-        deleted: deletedElements
-    };
+    // TODO Add other element types
 };

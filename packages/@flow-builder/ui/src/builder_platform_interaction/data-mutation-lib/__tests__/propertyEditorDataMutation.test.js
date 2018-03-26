@@ -28,6 +28,7 @@ jest.mock('../assignmentEditorDataMutation', () => {
 const mockDecisionOutcomesAfterMutation = [{a:1}, {b:2}];
 const mockDecisionOutcomeReferencesAfterDeMutation = [1, 2];
 const mockDeletedOutcomesAfterDeMutation = [{x:1}];
+const mockDecisionElementTypeAfterDeMutation = ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES;
 
 jest.mock('../decisionEditorDataMutation', () => {
     return {
@@ -42,8 +43,10 @@ jest.mock('../decisionEditorDataMutation', () => {
             delete decision.outcomes;
 
             return {
-                modified: [decision],
-                deleted: mockDeletedOutcomesAfterDeMutation
+                elementType: mockDecisionElementTypeAfterDeMutation,
+                decision,
+                outcomes: [],
+                deletedOutcomes: mockDeletedOutcomesAfterDeMutation
             };
         })
     };
@@ -98,10 +101,7 @@ describe('deMutateEditorElement function', () => {
         expect(deMutateAssignment.mock.calls[0][0]).toEqual(element);
         expect(deMutateAssignment.mock.calls).toHaveLength(1);
 
-        expect(result).toEqual({
-            modified: [element],
-            deleted: []
-        });
+        expect(result).toEqual(element);
 
         expect(element.name).toEqual('demutated');
     });
@@ -119,8 +119,10 @@ describe('deMutateEditorElement function', () => {
         expect(deMutateDecision.mock.calls).toHaveLength(1);
 
         expect(result).toEqual({
-            modified: [element],
-            deleted: mockDeletedOutcomesAfterDeMutation
+            elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
+            decision: element,
+            outcomes: [],
+            deletedOutcomes: mockDeletedOutcomesAfterDeMutation
         });
 
         expect(element.name).toEqual('demutated');
