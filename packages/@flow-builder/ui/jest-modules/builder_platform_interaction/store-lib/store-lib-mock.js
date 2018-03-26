@@ -1,12 +1,10 @@
+import { deepCopy, generateGuid, isPlainObject } from '../../../modules/builder_platform_interaction/store-lib/store-lib.js';
+
 /**
  * Mock object for the store library.  If a test needs specific values returned by any function in the library
  * then the test should override those methods as needed.
  */
 const mock = {};
-
-const deepCopyMock = jest.fn().mockImplementation((obj) => {
-    return obj;
-});
 
 // mock of createSelector that just returns a function that when called, simply returns the parameter passed
 const createSelectorMock = jest.fn().mockImplementation(() => {
@@ -97,4 +95,4 @@ export { mock as combinedReducer };
 export { createSelectorMock as createSelector };
 export { mockStoreInstance as Store };
 export { mock as guid };
-export { deepCopyMock as deepCopy };
+export { deepCopy, generateGuid, isPlainObject };

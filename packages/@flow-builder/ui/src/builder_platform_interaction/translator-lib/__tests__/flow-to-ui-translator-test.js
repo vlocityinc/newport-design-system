@@ -98,7 +98,9 @@ const IS_CANVAS = true;
 describe('Flow To UI Translator', () => {
     it('sets maxConnections from node config', () => {
         const mockElementConfig = {
-            maxConnections: 5
+            nodeConfig : {
+                maxConnections: 5
+            }
         };
 
         const elementConfig = require.requireActual('builder_platform_interaction-element-config');
@@ -106,7 +108,7 @@ describe('Flow To UI Translator', () => {
 
         const converted = convertElement(ASSIGNMENT_1, ELEMENT_TYPE.ASSIGNMENT, IS_CANVAS);
 
-        expect(converted.maxConnections).toEqual(mockElementConfig.maxConnections);
+        expect(converted.maxConnections).toEqual(mockElementConfig.nodeConfig.maxConnections);
     });
 
     it('sets connector count to 0 if no connector', () => {

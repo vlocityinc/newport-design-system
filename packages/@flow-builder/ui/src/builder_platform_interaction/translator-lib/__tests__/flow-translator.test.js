@@ -175,7 +175,7 @@ const EXTRA_FIELDS = ["createdById",
 // this list should be trimmed down and eventually removed
 //
 // This list can be deleted soonish if we find no issues with the minimal translation support
-export const FUTURE_ELEMENTS = ["apexPluginCalls",
+export const FUTURE_ELEMENTS = [
     "screens",
     "choices",
     "constants",
