@@ -1,4 +1,4 @@
-import { valueChangedHelper } from '../expression-builder-utils';
+import { valueChangedHelper } from '../expression-utils';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-constant';
 
 // get the constants for lhs, operator, and rhs using es6 object destructering

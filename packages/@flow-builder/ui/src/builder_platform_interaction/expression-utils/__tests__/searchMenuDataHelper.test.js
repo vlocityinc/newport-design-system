@@ -1,4 +1,4 @@
-import { searchMenuDataHelper } from '../expression-builder-utils';
+import { searchMenuDataHelper } from '../expression-utils';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-constant';
 import { filterMatches } from 'builder_platform_interaction-data-mutation-lib';
 

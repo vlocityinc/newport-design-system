@@ -198,7 +198,7 @@ export const transformOperatorsForCombobox = (operators) => {
  * @param {String} operator         the value representing your operator eg: "ASSIGNMENT"
  * @param {Array} rules             list of rules we are checking for right hand side types. These are taken from the FlowOperatorRuleUtil service
  * @param {String} ruleType         the rule type of the given rules eg: assignment/comparator
- * @returns {Object}                map of data types & element types to allowed right hand side types
+ * @returns {Object}                map of data types, element types, and object types to allowed right hand side types
  */
 export const getRHSTypes = (lhsElement, operator, rules, ruleType) => {
     // sanity checks
@@ -229,10 +229,14 @@ export const getRHSTypes = (lhsElement, operator, rules, ruleType) => {
         }
         index++;
     }
-    // create our dataType/elementType map. This helps sort allowed types by dataType/elementType
+    // create our dataType/elementType/objectType map. This helps sort allowed types by dataType/elementType/objectType
     const paramTypeMap = {};
     allowedTypes.forEach((rhsParam) => {
-        const type = getDataTypeOrElementType(rhsParam);
+        let type = getDataTypeOrElementType(rhsParam);
+        if (type === 'SObject') {
+            // if element is an sObject, we want to track by object type because sObject type must match exactly
+            type = lhsElement.objectType;
+        }
         // to remain consistent with getLHSTypes we place the rhsParam in an array
         // TODO: find out if we only get either scalar or a collection of a type ex: number vs number collection. If so, we can remove this check and simply assign an array with rhsParam
         if (!paramTypeMap.hasOwnProperty(type)) {

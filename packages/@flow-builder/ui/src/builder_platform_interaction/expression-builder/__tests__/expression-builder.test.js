@@ -62,7 +62,7 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction-expression-builder-utils', () => {
+jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
         getElementsForMenuData: jest.fn(),
     };
