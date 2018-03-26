@@ -1,6 +1,8 @@
 import { Element, api } from 'engine';
 import { CONNECTOR_OVERLAY, EVENT } from 'builder_platform_interaction-constant';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
+
 /**
  * Canvas component for flow builder.
  *
@@ -42,7 +44,8 @@ export default class Canvas extends Element {
                 detail: {
                     source: connectorInfo.sourceId,
                     target: connectorInfo.targetId,
-                    label: connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).getLabel()
+                    label: connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).getLabel(),
+                    type: CONNECTOR_TYPE.REGULAR
                 }
             }
         );

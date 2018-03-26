@@ -7,7 +7,7 @@ import { updateProperties } from 'builder_platform_interaction-data-mutation-lib
  * @param {Object} action with type and payload
  * @return {Object} new state after reduction
  */
-export default function propertiesReducer(state = {}, action) {
+export default function flowPropertiesReducer(state = {}, action) {
     switch (action.type) {
         case UPDATE_FLOW:
         case UPDATE_PROPERTIES:

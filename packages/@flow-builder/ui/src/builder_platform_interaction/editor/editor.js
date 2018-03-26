@@ -1,11 +1,12 @@
 import { Element, track } from 'engine';
 import { PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { CRUD, invokePanel } from 'builder_platform_interaction-builder-utils';
-import { Store, generateGuid, deepCopy } from 'builder_platform_interaction-store-lib';
+import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, resourcesSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 import { createFlowElement, ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { createConnectorObject } from 'builder_platform_interaction-connector-utils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -179,15 +180,14 @@ export default class Editor extends Element {
      */
     handleAddConnection = (event) => {
         if (event && event.detail) {
-            const connectorGuid = generateGuid('CONNECTOR');
-            const payload = {
-                guid: connectorGuid,
-                source: event.detail.source,
-                target: event.detail.target,
-                label: event.detail.label,
-                config: {isSelected: false}
-            };
-            storeInstance.dispatch(addConnector(payload));
+            const connector = createConnectorObject(
+                event.detail.source,
+                event.detail.childSource,
+                event.detail.target,
+                event.detail.label,
+                event.detail.type
+            );
+            storeInstance.dispatch(addConnector(connector));
         }
     };
 

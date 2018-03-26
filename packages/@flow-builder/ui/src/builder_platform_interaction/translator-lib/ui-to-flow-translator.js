@@ -3,6 +3,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { swapUidsForDevNames } from './uid-swapping';
 import { omit, pick, updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
+import { setConnectorsOnElements } from 'builder_platform_interaction-connector-utils';
 
 const omitTransientFields = (element) => {
     return omit(element, ['guid', 'elementType', 'isCanvasElement', 'config', 'connectorCount', 'maxConnections']);
@@ -21,6 +22,7 @@ const translateElementHashToHaveDevNameKeys = (elements) => {
 
 /**
  * Rehydrate all of a decision's outcomeReferences in to rules
+ *
  * @param {Object} decision The decision element
  * @param {Object} elements All elements in the flow (including outcomes)
  */
@@ -38,11 +40,15 @@ const includeOutcomesInDecision = (decision, elements) => {
 
 /**
  * Translate UI data model to Flow tooling object
+ *
  * @param {Object} uiModel UI data model representation of the Flow
  * @returns {Object} Flow object that can be deserialized into the Flow tooling object
  */
 export function translateUIModelToFlow(uiModel) {
     let elements = deepCopy(uiModel.elements);
+
+    // Set connector properties on all elements
+    setConnectorsOnElements(uiModel.connectors, elements);
 
     // Swap out guids for dev names in all element references
     swapUidsForDevNames(uiModel.elements, elements);
@@ -75,9 +81,6 @@ export function translateUIModelToFlow(uiModel) {
 
         // remove transient fields to avoid breaking deserialization
         element = omitTransientFields(element);
-        if (element.connector) {
-            element.connector = omit(element.connector, ['config']);
-        }
 
         metadata[elementInfo.metadataKey].push(element);
     });

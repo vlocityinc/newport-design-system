@@ -45,15 +45,8 @@ export const elementTypeToConfigMap = {
         // determine the descriptor based on action type
         nodeConfig: {
             iconName: 'standard:investment_account',
-            maxConnections: 1
+            maxConnections: 2
         },
-        propertyEditorFields: [
-            'guid',
-            'elementType',
-            'label',
-            'name',
-            'description'
-        ],
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: 'actionCalls',
         canvasElement: true,
@@ -74,15 +67,8 @@ export const elementTypeToConfigMap = {
         // determine the descriptor based on action type
         nodeConfig: {
             iconName: 'standard:product_item_transaction',
-            maxConnections: 1
+            maxConnections: 2
         },
-        propertyEditorFields: [
-            'guid',
-            'elementType',
-            'label',
-            'name',
-            'description'
-        ],
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: 'apexPluginCalls',
         canvasElement: true,
@@ -131,8 +117,7 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.DECISION]: {
         descriptor: 'builder_platform_interaction:decisionEditor',
         nodeConfig: {
-            iconName: 'standard:feed',
-            maxConnections: 1
+            iconName: 'standard:feed'
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: 'decisions',

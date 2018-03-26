@@ -129,9 +129,13 @@ class DrawingLib {
      * @return {Object} connection - jsPlumb's connector instance
      */
     setExistingConnections = (sourceGuid, targetGuid, label, connectorGuid) => {
-        const connection = instance.connect({source: sourceGuid, target: targetGuid, label});
+        const connectionInstance = {source: sourceGuid, target: targetGuid};
+        if (label) {
+            connectionInstance.label = label;
+        }
+        const connection = instance.connect(connectionInstance);
         connection.id = connectorGuid;
-        connection.getOverlay('__arrow').setVisible(true);
+        connection.getOverlay(CONNECTOR_OVERLAY.ARROW).setVisible(true);
         return connection;
     };
 
@@ -159,8 +163,10 @@ class DrawingLib {
         connection.setPaintStyle({strokeWidth: 3, stroke: '#0070d2', joinstyle: 'round'});
         connection.setHoverPaintStyle({});
         const labelText = connection.getOverlay(CONNECTOR_OVERLAY.LABEL).label;
-        connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);
-        connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, cssClass: 'label-selected', label: labelText}]);
+        if (labelText && labelText !== '') {
+            connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);
+            connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, cssClass: 'label-selected', label: labelText}]);
+        }
     };
 
     /**
@@ -171,8 +177,10 @@ class DrawingLib {
         connection.setPaintStyle({strokeWidth: 2, stroke: '#919297', joinstyle: 'round'});
         connection.setHoverPaintStyle({strokeWidth: 2, stroke: '#1589ee'});
         const labelText = connection.getOverlay(CONNECTOR_OVERLAY.LABEL).label;
-        connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);
-        connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label: labelText}]);
+        if (labelText && labelText !== '') {
+            connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);
+            connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label: labelText}]);
+        }
     };
 
     /**
