@@ -16,11 +16,6 @@ const defaultRules = {
         funcType: ValidationRules.evaluateRegex,
         regexPattern: '(^|\\s)($|\\s)',
         message: "Should not have trailing empty spaces at the beginning or ending.",
-    }, {
-        ruleName: 'should_not_begin_or_end_with_underscores',
-        funcType: ValidationRules.evaluateRegex,
-        regexPattern: '(^|_)($|_)',
-        message: "Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.",
     }],
     'name' : [{
         ruleName: 'should_not_be_blank',

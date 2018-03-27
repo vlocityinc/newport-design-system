@@ -117,7 +117,7 @@ describe('label-description', () => {
                 return Promise.resolve().then(() => {
                     const labelLightningInput = labelDescription.querySelector(selectors.label);
 
-                    expect(labelLightningInput.setCustomValidity).toHaveBeenCalledWith(null);
+                    expect(labelLightningInput.setCustomValidity).toHaveBeenCalledWith('');
                     expect(labelLightningInput.showHelpMessageIfInvalid).toHaveBeenCalled();
                 });
             });
@@ -201,7 +201,7 @@ describe('label-description', () => {
                 return Promise.resolve().then(() => {
                     const devNameLightningInput = labelDescription.querySelector(selectors.devName);
 
-                    expect(devNameLightningInput.setCustomValidity).toHaveBeenCalledWith(null);
+                    expect(devNameLightningInput.setCustomValidity).toHaveBeenCalledWith('');
                     expect(devNameLightningInput.showHelpMessageIfInvalid).toHaveBeenCalled();
                 });
             });
@@ -252,7 +252,7 @@ describe('label-description', () => {
             it('does not occur when label was blank and remains blank after focusout', () => {
                 const labelDescription = createComponentUnderTest();
                 labelDescription.label = {
-                    value: '',
+                    value: ''
                 };
 
                 return Promise.resolve().then(() => {
@@ -263,7 +263,7 @@ describe('label-description', () => {
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
-                    expect(eventCallback.mock.calls).toHaveLength(0);
+                    expect(eventCallback.mock.calls).toHaveLength(1);
                 });
             });
 

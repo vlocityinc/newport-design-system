@@ -20,14 +20,6 @@ describe('Default Validations', () => {
         it('and when a string has trailing spaces at the beginning should return the error message - {string} Should not have trailing empty spaces at the beginning or ending.', () => {
             expect(validation.validateProperty('label', " valid_string")).toBe('Should not have trailing empty spaces at the beginning or ending.');
         });
-
-        it('and when a string has trailing underscores at the end should return the error message- {string} Should not have trailing empty spaces at the beginning or ending.', () => {
-            expect(validation.validateProperty('label', "valid_string_")).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
-        });
-
-        it('and when a string has trailing underscores at the beginning should return the error message - {string} Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.', () => {
-            expect(validation.validateProperty('label', "_valid_string")).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
-        });
     });
 
     describe('when props set to NAME', () => {

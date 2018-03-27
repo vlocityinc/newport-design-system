@@ -81,7 +81,11 @@ export default class LabelDescription extends Element {
 
     setInputErrorMessage(element, error) {
         if (element) {
-            element.setCustomValidity(error);
+            if (error) {
+                element.setCustomValidity(error);
+            } else {
+                element.setCustomValidity('');
+            }
             element.showHelpMessageIfInvalid();
         }
     }

@@ -20,8 +20,13 @@ const additionalRules = {
     'name' : [{
         ruleName: 'should_not_begin_with_numeric_or_special_characters',
         funcType: ValidationRules.evaluateRegex,
-        regexPattern: '^(?![A-z]+[a-zA-Z0-9!@#\\$%\\^\\&*\\)\\(\\?\\/_+=.~\\- ]*$)',
-        message: "Should begin with Alphabetical Characters instead of Numeric Characters.",
+        regexPattern: '^(?![a-zA-Z]{1})',
+        message: "Should always begin with Alphabetical Characters instead of Numeric or Special Characters.",
+    }, {
+        ruleName: 'should_accept_only_alphanumeric_characters',
+        funcType: ValidationRules.evaluateRegex,
+        regexPattern: '^(?![A-z]+[a-zA-Z0-9 ]*$)',
+        message: "Cannot accept any Special Characters.",
     }, {
         ruleName: 'maximum_characters_limit',
         funcType: ValidationRules.evaluateRegex,
