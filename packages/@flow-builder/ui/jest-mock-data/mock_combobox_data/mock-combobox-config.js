@@ -50,14 +50,21 @@ export const comboboxConfig = {
                     subText: 'Date',
                     value: 'StartDateVar'
                 },
+                {
+                    type: 'option-card',
+                    text: 'Is Applicable?',
+                    iconName: 'utility:boolean',
+                    subText: 'Date',
+                    value: 'MyBooleanVar'
+                },
             ]
         }
-    ],  
+    ],
     placeholder: 'placeholderText',
     value: 'testvalue',
     label: 'label',
-    type: 'string',
+    type: 'String',
     disabled: false,
     required: true,
     errorMessage: 'testErrorMessage',
-}
+};

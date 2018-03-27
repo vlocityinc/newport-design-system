@@ -7,6 +7,18 @@ const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
 };
 
+/**
+ * Error message map for validation of literal value.
+ * TODO: Use labels. W-4813532
+ */
+const VALIDATION_ERROR_MESSAGE = {
+    CURRENCY : 'Not a valid currency. Re-enter in decimal format.',
+    NUMBER : 'Not a valid number. Re-enter in decimal format.',
+    DATE : 'Re-enter date as MM/DD/YYYY.',
+    DATE_TIME : 'Re-enter datetime as MM/DD/YYYY HH:mm:ss TZD.',
+    GENERIC : 'You have entered an invalid value.',
+};
+
 describe('Combobox Tests', () => {
     let combobox, groupedCombobox;
     beforeAll(() => {
@@ -16,6 +28,12 @@ describe('Combobox Tests', () => {
         document.body.appendChild(combobox);
         groupedCombobox = combobox.querySelector(SELECTORS.GROUPED_COMBOBOX);
     });
+
+    const getTextInputEvent = function (inputValue) {
+        return new CustomEvent('textinput', {
+            detail: {text: inputValue},
+        });
+    };
 
     describe('Property sanity checks', () => {
         beforeAll(() => {
@@ -67,9 +85,7 @@ describe('Combobox Tests', () => {
         });
 
         it('Typing {! should append }', () => {
-            const textInputEvent = new CustomEvent('textinput', {
-                detail: { text: '{!' },
-            });
+            const textInputEvent = getTextInputEvent('{!');
             groupedCombobox.dispatchEvent(textInputEvent);
             return Promise.resolve().then(() => {
                 expect(groupedCombobox.inputText).toEqual('{!}');
@@ -78,10 +94,6 @@ describe('Combobox Tests', () => {
     });
 
     describe('Icon Tests', () => {
-        const textInputEvent = new CustomEvent('textinput', {
-            detail: { text: '{!myAccount.}' },
-        });
-
         it('Search icon when empty', () => {
             combobox.value = '';
             return Promise.resolve().then(() => {
@@ -89,10 +101,12 @@ describe('Combobox Tests', () => {
             });
         });
 
-        it('Activity Indicator when fetching menu data', () => {
+        it('Activity Indicator when fetching and filtering menu data', () => {
             combobox.value = '{!myAccount}';
+            const textInputEvent = getTextInputEvent('{!myAccount.}');
             return Promise.resolve().then(() => {
-                expect(groupedCombobox.showActivityIndicator).toEqual(false);
+                // true because of filterMatches is setting spinner to true
+                expect(groupedCombobox.showActivityIndicator).toEqual(true);
                 groupedCombobox.dispatchEvent(textInputEvent);
                 return Promise.resolve().then(() => {
                     expect(groupedCombobox.showActivityIndicator).toEqual(true);
@@ -104,15 +118,15 @@ describe('Combobox Tests', () => {
             });
         });
 
+        // TODO Make sure only clicking on clear icon clears value
+        // TODO Clicking on search icon opens up menu
+
         it('Clear icon when there is a value', () => {
             combobox.value = 'testvalue';
             return Promise.resolve().then(() => {
                 expect(groupedCombobox.inputIconName).toEqual('utility:clear');
             });
         });
-
-        // TODO Make sure only clicking on clear icon clears value
-        // TODO Clicking on search icon opens up menu
     });
 
     describe('Events Testing', () => {
@@ -127,9 +141,7 @@ describe('Combobox Tests', () => {
         it('FetchMenuData is fired when a . is entered', () => {
             combobox.value = '{!myAccount}';
             return Promise.resolve().then(() => {
-                textInputEvent = new CustomEvent('textinput', {
-                    detail: { text: '{!myAccount.}' },
-                });
+                textInputEvent = getTextInputEvent('{!myAccount.}');
                 groupedCombobox.dispatchEvent(textInputEvent);
                 expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
             });
@@ -138,9 +150,7 @@ describe('Combobox Tests', () => {
         it('FetchMenuData is fired when a . is deleted', () => {
             combobox.value = '{!myAccount.}';
             return Promise.resolve().then(() => {
-                textInputEvent = new CustomEvent('textinput', {
-                    detail: { text: '{!myAccount}' },
-                });
+                textInputEvent = getTextInputEvent('{!myAccount}');
                 groupedCombobox.dispatchEvent(textInputEvent);
                 expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
             });
@@ -154,6 +164,121 @@ describe('Combobox Tests', () => {
 
         it('ValueChanged is not fired on blur if value has not changed', () => {
             // TODO
+        });
+    });
+
+    describe('Validation Tests', () => {
+        const validationTestData = {
+            String : [
+                { value: '{!MyVar1}', isLiteralsAllowed: false, error: '' },
+                { value: '{!^textVar}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: '{! textVar}', error: '' },
+                { value: '!@#$test', error: '' },
+                { value: '{!}', error: '' },
+                { value: '{! }', error: '' },
+                { value: '{!9var}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: '{!_test_}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: '{!_test_}', error: '' },
+                { value: '{!textVarDoesNotExists}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
+            ],
+            Number : [
+                { value: '-.9', error: ''},
+                { value: '122', error: '' },
+                { value: '876.87', error: '' },
+                { value: '.23', error: '' },
+                { value: '{!123}', error: VALIDATION_ERROR_MESSAGE.NUMBER },
+            ],
+            Currency : [
+                { value: '0.8', error: '' },
+                { value: '6.', error: '' },
+                { value: '-12.9', error: '' },
+                { value: '-93.', error: '' },
+                { value: '-.', error: VALIDATION_ERROR_MESSAGE.CURRENCY },
+                { value: '$123.87', error: VALIDATION_ERROR_MESSAGE.CURRENCY },
+            ],
+            Date : [
+                { value: '12/31/2018', error: '', expectedValue: '12/31/2018' },
+                { value: '12-12-2009', error: '', expectedValue: '12/12/2009' },
+                { value: '1 1 2018', error: '', expectedValue: '01/01/2018' },
+                { value: '31-12-2008', error: VALIDATION_ERROR_MESSAGE.DATE },
+                { value: '0187', error: VALIDATION_ERROR_MESSAGE.DATE },
+                { value: 'invalid date', error: VALIDATION_ERROR_MESSAGE.DATE },
+            ],
+            DateTime : [
+                { value: '12/31/2018', error: '', expectedValue: '12/31/2018 00:00:00 GMT-0800 (PST)' },
+                { value: '12-12-2009 11:32:59', error: '', expectedValue: '12/12/2009 11:32:59 GMT-0800 (PST)' },
+                { value: '1 1 2018 10:11', error: '', expectedValue: '01/01/2018 10:11:00 GMT-0800 (PST)' },
+                { value: '12/31/2018 60:60:60', error: VALIDATION_ERROR_MESSAGE.DATE_TIME },
+                { value: 'invalid date', error: VALIDATION_ERROR_MESSAGE.DATE_TIME },
+            ],
+            SObject :   [
+                { value: '{!StartDateVar}', error: '' },
+                { value: '{! test}', error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: 'literal', error: VALIDATION_ERROR_MESSAGE.GENERIC },
+            ],
+            Boolean : [
+                { value: 'true', error: 'You have entered an invalid value.' },
+                { value: '{!MyBooleanVar}', error: '' },
+            ],
+            Picklist : [
+                { value: 'test picklist value', error: '' },
+            ],
+            Multipicklist : [
+                { value: 'test multi picklist value', error: '' },
+            ],
+        };
+
+        let blurEvent;
+        let testName;
+
+        beforeAll(() => {
+            blurEvent = new CustomEvent('blur');
+            combobox.menuData = comboboxConfig.menuData;
+        });
+
+        Object.keys(validationTestData).forEach(dataType => {
+            validationTestData[dataType].forEach(testData => {
+                testName = !testData.isLiteralsAllowed ? `for data type ${dataType} and value ${testData.value}`
+                    : `for data type ${dataType} value ${testData.value} and literalsAllowed ${testData.isLiteralsAllowed}`;
+                testName = testData.error ? testName += ' shows error.' : testName;
+
+                it(testName, () => {
+                    if (typeof testData.isLiteralsAllowed === 'boolean' && testData.isLiteralsAllowed === false) {
+                        combobox.literalsAllowed = 'false';
+                    } else {
+                        combobox.literalsAllowed = 'true';
+                    }
+                    combobox.type = dataType;
+
+                    const textInputEvent = getTextInputEvent(testData.value);
+
+                    groupedCombobox.dispatchEvent(textInputEvent);
+                    groupedCombobox.dispatchEvent(blurEvent);
+
+                    expect(groupedCombobox.validity).toEqual(testData.error);
+                    if (testData.expectedValue) {
+                        expect(combobox.value).toEqual(testData.expectedValue);
+                    }
+                });
+            });
+        });
+
+        it('for required', () => {
+            combobox.required = true;
+            combobox.value = '';
+            groupedCombobox.dispatchEvent(blurEvent);
+            expect(groupedCombobox.validity).toEqual('You have entered an invalid value.');
+        });
+
+        it('for invalid data type', () => {
+            const dataType = 'InvalidDataType';
+            try {
+                combobox.type = dataType;
+            } catch (e) {
+                expect(e).toBeDefined();
+                expect(e.message).toEqual(`Data type must be non-empty and a valid Flow Data Type but instead was ${dataType}`);
+            }
+            expect.assertions(2);
         });
     });
 });
