@@ -1,4 +1,4 @@
-import { createSelector } from 'builder_platform_interaction-store-lib';
+import { createSelector } from '../createSelector';
 
 const state = {
     elements: {
