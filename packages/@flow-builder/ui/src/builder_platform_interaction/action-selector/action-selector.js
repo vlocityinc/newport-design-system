@@ -52,8 +52,11 @@ export default class ActionSelector extends Element {
             case ELEMENT_TYPE.ACTION_CALL:
                 items = this.invocableActions.filter(action => action.IsStandard || action.Type === "quickAction").map(action => this.getComboItemFromInvocableAction(action));
                 break;
-            case "apex":
+            case ELEMENT_TYPE.APEX_CALL:
                 items = this.invocableActions.filter(action => action.Type === "apex").map(action => this.getComboItemFromInvocableAction(action));
+                break;
+            case ELEMENT_TYPE.EMAIL_ALERT:
+                items = this.invocableActions.filter(action => action.Type === "emailAlert").map(action => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
                 items = this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
@@ -96,7 +99,7 @@ export default class ActionSelector extends Element {
             },
             {
                 label : "Apex",
-                value : "apex",
+                value : ELEMENT_TYPE.APEX_CALL,
             },
             {
                 label : "Custom",
@@ -104,7 +107,7 @@ export default class ActionSelector extends Element {
             },
             {
                 label : "Email Alert",
-                value : "emailAlert",
+                value : ELEMENT_TYPE.EMAIL_ALERT,
             },
             {
                 label : "Subflow",
@@ -134,7 +137,7 @@ export default class ActionSelector extends Element {
 
     handleActionChanged(event) {
         event.stopPropagation();
-        let actionItemValue = event.value;
+        let actionItemValue = event.detail.value;
         // TODO : combox value is currently wrapped into {! }
         if (actionItemValue.startsWith('{!') && actionItemValue.endsWith('}')) {
             actionItemValue = actionItemValue.substring(2, actionItemValue.length - 1);
@@ -144,12 +147,5 @@ export default class ActionSelector extends Element {
             const valueChangedEvent = new ValueChangedEvent(actionTypeAndName);
             this.dispatchEvent(valueChangedEvent);
         }
-    }
-
-    handleFetchMenuData(event) {
-        event.stopPropagation();
-        // just to remove the activity indicator
-        // TODO : should not be necessary
-        this.state.actionMenuData = [{ items : this.state.actionMenuData[0].items }];
     }
 }

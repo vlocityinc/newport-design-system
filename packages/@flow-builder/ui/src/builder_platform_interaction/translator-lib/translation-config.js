@@ -36,6 +36,7 @@ Object.entries(elementTypeToConfigMap).forEach(([elementType, config]) => {
     if (elementType !== ELEMENT_TYPE.DEFAULT) {
         ELEMENT_INFOS[elementType] = pick(config, [
             'metadataKey',
+            'metadataFilter',
             'canvasElement'
         ]);
     }

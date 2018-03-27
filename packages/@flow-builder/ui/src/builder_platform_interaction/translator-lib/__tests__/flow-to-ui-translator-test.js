@@ -163,6 +163,17 @@ describe('Flow To UI Translator', () => {
         });
     });
 
+    describe('action calls', () => {
+        it('Converts Flow to UI', () => {
+            const sampleFlow = cleanFlowSample();
+            const uiFlow = translateFlowToUIModel(sampleFlow);
+
+            expect(uiFlow).toBeTruthy();
+            expect(Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.ACTION_CALL)).toHaveLength(2);
+            expect(Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.APEX_CALL)).toHaveLength(1);
+        });
+    });
+
     it('Converts Elements from Flow to UI', () => {
         const nameToGuid = {};
         const converted = convertElements(nameToGuid, deepCopy(ASSIGNMENTS), ASSIGNMENT_TYPE, IS_CANVAS);

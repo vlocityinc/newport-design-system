@@ -101,7 +101,7 @@ export default class ActionCallEditor extends Element {
     }
 
     handleActionSelected(event) {
-        getInvocableActionParameters(event.value.actionType, event.value.actionName, () => {
+        getInvocableActionParameters(event.detail.value.actionType, event.detail.value.actionName, () => {
             // display the parameters
         });
     }

@@ -100,6 +100,49 @@ const UI_MODEL = {
             'elementType': 'VARIABLE',
             'isCanvasElement': false,
             'guid': 'VARIABLE_5'
+        },
+        "ACTIONCALL_6": {
+            "actionName": "Case.LogACall",
+            "actionType": "quickAction",
+            "inputParameters": [
+                {
+                    "name": "contextId",
+                    "processMetadataValues": []
+                }
+            ],
+            "label": "logACall",
+            "locationX": 212,
+            "locationY": 115,
+            "name": "logACall",
+            "outputParameters": [],
+            "processMetadataValues": [],
+            "elementType": "ACTION_CALL",
+            "isCanvasElement": true,
+            "config": {
+                "isSelected": false
+            },
+            "maxConnections": 1,
+            "connectorCount": 0,
+            "guid": "ACTIONCALL_6"
+        },
+        "APEXCALL_7": {
+            "actionName": "lookUpAccountAnnotation",
+            "actionType": "apex",
+            "inputParameters": [],
+            "label": "lookUpAccountAnnotation",
+            "locationX": 422,
+            "locationY": 105,
+            "name": "lookUpAccountAnnotation",
+            "outputParameters": [],
+            "processMetadataValues": [],
+            "elementType": "APEX_CALL",
+            "isCanvasElement": true,
+            "config": {
+                "isSelected": false
+            },
+            "maxConnections": 1,
+            "connectorCount": 0,
+            "guid": "APEXCALL_7"
         }
     },
     'properties': {
@@ -137,5 +180,11 @@ describe('UI to Flow Translator', () => {
         expect(decision.rules).toHaveLength(2);
         expect(decision.rules[0].name).toEqual('o1');
         expect(decision.rules[1].name)  .toEqual('o2');
+    });
+
+    it('translates action calls', () => {
+        const flow = translateUIModelToFlow(UI_MODEL);
+
+        expect(flow.metadata.actionCalls).toHaveLength(2);
     });
 });

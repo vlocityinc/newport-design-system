@@ -69,16 +69,16 @@ describe('Action selector Tests', () => {
         const lightningCombobox = actionSelectorComponent.querySelector(selectors.lightningCombobox);
         const groupedCombobox = actionSelectorComponent.querySelector(selectors.lightningGroupedCombobox);
         expect(lightningCombobox.value).toBe(ELEMENT_TYPE.ACTION_CALL);
-        expect(groupedCombobox.items.map(item => item.text)).toEqual(["Post to Chatter", "Send Email"]);
+        expect(groupedCombobox.items[0].items.map(item => item.text)).toEqual(["Post to Chatter", "Send Email"]);
     });
     it('Change selected value on the first combobox and check the value of the second combobox', () => {
-        const lightningCBChangeEventForApex = new CustomEvent('change', {detail: {value: 'apex'}});
+        const lightningCBChangeEventForApex = new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_CALL}});
         const lightningCombobox = actionSelectorComponent.querySelector(selectors.lightningCombobox);
         lightningCombobox.dispatchEvent(lightningCBChangeEventForApex);
         return Promise.resolve().then(() => {
-            expect(lightningCombobox.value).toBe("apex");
+            expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_CALL);
             const groupedCombobox = actionSelectorComponent.querySelector(selectors.lightningGroupedCombobox);
-            expect(groupedCombobox.items.map(item => item.text)).toEqual(["Apex1", "Apex2", "Apex3"]);
+            expect(groupedCombobox.items[0].items.map(item => item.text)).toEqual(["Apex1", "Apex2", "Apex3"]);
         });
     });
     it('ValueChangedEvent is fired when an action is selected ', () => {
@@ -88,7 +88,7 @@ describe('Action selector Tests', () => {
             document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
             interactionCombobox.dispatchEvent(new ValueChangedEvent('emailSimple-emailSimple'));
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0]).toMatchObject({value: {actionName: "emailSimple", actionType: "emailSimple"}});
+            expect(eventCallback.mock.calls[0][0].detail.value).toMatchObject({actionName: "emailSimple", actionType: "emailSimple"});
         });
     });
 });

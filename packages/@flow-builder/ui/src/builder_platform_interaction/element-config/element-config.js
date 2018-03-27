@@ -14,7 +14,9 @@ export const ELEMENT_TYPE = {
     ASSIGNMENT: 'ASSIGNMENT',
     VARIABLE: 'VARIABLE',
     DECISION: 'DECISION',
-    APEX_PLUGIN_CALL: 'APEX_PLUGIN_CALLS',
+    APEX_PLUGIN_CALL: 'APEX_PLUGIN_CALL',
+    APEX_CALL: 'APEX_CALL',
+    EMAIL_ALERT: 'EMAIL_ALERT',
     CHOICE: 'CHOICE',
     CONSTANT: 'CONSTANT',
     DYNAMIC_CHOICE_SET: 'DYNAMIC_CHOICE_SET',
@@ -49,6 +51,8 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: 'actionCalls',
+        // action call : standard actions and quickactions
+        metadataFilter : element => element.actionType !== 'emailAlert' && element.actionType !== 'apex' && element.actionType !== 'flow',
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -76,6 +80,52 @@ export const elementTypeToConfigMap = {
             config: { isSelected: false },
             connectorCount: 0,
             elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
+    [ELEMENT_TYPE.APEX_CALL]: {
+        descriptor: 'builder_platform_interaction:actioncallEditor', // TODO: We probably need some function here to
+        // determine the descriptor based on action type
+        nodeConfig: {
+            iconName: 'standard:macros',
+            maxConnections: 1
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: 'actionCalls',
+        metadataFilter : element => element.actionType === 'apex',
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.APEX_CALL,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
+    [ELEMENT_TYPE.EMAIL_ALERT]: {
+        descriptor: 'builder_platform_interaction:actioncallEditor', // TODO: We probably need some function here to
+        // determine the descriptor based on action type
+        nodeConfig: {
+            iconName: 'standard:email',
+            maxConnections: 1
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: 'actionCalls',
+        metadataFilter : element => element.actionType === 'emailAlert',
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.EMAIL_ALERT,
             guid: '',
             isCanvasElement: true,
             label: '',

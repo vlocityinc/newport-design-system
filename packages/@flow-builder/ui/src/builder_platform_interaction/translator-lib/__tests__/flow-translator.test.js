@@ -15,8 +15,84 @@ export const sampleFlow = {
     "manageableState": "unmanaged",
     "masterLabel": "screenFlow",
     "metadata": {
-        "actionCalls": [],
-        "apexPluginCalls": [],
+        "actionCalls": [
+            {
+                "actionName": "Case.LogACall",
+                "actionType": "quickAction",
+                "connector": {
+                    "processMetadataValues": [],
+                    "targetReference": "postToChatter"
+                },
+                "inputParameters": [
+                    {
+                        "name": "contextId",
+                        "processMetadataValues": []
+                    }
+                ],
+                "label": "logACall",
+                "locationX": 212,
+                "locationY": 115,
+                "name": "logACall",
+                "outputParameters": [],
+                "processMetadataValues": []
+            },
+            {
+                "actionName": "chatterPost",
+                "actionType": "chatterPost",
+                "connector": {
+                    "processMetadataValues": [],
+                    "targetReference": "lookUpAccountAnnotation"
+                },
+                "inputParameters": [
+                    {
+                        "name": "subjectNameOrId",
+                        "processMetadataValues": []
+                    },
+                    {
+                        "name": "text",
+                        "processMetadataValues": []
+                    }
+                ],
+                "label": "postToChatter",
+                "locationX": 194,
+                "locationY": 272,
+                "name": "postToChatter",
+                "outputParameters": [],
+                "processMetadataValues": []
+            },
+            {
+                "actionName": "lookUpAccountAnnotation",
+                "actionType": "apex",
+                "connector": {
+                    "processMetadataValues": [],
+                    "targetReference": "lookUpAccountPlugin"
+                },
+                "inputParameters": [],
+                "label": "lookUpAccountAnnotation",
+                "locationX": 422,
+                "locationY": 105,
+                "name": "lookUpAccountAnnotation",
+                "outputParameters": [],
+                "processMetadataValues": []
+            }
+        ],
+        "apexPluginCalls": [
+            {
+                "apexClass": "lookUpAccountPlugin",
+                "inputParameters": [
+                    {
+                        "name": "name",
+                        "processMetadataValues": []
+                    }
+                ],
+                "label": "lookUpAccountPlugin",
+                "locationX": 627,
+                "locationY": 98,
+                "name": "lookUpAccountPlugin",
+                "outputParameters": [],
+                "processMetadataValues": []
+            }
+        ],
         "assignments": [{
             "assignmentItems": [{
                 "assignToReference": "var",

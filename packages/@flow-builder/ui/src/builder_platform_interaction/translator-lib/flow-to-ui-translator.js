@@ -109,8 +109,13 @@ export function translateFlowToUIModel(flow) {
 
     // convert each type of element ex: assignments, decisions, variables
     Object.entries(ELEMENT_INFOS).forEach(([elementType, elementInfo]) => {
+        let elementsToConvert = flow.metadata[elementInfo.metadataKey];
+        if (elementInfo.metadataFilter) {
+            // several element types for the same metadataKey (for actionCalls : ACTION_CALL, APEX_CALL, EMAIL_ALERT ...)
+            elementsToConvert = elementsToConvert.filter(elementInfo.metadataFilter);
+        }
         const convertedElements = convertElements(
-            flow.metadata[elementInfo.metadataKey],
+            elementsToConvert,
             elementType,
             elementInfo.canvasElement
         );
