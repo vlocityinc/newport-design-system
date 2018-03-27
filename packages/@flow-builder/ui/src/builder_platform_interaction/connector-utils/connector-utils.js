@@ -154,9 +154,13 @@ export const createConnectorsAndConnectionProperties = (nodeId, elements) => {
     // Create connector objects for any child elements of the canvas element (ex. outcomes on a decision)
     let childReferences = [];
     if (elementType === ELEMENT_TYPE.DECISION) {
-        childReferences = node.outcomeReferences;
+        childReferences = node.outcomeReferences.map(outcomeReference => {
+            return outcomeReference.outcomeReference;
+        });
     } else if (elementType === ELEMENT_TYPE.WAIT_EVENT) {
-        childReferences = node.waitEventReferences;
+        childReferences = node.waitEventReferences.map(waitEventReference => {
+            return waitEventReference.waitEventReference;
+        });
     }
 
     childReferences.forEach(childReference => {
