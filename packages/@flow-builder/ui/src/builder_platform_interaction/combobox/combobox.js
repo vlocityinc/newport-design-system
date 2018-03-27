@@ -1,7 +1,6 @@
 import { Element, api, track } from 'engine';
 import { parseDateTime } from 'builder_platform_interaction-date-time-utils';
-import { FetchMenuDataEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
-import { filterMatches } from 'builder_platform_interaction-data-mutation-lib';
+import { FetchMenuDataEvent, ValueChangedEvent, FilterMatchesEvent } from 'builder_platform_interaction-events';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-constant';
 
 const SELECTORS = {
@@ -26,7 +25,7 @@ export default class Combobox extends Element {
         value: '',
         showActivityIndicator: false,
         inputIcon: 'utility:search',
-        filteredMenuData: [],
+        menuData: [],
     };
 
     /**
@@ -117,16 +116,13 @@ export default class Combobox extends Element {
      */
     @api
     set menuData(data) {
-        this._fullMenuData = data;
-        // TODO need to figure out a smarter way than just clearing the cache
-        this._itemCache = {};
-        this.state.filteredMenuData = data;
+        this.state.menuData = data;
         this.state.showActivityIndicator = false;
     }
 
     @api
     get menuData() {
-        return this._fullMenuData;
+        return this.state.menuData;
     }
 
     /**
@@ -151,8 +147,6 @@ export default class Combobox extends Element {
     /* ***************** */
     /* Private Variables */
     /* ***************** */
-
-    _fullMenuData = [];
 
     _isResourceState = false;
 
@@ -207,11 +201,11 @@ export default class Combobox extends Element {
 
         // If a . is typed or deleted when in resource state, fire an event to fetch new menu data
         if (this.wasPeriodEnteredOrDeleted(previousValue)) {
-            this.fetchMenuData(sanitizedValue);
+            this.fireFetchMenuDataEvent(sanitizedValue);
         }
 
-        // Filter the menu data
-        this.state.filteredMenuData = filterMatches(this.getFilterText(sanitizedValue), this.menuData);
+        // Fire event to filter Menu Data
+        this.fireFilterMatchesEvent(this.getFilterText(sanitizedValue));
     }
 
     /**
@@ -227,7 +221,7 @@ export default class Combobox extends Element {
         const itemHasNextLevel = item && item.hasNext;
 
         if (itemHasNextLevel) {
-            this.fetchMenuData(this.getSanitizedValue());
+            this.fireFetchMenuDataEvent(this.getSanitizedValue());
         }
 
         // Replace the value with selected option value with braces
@@ -269,13 +263,35 @@ export default class Combobox extends Element {
     /* **************************** */
 
     /**
-     * Dispatches the FetchMenuData Event and makes the spinner active if the selected value hasNext
+     * Dispatches the FetchMenuData Event & makes the spinner active
      * @param {String} value - the value to fetch menu data on
      */
-    fetchMenuData(value) {
+    fireFetchMenuDataEvent(value) {
         const fetchMenuDataEvent = new FetchMenuDataEvent(value);
         this.dispatchEvent(fetchMenuDataEvent);
         this.state.showActivityIndicator = true;
+    }
+
+    /**
+     * Dispatches the FilterMatches Event & makes the spinner active
+     * @param {String} value the value to filter on
+     */
+    fireFilterMatchesEvent(value) {
+        const filterMatchesEvent = new FilterMatchesEvent(value);
+        this.dispatchEvent(filterMatchesEvent);
+        this.state.showActivityIndicator = true;
+    }
+
+    /**
+     * Fire value change event with error message if provided
+     * @param {String} value The value to send
+     * @param {String} errorMessage optional error message
+     */
+    fireValueChangedEvent(value, errorMessage) {
+        const valueChangedEvent = (errorMessage && errorMessage !== '') ?
+            new ValueChangedEvent(value, errorMessage) :
+            new ValueChangedEvent(value);
+        this.dispatchEvent(valueChangedEvent);
     }
 
     /**
@@ -285,14 +301,14 @@ export default class Combobox extends Element {
      */
     findItem() {
         let foundItem;
-        const groupCount = this._fullMenuData.length;
+        const groupCount = this.state.menuData.length;
         const sanitizedValue = this.getSanitizedValue();
         // check if the item has already been cached to avoid running through the nested arrays
         if (this._itemCache[sanitizedValue]) {
             return this._itemCache[sanitizedValue];
         }
         for (let i = 0; i < groupCount; i++) {
-            foundItem = this._fullMenuData[i].items.find(item => {
+            foundItem = this.state.menuData[i].items.find(item => {
                 // add item to the cache whether or not it's the foundItem
                 this._itemCache[item.value] = item;
                 return item.value === sanitizedValue;
@@ -398,25 +414,12 @@ export default class Combobox extends Element {
     }
 
     /**
-     * Fire value change event with error message if provided
-     * @param {String} value The value to send
-     * @param {String} errorMessage optional error message
-     */
-    fireValueChangedEvent(value, errorMessage) {
-        const valueChangedEvent = (errorMessage && errorMessage !== '') ?
-            new ValueChangedEvent(value, errorMessage) :
-            new ValueChangedEvent(value);
-        this.dispatchEvent(valueChangedEvent);
-    }
-
-    /**
      * Returns the lightning grouped combobox element.
      * @returns {Object} the grouped combobox element.
      */
     getGroupedCombobox() {
         return this.root.querySelector(SELECTORS.GROUPED_COMBOBOX);
     }
-
 
     /** *********************************/
     /*    Validation Helper methods     */

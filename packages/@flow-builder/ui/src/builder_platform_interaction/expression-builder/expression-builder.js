@@ -1,8 +1,8 @@
-import {Element, api, track} from 'engine';
-import {EXPRESSION_PROPERTY_TYPE} from 'builder_platform_interaction-constant';
+import { Element, api, track } from 'engine';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-constant';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { Store } from 'builder_platform_interaction-store-lib';
-import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
+import { getElementsForMenuData, filterMatches } from 'builder_platform_interaction-expression-utils';
 import { getRulesForElementType, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox } from 'builder_platform_interaction-rule-lib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
@@ -68,7 +68,7 @@ export default class ExpressionBuilder extends Element {
         if (expression[OPERATOR] && expression[OPERATOR].value && this.state.operatorOptions) {
             this.state.operatorValue = expression[OPERATOR].value;
             const rhsTypes = getRHSTypes(this.state.lhsValue, this.state.operatorValue, rules);
-            this.state.rhsMenuData = getElementsForMenuData(storeInstance.getCurrentState().elements, storeInstance.getCurrentState().variables, rhsTypes);
+            this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData(storeInstance.getCurrentState().elements, storeInstance.getCurrentState().variables, rhsTypes);
         } else {
             // TODO default case W-4817341
         }
@@ -98,7 +98,7 @@ export default class ExpressionBuilder extends Element {
     set elementType(type) {
         element = type;
         rules = getRulesForElementType(element);
-        this.state.lhsMenuData = getElementsForMenuData(storeInstance.getCurrentState().elements, storeInstance.getCurrentState().variables, getLHSTypes(rules));
+        this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData(storeInstance.getCurrentState().elements, storeInstance.getCurrentState().variables, getLHSTypes(rules));
     }
 
     @api
@@ -178,6 +178,14 @@ export default class ExpressionBuilder extends Element {
         // TODO: determine this logic W-4712116
     }
 
+    /* ***************** */
+    /* Private Variables */
+    /* ***************** */
+
+    _fullLHSMenuData = [];
+
+    _fullRHSMenuData = [];
+
     handleLHSValueChanged(event) {
         event.stopPropagation();
 
@@ -197,6 +205,14 @@ export default class ExpressionBuilder extends Element {
 
         const propertyChangedEvent = new RowContentsChangedEvent(RHS, event.detail.value, event.detail.error);
         this.dispatchEvent(propertyChangedEvent);
+    }
+
+    handleFilterLHSMatches(event) {
+        this.state.lhsMenuData = filterMatches(event.detail.value, this._fullLHSMenuData);
+    }
+
+    handleFilterRHSMatches(event) {
+        this.state.rhsMenuData = filterMatches(event.detail.value, this._fullRHSMenuData);
     }
 
     handleFetchLHSMenuData() {

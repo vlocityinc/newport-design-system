@@ -1,4 +1,4 @@
-import { filterMatches } from 'builder_platform_interaction-data-mutation-lib';
+import { filterMatches } from 'builder_platform_interaction-expression-utils';
 
 const filterTextName = 'Name';
 const filterTextStr = 'Str';

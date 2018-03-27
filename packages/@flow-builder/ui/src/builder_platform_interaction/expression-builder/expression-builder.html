@@ -5,6 +5,7 @@
                 value={lhsComboBoxValue}
                 onfetchmenudata={handleFetchLHSMenuData}
                 onvaluechanged={handleLHSValueChanged}
+                onfiltermatches={handleFilterLHSMatches}
                 menu-data={lhsMenuData}
                 error-message={lhsError}
                 >
@@ -26,6 +27,7 @@
                 disabled={rhsDisabled}
                 onfetchmenudata={handleFetchRHSMenuData}
                 onvaluechanged={handleRHSValueChanged}
+                onfiltermatches={handleFilterRHSMatches}
                 menu-data={rhsMenuData}
                 error-message={rhsError}
                 >
