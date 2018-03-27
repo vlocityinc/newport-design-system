@@ -3,6 +3,7 @@ import { actionCallReducer } from './actioncall-reducer';
 import inputs from '@label/DesignerLabels.actioncall_inputs_label';
 import outputs from '@label/DesignerLabels.actioncall_outputs_label';
 import { createAction } from 'builder_platform_interaction-actions';
+import { replaceItem } from 'builder_platform_interaction-data-mutation-lib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
 import { getInvocableActionParameters } from 'builder_platform_interaction-actioncall-lib';
 
@@ -20,6 +21,9 @@ export default class ActionCallEditor extends Element {
      */
     @track actionCallNode = {};
     @track activetabid = ACTIVETABID_DEFAULT;
+
+    @track inputs = [];
+    @track outputs = [];
 
     labels = {
         inputs,
@@ -101,8 +105,25 @@ export default class ActionCallEditor extends Element {
     }
 
     handleActionSelected(event) {
-        getInvocableActionParameters(event.detail.value.actionType, event.detail.value.actionName, () => {
-            // display the parameters
-        });
+        const actionTypeAndName = event.detail.value;
+        getInvocableActionParameters(actionTypeAndName.actionType, actionTypeAndName.actionName, actionParameters => this.updateInputOutputParameters(actionParameters));
+    }
+
+    updateInputOutputParameters(parameters) {
+        this.inputs = parameters.filter(parameter => parameter.IsInput === true);
+        this.outputs = parameters.filter(parameter => parameter.IsOutput === true);
+        // TODO: merge with actionCallNode to get value
+    }
+
+    /**
+     * @param {object} event - update parameter item event coming from parameter-item component
+     */
+    handleUpdateParameterItem(event) {
+        event.stopPropagation();
+        if (event.detail.isInput) {
+            this.inputs = replaceItem(this.inputs, event.detail.item, event.detail.index);
+        } else {
+            this.outputs = replaceItem(this.outputs, event.detail.item, event.detail.index);
+        }
     }
 }

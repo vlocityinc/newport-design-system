@@ -1,0 +1,39 @@
+<template>
+    <div class="slds-has-dividers_top-space slds-list_vertical-space">
+        <li class={itemClass}>
+            <div class="slds-grid">
+                <!-- left: param name + combobox -->
+                <div class="slds-col slds-order_1 slds-p-right_medium">
+                    <div class="slds-grid">
+                        <!-- parameterType.icon -->
+                        <div class="slds-m-right_x-small">
+                            <lightning-icon icon-name={iconName} size="xx-small" alternative-text={alternativeText}></lightning-icon>
+                        </div>
+                        <div class="slds-col">
+                            <div class="slds-form-element slds-m-top_xxx-small slds-size_medium" aria-hidden="false">
+                                <!-- Parameter name is here -->
+                                <label class="slds-form-element__label" if:false={showCombobox}>
+                                    {label}
+                                </label>
+                                <!-- Combobox is here -->
+                                <builder_platform_interaction-combobox if:true={showCombobox} label={label} required={isRequired}
+                                    type={type}
+                                    menu-data={menuData}
+                                    value={comboboxValue} 
+                                    onvaluechanged={handleValueChanged} onfetchmenudata={handleFetchMenuData}>   
+                                </builder_platform_interaction-combobox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- right: toogle -->
+                <div class="slds-order_2" if:true={showToggle}>
+                    <div class="slds-form-element -slds-size_xx-small">
+                        <!-- toggle checkbox here -->
+                        <lightning-input type="toggle" variant="label-hidden" label="Text" message-toggle-active="Set" message-toggle-inactive="Not Set" checked={checked} onchange={handleToggleChanged}></lightning-input>
+                    </div>
+                </div>                      
+            </div>
+        </li>
+    </div>
+</template>

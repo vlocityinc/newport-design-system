@@ -9,3 +9,4 @@ export { UpdateListItemEvent } from './updateListItemEvent';
 export { DeleteListItemEvent } from './deleteListItemEvent';
 export { RowContentsChangedEvent } from './rowContentsChangedEvent';
 export { FilterMatchesEvent } from './filterMatchesEvent';
+export { UpdateParameterItemEvent } from './updateParameterItemEvent';

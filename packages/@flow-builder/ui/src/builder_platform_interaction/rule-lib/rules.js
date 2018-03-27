@@ -50,6 +50,10 @@ export const getRulesForElementType = (elementType) => {
         case ELEMENT_TYPE.ASSIGNMENT:
             rules = rulesInstance[RULE_TYPES.ASSIGNMENT];
             break;
+        case ELEMENT_TYPE.ACTION_CALL:
+        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
+            rules = rulesInstance[RULE_TYPES.COMPARISON];
+            break;
         default:
             rules = [];
     }

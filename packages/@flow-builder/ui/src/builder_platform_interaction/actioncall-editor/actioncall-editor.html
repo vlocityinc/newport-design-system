@@ -3,12 +3,12 @@
 
     <builder_platform_interaction-accordion>
         <builder_platform_interaction-accordion-section>
-            <div slot='accordion-header'>Select Reference to Call</div>
+            <div slot='accordion-header'>Select Reference to Call</div>   
             <div slot='accordion-body'>
                 <builder_platform_interaction-action-selector selected-type={elementType} onvaluechanged={handleActionSelected}></builder_platform_interaction-action-selector>
             </div>
         </builder_platform_interaction-accordion-section>
-        <builder_platform_interaction-accordion-section>
+        <builder_platform_interaction-accordion-section>   
             <div slot='accordion-header'>Details</div>
             <div slot='accordion-body'>
                 <div class='slds-m-bottom--x-small'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
@@ -29,13 +29,28 @@
         
         <div slot="contents">
             <builder_platform_interaction-tabcontent contentid="tabcontent-inputs" labelledby="tabitem-inputs" activeid={activetabid}>
-                Inputs TBD
+                <!-- This will be moved to parameter-list component -->
+                <div class="slds-p-horizontal_small"  onupdateparameteritem={handleUpdateParameterItem}>
+                    <ul>
+                    <template for:each={inputs} for:item="item" for:index="index">
+                        <!-- TODO: key should be guid, from common lib -->
+                        <builder_platform_interaction-parameter-item item={item} key={item.Name} item-index={index} element-type={elementType} ></builder_platform_interaction-parameter-item>
+                    </template>
+                    </ul>   
+                </div>  
             </builder_platform_interaction-tabcontent>
             <builder_platform_interaction-tabcontent contentid="tabcontent-outputs" labelledby="tabitem-outputs" activeid={activetabid}>
-                Outputs TBD
+                <!-- This will be moved to parameter-list component -->
+                <div class="slds-p-horizontal_small" onupdateparameteritem={handleUpdateParameterItem}>
+                    <ul>
+                    <template for:each={outputs} for:item="item" for:index="index">
+                        <!-- TODO: key should be guid, from common lib-->
+                        <builder_platform_interaction-parameter-item item={item} key={item.Name} item-index={index} element-type={elementType} ></builder_platform_interaction-parameter-item>
+                    </template>
+                    </ul>   
+                </div>
             </builder_platform_interaction-tabcontent>
         </div>
     </builder_platform_interaction-tabset>
-
     
 </template>
