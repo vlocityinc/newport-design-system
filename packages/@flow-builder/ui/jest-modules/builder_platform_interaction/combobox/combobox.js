@@ -11,14 +11,18 @@ export default class Combobox extends Element {
     disabled;
 
     @api
-    set menuData(data){};
+    set menuData(data) {
+        this._menuData = data;
+    }
 
     @api
-    get menuData(){};
+    get menuData() {
+        return this._menuData;
+    }
 
     @api
-    set errorMessage(error){};
+    set errorMessage(error){}
 
     @api
-    get errorMessage(){};
+    get errorMessage(){}
 }

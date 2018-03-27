@@ -2,8 +2,9 @@ import { createElement } from 'engine';
 import ExpressionBuilder from 'builder_platform_interaction-expression-builder';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-constant';
 import { RowContentsChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
-import { numberVariableGuid } from 'mock-store-data';
-import { getOperators, getRHSTypes } from "builder_platform_interaction-rule-lib";
+import { numberVariableGuid, numberVariableDevName } from 'mock-store-data';
+import { getLHSTypes, getOperators, getRHSTypes  } from 'builder_platform_interaction-rule-lib';
+import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-expression-builder', { is: ExpressionBuilder });
@@ -26,6 +27,11 @@ function createMockPopulatedExpression() {
             value: numberVariableGuid,
         }
     };
+}
+
+// returns the dev name to a combobox value with curly brace bang
+function devNameToComboboxValue(val) {
+    return '{!' + val + '}';
 }
 
 function createDefaultComponentForTest() {
@@ -54,17 +60,19 @@ const lightningCBChangeEvent = new CustomEvent('change', {
 
 jest.mock('builder_platform_interaction-rule-lib', () => {
     return {
+        getLHSTypes: jest.fn(),
         getOperators: jest.fn().mockImplementation(() => {
             return ['Assign', 'Add'];
         }),
         getRHSTypes: jest.fn(),
-        transformOperatorsForCombobox: jest.fn(),
+        transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
+        getRulesForElementType: jest.fn().mockReturnValue([]),
     };
 });
 
 jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
-        getElementsForMenuData: jest.fn(),
+        getElementsForMenuData: jest.fn().mockReturnValue([]),
     };
 });
 
@@ -76,7 +84,7 @@ describe('expression-builder', () => {
             const ourComboboxes = getComboboxElements(expressionBuilder);
             const operator = getLightningCombobox(expressionBuilder);
 
-            expect(ourComboboxes.length).toEqual(2);
+            expect(ourComboboxes).toHaveLength(2);
             expect(operator).toBeDefined();
         });
         it('should not show the operator when showOperator is false', () => {
@@ -88,7 +96,7 @@ describe('expression-builder', () => {
             const ourComboboxes = getComboboxElements(expressionBuilder);
             const operator = getLightningCombobox(expressionBuilder);
 
-            expect(ourComboboxes.length).toEqual(2);
+            expect(ourComboboxes).toHaveLength(2);
             expect(operator).toBeNull();
         });
     });
@@ -154,10 +162,40 @@ describe('expression-builder', () => {
         });
     });
     describe('building expression from existing item', () => {
+        it('should populate the lhs menu data', () => {
+            const expressionBuilder = createDefaultComponentForTest();
+            expressionBuilder.elementType = 'ASSIGNMENT';
+            return Promise.resolve().then(() => {
+                const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+                expect(getLHSTypes).toHaveBeenCalled();
+                expect(getElementsForMenuData).toHaveBeenCalled();
+                expect(lhsCombobox.menuData).toBeDefined();
+            });
+        });
+
         it('should populate operator menu if LHS is set', () => {
-            createDefaultComponentForTest();
+            const expressionBuilder = createDefaultComponentForTest();
+            const operatorCombobox = getLightningCombobox(expressionBuilder);
             expect(getOperators).toHaveBeenCalled();
+            expect(operatorCombobox.options).toBeDefined();
+        });
+
+        it('should populate rhs menu data', () => {
+            const expressionBuilder = createDefaultComponentForTest();
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
             expect(getRHSTypes).toHaveBeenCalled();
+            expect(rhsCombobox.menuData).toBeDefined();
+        });
+
+        it('should populate the expression builder with values from the store', () => {
+            const expressionBuilder = createDefaultComponentForTest();
+            const comboboxes = getComboboxElements(expressionBuilder);
+            const lhsCombobox = comboboxes[0];
+            const operatorCombobox = getLightningCombobox(expressionBuilder);
+            const rhsCombobox = comboboxes[1];
+            expect(lhsCombobox.value).toEqual(devNameToComboboxValue(numberVariableDevName));
+            expect(operatorCombobox.value).toEqual('Assign');
+            expect(rhsCombobox.value).toEqual(devNameToComboboxValue(numberVariableDevName));
         });
     });
 });
