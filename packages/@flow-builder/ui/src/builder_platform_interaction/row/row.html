@@ -1,13 +1,16 @@
 <template>
-	<div class='slds-grid slds-grid_horizontal slds-grid_vertical-align-end slds-gutters' onrowcontentschanged={handleRowContentsChanged}>
-        <template if:true={showPrefix}>
-            <div class='slds-col'>
-                {itemPrefix}
-            </div>
-        </template>
-        <slot name='rowBody'>
-        </slot>
-        <div class='slds-col'>
+    <template if:true={showPrefix}>
+        <legend class='slds-is-absolute slds-p-top_large slds-m-top_xx-small'>
+            <span>{itemPrefix}</span>
+        </legend>
+    </template>
+	<div class='slds-m-left_x-large slds-grid slds-grid_horizontal slds-grid_vertical-align-end slds-gutters' onrowcontentschanged={handleRowContentsChanged}>
+
+        <div class="slds-col">
+            <slot name='rowBody'></slot>
+        </div>
+
+        <div>
             <lightning-button icon-name='utility:delete' onclick={handleDelete} disabled={disableDelete}></lightning-button>
         </div>
     </div>
