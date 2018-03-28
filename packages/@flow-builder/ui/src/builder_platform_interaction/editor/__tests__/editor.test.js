@@ -1,9 +1,10 @@
 import { createElement } from 'engine';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
-jest.unmock('builder_platform_interaction-store-lib');
 import Editor from '../editor';
 import { EVENT } from 'builder_platform_interaction-constant';
 import { Store } from 'builder_platform_interaction-store-lib';
+
+jest.unmock('builder_platform_interaction-store-lib');
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-editor', {
@@ -15,7 +16,8 @@ const createComponentUnderTest = () => {
 
 const selectors = {
     root: '.editor',
-    save: '.toolbar-save'
+    save: '.toolbar-save',
+    addnewresource: '.left-panel-add-resource'
 };
 
 jest.mock('builder_platform_interaction-store-lib', () => {
@@ -145,260 +147,276 @@ const connectorElement = {
 };
 
 describe('editor', () => {
-    it('fires saveflow event when save button is clicked', () => {
-        const toolbarComponent = createComponentUnderTest();
-        return Promise.resolve().then(() => {
-            const eventCallback = jest.fn();
-            toolbarComponent.addEventListener('saveflow', eventCallback);
-            toolbarComponent.querySelector(selectors.save).click();
-            expect(eventCallback).toHaveBeenCalled();
+    describe('Tool Bar', () => {
+        it('fires saveflow event when save button is clicked', () => {
+            const toolbarComponent = createComponentUnderTest();
+            return Promise.resolve().then(() => {
+                const eventCallback = jest.fn();
+                toolbarComponent.addEventListener('saveflow', eventCallback);
+                toolbarComponent.querySelector(selectors.save).click();
+                expect(eventCallback).toHaveBeenCalled();
+            });
         });
     });
 
-    it('Checks if node selection is handled correctly when an unselected node is clicked without multiSelect key', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.NODE_SELECTED, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                canvasElementGUID : '1',
-                isMultiSelectKeyPressed: false
-            }
+    describe('Canvas', () => {
+        it('Checks if node selection is handled correctly when an unselected node is clicked without multiSelect key', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.NODE_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    canvasElementGUID : '1',
+                    isMultiSelectKeyPressed: false
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(element('1', 'SELECT_ON_CANVAS'));
+            });
         });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(element('1', 'SELECT_ON_CANVAS'));
+
+        it('Checks if node selection is handled correctly when a selected node is clicked without multiSelect key', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.NODE_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    canvasElementGUID : '2',
+                    isMultiSelectKeyPressed: false
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(element('2', 'SELECT_ON_CANVAS'));
+            });
+        });
+
+        it('Checks if node selection is handled correctly when an unselected node is clicked with multiSelect key', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.NODE_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    canvasElementGUID : '1',
+                    isMultiSelectKeyPressed: true
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(element('1', 'TOGGLE_ON_CANVAS'));
+            });
+        });
+
+        it('Checks if node selection is handled correctly when a selected node is clicked with multiSelect key', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.NODE_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    canvasElementGUID : '2',
+                    isMultiSelectKeyPressed: true
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(element('2', 'TOGGLE_ON_CANVAS'));
+            });
+        });
+
+        it('Checks if node and connector deselection is handled correctly when a canvas is clicked', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.CANVAS_MOUSEUP, {
+                bubbles: true,
+                composed: true,
+                cancelable: true
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(deselectionAction);
+            });
+        });
+
+        it('Checks if connector selection is handled correctly when an unselected connector is clicked without multiSelect key', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    connectorGUID: 'c1',
+                    isMultiSelectKeyPressed: false
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(element('c1', 'SELECT_ON_CANVAS'));
+            });
+        });
+
+        it('Checks if connector selection is handled correctly when a selected connector is clicked without multiSelect key', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    connectorGUID: 'c2',
+                    isMultiSelectKeyPressed: false
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(element('c2', 'SELECT_ON_CANVAS'));
+            });
+        });
+
+        it('Checks if connector selection is handled correctly when an unselected connector is clicked with multiSelect key', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    connectorGUID: 'c1',
+                    isMultiSelectKeyPressed: true
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(element('c1', 'TOGGLE_ON_CANVAS'));
+            });
+        });
+
+        it('Checks if connector selection is handled correctly when a selected connector is clicked with multiSelect key', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    connectorGUID: 'c2',
+                    isMultiSelectKeyPressed: true
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(element('c2', 'TOGGLE_ON_CANVAS'));
+            });
+        });
+
+        it('Checks if node deletion is handled correctly when trash-can is clicked', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    selectedCanvasElementGUIDs: ['2'],
+                    connectorGUIDs: ['c1', 'c2'],
+                    canvasElementsToUpdate: ['1']
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(deleteElement);
+            });
+        });
+
+        it('Checks if node and connector deletion is handled correctly when delete key is pressed', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    selectedCanvasElementGUIDs: ['2'],
+                    connectorGUIDs: ['c1', 'c2'],
+                    canvasElementsToUpdate: ['1']
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(deleteElement);
+            });
+        });
+
+        it('Checks if node location is updated correctly when a node stops dragging', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.DRAG_STOP, {
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+                detail: {
+                    canvasElementGUID : '1',
+                    elementType: ELEMENT_TYPE.ASSIGNMENT,
+                    locationX: '80',
+                    locationY: '70'
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(updateElement);
+            });
+        });
+
+        it('Checks if connections are added correctly', () => {
+            const editorComponent = createComponentUnderTest();
+            const event = new CustomEvent(EVENT.ADD_CONNECTION, {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    source: '1',
+                    target: '2',
+                    label: 'Label'
+                }
+            });
+            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(connectorElement);
+            });
         });
     });
 
-    it('Checks if node selection is handled correctly when a selected node is clicked without multiSelect key', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.NODE_SELECTED, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                canvasElementGUID : '2',
-                isMultiSelectKeyPressed: false
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(element('2', 'SELECT_ON_CANVAS'));
-        });
-    });
-
-    it('Checks if node selection is handled correctly when an unselected node is clicked with multiSelect key', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.NODE_SELECTED, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                canvasElementGUID : '1',
-                isMultiSelectKeyPressed: true
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(element('1', 'TOGGLE_ON_CANVAS'));
-        });
-    });
-
-    it('Checks if node selection is handled correctly when a selected node is clicked with multiSelect key', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.NODE_SELECTED, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                canvasElementGUID : '2',
-                isMultiSelectKeyPressed: true
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(element('2', 'TOGGLE_ON_CANVAS'));
-        });
-    });
-
-    it('Checks if node and connector deselection is handled correctly when a canvas is clicked', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.CANVAS_MOUSEUP, {
-            bubbles: true,
-            composed: true,
-            cancelable: true
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(deselectionAction);
-        });
-    });
-
-    it('Checks if connector selection is handled correctly when an unselected connector is clicked without multiSelect key', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                connectorGUID: 'c1',
-                isMultiSelectKeyPressed: false
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(element('c1', 'SELECT_ON_CANVAS'));
-        });
-    });
-
-    it('Checks if connector selection is handled correctly when a selected connector is clicked without multiSelect key', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                connectorGUID: 'c2',
-                isMultiSelectKeyPressed: false
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(element('c2', 'SELECT_ON_CANVAS'));
-        });
-    });
-
-    it('Checks if connector selection is handled correctly when an unselected connector is clicked with multiSelect key', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                connectorGUID: 'c1',
-                isMultiSelectKeyPressed: true
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(element('c1', 'TOGGLE_ON_CANVAS'));
-        });
-    });
-
-    it('Checks if connector selection is handled correctly when a selected connector is clicked with multiSelect key', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                connectorGUID: 'c2',
-                isMultiSelectKeyPressed: true
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(element('c2', 'TOGGLE_ON_CANVAS'));
-        });
-    });
-
-    it('Checks if node deletion is handled correctly when trash-can is clicked', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                selectedCanvasElementGUIDs: ['2'],
-                connectorGUIDs: ['c1', 'c2'],
-                canvasElementsToUpdate: ['1']
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(deleteElement);
-        });
-    });
-
-    it('Checks if node and connector deletion is handled correctly when delete key is pressed', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                selectedCanvasElementGUIDs: ['2'],
-                connectorGUIDs: ['c1', 'c2'],
-                canvasElementsToUpdate: ['1']
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(deleteElement);
-        });
-    });
-
-    it('Checks if node location is updated correctly when a node stops dragging', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.DRAG_STOP, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                canvasElementGUID : '1',
-                elementType: ELEMENT_TYPE.ASSIGNMENT,
-                locationX: '80',
-                locationY: '70'
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(updateElement);
-        });
-    });
-
-    it('Checks if connections are added correctly', () => {
-        const editorComponent = createComponentUnderTest();
-        const event = new CustomEvent(EVENT.ADD_CONNECTION, {
-            bubbles: true,
-            composed: true,
-            detail: {
-                source: '1',
-                target: '2',
-                label: 'Label'
-            }
-        });
-        editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            const spy = Store.getStore().dispatch;
-            expect(spy).toHaveBeenCalled();
-            expect(spy.mock.calls[0][0]).toEqual(connectorElement);
+    describe('Left Panel Resources Tab', () => {
+        it('fires add new resource event when NEW RESOURCE button is clicked', () => {
+            const leftPanelComponent = createComponentUnderTest();
+            return Promise.resolve().then(() => {
+                const eventCallback = jest.fn();
+                leftPanelComponent.addEventListener('addnewresource', eventCallback);
+                leftPanelComponent.querySelector(selectors.addnewresource).click();
+                expect(eventCallback).toHaveBeenCalled();
+            });
         });
     });
 });

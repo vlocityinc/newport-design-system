@@ -66,6 +66,7 @@ export const EVENT = {
     CANVAS_ELEMENT_DELETE: 'canvaselementdelete',
     DELETE_ON_CANVAS: 'deleteoncanvas',
     ADD_CONNECTION: 'addconnection',
+    ADD_NEW_RESOURCE: 'addnewresource'
 };
 
 export const EXPRESSION_PROPERTY_TYPE = {

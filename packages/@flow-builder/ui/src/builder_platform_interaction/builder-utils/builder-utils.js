@@ -49,22 +49,32 @@ export const CRUD = {
  * @param {object} attributes - contains a nodeupadate callback and actual node data
  */
 export function invokePanel(cmpName, attributes) {
-    const elementType = attributes.node.elementType;
-    const nodeUpdate = attributes.nodeUpdate;
-    const node = attributes.node;
-    if (!attributes || !node || !nodeUpdate) {
-        throw new Error("attributes passed to invoke panel method are incorrect");
+    let elementType, nodeUpdate, node, descriptorType;
+
+    const titleForModal = attributes.modalTitle;
+
+    if (attributes.modalType === 'CANVAS') {
+        elementType = attributes.node.elementType;
+        nodeUpdate = attributes.nodeUpdate;
+        node = attributes.node;
+        descriptorType = getConfigForElementType(elementType).descriptor;
+
+        if (!attributes || !node || !nodeUpdate) {
+            throw new Error("attributes passed to invoke panel method are incorrect");
+        }
     }
+
+    if (attributes.modalType === 'RESOURCE' && attributes.mode === 'CREATE') {
+        descriptorType = 'builder_platform_interaction:resourceEditor';
+        elementType = 'VARIABLE';
+    }
+
     const attr = {
         elementType,
         nodeUpdate,
+        titleForModal,
         override: {
-            body: {
-                descriptor: getConfigForElementType(elementType).descriptor,
-                attr: {
-                    node
-                }
-            }
+            body: { descriptor: descriptorType, attr: { node } }
         }
     };
 

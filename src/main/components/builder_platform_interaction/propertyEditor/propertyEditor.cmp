@@ -1,6 +1,7 @@
-<aura:component  implements="builder_platform_interaction:propertyEditorBody">
+<aura:component>
 
     <!-- callback to update-->
+    <aura:attribute name="node" type="Object"/>
     <aura:attribute name="nodeUpdate" type="Object"/>
     <!-- factory override -->
     <aura:attribute name="override" type="Object" />

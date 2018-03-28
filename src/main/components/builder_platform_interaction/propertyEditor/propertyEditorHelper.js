@@ -2,10 +2,6 @@
     init: function (cmp) {
         var override = cmp.get('v.override');
         if (override && override.body){
-            if (override.body.attr && override.body.attr.node) {
-                // TODO get title based on new/existing node + i18n, and this should be moved to separate header component for modal too
-                cmp.set('v.titleForModal', override.body.attr.node.elementType);
-            }
             $A.createComponent(override.body.descriptor, override.body.attr, function(newCmp, status, errorMessage){
                 if (status === 'SUCCESS') {
                   cmp.set('v.body', newCmp); // setting the newly created assignment editor here in body

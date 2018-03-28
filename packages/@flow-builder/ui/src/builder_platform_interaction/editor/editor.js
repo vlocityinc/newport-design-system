@@ -71,6 +71,18 @@ export default class Editor extends Element {
         this.dispatchEvent(saveEvent);
     };
 
+    /**
+     * Handle click event fired by a child component. Fires another event
+     * containing resources information, which is handled by container.cmp.
+     *  @param {object} event - when add resource button is clicked.
+     */
+    handleAddResourceClick = (event) => {
+        if (event) {
+            const mode = CRUD.CREATE;
+            invokePanel(PROPERTY_EDITOR, {mode, modalType: 'RESOURCE', modalTitle: 'New Resource'});
+        }
+    };
+
     /** *********** Canvas and Node Event Handling *************** **/
 
     /**
@@ -85,7 +97,7 @@ export default class Editor extends Element {
             const mode = CRUD.UPDATE;
             const node = elementPropertyEditorSelector(storeInstance.getCurrentState(), event.detail.canvasElementGUID);
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
-            invokePanel(PROPERTY_EDITOR, {mode, nodeUpdate, node});
+            invokePanel(PROPERTY_EDITOR, {mode, nodeUpdate, node, modalType: 'CANVAS', modalTitle: 'ASSIGNMENT'});
         }
     };
 
