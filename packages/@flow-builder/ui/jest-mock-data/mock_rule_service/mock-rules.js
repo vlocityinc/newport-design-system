@@ -140,4 +140,30 @@ export const mockRules =
             }
         ]
     },
+    {
+        ruleType:'assignment',
+        left:{
+            paramType:'Data',
+            paramIndex:1,
+            dataType:{
+                value:'SObject'
+            },
+            collection:false,
+            canBeField:'CannotBe',
+            canBeSysVar:'CanBe'
+        },
+        operator:'Assign',
+        rhsParams:[
+            {
+                paramType:'Data',
+                paramIndex:1,
+                dataType:{
+                    value:'SObject'
+                },
+                collection:false,
+                canBeField:'CanBe',
+                canBeSysVar:'CanBe'
+            }
+        ]
+    }
 ];

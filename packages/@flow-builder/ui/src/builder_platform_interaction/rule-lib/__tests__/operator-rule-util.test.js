@@ -1,7 +1,7 @@
 import { isMatch, getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { RULE_TYPES, FLOW_DATA_TYPE, RULE_PROPERTY } from 'builder_platform_interaction-constant';
 import { mockRules, dateParam, stageParam } from 'mock-rule-service';
-import { elements, dateVariableGuid, stageGuid } from 'mock-store-data';
+import { elements, dateVariableGuid, stageGuid, accountSObjectVariableGuid } from 'mock-store-data';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { DATE } = FLOW_DATA_TYPE;
@@ -59,10 +59,12 @@ describe('Operator Rule Util', () => {
             const expectedDate = mockRules[0][LEFT];
             const expectedDateTime = mockRules[1][LEFT];
             const expectedStage = mockRules[2][LEFT];
+            const expectedSObject = mockRules[5][LEFT];
             expect(rules).toMatchObject({
                 'Date': [expectedDate],
                 'DateTime': [expectedDateTime],
                 'STAGE': [expectedStage],
+                'SObject': [expectedSObject],
             });
         });
 
@@ -172,12 +174,17 @@ describe('Operator Rule Util', () => {
             });
         });
 
-        it('shoudl return all the rhsTypes for the comaprison rules', () => {
+        it('should return all the rhsTypes for the comparison rules', () => {
             const rhsTypes = getRHSTypes(elements[stageGuid], EQUALS_OPERATOR, mockRules, COMPARISON);
             const expectedStage = mockRules[2][RHS_PARAMS][0];
             expect(rhsTypes).toMatchObject({
                 'STAGE': [expectedStage],
             });
+        });
+
+        it('should sort sObjects by object type', () => {
+            const rhsTypes = getRHSTypes(elements[accountSObjectVariableGuid], ASSIGNMENT_OPERATOR, mockRules, ASSIGNMENT);
+            expect(rhsTypes).toHaveProperty('Account');
         });
 
         it('throws an error when given an invalid rule type', () => {
