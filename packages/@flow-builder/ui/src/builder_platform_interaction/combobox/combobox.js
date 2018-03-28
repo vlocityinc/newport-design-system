@@ -78,6 +78,7 @@ export default class Combobox extends Element {
         this.state.value = value;
         this._lastRecordedValue = value;
         this.updateInputIcon();
+        this.setResourceState();
     }
 
     @api
@@ -148,6 +149,11 @@ export default class Combobox extends Element {
     /* Private Variables */
     /* ***************** */
 
+    /**
+     * This is true only when the expression is a valid expression identifier.
+     * Eg: {!testVar} true
+     *     {!testVar&} false since it is a literal
+     */
     _isResourceState = false;
 
     _comboboxVariant = 'standard';
@@ -190,11 +196,8 @@ export default class Combobox extends Element {
             previousValue === '{' && !this._isResourceState) {
             this._isResourceState = true;
             this.setValueAndCursor('');
-        // Or if value starts with {! & ends with }
-        } else if (this.state.value.startsWith('{!') && this.state.value.endsWith('}')) {
-            this._isResourceState = true;
         } else {
-            this._isResourceState = false;
+            this.setResourceState();
         }
 
         const sanitizedValue = this.getSanitizedValue();
@@ -261,6 +264,17 @@ export default class Combobox extends Element {
     /* **************************** */
     /*    Private Helper methods    */
     /* **************************** */
+
+    /**
+     * Set the resource state if the value start with '{!' and ends with '}'
+     */
+    setResourceState() {
+        if (this.state.value.startsWith('{!') && this.state.value.endsWith('}')) {
+            this._isResourceState = !this.isExpressionIdentifierLiteral(this.state.value, true);
+        } else {
+            this._isResourceState = false;
+        }
+    }
 
     /**
      * Dispatches the FetchMenuData Event & makes the spinner active
@@ -462,7 +476,7 @@ export default class Combobox extends Element {
     validateResource() {
         if (this.isExpressionIdentifierLiteral(this.state.value) && this._isLiteralAllowed) {
             this.validateLiteralForDataType(this.state.value);
-        } else {
+        } else if (!this.findItem()) {
             this.setErrorMessage(ERROR_MESSAGE.GENERIC);
         }
     }
@@ -553,13 +567,27 @@ export default class Combobox extends Element {
 
     /**
      * Validates if the expression literal identifier is a valid dev name.
+     * Eg: {!testVar} - is a valid expression, returns false
+     *     {^testVar} - is a valid expression literal, returns true
+     * Dot at the end is allowed for SObject where dot signifies to fetch next level data
      * TODO: May not be needed with validation rules.
      * @param {String} inputValue expression literal string
+     * @param {boolean} allowDotSuffix to allow dot at the end of the expression identifier
      * @returns {*} returns false if invalid dev name chars or regex result.
      */
-    isExpressionIdentifierLiteral(inputValue) {
-        const value = this.getSanitizedValue(inputValue);
-        const devNameRegex = new RegExp('^[a-zA-Z]+\\w+[a-zA-Z0-9]$');
+    isExpressionIdentifierLiteral(inputValue, allowDotSuffix) {
+        let value;
+        let devNameRegex;
+        if (this.state.value.startsWith('{!') && this.state.value.endsWith('}')) {
+            value = this.state.value.substring(2, this.state.value.length - 1);
+        }
+
+        if (allowDotSuffix) {
+            devNameRegex = new RegExp('^[a-zA-Z]+\\w+[a-zA-Z0-9\\.]$');
+        } else {
+            devNameRegex = new RegExp('^[a-zA-Z]+\\w+[a-zA-Z0-9]$');
+        }
+
         return value ? !devNameRegex.exec(value) : true; // {!} is valid string constant
     }
 }
