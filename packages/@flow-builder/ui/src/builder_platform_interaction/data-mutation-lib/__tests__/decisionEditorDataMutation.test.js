@@ -3,7 +3,7 @@ import {
     deMutateDecision
 } from '../decisionEditorDataMutation';
 
-import {ELEMENT_TYPE} from 'builder_platform_interaction-constant';
+import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 
 describe('mutateAssignment function', () => {
     const state = {
