@@ -21,7 +21,7 @@ export default class Connector extends Element {
             if (!this.jsPlumbConnector) {
                 // TODO: Update it to set existing connections in bulk to improve performance
                 this.jsPlumbConnector = lib.setExistingConnections(this.connector.source, this.connector.target,
-                    this.connector.label, this.connector.guid);
+                    this.connector.label, this.connector.guid, this.connector.type);
             } else if (this.connector.config.isSelected) {
                 lib.selectConnector(this.jsPlumbConnector);
             } else if (!this.connector.config.isSelected) {

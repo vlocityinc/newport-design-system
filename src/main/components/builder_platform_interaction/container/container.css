@@ -37,6 +37,17 @@
     width: 100%;
 }
 
+/************* Zoom Panel *****************/
+.THIS builder_platform_interaction-zoom-panel .zoom-panel {
+    bottom: 0;
+    right: 0;
+    z-index: 405;
+}
+
+.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button .slds-button__icon.slds-button__icon_left {
+    margin-right: t(spacingNone);
+}
+
 /************* Node *****************/
 .THIS builder_platform_interaction-node .node-container {
     display: flex;

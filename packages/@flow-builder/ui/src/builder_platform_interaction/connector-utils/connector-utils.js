@@ -8,10 +8,48 @@ export const CONNECTOR_TYPE = {
 };
 
 /**
+ * Method to get the minimum and maximum x and y coordinates
+ *
+ * @param {Array} canvasElements      Canvas Elements
+ * @param {Object} elements            Flow Elements
+ * @returns {Object} locations         Contains the minimum and maximum x and y coordinates of the flow
+ */
+export const getMinAndMaxLocations = (canvasElements, elements) => {
+    const locations = {
+        minX: 0,
+        minY: 0,
+        maxX: 0,
+        maxY: 0
+    };
+
+    canvasElements.forEach(key => {
+        if (elements[key]) {
+            if (elements[key].locationX < locations.minX) {
+                locations.minX = elements[key].locationX;
+            }
+
+            if (elements[key].locationY < locations.minY) {
+                locations.minY = elements[key].locationY;
+            }
+
+            if (elements[key].locationX > locations.maxX) {
+                locations.maxX = elements[key].locationX;
+            }
+
+            if (elements[key].locationY > locations.maxY) {
+                locations.maxY = elements[key].locationY;
+            }
+        }
+    });
+
+    return locations;
+};
+
+/**
  * Method to get the maximum number of possible connections for a given canvas element
  *
- * @param {String} node                canvas element object
- * @returns {Integer} maxConnecions    maximum possible connecions for the given canvas element
+ * @param {String} node                 canvas element object
+ * @returns {Integer} maxConnections    maximum possible connections for the given canvas element
  */
 export const getMaxConnections = node => {
     let maxConnections;

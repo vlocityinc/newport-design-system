@@ -1,0 +1,11 @@
+<template>
+    <div class='zoom-panel slds-is-absolute slds-p-around_large'>
+        <lightning-button variant='base' icon-name='utility:move' id='moveButton' title='Pan (Spacebar + Mouse Click)' class='slds-button slds-button_neutral'></lightning-button>
+
+        <div class='slds-button-group' role='group'>
+            <lightning-button variant='base' icon-name='utility:dash' id='zoomOutButton' title='Zoom Out (&#8984; -)' class='slds-button slds-button_neutral'></lightning-button>
+            <lightning-button variant='base' icon-name='utility:contract_alt' id='fitButton' title='Zoom to Fit (&#8984; 0)' class='slds-button slds-button_neutral'></lightning-button>
+            <lightning-button variant='base' disabled icon-name='utility:add' id='zoomInButton' title='Zoom In (&#8984; +)' class='slds-button slds-button_neutral'></lightning-button>
+        </div>
+    </div>
+</template>

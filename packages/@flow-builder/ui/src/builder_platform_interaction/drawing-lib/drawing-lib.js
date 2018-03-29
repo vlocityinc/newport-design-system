@@ -1,4 +1,5 @@
 import { CONNECTOR_OVERLAY } from 'builder_platform_interaction-constant';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 
 /**
  * @type {object} instance
@@ -39,6 +40,30 @@ class DrawingLib {
             });
         }
     }
+
+    connectorStyles = {
+        deselectedConnector: {
+            strokeWidth: 2,
+            stroke: '#919297',
+            joinstyle: 'round'
+        },
+        selectedConnector: {
+            strokeWidth: 3,
+            stroke: '#0070d2',
+            joinstyle: 'round'
+        },
+        dashedConnector: {
+            strokeWidth: 2,
+            stroke: '#919297',
+            joinstyle: 'round',
+            dashstyle: '4 6'
+        },
+        hoverConnector: {
+            strokeWidth: 2,
+            stroke: '#1589ee',
+            joinstyle: 'round'
+        }
+    } ;
 
     /**
      * Sets the container as the main area for all the jsplumb activity.
@@ -126,14 +151,18 @@ class DrawingLib {
      * @param {String} targetGuid - ID of the target node
      * @param {String} label - The label to display for the connector
      * @param {String} connectorGuid - ID of the connector
+     * @param {String} connectorType - Type of connector
      * @return {Object} connection - jsPlumb's connector instance
      */
-    setExistingConnections = (sourceGuid, targetGuid, label, connectorGuid) => {
+    setExistingConnections = (sourceGuid, targetGuid, label, connectorGuid, connectorType) => {
         const connectionInstance = {source: sourceGuid, target: targetGuid};
         if (label) {
             connectionInstance.label = label;
         }
         const connection = instance.connect(connectionInstance);
+        if (connectorType === CONNECTOR_TYPE.DEFAULT || connectorType === CONNECTOR_TYPE.FAULT) {
+            connection.setPaintStyle(this.connectorStyles.dashedConnector);
+        }
         connection.id = connectorGuid;
         connection.getOverlay(CONNECTOR_OVERLAY.ARROW).setVisible(true);
         return connection;
@@ -160,7 +189,7 @@ class DrawingLib {
      * @param {Object} connection - The connector that has been selected
      */
     selectConnector = (connection) => {
-        connection.setPaintStyle({strokeWidth: 3, stroke: '#0070d2', joinstyle: 'round'});
+        connection.setPaintStyle(this.connectorStyles.selectedConnector);
         connection.setHoverPaintStyle({});
         const labelText = connection.getOverlay(CONNECTOR_OVERLAY.LABEL).label;
         if (labelText && labelText !== '') {
@@ -174,8 +203,8 @@ class DrawingLib {
      * @param {Object} connection - The connector that has been deselected
      */
     deselectConnector = (connection) => {
-        connection.setPaintStyle({strokeWidth: 2, stroke: '#919297', joinstyle: 'round'});
-        connection.setHoverPaintStyle({strokeWidth: 2, stroke: '#1589ee'});
+        connection.setPaintStyle(this.connectorStyles.deselectedConnector);
+        connection.setHoverPaintStyle(this.connectorStyles.hoverConnector);
         const labelText = connection.getOverlay(CONNECTOR_OVERLAY.LABEL).label;
         if (labelText && labelText !== '') {
             connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);

@@ -3,7 +3,45 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { swapUidsForDevNames } from './uid-swapping';
 import { omit, pick, updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
-import { setConnectorsOnElements } from 'builder_platform_interaction-connector-utils';
+import { getMinAndMaxLocations, setConnectorsOnElements } from 'builder_platform_interaction-connector-utils';
+
+/**
+ * With zooming and panning enabled, the user would be able to add/drop
+ * elements with negative coordinates. Therefore, updating all elements to have positive coordinates on save.
+ *
+ * @param {Array} canvasElements All canvas elements
+ * @param {Object} elements All elements in the flow
+ */
+const updateElementLocation = (canvasElements, elements) => {
+    const EXTRA_SPACING = 50;
+
+    const locations = getMinAndMaxLocations(canvasElements, elements);
+
+    let translateX = 0;
+    let translateY = 0;
+
+    // Adding extra spacing so that the left most element doesn't end up on the very left edge.
+    if (locations.minX < 0) {
+        translateX = EXTRA_SPACING - locations.minX;
+    }
+
+    // Adding extra spacing so that the top most element doesn't end up on the very top edge.
+    if (locations.minY < 0) {
+        translateY = EXTRA_SPACING - locations.minY;
+    }
+
+    if (translateX !== 0 || translateY !== 0) {
+        canvasElements.forEach(key => {
+            if (translateX !== 0) {
+                elements[key].locationX += translateX;
+            }
+
+            if (translateY !== 0) {
+                elements[key].locationY += translateY;
+            }
+        });
+    }
+};
 
 const omitTransientFields = (element) => {
     return omit(element, ['guid', 'elementType', 'isCanvasElement', 'config', 'connectorCount', 'maxConnections']);
@@ -46,6 +84,9 @@ const includeOutcomesInDecision = (decision, elements) => {
  */
 export function translateUIModelToFlow(uiModel) {
     let elements = deepCopy(uiModel.elements);
+
+    // Update element location
+    updateElementLocation(uiModel.canvasElements, elements);
 
     // Set connector properties on all elements
     setConnectorsOnElements(uiModel.connectors, elements);
