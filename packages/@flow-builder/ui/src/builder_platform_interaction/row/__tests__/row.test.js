@@ -25,8 +25,8 @@ const createComponentUnderTestWithPrefix = (showPrefix, itemPrefix) => {
 };
 
 const selectors = {
-    deleteButton: 'lightning-button',
-    column : '.slds-col'
+    prefix: 'legend span',
+    deleteButton: 'lightning-button'
 };
 
 describe('Row delete button', () => {
@@ -53,18 +53,18 @@ describe('Row delete button', () => {
 describe('Row prefix', () => {
     it('check prefix is displayed when showprefix true and prefix is given', () => {
         const myrowElement = createComponentUnderTestWithPrefix(true, prefix);
-        const firstRow = myrowElement.querySelector(selectors.column);
+        const firstRow = myrowElement.querySelector(selectors.prefix);
         expect(firstRow.textContent).toMatch(prefix);
     });
     it('check prefix is not displayed when showprefix false and prefix is given', () => {
         const myrowElement = createComponentUnderTestWithPrefix(false, prefix);
-        const firstRow = myrowElement.querySelector(selectors.column);
-        expect(firstRow.textContent).not.toMatch(prefix);
+        const firstRow = myrowElement.querySelector(selectors.prefix);
+        expect(firstRow).toBeNull();
     });
     it('check prefix is not displayed when showprefix undefined and prefix is given', () => {
         const myrowElement = createComponentUnderTestWithPrefix(undefined, prefix);
-        const firstRow = myrowElement.querySelector(selectors.column);
-        expect(firstRow.textContent).not.toMatch(prefix);
+        const firstRow = myrowElement.querySelector(selectors.prefix);
+        expect(firstRow).toBeNull();
     });
 });
 
