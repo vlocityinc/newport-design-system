@@ -1,4 +1,5 @@
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
+import { ACTION_TYPE, METADATA_KEY } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * @constant
@@ -51,9 +52,9 @@ export const elementTypeToConfigMap = {
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: 'actionCalls',
+        metadataKey: METADATA_KEY.ACTION_CALLS,
         // action call : standard actions and quickactions
-        metadataFilter : element => element.actionType !== 'emailAlert' && element.actionType !== 'apex' && element.actionType !== 'flow',
+        metadataFilter : element => element.actionType !== ACTION_TYPE.EMAIL_ALERT && element.actionType !== ACTION_TYPE.APEX && element.actionType !== ACTION_TYPE.FLOW,
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -75,7 +76,7 @@ export const elementTypeToConfigMap = {
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: 'apexPluginCalls',
+        metadataKey: METADATA_KEY.APEX_PLUGIN_CALLS,
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -97,8 +98,8 @@ export const elementTypeToConfigMap = {
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: 'actionCalls',
-        metadataFilter : element => element.actionType === 'apex',
+        metadataKey: METADATA_KEY.ACTION_CALLS,
+        metadataFilter : element => element.actionType === ACTION_TYPE.APEX,
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -120,8 +121,8 @@ export const elementTypeToConfigMap = {
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: 'actionCalls',
-        metadataFilter : element => element.actionType === 'emailAlert',
+        metadataKey: METADATA_KEY.ACTION_CALLS,
+        metadataFilter : element => element.actionType === ACTION_TYPE.EMAIL_ALERT,
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -142,7 +143,7 @@ export const elementTypeToConfigMap = {
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: 'assignments',
+        metadataKey: METADATA_KEY.ASSIGNMENTS,
         canvasElement: true,
         template: {
             assignmentItems: [
@@ -171,13 +172,13 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:feed'
         },
         modalSize: MODAL_SIZE.LARGE,
-        metadataKey: 'decisions',
+        metadataKey: METADATA_KEY.DECISIONS,
         canvasElement: true
     },
     [ELEMENT_TYPE.VARIABLE]: {
         descriptor: 'builder_platform_interaction:variableEditor',
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: 'variables',
+        metadataKey: METADATA_KEY.VARIABLES,
         canvasElement: false
     },
     [ELEMENT_TYPE.DEFAULT]: {

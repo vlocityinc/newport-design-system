@@ -2,75 +2,150 @@ import { Element, api, track } from "engine";
 import { getAllInvocableActionsForType, getApexPlugins } from 'builder_platform_interaction-actioncall-lib';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
-
-/**
- * @constant APEXPLUGIN_ACTION_TYPE
- * @type {string}
- */
-const APEXPLUGIN_ACTION_TYPE = 'apexPlugin';
-
+import { ACTION_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 export default class ActionSelector extends Element {
-    @track invocableActions = [];
     @track
     state = {
-        selectedType : ELEMENT_TYPE.ACTION_CALL,
+        selectedElementType : ELEMENT_TYPE.ACTION_CALL,
+        selectedActionValue : '',
         actionMenuData : [
             {
                 items : []
             }
-        ]
+        ],
+        spinnerActive : true,
+        actionComboLabel : '',
+        actionComboMissingValueMessage : ''
     }
     invocableActions = [];
+    invocableActionsLoaded = false;
     apexPlugins = [];
+    apexPluginsLoaded = false;
 
     constructor() {
         super();
-        getAllInvocableActionsForType(invocableActions => this.setActions(invocableActions, this.apexPlugins));
-        getApexPlugins(apexPlugins => this.setActions(this.invocableActions, apexPlugins));
+        getAllInvocableActionsForType(invocableActions => {
+            this.invocableActions = invocableActions;
+            this.invocableActionsLoaded = true;
+            this.updateComboboxes();
+        });
+        getApexPlugins(apexPlugins => {
+            this.apexPlugins = apexPlugins;
+            this.apexPluginsLoaded = true;
+            this.updateComboboxes();
+        });
+        this.updateTypeCombo();
+        this.updateActionCombo();
     }
 
     @api
-    set selectedType(newValue) {
-        this.state.selectedType = newValue || ELEMENT_TYPE.ACTION_CALL;
+    set selectedAction(newValue) {
+        this.state.selectedElementType = newValue.elementType;
+        if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
+            this.state.selectedActionValue = newValue.apexClass ? newValue.apexClass : '';
+        } else {
+            this.state.selectedActionValue = newValue.actionType && newValue.actionName ? newValue.actionType + '-' + newValue.actionName : '';
+        }
     }
 
     @api
-    get selectedType() {
-        return this.state.selectedType;
+    get selectedAction() {
+        let selectedAction;
+        if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
+            const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.name === this.state.selectedActionValue);
+            if (apexPluginFound) {
+                selectedAction = {
+                    apexClass : apexPluginFound.name,
+                    elementType : ELEMENT_TYPE.APEX_PLUGIN_CALL
+                };
+            }
+        } else {
+            const actionFound = this.invocableActions.find(action => action.DurableId === this.state.selectedActionValue);
+            if (actionFound) {
+                selectedAction = {
+                    actionName : actionFound.Name,
+                    actionType : actionFound.Type,
+                    elementType : this.state.selectedElementType
+                };
+            }
+        }
+        return selectedAction;
     }
 
-    setActions(invocableActions, apexPlugins) {
-        this.invocableActions = invocableActions;
-        this.apexPlugins = apexPlugins;
-        this.updateActionMenuData();
+    updateComboboxes() {
+        if (this.apexPluginsLoaded && this.invocableActionsLoaded) {
+            this.updateTypeCombo();
+            this.updateActionCombo();
+            this.state.spinnerActive = false;
+        }
     }
 
-    updateActionMenuData() {
-        let items;
-        switch (this.state.selectedType) {
+    updateActionCombo() {
+        let items, label, missingValueMessage;
+        switch (this.state.selectedElementType) {
             case ELEMENT_TYPE.ACTION_CALL:
-                items = this.invocableActions.filter(action => action.IsStandard || action.Type === "quickAction").map(action => this.getComboItemFromInvocableAction(action));
+                items = this.invocableActions.filter(action => action.IsStandard || action.Type === ACTION_TYPE.QUICK_ACTION).map(action => this.getComboItemFromInvocableAction(action));
+                label = "Referenced Action";
+                missingValueMessage = "Find an Action...";
                 break;
             case ELEMENT_TYPE.APEX_CALL:
-                items = this.invocableActions.filter(action => action.Type === "apex").map(action => this.getComboItemFromInvocableAction(action));
+                items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.APEX).map(action => this.getComboItemFromInvocableAction(action));
+                label = "Referenced Apex";
+                missingValueMessage = "Find an Apex Class...";
                 break;
             case ELEMENT_TYPE.EMAIL_ALERT:
-                items = this.invocableActions.filter(action => action.Type === "emailAlert").map(action => this.getComboItemFromInvocableAction(action));
+                items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.EMAIL_ALERT).map(action => this.getComboItemFromInvocableAction(action));
+                label = "Referenced Email Alert";
+                missingValueMessage = "Find an Email Alert...";
                 break;
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
                 items = this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
+                label = "Referenced Apex Plugin";
+                missingValueMessage = "Find an Apex Plugin...";
                 break;
             default:
                 items = [];
         }
+        this.state.actionComboLabel = label;
+        this.state.actionComboMissingValueMessage = missingValueMessage;
         this.state.actionMenuData = [{ items }];
     }
 
-    handleTypeChanged(event) {
+    updateTypeCombo() {
+        const typeOptions = [{
+            label : "Action",
+            value : ELEMENT_TYPE.ACTION_CALL
+        }];
+        if (this.invocableActions.find(action => action.Type === ACTION_TYPE.APEX)) {
+            typeOptions.push({
+                label : "Apex",
+                value : ELEMENT_TYPE.APEX_CALL
+            });
+        }
+        if (this.apexPlugins.length > 0) {
+            typeOptions.push({
+                label : "Apex Plugin",
+                value : ELEMENT_TYPE.APEX_PLUGIN_CALL
+            });
+        }
+        if (this.invocableActions.find(action => action.Type === ACTION_TYPE.EMAIL_ALERT)) {
+            typeOptions.push({
+                label : "Email Alert",
+                value : ELEMENT_TYPE.EMAIL_ALERT
+            });
+        }
+        //        typeOptions.push({
+        //          label : "Subflow",
+        //             value : "subflow"
+        //        });
+        this.state.typeOptions = typeOptions;
+    }
+
+    handleElementTypeChanged(event) {
         event.stopPropagation();
-        this.state.selectedType = event.detail.value;
-        this.updateActionMenuData();
+        this.state.selectedElementType = event.detail.value;
+        this.updateActionCombo();
     }
 
     getComboItemFromInvocableAction(action) {
@@ -86,65 +161,21 @@ export default class ActionSelector extends Element {
         return {
             type : "option-card",
             text : apexPlugin.name,
-            value: APEXPLUGIN_ACTION_TYPE + "-" + apexPlugin.name,
+            value: apexPlugin.name,
             subText : apexPlugin.Description || ""
         };
     }
 
-    get typesItems() {
-        return [
-            {
-                label : "Action",
-                value : ELEMENT_TYPE.ACTION_CALL,
-            },
-            {
-                label : "Apex",
-                value : ELEMENT_TYPE.APEX_CALL,
-            },
-            {
-                label : "Custom",
-                value : ELEMENT_TYPE.APEX_PLUGIN_CALL,
-            },
-            {
-                label : "Email Alert",
-                value : ELEMENT_TYPE.EMAIL_ALERT,
-            },
-            {
-                label : "Subflow",
-                value : "subflow",
-            }
-        ];
-    }
-
-    getActionTypeAndName(actionItemValue) {
-        let actionTypeAndName;
-        const actionFound = this.invocableActions.find(action => action.DurableId === actionItemValue);
-        if (actionFound) {
-            actionTypeAndName = {
-                actionName : actionFound.Name,
-                actionType : actionFound.Type
-            };
-        }
-        const apexPluginFound = this.apexPlugins.find(apexPlugin => APEXPLUGIN_ACTION_TYPE + "-" + apexPlugin.name === actionItemValue);
-        if (apexPluginFound) {
-            actionTypeAndName = {
-                actionName : apexPluginFound.name,
-                actionType : APEXPLUGIN_ACTION_TYPE
-            };
-        }
-        return actionTypeAndName;
-    }
-
     handleActionChanged(event) {
         event.stopPropagation();
-        let actionItemValue = event.detail.value;
+        this.state.selectedActionValue = event.detail.value;
         // TODO : combox value is currently wrapped into {! }
-        if (actionItemValue.startsWith('{!') && actionItemValue.endsWith('}')) {
-            actionItemValue = actionItemValue.substring(2, actionItemValue.length - 1);
+        if (this.state.selectedActionValue.startsWith('{!') && this.state.selectedActionValue.endsWith('}')) {
+            this.state.selectedActionValue = this.state.selectedActionValue.substring(2, this.state.selectedActionValue.length - 1);
         }
-        const actionTypeAndName = this.getActionTypeAndName(actionItemValue);
-        if (actionTypeAndName) {
-            const valueChangedEvent = new ValueChangedEvent(actionTypeAndName);
+        const selectedAction = this.selectedAction;
+        if (selectedAction) {
+            const valueChangedEvent = new ValueChangedEvent(selectedAction);
             this.dispatchEvent(valueChangedEvent);
         }
     }

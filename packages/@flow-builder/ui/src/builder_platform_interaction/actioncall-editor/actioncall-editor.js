@@ -6,6 +6,7 @@ import { createAction } from 'builder_platform_interaction-actions';
 import { replaceItem } from 'builder_platform_interaction-data-mutation-lib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
 import { getInvocableActionParameters } from 'builder_platform_interaction-actioncall-lib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 /**
  * @constant UPDATE_PROPERTY
@@ -83,6 +84,20 @@ export default class ActionCallEditor extends Element {
         return (this.node && this.node.elementType) ? this.node.elementType : undefined;
     }
 
+    get selectedAction() {
+        if (this.node.elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
+            return {
+                elementType :  this.node.elementType,
+                apexClass : this.node.apexClass.value
+            };
+        }
+        return {
+            elementType :  this.node.elementType,
+            actionType : this.node.actionType.value,
+            actionName : this.node.actionName.value,
+        };
+    }
+
     /**
      * @param {object} event - property changed event coming from label-description component
      */
@@ -105,8 +120,28 @@ export default class ActionCallEditor extends Element {
     }
 
     handleActionSelected(event) {
-        const actionTypeAndName = event.detail.value;
-        getInvocableActionParameters(actionTypeAndName.actionType, actionTypeAndName.actionName, actionParameters => this.updateInputOutputParameters(actionParameters));
+        const selectedAction = event.detail.value;
+        if (selectedAction.elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
+            // TODO : create an action instead and use reducer
+            delete this.node.actionName;
+            delete this.node.actionType;
+            this.node.elementType = selectedAction.elementType;
+            this.node.apexClass = {
+                value : selectedAction.apexClass
+            };
+            // TODO : update input/output parameters
+        } else {
+            // TODO : create an action instead and use reducer
+            delete this.node.apexClass;
+            this.node.elementType = selectedAction.elementType;
+            this.node.actionType = {
+                value : selectedAction.actionType
+            };
+            this.node.actionName = {
+                value : selectedAction.actionName
+            };
+            getInvocableActionParameters(selectedAction.actionType, selectedAction.actionName, actionParameters => this.updateInputOutputParameters(actionParameters));
+        }
     }
 
     updateInputOutputParameters(parameters) {

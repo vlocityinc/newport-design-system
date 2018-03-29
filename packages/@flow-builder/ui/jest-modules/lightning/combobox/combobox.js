@@ -13,4 +13,5 @@ export default class LightningCombobox extends Element {
 @api label;
 @api disabled;
 @api options;
+@api spinnerActive;
 }

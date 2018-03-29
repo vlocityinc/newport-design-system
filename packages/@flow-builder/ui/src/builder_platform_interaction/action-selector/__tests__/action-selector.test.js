@@ -81,7 +81,7 @@ describe('Action selector Tests', () => {
             expect(groupedCombobox.items[0].items.map(item => item.text)).toEqual(["Apex1", "Apex2", "Apex3"]);
         });
     });
-    it('ValueChangedEvent is fired when an action is selected ', () => {
+    it('ValueChangedEvent is fired when an action is selected', () => {
         const interactionCombobox = actionSelectorComponent.querySelector(selectors.lightningInteractionCombobox);
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
@@ -89,6 +89,19 @@ describe('Action selector Tests', () => {
             interactionCombobox.dispatchEvent(new ValueChangedEvent('emailSimple-emailSimple'));
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail.value).toMatchObject({actionName: "emailSimple", actionType: "emailSimple"});
+        });
+    });
+    it('Action types without action instances are not displayed', () => {
+        const lightningCombobox = actionSelectorComponent.querySelector(selectors.lightningCombobox);
+        // No elements for "Email Alert"
+        expect(lightningCombobox.options.map(option => option.label)).toEqual(["Action", "Apex"]);
+    });
+    it('Action combobox label updated when action type is changed', () => {
+        const lightningCombobox = actionSelectorComponent.querySelector(selectors.lightningCombobox);
+        const groupedCombobox = actionSelectorComponent.querySelector(selectors.lightningGroupedCombobox);
+        lightningCombobox.dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_CALL}}));
+        return Promise.resolve().then(() => {
+            expect(groupedCombobox.label).toBe("Referenced Apex");
         });
     });
 });
