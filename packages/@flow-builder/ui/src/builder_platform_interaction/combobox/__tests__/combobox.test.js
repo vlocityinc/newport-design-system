@@ -1,6 +1,7 @@
 import { createElement } from 'engine';
 import Combobox from 'builder_platform_interaction-combobox';
 import { comboboxConfig } from 'mock-combobox-data';
+import { ValueChangedEvent } from 'builder_platform_interaction-events';
 
 const SELECTORS = {
     COMBOBOX_PATH: 'builder_platform_interaction-combobox',
@@ -21,7 +22,7 @@ const VALIDATION_ERROR_MESSAGE = {
 
 describe('Combobox Tests', () => {
     let combobox, groupedCombobox;
-    beforeAll(() => {
+    beforeEach(() => {
         combobox = createElement(SELECTORS.COMBOBOX_PATH, {
             is: Combobox,
         });
@@ -36,7 +37,7 @@ describe('Combobox Tests', () => {
     };
 
     describe('Property sanity checks', () => {
-        beforeAll(() => {
+        beforeEach(() => {
             for (const attribute in comboboxConfig) {
                 if (comboboxConfig.hasOwnProperty(attribute)) {
                     combobox[attribute] = comboboxConfig[attribute];
@@ -80,7 +81,7 @@ describe('Combobox Tests', () => {
     });
 
     describe('Value Tests', () => {
-        beforeAll(() => {
+        beforeEach(() => {
             combobox.value = '{';
         });
 
@@ -105,9 +106,8 @@ describe('Combobox Tests', () => {
             combobox.value = '{!myAccount}';
             const textInputEvent = getTextInputEvent('{!myAccount.}');
             return Promise.resolve().then(() => {
-                // true because of filterMatches is setting spinner to true
-                expect(groupedCombobox.showActivityIndicator).toEqual(true);
                 groupedCombobox.dispatchEvent(textInputEvent);
+
                 return Promise.resolve().then(() => {
                     expect(groupedCombobox.showActivityIndicator).toEqual(true);
                     combobox.menuData = comboboxConfig.menuData;
@@ -130,12 +130,15 @@ describe('Combobox Tests', () => {
     });
 
     describe('Events Testing', () => {
-        const fetchMenuDataHandler = jest.fn();
-        const valueChangedHandler = jest.fn();
+        let fetchMenuDataHandler;
+        let valueChangedHandler;
         let textInputEvent, blurEvent;
-        beforeAll(() => {
+        beforeEach(() => {
+            fetchMenuDataHandler = jest.fn();
+            valueChangedHandler = jest.fn();
+
             combobox.addEventListener('fetchmenudata', fetchMenuDataHandler);
-            combobox.addEventListener('valuechanged', valueChangedHandler);
+            combobox.addEventListener(ValueChangedEvent.EVENT_NAME, valueChangedHandler);
         });
 
         it('FetchMenuData is fired when a . is entered', () => {
@@ -157,13 +160,20 @@ describe('Combobox Tests', () => {
         });
 
         it('ValueChanged is fired on blur', () => {
+            combobox.value = '{!newValueForBlur.}';
             blurEvent = new CustomEvent('blur');
+
             groupedCombobox.dispatchEvent(blurEvent);
+
             expect(valueChangedHandler).toHaveBeenCalledTimes(1);
         });
 
         it('ValueChanged is not fired on blur if value has not changed', () => {
-            // TODO
+            blurEvent = new CustomEvent('blur');
+
+            groupedCombobox.dispatchEvent(blurEvent);
+
+            expect(valueChangedHandler).toHaveBeenCalledTimes(0);
         });
     });
 
@@ -231,7 +241,7 @@ describe('Combobox Tests', () => {
         let blurEvent;
         let testName;
 
-        beforeAll(() => {
+        beforeEach(() => {
             blurEvent = new CustomEvent('blur');
             combobox.menuData = comboboxConfig.menuData;
         });
