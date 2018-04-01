@@ -144,6 +144,11 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ASSIGNMENTS,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Assignment',
+            plural: 'Assignments'
+        },
         canvasElement: true,
         template: {
             assignmentItems: [
@@ -173,12 +178,38 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.DECISIONS,
-        canvasElement: true
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Decision',
+            plural: 'Decisions'
+        },
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            defaultConnectorLabel: '[Default Outcome]',
+            elementType: ELEMENT_TYPE.DECISION,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: '',
+            outcomeReferences: []
+        }
     },
     [ELEMENT_TYPE.VARIABLE]: {
         descriptor: 'builder_platform_interaction:variableEditor',
+        nodeConfig: {
+            iconName: 'utility:type_tool'
+        },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.VARIABLES,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Variable',
+            plural: 'Variables'
+        },
         canvasElement: false
     },
     [ELEMENT_TYPE.DEFAULT]: {
@@ -231,7 +262,7 @@ export function createFlowElement(elementType) {
     if (!config) {
         throw new TypeError();
     } else if (!config.template) {
-        throw new Error('Template not defined for given element type');
+        throw new Error('Template not defined for ' + elementType);
     }
     const template = deepCopy(config.template);
     template.guid = generateGuid(elementType);
