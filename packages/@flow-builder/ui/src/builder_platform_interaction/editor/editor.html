@@ -11,7 +11,7 @@
 
             <!--Left Panel-->
             <div class="slds-col slds-size_1-of-5 slds-border_right">
-                <builder_platform_interaction-left-panel resources={appState.resources} onaddnewresource={handleAddResourceClick}></builder_platform_interaction-left-panel>
+                <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} oncanvaselementdrop={handleCanvasElementDrop} onnodedblclicked={handleNodeDblClicked}></builder_platform_interaction-left-panel>
             </div>
 
             <!--Canvas-->

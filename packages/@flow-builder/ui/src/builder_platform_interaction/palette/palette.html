@@ -17,15 +17,19 @@
                 </tr>
                 <!-- Item -->
                 <tr if:false={row.isSection} is="builder_platform_interaction-palette-item"
-                    draggable="true"
+                    draggable={itemsDraggable}
                     key={row.key}
                     data-key={row.key}
                     aria-level={row.level}
                     aria-posinset={row.posinset}
                     aria-setsize={row.setsize}
                     class="slds-hint-parent palette-item"
-                    label={row.label}
+                    description={row.description}
+                    element-type={row.elementType}
+                    guid={row.key}
                     icon-name={row.iconName}
+                    icon-size={iconSize}
+                    label={row.label}
                     ondragstart={handleDragStart}>
                 </tr>
             </template>

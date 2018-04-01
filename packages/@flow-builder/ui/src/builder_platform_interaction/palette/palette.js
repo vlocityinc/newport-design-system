@@ -7,6 +7,8 @@ import { Element, api, track } from 'engine';
  * be removed in the future once lightning-tree-grid satisfies our requirements.
  */
 export default class Palette extends Element {
+    @api iconSize;
+
     @api
     get data() {
         return this.rows;
@@ -14,11 +16,25 @@ export default class Palette extends Element {
 
     @api
     set data(value) {
+        // TODO: If lightning-tree-grid doesn't satisfy our requirements and we end up getting
+        // stuck with using palette, we should consider making resources-selector give us data in a
+        // format that works without needing to flatten it here.
         this.original = value;
         this.init(value);
     }
 
+    @api
+    get itemsDraggable() {
+        return this.draggableItems;
+    }
+
+    @api
+    set itemsDraggable(value) {
+        this.draggableItems = value === 'true';
+    }
+
     @track rows = [];
+    @track draggableItems = false;
 
     original = [];
     collapsedSections = {};
@@ -127,6 +143,7 @@ export default class Palette extends Element {
      */
     createItem(item, level, posinset, setsize) {
         const key = item.guid;
+        const description = item.description ? item.description : '';
         const row = {
             isSection: false,
             key,
@@ -134,9 +151,9 @@ export default class Palette extends Element {
             posinset,
             setsize,
             label: item.label,
+            description,
             elementType: item.elementType,
-            iconName: item.iconName,
-            description: item.description
+            iconName: item.iconName
         };
         return row;
     }
@@ -189,8 +206,9 @@ export default class Palette extends Element {
     handleDragStart(event) {
         const referenceElement = event.currentTarget;
         const item = this.itemMap[referenceElement.dataset.key];
+
+        // Only items in the map should be considered draggable.
         if (!item) {
-            // Only items in the map should be considered draggable.
             event.dataTransfer.effectAllowed = 'none';
             return;
         }

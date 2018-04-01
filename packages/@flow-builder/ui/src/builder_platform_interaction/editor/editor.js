@@ -2,7 +2,7 @@ import { Element, track } from 'engine';
 import { PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { CRUD, invokePanel } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
-import { canvasSelector, resourcesSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
+import { canvasSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 import { createFlowElement, ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
@@ -27,8 +27,7 @@ export default class Editor extends Element {
         canvas: {
             nodes: [],
             connectors: []
-        },
-        resources: []
+        }
     };
 
     constructor() {
@@ -45,14 +44,12 @@ export default class Editor extends Element {
 
         const nodes = canvasSelector(currentState);
         const connectors = currentState.connectors;
-        const resources = resourcesSelector(currentState);
 
         this.appState = {
             canvas : {
                 nodes,
                 connectors
-            },
-            resources
+            }
         };
     };
 
@@ -97,7 +94,7 @@ export default class Editor extends Element {
             const mode = CRUD.UPDATE;
             const node = elementPropertyEditorSelector(storeInstance.getCurrentState(), event.detail.canvasElementGUID);
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
-            invokePanel(PROPERTY_EDITOR, {mode, nodeUpdate, node, modalType: 'CANVAS', modalTitle: 'ASSIGNMENT'});
+            invokePanel(PROPERTY_EDITOR, {mode, nodeUpdate, node, modalType: 'CANVAS', modalTitle: node.elementType});
         }
     };
 
@@ -221,7 +218,7 @@ export default class Editor extends Element {
 
         const nodeUpdate = this.deMutateAndAddNodeCollection;
 
-        invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate });
+        invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate, modalType: 'CANVAS', modalTitle: node.elementType });
     };
 
     /**

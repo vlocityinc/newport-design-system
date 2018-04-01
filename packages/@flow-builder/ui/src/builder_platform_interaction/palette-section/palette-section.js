@@ -1,6 +1,7 @@
 import { Element, api } from 'engine';
 
 const TOGGLE_SECTION = 'togglesection';
+
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
  *

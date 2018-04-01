@@ -6,10 +6,10 @@
         
         <div slot="contents">
             <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-elements" labelledby="left-panel-tabitem-elements" activeid={activetabid}>
-                <builder_platform_interaction-left-panel-elements></builder_platform_interaction-left-panel-elements>
+                <builder_platform_interaction-left-panel-elements onpaletteitemclicked={handleElementClicked}></builder_platform_interaction-left-panel-elements>
             </builder_platform_interaction-tabcontent>
             <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-resources" labelledby="left-panel-tabitem-resources" activeid={activetabid}>
-                <builder_platform_interaction-left-panel-resources resources={resources}></builder_platform_interaction-left-panel-resources>
+                <builder_platform_interaction-left-panel-resources resources={resources} onpaletteitemclicked={handleResourceClicked}></builder_platform_interaction-left-panel-resources>
             </builder_platform_interaction-tabcontent>
         </div>
     </builder_platform_interaction-tabset>

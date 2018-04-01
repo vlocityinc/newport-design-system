@@ -2,6 +2,7 @@ import { Element, api } from 'engine';
 import { CONNECTOR_OVERLAY, EVENT } from 'builder_platform_interaction-constant';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
+import { isCanvasElement } from 'builder_platform_interaction-element-config';
 
 /**
  * Canvas component for flow builder.
@@ -237,6 +238,9 @@ export default class Canvas extends Element {
     handleDrop(event) {
         event.preventDefault();
         const elementType = event.dataTransfer.getData('text');
+        if (!isCanvasElement(elementType)) {
+            return;
+        }
 
         // TODO: utility method for offset math, needs to account for scrolling/panning/zooming
         const canvas = this.root.querySelector('#canvas');
