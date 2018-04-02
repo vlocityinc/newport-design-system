@@ -1,10 +1,9 @@
 import { createElement } from 'engine';
 import ExpressionBuilder from 'builder_platform_interaction-expression-builder';
-import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-constant';
 import { RowContentsChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { numberVariableGuid, numberVariableDevName } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes  } from 'builder_platform_interaction-rule-lib';
-import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
+import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-expression-builder', { is: ExpressionBuilder });
@@ -73,6 +72,7 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
 jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
         getElementsForMenuData: jest.fn().mockReturnValue([]),
+        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction-expression-utils').EXPRESSION_PROPERTY_TYPE,
     };
 });
 

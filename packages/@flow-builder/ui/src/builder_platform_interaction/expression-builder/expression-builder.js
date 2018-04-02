@@ -1,8 +1,7 @@
 import { Element, api, track } from 'engine';
-import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-constant';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { Store } from 'builder_platform_interaction-store-lib';
-import { getElementsForMenuData, filterMatches } from 'builder_platform_interaction-expression-utils';
+import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches } from 'builder_platform_interaction-expression-utils';
 import { getRulesForElementType, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox } from 'builder_platform_interaction-rule-lib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;

@@ -69,12 +69,6 @@ export const EVENT = {
     ADD_NEW_RESOURCE: 'addnewresource'
 };
 
-export const EXPRESSION_PROPERTY_TYPE = {
-    LEFT_HAND_SIDE: 'leftHandSide',
-    RIGHT_HAND_SIDE: 'rightHandSide',
-    OPERATOR: 'operator'
-};
-
 export const COMBOBOX_ITEM_DISPLAY_TYPE = {
     OPTION_CARD: 'option-card',
     OPTION_INLINE: 'option-inline'
