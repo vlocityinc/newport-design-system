@@ -24,6 +24,13 @@
     visibility: visible !important;
 }
 
+.THIS builder_platform_interaction-left-panel-resources .left-panel-add-resource {
+    padding: 0rem 1rem;
+}
+.THIS builder_platform_interaction-left-panel-resources .slds-button.slds-button_neutral {
+    width: 90%;
+}
+
 /************* Canvas *****************/
 .THIS builder_platform_interaction-canvas .canvas {
     background-color: t(colorForegroundPrimary);

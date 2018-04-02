@@ -4,7 +4,7 @@ import { EVENT } from 'builder_platform_interaction-constant';
 export default class LeftPanelResources extends Element {
     @api resources;
 
-    addNewResourceButtonClick = (event) => {
+    handleAddNewResourceButtonClick = (event) => {
         event.stopPropagation();
         const handleOnClickEvent = new CustomEvent(EVENT.ADD_NEW_RESOURCE, {
             bubbles: true,
