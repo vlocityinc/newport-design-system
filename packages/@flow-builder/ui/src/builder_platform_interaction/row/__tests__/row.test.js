@@ -26,7 +26,7 @@ const createComponentUnderTestWithPrefix = (showPrefix, itemPrefix) => {
 
 const selectors = {
     prefix: 'legend span',
-    deleteButton: 'lightning-button'
+    deleteButton: 'lightning-button-icon'
 };
 
 describe('Row delete button', () => {
