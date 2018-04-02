@@ -11,6 +11,7 @@ import {AddListItemEvent} from 'builder_platform_interaction-events';
 export default class List extends Element {
     @api items = [];
     @api showDelete;
+    @api addLabel;
 
     handleAddClicked(event) {
         event.preventDefault();

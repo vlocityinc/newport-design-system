@@ -16,6 +16,11 @@ export default class AssignmentEditor extends Element {
      */
     @track assignmentNode = {};
 
+    get addLabel() {
+        // TODO labels W-4813532
+        return 'Add';
+    }
+
     get elementType() {
         return ELEMENT_TYPE.ASSIGNMENT;
     }

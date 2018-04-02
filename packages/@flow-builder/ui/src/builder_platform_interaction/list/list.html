@@ -1,9 +1,10 @@
 <template>
-    <div class='slds-p-around_small'>
-        <slot name='listBody'>
+    <div class="slds-p-around_small">
+        <slot name="listBody">
         </slot>
-        <div class='slds-m-top_small'>
-            <lightning-button label="add" onclick={handleAddClicked}></lightning-button>
+        <div class="slds-m-top_small">
+            <lightning-button label={addLabel} icon-name="utility:add" onclick={handleAddClicked}>
+            </lightning-button>
         </div>
     </div>
 </template>
