@@ -69,32 +69,6 @@ export const EVENT = {
     ADD_NEW_RESOURCE: 'addnewresource'
 };
 
-export const COMBOBOX_ITEM_DISPLAY_TYPE = {
-    OPTION_CARD: 'option-card',
-    OPTION_INLINE: 'option-inline'
-};
-export const RULE_TYPES = {
-    ASSIGNMENT: 'assignment',
-    COMPARISON: 'comparison',
-};
-// the top level properties in a rule
-export const RULE_PROPERTY = {
-    RULE_TYPE: 'ruleType',
-    LEFT: 'left',
-    OPERATOR: 'operator',
-    RHS_PARAMS: 'rhsParams',
-};
-// the inner properties in a rule ( rule.left )
-export const RULE_PROPERTY_INFO = {
-    PARAM_TYPE: 'paramType',
-    PARAM_INDEX: 'paramIndex',
-    DATA_TYPE: 'dataType',
-    IS_COLLECTION: 'collection',
-    CAN_BE_FIELD: 'canBeField',
-    CAN_BE_SYS_VAR: 'canBeSysVar',
-    ELEMENT_TYPE: 'elementType',
-};
-
 export const FLOW_DATA_TYPE = {
     CURRENCY: 'Currency',
     DATE: 'Date',

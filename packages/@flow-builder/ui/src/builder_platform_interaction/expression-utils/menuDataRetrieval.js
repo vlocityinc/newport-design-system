@@ -1,5 +1,4 @@
-import {COMBOBOX_ITEM_DISPLAY_TYPE} from "builder_platform_interaction-constant";
-import {isMatch} from "builder_platform_interaction-rule-lib";
+import {isMatch} from 'builder_platform_interaction-rule-lib';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
@@ -95,6 +94,11 @@ function elementAllowed(allowedParamTypes, element) {
         || (allowedParamTypes.hasOwnProperty(element.elementType) && elementMatchesRule(allowedParamTypes[element.elementType], element))
         || (allowedParamTypes.hasOwnProperty(element.objectType) && elementMatchesRule(allowedParamTypes[element.objectType], element));
 }
+
+export const COMBOBOX_ITEM_DISPLAY_TYPE = {
+    OPTION_CARD: 'option-card',
+    OPTION_INLINE: 'option-inline'
+};
 
 /**
  * Gets list of elements to display in combobox, in shape combobox expects

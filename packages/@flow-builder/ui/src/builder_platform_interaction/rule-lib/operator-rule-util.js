@@ -1,6 +1,7 @@
 // constants for the rule tree. Should be moved to the constants directory
-import { RULE_TYPES, RULE_PROPERTY, RULE_PROPERTY_INFO } from 'builder_platform_interaction-constant';
 import { shallowCopyArray } from 'builder_platform_interaction-data-mutation-lib';
+import { RULE_TYPES, RULE_PROPERTY, RULE_PROPERTY_INFO } from './rules';
+
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS } = RULE_PROPERTY;
 const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = RULE_PROPERTY_INFO;

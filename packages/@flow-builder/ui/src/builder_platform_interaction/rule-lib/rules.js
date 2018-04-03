@@ -5,7 +5,6 @@
  * @author cnastasa
  * @since 214
  */
-import { RULE_TYPES, RULE_PROPERTY } from 'builder_platform_interaction-constant';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { set } from 'builder_platform_interaction-data-mutation-lib';
 
@@ -13,6 +12,30 @@ import { set } from 'builder_platform_interaction-data-mutation-lib';
  * contains an instance of the rules
  */
 const rulesInstance = [];
+
+export const RULE_TYPES = {
+    ASSIGNMENT: 'assignment',
+    COMPARISON: 'comparison',
+};
+
+// the top level properties in a rule
+export const RULE_PROPERTY = {
+    RULE_TYPE: 'ruleType',
+    LEFT: 'left',
+    OPERATOR: 'operator',
+    RHS_PARAMS: 'rhsParams',
+};
+
+// the inner properties in a rule ( rule.left )
+export const RULE_PROPERTY_INFO = {
+    PARAM_TYPE: 'paramType',
+    PARAM_INDEX: 'paramIndex',
+    DATA_TYPE: 'dataType',
+    IS_COLLECTION: 'collection',
+    CAN_BE_FIELD: 'canBeField',
+    CAN_BE_SYS_VAR: 'canBeSysVar',
+    ELEMENT_TYPE: 'elementType',
+};
 
 /**
  * Method to set the rules

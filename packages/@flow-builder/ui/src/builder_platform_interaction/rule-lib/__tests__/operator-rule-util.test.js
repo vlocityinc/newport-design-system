@@ -1,7 +1,8 @@
 import { isMatch, getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
-import { RULE_TYPES, FLOW_DATA_TYPE, RULE_PROPERTY } from 'builder_platform_interaction-constant';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-constant';
 import { mockRules, dateParam, stageParam } from 'mock-rule-service';
 import { elements, dateVariableGuid, stageGuid, accountSObjectVariableGuid } from 'mock-store-data';
+import { RULE_TYPES, RULE_PROPERTY } from '../rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { DATE } = FLOW_DATA_TYPE;
