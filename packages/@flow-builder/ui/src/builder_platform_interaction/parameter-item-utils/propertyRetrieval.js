@@ -6,14 +6,12 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
  * @returns {String} label of parameter
  */
 export function getParameterLabel(item, elementType) {
-    switch (elementType) {
-        case ELEMENT_TYPE.ACTION_CALL:
-            return item.Label;
-        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-        case ELEMENT_TYPE.SUBFLOW:
-        default:
-            return ''; // FIXME: will fix it when the service is available for ApexPlugin and Subflow
+    if (isInvocableAction(elementType)) {
+        return item.Label;
+    } else if (elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
+        return item.Name; // for Apex Plugin, there is no Label property, we may use Name instead
     }
+    return ''; // TODO: there is no service for subflow for now
 }
 
 /**
@@ -22,14 +20,10 @@ export function getParameterLabel(item, elementType) {
  * @returns {Boolean} true if this parameter is input
  */
 export function isInputParameter(item, elementType) {
-    switch (elementType) {
-        case ELEMENT_TYPE.ACTION_CALL:
-            return item.IsInput;
-        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-        case ELEMENT_TYPE.SUBFLOW:
-        default:
-            return false; // FIXME: will fix it when the service is available for ApexPlugin and Subflow
+    if (isInvocableActionOrApexPlugin(elementType)) {
+        return item.IsInput;
     }
+    return false; // TODO: there is no service for subflow for now
 }
 
 /**
@@ -38,14 +32,10 @@ export function isInputParameter(item, elementType) {
  * @returns {Boolean} true if this parameter is required
  */
 export function isRequiredParameter(item, elementType) {
-    switch (elementType) {
-        case ELEMENT_TYPE.ACTION_CALL:
-            return item.IsRequired;
-        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-        case ELEMENT_TYPE.SUBFLOW:
-        default:
-            return false; // FIXME: will fix it when the service is available for ApexPlugin and Subflow
+    if (isInvocableActionOrApexPlugin(elementType)) {
+        return item.IsRequired;
     }
+    return false; // TODO: there is no service for subflow for now
 }
 
 /**
@@ -54,12 +44,24 @@ export function isRequiredParameter(item, elementType) {
  * @returns {String} data type of parameter
  */
 export function getParameterDataType(item, elementType) {
-    switch (elementType) {
-        case ELEMENT_TYPE.ACTION_CALL:
-            return item.DataType;
-        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-        case ELEMENT_TYPE.SUBFLOW:
-        default:
-            return ''; // FIXME: will fix it when the service is available for ApexPlugin and Subflow
+    if (isInvocableActionOrApexPlugin(elementType)) {
+        return item.DataType;
     }
+    return false; // TODO: there is no service for subflow for now
+}
+
+/**
+ * @param {String} elementType      type of element
+ * @returns {Boolean} true if invocable action
+ */
+function isInvocableAction(elementType) {
+    return elementType === ELEMENT_TYPE.ACTION_CALL || elementType === ELEMENT_TYPE.EMAIL_ALERT || elementType === ELEMENT_TYPE.APEX_CALL;
+}
+
+/**
+ * @param {String} elementType      type of element
+ * @returns {Boolean} true if invocable action or Apex Plugin
+ */
+function isInvocableActionOrApexPlugin(elementType) {
+    return isInvocableAction(elementType) || elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL;
 }

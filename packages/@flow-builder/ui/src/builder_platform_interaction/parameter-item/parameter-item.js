@@ -116,10 +116,9 @@ export default class ParameterItem extends Element {
 
     /**
      * true if data type of this parameter is a collection
-     * FIXME: there is no maxOccurs property in the record returned by the service for now
      */
     get isCollection() {
-        return false;
+        return (this.state.parameterItem.hasOwnProperty('maxOccurs') && this.state.parameterItem.maxOccurs > 1);
     }
 
     /**
@@ -157,26 +156,31 @@ export default class ParameterItem extends Element {
                 return '';
             }
             // return  {!value} if this parameter is input parameter and has a reference value
-            if (this.state.parameterItem.value.hasOwnProperty('elementReference') && this.state.parameterItem.value.elementReference !== null) {
-                return '{!' + this.getVariableName(this.state.parameterItem.value.elementReference) + '}';
+            if (this.state.parameterItem.value.elementReference) {
+                const varRef = this.state.parameterItem.value.elementReference.value;
+                const varName = this.getVariableName(varRef);
+                const value = (varName) ? varName : varRef;
+                // varRef can be a System's Constant, in that case, varName is undefined, then using this varRef as a comboboxValue
+                return '{!' + value + '}';
             }
-            return this.state.parameterItem.value[Object.keys(this.item.value)[0]];
+            // TODO: value = literals + VARIABLE (My name is {!VARIRABLE_1}. Hello world!)
+            return this.state.parameterItem.value[Object.keys(this.item.value)[0]].value;
         }
         // return {!value} if this parameter is output parameter and has a reference value
         if (this.state.parameterItem.hasOwnProperty('assignToReference')) {
-            return '{!' + this.getVariableName(this.state.parameterItem.assignToReference) + '}';
+            return '{!' + this.getVariableName(this.state.parameterItem.assignToReference.value) + '}';
         }
         return '';
     }
 
     /**
-     * map from VARIABLE_1 to variable name
+     * map from var ref to variable name
      * @param {String} varRef the variable reference
-     * @return {String} name of variable
+     * @return {String} name of variable or undefined if not found
      */
     getVariableName(varRef) {
-        const varName = storeInstance.getCurrentState().elements[varRef];
-        return (varName) ? varName.name : '';
+        const varElement = storeInstance.getCurrentState().elements[varRef];
+        return (varElement) ? varElement.name : undefined;
     }
 
     /**
@@ -233,11 +237,11 @@ export default class ParameterItem extends Element {
         this.state.toggleStatus = event.currentTarget.checked;
         if (!this.state.toggleStatus) {
             if (this.state.parameterItem.hasOwnProperty('value')) {
-                this.preservedValue = this.state.parameterItem.value[Object.keys(this.state.parameterItem.value)[0]];
-                this.state.parameterItem.value[Object.keys(this.state.parameterItem.value)[0]] = null;
+                this.preservedValue = this.state.parameterItem.value[Object.keys(this.state.parameterItem.value)[0]].value;
+                this.state.parameterItem.value[Object.keys(this.state.parameterItem.value)[0]].value = null;
             }
         } else if (this.preservedValue) {
-            this.state.parameterItem.value[Object.keys(this.state.parameterItem.value)[0]] = this.preservedValue;
+            this.state.parameterItem.value[Object.keys(this.state.parameterItem.value)[0]].value = this.preservedValue;
             this.preservedValue = null;
         }
         // dispatch event to update this item in list: UpdateParameterItemEvent
@@ -252,9 +256,9 @@ export default class ParameterItem extends Element {
     handleValueChanged(event) {
         event.stopPropagation();
         if (this.isInput) {
-            this.state.parameterItem.value = this.getItemValue(event.detail.value);
+            this.state.parameterItem.value = this.convertComboxValueToParameterValue(event.detail.value);
         } else {
-            this.state.parameterItem.assignToReference = event.detail.value;
+            this.state.parameterItem.assignToReference = {value: event.detail.value};
         }
         // dispatch event to update this item in list: UpdateParameterItemEvent
         const itemUpdatedEvent = new UpdateParameterItemEvent(this.isInput, this.itemIndex, this.item, event.detail.error);
@@ -267,17 +271,17 @@ export default class ParameterItem extends Element {
     }
 
     /**
-     * get the parameter's value from the combobox's value
-     * @param {String} value the combobox's value
+     * convert to parameter's value from the combobox's value
+     * @param {String} comboboxValue the combobox's value
      * @return {Object} the parameter's value
      */
-    getItemValue(value) {
-        const varName = this.getVariableName(value);
+    convertComboxValueToParameterValue(comboboxValue) {
+        const varName = this.getVariableName(comboboxValue);
         if (varName) {
-            return {elementReference: value};
+            return {elementReference: {value: comboboxValue}};
         }
         const key = this.getParameterValueKey();
-        return {[key]:value};
+        return {[key]: {value: comboboxValue}};
     }
 
     /**
