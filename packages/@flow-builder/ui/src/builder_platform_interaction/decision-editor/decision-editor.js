@@ -19,6 +19,10 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
         this.element = newValue || {};
     }
 
+    get outcomes() {
+        return (this.element) ? this.element.outcomes : [];
+    }
+
     /**
      * @param {object} event - property changed event coming from label-description component
      */

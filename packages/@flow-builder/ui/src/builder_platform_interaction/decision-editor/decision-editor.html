@@ -10,7 +10,9 @@
         <builder_platform_interaction-accordion-section>
             <div slot='accordion-header'>Outcomes/Rules</div>
             <div slot='accordion-body'>
-                TODO: More Outcomes/Rules
+                <template for:each={outcomes} for:item="outcome">
+                    <builder_platform_interaction-outcome outcome={outcome} onpropertychanged={handlePropertyChanged}></builder_platform_interaction-outcome>
+                </template>
             </div>
         </builder_platform_interaction-accordion-section>
 

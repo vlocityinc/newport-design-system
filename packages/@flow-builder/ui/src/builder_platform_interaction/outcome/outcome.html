@@ -1,0 +1,17 @@
+<template>
+    <builder_platform_interaction-list items={conditions}
+                                             onaddlistitem={handleAddCondition}
+                                             onupdatelistitem={handleUpdateCondition}
+                                             ondeletelistitem={handleDeleteCondition}>
+        <div slot="listBody">
+            <template for:each={conditions} for:item="condition" for:index="conditionIndex">
+                <!-- TODO: revisit index based on https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004t9dVIAQ/view -->
+                <builder_platform_interaction-row item-prefix={condition.prefix} show-prefix=true item-index={conditionIndex} show-delete={showDelete} key={condition.condition}>
+                    <div slot="rowBody">
+                        <builder_platform_interaction-expression-builder expression={condition.condition} showoperator=true lhs-label=resource operator-label=operator rhs-label=value></builder_platform_interaction-expression-builder>
+                    </div>
+                </builder_platform_interaction-row>
+            </template>
+        </div>
+    </builder_platform_interaction-list>
+</template>
