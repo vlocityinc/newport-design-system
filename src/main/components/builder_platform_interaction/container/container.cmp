@@ -26,6 +26,6 @@
    <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />
    
     <div class="flow-builder-container">
-        <builder_platform_interaction:editor onsaveflow="{!c.handleSaveFlow}" />
+        <builder_platform_interaction:editor flowId="{!v.flowId}"/>
     </div>
 </aura:component>

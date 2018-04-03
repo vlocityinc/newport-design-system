@@ -1,0 +1,6 @@
+<aura:component controller="serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController" description="This container is responsible for getting data from server via java controller.">
+    <!--Handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+
+    <builder_platform_interaction:serverDataLib aura:id="serverDataLib"/>
+</aura:component>

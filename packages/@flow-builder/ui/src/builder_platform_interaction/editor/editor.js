@@ -1,17 +1,19 @@
-import { Element, track } from 'engine';
+import { Element, track, api } from 'engine';
 import { PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { CRUD, invokePanel } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, resourcesSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
-import { addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
+import { updateFlow, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 import { createFlowElement, ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { createConnectorObject } from 'builder_platform_interaction-connector-utils';
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
+import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform_interaction-translator-lib";
+import { reducer } from "builder_platform_interaction-reducers";
+import { setRules } from "builder_platform_interaction-rule-lib";
 
 let unsubscribeStore;
 let storeInstance;
-
-const SAVE_FLOW = 'saveflow';
 
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -22,6 +24,8 @@ const SAVE_FLOW = 'saveflow';
  * @since 214
  */
 export default class Editor extends Element {
+    currentFlowId;
+
     @track
     appState = {
         canvas: {
@@ -33,8 +37,26 @@ export default class Editor extends Element {
 
     constructor() {
         super();
-        storeInstance = Store.getStore();
+        // Initialising store
+        storeInstance = Store.getStore(reducer);
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
+        fetch(SERVER_ACTION_TYPE.GET_RULES, this.getRulesCallback);
+    }
+
+    @api
+    get flowId() {
+        return this.currentFlowId;
+    }
+
+    @api
+    set flowId(newFlowId) {
+        if (newFlowId) {
+            this.currentFlowId = newFlowId;
+            const params = {
+                id: newFlowId
+            };
+            fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallback, params);
+        }
     }
 
     /**
@@ -46,7 +68,6 @@ export default class Editor extends Element {
         const nodes = canvasSelector(currentState);
         const connectors = currentState.connectors;
         const resources = resourcesSelector(currentState);
-
         this.appState = {
             canvas : {
                 nodes,
@@ -57,18 +78,59 @@ export default class Editor extends Element {
     };
 
     /**
+     * Callback which gets executed once we get the flow from java controller
+     *
+     * @param {Object} has error property if there is error fetching the data else has data property
+     */
+    getFlowCallback = ({data, error}) => {
+        if (error) {
+            // TODO: handle error case
+        } else {
+            storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
+        }
+    };
+
+    /**
+     * Callback which gets executed after saving a flow
+     *
+     * @param {Object} has error property if there is error fetching the data else has data property
+     */
+    saveFlowCallback = ({data, error}) => {
+        if (error) {
+            // TODO: handle error case
+        } else if (data !== 'fail') {
+            // TODO: handle saving a flow case
+            // Updating URL
+            // Hack: fix it once we payload onsave is defined properly
+            this.currentFlowId = data;
+            window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + data);
+        }
+    };
+
+    /**
+     * Callback which gets executed after getting rules for expression builder
+     *
+     * @param {Object} has error property if there is error fetching the data else has data property
+     */
+    getRulesCallback = ({data, error}) => {
+        if (error) {
+            // TODO: handle error case
+        } else {
+            setRules(data);
+        }
+    };
+
+    /**
      * Handle save event fired by a child component. Fires another event
      * containing flow information, which is handled by container.cmp.
      */
     handleSaveFlow = () => {
-        const saveEvent = new CustomEvent(
-            SAVE_FLOW,
-            {
-                bubbles: true,
-                composed: true
-            }
-        );
-        this.dispatchEvent(saveEvent);
+        const flow = translateUIModelToFlow(storeInstance.getCurrentState());
+        const params = {
+            flow
+        };
+
+        fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
     };
 
     /**

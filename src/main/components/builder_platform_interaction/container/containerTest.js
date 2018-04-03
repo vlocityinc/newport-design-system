@@ -1,7 +1,7 @@
 ({
     browsers: ["S1_DESKTOP"],
     
-    testRulesAreInitialized: {
+    _testRulesAreInitialized: {
         attributes: {
             flowId: "301xx00000000AB"
         },
