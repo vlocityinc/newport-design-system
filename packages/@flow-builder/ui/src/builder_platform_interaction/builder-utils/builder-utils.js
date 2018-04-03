@@ -2,6 +2,7 @@
 import { createComponent, dispatchGlobalEvent } from 'aura';
 
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { capitalizeFirstLetter } from 'builder_platform_interaction-data-mutation-lib';
 
 /**
  * @constant state of callback result
@@ -51,7 +52,7 @@ export const CRUD = {
 export function invokePanel(cmpName, attributes) {
     let elementType, nodeUpdate, node, descriptorType;
 
-    const titleForModal = attributes.modalTitle;
+    const titleForModal = capitalizeFirstLetter(attributes.modalTitle);
 
     if (attributes.modalType === 'CANVAS') {
         elementType = attributes.node.elementType;
