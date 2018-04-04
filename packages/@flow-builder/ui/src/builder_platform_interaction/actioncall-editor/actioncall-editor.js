@@ -94,6 +94,11 @@ export default class ActionCallEditor extends Element {
                 elementType :  this.node.elementType,
                 apexClass : this.node.apexClass.value
             };
+        } else if (this.node.elementType === ELEMENT_TYPE.SUBFLOW) {
+            return {
+                elementType :  this.node.elementType,
+                flowName : this.node.flowName.value
+            };
         }
         return {
             elementType :  this.node.elementType,
@@ -129,14 +134,24 @@ export default class ActionCallEditor extends Element {
             // TODO : create an action instead and use reducer
             delete this.node.actionName;
             delete this.node.actionType;
+            delete this.node.flowName;
             this.node.elementType = selectedAction.elementType;
             this.node.apexClass = {
                 value : selectedAction.apexClass
             };
             // TODO : update input/output parameters
+        } else if (selectedAction.elementType === ELEMENT_TYPE.SUBFLOW) {
+            delete this.node.apexClass;
+            delete this.node.actionName;
+            delete this.node.actionType;
+            this.node.elementType = selectedAction.elementType;
+            this.node.flowName = {
+                value : selectedAction.flowName
+            };
         } else {
             // TODO : create an action instead and use reducer
             delete this.node.apexClass;
+            delete this.node.flowName;
             this.node.elementType = selectedAction.elementType;
             this.node.actionType = {
                 value : selectedAction.actionType

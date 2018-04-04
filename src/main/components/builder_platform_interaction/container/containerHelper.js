@@ -5,6 +5,7 @@
         this.actioncallLib.setGetApexPluginsFunction(this.getEnqueueActionFunction(cmp, "c.getApexPlugins", true, []));
         this.actioncallLib.setGetInvocableActionParametersFunction(this.getEnqueueActionFunction(cmp,
                 "c.getInvocableActionParameters", true, [ "actionName", "actionType" ]));
+        this.actioncallLib.setGetSubflowsFunction(this.getEnqueueActionFunction(cmp, "c.getSubflows", true, []));
     },
 
     /**

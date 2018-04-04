@@ -2,7 +2,8 @@ export const ACTION_TYPE = {
     APEX: 'apex',
     EMAIL_ALERT: 'emailAlert',
     QUICK_ACTION: 'quickAction',
-    FLOW: 'flow'
+    FLOW: 'flow',
+    COMPONENT: 'component'
 };
 
 export const METADATA_KEY = {
@@ -10,5 +11,6 @@ export const METADATA_KEY = {
     APEX_PLUGIN_CALLS: 'apexPluginCalls',
     ASSIGNMENTS: 'assignments',
     DECISIONS: 'decisions',
-    VARIABLES: 'variables'
+    VARIABLES: 'variables',
+    SUBFLOWS: 'subflows'
 };

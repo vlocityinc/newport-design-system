@@ -23,6 +23,7 @@ export const ELEMENT_TYPE = {
     CONSTANT: 'CONSTANT',
     DYNAMIC_CHOICE_SET: 'DYNAMIC_CHOICE_SET',
     FORMULA: 'FORMULA',
+    LOCAL_ACTION_CALL: 'LOCAL_ACTION_CALL',
     STAGE: 'STAGE',
     TEXT_TEMPLATE: 'TEXT_TEMPLATE',
     LOOP: 'LOOP',
@@ -44,9 +45,29 @@ export const ELEMENT_TYPE = {
  * @type {object}
  */
 export const elementTypeToConfigMap = {
+    [ELEMENT_TYPE.SUBFLOW]: {
+        descriptor: 'builder_platform_interaction:actioncallEditor',
+        nodeConfig: {
+            iconName: 'standard:flow',
+            maxConnections: 2
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.SUBFLOWS,
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.SUBFLOW,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
     [ELEMENT_TYPE.ACTION_CALL]: {
-        descriptor: 'builder_platform_interaction:actioncallEditor', // TODO: We probably need some function here to
-        // determine the descriptor based on action type
+        descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {
             iconName: 'standard:investment_account',
             maxConnections: 2
@@ -54,7 +75,10 @@ export const elementTypeToConfigMap = {
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
         // action call : standard actions and quickactions
-        metadataFilter : element => element.actionType !== ACTION_TYPE.EMAIL_ALERT && element.actionType !== ACTION_TYPE.APEX && element.actionType !== ACTION_TYPE.FLOW,
+        metadataFilter : element => element.actionType !== ACTION_TYPE.EMAIL_ALERT &&
+                                    element.actionType !== ACTION_TYPE.APEX &&
+                                    element.actionType !== ACTION_TYPE.FLOW &&
+                                    element.actionType !== ACTION_TYPE.LOCAL_ACTION,
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -71,8 +95,7 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
-        descriptor: 'builder_platform_interaction:actioncallEditor', // TODO: We probably need some function here to
-        // determine the descriptor based on action type
+        descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {
             iconName: 'standard:product_item_transaction',
             maxConnections: 2
@@ -94,8 +117,7 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.APEX_CALL]: {
-        descriptor: 'builder_platform_interaction:actioncallEditor', // TODO: We probably need some function here to
-        // determine the descriptor based on action type
+        descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {
             iconName: 'standard:macros',
             maxConnections: 1
@@ -118,9 +140,30 @@ export const elementTypeToConfigMap = {
             name: ''
         }
     },
+    [ELEMENT_TYPE.LOCAL_ACTION_CALL]: {
+        descriptor: 'builder_platform_interaction:actioncallEditor',
+        nodeConfig: {
+            iconName: 'standard:marketing_actions',
+            maxConnections: 1
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.ACTION_CALLS,
+        metadataFilter : element => element.actionType === ACTION_TYPE.COMPONENT,
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.LOCAL_ACTION_CALL,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
     [ELEMENT_TYPE.EMAIL_ALERT]: {
-        descriptor: 'builder_platform_interaction:actioncallEditor', // TODO: We probably need some function here to
-        // determine the descriptor based on action type
+        descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {
             iconName: 'standard:email',
             maxConnections: 1

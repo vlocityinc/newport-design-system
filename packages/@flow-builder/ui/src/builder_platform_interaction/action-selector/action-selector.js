@@ -1,5 +1,5 @@
 import { Element, api, track } from "engine";
-import { getAllInvocableActionsForType, getApexPlugins } from 'builder_platform_interaction-actioncall-lib';
+import { getAllInvocableActionsForType, getApexPlugins, getSubflows } from 'builder_platform_interaction-actioncall-lib';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { ACTION_TYPE } from 'builder_platform_interaction-flow-metadata';
@@ -16,12 +16,14 @@ export default class ActionSelector extends Element {
         ],
         spinnerActive : true,
         actionComboLabel : '',
-        actionComboMissingValueMessage : ''
-    }
+        actionPlaceholder : ''
+    };
     invocableActions = [];
     invocableActionsLoaded = false;
     apexPlugins = [];
     apexPluginsLoaded = false;
+    subflows = [];
+    subflowsLoaded = false;
 
     constructor() {
         super();
@@ -35,20 +37,46 @@ export default class ActionSelector extends Element {
             this.apexPluginsLoaded = true;
             this.updateComboboxes();
         });
+        getSubflows(subflows => {
+            this.subflows = subflows;
+            this.subflowsLoaded = true;
+            this.updateComboboxes();
+        });
         this.updateTypeCombo();
         this.updateActionCombo();
     }
 
+    /**
+     * @typedef {Object} SelectedAction
+     * @property {string} elementType the element type (one of the action ELEMENT_TYPE)
+     * @property {string} [apexClass] the apex class (when elementType is ELEMENT_TYPE.APEX_PLUGIN_CALL)
+     * @property {string} [flowName] the flow name (when elementType is ELEMENT_TYPE.SUBFLOW)
+     * @property {string} [actionType] the action name (for invocable actions)
+     * @property {string} [actionName] the action name (for invocable actions)
+     */
+
+    /**
+     * Set the selected action
+     *
+     * @param {SelectedAction} newValue the selected action
+     */
     @api
     set selectedAction(newValue) {
-        this.state.selectedElementType = newValue.elementType;
+        this.state.selectedElementType = newValue.elementType ? newValue.elementType : ELEMENT_TYPE.ACTION_CALL;
         if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
             this.state.selectedActionValue = newValue.apexClass ? newValue.apexClass : '';
+        } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
+            this.state.selectedActionValue = newValue.flowName ? newValue.flowName : '';
         } else {
             this.state.selectedActionValue = newValue.actionType && newValue.actionName ? newValue.actionType + '-' + newValue.actionName : '';
         }
     }
 
+    /**
+     * Get the selected action
+     *
+     * @return {SelectedAction} The selected action
+     */
     @api
     get selectedAction() {
         let selectedAction;
@@ -57,7 +85,15 @@ export default class ActionSelector extends Element {
             if (apexPluginFound) {
                 selectedAction = {
                     apexClass : apexPluginFound.name,
-                    elementType : ELEMENT_TYPE.APEX_PLUGIN_CALL
+                    elementType : this.state.selectedElementType
+                };
+            }
+        } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
+            const subflowFound = this.subflows.find(subflow => subflow.developerName === this.state.selectedActionValue);
+            if (subflowFound) {
+                selectedAction = {
+                    flowName : subflowFound.developerName,
+                    elementType : this.state.selectedElementType
                 };
             }
         } else {
@@ -74,7 +110,7 @@ export default class ActionSelector extends Element {
     }
 
     updateComboboxes() {
-        if (this.apexPluginsLoaded && this.invocableActionsLoaded) {
+        if (this.apexPluginsLoaded && this.invocableActionsLoaded && this.subflowsLoaded) {
             this.updateTypeCombo();
             this.updateActionCombo();
             this.state.spinnerActive = false;
@@ -82,33 +118,43 @@ export default class ActionSelector extends Element {
     }
 
     updateActionCombo() {
-        let items, label, missingValueMessage;
+        let items, label, placeholder;
         switch (this.state.selectedElementType) {
             case ELEMENT_TYPE.ACTION_CALL:
                 items = this.invocableActions.filter(action => action.IsStandard || action.Type === ACTION_TYPE.QUICK_ACTION).map(action => this.getComboItemFromInvocableAction(action));
                 label = "Referenced Action";
-                missingValueMessage = "Find an Action...";
+                placeholder = "Find an Action...";
                 break;
             case ELEMENT_TYPE.APEX_CALL:
                 items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.APEX).map(action => this.getComboItemFromInvocableAction(action));
                 label = "Referenced Apex";
-                missingValueMessage = "Find an Apex Class...";
+                placeholder = "Find an Apex Class...";
                 break;
             case ELEMENT_TYPE.EMAIL_ALERT:
                 items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.EMAIL_ALERT).map(action => this.getComboItemFromInvocableAction(action));
                 label = "Referenced Email Alert";
-                missingValueMessage = "Find an Email Alert...";
+                placeholder = "Find an Email Alert...";
+                break;
+            case ELEMENT_TYPE.LOCAL_ACTION_CALL:
+                items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));
+                label = "Referenced Local Action";
+                placeholder = "Find a Local Action...";
                 break;
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
                 items = this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
                 label = "Referenced Apex Plugin";
-                missingValueMessage = "Find an Apex Plugin...";
+                placeholder = "Find an Apex Plugin...";
+                break;
+            case ELEMENT_TYPE.SUBFLOW:
+                items = this.subflows.map(subflow => this.getComboItemFromSubflow(subflow));
+                label = "Referenced Subflow";
+                placeholder = "Find Subflow...";
                 break;
             default:
                 items = [];
         }
         this.state.actionComboLabel = label;
-        this.state.actionComboMissingValueMessage = missingValueMessage;
+        this.state.actionPlaceholder = placeholder;
         this.state.actionMenuData = [{ items }];
     }
 
@@ -135,16 +181,25 @@ export default class ActionSelector extends Element {
                 value : ELEMENT_TYPE.EMAIL_ALERT
             });
         }
-        //        typeOptions.push({
-        //          label : "Subflow",
-        //             value : "subflow"
-        //        });
+        if (this.invocableActions.find(action => action.Type === ACTION_TYPE.COMPONENT)) {
+            typeOptions.push({
+                label : "Local Action",
+                value : ELEMENT_TYPE.LOCAL_ACTION_CALL
+            });
+        }
+        if (this.subflows.length > 0) {
+            typeOptions.push({
+                label : "Subflow",
+                value : ELEMENT_TYPE.SUBFLOW
+            });
+        }
         this.state.typeOptions = typeOptions;
     }
 
     handleElementTypeChanged(event) {
         event.stopPropagation();
         this.state.selectedElementType = event.detail.value;
+        this.state.selectedActionValue = '';
         this.updateActionCombo();
     }
 
@@ -163,6 +218,15 @@ export default class ActionSelector extends Element {
             text : apexPlugin.name,
             value: apexPlugin.name,
             subText : apexPlugin.Description || ""
+        };
+    }
+
+    getComboItemFromSubflow(subflow) {
+        return {
+            type : "option-card",
+            text : subflow.masterLabel,
+            value: subflow.developerName,
+            subText : subflow.description || ""
         };
     }
 
