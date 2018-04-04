@@ -1,4 +1,6 @@
-import {isMatch} from 'builder_platform_interaction-rule-lib';
+import {isMatch} from "builder_platform_interaction-rule-lib";
+import {writableElementsSelector, readableElementsSelector} from "builder_platform_interaction-selectors";
+import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
@@ -89,8 +91,8 @@ function elementMatchesRule(allowedParamTypes, element) {
     return false;
 }
 
-function elementAllowed(allowedParamTypes, element) {
-    return (allowedParamTypes.hasOwnProperty(element.dataType) && elementMatchesRule(allowedParamTypes[element.dataType], element))
+function isElementAllowed(allowedParamTypes, element) {
+    return !allowedParamTypes || (allowedParamTypes.hasOwnProperty(element.dataType) && elementMatchesRule(allowedParamTypes[element.dataType], element))
         || (allowedParamTypes.hasOwnProperty(element.elementType) && elementMatchesRule(allowedParamTypes[element.elementType], element))
         || (allowedParamTypes.hasOwnProperty(element.objectType) && elementMatchesRule(allowedParamTypes[element.objectType], element));
 }
@@ -99,36 +101,53 @@ export const COMBOBOX_ITEM_DISPLAY_TYPE = {
     OPTION_CARD: 'option-card',
     OPTION_INLINE: 'option-inline'
 };
+/**
+ * This method returns the selector that should be used to find elements for the menuData
+ * @param {Object} element              the element type this expression builder lives in
+ * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
+ * @returns {function}                  retrieves elements from store
+ */
+function getSelector({element, shouldBeWritable}) {
+    switch (element) {
+        case ELEMENT_TYPE.ACTION_CALL:
+        case ELEMENT_TYPE.APEX_CALL:
+        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
+        case ELEMENT_TYPE.ASSIGNMENT:
+        case ELEMENT_TYPE.EMAIL_ALERT:
+        case ELEMENT_TYPE.SUBFLOW:
+            return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+        case ELEMENT_TYPE.DECISION:
+            return readableElementsSelector;
+        default:
+            return undefined;
+    }
+}
 
 /**
  * Gets list of elements to display in combobox, in shape combobox expects
  *
- * @param {Object} elements             all elements in flow
- * @param {Array} guids                 guids representing elements to display in combobox
+ * @param {Object} state                the current state of the store
+ * @param {Object} elementConfig        {element, shouldBeWritable} element is the element type this expression builder is inside, shouldBeWritable is so property editors can specify the data they need
  * @param {Object} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
-export function getElementsForMenuData(elements, guids, allowedParamTypes) {
+export function getElementsForMenuData(state, elementConfig, allowedParamTypes) {
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
-    return guids.reduce((acc, guid) => {
-        const element = elements[guid];
-        if (!allowedParamTypes || elementAllowed(allowedParamTypes, element)) {
-            acc.push(copyFields(element));
-        }
-        return acc;
-    }, [])
-        .sort(compareElementsByCategoryThenDevName)
-        .reduce(sortIntoCategories, []);
+    return getSelector(elementConfig)(state)
+        .filter(element => isElementAllowed(allowedParamTypes, element))
+        .map(element => {
+            return mutateFieldsToComboboxShape(element);
+        })
+        .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
 }
 
 /**
- * NOT FOR OUTSIDE USE
  * makes copy of element, with fields as needed by combobox
  *
  * @param {Object} element   element from flow
  * @returns {Object}         representation of flow element in shape combobox needs
  */
-export function copyFields(element) {
+function mutateFieldsToComboboxShape(element) {
     const newElement = {};
 
     newElement.text = element.name;

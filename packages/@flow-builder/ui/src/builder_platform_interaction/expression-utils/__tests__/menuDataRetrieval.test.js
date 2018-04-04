@@ -1,6 +1,8 @@
-import { getElementsForMenuData, copyFields } from '../menuDataRetrieval';
+import { getElementsForMenuData } from '../menuDataRetrieval';
 import { numberParam } from 'mock-rule-service';
 import * as store from 'mock-store-data';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import * as selectorsMock from 'builder_platform_interaction-selectors';
 
 const collectionVariable = 'COLLECTION ' + store.variable;
 const sobjectVariable = 'SOBJECT ' + store.variable;
@@ -24,21 +26,28 @@ const sobjectVariable = 'SOBJECT ' + store.variable;
     ]
  */
 
-const someVariableGuids = [store.numberVariableGuid, store.accountSObjectVariableGuid, store.stringCollectionVariable1Guid, store.stringCollectionVariable2Guid];
-
 const sampleParamTypes = {
     Number : [numberParam],
 };
 
+jest.mock('builder_platform_interaction-selectors', () => {
+    return {
+        writableElementsSelector: jest.fn(),
+    };
+});
+
 describe('Menu data retrieval', () => {
     it('should sort alphabetically by category', () => {
-        const menuData = getElementsForMenuData(store.elements, someVariableGuids);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid], store.elements[store.accountSObjectVariableGuid],
+            store.elements[store.stringCollectionVariable1Guid], store.elements[store.stringCollectionVariable2Guid], store.elements[store.dateVariableGuid]]);
+        const menuData = getElementsForMenuData(store, { element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true});
         expect(menuData[0].label).toBe(collectionVariable);
         expect(menuData[1].label).toBe(sobjectVariable);
         expect(menuData[2].label).toBe(store.variable);
     });
     it('should sort alphabetically within category', () => {
-        const collectionVariables = getElementsForMenuData(store.elements, someVariableGuids)[0];
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.stringCollectionVariable1Guid], store.elements[store.stringCollectionVariable2Guid]]);
+        const collectionVariables = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true })[0];
         expect(collectionVariables.items.length).toBe(2);
         expect(collectionVariables.items[0].text).toBe(store.stringCollectionVariable1DevName);
         expect(collectionVariables.items[1].text).toBe(store.stringCollectionVariable2DevName);
@@ -49,30 +58,33 @@ describe('Menu data retrieval', () => {
                 isMatch : jest.fn().mockImplementationOnce(() => true).mockImplementationOnce(() => false),
             };
         });
-        const allowedVariables = getElementsForMenuData(store.elements, [store.numberVariableGuid, store.stringCollectionVariable1Guid], sampleParamTypes);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid], store.elements[store.stringCollectionVariable1Guid]]);
+        const allowedVariables = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true}, sampleParamTypes);
         expect(allowedVariables.length).toBe(1);
         expect(allowedVariables[0].items.length).toBe(1);
         expect(allowedVariables[0].items[0].value).toBe(store.numberVariableDevName);
     });
-});
-
-describe('copying elements into combobox shape', () => {
     it('should preserve devName in text & value field', () => {
-        const copiedElement = copyFields(store.elements[store.numberVariableGuid]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
+        const copiedElement = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
         expect(copiedElement.text).toBe(store.numberVariableDevName);
         expect(copiedElement.value).toBe(store.numberVariableDevName);
     });
     it('should set subText to objectType for sObject var', () => {
-        const copiedElement = copyFields(store.elements[store.accountSObjectVariableGuid]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid]]);
+        const copiedElement = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
         expect(copiedElement.subText).toBe(store.account);
     });
     it('should set subText to label if there is a label', () => {
-        const copiedElement = copyFields(store.elements[store.choiceGuid]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.choiceGuid]]);
+        const copiedElement = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
         expect(copiedElement.subText).toBe(store.choiceLabel);
     });
     it('should set subText to dataType if no objectType or label', () => {
-        const copiedElement = copyFields(store.elements[store.numberVariableGuid]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
+        const copiedElement = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
         expect(copiedElement.subText).toBe(store.numberDataType);
     });
-    // TODO: write tests for getting category once we switch to using labels
+    // TODO: write tests for gettings category once we switch to using labels
 });
+
