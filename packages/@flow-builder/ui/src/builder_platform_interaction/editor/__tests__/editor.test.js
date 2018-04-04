@@ -16,13 +16,7 @@ jest.mock('builder_platform_interaction-translator-lib', () => {
 jest.mock('builder_platform_interaction-server-data-lib', () => {
     return {
         fetch: jest.fn(),
-        // Including this here even though it is the same as in the mocked class because there is no way with jest.mock
-        // to mock only one function from an imported class
-        SERVER_ACTION_TYPE: {
-            GET_FLOW: 'getFlow',
-            SAVE_FLOW: 'saveFlow',
-            GET_RULES: 'getRules'
-        }
+        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction-server-data-lib').SERVER_ACTION_TYPE
     };
 });
 
