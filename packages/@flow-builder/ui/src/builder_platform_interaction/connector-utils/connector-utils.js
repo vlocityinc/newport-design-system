@@ -1,4 +1,7 @@
-import { ELEMENT_TYPE, elementTypeToConfigMap } from 'builder_platform_interaction-element-config';
+import {
+    ELEMENT_TYPE,
+    getConfigForElementType
+} from 'builder_platform_interaction-element-config';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 
 export const CONNECTOR_TYPE = {
@@ -15,28 +18,23 @@ export const CONNECTOR_TYPE = {
  * @returns {Object} locations         Contains the minimum and maximum x and y coordinates of the flow
  */
 export const getMinAndMaxLocations = (canvasElements, elements) => {
-    const locations = {
-        minX: 0,
-        minY: 0,
-        maxX: 0,
-        maxY: 0
-    };
+    const locations = {};
 
     canvasElements.forEach(key => {
         if (elements[key]) {
-            if (elements[key].locationX < locations.minX) {
+            if (!locations.minX || (elements[key].locationX < locations.minX)) {
                 locations.minX = elements[key].locationX;
             }
 
-            if (elements[key].locationY < locations.minY) {
+            if (!locations.minY || (elements[key].locationY < locations.minY)) {
                 locations.minY = elements[key].locationY;
             }
 
-            if (elements[key].locationX > locations.maxX) {
+            if (!locations.maxX || (elements[key].locationX > locations.maxX)) {
                 locations.maxX = elements[key].locationX;
             }
 
-            if (elements[key].locationY > locations.maxY) {
+            if (!locations.maxY || (elements[key].locationY > locations.maxY)) {
                 locations.maxY = elements[key].locationY;
             }
         }
@@ -65,8 +63,8 @@ export const getMaxConnections = node => {
             ? node.waitEventReferences.length + 2
             : 2;
     } else {
-        maxConnections =
-            elementTypeToConfigMap[node.elementType].nodeConfig.maxConnections;
+        maxConnections = getConfigForElementType(node.elementType).nodeConfig
+            .maxConnections;
     }
 
     return maxConnections;
@@ -195,7 +193,7 @@ export const createConnectorsAndConnectionProperties = (nodeId, elements) => {
         childReferences = node.outcomeReferences.map(outcomeReference => {
             return outcomeReference.outcomeReference;
         });
-    } else if (elementType === ELEMENT_TYPE.WAIT_EVENT) {
+    } else if (elementType === ELEMENT_TYPE.WAIT) {
         childReferences = node.waitEventReferences.map(waitEventReference => {
             return waitEventReference.waitEventReference;
         });
@@ -244,7 +242,9 @@ export const setConnectorsOnElements = (connectors, elements) => {
             }
 
             case CONNECTOR_TYPE.DEFAULT: {
-                element.defaultConnector = { targetReference: connector.target };
+                element.defaultConnector = {
+                    targetReference: connector.target
+                };
                 element.defaultConnectorLabel = connector.label;
                 break;
             }

@@ -71,17 +71,16 @@ const convertDecision = decision => {
  */
 export function convertElements(elements, elementType, isCanvasElement) {
     const convertedElements = [];
+
     elements.forEach(element => {
         const convertedElement = convertElement(
             element,
             elementType,
             isCanvasElement
         );
-
         if (elementType === ELEMENT_TYPE.DECISION) {
             convertedElements.push(...convertDecision(convertedElement));
         }
-
         convertedElements.push(convertedElement);
     });
 
@@ -110,28 +109,32 @@ export function translateFlowToUIModel(flow) {
     // convert each type of element ex: assignments, decisions, variables
     Object.entries(ELEMENT_INFOS).forEach(([elementType, elementInfo]) => {
         let elementsToConvert = flow.metadata[elementInfo.metadataKey];
-        if (elementInfo.metadataFilter) {
+        if (elementInfo.metadataFilter && elementsToConvert) {
             // several element types for the same metadataKey (for actionCalls : ACTION_CALL, APEX_CALL, EMAIL_ALERT ...)
-            elementsToConvert = elementsToConvert.filter(elementInfo.metadataFilter);
+            elementsToConvert = elementsToConvert.filter(
+                elementInfo.metadataFilter
+            );
         }
-        const convertedElements = convertElements(
-            elementsToConvert,
-            elementType,
-            elementInfo.canvasElement
-        );
+        if (elementsToConvert) {
+            const convertedElements = convertElements(
+                elementsToConvert,
+                elementType,
+                elementInfo.canvasElement
+            );
 
-        convertedElements.forEach(element => {
-            // Generate map of dev name to guid for each element
-            nameToGuid[element.name] = element.guid;
-            // Generate master element map of guid to elements
-            elements[element.guid] = element;
-            // Construct arrays of all canvas element and variable guids
-            if (element.isCanvasElement) {
-                canvasElements.push(element.guid);
-            } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
-                variables.push(element.guid);
-            }
-        });
+            convertedElements.forEach(element => {
+                // Generate map of dev name to guid for each element
+                nameToGuid[element.name] = element.guid;
+                // Generate master element map of guid to elements
+                elements[element.guid] = element;
+                // Construct arrays of all canvas element and variable guids
+                if (element.isCanvasElement) {
+                    canvasElements.push(element.guid);
+                } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
+                    variables.push(element.guid);
+                }
+            });
+        }
     });
 
     // Swap out dev names for guids in all element references

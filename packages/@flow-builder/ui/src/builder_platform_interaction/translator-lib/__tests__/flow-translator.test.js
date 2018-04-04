@@ -266,7 +266,6 @@ export const FUTURE_ELEMENTS = [
     "stages",
     "startElementReference",
     "steps",
-    "subflows",
     "textTemplates",
     "waits"];
 

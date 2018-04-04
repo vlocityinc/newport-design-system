@@ -92,45 +92,14 @@ const DECISION = {
 
 const ASSIGNMENTS = [ASSIGNMENT_1, ASSIGNMENT_2];
 
-const ASSIGNMENT_TYPE = 'assignment';
-const IS_CANVAS = true;
-
 describe('Flow To UI Translator', () => {
-    it('sets maxConnections from node config', () => {
-        const mockElementConfig = {
-            nodeConfig : {
-                maxConnections: 5
-            }
-        };
-
-        const elementConfig = require.requireActual('builder_platform_interaction-element-config');
-        elementConfig.getConfigForElementType = jest.fn().mockReturnValue(mockElementConfig);
-
-        const converted = convertElement(ASSIGNMENT_1, ELEMENT_TYPE.ASSIGNMENT, IS_CANVAS);
-
-        expect(converted.maxConnections).toEqual(mockElementConfig.nodeConfig.maxConnections);
-    });
-
-    it('sets connector count to 0 if no connector', () => {
-        const converted = convertElement(DECISION, ELEMENT_TYPE.DECISION, IS_CANVAS);
-
-        expect(converted.connectorCount).toEqual(0);
-    });
-
-    it('sets connector count to 1 if connector present', () => {
-        const converted = convertElement(ASSIGNMENT_1, ELEMENT_TYPE.ASSIGNMENT, IS_CANVAS);
-
-        expect(converted.connectorCount).toEqual(1);
-    });
-
     it('Converts a single element from Flow to UI', () => {
-        const converted = convertElement(ASSIGNMENT_1, ELEMENT_TYPE.ASSIGNMENT, IS_CANVAS);
+        const converted = convertElement(ASSIGNMENT_1, ELEMENT_TYPE.ASSIGNMENT, true);
 
         expect(converted.elementType).toEqual(ELEMENT_TYPE.ASSIGNMENT);
+        expect(isUid(converted.guid)).toBeTruthy();
         expect(converted.isCanvasElement).toBeTruthy();
-
         expect(converted.config).toBeDefined();
-        expect(converted.connector.config).toBeDefined();
 
         // TODO: test other attributes set
     });
@@ -153,11 +122,14 @@ describe('Flow To UI Translator', () => {
         });
 
         it('Converts rules to outcomeReferences', () => {
-            const nameToGuid = {};
-            const converted = convertElements(nameToGuid, deepCopy([DECISION]), ELEMENT_TYPE.DECISION, true);
-            const decisionKey = nameToGuid.d;
+            const converted = convertElements(deepCopy([DECISION]), ELEMENT_TYPE.DECISION, true);
 
-            const convertedDecision = converted[decisionKey];
+            let convertedDecision;
+            converted.forEach(element => {
+                if (element.elementType === ELEMENT_TYPE.DECISION) {
+                    convertedDecision = element;
+                }
+            });
 
             expect(convertedDecision.outcomeReferences).toHaveLength(2);
         });
@@ -175,16 +147,16 @@ describe('Flow To UI Translator', () => {
     });
 
     it('Converts Elements from Flow to UI', () => {
-        const nameToGuid = {};
-        const converted = convertElements(nameToGuid, deepCopy(ASSIGNMENTS), ASSIGNMENT_TYPE, IS_CANVAS);
+        const converted = convertElements(deepCopy(ASSIGNMENTS), ELEMENT_TYPE.ASSIGNMENT, true);
 
         expect(Object.keys(converted)).toHaveLength(ASSIGNMENTS.length);
 
-        const assignmentKey = nameToGuid.Assignment;
-        const convertedAssignment = converted[assignmentKey];
-
-        expect(convertedAssignment.guid).toEqual(assignmentKey);
-        expect(isUid(convertedAssignment.guid)).toBeTruthy();
+        converted.forEach(element => {
+            expect(element.elementType).toEqual(ELEMENT_TYPE.ASSIGNMENT);
+            expect(element.guid).toBeDefined();
+            expect(element.isCanvasElement).toBeTruthy();
+            expect(element.config).toBeDefined();
+        });
     });
 
     it('Does Full Conversion', () => {
