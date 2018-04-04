@@ -31,7 +31,7 @@ const outcomeWithThreeConditionals = {
 };
 
 const selectors = {
-    deleteButton: 'lightning-button',
+    deleteConditionButton: '.slds-grid lightning-button-icon',
     row: 'builder_platform_interaction-row',
 };
 
@@ -61,7 +61,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const deleteButton = element.querySelector(selectors.deleteButton);
+                const deleteButton = element.querySelector(selectors.deleteConditionButton);
 
                 expect(deleteButton.disabled).toBeTruthy();
             });
@@ -71,7 +71,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithThreeConditionals;
 
             return Promise.resolve().then(() => {
-                const deleteButtons = element.querySelectorAll(selectors.deleteButton);
+                const deleteButtons = element.querySelectorAll(selectors.deleteConditionButton);
 
                 expect(deleteButtons[0].disabled).toBeFalsy();
                 expect(deleteButtons[1].disabled).toBeFalsy();

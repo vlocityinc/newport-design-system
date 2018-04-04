@@ -1,5 +1,6 @@
 import { createElement } from 'engine';
-import ExpressionBuilder from 'builder_platform_interaction-expression-builder';
+// Importing using relative path here to ensure that we get the actual component and not the mocked version
+import ExpressionBuilder from '../expression-builder.js';
 import { RowContentsChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { numberVariableGuid, numberVariableDevName } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes  } from 'builder_platform_interaction-rule-lib';

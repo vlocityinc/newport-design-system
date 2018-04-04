@@ -79,7 +79,7 @@ export default class AssignmentEditor extends Element {
     }
 
     get assignmentItems() {
-        return (this.node) ? this.node.assignmentItems : [];
+        return this.node && this.node.assignmentItems ? this.node.assignmentItems : [];
     }
 
     /**

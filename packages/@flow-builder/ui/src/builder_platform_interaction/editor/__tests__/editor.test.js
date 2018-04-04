@@ -3,6 +3,28 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import Editor from '../editor';
 import { EVENT } from 'builder_platform_interaction-constant';
 import { Store } from 'builder_platform_interaction-store-lib';
+import { translateUIModelToFlow } from 'builder_platform_interaction-translator-lib';
+import { fetch, SERVER_ACTION_TYPE} from 'builder_platform_interaction-server-data-lib';
+
+
+jest.mock('builder_platform_interaction-translator-lib', () => {
+    return {
+        translateUIModelToFlow: jest.fn()
+    };
+});
+
+jest.mock('builder_platform_interaction-server-data-lib', () => {
+    return {
+        fetch: jest.fn(),
+        // Including this here even though it is the same as in the mocked class because there is no way with jest.mock
+        // to mock only one function from an imported class
+        SERVER_ACTION_TYPE: {
+            GET_FLOW: 'getFlow',
+            SAVE_FLOW: 'saveFlow',
+            GET_RULES: 'getRules'
+        }
+    };
+});
 
 jest.unmock('builder_platform_interaction-store-lib');
 
@@ -86,7 +108,8 @@ jest.mock('builder_platform_interaction-store-lib', () => {
         }),
         generateGuid: jest.fn().mockImplementation((prefix) => {
             return prefix;
-        })
+        }),
+        combinedReducer: jest.fn()
     };
 });
 
@@ -147,14 +170,31 @@ const connectorElement = {
 };
 
 describe('editor', () => {
-    describe('Tool Bar', () => {
-        it('fires saveflow event when save button is clicked', () => {
+    describe('saving', () => {
+        it('translates the ui model to flow data', () => {
             const toolbarComponent = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                toolbarComponent.addEventListener('saveflow', eventCallback);
                 toolbarComponent.querySelector(selectors.save).click();
-                expect(eventCallback).toHaveBeenCalled();
+
+                expect(translateUIModelToFlow.mock.calls).toHaveLength(1);
+                expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(Store.getStore().getCurrentState());
+            });
+        });
+
+        it('passes the translated value to fetch', () => {
+            const toolbarComponent = createComponentUnderTest();
+            return Promise.resolve().then(() => {
+                const flow = {x: 1};
+
+                translateUIModelToFlow.mockReturnValue(flow);
+
+                toolbarComponent.querySelector(selectors.save).click();
+
+                // Check against the second call to fetch.  The first is in editor.js constructor and thus
+                // unavoidable
+                expect(fetch.mock.calls).toHaveLength(2);
+                expect(fetch.mock.calls[1][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
+                expect(fetch.mock.calls[1][2]).toEqual({ flow });
             });
         });
     });

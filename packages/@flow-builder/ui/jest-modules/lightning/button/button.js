@@ -8,6 +8,8 @@ import { Element, api } from 'engine';
  * @since 214
  */
 export default class LightningButton extends Element {
+    @api id;
+    @api title;
     @api name;
     @api value;
     @api label;
