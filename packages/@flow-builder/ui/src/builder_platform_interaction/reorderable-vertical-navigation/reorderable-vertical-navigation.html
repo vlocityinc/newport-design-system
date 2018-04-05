@@ -1,0 +1,35 @@
+<template>
+        <div class="slds-vertical-tabs__nav">  
+                <div class="slds-text-title_caps slds-grid slds-grid_vertical-align-center slds-shrink-none slds-p-around_xx-small slds-p-left_small -slds-theme_shade slds-border_bottom">
+                    <slot name="header">
+                        <!-- Example: -->
+                        Item Order
+                    </slot>
+                </div> 
+             <ul class="slds-vertical-tabs__nav" role="tablist" aria-orientation="vertical">
+                <template for:each={menuItems} for:item="item" for:index="itemIndex">
+                    <li is="builder_platform_interaction-reorderable-vertical-navigation-item"
+                        class="slds-vertical-tabs__nav-item"
+                        has-front-icon
+                        key={item.guid.value}
+                        nav-item-id={item.guid.value}
+                        label={item.label.value}
+                        active-id={activeItemId}
+                        onitemclicked={handleItemClicked}>
+                        <div slot='front-icon'>
+                             <lightning-icon icon-name='utility:rows' size='x-small' class='slds-m-right_x-small'></lightning-icon>
+                        </div>
+                        <div slot='end-icon' class='slds-col_bump-left'>
+                             <lightning-icon icon-name='utility:error' size='x-small' variant='error'></lightning-icon>
+                        </div>
+                    </li>                
+                </template>
+                <div class="slds-vertical-tabs__nav-item slds-p-around_small">
+                    <slot name="footer">
+                        <!-- Example: -->
+                        Default Item
+                    </slot>
+                </div>
+            </ul>
+        </div>
+</template>

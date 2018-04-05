@@ -10,11 +10,24 @@
         <builder_platform_interaction-accordion-section>
             <div slot='accordion-header'>Outcomes/Rules</div>
             <div slot='accordion-body'>
-                <template for:each={outcomes} for:item="outcome">
-                    <builder_platform_interaction-outcome outcome={outcome} onpropertychanged={handlePropertyChanged}></builder_platform_interaction-outcome>
-                </template>
+                <div class="slds-vertical-tabs slds-is-relative slds-grow">         
+                    <!-- TODO: what text should go in the tooltip (infoText)? -->
+                    <!-- TODO after W-4693112: Label instead of hardcoded 'Outcome Order'. Note: if string is long the + button goes to next line -->
+                    <builder_platform_interaction-reorderable-vertical-navigation initial-menu-items={outcomes} initial-active-item-id={initialActiveOutcomeId} onitemselected={handleOutcomeSelected}>
+                        <div slot='header'>  
+                            <!-- TODO: Localize labels after W-4693112 -->
+                            Outcome Order    
+                            <lightning-helptext class='slds-p-left_xx-small' content='This is some unknown info text'></lightning-helptext>
+                            <lightning-button-icon icon-name='utility:add' variant='border-filled' class='slds-p-left_xx-small'  onclick={handleAddClicked}></lightning-button-icon>
+                        </div>
+
+                        <div slot='footer'>Default Outcome</div> <!-- TODO: Localize label after W-4693112 -->
+                    </builder_platform_interaction-reorderable-vertical-navigation>
+                    <div class="slds-vertical-tabs__content slds-show" role="tabpanel">
+                        <builder_platform_interaction-outcome outcome={activeOutcome} onpropertychanged={handlePropertyChanged}></builder_platform_interaction-outcome>
+                    </div>
+                </div>
             </div>
         </builder_platform_interaction-accordion-section>
-
     </builder_platform_interaction-accordion>
 </template>
