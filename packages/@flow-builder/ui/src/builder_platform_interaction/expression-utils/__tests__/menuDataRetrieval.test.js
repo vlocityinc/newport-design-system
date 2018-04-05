@@ -36,6 +36,10 @@ jest.mock('builder_platform_interaction-selectors', () => {
     };
 });
 
+function addCurlyBraces(value) {
+    return '{!' + value + '}';
+}
+
 describe('Menu data retrieval', () => {
     it('should sort alphabetically by category', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid], store.elements[store.accountSObjectVariableGuid],
@@ -48,7 +52,7 @@ describe('Menu data retrieval', () => {
     it('should sort alphabetically within category', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.stringCollectionVariable1Guid], store.elements[store.stringCollectionVariable2Guid]]);
         const collectionVariables = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true })[0];
-        expect(collectionVariables.items.length).toBe(2);
+        expect(collectionVariables.items).toHaveLength(2);
         expect(collectionVariables.items[0].text).toBe(store.stringCollectionVariable1DevName);
         expect(collectionVariables.items[1].text).toBe(store.stringCollectionVariable2DevName);
     });
@@ -60,15 +64,15 @@ describe('Menu data retrieval', () => {
         });
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid], store.elements[store.stringCollectionVariable1Guid]]);
         const allowedVariables = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true}, sampleParamTypes);
-        expect(allowedVariables.length).toBe(1);
-        expect(allowedVariables[0].items.length).toBe(1);
-        expect(allowedVariables[0].items[0].value).toBe(store.numberVariableDevName);
+        expect(allowedVariables).toHaveLength(1);
+        expect(allowedVariables[0].items).toHaveLength(1);
+        expect(allowedVariables[0].items[0].value).toBe(addCurlyBraces(store.numberVariableDevName));
     });
     it('should preserve devName in text & value field', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
         const copiedElement = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
         expect(copiedElement.text).toBe(store.numberVariableDevName);
-        expect(copiedElement.value).toBe(store.numberVariableDevName);
+        expect(copiedElement.value).toBe(addCurlyBraces(store.numberVariableDevName));
     });
     it('should set subText to objectType for sObject var', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid]]);
@@ -84,6 +88,14 @@ describe('Menu data retrieval', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
         const copiedElement = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
         expect(copiedElement.subText).toBe(store.numberDataType);
+    });
+    it('should have New Resource as first element', () => {
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
+        const allowedVariables = getElementsForMenuData(store, {element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true}, sampleParamTypes, true);
+        expect(allowedVariables).toHaveLength(2);
+        expect(allowedVariables[0].items).toHaveLength(1);
+        expect(allowedVariables[0].items[0].text).toBe('New Resource');
+        expect(allowedVariables[0].items[0].value).toBe('%%NewResource%%');
     });
     // TODO: write tests for gettings category once we switch to using labels
 });

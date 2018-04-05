@@ -101,6 +101,25 @@ export const COMBOBOX_ITEM_DISPLAY_TYPE = {
     OPTION_CARD: 'option-card',
     OPTION_INLINE: 'option-inline'
 };
+
+export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
+
+/**
+ * Returns new resource menu item
+ * @returns {Object} menu data group object with only new resource as item
+ */
+function getNewResourceItem() {
+    // TODO: use proper labels W-4813532
+    return {
+        items: [{
+            text : 'New Resource',
+            type : COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
+            value : COMBOBOX_NEW_RESOURCE_VALUE,
+            iconName : 'utility:add'
+        }]
+    };
+}
+
 /**
  * This method returns the selector that should be used to find elements for the menuData
  * @param {Object} element              the element type this expression builder lives in
@@ -129,16 +148,22 @@ function getSelector({element, shouldBeWritable}) {
  * @param {Object} state                the current state of the store
  * @param {Object} elementConfig        {element, shouldBeWritable} element is the element type this expression builder is inside, shouldBeWritable is so property editors can specify the data they need
  * @param {Object} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
+ * @param {boolean} includeNewResource  if true, include new resource as first menu item
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
-export function getElementsForMenuData(state, elementConfig, allowedParamTypes) {
+export function getElementsForMenuData(state, elementConfig, allowedParamTypes, includeNewResource) {
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
-    return getSelector(elementConfig)(state)
+    const menuData = getSelector(elementConfig)(state)
         .filter(element => isElementAllowed(allowedParamTypes, element))
         .map(element => {
             return mutateFieldsToComboboxShape(element);
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
+
+    if (includeNewResource) {
+        menuData.unshift(getNewResourceItem());
+    }
+    return menuData;
 }
 
 /**
@@ -151,7 +176,7 @@ function mutateFieldsToComboboxShape(element) {
     const newElement = {};
 
     newElement.text = element.name;
-    newElement.value = element.name;
+    newElement.value = '{!' + element.name + '}';
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     // TODO: remove upper case-ing once we're using labels for categories W-4813532
     newElement.category = getCategory(element.elementType, element.dataType, element.isCollection).toUpperCase();

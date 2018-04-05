@@ -1,7 +1,7 @@
 import { createElement } from 'engine';
 import Combobox from 'builder_platform_interaction-combobox';
 import { comboboxConfig } from 'mock-combobox-data';
-import { ValueChangedEvent } from 'builder_platform_interaction-events';
+import { ValueChangedEvent, NewResourceEvent } from 'builder_platform_interaction-events';
 
 const SELECTORS = {
     COMBOBOX_PATH: 'builder_platform_interaction-combobox',
@@ -33,6 +33,12 @@ describe('Combobox Tests', () => {
     const getTextInputEvent = function (inputValue) {
         return new CustomEvent('textinput', {
             detail: {text: inputValue},
+        });
+    };
+
+    const getSelectEvent = function (inputValue) {
+        return new CustomEvent('select', {
+            detail: {value: inputValue},
         });
     };
 
@@ -92,6 +98,14 @@ describe('Combobox Tests', () => {
                 expect(groupedCombobox.inputText).toEqual('{!}');
             });
         });
+
+        it('Select should not append curly braces', () => {
+            const textInputEvent = getSelectEvent('Account');
+            groupedCombobox.dispatchEvent(textInputEvent);
+            return Promise.resolve().then(() => {
+                expect(groupedCombobox.inputText).toEqual('Account');
+            });
+        });
     });
 
     describe('Icon Tests', () => {
@@ -130,15 +144,16 @@ describe('Combobox Tests', () => {
     });
 
     describe('Events Testing', () => {
-        let fetchMenuDataHandler;
-        let valueChangedHandler;
-        let textInputEvent, blurEvent;
+        let fetchMenuDataHandler, valueChangedHandler, selectHandler;
+        let textInputEvent, blurEvent, selectEvent;
         beforeEach(() => {
             fetchMenuDataHandler = jest.fn();
             valueChangedHandler = jest.fn();
+            selectHandler = jest.fn();
 
             combobox.addEventListener('fetchmenudata', fetchMenuDataHandler);
             combobox.addEventListener(ValueChangedEvent.EVENT_NAME, valueChangedHandler);
+            combobox.addEventListener(NewResourceEvent.EVENT_NAME, selectHandler);
         });
 
         it('FetchMenuData is fired when a . is entered', () => {
@@ -159,6 +174,15 @@ describe('Combobox Tests', () => {
             });
         });
 
+        it('FetchMenuData is not fired third level data', () => {
+            combobox.value = '{!myAccount.name}';
+            return Promise.resolve().then(() => {
+                textInputEvent = getTextInputEvent('{!myAccount.name.}');
+                groupedCombobox.dispatchEvent(textInputEvent);
+                expect(fetchMenuDataHandler).toHaveBeenCalledTimes(0);
+            });
+        });
+
         it('ValueChanged is fired on blur', () => {
             combobox.value = '{!newValueForBlur.}';
             blurEvent = new CustomEvent('blur');
@@ -175,6 +199,14 @@ describe('Combobox Tests', () => {
 
             expect(valueChangedHandler).toHaveBeenCalledTimes(0);
         });
+
+        it('NewResource event is fired when New Resource is selected.', () => {
+            selectEvent = getSelectEvent('%%NewResource%%');
+
+            groupedCombobox.dispatchEvent(selectEvent);
+
+            expect(selectHandler).toHaveBeenCalledTimes(1);
+        });
     });
 
     describe('Validation Tests', () => {
@@ -190,6 +222,7 @@ describe('Combobox Tests', () => {
                 { value: '{!_test_}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!_test_}', error: '' },
                 { value: '{!textVarDoesNotExists}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: '{!MyVar1.secondLevel.thirdLevel}', isLiteralsAllowed: false, error: '' },
             ],
             Number : [
                 { value: '-.9', error: ''},

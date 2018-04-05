@@ -13,3 +13,4 @@ export { DeleteConditionEvent } from './deleteConditionEvent';
 export { RowContentsChangedEvent } from './rowContentsChangedEvent';
 export { FilterMatchesEvent } from './filterMatchesEvent';
 export { UpdateParameterItemEvent } from './updateParameterItemEvent';
+export { NewResourceEvent } from './newResourceEvent';

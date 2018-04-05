@@ -1,7 +1,8 @@
 import { Element, api, track } from 'engine';
 import { parseDateTime } from 'builder_platform_interaction-date-time-utils';
-import { FetchMenuDataEvent, ValueChangedEvent, FilterMatchesEvent } from 'builder_platform_interaction-events';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { FetchMenuDataEvent, ValueChangedEvent, FilterMatchesEvent, NewResourceEvent } from 'builder_platform_interaction-events';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-constant';
+import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expression-utils';
 
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
@@ -18,6 +19,12 @@ const ERROR_MESSAGE = {
     [FLOW_DATA_TYPE.DATE_TIME] : 'Re-enter datetime as MM/DD/YYYY HH:mm:ss TZD.',
     GENERIC: 'You have entered an invalid value.',
 };
+
+/**
+ * The max level of data the combobox supports to show the menu items and perform validation.
+ * @type {number} max level of data the combobox supports.
+ */
+const MAX_LEVEL_MENU_DATA = 2;
 
 export default class Combobox extends Element {
     @track
@@ -195,7 +202,7 @@ export default class Combobox extends Element {
         if (this.state.value.startsWith('{!') && this.state.value.length === 2 &&
             previousValue === '{' && !this._isResourceState) {
             this._isResourceState = true;
-            this.setValueAndCursor('');
+            this.setValueAndCursor('{!}');
         } else {
             this.setResourceState();
         }
@@ -203,7 +210,8 @@ export default class Combobox extends Element {
         const sanitizedValue = this.getSanitizedValue();
 
         // If a . is typed or deleted when in resource state, fire an event to fetch new menu data
-        if (this.wasPeriodEnteredOrDeleted(previousValue)) {
+        // As of 216 and we support showing only 2 level of menu data
+        if (this.getLevel() <= MAX_LEVEL_MENU_DATA && this.wasPeriodEnteredOrDeleted(previousValue)) {
             this.fireFetchMenuDataEvent(sanitizedValue);
         }
 
@@ -216,6 +224,11 @@ export default class Combobox extends Element {
      * @param {Object} event - Event fired from grouped-combobox
      */
     handleSelect(event) {
+        if (event.detail.value === COMBOBOX_NEW_RESOURCE_VALUE) {
+            this.fireNewResourceEvent();
+            return;
+        }
+
         this._isResourceState = true;
         this.updateInputIcon();
 
@@ -227,7 +240,6 @@ export default class Combobox extends Element {
             this.fireFetchMenuDataEvent(this.getSanitizedValue());
         }
 
-        // Replace the value with selected option value with braces
         // And add a period if selected option has next level
         this.setValueAndCursor(event.detail.value, itemHasNextLevel);
     }
@@ -309,6 +321,14 @@ export default class Combobox extends Element {
     }
 
     /**
+     * Fire new resource event.
+     */
+    fireNewResourceEvent() {
+        const newResourceEvent = new NewResourceEvent();
+        this.dispatchEvent(newResourceEvent);
+    }
+
+    /**
      * Grabs the item associated with the selected value.
      * If no value is found, returns undefined
      * @returns {Object} the return value
@@ -316,22 +336,33 @@ export default class Combobox extends Element {
     findItem() {
         let foundItem;
         const groupCount = this.state.menuData.length;
-        const sanitizedValue = this.getSanitizedValue();
         // check if the item has already been cached to avoid running through the nested arrays
-        if (this._itemCache[sanitizedValue]) {
-            return this._itemCache[sanitizedValue];
+        if (this._itemCache[this.state.value]) {
+            return this._itemCache[this.state.value];
         }
         for (let i = 0; i < groupCount; i++) {
             foundItem = this.state.menuData[i].items.find(item => {
                 // add item to the cache whether or not it's the foundItem
                 this._itemCache[item.value] = item;
-                return item.value === sanitizedValue;
+                return item.value === this.state.value;
             });
             if (foundItem) {
                 return foundItem;
             }
         }
         return foundItem;
+    }
+
+    /**
+     * Determines what data level the current combobox is at based on the period '.' in the value.
+     * Eg: myAccount - 1, myAccount. - 2, myAccount.Name - 2, myAccount.Name. - 3
+     * @returns {Number} the combobox current data level
+     */
+    getLevel() {
+        if (this.state.value) {
+            return this.state.value.split('.').length;
+        }
+        return 1;
     }
 
     /**
@@ -353,7 +384,7 @@ export default class Combobox extends Element {
     }
 
     /**
-     * Sets the value with braces and places the cursor before the closing brace
+     * Sets the dot for next level and places the cursor before the closing brace
      * @param {String} value the value to set
      * @param {String} hasNextLevel whether or not the selected item has a next level
      */
@@ -363,10 +394,14 @@ export default class Combobox extends Element {
 
         // Add a period to the end if selected value has a next level
         if (hasNextLevel) {
-            value += '.';
+            if (value.startsWith('{!') && value.endsWith('}')) {
+                value = value.substring(0, value.length - 1) + '.}';
+            } else {
+                value += '.';
+            }
         }
 
-        this.state.value = input.value = '{!' + value + '}';
+        this.state.value = input.value = value;
         // Lightning components team may provide a method to accomplish this in the future
         input.setSelectionRange(this.state.value.length - 1, this.state.value.length - 1);
     }
@@ -446,6 +481,12 @@ export default class Combobox extends Element {
      */
     validate() {
         this.clearErrorMessage();
+
+        // No validation for three or more level of data to let super user type in higher level values.
+        if (this.getLevel() > MAX_LEVEL_MENU_DATA) {
+            return;
+        }
+
         if (this.state.value) {
             if (this._isResourceState) {
                 this.validateResource();
@@ -465,7 +506,7 @@ export default class Combobox extends Element {
         // date and date time converts the input date string to format 'MM/DD/YYYY HH:MM:ss TZD
         if (this._isLiteralAllowed) {
             this.validateLiteralForDataType(this.state.value);
-        } else {
+        } else if (!this.findItem()) {
             this.setErrorMessage(ERROR_MESSAGE.GENERIC);
         }
     }

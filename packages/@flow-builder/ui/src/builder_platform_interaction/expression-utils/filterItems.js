@@ -10,7 +10,7 @@ function clearHighlight(items) {
             item.text = item.textNoHighlight;
         }
 
-        if (!item.subTextNoHighlight) {
+        if (item.subText && !item.subTextNoHighlight) {
             item.subTextNoHighlight = item.subText;
         } else if (hasHighlight(item.subText)) {
             item.subText = item.subTextNoHighlight;
@@ -35,7 +35,10 @@ function hasHighlight(text) {
 function highlightItem(filterText, item) {
     if (!isEmpty(filterText)) {
         item.text = highlight(filterText, item.text);
-        item.subText = highlight(filterText, item.subText);
+
+        if (item.subText) {
+            item.subText = highlight(filterText, item.subText);
+        }
     }
 }
 

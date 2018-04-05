@@ -6,10 +6,21 @@ const filterText = {
     space: ' ',
     category: 'SObject',
     curlyBraces: '{',
-    specialChar: '@#$%'
+    specialChar: '@#$%',
+    newResource: 'new resource'
 };
 
 const menuData = [
+    {
+        items: [
+            {
+                type: 'option-inline',
+                text: 'New Resource',
+                iconName: 'utility:add',
+                value: 'NewResource'
+            }
+        ]
+    },
     {
         label: 'SObject Variables',
         items: [
@@ -80,6 +91,11 @@ const filteredTextString = {
     text: 'Str'
 };
 
+const filteredTextNewResource = {
+    highlight: true,
+    text: 'New Resource'
+};
+
 const labelSObjectVariables = 'SObject Variables';
 const labelVariables = 'Variables';
 
@@ -128,9 +144,9 @@ describe('Combobox Search Library', () => {
 
         it('New array should have group and items matching space search text.', () => {
             const filteredArray = filterMatches(filterText.space, menuData);
-            expect(filteredArray).toHaveLength(1);
-            expect(filteredArray[0].label).toBe(labelSObjectVariables);
-            expect(filteredArray[0].items).toHaveLength(3);
+            expect(filteredArray).toHaveLength(2);
+            expect(filteredArray[1].label).toBe(labelSObjectVariables);
+            expect(filteredArray[1].items).toHaveLength(3);
         });
 
         it('Search should not be performed on category name.', () => {
@@ -150,6 +166,13 @@ describe('Combobox Search Library', () => {
             expect(filteredArray).toHaveLength(1);
             expect(filteredArray[0].label).toBe(labelVariables);
             expect(filteredArray[0].items).toHaveLength(1);
+        });
+
+        it('Search should work option inline items.', () => {
+            const filteredArray = filterMatches(filterText.newResource, menuData);
+            expect(filteredArray).toHaveLength(1);
+            expect(filteredArray[0].items).toHaveLength(1);
+            expect(filteredArray[0].items[0].text).toContainEqual(filteredTextNewResource);
         });
     });
 });

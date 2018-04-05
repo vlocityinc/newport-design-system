@@ -34,28 +34,28 @@ export const comboboxConfig = {
                     text: 'MyName',
                     iconName: 'utility:text_color',
                     subText: 'String',
-                    value: 'MyVar1'
+                    value: '{!MyVar1}'
                 },
                 {
                     type: 'option-card',
                     text: 'MyNumber2',
                     iconName: 'utility:number',
                     subText: 'Number',
-                    value: 'MyNumber2'
+                    value: '{!MyNumber2}'
                 },
                 {
                     type: 'option-card',
                     text: 'StartDateVar',
                     iconName: 'utility:date',
                     subText: 'Date',
-                    value: 'StartDateVar'
+                    value: '{!StartDateVar}'
                 },
                 {
                     type: 'option-card',
                     text: 'Is Applicable?',
                     iconName: 'utility:boolean',
                     subText: 'Date',
-                    value: 'MyBooleanVar'
+                    value: '{!MyBooleanVar}'
                 },
             ]
         }

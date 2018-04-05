@@ -67,7 +67,7 @@ export default class ExpressionBuilder extends Element {
         if (expression[OPERATOR] && expression[OPERATOR].value && this.state.operatorOptions) {
             this.state.operatorValue = expression[OPERATOR].value;
             const rhsTypes = getRHSTypes(this.state.lhsValue, this.state.operatorValue, rules);
-            this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element}, rhsTypes);
+            this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element}, rhsTypes, true);
         } else {
             // TODO default case W-4817341
         }
@@ -97,7 +97,7 @@ export default class ExpressionBuilder extends Element {
     set elementType(type) {
         element = type;
         rules = getRulesForElementType(element);
-        this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element, shouldBeWritable: true}, getLHSTypes(rules));
+        this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element, shouldBeWritable: true}, getLHSTypes(rules), true);
     }
 
     @api
