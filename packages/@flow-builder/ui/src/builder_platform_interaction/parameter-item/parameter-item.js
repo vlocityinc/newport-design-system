@@ -235,7 +235,7 @@ export default class ParameterItem extends Element {
      * @param {Object} event event fired from input toggle
      */
     handleToggleChanged(event) {
-        this.state.toggleStatus = event.currentTarget.checked;
+        this.state.toggleStatus = event.detail.checked;
         if (!this.state.toggleStatus) {
             if (this.state.parameterItem.hasOwnProperty('value')) {
                 this.preservedValue = this.state.parameterItem.value[Object.keys(this.state.parameterItem.value)[0]].value;

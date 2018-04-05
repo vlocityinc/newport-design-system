@@ -13,6 +13,10 @@ export default class LightningInput extends Element {
     @api value;
     @api required;
     @api maxLength;
+    @api messageToggleActive;
+    @api messageToggleInactive;
+    @api variant;
+    @api checked;
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {
