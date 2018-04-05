@@ -1,9 +1,9 @@
 import { Element, track, api } from 'engine';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-constant';
+import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction-data-type-lib';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 import { getRulesForElementType, getRHSTypes, RULE_PROPERTY_INFO } from 'builder_platform_interaction-rule-lib';
-import { getFlowDataType, getParameterLabel, isInputParameter, isRequiredParameter, getParameterDataType } from 'builder_platform_interaction-parameter-item-utils';
+import { getParameterLabel, isInputParameter, isRequiredParameter, getParameterDataType } from 'builder_platform_interaction-parameter-item-utils';
 import { UpdateParameterItemEvent } from 'builder_platform_interaction-events';
 
 let storeInstance;

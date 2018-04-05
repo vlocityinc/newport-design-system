@@ -2,7 +2,7 @@ import {
     mutateAssignment,
     deMutateAssignment
 } from '../assignmentEditorDataMutation';
-import { FEROV_DATA_TYPE } from 'builder_platform_interaction-constant';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 describe('mutateAssignment function', () => {
     it('should mutate assignment with assignmentItems', () => {

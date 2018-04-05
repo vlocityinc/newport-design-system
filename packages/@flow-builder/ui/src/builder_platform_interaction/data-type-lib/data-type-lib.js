@@ -1,4 +1,14 @@
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-constant';
+const FLOW_DATA_TYPE = {
+    CURRENCY: 'Currency',
+    DATE: 'Date',
+    NUMBER: 'Number',
+    STRING: 'String',
+    BOOLEAN: 'Boolean',
+    SOBJECT: 'SObject',
+    DATE_TIME: 'DateTime',
+    PICKLIST: 'Picklist',
+    MULTI_PICKLIST: 'Multipicklist',
+};
 
 const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.STRING]: ["id", "reference", "address", "anytype", "base64", "combobox", "complexvalue", "datacategorygroupreference", "email", "encryptedstring", "location", "phone", "string", "textarea", "url"],
@@ -10,6 +20,17 @@ const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.BOOLEAN]: ["boolean"],
     [FLOW_DATA_TYPE.CURRENCY]: ["currency"],
     [FLOW_DATA_TYPE.SOBJECT]: ["sobject"],
+};
+
+export { FLOW_DATA_TYPE };
+
+export const FEROV_DATA_TYPE = {
+    STRING : 'string',
+    NUMBER : 'number',
+    DATE : 'date',
+    DATETIME: 'datetime',
+    BOOLEAN : 'boolean',
+    REFERENCE: 'reference'
 };
 
 /**
