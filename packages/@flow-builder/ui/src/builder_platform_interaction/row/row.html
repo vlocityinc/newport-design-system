@@ -4,7 +4,7 @@
             <span>{itemPrefix}</span>
         </legend>
     </template>
-	<div class="slds-grid slds-grid_horizontal slds-grid_vertical-align-end slds-gutters slds-gutters_xx-small" onrowcontentschanged={handleRowContentsChanged}>
+	<div class={rowContentsClass} onrowcontentschanged={handleRowContentsChanged}>
 
         <div class="slds-col">
             <slot name="rowBody"></slot>

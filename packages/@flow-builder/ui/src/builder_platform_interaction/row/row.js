@@ -18,6 +18,14 @@ export default class Row extends Element {
         return !this.showDelete;
     }
 
+    get rowContentsClass() {
+        let contentsClass = 'slds-grid slds-grid_horizontal slds-grid_vertical-align-end slds-gutters slds-gutters_xx-small';
+        if (this.showPrefix) {
+            contentsClass = 'slds-m-left_x-large ' + contentsClass;
+        }
+        return contentsClass;
+    }
+
     handleRowContentsChanged(event) {
         const index = this.itemIndex;
         const propertyName = event.detail.propertyChanged;
