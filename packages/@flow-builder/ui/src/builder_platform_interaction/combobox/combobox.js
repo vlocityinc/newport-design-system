@@ -1,7 +1,7 @@
 import { Element, api, track } from 'engine';
 import { parseDateTime } from 'builder_platform_interaction-date-time-utils';
 import { FetchMenuDataEvent, ValueChangedEvent, FilterMatchesEvent, NewResourceEvent } from 'builder_platform_interaction-events';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-constant';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expression-utils';
 
 const SELECTORS = {
