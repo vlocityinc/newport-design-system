@@ -21,6 +21,7 @@ export const SELECT_ON_CANVAS = 'SELECT_ON_CANVAS';
 export const TOGGLE_ON_CANVAS = 'TOGGLE_ON_CANVAS';
 export const DESELECT_ON_CANVAS = 'DESELECT_ON_CANVAS';
 
+export const ADD_DECISION_WITH_OUTCOMES = 'ADD_DECISION_WITH_OUTCOMES';
 export const MODIFY_DECISION_WITH_OUTCOMES = 'MODIFY_DECISION_WITH_OUTCOMES';
 
 /**
@@ -60,6 +61,8 @@ export const addElement = (payload) => {
         switch (payload.elementType) {
             // For variables
             case ELEMENT_TYPE.VARIABLE: return createAction(ADD_VARIABLE, payload);
+            case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
+                return createAction(ADD_DECISION_WITH_OUTCOMES, payload);
             default:
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(ADD_CANVAS_ELEMENT, payload);

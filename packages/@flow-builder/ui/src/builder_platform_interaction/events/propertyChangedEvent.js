@@ -5,7 +5,7 @@
 const eventName = 'propertychanged';
 
 export class PropertyChangedEvent extends Event {
-    constructor(propertyName, value, error = null) {
+    constructor(propertyName, value, error = null, guid = null) {
         super(eventName, {
             cancelable: false,
             composed: true,
@@ -14,6 +14,7 @@ export class PropertyChangedEvent extends Event {
         this.propertyName = propertyName;
         this.value = value;
         this.error = error;
+        this.guid = guid;
     }
 
     static EVENT_NAME = eventName;

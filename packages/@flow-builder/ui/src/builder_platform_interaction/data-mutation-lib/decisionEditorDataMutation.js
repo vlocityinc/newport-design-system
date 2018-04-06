@@ -1,5 +1,6 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
+import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
 
 /**
  * Add property editor mutation for decision
@@ -12,7 +13,21 @@ export const mutateDecision = (decision, state) => {
 
     const outcomeReferences = decision.outcomeReferences || [];
     for (const outcomeReference of outcomeReferences) {
-        decision.outcomes.push(deepCopy(state.elements[outcomeReference.outcomeReference]));
+        const outcome = deepCopy(state.elements[outcomeReference.outcomeReference]);
+
+        const conditions = outcome.conditions;
+        for (const condition of conditions) {
+            if (condition.hasOwnProperty('leftValueReference')) {
+                condition.leftHandSide = condition.leftValueReference;
+                delete condition.leftValueReference;
+            }
+            if (condition.hasOwnProperty('rightValue')) {
+                mutateFEROV(condition, condition.rightValue);
+                delete condition.rightValue;
+            }
+        }
+
+        decision.outcomes.push(outcome);
     }
 
     delete decision.outcomeReferences;
@@ -38,7 +53,13 @@ export const deMutateDecision = (decision, state) => {
         deletedOutcomes: []
     };
 
-    const originalOutcomeReferences = state.elements[decision.guid].outcomeReferences;
+    // This will be null if a new decision is being saved for the first time
+    const originalDecision = state.elements[decision.guid];
+
+    let originalOutcomeReferences = [];
+    if (originalDecision) {
+        originalOutcomeReferences = originalDecision.outcomeReferences;
+    }
 
     const currentOutcomes = decision.outcomes || [];
 
@@ -48,6 +69,18 @@ export const deMutateDecision = (decision, state) => {
     // Update decision outcomeReferences
     decision.outcomeReferences = [];
     currentOutcomes.forEach((outcome) => {
+        const conditions = outcome.conditions;
+        for (const condition of conditions) {
+            if (condition.hasOwnProperty('leftHandSide')) {
+                condition.leftValueReference = condition.leftHandSide;
+                delete condition.leftHandSide;
+            }
+            if (condition.hasOwnProperty('rightHandSide')) {
+                condition.rightValue = {};
+                deMutateFEROV(condition, condition.rightValue);
+            }
+        }
+
         decision.outcomeReferences.push({
             outcomeReference: outcome.guid
         });

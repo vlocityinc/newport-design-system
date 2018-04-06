@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import {Element, api, track} from 'engine';
 
 /**
  * Component that provides a vertical list of elements, styled as vertical tabs,
@@ -12,15 +12,31 @@ import { Element, api, track } from 'engine';
  */
 export default class ReorderableVerticalNavigation extends Element {
     @api initialActiveItemId;
-    @api initialMenuItems = [];
+
+    initialItems = [];
+    @api set initialMenuItems(initialMenuItems) {
+        this.initialItems = initialMenuItems;
+
+        this.menuItems = this.initialMenuItems.map((element) => {
+            const menuItem = {
+                guid: element.guid,
+                label: element.label.value !== '' ? element.label.value : this.defaultLabel,
+            };
+
+            return menuItem;
+        });
+
+        this.activeItemId = this.initialActiveItemId;
+    }
+
+    @api get initialMenuItems() {
+        return this.initialItems;
+    }
+
+    @api defaultLabel = '';
 
     @track activeItemId;
     @track menuItems = [];
-
-    connectedCallback() {
-        this.menuItems = this.initialMenuItems;
-        this.activeItemId = this.initialActiveItemId;
-    }
 
     handleItemClicked(event) {
         event.stopPropagation();

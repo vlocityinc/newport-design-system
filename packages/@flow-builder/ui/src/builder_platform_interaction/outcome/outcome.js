@@ -1,25 +1,35 @@
-import {Element, api} from 'engine';
+import {Element, api, track} from 'engine';
 import {AddConditionEvent, DeleteConditionEvent, UpdateConditionEvent} from 'builder_platform_interaction-events';
-
-const CONDITION_LOGIC = {
-    AND: 'and',
-    OR: 'or'
-};
+import {CONDITION_LOGIC} from 'builder_platform_interaction-flow-metadata';
+import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 
 /**
  * Usage: <builder_platform_interaction-outcome></builder_platform_interaction-outcome>
  */
 export default class Outcome extends Element {
-    @api outcome = {
-        conditions: []
-    };
+    @track element = {};
+    @track
+    outcomeConditions = [];
+
+    get expressionBuilderElementType() {
+        return ELEMENT_TYPE.DECISION;
+    }
+
+    @api get outcome() {
+        return this.element;
+    }
+
+    @api set outcome(outcome) {
+        this.element = outcome;
+        this.outcomeConditions = outcome.conditions;
+    }
 
     get showDelete() {
-        return this.outcome.conditions.length > 1;
+        return this.outcomeConditions.length > 1;
     }
 
     get conditions() {
-        return this.outcome.conditions.map((condition, i) => {
+        return this.outcomeConditions.map((condition, i) => {
             return {
                 // TODO: This should come from a label - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004rhg0IAA/view
                 prefix: this.getPrefix(i).toUpperCase(),
@@ -72,5 +82,14 @@ export default class Outcome extends Element {
         );
 
         this.dispatchEvent(updateConditionEvent);
+    }
+
+    /**
+     * @param {object} event - PropertyChangedEvent from label description
+     */
+    handlePropertyChanged(event) {
+        // just decorate the event with the outcome guid and let it flow up
+        // to be handled by the parent component
+        event.guid = this.outcome.guid.value;
     }
 }

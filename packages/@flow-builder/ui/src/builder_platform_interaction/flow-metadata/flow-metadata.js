@@ -14,3 +14,8 @@ export const METADATA_KEY = {
     VARIABLES: 'variables',
     SUBFLOWS: 'subflows'
 };
+
+export const CONDITION_LOGIC = {
+    AND: 'and',
+    OR: 'or'
+};

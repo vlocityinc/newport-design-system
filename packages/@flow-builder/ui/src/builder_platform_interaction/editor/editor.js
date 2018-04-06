@@ -278,7 +278,7 @@ export default class Editor extends Element {
         node.locationX = event.detail.locationX;
         node.locationY = event.detail.locationY;
 
-        node = mutateEditorElement(node);
+        node = mutateEditorElement(node, storeInstance.getCurrentState());
         node = hydrateWithErrors(node);
 
         const nodeUpdate = this.deMutateAndAddNodeCollection;
@@ -294,7 +294,7 @@ export default class Editor extends Element {
         // TODO: add validations if needed
         // This deepCopy is needed as a temporary workaround because the unwrap() function that the property editor
         // calls on OK doesn't actually work and keeps the proxy wrappers.
-        const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)));
+        const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)), storeInstance.getCurrentState());
 
         storeInstance.dispatch(updateElement(nodeForStore));
     }
@@ -304,7 +304,7 @@ export default class Editor extends Element {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
-        const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)));
+        const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)), storeInstance.getCurrentState());
         storeInstance.dispatch(addElement(nodeForStore));
     }
 

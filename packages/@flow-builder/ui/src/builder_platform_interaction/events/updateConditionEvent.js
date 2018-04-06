@@ -7,13 +7,12 @@ export class UpdateConditionEvent extends Event {
             composed: true,
             bubbles: true,
         });
-        this.detail = {
-            parentGUID,
-            index,
-            propertyName,
-            value,
-            error
-        };
+
+        this.parentGUID = parentGUID;
+        this.index = index;
+        this.propertyName = propertyName;
+        this.value = value;
+        this.error = error;
     }
 
     static EVENT_NAME = eventName;

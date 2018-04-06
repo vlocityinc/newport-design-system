@@ -8,8 +8,14 @@ import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 describe('mutateAssignment function', () => {
     const state = {
         elements: {
-            OUTCOME_1: {a:21},
-            OUTCOME_2: {a:22},
+            OUTCOME_1: {
+                a:21,
+                conditions: []
+            },
+            OUTCOME_2: {
+                a:22,
+                conditions: []
+            },
         }
     };
 
@@ -41,8 +47,8 @@ describe('mutateAssignment function', () => {
 describe('deMutateDecision function', () => {
     const state = {
         elements: {
-            OUTCOME_1: {guid: 'OUTCOME_1', a: 21},
-            OUTCOME_2: {guid: 'OUTCOME_2', a: 22},
+            OUTCOME_1: {guid: 'OUTCOME_1', conditions: []},
+            OUTCOME_2: {guid: 'OUTCOME_2', conditions: []},
             DECISION_3: {
                 guid: 'DECISION_3',
                 outcomeReferences: [{outcomeReference: 'OUTCOME_1'}, {outcomeReference: 'OUTCOME_2'}]

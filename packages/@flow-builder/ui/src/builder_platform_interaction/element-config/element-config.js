@@ -1,5 +1,5 @@
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
-import { ACTION_TYPE, METADATA_KEY } from 'builder_platform_interaction-flow-metadata';
+import { ACTION_TYPE, CONDITION_LOGIC, METADATA_KEY } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * @constant
@@ -224,7 +224,10 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.DECISION]: {
         descriptor: 'builder_platform_interaction:decisionEditor',
         nodeConfig: {
-            iconName: 'standard:feed'
+            iconName: 'standard:feed',
+            // TODO: This should be set dynamically  based on connector-utils.getMaxConnections
+            // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004uM1nIAE/view
+            maxConnections: 1
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.DECISIONS,
@@ -246,6 +249,15 @@ export const elementTypeToConfigMap = {
             locationY: 0,
             name: '',
             outcomeReferences: []
+        }
+    },
+    [ELEMENT_TYPE.OUTCOME]: {
+        // OUTCOME is not a canvas element, but is a first class element
+        template: {
+            label: { value: ''},
+            guid: generateGuid(ELEMENT_TYPE.OUTCOME),
+            conditionLogic: CONDITION_LOGIC.AND,
+            conditions: [{}]
         }
     },
     [ELEMENT_TYPE.VARIABLE]: {
@@ -305,9 +317,11 @@ export function isCanvasElement(elementType) {
  *
  * @param {String}
  *            elementType an element type such as 'ASSIGNMENT'
+ * @param {Boolean}
+ *            hasConnections defaults to true and indicates
  * @returns {Object} an empty element of the given elementType
  */
-export function createFlowElement(elementType) {
+export function createFlowElement(elementType, hasConnections = true) {
     const config = elementTypeToConfigMap[elementType];
     if (!config) {
         throw new TypeError();
@@ -316,6 +330,9 @@ export function createFlowElement(elementType) {
     }
     const template = deepCopy(config.template);
     template.guid = generateGuid(elementType);
-    template.maxConnections = config.nodeConfig.maxConnections;
+    if (hasConnections) {
+        template.maxConnections = config.nodeConfig.maxConnections;
+    }
+
     return template;
 }
