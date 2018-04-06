@@ -12,12 +12,14 @@ class DrawingLib {
         if (instance === null) {
             instance = window.jsPlumb.getInstance({
                 Container: 'innerCanvas',
-                Connector: ['Flowchart', { gap: 4, stub: [10, 10], alwaysRespectStubs: true, cornerRadius: 12 }],
+                Connector: ['Flowchart', { gap: 7, stub: [10, 10], alwaysRespectStubs: true, cornerRadius: 12 }],
                 Anchor: 'Continuous',
                 Endpoint: 'Blank',
                 PaintStyle: {
                     strokeWidth: 2,
                     stroke: '#919297',
+                    outlineStroke: 'transparent',
+                    outlineWidth: 5,
                     joinstyle: 'round'
                 },
                 HoverPaintStyle: {
@@ -44,30 +46,26 @@ class DrawingLib {
     connectorStyles = {
         deselectedConnector: {
             strokeWidth: 2,
-            stroke: '#919297',
-            joinstyle: 'round'
+            stroke: '#919297'
         },
         selectedConnector: {
             strokeWidth: 3,
-            stroke: '#0070d2',
-            joinstyle: 'round'
+            stroke: '#0070d2'
         },
         dashedConnector: {
             strokeWidth: 2,
             stroke: '#919297',
-            joinstyle: 'round',
             dashstyle: '4 6'
         },
         hoverConnector: {
             strokeWidth: 2,
-            stroke: '#1589ee',
-            joinstyle: 'round'
+            stroke: '#1589ee'
         }
     } ;
 
     /**
-     * Sets the container as the main area for all the jsplumb activity.
-     * @param {String} container - class name to be used as the container for all nodes in jsplumb instance
+     * Sets the container as the main area for all the jsPlumb activity.
+     * @param {String} container - id of the elements where the jsPlumb instance should live
      */
     setContainer = (container) => {
         instance.setContainer(container);
@@ -88,6 +86,14 @@ class DrawingLib {
      */
     setSuspendDrawing = (val, repaintAfterwards) => {
         instance.setSuspendDrawing(val, repaintAfterwards);
+    };
+
+    /**
+     * Updates the zoom level of the jsPlumb container to draw connections based on the new zoom level.
+     * @param {Integer} zoomValue - Zoom level for the container
+     */
+    setZoom = (zoomValue) => {
+        instance.setZoom(zoomValue);
     };
 
     /**

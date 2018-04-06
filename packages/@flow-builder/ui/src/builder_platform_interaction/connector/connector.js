@@ -16,7 +16,7 @@ export default class Connector extends Element {
     jsPlumbConnector;
 
     renderedCallback() {
-        if (lib.getContainer().classList.contains('innerCanvas')) {
+        if (lib.getContainer().classList.contains('inner-canvas')) {
             // Setting up existing connections
             if (!this.jsPlumbConnector) {
                 // TODO: Update it to set existing connections in bulk to improve performance

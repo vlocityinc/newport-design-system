@@ -24,3 +24,9 @@ export const PROPERTY_EDITOR_ACTION = {
     UPDATE_LIST_ITEM : 'UPDATE_LIST_ITEM',
     DELETE_LIST_ITEM : 'DELETE_LIST_ITEM'
 };
+
+export const ZOOM_ACTION = {
+    ZOOM_OUT: 'zoomOut',
+    ZOOM_TO_VIEW: 'zoomToView',
+    ZOOM_IN: 'zoomIn'
+};

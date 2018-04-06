@@ -1,5 +1,5 @@
-import { Element, api } from 'engine';
-import { CONNECTOR_OVERLAY, EVENT } from 'builder_platform_interaction-constant';
+import { Element, api, track } from 'engine';
+import { CONNECTOR_OVERLAY, EVENT, ZOOM_ACTION } from 'builder_platform_interaction-constant';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
@@ -15,9 +15,23 @@ export default class Canvas extends Element {
     @api nodes = [];
     @api connectors = [];
 
+    canvasArea;
+    innerCanvasArea;
+
     jsPlumbContainer = false;
     isMouseDown = false;
     isPanning = false;
+
+    MIN_SCALE = 0.2;
+    MAX_SCALE = 1.0;
+    SCALE_CHANGE = 0.2;
+
+    zoomLevel = 1.0;
+    currentScale = 1.0;
+
+    @track isZoomOutDisabled = false;
+    @track isZoomInDisabled = true;
+    @track isZoomToView = true;
 
     // TODO: Move it to a library
     isMultiSelect(event) {
@@ -54,7 +68,7 @@ export default class Canvas extends Element {
     };
 
     /**
-     * Fires connector selection event
+     * Fires connector selection event.
      * @param {object} connection - jsPlumb's connector object
      * @param {object} event - connection click event coming from drawing-lib.js
      */
@@ -72,6 +86,39 @@ export default class Canvas extends Element {
         });
 
         this.dispatchEvent(connectorSelectedEvent);
+    };
+
+    /**
+     * Helper method to zoom the canvas.
+     * @param {String} action - Zoom action coming from handle key down or handle zoom
+     */
+    canvasZoom = (action) => {
+        if (action === ZOOM_ACTION.ZOOM_OUT) {
+            this.zoomLevel = Math.max(this.MIN_SCALE, this.currentScale - this.SCALE_CHANGE);
+        } else if (action === ZOOM_ACTION.ZOOM_TO_VIEW) {
+            this.zoomLevel = this.MAX_SCALE;
+        } else if (action === ZOOM_ACTION.ZOOM_IN) {
+            this.zoomLevel = Math.min(this.MAX_SCALE, this.currentScale + this.SCALE_CHANGE);
+        }
+
+        this.innerCanvasArea.style.transform = 'scale(' + this.zoomLevel + ')';
+
+        lib.setZoom(this.zoomLevel);
+
+        this.currentScale = this.zoomLevel;
+
+        this.isZoomOutDisabled = (parseFloat(this.currentScale.toFixed(1)) === this.MIN_SCALE);
+        this.isZoomToView = this.isZoomInDisabled = (parseFloat(this.currentScale.toFixed(1)) === this.MAX_SCALE);
+    };
+
+    /**
+     * Method to handle zooming of the flow using the zoom panel.
+     * @param {object} event - click to zoom event coming from zoom-panel.js
+     */
+    handleZoom = (event) => {
+        if (event && event.detail) {
+            this.canvasZoom(event.detail.action);
+        }
     };
 
     /**
@@ -103,8 +150,7 @@ export default class Canvas extends Element {
     handleMouseUp = (event) => {
         event.preventDefault();
         this.isMouseDown = false;
-        const canvasArea = this.root.querySelector('#canvas');
-        canvasArea.focus();
+        this.canvasArea.focus();
         if ((event.target.id === 'canvas' || event.target.id === 'innerCanvas') && !this.isPanning) {
             const canvasMouseUpEvent = new CustomEvent(EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
@@ -214,6 +260,15 @@ export default class Canvas extends Element {
                 }
             });
             this.dispatchEvent(deleteEvent);
+        } else if (event.metaKey && (event.key === '-' || event.key === '1' || event.key === '=')) {
+            event.preventDefault();
+            if (event.key === '-') {
+                this.canvasZoom(ZOOM_ACTION.ZOOM_OUT);
+            } else if (event.key === '1') {
+                this.canvasZoom(ZOOM_ACTION.ZOOM_TO_VIEW);
+            } else if (event.key === '=') {
+                this.canvasZoom(ZOOM_ACTION.ZOOM_IN);
+            }
         }
     };
 
@@ -243,9 +298,8 @@ export default class Canvas extends Element {
         }
 
         // TODO: utility method for offset math, needs to account for scrolling/panning/zooming
-        const canvas = this.root.querySelector('#canvas');
-        const locationX = event.clientX - canvas.offsetLeft;
-        const locationY = event.clientY - canvas.offsetTop;
+        const locationX = event.clientX - this.canvasArea.offsetLeft;
+        const locationY = event.clientY - this.canvasArea.offsetTop;
 
         const elementDropEvent = new CustomEvent(EVENT.CANVAS_ELEMENT_DROP, {
             bubbles: true,
@@ -262,6 +316,8 @@ export default class Canvas extends Element {
 
     renderedCallback() {
         if (!this.jsPlumbContainer) {
+            this.canvasArea = this.root.querySelector('#canvas');
+            this.innerCanvasArea = this.root.querySelector('#innerCanvas');
             lib.setContainer('innerCanvas');
             this.jsPlumbContainer = true;
         }

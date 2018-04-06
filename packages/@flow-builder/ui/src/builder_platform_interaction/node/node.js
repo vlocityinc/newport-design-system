@@ -158,7 +158,7 @@ export default class Node extends Element {
     };
 
     renderedCallback() {
-        if (lib.getContainer().classList.contains('innerCanvas')) {
+        if (lib.getContainer().classList.contains('inner-canvas')) {
             const nodeContainer = document.getElementById(this.node.guid).parentElement;
             lib.setDraggable(nodeContainer, {
                 start : (event) => this.dragStart(event),

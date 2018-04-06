@@ -39,9 +39,11 @@
     outline: none;
 }
 
-.THIS builder_platform_interaction-canvas .canvas .innerCanvas {
+.THIS builder_platform_interaction-canvas .canvas .inner-canvas {
     height: 100%;
     width: 100%;
+    /* TODO: Update it based on final designs */
+    /*transition: transform 0.2s ease;*/
 }
 
 /************* Zoom Panel *****************/
@@ -79,7 +81,7 @@
 }
 
 .THIS builder_platform_interaction-node .icon-section.selected .icon {
-    transform: scale(1.2);
+    transform: scale(1.1);
     box-shadow: 0 0 0 2px white, 0 0 0 3px t(colorBorderSelection), 0 0 6px 3px t(colorBorderSelection);
 }
 
@@ -111,8 +113,8 @@
 }
 
 .THIS builder_platform_interaction-node .trash-can {
-    top: -34px;
-    left: 57px;
+    top: -27px;
+    left: 50px;
 }
 
 .THIS builder_platform_interaction-node .trash-can .slds-button.slds-button_icon-bare:active {
@@ -141,6 +143,10 @@
     z-index: 100;
 }
 
+.THIS builder_platform_interaction-canvas .canvas .jtk-connector.jtk-hover {
+    cursor: pointer;
+}
+
 .THIS builder_platform_interaction-canvas .canvas .jtk-connector.jtk-dragging {
     z-index: 401;
 }
@@ -166,12 +172,14 @@
 .THIS builder_platform_interaction-canvas .canvas .jtk-overlay.jtk-hover {
     border-color: t(colorBrand);
     color: t(colorBrandDarker) !important;
+    cursor: pointer;
 }
 
 .THIS builder_platform_interaction-canvas .canvas .jtk-overlay.label-selected {
     border-color: t(colorBrandDark);
     color: t(colorBrandDarker) !important;
     box-shadow: t(shadowButtonFocus);
+    cursor: pointer;
 }
 
 .THIS builder_platform_interaction-canvas .canvas .jtk-endpoint.jtk-endpoint-anchor.jtk-draggable.jtk-endpoint-connected.jtk-dragging {
