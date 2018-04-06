@@ -68,14 +68,13 @@ export const getRules = () => {
 
 export const getRulesForElementType = (elementType) => {
     let rules;
-
     switch (elementType) {
         case ELEMENT_TYPE.ASSIGNMENT:
-            rules = rulesInstance[RULE_TYPES.ASSIGNMENT];
-            break;
         case ELEMENT_TYPE.ACTION_CALL:
+        case ELEMENT_TYPE.APEX_CALL:
+        case ELEMENT_TYPE.EMAIL_ALERT:
         case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-            rules = rulesInstance[RULE_TYPES.COMPARISON];
+            rules = rulesInstance[RULE_TYPES.ASSIGNMENT];
             break;
         default:
             rules = [];

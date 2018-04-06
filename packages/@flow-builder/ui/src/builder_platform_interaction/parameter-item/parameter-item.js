@@ -193,7 +193,7 @@ export default class ParameterItem extends Element {
             [RULE_PROPERTY_INFO.IS_COLLECTION]: this.isCollection,
         };
         const rules = getRulesForElementType(this.elementType);
-        const rhsTypes = getRHSTypes(leftElement, "EqualTo", rules);
+        const rhsTypes = getRHSTypes(leftElement, "Assign", rules);
         const shouldBeWritable = this.isInput;
         const menuD = getElementsForMenuData(storeInstance.getCurrentState(), {element: this.elementType, shouldBeWritable}, rhsTypes, true);
         return menuD;
