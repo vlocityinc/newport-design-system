@@ -1,9 +1,3 @@
 .THIS {
     z-index: t(zIndexPopup)
 }
-
-/* All slds-icon__xx-small under panel manager are been changed to just large size  ( GUS work-item W-4827620 ) */
-.THIS .slds-icon.slds-icon_xx-small {
-    width: 1.5rem;
-    height: 1.5rem;
-}
