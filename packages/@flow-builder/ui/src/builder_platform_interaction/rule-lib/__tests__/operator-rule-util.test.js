@@ -1,5 +1,5 @@
 import { isMatch, getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-constant';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { mockRules, dateParam, stageParam } from 'mock-rule-service';
 import { elements, dateVariableGuid, stageGuid, accountSObjectVariableGuid } from 'mock-store-data';
 import { RULE_TYPES, RULE_PROPERTY } from '../rules';
