@@ -1,14 +1,16 @@
 export const SERVER_ACTION_TYPE = {
     GET_FLOW: 'getFlow',
     SAVE_FLOW: 'saveFlow',
-    GET_RULES: 'getRules'
+    GET_RULES: 'getRules',
+    GET_LEFT_PANEL_ELEMENTS: 'getElements'
 };
 
 
 const actionConfig = {
     [SERVER_ACTION_TYPE.GET_FLOW]: 'c.retrieveFlow',
     [SERVER_ACTION_TYPE.SAVE_FLOW]: 'c.saveFlow',
-    [SERVER_ACTION_TYPE.GET_RULES]: 'c.retrieveAllRules'
+    [SERVER_ACTION_TYPE.GET_RULES]: 'c.retrieveAllRules',
+    [SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS]: 'c.retrieveElementsPalette',
 };
 
 let auraFetch;
