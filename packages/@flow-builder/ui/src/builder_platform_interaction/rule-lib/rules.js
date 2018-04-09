@@ -70,7 +70,7 @@ export const getRulesForElementType = (elementType) => {
     let rules;
     switch (elementType) {
         case ELEMENT_TYPE.ASSIGNMENT:
-        case ELEMENT_TYPE.OUTCOME:
+        case ELEMENT_TYPE.DECISION:
         case ELEMENT_TYPE.ACTION_CALL:
         case ELEMENT_TYPE.APEX_CALL:
         case ELEMENT_TYPE.EMAIL_ALERT:
@@ -78,7 +78,7 @@ export const getRulesForElementType = (elementType) => {
             rules = rulesInstance[RULE_TYPES.ASSIGNMENT];
             break;
         default:
-            rules = [];
+            throw new Error(`Trying to get rules for unknown elementType: ${elementType}`);
     }
 
     return rules;
