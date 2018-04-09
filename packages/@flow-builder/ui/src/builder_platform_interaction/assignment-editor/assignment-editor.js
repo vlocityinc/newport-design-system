@@ -99,11 +99,8 @@ export default class AssignmentEditor extends Element {
      */
     handleAddListItem(event) {
         event.stopPropagation();
-        // TODO : we add at the end, change if we need to add at an index
-        // TODO this should come from some assignment item factory like propertyEditorDataMutation that is shared with the translation layer
-        const emptyListItem = {leftHandSide: {value:'', error:null}, operator: {value: '', error:null},  rightHandSide: {value:'', error:null}};
-        const action = createAction(PROPERTY_EDITOR_ACTION.ADD_LIST_ITEM, {item: emptyListItem, index: event.detail.index});
-        this.assignmentNode.assignmentItems = assignmentReducer(this.assignmentItems, action);
+        const action = createAction(PROPERTY_EDITOR_ACTION.ADD_ASSIGNMENT_ITEM, {index: event.detail.index});
+        this.storeDispatch(action);
     }
 
     /**
@@ -111,8 +108,8 @@ export default class AssignmentEditor extends Element {
      */
     handleDeleteListItem(event) {
         event.stopPropagation();
-        const action = createAction(PROPERTY_EDITOR_ACTION.DELETE_LIST_ITEM, updateProperties({}, event.detail));
-        this.assignmentNode.assignmentItems = assignmentReducer(this.assignmentItems, action);
+        const action = createAction(PROPERTY_EDITOR_ACTION.DELETE_ASSIGNMENT_ITEM, updateProperties({}, event.detail));
+        this.storeDispatch(action);
     }
 
     /**
@@ -121,9 +118,17 @@ export default class AssignmentEditor extends Element {
     handleUpdateListItem(event) {
         event.stopPropagation();
         // TODO: convert devName(s) in value to guid
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_LIST_ITEM, updateProperties({}, event.detail));
+        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ASSIGNMENT_ITEM, updateProperties({}, event.detail));
         if (event.detail.index < this.assignmentItems.length) {
-            this.assignmentNode.assignmentItems = assignmentReducer(this.assignmentItems, action);
+            this.storeDispatch(action);
         }
+    }
+
+    /**
+     * @param {object} action - mimic redux in action handling/dispatching
+     *                          could swap this out with a real store in the future if desired
+     */
+    storeDispatch(action) {
+        this.assignmentNode = assignmentReducer(this.assignmentNode, action);
     }
 }

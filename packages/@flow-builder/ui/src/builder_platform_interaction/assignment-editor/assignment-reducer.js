@@ -1,31 +1,39 @@
 import { assignmentValidation } from './assignment-validation';
-import { updateProperties, set, deleteItem } from 'builder_platform_interaction-data-mutation-lib';
+import { updateProperties, set, deleteItem, hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
+
 /**
- * assignment reducer function runs validation rules and returns back the updated element state
- * @param {object} state - element / node state
+ * assignment reducer function runs validation rules and returns back the updated element assignment
+ * @param {object} assignment - element / node assignment
  * @param {object} action - object containing type and payload eg: {type:"xyz", payload: {propertyName: '', value: '' , error: ''}}
- * @returns {object} state - updated state
+ * @returns {object} assignment - updated assignment
  */
-export const assignmentReducer = (state, action) => {
+export const assignmentReducer = (assignment, action) => {
     switch (action.type) {
-        case PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY:
-            action.payload.error = action.payload.error === null ? assignmentValidation.validateProperty(action.payload.propertyName, action.payload.value) : action.payload.error;
-            return updateProperties(state, {[action.payload.propertyName]: {error: action.payload.error, value: action.payload.value}});
-        case PROPERTY_EDITOR_ACTION.ADD_LIST_ITEM: {
+        case PROPERTY_EDITOR_ACTION.ADD_ASSIGNMENT_ITEM: {
+            // TODO this should come from some assignment item factory like propertyEditorDataMutation that is shared with the translation layer
+            const rawAssignmentItem = {leftHandSide: '', operator: '',  rightHandSide: ''};
+            const emptyAssignmentItem = hydrateWithErrors(rawAssignmentItem, []);
+
             // TODO do validation for if we should not add in case the length is upto certain limit
-            const path = `[${action.payload.index}]`;
-            return set(state, path, action.payload.item);
+            const path = ['assignmentItems', assignment.assignmentItems.length];
+            return set(assignment, path, emptyAssignmentItem);
         }
-        case PROPERTY_EDITOR_ACTION.DELETE_LIST_ITEM:
+        case PROPERTY_EDITOR_ACTION.DELETE_ASSIGNMENT_ITEM: {
             // TODO do validation for if we need at least one row
-            return deleteItem(state, action.payload.index);
-        case PROPERTY_EDITOR_ACTION.UPDATE_LIST_ITEM: {
-            const path = `[${action.payload.index}].${action.payload.propertyName}`;
+            const updatedItems = deleteItem(assignment.assignmentItems, action.payload.index);
+            return set(assignment, 'assignmentItems', updatedItems);
+        }
+        case PROPERTY_EDITOR_ACTION.UPDATE_ASSIGNMENT_ITEM: {
+            const path = `assignmentItems[${action.payload.index}].${action.payload.propertyName}`;
+
             // TODO check for errors and handle validation accordingly
             const item = {value: action.payload.value, error: action.payload.error};
-            return set(state, path, item);
+            return set(assignment, path, item);
         }
-        default: return state;
+        case PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY:
+            action.payload.error = action.payload.error === null ? assignmentValidation.validateProperty(action.payload.propertyName, action.payload.value) : action.payload.error;
+            return updateProperties(assignment, {[action.payload.propertyName]: {error: action.payload.error, value: action.payload.value}});
+        default: return assignment;
     }
 };

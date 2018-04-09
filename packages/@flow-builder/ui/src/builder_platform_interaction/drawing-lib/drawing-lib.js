@@ -166,6 +166,10 @@ class DrawingLib {
             connectionInstance.label = label;
         }
         const connection = instance.connect(connectionInstance);
+        if (!connection) {
+            // guard in case we're editing a flow with unsupported elements
+            return null;
+        }
         if (connectorType === CONNECTOR_TYPE.DEFAULT || connectorType === CONNECTOR_TYPE.FAULT) {
             connection.setPaintStyle(this.connectorStyles.dashedConnector);
         }

@@ -57,34 +57,33 @@ describe('assignment reducer functions', () => {
         expect(resultObj.label.value).toBe('testAssignment');
         expect(resultObj).toBe(state);
     });
-    it('test action type ADD_LIST_ITEM', () => {
-        const testState = deepCopy(state.assignmentItems);
-        const assignmentItemsLength = testState.length;
+    it('test action type ADD_ASSIGNMENT_ITEM', () => {
+        const testState = deepCopy(state);
+        const assignmentItemsLength = testState.assignmentItems.length;
         const action = {
-            type: PROPERTY_EDITOR_ACTION.ADD_LIST_ITEM,
+            type: PROPERTY_EDITOR_ACTION.ADD_ASSIGNMENT_ITEM,
             payload: {
-                index: assignmentItemsLength,
-                item: {leftHandSide: {value:"", error:null}, operator: {value: "", error:null},  rightHandSide: {value:"", error:null}}
+                index: assignmentItemsLength
             }
         };
         const resultObj = assignmentReducer(testState, action);
-        expect(resultObj.length).toBe(2);
+        expect(resultObj.assignmentItems).toHaveLength(2);
     });
-    it('test action type DELETE_LIST_ITEM', () => {
-        const testState = deepCopy(state.assignmentItems);
+    it('test action type DELETE_ASSIGNMENT_ITEM', () => {
+        const testState = deepCopy(state);
         const action = {
-            type: PROPERTY_EDITOR_ACTION.DELETE_LIST_ITEM,
+            type: PROPERTY_EDITOR_ACTION.DELETE_ASSIGNMENT_ITEM,
             payload: {
                 index: 0,
             }
         };
         const resultObj = assignmentReducer(testState, action);
-        expect(resultObj.length).toBe(0);
+        expect(resultObj.assignmentItems).toHaveLength(0);
     });
-    it('test action type UPDATE_LIST_ITEM', () => {
-        const testState = deepCopy(state.assignmentItems);
+    it('test action type UPDATE_ASSIGNMENT_ITEM', () => {
+        const testState = deepCopy(state);
         const action = {
-            type: PROPERTY_EDITOR_ACTION.UPDATE_LIST_ITEM,
+            type: PROPERTY_EDITOR_ACTION.UPDATE_ASSIGNMENT_ITEM,
             payload: {
                 index: 0,
                 propertyName: 'leftHandSide',
@@ -93,15 +92,15 @@ describe('assignment reducer functions', () => {
             }
         };
         const resultObj = assignmentReducer(testState, action);
-        expect(resultObj.length).toBe(1);
-        expect(resultObj[0].leftHandSide.value).toBe('new value');
+        expect(resultObj.assignmentItems).toHaveLength(1);
+        expect(resultObj.assignmentItems[0].leftHandSide.value).toBe('new value');
     });
-    it('test action type UPDATE_LIST_ITEM with an update in the middle of the array', () => {
-        const testState = deepCopy(state.assignmentItems);
-        testState.push(deepCopy(state.assignmentItems[0]));
-        testState.push(deepCopy(state.assignmentItems[0]));
+    it('test action type UPDATE_ASSIGNMENT_ITEM with an update in the middle of the array', () => {
+        const testState = deepCopy(state);
+        testState.assignmentItems.push(deepCopy(state.assignmentItems[0]));
+        testState.assignmentItems.push(deepCopy(state.assignmentItems[0]));
         const action = {
-            type: PROPERTY_EDITOR_ACTION.UPDATE_LIST_ITEM,
+            type: PROPERTY_EDITOR_ACTION.UPDATE_ASSIGNMENT_ITEM,
             payload: {
                 index: 1,
                 propertyName: 'leftHandSide',
@@ -109,11 +108,11 @@ describe('assignment reducer functions', () => {
                 error: null
             }
         };
-        expect(testState).toHaveLength(3);
+        expect(testState.assignmentItems).toHaveLength(3);
         const resultObj = assignmentReducer(testState, action);
-        expect(resultObj).toHaveLength(3);
-        expect(resultObj[0].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
-        expect(resultObj[1].leftHandSide.value).toBe('new value');
-        expect(resultObj[2].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
+        expect(resultObj.assignmentItems).toHaveLength(3);
+        expect(resultObj.assignmentItems[0].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
+        expect(resultObj.assignmentItems[1].leftHandSide.value).toBe('new value');
+        expect(resultObj.assignmentItems[2].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
     });
 });

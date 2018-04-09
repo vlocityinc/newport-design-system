@@ -128,7 +128,6 @@ export default class LabelDescription extends Element {
 
     updateStateAndDispatch(value, prop) {
         if (this.state[prop].value !== value) {
-            this.state[prop].value = value;
             const event = new PropertyChangedEvent(
                 // TODO get property name from constant source
                 prop,
@@ -143,7 +142,6 @@ export default class LabelDescription extends Element {
      * @param {String} newDevName - the dev name entered by the user
      */
     updateDevName(newDevName) {
-        this.state.devName.value = newDevName;
         const event = new PropertyChangedEvent(
             // TODO get property name from constant source
             'name',
