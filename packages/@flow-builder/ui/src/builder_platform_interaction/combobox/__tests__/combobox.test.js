@@ -273,6 +273,7 @@ describe('Combobox Tests', () => {
 
         let blurEvent;
         let testName;
+        const ignoreTZRegex = new RegExp('^.*?GMT');
 
         beforeEach(() => {
             blurEvent = new CustomEvent('blur');
@@ -300,7 +301,11 @@ describe('Combobox Tests', () => {
 
                     expect(groupedCombobox.validity).toEqual(testData.error);
                     if (testData.expectedValue) {
-                        expect(combobox.value).toEqual(testData.expectedValue);
+                        if (dataType !== 'DateTime') {
+                            expect(combobox.value).toEqual(testData.expectedValue);
+                        } else {
+                            expect(ignoreTZRegex.exec(combobox.value)[0]).toEqual(ignoreTZRegex.exec(testData.expectedValue)[0]);
+                        }
                     }
                 });
             });
