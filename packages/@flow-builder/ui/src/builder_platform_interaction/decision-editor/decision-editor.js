@@ -49,7 +49,7 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
 
     handleOutcomeSelected(event) {
         event.stopPropagation();
-        this.activeOutcomeId = event.detail.itemId.value;
+        this.activeOutcomeId = event.detail.itemId;
     }
 
     // Required because Raptor doesn't know to add this method
