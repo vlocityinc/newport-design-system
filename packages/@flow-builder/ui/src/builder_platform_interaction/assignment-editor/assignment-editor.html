@@ -20,7 +20,7 @@
                                               onupdatelistitem={handleUpdateListItem}
                                               ondeletelistitem={handleDeleteListItem}>
             <template for:each={assignmentItems} for:item='item' for:index='itemIndex' slot='listBody'>
-                <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete} key={item}>
+                <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete} key={item.rowIndex}>
                     <div slot='rowBody'> 
                         <builder_platform_interaction-expression-builder element-type={elementType} expression={item} showoperator=true lhs-label='lhs' operator-label='operator' rhs-label='rhs'></builder_platform_interaction-expression-builder>
                     </div>

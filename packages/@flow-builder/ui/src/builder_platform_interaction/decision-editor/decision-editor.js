@@ -1,7 +1,6 @@
 import {Element, api, track} from 'engine';
 import {decisionReducer} from './decision-reducer';
 import {nameDescriptionMixin, baseEditor} from 'builder_platform_interaction-base-editor';
-import {ELEMENT_TYPE, createFlowElement} from 'builder_platform_interaction-element-config';
 
 import template from './decision-editor.html';
 
@@ -10,7 +9,7 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
     @track activeOutcomeId;
 
     get activeOutcome() {
-        return this.element.outcomes.find(outcome => outcome.guid.value === this.activeOutcomeId);
+        return this.element.outcomes.find(outcome => outcome.guid === this.activeOutcomeId);
     }
 
     // getter and setter for nodes don't work well with mixins
@@ -23,16 +22,8 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
     @api
     set node(newValue) {
         this.element = newValue;
-        this.addInitialOutcomeIfNeeded();
 
-        this.activeOutcomeId = this.element.outcomes[0].guid.value;
-    }
-
-    // TODO: Move this to the translation
-    addInitialOutcomeIfNeeded() {
-        if (this.element && (typeof this.element.outcomes === 'undefined' || this.element.outcomes.length === 0)) {
-            this.element.outcomes = [createFlowElement(ELEMENT_TYPE.OUTCOME, false)];
-        }
+        this.activeOutcomeId = this.element.outcomes[0].guid;
     }
 
     get outcomes() {

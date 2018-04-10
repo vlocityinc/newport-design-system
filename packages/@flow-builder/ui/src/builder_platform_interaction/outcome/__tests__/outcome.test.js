@@ -192,7 +192,7 @@ describe('Outcome', () => {
 
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    parentGUID: element.outcome.guid.value
+                    parentGUID: element.outcome.guid
                 });
             });
         });
@@ -216,7 +216,7 @@ describe('Outcome', () => {
 
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    parentGUID: element.outcome.guid.value,
+                    parentGUID: element.outcome.guid,
                     index: indexToDelete
                 });
             });
@@ -251,7 +251,7 @@ describe('Outcome', () => {
 
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    parentGUID: element.outcome.guid.value,
+                    parentGUID: element.outcome.guid,
                     index: updateData.index,
                     propertyName: updateData.propertyName,
                     value: updateData.value,

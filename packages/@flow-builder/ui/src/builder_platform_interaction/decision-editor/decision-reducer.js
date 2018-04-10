@@ -6,13 +6,15 @@ import {
     DeleteConditionEvent,
     UpdateConditionEvent
 } from 'builder_platform_interaction-events';
+import { generateGuid } from 'builder_platform_interaction-store-lib';
+import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 // TODO: Refactor with assignment reducer / new CommonReducer for common code?
 
 const addCondition = (state, event) => {
     const outcomes = state.outcomes.map((outcome) => {
-        return outcome.guid.value === event.parentGUID ? updateProperties(outcome, {
-            conditions: addItem(outcome.conditions, {}),
+        return outcome.guid === event.parentGUID ? updateProperties(outcome, {
+            conditions: addItem(outcome.conditions, { rowIndex: generateGuid(SUB_ELEMENT_TYPE.CONDITION)}),
         }) : outcome;
     });
 
@@ -22,7 +24,7 @@ const addCondition = (state, event) => {
 
 const deleteCondition = (state, event) => {
     const outcomes = state.outcomes.map((outcome) => {
-        return outcome.guid.value === event.parentGUID ? updateProperties(outcome, {
+        return outcome.guid === event.parentGUID ? updateProperties(outcome, {
             conditions: deleteItem(outcome.conditions, event.index)
         }) : outcome;
     });
@@ -32,7 +34,7 @@ const deleteCondition = (state, event) => {
 
 const updateCondition = (state, event) => {
     const outcomes = state.outcomes.map((outcome) => {
-        if (outcome.guid.value === event.parentGUID) {
+        if (outcome.guid === event.parentGUID) {
             const newCondition = updateProperties(outcome.conditions[event.index], {
                 [event.propertyName]: {error: event.error, value: event.value}
             });
@@ -52,7 +54,7 @@ const outcomePropertyChanged = (state, event) => {
     event.error = event.error === null ? decisionValidation.validateProperty(event.propertyName, event.value) : event.error;
 
     const outcomes = state.outcomes.map((outcome) => {
-        return event.guid !== outcome.guid.value ? outcome : updateProperties(outcome, {
+        return event.guid !== outcome.guid ? outcome : updateProperties(outcome, {
             [event.propertyName]: {error: event.error, value: event.value}
         });
     });

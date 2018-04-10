@@ -1,6 +1,8 @@
 import { assignmentValidation } from './assignment-validation';
-import { updateProperties, set, deleteItem, hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
+import { updateProperties, set, deleteItem } from 'builder_platform_interaction-data-mutation-lib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
+import { generateGuid } from 'builder_platform_interaction-store-lib';
+import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 /**
  * assignment reducer function runs validation rules and returns back the updated element assignment
@@ -11,9 +13,7 @@ import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
 export const assignmentReducer = (assignment, action) => {
     switch (action.type) {
         case PROPERTY_EDITOR_ACTION.ADD_ASSIGNMENT_ITEM: {
-            // TODO this should come from some assignment item factory like propertyEditorDataMutation that is shared with the translation layer
-            const rawAssignmentItem = {leftHandSide: '', operator: '',  rightHandSide: ''};
-            const emptyAssignmentItem = hydrateWithErrors(rawAssignmentItem, []);
+            const emptyAssignmentItem = {rowIndex: generateGuid(SUB_ELEMENT_TYPE.ASSIGNMENT_ITEM) };
 
             // TODO do validation for if we should not add in case the length is upto certain limit
             const path = ['assignmentItems', assignment.assignmentItems.length];

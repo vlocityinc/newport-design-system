@@ -5,7 +5,7 @@ import {
 
 import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 
-describe('mutateAssignment function', () => {
+describe('mutateDecision function', () => {
     const state = {
         elements: {
             OUTCOME_1: {
@@ -40,7 +40,7 @@ describe('mutateAssignment function', () => {
 
         mutateDecision(decision, state);
 
-        expect(decision.outcomes).toHaveLength(0);
+        expect(decision.outcomes).toHaveLength(1);
     });
 });
 

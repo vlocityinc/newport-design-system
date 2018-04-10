@@ -74,7 +74,7 @@ function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outc
     // when adding outcomes
     // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004uM1nIAE/view
     const deletedOutcomeGUIDs = deletedOutcomes.map((outcome) => {
-        return outcome.guid.value;
+        return outcome.guid;
     });
 
     newState = omit(newState, deletedOutcomeGUIDs);

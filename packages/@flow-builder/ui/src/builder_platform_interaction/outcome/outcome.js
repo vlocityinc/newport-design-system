@@ -52,7 +52,7 @@ export default class Outcome extends Element {
     handleAddCondition(event) {
         event.stopPropagation();
 
-        const addConditionEvent = new AddConditionEvent(this.outcome.guid.value);
+        const addConditionEvent = new AddConditionEvent(this.outcome.guid);
 
         this.dispatchEvent(addConditionEvent);
     }
@@ -63,7 +63,7 @@ export default class Outcome extends Element {
     handleDeleteCondition(event) {
         event.stopPropagation();
 
-        const deleteConditionEvent = new DeleteConditionEvent(this.outcome.guid.value, event.detail.index);
+        const deleteConditionEvent = new DeleteConditionEvent(this.outcome.guid, event.detail.index);
 
         this.dispatchEvent(deleteConditionEvent);
     }
@@ -74,7 +74,7 @@ export default class Outcome extends Element {
     handleUpdateCondition(event) {
         event.stopPropagation();
 
-        const updateConditionEvent = new UpdateConditionEvent(this.outcome.guid.value,
+        const updateConditionEvent = new UpdateConditionEvent(this.outcome.guid,
             event.detail.index,
             event.detail.propertyName,
             event.detail.value,
@@ -90,6 +90,6 @@ export default class Outcome extends Element {
     handlePropertyChanged(event) {
         // just decorate the event with the outcome guid and let it flow up
         // to be handled by the parent component
-        event.guid = this.outcome.guid.value;
+        event.guid = this.outcome.guid;
     }
 }

@@ -1,4 +1,6 @@
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
+import { generateGuid } from 'builder_platform_interaction-store-lib';
+import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 /**
  * Add property editor mutation for assignment
@@ -9,6 +11,8 @@ export const mutateAssignment = assignment => {
     const assignmentItems = assignment.assignmentItems;
     if (assignmentItems) {
         for (const item of assignmentItems) {
+            item.rowIndex = generateGuid(SUB_ELEMENT_TYPE.ASSIGNMENT_ITEM);
+
             if (item.hasOwnProperty('assignToReference')) {
                 item.leftHandSide = item.assignToReference;
                 delete item.assignToReference;
@@ -30,6 +34,8 @@ export const deMutateAssignment = assignment => {
     const assignmentItems = assignment.assignmentItems;
     if (assignmentItems) {
         for (const item of assignmentItems) {
+            delete item.rowIndex;
+
             if (item.hasOwnProperty('leftHandSide')) {
                 item.assignToReference = item.leftHandSide;
                 delete item.leftHandSide;

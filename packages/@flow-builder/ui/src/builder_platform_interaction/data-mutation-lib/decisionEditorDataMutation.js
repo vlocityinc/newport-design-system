@@ -1,6 +1,24 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
-import { deepCopy } from 'builder_platform_interaction-store-lib';
+import { ELEMENT_TYPE, SUB_ELEMENT_TYPE, createFlowElement } from 'builder_platform_interaction-element-config';
+import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
+
+const mutateOutcome = (outcome) => {
+    const conditions = outcome.conditions;
+    for (const condition of conditions) {
+        condition.rowIndex = generateGuid(SUB_ELEMENT_TYPE.CONDITION);
+
+        if (condition.hasOwnProperty('leftValueReference')) {
+            condition.leftHandSide = condition.leftValueReference;
+            delete condition.leftValueReference;
+        }
+        if (condition.hasOwnProperty('rightValue')) {
+            mutateFEROV(condition, condition.rightValue);
+            delete condition.rightValue;
+        }
+    }
+
+    return outcome;
+};
 
 /**
  * Add property editor mutation for decision
@@ -14,20 +32,13 @@ export const mutateDecision = (decision, state) => {
     const outcomeReferences = decision.outcomeReferences || [];
     for (const outcomeReference of outcomeReferences) {
         const outcome = deepCopy(state.elements[outcomeReference.outcomeReference]);
+        decision.outcomes.push(mutateOutcome(outcome));
+    }
 
-        const conditions = outcome.conditions;
-        for (const condition of conditions) {
-            if (condition.hasOwnProperty('leftValueReference')) {
-                condition.leftHandSide = condition.leftValueReference;
-                delete condition.leftValueReference;
-            }
-            if (condition.hasOwnProperty('rightValue')) {
-                mutateFEROV(condition, condition.rightValue);
-                delete condition.rightValue;
-            }
-        }
-
-        decision.outcomes.push(outcome);
+    // Create at least one empty outcome if none exist
+    if (decision.outcomes.length === 0) {
+        const outcome = createFlowElement(ELEMENT_TYPE.OUTCOME, false);
+        decision.outcomes.push(mutateOutcome(outcome));
     }
 
     delete decision.outcomeReferences;
@@ -71,6 +82,8 @@ export const deMutateDecision = (decision, state) => {
     currentOutcomes.forEach((outcome) => {
         const conditions = outcome.conditions;
         for (const condition of conditions) {
+            delete condition.rowIndex;
+
             if (condition.hasOwnProperty('leftHandSide')) {
                 condition.leftValueReference = condition.leftHandSide;
                 delete condition.leftHandSide;

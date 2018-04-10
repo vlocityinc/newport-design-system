@@ -130,8 +130,6 @@ export const sampleFlow = {
             "name": "Second_Assignment",
             "processMetadataValues": []
         }],
-        "choices": [],
-        "constants": [],
         "decisions": [{
             "defaultConnector": {
                 "processMetadataValues": [],
@@ -162,17 +160,10 @@ export const sampleFlow = {
                 "processMetadataValues": []
             }]
         }],
-        "dynamicChoiceSets": [],
-        "formulas": [],
         "interviewLabel": "screenFlow {!$Flow.CurrentDateTime}",
         "label": "screenFlow",
-        "loops": [],
         "processMetadataValues": [],
         "processType": "Flow",
-        "recordCreates": [],
-        "recordDeletes": [],
-        "recordLookups": [],
-        "recordUpdates": [],
         "screens": [{
             "allowBack": true,
             "allowFinish": true,
@@ -191,11 +182,7 @@ export const sampleFlow = {
             "showFooter": true,
             "showHeader": true
         }],
-        "stages": [],
         "startElementReference": "Screen",
-        "steps": [],
-        "subflows": [],
-        "textTemplates": [],
         "variables": [{
             "dataType": "Number",
             "isCollection": false,

@@ -39,6 +39,11 @@ export const ELEMENT_TYPE = {
     DEFAULT: 'defaultElement'
 };
 
+export const SUB_ELEMENT_TYPE = {
+    ASSIGNMENT_ITEM: 'ASSIGNMENT_ITEM',
+    CONDITION: 'CONDITION'
+};
+
 /**
  * @constant elementTypeToComponentMap - Map of different element types to their
  *                                       respective components

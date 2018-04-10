@@ -100,28 +100,31 @@ export function translateUIModelToFlow(uiModel) {
     let metadata = {
     };
 
-    // create empty collections for each element type
-    Object.values(ELEMENT_INFOS).forEach(elementInfo => {
-        metadata[elementInfo.metadataKey] = [];
-    });
-
     Object.keys(elements).forEach(key => {
         let element = elements[key];
         const elementInfo = ELEMENT_INFOS[element.elementType];
 
-        // Hydrate decsions with their outcomes (rules)
-        if (element.elementType === ELEMENT_TYPE.DECISION) {
-            includeOutcomesInDecision(element, elements);
-        } if (element.elementType === ELEMENT_TYPE.OUTCOME) {
+        if (!elementInfo) {
+            throw new Error('Unknown element type ' + element.elementType);
+        }
+
+        if (!elementInfo.metadataKey) {
             // outcomes are ignored, instead being included in the metadata via their
             // parent decisions
             return;
-        } else if (!elementInfo) {
-            throw new Error('Unknown element type ' + element.elementType);
+        }
+
+        // Hydrate decsions with their outcomes (rules)
+        if (element.elementType === ELEMENT_TYPE.DECISION) {
+            includeOutcomesInDecision(element, elements);
         }
 
         // remove transient fields to avoid breaking deserialization
         element = omitTransientFields(element);
+
+        if (!metadata[elementInfo.metadataKey]) {
+            metadata[elementInfo.metadataKey] = [];
+        }
 
         metadata[elementInfo.metadataKey].push(element);
     });

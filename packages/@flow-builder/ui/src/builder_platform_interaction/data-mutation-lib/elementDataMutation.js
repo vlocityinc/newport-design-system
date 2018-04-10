@@ -7,14 +7,14 @@
  */
 export const hydrateWithErrors = (
     element,
-    blackListFields = ['guid', 'elementType', 'locationX', 'locationY']
+    blackListFields = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex']
 ) => {
     Object.entries(element).filter(([key]) => !blackListFields.includes(key)).forEach(
         ([key, val]) => {
             if (typeof val === 'string' || val === null || val === undefined) {
                 element[key] = { value : val, error: null };
             } else if (typeof val === 'object') {
-                hydrateWithErrors(val, []);
+                hydrateWithErrors(val, blackListFields);
             }
         }
     );

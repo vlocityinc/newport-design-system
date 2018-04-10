@@ -4,6 +4,14 @@ import {
 } from '../assignmentEditorDataMutation';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
+jest.mock('builder_platform_interaction-store-lib', () => {
+    return {
+        generateGuid: () => {
+            return 'GUID';
+        }
+    };
+});
+
 describe('mutateAssignment function', () => {
     it('should mutate assignment with assignmentItems', () => {
         const assignment = {
@@ -26,12 +34,14 @@ describe('mutateAssignment function', () => {
             label: 'abc',
             assignmentItems: [
                 {
+                    rowIndex: 'GUID',
                     leftHandSide: 'var1',
                     operator: 'assign',
                     rightHandSide: 'abc',
                     rightHandSideDataType: FEROV_DATA_TYPE.STRING
                 },
                 {
+                    rowIndex: 'GUID',
                     leftHandSide: 'var2',
                     operator: 'assign',
                     rightHandSide: 'abc',
