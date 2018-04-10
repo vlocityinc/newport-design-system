@@ -6,8 +6,8 @@ import {Element, api, track} from 'engine';
  *
  * The the menu items must include the following properties:
  * {
- *      guid: {value: "SomeString", error: null},
- *      label: {value: "SomeString", error: null}
+ *      guid: "GUIDString",
+ *      label: "LabelString"
  * }
  */
 export default class ReorderableVerticalNavigation extends Element {
