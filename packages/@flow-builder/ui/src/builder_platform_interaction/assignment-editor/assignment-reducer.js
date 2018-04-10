@@ -1,6 +1,6 @@
 import { assignmentValidation } from './assignment-validation';
 import { updateProperties, set, deleteItem } from 'builder_platform_interaction-data-mutation-lib';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 

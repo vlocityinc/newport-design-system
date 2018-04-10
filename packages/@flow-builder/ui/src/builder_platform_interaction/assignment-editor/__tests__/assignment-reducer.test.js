@@ -1,5 +1,5 @@
 import {assignmentReducer} from '../assignment-reducer';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 const state = {
     assignmentItems : [{

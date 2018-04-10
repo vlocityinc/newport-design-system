@@ -1,6 +1,6 @@
 import { actionCallValidation } from './actioncall-validation';
 import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 /**
  * actionCall reducer function runs validation rules and returns back the updated element state
  * @param {object} state - element / node state

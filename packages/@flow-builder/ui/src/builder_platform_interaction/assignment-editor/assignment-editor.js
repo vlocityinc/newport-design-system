@@ -1,8 +1,7 @@
 import { Element, api, track, unwrap } from 'engine';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
 import { assignmentReducer } from './assignment-reducer';
-import { createAction } from 'builder_platform_interaction-actions';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { getErrorsFromHydratedElement, updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 
 /**

@@ -2,8 +2,7 @@ import { Element, api, track, unwrap } from 'engine';
 import { actionCallReducer } from './actioncall-reducer';
 import inputs from '@label/DesignerLabels.actioncall_inputs_label';
 import outputs from '@label/DesignerLabels.actioncall_outputs_label';
-import { createAction } from 'builder_platform_interaction-actions';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { getInvocableActionParameters } from 'builder_platform_interaction-actioncall-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
