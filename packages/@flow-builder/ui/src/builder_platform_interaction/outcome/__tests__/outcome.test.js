@@ -192,9 +192,7 @@ describe('Outcome', () => {
 
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        parentGUID: element.outcome.guid.value
-                    }
+                    parentGUID: element.outcome.guid.value
                 });
             });
         });
@@ -218,10 +216,8 @@ describe('Outcome', () => {
 
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        parentGUID: element.outcome.guid.value,
-                        index: indexToDelete
-                    }
+                    parentGUID: element.outcome.guid.value,
+                    index: indexToDelete
                 });
             });
         });
@@ -255,13 +251,11 @@ describe('Outcome', () => {
 
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        parentGUID: element.outcome.guid.value,
-                        index: updateData.index,
-                        propertyName: updateData.propertyName,
-                        value: updateData.value,
-                        error: updateData.error
-                    }
+                    parentGUID: element.outcome.guid.value,
+                    index: updateData.index,
+                    propertyName: updateData.propertyName,
+                    value: updateData.value,
+                    error: updateData.error
                 });
             });
         });
