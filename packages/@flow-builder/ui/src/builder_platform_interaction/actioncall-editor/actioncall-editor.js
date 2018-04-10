@@ -3,7 +3,6 @@ import { actionCallReducer } from './actioncall-reducer';
 import inputs from '@label/DesignerLabels.actioncall_inputs_label';
 import outputs from '@label/DesignerLabels.actioncall_outputs_label';
 import { createAction } from 'builder_platform_interaction-actions';
-import { replaceItem } from 'builder_platform_interaction-data-mutation-lib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-constant';
 import { getInvocableActionParameters } from 'builder_platform_interaction-actioncall-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
@@ -187,23 +186,37 @@ export default class ActionCallEditor extends Element {
     }
 
     /**
-     * @param {object} parameterInfos - input/output parameters (without values)
-     *      each paramInfo looks like {Name, Label, DataType...} (see parameter-item)
-     * @param {object} nodeParameters - action call input/output parameters
-     *      each nodeParam looks like {name: {value, error}, value: {stringValue: {value, error}}, processMetadataValues} - input parameter
-     *      each nodeParam looks like {name: {value, error}, assignToReference: {value, error}, processMetadataValues} - output parameter
+     * @typedef {Object} ValueErrorObject
+     * @property {String} value the value of the object
+     * @property {String} error the error
+     */
+
+    /**
+     * @typedef {Object} NodeParameter
+     * @property {ValueErrorObject} name of the parameter
+     * @property {InputParameterValue} value of the input parameter
+     * @property {ValueErrorObject} assignToReference of the output parameter
+     * @property {object} processMetadataValues
+     */
+
+    /**
+     * @param {object} parameterInfos - array of ParameterItem (without values)
+     * @param {object} nodeParameters - array of NodeParameter
      * @param {String} mergedKey - 'value' for input parameter, 'assignToReference' for output parameter
-     * @return {object} an input/output parameter array with values
-     *      each final input param looks like {Name, Label, DataType, ..., value: {stringValue: {value, error}}
-     *      each final output param looks like {Name, Label, DataType, ..., assignToReference: {value, error}
+     * @return {object} an array of ParameterItem with values
      */
     mergeParameters(parameterInfos, nodeParameters, mergedKey) {
         const finalArray = [];
         parameterInfos.forEach(paramInfo => {
             // find paramInfo that has the same name as nodeParam
-            const paramFound = nodeParameters.find(nodeParam => nodeParam.name.value === paramInfo.Name);
-            const obj = (paramFound) ? {[mergedKey]: paramFound[mergedKey]} : {};
-            finalArray.push(Object.assign({}, paramInfo, obj));
+            const nodeParamsFound = nodeParameters.filter(nodeParam => nodeParam.name.value === paramInfo.Name);
+            if (nodeParamsFound.length > 0) {
+                nodeParamsFound.forEach(nodeParamFound => {
+                    finalArray.push(Object.assign({}, paramInfo, {[mergedKey]: nodeParamFound[mergedKey]}));
+                });
+            } else {
+                finalArray.push(Object.assign({}, paramInfo, {}));
+            }
         });
         return finalArray;
     }
@@ -214,13 +227,27 @@ export default class ActionCallEditor extends Element {
     handleUpdateParameterItem(event) {
         event.stopPropagation();
         if (!event.detail.error) {
+            const value = event.detail.value;
             // TODO: should use reducer to update node
             if (event.detail.isInput) {
-                this.inputs = replaceItem(this.inputs, event.detail.item, event.detail.index);
+                this.updateParameter(this.inputs[event.detail.index], 'value', value);
             } else {
-                this.outputs = replaceItem(this.outputs, event.detail.item, event.detail.index);
+                this.updateParameter(this.outputs[event.detail.index], 'assignToReference', value);
             }
         }
         // TODO: show or hide error icon on tab
+    }
+
+    /**
+     * @param {ParameterItem} param - the parameter item
+     * @param {String} property - the property need to be updated
+     * @param {object} value - the updated value
+     */
+    updateParameter(param, property, value) {
+        if (!value) {
+            delete param[property];
+        } else {
+            param[property] = value;
+        }
     }
 }

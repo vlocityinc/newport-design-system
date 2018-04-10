@@ -1,7 +1,7 @@
 const eventName = 'updateparameteritem';
 
 export class UpdateParameterItemEvent extends Event {
-    constructor(isInput, index, item, error = null) {
+    constructor(isInput, index, value = null, error = null) {
         super(eventName, {
             cancelable: false,
             composed: true,
@@ -10,7 +10,7 @@ export class UpdateParameterItemEvent extends Event {
         this.detail = {
             isInput,
             index,
-            item,
+            value,
             error
         };
     }

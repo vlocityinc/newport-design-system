@@ -36,27 +36,25 @@ export default class ParameterItem extends Element {
     }
 
     /**
-     * parameter item
-     * @param {Object} parameter the input parameter or output parameter
-     * example for parameter from Action:
-     * @param {String}
-     *            parameter.Id      parameter Id
-     * @param {boolean}
-     *            parameter.IsInput  true if the parameter is input parameter
-     * @param {boolean}
-     *            parameter.IsOutput true if the parameter is output parameter
-     * @param {boolean}
-     *            parameter.IsRequired   true if the parameter is required input parameter
-     * @param {String}
-     *            parameter.Label   parameter label
-     * @param {String}
-     *            parameter.Description     parameter description
-     * @param {String}
-     *            parameter.DataType     data type of the parameter (ref: in SfdcDisplayType)
-     * @param {Object}
-     *            parameter.value    if it's an input parameter and has a value
-     * @param {String}
-     *            parameter.assignToReference    if it's an output parameter and assign to a reference
+     * @typedef {Object} InputParameterValue
+     * @property {ValueErrorObject} elementReference or flowTypeValue (example: stringValue, numberValue...)
+     */
+
+    /**
+     * @typedef {Object} ParameterItem
+     * @property {String} Id parameter Id
+     * @property {boolean} IsInput  true if the parameter is input parameter
+     * @property {boolean} IsOutput true if the parameter is output parameter
+     * @property {boolean} IsRequired   true if the parameter is required input parameter
+     * @property {String} Label   parameter label
+     * @property {String} Description     parameter description
+     * @property {String} DataType     data type of the parameter
+     * @property {InputParameterValue} value    if it's an input parameter and has a value
+     * @property {ValueErrorObject} assignToReference    if it's an output parameter and assign to a reference
+     */
+
+    /**
+     * @param {ParameterItem} parameter item
      */
     @api
     set item(parameter) {
@@ -146,13 +144,22 @@ export default class ParameterItem extends Element {
         return "slds-p-around_x-small slds-m-bottom_x-small " + ((this.itemIndex > 0) ? "slds-item" : "");
     }
 
+    get comboboxAriaHidden() {
+        const ariaHidden = !this.showCombobox;
+        return ariaHidden.toString();
+    }
+
+    get comboboxClass() {
+        return (this.showCombobox) ? '' : 'slds-hide';
+    }
+
     /**
      * combobox's value from item's value
      */
     get comboboxValue() {
         if (this.isInput) {
             // return  '' if this parameter is input parameter and no value
-            if (!this.state.parameterItem.hasOwnProperty('value')) {
+            if (!this.state.parameterItem.value) {
                 return '';
             }
             // return  {!value} if this parameter is input parameter and has a reference value
@@ -164,10 +171,11 @@ export default class ParameterItem extends Element {
                 return '{!' + value + '}';
             }
             // TODO: value = literals + VARIABLE (My name is {!VARIRABLE_1}. Hello world!)
-            return this.state.parameterItem.value[Object.keys(this.item.value)[0]].value;
+            const value = this.state.parameterItem.value[Object.keys(this.item.value)[0]].value;
+            return value ? value : '';
         }
         // return {!value} if this parameter is output parameter and has a reference value
-        if (this.state.parameterItem.hasOwnProperty('assignToReference')) {
+        if (this.state.parameterItem.assignToReference) {
             return '{!' + this.getVariableName(this.state.parameterItem.assignToReference.value) + '}';
         }
         return '';
@@ -185,6 +193,7 @@ export default class ParameterItem extends Element {
 
     /**
      * get combobox menu data, depends on the dataType & elementType
+     * TODO: menuData is different for input and output parameter
      */
     get menuData() {
         const leftElement = {
@@ -235,18 +244,19 @@ export default class ParameterItem extends Element {
      * @param {Object} event event fired from input toggle
      */
     handleToggleChanged(event) {
+        event.stopPropagation();
         this.state.toggleStatus = event.detail.checked;
+        let value = null;
         if (!this.state.toggleStatus) {
             if (this.state.parameterItem.hasOwnProperty('value')) {
-                this.preservedValue = this.state.parameterItem.value[Object.keys(this.state.parameterItem.value)[0]].value;
-                this.state.parameterItem.value[Object.keys(this.state.parameterItem.value)[0]].value = null;
+                this.preservedValue = this.state.parameterItem.value;
             }
         } else if (this.preservedValue) {
-            this.state.parameterItem.value[Object.keys(this.state.parameterItem.value)[0]].value = this.preservedValue;
+            value = this.preservedValue;
             this.preservedValue = null;
         }
         // dispatch event to update this item in list: UpdateParameterItemEvent
-        const itemUpdatedEvent = new UpdateParameterItemEvent(this.isInput, this.itemIndex, this.state.parameterItem, event.detail.error);
+        const itemUpdatedEvent = new UpdateParameterItemEvent(this.isInput, this.itemIndex, value, event.detail.error);
         this.dispatchEvent(itemUpdatedEvent);
     }
 
@@ -256,13 +266,14 @@ export default class ParameterItem extends Element {
      */
     handleValueChanged(event) {
         event.stopPropagation();
+        let value;
         if (this.isInput) {
-            this.state.parameterItem.value = this.convertComboxValueToParameterValue(event.detail.value);
+            value = this.convertComboxValueToInputParameterValue(event.detail.value);
         } else {
-            this.state.parameterItem.assignToReference = {value: event.detail.value};
+            value = {value: event.detail.value};
         }
         // dispatch event to update this item in list: UpdateParameterItemEvent
-        const itemUpdatedEvent = new UpdateParameterItemEvent(this.isInput, this.itemIndex, this.item, event.detail.error);
+        const itemUpdatedEvent = new UpdateParameterItemEvent(this.isInput, this.itemIndex, value, event.detail.error);
         this.dispatchEvent(itemUpdatedEvent);
     }
 
@@ -272,11 +283,11 @@ export default class ParameterItem extends Element {
     }
 
     /**
-     * convert to parameter's value from the combobox's value
+     * convert to input parameter's value from the combobox's value
      * @param {String} comboboxValue the combobox's value
-     * @return {Object} the parameter's value
+     * @return {InputParameterValue} the parameter's value
      */
-    convertComboxValueToParameterValue(comboboxValue) {
+    convertComboxValueToInputParameterValue(comboboxValue) {
         const varName = this.getVariableName(comboboxValue);
         if (varName) {
             return {elementReference: {value: comboboxValue}};

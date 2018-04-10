@@ -55,7 +55,7 @@ export function getParameterDataType(item, elementType) {
  * @returns {Boolean} true if invocable action
  */
 function isInvocableAction(elementType) {
-    return elementType === ELEMENT_TYPE.ACTION_CALL || elementType === ELEMENT_TYPE.EMAIL_ALERT || elementType === ELEMENT_TYPE.APEX_CALL;
+    return elementType === ELEMENT_TYPE.ACTION_CALL || elementType === ELEMENT_TYPE.EMAIL_ALERT || elementType === ELEMENT_TYPE.APEX_CALL || ELEMENT_TYPE.LOCAL_ACTION_CALL;
 }
 
 /**
