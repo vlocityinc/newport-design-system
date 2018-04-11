@@ -6,33 +6,15 @@ import { Validation } from 'builder_platform_interaction-validation';
  */
 // TODO here to replace the expected error message with a reference to the label file once we have that in place
 const additionalRules = {
-    'label' : [{
-        ruleName: 'should_accept_alphanumeric_or_special_characters',
-        funcType: ValidationRules.evaluateRegex,
-        regexPattern: '^(?![a-zA-Z0-9!@#\\$%\\^\\&*\\)\\(+=.\\-_ ]+$)',
-        message: "Accepts only AlphaNumeric or Special Characters.",
-    }, {
-        ruleName: 'maximum_characters_limit',
-        funcType: ValidationRules.evaluateRegex,
-        regexPattern: '^(?!.{0,255}$)',
-        message: "Cannot accept more than 255 characters.",
-    }],
-    'name' : [{
-        ruleName: 'should_not_begin_with_numeric_or_special_characters',
-        funcType: ValidationRules.evaluateRegex,
-        regexPattern: '^(?![a-zA-Z]{1})',
-        message: "Should always begin with Alphabetical Characters instead of Numeric or Special Characters.",
-    }, {
-        ruleName: 'should_accept_only_alphanumeric_characters',
-        funcType: ValidationRules.evaluateRegex,
-        regexPattern: '^(?![A-z]+[a-zA-Z0-9 ]*$)',
-        message: "Cannot accept any Special Characters.",
-    }, {
-        ruleName: 'maximum_characters_limit',
-        funcType: ValidationRules.evaluateRegex,
-        regexPattern: '^(?!.{0,80}$)',
-        message: "Cannot accept more than 80 characters.",
-    }]
+    'label' : [
+        ValidationRules.shouldAcceptAlphanumericOrSpecialCharacters,
+        ValidationRules.maximumCharactersLimit(255)
+    ],
+    'name'  : [
+        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
+        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
+        ValidationRules.maximumCharactersLimit(80)
+    ]
 };
 
 class AssignmentValidation extends Validation {
