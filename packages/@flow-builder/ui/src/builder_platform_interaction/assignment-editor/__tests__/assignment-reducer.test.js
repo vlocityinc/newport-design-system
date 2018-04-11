@@ -1,5 +1,11 @@
 import {assignmentReducer} from '../assignment-reducer';
-import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
+import {
+    AddListItemEvent,
+    DeleteListItemEvent,
+    UpdateListItemEvent,
+    PropertyChangedEvent
+} from 'builder_platform_interaction-events';
+
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 const state = {
     assignmentItems : [{
@@ -19,89 +25,85 @@ const state = {
     name : {value: 'testAssignment', error: null}
 };
 
-describe('assignment reducer functions', () => {
-    it('test action type UPDATE_ELEMENT_PROPERTY', () => {
-        const action = {
-            type: PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-            payload: {
-                propertyName: 'label',
-                value: 'newlabel',
-                error: null
-            }
+describe('the best assignment reducer ever', () => {
+    it('updates the label', () => {
+        const event = {
+            type: PropertyChangedEvent.EVENT_NAME,
+            propertyName: 'label',
+            value: 'newlabel',
+            error: null
         };
-        const resultObj = assignmentReducer(deepCopy(state), action);
+        const resultObj = assignmentReducer(deepCopy(state), event);
         expect(resultObj).toBeDefined();
-        expect(resultObj.label.value).toBe('newlabel');
+        expect(resultObj.label.value).toEqual('newlabel');
         expect(resultObj).not.toBe(state);
     });
 
-    it('test action type update properties with error in it, should not run the validations at the assignment level and keep the child level errors', () => {
-        const action = {
-            type: PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-            payload: {
-                propertyName: 'label',
-                value: 'newlabel',
-                error: 'errorFromChildComponent'
-            }
+    it('fetch the error from the property change event instead of rerunning validation', () => {
+        const event = {
+            type: PropertyChangedEvent.EVENT_NAME,
+            propertyName: 'label',
+            value: 'newlabel',
+            error: 'errorFromChildComponent'
         };
-        const resultObj = assignmentReducer(deepCopy(state), action);
+        const resultObj = assignmentReducer(deepCopy(state), event);
         expect(resultObj).toBeDefined();
         expect(resultObj.label.error).toBe('errorFromChildComponent');
         expect(resultObj).not.toBe(state);
     });
-    it('test default action case in switch for assignment reducer', () => {
-        const action = {
+    it('ignores unknown events', () => {
+        const event = {
         };
-        const resultObj = assignmentReducer(state, action);
+        const resultObj = assignmentReducer(state, event);
         expect(resultObj).toBeDefined();
         expect(resultObj.label.value).toBe('testAssignment');
         expect(resultObj).toBe(state);
     });
-    it('test action type ADD_ASSIGNMENT_ITEM', () => {
+    it('adds an assignment item', () => {
         const testState = deepCopy(state);
         const assignmentItemsLength = testState.assignmentItems.length;
-        const action = {
-            type: PROPERTY_EDITOR_ACTION.ADD_ASSIGNMENT_ITEM,
-            payload: {
+        const event = {
+            type: AddListItemEvent.EVENT_NAME,
+            detail: {
                 index: assignmentItemsLength
             }
         };
-        const resultObj = assignmentReducer(testState, action);
+        const resultObj = assignmentReducer(testState, event);
         expect(resultObj.assignmentItems).toHaveLength(2);
     });
-    it('test action type DELETE_ASSIGNMENT_ITEM', () => {
+    it('deletes an assignment item', () => {
         const testState = deepCopy(state);
-        const action = {
-            type: PROPERTY_EDITOR_ACTION.DELETE_ASSIGNMENT_ITEM,
-            payload: {
+        const event = {
+            type: DeleteListItemEvent.EVENT_NAME,
+            detail: {
                 index: 0,
             }
         };
-        const resultObj = assignmentReducer(testState, action);
+        const resultObj = assignmentReducer(testState, event);
         expect(resultObj.assignmentItems).toHaveLength(0);
     });
-    it('test action type UPDATE_ASSIGNMENT_ITEM', () => {
+    it('updates the left hand side of an assignment item', () => {
         const testState = deepCopy(state);
-        const action = {
-            type: PROPERTY_EDITOR_ACTION.UPDATE_ASSIGNMENT_ITEM,
-            payload: {
+        const event = {
+            type: UpdateListItemEvent.EVENT_NAME,
+            detail: {
                 index: 0,
                 propertyName: 'leftHandSide',
                 value: 'new value',
                 error: null
             }
         };
-        const resultObj = assignmentReducer(testState, action);
+        const resultObj = assignmentReducer(testState, event);
         expect(resultObj.assignmentItems).toHaveLength(1);
         expect(resultObj.assignmentItems[0].leftHandSide.value).toBe('new value');
     });
-    it('test action type UPDATE_ASSIGNMENT_ITEM with an update in the middle of the array', () => {
+    it('updates the second of 3 assignment items', () => {
         const testState = deepCopy(state);
         testState.assignmentItems.push(deepCopy(state.assignmentItems[0]));
         testState.assignmentItems.push(deepCopy(state.assignmentItems[0]));
-        const action = {
-            type: PROPERTY_EDITOR_ACTION.UPDATE_ASSIGNMENT_ITEM,
-            payload: {
+        const event = {
+            type: UpdateListItemEvent.EVENT_NAME,
+            detail: {
                 index: 1,
                 propertyName: 'leftHandSide',
                 value: 'new value',
@@ -109,7 +111,7 @@ describe('assignment reducer functions', () => {
             }
         };
         expect(testState.assignmentItems).toHaveLength(3);
-        const resultObj = assignmentReducer(testState, action);
+        const resultObj = assignmentReducer(testState, event);
         expect(resultObj.assignmentItems).toHaveLength(3);
         expect(resultObj.assignmentItems[0].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
         expect(resultObj.assignmentItems[1].leftHandSide.value).toBe('new value');

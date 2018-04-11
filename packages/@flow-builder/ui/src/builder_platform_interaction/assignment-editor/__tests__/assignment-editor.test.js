@@ -71,15 +71,6 @@ describe('assignment-editor', () => {
             expect(assignmentElement.node.assignmentItems).toHaveLength(0);
         });
     });
-    it('delete list item at non existent index does nothing', () => {
-        const assignmentElement = createComponentForTest();
-        assignmentElement.node = deepCopy(testObj);
-        return Promise.resolve().then(() => {
-            const event = new DeleteListItemEvent(1);
-            assignmentElement.querySelector('builder_platform_interaction-list').dispatchEvent(event);
-            expect(assignmentElement.node.assignmentItems).toHaveLength(1);
-        });
-    });
     it('handles the update list item changed event and updates the assignmentItems array', () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);
@@ -87,15 +78,6 @@ describe('assignment-editor', () => {
             const event = new UpdateListItemEvent(0, "leftHandSide", "test value", null);
             assignmentElement.querySelector('builder_platform_interaction-list').dispatchEvent(event);
             expect(assignmentElement.node.assignmentItems[0].leftHandSide.value).toBe("test value");
-        });
-    });
-    it('update list item at non existent index does nothing', () => {
-        const assignmentElement = createComponentForTest();
-        assignmentElement.node = deepCopy(testObj);
-        return Promise.resolve().then(() => {
-            const event = new UpdateListItemEvent(1, "leftHandSide", "test value", null);
-            assignmentElement.querySelector('builder_platform_interaction-list').dispatchEvent(event);
-            expect(assignmentElement.node.assignmentItems).toHaveLength(1);
         });
     });
     it('shows delete when more than 1 item', () => {
