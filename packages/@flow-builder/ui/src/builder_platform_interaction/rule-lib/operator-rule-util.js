@@ -18,28 +18,6 @@ const getDataTypeOrElementType = (param) => {
 };
 
 /**
- * Converts a flow element (FER) into an object similar to the rule service param objects
- * This makes it easier to compare store elements and rule params
- * This does not use the object mutation library pick method because the new object must use
- * constants specific to the rule service since the properties do not match 1->1 with the store
- * Also, we may want to extend this in the future to include properties such as 'canBeField' which
- * are not present in the store elements
- * @param {Object} element          flow element (FER) from the store
- * @returns {Object}                the new param object representing the store element
- */
-const elementToParam = (element) => {
-    if (!element || Object.keys(element).length === 0) {
-        throw new Error(`Element must be non empty object but instead was ${element}`);
-    }
-    const param = {
-        [DATA_TYPE]: element.dataType,
-        [ELEMENT_TYPE]: element.elementType,
-        [IS_COLLECTION]: element.isCollection,
-    };
-    return param;
-};
-
-/**
  * Filters rules by rule type eg: assignment/comparison
  * @param {Array} rules     list of rules to filter
  * @param {String} ruleType the rule type you want
@@ -54,6 +32,32 @@ const filterByRuleType = (rules, ruleType) => {
         return rule[RULE_TYPE] === ruleType;
     });
 };
+
+/**
+ * Converts a flow element (FER) into an object similar to the rule service param objects
+ * This makes it easier to compare store elements and rule params
+ * This does not use the object mutation library pick method because the new object must use
+ * constants specific to the rule service since the properties do not match 1->1 with the store
+ * Also, we may want to extend this in the future to include properties such as 'canBeField' which
+ * are not present in the store elements
+ * @param {Object} element          flow element (FER) from the store
+ * @returns {Object}                the new param object representing the store element
+ */
+export const elementToParam = (element) => {
+    if (!element || Object.keys(element).length === 0) {
+        throw new Error(`Element must be non empty object but instead was ${element}`);
+    }
+    const param = {
+        [DATA_TYPE]: element.dataType,
+        [ELEMENT_TYPE]: element.elementType,
+        // the param in the rules service has 'collection' but flow elements have 'isCollection'. In some scenarios,
+        // an element goes through this function twice, and on the first pass it will have 'isCollection' but on the second
+        // it has 'collection', so we have to account for both options
+        [IS_COLLECTION]: element.hasOwnProperty('collection') ? element.collection : element.isCollection,
+    };
+    return param;
+};
+
 
 /**
  * Check if the given rule param matches the element

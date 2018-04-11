@@ -1,4 +1,4 @@
-import { getElementsForMenuData } from '../menuDataRetrieval';
+import { getElementsForMenuData, normalizeLHS, retrieveRHSVal } from '../menuDataRetrieval';
 import { numberParam } from 'mock-rule-service';
 import * as store from 'mock-store-data';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
@@ -98,5 +98,23 @@ describe('Menu data retrieval', () => {
         expect(allowedVariables[0].items[0].value).toBe('%%NewResource%%');
     });
     // TODO: write tests for gettings category once we switch to using labels
+});
+describe('LHS and RHS retrieval', () => {
+    it('should handle the case when LHS is guid', () => {
+        const normalizedElement = normalizeLHS(store, store.numberVariableGuid);
+        expect(normalizedElement.lhsValue).toBe('{!' + store.numberVariableDevName + '}');
+        expect(normalizedElement.lhsParameter.collection).toBe(false);
+        expect(normalizedElement.lhsParameter.dataType).toBe(numberParam.dataType.value);
+        expect(normalizedElement.lhsParameter.elementType).toBe(store.variable);
+    });
+    it('should handle the case when RHS is guid', () => {
+        const rhsValue = retrieveRHSVal(store, store.numberVariableGuid);
+        expect(rhsValue).toBe('{!' + store.numberVariableDevName + '}');
+    });
+    it('should handle the case when RHS is literal', () => {
+        const literalValue = 'literalValue';
+        const rhsValue = retrieveRHSVal(store, literalValue);
+        expect(rhsValue).toBe(literalValue);
+    });
 });
 

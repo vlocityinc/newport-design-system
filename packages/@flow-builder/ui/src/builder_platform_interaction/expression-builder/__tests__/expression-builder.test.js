@@ -3,7 +3,7 @@ import { createElement } from 'engine';
 import ExpressionBuilder from '../expression-builder.js';
 import { RowContentsChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { numberVariableGuid, numberVariableDevName } from 'mock-store-data';
-import { getLHSTypes, getOperators, getRHSTypes  } from 'builder_platform_interaction-rule-lib';
+import { getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 
 function createComponentForTest(props) {
@@ -36,8 +36,8 @@ function devNameToComboboxValue(val) {
 
 function createDefaultComponentForTest() {
     const expressionBuilder = createComponentForTest({
+        showOperator: true,
         expression: createMockPopulatedExpression(),
-        showoperator: true
     });
     return expressionBuilder;
 }
@@ -67,6 +67,7 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
         getRHSTypes: jest.fn(),
         transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
         getRulesForElementType: jest.fn().mockReturnValue([]),
+        elementToParam: require.requireActual('builder_platform_interaction-rule-lib').elementToParam,
     };
 });
 
@@ -74,6 +75,8 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
         getElementsForMenuData: jest.fn().mockReturnValue([]),
         EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction-expression-utils').EXPRESSION_PROPERTY_TYPE,
+        normalizeLHS: require.requireActual('builder_platform_interaction-expression-utils').normalizeLHS,
+        retrieveRHSVal: require.requireActual('builder_platform_interaction-expression-utils').retrieveRHSVal,
     };
 });
 

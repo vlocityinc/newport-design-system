@@ -1,4 +1,4 @@
-import {isMatch} from "builder_platform_interaction-rule-lib";
+import {isMatch, elementToParam} from "builder_platform_interaction-rule-lib";
 import {writableElementsSelector, readableElementsSelector} from "builder_platform_interaction-selectors";
 import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 
@@ -119,6 +119,46 @@ function getNewResourceItem() {
         }]
     };
 }
+
+/**
+ * Returns the combobox display value based on the unique identifier passed
+ * to the RHS.
+ *
+ * @param {Object} state            the current state of the application
+ * @param {String} rhsIdentifier    used to identify RHS, could be GUID or literal
+ * @returns {String}                combobox display value
+ */
+export const retrieveRHSVal = (state, rhsIdentifier) => {
+    let rhsVal;
+    const flowElement = state.elements[rhsIdentifier];
+    if (flowElement) {
+        rhsVal = '{!' + flowElement.name + '}';
+    } else {
+        rhsVal = rhsIdentifier;
+    }
+    return rhsVal;
+};
+
+/**
+ * This function handles any identifier that may be passed to the LHS,
+ * such as GUIDs for flow elements, and returns what the
+ * the expression builder will need to use to work with that LHS.
+ *
+ * @param {Object} state            the current state of the application
+ * @param {String} lhsIdentifier      used to identify the LHS (e.g. GUID for flow elements)
+ * @returns {Object}                {lhsValue, lhsParameter}, lhsValue is the combobox display value, lhsParameter is needed for the rules service
+ */
+export const normalizeLHS = (state, lhsIdentifier) => {
+    const lhs = {};
+    const flowElement = state.elements[lhsIdentifier];
+    if (flowElement) {
+        lhs.lhsValue = '{!' + flowElement.name + '}';
+        lhs.lhsParameter = elementToParam(flowElement);
+    } else {
+        // TODO handle the case where LHS is not a flow element here
+    }
+    return lhs;
+};
 
 /**
  * This method returns the selector that should be used to find elements for the menuData

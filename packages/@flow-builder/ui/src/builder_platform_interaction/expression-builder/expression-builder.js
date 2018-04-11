@@ -1,7 +1,7 @@
 import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { Store } from 'builder_platform_interaction-store-lib';
-import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches } from 'builder_platform_interaction-expression-utils';
+import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, retrieveRHSVal } from 'builder_platform_interaction-expression-utils';
 import { getRulesForElementType, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox } from 'builder_platform_interaction-rule-lib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
@@ -24,7 +24,8 @@ let rules;
 export default class ExpressionBuilder extends Element {
     @track
     state = {
-        lhsValue: undefined,
+        lhsValue: undefined, // display value for combobox
+        lhsParameter: undefined, // the parameterized lhs value - only has the values the rules care about
         lhsMenuData: undefined,
         operatorValue: undefined,
         operatorOptions: undefined,
@@ -38,7 +39,7 @@ export default class ExpressionBuilder extends Element {
     }
 
     @api
-    showoperator;
+    showOperator;
 
     @api
     get expression() {
@@ -58,26 +59,20 @@ export default class ExpressionBuilder extends Element {
         // TODO handle literals, "hi my name is {!firstName}" W-4817362
         // TODO handle multi-level merge fields W-4723095
         if (expression[LHS] && expression[LHS].value) {
-            const lhsElement = storeInstance.getCurrentState().elements[expression[LHS].value];
-            if (lhsElement) {
-                this.state.lhsValue = lhsElement;
-                this.state.operatorOptions = getOperators(lhsElement, rules);
-            }
+            const lhsElement = normalizeLHS(storeInstance.getCurrentState(), expression[LHS].value);
+            this.state.lhsValue = lhsElement.lhsValue;
+            this.state.lhsParameter = lhsElement.lhsParameter;
+            this.state.operatorOptions = getOperators(this.state.lhsParameter, rules);
         }
-        if (expression[OPERATOR] && expression[OPERATOR].value && this.state.operatorOptions) {
+        if (this.showOperator && expression[OPERATOR] && expression[OPERATOR].value && this.state.operatorOptions) {
             this.state.operatorValue = expression[OPERATOR].value;
-            const rhsTypes = getRHSTypes(this.state.lhsValue, this.state.operatorValue, rules);
+            const rhsTypes = getRHSTypes(this.state.lhsParameter, this.state.operatorValue, rules);
             this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element}, rhsTypes, true);
         } else {
             // TODO default case W-4817341
         }
         if (expression[RHS] && expression[RHS].value && this.state.rhsMenuData) {
-            const rhsElement = storeInstance.getCurrentState().elements[expression[RHS].value];
-            if (rhsElement) {
-                this.state.rhsValue = rhsElement;
-            } else {
-                this.state.rhsValue = expression[RHS].value;
-            }
+            this.state.rhsValue = retrieveRHSVal(storeInstance.getCurrentState(), expression[RHS].value);
         }
     }
 
@@ -134,9 +129,6 @@ export default class ExpressionBuilder extends Element {
      * These are the text strings that should be displayed by the comboBoxes
      */
     get lhsComboBoxValue() {
-        if (this.state.lhsValue && this.state.lhsValue.hasOwnProperty('name')) {
-            return '{!' + this.state.lhsValue.name + '}';
-        }
         return this.state.lhsValue;
     }
 
@@ -145,9 +137,6 @@ export default class ExpressionBuilder extends Element {
     }
 
     get rhsComboBoxValue() {
-        if (this.state.rhsValue && this.state.rhsValue.hasOwnProperty('name')) {
-            return '{!' + this.state.rhsValue.name + '}';
-        }
         return this.state.rhsValue;
     }
 

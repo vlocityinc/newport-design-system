@@ -4,5 +4,5 @@ export const EXPRESSION_PROPERTY_TYPE = {
     OPERATOR: 'operator'
 };
 
-export { getElementsForMenuData, getElementByDevName, COMBOBOX_NEW_RESOURCE_VALUE } from './menuDataRetrieval';
+export { getElementsForMenuData, getElementByDevName, COMBOBOX_NEW_RESOURCE_VALUE, normalizeLHS, retrieveRHSVal } from './menuDataRetrieval';
 export { filterMatches } from './filterItems';
