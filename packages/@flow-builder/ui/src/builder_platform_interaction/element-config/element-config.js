@@ -338,6 +338,8 @@ export function createFlowElement(elementType, hasConnections = true) {
     }
     const template = deepCopy(config.template);
     template.guid = generateGuid(elementType);
+    // TODO: is an explicit param necessary or can we just go off the presence of nodeConfig.maxConnections?
+    // Would that work for elements with dynamic maxConnection count (like Decisions)?
     if (hasConnections) {
         template.maxConnections = config.nodeConfig.maxConnections;
     }

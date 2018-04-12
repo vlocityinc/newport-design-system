@@ -5,6 +5,7 @@ import {
     getConfigForElementType,
     isCanvasElement
 } from '../element-config';
+import {CONDITION_LOGIC} from 'builder_platform_interaction-flow-metadata';
 
 function verifyConfig(elementType, config) {
     let expectedConfig = elementTypeToConfigMap[elementType];
@@ -77,10 +78,33 @@ describe('element-config', () => {
             expect(error).toBeDefined();
         });
 
+        it('attempts to set maxConnections by default', () => {
+            const elementType = ELEMENT_TYPE.ASSIGNMENT;
+            const element = createFlowElement(elementType);
+
+            expect(element.maxConnections).not.toBeNull();
+        });
+
+        it('does not set maxConnections if hasConnections = false', () => {
+            const elementType = ELEMENT_TYPE.ASSIGNMENT;
+            const element = createFlowElement(elementType, false);
+
+            expect(element.maxConnections).not.toBeDefined();
+        });
+
         it('returns a new instance of an assignment node with the appropriate fields populated', () => {
             const elementType = ELEMENT_TYPE.ASSIGNMENT;
             const element = createFlowElement(elementType);
             verifyElement(elementType, element);
+        });
+
+        it('returns a new instance of an outcome node with the appropriate fields populated', () => {
+            const elementType = ELEMENT_TYPE.OUTCOME;
+            const element = createFlowElement(elementType, false);
+
+            expect(element.label).toEqual({value: ''});
+            expect(element.conditionLogic).toEqual(CONDITION_LOGIC.AND);
+            expect(element.conditions).toEqual([{}]);
         });
     });
 });
