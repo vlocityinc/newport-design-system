@@ -31,7 +31,6 @@ const outcomeWithThreeConditionals = {
 };
 
 const selectors = {
-    deleteConditionButton: '.slds-grid lightning-button-icon',
     row: 'builder_platform_interaction-row',
 };
 
@@ -61,9 +60,9 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const deleteButton = element.querySelector(selectors.deleteConditionButton);
+                const row = element.querySelector(selectors.row);
 
-                expect(deleteButton.disabled).toBeTruthy();
+                expect(row.showDelete).toBeFalsy();
             });
         });
         it('is active if there are multiple conditionals', () => {
@@ -71,11 +70,11 @@ describe('Outcome', () => {
             element.outcome = outcomeWithThreeConditionals;
 
             return Promise.resolve().then(() => {
-                const deleteButtons = element.querySelectorAll(selectors.deleteConditionButton);
+                const rows = element.querySelectorAll(selectors.row);
 
-                expect(deleteButtons[0].disabled).toBeFalsy();
-                expect(deleteButtons[1].disabled).toBeFalsy();
-                expect(deleteButtons[2].disabled).toBeFalsy();
+                expect(rows[0].showDelete).toBeTruthy();
+                expect(rows[1].showDelete).toBeTruthy();
+                expect(rows[2].showDelete).toBeTruthy();
             });
         });
     });
