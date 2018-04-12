@@ -7,16 +7,12 @@
     <aura:import library="builder_platform_interaction:ruleLib" property="ruleLib" />
     <!-- Importing jsplumb as an aura lib. This attaches jsplumb in window scope, but one should only use the instance created in drawing-lib from the canvas component -->
     <aura:import library="builder_platform_interaction:jsplumb" property="lib" />
-    <aura:import library="builder_platform_interaction:actioncallLib" property="actioncallLib" />
 
     <!--Attributes-->
     <aura:attribute name="flowId" type="String" description="The id of the flow to load" />
 
     <!--Private Attributes-->
     <aura:attribute name="storeInstance" type="Object" description="This is instance of global store." />
-
-    <!--Handlers-->
-    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
 
     <!-- Dependencies -->
     <aura:dependency resource="markup://builder_platform_interaction:propertyEditor" type="COMPONENT" />

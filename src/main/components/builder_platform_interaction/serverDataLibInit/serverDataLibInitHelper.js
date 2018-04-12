@@ -4,7 +4,7 @@
      * @param cmp
      */
     initializeFetch: function(cmp) {
-        var auraFetch = function(actionName, shouldExecuteCallback, callback, params, storable) {
+        var auraFetch = $A.getCallback(function(actionName, shouldExecuteCallback, callback, params, storable) {
             if (actionName && callback) {
                 var action = cmp.get(actionName);
                 if (params) {
@@ -31,7 +31,7 @@
                 });
                 $A.enqueueAction(action);
             }
-        };
+        });
 
         var serverDataLib = cmp.find('serverDataLib');
         if (!$A.util.isUndefinedOrNull(serverDataLib)) {

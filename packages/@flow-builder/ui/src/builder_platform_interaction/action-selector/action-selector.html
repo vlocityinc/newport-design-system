@@ -1,21 +1,19 @@
 <template>
         <div class="slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
-            <div class="slds-col slds-size_1-of-3">
-                <lightning-combobox label="Types" 
-                                    options={state.typeOptions} 
-                                    value={state.selectedElementType} 
-                                    onchange={handleElementTypeChanged}
-                                    spinner-active={state.spinnerActive}>
-                </lightning-combobox>
-            </div>
-            <div class="slds-col slds-size_2-of-3">
-                <builder_platform_interaction-combobox label={state.actionComboLabel} 
-                                                       menu-data={state.actionMenuData} 
-                                                       onvaluechanged={handleActionChanged}
-                                                       value={state.selectedActionValue}
-                                                       placeholder={state.actionPlaceholder}
-                                                       required>
-                </builder_platform_interaction-combobox>
-            </div>
+            <lightning-combobox label="Types" 
+                                options={state.typeOptions} 
+                                value={state.selectedElementType} 
+                                onchange={handleElementTypeChanged}
+                                spinner-active={state.spinnerActive}
+                                class="slds-col slds-size_1-of-3 types">
+            </lightning-combobox>
+            <builder_platform_interaction-combobox label={state.actionComboLabel} 
+                                                   menu-data={state.actionMenuData} 
+                                                   onvaluechanged={handleActionChanged}
+                                                   value={state.selectedActionValue}
+                                                   placeholder={state.actionPlaceholder}
+                                                   class="slds-col slds-size_2-of-3"
+                                                   required>
+             </builder_platform_interaction-combobox>
          </div>
 </template>

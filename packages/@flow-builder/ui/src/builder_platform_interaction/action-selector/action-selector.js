@@ -1,8 +1,48 @@
 import { Element, api, track } from "engine";
-import { getAllInvocableActionsForType, getApexPlugins, getSubflows } from 'builder_platform_interaction-actioncall-lib';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { ACTION_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
+
+const SELECTORS = {
+    TYPES: '.types',
+};
+
+const LABELS = {
+    CANNOT_GET_INVOCABLE_ACTIONS: 'Could not get invocable actions',
+    CANNOT_GET_APEX_PLUGINS: 'Could not get apex plugins',
+    CANNOT_GET_SUBFLOWS: 'Could not get subflows',
+    [ELEMENT_TYPE.ACTION_CALL] : {
+        TYPE_OPTION_LABEL : 'Action',
+        ACTION_COMBO_LABEL : 'Referenced Action',
+        ACTION_COMBO_PLACEHOLDER : 'Find an Action...'
+    },
+    [ELEMENT_TYPE.APEX_PLUGIN_CALL] : {
+        TYPE_OPTION_LABEL : 'Apex Plugin',
+        ACTION_COMBO_LABEL : 'Referenced Apex Plugin',
+        ACTION_COMBO_PLACEHOLDER : 'Find an Apex Plugin...'
+    },
+    [ELEMENT_TYPE.APEX_CALL] : {
+        TYPE_OPTION_LABEL : 'Apex',
+        ACTION_COMBO_LABEL : 'Referenced Apex',
+        ACTION_COMBO_PLACEHOLDER : 'Find an Apex Class...'
+    },
+    [ELEMENT_TYPE.EMAIL_ALERT] : {
+        TYPE_OPTION_LABEL : 'Email Alert',
+        ACTION_COMBO_LABEL : 'Referenced Email Alert',
+        ACTION_COMBO_PLACEHOLDER : 'Find an Email Alert...'
+    },
+    [ELEMENT_TYPE.LOCAL_ACTION_CALL] : {
+        TYPE_OPTION_LABEL : 'Local Action',
+        ACTION_COMBO_LABEL : 'Referenced Local Action',
+        ACTION_COMBO_PLACEHOLDER : 'Find a Local Action...'
+    },
+    [ELEMENT_TYPE.SUBFLOW] : {
+        TYPE_OPTION_LABEL : 'Subflow',
+        ACTION_COMBO_LABEL : 'Referenced Subflow',
+        ACTION_COMBO_PLACEHOLDER : 'Find Subflow...'
+    }
+};
 
 export default class ActionSelector extends Element {
     @track
@@ -27,23 +67,90 @@ export default class ActionSelector extends Element {
 
     constructor() {
         super();
-        getAllInvocableActionsForType(invocableActions => {
-            this.invocableActions = invocableActions;
-            this.invocableActionsLoaded = true;
-            this.updateComboboxes();
-        });
-        getApexPlugins(apexPlugins => {
-            this.apexPlugins = apexPlugins;
-            this.apexPluginsLoaded = true;
-            this.updateComboboxes();
-        });
-        getSubflows(subflows => {
-            this.subflows = subflows;
-            this.subflowsLoaded = true;
-            this.updateComboboxes();
-        });
+        fetch(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, this.getApexPluginsCallback);
+        fetch(SERVER_ACTION_TYPE.GET_SUBFLOWS, this.getSubflowsCallback);
+        fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, this.getInvocableActionsCallback);
         this.updateTypeCombo();
         this.updateActionCombo();
+    }
+
+    /**
+     * @typedef {Object} InvocableAction
+     *
+     * @property {boolean} IsStandard
+     * @property {String} Type "apex", "quickAction", "component" or same as name for standard invocable actions
+     * @property {String} Description
+     * @property {String} Label
+     * @property {String} Id always "000000000000000AAA" ?
+     * @property {String} DurableId type-name, for ex "apex-LogACall", "deactivateSessionPermSet-deactivateSessionPermSet"
+     * @property {String} Name for ex "LogACall", "chatterPost", "CollaborationGroup.NewGroupMember" ...
+     * @property {String} sobjectType "InvocableAction"
+     */
+
+    /**
+     * Callback which gets executed after getting invocable actions
+     *
+     * @param {Object} response the response
+     * @param {Object} [response.error] if there is error fetching the data
+     * @param {InvocableAction[]} [response.data] The invocable actions
+     */
+    getInvocableActionsCallback = ({data, error}) => {
+        if (error) {
+            this.setActionTypeError(LABELS.CANNOT_GET_INVOCABLE_ACTIONS);
+        } else {
+            this.invocableActions = data;
+        }
+        this.invocableActionsLoaded = true;
+        this.updateComboboxes();
+    };
+
+    /**
+     * @typedef {Object} ApexPlugin
+     *
+     * @property {String} apexClass
+     * @property {String} description
+     * @property {String} name
+     * @property {String} tag
+     */
+
+    /**
+     * Callback which gets executed after getting apex plugins
+     *
+     * @param {Object} response the response
+     * @param {Object} [response.error] if there is error fetching the data
+     * @param {ApexPlugin[]} [response.data] The apex plugins
+     */
+    getApexPluginsCallback = ({data, error}) => {
+        if (error) {
+            this.setActionTypeError(LABELS.CANNOT_GET_APEX_PLUGINS);
+        } else {
+            this.apexPlugins = data;
+        }
+        this.apexPluginsLoaded = true;
+        this.updateComboboxes();
+    };
+
+    /**
+     * Callback which gets executed after getting subflows
+     *
+     * @param {Object} response the response
+     * @param {Object} [response.error] if there is error fetching the data
+     * @param {Subflow[]} [response.data] The subflows
+     */
+    getSubflowsCallback = ({data, error}) => {
+        if (error) {
+            this.setActionTypeError(LABELS.CANNOT_GET_SUBFLOWS);
+        } else {
+            this.subflows = data;
+        }
+        this.subflowsLoaded = true;
+        this.updateComboboxes();
+    };
+
+    setActionTypeError(errorMessage) {
+        const labelInput = this.root.querySelector(SELECTORS.TYPES);
+        labelInput.setCustomValidity(errorMessage);
+        labelInput.showHelpMessageIfInvalid();
     }
 
     /**
@@ -118,80 +225,57 @@ export default class ActionSelector extends Element {
     }
 
     updateActionCombo() {
-        let items, label, placeholder;
-        switch (this.state.selectedElementType) {
+        let items;
+        const selectedElementType = this.state.selectedElementType;
+        switch (selectedElementType) {
             case ELEMENT_TYPE.ACTION_CALL:
                 items = this.invocableActions.filter(action => action.IsStandard || action.Type === ACTION_TYPE.QUICK_ACTION).map(action => this.getComboItemFromInvocableAction(action));
-                label = "Referenced Action";
-                placeholder = "Find an Action...";
                 break;
             case ELEMENT_TYPE.APEX_CALL:
                 items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.APEX).map(action => this.getComboItemFromInvocableAction(action));
-                label = "Referenced Apex";
-                placeholder = "Find an Apex Class...";
                 break;
             case ELEMENT_TYPE.EMAIL_ALERT:
                 items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.EMAIL_ALERT).map(action => this.getComboItemFromInvocableAction(action));
-                label = "Referenced Email Alert";
-                placeholder = "Find an Email Alert...";
                 break;
             case ELEMENT_TYPE.LOCAL_ACTION_CALL:
                 items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));
-                label = "Referenced Local Action";
-                placeholder = "Find a Local Action...";
                 break;
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
                 items = this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
-                label = "Referenced Apex Plugin";
-                placeholder = "Find an Apex Plugin...";
                 break;
             case ELEMENT_TYPE.SUBFLOW:
                 items = this.subflows.map(subflow => this.getComboItemFromSubflow(subflow));
-                label = "Referenced Subflow";
-                placeholder = "Find Subflow...";
                 break;
             default:
                 items = [];
         }
-        this.state.actionComboLabel = label;
-        this.state.actionPlaceholder = placeholder;
+        this.state.actionComboLabel = LABELS[selectedElementType].ACTION_COMBO_LABEL;
+        this.state.actionPlaceholder = LABELS[selectedElementType].ACTION_COMBO_PLACEHOLDER;
         this.state.actionMenuData = [{ items }];
     }
 
     updateTypeCombo() {
-        const typeOptions = [{
-            label : "Action",
-            value : ELEMENT_TYPE.ACTION_CALL
-        }];
+        const getTypeOption = (elementType) => {
+            return  {
+                label : LABELS[elementType].TYPE_OPTION_LABEL,
+                value : elementType
+            };
+        };
+        const typeOptions = [getTypeOption(ELEMENT_TYPE.ACTION_CALL)];
         if (this.invocableActions.find(action => action.Type === ACTION_TYPE.APEX)) {
-            typeOptions.push({
-                label : "Apex",
-                value : ELEMENT_TYPE.APEX_CALL
-            });
+            typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
         }
         if (this.apexPlugins.length > 0) {
-            typeOptions.push({
-                label : "Apex Plugin",
-                value : ELEMENT_TYPE.APEX_PLUGIN_CALL
-            });
+            typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
         }
         if (this.invocableActions.find(action => action.Type === ACTION_TYPE.EMAIL_ALERT)) {
-            typeOptions.push({
-                label : "Email Alert",
-                value : ELEMENT_TYPE.EMAIL_ALERT
-            });
+            typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
         }
         if (this.invocableActions.find(action => action.Type === ACTION_TYPE.COMPONENT)) {
-            typeOptions.push({
-                label : "Local Action",
-                value : ELEMENT_TYPE.LOCAL_ACTION_CALL
-            });
+            typeOptions.push(getTypeOption(ELEMENT_TYPE.LOCAL_ACTION_CALL));
         }
         if (this.subflows.length > 0) {
-            typeOptions.push({
-                label : "Subflow",
-                value : ELEMENT_TYPE.SUBFLOW
-            });
+            typeOptions.push(getTypeOption(ELEMENT_TYPE.SUBFLOW));
         }
         this.state.typeOptions = typeOptions;
     }
@@ -205,28 +289,28 @@ export default class ActionSelector extends Element {
 
     getComboItemFromInvocableAction(action) {
         return {
-            type : "option-card",
+            type : 'option-card',
             text : action.Label,
             value: action.DurableId,
-            subText : action.Description || ""
+            subText : action.Description || ''
         };
     }
 
     getComboItemFromApexPlugin(apexPlugin) {
         return {
-            type : "option-card",
+            type : 'option-card',
             text : apexPlugin.name,
             value: apexPlugin.name,
-            subText : apexPlugin.Description || ""
+            subText : apexPlugin.Description || ''
         };
     }
 
     getComboItemFromSubflow(subflow) {
         return {
-            type : "option-card",
+            type : 'option-card',
             text : subflow.masterLabel,
             value: subflow.developerName,
-            subText : subflow.description || ""
+            subText : subflow.description || ''
         };
     }
 

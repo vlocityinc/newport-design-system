@@ -16,11 +16,27 @@ const selectors = {
     lightningInteractionCombobox: 'builder_platform_interaction-combobox'
 };
 
-jest.mock('builder_platform_interaction-actioncall-lib', () => ({
-    getAllInvocableActionsForType : jest.fn((callback) => callback(mockActions)),
-    getApexPlugins : jest.fn((callback) => callback(mockApexPlugins)),
-    getSubflows : jest.fn((callback) => callback(mockSubflows))
-}));
+jest.mock('builder_platform_interaction-server-data-lib', () => {
+    const actual = require.requireActual('builder_platform_interaction-server-data-lib');
+    const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
+    return {
+        SERVER_ACTION_TYPE,
+        fetch : (serverActionType, callback) => {
+            switch (serverActionType) {
+                case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS:
+                    callback({ data : mockActions });
+                    break;
+                case SERVER_ACTION_TYPE.GET_APEX_PLUGINS:
+                    callback({ data : mockApexPlugins });
+                    break;
+                case SERVER_ACTION_TYPE.GET_SUBFLOWS:
+                    callback({ data : mockSubflows });
+                    break;
+                default:
+            }
+        }
+    };
+});
 
 describe('Action selector', () => {
     let actionSelectorComponent;
@@ -41,7 +57,7 @@ describe('Action selector', () => {
         test('"Action" should be the selected Action type', () => {
             expect(lightningCombobox.value).toBe(ELEMENT_TYPE.ACTION_CALL);
         });
-        test('Other Action Type should be available', () => {
+        test('Combobox should contain all ACTION_CALL items', () => {
             expect(groupedCombobox.items[0].items.map(item => item.text)).toEqual(["Post to Chatter", "Send Email"]);
         });
         test('Combobox placeholder should be : Find an Action...', () => {

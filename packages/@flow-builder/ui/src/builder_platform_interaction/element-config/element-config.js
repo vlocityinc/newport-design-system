@@ -63,6 +63,7 @@ export const elementTypeToConfigMap = {
             config: { isSelected: false },
             connectorCount: 0,
             elementType: ELEMENT_TYPE.SUBFLOW,
+            flowName: '',
             guid: '',
             isCanvasElement: true,
             label: '',

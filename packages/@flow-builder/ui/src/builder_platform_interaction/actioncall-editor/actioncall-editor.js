@@ -3,14 +3,8 @@ import { actionCallReducer } from './actioncall-reducer';
 import inputs from '@label/DesignerLabels.actioncall_inputs_label';
 import outputs from '@label/DesignerLabels.actioncall_outputs_label';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
-import { getInvocableActionParameters } from 'builder_platform_interaction-actioncall-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
-
-/**
- * @constant UPDATE_PROPERTY
- * @type {string}
- */
-const UPDATE_PROPERTY = 'UPDATE_PROPERTY';
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 
 const ACTIVETABID_DEFAULT = "tabitem-inputs";
 
@@ -29,8 +23,6 @@ export default class ActionCallEditor extends Element {
         outputs
     };
 
-    static UPDATE_PROPERTY = UPDATE_PROPERTY;
-
     @api
     get node() {
         return this.actionCallNode;
@@ -40,9 +32,7 @@ export default class ActionCallEditor extends Element {
     set node(newValue) {
         this.actionCallNode = newValue || {};
         // init inputs, outputs
-        if (this.elementType !== ELEMENT_TYPE.SUBFLOW && this.elementType !== ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-            getInvocableActionParameters(this.node.actionName.value, this.node.actionType.value, actionParameters => this.updateInputOutputParameters(actionParameters));
-        }
+        this.fetchAndUpdateParameters();
     }
 
     /**
@@ -55,7 +45,7 @@ export default class ActionCallEditor extends Element {
 
     /**
      * public api function to run the rules from actionCall validation library
-     * @returns {object} list of errors
+     * @returns {Object[]} list of errors
      */
     @api validate() {
         return [];
@@ -127,37 +117,28 @@ export default class ActionCallEditor extends Element {
     }
 
     handleActionSelected(event) {
-        const selectedAction = event.detail.value;
-        if (selectedAction.elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-            // TODO : create an action instead and use reducer
-            delete this.node.actionName;
-            delete this.node.actionType;
-            delete this.node.flowName;
-            this.node.elementType = selectedAction.elementType;
-            this.node.apexClass = {
-                value : selectedAction.apexClass
-            };
-            // TODO : update input/output parameters
-        } else if (selectedAction.elementType === ELEMENT_TYPE.SUBFLOW) {
-            delete this.node.apexClass;
-            delete this.node.actionName;
-            delete this.node.actionType;
-            this.node.elementType = selectedAction.elementType;
-            this.node.flowName = {
-                value : selectedAction.flowName
-            };
-        } else {
-            // TODO : create an action instead and use reducer
-            delete this.node.apexClass;
-            delete this.node.flowName;
-            this.node.elementType = selectedAction.elementType;
-            this.node.actionType = {
-                value : selectedAction.actionType
-            };
-            this.node.actionName = {
-                value : selectedAction.actionName
-            };
-            getInvocableActionParameters(selectedAction.actionName, selectedAction.actionType, actionParameters => this.updateInputOutputParameters(actionParameters));
+        const value = event.detail.value;
+        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_ACTION_TYPE, value);
+        this.actionCallNode = actionCallReducer(this.actionCallNode, action);
+        this.fetchAndUpdateParameters();
+    }
+
+    fetchAndUpdateParameters() {
+        switch (this.elementType) {
+            case ELEMENT_TYPE.APEX_PLUGIN_CALL:
+                // TODO : fetch apex plugin parameters
+                break;
+            case ELEMENT_TYPE.SUBFLOW:
+                // TODO : fetch subflow parameters
+                break;
+            default:
+                fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, ({data}) => {
+                    // TODO handle error
+                    this.updateInputOutputParameters(data);
+                }, {
+                    actionName: this.node.actionName.value,
+                    actionType: this.node.actionType.value
+                });
         }
     }
 
