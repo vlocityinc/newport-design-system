@@ -184,11 +184,13 @@ describe('editor', () => {
 
                 toolbarComponent.querySelector(selectors.save).click();
 
-                // Check against the second call to fetch.  The first is in editor.js constructor and thus
-                // unavoidable
-                expect(fetch.mock.calls).toHaveLength(2);
-                expect(fetch.mock.calls[1][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
-                expect(fetch.mock.calls[1][2]).toEqual({ flow });
+                // Check against the last call to fetch.  The first is in editor.js constructor and thus
+                // unavoidable and other components included via editor.html may also have fetch calls
+                // (for example left-panel-elements
+                const saveFetchCallIndex = fetch.mock.calls.length - 1;
+
+                expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
+                expect(fetch.mock.calls[saveFetchCallIndex][2]).toEqual({ flow });
             });
         });
     });
