@@ -1,9 +1,6 @@
 <template>
     <th class="slds-tree__item" scope="row">
-        <!--
-        TODO: The icon-name attribute should be using the toggleIconName function. There's some magic
-        happening right now which is animating and changing the icon for us which doesn't seem right.
-        -->
+        <!-- NOTE: The lightning-button-icon component rotates the chevron image for us when toggled. -->
         <lightning-button-icon onclick={handleToggleClick} icon-name="utility:chevronright" variant="bare" size="small" alternative-text={toggleAlternativeText} class="slds-m-right_x-small"></lightning-button-icon>
         <div class="slds-truncate" title={label}>{label}</div>
     </th>

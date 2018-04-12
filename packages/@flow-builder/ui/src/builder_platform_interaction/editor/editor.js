@@ -148,12 +148,12 @@ export default class Editor extends Element {
     /** *********** Canvas and Node Event Handling *************** **/
 
     /**
-     * Handles the node double clicked event and fires up the property editor based on node type
+     * Handles the edit element event and fires up the property editor based on node type
      * It uses builder-util library to fire up the ui:panel.
      *
      * @param {object} event - node double clicked event coming from node.js
      */
-    handleNodeDblClicked = (event) => {
+    handleEditElement = (event) => {
         if (event && event.detail) {
             this.handleNodeSelection(event);
             const mode = CRUD.UPDATE;
@@ -266,12 +266,12 @@ export default class Editor extends Element {
     };
 
     /**
-     * Handles the canvas element drop event which is fired after an element from left palette is
-     * dropped on the canvas.
+     * Handles the add element event which is fired after an element from left palette is dropped
+     * on the canvas or via a click to add interaction.
      *
      * @param {Object} event canvas element drop event
      */
-    handleCanvasElementDrop = (event) => {
+    handleAddElement = (event) => {
         const mode = CRUD.CREATE;
 
         let node = createFlowElement(event.detail.elementType);

@@ -1,6 +1,7 @@
 import { Element, api } from 'engine';
 import { getConfigForElementType } from "builder_platform_interaction-element-config";
 import { EVENT } from 'builder_platform_interaction-constant';
+import { EditElementEvent } from 'builder_platform_interaction-events';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 
 /**
@@ -81,20 +82,14 @@ export default class Node extends Element {
     };
 
     /**
-     * Handles the node double click event on node div and fires off a nodeDblClicked event.
+     * Handles the node double click event on node div and fires off a edit element event.
      * @param {object} event - node double clicked event
      */
     handleDblClick = (event) => {
         event.stopPropagation();
-        const nodeDblClickedEvent = new CustomEvent(EVENT.NODE_DBLCLICKED, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                canvasElementGUID: this.node.guid
-            }
-        });
-        this.dispatchEvent(nodeDblClickedEvent);
+        const canvasElementGUID = this.node.guid;
+        const editElementEvent = new EditElementEvent(canvasElementGUID);
+        this.dispatchEvent(editElementEvent);
     };
 
     /**

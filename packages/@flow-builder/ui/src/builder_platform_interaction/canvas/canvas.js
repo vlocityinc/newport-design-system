@@ -3,6 +3,7 @@ import { CONNECTOR_OVERLAY, EVENT, ZOOM_ACTION } from 'builder_platform_interact
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
+import { AddElementEvent } from 'builder_platform_interaction-events';
 
 /**
  * Canvas component for flow builder.
@@ -301,17 +302,8 @@ export default class Canvas extends Element {
         const locationX = event.clientX - this.canvasArea.offsetLeft;
         const locationY = event.clientY - this.canvasArea.offsetTop;
 
-        const elementDropEvent = new CustomEvent(EVENT.CANVAS_ELEMENT_DROP, {
-            bubbles: true,
-            composed: true,
-            cancelable: false,
-            detail: {
-                elementType,
-                locationX,
-                locationY
-            }
-        });
-        this.dispatchEvent(elementDropEvent);
+        const addElementEvent = new AddElementEvent(elementType, locationX, locationY);
+        this.dispatchEvent(addElementEvent);
     }
 
     renderedCallback() {

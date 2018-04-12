@@ -1,5 +1,6 @@
 import { createElement } from 'engine';
 import { EVENT } from 'builder_platform_interaction-constant';
+import { EditElementEvent } from 'builder_platform_interaction-events';
 import Node from 'builder_platform_interaction-node';
 
 const createComponentUnderTest = (isSelected) => {
@@ -77,13 +78,18 @@ describe('node', () => {
         });
     });
 
-    it('Checks if dblclick event is dispatched when icon is double clicked', () => {
+    it('Checks if an EditElementEvent is dispatched when icon is double clicked', () => {
         const nodeComponent = createComponentUnderTest(false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(EVENT.NODE_DBLCLICKED, callback);
+            nodeComponent.addEventListener(EditElementEvent.EVENT_NAME, callback);
             dblClick(nodeComponent);
             expect(callback).toHaveBeenCalled();
+            expect(callback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    canvasElementGUID: nodeComponent.node.guid
+                }
+            });
         });
     });
 

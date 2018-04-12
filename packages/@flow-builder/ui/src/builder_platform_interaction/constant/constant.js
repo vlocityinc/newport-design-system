@@ -1,10 +1,8 @@
 export const EVENT = {
-    CANVAS_ELEMENT_DROP: 'canvaselementdrop',
     CANVAS_MOUSEUP: 'canvasmouseup',
     DRAG_STOP: 'dragnodestop',
     NODE_SELECTED: 'nodeselected',
     CONNECTOR_SELECTED: 'connectorselected',
-    NODE_DBLCLICKED: 'nodedblclicked',
     CANVAS_ELEMENT_DELETE: 'canvaselementdelete',
     DELETE_ON_CANVAS: 'deleteoncanvas',
     ADD_CONNECTION: 'addconnection',

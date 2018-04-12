@@ -1,6 +1,5 @@
 import { Element, api } from 'engine';
-
-const PALETTE_ITEM_CLICKED = 'paletteitemclicked';
+import { PaletteItemClickedEvent } from 'builder_platform_interaction-events';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -22,15 +21,9 @@ export default class PaletteItem extends Element {
 
     handleLinkClick(event) {
         event.stopPropagation();
-        const paletteItemClickEvent = new CustomEvent(PALETTE_ITEM_CLICKED, {
-            bubbles: true,
-            cancelable: true,
-            composed: true,
-            detail: {
-                elementType: this.elementType,
-                guid: this.guid
-            }
-        });
-        this.dispatchEvent(paletteItemClickEvent);
+        const elementType = this.elementType;
+        const guid = this.guid;
+        const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);
+        this.dispatchEvent(paletteItemClickedEvent);
     }
 }

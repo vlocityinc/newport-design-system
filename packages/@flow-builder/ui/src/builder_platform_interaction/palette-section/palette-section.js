@@ -1,6 +1,5 @@
 import { Element, api } from 'engine';
-
-const TOGGLE_SECTION = 'togglesection';
+import { PaletteSectionToggleEvent } from 'builder_platform_interaction-events';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -13,10 +12,6 @@ export default class PaletteSection extends Element {
     @api label;
     @api expanded;
 
-    get toggleIconName() {
-        return this.expanded ? 'utility:chevrondown' : 'utility:chevronright';
-    }
-
     get toggleAlternativeText() {
         // TODO: Might not be good for i18n.
         const prefix = this.expanded ? 'Collapse' : 'Expand';
@@ -24,15 +19,9 @@ export default class PaletteSection extends Element {
     }
 
     handleToggleClick() {
-        const toggleSectionEvent = new CustomEvent(TOGGLE_SECTION, {
-            bubbles: true,
-            cancelable: true,
-            composed: true,
-            detail: {
-                expanded: !this.expanded,
-                sectionKey: this.sectionKey
-            }
-        });
-        this.dispatchEvent(toggleSectionEvent);
+        const expanded = !this.expanded;
+        const sectionKey = this.sectionKey;
+        const paletteSectionToggleEvent = new PaletteSectionToggleEvent(expanded, sectionKey);
+        this.dispatchEvent(paletteSectionToggleEvent);
     }
 }
