@@ -193,6 +193,7 @@ function getSelector({element, shouldBeWritable}) {
  */
 export function getElementsForMenuData(state, elementConfig, allowedParamTypes, includeNewResource) {
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
+    // TODO: if this function ever deals with server calls, we need to memoize it, because it gets called everytime the component rerenders
     const menuData = getSelector(elementConfig)(state)
         .filter(element => isElementAllowed(allowedParamTypes, element))
         .map(element => {

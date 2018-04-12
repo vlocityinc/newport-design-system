@@ -28,9 +28,7 @@ export default class ExpressionBuilder extends Element {
         lhsParameter: undefined, // the parameterized lhs value - only has the values the rules care about
         lhsMenuData: undefined,
         operatorValue: undefined,
-        operatorOptions: undefined,
         rhsValue: undefined,
-        rhsMenuData: undefined,
     };
 
     constructor() {
@@ -62,16 +60,13 @@ export default class ExpressionBuilder extends Element {
             const lhsElement = normalizeLHS(storeInstance.getCurrentState(), expression[LHS].value);
             this.state.lhsValue = lhsElement.lhsValue;
             this.state.lhsParameter = lhsElement.lhsParameter;
-            this.state.operatorOptions = getOperators(this.state.lhsParameter, rules);
         }
-        if (this.showOperator && expression[OPERATOR] && expression[OPERATOR].value && this.state.operatorOptions) {
+        if (expression[OPERATOR] && expression[OPERATOR].value) {
             this.state.operatorValue = expression[OPERATOR].value;
-            const rhsTypes = getRHSTypes(this.state.lhsParameter, this.state.operatorValue, rules);
-            this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element}, rhsTypes, true);
         } else {
             // TODO default case W-4817341
         }
-        if (expression[RHS] && expression[RHS].value && this.state.rhsMenuData) {
+        if (expression[RHS] && expression[RHS].value) {
             this.state.rhsValue = retrieveRHSVal(storeInstance.getCurrentState(), expression[RHS].value);
         }
     }
@@ -104,26 +99,15 @@ export default class ExpressionBuilder extends Element {
         return this.state.lhsMenuData;
     }
 
-    set lhsMenuData(menuData) {
-        this.state.lhsMenuData = menuData;
-    }
-
     get operatorMenuData() {
-        return this.state.operatorOptions ? transformOperatorsForCombobox(this.state.operatorOptions) : [];
-    }
-
-    set operatorMenuData(menuData) {
-        this.state.operatorOptions = menuData;
+        return transformOperatorsForCombobox(getOperators(this.state.lhsParameter, rules));
     }
 
     get rhsMenuData() {
-        return this.state.rhsMenuData;
+        const rhsTypes = getRHSTypes(this.state.lhsParameter, this.state.operatorValue, rules);
+        this._fullRHSMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element}, rhsTypes, true);
+        return this._fullRHSMenuData;
     }
-
-    set rhsMenuData(menuData) {
-        this.state.rhsMenuData = menuData;
-    }
-
 
     /**
      * These are the text strings that should be displayed by the comboBoxes
@@ -159,10 +143,12 @@ export default class ExpressionBuilder extends Element {
      * If there is nothing in the LHS, operator and RHS should be disabled
      */
     get operatorDisabled() {
+        return false;
         // TODO: determine this logic W-4712116
     }
 
     get rhsDisabled() {
+        return false;
         // TODO: determine this logic W-4712116
     }
 
