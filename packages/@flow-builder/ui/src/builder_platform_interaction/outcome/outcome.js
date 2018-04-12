@@ -28,7 +28,7 @@ export default class Outcome extends Element {
         return this.outcomeConditions.length > 1;
     }
 
-    get conditions() {
+    get conditionsWithPrefixes() {
         return this.outcomeConditions.map((condition, i) => {
             return {
                 // TODO: This should come from a label - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004rhg0IAA/view

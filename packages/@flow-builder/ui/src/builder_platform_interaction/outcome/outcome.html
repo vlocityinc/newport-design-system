@@ -17,11 +17,11 @@
                                              ondeletelistitem={handleDeleteCondition}
                                              add-label='Add Condition'>
         <div slot="listBody">
-            <template for:each={conditions} for:item="condition" for:index="conditionIndex">
+            <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
                  <!-- TODO: revisit index based on https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004t9dVIAQ/view -->
-                 <builder_platform_interaction-row item-prefix={condition.prefix} show-prefix=true item-index={conditionIndex} show-delete={showDelete} key={condition.rowIndex}>
+                 <builder_platform_interaction-row item-prefix={conditionWithPrefix.prefix} show-prefix=true item-index={conditionIndex} show-delete={showDelete} key={conditionWithPrefix.condition.rowIndex}>
                     <div slot="rowBody">
-                        <builder_platform_interaction-expression-builder element-type={expressionBuilderElementType} expression={condition.condition} show-operator=true lhs-label="resource" operator-label="operator" rhs-label="value"></builder_platform_interaction-expression-builder>
+                        <builder_platform_interaction-expression-builder element-type={expressionBuilderElementType} expression={conditionWithPrefix.condition} show-operator=true lhs-label="resource" operator-label="operator" rhs-label="value"></builder_platform_interaction-expression-builder>
                     </div>
                 </builder_platform_interaction-row>
             </template>
