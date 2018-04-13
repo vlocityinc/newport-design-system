@@ -23,6 +23,14 @@ export default class ActionCallEditor extends Element {
         outputs
     };
 
+    stopCallbackExecutionGetParameters = null;
+
+    disconnectedCallback() {
+        if (this.stopCallbackExecutionGetParameters) {
+            this.stopCallbackExecutionGetParameters();
+        }
+    }
+
     @api
     get node() {
         return this.actionCallNode;
@@ -132,8 +140,12 @@ export default class ActionCallEditor extends Element {
                 // TODO : fetch subflow parameters
                 break;
             default:
-                fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, ({data}) => {
+                if (this.stopCallbackExecutionGetParameters) {
+                    this.stopCallbackExecutionGetParameters();
+                }
+                this.stopCallbackExecutionGetParameters = fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, ({data}) => {
                     // TODO handle error
+                    this.stopCallbackExecutionGetParameters = null;
                     this.updateInputOutputParameters(data);
                 }, {
                     actionName: this.node.actionName.value,

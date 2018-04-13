@@ -60,18 +60,33 @@ export default class ActionSelector extends Element {
     };
     invocableActions = [];
     invocableActionsLoaded = false;
+    stopCallbackExecutionInvocableActions = null;
     apexPlugins = [];
     apexPluginsLoaded = false;
+    stopCallbackExecutionApexPlugins = null;
     subflows = [];
     subflowsLoaded = false;
+    stopCallbackExecutionSubflows = null;
 
     constructor() {
         super();
-        fetch(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, this.getApexPluginsCallback);
-        fetch(SERVER_ACTION_TYPE.GET_SUBFLOWS, this.getSubflowsCallback);
-        fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, this.getInvocableActionsCallback);
+        this.stopCallbackExecutionApexPlugins = fetch(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, this.getApexPluginsCallback);
+        this.stopCallbackExecutionSubflows = fetch(SERVER_ACTION_TYPE.GET_SUBFLOWS, this.getSubflowsCallback);
+        this.stopCallbackExecutionInvocableActions = fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, this.getInvocableActionsCallback);
         this.updateTypeCombo();
         this.updateActionCombo();
+    }
+
+    disconnectedCallback() {
+        if (!this.apexPluginsLoaded) {
+            this.stopCallbackExecutionApexPlugins();
+        }
+        if (!this.subflowsLoaded) {
+            this.stopCallbackExecutionSubflows();
+        }
+        if (!this.apexPluginsLoaded) {
+            this.stopCallbackExecutionInvocableActions();
+        }
     }
 
     /**
@@ -101,6 +116,7 @@ export default class ActionSelector extends Element {
             this.invocableActions = data;
         }
         this.invocableActionsLoaded = true;
+        this.stopCallbackExecutionInvocableActions = null;
         this.updateComboboxes();
     };
 
@@ -127,6 +143,7 @@ export default class ActionSelector extends Element {
             this.apexPlugins = data;
         }
         this.apexPluginsLoaded = true;
+        this.stopCallbackExecutionApexPlugins = null;
         this.updateComboboxes();
     };
 
@@ -144,6 +161,7 @@ export default class ActionSelector extends Element {
             this.subflows = data;
         }
         this.subflowsLoaded = true;
+        this.stopCallbackExecutionSubflows = null;
         this.updateComboboxes();
     };
 
