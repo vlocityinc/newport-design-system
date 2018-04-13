@@ -69,8 +69,10 @@ export const getRules = () => {
 export const getRulesForElementType = (elementType) => {
     let rules;
     switch (elementType) {
-        case ELEMENT_TYPE.ASSIGNMENT:
         case ELEMENT_TYPE.DECISION:
+            rules = rulesInstance[RULE_TYPES.COMPARISON];
+            break;
+        case ELEMENT_TYPE.ASSIGNMENT:
         case ELEMENT_TYPE.ACTION_CALL:
         case ELEMENT_TYPE.APEX_CALL:
         case ELEMENT_TYPE.EMAIL_ALERT:

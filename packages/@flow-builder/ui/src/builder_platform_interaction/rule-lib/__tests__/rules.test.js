@@ -1,4 +1,5 @@
-import { setRules, getRules } from 'builder_platform_interaction-rule-lib';
+import { setRules, getRules, getRulesForElementType } from 'builder_platform_interaction-rule-lib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 const mockRulesFromServiceAssignmentAndComparison =
     '[{' +
@@ -136,5 +137,16 @@ describe('Set Flow Operator Rules', () => {
         const storedRules2 = getRules();
         expect(storedRules1).toBe(storedRules2);
         expect(storedRules1.assignment).toHaveLength(1);
+    });
+
+    describe('for element type', () => {
+        it('decision returns comparison rules', () => {
+            setRules(mockRulesFromServiceAssignmentAndComparison);
+
+            const allRules = getRules();
+            const comparisonRules = getRulesForElementType(ELEMENT_TYPE.DECISION);
+
+            expect(comparisonRules).toEqual(allRules.comparison);
+        });
     });
 });
