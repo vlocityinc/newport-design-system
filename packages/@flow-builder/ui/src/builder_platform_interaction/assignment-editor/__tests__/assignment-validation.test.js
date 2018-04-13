@@ -20,8 +20,8 @@ describe('Default Validations', () => {
         it('and when invalid string is passed should return - {string} Should begin with Alphabetical Characters instead of Numeric or Special Characters', () => {
             expect(assignmentValidation.validateProperty('name', '1111111')).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
         });
-        it('and when invalid string is passed should return - {string} Should begin with Alphabetical Characters instead of Numeric Characters.', () => {
-            expect(assignmentValidation.validateProperty('name', 'i ♥ jest')).toBe('Cannot accept any Special Characters.');
+        it('and when invalid string is passed should return - {string} Cannot accept any Special Characters.', () => {
+            expect(assignmentValidation.validateProperty('name', 'Special Characters $#$@&^%!$()')).toBe('Cannot accept any Special Characters.');
         });
         it('and when string length more than 80 characters should return - {string} Cannot accept more than 80 characters.', () => {
             expect(assignmentValidation.validateProperty('name', 'OJqlWSveOtulUjcyHgrDOOSPArDKdbftmvEKPBPDxLqrwtseblHPBcgctlMYmRsbPyngaEmZqCqMxksyv')).toBe('Cannot accept more than 80 characters.');

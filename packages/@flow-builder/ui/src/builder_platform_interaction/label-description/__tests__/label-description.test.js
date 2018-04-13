@@ -263,7 +263,7 @@ describe('label-description', () => {
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
-                    expect(eventCallback.mock.calls).toHaveLength(1);
+                    expect(eventCallback).not.toHaveBeenCalled();
                 });
             });
 

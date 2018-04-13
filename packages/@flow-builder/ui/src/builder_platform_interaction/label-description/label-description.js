@@ -7,10 +7,8 @@ const SELECTORS = {
     DESCRIPTION: '.description',
 };
 
-/**
- * Usage: <builder_platform_interaction-label-description></builder_platform_interaction-label-description>
- */
 export default class LabelDescription extends Element {
+    /** @track decorators **/
     @track
     state = {
         label: {value: '', error: null},
@@ -18,33 +16,24 @@ export default class LabelDescription extends Element {
         description: {value: '', error: null},
     };
 
-    /**
-     *
-     * @param {Object} label - object with {value, error}
-     */
-    @api
-    set label(label) {
-        this.state.label = label;
+    @track
+    showErrorMessageIfBlank = "Cannot be Blank.";
+    // TODO: Import Localization Labels & getter for the component to use that.
+    // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004ftBbIAI/view
 
-        const labelInput = this.root.querySelector(SELECTORS.LABEL);
-        this.setInputErrorMessage(labelInput, label.error);
-    }
+    /** @api decorators **/
+    @api
+    hideLabel;
+    // TODO: Would prefer to use showLabel = true, but cannot due to public attributes not being able to have true as a default value.
+    // See https://git.soma.salesforce.com/lwc/lwc/issues/241#issuecomment-326927
+    // and https://www.polymer-project.org/2.0/docs/devguide/properties#configuring-boolean-properties
+
+    @api
+    hideDescription;
 
     @api
     get label() {
         return this.state.label;
-    }
-
-    /**
-     *
-     * @param {Object} devName - object with {value, error}
-     */
-    @api
-    set devName(devName) {
-        this.state.devName = devName;
-
-        const devNameInput = this.root.querySelector(SELECTORS.DEV_NAME);
-        this.setInputErrorMessage(devNameInput, devName.error);
     }
 
     @api
@@ -52,80 +41,51 @@ export default class LabelDescription extends Element {
         return this.state.devName;
     }
 
-    /**
-     *
-     * @param {Object} description - object with {value, error}
-     */
-    @api
-    set description(description) {
-        this.state.description = description;
-
-        // TODO: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
-        // const descriptionTextArea = this.root.querySelector(SELECTORS.DESCRIPTION);
-        // this.setInputErrorMessage(descriptionTextArea, description.error);
-    }
-
     @api
     get description() {
         return this.state.description;
     }
 
-    // Would prefer to use showLabel = true, but cannot due to public attributes not being able to have true as
-    // a default value
-    // See https://git.soma.salesforce.com/lwc/lwc/issues/241#issuecomment-326927
-    // and https://www.polymer-project.org/2.0/docs/devguide/properties#configuring-boolean-properties
+    /** @param {Object} label - object with {value, error} **/
     @api
-    hideLabel;
-    @api
-    hideDescription;
-
-    setInputErrorMessage(element, error) {
-        if (element) {
-            if (error) {
-                element.setCustomValidity(error);
-            } else {
-                element.setCustomValidity('');
-            }
-            element.showHelpMessageIfInvalid();
-        }
-    }
-
-    /**
-     * Set all errors via setCustomValidity.  This can only be done once the children elements have been rendered
-     * at least once
-     */
-    renderedCallback() {
+    set label(label) {
+        this.state.label = label;
         const labelInput = this.root.querySelector(SELECTORS.LABEL);
         this.setInputErrorMessage(labelInput, this.state.label.error);
+    }
 
+    /** @param {Object} devName - object with {value, error} **/
+    @api
+    set devName(devName) {
+        this.state.devName = devName;
         const devNameInput = this.root.querySelector(SELECTORS.DEV_NAME);
         this.setInputErrorMessage(devNameInput, this.state.devName.error);
-
-        // TODO: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
-        // const descriptionInput = this.root.querySelector(SELECTORS.DESCRIPTION);
-        // this.setInputErrorMessage(descriptionInput, this.state.description.error);
     }
 
-    handleLabelFocusOut(e) {
-        const newLabel = e.target.value;
-        this.updateStateAndDispatch(newLabel, 'label');
-        if (!this.state.devName.value) {
-            this.updateDevName(this.sanitizeDevName(newLabel));
+    /** @param {Object} description - object with {value, error} **/
+    @api
+    set description(description) {
+        this.state.description = description;
+        // TODO setting CustomValidity for Description: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
+    }
+
+    /** LWC hook after rendering every component we are setting all errors via setCustomValidity except initial rendering. **/
+    renderedCallback() {
+        if (this.state.label.value !== '') {
+            const labelInput = this.root.querySelector(SELECTORS.LABEL);
+            this.setInputErrorMessage(labelInput, this.state.label.error);
         }
-    }
-
-    handleDevNameFocusOut(e) {
-        const newDevName = e.target.value;
-
-        if (this.state.devName.value !== newDevName) {
-            this.updateDevName(newDevName);
+        if (this.state.devName.value !== '') {
+            const devNameInput = this.root.querySelector(SELECTORS.DEV_NAME);
+            this.setInputErrorMessage(devNameInput, this.state.devName.error);
         }
+        // TODO setting Render Callback CustomValidity for Description: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
     }
 
-    handleDescriptionFocusOut(e) {
-        this.updateStateAndDispatch(e.target.value, 'description');
-    }
-
+    /** Fire off an event to update name and update internal state
+     * @param {String} value - the name entered by the user
+     * @param {String} prop - the prop type
+     */
     updateStateAndDispatch(value, prop) {
         if (this.state[prop].value !== value) {
             const event = new PropertyChangedEvent(
@@ -136,9 +96,7 @@ export default class LabelDescription extends Element {
         }
     }
 
-    /**
-     * Fire off an event to update dev name and update internal state
-     *
+    /** Fire off an event to update dev name and update internal state
      * @param {String} newDevName - the dev name entered by the user
      */
     updateDevName(newDevName) {
@@ -149,18 +107,13 @@ export default class LabelDescription extends Element {
         this.dispatchEvent(event);
     }
 
-    /**
-     * Sanitize a string so it is a valid dev name
-     *
+    /** Sanitize a string so it is a valid dev name
      * This includes:
-     *
      * Prepending an 'X' if it begins with a number
      * Stripping off preceding and trailing invalid characters
      * Replacing any number of concurrent invalid characters with a single underscore
      * Limiting to 80 characters
-     *
      * Where invalid characters are anything non-alphanumeric
-     *
      * @param {String} value - the value to be converted in to a valid dev name
      * @returns {String} The sanitized, dev name safe version of the value passed in
      */
@@ -176,5 +129,42 @@ export default class LabelDescription extends Element {
         value = value.substr(0, 80);
 
         return value;
+    }
+
+    /** Sets the CustomValidity if there is a valid error message.
+     * @param {Object} element - the input component
+     * @param {Object} error - the input component
+     */
+    setInputErrorMessage(element, error) {
+        if (element) {
+            if (error) {
+                element.setCustomValidity(error);
+            } else {
+                element.setCustomValidity('');
+            }
+            element.showHelpMessageIfInvalid();
+        }
+    }
+
+    handleLabelFocusOut(e) {
+        let newLabel = e.target.value;
+        this.updateStateAndDispatch(newLabel, 'label');
+        if (newLabel !== '' && !this.state.devName.value) {
+            if (newLabel.match(/^\W+$/)) {
+                newLabel = 'UniqueName';
+            }
+            this.updateDevName(this.sanitizeDevName(newLabel));
+        }
+    }
+
+    handleDevNameFocusOut(e) {
+        const newDevName = e.target.value;
+        if (this.state.devName.value !== newDevName) {
+            this.updateDevName(newDevName);
+        }
+    }
+
+    handleDescriptionFocusOut(e) {
+        this.updateStateAndDispatch(e.target.value, 'description');
     }
 }

@@ -18,23 +18,23 @@ const regexConfig = {
         message: 'Cannot be blank.'
     },
     shouldNotBeginOrEndWithEmptySpaces: {
-        regexPattern: '(^|\\s)($|\\s)',
+        regexPattern: '^[ \\t]+|[ \\t]+$',
         message: 'Should not have trailing empty spaces at the beginning or ending.',
     },
     shouldNotBeginOrEndWithUnderscores: {
-        regexPattern: '(^|_)($|_)',
+        regexPattern: '^[_{0,}]+|_{2,}|[_{0,}]+$',
         message: 'Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.',
     },
     shouldAcceptAlphanumericOrSpecialCharacters: {
-        regexPattern: '^(?![a-zA-Z0-9!@#\\$%\\^\\&*\\)\\(+=.\\-_ ]+$)',
+        regexPattern: '^[^a-zA-Z0-9!@#\\$%\\^\\&*\\)\\(+=.\\-_ ]+$',
         message: 'Accepts only AlphaNumeric or Special Characters.',
     },
     shouldNotBeginWithNumericOrSpecialCharacters: {
-        regexPattern: '^(?![a-zA-Z]{1})',
+        regexPattern: '^[^a-zA-Z]{1}',
         message: 'Should always begin with Alphabetical Characters instead of Numeric or Special Characters.',
     },
     shouldAcceptOnlyAlphanumericCharacters: {
-        regexPattern: '^(?![A-z]+[a-zA-Z0-9 ]*$)',
+        regexPattern: '\\W+$',
         message: 'Cannot accept any Special Characters.',
     }
 };
