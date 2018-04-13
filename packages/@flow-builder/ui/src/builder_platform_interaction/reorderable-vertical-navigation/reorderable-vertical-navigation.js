@@ -11,7 +11,9 @@ import {Element, api, track} from 'engine';
  * }
  */
 export default class ReorderableVerticalNavigation extends Element {
-    @api initialActiveItemId;
+    @track activeItemId;
+    @track menuItems = [];
+    @api defaultLabel = '';
 
     initialItems = [];
     @api set initialMenuItems(initialMenuItems) {
@@ -25,18 +27,19 @@ export default class ReorderableVerticalNavigation extends Element {
 
             return menuItem;
         });
-
-        this.activeItemId = this.initialActiveItemId;
     }
 
     @api get initialMenuItems() {
         return this.initialItems;
     }
 
-    @api defaultLabel = '';
+    @api set initialActiveItemId(initialItem) {
+        this.activeItemId = initialItem;
+    }
 
-    @track activeItemId;
-    @track menuItems = [];
+    @api get initialActiveItemId() {
+        return this.activeItemId;
+    }
 
     handleItemClicked(event) {
         event.stopPropagation();

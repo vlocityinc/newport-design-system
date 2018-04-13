@@ -24,8 +24,11 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
     @api
     set node(newValue) {
         this.element = newValue;
-
         this.activeOutcomeId = this.element.outcomes[0].guid;
+    }
+
+    get firstOutcomeId() {
+        return this.element.outcomes[0].guid;
     }
 
     // TODO: Move this to the translation or possibly to the reducer
