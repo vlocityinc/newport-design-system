@@ -7,6 +7,7 @@ export const dateVariableGuid = 'guid6';
 export const stageGuid = 'guid7';
 
 export const numberVariableDevName = 'numVar1';
+export const stringVariableGuid = 'strVar1';
 export const accountSObjectVariableDevName = 'accVar1';
 export const stringCollectionVariable1DevName = 'collStrVar1';
 export const stringCollectionVariable2DevName = 'collStrVar2';
@@ -37,6 +38,21 @@ export const elements = {
         isOutput: false,
         name: numberVariableDevName,
         objectType: null,
+    },
+    [stringVariableGuid]: {
+        dataType: stringDataType,
+        description: 'random description',
+        elementType: variable,
+        guid: numberVariableGuid,
+        isCanvasElement: false,
+        isCollection: false,
+        isInput: false,
+        isOutput: false,
+        name: numberVariableDevName,
+        objectType: null,
+        value: {
+            stringValue: 'fooDefault',
+        },
     },
     [accountSObjectVariableGuid]: {
         dataType: sobjectDataType,
