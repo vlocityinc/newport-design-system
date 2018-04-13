@@ -259,6 +259,114 @@ export const elementTypeToConfigMap = {
             outcomeReferences: []
         }
     },
+    [ELEMENT_TYPE.RECORD_CREATE]: {
+        // TODO: recordEditor is only a place holder now.
+        descriptor: 'builder_platform_interaction:recordEditor',
+        nodeConfig: {
+            iconName: 'standard:record',
+            maxConnections: 1
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.RECORD_CREATE,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Record create',
+            plural: 'Records create'
+        },
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.RECORD_CREATE,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
+    [ELEMENT_TYPE.RECORD_LOOKUP]: {
+        // TODO: recordEditor is only a place holder now.
+        descriptor: 'builder_platform_interaction:recordEditor',
+        nodeConfig: {
+            iconName: 'standard:search',
+            maxConnections: 1
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.RECORD_LOOKUP,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Record lookup',
+            plural: 'Records lookup'
+        },
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
+    [ELEMENT_TYPE.RECORD_DELETE]: {
+        // TODO: recordEditor is only a place holder now.
+        descriptor: 'builder_platform_interaction:recordEditor',
+        nodeConfig: {
+            iconName: 'standard:unmatched',
+            maxConnections: 1
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.RECORD_DELETE,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Record delete',
+            plural: 'Records delete'
+        },
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.RECORD_DELETE,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
+    [ELEMENT_TYPE.RECORD_UPDATE]: {
+        // TODO: recordEditor is only a place holder now.
+        descriptor: 'builder_platform_interaction:recordEditor',
+        nodeConfig: {
+            iconName: 'standard:recent',
+            maxConnections: 1
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.RECORD_UPDATE,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Record update',
+            plural: 'Records update'
+        },
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.RECORD_UPDATE,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
     [ELEMENT_TYPE.OUTCOME]: {
         // OUTCOME is not a canvas element, but is a first class element
         template: {

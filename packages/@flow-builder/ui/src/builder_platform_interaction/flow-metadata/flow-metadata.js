@@ -12,7 +12,11 @@ export const METADATA_KEY = {
     ASSIGNMENTS: 'assignments',
     DECISIONS: 'decisions',
     VARIABLES: 'variables',
-    SUBFLOWS: 'subflows'
+    SUBFLOWS: 'subflows',
+    RECORD_CREATE: 'recordCreates',
+    RECORD_LOOKUP: 'recordLookups',
+    RECORD_DELETE: 'recordDeletes',
+    RECORD_UPDATE: 'recordUpdates'
 };
 
 export const CONDITION_LOGIC = {
