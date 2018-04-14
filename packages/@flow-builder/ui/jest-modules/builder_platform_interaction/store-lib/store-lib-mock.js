@@ -1,4 +1,4 @@
-import { deepCopy, generateGuid, isPlainObject } from '../../../modules/builder_platform_interaction/store-lib/store-lib.js';
+import * as storeLib from '../../../modules/builder_platform_interaction/store-lib/store-lib.js';
 
 /**
  * Mock object for the store library.  If a test needs specific values returned by any function in the library
@@ -91,9 +91,20 @@ const MockStore = jest.fn().mockImplementation(() => {
 
 const mockStoreInstance = new MockStore();
 
+export const generateGuid = (arg) => {
+    return storeLib.generateGuid(arg);
+};
+
+export const deepCopy = (arg) => {
+    return storeLib.deepCopy(arg);
+};
+
+export const isPlainObject = (arg) => {
+    return storeLib.isPlainObject(arg);
+};
+
 // Store
 export { mock as combinedReducer };
 export { createSelectorMock as createSelector };
 export { mockStoreInstance as Store };
 export { mock as guid };
-export { deepCopy, generateGuid, isPlainObject };

@@ -371,7 +371,7 @@ export const elementTypeToConfigMap = {
         // OUTCOME is not a canvas element, but is a first class element
         template: {
             label: { value: ''},
-            guid: generateGuid(ELEMENT_TYPE.OUTCOME),
+            guid: '',
             conditionLogic: CONDITION_LOGIC.AND,
             conditions: [{}]
         }
