@@ -18,11 +18,13 @@
                                              add-label='Add Condition'>
         <div slot="listBody">
             <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
-                 <builder_platform_interaction-row item-prefix={conditionWithPrefix.prefix} show-prefix=true item-index={conditionIndex} show-delete={showDelete} key={conditionWithPrefix.condition.rowIndex}>
-                    <div slot="rowBody">
-                        <builder_platform_interaction-expression-builder element-type={expressionBuilderElementType} expression={conditionWithPrefix.condition} show-operator=true lhs-label="resource" operator-label="operator" rhs-label="value"></builder_platform_interaction-expression-builder>
-                    </div>
-                </builder_platform_interaction-row>
+                <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.rowIndex}>
+                     <builder_platform_interaction-row item-prefix={conditionWithPrefix.prefix} show-prefix=true item-index={conditionIndex} show-delete={showDelete} key={conditionWithPrefix.condition.rowIndex}>
+                        <div slot="rowBody">
+                            <builder_platform_interaction-expression-builder element-type={expressionBuilderElementType} expression={conditionWithPrefix.condition} show-operator=true lhs-label="resource" operator-label="operator" rhs-label="value"></builder_platform_interaction-expression-builder>
+                        </div>
+                    </builder_platform_interaction-row>
+                </div>
             </template>
         </div>
     </builder_platform_interaction-list>    
