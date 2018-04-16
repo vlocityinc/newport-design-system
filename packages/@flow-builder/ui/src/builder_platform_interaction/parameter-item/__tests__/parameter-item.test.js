@@ -1,6 +1,7 @@
 import { createElement } from 'engine';
 import ParameterItem from 'builder_platform_interaction-parameter-item';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { UpdateParameterItemEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { stringCollectionVariable1Guid, stringCollectionVariable1DevName } from 'mock-store-data';
 
 const defaultProps = {
@@ -285,6 +286,48 @@ describe('parameter-item', () => {
                 const combobox = getBuilderComboboxElement(parameterItem);
                 expect(combobox).not.toBeNull();
                 expect(combobox.value).toEqual(paramValue);
+            });
+        });
+        it('should throw UpdateParameterItemEvent', () => {
+            const paramValue = 'Test';
+            const parameterItem = createComponentForTest({
+                item: createMockParameterItem(true, false, paramValue),
+            });
+            const eventCallback = jest.fn();
+            parameterItem.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
+            const toggleInput = getLightningInputToggle(parameterItem);
+            return Promise.resolve().then(() => {
+                // from ON to OFF
+                const lightningToggleOffChangeEvent = new CustomEvent('change', { detail: { checked: false, }});
+                toggleInput.dispatchEvent(lightningToggleOffChangeEvent);
+            }).then(() => {
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {value: null}});
+                // from OFF to ON
+                const lightningToggleOnChangeEvent = new CustomEvent('change', { detail: { checked: true, }});
+                toggleInput.dispatchEvent(lightningToggleOnChangeEvent);
+            }).then(() => {
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {value: {stringValue: {value: paramValue}}}});
+            });
+        });
+    });
+    describe('handling value change events from combobox', () => {
+        it('should throw UpdateParameterItemEvent', () => {
+            const paramValue = 'Test';
+            const parameterItem = createComponentForTest({
+                item: createMockParameterItem(true, false, paramValue),
+            });
+            const eventCallback = jest.fn();
+            parameterItem.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
+            const newParamValue = 'new value';
+            return Promise.resolve().then(() => {
+                const cbChangeEvent = new ValueChangedEvent(newParamValue);
+                const builderCombobox = getBuilderComboboxElement(parameterItem);
+                builderCombobox.dispatchEvent(cbChangeEvent);
+            }).then(() => {
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {value: {stringValue: {value: newParamValue}}}});
             });
         });
     });
