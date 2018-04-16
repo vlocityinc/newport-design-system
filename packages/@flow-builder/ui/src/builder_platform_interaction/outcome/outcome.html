@@ -10,7 +10,27 @@
             dev-name={outcome.name}
             onpropertychanged={handlePropertyChanged}
             hide-description=true>
-    </builder_platform_interaction-label-description>    
+    </builder_platform_interaction-label-description>
+
+    <!-- TODO: Localize labels after W-4693112 -->
+    <div class="slds-form-element slds-size_1-of-3">
+        <lightning-combobox class="slds-col slds-grow"
+                            label="Criteria for Executing Outcome"
+                            value={conditionLogicValue}
+                            options={conditionLogicOptions}
+                            onchange={handleConditionLogicChange}></lightning-combobox>
+    </div>
+
+    <div class="slds-form-element">
+        <!-- TODO: Localize labels after W-4693112 -->
+        <lightning-input if:true={showCustomLogicInput} type="text" label="Custom Logic"
+                         onfocusout={handleCustomLogicFocusOut}
+                         value={outcome.conditionLogic.value}
+                         required
+                         message-when-value-missing={showErrorMessageIfBlank}
+                         class="slds-col label"></lightning-input>
+    </div>
+
     <builder_platform_interaction-list items={conditions}
                                              onaddlistitem={handleAddCondition}
                                              onupdatelistitem={handleUpdateCondition}
@@ -27,5 +47,5 @@
                 </div>
             </template>
         </div>
-    </builder_platform_interaction-list>    
+    </builder_platform_interaction-list>
 </template>

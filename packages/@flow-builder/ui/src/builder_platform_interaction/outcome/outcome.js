@@ -1,5 +1,10 @@
 import {Element, api, track} from 'engine';
-import {AddConditionEvent, DeleteConditionEvent, UpdateConditionEvent} from 'builder_platform_interaction-events';
+import {
+    PropertyChangedEvent,
+    AddConditionEvent,
+    DeleteConditionEvent,
+    UpdateConditionEvent
+} from 'builder_platform_interaction-events';
 import {CONDITION_LOGIC} from 'builder_platform_interaction-flow-metadata';
 import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 
@@ -8,8 +13,7 @@ import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
  */
 export default class Outcome extends Element {
     @track element = {};
-    @track
-    outcomeConditions = [];
+    @track outcomeConditions = [];
 
     get expressionBuilderElementType() {
         return ELEMENT_TYPE.DECISION;
@@ -22,7 +26,19 @@ export default class Outcome extends Element {
     @api set outcome(outcome) {
         this.element = outcome;
         this.outcomeConditions = outcome.conditions;
+
+        this.processConditionLogic(outcome.conditionLogic.value);
     }
+
+    @track conditionLogicValue;
+    @track showCustomLogicInput = false;
+
+    // TODO: Localize labels after W-4693112
+    @track conditionLogicOptions = [
+        {value: CONDITION_LOGIC.AND, label: 'All conditions are met'},
+        {value: CONDITION_LOGIC.OR, label: 'Any condition is met'},
+        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: 'Custom logic'},
+    ];
 
     get showDelete() {
         return this.outcomeConditions.length > 1;
@@ -44,6 +60,34 @@ export default class Outcome extends Element {
         }
         // Convert to 1 based indexes
         return (index + 1).toString();
+    }
+
+    getDefaultCustomLogicStringForOutcome() {
+        return 'TODO';
+    }
+
+    processConditionLogic(value) {
+        this.conditionLogicValue = value;
+        this.showCustomLogicInput = false;
+
+        if (value !== CONDITION_LOGIC.AND && value !== CONDITION_LOGIC.OR) {
+            // Select the custom logic option in the dropdown
+            this.conditionLogicValue = CONDITION_LOGIC.CUSTOM_LOGIC;
+            // And show the custom logic input
+            this.showCustomLogicInput = true;
+        }
+    }
+
+    handleConditionLogicChange(event) {
+        let newLogicValue = event.detail.value;
+        if (newLogicValue !== CONDITION_LOGIC.AND && newLogicValue !== CONDITION_LOGIC.OR) {
+            newLogicValue = this.getDefaultCustomLogicStringForOutcome();
+        }
+
+        const propertyChangedEvent = new PropertyChangedEvent(
+            'conditionLogic',
+            newLogicValue, null, this.outcome.guid);
+        this.dispatchEvent(propertyChangedEvent);
     }
 
     /**
