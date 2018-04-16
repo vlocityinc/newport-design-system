@@ -32,6 +32,9 @@ export default class LabelDescription extends Element {
     hideDescription;
 
     @api
+    devNameLabel = 'Unique Name';
+
+    @api
     get label() {
         return this.state.label;
     }
@@ -144,6 +147,14 @@ export default class LabelDescription extends Element {
             }
             element.showHelpMessageIfInvalid();
         }
+    }
+
+    /**
+     * Returns class for devName to expand full width when label is hidden.
+     * @returns {string} class name for dev name
+     */
+    get computedDevNameClass() {
+        return 'slds-col devName' + (this.hideLabel ? '' : ' slds-size_1-of-2');
     }
 
     handleLabelFocusOut(e) {

@@ -8,12 +8,12 @@
                              required
                              message-when-value-missing={showErrorMessageIfBlank}
                              class="slds-col slds-size_1-of-2 label"></lightning-input>
-            <lightning-input type="text" label="Unique Name"
+            <lightning-input type="text" label={devNameLabel}
                              onfocusout={handleDevNameFocusOut}
                              value={devName.value}
                              required
                              message-when-value-missing={showErrorMessageIfBlank}
-                             class="slds-col slds-size_1-of-2 devName"></lightning-input>
+                             class={computedDevNameClass}></lightning-input>
         </div>
         <div if:false={hideDescription}
              class="slds-form-element__group slds-form-element__row">

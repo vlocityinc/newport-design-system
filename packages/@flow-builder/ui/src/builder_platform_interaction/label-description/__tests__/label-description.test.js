@@ -137,6 +137,37 @@ describe('label-description', () => {
             });
         });
 
+        it('default label is set', () => {
+            const labelDescription = createComponentUnderTest();
+            const expectedDefaultLabel = 'Unique Name';
+
+            return Promise.resolve().then(() => {
+                const devName = labelDescription.querySelector(selectors.devName);
+                expect(devName.label).toEqual(expectedDefaultLabel);
+            });
+        });
+
+        it('label is set when passed in as attribute', () => {
+            const devNameLabel = 'API Name';
+            const labelDescription = createComponentUnderTest();
+            labelDescription.devNameLabel = devNameLabel;
+
+            return Promise.resolve().then(() => {
+                const devName = labelDescription.querySelector(selectors.devName);
+                expect(devName.label).toEqual(devNameLabel);
+            });
+        });
+
+        it('expands to full width with hideLabel = true', () => {
+            const labelDescription = createComponentUnderTest();
+            labelDescription.hideLabel = true;
+
+            return Promise.resolve().then(() => {
+                const devNameLightningInput = labelDescription.querySelector(selectors.devName);
+                expect(devNameLightningInput.className).toBe('slds-col devName');
+            });
+        });
+
         describe('on focus out', () => {
             it('fires propertyChanged event if changed', () => {
                 const newValue = 'newValue';
