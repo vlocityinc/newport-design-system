@@ -1,0 +1,56 @@
+/* animates the enter leave transisitions for if */
+$animation_duration: 0.5s;
+
+.animate-if {
+    &.ng-enter, &.ng-leave {
+        transition: $animation_duration linear all;
+    }
+
+    &.ng-enter {
+        top: 100vh; //pure awesome :)
+        opacity: 1;
+    }
+
+    &.ng-enter.ng-enter-active {
+        //transform:translateY(-100%); /* testing so that the div doesn't snap too much */
+        top: 0;
+        opacity: 1;
+    }
+
+    &.ng-leave {
+        bottom: 0;
+        opacity: 0.5;
+    }
+
+    &.ng-leave.ng-leave-active {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+.animate-if-reverse {
+    &.ng-enter, &.ng-leave {
+        transition: $animation_duration linear all;
+    }
+
+    &.ng-enter {
+        transform: translateY(-100%);
+        opacity: 1;
+    }
+
+    &.ng-enter.ng-enter-active {
+        transform: translateY(0%);
+        opacity: 0.5;
+    }
+
+    &.ng-leave {
+        transform: translateY(-100%);
+        opacity: 1;
+    }
+
+    &.ng-leave.ng-leave-active {
+        transform: translateY(100%);
+        opacity: 0.5;
+    }
+
+}

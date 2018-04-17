@@ -196,7 +196,7 @@
     #{$left}: 50%;
     max-width: 100%;
     max-height: 100%;
-    transform: translate(-50%, -50%);
+    transform: translate(if-ltr(-50%, 50%), -50%);
     background-color: $color-background-input;
   }
 
@@ -206,10 +206,16 @@
     float: #{$left};
     top: 50%;
     #{$left}: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(if-ltr(-50%, 50%), -50%);
     background-color: $color-background-input;
-    height: 4rem;
-    line-height: 4rem;
+    width: 97%;
+    white-space: initial;
+    line-height: 1em;
+    max-height: 4em;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    padding: 0;
   }
 
   /**
@@ -222,7 +228,7 @@
   .nds-radio--button__label {
     background-color: transparent;
     border-radius: 0.25rem;
-    padding: 1rem;
+    padding: 0;
     width: 100%;
 
     &:hover,
@@ -230,4 +236,8 @@
       cursor: pointer;
     }
   }
+}
+
+fieldset.nds-form-element + .nds-has-error div div.nds-has-error small:first-child {
+  margin-top: 0;
 }

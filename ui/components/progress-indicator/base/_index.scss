@@ -62,6 +62,8 @@
     position: absolute;
     top: 50%;
     margin-top: (($progress-bar-height / 2) * -1);
+    width: 97%;
+    #{$left}: 0.05rem;
   }
 }
 

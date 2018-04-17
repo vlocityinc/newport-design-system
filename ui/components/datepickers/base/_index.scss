@@ -96,8 +96,8 @@
     .nds-select {
       border: 1px solid $color-border-input;
       border-radius: $border-radius-medium;
-      padding-left: 0.5rem;
-      padding-right: 1.8rem;
+      padding-#{$left}: 0.5rem;
+      padding-#{$right}: 1.8rem;
     }
   }
 

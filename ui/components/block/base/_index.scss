@@ -82,9 +82,19 @@
   label[vlc-slds-toggle=toggle]~div[vlc-slds-toggle-cust-elem=visible] {
     padding-top: 1.5rem;
     padding-#{$left}: 2.5rem;
-    max-height: 125rem;
+    max-height: 1000rem;
     opacity: 1;
     transition: opacity 1s, max-height 1s ease-in;
+
+    .nds-wrap ng-form {
+      margin-bottom: 0.5rem;
+      padding-top: 0;
+    }
+  }
+
+  .nds-control-action__container span[disabled=disabled]{
+    pointer-events: none;
+    opacity: 0.5;
   }
 }
 
@@ -156,4 +166,10 @@ label[vlc-slds-toggle] {
   display: flex;
   outline: none;
   color: $color-background-brand-primary;
+
+  .slds-icon.slds-icon--small {
+    margin-top: 0.125rem;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
 }

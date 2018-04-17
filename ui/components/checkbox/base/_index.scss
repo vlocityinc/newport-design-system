@@ -140,7 +140,8 @@
 
     .nds-tooltip_container .nds-nonfocused_control svg {
       margin-top: -0.1875rem;
-      fill: #54698d;
+      fill: $color-input-icon-blue-hue;
+      cursor: pointer;
     }
   }
 }
