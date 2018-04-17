@@ -1,7 +1,7 @@
 import { createElement } from 'engine';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import Editor from '../editor';
-import { EVENT } from 'builder_platform_interaction-constant';
+import { CANVAS_EVENT } from 'builder_platform_interaction-events';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { translateUIModelToFlow } from 'builder_platform_interaction-translator-lib';
 import { fetch, SERVER_ACTION_TYPE} from 'builder_platform_interaction-server-data-lib';
@@ -198,7 +198,7 @@ describe('editor', () => {
     describe('Canvas', () => {
         it('Checks if node selection is handled correctly when an unselected node is clicked without multiSelect key', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.NODE_SELECTED, {
+            const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -217,7 +217,7 @@ describe('editor', () => {
 
         it('Checks if node selection is handled correctly when a selected node is clicked without multiSelect key', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.NODE_SELECTED, {
+            const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -236,7 +236,7 @@ describe('editor', () => {
 
         it('Checks if node selection is handled correctly when an unselected node is clicked with multiSelect key', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.NODE_SELECTED, {
+            const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -255,7 +255,7 @@ describe('editor', () => {
 
         it('Checks if node selection is handled correctly when a selected node is clicked with multiSelect key', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.NODE_SELECTED, {
+            const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -274,7 +274,7 @@ describe('editor', () => {
 
         it('Checks if node and connector deselection is handled correctly when a canvas is clicked', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.CANVAS_MOUSEUP, {
+            const event = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
                 composed: true,
                 cancelable: true
@@ -289,7 +289,7 @@ describe('editor', () => {
 
         it('Checks if connector selection is handled correctly when an unselected connector is clicked without multiSelect key', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+            const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -308,7 +308,7 @@ describe('editor', () => {
 
         it('Checks if connector selection is handled correctly when a selected connector is clicked without multiSelect key', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+            const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -327,7 +327,7 @@ describe('editor', () => {
 
         it('Checks if connector selection is handled correctly when an unselected connector is clicked with multiSelect key', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+            const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -346,7 +346,7 @@ describe('editor', () => {
 
         it('Checks if connector selection is handled correctly when a selected connector is clicked with multiSelect key', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+            const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -365,7 +365,7 @@ describe('editor', () => {
 
         it('Checks if node deletion is handled correctly when trash-can is clicked', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
+            const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -385,7 +385,7 @@ describe('editor', () => {
 
         it('Checks if node and connector deletion is handled correctly when delete key is pressed', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
+            const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -405,7 +405,7 @@ describe('editor', () => {
 
         it('Checks if node location is updated correctly when a node stops dragging', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.DRAG_STOP, {
+            const event = new CustomEvent(CANVAS_EVENT.DRAG_STOP, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -426,7 +426,7 @@ describe('editor', () => {
 
         it('Checks if connections are added correctly', () => {
             const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(EVENT.ADD_CONNECTION, {
+            const event = new CustomEvent(CANVAS_EVENT.ADD_CONNECTION, {
                 bubbles: true,
                 composed: true,
                 detail: {

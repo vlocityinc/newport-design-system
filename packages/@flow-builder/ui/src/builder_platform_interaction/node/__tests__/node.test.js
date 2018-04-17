@@ -1,6 +1,5 @@
 import { createElement } from 'engine';
-import { EVENT } from 'builder_platform_interaction-constant';
-import { EditElementEvent } from 'builder_platform_interaction-events';
+import { EditElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 import Node from 'builder_platform_interaction-node';
 
 const createComponentUnderTest = (isSelected) => {
@@ -54,7 +53,7 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(EVENT.NODE_SELECTED, callback);
+            nodeComponent.addEventListener(CANVAS_EVENT.NODE_SELECTED, callback);
             nodeComponent.querySelector(selectors.icon).click();
             expect(callback).toHaveBeenCalled();
         });
@@ -64,7 +63,7 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(true);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(EVENT.NODE_SELECTED, callback);
+            nodeComponent.addEventListener(CANVAS_EVENT.NODE_SELECTED, callback);
             nodeComponent.querySelector(selectors.icon).click();
             expect(callback).toHaveBeenCalled();
         });
@@ -97,7 +96,7 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(true);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(EVENT.CANVAS_ELEMENT_DELETE, callback);
+            nodeComponent.addEventListener(CANVAS_EVENT.CANVAS_ELEMENT_DELETE, callback);
             nodeComponent.querySelector(selectors.trash).click();
             expect(callback).toHaveBeenCalled();
         });

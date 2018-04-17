@@ -1,7 +1,6 @@
 import { Element, api } from 'engine';
 import { getConfigForElementType } from "builder_platform_interaction-element-config";
-import { EVENT } from 'builder_platform_interaction-constant';
-import { EditElementEvent } from 'builder_platform_interaction-events';
+import { EditElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 
 /**
@@ -67,7 +66,7 @@ export default class Node extends Element {
         event.stopPropagation();
         const isMultiSelectKeyPressed = this.isMultiSelect(event);
         if (!this.node.config.isSelected || !this.isNodeDragging) {
-            const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
+            const nodeSelectedEvent = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -98,7 +97,7 @@ export default class Node extends Element {
      */
     handleTrashClick = (event) => {
         event.stopPropagation();
-        const canvasElementDeleteEvent = new CustomEvent(EVENT.CANVAS_ELEMENT_DELETE, {
+        const canvasElementDeleteEvent = new CustomEvent(CANVAS_EVENT.CANVAS_ELEMENT_DELETE, {
             bubbles: true,
             composed: true,
             cancelable: true,
@@ -118,7 +117,7 @@ export default class Node extends Element {
         this.isNodeDragging = true;
         if (!this.node.config.isSelected) {
             const isMultiSelectKeyPressed = this.isMultiSelect(event.e);
-            const nodeSelectedEvent = new CustomEvent(EVENT.NODE_SELECTED, {
+            const nodeSelectedEvent = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -137,7 +136,7 @@ export default class Node extends Element {
      */
     dragStop = (event) => {
         if (event.finalPos[0] !== this.node.locationX || event.finalPos[1] !== this.node.locationY) {
-            const dragStopEvent = new CustomEvent(EVENT.DRAG_STOP, {
+            const dragStopEvent = new CustomEvent(CANVAS_EVENT.DRAG_STOP, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,

@@ -14,6 +14,7 @@ export { RowContentsChangedEvent } from './rowContentsChangedEvent';
 export { FilterMatchesEvent } from './filterMatchesEvent';
 export { UpdateParameterItemEvent } from './updateParameterItemEvent';
 export { NewResourceEvent } from './newResourceEvent';
+export { CANVAS_EVENT } from './canvas-events/canvas-events.js';
 export { ClickToZoomEvent } from './canvas-events/zoom-panel-event/zoom-panel-event';
 export { AddElementEvent } from './element-events/add-element-event';
 export { EditElementEvent } from './element-events/edit-element-event';

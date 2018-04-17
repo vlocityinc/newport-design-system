@@ -1,9 +1,9 @@
 import { Element, api, track } from 'engine';
-import { CONNECTOR_OVERLAY, EVENT, ZOOM_ACTION } from 'builder_platform_interaction-constant';
+import { CONNECTOR_OVERLAY, ZOOM_ACTION } from 'builder_platform_interaction-constant';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
-import { AddElementEvent } from 'builder_platform_interaction-events';
+import { AddElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 
 /**
  * Canvas component for flow builder.
@@ -53,7 +53,7 @@ export default class Canvas extends Element {
         connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.ARROW).setVisible(true);
         connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).setVisible(true);
         connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).setLabel('Label');
-        const addConnectionEvent = new CustomEvent(EVENT.ADD_CONNECTION,
+        const addConnectionEvent = new CustomEvent(CANVAS_EVENT.ADD_CONNECTION,
             {
                 bubbles: true,
                 composed: true,
@@ -76,7 +76,7 @@ export default class Canvas extends Element {
     connectionClicked = (connection, event) => {
         event.stopPropagation();
         const isMultiSelectKeyPressed = this.isMultiSelect(event);
-        const connectorSelectedEvent = new CustomEvent(EVENT.CONNECTOR_SELECTED, {
+        const connectorSelectedEvent = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
             bubbles: true,
             composed: true,
             cancelable: true,
@@ -153,7 +153,7 @@ export default class Canvas extends Element {
         this.isMouseDown = false;
         this.canvasArea.focus();
         if ((event.target.id === 'canvas' || event.target.id === 'innerCanvas') && !this.isPanning) {
-            const canvasMouseUpEvent = new CustomEvent(EVENT.CANVAS_MOUSEUP, {
+            const canvasMouseUpEvent = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
                 composed: true,
                 cancelable: true
@@ -205,7 +205,7 @@ export default class Canvas extends Element {
                 return connector;
             });
 
-            const deleteEvent = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
+            const deleteEvent = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
@@ -250,7 +250,7 @@ export default class Canvas extends Element {
                 return connector;
             });
 
-            const deleteEvent = new CustomEvent(EVENT.DELETE_ON_CANVAS, {
+            const deleteEvent = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
