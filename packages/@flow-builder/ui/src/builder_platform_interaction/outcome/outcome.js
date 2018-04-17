@@ -109,6 +109,15 @@ export default class Outcome extends Element {
         this.dispatchEvent(propertyChangedEvent);
     }
 
+    handleCustomLogicFocusOut(event) {
+        const value = event.target.value;
+
+        const propertyChangedEvent = new PropertyChangedEvent(
+            'conditionLogic',
+            value, null, this.outcome.guid);
+        this.dispatchEvent(propertyChangedEvent);
+    }
+
     /**
      * @param {object} event - AddListItemEvent to add a condition at the end of the list
      */
@@ -132,7 +141,7 @@ export default class Outcome extends Element {
     }
 
     /**
-     * @param {object} event - UpdatListItemEvent to update a property value in the condition at the given index
+     * @param {object} event - UpdateListItemEvent to update a property value in the condition at the given index
      */
     handleUpdateCondition(event) {
         event.stopPropagation();
