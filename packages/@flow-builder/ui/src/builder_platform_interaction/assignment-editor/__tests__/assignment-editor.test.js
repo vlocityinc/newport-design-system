@@ -82,8 +82,9 @@ describe('assignment-editor', () => {
     });
     it('shows delete when more than 1 item', () => {
         const assignmentElement = createComponentForTest();
-        assignmentElement.node = deepCopy(testObj);
-        assignmentElement.node.assignmentItems = deepCopy(size2);
+        const node = deepCopy(testObj);
+        node.assignmentItems = deepCopy(size2);
+        assignmentElement.node = node;
         return Promise.resolve().then(() => {
             const rows = assignmentElement.querySelectorAll('builder_platform_interaction-row');
             rows.forEach(row => {
@@ -93,8 +94,9 @@ describe('assignment-editor', () => {
     });
     it('doesnt show delete when exactly 1 item', () => {
         const assignmentElement = createComponentForTest();
-        assignmentElement.node = deepCopy(testObj);
-        assignmentElement.node.assignmentItems = deepCopy(size1);
+        const node = deepCopy(testObj);
+        node.assignmentItems = deepCopy(size1);
+        assignmentElement.node = node;
         return Promise.resolve().then(() => {
             const rows = assignmentElement.querySelectorAll('builder_platform_interaction-row');
             rows.forEach(row => {
