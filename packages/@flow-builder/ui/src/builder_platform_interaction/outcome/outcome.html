@@ -13,7 +13,7 @@
     </builder_platform_interaction-label-description>
 
     <!-- TODO: Localize labels after W-4693112 -->
-    <div class="slds-form-element slds-size_1-of-3">
+    <div class="slds-form-element slds-size_1-of-3 slds-m-bottom_small">
         <lightning-combobox class="slds-col slds-grow"
                             label="Criteria for Executing Outcome"
                             value={conditionLogicValue}
@@ -21,7 +21,7 @@
                             onchange={handleConditionLogicChange}></lightning-combobox>
     </div>
 
-    <div class="slds-form-element">
+    <div class="slds-form-element slds-m-bottom_small">
         <!-- TODO: Localize labels after W-4693112 -->
         <lightning-input if:true={showCustomLogicInput} type="text" label="Custom Logic"
                          onfocusout={handleCustomLogicFocusOut}
@@ -41,7 +41,8 @@
                 <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.rowIndex}>
                      <builder_platform_interaction-row item-prefix={conditionWithPrefix.prefix} show-prefix=true item-index={conditionIndex} show-delete={showDelete} key={conditionWithPrefix.condition.rowIndex}>
                         <div slot="rowBody">
-                            <builder_platform_interaction-expression-builder element-type={expressionBuilderElementType} expression={conditionWithPrefix.condition} show-operator=true lhs-label="resource" operator-label="operator" rhs-label="value"></builder_platform_interaction-expression-builder>
+                            <!-- TODO: Localize labels after W-4693112 -->
+                            <builder_platform_interaction-expression-builder element-type={expressionBuilderElementType} expression={conditionWithPrefix.condition} show-operator=true lhs-label="Resource" operator-label="Operator" rhs-label="Value"></builder_platform_interaction-expression-builder>
                         </div>
                     </builder_platform_interaction-row>
                 </div>

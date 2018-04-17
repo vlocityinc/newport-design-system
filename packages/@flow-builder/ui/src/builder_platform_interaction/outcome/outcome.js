@@ -71,8 +71,8 @@ export default class Outcome extends Element {
     /**
      * @param {String} logicalOperator the logical operator we will use to build the custom logic
      * (should be either 'and' or 'or')
-     * @return {string} Default logic string which is all conditions separate by AND.
-     * E.g. For three conditions, '1 AND 2 AND 3' is returned
+     * @return {string} Default logic string which is all conditions separate by AND or OR.
+     * E.g. For three conditions and logicalOperator AND, '1 AND 2 AND 3' is returned
      */
     getDefaultCustomLogicStringForOutcome(logicalOperator) {
         logicalOperator = logicalOperator.toUpperCase();
