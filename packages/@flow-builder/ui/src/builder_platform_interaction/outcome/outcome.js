@@ -15,6 +15,21 @@ export default class Outcome extends Element {
     @track element = {};
     @track outcomeConditions = [];
 
+    @track conditionLogicValue;
+    @track showCustomLogicInput = false;
+
+    // TODO: Localize labels after W-4693112
+    @track conditionLogicOptions = [
+        {value: CONDITION_LOGIC.AND, label: 'All conditions are met'},
+        {value: CONDITION_LOGIC.OR, label: 'Any condition is met'},
+        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: 'Custom logic'},
+    ];
+
+    // TODO: Import Localization Labels & getter for the component to use that.
+    // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004ftBbIAI/view
+    @track
+    showErrorMessageIfBlank = "Cannot be Blank.";
+
     get expressionBuilderElementType() {
         return ELEMENT_TYPE.DECISION;
     }
@@ -29,16 +44,6 @@ export default class Outcome extends Element {
 
         this.processConditionLogic(outcome.conditionLogic.value);
     }
-
-    @track conditionLogicValue;
-    @track showCustomLogicInput = false;
-
-    // TODO: Localize labels after W-4693112
-    @track conditionLogicOptions = [
-        {value: CONDITION_LOGIC.AND, label: 'All conditions are met'},
-        {value: CONDITION_LOGIC.OR, label: 'Any condition is met'},
-        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: 'Custom logic'},
-    ];
 
     get showDelete() {
         return this.outcomeConditions.length > 1;
@@ -55,6 +60,7 @@ export default class Outcome extends Element {
     }
 
     getPrefix(index) {
+        // conditionLogic.value is either 'and' or 'or' or a custom logic string (e.g. '1 AND (2 or 3)'
         if (this.outcome.conditionLogic.value === CONDITION_LOGIC.AND || this.outcome.conditionLogic.value === CONDITION_LOGIC.OR) {
             return index > 0 ? this.outcome.conditionLogic.value : '';
         }
@@ -62,8 +68,21 @@ export default class Outcome extends Element {
         return (index + 1).toString();
     }
 
-    getDefaultCustomLogicStringForOutcome() {
-        return 'TODO';
+    /**
+     * @param {String} logicalOperator the logical operator we will use to build the custom logic
+     * (should be either 'and' or 'or')
+     * @return {string} Default logic string which is all conditions separate by AND.
+     * E.g. For three conditions, '1 AND 2 AND 3' is returned
+     */
+    getDefaultCustomLogicStringForOutcome(logicalOperator) {
+        logicalOperator = logicalOperator.toUpperCase();
+
+        let customLogic = '1';
+        for (let i = 2; i <= this.outcomeConditions.length; i++) {
+            customLogic += ` ${logicalOperator} ${i}`;
+        }
+
+        return customLogic;
     }
 
     processConditionLogic(value) {
@@ -81,7 +100,7 @@ export default class Outcome extends Element {
     handleConditionLogicChange(event) {
         let newLogicValue = event.detail.value;
         if (newLogicValue !== CONDITION_LOGIC.AND && newLogicValue !== CONDITION_LOGIC.OR) {
-            newLogicValue = this.getDefaultCustomLogicStringForOutcome();
+            newLogicValue = this.getDefaultCustomLogicStringForOutcome(this.conditionLogicValue);
         }
 
         const propertyChangedEvent = new PropertyChangedEvent(
