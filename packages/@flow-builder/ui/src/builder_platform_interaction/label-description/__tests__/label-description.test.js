@@ -122,6 +122,28 @@ describe('label-description', () => {
                 });
             });
         });
+
+        describe('when a special character is entered & on focus out', () => {
+            it('the DevName field should pre-populate with "UniqueName" text', () => {
+                const newValue = ':)';
+
+                const labelDescription = createComponentUnderTest();
+
+                return Promise.resolve().then(() => {
+                    const labelLightningInput = labelDescription.querySelector(selectors.label);
+
+                    const eventCallback = jest.fn();
+                    labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.dispatchEvent(focusoutEvent);
+
+                    expect(eventCallback).toHaveBeenCalled();
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'label', value: newValue});
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: 'UniqueName'});
+                });
+            });
+        });
     });
     describe('devName', () => {
         it('input value is set when passed in as attribute', () => {
@@ -463,7 +485,6 @@ describe('label-description', () => {
             });
         });
     });
-
     describe('description', () => {
         it('input value is set when passed in as attribute', () => {
             const newValue = 'newValue';
