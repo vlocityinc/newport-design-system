@@ -46,6 +46,15 @@ export default class RecordEditor extends Element {
     get devName() {
         return this.recordNode.name;
     }
+
+    /**
+     * public api function to run the rules from actionCall validation library
+     * @returns {Object[]} list of errors
+     */
+    @api validate() {
+        return [];
+    }
+
     /**
      * @param {object} event - property changed event coming from label-description component
      */
