@@ -6,6 +6,7 @@ import {
     UpdateConditionEvent
 } from 'builder_platform_interaction-events';
 import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
+import { EXPRESSION_PROPERTY_TYPE} from 'builder_platform_interaction-expression-utils';
 
 describe('decision-reducer', () => {
     let originalState;
@@ -143,17 +144,18 @@ describe('decision-reducer', () => {
 
     describe('UpdateConditionEvent', () => {
         it('updates condition based on index', () => {
+            const mockLHS = {value: 'val', error: 'err'};
             const updateConditionEvent  =
-                new UpdateConditionEvent(originalState.outcomes[0].guid, 0, 'name', 'val', 'err');
+                new UpdateConditionEvent(originalState.outcomes[0].guid, 0, {[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: mockLHS});
             const newState = decisionReducer(originalState, updateConditionEvent);
 
             const newOutcome = newState.outcomes[0];
             const modifiedCondition = newOutcome.conditions[0];
 
             expect(newOutcome.conditions).toHaveLength(1);
-            expect(modifiedCondition[updateConditionEvent.propertyName]).toEqual({
-                value: updateConditionEvent.value,
-                error: updateConditionEvent.error
+            expect(modifiedCondition[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toEqual({
+                value: mockLHS.value,
+                error: mockLHS.error
             });
         });
 

@@ -75,9 +75,9 @@ describe('assignment-editor', () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
-            const event = new UpdateListItemEvent(0, "leftHandSide", "test value", null);
+            const event = new UpdateListItemEvent(0, {'leftHandSide': {value: 'val', error: 'err'}});
             assignmentElement.querySelector('builder_platform_interaction-list').dispatchEvent(event);
-            expect(assignmentElement.node.assignmentItems[0].leftHandSide.value).toBe("test value");
+            expect(assignmentElement.node.assignmentItems[0].leftHandSide.value).toBe('val');
         });
     });
     it('shows delete when more than 1 item', () => {

@@ -226,9 +226,7 @@ describe('Outcome', () => {
         it('fires updateConditionEvent with outcome GUI, condition index, a property name, value and error', () => {
             const updateData = {
                 index: 300,
-                propertyName: 'foo',
                 value: 'newVal',
-                error: 'anError'
             };
 
 
@@ -244,17 +242,13 @@ describe('Outcome', () => {
                 // TODO: Figure out a better way to access the handler rather than through the class prototype
                 Outcome.prototype.handleUpdateCondition.call(element, new UpdateListItemEvent(
                     updateData.index,
-                    updateData.propertyName,
-                    updateData.value,
-                    updateData.error));
+                    updateData.value));
 
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
                     parentGUID: element.outcome.guid,
                     index: updateData.index,
-                    propertyName: updateData.propertyName,
                     value: updateData.value,
-                    error: updateData.error
                 });
             });
         });

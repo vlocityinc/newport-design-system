@@ -41,9 +41,7 @@ const deleteCondition = (state, event) => {
 const updateCondition = (state, event) => {
     const outcomes = state.outcomes.map((outcome) => {
         if (outcome.guid === event.parentGUID) {
-            const newCondition = updateProperties(outcome.conditions[event.index], {
-                [event.propertyName]: {error: event.error, value: event.value}
-            });
+            const newCondition = updateProperties(outcome.conditions[event.index], event.value);
 
             return updateProperties(outcome, {
                 conditions: replaceItem(outcome.conditions, newCondition, event.index)

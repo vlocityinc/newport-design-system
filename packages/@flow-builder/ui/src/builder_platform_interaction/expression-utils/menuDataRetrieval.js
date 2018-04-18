@@ -152,8 +152,8 @@ export const normalizeLHS = (state, lhsIdentifier) => {
     const lhs = {};
     const flowElement = state.elements[lhsIdentifier];
     if (flowElement) {
-        lhs.lhsValue = '{!' + flowElement.name + '}';
-        lhs.lhsParameter = elementToParam(flowElement);
+        lhs.display = '{!' + flowElement.name + '}';
+        lhs.parameter = elementToParam(flowElement);
     } else {
         // TODO handle the case where LHS is not a flow element here
     }

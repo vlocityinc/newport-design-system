@@ -28,11 +28,9 @@ export default class Row extends Element {
 
     handleRowContentsChanged(event) {
         const index = this.itemIndex;
-        const propertyName = event.detail.propertyChanged;
         const value = event.detail.newValue;
-        const error = event.detail.error;
         // TODO plz change the error from null to appropriate value coming from lower level component
-        const itemUpdatedEvent = new UpdateListItemEvent(index, propertyName, value, error);
+        const itemUpdatedEvent = new UpdateListItemEvent(index, value);
         this.dispatchEvent(itemUpdatedEvent);
     }
 

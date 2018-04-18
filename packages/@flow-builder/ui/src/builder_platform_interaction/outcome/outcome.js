@@ -148,7 +148,6 @@ export default class Outcome extends Element {
 
         const updateConditionEvent = new UpdateConditionEvent(this.outcome.guid,
             event.detail.index,
-            event.detail.propertyName,
             event.detail.value,
             event.detail.error
         );

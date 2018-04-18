@@ -5,6 +5,7 @@ import {
     UpdateListItemEvent,
     PropertyChangedEvent
 } from 'builder_platform_interaction-events';
+import {EXPRESSION_PROPERTY_TYPE} from 'builder_platform_interaction-expression-utils';
 
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 const state = {
@@ -88,14 +89,12 @@ describe('the best assignment reducer ever', () => {
             type: UpdateListItemEvent.EVENT_NAME,
             detail: {
                 index: 0,
-                propertyName: 'leftHandSide',
-                value: 'new value',
-                error: null
+                value: {[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'val', error: 'error'}},
             }
         };
         const resultObj = assignmentReducer(testState, event);
         expect(resultObj.assignmentItems).toHaveLength(1);
-        expect(resultObj.assignmentItems[0].leftHandSide.value).toBe('new value');
+        expect(resultObj.assignmentItems[0].leftHandSide.value).toBe('val');
     });
     it('updates the second of 3 assignment items', () => {
         const testState = deepCopy(state);
@@ -105,16 +104,14 @@ describe('the best assignment reducer ever', () => {
             type: UpdateListItemEvent.EVENT_NAME,
             detail: {
                 index: 1,
-                propertyName: 'leftHandSide',
-                value: 'new value',
-                error: null
+                value: {[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'val', error: 'error'}},
             }
         };
         expect(testState.assignmentItems).toHaveLength(3);
         const resultObj = assignmentReducer(testState, event);
         expect(resultObj.assignmentItems).toHaveLength(3);
         expect(resultObj.assignmentItems[0].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
-        expect(resultObj.assignmentItems[1].leftHandSide.value).toBe('new value');
+        expect(resultObj.assignmentItems[1].leftHandSide.value).toBe('val');
         expect(resultObj.assignmentItems[2].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
     });
 });

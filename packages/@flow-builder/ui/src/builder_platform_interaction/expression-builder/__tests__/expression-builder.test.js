@@ -25,7 +25,10 @@ function createMockPopulatedExpression() {
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
             value: numberVariableGuid,
-        }
+        },
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+            value: 'reference'
+        },
     };
 }
 
@@ -50,11 +53,13 @@ function getLightningCombobox(expressionBuilder) {
     return expressionBuilder.querySelector("lightning-combobox");
 }
 
-const ourCBChangeEvent = new ValueChangedEvent('hi');
+const newCBValue = 'hi';
+
+const ourCBChangeEvent = new ValueChangedEvent(newCBValue);
 
 const lightningCBChangeEvent = new CustomEvent('change', {
     detail: {
-        value: 'hi'
+        value: newCBValue
     }
 });
 
@@ -120,10 +125,12 @@ describe('expression-builder', () => {
     });
 
     describe('handling value change events from combobox', () => {
-        it('should throw RowContentsChangedEvent when LHS value changes', () => {
+        it('should throw RowContentsChangedEvent with all 4 properties when LHS value changes', () => {
             const expressionBuilder = createDefaultComponentForTest();
 
             return Promise.resolve().then(() => {
+                const newExpression = createMockPopulatedExpression();
+                newExpression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE] = {value: newCBValue, error: null};
                 const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
                 const eventCallback = jest.fn();
@@ -132,12 +139,14 @@ describe('expression-builder', () => {
                 lhsCombobox.dispatchEvent(ourCBChangeEvent);
 
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyChanged: EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE, newValue: 'hi'}});
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {newValue: newExpression}});
             });
         });
-        it('should throw RowContentsChangedEvent when operator changes', () => {
+        it('should throw RowContentsChangedEvent with all 4 properties when operator changes', () => {
             const expressionBuilder = createDefaultComponentForTest();
             return Promise.resolve().then(() => {
+                const newExpression = createMockPopulatedExpression();
+                newExpression[EXPRESSION_PROPERTY_TYPE.OPERATOR] = {value: newCBValue};
                 const operatorCombobox = getLightningCombobox(expressionBuilder);
 
                 const eventCallback = jest.fn();
@@ -146,13 +155,15 @@ describe('expression-builder', () => {
                 operatorCombobox.dispatchEvent(lightningCBChangeEvent);
 
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyChanged: EXPRESSION_PROPERTY_TYPE.OPERATOR, newValue: 'hi'}});
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {newValue: newExpression}});
             });
         });
-        it('should throw RowContentsChangedEvent when RHS changes', () => {
+        it('should throw RowContentsChangedEvent with all 4 properties when RHS changes', () => {
             const expressionBuilder = createDefaultComponentForTest();
 
             return Promise.resolve().then(() => {
+                const newExpression = createMockPopulatedExpression();
+                newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = {value: newCBValue, error: null};
                 const rhsCombobox = getComboboxElements(expressionBuilder)[1];
 
                 const eventCallback = jest.fn();
@@ -161,7 +172,7 @@ describe('expression-builder', () => {
                 rhsCombobox.dispatchEvent(ourCBChangeEvent);
 
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyChanged: EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE, newValue: 'hi'}});
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {newValue: newExpression}});
             });
         });
     });

@@ -2,7 +2,6 @@ import { assignmentValidation } from './assignment-validation';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { updateProperties, set, deleteItem } from 'builder_platform_interaction-data-mutation-lib';
-
 import {
     AddListItemEvent,
     DeleteListItemEvent,
@@ -26,10 +25,10 @@ const deleteAssignmentItem = (state, event) => {
 };
 
 const updateAssignmentItem = (state, event) => {
-    const path = `assignmentItems[${event.detail.index}].${event.detail.propertyName}`;
+    const path = ['assignmentItems', event.detail.index];
 
     // TODO check for errors and handle validation accordingly
-    const item = {value: event.detail.value, error: event.detail.error};
+    const item = updateProperties(event.detail.value);
     return set(state, path, item);
 };
 

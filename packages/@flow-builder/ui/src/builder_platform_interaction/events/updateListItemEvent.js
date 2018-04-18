@@ -1,7 +1,7 @@
 const eventName = 'updatelistitem';
 
 export class UpdateListItemEvent extends Event {
-    constructor(index, propertyName, value, error) {
+    constructor(index, value) {
         super(eventName, {
             cancelable: false,
             composed: true,
@@ -9,9 +9,7 @@ export class UpdateListItemEvent extends Event {
         });
         this.detail = {
             index,
-            propertyName,
             value,
-            error
         };
     }
 

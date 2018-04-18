@@ -102,10 +102,10 @@ describe('Menu data retrieval', () => {
 describe('LHS and RHS retrieval', () => {
     it('should handle the case when LHS is guid', () => {
         const normalizedElement = normalizeLHS(store, store.numberVariableGuid);
-        expect(normalizedElement.lhsValue).toBe('{!' + store.numberVariableDevName + '}');
-        expect(normalizedElement.lhsParameter.collection).toBe(false);
-        expect(normalizedElement.lhsParameter.dataType).toBe(numberParam.dataType.value);
-        expect(normalizedElement.lhsParameter.elementType).toBe(store.variable);
+        expect(normalizedElement.display).toBe('{!' + store.numberVariableDevName + '}');
+        expect(normalizedElement.parameter.collection).toBe(false);
+        expect(normalizedElement.parameter.dataType).toBe(numberParam.dataType.value);
+        expect(normalizedElement.parameter.elementType).toBe(store.variable);
     });
     it('should handle the case when RHS is guid', () => {
         const rhsValue = retrieveRHSVal(store, store.numberVariableGuid);

@@ -1,14 +1,18 @@
 import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { Store } from 'builder_platform_interaction-store-lib';
+import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, retrieveRHSVal } from 'builder_platform_interaction-expression-utils';
 import { getRulesForElementType, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox } from 'builder_platform_interaction-rule-lib';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
 
 const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
+
+const RHSDT = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
 
 let storeInstance;
 let element;
@@ -24,11 +28,9 @@ let rules;
 export default class ExpressionBuilder extends Element {
     @track
     state = {
-        lhsValue: undefined, // display value for combobox
-        lhsParameter: undefined, // the parameterized lhs value - only has the values the rules care about
-        lhsMenuData: undefined,
-        operatorValue: undefined,
-        rhsValue: undefined,
+        expression: undefined, // the expression to be displayed
+        normalizedLHS: {}, // contains display, for the combobox to display, and parameter, to use with the rules service
+        rhsDisplay: undefined, // for the rhs combobox to display, as the rhs could be passed as a guid
     };
 
     constructor() {
@@ -57,18 +59,13 @@ export default class ExpressionBuilder extends Element {
         // TODO handle literals, "hi my name is {!firstName}" W-4817362
         // TODO handle multi-level merge fields W-4723095
         if (expression[LHS] && expression[LHS].value) {
-            const lhsElement = normalizeLHS(storeInstance.getCurrentState(), expression[LHS].value);
-            this.state.lhsValue = lhsElement.lhsValue;
-            this.state.lhsParameter = lhsElement.lhsParameter;
+            this.state.normalizedLHS = normalizeLHS(storeInstance.getCurrentState(), expression[LHS].value);
         }
-        if (expression[OPERATOR] && expression[OPERATOR].value) {
-            this.state.operatorValue = expression[OPERATOR].value;
-        } else {
-            // TODO default case W-4817341
-        }
+        // TODO default operator case W-4912900
         if (expression[RHS] && expression[RHS].value) {
-            this.state.rhsValue = retrieveRHSVal(storeInstance.getCurrentState(), expression[RHS].value);
+            this.state.rhsDisplay = retrieveRHSVal(storeInstance.getCurrentState(), expression[RHS].value);
         }
+        this.state.expression = expression;
     }
 
     /**
@@ -100,28 +97,24 @@ export default class ExpressionBuilder extends Element {
     }
 
     get operatorMenuData() {
-        return transformOperatorsForCombobox(getOperators(this.state.lhsParameter, rules));
+        return transformOperatorsForCombobox(getOperators(this.state.normalizedLHS.parameter, rules));
     }
 
     get rhsMenuData() {
-        const rhsTypes = getRHSTypes(this.state.lhsParameter, this.state.operatorValue, rules);
-        this._fullRHSMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element}, rhsTypes, true);
-        return this._fullRHSMenuData;
+        let rhsMenuData;
+        if (this.state.normalizedLHS.display && this.state.expression[OPERATOR]) {
+            const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, this.state.expression[OPERATOR].value, rules);
+            this._fullRHSMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element}, rhsTypes, true);
+            rhsMenuData = this._fullRHSMenuData;
+        }
+        return rhsMenuData;
     }
 
     /**
      * These are the text strings that should be displayed by the comboBoxes
      */
-    get lhsComboBoxValue() {
-        return this.state.lhsValue;
-    }
-
     get operatorComboBoxValue() {
-        return this.state.operatorValue;
-    }
-
-    get rhsComboBoxValue() {
-        return this.state.rhsValue;
+        return this.state.expression[OPERATOR] ? this.state.expression[OPERATOR].value : null;
     }
 
     /**
@@ -162,22 +155,26 @@ export default class ExpressionBuilder extends Element {
 
     handleLHSValueChanged(event) {
         event.stopPropagation();
-
-        const propertyChangedEvent = new RowContentsChangedEvent(LHS, event.detail.value, event.detail.error);
+        const newExpression = updateProperties(this.state.expression, {[LHS] : {value : event.detail.value, error: event.detail.error}});
+        const propertyChangedEvent = new RowContentsChangedEvent(newExpression);
         this.dispatchEvent(propertyChangedEvent);
     }
 
     handleOperatorChanged(event) {
         event.stopPropagation();
-
-        const propertyChangedEvent = new RowContentsChangedEvent(OPERATOR, event.detail.value);
+        const newExpression = updateProperties(this.state.expression, {[OPERATOR] : {value : event.detail.value, error : null}});
+        const propertyChangedEvent = new RowContentsChangedEvent(newExpression);
         this.dispatchEvent(propertyChangedEvent);
     }
 
     handleRHSValueChanged(event) {
         event.stopPropagation();
-
-        const propertyChangedEvent = new RowContentsChangedEvent(RHS, event.detail.value, event.detail.error);
+        const rhsAndRHSDT = {
+            [RHS] : {value : event.detail.value, error: event.detail.error},
+            [RHSDT] : {value : FEROV_DATA_TYPE.REFERENCE, error: event.detail.error}
+        };
+        const newExpression = updateProperties(this.state.expression, rhsAndRHSDT);
+        const propertyChangedEvent = new RowContentsChangedEvent(newExpression, event.detail.error);
         this.dispatchEvent(propertyChangedEvent);
     }
 
