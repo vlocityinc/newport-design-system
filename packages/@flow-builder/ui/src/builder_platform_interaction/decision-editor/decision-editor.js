@@ -1,8 +1,8 @@
 import {Element, api, track} from 'engine';
 import {decisionReducer} from './decision-reducer';
 import {nameDescriptionMixin, baseEditor} from 'builder_platform_interaction-base-editor';
-import {updateProperties} from 'builder_platform_interaction-data-mutation-lib';
-import { createFlowElement, ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
+
 
 import template from './decision-editor.html';
 
@@ -31,16 +31,24 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
         return this.element.outcomes[0].guid;
     }
 
-    // TODO: Move this to the translation or possibly to the reducer
     addInitialOutcomeIfNeeded() {
         if (this.element && (typeof this.element.outcomes === 'undefined' || this.element.outcomes.length === 0)) {
-            const outcomes = [createFlowElement(ELEMENT_TYPE.OUTCOME, false)];
-            this.element = updateProperties(this.element, {outcomes});
+            this.addOutcome();
         }
     }
 
     get outcomes() {
         return (this.element) ? this.element.outcomes : [];
+    }
+
+    handleAddOutcome(event) {
+        event.stopPropagation();
+        this.addOutcome();
+    }
+
+    addOutcome() {
+        const event = { type: PROPERTY_EDITOR_ACTION.ADD_DECISION_OUTCOME };
+        this.element = decisionReducer(this.element, event);
     }
 
     /**

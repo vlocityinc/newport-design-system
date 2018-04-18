@@ -7,9 +7,15 @@ import {
     UpdateConditionEvent
 } from 'builder_platform_interaction-events';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
-import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { createFlowElement, ELEMENT_TYPE, SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
 
-// TODO: Refactor with assignment reducer / new CommonReducer for common code?
+const addOutcome = (state) => {
+    const newOutcome = createFlowElement(ELEMENT_TYPE.OUTCOME, false);
+    const outcomes = addItem(state.outcomes, newOutcome);
+
+    return updateProperties(state, {outcomes});
+};
 
 const addCondition = (state, event) => {
     const outcomes = state.outcomes.map((outcome) => {
@@ -75,6 +81,8 @@ const decisionPropertyChanged = (state, event) => {
  */
 export const decisionReducer = (state, event) => {
     switch (event.type) {
+        case PROPERTY_EDITOR_ACTION.ADD_DECISION_OUTCOME:
+            return addOutcome(state);
         case PropertyChangedEvent.EVENT_NAME:
             if (event.guid) {
                 return outcomePropertyChanged(state, event);

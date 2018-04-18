@@ -370,10 +370,11 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.OUTCOME]: {
         // OUTCOME is not a canvas element, but is a first class element
         template: {
-            label: { value: ''},
+            name: '',
+            label: '',
             guid: '',
             conditionLogic: CONDITION_LOGIC.AND,
-            conditions: [{}]
+            conditions: [{name:'', label:''}]
         }
     },
     [ELEMENT_TYPE.VARIABLE]: {
@@ -399,6 +400,7 @@ export const elementTypeToConfigMap = {
         }
     }
 };
+
 
 /**
  * @param {string}

@@ -5,6 +5,7 @@ import {
     DeleteConditionEvent,
     UpdateConditionEvent
 } from 'builder_platform_interaction-events';
+import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
 
 describe('decision-reducer', () => {
     let originalState;
@@ -68,6 +69,27 @@ describe('decision-reducer', () => {
                 expect(newState.outcomes[1].label.value).toEqual('val');
                 expect(newState.outcomes[1].label.error).toEqual('anError');
             });
+        });
+    });
+
+    describe('Add Outcome', () => {
+        it('adds outcomes', () => {
+            const mockGuid = 'ABC';
+
+            const storeLib = require.requireActual('builder_platform_interaction-store-lib');
+            storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
+
+            const addOutcomeAction = {type:PROPERTY_EDITOR_ACTION.ADD_DECISION_OUTCOME};
+
+            let newState = decisionReducer(originalState, addOutcomeAction);
+
+            expect(newState.outcomes).toHaveLength(3);
+            expect(newState.outcomes[2].label.value).toEqual(mockGuid);
+
+            newState = decisionReducer(newState, addOutcomeAction);
+
+            expect(newState.outcomes).toHaveLength(4);
+            expect(newState.outcomes[3].label.value).toEqual(mockGuid);
         });
     });
 
