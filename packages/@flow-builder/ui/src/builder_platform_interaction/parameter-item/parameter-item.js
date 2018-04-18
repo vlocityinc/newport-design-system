@@ -198,7 +198,6 @@ export default class ParameterItem extends Element {
     get menuData() {
         const leftElement = {
             [RULE_PROPERTY_INFO.DATA_TYPE]: this.type,
-            [RULE_PROPERTY_INFO.ELEMENT_TYPE]: this.elementType,
             [RULE_PROPERTY_INFO.IS_COLLECTION]: this.isCollection,
         };
         const rules = getRulesForElementType(this.elementType);
