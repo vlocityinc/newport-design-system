@@ -4,7 +4,6 @@ import ReorderableVerticalNavigationItem from 'builder_platform_interaction-reor
 const selectors = {
     frontIcon: 'div[slot="front-icon"]',
     endIcon: 'div[slot="end-icon"]',
-    div: 'div',
     link: 'a'
 };
 
@@ -27,24 +26,14 @@ describe('ReorderableVerticalNavigationItem', () => {
             expect(endIcon).toHaveLength(0);
         });
     });
-    it('has correct class when item is selected', () => {
-        const element = createComponentUnderTest();
-        element.navItemId = '1';
-        element.activeId = element.navItemId;
-        return Promise.resolve().then(() => {
-            const div = element.querySelectorAll(selectors.div);
-            expect(div).toHaveLength(1);
-            expect(div[0].getAttribute('class')).toContain('slds-vertical-tabs__nav-item slds-is-active');
-        });
-    });
-    it('has correct title', () => {
+    it('has correct text', () => {
         const testItemTitle = 'Test Item Title';
         const element = createComponentUnderTest();
         element.label = testItemTitle;
         return Promise.resolve().then(() => {
-            const div = element.querySelectorAll(selectors.div);
-            expect(div).toHaveLength(1);
-            expect(div[0].getAttribute('title')).toContain(testItemTitle);
+            const link = element.querySelectorAll(selectors.link);
+            expect(link).toHaveLength(1);
+            expect(link[0].text).toContain(testItemTitle);
         });
     });
     it('fires itemclicked that includes itemId when an item is clicked', () => {

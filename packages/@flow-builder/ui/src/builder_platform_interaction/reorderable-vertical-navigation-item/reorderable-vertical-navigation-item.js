@@ -1,7 +1,4 @@
 import { Element, api } from 'engine';
-
-const CLASS_ACTIVE = 'slds-vertical-tabs__nav-item slds-is-active';
-const CLASS_INACTIVE = 'slds-vertical-tabs__nav-item';
 const LINK_ARIA_SELECTED_ACTIVE = 'true';
 const LINK_ARIA_SELECTED_INACTIVE = 'false';
 
@@ -15,10 +12,6 @@ export default class ReorderableVerticalNavigationItem extends Element {
     @api activeId;
     @api hasFrontIcon = false;
     @api hasEndIcon = false;
-
-    get className() {
-        return this.isActive() ? CLASS_ACTIVE : CLASS_INACTIVE;
-    }
 
     get ariaSelected() {
         return this.isActive() ? LINK_ARIA_SELECTED_ACTIVE : LINK_ARIA_SELECTED_INACTIVE;

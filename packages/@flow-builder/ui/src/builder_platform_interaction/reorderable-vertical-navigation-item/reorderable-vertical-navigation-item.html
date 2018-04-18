@@ -1,27 +1,25 @@
 <template>
-    <div class={className} title={label} role="presentation">
-        <a class="slds-vertical-tabs__link slds-grid"
-            href="javascript:void(0);"
-            onclick={handleClick}
-            role="tab"
-            tabindex="0"
-            aria-selected={ariaSelected}
-            id={navItemId}>
-            <template if:true={hasFrontIcon}>
-                <slot name="front-icon">
-                <!-- Example:
-                <lightning-icon icon-name="utility:rows" size="x-small" class="slds-m-right_x-small"></lightning-icon> 
-                -->
-                </slot>
-            </template>
-            {label}
-            <template if:true={hasEndIcon}>
-                <slot name="end-icon">
-                <!-- Example: 
-                <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
-                -->
-                </slot>
-            </template>
-        </a>
-    </div>
+    <a class="slds-vertical-tabs__link slds-grid"
+        href="javascript:void(0);"
+        onclick={handleClick}
+        role="tab"
+        tabindex="0"
+        aria-selected={ariaSelected}
+        id={navItemId}>
+        <template if:true={hasFrontIcon}>
+            <slot name="front-icon">
+            <!-- Example:
+            <lightning-icon icon-name="utility:rows" size="x-small" class="slds-m-right_x-small"></lightning-icon> 
+            -->
+            </slot>
+        </template>
+        {label}
+        <template if:true={hasEndIcon}>
+            <slot name="end-icon">
+            <!-- Example: 
+            <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
+            -->
+            </slot>
+        </template>
+    </a>
 </template>

@@ -27,10 +27,6 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
         this.activeOutcomeId = this.element.outcomes[0].guid;
     }
 
-    get firstOutcomeId() {
-        return this.element.outcomes[0].guid;
-    }
-
     addInitialOutcomeIfNeeded() {
         if (this.element && (typeof this.element.outcomes === 'undefined' || this.element.outcomes.length === 0)) {
             this.addOutcome();
