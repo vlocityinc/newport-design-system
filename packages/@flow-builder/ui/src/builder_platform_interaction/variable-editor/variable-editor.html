@@ -1,3 +1,10 @@
 <template>
-    <!-- TODO: add fields -->
+    <div if:true={variableResource} class='slds-p-around_small'>
+        <builder_platform_interaction-label-description dev-name={variableResource.name}
+                                                        dev-name-label='API Name'
+                                                        description={variableResource.description}
+                                                        hide-label=true
+                                                        onpropertychanged={handlePropertyChanged}>
+        </builder_platform_interaction-label-description>
+    </div>
 </template>

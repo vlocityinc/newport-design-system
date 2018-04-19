@@ -1,13 +1,11 @@
 import { createElement } from 'engine';
 import VariableEditor from '../variable-editor';
 import { elements, stringVariableGuid, variable } from 'mock-store-data';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
+import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 
-jest.mock('builder_platform_interaction-data-mutation-lib', () => {
-    return {
-        getErrorsFromHydratedElement: jest.fn(),
-    };
-});
+const SELECTORS = {
+    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
+};
 
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-variable-editor', {
@@ -28,11 +26,21 @@ describe('variable-editor', () => {
         });
     });
 
-    it('has a validate method', () => {
+    it('has label description component', () => {
+        const variableEditor = setupComponentUnderTest(stringVariable);
+        const labelDescription = variableEditor.querySelector(SELECTORS.LABEL_DESCRIPTION);
+        expect(labelDescription).toBeDefined();
+        expect(labelDescription.description).toBe(stringVariable.description);
+        expect(labelDescription.devName).toBe(stringVariable.name);
+    });
+
+    it('handles the property changed event and updates the property', () => {
         const variableEditor = setupComponentUnderTest(stringVariable);
         return Promise.resolve().then(() => {
-            variableEditor.validate();
-            expect(getErrorsFromHydratedElement).toHaveBeenCalledTimes(1);
+            const event = new PropertyChangedEvent('description', 'new desc', null);
+            variableEditor.querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
+            expect(variableEditor.node.description.value).toBe('new desc');
+            expect(variableEditor.node.description.error).toBeNull();
         });
     });
 });
