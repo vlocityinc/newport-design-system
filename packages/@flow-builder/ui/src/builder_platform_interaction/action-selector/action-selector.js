@@ -56,7 +56,8 @@ export default class ActionSelector extends Element {
         ],
         spinnerActive : true,
         actionComboLabel : '',
-        actionPlaceholder : ''
+        actionPlaceholder : '',
+        errorMessage : ''
     };
     invocableActions = [];
     invocableActionsLoaded = false;
@@ -75,6 +76,14 @@ export default class ActionSelector extends Element {
         this.stopCallbackExecutionInvocableActions = fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, this.getInvocableActionsCallback);
         this.updateTypeCombo();
         this.updateActionCombo();
+    }
+
+    renderedCallback() {
+        if (this.state.errorMessage) {
+            const typeCombo = this.root.querySelector(SELECTORS.TYPES);
+            typeCombo.setCustomValidity(this.state.errorMessage);
+            typeCombo.showHelpMessageIfInvalid();
+        }
     }
 
     disconnectedCallback() {
@@ -111,7 +120,7 @@ export default class ActionSelector extends Element {
      */
     getInvocableActionsCallback = ({data, error}) => {
         if (error) {
-            this.setActionTypeError(LABELS.CANNOT_GET_INVOCABLE_ACTIONS);
+            this.state.errorMessage = LABELS.CANNOT_GET_INVOCABLE_ACTIONS;
         } else {
             this.invocableActions = data;
         }
@@ -138,7 +147,7 @@ export default class ActionSelector extends Element {
      */
     getApexPluginsCallback = ({data, error}) => {
         if (error) {
-            this.setActionTypeError(LABELS.CANNOT_GET_APEX_PLUGINS);
+            this.state.errorMessage = LABELS.CANNOT_GET_APEX_PLUGINS;
         } else {
             this.apexPlugins = data;
         }
@@ -156,7 +165,7 @@ export default class ActionSelector extends Element {
      */
     getSubflowsCallback = ({data, error}) => {
         if (error) {
-            this.setActionTypeError(LABELS.CANNOT_GET_SUBFLOWS);
+            this.state.errorMessage = LABELS.CANNOT_GET_SUBFLOWS;
         } else {
             this.subflows = data;
         }
@@ -164,12 +173,6 @@ export default class ActionSelector extends Element {
         this.stopCallbackExecutionSubflows = null;
         this.updateComboboxes();
     };
-
-    setActionTypeError(errorMessage) {
-        const labelInput = this.root.querySelector(SELECTORS.TYPES);
-        labelInput.setCustomValidity(errorMessage);
-        labelInput.showHelpMessageIfInvalid();
-    }
 
     /**
      * @typedef {Object} SelectedAction
