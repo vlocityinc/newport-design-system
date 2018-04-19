@@ -2,7 +2,7 @@
     <div class="slds-grid slds-gutters slds-grid_vertical-align-end slds-gutters_xx-small">
         <builder_platform_interaction-combobox class="slds-col slds-grow"
                 label={lhsLabel}
-                value={lhsComboBoxValue}
+                value={state.normalizedLHS.display}
                 onfetchmenudata={handleFetchLHSMenuData}
                 onvaluechanged={handleLHSValueChanged}
                 onfiltermatches={handleFilterLHSMatches}
@@ -24,7 +24,7 @@
         </template>
         <builder_platform_interaction-combobox class="slds-col slds-grow"
                 label={rhsLabel}
-                value={rhsComboBoxValue}
+                value={state.rhsDisplay}
                 disabled={rhsDisabled}
                 onfetchmenudata={handleFetchRHSMenuData}
                 onvaluechanged={handleRHSValueChanged}
