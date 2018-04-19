@@ -16,7 +16,7 @@
 
     <!-- TODO: Localize labels after W-4693112 -->
     <div class="slds-form-element slds-size_1-of-3 slds-m-bottom_small">
-        <lightning-combobox class="slds-col slds-grow"
+        <lightning-combobox class="slds-col slds-grow conditionLogic"
                             label="Criteria for Executing Outcome"
                             value={conditionLogicValue}
                             options={conditionLogicOptions}
@@ -30,7 +30,7 @@
                          value={outcome.conditionLogic.value}
                          required
                          message-when-value-missing={showErrorMessageIfBlank}
-                         class="slds-col label"></lightning-input>
+                         class="slds-col customLogic"></lightning-input>
     </div>
 
     <builder_platform_interaction-list items={conditions}

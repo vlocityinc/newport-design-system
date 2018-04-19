@@ -99,7 +99,7 @@ export default class Outcome extends Element {
 
     handleConditionLogicChange(event) {
         let newLogicValue = event.detail.value;
-        if (newLogicValue !== CONDITION_LOGIC.AND && newLogicValue !== CONDITION_LOGIC.OR) {
+        if (newLogicValue === CONDITION_LOGIC.CUSTOM_LOGIC) {
             newLogicValue = this.getDefaultCustomLogicStringForOutcome(this.conditionLogicValue);
         }
 

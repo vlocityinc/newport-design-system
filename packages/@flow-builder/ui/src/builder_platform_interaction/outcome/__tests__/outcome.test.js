@@ -6,8 +6,10 @@ import {
     DeleteConditionEvent,
     DeleteListItemEvent,
     UpdateConditionEvent,
-    UpdateListItemEvent
+    UpdateListItemEvent,
+    PropertyChangedEvent
 } from 'builder_platform_interaction-events';
+import {CONDITION_LOGIC} from 'builder_platform_interaction-flow-metadata';
 
 const outcomeWithOneConditional = {
     label: {value: 'Test Name of the Outcome'},
@@ -29,9 +31,12 @@ const outcomeWithThreeConditionals = {
 };
 
 const selectors = {
+    conditionList: 'builder_platform_interaction-list',
     row: 'builder_platform_interaction-row',
     labelAndName: 'builder_platform_interaction-label-description',
-    button: 'lightning-button'
+    button: 'lightning-button',
+    conditionLogicComboBox: '.conditionLogic',
+    customLogicInput: '.customLogic',
 };
 
 const createComponentUnderTest = () => {
@@ -177,18 +182,16 @@ describe('Outcome', () => {
         });
 
         describe('handleAddCondition', () => {
-            it('fires addConditionEvent with current outcome GUI', () => {
+            it('fires addConditionEvent with current outcome GUID', () => {
                 const element = createComponentUnderTest();
-                // TODO: Figure out a way around this.  Currently shortcutting the element.outcome setter and setting
-                // element.outcome directly so it will be available when we call the handler.  See handler call below
                 element.outcome = outcomeWithThreeConditionals;
 
                 return Promise.resolve().then(() => {
                     const eventCallback = jest.fn();
                     element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
 
-                    // TODO: Figure out a better way to access the handler rather than through the class prototype
-                    Outcome.prototype.handleAddCondition.call(element, new AddListItemEvent());
+                    const conditionList = element.querySelector(selectors.conditionList);
+                    conditionList.dispatchEvent(new AddListItemEvent());
 
                     expect(eventCallback).toHaveBeenCalled();
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -199,22 +202,19 @@ describe('Outcome', () => {
         });
 
         describe('handleDeleteCondition', () => {
-            it('fires deleteConditionEvent with outcome GUI and condition index', () => {
+            it('fires deleteConditionEvent with outcome GUID and condition index', () => {
                 const indexToDelete = 300;
 
                 const element = createComponentUnderTest();
-                // TODO: Figure out a way around this.  Currently shortcutting the element.outcome setter and setting
-                // element.outcome directly so it will be available when we call the handler.  See handler call below
                 element.outcome = outcomeWithThreeConditionals;
 
                 return Promise.resolve().then(() => {
                     const eventCallback = jest.fn();
                     element.addEventListener(DeleteConditionEvent.EVENT_NAME, eventCallback);
 
-                    // TODO: Figure out a better way to access the handler rather than through the class prototype
-                    Outcome.prototype.handleDeleteCondition.call(element, new DeleteListItemEvent(indexToDelete));
+                    const conditionList = element.querySelector(selectors.conditionList);
+                    conditionList.dispatchEvent(new DeleteListItemEvent(indexToDelete));
 
-                    expect(eventCallback).toHaveBeenCalled();
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({
                         parentGUID: element.outcome.guid,
                         index: indexToDelete
@@ -230,20 +230,19 @@ describe('Outcome', () => {
                     value: 'newVal',
                 };
 
-
                 const element = createComponentUnderTest();
-                // TODO: Figure out a way around this.  Currently shortcutting the element.outcome setter and setting
-                // element.outcome directly so it will be available when we call the handler.  See handler call below
                 element.outcome = outcomeWithThreeConditionals;
 
                 return Promise.resolve().then(() => {
                     const eventCallback = jest.fn();
                     element.addEventListener(UpdateConditionEvent.EVENT_NAME, eventCallback);
 
-                    // TODO: Figure out a better way to access the handler rather than through the class prototype
-                    Outcome.prototype.handleUpdateCondition.call(element, new UpdateListItemEvent(
+                    const conditionList = element.querySelector(selectors.conditionList);
+                    conditionList.dispatchEvent(new UpdateListItemEvent(
                         updateData.index,
-                        updateData.value));
+                        updateData.value,
+                        updateData.error
+                    ));
 
                     expect(eventCallback).toHaveBeenCalled();
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -275,6 +274,145 @@ describe('Outcome', () => {
                 const removeButton = element.querySelectorAll(selectors.button)[0];
                 expect(removeButton.label).toBe('Remove');
                 expect(removeButton.title).toBe('Remove Outcome');
+            });
+        });
+    });
+
+    describe('condition logic', () => {
+        describe('AND', () => {
+            it('sets the logic combobox to \'and\'', () => {
+                const element = createComponentUnderTest();
+
+                element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                    conditionLogic: {value: 'and'}
+                });
+
+                return Promise.resolve().then(() => {
+                    const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+
+                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.AND);
+                });
+            });
+            it('should hide the custom logic input', () => {
+                const element = createComponentUnderTest();
+
+                element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                    conditionLogic: {value: 'and'}
+                });
+
+                return Promise.resolve().then(() => {
+                    const customLogicInput = element.querySelector(selectors.customLogicInput);
+                    expect(customLogicInput).toBeNull();
+                });
+            });
+        });
+
+        describe('OR', () => {
+            it('sets the logic combobox to \'or\'', () => {
+                const element = createComponentUnderTest();
+
+                element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                    conditionLogic: {value: 'or'}
+                });
+
+                return Promise.resolve().then(() => {
+                    const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+
+                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.OR);
+                });
+            });
+            it('should hide the custom logic input', () => {
+                const element = createComponentUnderTest();
+
+                element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                    conditionLogic: {value: 'or'}
+                });
+
+                return Promise.resolve().then(() => {
+                    const customLogicInput = element.querySelector(selectors.customLogicInput);
+                    expect(customLogicInput).toBeNull();
+                });
+            });
+        });
+
+        describe('custom logic', () => {
+            it('sets the logic combobox to custom logic', () => {
+                const element = createComponentUnderTest();
+                element.outcome = outcomeWithThreeConditionals;
+
+                return Promise.resolve().then(() => {
+                    const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+
+                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.CUSTOM_LOGIC);
+                });
+            });
+            it('shows the custom logic with the value from conditionLogic', () => {
+                const element = createComponentUnderTest();
+                element.outcome = outcomeWithThreeConditionals;
+
+                return Promise.resolve().then(() => {
+                    const customLogicInput = element.querySelector(selectors.customLogicInput);
+
+                    expect(customLogicInput.value).toEqual(outcomeWithThreeConditionals.conditionLogic.value);
+                });
+            });
+
+            describe('default value', () => {
+                it('from AND all conditions should be separated by ANDs', () => {
+                    const element = createComponentUnderTest();
+
+                    element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                        conditionLogic: {value: 'and'}
+                    });
+
+                    return Promise.resolve().then(() => {
+                        const eventCallback = jest.fn();
+                        element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                        const logicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+                        logicComboBox.dispatchEvent(new CustomEvent('change', {
+                            detail: {
+                                value: CONDITION_LOGIC.CUSTOM_LOGIC
+                            }
+                        }));
+
+                        expect(eventCallback).toHaveBeenCalled();
+                        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                            guid: element.outcome.guid,
+                            propertyName: 'conditionLogic',
+                            value: '1 AND 2 AND 3',
+                            error: null
+                        });
+                    });
+                });
+
+                it('from OR all conditions should be separated by ORs', () => {
+                    const element = createComponentUnderTest();
+
+                    element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                        conditionLogic: {value: 'or'}
+                    });
+
+                    return Promise.resolve().then(() => {
+                        const eventCallback = jest.fn();
+                        element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                        const logicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+                        logicComboBox.dispatchEvent(new CustomEvent('change', {
+                            detail: {
+                                value: CONDITION_LOGIC.CUSTOM_LOGIC
+                            }
+                        }));
+
+                        expect(eventCallback).toHaveBeenCalled();
+                        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                            guid: element.outcome.guid,
+                            propertyName: 'conditionLogic',
+                            value: '1 OR 2 OR 3',
+                            error: null
+                        });
+                    });
+                });
             });
         });
     });
