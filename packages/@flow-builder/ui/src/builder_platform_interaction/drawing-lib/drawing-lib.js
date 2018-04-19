@@ -1,5 +1,9 @@
-import { CONNECTOR_OVERLAY } from 'builder_platform_interaction-constant';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
+
+const CONNECTOR_OVERLAY = {
+    ARROW: '__arrow',
+    LABEL: '__label'
+};
 
 /**
  * @type {object} instance
@@ -260,5 +264,6 @@ class DrawingLib {
     }
 }
 
+export { CONNECTOR_OVERLAY };
 /** Export of the singleton instance of library **/
 export const drawingLibInstance = new DrawingLib();

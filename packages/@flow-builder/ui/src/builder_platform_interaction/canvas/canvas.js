@@ -1,6 +1,6 @@
 import { Element, api, track } from 'engine';
-import { CONNECTOR_OVERLAY, ZOOM_ACTION } from 'builder_platform_interaction-constant';
-import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
+import { ZOOM_ACTION } from 'builder_platform_interaction-constant';
+import { CONNECTOR_OVERLAY, drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
 import { AddElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
