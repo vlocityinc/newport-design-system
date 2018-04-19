@@ -4,6 +4,8 @@
             <!-- TODO: Localize labels after W-4693112 -->
             <span class="slds-truncate">Outcome Details</span>
         </h3>
+        <lightning-button label="Remove" title="Remove Outcome" class="slds-col_bump-left slds-shrink-none" onclick={handleRemoveOutcome}>
+        </lightning-button>
     </div>
     <builder_platform_interaction-label-description
             label={outcome.label}
@@ -35,7 +37,7 @@
                                              onaddlistitem={handleAddCondition}
                                              onupdatelistitem={handleUpdateCondition}
                                              ondeletelistitem={handleDeleteCondition}
-                                             add-label='Add Condition'>
+                                             add-label="Add Condition">
         <div slot="listBody">
             <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
                 <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.rowIndex}>
