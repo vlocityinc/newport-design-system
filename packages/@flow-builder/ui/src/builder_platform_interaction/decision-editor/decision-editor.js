@@ -40,6 +40,12 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
     handleAddOutcome(event) {
         event.stopPropagation();
         this.addOutcome();
+
+        // Select the newly added outcome
+        const outcomes = this.element.outcomes;
+        this.activeOutcomeId = outcomes[outcomes.length - 1].guid;
+
+        // TODO Focus on the newly selected outcome
     }
 
     addOutcome() {
