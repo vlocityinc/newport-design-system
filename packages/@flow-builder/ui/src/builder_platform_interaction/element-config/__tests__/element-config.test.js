@@ -102,9 +102,15 @@ describe('element-config', () => {
             const elementType = ELEMENT_TYPE.OUTCOME;
             const element = createFlowElement(elementType, false);
 
-            expect(element.label).toEqual({value: ''});
+            expect(element.label).toEqual('');
             expect(element.conditionLogic).toEqual(CONDITION_LOGIC.AND);
-            expect(element.conditions).toEqual([{}]);
+            expect(element.conditions).toEqual([{
+                leftValueReference: '',
+                operator: '',
+                rightValue: {
+                    stringValue: ''
+                },
+            }]);
         });
     });
 });
