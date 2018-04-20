@@ -1,6 +1,5 @@
 import { Element, track, api } from 'engine';
-import { PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
-import { CRUD, invokePanel } from 'builder_platform_interaction-builder-utils';
+import { CRUD, invokePanel, PROPERTY_EDITOR } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { updateFlow, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';

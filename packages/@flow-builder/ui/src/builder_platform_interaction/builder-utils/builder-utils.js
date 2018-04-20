@@ -37,6 +37,9 @@ const UI_CREATE_PANEL = 'ui:createPanel';
  */
 const hoverPanels = {};
 
+// component name used when calling invokePanel
+export const PROPERTY_EDITOR = 'builder_platform_interaction:propertyEditor';
+
 export const CRUD = {
     CREATE: 'CREATE',
     READ: 'READ',
