@@ -5,5 +5,5 @@ export const EXPRESSION_PROPERTY_TYPE = {
     RIGHT_HAND_SIDE_DATA_TYPE: 'rightHandSideDataType',
 };
 
-export { getElementsForMenuData, getElementByDevName, COMBOBOX_NEW_RESOURCE_VALUE, normalizeLHS, retrieveRHSVal } from './menuDataRetrieval';
+export * from './menuDataRetrieval';
 export { filterMatches } from './filterItems';

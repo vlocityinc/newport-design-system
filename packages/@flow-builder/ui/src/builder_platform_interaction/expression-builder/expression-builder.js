@@ -1,6 +1,5 @@
 import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
-import { Store } from 'builder_platform_interaction-store-lib';
 import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, retrieveRHSVal } from 'builder_platform_interaction-expression-utils';
 import { getRulesForElementType, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox } from 'builder_platform_interaction-rule-lib';
@@ -14,7 +13,6 @@ const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 
 const RHSDT = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
 
-let storeInstance;
 let element;
 let rules;
 
@@ -32,11 +30,6 @@ export default class ExpressionBuilder extends Element {
         normalizedLHS: {}, // contains display, for the combobox to display, and parameter, to use with the rules service
         rhsDisplay: undefined, // for the rhs combobox to display, as the rhs could be passed as a guid
     };
-
-    constructor() {
-        super();
-        storeInstance = Store.getStore();
-    }
 
     @api
     showOperator;
@@ -59,11 +52,11 @@ export default class ExpressionBuilder extends Element {
         // TODO handle literals, "hi my name is {!firstName}" W-4817362
         // TODO handle multi-level merge fields W-4723095
         if (expression[LHS] && expression[LHS].value) {
-            this.state.normalizedLHS = normalizeLHS(storeInstance.getCurrentState(), expression[LHS].value);
+            this.state.normalizedLHS = normalizeLHS(expression[LHS].value);
         }
         // TODO default operator case W-4912900
         if (expression[RHS] && expression[RHS].value) {
-            this.state.rhsDisplay = retrieveRHSVal(storeInstance.getCurrentState(), expression[RHS].value);
+            this.state.rhsDisplay = retrieveRHSVal(expression[RHS].value);
         }
         this.state.expression = expression;
     }
@@ -84,7 +77,7 @@ export default class ExpressionBuilder extends Element {
     set elementType(type) {
         element = type;
         rules = getRulesForElementType(element);
-        this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element, shouldBeWritable: true}, getLHSTypes(rules), true);
+        this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData({element, shouldBeWritable: true}, getLHSTypes(rules), true);
     }
 
     @api
@@ -104,7 +97,7 @@ export default class ExpressionBuilder extends Element {
         let rhsMenuData;
         if (this.state.normalizedLHS.display && this.state.expression[OPERATOR]) {
             const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, this.state.expression[OPERATOR].value, rules);
-            this._fullRHSMenuData = getElementsForMenuData(storeInstance.getCurrentState(), {element}, rhsTypes, true);
+            this._fullRHSMenuData = getElementsForMenuData({element}, rhsTypes, true);
             rhsMenuData = this._fullRHSMenuData;
         }
         return rhsMenuData;

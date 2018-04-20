@@ -1,6 +1,7 @@
 import {isMatch, elementToParam} from "builder_platform_interaction-rule-lib";
 import {writableElementsSelector, readableElementsSelector} from "builder_platform_interaction-selectors";
 import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
+import { Store } from 'builder_platform_interaction-store-lib';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
@@ -120,17 +121,20 @@ function getNewResourceItem() {
     };
 }
 
+export const getElementByGuid = (guid) => {
+    return Store.getStore().getCurrentState().elements[guid];
+};
+
 /**
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
  *
- * @param {Object} state            the current state of the application
  * @param {String} rhsIdentifier    used to identify RHS, could be GUID or literal
  * @returns {String}                combobox display value
  */
-export const retrieveRHSVal = (state, rhsIdentifier) => {
+export const retrieveRHSVal = (rhsIdentifier) => {
     let rhsVal;
-    const flowElement = state.elements[rhsIdentifier];
+    const flowElement = getElementByGuid(rhsIdentifier);
     if (flowElement) {
         rhsVal = '{!' + flowElement.name + '}';
     } else {
@@ -144,13 +148,12 @@ export const retrieveRHSVal = (state, rhsIdentifier) => {
  * such as GUIDs for flow elements, and returns what the
  * the expression builder will need to use to work with that LHS.
  *
- * @param {Object} state            the current state of the application
  * @param {String} lhsIdentifier      used to identify the LHS (e.g. GUID for flow elements)
  * @returns {Object}                {lhsValue, lhsParameter}, lhsValue is the combobox display value, lhsParameter is needed for the rules service
  */
-export const normalizeLHS = (state, lhsIdentifier) => {
+export const normalizeLHS = (lhsIdentifier) => {
     const lhs = {};
-    const flowElement = state.elements[lhsIdentifier];
+    const flowElement = getElementByGuid(lhsIdentifier);
     if (flowElement) {
         lhs.display = '{!' + flowElement.name + '}';
         lhs.parameter = elementToParam(flowElement);
@@ -185,13 +188,14 @@ function getSelector({element, shouldBeWritable}) {
 /**
  * Gets list of elements to display in combobox, in shape combobox expects
  *
- * @param {Object} state                the current state of the store
  * @param {Object} elementConfig        {element, shouldBeWritable} element is the element type this expression builder is inside, shouldBeWritable is so property editors can specify the data they need
  * @param {Object} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
  * @param {boolean} includeNewResource  if true, include new resource as first menu item
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
-export function getElementsForMenuData(state, elementConfig, allowedParamTypes, includeNewResource) {
+export function getElementsForMenuData(elementConfig, allowedParamTypes, includeNewResource) {
+    const state = Store.getStore().getCurrentState();
+
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
     // TODO: if this function ever deals with server calls, we need to memoize it, because it gets called everytime the component rerenders
     const menuData = getSelector(elementConfig)(state)

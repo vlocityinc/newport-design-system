@@ -203,7 +203,7 @@ export default class ParameterItem extends Element {
         const rules = getRulesForElementType(this.elementType);
         const rhsTypes = getRHSTypes(leftElement, "Assign", rules);
         const shouldBeWritable = this.isInput;
-        const menuD = getElementsForMenuData(storeInstance.getCurrentState(), {element: this.elementType, shouldBeWritable}, rhsTypes, true);
+        const menuD = getElementsForMenuData({element: this.elementType, shouldBeWritable}, rhsTypes, true);
         return menuD;
     }
 
