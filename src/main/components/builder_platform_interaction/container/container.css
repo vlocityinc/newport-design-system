@@ -1,15 +1,9 @@
 /************* Place holder for Editor.html css *****************/
 
 /************* Header *****************/
-.THIS builder_platform_interaction-header .header {
-    line-height: t(lineHeightTab);
-    background-color: t(colorBackgroundIndicatorDot);
+.THIS builder_platform_interaction-header .flow-builder-header-label {
+    color: t(colorTextInverse);
 }
-
-.THIS builder_platform_interaction-header .header lightning-icon {
-    background-color: t(colorBackgroundIndicatorDot);
-}
-
 /************* Toolbar *****************/
 .THIS builder_platform_interaction-toolbar .toolbar {
     line-height: t(lineHeightTab);

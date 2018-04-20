@@ -230,8 +230,7 @@ const EXTRA_FIELDS = ["createdById",
     "manageableState",
     "masterLabel",
     "processType",
-    "status",
-    "versionNumber",
+    "status"
 ];
 
 // Only a small subset of elements are enabled right now
@@ -297,7 +296,6 @@ export const cleanFlowSample = function () {
         // added in limited support for all elements to make testing easier, which was then removed
         delete flow.metadata[key];
     });
-
     return flow;
 };
 
@@ -305,6 +303,8 @@ describe('Flow Translator', () => {
     it('Converts Losslessly', () => {
         const uiFlow = translateFlowToUIModel(cleanFlowSample());
         const flow = translateUIModelToFlow(uiFlow);
-        expect(flow).toEqual(cleanFlowSample());
+        const cleanFlow = cleanFlowSample();
+        expect(flow.metadata).toEqual(cleanFlow.metadata);
+        expect(flow.fullName).toEqual(cleanFlow.fullName);
     });
 });

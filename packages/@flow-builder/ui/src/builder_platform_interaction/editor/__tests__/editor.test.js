@@ -74,7 +74,11 @@ jest.mock('builder_platform_interaction-store-lib', () => {
                     label: 'label',
                     config: {isSelected: true}
                 }
-            ]
+            ],
+            properties : {
+                label: 'Flow Name',
+                versionNumber: '1'
+            }
         };
     };
 

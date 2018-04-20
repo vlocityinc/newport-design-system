@@ -1,12 +1,28 @@
 <template>
-    <div class="header slds-grid slds-text-color_inverse">
-        <div class="header-left slds-grid slds-p-left_xx-small">
-            <lightning-icon icon-name="standard:flow" class="slds-col"></lightning-icon>
-            <div class="slds-col">Name of the flow</div>
+    <div class="slds-builder-header flow-builder-header_border_icon">
+        <div class="slds-builder-header__item">
+            <div class="slds-builder-header__item-label">
+                <lightning-icon variant="inverse" size="x-small" icon-name="utility:flow" class="slds-col flow-utility-icon"></lightning-icon>
+                <div class="slds-col slds-text-body_regular flow-builder-header-label slds-p-left_small app-name">{headerLabels.appName}</div>
+            </div>
         </div>
-        <div class="header-right slds-col_bump-left slds-grid">
-            <div class="slds-col slds-p-right_medium slds-grid">
-                <!--Placeholder for buttons on right hand side of the header-->
+        <div class="slds-builder-header__item">
+            <div class="slds-builder-header__item-label">
+                <div class="slds-col slds-text-body_regular flow-builder-header-label flow-name-label">{fileNameAndVersion}</div>
+            </div>
+        </div>
+        <div class="slds-builder-header__item slds-builder-header__utilities">
+            <div class="slds-builder-header__utilities-item">
+                <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center">
+                    <lightning-icon variant="inverse" size="x-small" icon-name="utility:back" class="slds-icon_container slds-icon-utility-back slds-current-color back-utility-icon"></lightning-icon>
+                    <div class="slds-media__body slds-text-body_regular slds-p-left_small back-label">{headerLabels.backLabel}</div>
+                </a>
+            </div>
+            <div class="slds-builder-header__utilities-item">
+                <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center">
+                    <lightning-icon variant="inverse" size="x-small" icon-name="utility:help" class="slds-icon_container slds-icon-utility-back slds-current-color help-utility-icon"></lightning-icon>
+                    <div class="slds-media__body slds-text-body_regular slds-p-left_small help-label">{headerLabels.helpLabel}</div>
+                </a>
             </div>
         </div>
     </div>

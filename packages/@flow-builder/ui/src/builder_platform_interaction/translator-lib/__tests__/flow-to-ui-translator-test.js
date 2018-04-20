@@ -104,6 +104,16 @@ describe('Flow To UI Translator', () => {
         // TODO: test other attributes set
     });
 
+    describe('Header', () => {
+        it('Flow Properties', () => {
+            const sampleFlow = cleanFlowSample();
+            const uiFlow = translateFlowToUIModel(sampleFlow);
+
+            expect(uiFlow.properties.fullName).toEqual('screenFlow-1');
+            expect(uiFlow.properties.versionNumber).toEqual(1);
+        });
+    });
+
     describe('decision', () => {
         it('Converts Flow to UI', () => {
             const converted = convertElement(DECISION, ELEMENT_TYPE.DECISION, true);

@@ -2,7 +2,7 @@ import { Element, track, api } from 'engine';
 import { PROPERTY_EDITOR } from 'builder_platform_interaction-constant';
 import { CRUD, invokePanel } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
-import { canvasSelector, resourcesSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
+import { canvasSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { updateFlow, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 import { createFlowElement, ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
@@ -32,7 +32,7 @@ export default class Editor extends Element {
             nodes: [],
             connectors: []
         },
-        resources: []
+        properties: {}
     };
 
     constructor() {
@@ -67,13 +67,13 @@ export default class Editor extends Element {
 
         const nodes = canvasSelector(currentState);
         const connectors = currentState.connectors;
-        const resources = resourcesSelector(currentState);
+        const properties = currentState.properties;
         this.appState = {
             canvas : {
                 nodes,
                 connectors
             },
-            resources
+            properties
         };
     };
 
