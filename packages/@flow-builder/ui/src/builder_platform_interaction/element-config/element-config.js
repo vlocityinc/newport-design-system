@@ -374,7 +374,15 @@ export const elementTypeToConfigMap = {
             label: '',
             guid: '',
             conditionLogic: CONDITION_LOGIC.AND,
-            conditions: [{name:'', label:''}]
+            conditions: [
+                {
+                    leftValueReference: '',
+                    operator: '',
+                    rightValue: {
+                        stringValue: ''
+                    },
+                }
+            ]
         }
     },
     [ELEMENT_TYPE.VARIABLE]: {

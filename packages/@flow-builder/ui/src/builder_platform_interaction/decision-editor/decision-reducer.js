@@ -1,5 +1,5 @@
 import {decisionValidation} from './decision-validation';
-import {updateProperties, addItem, deleteItem, replaceItem} from 'builder_platform_interaction-data-mutation-lib';
+import {updateProperties, addItem, deleteItem, replaceItem, hydrateWithErrors} from 'builder_platform_interaction-data-mutation-lib';
 import {
     PropertyChangedEvent,
     AddConditionEvent,
@@ -9,9 +9,10 @@ import {
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { createFlowElement, ELEMENT_TYPE, SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 
 const addOutcome = (state) => {
-    const newOutcome = createFlowElement(ELEMENT_TYPE.OUTCOME, false);
+    const newOutcome = hydrateWithErrors(createFlowElement(ELEMENT_TYPE.OUTCOME, false));
     const outcomes = addItem(state.outcomes, newOutcome);
 
     return updateProperties(state, {outcomes});
@@ -19,8 +20,15 @@ const addOutcome = (state) => {
 
 const addCondition = (state, event) => {
     const outcomes = state.outcomes.map((outcome) => {
+        const newCondition = {
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: null, error: null },
+            [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: null, error: null},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: null, error: null},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: null, error: null},
+            rowIndex: generateGuid(SUB_ELEMENT_TYPE.CONDITION),
+        };
         return outcome.guid === event.parentGUID ? updateProperties(outcome, {
-            conditions: addItem(outcome.conditions, { rowIndex: generateGuid(SUB_ELEMENT_TYPE.CONDITION)}),
+            conditions: addItem(outcome.conditions, newCondition),
         }) : outcome;
     });
 

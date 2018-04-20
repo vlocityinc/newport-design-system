@@ -75,22 +75,25 @@ describe('decision-reducer', () => {
 
     describe('Add Outcome', () => {
         it('adds outcomes', () => {
-            const mockGuid = 'ABC';
-
             const storeLib = require.requireActual('builder_platform_interaction-store-lib');
-            storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
+
+            const mockGuid1 = 'ABC';
+            storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid1);
 
             const addOutcomeAction = {type:PROPERTY_EDITOR_ACTION.ADD_DECISION_OUTCOME};
 
             let newState = decisionReducer(originalState, addOutcomeAction);
 
             expect(newState.outcomes).toHaveLength(3);
-            expect(newState.outcomes[2].label.value).toEqual(mockGuid);
+            expect(newState.outcomes[2].guid).toEqual(mockGuid1);
+
+            const mockGuid2 = 'XYZ';
+            storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid2);
 
             newState = decisionReducer(newState, addOutcomeAction);
 
             expect(newState.outcomes).toHaveLength(4);
-            expect(newState.outcomes[3].label.value).toEqual(mockGuid);
+            expect(newState.outcomes[3].guid).toEqual(mockGuid2);
         });
     });
 
@@ -108,9 +111,14 @@ describe('decision-reducer', () => {
             const newState = decisionReducer(originalState, addConditionEvent);
 
             const newOutcome = newState.outcomes[1];
+            const hydratedNewObject = {value: null, error: null};
 
             expect(newOutcome.conditions).toHaveLength(2);
             expect(newOutcome.conditions[1].rowIndex).toEqual(mockGuid);
+            expect(newOutcome.conditions[1].leftHandSide).toMatchObject(hydratedNewObject);
+            expect(newOutcome.conditions[1].operator).toMatchObject(hydratedNewObject);
+            expect(newOutcome.conditions[1].rightHandSide).toMatchObject(hydratedNewObject);
+            expect(newOutcome.conditions[1].rightHandSideDataType).toMatchObject(hydratedNewObject);
         });
 
         it('does not add condition to other outcomes', () => {

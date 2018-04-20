@@ -2,6 +2,7 @@ import { assignmentValidation } from './assignment-validation';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { updateProperties, set, deleteItem } from 'builder_platform_interaction-data-mutation-lib';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 import {
     AddListItemEvent,
     DeleteListItemEvent,
@@ -11,7 +12,13 @@ import {
 
 const addAssignmentItem = (state) => {
     // TODO this should come from some assignment item factory like propertyEditorDataMutation that is shared with the translation layer
-    const emptyAssignmentItem = {rowIndex: generateGuid(SUB_ELEMENT_TYPE.ASSIGNMENT_ITEM) };
+    const emptyAssignmentItem = {
+        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: null, error: null },
+        [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: null, error: null},
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: null, error: null},
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: null, error: null},
+        rowIndex: generateGuid(SUB_ELEMENT_TYPE.ASSIGNMENT_ITEM),
+    };
 
     // TODO do validation for if we should not add in case the length is upto certain limit
     const path = ['assignmentItems', state.assignmentItems.length];
