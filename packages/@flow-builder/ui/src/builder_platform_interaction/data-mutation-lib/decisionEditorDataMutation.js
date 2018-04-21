@@ -3,8 +3,9 @@ import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
 
 const mutateOutcome = (outcome) => {
+    // TODO: make this update the outcome in an immutable way
     const conditions = outcome.conditions;
-    for (const condition of conditions) {
+    conditions.forEach((condition, conditionIndex) => {
         condition.rowIndex = generateGuid(SUB_ELEMENT_TYPE.CONDITION);
 
         if (condition.hasOwnProperty('leftValueReference')) {
@@ -12,11 +13,12 @@ const mutateOutcome = (outcome) => {
             delete condition.leftValueReference;
         }
         if (condition.hasOwnProperty('rightValue')) {
-            mutateFEROV(condition, condition.rightValue);
-            delete condition.rightValue;
+            conditions[conditionIndex] = mutateFEROV(condition, 'rightValue', {
+                valueProperty: 'rightHandSide',
+                dataTypeProperty: 'rightHandSideDataType',
+            });
         }
-    }
-
+    });
     return outcome;
 };
 
@@ -28,7 +30,6 @@ const mutateOutcome = (outcome) => {
  */
 export const mutateDecision = (decision, state) => {
     decision.outcomes = [];
-
     const outcomeReferences = decision.outcomeReferences || [];
     for (const outcomeReference of outcomeReferences) {
         const outcome = deepCopy(state.elements[outcomeReference.outcomeReference]);
@@ -81,7 +82,8 @@ export const deMutateDecision = (decision, state) => {
     decision.outcomeReferences = [];
     currentOutcomes.forEach((outcome) => {
         const conditions = outcome.conditions;
-        for (const condition of conditions) {
+        // TODO: update the outcomes in an immutable way
+        conditions.forEach((condition, conditionIndex) => {
             delete condition.rowIndex;
 
             if (condition.hasOwnProperty('leftHandSide')) {
@@ -90,9 +92,12 @@ export const deMutateDecision = (decision, state) => {
             }
             if (condition.hasOwnProperty('rightHandSide')) {
                 condition.rightValue = {};
-                deMutateFEROV(condition, condition.rightValue);
+                conditions[conditionIndex] = deMutateFEROV(condition, 'rightValue', {
+                    valueProperty: 'rightHandSide',
+                    dataTypeProperty: 'rightHandSideDataType',
+                });
             }
-        }
+        });
 
         decision.outcomeReferences.push({
             outcomeReference: outcome.guid

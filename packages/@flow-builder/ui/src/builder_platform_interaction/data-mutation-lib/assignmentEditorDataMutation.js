@@ -8,9 +8,11 @@ import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
  * @param {Object} assignment Assignment element to mutate
  */
 export const mutateAssignment = assignment => {
+    // TODO: make this transform the assignment in an immutable way.
+    // Will probably have to build a list of new assignment items and set them with updateProperties
     const assignmentItems = assignment.assignmentItems;
     if (assignmentItems) {
-        for (const item of assignmentItems) {
+        assignmentItems.forEach((item, itemIndex) => {
             item.rowIndex = generateGuid(SUB_ELEMENT_TYPE.ASSIGNMENT_ITEM);
 
             if (item.hasOwnProperty('assignToReference')) {
@@ -18,10 +20,12 @@ export const mutateAssignment = assignment => {
                 delete item.assignToReference;
             }
             if (item.hasOwnProperty('value')) {
-                mutateFEROV(item, item.value);
-                delete item.value;
+                assignmentItems[itemIndex] = mutateFEROV(item, 'value', {
+                    valueProperty: 'rightHandSide',
+                    dataTypeProperty: 'rightHandSideDataType',
+                });
             }
-        }
+        });
     }
 };
 
@@ -31,9 +35,10 @@ export const mutateAssignment = assignment => {
  * @param {Object} assignment Assignment element to de-mutate
  */
 export const deMutateAssignment = assignment => {
+    // TODO make this transform the assignmnet in an immutable way
     const assignmentItems = assignment.assignmentItems;
     if (assignmentItems) {
-        for (const item of assignmentItems) {
+        assignmentItems.forEach((item, itemIndex) => {
             delete item.rowIndex;
 
             if (item.hasOwnProperty('leftHandSide')) {
@@ -41,9 +46,11 @@ export const deMutateAssignment = assignment => {
                 delete item.leftHandSide;
             }
             if (item.hasOwnProperty('rightHandSide')) {
-                item.value = {};
-                deMutateFEROV(item, item.value);
+                assignmentItems[itemIndex] = deMutateFEROV(item, 'value', {
+                    valueProperty: 'rightHandSide',
+                    dataTypeProperty: 'rightHandSideDataType',
+                });
             }
-        }
+        });
     }
 };

@@ -14,6 +14,11 @@ import {
     deMutateDecision,
 } from '../decisionEditorDataMutation';
 
+import {
+    mutateVariable,
+    deMutateVariable,
+} from '../variableEditorDataMutation';
+
 jest.mock('../assignmentEditorDataMutation', () => {
     return {
         mutateAssignment: jest.fn(assignment => {
@@ -52,6 +57,17 @@ jest.mock('../decisionEditorDataMutation', () => {
     };
 });
 
+jest.mock('../variableEditorDataMutation', () => {
+    return {
+        mutateVariable: jest.fn().mockImplementation(() => {
+            return { name: 'mutated' };
+        }),
+        deMutateVariable: jest.fn().mockImplementation(() => {
+            return { name:'demutated' };
+        }),
+    };
+});
+
 describe('mutateEditorElement function', () => {
     it('should mutate assignment element', () => {
         const element = {
@@ -62,10 +78,10 @@ describe('mutateEditorElement function', () => {
         const result = mutateEditorElement(element);
 
 
-        expect(mutateAssignment.mock.calls[0][0]).toEqual(element);
-        expect(mutateAssignment.mock.calls).toHaveLength(1);
+        expect(mutateAssignment).toHaveBeenCalledWith(element);
+        expect(mutateAssignment).toHaveBeenCalledTimes(1);
 
-        expect(result).toEqual(element);
+        expect(result).toBe(element);
 
         expect(element.name).toEqual('mutated');
     });
@@ -79,18 +95,33 @@ describe('mutateEditorElement function', () => {
 
         const result = mutateEditorElement(element);
 
-        expect(mutateDecision.mock.calls[0][0]).toEqual(element);
-        expect(mutateDecision.mock.calls).toHaveLength(1);
+        expect(mutateDecision).toHaveBeenCalledWith(element, undefined);
+        expect(mutateDecision).toHaveBeenCalledTimes(1);
 
-        expect(result).toEqual(element);
+        expect(result).toBe(element);
 
         expect(element.name).toEqual('mutated');
         expect(element.outcomes).toEqual(mockDecisionOutcomesAfterMutation);
     });
+
+    it('should mutate variable element immutably', () => {
+        const element = {
+            elementType: ELEMENT_TYPE.VARIABLE,
+            name: 'beforeMutation',
+        };
+        const result = mutateEditorElement(element);
+
+        expect(mutateVariable).toHaveBeenCalledTimes(1);
+        expect(mutateVariable).toHaveBeenCalledWith(element);
+
+        expect(result).not.toBe(element);
+
+        expect(result.name).toEqual('mutated');
+    });
 });
 
 describe('deMutateEditorElement function', () => {
-    it('should demutate assignment element', () => {
+    it('should demutate assignment element in place', () => {
         const element = {
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             name: 'beforeDemutation'
@@ -98,15 +129,15 @@ describe('deMutateEditorElement function', () => {
 
         const result = removeEditorElementMutation(element);
 
-        expect(deMutateAssignment.mock.calls[0][0]).toEqual(element);
-        expect(deMutateAssignment.mock.calls).toHaveLength(1);
+        expect(deMutateAssignment).toHaveBeenCalledWith(element);
+        expect(deMutateAssignment).toHaveBeenCalledTimes(1);
 
-        expect(result).toEqual(element);
+        expect(result).toBe(element);
 
         expect(element.name).toEqual('demutated');
     });
 
-    it('should demutate decision element', () => {
+    it('should demutate decision element in place', () => {
         const element = {
             elementType: ELEMENT_TYPE.DECISION,
             name: 'beforeDemutation',
@@ -115,8 +146,8 @@ describe('deMutateEditorElement function', () => {
 
         const result = removeEditorElementMutation(element);
 
-        expect(deMutateDecision.mock.calls[0][0]).toEqual(element);
-        expect(deMutateDecision.mock.calls).toHaveLength(1);
+        expect(deMutateDecision).toHaveBeenCalledWith(element, undefined);
+        expect(deMutateDecision).toHaveBeenCalledTimes(1);
 
         expect(result).toEqual({
             elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
@@ -127,5 +158,21 @@ describe('deMutateEditorElement function', () => {
 
         expect(element.name).toEqual('demutated');
         expect(element.outcomeReferences).toEqual(mockDecisionOutcomeReferencesAfterDeMutation);
+    });
+
+    it('should deMutate variable element immutably', () => {
+        const element = {
+            elementType: ELEMENT_TYPE.VARIABLE,
+            name: 'beforeMutation',
+        };
+
+        const result = removeEditorElementMutation(element);
+
+        expect(deMutateVariable).toHaveBeenCalledTimes(1);
+        expect(deMutateVariable).toHaveBeenCalledWith(element);
+
+        expect(result).not.toBe(element);
+
+        expect(result.name).toEqual('demutated');
     });
 });

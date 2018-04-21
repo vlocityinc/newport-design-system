@@ -7,6 +7,10 @@ import {
     mutateDecision,
     deMutateDecision
 } from './decisionEditorDataMutation';
+import {
+    mutateVariable,
+    deMutateVariable,
+} from './variableEditorDataMutation';
 
 /**
  * Add property editor mutation for a given element
@@ -16,10 +20,13 @@ import {
  * @return {Object} Element in the shape required by property editor
  */
 export const mutateEditorElement = (element, state) => {
+    // TODO: change editor mutation implementations to be immutable
     if (element.elementType === ELEMENT_TYPE.ASSIGNMENT) {
         mutateAssignment(element);
     } else if (element.elementType === ELEMENT_TYPE.DECISION) {
         mutateDecision(element, state);
+    } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
+        return mutateVariable(element);
     }
 
     // TODO Add other element types
@@ -38,6 +45,7 @@ export const mutateEditorElement = (element, state) => {
  * @return {Object} Element in the shape required by store
  */
 export const removeEditorElementMutation = (element, state) => {
+    // TODO: change editor demutation implementations to be immutable
     if (element.elementType === ELEMENT_TYPE.ASSIGNMENT) {
         deMutateAssignment(element);
         return element;
@@ -47,8 +55,9 @@ export const removeEditorElementMutation = (element, state) => {
         const decisionWithModifiedAndDeletedOutcomes = deMutateDecision(element, state);
 
         return decisionWithModifiedAndDeletedOutcomes;
+    } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
+        return deMutateVariable(element);
     }
-
     // TODO: Should we throw an exception if  the element type isn't recognized?
     return element;
 
