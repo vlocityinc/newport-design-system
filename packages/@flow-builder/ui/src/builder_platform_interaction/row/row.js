@@ -19,7 +19,7 @@ export default class Row extends Element {
     }
 
     get rowContentsClass() {
-        let contentsClass = 'slds-grid slds-grid_horizontal slds-grid_vertical-align-end slds-gutters slds-gutters_xx-small';
+        let contentsClass = 'slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small';
         if (this.showPrefix) {
             contentsClass = 'slds-m-left_x-large ' + contentsClass;
         }
