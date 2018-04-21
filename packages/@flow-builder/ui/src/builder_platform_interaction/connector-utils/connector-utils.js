@@ -1,7 +1,4 @@
-import {
-    ELEMENT_TYPE,
-    getConfigForElementType
-} from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE, getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 
 export const CONNECTOR_TYPE = {
@@ -11,36 +8,51 @@ export const CONNECTOR_TYPE = {
 };
 
 /**
- * Method to get the minimum and maximum x and y coordinates
- *
- * @param {Array} canvasElements      Canvas Elements
- * @param {Object} elements            Flow Elements
- * @returns {Object} locations         Contains the minimum and maximum x and y coordinates of the flow
+ * Helper method to get the minimum and maximum x and y coordinates of the flow
+ * @param {Object} locations         Contains the minimum and maximum x and y coordinates of the flow
+ * @param {Object} item              A given canvas element
  */
-export const getMinAndMaxLocations = (canvasElements, elements) => {
-    const locations = {};
+export const getFlowLocations = (locations, item) => {
+    if (locations.minX === undefined || (item.locationX < locations.minX)) {
+        locations.minX = item.locationX;
+    }
 
-    canvasElements.forEach(key => {
-        if (elements[key]) {
-            if (!locations.minX || (elements[key].locationX < locations.minX)) {
-                locations.minX = elements[key].locationX;
-            }
+    if (locations.minY === undefined || (item.locationY < locations.minY)) {
+        locations.minY = item.locationY;
+    }
 
-            if (!locations.minY || (elements[key].locationY < locations.minY)) {
-                locations.minY = elements[key].locationY;
-            }
+    if (locations.maxX === undefined || (item.locationX > locations.maxX)) {
+        locations.maxX = item.locationX;
+    }
 
-            if (!locations.maxX || (elements[key].locationX > locations.maxX)) {
-                locations.maxX = elements[key].locationX;
-            }
+    if (locations.maxY === undefined || (item.locationY > locations.maxY)) {
+        locations.maxY = item.locationY;
+    }
+};
 
-            if (!locations.maxY || (elements[key].locationY > locations.maxY)) {
-                locations.maxY = elements[key].locationY;
-            }
-        }
+/**
+ * Method to get the width and height along with the minimum and maximum x and y coordinates of the entire flow
+ * @param {Array} canvasElements      Canvas Elements
+ * @return {Object} flowBounds        Contains flow bounds and flowWidth and flowHeight
+ */
+export const getFlowBounds = (canvasElements) => {
+    // Getting the minimum and maximum coordinates of the flow along with flow width and height
+    const flowBounds = {};
+
+    canvasElements.forEach(element => {
+        getFlowLocations(flowBounds, element);
     });
 
-    return locations;
+    // Spacing to add for icon width and height to get the correct flow width and height
+    // TODO: Update it based on UX feedback
+    const CANVAS_ELEMENT_WIDTH_SPACING = 48;
+    const CANVAS_ELEMENT_HEIGHT_SPACING = 96;
+
+    // Calculating width and height of the entire flow
+    flowBounds.flowWidth = (flowBounds.maxX + CANVAS_ELEMENT_WIDTH_SPACING) - flowBounds.minX;
+    flowBounds.flowHeight = (flowBounds.maxY + CANVAS_ELEMENT_HEIGHT_SPACING) - flowBounds.minY;
+
+    return flowBounds;
 };
 
 /**

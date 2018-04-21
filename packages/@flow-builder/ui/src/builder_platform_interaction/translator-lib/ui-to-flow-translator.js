@@ -3,7 +3,24 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { swapUidsForDevNames } from './uid-swapping';
 import { omit, pick, updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
-import { getMinAndMaxLocations, setConnectorsOnElements } from 'builder_platform_interaction-connector-utils';
+import { getFlowBounds, setConnectorsOnElements } from 'builder_platform_interaction-connector-utils';
+
+/**
+ * Helper method to get array of all canvas element objects
+ * @param {Array} canvasElements All canvas elements
+ * @param {Object} elements All elements in the flow
+ * @return {Array} nodes Containing all canvas element objects
+ */
+const getCanvasElements = (canvasElements, elements) => {
+    const nodes = [];
+    canvasElements.map(key => {
+        if (elements[key]) {
+            nodes.push(elements[key]);
+        }
+        return key;
+    });
+    return nodes;
+};
 
 /**
  * With zooming and panning enabled, the user would be able to add/drop
@@ -15,19 +32,19 @@ import { getMinAndMaxLocations, setConnectorsOnElements } from 'builder_platform
 const updateElementLocation = (canvasElements, elements) => {
     const EXTRA_SPACING = 50;
 
-    const locations = getMinAndMaxLocations(canvasElements, elements);
+    const flowBounds = getFlowBounds(getCanvasElements(canvasElements, elements));
 
     let translateX = 0;
     let translateY = 0;
 
     // Adding extra spacing so that the left most element doesn't end up on the very left edge.
-    if (locations.minX < 0) {
-        translateX = EXTRA_SPACING - locations.minX;
+    if (flowBounds.minX < 0) {
+        translateX = EXTRA_SPACING - flowBounds.minX;
     }
 
     // Adding extra spacing so that the top most element doesn't end up on the very top edge.
-    if (locations.minY < 0) {
-        translateY = EXTRA_SPACING - locations.minY;
+    if (flowBounds.minY < 0) {
+        translateY = EXTRA_SPACING - flowBounds.minY;
     }
 
     if (translateX !== 0 || translateY !== 0) {

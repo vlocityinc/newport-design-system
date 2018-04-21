@@ -1,10 +1,10 @@
 <template>
     <div class='zoom-panel slds-is-fixed slds-p-around_large'>
-        <lightning-button variant='base' icon-name='utility:move' id='moveButton' title='Pan (Spacebar + Mouse Click)' class='slds-button slds-button_neutral'></lightning-button>
+        <lightning-button variant={panVariant} icon-name='utility:move' id='moveButton' title='Pan (Spacebar + Mouse Click)' class='slds-button' onclick={togglePanMode}></lightning-button>
 
         <div class='slds-button-group' role='group'>
             <lightning-button variant='base' disabled={isZoomOutDisabled} icon-name='utility:dash' id='zoomOutButton' title='Zoom Out (&#8984; -)' class='slds-button slds-button_neutral' onclick={handleZoomOutClick}></lightning-button>
-            <lightning-button if:true={isZoomToView} variant='base' icon-name='utility:contract_alt' id='fitButton' title='Zoom to Fit (&#8984; 0)' class='slds-button slds-button_neutral'></lightning-button>
+            <lightning-button if:true={isZoomToView} variant='base' icon-name='utility:contract_alt' id='fitButton' title='Zoom to Fit (&#8984; 0)' class='slds-button slds-button_neutral' onclick={handleZoomToFitClick}></lightning-button>
             ﻿<lightning-button if:false={isZoomToView} variant='base' icon-name='utility:expand_alt' id='expandButton' title='Zoom to 100% (&#8984; 1)' class='slds-button slds-button_neutral' onclick={handleZoomToViewClick}></lightning-button>
             <lightning-button variant='base' disabled={isZoomInDisabled} icon-name='utility:add' id='zoomInButton' title='Zoom In (&#8984; +)' class='slds-button slds-button_neutral' onclick={handleZoomInClick}></lightning-button>
         </div>

@@ -10,9 +10,7 @@ export class ClickToZoomEvent extends Event {
             composed: true,
             cancelable: true
         });
-        this.detail = {
-            action
-        };
+        this.action = action;
     }
 
     static EVENT_NAME = eventName;

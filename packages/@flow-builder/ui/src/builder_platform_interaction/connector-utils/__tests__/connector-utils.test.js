@@ -1,5 +1,5 @@
 import {
-    getMinAndMaxLocations,
+    getFlowBounds,
     getMaxConnections,
     createConnectorObject,
     createConnectorObjects,
@@ -18,16 +18,16 @@ jest.mock('builder_platform_interaction-store-lib', () => {
 });
 
 describe('Connector Utils', () => {
-    it('Gets min and max x,y coordinates of all nodes on canvas', () => {
-        const elements = {
-            guid1: { locationX: 2, locationY: 101 },
-            guid2: { locationX: -1, locationY: 100 },
-            guid3: { locationX: 100, locationY: 2 }
-        };
+    it('Gets min and max x,y coordinates and flow width and height of the flow on canvas', () => {
+        const elements = [
+            { locationX: 2, locationY: 101 },
+            { locationX: -1, locationY: 100 },
+            { locationX: 100, locationY: 2 }
+        ];
 
         expect(
-            getMinAndMaxLocations(['guid1', 'guid2', 'guid3'], elements)
-        ).toEqual({ minX: -1, minY: 2, maxX: 100, maxY: 101 });
+            getFlowBounds(elements)
+        ).toEqual({ minX: -1, minY: 2, maxX: 100, maxY: 101, flowWidth: 149, flowHeight: 195 });
     });
 
     describe('Calculates max connections', () => {

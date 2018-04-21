@@ -33,6 +33,12 @@
     outline: none;
 }
 
+.THIS builder_platform_interaction-canvas .canvas .overlay {
+    height: 100%;
+    width: 100%;
+    z-index: 404;
+}
+
 .THIS builder_platform_interaction-canvas .canvas .inner-canvas {
     height: 100%;
     width: 100%;
@@ -42,8 +48,8 @@
 
 /************* Zoom Panel *****************/
 .THIS builder_platform_interaction-zoom-panel .zoom-panel {
-    bottom: 0;
-    right: 0;
+    bottom: t(spacingNone);
+    right: t(spacingNone);
     z-index: 405;
 }
 

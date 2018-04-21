@@ -1,9 +1,9 @@
 import { Element, api, track } from 'engine';
-import { ZOOM_ACTION } from 'builder_platform_interaction-constant';
 import { CONNECTOR_OVERLAY, drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
+import { SCALE_BOUNDS, getScaleAndDeltaValues } from './zoom-pan-utils';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
-import { AddElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
+import { AddElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
 
 /**
  * Canvas component for flow builder.
@@ -16,23 +16,34 @@ export default class Canvas extends Element {
     @api nodes = [];
     @api connectors = [];
 
+    @track panVariant = 'neutral';
+    @track isPanModeOn = false;
+    @track isZoomOutDisabled = false;
+    @track isZoomInDisabled = true;
+    @track isZoomToView = true;
+
+    get hasCanvasElements() {
+        return (this.nodes && this.nodes.length > 0);
+    }
+
     canvasArea;
     innerCanvasArea;
 
     jsPlumbContainer = false;
     isMouseDown = false;
-    isPanning = false;
 
-    MIN_SCALE = 0.2;
-    MAX_SCALE = 1.0;
-    SCALE_CHANGE = 0.2;
+    // Viewport variables used for zooming
+    viewportCenterX = 0;
+    viewportCenterY = 0;
+    viewportWidth = 0;
+    viewportHeight = 0;
 
-    zoomLevel = 1.0;
+    // Scaling variable used for zooming
     currentScale = 1.0;
 
-    @track isZoomOutDisabled = false;
-    @track isZoomInDisabled = true;
-    @track isZoomToView = true;
+    // Variables used for calculating how much the inner canvas center should be away from the viewport center
+    centerOffsetX = 0;
+    centerOffsetY = 0;
 
     // TODO: Move it to a library
     isMultiSelect(event) {
@@ -90,26 +101,74 @@ export default class Canvas extends Element {
     };
 
     /**
+     * Method to toggle the pan mode when clicking the pan button in the zoom-panel
+     * @param {Object} event - toggle pan mode event coming from zoom-panel.js
+     */
+    togglePanMode = (event) => {
+        if (event && event.action) {
+            if (event.action === PAN_ACTION.PAN_ON) {
+                this.panVariant = 'brand';
+                this.isPanModeOn = true;
+                this.canvasArea.style.cursor = '-webkit-grab';
+            } else if (event.action === PAN_ACTION.PAN_OFF) {
+                this.panVariant = 'neutral';
+                this.isPanModeOn = false;
+                this.canvasArea.style.cursor = 'default';
+            }
+        }
+    };
+
+    /**
      * Helper method to zoom the canvas.
      * @param {String} action - Zoom action coming from handle key down or handle zoom
      */
     canvasZoom = (action) => {
-        if (action === ZOOM_ACTION.ZOOM_OUT) {
-            this.zoomLevel = Math.max(this.MIN_SCALE, this.currentScale - this.SCALE_CHANGE);
-        } else if (action === ZOOM_ACTION.ZOOM_TO_VIEW) {
-            this.zoomLevel = this.MAX_SCALE;
-        } else if (action === ZOOM_ACTION.ZOOM_IN) {
-            this.zoomLevel = Math.min(this.MAX_SCALE, this.currentScale + this.SCALE_CHANGE);
+        this.viewportWidth = this.canvasArea.clientWidth;
+        this.viewportHeight = this.canvasArea.clientHeight;
+        this.viewportCenterX = this.viewportWidth / 2;
+        this.viewportCenterY = this.viewportHeight / 2;
+
+        // Getting the new zoom level and delta values based on the action
+        const viewportAndOffsetConfig = {
+            viewportWidth: this.viewportWidth,
+            viewportHeight: this.viewportHeight,
+            viewportCenterX: this.viewportCenterX,
+            viewportCenterY: this.viewportCenterY,
+            centerOffsetX: this.centerOffsetX,
+            centerOffsetY: this.centerOffsetY
+        };
+
+        // Calculating scale and delta values. Delta values tell how much the inner canvas center should move from it's
+        // current location
+        const scaleAndDeltaConfig = getScaleAndDeltaValues(action, this.currentScale, viewportAndOffsetConfig, this.nodes);
+
+        if (scaleAndDeltaConfig.deltaX !== undefined && scaleAndDeltaConfig.deltaY !== undefined &&
+            scaleAndDeltaConfig.newScale !== undefined) {
+            // Calculating how much much the inner canvas needs to be away from the current viewport center.
+            // This value would only change when zooming to fit
+            const newOffsetX = this.centerOffsetX - scaleAndDeltaConfig.deltaX;
+            const newOffsetY = this.centerOffsetY - scaleAndDeltaConfig.deltaY;
+
+            // Updating the scale and left and top properties of the canvas
+            this.innerCanvasArea.style.transform = 'scale(' + scaleAndDeltaConfig.newScale + ')';
+            this.innerCanvasArea.style.left = -(newOffsetX * scaleAndDeltaConfig.newScale) + 'px';
+            this.innerCanvasArea.style.top = -(newOffsetY * scaleAndDeltaConfig.newScale) + 'px';
+
+            // Informing jsPlumb about the zoom level so that connectors are drawn on the new scale
+            lib.setZoom(scaleAndDeltaConfig.newScale);
+
+            this.centerOffsetX = newOffsetX;
+            this.centerOffsetY = newOffsetY;
+            this.currentScale = scaleAndDeltaConfig.newScale;
+
+            // Disabling and enabling zoom panel buttons based on the current scale.
+            // Note: We can't simply use this.currentScale <= 0.2 because 0.200000001 is treated by the browser as 0.2 at
+            // which point the button should be disabled. Removing the first condition would mean that on a scale of 0.2000001,
+            // the button won't get disabled unless the button is clicked again but clicking it again won't visually change
+            // anything on the screen
+            this.isZoomOutDisabled = (this.innerCanvasArea.style.transform === 'scale(0.2)' || this.currentScale < SCALE_BOUNDS.MIN_SCALE);
+            this.isZoomToView = this.isZoomInDisabled = (this.innerCanvasArea.style.transform === 'scale(1)');
         }
-
-        this.innerCanvasArea.style.transform = 'scale(' + this.zoomLevel + ')';
-
-        lib.setZoom(this.zoomLevel);
-
-        this.currentScale = this.zoomLevel;
-
-        this.isZoomOutDisabled = (parseFloat(this.currentScale.toFixed(1)) === this.MIN_SCALE);
-        this.isZoomToView = this.isZoomInDisabled = (parseFloat(this.currentScale.toFixed(1)) === this.MAX_SCALE);
     };
 
     /**
@@ -117,8 +176,8 @@ export default class Canvas extends Element {
      * @param {object} event - click to zoom event coming from zoom-panel.js
      */
     handleZoom = (event) => {
-        if (event && event.detail) {
-            this.canvasZoom(event.detail.action);
+        if (event && event.action) {
+            this.canvasZoom(event.action);
         }
     };
 
@@ -137,9 +196,10 @@ export default class Canvas extends Element {
      */
     handleMouseMove = (event) => {
         event.preventDefault();
-        if (this.isMouseDown) {
-            this.isPanning = true;
-        }
+    };
+
+    handleOverlayMouseUp = (event) => {
+        event.stopPropagation();
     };
 
     /**
@@ -148,11 +208,11 @@ export default class Canvas extends Element {
      * the user clicks outside canvas or stops panning.
      * @param {object} event - mouse up event
      */
-    handleMouseUp = (event) => {
+    handleCanvasMouseUp = (event) => {
         event.preventDefault();
         this.isMouseDown = false;
         this.canvasArea.focus();
-        if ((event.target.id === 'canvas' || event.target.id === 'innerCanvas') && !this.isPanning) {
+        if ((event.target.id === 'canvas' || event.target.id === 'innerCanvas')) {
             const canvasMouseUpEvent = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
                 composed: true,
@@ -160,8 +220,6 @@ export default class Canvas extends Element {
             });
             this.dispatchEvent(canvasMouseUpEvent);
         }
-
-        this.isPanning = false;
     };
 
     /**
@@ -169,7 +227,6 @@ export default class Canvas extends Element {
      */
     handleContextMenu = () => {
         this.isMouseDown = false;
-        this.isPanning = false;
     };
 
     /**
@@ -224,7 +281,7 @@ export default class Canvas extends Element {
      * @param {object} event - key down event
      */
     handleKeyDown = (event) => {
-        if (event.key === 'Backspace') {
+        if (event.key === 'Backspace' && !this.isPanModeOn) {
             event.preventDefault();
             const selectedCanvasElementGUIDs = [];
             const connectorGUIDs = [];
@@ -261,10 +318,12 @@ export default class Canvas extends Element {
                 }
             });
             this.dispatchEvent(deleteEvent);
-        } else if (event.metaKey && (event.key === '-' || event.key === '1' || event.key === '=')) {
+        } else if (event.metaKey && (event.key === '-' || event.key === '0' || event.key === '1' || event.key === '=')) {
             event.preventDefault();
             if (event.key === '-') {
                 this.canvasZoom(ZOOM_ACTION.ZOOM_OUT);
+            } else if (event.key === '0') {
+                this.canvasZoom(ZOOM_ACTION.ZOOM_TO_FIT);
             } else if (event.key === '1') {
                 this.canvasZoom(ZOOM_ACTION.ZOOM_TO_VIEW);
             } else if (event.key === '=') {
