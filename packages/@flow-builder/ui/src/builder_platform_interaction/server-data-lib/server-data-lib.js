@@ -7,6 +7,11 @@ export const SERVER_ACTION_TYPE = {
     GET_APEX_PLUGINS: 'getApexPlugins',
     GET_SUBFLOWS: 'getSubflows',
     GET_INVOCABLE_ACTION_PARAMETERS: 'getInvocableActionParameters',
+    GET_ENTITIES: 'getEntities',
+    GET_ENTITY_FIELDS: 'getEntityFields',
+    GET_ORG_ACCESSIBLE_ENTITY_FIELDS: 'getOrgAcessibleEntityFields',
+    GET_GLOBAL_VARIABLE_TYPES: 'getGlobalVariableTypes',
+    GET_GLOBAL_VARIABLES: 'getGlobalVariables',
 };
 
 
@@ -19,6 +24,11 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_APEX_PLUGINS]: 'c.getApexPlugins',
     [SERVER_ACTION_TYPE.GET_SUBFLOWS]: 'c.getSubflows',
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]: 'c.getInvocableActionParameters',
+    [SERVER_ACTION_TYPE.GET_ENTITIES]: 'c.getEntities',
+    [SERVER_ACTION_TYPE.GET_ENTITY_FIELDS]: 'c.getFieldsForEntity',
+    [SERVER_ACTION_TYPE.GET_ORG_ACCESSIBLE_ENTITY_FIELDS]: 'c.getOrgAccessibleFieldsForEntity',
+    [SERVER_ACTION_TYPE.GET_GLOBAL_VARIABLE_TYPES]: 'c.getGlobalVariableTypes',
+    [SERVER_ACTION_TYPE.GET_GLOBAL_VARIABLES]: 'c.getGlobalVariables',
 };
 
 let auraFetch;

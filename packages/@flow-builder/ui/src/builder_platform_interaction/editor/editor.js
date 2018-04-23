@@ -10,6 +10,7 @@ import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-d
 import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform_interaction-translator-lib";
 import { reducer } from "builder_platform_interaction-reducers";
 import { setRules } from "builder_platform_interaction-rule-lib";
+import { setEntities } from 'builder_platform_interaction-sobject-lib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -39,7 +40,9 @@ export default class Editor extends Element {
         // Initialising store
         storeInstance = Store.getStore(reducer);
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
+        // TODO: Move these server calls after getting the Flow
         fetch(SERVER_ACTION_TYPE.GET_RULES, this.getRulesCallback);
+        fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' });
     }
 
     @api
@@ -116,6 +119,14 @@ export default class Editor extends Element {
             // TODO: handle error case
         } else {
             setRules(data);
+        }
+    };
+
+    getEntitiesCallback = ({data, error}) => {
+        if (error) {
+            // TODO: handle error case
+        } else {
+            setEntities(data);
         }
     };
 

@@ -201,9 +201,11 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     const menuData = getSelector(elementConfig)(state)
         .filter(element => isElementAllowed(allowedParamTypes, element))
         .map(element => {
-            return mutateFieldsToComboboxShape(element);
+            return mutateFlowElementsToComboboxShape(element);
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
+
+    // TODO add Global/System Variables here as well
 
     if (includeNewResource) {
         menuData.unshift(getNewResourceItem());
@@ -211,13 +213,31 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     return menuData;
 }
 
+
 /**
- * makes copy of element, with fields as needed by combobox
+ * Filters list of fields based on allowed types and returns them in combobox-friendly shape
+ * @param {Object} chosenElement The parent chosen element
+ * @param {Object} allowedParamTypes  If present, is used to determine if each element is valid for this menuData
+ * @param {Array} fields Array of the fields to be filtered
+ * @returns {Array} array of alphabetized objects
+ */
+export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, fields) {
+    const items = fields.filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
+        return mutateFieldsToComboboxShape(element, chosenElement);
+    });
+    const objectFieldsMenuData = [{
+        items
+    }];
+    return objectFieldsMenuData;
+}
+
+/**
+ * Makes copy of a Flow Element with fields as needed by combobox
  *
  * @param {Object} element   element from flow
  * @returns {Object}         representation of flow element in shape combobox needs
  */
-function mutateFieldsToComboboxShape(element) {
+function mutateFlowElementsToComboboxShape(element) {
     const newElement = {};
 
     newElement.text = element.name;
@@ -229,6 +249,27 @@ function mutateFieldsToComboboxShape(element) {
     newElement.id = element.guid;
     // TODO: fetch icon
     return newElement;
+}
+
+/**
+ * Makes copy of server data fields of parent objects(SObjects, Globa/System Variables) with fields as needed by combobox
+ *
+ * @param {Object} field Field to be copied
+ * @param {Object} parent Parent object
+ * @returns {Object} Representation of flow element in shape combobox needs
+ */
+function mutateFieldsToComboboxShape(field, parent) {
+    const formattedField = {};
+
+    // TODO this shape is temporary
+    formattedField.text = field.apiName;
+    formattedField.subText = field.label;
+    formattedField.value = parent.value + '.' + field.apiName;
+    formattedField.displayValue = parent.displayValue.substring(0, parent.displayValue.length - 1) + '.' + field.apiName + '}';
+    formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
+    // TODO: fetch icon
+
+    return formattedField;
 }
 
 /**
