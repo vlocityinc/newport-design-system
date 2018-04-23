@@ -3,6 +3,7 @@ import ParameterItem from 'builder_platform_interaction-parameter-item';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { UpdateParameterItemEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { stringCollectionVariable1Guid, stringCollectionVariable1DevName } from 'mock-store-data';
+import { comboboxConfig } from 'mock-combobox-data';
 
 const defaultProps = {
     elementType: ELEMENT_TYPE.ACTION_CALL,
@@ -13,15 +14,11 @@ const parameterLabel = 'Parameter Label';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-parameter-item', { is: ParameterItem });
-    Object.assign(el, defaultProps);
-    if (props) {
-        Object.assign(el, props);
-    }
+    Object.assign(el, defaultProps, props);
     document.body.appendChild(el);
     return el;
 }
 
-// mock parameter item
 function createMockParameterItem(isInput, isRequired, paramValue) {
     const item = {
         IsInput: isInput,
@@ -46,6 +43,18 @@ function createMockParameterItem(isInput, isRequired, paramValue) {
     return item;
 }
 
+class ToggleOnChangeEvent extends CustomEvent {
+    constructor() {
+        super('change', { detail: { checked: true, }});
+    }
+}
+
+class ToggleOffChangeEvent extends CustomEvent {
+    constructor() {
+        super('change', { detail: { checked: false, }});
+    }
+}
+
 jest.mock('builder_platform_interaction-rule-lib', () => {
     return {
         getRHSTypes: jest.fn(),
@@ -56,7 +65,9 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
 
 jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
-        getElementsForMenuData: jest.fn().mockReturnValue([]),
+        getElementsForMenuData: jest.fn().mockReturnValue(
+            require.requireActual('mock-combobox-data').comboboxConfig.menuData
+        )
     };
 });
 
@@ -75,15 +86,13 @@ function getLightningInputToggle(parameterItem) {
 describe('parameter-item', () => {
     describe('showing combobox, not showing input toggle for required input parameter', () => {
         describe('parameter has no value', () => {
-            let parameterItem;
-            let builderCombobox;
-            let toggleInput;
+            let builderCombobox, toggleInput;
             beforeAll(() => {
-                parameterItem = createComponentForTest({
+                const parameterItemCmp = createComponentForTest({
                     item: createMockParameterItem(true, true, null)
                 });
-                builderCombobox = getBuilderComboboxElement(parameterItem);
-                toggleInput = getLightningInputToggle(parameterItem);
+                builderCombobox = getBuilderComboboxElement(parameterItemCmp);
+                toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
                 expect(builderCombobox).not.toBeNull();
@@ -92,7 +101,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox.value).toEqual('');
             });
             it('combobox should be required', () => {
-                expect(builderCombobox.required).toBeTruthy();
+                expect(builderCombobox.required).toBe(true);
             });
             it('combobox label should be shown', () => {
                 expect(builderCombobox.label).toEqual(parameterLabel);
@@ -103,15 +112,16 @@ describe('parameter-item', () => {
         });
         describe('parameter has value', () => {
             const paramValue = "Test";
-            let parameterItem;
-            let builderCombobox;
-            let toggleInput;
+            let builderCombobox, toggleInput;
             beforeAll(() => {
-                parameterItem = createComponentForTest({
+                const parameterItemCmp = createComponentForTest({
                     item: createMockParameterItem(true, true, paramValue)
                 });
-                builderCombobox = getBuilderComboboxElement(parameterItem);
-                toggleInput = getLightningInputToggle(parameterItem);
+                builderCombobox = getBuilderComboboxElement(parameterItemCmp);
+                toggleInput = getLightningInputToggle(parameterItemCmp);
+            });
+            it("combobox.menuData", () => {
+                expect(builderCombobox.menuData).toEqual(comboboxConfig.menuData);
             });
             it('combobox should be shown', () => {
                 expect(builderCombobox).not.toBeNull();
@@ -120,7 +130,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox.value).toEqual(paramValue);
             });
             it('combobox should be required', () => {
-                expect(builderCombobox.required).toBeTruthy();
+                expect(builderCombobox.required).toBe(true);
             });
             it('combobox label should be shown', () => {
                 expect(builderCombobox.label).toEqual(parameterLabel);
@@ -133,15 +143,13 @@ describe('parameter-item', () => {
 
     describe('showing input toggle, show or hide combobox for optional input parameter', () => {
         describe('parameter has no value', () => {
-            let parameterItem;
-            let hiddenBuilderCombobox;
-            let toggleInput;
+            let hiddenBuilderCombobox, toggleInput;
             beforeAll(() => {
-                parameterItem = createComponentForTest({
+                const parameterItemCmp = createComponentForTest({
                     item: createMockParameterItem(true, false, null)
                 });
-                hiddenBuilderCombobox = getHiddenBuilderComboboxElement(parameterItem);
-                toggleInput = getLightningInputToggle(parameterItem);
+                hiddenBuilderCombobox = getHiddenBuilderComboboxElement(parameterItemCmp);
+                toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be hidden', () => {
                 expect(hiddenBuilderCombobox).not.toBeNull();
@@ -150,20 +158,18 @@ describe('parameter-item', () => {
                 expect(toggleInput).not.toBeNull();
             });
             it('input toggle status should be not set', () => {
-                expect(toggleInput.checked).toBeFalsy();
+                expect(toggleInput.checked).toBe(false);
             });
         });
         describe('parameter has value', () => {
             const paramValue = "Test";
-            let parameterItem;
-            let builderCombobox;
-            let toggleInput;
+            let builderCombobox, toggleInput;
             beforeAll(() => {
-                parameterItem = createComponentForTest({
+                const parameterItemCmp = createComponentForTest({
                     item: createMockParameterItem(true, false, paramValue)
                 });
-                builderCombobox = getBuilderComboboxElement(parameterItem);
-                toggleInput = getLightningInputToggle(parameterItem);
+                builderCombobox = getBuilderComboboxElement(parameterItemCmp);
+                toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
                 expect(builderCombobox).not.toBeNull();
@@ -172,37 +178,35 @@ describe('parameter-item', () => {
                 expect(builderCombobox.value).toEqual(paramValue);
             });
             it('combobox should not be required', () => {
-                expect(builderCombobox.required).toBeFalsy();
+                expect(builderCombobox.required).toBe(false);
             });
             it('input toggle should be shown', () => {
                 expect(toggleInput).not.toBeNull();
             });
             it('input toggle status should be set', () => {
-                expect(toggleInput.checked).toBeTruthy();
+                expect(toggleInput.checked).toBe(true);
             });
         });
     });
 
     describe('showing combobox, not showing input toggle for output parameter', () => {
         describe('parameter has no value', () => {
-            let parameterItem;
-            let builderCombobox;
-            let toggleInput;
+            let builderCombobox, toggleInput;
             beforeAll(() => {
-                parameterItem = createComponentForTest({
+                const parameterItemCmp = createComponentForTest({
                     item: createMockParameterItem(false, false, null)
                 });
-                builderCombobox = getBuilderComboboxElement(parameterItem);
-                toggleInput = getLightningInputToggle(parameterItem);
+                builderCombobox = getBuilderComboboxElement(parameterItemCmp);
+                toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox value should be empty', () => {
-                expect(builderCombobox.value).toEqual('');
+                expect(builderCombobox.value).toHaveLength(0);
             });
             it('combobox should not be required', () => {
-                expect(builderCombobox.required).toBeFalsy();
+                expect(builderCombobox.required).toBe(false);
             });
             it('combobox label should be shown', () => {
                 expect(builderCombobox.label).toEqual(parameterLabel);
@@ -212,24 +216,22 @@ describe('parameter-item', () => {
             });
         });
         describe('parameter has value', () => {
-            let parameterItem;
-            let builderCombobox;
-            let toggleInput;
+            let builderCombobox, toggleInput;
             beforeAll(() => {
-                parameterItem = createComponentForTest({
+                const parameterItemCmp = createComponentForTest({
                     item: createMockParameterItem(false, false, stringCollectionVariable1Guid)
                 });
-                builderCombobox = getBuilderComboboxElement(parameterItem);
-                toggleInput = getLightningInputToggle(parameterItem);
+                builderCombobox = getBuilderComboboxElement(parameterItemCmp);
+                toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox value should be equal to stringCollectionVariable1DevName', () => {
-                expect(builderCombobox.value).toEqual('{!' + stringCollectionVariable1DevName + '}');
+                expect(builderCombobox.value).toEqual(`{!${stringCollectionVariable1DevName}}`);
             });
             it('combobox should not be required', () => {
-                expect(builderCombobox.required).toBeFalsy();
+                expect(builderCombobox.required).toBe(false);
             });
             it('combobox label should be shown', () => {
                 expect(builderCombobox.label).toEqual(parameterLabel);
@@ -241,94 +243,85 @@ describe('parameter-item', () => {
     });
 
     describe('handling onchange from input toggle', () => {
+        const paramValue = "Test";
         it('toggle from OFF to ON should show the combobox for optional input parameter', () => {
-            const parameterItem = createComponentForTest({
+            const parameterItemCmp = createComponentForTest({
                 item: createMockParameterItem(true, false, null)
             });
+            const toggleInput = getLightningInputToggle(parameterItemCmp);
+            toggleInput.dispatchEvent(new ToggleOnChangeEvent());
             return Promise.resolve().then(() => {
-                const toggleInput = getLightningInputToggle(parameterItem);
-                const lightningToggleOnChangeEvent = new CustomEvent('change', { detail: { checked: true, }});
-                toggleInput.dispatchEvent(lightningToggleOnChangeEvent);
-            }).then(() => {
-                expect(getHiddenBuilderComboboxElement(parameterItem)).toBeNull();
-                expect(getBuilderComboboxElement(parameterItem)).not.toBeNull();
+                expect(getHiddenBuilderComboboxElement(parameterItemCmp)).toBeNull();
+                expect(getBuilderComboboxElement(parameterItemCmp)).not.toBeNull();
             });
         });
         it('toggle from ON to OFF should hide the combobox for optional input parameter', () => {
-            const paramValue = 'Test';
-            const parameterItem = createComponentForTest({
+            const parameterItemCmp = createComponentForTest({
                 item: createMockParameterItem(true, false, paramValue),
             });
             return Promise.resolve().then(() => {
-                const toggleInput = getLightningInputToggle(parameterItem);
-                const lightningToggleOffChangeEvent = new CustomEvent('change', { detail: { checked: false, }});
-                toggleInput.dispatchEvent(lightningToggleOffChangeEvent);
+                const toggleInput = getLightningInputToggle(parameterItemCmp);
+                toggleInput.dispatchEvent(new ToggleOffChangeEvent());
             }).then(() => {
-                expect(getHiddenBuilderComboboxElement(parameterItem)).not.toBeNull();
+                expect(getHiddenBuilderComboboxElement(parameterItemCmp)).not.toBeNull();
             });
         });
-        it('toggle OFF will preserve the value for optional input parameter', () => {
-            const paramValue = 'Test';
-            const parameterItem = createComponentForTest({
+        it('toggle OFF will only hide the comboBox', () => {
+            const parameterItemCmp = createComponentForTest({
                 item: createMockParameterItem(true, false, paramValue),
             });
-            const toggleInput = getLightningInputToggle(parameterItem);
+            const toggleInput = getLightningInputToggle(parameterItemCmp);
+            // from ON to OFF
+            toggleInput.dispatchEvent(new ToggleOffChangeEvent());
             return Promise.resolve().then(() => {
-                // from ON to OFF
-                const lightningToggleOffChangeEvent = new CustomEvent('change', { detail: { checked: false, }});
-                toggleInput.dispatchEvent(lightningToggleOffChangeEvent);
-            }).then(() => {
-                expect(getHiddenBuilderComboboxElement(parameterItem)).not.toBeNull();
-                // from OFF to ON
-                const lightningToggleOnChangeEvent = new CustomEvent('change', { detail: { checked: true, }});
-                toggleInput.dispatchEvent(lightningToggleOnChangeEvent);
-            }).then(() => {
-                const combobox = getBuilderComboboxElement(parameterItem);
-                expect(combobox).not.toBeNull();
-                expect(combobox.value).toEqual(paramValue);
+                expect(getHiddenBuilderComboboxElement(parameterItemCmp)).not.toBeNull();
             });
         });
-        it('should throw UpdateParameterItemEvent', () => {
-            const paramValue = 'Test';
-            const parameterItem = createComponentForTest({
+        it('toggle OFF will preserve the value for optional input parameter', done => {
+            const parameterItemCmp = createComponentForTest({
+                item: createMockParameterItem(true, false, paramValue),
+            });
+            const toggleInput = getLightningInputToggle(parameterItemCmp);
+            // from ON to OFF
+            toggleInput.dispatchEvent(new ToggleOffChangeEvent());
+            // from OFF to ON
+            toggleInput.dispatchEvent(new ToggleOnChangeEvent());
+            const combobox = getBuilderComboboxElement(parameterItemCmp);
+            expect(combobox).not.toBeNull();
+            expect(combobox.value).toEqual(paramValue);
+            done();
+        });
+        it("should fire 'UpdateParameterItemEvent'", done => {
+            const parameterItemCmp = createComponentForTest({
                 item: createMockParameterItem(true, false, paramValue),
             });
             const eventCallback = jest.fn();
-            parameterItem.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
-            const toggleInput = getLightningInputToggle(parameterItem);
-            return Promise.resolve().then(() => {
-                // from ON to OFF
-                const lightningToggleOffChangeEvent = new CustomEvent('change', { detail: { checked: false, }});
-                toggleInput.dispatchEvent(lightningToggleOffChangeEvent);
-            }).then(() => {
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {value: null}});
-                // from OFF to ON
-                const lightningToggleOnChangeEvent = new CustomEvent('change', { detail: { checked: true, }});
-                toggleInput.dispatchEvent(lightningToggleOnChangeEvent);
-            }).then(() => {
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {value: {stringValue: {value: paramValue}}}});
-            });
+            parameterItemCmp.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
+            const toggleInput = getLightningInputToggle(parameterItemCmp);
+            // from ON to OFF
+            toggleInput.dispatchEvent(new ToggleOffChangeEvent());
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {value: null}});
+            // from OFF to ON
+            toggleInput.dispatchEvent(new ToggleOnChangeEvent());
+            expect(eventCallback).toHaveBeenCalled();
+            done();
         });
     });
-    describe('handling value change events from combobox', () => {
-        it('should throw UpdateParameterItemEvent', () => {
-            const paramValue = 'Test';
-            const parameterItem = createComponentForTest({
+    describe('handling value change event from combobox', () => {
+        it("should fire 'UpdateParameterItemEvent'", done => {
+            const paramValue = 'Test', parameterItemCmp = createComponentForTest({
                 item: createMockParameterItem(true, false, paramValue),
             });
             const eventCallback = jest.fn();
-            parameterItem.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
+            parameterItemCmp.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
             const newParamValue = 'new value';
-            return Promise.resolve().then(() => {
-                const cbChangeEvent = new ValueChangedEvent(newParamValue);
-                const builderCombobox = getBuilderComboboxElement(parameterItem);
-                builderCombobox.dispatchEvent(cbChangeEvent);
-            }).then(() => {
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {value: {stringValue: {value: newParamValue}}}});
-            });
+            const cbChangeEvent = new ValueChangedEvent(newParamValue);
+            const builderCombobox = getBuilderComboboxElement(parameterItemCmp);
+            builderCombobox.dispatchEvent(cbChangeEvent);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {value: {stringValue: {value: newParamValue}}}});
+            done();
         });
     });
 });
