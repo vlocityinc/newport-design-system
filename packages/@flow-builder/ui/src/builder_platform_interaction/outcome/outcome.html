@@ -1,7 +1,7 @@
 <template>
+    <!-- TODO: Localize labels after W-4693112 -->
     <div class="slds-grid slds-m-bottom_x-small">
         <h3 class="slds-text-title_caps">
-            <!-- TODO: Localize labels after W-4693112 -->
             <span class="slds-truncate">Outcome Details</span>
         </h3>
         <lightning-button label="Remove" title="Remove Outcome" class="slds-col_bump-left slds-shrink-none" onclick={handleRemoveOutcome}>
@@ -9,6 +9,7 @@
     </div>
     <builder_platform_interaction-label-description
             label={outcome.label}
+            dev-name-label="Outcome API Name"
             dev-name={outcome.name}
             onpropertychanged={handlePropertyChanged}
             hide-description=true>
@@ -24,7 +25,6 @@
     </div>
 
     <div class="slds-form-element slds-m-bottom_small">
-        <!-- TODO: Localize labels after W-4693112 -->
         <lightning-input if:true={showCustomLogicInput} type="text" label="Custom Logic"
                          onfocusout={handleCustomLogicFocusOut}
                          value={outcome.conditionLogic.value}

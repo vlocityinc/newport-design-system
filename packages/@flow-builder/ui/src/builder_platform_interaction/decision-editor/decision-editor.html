@@ -1,40 +1,36 @@
 <template>
+    <!-- TODO: Localize all labels after W-4693112 -->
     <builder_platform_interaction-accordion>
-        <builder_platform_interaction-accordion-section>
-            <div slot='accordion-header'>Details</div>
-            <div slot='accordion-body'>
-                <builder_platform_interaction-label-description label={label} dev-name={devName} description={description} onpropertychanged={handleEvent}> </builder_platform_interaction-label-description>
-            </div>
-        </builder_platform_interaction-accordion-section>
-
-        <builder_platform_interaction-accordion-section>
-            <div slot='accordion-header'>Outcomes/Rules</div>
-            <div slot='accordion-body'>
-                <div class="slds-vertical-tabs slds-is-relative slds-grow">
-                    <!-- TODO after W-4693112: Label instead of hardcoded 'Outcome Order'. Note: if string is long the + button goes to next line -->
-                    <builder_platform_interaction-reorderable-vertical-navigation
-                            menu-items={outcomes}
-                            active-item-id={activeOutcomeId}
-                            onitemselected={handleOutcomeSelected}
-                            default-label='[New Outcome]'>
-                        <div slot='header'>
-                            <!-- TODO: Localize labels after W-4693112 -->
-                            Outcome Order
-                            <lightning-helptext class="slds-p-left_xx-small" content="Outcomes are evaluated in the order in which they appear. Only the first matching outcome executes."></lightning-helptext>
-                            <lightning-button-icon icon-name='utility:add' variant='border-filled' class='slds-p-left_xx-small'  onclick={handleAddOutcome} title="Add Outcome"></lightning-button-icon>
-                        </div>
-
-                        <div slot='footer'>Default Outcome</div> <!-- TODO: Localize label after W-4693112 -->
-                    </builder_platform_interaction-reorderable-vertical-navigation>
-                    <div class="slds-vertical-tabs__content slds-show" role="tabpanel">
-                        <builder_platform_interaction-outcome outcome={activeOutcome}
-                                                              onaddcondition={handleEvent}
-                                                              ondeletecondition={handleEvent}
-                                                              onupdatecondition={handleEvent}
-                                                              onpropertychanged={handleEvent}></builder_platform_interaction-outcome>
-                    </div>
+        <div class="slds-p-horizontal_small slds-p-top_small">
+            <builder_platform_interaction-label-description label={label} dev-name-label="Decision API Name" dev-name={devName} description={description} onpropertychanged={handleEvent}> </builder_platform_interaction-label-description>
+        </div>
+        <h3 class="slds-section__title slds-accordion__summary-heading -slds-theme_shade slds-p-horizontal_small slds-shrink-none">
+            <span>Outcomes</span>
+            <div class="slds-text-color_weak slds-text-body_small slds-p-left_small slds-truncate">Create an outcome. You will then be able to select this as an outcome when connecting flow elements.</div>
+        </h3>
+        <div class="slds-vertical-tabs slds-is-relative slds-grow">
+            <!-- TODO after W-4693112: Label instead of hardcoded "Outcome Order". Note: if string is long the + button goes to next line -->
+            <builder_platform_interaction-reorderable-vertical-navigation
+                    class="slds-theme_shade"
+                    menu-items={outcomes}
+                    active-item-id={activeOutcomeId}
+                    onitemselected={handleOutcomeSelected}
+                    default-label="[New Outcome]">
+                <div slot="header">
+                    Outcome Order
+                    <lightning-helptext class="slds-p-left_xx-small" content="Outcomes are evaluated in the order in which they appear. Only the first matching outcome executes."></lightning-helptext>
+                    <lightning-button-icon icon-name="utility:add" variant="border-filled" class="slds-p-left_xx-small"  onclick={handleAddOutcome} title="Add Outcome"></lightning-button-icon>
                 </div>
+
+                <div slot="footer">Default Outcome</div> <!-- TODO: Localize label after W-4693112 -->
+            </builder_platform_interaction-reorderable-vertical-navigation>
+            <div class="slds-vertical-tabs__content slds-show" role="tabpanel">
+                <builder_platform_interaction-outcome outcome={activeOutcome}
+                                                      onaddcondition={handleEvent}
+                                                      ondeletecondition={handleEvent}
+                                                      onupdatecondition={handleEvent}
+                                                      onpropertychanged={handleEvent}></builder_platform_interaction-outcome>
             </div>
-        </builder_platform_interaction-accordion-section>
+        </div>
     </builder_platform_interaction-accordion>
 </template>
