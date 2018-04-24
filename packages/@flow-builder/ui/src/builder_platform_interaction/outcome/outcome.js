@@ -8,6 +8,10 @@ import {
 import {CONDITION_LOGIC} from 'builder_platform_interaction-flow-metadata';
 import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 
+const SELECTORS = {
+    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
+};
+
 /**
  * Usage: <builder_platform_interaction-outcome></builder_platform_interaction-outcome>
  */
@@ -43,6 +47,12 @@ export default class Outcome extends Element {
         this.outcomeConditions = outcome.conditions;
 
         this.processConditionLogic(outcome.conditionLogic.value);
+    }
+
+    /** Focus the label field of the label description component */
+    @api focus() {
+        const labelDescription = this.root.querySelector(SELECTORS.LABEL_DESCRIPTION);
+        labelDescription.focus();
     }
 
     get showDelete() {

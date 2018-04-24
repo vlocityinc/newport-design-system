@@ -6,6 +6,10 @@ import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
 
 import template from './decision-editor.html';
 
+const SELECTORS = {
+    OUTCOME: 'builder_platform_interaction-outcome'
+};
+
 export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Element)) {
     @track element;
     @track activeOutcomeId;
@@ -27,12 +31,6 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
         this.activeOutcomeId = this.element.outcomes[0].guid;
     }
 
-    addInitialOutcomeIfNeeded() {
-        if (this.element && (typeof this.element.outcomes === 'undefined' || this.element.outcomes.length === 0)) {
-            this.addOutcome();
-        }
-    }
-
     get outcomes() {
         return (this.element) ? this.element.outcomes : [];
     }
@@ -45,7 +43,9 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
         const outcomes = this.element.outcomes;
         this.activeOutcomeId = outcomes[outcomes.length - 1].guid;
 
-        // TODO Focus on the newly selected outcome
+        // Focus on the newly selected outcome ( focused the name/label field )
+        const outcome = this.root.querySelector(SELECTORS.OUTCOME);
+        outcome.focus();
     }
 
     addOutcome() {

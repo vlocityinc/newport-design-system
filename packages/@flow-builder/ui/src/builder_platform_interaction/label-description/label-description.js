@@ -72,6 +72,13 @@ export default class LabelDescription extends Element {
         // TODO setting CustomValidity for Description: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
     }
 
+    /** Focus the label field */
+    @api focus() {
+        const labelInput = this.root.querySelector(SELECTORS.LABEL);
+        labelInput.focus();
+    }
+
+
     /** LWC hook after rendering every component we are setting all errors via setCustomValidity except initial rendering. **/
     renderedCallback() {
         if (this.state.label.value !== '') {
