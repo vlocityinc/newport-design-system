@@ -4,8 +4,7 @@ import Editor from '../editor';
 import { CANVAS_EVENT } from 'builder_platform_interaction-events';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { translateUIModelToFlow } from 'builder_platform_interaction-translator-lib';
-import { fetch, SERVER_ACTION_TYPE} from 'builder_platform_interaction-server-data-lib';
-
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 
 jest.mock('builder_platform_interaction-translator-lib', () => {
     return {
@@ -22,10 +21,13 @@ jest.mock('builder_platform_interaction-server-data-lib', () => {
 
 jest.unmock('builder_platform_interaction-store-lib');
 
-const createComponentUnderTest = () => {
+const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-editor', {
         is: Editor
     });
+    if (props) {
+        Object.assign(el, props);
+    }
     document.body.appendChild(el);
     return el;
 };
@@ -187,7 +189,6 @@ describe('editor', () => {
                 translateUIModelToFlow.mockReturnValue(flow);
 
                 toolbarComponent.querySelector(selectors.save).click();
-
                 // Check against the last call to fetch.  The first is in editor.js constructor and thus
                 // unavoidable and other components included via editor.html may also have fetch calls
                 // (for example left-panel-elements
@@ -195,6 +196,25 @@ describe('editor', () => {
 
                 expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
                 expect(fetch.mock.calls[saveFetchCallIndex][2]).toEqual({ flow });
+            });
+        });
+    });
+
+    describe('Server side fetch', () => {
+        it('getting rules', () => {
+            createComponentUnderTest();
+            return Promise.resolve().then(() => {
+                expect(fetch.mock.calls).toHaveLength(2);
+                expect(fetch.mock.calls[0][0]).toEqual(SERVER_ACTION_TYPE.GET_RULES);
+            });
+        });
+        it('getting flow metadata', () => {
+            createComponentUnderTest({
+                flowId: 'flow 123'
+            });
+            return Promise.resolve().then(() => {
+                expect(fetch.mock.calls).toHaveLength(3);
+                expect(fetch.mock.calls[1][0]).toEqual(SERVER_ACTION_TYPE.GET_FLOW);
             });
         });
     });
