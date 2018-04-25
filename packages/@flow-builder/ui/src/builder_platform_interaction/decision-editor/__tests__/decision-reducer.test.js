@@ -1,6 +1,7 @@
 import {decisionReducer} from '../decision-reducer';
 import {
     PropertyChangedEvent,
+    DeleteOutcomeEvent,
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent
@@ -94,6 +95,31 @@ describe('decision-reducer', () => {
 
             expect(newState.outcomes).toHaveLength(4);
             expect(newState.outcomes[3].guid).toEqual(mockGuid2);
+        });
+    });
+
+    describe('Delete Outcome', () => {
+        it('with a valid guid deletes the outcome', () => {
+            const deleteOutcomeAction = {
+                type: DeleteOutcomeEvent.EVENT_NAME,
+                guid: originalState.outcomes[0].guid
+            };
+
+            const newState = decisionReducer(originalState, deleteOutcomeAction);
+
+            expect(newState.outcomes).toHaveLength(1);
+            expect(newState.outcomes[0]).toEqual(originalState.outcomes[1]);
+        });
+
+        it('with an invalid guid does nothing', () => {
+            const deleteOutcomeAction = {
+                type: DeleteOutcomeEvent.EVENT_NAME,
+                guid: 'guidNotPresent'
+            };
+
+            const newState = decisionReducer(originalState, deleteOutcomeAction);
+
+            expect(newState.outcomes).toHaveLength(2);
         });
     });
 

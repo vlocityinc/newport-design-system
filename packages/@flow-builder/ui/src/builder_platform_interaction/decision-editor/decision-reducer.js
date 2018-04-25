@@ -2,6 +2,7 @@ import {decisionValidation} from './decision-validation';
 import {updateProperties, addItem, deleteItem, replaceItem, hydrateWithErrors} from 'builder_platform_interaction-data-mutation-lib';
 import {
     PropertyChangedEvent,
+    DeleteOutcomeEvent,
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent
@@ -14,6 +15,14 @@ import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expressio
 const addOutcome = (state) => {
     const newOutcome = hydrateWithErrors(createFlowElement(ELEMENT_TYPE.OUTCOME, false));
     const outcomes = addItem(state.outcomes, newOutcome);
+
+    return updateProperties(state, {outcomes});
+};
+
+const deleteOutcome = (state, event) => {
+    const outcomes = state.outcomes.filter((outcome) => {
+        return outcome.guid !== event.guid;
+    });
 
     return updateProperties(state, {outcomes});
 };
@@ -95,6 +104,8 @@ export const decisionReducer = (state, event) => {
             }
 
             return decisionPropertyChanged(state, event);
+        case DeleteOutcomeEvent.EVENT_NAME:
+            return deleteOutcome(state, event);
         case AddConditionEvent.EVENT_NAME:
             return addCondition(state, event);
         case DeleteConditionEvent.EVENT_NAME:

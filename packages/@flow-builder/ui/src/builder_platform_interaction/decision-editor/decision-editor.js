@@ -61,6 +61,17 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
         this.element = decisionReducer(this.element, event);
     }
 
+    /**
+     * Handles deletion and sets focus to the first outcome
+     * @param {object} event - deleteOutcomeEvent
+     */
+    handleDeleteOutcome(event) {
+        event.stopPropagation();
+        this.element = decisionReducer(this.element, event);
+
+        this.activeOutcomeId = this.element.outcomes[0].guid;
+    }
+
     handleOutcomeSelected(event) {
         event.stopPropagation();
         this.activeOutcomeId = event.detail.itemId;
