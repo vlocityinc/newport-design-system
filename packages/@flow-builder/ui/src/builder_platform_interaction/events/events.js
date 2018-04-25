@@ -7,6 +7,7 @@ export { ValueChangedEvent } from './valueChangedEvent';
 export { AddListItemEvent } from './addListItemEvent';
 export { UpdateListItemEvent } from './updateListItemEvent';
 export { DeleteListItemEvent } from './deleteListItemEvent';
+export { DeleteOutcomeEvent } from './deleteOutcomeEvent';
 export { AddConditionEvent } from './addConditionEvent';
 export { UpdateConditionEvent } from './updateConditionEvent';
 export { DeleteConditionEvent } from './deleteConditionEvent';

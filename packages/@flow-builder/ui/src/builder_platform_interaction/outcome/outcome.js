@@ -1,6 +1,7 @@
 import {Element, api, track} from 'engine';
 import {
     PropertyChangedEvent,
+    DeleteOutcomeEvent,
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent
@@ -105,6 +106,16 @@ export default class Outcome extends Element {
             // And show the custom logic input
             this.showCustomLogicInput = true;
         }
+    }
+
+    /**
+     * @param {object} event - Click Event to delete the outcome
+     */
+    handleDelete(event) {
+        event.stopPropagation();
+
+        const deleteOutcomeEvent = new DeleteOutcomeEvent(this.outcome.guid);
+        this.dispatchEvent(deleteOutcomeEvent);
     }
 
     handleConditionLogicChange(event) {

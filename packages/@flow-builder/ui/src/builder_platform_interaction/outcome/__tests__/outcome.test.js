@@ -1,6 +1,7 @@
 import {createElement} from 'engine';
 import Outcome from 'builder_platform_interaction-outcome';
 import {
+    DeleteOutcomeEvent,
     AddConditionEvent,
     AddListItemEvent,
     DeleteConditionEvent,
@@ -253,6 +254,145 @@ describe('Outcome', () => {
                 });
             });
         });
+
+        describe('condition logic', () => {
+            describe('AND', () => {
+                it('sets the logic combobox to \'and\'', () => {
+                    const element = createComponentUnderTest();
+
+                    element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                        conditionLogic: {value: 'and'}
+                    });
+
+                    return Promise.resolve().then(() => {
+                        const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+
+                        expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.AND);
+                    });
+                });
+                it('should hide the custom logic input', () => {
+                    const element = createComponentUnderTest();
+
+                    element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                        conditionLogic: {value: 'and'}
+                    });
+
+                    return Promise.resolve().then(() => {
+                        const customLogicInput = element.querySelector(selectors.customLogicInput);
+                        expect(customLogicInput).toBeNull();
+                    });
+                });
+            });
+
+            describe('OR', () => {
+                it('sets the logic combobox to \'or\'', () => {
+                    const element = createComponentUnderTest();
+
+                    element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                        conditionLogic: {value: 'or'}
+                    });
+
+                    return Promise.resolve().then(() => {
+                        const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+
+                        expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.OR);
+                    });
+                });
+                it('should hide the custom logic input', () => {
+                    const element = createComponentUnderTest();
+
+                    element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                        conditionLogic: {value: 'or'}
+                    });
+
+                    return Promise.resolve().then(() => {
+                        const customLogicInput = element.querySelector(selectors.customLogicInput);
+                        expect(customLogicInput).toBeNull();
+                    });
+                });
+            });
+
+            describe('custom logic', () => {
+                it('sets the logic combobox to custom logic', () => {
+                    const element = createComponentUnderTest();
+                    element.outcome = outcomeWithThreeConditionals;
+
+                    return Promise.resolve().then(() => {
+                        const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+
+                        expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.CUSTOM_LOGIC);
+                    });
+                });
+                it('shows the custom logic with the value from conditionLogic', () => {
+                    const element = createComponentUnderTest();
+                    element.outcome = outcomeWithThreeConditionals;
+
+                    return Promise.resolve().then(() => {
+                        const customLogicInput = element.querySelector(selectors.customLogicInput);
+
+                        expect(customLogicInput.value).toEqual(outcomeWithThreeConditionals.conditionLogic.value);
+                    });
+                });
+
+                describe('default value', () => {
+                    it('from AND all conditions should be separated by ANDs', () => {
+                        const element = createComponentUnderTest();
+
+                        element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                            conditionLogic: {value: 'and'}
+                        });
+
+                        return Promise.resolve().then(() => {
+                            const eventCallback = jest.fn();
+                            element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                            const logicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+                            logicComboBox.dispatchEvent(new CustomEvent('change', {
+                                detail: {
+                                    value: CONDITION_LOGIC.CUSTOM_LOGIC
+                                }
+                            }));
+
+                            expect(eventCallback).toHaveBeenCalled();
+                            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                                guid: element.outcome.guid,
+                                propertyName: 'conditionLogic',
+                                value: '1 AND 2 AND 3',
+                                error: null
+                            });
+                        });
+                    });
+
+                    it('from OR all conditions should be separated by ORs', () => {
+                        const element = createComponentUnderTest();
+
+                        element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
+                            conditionLogic: {value: 'or'}
+                        });
+
+                        return Promise.resolve().then(() => {
+                            const eventCallback = jest.fn();
+                            element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                            const logicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+                            logicComboBox.dispatchEvent(new CustomEvent('change', {
+                                detail: {
+                                    value: CONDITION_LOGIC.CUSTOM_LOGIC
+                                }
+                            }));
+
+                            expect(eventCallback).toHaveBeenCalled();
+                            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                                guid: element.outcome.guid,
+                                propertyName: 'conditionLogic',
+                                value: '1 OR 2 OR 3',
+                                error: null
+                            });
+                        });
+                    });
+                });
+            });
+        });
     });
     describe('header section', () => {
         it('has name and api name component', () => {
@@ -278,140 +418,20 @@ describe('Outcome', () => {
         });
     });
 
-    describe('condition logic', () => {
-        describe('AND', () => {
-            it('sets the logic combobox to \'and\'', () => {
-                const element = createComponentUnderTest();
+    describe('handleDelete', () => {
+        it('fires deleteOutcomeEvent with outcome GUID', () => {
+            const element = createComponentUnderTest();
+            element.outcome = outcomeWithThreeConditionals;
 
-                element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
-                    conditionLogic: {value: 'and'}
-                });
+            return Promise.resolve().then(() => {
+                const eventCallback = jest.fn();
+                element.addEventListener(DeleteOutcomeEvent.EVENT_NAME, eventCallback);
 
-                return Promise.resolve().then(() => {
-                    const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+                const removeButton = element.querySelector(selectors.button);
+                removeButton.click();
 
-                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.AND);
-                });
-            });
-            it('should hide the custom logic input', () => {
-                const element = createComponentUnderTest();
-
-                element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
-                    conditionLogic: {value: 'and'}
-                });
-
-                return Promise.resolve().then(() => {
-                    const customLogicInput = element.querySelector(selectors.customLogicInput);
-                    expect(customLogicInput).toBeNull();
-                });
-            });
-        });
-
-        describe('OR', () => {
-            it('sets the logic combobox to \'or\'', () => {
-                const element = createComponentUnderTest();
-
-                element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
-                    conditionLogic: {value: 'or'}
-                });
-
-                return Promise.resolve().then(() => {
-                    const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
-
-                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.OR);
-                });
-            });
-            it('should hide the custom logic input', () => {
-                const element = createComponentUnderTest();
-
-                element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
-                    conditionLogic: {value: 'or'}
-                });
-
-                return Promise.resolve().then(() => {
-                    const customLogicInput = element.querySelector(selectors.customLogicInput);
-                    expect(customLogicInput).toBeNull();
-                });
-            });
-        });
-
-        describe('custom logic', () => {
-            it('sets the logic combobox to custom logic', () => {
-                const element = createComponentUnderTest();
-                element.outcome = outcomeWithThreeConditionals;
-
-                return Promise.resolve().then(() => {
-                    const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
-
-                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.CUSTOM_LOGIC);
-                });
-            });
-            it('shows the custom logic with the value from conditionLogic', () => {
-                const element = createComponentUnderTest();
-                element.outcome = outcomeWithThreeConditionals;
-
-                return Promise.resolve().then(() => {
-                    const customLogicInput = element.querySelector(selectors.customLogicInput);
-
-                    expect(customLogicInput.value).toEqual(outcomeWithThreeConditionals.conditionLogic.value);
-                });
-            });
-
-            describe('default value', () => {
-                it('from AND all conditions should be separated by ANDs', () => {
-                    const element = createComponentUnderTest();
-
-                    element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
-                        conditionLogic: {value: 'and'}
-                    });
-
-                    return Promise.resolve().then(() => {
-                        const eventCallback = jest.fn();
-                        element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
-
-                        const logicComboBox = element.querySelector(selectors.conditionLogicComboBox);
-                        logicComboBox.dispatchEvent(new CustomEvent('change', {
-                            detail: {
-                                value: CONDITION_LOGIC.CUSTOM_LOGIC
-                            }
-                        }));
-
-                        expect(eventCallback).toHaveBeenCalled();
-                        expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                            guid: element.outcome.guid,
-                            propertyName: 'conditionLogic',
-                            value: '1 AND 2 AND 3',
-                            error: null
-                        });
-                    });
-                });
-
-                it('from OR all conditions should be separated by ORs', () => {
-                    const element = createComponentUnderTest();
-
-                    element.outcome = Object.assign({}, outcomeWithThreeConditionals, {
-                        conditionLogic: {value: 'or'}
-                    });
-
-                    return Promise.resolve().then(() => {
-                        const eventCallback = jest.fn();
-                        element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
-
-                        const logicComboBox = element.querySelector(selectors.conditionLogicComboBox);
-                        logicComboBox.dispatchEvent(new CustomEvent('change', {
-                            detail: {
-                                value: CONDITION_LOGIC.CUSTOM_LOGIC
-                            }
-                        }));
-
-                        expect(eventCallback).toHaveBeenCalled();
-                        expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                            guid: element.outcome.guid,
-                            propertyName: 'conditionLogic',
-                            value: '1 OR 2 OR 3',
-                            error: null
-                        });
-                    });
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    guid: element.outcome.guid
                 });
             });
         });
