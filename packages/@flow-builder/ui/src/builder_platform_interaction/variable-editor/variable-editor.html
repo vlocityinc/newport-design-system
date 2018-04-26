@@ -6,5 +6,23 @@
                                                         hide-label=true
                                                         onpropertychanged={handlePropertyChanged}>
         </builder_platform_interaction-label-description>
+
+        <div class="slds-form-element_group slds-grid vertical-align-strat slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
+            <!-- TODO: use labels W-4813532-->
+            <lightning-combobox
+                class="slds-col slds-grow slds-size_1-of-2"
+                label="Data Type"
+                placeholder="Select Data Type"
+                options={dataTypeList}
+                value={dataType}
+                disabled={isDataTypeDisabled}
+                onchange={handleDataTypeSelect}
+                field-level-help={dataTypeHelpText}
+                required
+                >
+            </lightning-combobox>
+            <!-- TODO: add isCollection checkbox in the second column -->
+        </div>
+        
     </div>
 </template>

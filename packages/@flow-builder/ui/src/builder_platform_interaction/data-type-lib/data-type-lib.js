@@ -10,6 +10,51 @@ const FLOW_DATA_TYPE = {
     MULTI_PICKLIST: 'Multipicklist',
 };
 
+/**
+ * Array of menu data items representing flow data types
+ * Consumed by lightning-combobox
+ * TODO: Use labels: W-4813532
+ * TODO: Update list to use proper icons per designs, this is a dependency
+ */
+export const FLOW_DATA_TYPE_MENU_ITEMS = [
+    {
+        label: 'Text',
+        value: FLOW_DATA_TYPE.STRING,
+    },
+    {
+        label: 'sObject',
+        value: FLOW_DATA_TYPE.SOBJECT,
+    },
+    {
+        label: 'Number',
+        value: FLOW_DATA_TYPE.NUMBER,
+    },
+    {
+        label: 'Currency',
+        value: FLOW_DATA_TYPE.CURRENCY,
+    },
+    {
+        label: 'Boolean',
+        value: FLOW_DATA_TYPE.BOOLEAN,
+    },
+    {
+        label: 'Date',
+        value: FLOW_DATA_TYPE.DATE,
+    },
+    {
+        label: 'Date Time',
+        value: FLOW_DATA_TYPE.DATE_TIME,
+    },
+    {
+        label: 'Picklist',
+        value: FLOW_DATA_TYPE.PICKLIST,
+    },
+    {
+        label: 'Picklist Multi-select',
+        value: FLOW_DATA_TYPE.MULTI_PICKLIST,
+    },
+];
+
 const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.STRING]: ["id", "reference", "address", "anytype", "base64", "combobox", "complexvalue", "datacategorygroupreference", "email", "encryptedstring", "location", "phone", "string", "textarea", "url"],
     [FLOW_DATA_TYPE.PICKLIST]: ["picklist"],
