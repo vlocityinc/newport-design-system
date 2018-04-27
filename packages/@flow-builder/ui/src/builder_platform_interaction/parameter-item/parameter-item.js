@@ -214,15 +214,15 @@ export default class ParameterItem extends Element {
         // TODO: W-4632619
         let iconName = 'utility:type_tool';
         switch (this.type) {
-            case FLOW_DATA_TYPE.DATE:
-            case FLOW_DATA_TYPE.DATE_TIME:
+            case FLOW_DATA_TYPE.DATE.value:
+            case FLOW_DATA_TYPE.DATE_TIME.value:
                 iconName = 'utility:event';
                 break;
-            case FLOW_DATA_TYPE.SOBJECT:
+            case FLOW_DATA_TYPE.SOBJECT.value:
                 iconName = 'utility:standard_objects';
                 break;
-            case FLOW_DATA_TYPE.PICKLIST:
-            case FLOW_DATA_TYPE.MULTI_PICKLIST:
+            case FLOW_DATA_TYPE.PICKLIST.value:
+            case FLOW_DATA_TYPE.MULTI_PICKLIST.value:
                 iconName = 'utility:picklist';
                 break;
             default:
@@ -300,13 +300,13 @@ export default class ParameterItem extends Element {
      */
     getParameterValueKey() {
         switch (this.type) {
-            case FLOW_DATA_TYPE.DATE:
+            case FLOW_DATA_TYPE.DATE.value:
                 return 'dateValue';
-            case FLOW_DATA_TYPE.DATE_TIME:
+            case FLOW_DATA_TYPE.DATE_TIME.value:
                 return 'dateTimeValue';
-            case FLOW_DATA_TYPE.NUMBER:
+            case FLOW_DATA_TYPE.NUMBER.value:
                 return 'numberValue';
-            case FLOW_DATA_TYPE.BOOLEAN:
+            case FLOW_DATA_TYPE.BOOLEAN.value:
                 return 'booleanValue';
             default:
                 return 'stringValue';

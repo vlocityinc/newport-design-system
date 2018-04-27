@@ -2,7 +2,7 @@ import { Element, api, track, unwrap } from 'engine';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { variableReducer } from './variable-reducer';
-import { FLOW_DATA_TYPE_MENU_ITEMS } from 'builder_platform_interaction-data-type-lib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 // the property names in a variable element (after mutation)
 const VARIABLE_FIELDS = {
@@ -16,6 +16,8 @@ const VARIABLE_FIELDS = {
     SCALE: 'scale',
     DEFAULT_VALUE: 'defaultValue',
 };
+
+const flowDataTypeMenuItems = Object.values(FLOW_DATA_TYPE);
 
 /**
  * Variable property editor for Flow Builder
@@ -66,7 +68,7 @@ export default class VariableEditor extends Element {
     }
 
     get dataTypeList() {
-        return FLOW_DATA_TYPE_MENU_ITEMS;
+        return flowDataTypeMenuItems;
     }
 
     get dataTypeHelpText() {

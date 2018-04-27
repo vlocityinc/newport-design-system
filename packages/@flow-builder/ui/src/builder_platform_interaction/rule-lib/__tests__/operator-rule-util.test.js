@@ -5,7 +5,7 @@ import { elements, dateVariableGuid, stageGuid, accountSObjectVariableGuid } fro
 import { RULE_TYPES, RULE_PROPERTY } from '../rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
-const { DATE } = FLOW_DATA_TYPE;
+const { DATE: { value: DATE } } = FLOW_DATA_TYPE;
 const ASSIGNMENT_OPERATOR = 'Assign';
 const EQUALS_OPERATOR = 'Equals';
 const { LEFT, RHS_PARAMS } = RULE_PROPERTY;

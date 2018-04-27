@@ -1,70 +1,58 @@
+/**
+ * Array of objects representing flow data types
+ * Can be consumed by lightning-combobox
+ * TODO: Use labels: W-4813532
+ * TODO: Update list to use proper icons per designs, this is a dependency TD-0051198
+ */
 const FLOW_DATA_TYPE = {
-    CURRENCY: 'Currency',
-    DATE: 'Date',
-    NUMBER: 'Number',
-    STRING: 'String',
-    BOOLEAN: 'Boolean',
-    SOBJECT: 'SObject',
-    DATE_TIME: 'DateTime',
-    PICKLIST: 'Picklist',
-    MULTI_PICKLIST: 'Multipicklist',
+    STRING: {
+        label: 'Text',
+        value: 'String',
+    },
+    SOBJECT: {
+        label: 'sObject',
+        value: 'SObject',
+    },
+    NUMBER: {
+        label: 'Number',
+        value: 'Number',
+    },
+    CURRENCY: {
+        label: 'Currency',
+        value: 'Currency',
+    },
+    BOOLEAN: {
+        label: 'Boolean',
+        value: 'Boolean',
+    },
+    DATE: {
+        label: 'Date',
+        value: 'Date',
+    },
+    DATE_TIME: {
+        label: 'Date Time',
+        value: 'DateTime',
+    },
+    PICKLIST: {
+        label: 'Picklist',
+        value: 'Picklist',
+    },
+    MULTI_PICKLIST: {
+        label: 'Picklist Multi-select',
+        value: 'Multipicklist',
+    },
 };
 
-/**
- * Array of menu data items representing flow data types
- * Consumed by lightning-combobox
- * TODO: Use labels: W-4813532
- * TODO: Update list to use proper icons per designs, this is a dependency
- */
-export const FLOW_DATA_TYPE_MENU_ITEMS = [
-    {
-        label: 'Text',
-        value: FLOW_DATA_TYPE.STRING,
-    },
-    {
-        label: 'sObject',
-        value: FLOW_DATA_TYPE.SOBJECT,
-    },
-    {
-        label: 'Number',
-        value: FLOW_DATA_TYPE.NUMBER,
-    },
-    {
-        label: 'Currency',
-        value: FLOW_DATA_TYPE.CURRENCY,
-    },
-    {
-        label: 'Boolean',
-        value: FLOW_DATA_TYPE.BOOLEAN,
-    },
-    {
-        label: 'Date',
-        value: FLOW_DATA_TYPE.DATE,
-    },
-    {
-        label: 'Date Time',
-        value: FLOW_DATA_TYPE.DATE_TIME,
-    },
-    {
-        label: 'Picklist',
-        value: FLOW_DATA_TYPE.PICKLIST,
-    },
-    {
-        label: 'Picklist Multi-select',
-        value: FLOW_DATA_TYPE.MULTI_PICKLIST,
-    },
-];
-
 const TYPE_MAPPING = {
-    [FLOW_DATA_TYPE.STRING]: ["id", "reference", "address", "anytype", "base64", "combobox", "complexvalue", "datacategorygroupreference", "email", "encryptedstring", "location", "phone", "string", "textarea", "url"],
-    [FLOW_DATA_TYPE.PICKLIST]: ["picklist"],
-    [FLOW_DATA_TYPE.MULTI_PICKLIST]: ["multipicklist"],
-    [FLOW_DATA_TYPE.DATE_TIME]: ["datetime", "time"],
-    [FLOW_DATA_TYPE.DATE]: ["date"],
-    [FLOW_DATA_TYPE.NUMBER]: ["double", "int", "percent"],
-    [FLOW_DATA_TYPE.BOOLEAN]: ["boolean"],
-    [FLOW_DATA_TYPE.CURRENCY]: ["currency"],
-    [FLOW_DATA_TYPE.SOBJECT]: ["sobject"],
+    [FLOW_DATA_TYPE.STRING.value]: ["id", "reference", "address", "anytype", "base64", "combobox", "complexvalue", "datacategorygroupreference", "email", "encryptedstring", "location", "phone", "string", "textarea", "url"],
+    [FLOW_DATA_TYPE.PICKLIST.value]: ["picklist"],
+    [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: ["multipicklist"],
+    [FLOW_DATA_TYPE.DATE_TIME.value]: ["datetime", "time"],
+    [FLOW_DATA_TYPE.DATE.value]: ["date"],
+    [FLOW_DATA_TYPE.NUMBER.value]: ["double", "int", "percent"],
+    [FLOW_DATA_TYPE.BOOLEAN.value]: ["boolean"],
+    [FLOW_DATA_TYPE.CURRENCY.value]: ["currency"],
+    [FLOW_DATA_TYPE.SOBJECT.value]: ["sobject"],
 };
 
 export { FLOW_DATA_TYPE };

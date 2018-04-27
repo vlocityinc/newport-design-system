@@ -13,10 +13,10 @@ const SELECTORS = {
  * TODO: Use labels and doc review. W-4813532
  */
 const ERROR_MESSAGE = {
-    [FLOW_DATA_TYPE.CURRENCY]: 'Not a valid currency. Re-enter in decimal format.',
-    [FLOW_DATA_TYPE.NUMBER]: 'Not a valid number. Re-enter in decimal format.',
-    [FLOW_DATA_TYPE.DATE] : 'Re-enter date as MM/DD/YYYY.',
-    [FLOW_DATA_TYPE.DATE_TIME] : 'Re-enter datetime as MM/DD/YYYY HH:mm:ss TZD.',
+    [FLOW_DATA_TYPE.CURRENCY.value]: 'Not a valid currency. Re-enter in decimal format.',
+    [FLOW_DATA_TYPE.NUMBER.value]: 'Not a valid number. Re-enter in decimal format.',
+    [FLOW_DATA_TYPE.DATE.value] : 'Re-enter date as MM/DD/YYYY.',
+    [FLOW_DATA_TYPE.DATE_TIME.value] : 'Re-enter datetime as MM/DD/YYYY HH:mm:ss TZD.',
     GENERIC: 'You have entered an invalid value.',
 };
 
@@ -100,14 +100,14 @@ export default class Combobox extends Element {
      */
     @api
     set type(dataType) {
-        if (!Object.values(FLOW_DATA_TYPE).includes(dataType)) {
+        if (!Object.values(FLOW_DATA_TYPE).find(type => type.value === dataType)) {
             throw new Error(`Data type must be non-empty and a valid Flow Data Type but instead was ${dataType}`);
         } else {
             this._dataType = dataType;
         }
 
         // No literals allowed for SObject and Boolean data type
-        if ([FLOW_DATA_TYPE.SOBJECT, FLOW_DATA_TYPE.BOOLEAN].includes(this._dataType)) {
+        if ([FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.BOOLEAN.value].includes(this._dataType)) {
             this._isLiteralAllowed = false;
         }
     }
@@ -528,14 +528,14 @@ export default class Combobox extends Element {
      */
     validateLiteralForDataType(value) {
         switch (this._dataType) {
-            case FLOW_DATA_TYPE.NUMBER:
-            case FLOW_DATA_TYPE.CURRENCY:
+            case FLOW_DATA_TYPE.NUMBER.value:
+            case FLOW_DATA_TYPE.CURRENCY.value:
                 this.validateNumber(value);
                 break;
-            case FLOW_DATA_TYPE.DATE:
+            case FLOW_DATA_TYPE.DATE.value:
                 this.validateAndFormatDate(value);
                 break;
-            case FLOW_DATA_TYPE.DATE_TIME:
+            case FLOW_DATA_TYPE.DATE_TIME.value:
                 this.validateAndFormatDate(value, true);
                 break;
             default:
