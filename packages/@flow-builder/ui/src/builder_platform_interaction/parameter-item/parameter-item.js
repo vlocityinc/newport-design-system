@@ -42,13 +42,13 @@ export default class ParameterItem extends Element {
 
     /**
      * @typedef {Object} ParameterItem
-     * @property {String} Id parameter Id
-     * @property {boolean} IsInput  true if the parameter is input parameter
-     * @property {boolean} IsOutput true if the parameter is output parameter
-     * @property {boolean} IsRequired   true if the parameter is required input parameter
-     * @property {String} Label   parameter label
-     * @property {String} Description     parameter description
-     * @property {String} DataType     data type of the parameter
+     * @property {String} id parameter Id
+     * @property {boolean} isInput  true if the parameter is input parameter
+     * @property {boolean} isOutput true if the parameter is output parameter
+     * @property {boolean} isRequired   true if the parameter is required input parameter
+     * @property {String} label   parameter label
+     * @property {String} description     parameter description
+     * @property {String} dataType     data type of the parameter
      * @property {InputParameterValue} value    if it's an input parameter and has a value
      * @property {ValueErrorObject} assignToReference    if it's an output parameter and assign to a reference
      */

@@ -1,38 +1,36 @@
 export const mockActions = [{
-    Description:"Post to the feed for a specific record, user, or Chatter group.",
-    DurableId:"chatterPost-chatterPost",
-    IsStandard:true,
-    Label:"Post to Chatter",
-    Name:"chatterPost",
-    Type:"chatterPost",
-    sobjectType:"InvocableAction"
+    description:"Post to the feed for a specific record, user, or Chatter group.",
+    durableId:"chatterPost-chatterPost",
+    isStandard:true,
+    label:"Post to Chatter",
+    name:"chatterPost",
+    type:"chatterPost",
 }, {
-    Description:"Send an email where you specify the subject, body, and recipients.",
-    DurableId:"emailSimple-emailSimple",
-    IsStandard:true,
-    Label:"Send Email",
-    Name:"emailSimple",
-    Type:"emailSimple",
-    sobjectType:"InvocableAction"
+    description:"Send an email where you specify the subject, body, and recipients.",
+    durableId:"emailSimple-emailSimple",
+    isStandard:true,
+    label:"Send Email",
+    name:"emailSimple",
+    type:"emailSimple",
 }, {
-    Name:"apexAction1",
-    DurableId:"apexAction1",
-    IsStandard: false,
-    Type: "apex",
-    Description: "This is an apex action 1",
-    Label: "Apex1"
+    name:"apexAction1",
+    durableId:"apexAction1",
+    isStandard: false,
+    type: "apex",
+    description: "This is an apex action 1",
+    label: "Apex1"
 }, {
-    Name:"apexAction2",
-    DurableId:"apexAction2",
-    IsStandard: false,
-    Type: "apex",
-    Description: "This is an apex action 2",
-    Label: "Apex2"
+    name:"apexAction2",
+    durableId:"apexAction2",
+    isStandard: false,
+    type: "apex",
+    description: "This is an apex action 2",
+    label: "Apex2"
 }, {
-    Name:"apexAction3",
-    DurableId:"apexAction3",
-    IsStandard: false,
-    Type: "apex",
-    Description: "This is an apex action 3",
-    Label: "Apex3"
+    name:"apexAction3",
+    durableId:"apexAction3",
+    isStandard: false,
+    type: "apex",
+    description: "This is an apex action 3",
+    label: "Apex3"
 }];

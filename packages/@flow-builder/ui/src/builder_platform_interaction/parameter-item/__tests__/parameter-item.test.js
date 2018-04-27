@@ -21,13 +21,13 @@ function createComponentForTest(props) {
 
 function createMockParameterItem(isInput, isRequired, paramValue) {
     const item = {
-        IsInput: isInput,
-        IsOutput: !isInput,
-        IsRequired: isRequired,
-        DataType: 'STRING',
-        Label: parameterLabel,
-        Name: 'ParameterName',
-        Description: 'Parameter Description',
+        isInput,
+        isOutput: !isInput,
+        isRequired,
+        dataType: 'STRING',
+        label: parameterLabel,
+        name: 'ParameterName',
+        description: 'Parameter Description',
     };
     if (paramValue) {
         if (isInput) {

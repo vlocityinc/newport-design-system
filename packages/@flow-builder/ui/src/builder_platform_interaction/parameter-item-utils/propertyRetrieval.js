@@ -7,7 +7,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
  */
 export function getParameterLabel(item, elementType) {
     if (isInvocableAction(elementType)) {
-        return item.Label;
+        return item.label;
     } else if (elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
         return item.Name; // for Apex Plugin, there is no Label property, we may use Name instead
     }
@@ -20,7 +20,9 @@ export function getParameterLabel(item, elementType) {
  * @returns {Boolean} true if this parameter is input
  */
 export function isInputParameter(item, elementType) {
-    if (isInvocableActionOrApexPlugin(elementType)) {
+    if (isInvocableAction(elementType)) {
+        return item.isInput;
+    } else if (elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
         return item.IsInput;
     }
     return false; // TODO: there is no service for subflow for now
@@ -32,7 +34,9 @@ export function isInputParameter(item, elementType) {
  * @returns {Boolean} true if this parameter is required
  */
 export function isRequiredParameter(item, elementType) {
-    if (isInvocableActionOrApexPlugin(elementType)) {
+    if (isInvocableAction(elementType)) {
+        return item.isRequired;
+    } else if (elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
         return item.IsRequired;
     }
     return false; // TODO: there is no service for subflow for now
@@ -44,7 +48,9 @@ export function isRequiredParameter(item, elementType) {
  * @returns {String} data type of parameter
  */
 export function getParameterDataType(item, elementType) {
-    if (isInvocableActionOrApexPlugin(elementType)) {
+    if (isInvocableAction(elementType)) {
+        return item.dataType;
+    } else if (elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
         return item.DataType;
     }
     return false; // TODO: there is no service for subflow for now
@@ -56,12 +62,4 @@ export function getParameterDataType(item, elementType) {
  */
 function isInvocableAction(elementType) {
     return elementType === ELEMENT_TYPE.ACTION_CALL || elementType === ELEMENT_TYPE.EMAIL_ALERT || elementType === ELEMENT_TYPE.APEX_CALL || ELEMENT_TYPE.LOCAL_ACTION_CALL;
-}
-
-/**
- * @param {String} elementType      type of element
- * @returns {Boolean} true if invocable action or Apex Plugin
- */
-function isInvocableActionOrApexPlugin(elementType) {
-    return isInvocableAction(elementType) || elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL;
 }

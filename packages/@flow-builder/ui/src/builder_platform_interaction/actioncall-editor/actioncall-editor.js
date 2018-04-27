@@ -156,9 +156,17 @@ export default class ActionCallEditor extends Element {
 
     updateInputOutputParameters(parameters) {
         let inputParams, outputParams;
-        if (this.elementType !== ELEMENT_TYPE.SUBFLOW) {
-            inputParams = parameters.filter(parameter => parameter.IsInput === true);
-            outputParams = parameters.filter(parameter => parameter.IsOutput === true);
+        switch (this.elementType) {
+            case ELEMENT_TYPE.APEX_PLUGIN_CALL:
+                inputParams = parameters.filter(parameter => parameter.IsInput === true);
+                outputParams = parameters.filter(parameter => parameter.IsOutput === true);
+                break;
+            case ELEMENT_TYPE.SUBFLOW:
+                // TODO
+                break;
+            default:
+                inputParams = parameters.filter(parameter => parameter.isInput === true);
+                outputParams = parameters.filter(parameter => parameter.isOutput === true);
         }
         // merge with actionCallNode to get value
         if (this.node.inputParameters) {

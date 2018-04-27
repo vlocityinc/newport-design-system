@@ -101,14 +101,12 @@ export default class ActionSelector extends Element {
     /**
      * @typedef {Object} InvocableAction
      *
-     * @property {boolean} IsStandard
-     * @property {String} Type "apex", "quickAction", "component" or same as name for standard invocable actions
-     * @property {String} Description
-     * @property {String} Label
-     * @property {String} Id always "000000000000000AAA" ?
-     * @property {String} DurableId type-name, for ex "apex-LogACall", "deactivateSessionPermSet-deactivateSessionPermSet"
-     * @property {String} Name for ex "LogACall", "chatterPost", "CollaborationGroup.NewGroupMember" ...
-     * @property {String} sobjectType "InvocableAction"
+     * @property {boolean} isStandard
+     * @property {String} type "apex", "quickAction", "component" or same as name for standard invocable actions
+     * @property {String} description
+     * @property {String} label
+     * @property {String} durableId type-name, for ex "apex-LogACall", "deactivateSessionPermSet-deactivateSessionPermSet"
+     * @property {String} name for ex "LogACall", "chatterPost", "CollaborationGroup.NewGroupMember" ...
      */
 
     /**
@@ -225,11 +223,11 @@ export default class ActionSelector extends Element {
                 };
             }
         } else {
-            const actionFound = this.invocableActions.find(action => action.DurableId === this.state.selectedActionValue);
+            const actionFound = this.invocableActions.find(action => action.durableId === this.state.selectedActionValue);
             if (actionFound) {
                 selectedAction = {
-                    actionName : actionFound.Name,
-                    actionType : actionFound.Type,
+                    actionName : actionFound.name,
+                    actionType : actionFound.type,
                     elementType : this.state.selectedElementType
                 };
             }
@@ -250,16 +248,16 @@ export default class ActionSelector extends Element {
         const selectedElementType = this.state.selectedElementType;
         switch (selectedElementType) {
             case ELEMENT_TYPE.ACTION_CALL:
-                items = this.invocableActions.filter(action => action.IsStandard || action.Type === ACTION_TYPE.QUICK_ACTION).map(action => this.getComboItemFromInvocableAction(action));
+                items = this.invocableActions.filter(action => action.isStandard || action.type === ACTION_TYPE.QUICK_ACTION).map(action => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.APEX_CALL:
-                items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.APEX).map(action => this.getComboItemFromInvocableAction(action));
+                items = this.invocableActions.filter(action => action.type === ACTION_TYPE.APEX).map(action => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.EMAIL_ALERT:
-                items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.EMAIL_ALERT).map(action => this.getComboItemFromInvocableAction(action));
+                items = this.invocableActions.filter(action => action.type === ACTION_TYPE.EMAIL_ALERT).map(action => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.LOCAL_ACTION_CALL:
-                items = this.invocableActions.filter(action => action.Type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));
+                items = this.invocableActions.filter(action => action.type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
                 items = this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
@@ -283,16 +281,16 @@ export default class ActionSelector extends Element {
             };
         };
         const typeOptions = [getTypeOption(ELEMENT_TYPE.ACTION_CALL)];
-        if (this.invocableActions.find(action => action.Type === ACTION_TYPE.APEX)) {
+        if (this.invocableActions.find(action => action.type === ACTION_TYPE.APEX)) {
             typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
         }
         if (this.apexPlugins.length > 0) {
             typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
         }
-        if (this.invocableActions.find(action => action.Type === ACTION_TYPE.EMAIL_ALERT)) {
+        if (this.invocableActions.find(action => action.type === ACTION_TYPE.EMAIL_ALERT)) {
             typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
         }
-        if (this.invocableActions.find(action => action.Type === ACTION_TYPE.COMPONENT)) {
+        if (this.invocableActions.find(action => action.type === ACTION_TYPE.COMPONENT)) {
             typeOptions.push(getTypeOption(ELEMENT_TYPE.LOCAL_ACTION_CALL));
         }
         if (this.subflows.length > 0) {
@@ -311,9 +309,9 @@ export default class ActionSelector extends Element {
     getComboItemFromInvocableAction(action) {
         return {
             type : 'option-card',
-            text : action.Label,
-            value: action.DurableId,
-            subText : action.Description || ''
+            text : action.label,
+            value: action.durableId,
+            subText : action.description || ''
         };
     }
 
