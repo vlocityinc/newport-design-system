@@ -204,7 +204,7 @@ describe('editor', () => {
         it('getting rules', () => {
             createComponentUnderTest();
             return Promise.resolve().then(() => {
-                expect(fetch.mock.calls).toHaveLength(2);
+                expect(fetch.mock.calls).toHaveLength(4);
                 expect(fetch.mock.calls[0][0]).toEqual(SERVER_ACTION_TYPE.GET_RULES);
             });
         });
@@ -213,8 +213,15 @@ describe('editor', () => {
                 flowId: 'flow 123'
             });
             return Promise.resolve().then(() => {
-                expect(fetch.mock.calls).toHaveLength(3);
-                expect(fetch.mock.calls[1][0]).toEqual(SERVER_ACTION_TYPE.GET_FLOW);
+                expect(fetch.mock.calls).toHaveLength(5);
+                expect(fetch.mock.calls[3][0]).toEqual(SERVER_ACTION_TYPE.GET_FLOW);
+            });
+        });
+        it('getting header urls', () => {
+            createComponentUnderTest();
+            return Promise.resolve().then(() => {
+                expect(fetch.mock.calls).toHaveLength(4);
+                expect(fetch.mock.calls[2][0]).toEqual(SERVER_ACTION_TYPE.GET_HEADER_URLS);
             });
         });
     });

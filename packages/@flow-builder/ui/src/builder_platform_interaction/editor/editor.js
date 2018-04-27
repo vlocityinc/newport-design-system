@@ -35,6 +35,10 @@ export default class Editor extends Element {
         properties: {}
     };
 
+    @track backUrl
+
+    @track helpUrl
+
     constructor() {
         super();
         // Initialising store
@@ -43,6 +47,7 @@ export default class Editor extends Element {
         // TODO: Move these server calls after getting the Flow
         fetch(SERVER_ACTION_TYPE.GET_RULES, this.getRulesCallback);
         fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' });
+        fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
     }
 
     @api
@@ -127,6 +132,20 @@ export default class Editor extends Element {
             // TODO: handle error case
         } else {
             setEntities(data);
+        }
+    };
+
+    /**
+     * Callback which gets executed after getting data urls for header
+     *
+     * @param {Object} has error property if there is error fetching the data else has data property
+     */
+    getHeaderUrlsCallBack = ({data, error}) => {
+        if (error) {
+            // TODO: handle error case
+        } else {
+            this.backUrl = data.backUrl;
+            this.helpUrl = data.helpUrl;
         }
     };
 

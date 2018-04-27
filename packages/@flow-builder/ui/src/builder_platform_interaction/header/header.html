@@ -13,13 +13,13 @@
         </div>
         <div class="slds-builder-header__item slds-builder-header__utilities">
             <div class="slds-builder-header__utilities-item">
-                <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center">
+                <a href={headerBackUrl} class="slds-builder-header__item-action slds-media slds-media_center back-url">
                     <lightning-icon variant="inverse" size="x-small" icon-name="utility:back" class="slds-icon_container slds-icon-utility-back slds-current-color back-utility-icon"></lightning-icon>
                     <div class="slds-media__body slds-text-body_regular slds-p-left_small back-label">{headerLabels.backLabel}</div>
                 </a>
             </div>
             <div class="slds-builder-header__utilities-item">
-                <a href="javascript:void(0);" class="slds-builder-header__item-action slds-media slds-media_center">
+                <a href={headerHelpUrl} target="_blank" class="slds-builder-header__item-action slds-media slds-media_center help-url">
                     <lightning-icon variant="inverse" size="x-small" icon-name="utility:help" class="slds-icon_container slds-icon-utility-back slds-current-color help-utility-icon"></lightning-icon>
                     <div class="slds-media__body slds-text-body_regular slds-p-left_small help-label">{headerLabels.helpLabel}</div>
                 </a>

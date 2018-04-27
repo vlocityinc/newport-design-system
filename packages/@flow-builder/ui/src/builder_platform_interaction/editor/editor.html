@@ -1,7 +1,7 @@
 ﻿<template>
     <div class="editor slds-grid slds-grid_frame slds-grid_vertical">
         <!--Header-->
-        <builder_platform_interaction-header flow-name={appState.properties.label} flow-version={appState.properties.versionNumber}></builder_platform_interaction-header>
+        <builder_platform_interaction-header flow-name={appState.properties.label} flow-version={appState.properties.versionNumber} back-url={backUrl} help-url={helpUrl}></builder_platform_interaction-header>
 
         <!--Toolbar-->
         <builder_platform_interaction-toolbar onsave={handleSaveFlow}></builder_platform_interaction-toolbar>
