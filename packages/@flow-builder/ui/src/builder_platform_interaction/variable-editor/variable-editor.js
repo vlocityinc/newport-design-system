@@ -64,7 +64,7 @@ export default class VariableEditor extends Element {
     }
 
     get isDataTypeDisabled() {
-        return this.isNewMode === false;
+        return !this.isNewMode;
     }
 
     get dataTypeList() {
@@ -73,7 +73,7 @@ export default class VariableEditor extends Element {
 
     get dataTypeHelpText() {
         // TODO: use labels
-        return this.isNewMode === false ? 'Data type cannot be changed while this resource is being referenced in your flow' : null;
+        return !this.isNewMode ? 'Data type cannot be changed while this resource is being referenced in your flow' : null;
     }
 
     /* ********************** */
@@ -99,6 +99,7 @@ export default class VariableEditor extends Element {
         const error = null;
         const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
         this.variableResource = variableReducer(this.variableResource, action);
+        // TODO: handle clearing of fields when data type is changed
     }
 
     /** *********************************/

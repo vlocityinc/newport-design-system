@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { Element, api } from 'engine';
 
 /**
  * Dummy lightning button component for use by Jest tests
@@ -14,8 +14,9 @@ export default class LightningCombobox extends Element {
 @api disabled;
 @api options;
 @api spinnerActive;
-
+@api placeholder;
+@api fieldLevelHelp;
+@api required;
 @api setCustomValidity = jest.fn();
 @api showHelpMessageIfInvalid = jest.fn();
 }
-
