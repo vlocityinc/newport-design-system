@@ -1,4 +1,4 @@
-import { hydrateWithErrors, dehydrate, getErrorsFromHydratedElement } from '../elementDataMutation';
+import { hydrateWithErrors, dehydrate, getErrorsFromHydratedElement, getValueFromHydratedItem, getErrorFromHydratedItem } from '../elementDataMutation';
 
 /** Mock data objects - Start **/
 // TODO: think about moving all these move objects to a mock util that can be used by all the tests
@@ -150,5 +150,27 @@ describe('getErrorsFromHydratedElement function', () => {
         const errorsList = getErrorsFromHydratedElement(hydratedObject);
         expect(errorsList).toBeDefined();
         expect(errorsList.length).toBe(0);
+    });
+});
+
+describe('getValueFromHydratedItem function', () => {
+    it('should return value for the item hydrated with error', () => {
+        const value = getValueFromHydratedItem(hydratedObject.name);
+        expect(value).toBe('testAssignmentName');
+    });
+    it('should return item if not hydrated with error', () => {
+        const value = getValueFromHydratedItem(testObj.name);
+        expect(value).toBe('testAssignmentName');
+    });
+});
+
+describe('getErrorFromHydratedItem function', () => {
+    it('should return error for the item hydrated with error', () => {
+        const error = getErrorFromHydratedItem(testObjectForGetErrorsFromHydratedElementFunction.label);
+        expect(error).toBe('Test Error2');
+    });
+    it('should return null if not hydrated with error', () => {
+        const value = getErrorFromHydratedItem(testObj.name);
+        expect(value).toBeNull();
     });
 });

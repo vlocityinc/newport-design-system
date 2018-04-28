@@ -1,7 +1,7 @@
 import { isMatch, getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { mockRules, dateParam, stageParam } from 'mock-rule-service';
-import { elements, dateVariableGuid, stageGuid, accountSObjectVariableGuid } from 'mock-store-data';
+import { mockRules, dateParam, stageParam, stringParam } from 'mock-rule-service';
+import { elements, dateVariableGuid, stageGuid, stringVariableGuid, accountSObjectVariableGuid, hydratedElements } from 'mock-store-data';
 import { RULE_TYPES, RULE_PROPERTY } from '../rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
@@ -25,6 +25,11 @@ describe('Operator Rule Util', () => {
         it('should return true if rule param and store element with no collection property match', () => {
             const lhsElementDateNoCollection = { dataType: DATE };
             const isEqual = isMatch(dateParam, lhsElementDateNoCollection);
+            expect(isEqual).toBeTruthy();
+        });
+
+        it('should return true if rule param and store element hydrated with errors match', () => {
+            const isEqual = isMatch(stringParam, hydratedElements[stringVariableGuid]);
             expect(isEqual).toBeTruthy();
         });
 

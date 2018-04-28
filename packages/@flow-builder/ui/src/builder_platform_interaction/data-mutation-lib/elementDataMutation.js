@@ -1,4 +1,14 @@
 // TODO: pass blacklist config form editor Idea is blackListFields being passed per elementType, this config should probably come from builder-utils
+
+/**
+ * Returns true if the input item is hydrated with errors.
+ * @param {Object} item to evaluate if its hydrated
+ * @return {boolean} returns true if item has error and value property otherwise false
+ */
+const isItemHydratedWithErrors = (item) => {
+    return item && item.hasOwnProperty('value') && item.hasOwnProperty('error');
+};
+
 /**
  * Exported function for hydrating element object with errors
  * @param {Object} element element data object
@@ -34,7 +44,7 @@ export const dehydrate = (element) => {
                     value.forEach((item) => {
                         dehydrate(item);
                     });
-                } else if (element[key] && element[key].hasOwnProperty('value') && element[key].hasOwnProperty('error')) {
+                } else if (isItemHydratedWithErrors(element[key])) {
                     if (element[key].error !== null) {
                         throw new Error(key + ' should not have any error: ' + element[key].value + ':' + element[key].error);
                     }
@@ -63,7 +73,7 @@ export const getErrorsFromHydratedElement = (element, errorsList = []) => {
                     value.forEach((item) => {
                         getErrorsFromHydratedElement(item, listOfErrors);
                     });
-                } else if (element[key] && element[key].hasOwnProperty('value') && element[key].hasOwnProperty('error')) {
+                } else if (isItemHydratedWithErrors(element[key])) {
                     const errorString = element[key].error;
                     if (errorString !== null) {
                         listOfErrors.push({key, errorString});
@@ -75,4 +85,28 @@ export const getErrorsFromHydratedElement = (element, errorsList = []) => {
         }
     );
     return listOfErrors;
+};
+
+/**
+ * Get the value from item if it is hydrated with error.
+ * @param {*} item Object hydrated with error or a property
+ * @return {*} value property if item is hydrated with error else item
+ */
+export const getValueFromHydratedItem = (item) => {
+    if (typeof item === 'object' && isItemHydratedWithErrors(item)) {
+        return item.value;
+    }
+    return item;
+};
+
+/**
+ * Get the error from item if it is hydrated with error.
+ * @param {*} item Object hydrated with error or a property
+ * @return {*} value property if item is hydrated with error else null
+ */
+export const getErrorFromHydratedItem = (item) => {
+    if (typeof item === 'object' && isItemHydratedWithErrors(item)) {
+        return item.error;
+    }
+    return null;
 };

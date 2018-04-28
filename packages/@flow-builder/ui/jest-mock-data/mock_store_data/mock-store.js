@@ -120,3 +120,21 @@ export const elements = {
 export const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCollectionVariable1Guid,
     stringCollectionVariable2Guid, choiceGuid, dateVariableGuid, stageGuid];
 
+export const hydratedElements = {
+    [stringVariableGuid]: {
+        dataType: { value: stringDataType, error: null },
+        description: 'random description',
+        elementType: { value: variable, error: null},
+        guid: numberVariableGuid,
+        isCanvasElement: false,
+        isCollection: false,
+        isInput: false,
+        isOutput: false,
+        name: { value: numberVariableDevName, error: 'Invalid name.' },
+        objectType: null,
+        value: {
+            stringValue: 'fooDefault',
+        },
+    }
+};
+

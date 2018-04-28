@@ -1,5 +1,5 @@
 // constants for the rule tree. Should be moved to the constants directory
-import { shallowCopyArray } from 'builder_platform_interaction-data-mutation-lib';
+import { shallowCopyArray, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import { RULE_TYPES, RULE_PROPERTY, RULE_PROPERTY_INFO } from './rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
@@ -48,7 +48,7 @@ export const elementToParam = (element) => {
         throw new Error(`Element must be non empty object but instead was ${element}`);
     }
     const param = {
-        [DATA_TYPE]: element.dataType,
+        [DATA_TYPE]: getValueFromHydratedItem(element.dataType),
         [ELEMENT_TYPE]: element.elementType,
         // the param in the rules service has 'collection' but flow elements have 'isCollection'. In some scenarios,
         // an element goes through this function twice, and on the first pass it will have 'isCollection' but on the second
