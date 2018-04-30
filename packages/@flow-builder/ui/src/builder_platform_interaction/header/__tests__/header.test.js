@@ -13,15 +13,15 @@ function createComponentForTest(name, version, backUrl, helpUrl) {
 
 const selectors = {
     root: '.header',
-    flowName: '.flow-name-label',
-    appName: '.app-name',
-    backUrl: '.back-url',
-    backLabel: '.back-label',
-    helpUrl: '.help-url',
-    helpLabel: '.help-label',
-    flowIcon: '.flow-utility-icon',
-    backIcon: '.back-utility-icon',
-    helpIcon: '.help-utility-icon'
+    flowName: '.test-flow-name-label',
+    appName: '.test-app-name',
+    backUrl: '.test-back-url',
+    backLabel: '.test-back-label',
+    helpUrl: '.test-help-url',
+    helpLabel: '.test-help-label',
+    flowIcon: '.test-flow-utility-icon',
+    backIcon: '.test-back-utility-icon',
+    helpIcon: '.test-help-utility-icon'
 };
 
 
@@ -54,10 +54,10 @@ describe('HEADER', () => {
         });
     });
 
-    it('checks the rendering BACK URL when its undefined and should return NULL', () => {
+    it('checks the rendering BACK URL when its undefined and should return Undefined.', () => {
         const headerComponent = createComponentForTest();
         return Promise.resolve().then(() => {
-            expect(headerComponent.querySelector(selectors.backUrl).href).toEqual("null");
+            expect(headerComponent.querySelector(selectors.backUrl).value).toBeUndefined();
         });
     });
 
@@ -89,10 +89,10 @@ describe('HEADER', () => {
         });
     });
 
-    it('checks the rendering HELP URL when its undefined and should return NULL', () => {
+    it('checks the rendering HELP URL when its undefined and should return Undefined.', () => {
         const headerComponent = createComponentForTest();
         return Promise.resolve().then(() => {
-            expect(headerComponent.querySelector(selectors.helpUrl).href).toEqual("null");
+            expect(headerComponent.querySelector(selectors.helpUrl).value).toBeUndefined();
         });
     });
 
