@@ -3,6 +3,7 @@ import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { updateProperties, set, deleteItem } from 'builder_platform_interaction-data-mutation-lib';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
+import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import {
     AddListItemEvent,
     DeleteListItemEvent,
@@ -63,6 +64,9 @@ export const assignmentReducer = (state, event) => {
         }
         case PropertyChangedEvent.EVENT_NAME:
             return assignmentPropertyChanged(state, event);
+        case VALIDATE_ALL: {
+            return assignmentValidation.validateAll(state);
+        }
 
         default: return state;
     }

@@ -39,6 +39,8 @@ const regexConfig = {
     }
 };
 
+export const VALIDATE_ALL = 'VALIDATE_ALL';
+
 /** Exported Validation Rules Start **/
 
 /**

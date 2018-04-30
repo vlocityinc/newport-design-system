@@ -14,18 +14,10 @@ const additionalRules = {
         ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
         ValidationRules.maximumCharactersLimit(80)
-    ]
+    ],
+    'assignmentItems': {
+        'leftHandSide': [ValidationRules.shouldNotBeBlank]
+    }
 };
 
-class AssignmentValidation extends Validation {
-    /**
-     * @param {string} propName - property name to be validated
-     * @param {string} value - value
-     * @returns {string|null} error - error string or null based on if the field value is valid or not
-     */
-    validateProperty(propName, value) {
-        return super.validateProperty(propName, value, additionalRules[propName]);
-    }
-}
-
-export const assignmentValidation = new AssignmentValidation();
+export const assignmentValidation = new Validation(additionalRules);

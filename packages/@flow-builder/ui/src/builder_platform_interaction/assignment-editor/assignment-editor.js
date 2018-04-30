@@ -1,6 +1,7 @@
 import { Element, api, track, unwrap } from 'engine';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { assignmentReducer } from './assignment-reducer';
+import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 
 /**
@@ -50,8 +51,9 @@ export default class AssignmentEditor extends Element {
      * @returns {object} list of errors
      */
     @api validate() {
-        // NOTE: if we find there is a case where an error can happen on a filed without touching on it,
-        // we might have to go through reducer to stuff the errors and call get errors method
+        // we may want to use createAction here ?
+        const event = { type: VALIDATE_ALL };
+        this.element = assignmentReducer(this.element, event);
         return getErrorsFromHydratedElement(this.element);
     }
 
