@@ -7,7 +7,7 @@ import { Validation } from 'builder_platform_interaction-validation';
 // TODO here to replace the expected error message with a reference to the label file once we have that in place
 const additionalRules = {
     'label' : [
-        ValidationRules.shouldAcceptAlphanumericOrSpecialCharacters,
+        ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
         ValidationRules.maximumCharactersLimit(255)
     ],
     'name'  : [

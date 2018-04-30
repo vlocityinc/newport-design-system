@@ -25,7 +25,7 @@ const regexConfig = {
         regexPattern: '^[_{0,}]+|_{2,}|[_{0,}]+$',
         message: 'Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.',
     },
-    shouldAcceptAlphanumericOrSpecialCharacters: {
+    shouldAcceptOnlyAlphanumericOrSpecialCharacters: {
         regexPattern: '^[^a-zA-Z0-9!@#\\$%\\^\\&*\\)\\(+=.\\-_ ]+$',
         message: 'Accepts only AlphaNumeric or Special Characters.',
     },
@@ -69,7 +69,7 @@ export const shouldNotBeginOrEndWithUnderscores = (value) => evaluateRegex(regex
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldAcceptAlphanumericOrSpecialCharacters = (value) => evaluateRegex(regexConfig.shouldAcceptAlphanumericOrSpecialCharacters, value);
+export const shouldAcceptOnlyAlphanumericOrSpecialCharacters = (value) => evaluateRegex(regexConfig.shouldAcceptOnlyAlphanumericOrSpecialCharacters, value);
 
 /**
  * Function to test the value should not begin with numeric or special characters
