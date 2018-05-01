@@ -18,6 +18,9 @@ export default class LightningInput extends Element {
     @api variant;
     @api checked;
     @api messageWhenValueMissing;
+    @api disabled;
+    @api fieldLevelHelp;
+    @api checked;
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {

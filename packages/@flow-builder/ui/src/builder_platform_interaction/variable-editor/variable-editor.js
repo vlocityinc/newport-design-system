@@ -19,6 +19,10 @@ const VARIABLE_FIELDS = {
 
 const flowDataTypeMenuItems = Object.values(FLOW_DATA_TYPE);
 
+// TODO: use labels W-4954505
+const dataTypeHelpText = 'Data type cannot be changed while this resource is being referenced in your flow';
+const collectionHelpText = 'Use collection variables to store valeus with the same data type together. Iterate through your collection variable by using a loop';
+
 /**
  * Variable property editor for Flow Builder
  *
@@ -63,7 +67,8 @@ export default class VariableEditor extends Element {
         return this.variableResource.dataType.value;
     }
 
-    get isDataTypeDisabled() {
+    // we want to disable certain fields based on whether we are editing an existing variable or a new variable
+    get isFieldDisabled() {
         return !this.isNewMode;
     }
 
@@ -72,8 +77,13 @@ export default class VariableEditor extends Element {
     }
 
     get dataTypeHelpText() {
-        // TODO: use labels
-        return !this.isNewMode ? 'Data type cannot be changed while this resource is being referenced in your flow' : null;
+        // TODO: use labels W-4954505
+        return !this.isNewMode ? dataTypeHelpText : null;
+    }
+
+    get collectionHelpText() {
+        // TODO: use labels W-4954505
+        return collectionHelpText;
     }
 
     /* ********************** */
@@ -84,22 +94,24 @@ export default class VariableEditor extends Element {
      * @param {object} event - property changed event coming from label-description component
      */
     handlePropertyChanged(event) {
-        event.stopPropagation();
-        const propertyName = event.propertyName;
-        const value = event.value;
-        const error = event.error;
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error});
-        this.variableResource = variableReducer(this.variableResource, action);
+        this.handleChange(event, event.propertyName);
     }
 
     handleDataTypeSelect(event) {
+        this.handleChange(event, VARIABLE_FIELDS.DATA_TYPE);
+        // TODO: handle clearing of fields when data type is changed
+    }
+
+    handleCollectionChange(event) {
+        this.handleChange(event, VARIABLE_FIELDS.IS_COLLECTION);
+    }
+
+    handleChange(event, propertyName) {
         event.stopPropagation();
-        const propertyName = VARIABLE_FIELDS.DATA_TYPE;
-        const value = event.detail.value;
-        const error = null;
+        const value = event.detail ? event.detail.value : event.value;
+        const error = event.error ? event.error : null;
         const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
         this.variableResource = variableReducer(this.variableResource, action);
-        // TODO: handle clearing of fields when data type is changed
     }
 
     /** *********************************/
