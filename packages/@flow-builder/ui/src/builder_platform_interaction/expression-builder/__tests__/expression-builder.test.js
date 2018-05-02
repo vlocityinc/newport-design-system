@@ -53,7 +53,7 @@ function getLightningCombobox(expressionBuilder) {
     return expressionBuilder.querySelector("lightning-combobox");
 }
 
-const newCBValue = 'hi';
+const newCBValue = numberVariableGuid;
 
 const ourCBChangeEvent = new ValueChangedEvent(newCBValue);
 
@@ -82,6 +82,8 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction-expression-utils').EXPRESSION_PROPERTY_TYPE,
         normalizeLHS: require.requireActual('builder_platform_interaction-expression-utils').normalizeLHS,
         retrieveRHSVal: require.requireActual('builder_platform_interaction-expression-utils').retrieveRHSVal,
+        getElementByGuid: require.requireActual('builder_platform_interaction-expression-utils').getElementByGuid,
+        isElementAllowed: require.requireActual('builder_platform_interaction-expression-utils').isElementAllowed,
     };
 });
 
@@ -98,7 +100,7 @@ describe('expression-builder', () => {
         });
         it('should not show the operator when showOperator is false', () => {
             const expressionBuilder = createComponentForTest({
-                item: createMockPopulatedExpression(),
+                expression: createMockPopulatedExpression(),
                 showOperator: false
             });
 
@@ -114,7 +116,7 @@ describe('expression-builder', () => {
         for (let i = 0; i < 3; i++) {
             it(`has the ${labels[i]} defined`, () => {
                 const expressionBuilder = createComponentForTest({
-                    item: createMockPopulatedExpression(),
+                    expression: createMockPopulatedExpression(),
                     lhsLabel: "LHS",
                     operatorLabel: "operator",
                     rhsLabel: "RHS"

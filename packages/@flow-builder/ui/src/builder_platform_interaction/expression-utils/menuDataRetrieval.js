@@ -92,7 +92,18 @@ function elementMatchesRule(allowedParamTypes, element) {
     return false;
 }
 
-function isElementAllowed(allowedParamTypes, element) {
+/**
+ * Takes in a map of allowed rules in the shape
+ *     {
+ *         [dataType or elementType] : {rule params pertaining to that dataType or elementType}
+ *     }
+ * and an element, and determines if that element is allowed by those param specifications
+ *
+ * @param {Object} allowedParamTypes        map from dataTypes/elementTypes to rule params which specificy those data or element types
+ * @param {Object} element                  object with the necessary specifications to be compared to rule params (usually flow element, but a "fake" one can be built for fields, etc)
+ * @returns {boolean}                       whether this element matches one or more of the specified rule params
+ */
+export function isElementAllowed(allowedParamTypes, element) {
     return !allowedParamTypes || (allowedParamTypes.hasOwnProperty(element.dataType) && elementMatchesRule(allowedParamTypes[element.dataType], element))
         || (allowedParamTypes.hasOwnProperty(element.elementType) && elementMatchesRule(allowedParamTypes[element.elementType], element))
         || (allowedParamTypes.hasOwnProperty(element.objectType) && elementMatchesRule(allowedParamTypes[element.objectType], element));
@@ -133,12 +144,10 @@ export const getElementByGuid = (guid) => {
  * @returns {String}                combobox display value
  */
 export const retrieveRHSVal = (rhsIdentifier) => {
-    let rhsVal;
+    let rhsVal = rhsIdentifier;
     const flowElement = getElementByGuid(rhsIdentifier);
     if (flowElement) {
         rhsVal = '{!' + flowElement.name + '}';
-    } else {
-        rhsVal = rhsIdentifier;
     }
     return rhsVal;
 };

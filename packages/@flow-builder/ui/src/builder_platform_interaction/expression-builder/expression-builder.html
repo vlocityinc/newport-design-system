@@ -7,7 +7,7 @@
                 onvaluechanged={handleLHSValueChanged}
                 onfiltermatches={handleFilterLHSMatches}
                 menu-data={lhsMenuData}
-                error-message={lhsError}
+                error-message={state.expression.leftHandSide.error}
                 literals-allowed=false
                 >
         </builder_platform_interaction-combobox>
@@ -30,7 +30,7 @@
                 onvaluechanged={handleRHSValueChanged}
                 onfiltermatches={handleFilterRHSMatches}
                 menu-data={rhsMenuData}
-                error-message={rhsError}
+                error-message={state.expression.rightHandSide.error}
                 >
         </builder_platform_interaction-combobox>
     </div>
