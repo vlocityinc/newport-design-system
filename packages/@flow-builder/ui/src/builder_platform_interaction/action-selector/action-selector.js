@@ -1,7 +1,7 @@
 import { Element, api, track } from "engine";
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
-import { ACTION_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ACTION_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 
 const SELECTORS = {
@@ -59,6 +59,9 @@ export default class ActionSelector extends Element {
         actionPlaceholder : '',
         errorMessage : ''
     };
+    @api
+    flowProcessType = FLOW_PROCESS_TYPE.FLOW;
+
     invocableActions = [];
     invocableActionsLoaded = false;
     stopCallbackExecutionInvocableActions = null;
@@ -69,11 +72,14 @@ export default class ActionSelector extends Element {
     subflowsLoaded = false;
     stopCallbackExecutionSubflows = null;
 
-    constructor() {
-        super();
+    connectedCallback() {
         this.stopCallbackExecutionApexPlugins = fetch(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, this.getApexPluginsCallback);
-        this.stopCallbackExecutionSubflows = fetch(SERVER_ACTION_TYPE.GET_SUBFLOWS, this.getSubflowsCallback);
-        this.stopCallbackExecutionInvocableActions = fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, this.getInvocableActionsCallback);
+        this.stopCallbackExecutionSubflows = fetch(SERVER_ACTION_TYPE.GET_SUBFLOWS, this.getSubflowsCallback, {
+            flowProcessType : this.flowProcessType
+        });
+        this.stopCallbackExecutionInvocableActions = fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, this.getInvocableActionsCallback, {
+            flowProcessType : this.flowProcessType
+        });
         this.updateTypeCombo();
         this.updateActionCombo();
     }
@@ -153,6 +159,15 @@ export default class ActionSelector extends Element {
         this.stopCallbackExecutionApexPlugins = null;
         this.updateComboboxes();
     };
+
+    /**
+     * @typedef {Object} Subflow
+     *
+     * @property {String} masterLabel
+     * @property {String} description
+     * @property {String} developerName
+     * @property {String} namespacePrefix
+     */
 
     /**
      * Callback which gets executed after getting subflows

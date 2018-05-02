@@ -1,3 +1,8 @@
+export const FLOW_PROCESS_TYPE = {
+    AUTO_LAUNCHED_FLOW : 'AutoLaunchedFlow',
+    FLOW : 'Flow'
+};
+
 export const ACTION_TYPE = {
     APEX: 'apex',
     EMAIL_ALERT: 'emailAlert',
