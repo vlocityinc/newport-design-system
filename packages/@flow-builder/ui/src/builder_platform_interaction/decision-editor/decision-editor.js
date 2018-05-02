@@ -35,6 +35,10 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
         return (this.element) ? this.element.outcomes : [];
     }
 
+    get showDeleteOutcome() {
+        return this.element.outcomes.length > 1;
+    }
+
     handleAddOutcome(event) {
         event.stopPropagation();
         this.addOutcome();

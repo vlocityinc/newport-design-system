@@ -43,6 +43,8 @@ export default class Outcome extends Element {
         return this.element;
     }
 
+    @api showDelete;
+
     @api set outcome(outcome) {
         this.element = outcome;
         this.outcomeConditions = outcome.conditions;
@@ -56,7 +58,7 @@ export default class Outcome extends Element {
         labelDescription.focus();
     }
 
-    get showDelete() {
+    get showDeleteCondition() {
         return this.outcomeConditions.length > 1;
     }
 

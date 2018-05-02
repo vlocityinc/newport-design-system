@@ -25,6 +25,20 @@ const selectors = {
     outcome: 'builder_platform_interaction-outcome',
 };
 
+const decisionWithOneOutcome = {
+    label: {value: 'Test Name of the Decision'},
+    name: {value: 'Test Dev Name'},
+    guid: {value: 'decision2'},
+    outcomes: [
+        {
+            guid: 'outcome1',
+            label: { value: ''},
+            conditionLogic: { value: ''},
+            conditions: []
+        }
+    ]
+};
+
 const decisionWithTwoOutcomes = {
     label: {value: 'Test Name of the Decision'},
     name: {value: 'Test Dev Name'},
@@ -71,7 +85,7 @@ describe('Decision Editor', () => {
             });
         });
 
-        // TODO: Figure out rendering issue (outcome is not being re-rendered)
+        // TODO: Figure out rendering issue (outcome is not being re-rendered) due to slots
         // it('sets the first outcome as active', () => {
         //     const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
         //
@@ -86,5 +100,24 @@ describe('Decision Editor', () => {
         //         expect(outcomeElement.outcome).toEqual(mockNewState.outcomes[0]);
         //     });
         // });
+    });
+
+    describe('showDeleteOutcome', () => {
+        it('is true when more than one outcome is present', () => {
+            const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+
+            return Promise.resolve().then(() => {
+                const outcomeElement = decisionEditor.querySelector(selectors.outcome);
+                expect(outcomeElement.showDelete).toBe(true);
+            });
+        });
+        it('is false when only one outcome is present', () => {
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+
+            return Promise.resolve().then(() => {
+                const outcomeElement = decisionEditor.querySelector(selectors.outcome);
+                expect(outcomeElement.showDelete).toBe(false);
+            });
+        });
     });
 });

@@ -38,6 +38,7 @@ const selectors = {
     button: 'lightning-button',
     conditionLogicComboBox: '.conditionLogic',
     customLogicInput: '.customLogic',
+    removeButton: 'lightning-button.removeOutcome',
 };
 
 const createComponentUnderTest = () => {
@@ -45,6 +46,8 @@ const createComponentUnderTest = () => {
         is: Outcome
     });
     document.body.appendChild(el);
+
+    el.showDelete = true;
 
     return el;
 };
@@ -406,14 +409,26 @@ describe('Outcome', () => {
                 expect(labelAndNameComponents[0].label.value).toBe(outcomeWithOneConditional.label.value);
             });
         });
-        it('has Remove button', () => {
+        it('has Remove button if show delete is true', () => {
             const element = createComponentUnderTest();
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const removeButton = element.querySelectorAll(selectors.button)[0];
+                const removeButton = element.querySelectorAll(selectors.removeButton)[0];
+
                 expect(removeButton.label).toBe('Remove');
                 expect(removeButton.title).toBe('Remove Outcome');
+            });
+        });
+        it('has no Remove button if show delete is false', () => {
+            const element = createComponentUnderTest();
+            element.outcome = outcomeWithOneConditional;
+            element.showDelete = false;
+
+            return Promise.resolve().then(() => {
+                const removeButton = element.querySelector(selectors.removeButton);
+
+                expect(removeButton).toBeNull();
             });
         });
     });
