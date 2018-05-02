@@ -1,4 +1,5 @@
-import {isPlainObject} from './isPlainObject';
+import { isPlainObject } from './isPlainObject';
+import { deepFreeze } from './deepFreeze';
 
 /**
  * Library for UI state management
@@ -76,6 +77,7 @@ export class Store {
 
     /**
      * To change the state of the store, call this method with appropriate action
+     * TODO: Remove deepFreeze before release. W-4916277
      * @param {Object} action object which contains a type property
      */
     dispatch(action) {
@@ -87,7 +89,7 @@ export class Store {
             throw new Error('Type of a action is not defined');
         }
 
-        currentState = currentReducer(currentState, action);
+        currentState = deepFreeze(currentReducer(currentState, action));
 
         // once state is changes, executing all the listeners
         currentListeners.forEach((listener) => {

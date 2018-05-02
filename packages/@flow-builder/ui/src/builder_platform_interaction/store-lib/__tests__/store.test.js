@@ -71,4 +71,19 @@ describe('Store class', () => {
             expect(storeInstance.getCurrentState()).toHaveLength(1);
         });
     });
+
+    describe('unintended store mutation', () => {
+        it('should throw error', () => {
+            // initial dispatch to freeze the store
+            storeInstance.dispatch({
+                type: 'updateCanvasElements'
+            });
+
+            // updating store state directly throws error
+            const updateStore = () => {
+                storeInstance.getCurrentState().invalidProperty = 'property value';
+            };
+            expect(updateStore).toThrow();
+        });
+    });
 });
