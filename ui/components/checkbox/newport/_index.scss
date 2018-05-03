@@ -12,13 +12,8 @@
 
 .nds-checkbox_custom-group {
   position: relative;
-}
-
-.nds-checkbox_custom-group {
   border: none;
 }
-
-
 
 .nds-checkbox_button-group,
 .nds-checkbox--button-group {
@@ -38,7 +33,6 @@
     margin-#{$right}: 1.25rem;
     border-radius: 0.25rem;
     margin-bottom: 2.5rem;
-    height: 10rem;
 
     .nds-checkbox_faux,
     .nds-checkbox--faux {
@@ -225,4 +219,14 @@ fieldset.nds-form-element + .nds-has-error.nds-grid div:first-child small {
   margin-top: 0;
 }
 
+.nds-checkbox_custom-group .nds-button.nds-checkbox_button.nds-checkbox_aspect-ratio {
+    position: relative;
 
+    span.nds-checkbox_button__label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }

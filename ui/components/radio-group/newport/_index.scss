@@ -42,7 +42,6 @@
     background-clip: padding-box;
     margin-#{$right}: 1.25rem;
     margin-bottom: 2.5rem;
-    height: 10rem;
     border-radius: 0.25rem;
 
     /**
@@ -241,3 +240,15 @@
 fieldset.nds-form-element + .nds-has-error div div.nds-has-error small:first-child {
   margin-top: 0;
 }
+
+.nds-radio_custom-group .nds-button.nds-radio_button.nds-radio_aspect-ratio {
+    position: relative;
+    
+    span.nds-radio_button__label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }

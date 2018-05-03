@@ -140,5 +140,11 @@
     }
 }
 
+/* for iPhone 5S issue */
+@media screen and (device-aspect-ratio: 40/71) {
+    .nds-file-custom-selector .nds-file-selector__body span.nds-file-icon {
+        top: -0.8125rem;
+    }
+}
 
 
