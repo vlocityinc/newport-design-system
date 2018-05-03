@@ -86,7 +86,8 @@
     opacity: 1;
     transition: opacity 1s, max-height 1s ease-in;
 
-    .nds-wrap ng-form {
+    .nds-wrap ng-form,
+    .nds-wrap form {
       margin-bottom: 0.5rem;
       padding-top: 0;
     }
@@ -167,7 +168,8 @@ label[vlc-slds-toggle] {
   outline: none;
   color: $color-background-brand-primary;
 
-  .slds-icon.slds-icon--small {
+  .nds-icon.nds-icon--small,
+  .nds-icon.nds-icon_small {
     margin-top: 0.125rem;
     width: 1.2rem;
     height: 1.2rem;
