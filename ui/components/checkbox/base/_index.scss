@@ -90,6 +90,7 @@
       &:checked ~ .nds-checkbox--faux,
       &:checked + .nds-checkbox__label .nds-checkbox_faux,
       &:checked + .nds-checkbox__label .nds-checkbox--faux {
+        content: '';
         border-color: $color-border-input-active;
         background-color: $color-brand;
       }
@@ -128,6 +129,18 @@
           border-color: $color-background-input;
         }
       }
+    }
+  }
+
+  &__label {
+    .nds-form-element__label.nds-form-element__control-help {
+      font-size: 0.875rem;
+      font-weight: 400;
+    }
+
+    .nds-tooltip_container .nds-nonfocused_control svg {
+      margin-top: -0.1875rem;
+      fill: #54698d;
     }
   }
 }

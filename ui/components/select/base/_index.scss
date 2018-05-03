@@ -65,6 +65,7 @@
       border-#{$left}: 9px solid transparent;
       border-#{$right}: 9px solid transparent;
       border-radius: $border-radius-medium;
+      pointer-events: none;
     }
 
     &:after {
