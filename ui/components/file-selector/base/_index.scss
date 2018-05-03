@@ -46,7 +46,7 @@
 .nds-file-selector__input {
 
   &:focus ~ .nds-file-selector__body > .nds-file-selector__button {
-    box-shadow: $shadow-button-focus;
+    box-shadow: none;
   }
 
   &[disabled] ~ .nds-file-selector__body {

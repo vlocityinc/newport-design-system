@@ -23,6 +23,9 @@
 			opacity: 0;
 			height: 2rem;
 			width: 100%;
+			&:focus {
+				outline: none;
+			}
 		}
 
 		.nds-file-selector__body {
@@ -52,8 +55,11 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
-			width: calc(100% - 26px);
+			text-align: #{$left};
 			display: inline-block;
+			pointer-events: none;
+		    width: 100%;
+		    padding-#{$right}: 3rem;
 		}
 
 		span.nds-file-icon {
@@ -62,6 +68,7 @@
 			padding: 0.3rem;
 			border-radius: 0.25rem;
 			border: 1px solid $color-border-input;
+			pointer-events: none;
 
 			svg.nds-button__icon {
 				fill: $color-input-icon-blue-hue;
@@ -91,6 +98,11 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
+
+				&:focus {
+					background: $color-border-tab-active;
+    				box-shadow: none;
+				}
 		    }
 		}
 
@@ -124,8 +136,15 @@
 
     .nds-nonfocused_control svg {
 		fill: $color-input-icon-blue-hue;
+		cursor: pointer;
     }
 }
 
+/* for iPhone 5S issue */
+@media screen and (device-aspect-ratio: 40/71) {
+    .nds-file-custom-selector .nds-file-selector__body span.nds-file-icon {
+        top: -0.8125rem;
+    }
+}
 
 

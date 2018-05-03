@@ -12,13 +12,8 @@
 
 .nds-checkbox_custom-group {
   position: relative;
-}
-
-.nds-checkbox_custom-group {
   border: none;
 }
-
-
 
 .nds-checkbox_button-group,
 .nds-checkbox--button-group {
@@ -38,12 +33,9 @@
     margin-#{$right}: 1.25rem;
     border-radius: 0.25rem;
     margin-bottom: 2.5rem;
-    height: 10rem;
 
     .nds-checkbox_faux,
     .nds-checkbox--faux {
-      padding-#{$left}: $spacing-medium;
-      padding-#{$right}: $spacing-medium;
       text-align: center;
       vertical-align: middle;
     }
@@ -182,20 +174,25 @@
     #{$left}: 50%;
     max-width: 100%;
     max-height: 100%;
-    transform: translate(-50%, -50%);
+    transform: translate(if-ltr(-50%, 50%), -50%);
     background-color: $color-background-input;
   }
 
   .nds-checkbox_button__label span.nds-title {
-    width: 100%;
+    padding: 0;
     position: relative;
+    width: 97%;
     float: #{$left};
     top: 50%;
     #{$left}: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(if-ltr(-50%, 50%), -50%);
     background-color: $color-background-input;
-    height: 4rem;
-    line-height: 4rem;
+    white-space: initial;
+    line-height: 1em;
+    max-height: 4em;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
   }
 
   /**
@@ -208,7 +205,6 @@
   .nds-checkbox--button__label {
     background-color: transparent;
     border-radius: 0.25rem;
-    padding: 1rem;
     width: 100%;
 
     &:hover,
@@ -219,4 +215,18 @@
 
 } 
 
+fieldset.nds-form-element + .nds-has-error.nds-grid div:first-child small {
+  margin-top: 0;
+}
 
+.nds-checkbox_custom-group .nds-button.nds-checkbox_button.nds-checkbox_aspect-ratio {
+    position: relative;
+
+    span.nds-checkbox_button__label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }

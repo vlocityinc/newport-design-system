@@ -123,6 +123,11 @@ input[placeholder]::placeholder {
 	top: 0.25rem;
 }
 
+.nds-control-action__container svg[disabled=disabled] {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
 .nds-form-element__control-animated-label + .nds-form-element__control-help,
 .nds-form--multi-input__container + .nds-form-element__control-help,
 .nds-select-wrapper + .nds-form-element__control-help {
@@ -138,3 +143,6 @@ input[placeholder]::placeholder {
 	opacity: 1;
 }
 
+.nds-form-element__control-animated-label .nds-input:disabled + label {
+	opacity: 0.5;
+}

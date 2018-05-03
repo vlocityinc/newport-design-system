@@ -21,7 +21,7 @@ section.nds-page-header {
     ol li button .nds-button__icon {
         width: .875rem;
         height: .875rem;
-        fill: $shadow-button-focus;
+        fill: $color-blue-text-primary;
         position: relative;
         top: -.35rem;
     }
@@ -41,7 +41,6 @@ section.nds-page-header {
 
     ol li.nds-has-error {
         .nds-button {
-            background: $color-shadow-overflow;
             top: 0px !important;
         }
 
@@ -56,7 +55,6 @@ section.nds-page-header {
     }
 
     ol li.nds-is-completed .nds-button {
-        background: $color-shadow-overflow;
         border: 0;
         padding: 0;
         margin: 0px;
@@ -90,7 +88,7 @@ section.nds-page-header {
 }
 
 p[vlc-bind-html] {
-    color: #49739C;
+    color: $color-light-blue-hue;
     word-break:normal;
     p {
         font-size: 0.9rem;
@@ -166,7 +164,7 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
     p:last-child button {
         text-transform: capitalize;
         border-radius: 0;
-        color: #49739c;
+        color: $color-light-blue-hue;
         font-weight: 700;
     }
 }
@@ -176,27 +174,6 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
         font-size: 25px;
         font-weight: 600;
         display: block;
-    }
-
-    .vlocity-newport-file-selector {
-        .vlocity-newport-file-list {
-            span.vlocity-newport-file-icon {
-                top: -0.4rem;
-            }
-        }
-
-        li .nds-file-selector__button{
-            white-space: nowrap;
-            overflow: hidden;
-            width: 85%;
-            text-overflow: ellipsis;
-        }
-
-        .nds-file-selector__body {
-            span.vlocity-newport-file-icon {
-                height: 2rem;
-            }
-        }
     }
 
     .nds-form-element__control-help {
@@ -284,14 +261,7 @@ ul.nds-dropdown-list {
             .nds-modal__content {
                 min-height: 27rem;
             }
-            .vlocity-newport-file-selector {
-                .vlocity-newport-file-list {
-                    span.vlocity-newport-file-icon {
-                        padding: unset;
-                        top: 0px;
-                    }
-                }
-            }
+
             .nds-modal__header {
                 border-bottom: unset;
                 text-align: unset;
@@ -321,6 +291,12 @@ ul.nds-dropdown-list {
     }
 }
 
+@media only screen and (max-width: 30em) {
+    .nds-modal_custom .nds-modal .nds-modal__container .nds-modal__content {
+        min-height: 26rem;
+    }
+}
+
 
 .nds-modal .nds-modal__container .nds-theme_info,
 .nds-modal .nds-modal__container .nds-theme_error {
@@ -335,6 +311,11 @@ ul.nds-dropdown-list {
 
 .nds-modal .nds-modal__container .nds-theme_error {
     background-color: $color-border-error;
+}
+
+.nds-modal__container .nds-modal__content ng-form {
+    padding-top: 0;
+    margin-bottom: 0.5rem;
 }
 
 .nds-element_text-font {
@@ -393,8 +374,6 @@ div[msg='Comment']{
         }
     }
 }
-
-
 
 
 /*====== */
@@ -487,14 +466,13 @@ span[vlc-slds-pop-over] {
     }
 
     .nds-header__mobile-only {
-        visibility: hidden;
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
         padding: 10px;
-        background: #F5F7F8;
-        z-index: 9999;
+        background: $color-background-solitude;
+        z-index: 9000;
     }
 
     .nds-header__mobile-only {
@@ -506,19 +484,16 @@ span[vlc-slds-pop-over] {
         }
     }
 
-    .nds-header__desktop {
-        display: block;
-    }
-
     .nds-step__prev-link,
     .nds-step__next-link {
-        width: 6rem;
+        width: 8rem;
+        overflow: hidden;
+        white-space: nowrap;
     }
 
     .nds-step__link-button {
-        font-size: 14px;
-        text-transform:
-        capitalize;
+        font-size: 0.875rem;
+        text-transform: capitalize;
         color: $color-background-brand-primary;
         font-weight: 400;
     }
@@ -530,7 +505,7 @@ span[vlc-slds-pop-over] {
             height: 0.25rem;
             position: relative;
             background: $color-gray-border-primary;
-            width: 60%;
+            width: 80%;
 
             span.nds-custom-step__progress-fill {
                 background: $color-background-brand-primary;
@@ -548,13 +523,6 @@ span[vlc-slds-pop-over] {
     @media only screen and (max-width: 30em) {
         .nds-page-header.nds-m-top_x-small {
             display: none;
-        }
-
-        .nds-header__desktop {
-            display: none;
-        }
-        .nds-header__mobile-only {
-            visibility: visible;
         }
     }
 
@@ -582,7 +550,7 @@ button.nds-step__next-link[disabled] {
         display: none;
 
         .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
-            left: calc(-50% + 12px);
+            #{$left}: calc(-50% + 12px);
             max-width: 30rem;
             white-space: nowrap;
             top: -4.3rem;
@@ -596,7 +564,7 @@ button.nds-step__next-link[disabled] {
     .nds-is-absolute {
 
         .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
-            left: calc(-100% - 10px);
+            #{$left}: calc(-100% - 10px);
             max-width: 30rem;
             white-space: nowrap;
             top: -1.6875rem;
@@ -609,9 +577,9 @@ button.nds-step__next-link[disabled] {
                 transform: rotate(45deg);
                 content: '';
                 background-color: inherit;
-                left: 100%;
+                #{$left}: 100%;
                 bottom: 0;
-                margin-left: -9px;
+                margin-#{$left}: -9px;
                 top: 25%;
             }
         }
@@ -622,6 +590,7 @@ button.nds-step__next-link[disabled] {
     margin-top: -6px;
     width: 1.2rem;
     height: 1.2rem;
+    cursor: pointer;
 
     &:hover + .nds-is-absolute {
         display: block;
@@ -632,8 +601,20 @@ button.nds-step__next-link[disabled] {
 .nds-typeahead .nds-form-element__control-animated-label.nds-input-has-icon {
     svg.nds-icon {
         margin-top: .75rem;
+        position: absolute;
+        #{$right}: 0;
+        pointer-events: none;
     }
 }
+
+.nds-typeahead .nds-form-element__control-animated-label.nds-input-has-icon ul.typeahead.dropdown-menu {
+    overflow: auto;
+    max-height: 300px;
+    li a {
+        display: block;
+        overflow: hidden;
+    }
+}   
 
 .vlc-slds-filter__item {
     display: flex;
@@ -658,14 +639,9 @@ button.nds-step__next-link[disabled] {
     padding: 15px 0;
 }
 
-.nds-select_filter-control {
-    border-bottom: 1px solid $color-border-botticelli;
-    padding: 15px 0;
-}
-
+.nds-select_filter-control,
 .nds-multiSelect_filter-control {
-  border-bottom: 1px solid $color-border-botticelli;
-  padding: 15px 0;
+    padding: 15px 0;
 }
 
 .nds-multiSelect_filter-control ul[horizontalmode=true] {
@@ -699,5 +675,86 @@ button.nds-step__next-link[disabled] {
 }
 
 .nds-block label > span.nds-required {
-    margin-left: 0;
+    margin-#{$left}: 0;
 }
+
+.nds-disable_svg-icon { 
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control svg.slds-icon {
+    margin-top: 18px;
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: $color-input-icon-blue-hue;
+    cursor: pointer;
+}
+
+.nds-typeahead > div.nds-grid .nds-tooltip_container {
+    margin-top: 0.75rem;
+}
+
+.nds-typeahead > div.nds-grid .nds-tooltip_container .nds-nonfocused_control {
+    margin-top: 1.125rem;
+    margin-#{$left}: 0.375rem;
+}
+
+.nds-lookup .nds-tooltip_container .nds-nonfocused_control {
+    margin-top: 0.25rem;
+    margin-#{$left}: 0.375rem;
+}
+
+.nds-typeahead > div.nds-grid .nds-tooltip_container .nds-nonfocused_control svg {
+    fill: $color-input-icon-blue-hue;
+}
+
+.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom,
+.nds-typeahead > div.nds-grid .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom,
+.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
+    #{$left}: calc(-100% - 10px);
+    max-width: 30rem;
+    white-space: nowrap;
+    top: -1.6875rem;
+}
+
+.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
+.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after,
+.nds-typeahead > div.nds-grid .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
+.nds-typeahead > div.nds-grid .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after,
+.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
+.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after  {
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    transform: rotate(45deg);
+    content: '';
+    background-color: inherit;
+    #{$left}: 100%;
+    bottom: 0;
+    margin-#{$left}: -9px;
+    top: 25%;
+}
+
+@media only screen and (min-width: 64em) {
+    .nds-table_bordered:not(.nds-no-row-hover) tbody tr:hover > td:not(.nds-is-selected),
+    .nds-table_bordered:not(.nds-no-row-hover) tbody tr:hover > th:not(.nds-is-selected),
+    .nds-table_bordered:not(.nds-no-row-hover) tbody tr:focus > td:not(.nds-is-selected),
+    .nds-table_bordered:not(.nds-no-row-hover) tbody tr:focus > th:not(.nds-is-selected),
+    .nds-table--bordered:not(.nds-no-row-hover) tbody tr:hover > td:not(.nds-is-selected),
+    .nds-table--bordered:not(.nds-no-row-hover) tbody tr:hover > th:not(.nds-is-selected),
+    .nds-table--bordered:not(.nds-no-row-hover) tbody tr:focus > td:not(.nds-is-selected),
+    .nds-table--bordered:not(.nds-no-row-hover) tbody tr:focus > th:not(.nds-is-selected) {
+        box-shadow: $color-border-input 0 -1px 0 inset, $color-border-input 0 1px 0 inset;
+    }
+}
+
+@media only screen and (min-width: 64em) {
+    .nds-table:not(.nds-no-row-hover) tbody tr:hover > td,
+    .nds-table:not(.nds-no-row-hover) tbody tr:hover > th,
+    .nds-table:not(.nds-no-row-hover) tbody tr:focus > td,
+    .nds-table:not(.nds-no-row-hover) tbody tr:focus > th {
+        background-color: $color-background-desertstorm;
+    }
+}
+

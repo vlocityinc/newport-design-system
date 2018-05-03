@@ -39,16 +39,18 @@
  */
 
 .nds-spinner {
-  position: absolute;
-  top: 50%;
-  #{$left}: 50%;
-  transform: translate(-50%, -50%) rotate(90deg);
+    width: 7rem;
+    #{$left}: 48%;
+    top: 43%;
+    position: absolute;
 }
 
-.nds-spinner,
-.nds-spinner__dot-a,
-.nds-spinner__dot-b {
-  transform-origin: 50% 50%;
+
+@media only screen and (max-width: 30em) {
+  .nds-spinner {
+      #{$left}: 40%;
+      top: 40%;
+  }
 }
 
 /**

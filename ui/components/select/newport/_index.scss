@@ -71,5 +71,34 @@
 }
 
 .nds-select-wrapper .nds-control-action__container {
-	top: 0.85rem;
+	top: 1rem;
+}
+
+.nds-select-wrapper .nds-tooltip_container .nds-nonfocused_control svg.slds-icon {
+    margin-top: 18px;
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: $color-input-icon-blue-hue;
+    cursor: pointer;
+}
+
+.nds-select-wrapper .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
+    #{$left}: calc(-100% - 10px);
+    max-width: 30rem;
+    white-space: nowrap;
+    top: -1.6875rem;
+}
+
+.nds-select-wrapper .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
+.nds-select-wrapper .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after {
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    transform: rotate(45deg);
+    content: '';
+    background-color: inherit;
+    #{$left}: 100%;
+    bottom: 0;
+    margin-#{$left}: -9px;
+    top: 25%;
 }

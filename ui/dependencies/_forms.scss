@@ -17,9 +17,10 @@
 }
 
 @mixin form-input-disabled {
-  background-color: $color-background-input-disabled;
+  background-color: $color-border-tab-active;
   border-color: $color-border-input-disabled;
   cursor: not-allowed;
+  opacity: 0.5;
   user-select: none;
 
   &:focus,

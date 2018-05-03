@@ -47,7 +47,7 @@
     .nds-table thead th {
         height: 2rem;
         background-color: $color-border-tab-active;
-        color: #000000;
+        color: $color-input-font-kashmiri-blue;
         border-bottom: 1px solid $color-border-input;
     }
 
@@ -64,6 +64,7 @@
             white-space: nowrap;
             overflow: hidden;
             width: calc(100% - 2rem);
+            color: $color-blue-text-secondary;
          }
     }
 
@@ -79,7 +80,7 @@
     }
 
     .nds-table_custom-row-selected {
-        background: #f5f5f5;
+        background: $color-background-wildsand;
      }
 }
 
@@ -92,9 +93,14 @@
     outline: none;
     cursor: pointer;
 
-    form{
+    form {
         height: inherit;
         outline: none;
+
+        .nds-edit-block_cards-action-container {
+            margin-#{$right}: 0.5rem;
+            margin-top: 0.5rem;
+        }
     }
 
     .nds-edit-block_shortcards-circle {
@@ -184,7 +190,7 @@
     }
 
     .nds-edit-block_longcards-circle {
-        display: inline-block;
+        display: block;
         width: 5rem;
         height: inherit;
 
@@ -218,7 +224,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             position: relative;
-            padding-#{$right}: 0.4rem;
+            padding: 0 0.4rem;
         }
     }
 
@@ -260,8 +266,8 @@
 }
 
 .nds-editblock_action-button {
-    width: 6rem;
-    border: none;
+    width: 2rem;
+    border: 1px solid $color-gray-border-primary;
     box-shadow: unset !important;
     background: inherit;
     z-index: 1;
@@ -279,4 +285,12 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+@media screen and (max-width: 48em) {
+    .via-nds .nds-max-medium-table_stacked-horizontal tr>td:last-child {
+        overflow: visible;
+        position: relative;
+        height: 3rem;
+    }
 }
