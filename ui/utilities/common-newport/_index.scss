@@ -291,6 +291,12 @@ ul.nds-dropdown-list {
     }
 }
 
+@media only screen and (max-width: 30em) {
+    .nds-modal_custom .nds-modal .nds-modal__container .nds-modal__content {
+        min-height: 26rem;
+    }
+}
+
 
 .nds-modal .nds-modal__container .nds-theme_info,
 .nds-modal .nds-modal__container .nds-theme_error {
