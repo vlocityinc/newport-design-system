@@ -1,12 +1,9 @@
 import { Element, track, api } from 'engine';
 import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction-data-type-lib';
-import { Store } from 'builder_platform_interaction-store-lib';
-import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
+import { getElementsForMenuData, getElementByGuid } from 'builder_platform_interaction-expression-utils';
 import { getRulesForElementType, getRHSTypes, RULE_PROPERTY_INFO } from 'builder_platform_interaction-rule-lib';
 import { getParameterLabel, isInputParameter, isRequiredParameter, getParameterDataType } from 'builder_platform_interaction-parameter-item-utils';
 import { UpdateParameterItemEvent } from 'builder_platform_interaction-events';
-
-let storeInstance;
 
 export default class ParameterItem extends Element {
     @track state = {
@@ -29,11 +26,6 @@ export default class ParameterItem extends Element {
      */
     @api
     elementType;
-
-    constructor() {
-        super();
-        storeInstance = Store.getStore();
-    }
 
     /**
      * @typedef {Object} InputParameterValue
@@ -187,7 +179,7 @@ export default class ParameterItem extends Element {
      * @return {String} name of variable or undefined if not found
      */
     getVariableName(varRef) {
-        const varElement = storeInstance.getCurrentState().elements[varRef];
+        const varElement = getElementByGuid(varRef);
         return (varElement) ? varElement.name : undefined;
     }
 

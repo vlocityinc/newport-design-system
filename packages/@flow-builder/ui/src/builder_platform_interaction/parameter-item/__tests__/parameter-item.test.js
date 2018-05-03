@@ -67,7 +67,8 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
         getElementsForMenuData: jest.fn().mockReturnValue(
             require.requireActual('mock-combobox-data').comboboxConfig.menuData
-        )
+        ),
+        getElementByGuid: require.requireActual('builder_platform_interaction-expression-utils').getElementByGuid,
     };
 });
 
