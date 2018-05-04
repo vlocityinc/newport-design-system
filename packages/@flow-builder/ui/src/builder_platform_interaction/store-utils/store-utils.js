@@ -1,0 +1,1 @@
+export { getElementByGuid } from './storeQuery';

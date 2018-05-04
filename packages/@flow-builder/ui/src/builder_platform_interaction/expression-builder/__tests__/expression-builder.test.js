@@ -82,7 +82,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction-expression-utils').EXPRESSION_PROPERTY_TYPE,
         normalizeLHS: require.requireActual('builder_platform_interaction-expression-utils').normalizeLHS,
         retrieveRHSVal: require.requireActual('builder_platform_interaction-expression-utils').retrieveRHSVal,
-        getElementByGuid: require.requireActual('builder_platform_interaction-expression-utils').getElementByGuid,
+        getElementByGuid: require.requireActual('builder_platform_interaction-store-utils').getElementByGuid,
         isElementAllowed: require.requireActual('builder_platform_interaction-expression-utils').isElementAllowed,
     };
 });

@@ -1,9 +1,10 @@
 import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
-import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, retrieveRHSVal, isElementAllowed, getElementByGuid } from 'builder_platform_interaction-expression-utils';
+import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, retrieveRHSVal, isElementAllowed } from 'builder_platform_interaction-expression-utils';
 import { getRulesForElementType, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox, elementToParam } from 'builder_platform_interaction-rule-lib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 

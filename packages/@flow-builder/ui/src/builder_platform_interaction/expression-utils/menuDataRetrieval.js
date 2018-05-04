@@ -2,6 +2,7 @@ import {isMatch, elementToParam} from "builder_platform_interaction-rule-lib";
 import {writableElementsSelector, readableElementsSelector} from "builder_platform_interaction-selectors";
 import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 import { Store } from 'builder_platform_interaction-store-lib';
+import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
@@ -131,10 +132,6 @@ function getNewResourceItem() {
         }]
     };
 }
-
-export const getElementByGuid = (guid) => {
-    return Store.getStore().getCurrentState().elements[guid];
-};
 
 /**
  * Returns the combobox display value based on the unique identifier passed
