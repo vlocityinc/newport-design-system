@@ -14,10 +14,10 @@ import {
 const addAssignmentItem = (state) => {
     // TODO this should come from some assignment item factory like propertyEditorDataMutation that is shared with the translation layer
     const emptyAssignmentItem = {
-        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: null, error: null },
-        [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: null, error: null},
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: null, error: null},
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: null, error: null},
+        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
+        [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null},
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null},
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
         rowIndex: generateGuid(SUB_ELEMENT_TYPE.ASSIGNMENT_ITEM),
     };
 
@@ -48,7 +48,7 @@ const assignmentPropertyChanged = (state, event) => {
 /**
  * assignment reducer function runs validation rules and returns back the updated element assignment
  * @param {object} state - element / assignment node
- * @param {object} event - object containing type and payload eg: {type:"xyz", payload: {propertyName: '', value: '' , error: ''}}
+ * @param {object} event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
  * @returns {object} assignment - updated assignment
  */
 export const assignmentReducer = (state, event) => {

@@ -48,10 +48,10 @@ const reorderOutcomes = (state, event) => {
 const addCondition = (state, event) => {
     const outcomes = state.outcomes.map((outcome) => {
         const newCondition = {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: null, error: null },
-            [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: null, error: null},
-            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: null, error: null},
-            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: null, error: null},
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
+            [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
             rowIndex: generateGuid(SUB_ELEMENT_TYPE.CONDITION),
         };
         return outcome.guid === event.parentGUID ? updateProperties(outcome, {

@@ -1,41 +1,52 @@
-import {Element, api, track} from 'engine';
-import {decisionReducer} from './decision-reducer';
-import {nameDescriptionMixin, baseEditor} from 'builder_platform_interaction-base-editor';
-import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
-
-import template from './decision-editor.html';
+import { Element, api, track, unwrap } from 'engine';
+import { decisionReducer } from './decision-reducer';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome'
 };
 
-export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Element)) {
-    @track element;
+export default class DecisionEditor extends Element {
     @track activeOutcomeId;
+    @track decisionElement;
+
+    /**
+     * public api function to return the unwrapped node
+     * @returns {object} node - unwrapped node
+     */
+    @api getNode() {
+        return unwrap(this.decisionElement);
+    }
+
+    /**
+     * public api function to run the rules from decision validation library
+     * @returns {object} list of errors
+     */
+    @api validate() {
+        // TODO : validation for ok button, W-4875650
+        return getErrorsFromHydratedElement(this.decisionElement);
+    }
 
     get activeOutcome() {
-        return this.element.outcomes.find(outcome => outcome.guid === this.activeOutcomeId);
+        return this.decisionElement.outcomes.find(outcome => outcome.guid === this.activeOutcomeId);
     }
 
     // getter and setter for nodes don't work well with mixins
     // currently need to be copied here for each property editor node
     @api
     get node() {
-        return this.element;
+        return this.decisionElement;
     }
 
     @api
     set node(newValue) {
-        this.element = newValue;
-        this.activeOutcomeId = this.element.outcomes[0].guid;
-    }
-
-    get outcomes() {
-        return (this.element) ? this.element.outcomes : [];
+        this.decisionElement = newValue;
+        this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
     }
 
     get showDeleteOutcome() {
-        return this.element.outcomes.length > 1;
+        return this.decisionElement.outcomes.length > 1;
     }
 
     handleAddOutcome(event) {
@@ -43,7 +54,7 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
         this.addOutcome();
 
         // Select the newly added outcome
-        const outcomes = this.element.outcomes;
+        const outcomes = this.decisionElement.outcomes;
         this.activeOutcomeId = outcomes[outcomes.length - 1].guid;
 
         // Focus on the newly selected outcome ( focused the name/label field )
@@ -53,7 +64,7 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
 
     addOutcome() {
         const event = { type: PROPERTY_EDITOR_ACTION.ADD_DECISION_OUTCOME };
-        this.element = decisionReducer(this.element, event);
+        this.decisionElement = decisionReducer(this.decisionElement, event);
     }
 
     /**
@@ -61,7 +72,7 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
      */
     handleEvent(event) {
         event.stopPropagation();
-        this.element = decisionReducer(this.element, event);
+        this.decisionElement = decisionReducer(this.decisionElement, event);
     }
 
     /**
@@ -70,9 +81,9 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
      */
     handleDeleteOutcome(event) {
         event.stopPropagation();
-        this.element = decisionReducer(this.element, event);
+        this.decisionElement = decisionReducer(this.decisionElement, event);
 
-        this.activeOutcomeId = this.element.outcomes[0].guid;
+        this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
     }
 
     /**
@@ -87,11 +98,5 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
     handleOutcomeSelected(event) {
         event.stopPropagation();
         this.activeOutcomeId = event.detail.itemId;
-    }
-
-    // Required because Raptor doesn't know to add this method
-    // since we aren't directly extending Element
-    render() {
-        return template;
     }
 }

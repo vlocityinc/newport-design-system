@@ -13,7 +13,7 @@ export default class AssignmentEditor extends Element {
     /**
      * Internal state for the assignment editor
      */
-    @track element = {};
+    @track assignmentElement;
 
     get addLabel() {
         // TODO labels W-4813532
@@ -25,17 +25,17 @@ export default class AssignmentEditor extends Element {
     }
 
     get showDelete() {
-        return this.assignmentItems.length > 1;
+        return this.assignmentElement.assignmentItems.length > 1;
     }
 
     @api
     get node() {
-        return this.element;
+        return this.assignmentElement;
     }
 
     @api
     set node(newValue) {
-        this.element = newValue || {};
+        this.assignmentElement = newValue || {};
     }
 
     /**
@@ -43,7 +43,7 @@ export default class AssignmentEditor extends Element {
      * @returns {object} node - unwrapped node
      */
     @api getNode() {
-        return unwrap(this.element);
+        return unwrap(this.assignmentElement);
     }
 
     /**
@@ -53,33 +53,8 @@ export default class AssignmentEditor extends Element {
     @api validate() {
         // we may want to use createAction here ?
         const event = { type: VALIDATE_ALL };
-        this.element = assignmentReducer(this.element, event);
-        return getErrorsFromHydratedElement(this.element);
-    }
-
-    /**
-     * @returns {object} label, eg : {value: "xyz", error: null}
-     */
-    get label() {
-        return (this.element && this.element.label) ? this.element.label : undefined;
-    }
-
-    /**
-     * @returns {object} description
-     */
-    get description() {
-        return (this.element && this.element.description) ? this.element.description : undefined;
-    }
-
-    /**
-     * @returns {object} devName
-     */
-    get devName() {
-        return (this.element && this.element.name) ? this.element.name : undefined;
-    }
-
-    get assignmentItems() {
-        return this.element && this.element.assignmentItems ? this.element.assignmentItems : [];
+        this.assignmentElement = assignmentReducer(this.assignmentElement, event);
+        return getErrorsFromHydratedElement(this.assignmentElement);
     }
 
     /**
@@ -87,6 +62,6 @@ export default class AssignmentEditor extends Element {
      */
     handleEvent(event) {
         event.stopPropagation();
-        this.element = assignmentReducer(this.element, event);
+        this.assignmentElement = assignmentReducer(this.assignmentElement, event);
     }
 }

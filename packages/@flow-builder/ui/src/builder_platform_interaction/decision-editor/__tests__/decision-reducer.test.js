@@ -137,7 +137,7 @@ describe('decision-reducer', () => {
             const newState = decisionReducer(originalState, addConditionEvent);
 
             const newOutcome = newState.outcomes[1];
-            const hydratedNewObject = {value: null, error: null};
+            const hydratedNewObject = {value: '', error: null};
 
             expect(newOutcome.conditions).toHaveLength(2);
             expect(newOutcome.conditions[1].rowIndex).toEqual(mockGuid);
