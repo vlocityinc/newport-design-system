@@ -8,6 +8,7 @@ export { AddListItemEvent } from './addListItemEvent';
 export { UpdateListItemEvent } from './updateListItemEvent';
 export { DeleteListItemEvent } from './deleteListItemEvent';
 export { DeleteOutcomeEvent } from './deleteOutcomeEvent';
+export { ReorderListEvent } from './reorderListEvent';
 export { AddConditionEvent } from './addConditionEvent';
 export { UpdateConditionEvent } from './updateConditionEvent';
 export { DeleteConditionEvent } from './deleteConditionEvent';

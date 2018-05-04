@@ -3,6 +3,7 @@ import {updateProperties, addItem, deleteItem, replaceItem, hydrateWithErrors} f
 import {
     PropertyChangedEvent,
     DeleteOutcomeEvent,
+    ReorderListEvent,
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent
@@ -24,6 +25,23 @@ const deleteOutcome = (state, event) => {
         return outcome.guid !== event.guid;
     });
 
+    return updateProperties(state, {outcomes});
+};
+
+const reorderOutcomes = (state, event) => {
+    let outcomes = state.outcomes;
+    const destinationIndex = state.outcomes.findIndex((element) => {
+        return element.guid === event.detail.destinationGuid;
+    });
+    const movedOutcome = state.outcomes.find((outcome) => {
+        return outcome.guid === event.detail.sourceGuid;
+    });
+    if (destinationIndex >= 0 && movedOutcome) {
+        outcomes = state.outcomes.filter((outcome) => {
+            return outcome.guid !== event.detail.sourceGuid;
+        });
+        outcomes.splice(destinationIndex, 0, movedOutcome);
+    }
     return updateProperties(state, {outcomes});
 };
 
@@ -106,6 +124,8 @@ export const decisionReducer = (state, event) => {
             return decisionPropertyChanged(state, event);
         case DeleteOutcomeEvent.EVENT_NAME:
             return deleteOutcome(state, event);
+        case ReorderListEvent.EVENT_NAME:
+            return reorderOutcomes(state, event);
         case AddConditionEvent.EVENT_NAME:
             return addCondition(state, event);
         case DeleteConditionEvent.EVENT_NAME:

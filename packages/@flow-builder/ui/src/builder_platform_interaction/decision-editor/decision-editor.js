@@ -3,7 +3,6 @@ import {decisionReducer} from './decision-reducer';
 import {nameDescriptionMixin, baseEditor} from 'builder_platform_interaction-base-editor';
 import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
 
-
 import template from './decision-editor.html';
 
 const SELECTORS = {
@@ -74,6 +73,15 @@ export default class DecisionEditor extends nameDescriptionMixin(baseEditor(Elem
         this.element = decisionReducer(this.element, event);
 
         this.activeOutcomeId = this.element.outcomes[0].guid;
+    }
+
+    /**
+     * Handles reordering in the list of the outcomes
+     * @param {object} event - reorderListEvent
+     */
+    handleReorderOutcomes(event) {
+        event.stopPropagation();
+        this.element = decisionReducer(this.element, event);
     }
 
     handleOutcomeSelected(event) {

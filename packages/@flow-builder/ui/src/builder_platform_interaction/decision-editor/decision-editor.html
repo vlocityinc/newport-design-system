@@ -15,7 +15,8 @@
                     menu-items={outcomes}
                     active-item-id={activeOutcomeId}
                     onitemselected={handleOutcomeSelected}
-                    default-label="[New Outcome]">
+                    default-label="[New Outcome]"
+                    onreorderlist={handleReorderOutcomes}>
                 <div slot="header">
                     Outcome Order
                     <lightning-helptext class="slds-p-left_xx-small" content="Outcomes are evaluated in the order in which they appear. Only the first matching outcome executes."></lightning-helptext>
