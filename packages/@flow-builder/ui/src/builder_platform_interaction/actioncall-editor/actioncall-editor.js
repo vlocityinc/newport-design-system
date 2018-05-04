@@ -143,10 +143,13 @@ export default class ActionCallEditor extends Element {
                 if (this.stopCallbackExecutionGetParameters) {
                     this.stopCallbackExecutionGetParameters();
                 }
+                // TODO we shouldn't fetch data if node.actionName isn't set
                 this.stopCallbackExecutionGetParameters = fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, ({data}) => {
                     // TODO handle error
                     this.stopCallbackExecutionGetParameters = null;
-                    this.updateInputOutputParameters(data);
+                    if (data) {
+                        this.updateInputOutputParameters(data);
+                    }
                 }, {
                     actionName: this.node.actionName.value,
                     actionType: this.node.actionType.value
