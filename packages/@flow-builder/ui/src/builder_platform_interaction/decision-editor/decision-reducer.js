@@ -1,5 +1,12 @@
 import {decisionValidation} from './decision-validation';
-import {updateProperties, addItem, deleteItem, replaceItem, hydrateWithErrors} from 'builder_platform_interaction-data-mutation-lib';
+import {
+    updateProperties,
+    addItem,
+    deleteItem,
+    replaceItem,
+    hydrateWithErrors,
+    mutateOutcome
+} from 'builder_platform_interaction-data-mutation-lib';
 import {
     PropertyChangedEvent,
     DeleteOutcomeEvent,
@@ -14,7 +21,9 @@ import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 
 const addOutcome = (state) => {
-    const newOutcome = hydrateWithErrors(createFlowElement(ELEMENT_TYPE.OUTCOME, false));
+    let newOutcome = mutateOutcome(createFlowElement(ELEMENT_TYPE.OUTCOME, false));
+    newOutcome = hydrateWithErrors(newOutcome);
+
     const outcomes = addItem(state.outcomes, newOutcome);
 
     return updateProperties(state, {outcomes});

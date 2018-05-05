@@ -2,7 +2,12 @@ import { ELEMENT_TYPE, SUB_ELEMENT_TYPE, createFlowElement } from 'builder_platf
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
 
-const mutateOutcome = (outcome) => {
+/**
+ * Mutate outcome for property editor
+ * @param {Object} outcome The outcome to mutate
+ * @return {Object} The mutated outcome
+ */
+export const mutateOutcome = (outcome) => {
     // TODO: make this update the outcome in an immutable way
     const conditions = outcome.conditions;
     conditions.forEach((condition, conditionIndex) => {
