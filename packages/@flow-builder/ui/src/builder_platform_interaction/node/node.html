@@ -1,14 +1,16 @@
 <template>
-    <div class='node-container slds-is-absolute slds-text-align_center' style={nodeLocation}>
+    <div class='node-container slds-is-absolute slds-text-align_center' style={nodeLocation} title={nodeTitle}>
         <div class={nodeClasses} id={nodeGuid}>
             <!--Node icon -->
-            <lightning-icon icon-name={iconName} size='large' class='icon' onclick={handleNodeClick} ondblclick={handleDblClick}></lightning-icon>
+            <button tabindex='1' class='icon' onfocus={handleNodeClick} onclick={handleNodeClick} ondblclick={handleDblClick}>
+                <lightning-icon icon-name={iconName} size='large'></lightning-icon>
+            </button>
 
             <!--End Point-->
-            <div if:true={hasAvailableConnections} class='end-point slds-is-absolute'></div>
+            <button if:true={hasAvailableConnections} tabindex='1' class='end-point slds-is-absolute'></button>
 
             <!--Trash can-->
-            <lightning-button-icon if:true={isSelected} icon-name='utility:delete' variant='bare' size='small' alternative-text='Delete' class='trash-can slds-is-absolute slds-button-icon_small' onclick={handleTrashClick}></lightning-button-icon>
+            <lightning-button-icon if:true={isSelected} tabindex='1' icon-name='utility:delete' variant='bare' size='small' alternative-text='Delete' class='trash-can slds-is-absolute slds-button-icon_small' onclick={handleTrashClick}></lightning-button-icon>
         </div>
 
         <!--Label and description-->

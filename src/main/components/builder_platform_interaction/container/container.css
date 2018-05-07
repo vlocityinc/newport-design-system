@@ -23,6 +23,7 @@
     height: 100%;
     overflow: hidden;
     outline: none;
+    user-select: none;
 }
 
 .THIS builder_platform_interaction-canvas .canvas .overlay {
@@ -72,6 +73,10 @@
     transform: scale(1.05);
 }
 
+.THIS builder_platform_interaction-node .icon:focus {
+    outline: none;
+}
+
 .THIS builder_platform_interaction-node .icon-section.selected .icon {
     transform: scale(1.1);
     box-shadow: 0 0 0 2px white, 0 0 0 3px t(colorBorderSelection), 0 0 6px 3px t(colorBorderSelection);
@@ -80,6 +85,9 @@
 .THIS builder_platform_interaction-node .icon {
     transition: transform 0.12s ease, box-shadow .1s ease-in;
     transform-origin: 50% 100%;
+    padding: t(spacingNone);
+    border: none;
+    border-radius: t(borderRadiusMedium);
 }
 
 .THIS builder_platform_interaction-node .end-point {
@@ -99,9 +107,14 @@
     background-color: t(colorBackgroundAlt2);
     transform: scale(1.1);
 }
-.THIS builder_platform_interaction-node .end-point:active {
+
+.THIS builder_platform_interaction-node .end-point:active,.THIS builder_platform_interaction-node .end-point:focus {
     box-shadow: inset 0px 0px 0px 2px t(colorBrandDark), t(shadowButtonFocus);
     transform: scale(1.2);
+}
+
+.THIS builder_platform_interaction-node .end-point:focus {
+    outline: none;
 }
 
 .THIS builder_platform_interaction-node .trash-can {
@@ -110,7 +123,7 @@
 }
 
 .THIS builder_platform_interaction-node .trash-can .slds-button.slds-button_icon-bare:active {
-    outline: 0;
+    outline: none;
     box-shadow: 0 0 3px #0070d2;
 }
 

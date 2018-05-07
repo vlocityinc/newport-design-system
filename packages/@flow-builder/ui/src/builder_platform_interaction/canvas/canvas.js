@@ -1,6 +1,6 @@
 import { Element, api, track } from 'engine';
 import { CONNECTOR_OVERLAY, drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
-import { SCALE_BOUNDS, getScaleAndDeltaValues } from './zoom-pan-utils';
+import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pan-utils';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
 import { AddElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
@@ -12,11 +12,19 @@ import { AddElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_
  * @since 214
  */
 
+const KEYS = {
+    BACKSPACE: 'Backspace',
+    NEGATIVE: '-',
+    ZERO: '0',
+    ONE: '1',
+    EQUAL: '=',
+    SPACE: ' '
+};
+
 export default class Canvas extends Element {
     @api nodes = [];
     @api connectors = [];
 
-    @track panVariant = 'neutral';
     @track isPanModeOn = false;
     @track isZoomOutDisabled = false;
     @track isZoomInDisabled = true;
@@ -33,15 +41,25 @@ export default class Canvas extends Element {
     isMouseDown = false;
 
     // Viewport variables used for zooming
-    viewportCenterX = 0;
-    viewportCenterY = 0;
     viewportWidth = 0;
     viewportHeight = 0;
+    viewportCenterX = 0;
+    viewportCenterY = 0;
 
     // Scaling variable used for zooming
     currentScale = 1.0;
 
-    // Variables used for calculating how much the inner canvas center should be away from the viewport center
+    // Mouse position variables used for panning
+    mouseDownX = 0;
+    mouseDownY = 0;
+    mouseMoveX = 0;
+    mouseMoveY = 0;
+
+    // Offset positions of the inner canvas on a given scale
+    scaledCenterOffsetX = 0;
+    scaledCenterOffsetY = 0;
+
+    // Offset positions of the inner canvas on scale 1
     centerOffsetX = 0;
     centerOffsetY = 0;
 
@@ -101,24 +119,6 @@ export default class Canvas extends Element {
     };
 
     /**
-     * Method to toggle the pan mode when clicking the pan button in the zoom-panel
-     * @param {Object} event - toggle pan mode event coming from zoom-panel.js
-     */
-    togglePanMode = (event) => {
-        if (event && event.action) {
-            if (event.action === PAN_ACTION.PAN_ON) {
-                this.panVariant = 'brand';
-                this.isPanModeOn = true;
-                this.canvasArea.style.cursor = '-webkit-grab';
-            } else if (event.action === PAN_ACTION.PAN_OFF) {
-                this.panVariant = 'neutral';
-                this.isPanModeOn = false;
-                this.canvasArea.style.cursor = 'default';
-            }
-        }
-    };
-
-    /**
      * Helper method to zoom the canvas.
      * @param {String} action - Zoom action coming from handle key down or handle zoom
      */
@@ -128,7 +128,6 @@ export default class Canvas extends Element {
         this.viewportCenterX = this.viewportWidth / 2;
         this.viewportCenterY = this.viewportHeight / 2;
 
-        // Getting the new zoom level and delta values based on the action
         const viewportAndOffsetConfig = {
             viewportWidth: this.viewportWidth,
             viewportHeight: this.viewportHeight,
@@ -182,36 +181,166 @@ export default class Canvas extends Element {
     };
 
     /**
-     * Handling mouse down event for canvas.
-     * @param {object} event - mouse down event
+     * Helper method to toggle the pan mode.
+     * @param {String} action - Pan action coming from handle key down or handleTogglePanMode
      */
-    handleMouseDown = (event) => {
-        event.preventDefault();
-        this.isMouseDown = true;
+    togglePan = (action) => {
+        if (action === PAN_ACTION.PAN_ON) {
+            // Enabling pan mode
+            this.isPanModeOn = true;
+            if (!this.isMouseDown) {
+                this.canvasArea.style.cursor = '-webkit-grab';
+            }
+        } else if (action === PAN_ACTION.PAN_OFF) {
+            // Disabling pan mode
+            this.isPanModeOn = false;
+            this.canvasArea.style.cursor = 'default';
+        }
     };
 
     /**
-     * Handling mouse move event for canvas.
-     * @param {object} event - mouse move event
+     * Method to toggle the pan mode when clicking the pan button in the zoom-panel
+     * @param {Object} event - toggle pan mode event coming from zoom-panel.js
      */
-    handleMouseMove = (event) => {
-        event.preventDefault();
+    handleTogglePanMode = (event) => {
+        if (event && event.action) {
+            this.togglePan(event.action);
+        }
     };
 
+    /**
+     * Handling mouse enter event for overlay. If mouse is down while entering the overlay
+     * then we need to set the entering coordinates as the mouseDown coordinates and get the scaled inner canvas offsets
+     * so as to ensure that panning begins from the right spot.
+     * @param {object} event - mouse enter event
+     */
+    handleOverlayMouseEnter = (event) => {
+        event.preventDefault();
+        // Checks if mouse is down while entering the overlay
+        if (event.buttons === 1 || event.buttons === 3) {
+            this.isMouseDown = true;
+            this.canvasArea.style.cursor = '-webkit-grabbing';
+
+            // Calculating mouse coordinates on mouse enter
+            this.mouseDownX = event.clientX - this.canvasArea.offsetLeft;
+            this.mouseDownY = event.clientY - this.canvasArea.offsetTop;
+
+            // Getting the scaled offset values of the inner canvas
+            this.scaledCenterOffsetX = this.innerCanvasArea.offsetLeft;
+            this.scaledCenterOffsetY = this.innerCanvasArea.offsetTop;
+        } else {
+            this.canvasArea.style.cursor = '-webkit-grab';
+        }
+    };
+
+    /**
+     * Handling mouse leave event for overlay. Setting isMouseDown to false so that
+     * panning doesn't continue when mouse enters the canvas again.
+     * @param {object} event - mouse leave event
+     */
+    handleOverlayMouseLeave = (event) => {
+        event.preventDefault();
+        if (this.isMouseDown) {
+            this.isMouseDown = false;
+        }
+        this.canvasArea.style.cursor = 'default';
+    };
+
+    /**
+     * Handling mouse down event for overlay.
+     * @param {object} event - mouse down event
+     */
+    handleOverlayMouseDown = (event) => {
+        event.stopPropagation();
+        this.isMouseDown = true;
+        this.canvasArea.style.cursor = '-webkit-grabbing';
+
+        // Calculating mouse coordinates on mouse down
+        this.mouseDownX = event.clientX - this.canvasArea.offsetLeft;
+        this.mouseDownY = event.clientY - this.canvasArea.offsetTop;
+
+        // Getting the scaled offset values of the inner canvas
+        this.scaledCenterOffsetX = this.innerCanvasArea.offsetLeft;
+        this.scaledCenterOffsetY = this.innerCanvasArea.offsetTop;
+    };
+
+    /**
+     * Handling mouse move event for overlay. If mouse is down while mouse move happens then we need to accordingly
+     * pan the canvas.
+     * @param {object} event - mouse move event
+     */
+    handleOverlayMouseMove = (event) => {
+        event.stopPropagation();
+        if (this.isMouseDown) {
+            // Calculating mouse coordinates on mouse move
+            this.mouseMoveX = event.clientX - this.canvasArea.offsetLeft;
+            this.mouseMoveY = event.clientY - this.canvasArea.offsetTop;
+
+            const panConfig = {
+                scaledCenterOffsetX: this.scaledCenterOffsetX,
+                scaledCenterOffsetY: this.scaledCenterOffsetY,
+                mouseDownX: this.mouseDownX,
+                mouseDownY: this.mouseDownY,
+                mouseMoveX: this.mouseMoveX,
+                mouseMoveY: this.mouseMoveY
+            };
+
+            // Getting the new offset values of the inner canvas
+            const offsetConfig = getOffsetValues(panConfig);
+
+            // Updating the left and top properties of the canvas. Also updating the center offset variables accordingly
+            if (offsetConfig.offsetLeft !== undefined && offsetConfig.offsetTop !== undefined) {
+                this.innerCanvasArea.style.left = offsetConfig.offsetLeft + 'px';
+                this.innerCanvasArea.style.top = offsetConfig.offsetTop + 'px';
+
+                this.centerOffsetX = -(offsetConfig.offsetLeft / this.currentScale);
+                this.centerOffsetY = -(offsetConfig.offsetTop / this.currentScale);
+            }
+        }
+    };
+
+    /**
+     * Handling mouse up event for overlay.
+     * @param {object} event - mouse up event
+     */
     handleOverlayMouseUp = (event) => {
         event.stopPropagation();
+        this.isMouseDown = false;
+        this.canvasArea.style.cursor = '-webkit-grab';
+    };
+
+    /**
+     * Handling right click event for overlay.
+     */
+    handleOverlayContextMenu = () => {
+        this.isMouseDown = false;
+    };
+
+    /**
+     * Handling mouse enter event for canvas. Bringing the canvas in focus as mouse enters.
+     * @param {object} event - mouse enter event
+     */
+    handleCanvasMouseEnter = (event) => {
+        event.preventDefault();
+        this.canvasArea.focus();
+    };
+
+    /**
+     * Handling mouse leave event for canvas. Removing focus from canvas.
+     * @param {object} event - mouse leave event
+     */
+    handleCanvasMouseLeave = (event) => {
+        event.preventDefault();
+        this.canvasArea.blur();
     };
 
     /**
      * Handling mouse up event for canvas. If mouse up happens directly on canvas/innerCanvas then marking the nodes
-     * as unselected. Also checking the isCanvasInFocus and isPanning condition to prevent nodes from deselecting when
-     * the user clicks outside canvas or stops panning.
+     * as unselected.
      * @param {object} event - mouse up event
      */
     handleCanvasMouseUp = (event) => {
         event.preventDefault();
-        this.isMouseDown = false;
-        this.canvasArea.focus();
         if ((event.target.id === 'canvas' || event.target.id === 'innerCanvas')) {
             const canvasMouseUpEvent = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
@@ -220,13 +349,6 @@ export default class Canvas extends Element {
             });
             this.dispatchEvent(canvasMouseUpEvent);
         }
-    };
-
-    /**
-     * Handling right click event for canvas.
-     */
-    handleContextMenu = () => {
-        this.isMouseDown = false;
     };
 
     /**
@@ -277,58 +399,78 @@ export default class Canvas extends Element {
     };
 
     /**
-     * Handling key down event for canvas and deleting selected nodes from the canvas if delete key is pressed.
+     * Handling key down event for canvas
      * @param {object} event - key down event
      */
     handleKeyDown = (event) => {
-        if (event.key === 'Backspace' && !this.isPanModeOn) {
-            event.preventDefault();
-            const selectedCanvasElementGUIDs = [];
-            const connectorGUIDs = [];
-            const canvasElementsToUpdate = [];
+        if (this.hasCanvasElements) {
+            if (event.key === KEYS.BACKSPACE && !this.isPanModeOn) {
+                // Code block for deletion of canvas elements
+                event.preventDefault();
+                const selectedCanvasElementGUIDs = [];
+                const connectorGUIDs = [];
+                const canvasElementsToUpdate = [];
 
-            // Pushing all the selected canvas elements to selectedCanvasElementGUIDs
-            this.nodes.map((node) => {
-                if (node.config.isSelected) {
-                    selectedCanvasElementGUIDs.push(node.guid);
-                }
-                return node;
-            });
+                // Pushing all the selected canvas elements to selectedCanvasElementGUIDs
+                this.nodes.map((node) => {
+                    if (node.config.isSelected) {
+                        selectedCanvasElementGUIDs.push(node.guid);
+                    }
+                    return node;
+                });
 
-            // Pushing all the selected and associated connectors to connectorGUIDs and pushing all affected canvas
-            // elements to canvasElementsToUpdate to update their connector count
-            this.connectors.map((connector) => {
-                if (connector.config.isSelected) {
-                    connectorGUIDs.push(connector.guid);
-                    canvasElementsToUpdate.push(connector.source);
-                } else {
-                    this.updateCanvasAndConnectorArray(selectedCanvasElementGUIDs, connectorGUIDs, canvasElementsToUpdate, connector);
-                }
-                return connector;
-            });
+                // Pushing all the selected and associated connectors to connectorGUIDs and pushing all affected canvas
+                // elements to canvasElementsToUpdate to update their connector count
+                this.connectors.map((connector) => {
+                    if (connector.config.isSelected) {
+                        connectorGUIDs.push(connector.guid);
+                        canvasElementsToUpdate.push(connector.source);
+                    } else {
+                        this.updateCanvasAndConnectorArray(selectedCanvasElementGUIDs, connectorGUIDs, canvasElementsToUpdate, connector);
+                    }
+                    return connector;
+                });
 
-            const deleteEvent = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    selectedCanvasElementGUIDs,
-                    connectorGUIDs,
-                    canvasElementsToUpdate
+                const deleteEvent = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
+                    bubbles: true,
+                    composed: true,
+                    cancelable: true,
+                    detail: {
+                        selectedCanvasElementGUIDs,
+                        connectorGUIDs,
+                        canvasElementsToUpdate
+                    }
+                });
+                this.dispatchEvent(deleteEvent);
+            } else if (event.metaKey && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL)) {
+                // Code block for zooming shortcuts
+                event.preventDefault();
+                if (event.key === KEYS.NEGATIVE) {
+                    this.canvasZoom(ZOOM_ACTION.ZOOM_OUT);
+                } else if (event.key === KEYS.ZERO) {
+                    this.canvasZoom(ZOOM_ACTION.ZOOM_TO_FIT);
+                } else if (event.key === KEYS.ONE) {
+                    this.canvasZoom(ZOOM_ACTION.ZOOM_TO_VIEW);
+                } else if (event.key === KEYS.EQUAL) {
+                    this.canvasZoom(ZOOM_ACTION.ZOOM_IN);
                 }
-            });
-            this.dispatchEvent(deleteEvent);
-        } else if (event.metaKey && (event.key === '-' || event.key === '0' || event.key === '1' || event.key === '=')) {
-            event.preventDefault();
-            if (event.key === '-') {
-                this.canvasZoom(ZOOM_ACTION.ZOOM_OUT);
-            } else if (event.key === '0') {
-                this.canvasZoom(ZOOM_ACTION.ZOOM_TO_FIT);
-            } else if (event.key === '1') {
-                this.canvasZoom(ZOOM_ACTION.ZOOM_TO_VIEW);
-            } else if (event.key === '=') {
-                this.canvasZoom(ZOOM_ACTION.ZOOM_IN);
+            } else if (event.key === KEYS.SPACE && !this.isPanModeOn) {
+                // Code block for enabling panning mode
+                event.preventDefault();
+                this.togglePan(PAN_ACTION.PAN_ON);
             }
+        }
+    };
+
+    /**
+     * Handling key up event for canvas
+     * @param {object} event - key up event
+     */
+    handleKeyUp = (event) => {
+        if (event.key === KEYS.SPACE && this.isPanModeOn) {
+            // Code block for disabling panning mode
+            event.preventDefault();
+            this.togglePan(PAN_ACTION.PAN_OFF);
         }
     };
 

@@ -9,7 +9,7 @@ import { TogglePanModeEvent, ClickToZoomEvent, ZOOM_ACTION, PAN_ACTION } from 'b
  * @since 214
  */
 export default class ZoomPanel extends Element {
-    @api panVariant;
+    @api isPanModeOn;
     @api isZoomOutDisabled;
     @api isZoomToView;
     @api isZoomInDisabled;
@@ -18,14 +18,14 @@ export default class ZoomPanel extends Element {
      * Handles click on the pan button and fires toggle pan mode event.
      */
     togglePanMode = () => {
-        let action = '';
-        if (this.panVariant === 'neutral') {
-            action = PAN_ACTION.PAN_ON;
-        } else if (this.panVariant === 'brand') {
+        let action;
+        if (this.isPanModeOn) {
             action = PAN_ACTION.PAN_OFF;
+        } else {
+            action = PAN_ACTION.PAN_ON;
         }
 
-        if (action !== '') {
+        if (action) {
             const togglePanModeEvent = new TogglePanModeEvent(action);
             this.dispatchEvent(togglePanModeEvent);
         }

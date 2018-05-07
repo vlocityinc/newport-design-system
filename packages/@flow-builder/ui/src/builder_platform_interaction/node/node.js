@@ -23,6 +23,10 @@ export default class Node extends Element {
         return `left: ${this.node.locationX}px; top: ${this.node.locationY}px`;
     }
 
+    get nodeTitle() {
+        return 'Label: ' + this.node.label + ', Description: ' + this.node.description;
+    }
+
     get nodeClasses() {
         let classes = 'icon-section';
         if (this.node.config.isSelected) {
@@ -154,8 +158,9 @@ export default class Node extends Element {
     renderedCallback() {
         if (lib.getContainer().classList.contains('inner-canvas')) {
             const nodeContainer = document.getElementById(this.node.guid).parentElement;
+
             lib.setDraggable(nodeContainer, {
-                start : (event) => this.dragStart(event),
+                start: (event) => this.dragStart(event),
                 stop: (event) => this.dragStop(event)
             });
 

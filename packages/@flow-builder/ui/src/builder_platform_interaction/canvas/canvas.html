@@ -1,8 +1,8 @@
 ﻿<template>
-    <div class='canvas slds-is-relative' id='canvas' tabindex="0" onmousedown={handleMouseDown} onmousemove={handleMouseMove}
-         onmouseup={handleCanvasMouseUp} oncontextmenu={handleContextMenu} onkeydown={handleKeyDown}
-         ondragover={handleDragOver} ondrop={handleDrop}>
-        <div if:true={isPanModeOn} class='overlay slds-is-absolute' id='overlay' onmouseup={handleOverlayMouseUp}>
+    <div class='canvas slds-is-relative' id='canvas' tabindex="0" onmouseenter={handleCanvasMouseEnter} onmouseleave={handleCanvasMouseLeave}
+         onmouseup={handleCanvasMouseUp} onkeydown={handleKeyDown} onkeyup={handleKeyUp} ondragover={handleDragOver} ondrop={handleDrop}>
+        <div if:true={isPanModeOn} class='overlay slds-is-absolute' id='overlay' onmouseenter={handleOverlayMouseEnter} onmouseleave={handleOverlayMouseLeave}
+             onmousedown={handleOverlayMouseDown} onmousemove={handleOverlayMouseMove} onmouseup={handleOverlayMouseUp} oncontextmenu={handleOverlayContextMenu}>
         </div>
         <!--Inner Canvas-->
         <div class='inner-canvas slds-is-relative' id='innerCanvas'>
@@ -18,6 +18,6 @@
         </div>
 
         <!--Zoom Panel-->
-        ﻿<builder_platform_interaction-zoom-panel if:true={hasCanvasElements} pan-variant={panVariant} is-zoom-out-disabled={isZoomOutDisabled} is-zoom-to-view={isZoomToView} is-zoom-in-disabled={isZoomInDisabled} ontogglepanmode={togglePanMode} onclicktozoom={handleZoom}></builder_platform_interaction-zoom-panel>
+        ﻿<builder_platform_interaction-zoom-panel if:true={hasCanvasElements} is-pan-mode-on={isPanModeOn} is-zoom-out-disabled={isZoomOutDisabled} is-zoom-to-view={isZoomToView} is-zoom-in-disabled={isZoomInDisabled} ontogglepanmode={handleTogglePanMode} onclicktozoom={handleZoom}></builder_platform_interaction-zoom-panel>
     </div>
 </template>
