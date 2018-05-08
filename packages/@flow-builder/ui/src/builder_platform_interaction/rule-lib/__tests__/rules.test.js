@@ -1,4 +1,4 @@
-import { setRules, getRules, getRulesForElementType } from 'builder_platform_interaction-rule-lib';
+import { setRules, getRules, getRulesForContext } from 'builder_platform_interaction-rule-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 const mockRulesFromServiceAssignmentAndComparison =
@@ -144,7 +144,7 @@ describe('Set Flow Operator Rules', () => {
             setRules(mockRulesFromServiceAssignmentAndComparison);
 
             const allRules = getRules();
-            const comparisonRules = getRulesForElementType(ELEMENT_TYPE.DECISION);
+            const comparisonRules = getRulesForContext({elementType: ELEMENT_TYPE.DECISION});
 
             expect(comparisonRules).toEqual(allRules.comparison);
         });

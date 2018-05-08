@@ -20,8 +20,8 @@ export default class AssignmentEditor extends Element {
         return 'Add';
     }
 
-    get elementType() {
-        return ELEMENT_TYPE.ASSIGNMENT;
+    get expressionBuilderConfig() {
+        return { elementType: ELEMENT_TYPE.ASSIGNMENT };
     }
 
     get showDelete() {

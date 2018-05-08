@@ -35,8 +35,8 @@ export default class Outcome extends Element {
     @track
     showErrorMessageIfBlank = "Cannot be Blank.";
 
-    get expressionBuilderElementType() {
-        return ELEMENT_TYPE.DECISION;
+    get expressionBuilderConfig() {
+        return {elementType: ELEMENT_TYPE.DECISION};
     }
 
     @api get outcome() {

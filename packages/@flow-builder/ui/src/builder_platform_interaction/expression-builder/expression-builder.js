@@ -2,7 +2,7 @@ import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, retrieveRHSVal, isElementAllowed } from 'builder_platform_interaction-expression-utils';
-import { getRulesForElementType, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox, elementToParam } from 'builder_platform_interaction-rule-lib';
+import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox, elementToParam } from 'builder_platform_interaction-rule-lib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 
@@ -16,6 +16,7 @@ const RHSDT = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
 
 let element;
 let rules;
+let contextConfig;
 
 /**
  * Expression Builder for Flow Builder
@@ -75,15 +76,16 @@ export default class ExpressionBuilder extends Element {
     rhsLabel;
 
     @api
-    set elementType(type) {
-        element = type;
-        rules = getRulesForElementType(element);
-        this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData({element, shouldBeWritable: true}, getLHSTypes(rules), true);
+    set configuration(config) {
+        contextConfig = config;
+        element = contextConfig.elementType;
+        rules = getRulesForContext(contextConfig);
+        this.getLHSMenuData(contextConfig);
     }
 
     @api
-    get elementType() {
-        return element;
+    get configuration() {
+        return contextConfig;
     }
 
     get lhsMenuData() {
@@ -170,7 +172,7 @@ export default class ExpressionBuilder extends Element {
         event.stopPropagation();
         const rhsAndRHSDT = {
             [RHS] : {value : event.detail.value, error: event.detail.error},
-            [RHSDT] : {value : FEROV_DATA_TYPE.REFERENCE, error: ''}
+            [RHSDT] : {value : FEROV_DATA_TYPE.REFERENCE, error: null},
         };
         const newExpression = updateProperties(this.state.expression, rhsAndRHSDT);
         const propertyChangedEvent = new RowContentsChangedEvent(newExpression, event.detail.error);
@@ -195,6 +197,18 @@ export default class ExpressionBuilder extends Element {
 
     handleFetchRHSMenuData() {
         // TODO  W-4723095
+    }
+
+    getLHSMenuData(config) {
+        let menuData;
+        switch (config.elementType) {
+            // TODO: this switch statement will be used when the expression-builder needs more than just
+            // elementType to determine the correct menuData. For example, for Record Lookup, the
+            // config could contain the selected SObject type so the correct set of fields will be provided
+            default:
+                menuData = getElementsForMenuData({element, shouldBeWritable: true}, getLHSTypes(rules), true);
+        }
+        this._fullLHSMenuData = this.state.lhsMenuData = menuData;
     }
     // TODO: validation
 }

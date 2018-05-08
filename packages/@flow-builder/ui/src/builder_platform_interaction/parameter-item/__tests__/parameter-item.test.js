@@ -58,7 +58,7 @@ class ToggleOffChangeEvent extends CustomEvent {
 jest.mock('builder_platform_interaction-rule-lib', () => {
     return {
         getRHSTypes: jest.fn(),
-        getRulesForElementType: jest.fn().mockReturnValue([]),
+        getRulesForContext: jest.fn().mockReturnValue([]),
         RULE_PROPERTY_INFO: require.requireActual('builder_platform_interaction-rule-lib').RULE_PROPERTY_INFO,
     };
 });

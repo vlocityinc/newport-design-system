@@ -71,7 +71,7 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
         }),
         getRHSTypes: jest.fn(),
         transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
-        getRulesForElementType: jest.fn().mockReturnValue([]),
+        getRulesForContext: jest.fn().mockReturnValue([]),
         elementToParam: require.requireActual('builder_platform_interaction-rule-lib').elementToParam,
     };
 });
@@ -181,7 +181,7 @@ describe('expression-builder', () => {
     describe('building expression from existing item', () => {
         it('should populate the lhs menu data', () => {
             const expressionBuilder = createDefaultComponentForTest();
-            expressionBuilder.elementType = 'ASSIGNMENT';
+            expressionBuilder.configuration = {elementType: 'ASSIGNMENT'};
             return Promise.resolve().then(() => {
                 const lhsCombobox = getComboboxElements(expressionBuilder)[0];
                 expect(getLHSTypes).toHaveBeenCalled();

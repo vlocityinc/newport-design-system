@@ -66,9 +66,20 @@ export const getRules = () => {
     return rulesInstance;
 };
 
-export const getRulesForElementType = (elementType) => {
+/**
+ * The information needed to determine the appropriate set of rules for a given context
+ * @typedef {Object} contextConfig
+ * @property {String} elementType    the property editor for which the rules are being retrieved
+ */
+
+/**
+ * @param {contextConfig} config      Context information - has the shape
+ *
+ * @returns {Object} the rules needed for the given context
+ */
+export const getRulesForContext = (config) => {
     let rules;
-    switch (elementType) {
+    switch (config.elementType) {
         case ELEMENT_TYPE.DECISION:
             rules = rulesInstance[RULE_TYPES.COMPARISON];
             break;
@@ -80,7 +91,7 @@ export const getRulesForElementType = (elementType) => {
             rules = rulesInstance[RULE_TYPES.ASSIGNMENT];
             break;
         default:
-            throw new Error(`Trying to get rules for unknown elementType: ${elementType}`);
+            throw new Error(`Trying to get rules for unknown elementType: ${config.elementType}`);
     }
 
     return rules;
