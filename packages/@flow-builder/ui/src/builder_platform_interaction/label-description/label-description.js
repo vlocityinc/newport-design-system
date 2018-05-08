@@ -78,7 +78,6 @@ export default class LabelDescription extends Element {
         labelInput.focus();
     }
 
-
     /** LWC hook after rendering every component we are setting all errors via setCustomValidity except initial rendering. **/
     renderedCallback() {
         if (this.state.label.value !== '') {
@@ -165,7 +164,15 @@ export default class LabelDescription extends Element {
     }
 
     handleLabelFocusOut(e) {
-        let newLabel = e.target.value;
+        const inputElement = e.target;
+        let newLabel = inputElement.value;
+        newLabel = (newLabel || '').trim();
+        if (newLabel !== inputElement.value) {
+            // if whitespace was removed we need to update the input
+            // only required if the user makes a whitespace only change such as 'a' to 'a '
+            inputElement.value = newLabel;
+        }
+
         this.updateStateAndDispatch(newLabel, 'label');
         if (newLabel !== '' && !this.state.devName.value) {
             if (newLabel.match(/^\W+$/)) {
@@ -176,7 +183,17 @@ export default class LabelDescription extends Element {
     }
 
     handleDevNameFocusOut(e) {
-        const newDevName = e.target.value;
+        const inputElement = e.target;
+        let newDevName = inputElement.value;
+
+        // remove all empty space from the dev name ( including in the middle of the string )
+        newDevName = (newDevName || '').replace(/\s/g, '');
+        if (newDevName !== inputElement.value) {
+            // if whitespace was removed we need to update the input
+            // only required if the user makes a whitespace only change such as 'a' to 'a '
+            inputElement.value = newDevName;
+        }
+
         if (this.state.devName.value !== newDevName) {
             this.updateDevName(newDevName);
         }

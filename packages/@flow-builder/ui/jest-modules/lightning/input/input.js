@@ -24,7 +24,10 @@ export default class LightningInput extends Element {
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {
-            value: textEntered
+            value: textEntered,
+            // required to be able to directly change the value input.value = 'desired'
+            // this is necessary to support overriding what a user has typed in some cases
+            writable: true
         });
     }
 

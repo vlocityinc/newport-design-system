@@ -2,6 +2,9 @@
 import { Validation } from 'builder_platform_interaction-validation';
 import * as ValidationRules from 'builder_platform_interaction-validation-rules';
 
+const TRAILING_UNDERSCORE_ERROR = 'Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.';
+
+
 describe('Default Validations', () => {
     const validation = new Validation();
 
@@ -12,14 +15,6 @@ describe('Default Validations', () => {
 
         it('and when a empty string is passed should return the error message - {string} Cannot be blank.', () => {
             expect(validation.validateProperty('label', '')).toBe('Cannot be blank.');
-        });
-
-        it('and when a string has trailing spaces at the end should return the error message - {string} Should not have trailing empty spaces at the beginning or ending.', () => {
-            expect(validation.validateProperty('label', 'valid_string ')).toBe('Should not have trailing empty spaces at the beginning or ending.');
-        });
-
-        it('and when a string has trailing spaces at the beginning should return the error message - {string} Should not have trailing empty spaces at the beginning or ending.', () => {
-            expect(validation.validateProperty('label', ' valid_string')).toBe('Should not have trailing empty spaces at the beginning or ending.');
         });
     });
 
@@ -32,20 +27,12 @@ describe('Default Validations', () => {
             expect(validation.validateProperty('name', '')).toBe('Cannot be blank.');
         });
 
-        it('and when a string has trailing spaces at the end should return the error message - {string} Should not have trailing empty spaces at the beginning or ending.', () => {
-            expect(validation.validateProperty('name', 'valid_string ')).toBe('Should not have trailing empty spaces at the beginning or ending.');
-        });
-
-        it('and when a string has trailing spaces at the beginning should return the error message - {string} Should not have trailing empty spaces at the beginning or ending.', () => {
-            expect(validation.validateProperty('name', ' valid_string')).toBe('Should not have trailing empty spaces at the beginning or ending.');
-        });
-
         it('and when a string has trailing underscores at the end should return the error message- {string} Should not have trailing empty spaces at the beginning or ending.', () => {
-            expect(validation.validateProperty('name', 'valid_string_')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
+            expect(validation.validateProperty('name', 'valid_string_')).toBe(TRAILING_UNDERSCORE_ERROR);
         });
 
         it('and when a string has trailing underscores at the beginning should return the error message - {string} Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.', () => {
-            expect(validation.validateProperty('name', '_valid_string')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
+            expect(validation.validateProperty('name', '_valid_string')).toBe(TRAILING_UNDERSCORE_ERROR);
         });
     });
 });
@@ -57,9 +44,9 @@ describe('runRulesOnData method', () => {
     it('returns the error message from the first failed rule', () => {
         expect(validation.runRulesOnData([
             ValidationRules.shouldNotBeBlank,
-            ValidationRules.shouldNotBeginOrEndWithEmptySpaces,
+            ValidationRules.shouldNotBeginOrEndWithUnderscores,
             ValidationRules.maximumCharactersLimit(3)
-        ], ' testNameWithAnEmptySpaceInTheBeginning')).toBe('Should not have trailing empty spaces at the beginning or ending.');
+        ], 'testNameWithATrailingUnderScore_')).toBe(TRAILING_UNDERSCORE_ERROR);
     });
 });
 describe('getMergedRules method', () => {
@@ -111,7 +98,7 @@ describe('validateAll method', () => {
         const validation = new Validation();
         expect(validation.validateAll(testObj)).toBe(testObj);
     });
-    it('returns the object wiht errors when rules fail at various level of properties', () => {
+    it('returns the object with errors when rules fail at various level of properties', () => {
         const additionalRules = {
             outcomes: {
                 name: [ValidationRules.maximumCharactersLimit(10)],
@@ -121,7 +108,7 @@ describe('validateAll method', () => {
             }
         };
         const testObj = {
-            name: {value: " valueWithError(trailingSpaces) ", error: null},
+            name: {value: "valueWithError(trailingSpaces)_", error: null},
             label: {value: "valueWithNoErrors", error: null},
             outcomes : [{
                 name: {value: "valueWithMaximumCharLimitExceeded", error: null},
@@ -149,7 +136,7 @@ describe('validateAll method', () => {
             }]
         };
         const expectedObjectAfterValidateAll = {
-            name: {value: " valueWithError(trailingSpaces) ", error: "Should not have trailing empty spaces at the beginning or ending."},
+            name: {value: "valueWithError(trailingSpaces)_", error: TRAILING_UNDERSCORE_ERROR},
             label: {value: "valueWithNoErrors", error: null},
             outcomes : [{
                 name: {value: "valueWithMaximumCharLimitExceeded", error: "Cannot accept more than 10 characters."},

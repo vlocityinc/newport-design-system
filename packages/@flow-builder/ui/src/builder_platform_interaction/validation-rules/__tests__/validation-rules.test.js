@@ -8,17 +8,6 @@ describe('shouldNotBeBlank method', () => {
         expect(rules.shouldNotBeBlank('')).toBe('Cannot be blank.');
     });
 });
-describe('shouldNotBeginOrEndWithEmptySpaces method', () => {
-    it('should return null when the value does not begin or end with empty spaces', () => {
-        expect(rules.shouldNotBeginOrEndWithEmptySpaces('test value')).toBeNull();
-    });
-    it('should return an error message when the value begins with an empty space', () => {
-        expect(rules.shouldNotBeginOrEndWithEmptySpaces(' test value')).toBe('Should not have trailing empty spaces at the beginning or ending.');
-    });
-    it('should return an error message when the value ends with an empty space', () => {
-        expect(rules.shouldNotBeginOrEndWithEmptySpaces('test value ')).toBe('Should not have trailing empty spaces at the beginning or ending.');
-    });
-});
 describe('shouldNotBeginOrEndWithUnderscores method', () => {
     it('should return null when the value does not start or end with an underscore', () => {
         expect(rules.shouldNotBeginOrEndWithUnderscores('test value')).toBeNull();

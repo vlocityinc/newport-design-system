@@ -77,6 +77,28 @@ describe('label-description', () => {
                     expect(eventCallback).not.toHaveBeenCalled();
                 });
             });
+
+            it('strips whitespace', () => {
+                const newValue = ' newValue ';
+                const newValueStripped = 'newValue';
+
+                const labelDescription = createComponentUnderTest();
+
+
+                return Promise.resolve().then(() => {
+                    const labelLightningInput = labelDescription.querySelector(selectors.label);
+
+                    const eventCallback = jest.fn();
+                    labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                    labelLightningInput.mockUserInput(newValue);
+
+                    labelLightningInput.dispatchEvent(focusoutEvent);
+
+                    expect(eventCallback).toHaveBeenCalled();
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'label', value: newValueStripped});
+                });
+            });
         });
 
         it('is not included when hideLabel = true', () => {
@@ -223,6 +245,27 @@ describe('label-description', () => {
                     devNameLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).not.toHaveBeenCalled();
+                });
+            });
+
+            it('strips whitespace', () => {
+                const newValue = ' new Value ';
+                const newValueStripped = 'newValue';
+
+                const labelDescription = createComponentUnderTest();
+
+                return Promise.resolve().then(() => {
+                    const devNameLightningInput = labelDescription.querySelector(selectors.devName);
+
+                    const eventCallback = jest.fn();
+                    labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                    devNameLightningInput.mockUserInput(newValue);
+
+                    devNameLightningInput.dispatchEvent(focusoutEvent);
+
+                    expect(eventCallback).toHaveBeenCalled();
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'name', value: newValueStripped});
                 });
             });
         });

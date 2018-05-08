@@ -8,12 +8,10 @@ import { isPlainObject } from 'builder_platform_interaction-store-lib';
  */
 const defaultRules = {
     'label' : [
-        ValidationRules.shouldNotBeBlank,
-        ValidationRules.shouldNotBeginOrEndWithEmptySpaces
+        ValidationRules.shouldNotBeBlank
     ],
     'name' : [
         ValidationRules.shouldNotBeBlank,
-        ValidationRules.shouldNotBeginOrEndWithEmptySpaces,
         ValidationRules.shouldNotBeginOrEndWithUnderscores
     ]
 };

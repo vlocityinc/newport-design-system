@@ -17,10 +17,6 @@ const regexConfig = {
         regexPattern: '^\\s*$',
         message: 'Cannot be blank.'
     },
-    shouldNotBeginOrEndWithEmptySpaces: {
-        regexPattern: '^[ \\t]+|[ \\t]+$',
-        message: 'Should not have trailing empty spaces at the beginning or ending.',
-    },
     shouldNotBeginOrEndWithUnderscores: {
         regexPattern: '^[_{0,}]+|_{2,}|[_{0,}]+$',
         message: 'Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.',
@@ -49,13 +45,6 @@ export const VALIDATE_ALL = 'VALIDATE_ALL';
  * @returns {string|null} errorString or null
  */
 export const shouldNotBeBlank = (value) => evaluateRegex(regexConfig.shouldNotBeBlank, value);
-
-/**
- * Function to test the value should not begin or end with empty spaces
- * @param {string} value - value to be tested
- * @returns {string|null} errorString or null
- */
-export const shouldNotBeginOrEndWithEmptySpaces = (value) => evaluateRegex(regexConfig.shouldNotBeginOrEndWithEmptySpaces, value);
 
 /**
  * Function to test the value should not begin or end with underscore
