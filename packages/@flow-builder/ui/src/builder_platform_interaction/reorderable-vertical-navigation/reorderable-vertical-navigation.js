@@ -15,17 +15,31 @@ const CLASS_INACTIVE = 'slds-vertical-tabs__nav-item';
  */
 export default class ReorderableVerticalNavigation extends Element {
     @api defaultLabel = '';
+    @api hideFooter = false;
+
+    /**
+     * @typedef MenuItem
+     * @type {Object}
+     * @property {Object} element
+     * @property {boolean} isDraggable
+     */
+
+    /**
+     * @type {MenuItem[]}
+     */
     @api menuItems = [];
+
     _activeItemId;
 
     get decoratedMenuItems() {
-        return this.menuItems.map((element) => {
-            const menuItem = {
+        return this.menuItems.map((menuItem) => {
+            const {element, isDraggable} = menuItem;
+            return {
                 guid: element.guid,
                 label: element.label.value !== '' ? element.label.value : this.defaultLabel,
-                class: this.isItemActive(element.guid) ? CLASS_ACTIVE : CLASS_INACTIVE
+                class: this.isItemActive(element.guid) ? CLASS_ACTIVE : CLASS_INACTIVE,
+                isDraggable
             };
-            return menuItem;
         });
     }
 
@@ -38,7 +52,7 @@ export default class ReorderableVerticalNavigation extends Element {
     }
 
     isItemActive(itemId) {
-        return this._activeItemId && (itemId === this._activeItemId);
+        return itemId === this._activeItemId;
     }
 
     handleItemClicked(event) {

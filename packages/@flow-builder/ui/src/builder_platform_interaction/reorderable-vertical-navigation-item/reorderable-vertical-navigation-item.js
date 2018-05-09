@@ -12,6 +12,7 @@ export default class ReorderableVerticalNavigationItem extends Element {
     @api activeId;
     @api hasFrontIcon = false;
     @api hasEndIcon = false;
+    @api isDraggable = false;
 
     get ariaSelected() {
         return this.isActive() ? LINK_ARIA_SELECTED_ACTIVE : LINK_ARIA_SELECTED_INACTIVE;

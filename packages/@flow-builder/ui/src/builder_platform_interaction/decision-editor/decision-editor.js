@@ -45,6 +45,15 @@ export default class DecisionEditor extends Element {
         this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
     }
 
+    get outcomeMenuItems() {
+        return this.decisionElement.outcomes.map(outcome => {
+            return {
+                element: outcome,
+                isDraggable: true
+            };
+        });
+    }
+
     get showDeleteOutcome() {
         return this.decisionElement.outcomes.length > 1;
     }
@@ -92,7 +101,7 @@ export default class DecisionEditor extends Element {
      */
     handleReorderOutcomes(event) {
         event.stopPropagation();
-        this.element = decisionReducer(this.element, event);
+        this.decisionElement = decisionReducer(this.decisionElement, event);
     }
 
     handleOutcomeSelected(event) {

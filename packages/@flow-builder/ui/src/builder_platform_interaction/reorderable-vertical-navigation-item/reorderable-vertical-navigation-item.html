@@ -6,7 +6,7 @@
         tabindex="0"
         aria-selected={ariaSelected}
         id={navItemId}>
-        <builder_platform_interaction-draggable index={navItemId}  class="slds-grid slds-size_1-of-1">
+        <builder_platform_interaction-draggable if:true={isDraggable} index={navItemId}  class="slds-grid slds-size_1-of-1">
             <template if:true={hasFrontIcon}>
                 <slot name="front-icon">
                 <!-- Example:
@@ -23,5 +23,22 @@
                 </slot>
             </template>
         </builder_platform_interaction-draggable>
+        <div if:false={isDraggable} class="slds-grid slds-size_1-of-1">
+            <template if:true={hasFrontIcon}>
+                <slot name="front-icon">
+                    <!-- Example:
+                    <lightning-icon icon-name="utility:rows" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                    -->
+                </slot>
+            </template>
+            {label}
+            <template if:true={hasEndIcon}>
+                <slot name="end-icon">
+                    <!-- Example:
+                    <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
+                    -->
+                </slot>
+            </template>
+        </div>
     </a>
 </template>

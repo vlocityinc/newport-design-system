@@ -1,23 +1,31 @@
 import {createElement} from 'engine';
 import ReorderableVerticalNavigation from 'builder_platform_interaction-reorderable-vertical-navigation';
 
-const selectors = {
-    frontIcon: 'div[slot="front-icon"]',
-    endIcon: 'div[slot="end-icon"]',
-    div: 'div',
-    link: 'a',
-    listItem: 'li',
-    firstItemLink: '#item1'
+const SELECTORS = {
+    ITEM: 'li',
+    FRONT_ICON: 'div[slot="front-icon"]',
+    END_ICON: 'div[slot="end-icon"]',
+    DIV: 'div',
+    LINK: 'a',
+    LIST_ITEM: 'li',
+    FIRST_LIST_ITEM: '#item1'
 };
 
 const initialMenu = [
     {
-        guid: 'item1',
-        label: 'item1'
+        element: {
+            guid: 'item1',
+            label: 'item1'
+        },
+        isDraggable: true
     },
     {
-        guid: 'item2',
-        label: '<script>alert(document.cookie);</script>'}
+        element: {
+            guid: 'item2',
+            label: '<script>alert(document.cookie);</script>'
+        },
+        isDraggable: false
+    }
 ];
 
 const createComponentUnderTest = () => {
@@ -28,11 +36,12 @@ const createComponentUnderTest = () => {
     return el;
 };
 
+
 describe('ReorderableVerticalNavigation', () => {
     it('is styled with vertical tabs', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
-            const div = element.querySelectorAll(selectors.div);
+            const div = element.querySelectorAll(SELECTORS.DIV);
             expect(div).toHaveLength(3);
             expect(div[0].getAttribute('class')).toContain('slds-vertical-tabs__nav');
         });
@@ -41,23 +50,33 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const menuItems = element.querySelectorAll(selectors.link);
-            expect(menuItems).toHaveLength(2);
+            const items = element.querySelectorAll(SELECTORS.ITEM);
+
+            expect(items).toHaveLength(2);
         });
     });
-    it('renders each item with front icon by default', () => {
+    it('renders each item with isDraggable based on the menu item', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const frontIcon = element.querySelectorAll(selectors.frontIcon);
-            expect(frontIcon).toHaveLength(2);
+            const menuItems = element.querySelectorAll(SELECTORS.ITEM);
+            expect(menuItems[0].isDraggable).toBeTruthy();
+            expect(menuItems[1].isDraggable).toBeFalsy();
+        });
+    });
+    it('renders each draggable item with front icon by default', () => {
+        const element = createComponentUnderTest();
+        element.menuItems = initialMenu;
+        return Promise.resolve().then(() => {
+            const frontIcon = element.querySelectorAll(SELECTORS.FRONT_ICON);
+            expect(frontIcon).toHaveLength(1);
         });
     });
     it('fires itemselected that includes itemId when an item is clicked', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const firstMenuItem = element.querySelector(selectors.firstItemLink);
+            const firstMenuItem = element.querySelector(SELECTORS.FIRST_LIST_ITEM);
 
             const eventCallback = jest.fn();
             element.addEventListener('itemselected', eventCallback);
@@ -71,7 +90,7 @@ describe('ReorderableVerticalNavigation', () => {
         element.menuItems = initialMenu;
         element.activeItemId = 'item1';
         return Promise.resolve().then(() => {
-            const listItems = element.querySelectorAll(selectors.listItem);
+            const listItems = element.querySelectorAll(SELECTORS.LIST_ITEM);
             expect(listItems[0].getAttribute('class')).toContain('slds-vertical-tabs__nav-item slds-is-active');
             expect(listItems[1].getAttribute('class')).toContain('slds-vertical-tabs__nav-item');
             expect(listItems[1].getAttribute('class')).not.toContain('slds-is-active');

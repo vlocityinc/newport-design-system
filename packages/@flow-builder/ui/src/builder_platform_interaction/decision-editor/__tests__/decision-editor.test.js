@@ -21,8 +21,9 @@ jest.mock('../decision-reducer', () => {
     };
 });
 
-const selectors = {
-    outcome: 'builder_platform_interaction-outcome',
+const SELECTORS = {
+    OUTCOME: 'builder_platform_interaction-outcome',
+    REORDERABLE_NAV: 'builder_platform_interaction-reorderable-vertical-navigation'
 };
 
 const decisionWithOneOutcome = {
@@ -78,7 +79,7 @@ describe('Decision Editor', () => {
             return Promise.resolve().then(() => {
                 const deleteOutcomeEvent = new DeleteOutcomeEvent('outcomeGuid');
 
-                const outcome = decisionEditor.querySelector(selectors.outcome);
+                const outcome = decisionEditor.querySelector(SELECTORS.OUTCOME);
                 outcome.dispatchEvent(deleteOutcomeEvent);
 
                 expect(decisionEditor.node).toEqual(mockNewState);
@@ -107,7 +108,7 @@ describe('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
             return Promise.resolve().then(() => {
-                const outcomeElement = decisionEditor.querySelector(selectors.outcome);
+                const outcomeElement = decisionEditor.querySelector(SELECTORS.OUTCOME);
                 expect(outcomeElement.showDelete).toBe(true);
             });
         });
@@ -115,8 +116,36 @@ describe('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
 
             return Promise.resolve().then(() => {
-                const outcomeElement = decisionEditor.querySelector(selectors.outcome);
+                const outcomeElement = decisionEditor.querySelector(SELECTORS.OUTCOME);
                 expect(outcomeElement.showDelete).toBe(false);
+            });
+        });
+    });
+
+    describe('outcome menu', () => {
+        describe('array of menu items', () => {
+            it('contains all outcomes in order', () => {
+                const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+
+                return Promise.resolve().then(() => {
+                    const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                    const menuItems = reorderableOutcomeNav.menuItems;
+
+                    expect(menuItems).toHaveLength(2);
+                    expect(menuItems[0].element).toEqual(decisionWithTwoOutcomes.outcomes[0]);
+                    expect(menuItems[1].element).toEqual(decisionWithTwoOutcomes.outcomes[1]);
+                });
+            });
+            it('outcomes are draggable', () => {
+                const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+
+                return Promise.resolve().then(() => {
+                    const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                    const menuItems = reorderableOutcomeNav.menuItems;
+
+                    expect(menuItems[0].isDraggable).toBeTruthy();
+                    expect(menuItems[1].isDraggable).toBeTruthy();
+                });
             });
         });
     });

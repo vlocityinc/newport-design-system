@@ -10,14 +10,15 @@
             <template for:each={decoratedMenuItems} for:item="item" for:index="itemIndex">
                 <li is="builder_platform_interaction-reorderable-vertical-navigation-item"
                     class={item.class}
-                    has-front-icon
+                    has-front-icon={item.isDraggable}
                     key={item.guid}
                     nav-item-id={item.guid}
                     label={item.label}
                     active-id={activeItemId}
                     title={item.label}
                     role="presentation"
-                    onitemclicked={handleItemClicked}>
+                    onitemclicked={handleItemClicked}
+                    is-draggable={item.isDraggable}>
                     <div slot='front-icon'>
                         <lightning-icon icon-name='utility:rows' size='x-small' class='slds-m-right_x-small'></lightning-icon>
                     </div>
@@ -26,7 +27,7 @@
                     </div>
                 </li>                
             </template>
-            <div class="slds-vertical-tabs__nav-item slds-p-around_small">
+            <div if:false={hideFooter} class="slds-vertical-tabs__nav-item slds-p-around_small">
                 <slot name="footer">
                     <!-- Example: -->
                     Default Item
