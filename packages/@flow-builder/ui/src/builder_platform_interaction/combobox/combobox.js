@@ -3,6 +3,7 @@ import { parseDateTime } from 'builder_platform_interaction-date-time-utils';
 import { FetchMenuDataEvent, ValueChangedEvent, FilterMatchesEvent, NewResourceEvent } from 'builder_platform_interaction-events';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expression-utils';
+import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
 
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
@@ -199,7 +200,7 @@ export default class Combobox extends Element {
         this.updateInputIcon();
 
         // set state to resource if value starts with {!, append the closing brace, and place cursor before it
-        if (this.state.value.startsWith('{!') && this.state.value.length === 2 &&
+        if (!isUndefinedOrNull(this.state.value) && this.state.value.startsWith('{!') && this.state.value.length === 2 &&
             previousValue === '{' && !this._isResourceState) {
             this._isResourceState = true;
             this.setValueAndCursor('{!}');
@@ -264,7 +265,7 @@ export default class Combobox extends Element {
             }
 
             this.fireValueChangedEvent(
-                (item && item.id) ? item.id : this.state.value,
+                (item && item.id) ? item : this.state.value,
                 this._errorMessage
             );
 
@@ -281,7 +282,7 @@ export default class Combobox extends Element {
      * Set the resource state if the value start with '{!' and ends with '}'
      */
     setResourceState() {
-        if (this.state.value.startsWith('{!') && this.state.value.endsWith('}')) {
+        if (!isUndefinedOrNull(this.state.value) && this.state.value.startsWith('{!') && this.state.value.endsWith('}')) {
             this._isResourceState = !this.isExpressionIdentifierLiteral(this.state.value, true);
         } else {
             this._isResourceState = false;
@@ -619,7 +620,7 @@ export default class Combobox extends Element {
     isExpressionIdentifierLiteral(inputValue, allowDotSuffix) {
         let value;
         let devNameRegex;
-        if (this.state.value.startsWith('{!') && this.state.value.endsWith('}')) {
+        if (!isUndefinedOrNull(this.state.value) && this.state.value.startsWith('{!') && this.state.value.endsWith('}')) {
             value = this.state.value.substring(2, this.state.value.length - 1);
         }
 

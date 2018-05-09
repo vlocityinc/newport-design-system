@@ -2,7 +2,7 @@ import { createElement } from 'engine';
 // Importing using relative path here to ensure that we get the actual component and not the mocked version
 import ExpressionBuilder from '../expression-builder.js';
 import { RowContentsChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
-import { numberVariableGuid, numberVariableDevName } from 'mock-store-data';
+import { numberVariableGuid, numberVariableDevName, elements } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 
@@ -24,11 +24,14 @@ function createMockPopulatedExpression() {
             value: 'Assign',
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-            value: numberVariableGuid,
+            value: '{!' + numberVariableDevName + '}',
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
             value: 'reference'
         },
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {
+            value: numberVariableGuid,
+        }
     };
 }
 
@@ -53,9 +56,14 @@ function getLightningCombobox(expressionBuilder) {
     return expressionBuilder.querySelector("lightning-combobox");
 }
 
-const newCBValue = numberVariableGuid;
+const CBreturnItem = {
+    id: elements[numberVariableGuid].guid,
+    value: '{!' + elements[numberVariableGuid].name + '}'
+};
 
-const ourCBChangeEvent = new ValueChangedEvent(newCBValue);
+const ourCBChangeEvent = new ValueChangedEvent(CBreturnItem);
+
+const newCBValue = numberVariableGuid;
 
 const lightningCBChangeEvent = new CustomEvent('change', {
     detail: {
@@ -132,7 +140,7 @@ describe('expression-builder', () => {
 
             return Promise.resolve().then(() => {
                 const newExpression = createMockPopulatedExpression();
-                newExpression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE] = {value: newCBValue, error: null};
+                newExpression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE] = {value: numberVariableGuid, error: null};
                 const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
                 const eventCallback = jest.fn();
@@ -165,7 +173,8 @@ describe('expression-builder', () => {
 
             return Promise.resolve().then(() => {
                 const newExpression = createMockPopulatedExpression();
-                newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = {value: newCBValue, error: null};
+                newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = {value: devNameToComboboxValue(numberVariableDevName), error: null};
+                newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID] = {value: numberVariableGuid, error: null};
                 const rhsCombobox = getComboboxElements(expressionBuilder)[1];
 
                 const eventCallback = jest.fn();

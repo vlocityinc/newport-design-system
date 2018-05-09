@@ -3,6 +3,7 @@ export const EXPRESSION_PROPERTY_TYPE = {
     OPERATOR: 'operator',
     RIGHT_HAND_SIDE: 'rightHandSide',
     RIGHT_HAND_SIDE_DATA_TYPE: 'rightHandSideDataType',
+    RIGHT_HAND_SIDE_GUID: 'rightHandSideGuid',
 };
 
 export * from './menuDataRetrieval';

@@ -1,7 +1,7 @@
 import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
-import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, retrieveRHSVal, isElementAllowed } from 'builder_platform_interaction-expression-utils';
+import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, isElementAllowed } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox, elementToParam } from 'builder_platform_interaction-rule-lib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
@@ -13,6 +13,8 @@ const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
 const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 
 const RHSDT = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
+
+const RHSG = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID;
 
 let element;
 let rules;
@@ -58,7 +60,7 @@ export default class ExpressionBuilder extends Element {
         }
         // TODO default operator case W-4912900
         if (expression[RHS]) {
-            this.state.rhsDisplay = retrieveRHSVal(expression[RHS].value);
+            this.state.rhsDisplay = expression[RHS].value;
         }
         this.state.expression = expression;
     }
@@ -138,9 +140,9 @@ export default class ExpressionBuilder extends Element {
 
     handleLHSValueChanged(event) {
         event.stopPropagation();
-        const newLHSValue = event.detail.value;
-        const expressionUpdates = {[LHS] : {value : newLHSValue, error: event.detail.error}};
-        const newLHSParam = elementToParam(getElementByGuid(newLHSValue));
+        const newLHSItem = event.detail.value;
+        const expressionUpdates = {[LHS] : {value : newLHSItem.id ? newLHSItem.id : newLHSItem, error: event.detail.error}};
+        const newLHSParam = elementToParam(getElementByGuid(newLHSItem.id));
         if (!getOperators(newLHSParam, rules).includes(this.state.expression.operator.value)) {
             expressionUpdates[OPERATOR] = this._erroredProperty;
             expressionUpdates[RHS] = this._erroredProperty;
@@ -155,9 +157,9 @@ export default class ExpressionBuilder extends Element {
         event.stopPropagation();
         const newOperator = event.detail.value;
         const expressionUpdates = {[OPERATOR]: {value: newOperator, error: null}};
-        if (this.state.expression.rightHandSide.value) {
+        if (this.state.expression.rightHandSideGuid) {
             const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, newOperator, rules);
-            const rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSide.value)));
+            const rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
             if (!rhsValid) {
                 expressionUpdates[RHS] = this._erroredProperty;
                 expressionUpdates[RHSDT] = this._erroredProperty;
@@ -170,10 +172,20 @@ export default class ExpressionBuilder extends Element {
 
     handleRHSValueChanged(event) {
         event.stopPropagation();
-        const rhsAndRHSDT = {
-            [RHS] : {value : event.detail.value, error: event.detail.error},
-            [RHSDT] : {value : FEROV_DATA_TYPE.REFERENCE, error: null},
-        };
+        let rhsAndRHSDT;
+        if (event.detail.value.id) {
+            rhsAndRHSDT = {
+                [RHS]: {value: event.detail.value.value, error: event.detail.error},
+                [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: null},
+                [RHSG]: {value: event.detail.value.id, error: null}
+            };
+        } else {
+            // TODO: not all literals are strings! dealing with literals in W-4795778
+            rhsAndRHSDT = {
+                [RHS]: {value: event.detail.value, error: event.detail.error},
+                [RHSDT]: {value: FEROV_DATA_TYPE.STRING, error: null},
+            };
+        }
         const newExpression = updateProperties(this.state.expression, rhsAndRHSDT);
         const propertyChangedEvent = new RowContentsChangedEvent(newExpression, event.detail.error);
         this.dispatchEvent(propertyChangedEvent);

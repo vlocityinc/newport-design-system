@@ -134,22 +134,6 @@ function getNewResourceItem() {
 }
 
 /**
- * Returns the combobox display value based on the unique identifier passed
- * to the RHS.
- *
- * @param {String} rhsIdentifier    used to identify RHS, could be GUID or literal
- * @returns {String}                combobox display value
- */
-export const retrieveRHSVal = (rhsIdentifier) => {
-    let rhsVal = rhsIdentifier;
-    const flowElement = getElementByGuid(rhsIdentifier);
-    if (flowElement) {
-        rhsVal = '{!' + flowElement.name + '}';
-    }
-    return rhsVal;
-};
-
-/**
  * This function handles any identifier that may be passed to the LHS,
  * such as GUIDs for flow elements, and returns what the
  * the expression builder will need to use to work with that LHS.
