@@ -1,6 +1,5 @@
 import * as ValidationRules from 'builder_platform_interaction-validation-rules';
 import { updateProperties, set } from 'builder_platform_interaction-data-mutation-lib';
-import { isPlainObject } from 'builder_platform_interaction-store-lib';
 
 /**
  * @constant defaultRules - map of propertyName to validation rules
@@ -85,24 +84,20 @@ export class Validation {
             const [key, rules] = flattenedRulesForNodeElement[i];
             if (nodeElement.hasOwnProperty(key)) { // find out if the key exists in the top level object itself
                 const nodeElementValueObject = nodeElement[key];
-                if (isPlainObject(rules)) { // if the value for the key is an object and not an array, this can happen in case of assignment items/ any list/ array
-                    nodeElement = updateProperties(nodeElement, {
-                        [key]: this.validateAll(nodeElementValueObject, rulesForTheNodeElement[key])
-                    });
-                } else if (Array.isArray(rules)) { // check needed in case of inner property rules, also this is end of recursion
+                if (Array.isArray(rules)) { // if there is an array of rules, evaluate it
                     const errorReturnedFromRule = this.runRulesOnData(rules, nodeElementValueObject.value);
                     if (errorReturnedFromRule !== null) {
                         nodeElement = updateProperties(nodeElement, {
                             [key] : { value: nodeElementValueObject.value, error: errorReturnedFromRule }
                         });
                     }
-                }
-            } else if (Array.isArray(nodeElement)) { // nodeElement is an array with objects, go in each object and look for key and validate
-                for (let j = 0, len = nodeElement.length; j < len; j++) {
-                    if (nodeElement[j].hasOwnProperty(key)) {
-                        nodeElement = set(nodeElement, [j], this.validateAll(updateProperties(nodeElement[j]), rulesForTheNodeElement));
+                // if you have a function, and the value object is an array, calling that function with each object of the array should return you the array of rules for that object
+                } else if (rules instanceof Function && Array.isArray(nodeElementValueObject)) {
+                    for (let j = 0, len = nodeElementValueObject.length; j < len; j++) {
+                        nodeElement = set(nodeElement, [key, j], this.validateAll(updateProperties(nodeElementValueObject[j]), rules(nodeElementValueObject[j])));
                     }
                 }
+                // we may need a third case here, for non-array objects within objects
             }
         }
         return nodeElement;

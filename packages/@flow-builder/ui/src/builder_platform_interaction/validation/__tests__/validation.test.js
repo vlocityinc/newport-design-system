@@ -99,12 +99,23 @@ describe('validateAll method', () => {
         expect(validation.validateAll(testObj)).toBe(testObj);
     });
     it('returns the object with errors when rules fail at various level of properties', () => {
+        // This function is to prove that we can validate RHS using the LHS value
+        const validateRHS = (condition) => {
+            return () => {
+                return 'LHS is ' + condition.leftHandSide.value;
+            };
+        };
         const additionalRules = {
-            outcomes: {
-                name: [ValidationRules.maximumCharactersLimit(10)],
-                conditions:{
-                    leftHandSide: [ValidationRules.maximumCharactersLimit(50), ValidationRules.shouldNotBeBlank]
-                }
+            outcomes: () => {
+                return {
+                    name: [ValidationRules.maximumCharactersLimit(10)],
+                    conditions: (condition) => {
+                        return {
+                            leftHandSide: [ValidationRules.maximumCharactersLimit(50), ValidationRules.shouldNotBeBlank],
+                            rightHandSide: [validateRHS(condition)],
+                        };
+                    },
+                };
             }
         };
         const testObj = {
@@ -119,6 +130,16 @@ describe('validateAll method', () => {
                     },
                     {
                         leftHandSide: {value: "valueWithNoErrors", error:null}
+                    }
+                ]
+            },
+            {
+                name: {value: "RHSError", error: null},
+                devName: {value: "mockValue", error:null},
+                conditions: [
+                    {
+                        leftHandSide: {value: "valueWithNoErrors", error: null},
+                        rightHandSide: {value: "valueWithError", error: null},
                     }
                 ]
             },
@@ -147,6 +168,16 @@ describe('validateAll method', () => {
                     },
                     {
                         leftHandSide: {value: "valueWithNoErrors", error:null}
+                    }
+                ]
+            },
+            {
+                name: {value: "RHSError", error: null},
+                devName: {value: "mockValue", error:null},
+                conditions: [
+                    {
+                        leftHandSide: {value: "valueWithNoErrors", error: null},
+                        rightHandSide: {value: "valueWithError", error: "LHS is valueWithNoErrors"},
                     }
                 ]
             },

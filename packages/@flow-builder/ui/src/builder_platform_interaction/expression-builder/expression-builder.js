@@ -136,7 +136,7 @@ export default class ExpressionBuilder extends Element {
 
     _fullRHSMenuData = [];
 
-    _erroredProperty = { value: '', error: 'This field is required' };
+    _clearedProperty = { value: '', error: null };
 
     handleLHSValueChanged(event) {
         event.stopPropagation();
@@ -144,9 +144,9 @@ export default class ExpressionBuilder extends Element {
         const expressionUpdates = {[LHS] : {value : newLHSItem.id ? newLHSItem.id : newLHSItem, error: event.detail.error}};
         const newLHSParam = elementToParam(getElementByGuid(newLHSItem.id));
         if (!getOperators(newLHSParam, rules).includes(this.state.expression.operator.value)) {
-            expressionUpdates[OPERATOR] = this._erroredProperty;
-            expressionUpdates[RHS] = this._erroredProperty;
-            expressionUpdates[RHSDT] = this._erroredProperty;
+            expressionUpdates[OPERATOR] = this._clearedProperty;
+            expressionUpdates[RHS] = this._clearedProperty;
+            expressionUpdates[RHSDT] = this._clearedProperty;
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);
         const propertyChangedEvent = new RowContentsChangedEvent(newExpression);
@@ -161,8 +161,8 @@ export default class ExpressionBuilder extends Element {
             const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, newOperator, rules);
             const rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
             if (!rhsValid) {
-                expressionUpdates[RHS] = this._erroredProperty;
-                expressionUpdates[RHSDT] = this._erroredProperty;
+                expressionUpdates[RHS] = this._clearedProperty;
+                expressionUpdates[RHSDT] = this._clearedProperty;
             }
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);

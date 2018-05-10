@@ -1,3 +1,8 @@
+import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import { getRulesForContext, getRHSTypes, elementToParam } from 'builder_platform_interaction-rule-lib';
+import { EXPRESSION_PROPERTY_TYPE, isElementAllowed } from 'builder_platform_interaction-expression-utils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+
 // TODO i18n after W-4693112
 /**
  * @param {Object} rule - object containing regex pattern and message
@@ -12,10 +17,12 @@ const evaluateRegex = (rule, value) => {
     return null;
 };
 
+const cannotBeBlankError = 'Cannot be blank.';
+
 const regexConfig = {
     shouldNotBeBlank: {
         regexPattern: '^\\s*$',
-        message: 'Cannot be blank.'
+        message: cannotBeBlankError,
     },
     shouldNotBeginOrEndWithUnderscores: {
         regexPattern: '^[_{0,}]+|_{2,}|[_{0,}]+$',
@@ -33,6 +40,22 @@ const regexConfig = {
         regexPattern: '\\W+$',
         message: 'Cannot accept any Special Characters.',
     }
+};
+
+const validateRHS = (lhs, operator, contextConfig) => {
+    // TODO: clean up when NULL is handled by the rules W-4983639
+    return () => {
+        const blankRHSParam = {
+            isCollection: null,
+            elementType: ELEMENT_TYPE.VARIABLE,
+        };
+        const rhsTypes = getRHSTypes(elementToParam(getElementByGuid(lhs)), operator, getRulesForContext(contextConfig));
+        const rhsValid = isElementAllowed(rhsTypes, blankRHSParam);
+        if (!rhsValid) {
+            return cannotBeBlankError;
+        }
+        return null;
+    };
 };
 
 export const VALIDATE_ALL = 'VALIDATE_ALL';
@@ -90,4 +113,31 @@ export const maximumCharactersLimit = (limit) => {
     };
 };
 
-/** Exported Validation Rules End **/
+/**
+ * Validates 3 part expression builder to make sure LHS and operator are not blank,
+ * and RHS is only null if it's valid.
+ *
+ * @param {Object} contextConfig   the same contextConfig that will be used to setup the expressionBuilder
+ * @returns {string|null} errorString or null
+ */
+export const validateExpressionWith3Properties = (contextConfig) => {
+    return (expression) => {
+        const rules = {
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank]
+        };
+
+        if (expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.OPERATOR] = [shouldNotBeBlank];
+            if (expression[EXPRESSION_PROPERTY_TYPE.OPERATOR].value && !expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value) {
+                rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [
+                    validateRHS(expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value,
+                        expression[EXPRESSION_PROPERTY_TYPE.OPERATOR].value, contextConfig),
+                ];
+            }
+        }
+
+        return rules;
+    };
+};
+
+    /** Exported Validation Rules End **/
