@@ -1,0 +1,13 @@
+<template> <!-- TODO: Localize all labels after W-4693112 -->
+	<div if:true={loopElement}>
+		<builder_platform_interaction-accordion>
+			<div class="slds-p-horizontal_small slds-p-top_small">
+				<builder_platform_interaction-label-description
+					label={loopElement.label} dev-name-label="Loop API Name"
+					dev-name={loopElement.name} description={loopElement.description}
+					onpropertychanged={handleEvent}>
+				</builder_platform_interaction-label-description>
+			</div>
+		</builder_platform_interaction-accordion>
+	</div>
+</template>

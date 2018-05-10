@@ -21,7 +21,8 @@ export const METADATA_KEY = {
     RECORD_CREATE: 'recordCreates',
     RECORD_LOOKUP: 'recordLookups',
     RECORD_DELETE: 'recordDeletes',
-    RECORD_UPDATE: 'recordUpdates'
+    RECORD_UPDATE: 'recordUpdates',
+    LOOPS: 'loops'
 };
 
 /**

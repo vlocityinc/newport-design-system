@@ -24,10 +24,10 @@
     -->
     <aura:dependency resource="markup://builder_platform_interaction:assignmentEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:decisionEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:loopEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:actioncallEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:recordEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:variableEditor" type="MODULE" />
- 
    
    <!-- Events -->
    <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />

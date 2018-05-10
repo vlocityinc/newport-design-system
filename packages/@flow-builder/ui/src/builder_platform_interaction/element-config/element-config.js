@@ -259,6 +259,33 @@ export const elementTypeToConfigMap = {
             outcomeReferences: []
         }
     },
+    [ELEMENT_TYPE.LOOP]: {
+        descriptor: 'builder_platform_interaction:loopEditor',
+        nodeConfig: {
+            iconName: 'standard:feed',
+            maxConnections: 1
+        },
+        modalSize: MODAL_SIZE.LARGE,
+        metadataKey: METADATA_KEY.LOOPS,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Loop',
+            plural: 'Loops'
+        },
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            defaultConnectorLabel: 'Next element',
+            elementType: ELEMENT_TYPE.LOOP,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
     [ELEMENT_TYPE.RECORD_CREATE]: {
         // TODO: recordEditor is only a place holder now.
         descriptor: 'builder_platform_interaction:recordEditor',
