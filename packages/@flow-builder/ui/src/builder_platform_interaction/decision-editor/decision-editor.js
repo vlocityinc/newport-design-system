@@ -7,6 +7,9 @@ const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome'
 };
 
+const EMPTY_OUTCOME_LABEL = '[New Outcome]';
+const EMPTY_DEFAULT_OUTCOME_LABEL = '[Default Outcome]';
+
 export default class DecisionEditor extends Element {
     @track activeOutcomeId;
     @track decisionElement;
@@ -45,17 +48,29 @@ export default class DecisionEditor extends Element {
         this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
     }
 
-    get outcomeMenuItems() {
-        return this.decisionElement.outcomes.map(outcome => {
+    get showDeleteOutcome() {
+        return this.decisionElement.outcomes.length > 1;
+    }
+
+    get outcomesWithDefaultOutcome() {
+        const outcomesWithDefaultOutcome = this.decisionElement.outcomes.map(outcome => {
             return {
                 element: outcome,
+                label: outcome.label && outcome.label.value ? outcome.label.value : EMPTY_OUTCOME_LABEL,
                 isDraggable: true
             };
         });
-    }
 
-    get showDeleteOutcome() {
-        return this.decisionElement.outcomes.length > 1;
+        // Add the default outcome
+        const defaultLabel = this.decisionElement.defaultConnectorLabel;
+
+        outcomesWithDefaultOutcome.push({
+            element: {},
+            label: defaultLabel && defaultLabel.value ? defaultLabel.value : EMPTY_DEFAULT_OUTCOME_LABEL,
+            isDraggable: false
+        });
+
+        return outcomesWithDefaultOutcome;
     }
 
     handleAddOutcome(event) {
@@ -84,6 +99,13 @@ export default class DecisionEditor extends Element {
         this.decisionElement = decisionReducer(this.decisionElement, event);
     }
 
+    handleDefaultOutcomeChangedEvent(event) {
+        event.stopPropagation();
+
+        event.propertyName = 'defaultConnectorLabel';
+        this.decisionElement = decisionReducer(this.decisionElement, event);
+    }
+
     /**
      * Handles deletion and sets focus to the first outcome
      * @param {object} event - deleteOutcomeEvent
@@ -107,5 +129,10 @@ export default class DecisionEditor extends Element {
     handleOutcomeSelected(event) {
         event.stopPropagation();
         this.activeOutcomeId = event.detail.itemId;
+    }
+
+    handleDefaultOutcomeClicked(event) {
+        event.stopPropagation();
+        this.activeOutcomeId = null;
     }
 }

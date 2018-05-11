@@ -124,16 +124,22 @@ describe('Decision Editor', () => {
 
     describe('outcome menu', () => {
         describe('array of menu items', () => {
-            it('contains all outcomes in order', () => {
+            it('contains all outcomes in order plus default at end', () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
                 return Promise.resolve().then(() => {
                     const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
                     const menuItems = reorderableOutcomeNav.menuItems;
 
-                    expect(menuItems).toHaveLength(2);
+                    // menu includes the default
+                    expect(menuItems).toHaveLength(3);
                     expect(menuItems[0].element).toEqual(decisionWithTwoOutcomes.outcomes[0]);
                     expect(menuItems[1].element).toEqual(decisionWithTwoOutcomes.outcomes[1]);
+                    expect(menuItems[2]).toEqual({
+                        element: {},
+                        label: '[Default Outcome]',
+                        isDraggable: false
+                    });
                 });
             });
             it('outcomes are draggable', () => {
@@ -145,6 +151,16 @@ describe('Decision Editor', () => {
 
                     expect(menuItems[0].isDraggable).toBeTruthy();
                     expect(menuItems[1].isDraggable).toBeTruthy();
+                });
+            });
+            it('default outcome is not draggable', () => {
+                const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+
+                return Promise.resolve().then(() => {
+                    const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                    const menuItems = reorderableOutcomeNav.menuItems;
+
+                    expect(menuItems[2].isDraggable).toBeFalsy();
                 });
             });
         });

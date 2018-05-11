@@ -13,27 +13,41 @@
                 <!-- TODO after W-4693112: Label instead of hardcoded "Outcome Order". Note: if string is long the + button goes to next line -->
                 <builder_platform_interaction-reorderable-vertical-navigation
                         class="slds-theme_shade"
-                        menu-items={outcomeMenuItems}
+                        menu-items={outcomesWithDefaultOutcome}
                         active-item-id={activeOutcomeId}
                         onitemselected={handleOutcomeSelected}
-                        default-label="[New Outcome]"
-                        onreorderlist={handleReorderOutcomes}>
+                        onreorderlist={handleReorderOutcomes}
+                        hide-footer=true>
                     <div slot="header">
                         Outcome Order
                         <lightning-helptext class="slds-p-left_xx-small" content="Outcomes are evaluated in the order in which they appear. Only the first matching outcome executes."></lightning-helptext>
                         <lightning-button-icon icon-name="utility:add" variant="border-filled" class="slds-p-left_xx-small"  onclick={handleAddOutcome} title="Add Outcome"></lightning-button-icon>
                     </div>
-    
-                    <div slot="footer">Default Outcome</div> <!-- TODO: Localize label after W-4693112 -->
+                    <div slot="footer"></div>
                 </builder_platform_interaction-reorderable-vertical-navigation>
                 <div class="slds-vertical-tabs__content slds-show" role="tabpanel">
-                    <builder_platform_interaction-outcome outcome={activeOutcome}
+                    <builder_platform_interaction-outcome if:true={activeOutcomeId}
+                                                          outcome={activeOutcome}
                                                           show-delete={showDeleteOutcome}
                                                           ondeleteoutcome={handleDeleteOutcome}
                                                           onaddcondition={handleEvent}
                                                           ondeletecondition={handleEvent}
                                                           onupdatecondition={handleEvent}
                                                           onpropertychanged={handleEvent}></builder_platform_interaction-outcome>
+                    <div if:false={activeOutcomeId}>
+                        <div class="slds-grid slds-m-bottom_x-small">
+                            <h3 class="slds-text-title_caps">
+                                <span class="slds-truncate">Outcome Details</span>
+                            </h3>
+                        </div>
+                        <builder_platform_interaction-label-description
+                                dev-name-label="Name"
+                                dev-name={decisionElement.defaultConnectorLabel}
+                                onpropertychanged={handleDefaultOutcomeChangedEvent}
+                                hide-label=true
+                                hide-description=true>
+                        </builder_platform_interaction-label-description>
+                    </div>
                 </div>
             </div>
         </builder_platform_interaction-accordion>

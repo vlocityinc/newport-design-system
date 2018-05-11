@@ -33,10 +33,10 @@ export default class ReorderableVerticalNavigation extends Element {
 
     get decoratedMenuItems() {
         return this.menuItems.map((menuItem) => {
-            const {element, isDraggable} = menuItem;
+            const {element, label, isDraggable} = menuItem;
             return {
                 guid: element.guid,
-                label: element.label.value !== '' ? element.label.value : this.defaultLabel,
+                label: label !== '' ? label : this.defaultLabel,
                 class: this.isItemActive(element.guid) ? CLASS_ACTIVE : CLASS_INACTIVE,
                 isDraggable
             };
