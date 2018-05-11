@@ -3,7 +3,7 @@ import LeftPanelResources from 'builder_platform_interaction-left-panel-resource
 
 const selectors = {
     root: '.left-panel-resources',
-    addnewresource: '.left-panel-add-resource'
+    addnewresource: '.test-left-panel-add-resource',
 };
 
 const createComponentUnderTest = () => {

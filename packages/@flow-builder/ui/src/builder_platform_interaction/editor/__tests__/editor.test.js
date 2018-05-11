@@ -35,7 +35,7 @@ const createComponentUnderTest = (props) => {
 const selectors = {
     root: '.editor',
     save: '.toolbar-save',
-    addnewresource: '.left-panel-add-resource'
+    addnewresource: '.test-left-panel-add-resource'
 };
 
 jest.mock('builder_platform_interaction-store-lib', () => {

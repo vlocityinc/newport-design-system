@@ -1,14 +1,15 @@
 <template>
-    <th class="slds-tree__item" scope="row">
+    <th class="slds-tree__item slds-p-left_none slds-m-left_medium" scope="row">
         <lightning-icon if:true={hasIcon} icon-name={iconName} size={iconSize} alternative-text={label} class="slds-m-right_x-small drag-element"></lightning-icon>
         <div class="slds-truncate" title={label}>
             <!--
             NOTE: Links are draggable by default. We avoid some undesirable behavior such as
             dragging "javascript:void(0);" when we set draggable to false.
              -->
-            <a href="javascript:void(0);" title={description} onclick={handleLinkClick} tabindex="-1" draggable="false">{label}</a>
+            <a title={description} onclick={handleLinkClick} tabindex="-1" draggable="false">{label}</a>
         </div>
     </th>
     <td class="slds-cell-shrink" role="gridcell">
+        <lightning-button-icon class="slds-hidden detail-button" icon-name="utility:chevronright" variant="bare" alternative-text="Detail" onclick={handleResourceDetails}></lightning-button-icon>
     </td>
 </template>

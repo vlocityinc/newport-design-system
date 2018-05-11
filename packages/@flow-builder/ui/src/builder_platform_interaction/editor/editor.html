@@ -1,27 +1,33 @@
 ﻿<template>
-    <div class="editor slds-grid slds-grid_frame slds-grid_vertical">
-        <!--Header-->
-        <builder_platform_interaction-header flow-name={appState.properties.label} flow-version={appState.properties.versionNumber} back-url={backUrl} help-url={helpUrl}></builder_platform_interaction-header>
-
-        <!--Toolbar-->
-        <builder_platform_interaction-toolbar onsave={handleSaveFlow}></builder_platform_interaction-toolbar>
-
-        <!--Editor-->
-        <div class="editor-body slds-grid slds-grow">
-
-            <!--Left Panel-->
-            <div class="slds-col slds-size_1-of-5 slds-border_right">
-                <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement}></builder_platform_interaction-left-panel>
+    <div class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
+        <div class="slds-col slds-grow-none slds-builder-header_container slds-is-relative">
+            <builder_platform_interaction-header flow-name={appState.properties.label} flow-version={appState.properties.versionNumber} back-url={backUrl} help-url={helpUrl}></builder_platform_interaction-header>
+            <builder_platform_interaction-toolbar onsave={handleSaveFlow}></builder_platform_interaction-toolbar>
+        </div>
+        <div class="slds-col slds-grow slds-grid">
+            <div if:true={leftPanelView} class="slds-col slds-panel slds-size_medium slds-border_right" aria-hidden="false">
+                <div class="slds-panel__header">
+                    <h2 class="slds-panel__header-title slds-text-heading_small">Flow Tools</h2>
+                </div>
+                <div class="slds-panel__body slds-p-around_x-small">
+                    <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement}></builder_platform_interaction-left-panel>
+                </div>
             </div>
-
-            <!--Canvas-->
-            <div class="slds-col slds-size_4-of-5">
-                <builder_platform_interaction-canvas
-                        nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}
-                        oncanvasmouseup={handleElementDeselection} oneditelement={handleEditElement} onnodeselected={handleNodeSelection}
-                        ondragnodestop={handleDragNodeStop} ondeleteoncanvas={handleDeleteOnCanvas}
-                        onaddconnection={handleAddConnection} onconnectorselected={handleConnectorSelection}
-                        onaddelement={handleAddElement}>
+            <div if:true={ResourceView} class="slds-col slds-panel slds-size_medium slds-border_right" aria-hidden="false">
+                <div class="slds-panel__header">
+                    <h2 class="slds-panel__header-title slds-text-heading_small">Resource Details</h2>
+                    <!--<lightning-button-icon variant="inverse" size="x-small" icon-name="utility:flow" class="slds-col test-flow-utility-icon"></lightning-button-icon>-->
+                    <lightning-button variant="inverse" icon-name='utility:back' title='Navigate Back to Left Panel' class="slds-button" onclick={returnBack}></lightning-button>
+                </div>
+                <div class="slds-panel__body slds-p-around_x-small">
+                    <h3> Resource Details TBD </h3>
+                </div>
+            </div>
+             <div class="slds-col">
+                <builder_platform_interaction-canvas nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}
+                    oncanvasmouseup={handleElementDeselection} oneditelement={handleEditElement} onnodeselected={handleNodeSelection}
+                    ondragnodestop={handleDragNodeStop} ondeleteoncanvas={handleDeleteOnCanvas}
+                    onaddconnection={handleAddConnection} onconnectorselected={handleConnectorSelection} onaddelement={handleAddElement}>
                 </builder_platform_interaction-canvas>
             </div>
         </div>
