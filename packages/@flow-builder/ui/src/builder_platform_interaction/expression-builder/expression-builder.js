@@ -58,9 +58,15 @@ export default class ExpressionBuilder extends Element {
         if (expression[LHS] && expression[LHS].value) {
             this.state.normalizedLHS = normalizeLHS(expression[LHS].value);
         }
+        if (expression[OPERATOR]) {
+            this.setOperatorErrorMessage(expression[OPERATOR].error);
+        }
         // TODO default operator case W-4912900
         if (expression[RHS]) {
             this.state.rhsDisplay = expression[RHS].value;
+            const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, expression[OPERATOR].value, rules);
+            this._fullRHSMenuData = getElementsForMenuData({element}, rhsTypes, true);
+            this.state.rhsMenuData = this._fullRHSMenuData;
         }
         this.state.expression = expression;
     }
@@ -99,13 +105,7 @@ export default class ExpressionBuilder extends Element {
     }
 
     get rhsMenuData() {
-        let rhsMenuData;
-        if (this.state.normalizedLHS.display && this.state.expression[OPERATOR]) {
-            const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, this.state.expression[OPERATOR].value, rules);
-            this._fullRHSMenuData = getElementsForMenuData({element}, rhsTypes, true);
-            rhsMenuData = this._fullRHSMenuData;
-        }
-        return rhsMenuData;
+        return this.state.rhsMenuData;
     }
 
     /**
@@ -222,5 +222,12 @@ export default class ExpressionBuilder extends Element {
         }
         this._fullLHSMenuData = this.state.lhsMenuData = menuData;
     }
-    // TODO: validation
+
+    setOperatorErrorMessage(errorMessage) {
+        const lightningCombobox = this.root.querySelector('.operator');
+        if (lightningCombobox) {
+            lightningCombobox.setCustomValidity(errorMessage);
+            lightningCombobox.showHelpMessageIfInvalid();
+        }
+    }
 }
