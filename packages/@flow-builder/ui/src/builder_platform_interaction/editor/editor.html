@@ -5,22 +5,12 @@
             <builder_platform_interaction-toolbar onsave={handleSaveFlow}></builder_platform_interaction-toolbar>
         </div>
         <div class="slds-col slds-grow slds-grid">
-            <div if:true={leftPanelView} class="slds-col slds-panel slds-size_medium slds-border_right" aria-hidden="false">
+            <div class="slds-col slds-panel slds-size_medium slds-border_right" aria-hidden="false">
                 <div class="slds-panel__header">
                     <h2 class="slds-panel__header-title slds-text-heading_small">Flow Tools</h2>
                 </div>
                 <div class="slds-panel__body slds-p-around_x-small">
                     <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement}></builder_platform_interaction-left-panel>
-                </div>
-            </div>
-            <div if:true={ResourceView} class="slds-col slds-panel slds-size_medium slds-border_right" aria-hidden="false">
-                <div class="slds-panel__header">
-                    <h2 class="slds-panel__header-title slds-text-heading_small">Resource Details</h2>
-                    <!--<lightning-button-icon variant="inverse" size="x-small" icon-name="utility:flow" class="slds-col test-flow-utility-icon"></lightning-button-icon>-->
-                    <lightning-button variant="inverse" icon-name='utility:back' title='Navigate Back to Left Panel' class="slds-button" onclick={returnBack}></lightning-button>
-                </div>
-                <div class="slds-panel__body slds-p-around_x-small">
-                    <h3> Resource Details TBD </h3>
                 </div>
             </div>
              <div class="slds-col">

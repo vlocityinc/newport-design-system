@@ -1,5 +1,5 @@
 import { Element, api, track } from 'engine';
-import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction-events';
+import { EditElementEvent } from 'builder_platform_interaction-events';
 import { resourcesSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
 
@@ -48,17 +48,6 @@ export default class LeftPanel extends Element {
 
     handleTabChange(event) {
         this.activetabid = event.detail.tabId;
-    }
-
-    handleElementClicked(event) {
-        const elementType = event.detail.elementType;
-
-        // TODO: Better default location.
-        const locationX = 0;
-        const locationY = 0;
-
-        const addElementEvent = new AddElementEvent(elementType, locationX, locationY);
-        this.dispatchEvent(addElementEvent);
     }
 
     handleResourceClicked(event) {
