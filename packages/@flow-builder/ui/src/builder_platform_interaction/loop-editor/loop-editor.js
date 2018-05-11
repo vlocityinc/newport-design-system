@@ -1,7 +1,10 @@
 import { Element, api, track, unwrap } from 'engine';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { loopReducer } from './loop-reducer';
+import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 
-export default class DecisionEditor extends Element {
+export default class LoopEditor extends Element {
     /**
      * internal state for the loop editor
      */
@@ -30,11 +33,21 @@ export default class DecisionEditor extends Element {
     }
 
     /**
+     * public api function to run the rules from assignment validation library
+     * @returns {object} list of errors
+     */
+    @api validate() {
+        const event = { type: VALIDATE_ALL };
+        this.loopElement = loopReducer(this.loopElement, event);
+        return getErrorsFromHydratedElement(this.loopElement);
+    }
+
+    /**
      * @param {object} event - property changed event coming from label-description component
      */
     handleEvent(event) {
         event.stopPropagation();
-        // TODO : this.loopElement = loopReducer(this.loopElement, event);
+        this.loopElement = loopReducer(this.loopElement, event);
     }
 }
 
