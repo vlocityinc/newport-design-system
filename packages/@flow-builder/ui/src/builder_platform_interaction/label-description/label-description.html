@@ -8,7 +8,7 @@
                              required
                              message-when-value-missing={showErrorMessageIfBlank}
                              class="slds-col slds-size_1-of-2 label"></lightning-input>
-            <lightning-input type="text" label={devNameLabel}
+            <lightning-input if:false={hideDevName} type="text" label={devNameLabel}
                              onfocusout={handleDevNameFocusOut}
                              value={devName.value}
                              required

@@ -29,6 +29,9 @@ export default class LabelDescription extends Element {
     // and https://www.polymer-project.org/2.0/docs/devguide/properties#configuring-boolean-properties
 
     @api
+    hideDevName;
+
+    @api
     hideDescription;
 
     @api
@@ -174,7 +177,9 @@ export default class LabelDescription extends Element {
         }
 
         this.updateStateAndDispatch(newLabel, 'label');
-        if (newLabel !== '' && !this.state.devName.value) {
+
+        // Update devName if it is present and blank
+        if (newLabel !== '' && !this.hideDevName && !this.state.devName.value) {
             if (newLabel.match(/^\W+$/)) {
                 newLabel = 'UniqueName';
             }

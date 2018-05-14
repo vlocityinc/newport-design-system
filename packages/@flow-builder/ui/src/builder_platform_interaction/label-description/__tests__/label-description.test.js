@@ -145,8 +145,8 @@ describe('label-description', () => {
             });
         });
 
-        describe('when a special character is entered & on focus out', () => {
-            it('the DevName field should pre-populate with "UniqueName" text', () => {
+        describe('dev name population on label focus out', () => {
+            it('when DevName present, the DevName field should pre-populate with "UniqueName" text', () => {
                 const newValue = ':)';
 
                 const labelDescription = createComponentUnderTest();
@@ -163,6 +163,26 @@ describe('label-description', () => {
                     expect(eventCallback).toHaveBeenCalled();
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'label', value: newValue});
                     expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: 'UniqueName'});
+                });
+            });
+
+            it('when DevName not present, the DevName field does not update', () => {
+                const newValue = ':)';
+
+                const labelDescription = createComponentUnderTest();
+                labelDescription.hideDevName = true;
+
+                return Promise.resolve().then(() => {
+                    const labelLightningInput = labelDescription.querySelector(selectors.label);
+
+                    const eventCallback = jest.fn();
+                    labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.dispatchEvent(focusoutEvent);
+
+                    expect(eventCallback).toHaveBeenCalledTimes(1);
+                    expect(eventCallback.mock.calls[0][0]).not.toMatchObject({propertyName: 'name'});
                 });
             });
         });
@@ -209,6 +229,17 @@ describe('label-description', () => {
             return Promise.resolve().then(() => {
                 const devNameLightningInput = labelDescription.querySelector(selectors.devName);
                 expect(devNameLightningInput.className).toBe('slds-col devName');
+            });
+        });
+
+        it('is not included when hideDevName = true', () => {
+            const labelDescription = createComponentUnderTest();
+            labelDescription.hideDevName = true;
+
+            return Promise.resolve().then(() => {
+                const devNameLightningInput = labelDescription.querySelector(selectors.devName);
+
+                expect(devNameLightningInput).toBeNull();
             });
         });
 
