@@ -3,15 +3,15 @@
 
     <builder_platform_interaction-accordion>
         <builder_platform_interaction-accordion-section>
-            <div slot='accordion-header'>Select Reference to Call</div>   
+            <div slot='accordion-header'>{labels.selectReferenceSectionHeader}</div>   
             <div slot='accordion-body'>
                 <builder_platform_interaction-action-selector selected-action={selectedAction} onvaluechanged={handleActionSelected}></builder_platform_interaction-action-selector>
             </div>
         </builder_platform_interaction-accordion-section>
         <builder_platform_interaction-accordion-section>   
-            <div slot='accordion-header'>Details</div>
+            <div slot='accordion-header'>{labels.detailsSectionHeader}</div>
             <div slot='accordion-body'>
-                <div class='slds-m-bottom--x-small'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</div>
+                <div class='slds-m-bottom--x-small'>{labels.detailsSectionDescription}</div>
                 <!-- Name Label Desc Component -->
                 <builder_platform_interaction-label-description label={label} 
                                                                       dev-name={devName} 
@@ -24,8 +24,8 @@
 
     <builder_platform_interaction-tabset ontabchange={handleTabChanged}>
         <!-- Tab items go into the unnamed slot. -->
-        <builder_platform_interaction-tabitem tabid="tabitem-inputs" label={labels.inputs} controls="tabcontent-inputs" activeid={activetabid}></builder_platform_interaction-tabitem>
-        <builder_platform_interaction-tabitem tabid="tabitem-outputs" label={labels.outputs} controls="tabcontent-outputs" activeid={activetabid}></builder_platform_interaction-tabitem>
+        <builder_platform_interaction-tabitem tabid="tabitem-inputs" label={labels.inputTabHeader} controls="tabcontent-inputs" activeid={activetabid}></builder_platform_interaction-tabitem>
+        <builder_platform_interaction-tabitem tabid="tabitem-outputs" label={labels.outputTabHeader} controls="tabcontent-outputs" activeid={activetabid}></builder_platform_interaction-tabitem>
         
         <div slot="contents">
             <builder_platform_interaction-tabcontent contentid="tabcontent-inputs" labelledby="tabitem-inputs" activeid={activetabid}>

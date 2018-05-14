@@ -1,10 +1,9 @@
 import { Element, api, track, unwrap } from 'engine';
 import { actionCallReducer } from './actioncall-reducer';
-import inputs from '@label/DesignerLabels.actioncall_inputs_label';
-import outputs from '@label/DesignerLabels.actioncall_outputs_label';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
+import { LABELS } from './actioncall-editor-labels';
 
 const ACTIVETABID_DEFAULT = "tabitem-inputs";
 
@@ -18,10 +17,7 @@ export default class ActionCallEditor extends Element {
     @track inputs = [];
     @track outputs = [];
 
-    labels = {
-        inputs,
-        outputs
-    };
+    labels = LABELS;
 
     stopCallbackExecutionGetParameters = null;
 

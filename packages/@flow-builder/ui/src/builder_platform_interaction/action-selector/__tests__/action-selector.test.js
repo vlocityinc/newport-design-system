@@ -51,20 +51,22 @@ describe('Action selector', () => {
     });
     it('does not display action types without action instances', () => {
         // No elements for "Email Alert"
-        expect(lightningCombobox.options.map(option => option.label)).toEqual(["Action", "Apex", "Apex Plugin", "Subflow"]);
+        expect(lightningCombobox.options.map(option => option.label)).toEqual(['FlowBuilderActionCallEditor.actionTypeOption',
+            'FlowBuilderActionCallEditor.apexTypeOption', 'FlowBuilderActionCallEditor.apexPluginTypeOption',
+            'FlowBuilderActionCallEditor.subflowTypeOption']);
     });
     describe('By default', () => {
         test('"Action" should be the selected Action type', () => {
             expect(lightningCombobox.value).toBe(ELEMENT_TYPE.ACTION_CALL);
         });
         test('Combobox should contain all ACTION_CALL items', () => {
-            expect(groupedCombobox.items[0].items.map(item => item.text)).toEqual(["Post to Chatter", "Send Email"]);
+            expect(groupedCombobox.items[0].items.map(item => item.text)).toEqual(['Post to Chatter', 'Send Email']);
         });
         test('Combobox placeholder should be : Find an Action...', () => {
-            expect(groupedCombobox.placeholder).toBe("Find an Action...");
+            expect(groupedCombobox.placeholder).toBe('FlowBuilderActionCallEditor.actionComboboxPlaceholder');
         });
         test('Combobox Label should be : Referenced Action', () => {
-            expect(groupedCombobox.label).toBe("Referenced Action");
+            expect(groupedCombobox.label).toBe('FlowBuilderActionCallEditor.actionComboboxLabel');
         });
     });
     describe('When action type changes', () => {
@@ -73,7 +75,7 @@ describe('Action selector', () => {
             lightningCombobox.dispatchEvent(lightningCBChangeEventForApex);
             return Promise.resolve().then(() => {
                 expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_CALL);
-                expect(groupedCombobox.items[0].items.map(item => item.text)).toEqual(["Apex1", "Apex2", "Apex3"]);
+                expect(groupedCombobox.items[0].items.map(item => item.text)).toEqual(['Apex1', 'Apex2', 'Apex3']);
             });
         });
         it('should update the Action combobox placeholder', () => {
@@ -81,7 +83,7 @@ describe('Action selector', () => {
             lightningCombobox.dispatchEvent(lightningCBChangeEventForApex);
             return Promise.resolve().then(() => {
                 expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_CALL);
-                expect(groupedCombobox.placeholder).toBe("Find an Apex Class...");
+                expect(groupedCombobox.placeholder).toBe('FlowBuilderActionCallEditor.apexComboboxPlaceholder');
             });
         });
         it('should update the combobox label', () => {
@@ -89,7 +91,7 @@ describe('Action selector', () => {
             lightningCombobox.dispatchEvent(lightningCBChangeEventForApex);
             return Promise.resolve().then(() => {
                 expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_CALL);
-                expect(groupedCombobox.label).toBe("Referenced Apex");
+                expect(groupedCombobox.label).toBe('FlowBuilderActionCallEditor.apexComboboxLabel');
             });
         });
         it('should display no value for the Action combobox', async () => {
@@ -112,11 +114,11 @@ describe('Action selector', () => {
             document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
             interactionCombobox.dispatchEvent(new ValueChangedEvent('emailSimple-emailSimple'));
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail.value).toMatchObject({actionName: "emailSimple", actionType: "emailSimple"});
+            expect(eventCallback.mock.calls[0][0].detail.value).toMatchObject({actionName: 'emailSimple', actionType: 'emailSimple'});
         });
         it('api should return the selected element', () => {
             interactionCombobox.dispatchEvent(new ValueChangedEvent('emailSimple-emailSimple'));
-            expect(actionSelectorComponent.selectedAction).toMatchObject({actionName: "emailSimple", actionType: "emailSimple"});
+            expect(actionSelectorComponent.selectedAction).toMatchObject({actionName: 'emailSimple', actionType: 'emailSimple'});
         });
     });
     describe('When selecting an element type using the api', () => {

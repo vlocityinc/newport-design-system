@@ -42,7 +42,7 @@ describe('When error occurs when retrieving data from server', () => {
         lightningCombobox = actionSelectorComponent.querySelector(selectors.lightningCombobox);
     });
     test('Error should be displayed', () => {
-        expect(lightningCombobox.setCustomValidity).toHaveBeenCalledWith("Could not get invocable actions");
+        expect(lightningCombobox.setCustomValidity).toHaveBeenCalledWith('FlowBuilderActionCallEditor.retrieveInvocableActionsError');
         expect(lightningCombobox.showHelpMessageIfInvalid).toHaveBeenCalled();
     });
 });

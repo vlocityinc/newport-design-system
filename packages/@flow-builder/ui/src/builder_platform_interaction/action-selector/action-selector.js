@@ -3,45 +3,10 @@ import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { ACTION_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
+import { LABELS } from './action-selector-labels';
 
 const SELECTORS = {
     TYPES: '.types',
-};
-
-const LABELS = {
-    CANNOT_GET_INVOCABLE_ACTIONS: 'Could not get invocable actions',
-    CANNOT_GET_APEX_PLUGINS: 'Could not get apex plugins',
-    CANNOT_GET_SUBFLOWS: 'Could not get subflows',
-    [ELEMENT_TYPE.ACTION_CALL] : {
-        TYPE_OPTION_LABEL : 'Action',
-        ACTION_COMBO_LABEL : 'Referenced Action',
-        ACTION_COMBO_PLACEHOLDER : 'Find an Action...'
-    },
-    [ELEMENT_TYPE.APEX_PLUGIN_CALL] : {
-        TYPE_OPTION_LABEL : 'Apex Plugin',
-        ACTION_COMBO_LABEL : 'Referenced Apex Plugin',
-        ACTION_COMBO_PLACEHOLDER : 'Find an Apex Plugin...'
-    },
-    [ELEMENT_TYPE.APEX_CALL] : {
-        TYPE_OPTION_LABEL : 'Apex',
-        ACTION_COMBO_LABEL : 'Referenced Apex',
-        ACTION_COMBO_PLACEHOLDER : 'Find an Apex Class...'
-    },
-    [ELEMENT_TYPE.EMAIL_ALERT] : {
-        TYPE_OPTION_LABEL : 'Email Alert',
-        ACTION_COMBO_LABEL : 'Referenced Email Alert',
-        ACTION_COMBO_PLACEHOLDER : 'Find an Email Alert...'
-    },
-    [ELEMENT_TYPE.LOCAL_ACTION_CALL] : {
-        TYPE_OPTION_LABEL : 'Local Action',
-        ACTION_COMBO_LABEL : 'Referenced Local Action',
-        ACTION_COMBO_PLACEHOLDER : 'Find a Local Action...'
-    },
-    [ELEMENT_TYPE.SUBFLOW] : {
-        TYPE_OPTION_LABEL : 'Subflow',
-        ACTION_COMBO_LABEL : 'Referenced Subflow',
-        ACTION_COMBO_PLACEHOLDER : 'Find Subflow...'
-    }
 };
 
 export default class ActionSelector extends Element {
