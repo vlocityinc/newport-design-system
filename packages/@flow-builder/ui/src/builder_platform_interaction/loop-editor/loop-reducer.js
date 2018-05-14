@@ -9,10 +9,14 @@ const loopPropertyChanged = (state, event) => {
 };
 
 /**
+ * @typedef {type:String, payload: {propertyName: String, value: String, error: String} Event
+ */
+
+/**
  * Loop reducer function runs validation rules and returns back the updated element Loop
- * @param {object} state - element / Loop node
- * @param {object} event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
- * @returns {object} Loop - updated Loop
+ * @param {Object} state - element / Loop node
+ * @param {Event} event - object containing type and payload
+ * @returns {Object} Loop - updated Loop
  */
 export const loopReducer = (state, event) => {
     switch (event.type) {
