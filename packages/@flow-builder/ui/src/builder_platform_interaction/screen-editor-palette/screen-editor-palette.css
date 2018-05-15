@@ -1,0 +1,11 @@
+.screen-palette-container {
+    height: 100%;
+}    
+
+.slds-panel__header {
+    padding-left: var(--lwc-spacingSmall);    
+}
+
+.slds-panel {
+    border-radius: 0;    
+}

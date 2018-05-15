@@ -1,0 +1,16 @@
+.screen-properties-editor-container-container {
+    height: 100%;
+}
+
+.slds-panel__header {
+    padding-left: .75rem;
+    padding-right: .75rem;
+}
+
+.slds-panel {
+    border-radius: 0;    
+}
+
+.toggle-animated {
+    transition: 0.4s width ease-in-out;
+}

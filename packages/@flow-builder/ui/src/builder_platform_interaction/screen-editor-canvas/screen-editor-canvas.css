@@ -1,0 +1,8 @@
+.screen-editor-canvas-container {
+    height: 100%;    
+}
+
+.screen-editor-canvas-content {
+    min-width: var(--lwc-sizeMedium);
+    max-height: 100%;
+}

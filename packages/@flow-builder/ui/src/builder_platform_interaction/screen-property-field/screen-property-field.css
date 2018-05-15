@@ -1,0 +1,63 @@
+/* TODO: change to use tokens and slds classes - W-4947239 */
+.container {
+    margin: 5px 0px;
+    overflow: hidden;
+}
+
+.required {
+    float: left;
+    padding-right: 2px;
+    color: rgb(194, 57, 52);
+    font-weight: 700;
+}
+
+.label {
+    font-size: .75rem;
+    color: rgb(112, 110, 107);
+    line-height: 1.5;
+    margin-bottom: .25rem;
+    display: inline-block;
+}
+
+.property-input {
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+}
+
+.input {
+    color: rgb(62, 62, 60);
+    border: 1px solid rgb(221, 219, 218);
+    border-radius: .25rem;
+    display: inline-block;
+    padding: 0 1rem 0 .75rem;
+}
+
+.input-text {
+    min-height: 1.875rem;
+    line-height: 1.875rem;
+}
+
+.input-text-area {
+}
+
+.has-error {
+    font-size: .75rem;
+    margin-top: .5rem;
+    color: rgb(194, 57, 52);
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.prop-visible {
+    transition: max-height 0.5s;
+    max-height: 100rem;
+    padding: 5px;
+}
+
+.prop-invisible {
+    transition: max-height 0.5s;    
+    max-height: 0;
+    margin-top: 0;    
+    margin-bottom: 0;
+}

@@ -1,0 +1,7 @@
+.screen-editor-container {
+    height: calc(100vh - 300px); /* TD Remove W-4738595 / W-4986347 */ 
+}
+
+.canvas-container {
+    background-color:var(--lwc-colorGray4);
+}

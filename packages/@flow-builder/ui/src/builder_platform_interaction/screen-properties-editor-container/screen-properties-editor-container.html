@@ -1,0 +1,18 @@
+<template>
+    <div class='screen-properties-editor-container-container slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-grid slds-grid_vertical' aria-hidden='false' >
+        <div class='slds-panel__header slds-shrink-none -slds-border_bottom-none slds-grid'>
+            <div class='slds-grow'>
+                <h2 class='slds-panel__header-title slds-text-heading_small'>
+                    <span if:true={isScreen}>{screenLabel}</span>
+                    <span if:false={isScreen}><a onclick={handleScreenSelection}>{screenLabel}</a> > {node.type.label}</span>
+                </h2>
+            </div>
+            <div><lightning-icon icon-name={toggleIconName} size='xx-small' variant='default' onclick={handleToggleExpand}></lightning-icon></div>
+        </div>
+        <div class='slds-panel__body slds-scrollable_y slds-p-around_none slds-grid slds-grid_vertical slds-grow'>
+            <builder_platform_interaction-screen-properties-editor class='properties-editor-panel slds-size_medium -slds-m-horizontal_small toggle-animated' 
+                                                                   element={node}>
+            </builder_platform_interaction-screen-properties-editor>
+        </div>
+    </div>
+</template>

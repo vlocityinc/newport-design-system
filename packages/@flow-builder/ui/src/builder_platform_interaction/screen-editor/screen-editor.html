@@ -1,0 +1,22 @@
+<template>
+    <div class='slds-grid screen-editor-container'>
+        <div class='slds-size_small slds-grow-none slds-shrink-none'>        
+            <builder_platform_interaction-screen-editor-palette onpaletteitemclicked={handleAddScreenField}>
+            </builder_platform_interaction-screen-editor-palette>
+        </div>
+        <div class='canvas-container slds-grow slds-shrink slds-grid slds-grid_vertical slds-scrollable'>
+            <builder_platform_interaction-screen-editor-canvas screen={screen} 
+                                                               onaddscreenfield={handleAddScreenField} 
+                                                               onscreenelementselected={handleSelectScreenElement}
+                                                               onscreenelementdeselected={handleSelectScreenElement}
+                                                               onscreenelementdeleted={handleDeleteScreenElement} >
+            </builder_platform_interaction-screen-editor-canvas>
+        </div>
+        <div class='slds-grow-none slds-shrink-none'>
+            <builder_platform_interaction-screen-properties-editor-container node={selectedNode} 
+                                                                             onscreenselected={handleScreenElementDeselected} 
+                                                                             onpropertyvaluechanged={handlePropertyValueChanged}>
+            </builder_platform_interaction-screen-properties-editor-container>
+        </div>
+    </div>   
+</template>

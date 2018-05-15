@@ -1,0 +1,58 @@
+.highlight.selected, .highlight:hover {
+    margin-top: -1.5rem;
+}
+
+.highlight.selected .highlight-header-title, .highlight.selected .highlight-icons-container {
+    background-color: var(--lwc-colorBrandDarker);
+    box-shadow: var(--lwc-shadowFocusInset);
+}
+
+.highlight.selected .highlight-frame {
+    border-color: var(--lwc-colorBrandDarker);
+}
+
+.highlight.selected .highlight-header, .highlight:hover .highlight-header {
+    visibility: visible;
+    height: var(--lwc-varSpacingVerticalLarge);    
+}
+
+.highlight.selected .highlight-frame, .highlight:hover .highlight-frame {
+    border-style: solid;
+}
+
+.highlight.selected .highlight-icons-container, .highlight:hover .highlight-icons-container {
+    visibility: visible;
+}
+
+.highlight-header {
+    visibility: hidden;
+}
+
+.highlight-header-title {
+    line-height: var(--lwc-varSpacingVerticalLarge);
+    background-color: var(--lwc-colorBrandDark);
+    border-radius: var(--lwc-borderRadiusMedium) var(--lwc-borderRadiusMedium) 0 0;
+    color: var(--lwc-colorTextBrandPrimary);
+}
+
+.highlight-frame {
+    height: 100%;
+    border: var(--lwc-borderWidthThick) hidden var(--lwc-colorBrandDark);
+}
+
+.highlight-icons-container {
+    visibility: hidden;
+    right: 0;
+    top: 0;
+    
+    transform: scale(.55); /* waiting for Owen to file a TD */
+    transform-origin: top right;
+    background-color: var(--lwc-colorBrandDark);
+    padding-left: .1rem;
+}
+
+.highlight-icon-container {
+    width: 1.8rem;
+    height: 1.8rem;
+    transform: scale(.75); /* waiting for Owen to file a TD */
+}

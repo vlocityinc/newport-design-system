@@ -1,0 +1,20 @@
+<template>
+    <div class={classlist}>
+        <span if:true={property.required} class='required'>*</span>
+        <label class='label' for={property.name}>
+            <span>{property.label}</span>
+        </label>    
+
+        <input if:true={isString} class='property-input input input-text' name={property.name} type='text' value={propertyValue} readonly={property.readOnly} oninput={handleChange} onblur={handleBlur}></input>
+        <input if:true={isNumber} class='property-input input input-text' name={property.name} type='text' value={propertyValue} oninput={handleChange} onblur={handleBlur}></input>
+        <input if:true={isBoolean} class='property-input input input-check-box' name={property.name} type='checkbox' checked={propertyValue} onchange={handleChange} onblur={handleBlur}></input>
+        <lightning-textarea if:true={isLongString} class='property-input input-text-area' value={propertyValue} onchange={handleChange} onblur={handleBlur}></lightning-textarea>
+        <lightning-input-rich-text if:true={isRichString} class='property-input input-text-area' value={propertyValue} formats={formats} onchange={handleChange} onblur={handleBlur}></lightning-input-rich-text>
+
+        <ul if:true={errors} class='has-error'>
+            <template for:each={errors} for:item='error'>
+                <li key={error}>{error}</li>
+            </template>
+        </ul>
+    </div>
+</template>

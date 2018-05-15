@@ -1,0 +1,11 @@
+<template>
+    <div>
+        <div if:true={isExtension} class='screen-field-card'>
+            <builder_platform_interaction-extension-screen-field screenfield={screenfield}></builder_platform_interaction-extension-screen-field>
+        </div>
+        
+        <div if:false={isExtension} class='screen-field-card screen-field-standard slds-grid'>
+            <span if:true={hasName} class='slds-p-horizontal_small'><b>{screenfield.fieldText}</b>: {screenfield.defaultValue}</span>
+        </div>    
+    </div>
+</template>

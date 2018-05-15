@@ -229,6 +229,34 @@ export const elementTypeToConfigMap = {
             name: ''
         }
     },
+
+    [ELEMENT_TYPE.SCREEN]: {
+        descriptor: 'builder_platform_interaction:screenEditor',
+        nodeConfig: {
+            iconName: 'standard:template',
+            maxConnections: 1
+        },
+        modalSize: MODAL_SIZE.LARGE,
+        metadataKey: METADATA_KEY.SCREENS,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Screen',
+            plural: 'Screens'
+        },
+        canvasElement: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            elementType: ELEMENT_TYPE.SCREEN,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: ''
+        }
+    },
+
     [ELEMENT_TYPE.DECISION]: {
         descriptor: 'builder_platform_interaction:decisionEditor',
         nodeConfig: {
