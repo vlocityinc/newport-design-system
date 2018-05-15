@@ -25,7 +25,6 @@ describe('decision-reducer', () => {
                 error: null
             };
             const resultObj = loopReducer(originalState, event);
-            expect(resultObj).toBeDefined();
             expect(resultObj.label.value).toEqual('newlabel');
             expect(resultObj.label.error).toBe(null);
             expect(resultObj).not.toBe(originalState);
@@ -38,7 +37,6 @@ describe('decision-reducer', () => {
                 error: 'errorFromChildComponent'
             };
             const resultObj = loopReducer(originalState, event);
-            expect(resultObj).toBeDefined();
             expect(resultObj.label.value).toEqual('label');
             expect(resultObj.label.error).toBe('errorFromChildComponent');
             expect(resultObj).not.toBe(originalState);
@@ -51,7 +49,6 @@ describe('decision-reducer', () => {
                 error: null
             };
             const resultObj = loopReducer(originalState, event);
-            expect(resultObj).toBeDefined();
             expect(resultObj).toBe(originalState);
         });
     });
