@@ -86,7 +86,8 @@ describe('Decision Editor', () => {
             });
         });
 
-        // TODO: Figure out rendering issue (outcome is not being re-rendered) due to slots
+        // TODO: W-4972558
+        // Figure out rendering issue (outcome is not being re-rendered) due to slots
         // it('sets the first outcome as active', () => {
         //     const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
         //
