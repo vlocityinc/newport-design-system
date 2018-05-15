@@ -26,4 +26,9 @@ export default class PaletteItem extends Element {
         const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);
         this.dispatchEvent(paletteItemClickedEvent);
     }
+
+    @api
+    get iconElement() {
+        return this.template.querySelector('lightning-icon.drag-element');
+    }
 }

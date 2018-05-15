@@ -246,9 +246,9 @@ export default class Palette extends Element {
         // TODO: The drag image should be a large version of the element icon.
         // TODO: The setDragImage function is not supported in IE11, we'll need to create our own
         // polyfill since the Raptor team doesn't plan on creating one in the near future.
-        const dragElement = referenceElement.querySelector('lightning-icon.drag-element');
+        const dragElement = referenceElement.iconElement;
         event.dataTransfer.setData('text', item.elementType);
-        if (event.dataTransfer.setDragImage) {
+        if (event.dataTransfer.setDragImage && dragElement) {
             event.dataTransfer.setDragImage(dragElement, 0, 0);
         }
         event.dataTransfer.effectAllowed = 'copy';
