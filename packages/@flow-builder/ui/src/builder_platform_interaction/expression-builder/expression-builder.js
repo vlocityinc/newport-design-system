@@ -224,7 +224,7 @@ export default class ExpressionBuilder extends Element {
     }
 
     setOperatorErrorMessage(errorMessage) {
-        const lightningCombobox = this.root.querySelector('.operator');
+        const lightningCombobox = this.template.querySelector('.operator');
         if (lightningCombobox) {
             lightningCombobox.setCustomValidity(errorMessage);
             lightningCombobox.showHelpMessageIfInvalid();

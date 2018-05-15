@@ -51,7 +51,7 @@ export default class ActionSelector extends Element {
 
     renderedCallback() {
         if (this.state.errorMessage) {
-            const typeCombo = this.root.querySelector(SELECTORS.TYPES);
+            const typeCombo = this.template.querySelector(SELECTORS.TYPES);
             typeCombo.setCustomValidity(this.state.errorMessage);
             typeCombo.showHelpMessageIfInvalid();
         }

@@ -509,8 +509,8 @@ export default class Canvas extends Element {
 
     renderedCallback() {
         if (!this.jsPlumbContainer) {
-            this.canvasArea = this.root.querySelector('#canvas');
-            this.innerCanvasArea = this.root.querySelector('#innerCanvas');
+            this.canvasArea = this.template.querySelector('#canvas');
+            this.innerCanvasArea = this.template.querySelector('#innerCanvas');
             lib.setContainer('innerCanvas');
             this.jsPlumbContainer = true;
         }

@@ -54,7 +54,7 @@ export default class Outcome extends Element {
 
     /** Focus the label field of the label description component */
     @api focus() {
-        const labelDescription = this.root.querySelector(SELECTORS.LABEL_DESCRIPTION);
+        const labelDescription = this.template.querySelector(SELECTORS.LABEL_DESCRIPTION);
         labelDescription.focus();
     }
 

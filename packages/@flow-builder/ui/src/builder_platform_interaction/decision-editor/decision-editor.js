@@ -82,7 +82,7 @@ export default class DecisionEditor extends Element {
         this.activeOutcomeId = outcomes[outcomes.length - 1].guid;
 
         // Focus on the newly selected outcome ( focused the name/label field )
-        const outcome = this.root.querySelector(SELECTORS.OUTCOME);
+        const outcome = this.template.querySelector(SELECTORS.OUTCOME);
         // TODO: correctly set focus even if the outcome component is not currently present
         // See: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000054X60IAE/view
         if (outcome) {

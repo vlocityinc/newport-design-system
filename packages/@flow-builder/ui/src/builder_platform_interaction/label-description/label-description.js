@@ -56,7 +56,7 @@ export default class LabelDescription extends Element {
     @api
     set label(label) {
         this.state.label = label;
-        const labelInput = this.root.querySelector(SELECTORS.LABEL);
+        const labelInput = this.template.querySelector(SELECTORS.LABEL);
         this.setInputErrorMessage(labelInput, this.state.label.error);
     }
 
@@ -64,7 +64,7 @@ export default class LabelDescription extends Element {
     @api
     set devName(devName) {
         this.state.devName = devName;
-        const devNameInput = this.root.querySelector(SELECTORS.DEV_NAME);
+        const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
         this.setInputErrorMessage(devNameInput, this.state.devName.error);
     }
 
@@ -77,18 +77,18 @@ export default class LabelDescription extends Element {
 
     /** Focus the label field */
     @api focus() {
-        const labelInput = this.root.querySelector(SELECTORS.LABEL);
+        const labelInput = this.template.querySelector(SELECTORS.LABEL);
         labelInput.focus();
     }
 
     /** LWC hook after rendering every component we are setting all errors via setCustomValidity except initial rendering. **/
     renderedCallback() {
         if (this.state.label.value !== '') {
-            const labelInput = this.root.querySelector(SELECTORS.LABEL);
+            const labelInput = this.template.querySelector(SELECTORS.LABEL);
             this.setInputErrorMessage(labelInput, this.state.label.error);
         }
         if (this.state.devName.value !== '') {
-            const devNameInput = this.root.querySelector(SELECTORS.DEV_NAME);
+            const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
             this.setInputErrorMessage(devNameInput, this.state.devName.error);
         }
         // TODO setting Render Callback CustomValidity for Description: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view

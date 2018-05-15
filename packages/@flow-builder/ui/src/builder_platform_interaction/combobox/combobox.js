@@ -390,7 +390,7 @@ export default class Combobox extends Element {
      * @param {String} hasNextLevel whether or not the selected item has a next level
      */
     setValueAndCursor(value, hasNextLevel) {
-        const combobox = this.root.querySelector(SELECTORS.GROUPED_COMBOBOX);
+        const combobox = this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
         const input = combobox.getElementsByTagName('input')[0];
 
         // Add a period to the end if selected value has a next level
@@ -468,7 +468,7 @@ export default class Combobox extends Element {
      * @returns {Object} the grouped combobox element.
      */
     getGroupedCombobox() {
-        return this.root.querySelector(SELECTORS.GROUPED_COMBOBOX);
+        return this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
     }
 
     /** *********************************/
