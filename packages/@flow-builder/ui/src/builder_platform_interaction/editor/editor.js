@@ -35,9 +35,10 @@ export default class Editor extends Element {
         properties: {}
     };
 
-    @track backUrl
+    @track backUrl;
 
-    @track helpUrl
+    @track helpUrl;
+
 
     constructor() {
         super();
@@ -45,9 +46,9 @@ export default class Editor extends Element {
         storeInstance = Store.getStore(reducer);
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
         // TODO: Move these server calls after getting the Flow
-        fetch(SERVER_ACTION_TYPE.GET_RULES, this.getRulesCallback);
-        fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' });
         fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
+        fetch(SERVER_ACTION_TYPE.GET_RULES, this.getRulesCallback);
+        fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' }, {background: true});
     }
 
     @api

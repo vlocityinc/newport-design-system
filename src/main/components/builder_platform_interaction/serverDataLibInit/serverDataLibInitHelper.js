@@ -4,7 +4,7 @@
      * @param cmp
      */
     initializeFetch: function(cmp) {
-        var auraFetch = $A.getCallback(function(actionName, shouldExecuteCallback, callback, params, storable) {
+        var auraFetch = $A.getCallback(function(actionName, shouldExecuteCallback, callback, params, background, storable) {
             if (actionName && callback) {
                 var action = cmp.get(actionName);
                 if (params) {
@@ -12,6 +12,9 @@
                 }
                 if (storable) {
                     action.setStorable();
+                }
+                if (background) {
+                    action.setBackground();
                 }
                 action.setCallback(this, function (result) {
                     var executeCallback = shouldExecuteCallback();
