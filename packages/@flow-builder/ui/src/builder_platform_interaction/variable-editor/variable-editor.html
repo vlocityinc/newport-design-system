@@ -32,6 +32,12 @@
                 >
             </lightning-input>
         </div>
-        
+        <!-- TODO: Add field-level-help={externalAccessHelpText} once W-4972926 is fixed. Tracking bug W-4981924 -->
+        <lightning-checkbox-group label='Allow External Access'
+                                  value={externalAccessValue}
+                                  options={externalAccessOptions}
+                                  onchange={handleExternalAccessPropertyChanged}
+                                  onblur={handleExternalAccessOnBlur}>
+        </lightning-checkbox-group>
     </div>
 </template>

@@ -23,3 +23,4 @@ export { AddElementEvent } from './element-events/add-element-event';
 export { EditElementEvent } from './element-events/edit-element-event';
 export { PaletteItemClickedEvent } from './palette-events/palette-item-clicked-event';
 export { PaletteSectionToggleEvent } from './palette-events/palette-section-toggle-event';
+export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';
