@@ -134,7 +134,7 @@ describe('dehydrate function', () => {
 describe('getErrorsFromHydratedElement function', () => {
     it('should recursively include all errors for element values including arrays', () => {
         const errorsList = getErrorsFromHydratedElement(testObjectForGetErrorsFromHydratedElementFunction);
-        expect(errorsList.length).toBe(2);
+        expect(errorsList).toHaveLength(2);
         expect(errorsList[0].key).toBe("leftHandSide");
         expect(errorsList[1].key).toBe("label");
         expect(errorsList[0].errorString).toBe("Test Error1");
@@ -143,13 +143,13 @@ describe('getErrorsFromHydratedElement function', () => {
     it('should include all errors passed in via errorList argument', () => {
         const testItem = {name:"Test Error3"};
         const errorsList = getErrorsFromHydratedElement(testObjectForGetErrorsFromHydratedElementFunction, [testItem]);
-        expect(errorsList.length).toBe(3);
+        expect(errorsList).toHaveLength(3);
         expect(errorsList).toContain(testItem);
     });
     it('should return an empty list if element contains no values with errors', () => {
         const errorsList = getErrorsFromHydratedElement(hydratedObject);
         expect(errorsList).toBeDefined();
-        expect(errorsList.length).toBe(0);
+        expect(errorsList).toHaveLength(0);
     });
 });
 
