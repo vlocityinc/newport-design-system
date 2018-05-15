@@ -2,36 +2,40 @@
     <table class="slds-table slds-tree slds-table_tree" role="treegrid" aria-readonly="true">
         <tbody>
             <template for:each={rows} for:item="row" for:index="rowIndex">
-                <!-- Section Header -->
-                <tr if:true={row.isSection} is="builder_platform_interaction-palette-section"
-                    key={row.key}
-                    aria-expanded={row.expanded}
-                    aria-level={row.level}
-                    aria-posinset={row.posinset}
-                    aria-setsize={row.setsize}
-                    class="slds-hint-parent"
-                    section-key={row.key}
-                    label={row.label}
-                    expanded={row.expanded}
-                    onpalettesectiontoggle={handleToggleSection}>
-                </tr>
-                <!-- Item -->
-                <tr if:false={row.isSection} is="builder_platform_interaction-palette-item"
-                    draggable={itemsDraggable}
-                    key={row.key}
-                    data-key={row.key}
-                    aria-level={row.level}
-                    aria-posinset={row.posinset}
-                    aria-setsize={row.setsize}
-                    class="slds-hint-parent palette-item"
-                    description={row.description}
-                    element-type={row.elementType}
-                    guid={row.key}
-                    icon-name={row.iconName}
-                    icon-size={iconSize}
-                    label={row.label}
-                    ondragstart={handleDragStart}>
-                </tr>
+                <template if:true={row.visible}>
+                    <!-- Section Header -->                               
+                    <tr if:true={row.isSection} is="builder_platform_interaction-palette-section"
+                        key={row.key}
+                        aria-expanded={row.expanded}
+                        aria-level={row.level}
+                        aria-posinset={row.posinset}
+                        aria-setsize={row.setsize}
+                        class="slds-hint-parent"
+                        section-key={row.key}
+                        label={row.label}
+                        show-item-count={showSectionItemCount}
+                        item-count={row.visibleItems}
+                        expanded={row.expanded}
+                        onpalettesectiontoggle={handleToggleSection}>
+                    </tr>
+                    <!-- Item -->
+                    <tr if:false={row.isSection} is="builder_platform_interaction-palette-item"
+                        draggable={itemsDraggable}
+                        key={row.key}
+                        data-key={row.key}
+                        aria-level={row.level}
+                        aria-posinset={row.posinset}
+                        aria-setsize={row.setsize}
+                        class="slds-hint-parent palette-item"
+                        description={row.description}
+                        element-type={row.elementType}
+                        guid={row.key}
+                        icon-name={row.iconName}
+                        icon-size={iconSize}
+                        label={row.label}
+                        ondragstart={handleDragStart}>
+                    </tr>
+                </template>
             </template>
         </tbody>
     </table>

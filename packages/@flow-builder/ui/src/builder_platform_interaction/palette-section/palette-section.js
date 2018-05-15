@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { Element, api, track } from 'engine';
 import { PaletteSectionToggleEvent } from 'builder_platform_interaction-events';
 
 /**
@@ -11,6 +11,23 @@ export default class PaletteSection extends Element {
     @api sectionKey;
     @api label;
     @api expanded;
+    @api itemCount;
+
+    @track showCount = false;
+
+    @api
+    get showItemCount() {
+        return this.showCount;
+    }
+
+    @api
+    set showItemCount(value) {
+        this.showCount = value === 'true';
+    }
+
+    get fullLabel() {
+        return (this.showCount) ? this.label + ' (' + this.itemCount + ')' : this.label;
+    }
 
     get toggleAlternativeText() {
         // TODO: Might not be good for i18n.

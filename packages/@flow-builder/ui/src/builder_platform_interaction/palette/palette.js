@@ -8,6 +8,7 @@ import { Element, api, track } from 'engine';
  */
 export default class Palette extends Element {
     @api iconSize;
+    @api showSectionItemCount;
 
     @api
     get data() {
@@ -33,8 +34,34 @@ export default class Palette extends Element {
         this.draggableItems = value === 'true';
     }
 
+    @api
+    filter(pattern) {
+        const lPattern = (pattern && pattern.toLowerCase()) || '';
+        let currentSection = null;
+
+        for (const row of this.rows) {
+            if (row.isSection) {
+                if (currentSection) {
+                    currentSection.visible = currentSection.visibleItems > 0;
+                }
+                currentSection = row;
+                currentSection.visibleItems = 0;
+            } else if (!pattern || row.label.toLowerCase().indexOf(lPattern) > -1) {
+                row.visible = true;
+                currentSection.visibleItems += 1;
+            } else {
+                row.visible = false;
+            }
+        }
+
+        if (currentSection) {
+            currentSection.visible = currentSection.visibleItems > 0;
+        }
+    }
+
     @track rows = [];
     @track draggableItems = false;
+    @track showItemCount = false;
 
     original = [];
     collapsedSections = {};
@@ -115,7 +142,9 @@ export default class Palette extends Element {
             posinset,
             setsize,
             label: section.label,
-            expanded
+            expanded,
+            visible: section._children && section._children.length > 0,
+            visibleItems: (section._children && section._children.length) || 0
         };
         rows.push(row);
 
@@ -153,7 +182,8 @@ export default class Palette extends Element {
             label: item.label,
             description,
             elementType: item.elementType,
-            iconName: item.iconName
+            iconName: item.iconName,
+            visible: true
         };
         return row;
     }

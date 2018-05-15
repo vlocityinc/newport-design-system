@@ -51,7 +51,7 @@ export default class ScreenPalette extends Element {
     }
 
     handleSearch() {
-        // this.root.querySelector('builder_platform_interaction-palette').filter(this.root.querySelector('#filter-input').value);
+        this.root.querySelector('builder_platform_interaction-palette').filter(this.root.querySelector('#filter-input').value);
     }
 
     handleClearSearch() {
