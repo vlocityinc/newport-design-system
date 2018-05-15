@@ -48,6 +48,13 @@ const getFieldsForEntityCallback = (data, entityName, callback) => {
     callback(fields);
 };
 
+export const ENTITY_TYPE = {
+    CREATABLE: 'CREATABLE',
+    QUERYABLE: 'QUERYABLE',
+    UPDATABLE: 'UPDATABLE',
+    DELETABLE: 'DELETABLE',
+};
+
 /**
  * Set the SObject Variables in the flow. This should be called at the very beginning of the flow
  * @param {String} entities - String object of all SObjects

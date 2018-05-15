@@ -3,8 +3,79 @@ import {writableElementsSelector, readableElementsSelector} from "builder_platfo
 import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import * as sobjectLib from 'builder_platform_interaction-sobject-lib';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
+
+const COMBOBOX_ITEM_DISPLAY_TYPE = {
+    OPTION_CARD: 'option-card',
+    OPTION_INLINE: 'option-inline'
+};
+
+const RESOURCE_PICKER_MODE = {
+    FEROV_MODE: 'ferov',
+    ENTITY_MODE: 'entity',
+};
+
+/**
+ * An object that represents one option in the combobox menu dropdown
+ * @typedef {Object} MenuItem
+ * @property {String} type  the type of menu data display type ex: option-inline
+ * @property {String} text  the text that will be displayed by the combobox (can be highlighted)
+ * @property {String} subtext the subtext that will displayed below the text
+ * @property {String} displayText   the value displayed in the input field when this menu item is selected
+ * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
+ * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
+ * @property {String} id the id of the combobox TODO: this will be removed in another CL)
+ */
+
+/**
+ * Create one menu item
+ * @param {String} type the type of the menu item
+ * @param {String} text the text of the menu item
+ * @param {String} subtext  the subtext of the menu item
+ * @param {String} displayText the display text of the menu item
+ * @param {String} iconName the icon of the menu item
+ * @param {String} value the value of the menu item
+ * @param {String} id the id of the menu items TODO: this will be removed
+ * @returns {MenuItem}  the generated menu item
+ */
+const createMenuItem = (type, text, subtext, displayText, iconName, value, id) => {
+    return {
+        type,
+        text,
+        subtext,
+        displayText,
+        iconName,
+        value,
+        id,
+    };
+};
+
+/**
+ * An object that contains a list of menu items with an optional header
+ * @typedef {Object} GroupedMenuItems
+ * @property {String} label    an optional header/category for the list of items that will be displayed
+ * @property {MenuItem[]} items    list of menu items in order that they will be displayed
+ */
+
+/**
+ * Create a GroupedMenuItems object
+ * @param {MenuItem[]} menuItems   a list of menu items you want included in the menu data
+ * @param {String} label            the label for the menu data
+ * @returns {GroupedMenuItems}           an object representing GroupedMenuItems
+ */
+const createGroupedMenuItems = (menuItems, label) => {
+    return {
+        label,
+        items: menuItems,
+    };
+};
+
+/**
+ * The menu data that will be displayed in a flow combobox, it contains a list of GroupedMenuItems
+ * @typedef {GroupedMenuItems[]} MenuData
+ */
 
 /**
  * Determines category for display. Eventually will use the label service
@@ -94,6 +165,29 @@ function elementMatchesRule(allowedParamTypes, element) {
 }
 
 /**
+ * Creates a new array of combobx menu data from an existing array of entities taken from the service
+ * @param {Array} entities the array of entities that you want to mutate into comboobx shape
+ * @returns {MenuData} combobox menu data for the given entities
+ */
+const mutateEntitiesToComboboxShape = (entities) => {
+    const items = entities.map(entity => {
+        return createMenuItem(
+            COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
+            entity.entityLabel,
+            undefined,
+            entity.entityLabel,
+            undefined,
+            entity.apiName,
+            entity.apiName, // TODO: remove this once combobox changes are in
+        );
+    });
+    const groupedMenuItems = createGroupedMenuItems(items);
+    return [groupedMenuItems];
+};
+
+export { RESOURCE_PICKER_MODE };
+
+/**
  * Takes in a map of allowed rules in the shape
  *     {
  *         [dataType or elementType] : {rule params pertaining to that dataType or elementType}
@@ -109,11 +203,6 @@ export function isElementAllowed(allowedParamTypes, element) {
         || (allowedParamTypes.hasOwnProperty(element.elementType) && elementMatchesRule(allowedParamTypes[element.elementType], element))
         || (allowedParamTypes.hasOwnProperty(element.objectType) && elementMatchesRule(allowedParamTypes[element.objectType], element));
 }
-
-export const COMBOBOX_ITEM_DISPLAY_TYPE = {
-    OPTION_CARD: 'option-card',
-    OPTION_INLINE: 'option-inline'
-};
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
 
@@ -167,6 +256,7 @@ function getSelector({element, shouldBeWritable}) {
         case ELEMENT_TYPE.ASSIGNMENT:
         case ELEMENT_TYPE.EMAIL_ALERT:
         case ELEMENT_TYPE.SUBFLOW:
+        case ELEMENT_TYPE.VARIABLE:
             return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         case ELEMENT_TYPE.DECISION:
             return readableElementsSelector;
@@ -203,6 +293,32 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     return menuData;
 }
 
+/**
+ * Retrieves combobox menu data for the given entity type
+ * @param {String} entityType   The entity type that we want in our menu data (ex: queryable, updatable etc)
+ * @returns {MenuData}             Combobox menu data with our entities
+ */
+export const getEntitiesMenuData = (entityType) => {
+    let entities;
+    switch (entityType) {
+        case sobjectLib.ENTITY_TYPE.QUERYABLE:
+            entities = sobjectLib.getQueryableEntities();
+            break;
+        case sobjectLib.ENTITY_TYPE.CREATABLE:
+            entities = sobjectLib.getCreateableEntities();
+            break;
+        case sobjectLib.ENTITY_TYPE.DELETABLE:
+            entities = sobjectLib.getDeletableEntities();
+            break;
+        case sobjectLib.ENTITY_TYPE.UPDATABLE:
+            entities = sobjectLib.getUpdateableEntities();
+            break;
+        default:
+            entities = sobjectLib.getAllEntities();
+            break;
+    }
+    return mutateEntitiesToComboboxShape(entities);
+};
 
 /**
  * Filters list of fields based on allowed types and returns them in combobox-friendly shape
