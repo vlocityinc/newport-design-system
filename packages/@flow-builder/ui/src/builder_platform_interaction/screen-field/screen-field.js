@@ -6,10 +6,6 @@ import { Element, api } from 'engine';
 export default class ScreenField extends Element {
     @api screenfield;
 
-    get isExtension() {
-        return this.screenfield.type.fieldType === 'ComponentInstance';
-    }
-
     get icon() {
         return this.screenfield.icon;
     }
@@ -19,7 +15,19 @@ export default class ScreenField extends Element {
         return name !== undefined && name !== null && name !== '';
     }
 
-    get name() {
-        return this.screenfield.name;
+    get isExtension() {
+        return this.screenfield.type.fieldType === 'ComponentInstance';
+    }
+
+    get isInputFieldType() {
+        return this.screenfield.type.fieldType === 'InputField';
+    }
+
+    get isTextAreaType() {
+        return this.screenfield.type.name === 'LargeTextArea';
+    }
+
+    get isDisplayTextType() {
+        return this.screenfield.type.fieldType === 'DisplayText';
     }
 }

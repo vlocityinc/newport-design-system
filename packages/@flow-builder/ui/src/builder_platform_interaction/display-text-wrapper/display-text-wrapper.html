@@ -1,0 +1,14 @@
+<!--
+ Wrapper for display text fields, used for the purpose of screen builder canvas preview only
+ -->
+<template>
+    
+    <lightning-formatted-text if:false={isDisplayRichTextType}
+                              title={name} 
+                              value={value}>
+    </lightning-formatted-text>
+    <lightning-formatted-rich-text if:true={isDisplayRichTextType}
+                                   title={name} 
+                                   value={value}>
+    </lightning-formatted-rich-text>
+</template>

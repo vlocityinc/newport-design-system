@@ -8,6 +8,7 @@ import {
     I18N_KEY_SCREEN_FIELD_TYPE_LABEL_NUMBER,
     I18N_KEY_SCREEN_FIELD_TYPE_LABEL_CURRENCY,
     I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATE,
+    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATETIME,
     I18N_KEY_SCREEN_FIELD_TYPE_LABEL_PASSWORD,
     I18N_KEY_SCREEN_FIELD_TYPE_LABEL_CHECKBOX,
     // I18N_KEY_SCREEN_FIELD_TYPE_LABEL_RADIO_BUTTONS,
@@ -82,6 +83,14 @@ const screenFieldTypes = [
         template: textScreenFieldTemplate, /* Change when all templates are available */
         category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
     }, {
+        name: 'DateTime',
+        fieldType: 'InputField',
+        dataType: 'DateTime',
+        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATETIME),
+        icon: 'utility:event',
+        template: textScreenFieldTemplate, /* Change when all templates are available */
+        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
+    }, {
         name: 'Password',
         fieldType: 'PasswordField',
         dataType: undefined,
@@ -114,7 +123,7 @@ const screenFieldTypes = [
         template: displayTextScreenFieldTemplate,
         category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_DISPLAY)
     }, {
-        name: 'DisplayText',
+        name: 'DisplayRichText',
         fieldType: 'DisplayText',
         dataType: undefined,
         label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DISPLAY_RICH_TEXT),
@@ -142,26 +151,27 @@ export function createEmptyNodeOfType(type) {
         isRequired: false,
         helpText: null,
         defaultValue: {
-            dateValue: null,
-            stringValue: null,
-            dateTimeValue: null,
+            dateValue: '',
+            stringValue: '',
+            dateTimeValue: '',
             booleanValue: false,
-            numberValue :null,
-            elementReference: null,
+            numberValue :'',
+            elementReference: '',
             inputValue: {
-                converterName: null,
-                label: null,
-                value: null
+                converterName: '',
+                label: '',
+                value: ''
             }
         },
         dataType: type.dataType,
         name: 'New ' + type.name + ' screen field',
-        choiceReferences: null,
-        defaultSelectedChoiceReference: null,
+        choiceReferences: '',
+        defaultSelectedChoiceReference: '',
         fieldType: type.fieldType,
-        inputParameters: null,
-        fieldText: null,
-        outputParameters: null
+        inputParameters: [],
+        fieldText: '',
+        label: ' ',
+        outputParameters: []
     };
 }
 

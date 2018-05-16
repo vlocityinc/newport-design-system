@@ -22,8 +22,9 @@
                 <div class='slds-card__body slds-p-horizontal_x-small'>
                     <template for:each={screen.fields} for:item='field'>
                         <div class='slds-p-top_x-small' key={field.guid}>
-                            <builder_platform_interaction-screen-editor-highlight screen-element={field} prevent-events='true' display-move-icon='true' title={field.type.label}>
-                                <builder_platform_interaction-screen-field slot='screen-element' screenfield={field} class='slds-grow'></builder_platform_interaction-screen-field>                         
+                            <builder_platform_interaction-screen-editor-highlight screen-element={field} prevent-events='true' display-move-icon='true' title={field.fieldType}>
+                                <!-- field preview -->
+                                <builder_platform_interaction-screen-field slot='screen-element' screenfield={field} class='slds-grow'></builder_platform_interaction-screen-field> 
                             </builder_platform_interaction-screen-editor-highlight>
                         </div>                        
                     </template>

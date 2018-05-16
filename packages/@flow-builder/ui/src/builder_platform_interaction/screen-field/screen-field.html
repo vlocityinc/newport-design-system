@@ -1,11 +1,28 @@
 <template>
     <div>
-        <div if:true={isExtension} class='screen-field-card'>
-            <builder_platform_interaction-extension-screen-field screenfield={screenfield}></builder_platform_interaction-extension-screen-field>
+        <div>
+            <builder_platform_interaction-extension-screen-field if:true={isExtension} 
+                                                                 screenfield={screenfield}
+                                                                 class='screen-field-card'>
+            </builder_platform_interaction-extension-screen-field>
+            <builder_platform_interaction-input-wrapper if:true={isInputFieldType} 
+                                                        type-name={screenfield.type.name} 
+                                                        label={screenfield.fieldText}
+                                                        key={screenfield.key}
+                                                        value={screenfield.defaultValue}
+                                                        required={screenfield.isRequired}>
+            </builder_platform_interaction-input-wrapper>
+            <builder_platform_interaction-display-text-wrapper if:true={isDisplayTextType}
+                                                               type-name={screenfield.type.name}
+                                                               title={screenfield.name}
+                                                               value={fieldText}
+                                                               key={screenfield.key}>
+            </builder_platform_interaction-display-text-wrapper>
+            <builder_platform_interaction-textarea-wrapper if:true={isTextAreaType}
+                                                           label={screenfield.fieldText}
+                                                           key={screenfield.key}
+                                                           required={screenfield.isRequired}>
+            </builder_platform_interaction-textarea-wrapper>
         </div>
-        
-        <div if:false={isExtension} class='screen-field-card screen-field-standard slds-grid'>
-            <span if:true={hasName} class='slds-p-horizontal_small'><b>{screenfield.fieldText}</b>: {screenfield.defaultValue}</span>
-        </div>    
     </div>
 </template>

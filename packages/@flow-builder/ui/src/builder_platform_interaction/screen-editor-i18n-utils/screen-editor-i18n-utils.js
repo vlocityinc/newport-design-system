@@ -24,6 +24,7 @@ export const I18N_KEY_SCREEN_FIELD_TYPE_LABEL_LARGE_TEXT_AREA = 'screen.field.ty
 export const I18N_KEY_SCREEN_FIELD_TYPE_LABEL_NUMBER = 'screen.field.type.label.number';
 export const I18N_KEY_SCREEN_FIELD_TYPE_LABEL_CURRENCY = 'screen.field.type.label.currency';
 export const I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATE = 'screen.field.type.label.date';
+export const I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATETIME = 'screen.field.type.label.datetime';
 export const I18N_KEY_SCREEN_FIELD_TYPE_LABEL_PASSWORD = 'screen.field.type.label.password';
 export const I18N_KEY_SCREEN_FIELD_TYPE_LABEL_CHECKBOX = 'screen.field.type.label.checkbox';
 export const I18N_KEY_SCREEN_FIELD_TYPE_LABEL_RADIO_BUTTONS = 'screen.field.type.label.radio.buttons';
@@ -56,6 +57,7 @@ function buildStrings() {
     strs[I18N_KEY_SCREEN_FIELD_TYPE_LABEL_NUMBER] = 'Number';
     strs[I18N_KEY_SCREEN_FIELD_TYPE_LABEL_CURRENCY] = 'Currency';
     strs[I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATE] = 'Date';
+    strs[I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATETIME] = 'DateTime';
     strs[I18N_KEY_SCREEN_FIELD_TYPE_LABEL_PASSWORD] = 'Password';
     strs[I18N_KEY_SCREEN_FIELD_TYPE_LABEL_CHECKBOX] = 'Checkbox';
     strs[I18N_KEY_SCREEN_FIELD_TYPE_LABEL_RADIO_BUTTONS] = 'Radio Buttons';
