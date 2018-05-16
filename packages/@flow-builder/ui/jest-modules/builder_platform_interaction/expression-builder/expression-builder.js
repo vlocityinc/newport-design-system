@@ -5,7 +5,7 @@ export default class ExpressionBuilder extends Element {
     elementType;
 
     @api
-    showoperator;
+    showOperator;
 
     @api
     expression;
@@ -27,5 +27,7 @@ export default class ExpressionBuilder extends Element {
 
     @api
     rhsMenuData;
+
+    @api configuration;
 }
 
