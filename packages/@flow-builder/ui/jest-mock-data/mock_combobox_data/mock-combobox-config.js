@@ -1,28 +1,25 @@
-export const comboboxConfig = {
+export const comboboxInitialConfig = {
     menuData: [
         {
             label: 'SObject Variables',
             items: [
                 {
-                    type: 'option-card',
-                    text: 'FirstName',
+                    text: 'MyAccount',
+                    subText: 'Account',
+                    value: 'VAR1',
+                    displayText: '{!MyAccount}',
+                    hasNext: true,
                     iconName: 'standard:account',
-                    subText: 'First Name',
-                    value: 'MyAccount.FirstName'
+                    type: 'option-card',
                 },
                 {
+                    text: 'MyContact',
+                    subText: 'Contact',
+                    value: 'VAR2',
+                    displayText: '{!MyContact}',
+                    hasNext: true,
+                    iconName: 'standard:contact',
                     type: 'option-card',
-                    text: 'LastName',
-                    iconName: 'standard:account',
-                    subText: 'Last Name',
-                    value: 'MyAccount.LastName'
-                },
-                {
-                    type: 'option-card',
-                    text: 'AnnualRevenue',
-                    iconName: 'standard:account',
-                    subText: 'Annual Revenue',
-                    value: 'MyAccount.AnnualRevenue'
                 },
             ]
         },
@@ -30,32 +27,41 @@ export const comboboxConfig = {
             label: 'Variables',
             items: [
                 {
-                    type: 'option-card',
+                    
                     text: 'MyName',
-                    iconName: 'utility:text_color',
                     subText: 'String',
-                    value: '{!MyVar1}'
+                    value: 'VAR3',
+                    displayText: '{!MyVar1}',
+                    hasNext: false,
+                    iconName: 'utility:text_color',
+                    type: 'option-card',
                 },
                 {
-                    type: 'option-card',
                     text: 'MyNumber2',
-                    iconName: 'utility:number',
                     subText: 'Number',
-                    value: '{!MyNumber2}'
+                    value: 'VAR4',
+                    displayText: '{!MyNumber2}',
+                    hasNext: false,
+                    iconName: 'utility:number',
+                    type: 'option-card',
                 },
                 {
-                    type: 'option-card',
                     text: 'StartDateVar',
-                    iconName: 'utility:date',
                     subText: 'Date',
-                    value: '{!StartDateVar}'
+                    value: 'VAR5',
+                    displayText: '{!StartDateVar}',
+                    hasNext: false,
+                    iconName: 'utility:date',
+                    type: 'option-card',
                 },
                 {
-                    type: 'option-card',
                     text: 'Is Applicable?',
-                    iconName: 'utility:boolean',
                     subText: 'Date',
-                    value: '{!MyBooleanVar}'
+                    value: 'VAR6',
+                    displayText: '{!MyBooleanVar}',
+                    hasNext: false,
+                    iconName: 'utility:boolean',
+                    type: 'option-card',
                 },
             ]
         }
@@ -68,3 +74,33 @@ export const comboboxConfig = {
     required: true,
     errorMessage: 'testErrorMessage',
 };
+
+
+export const secondLevelMenuData =
+[
+    {
+        items: [
+            {
+                type: 'option-card',
+                text: 'FirstName',
+                iconName: 'standard:account',
+                subText: 'First Name',
+                value: '{!MyAccount.FirstName}'
+            },
+            {
+                type: 'option-card',
+                text: 'LastName',
+                iconName: 'standard:account',
+                subText: 'Last Name',
+                value: '{!MyAccount.LastName}'
+            },
+            {
+                type: 'option-card',
+                text: 'AnnualRevenue',
+                iconName: 'standard:account',
+                subText: 'Annual Revenue',
+                value: '{!MyAccount.AnnualRevenue}'
+            },
+        ]
+    }
+];

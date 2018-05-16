@@ -153,25 +153,36 @@ export default class ParameterItem extends Element {
         if (this.isInput) {
             // return  '' if this parameter is input parameter and no value
             if (!this.state.parameterItem.value) {
-                return '';
+                return null;
             }
             // return  {!value} if this parameter is input parameter and has a reference value
             if (this.state.parameterItem.value.elementReference) {
                 const varRef = this.state.parameterItem.value.elementReference.value;
-                const varName = this.getVariableName(varRef);
-                const value = (varName) ? varName : varRef;
-                // varRef can be a System's Constant, in that case, varName is undefined, then using this varRef as a comboboxValue
-                return '{!' + value + '}';
+                // const varName = this.getVariableName(varRef);
+                // const value = (varName) ? varName : varRef;
+                // // varRef can be a System's Constant, in that case, varName is undefined, then using this varRef as a comboboxValue
+                // return '{!' + value + '}';
+                const varElement = getElementByGuid(varRef);
+                return this.createComboboxValue(varElement.guid, '{!' + (varElement ? varElement.name : varRef) + '}');
             }
             // TODO: value = literals + VARIABLE (My name is {!VARIRABLE_1}. Hello world!)
             const value = this.state.parameterItem.value[Object.keys(this.item.value)[0]].value;
-            return value ? value : '';
+            return this.createComboboxValue(null, value);
         }
         // return {!value} if this parameter is output parameter and has a reference value
         if (this.state.parameterItem.assignToReference) {
-            return '{!' + this.getVariableName(this.state.parameterItem.assignToReference.value) + '}';
+            // return '{!' + this.getVariableName(this.state.parameterItem.assignToReference.value) + '}';
+            const varElement = getElementByGuid(this.state.parameterItem.assignToReference.value);
+            return this.createComboboxValue(varElement.guid, '{!' + varElement.name + '}');
         }
-        return '';
+        return null;
+    }
+
+    createComboboxValue(value, displayText) {
+        return {
+            value,
+            displayText
+        };
     }
 
     /**
@@ -260,9 +271,9 @@ export default class ParameterItem extends Element {
         event.stopPropagation();
         let value;
         if (this.isInput) {
-            value = this.convertComboxValueToInputParameterValue(event.detail.value);
+            value = event.detail.item ? this.convertComboxValueToInputParameterValue(event.detail.item) : this.convertComboxValueToInputParameterValue(event.detail.displayText);
         } else {
-            value = {value: event.detail.value};
+            value = {value: event.detail.displayText};
         }
         // dispatch event to update this item in list: UpdateParameterItemEvent
         const itemUpdatedEvent = new UpdateParameterItemEvent(this.isInput, this.itemIndex, value, event.detail.error);
@@ -276,16 +287,16 @@ export default class ParameterItem extends Element {
 
     /**
      * convert to input parameter's value from the combobox's value
-     * @param {String} comboboxValue the combobox's value
+     * @param {String} comboboxItem the combobox's value
      * @return {InputParameterValue} the parameter's value
      */
-    convertComboxValueToInputParameterValue(comboboxValue) {
-        const varName = this.getVariableName(comboboxValue);
+    convertComboxValueToInputParameterValue(comboboxItem) {
+        const varName = this.getVariableName(comboboxItem.value);
         if (varName) {
-            return {elementReference: {value: comboboxValue}};
+            return {elementReference: {value: comboboxItem.value}};
         }
         const key = this.getParameterValueKey();
-        return {[key]: {value: comboboxValue}};
+        return {[key]: {value: (comboboxItem.value ? comboboxItem.value : comboboxItem)}};
     }
 
     /**

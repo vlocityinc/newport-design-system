@@ -1,9 +1,9 @@
 /**
- * Used by combobox to indicate that updated menu data is needed
+ * Used by components to indicate that it's value has changed
  */
-const eventName = 'fetchmenudata';
+const eventName = 'itemselected';
 
-export class FetchMenuDataEvent extends Event {
+export class ItemSelectedEvent extends Event {
     constructor(item = null) {
         super(eventName, {
             cancelable: false,

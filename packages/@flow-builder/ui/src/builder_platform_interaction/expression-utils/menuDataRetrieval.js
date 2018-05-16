@@ -223,21 +223,79 @@ function getNewResourceItem() {
 }
 
 /**
+ * If a guid contains more than one level, separates it out to two parts
+ * @param {String} guid The guid to sanitize
+ * @returns {Object} The complex object containing the guid and the field name
+ */
+export const sanitizeGuid = (guid) => {
+    const complexGuid = {};
+    const periodIndex = guid.indexOf('.');
+    if (periodIndex !== -1) {
+        complexGuid.guid = guid.substring(0, periodIndex);
+        complexGuid.fieldName = guid.substring(periodIndex + 1);
+    } else {
+        complexGuid.guid = guid;
+    }
+    return complexGuid;
+};
+
+/**
+ * Returns the combobox display value based on the unique identifier passed
+ * to the RHS.
+ *
+ * @param {String} rhsIdentifier    used to identify RHS, could be GUID or literal
+ * @param {Function} callback       The callback
+ * @returns {String}                combobox display value
+ */
+export const normalizeRHS = (rhsIdentifier, callback) => {
+    const rhs = {};
+    const complexGuid = sanitizeGuid(rhsIdentifier);
+    const flowElement = getElementByGuid(complexGuid.guid);
+    if (flowElement && complexGuid.fieldName) {
+        // TODO: W-4960448: the field will appear empty briefly when fetching the first time
+        sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
+            rhs.item = mutateFieldsToComboboxShape(fields[complexGuid.fieldName], mutateFlowElementsToComboboxShape(flowElement));
+        });
+        callback(rhsIdentifier);
+    } else if (flowElement) {
+        rhs.item = mutateFlowElementsToComboboxShape(flowElement);
+    } else {
+        rhs.displayText = rhsIdentifier;
+    }
+    return rhs;
+};
+
+/**
  * This function handles any identifier that may be passed to the LHS,
  * such as GUIDs for flow elements, and returns what the
  * the expression builder will need to use to work with that LHS.
  *
- * @param {String} lhsIdentifier      used to identify the LHS (e.g. GUID for flow elements)
+ * @param {String} lhsIdentifier    Used to identify the LHS (e.g. GUID for flow elements)
+ * @param {Function} callback       The value returned by this function. Only used in the callback
  * @returns {Object}                {lhsValue, lhsParameter}, lhsValue is the combobox display value, lhsParameter is needed for the rules service
  */
-export const normalizeLHS = (lhsIdentifier) => {
+export const normalizeLHS = (lhsIdentifier, callback) => {
     const lhs = {};
-    const flowElement = getElementByGuid(lhsIdentifier);
-    if (flowElement) {
-        lhs.display = '{!' + flowElement.name + '}';
+    const complexGuid = sanitizeGuid(lhsIdentifier);
+    const flowElement = getElementByGuid(complexGuid.guid);
+    if (flowElement && complexGuid.fieldName) {
+        // TODO: W-4960448: the field will appear empty briefly when fetching the first time
+        sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
+            const field = fields[complexGuid.fieldName];
+            lhs.item = mutateFieldsToComboboxShape(field, mutateFlowElementsToComboboxShape(flowElement));
+            field.elementType = flowElement.elementType;
+            // Can an SObject field be a collection?
+            field.isCollection = false;
+            lhs.parameter = elementToParam(field);
+            callback(lhsIdentifier);
+        });
+    } else if (flowElement) {
+        lhs.item = mutateFlowElementsToComboboxShape(flowElement);
         lhs.parameter = elementToParam(flowElement);
     } else {
         // TODO handle the case where LHS is not a flow element here
+        // getFieldsForEntity will need to be called here too
+        // use lhsIdentifier here
     }
     return lhs;
 };
@@ -328,7 +386,7 @@ export const getEntitiesMenuData = (entityType) => {
  * @returns {Array} array of alphabetized objects
  */
 export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, fields) {
-    const items = fields.filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
+    const items = Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
         return mutateFieldsToComboboxShape(element, chosenElement);
     });
     const objectFieldsMenuData = [{
@@ -347,13 +405,14 @@ function mutateFlowElementsToComboboxShape(element) {
     const newElement = {};
 
     newElement.text = element.name;
-    newElement.value = '{!' + element.name + '}';
-    newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
+    newElement.subText = getSubText(element.dataType, element.objectType, element.label);
+    newElement.value = element.guid;
+    newElement.displayText = '{!' + element.name + '}';
+    newElement.hasNext = element.dataType === 'SObject';
     // TODO: remove upper case-ing once we're using labels for categories W-4813532
     newElement.category = getCategory(element.elementType, element.dataType, element.isCollection).toUpperCase();
-    newElement.subText = getSubText(element.dataType, element.objectType, element.label);
-    newElement.id = element.guid;
     // TODO: fetch icon
+    newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     return newElement;
 }
 
@@ -371,7 +430,7 @@ function mutateFieldsToComboboxShape(field, parent) {
     formattedField.text = field.apiName;
     formattedField.subText = field.label;
     formattedField.value = parent.value + '.' + field.apiName;
-    formattedField.displayValue = parent.displayValue.substring(0, parent.displayValue.length - 1) + '.' + field.apiName + '}';
+    formattedField.displayText = parent.displayText.substring(0, parent.displayText.length - 1) + '.' + field.apiName + '}';
     formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     // TODO: fetch icon
 

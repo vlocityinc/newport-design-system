@@ -1,4 +1,4 @@
-import { Element, api, track } from "engine";
+import { Element, api, track, unwrap } from "engine";
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { ACTION_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction-flow-metadata';
@@ -13,7 +13,7 @@ export default class ActionSelector extends Element {
     @track
     state = {
         selectedElementType : ELEMENT_TYPE.ACTION_CALL,
-        selectedActionValue : '',
+        selectedActionValue : null,
         actionMenuData : [
             {
                 items : []
@@ -170,11 +170,11 @@ export default class ActionSelector extends Element {
     set selectedAction(newValue) {
         this.state.selectedElementType = newValue.elementType ? newValue.elementType : ELEMENT_TYPE.ACTION_CALL;
         if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-            this.state.selectedActionValue = newValue.apexClass ? newValue.apexClass : '';
+            this.state.selectedActionValue = newValue.apexClass ? this.getComboItemFromApexPlugin(newValue) : null;
         } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
-            this.state.selectedActionValue = newValue.flowName ? newValue.flowName : '';
+            this.state.selectedActionValue = newValue.flowName ? this.getComboItemFromSubflow(newValue) : null;
         } else {
-            this.state.selectedActionValue = newValue.actionType && newValue.actionName ? newValue.actionType + '-' + newValue.actionName : '';
+            this.state.selectedActionValue = newValue.actionType && newValue.actionName ? this.getComboItemFromInvocableAction(newValue) : null;
         }
     }
 
@@ -187,7 +187,7 @@ export default class ActionSelector extends Element {
     get selectedAction() {
         let selectedAction;
         if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-            const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.name === this.state.selectedActionValue);
+            const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.name === this.state.selectedActionValue.value);
             if (apexPluginFound) {
                 selectedAction = {
                     apexClass : apexPluginFound.name,
@@ -195,7 +195,7 @@ export default class ActionSelector extends Element {
                 };
             }
         } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
-            const subflowFound = this.subflows.find(subflow => subflow.developerName === this.state.selectedActionValue);
+            const subflowFound = this.subflows.find(subflow => subflow.developerName === this.state.selectedActionValue.value);
             if (subflowFound) {
                 selectedAction = {
                     flowName : subflowFound.developerName,
@@ -203,7 +203,7 @@ export default class ActionSelector extends Element {
                 };
             }
         } else {
-            const actionFound = this.invocableActions.find(action => action.durableId === this.state.selectedActionValue);
+            const actionFound = this.invocableActions.find(action => action.durableId === this.state.selectedActionValue.value);
             if (actionFound) {
                 selectedAction = {
                     actionName : actionFound.name,
@@ -282,7 +282,7 @@ export default class ActionSelector extends Element {
     handleElementTypeChanged(event) {
         event.stopPropagation();
         this.state.selectedElementType = event.detail.value;
-        this.state.selectedActionValue = '';
+        this.state.selectedActionValue = null;
         this.updateActionCombo();
     }
 
@@ -291,6 +291,7 @@ export default class ActionSelector extends Element {
             type : 'option-card',
             text : action.label,
             value: action.durableId,
+            displayText: action.actionType + '-' + action.actionName,
             subText : action.description || ''
         };
     }
@@ -300,6 +301,7 @@ export default class ActionSelector extends Element {
             type : 'option-card',
             text : apexPlugin.name,
             value: apexPlugin.name,
+            displayText: apexPlugin.name,
             subText : apexPlugin.Description || ''
         };
     }
@@ -309,17 +311,15 @@ export default class ActionSelector extends Element {
             type : 'option-card',
             text : subflow.masterLabel,
             value: subflow.developerName,
+            displayText: subflow.developerName,
             subText : subflow.description || ''
         };
     }
 
     handleActionChanged(event) {
         event.stopPropagation();
-        this.state.selectedActionValue = event.detail.value;
-        // TODO : combox value is currently wrapped into {! }
-        if (this.state.selectedActionValue.startsWith('{!') && this.state.selectedActionValue.endsWith('}')) {
-            this.state.selectedActionValue = this.state.selectedActionValue.substring(2, this.state.selectedActionValue.length - 1);
-        }
+        // Will throw the 'piercing membrane' error without unwrap
+        this.state.selectedActionValue = unwrap(event.detail.item);
         const selectedAction = this.selectedAction;
         if (selectedAction) {
             const valueChangedEvent = new ValueChangedEvent(selectedAction);

@@ -1,10 +1,11 @@
 import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
-import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, isElementAllowed } from 'builder_platform_interaction-expression-utils';
+import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, isElementAllowed, normalizeRHS, filterFieldsForChosenElement, sanitizeGuid } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox, elementToParam } from 'builder_platform_interaction-rule-lib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -32,7 +33,7 @@ export default class ExpressionBuilder extends Element {
     state = {
         expression: undefined, // the expression to be displayed
         normalizedLHS: {}, // contains display, for the combobox to display, and parameter, to use with the rules service
-        rhsDisplay: undefined, // for the rhs combobox to display, as the rhs could be passed as a guid
+        normalizedRHS: {}, // for the rhs combobox to display, as the rhs could be passed as a guid
     };
 
     @api
@@ -56,18 +57,33 @@ export default class ExpressionBuilder extends Element {
         // TODO handle literals, "hi my name is {!firstName}" W-4817362
         // TODO handle multi-level merge fields W-4723095
         if (expression[LHS] && expression[LHS].value) {
-            this.state.normalizedLHS = normalizeLHS(expression[LHS].value);
+            this.state.normalizedLHS = normalizeLHS(expression[LHS].value, (lhsIdentifier) => {
+                if (!this._fetchedLHSInfo) {
+                    this._fetchedLHSInfo = true;
+                    const newExpression = updateProperties(this.state.expression, {[LHS] : {value : lhsIdentifier}});
+                    this.firePropertyChangedEvent(newExpression);
+                }
+            });
         }
+
         if (expression[OPERATOR]) {
             this.setOperatorErrorMessage(expression[OPERATOR].error);
         }
+
         // TODO default operator case W-4912900
         if (expression[RHS]) {
-            this.state.rhsDisplay = expression[RHS].value;
+            this.state.normalizedRHS = normalizeRHS(expression[RHS].value, (rhsIdentifier) => {
+                if (!this._fetchedRHSInfo) {
+                    this._fetchedRHSInfo = true;
+                    const newExpression = updateProperties(this.state.expression, {[RHS] : {value : rhsIdentifier}});
+                    this.firePropertyChangedEvent(newExpression);
+                }
+            });
             const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, expression[OPERATOR].value, rules);
             this._fullRHSMenuData = getElementsForMenuData({element}, rhsTypes, true);
             this.state.rhsMenuData = this._fullRHSMenuData;
         }
+
         this.state.expression = expression;
     }
 
@@ -138,17 +154,37 @@ export default class ExpressionBuilder extends Element {
 
     _clearedProperty = { value: '', error: null };
 
+    _fetchedLHSInfo = false;
+
+    _fetchedRHSInfo = false;
+
     handleLHSValueChanged(event) {
         event.stopPropagation();
-        const newLHSItem = event.detail.value;
-        const expressionUpdates = {[LHS] : {value : newLHSItem.id ? newLHSItem.id : newLHSItem, error: event.detail.error}};
-        const newLHSParam = elementToParam(getElementByGuid(newLHSItem.id));
+        const newLHSItem = event.detail.item;
+        const expressionUpdates = {[LHS] : {value : newLHSItem ? newLHSItem.value : event.detail.displayText, error: event.detail.error}};
+
+        const complexGuid = sanitizeGuid(newLHSItem.value);
+        const flowElement = getElementByGuid(complexGuid.guid);
+        let elementOrField;
+        if (flowElement && complexGuid.fieldName) {
+            getFieldsForEntity(flowElement.objectType, (fields) => {
+                elementOrField = fields[complexGuid.fieldName];
+            });
+        } else {
+            elementOrField = flowElement;
+        }
+
+        const newLHSParam = elementToParam(elementOrField);
         if (!getOperators(newLHSParam, rules).includes(this.state.expression.operator.value)) {
             expressionUpdates[OPERATOR] = this._clearedProperty;
             expressionUpdates[RHS] = this._clearedProperty;
             expressionUpdates[RHSDT] = this._clearedProperty;
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);
+        this.firePropertyChangedEvent(newExpression);
+    }
+
+    firePropertyChangedEvent(newExpression) {
         const propertyChangedEvent = new RowContentsChangedEvent(newExpression);
         this.dispatchEvent(propertyChangedEvent);
     }
@@ -172,43 +208,55 @@ export default class ExpressionBuilder extends Element {
 
     handleRHSValueChanged(event) {
         event.stopPropagation();
+        const newRHSItem = event.detail.item;
+        const errorMessage = event.detail.error;
         let rhsAndRHSDT;
-        if (event.detail.value.id) {
+        if (newRHSItem) {
             rhsAndRHSDT = {
-                [RHS]: {value: event.detail.value.value, error: event.detail.error},
+                [RHS]: {value: newRHSItem.displayText, error: errorMessage},
                 [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: null},
-                [RHSG]: {value: event.detail.value.id, error: null}
+                [RHSG]: {value: newRHSItem.value, error: null}
             };
         } else {
             // TODO: not all literals are strings! dealing with literals in W-4795778
             rhsAndRHSDT = {
-                [RHS]: {value: event.detail.value, error: event.detail.error},
+                [RHS]: {value: event.detail.displayText, error: errorMessage},
                 [RHSDT]: {value: FEROV_DATA_TYPE.STRING, error: null},
             };
         }
         const newExpression = updateProperties(this.state.expression, rhsAndRHSDT);
-        const propertyChangedEvent = new RowContentsChangedEvent(newExpression, event.detail.error);
+        const propertyChangedEvent = new RowContentsChangedEvent(newExpression, errorMessage);
         this.dispatchEvent(propertyChangedEvent);
     }
 
     handleFilterLHSMatches(event) {
-        this.state.lhsMenuData = filterMatches(event.detail.value, this._fullLHSMenuData);
+        this.state.lhsMenuData = filterMatches(event.detail.value, this._fullLHSMenuData, event.detail.isMergeField);
     }
 
     handleFilterRHSMatches(event) {
-        this.state.rhsMenuData = filterMatches(event.detail.value, this._fullRHSMenuData);
+        this.state.rhsMenuData = filterMatches(event.detail.value, this._fullRHSMenuData, event.detail.isMergeField);
     }
 
-    handleFetchLHSMenuData() {
-        // TODO  W-4723095
+    handleFetchLHSMenuData(event) {
+        const selectedItem = event.detail.item;
+        if (selectedItem) {
+            getFieldsForEntity((selectedItem.subText instanceof Array) ? selectedItem.subTextNoHighlight : selectedItem.subText, (fields) => {
+                this._fullLHSMenuData = this.state.lhsMenuData = filterFieldsForChosenElement(selectedItem, getLHSTypes(rules), fields);
+            });
+        } else {
+            this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData({element, shouldBeWritable: true}, getLHSTypes(rules), true);
+        }
     }
 
-    handleFetchOperatorMenuData() {
-        // TODO  W-4723095
-    }
-
-    handleFetchRHSMenuData() {
-        // TODO  W-4723095
+    handleFetchRHSMenuData(event) {
+        const selectedItem = event.detail.item;
+        if (selectedItem) {
+            getFieldsForEntity((selectedItem.subText instanceof Array) ? selectedItem.subTextNoHighlight : selectedItem.subText, (fields) => {
+                this._fullRHSMenuData = this.state.rhsMenuData = filterFieldsForChosenElement(selectedItem, getLHSTypes(rules), fields);
+            });
+        } else {
+            this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({element}, getRHSTypes(this.state.normalizedLHS.parameter, this.state.expression[OPERATOR].value, rules), true);
+        }
     }
 
     getLHSMenuData(config) {

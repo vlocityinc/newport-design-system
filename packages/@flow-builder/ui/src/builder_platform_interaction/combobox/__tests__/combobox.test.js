@@ -1,7 +1,7 @@
 import { createElement } from 'engine';
 import Combobox from 'builder_platform_interaction-combobox';
-import { comboboxConfig } from 'mock-combobox-data';
-import { ValueChangedEvent, NewResourceEvent } from 'builder_platform_interaction-events';
+import { comboboxInitialConfig } from 'mock-combobox-data';
+import { ComboboxValueChangedEvent, NewResourceEvent } from 'builder_platform_interaction-events';
 
 const SELECTORS = {
     COMBOBOX_PATH: 'builder_platform_interaction-combobox',
@@ -44,9 +44,9 @@ describe('Combobox Tests', () => {
 
     describe('Property sanity checks', () => {
         beforeEach(() => {
-            for (const attribute in comboboxConfig) {
-                if (comboboxConfig.hasOwnProperty(attribute)) {
-                    combobox[attribute] = comboboxConfig[attribute];
+            for (const attribute in comboboxInitialConfig) {
+                if (comboboxInitialConfig.hasOwnProperty(attribute)) {
+                    combobox[attribute] = comboboxInitialConfig[attribute];
                 }
             }
         });
@@ -55,9 +55,11 @@ describe('Combobox Tests', () => {
             expect(groupedCombobox).toBeDefined();
         });
 
-        it('has a value', () => {
-            expect(combobox.value).toBeDefined();
-            expect(combobox.value).toEqual(groupedCombobox.inputText);
+        // check value/item
+
+        it('has displayText', () => {
+            expect(combobox.displayText).toBeDefined();
+            expect(combobox.displayText).toEqual(groupedCombobox.inputText);
         });
 
         it('has menudata', () => {
@@ -86,9 +88,9 @@ describe('Combobox Tests', () => {
         });
     });
 
-    describe('Value Tests', () => {
+    describe('Display Text Tests', () => {
         beforeEach(() => {
-            combobox.value = '{';
+            combobox.displayText = '{';
         });
 
         it('Typing {! should append }', () => {
@@ -98,33 +100,25 @@ describe('Combobox Tests', () => {
                 expect(groupedCombobox.inputText).toEqual('{!}');
             });
         });
-
-        it('Select should not append curly braces', () => {
-            const textInputEvent = getSelectEvent('Account');
-            groupedCombobox.dispatchEvent(textInputEvent);
-            return Promise.resolve().then(() => {
-                expect(groupedCombobox.inputText).toEqual('Account');
-            });
-        });
     });
 
     describe('Icon Tests', () => {
         it('Search icon when empty', () => {
-            combobox.value = '';
+            combobox.displayText = '';
             return Promise.resolve().then(() => {
                 expect(groupedCombobox.inputIconName).toEqual('utility:search');
             });
         });
 
         it('Activity Indicator when fetching and filtering menu data', () => {
-            combobox.value = '{!myAccount}';
+            combobox.displayText = '{!myAccount}';
             const textInputEvent = getTextInputEvent('{!myAccount.}');
             return Promise.resolve().then(() => {
                 groupedCombobox.dispatchEvent(textInputEvent);
 
                 return Promise.resolve().then(() => {
                     expect(groupedCombobox.showActivityIndicator).toEqual(true);
-                    combobox.menuData = comboboxConfig.menuData;
+                    combobox.menuData = comboboxInitialConfig.menuData;
                     return Promise.resolve().then(() => {
                         expect(groupedCombobox.showActivityIndicator).toEqual(false);
                     });
@@ -136,7 +130,7 @@ describe('Combobox Tests', () => {
         // TODO Clicking on search icon opens up menu
 
         it('Clear icon when there is a value', () => {
-            combobox.value = 'testvalue';
+            combobox.displayText = 'testvalue';
             return Promise.resolve().then(() => {
                 expect(groupedCombobox.inputIconName).toEqual('utility:clear');
             });
@@ -144,52 +138,77 @@ describe('Combobox Tests', () => {
     });
 
     describe('Events Testing', () => {
-        let fetchMenuDataHandler, valueChangedHandler, selectHandler;
+        let fetchMenuDataHandler, comboboxValueChangedHandler, selectHandler;
         let textInputEvent, blurEvent, selectEvent;
         beforeEach(() => {
             fetchMenuDataHandler = jest.fn();
-            valueChangedHandler = jest.fn();
+            comboboxValueChangedHandler = jest.fn();
             selectHandler = jest.fn();
 
             combobox.addEventListener('fetchmenudata', fetchMenuDataHandler);
-            combobox.addEventListener(ValueChangedEvent.EVENT_NAME, valueChangedHandler);
+            combobox.addEventListener(ComboboxValueChangedEvent.EVENT_NAME, comboboxValueChangedHandler);
             combobox.addEventListener(NewResourceEvent.EVENT_NAME, selectHandler);
+
+            for (const attribute in comboboxInitialConfig) {
+                if (comboboxInitialConfig.hasOwnProperty(attribute)) {
+                    combobox[attribute] = comboboxInitialConfig[attribute];
+                }
+            }
         });
 
-        it('FetchMenuData is fired when a . is entered', () => {
-            combobox.value = '{!myAccount}';
+        it('FetchMenuData is fired when a . is entered & item hasNext', () => {
+            // combobox.displayText = '{!MyAccount}';
+            combobox.value = {
+                text: 'MyAccount',
+                subText: 'Account',
+                value: 'GUID1',
+                displayText: '{!MyAccount}',
+                hasNext: true,
+                iconName: 'standard:account',
+                type: 'option-card',
+            };
             return Promise.resolve().then(() => {
-                textInputEvent = getTextInputEvent('{!myAccount.}');
+                textInputEvent = getTextInputEvent('{!MyAccount.}');
                 groupedCombobox.dispatchEvent(textInputEvent);
                 expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
             });
         });
 
         it('FetchMenuData is fired when a . is deleted', () => {
-            combobox.value = '{!myAccount.}';
+            combobox.value = {
+                text: 'MyAccount',
+                subText: 'Account',
+                value: 'GUID1',
+                displayText: '{!MyAccount}',
+                hasNext: true,
+                iconName: 'standard:account',
+                type: 'option-card',
+            };
             return Promise.resolve().then(() => {
-                textInputEvent = getTextInputEvent('{!myAccount}');
+                textInputEvent = getTextInputEvent('{!MyAccount.}');
                 groupedCombobox.dispatchEvent(textInputEvent);
-                expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
+                textInputEvent = getTextInputEvent('{!MyAccount}');
+                groupedCombobox.dispatchEvent(textInputEvent);
+                expect(fetchMenuDataHandler).toHaveBeenCalledTimes(2);
             });
         });
 
         it('FetchMenuData is not fired third level data', () => {
-            combobox.value = '{!myAccount.name}';
+            combobox.displayText = '{!MyAccount.name}';
             return Promise.resolve().then(() => {
-                textInputEvent = getTextInputEvent('{!myAccount.name.}');
+                textInputEvent = getTextInputEvent('{!MyAccount.name.}');
                 groupedCombobox.dispatchEvent(textInputEvent);
                 expect(fetchMenuDataHandler).toHaveBeenCalledTimes(0);
             });
         });
 
         it('ValueChanged is fired on blur', () => {
-            combobox.value = '{!newValueForBlur.}';
+            combobox.displayText = '{!newValueForBlur.}';
+            textInputEvent = getTextInputEvent('{!newValueForBlur}');
+            groupedCombobox.dispatchEvent(textInputEvent);
             blurEvent = new CustomEvent('blur');
-
             groupedCombobox.dispatchEvent(blurEvent);
-
-            expect(valueChangedHandler).toHaveBeenCalledTimes(1);
+            expect(comboboxValueChangedHandler).toHaveBeenCalledTimes(1);
         });
 
         it('ValueChanged is not fired on blur if value has not changed', () => {
@@ -197,7 +216,7 @@ describe('Combobox Tests', () => {
 
             groupedCombobox.dispatchEvent(blurEvent);
 
-            expect(valueChangedHandler).toHaveBeenCalledTimes(0);
+            expect(comboboxValueChangedHandler).toHaveBeenCalledTimes(0);
         });
 
         it('NewResource event is fired when New Resource is selected.', () => {
@@ -277,7 +296,7 @@ describe('Combobox Tests', () => {
 
         beforeEach(() => {
             blurEvent = new CustomEvent('blur');
-            combobox.menuData = comboboxConfig.menuData;
+            combobox.menuData = comboboxInitialConfig.menuData;
         });
 
         Object.keys(validationTestData).forEach(dataType => {
@@ -302,9 +321,9 @@ describe('Combobox Tests', () => {
                     expect(groupedCombobox.validity).toEqual(testData.error);
                     if (testData.expectedValue) {
                         if (dataType !== 'DateTime') {
-                            expect(combobox.value).toEqual(testData.expectedValue);
+                            expect(combobox.displayText).toEqual(testData.expectedValue);
                         } else {
-                            expect(ignoreTZRegex.exec(combobox.value)[0]).toEqual(ignoreTZRegex.exec(testData.expectedValue)[0]);
+                            expect(ignoreTZRegex.exec(combobox.displayText)[0]).toEqual(ignoreTZRegex.exec(testData.expectedValue)[0]);
                         }
                     }
                 });
@@ -313,7 +332,7 @@ describe('Combobox Tests', () => {
 
         it('for required', () => {
             combobox.required = true;
-            combobox.value = '';
+            combobox.displayText = '';
             groupedCombobox.dispatchEvent(blurEvent);
             expect(groupedCombobox.validity).toEqual('You have entered an invalid value.');
         });

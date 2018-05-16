@@ -8,9 +8,7 @@
 export const dateParam = {
     paramType:'Data',
     paramIndex:1,
-    dataType:{
-        value:'Date'
-    },
+    dataType: 'Date',
     collection:false,
     canBeField:'CanBe',
     canBeSysVar:'CanBe'
@@ -19,9 +17,7 @@ export const dateParam = {
 export const stringParam = {
     paramType:'Data',
     paramIndex:1,
-    dataType:{
-        value:'String'
-    },
+    dataType: 'String',
     collection:false,
     canBeField:'CanBe',
     canBeSysVar:'CanBe'
@@ -30,9 +26,7 @@ export const stringParam = {
 export const numberParam = {
     paramType:'Data',
     paramIndex:1,
-    dataType:{
-        value:'Number'
-    },
+    dataType: 'Number',
     collection:false,
     canBeField:'CanBe',
     canBeSysVar:'CanBe'

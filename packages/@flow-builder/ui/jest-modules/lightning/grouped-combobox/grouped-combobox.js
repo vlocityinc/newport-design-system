@@ -27,4 +27,9 @@ export default class GroupedCombobox extends Element {
         return this.validity;
     }
 
+    @api
+    showHelpMessageIfInvalid() {
+        // shows the error message
+    }
+
 }

@@ -6,3 +6,19 @@
 export const isUndefinedOrNull = (value) => {
     return (value === undefined || value === null);
 };
+
+/**
+ * Formats the input date into 'MM/DD/YYYY' for date or 'MM/DD/YYYY HH:MM:SS TZ' for date time
+ * Note: Date format is not final yet and might change.
+ * @param {String} dateValue input Date value
+ * @param {boolean} isDateTime whether to append time
+ * @returns {String} formatted date string
+ */
+export const formatDate = (dateValue, isDateTime) => {
+    const datePart = (dateValue.getMonth() + 1).toString().padStart(2, 0) + '/'
+        + dateValue.getDate().toString().padStart(2, 0) + '/' + dateValue.getFullYear();
+    if (isDateTime) {
+        return datePart + ' ' + dateValue.toTimeString();
+    }
+    return datePart;
+};

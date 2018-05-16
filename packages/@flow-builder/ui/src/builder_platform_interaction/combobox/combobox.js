@@ -1,9 +1,9 @@
 import { Element, api, track } from 'engine';
 import { parseDateTime } from 'builder_platform_interaction-date-time-utils';
-import { FetchMenuDataEvent, ValueChangedEvent, FilterMatchesEvent, NewResourceEvent } from 'builder_platform_interaction-events';
+import { FetchMenuDataEvent, ComboboxValueChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expression-utils';
-import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
+import { isUndefinedOrNull, formatDate } from 'builder_platform_interaction-common-utils';
 
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
@@ -22,6 +22,18 @@ const ERROR_MESSAGE = {
 };
 
 /**
+ * Regex for Dev Names
+ */
+const oneLetterDevName = '(^[a-zA-Z]{1}$)';
+// Regex below covers both non-suffix and trailing periods.
+const withNonSuffixAndTrailingPeriod = '(^([a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+\\.?)+$)';
+const withNoTrailingPeriod = '(^[a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+$)';
+const withNonSuffixPeriods = '(^([a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+\\.{1}[a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+)+$)';
+
+const TYPING_DEV_NAME_REGEX = new RegExp(oneLetterDevName + '|' + withNonSuffixAndTrailingPeriod);
+const VALIDATION_DEV_NAME_REGEX = new RegExp(oneLetterDevName + '|' + withNoTrailingPeriod + '|' + withNonSuffixPeriods);
+
+/**
  * The max level of data the combobox supports to show the menu items and perform validation.
  * @type {number} max level of data the combobox supports.
  */
@@ -30,7 +42,7 @@ const MAX_LEVEL_MENU_DATA = 2;
 export default class Combobox extends Element {
     @track
     state = {
-        value: '',
+        displayText: '',
         showActivityIndicator: false,
         inputIcon: 'utility:search',
         menuData: [],
@@ -79,19 +91,55 @@ export default class Combobox extends Element {
      * Input value for the combobox.
      * Combobox expects and returns date time value in 'MM/DD/YYYY HH:mm:ss TZD' format.
      * Note: Date time format is under discussion and might change.
-     * @param {String} value - The value of the combobox
+     * @param {Object} item - The value of the combobox
      */
     @api
-    set value(value) {
-        this.state.value = value;
-        this._lastRecordedValue = value;
-        this.updateInputIcon();
-        this.setResourceState();
+    set value(item) {
+        // item should have displayText
+        if (item && !isUndefinedOrNull(item.displayText)) {
+            this._item = item;
+            this._lastRecordedItem = item;
+            this.state.displayText = item.displayText;
+            this._lastRecordedDisplayText = item.displayText;
+            this.updateInputIcon();
+            this.setMergeFieldState();
+        } else {
+            // Set to empty string
+            this.state.displayText = '';
+            this._lastRecordedDisplayText = '';
+        }
     }
 
     @api
     get value() {
-        return this.state.value;
+        return this._item;
+    }
+
+    /**
+     * Use this when there is not item associated but need to populate the combobox with a literal
+     * @param {String} text The text to set
+     */
+    @api
+    set displayText(text) {
+        // If item is already set, that has precedence over setting displayText
+        // displayText should only be set in the case of literals
+        if (this._item) {
+            // do nothing
+        } else if (!isUndefinedOrNull(text)) {
+            this.state.displayText = text;
+            this._lastRecordedDisplayText = text;
+            this.updateInputIcon();
+            this.setMergeFieldState();
+        } else if (isUndefinedOrNull(text)) {
+            // Set to empty string
+            this.state.displayText = '';
+            this._lastRecordedDisplayText = '';
+        }
+    }
+
+    @api
+    get displayText() {
+        return this.state.displayText;
     }
 
     /**
@@ -162,7 +210,7 @@ export default class Combobox extends Element {
      * Eg: {!testVar} true
      *     {!testVar&} false since it is a literal
      */
-    _isResourceState = false;
+    _isMergeField = false;
 
     _comboboxVariant = 'standard';
 
@@ -172,11 +220,22 @@ export default class Combobox extends Element {
 
     _isLiteralAllowed = true;
 
-    _lastRecordedValue;
+    _lastRecordedDisplayText;
 
     _itemCache = {};
 
     _errorMessage = '';
+
+    // TODO: This will need to change once multiple merge fields can be in the same string
+    _item;
+
+    _lastRecordedItem;
+
+    /**
+     * This is the base for when you get past the first-level of an item.
+     * Will be the value of the selected item.
+     */
+    _base;
 
     /**
      * Called once the component has finished rendering to set the error message
@@ -194,30 +253,50 @@ export default class Combobox extends Element {
      * @param {Object} event - Event fired from grouped-combobox
      */
     handleTextInput(event) {
+        // Typing should invalidate the selected _item
+        this._item = null;
+
         // Grab the previous value && update the current values
-        const previousValue = this.state.value;
-        this.state.value = event.detail.text;
+        const previousValue = this.state.displayText;
+        this.state.displayText = event.detail.text;
         this.updateInputIcon();
 
         // set state to resource if value starts with {!, append the closing brace, and place cursor before it
-        if (!isUndefinedOrNull(this.state.value) && this.state.value.startsWith('{!') && this.state.value.length === 2 &&
-            previousValue === '{' && !this._isResourceState) {
-            this._isResourceState = true;
+        if (this.state.displayText === '{!' && previousValue === '{' && !this._isMergeField) {
+            this._isMergeField = true;
             this.setValueAndCursor('{!}');
         } else {
-            this.setResourceState();
+            this.setMergeFieldState();
         }
 
         const sanitizedValue = this.getSanitizedValue();
 
         // If a . is typed or deleted when in resource state, fire an event to fetch new menu data
         // As of 216 and we support showing only 2 level of menu data
-        if (this.getLevel() <= MAX_LEVEL_MENU_DATA && this.wasPeriodEnteredOrDeleted(previousValue)) {
-            this.fireFetchMenuDataEvent(sanitizedValue);
+        // TODO: The following code doesn't account for highlighting and deleting and copy pasting
+        if (this._isMergeField) {
+            if (this.wasPeriodEntered(previousValue)) {
+                // set base and fetch next level
+                this.matchTextWithItem(previousValue);
+                if (this._item && this._item.hasNext) {
+                    this._base = previousValue;
+                    // Do we need the itemSelectedEvent here?
+                    this.fireItemSelectedEvent(this._item);
+                    this.fireFetchMenuDataEvent(this._item);
+                } else {
+                    this._item = null;
+                }
+            } else if (this.wasPeriodDeleted(previousValue)) {
+                // remove base and fetch previous level
+                if (this.state.displayText === this._base) {
+                    this._base = null;
+                    this.fireFetchMenuDataEvent();
+                }
+            }
         }
 
         // Fire event to filter Menu Data
-        this.fireFilterMatchesEvent(this.getFilterText(sanitizedValue));
+        this.fireFilterMatchesEvent(this.getFilterText(sanitizedValue), this._isMergeField);
     }
 
     /**
@@ -230,19 +309,24 @@ export default class Combobox extends Element {
             return;
         }
 
-        this._isResourceState = true;
+        this.setMergeFieldState();
         this.updateInputIcon();
 
         // Get next level menu data if the selected option hasNext
-        const item = this.findItem();
+        const item = this.findItem(event.detail.value);
         const itemHasNextLevel = item && item.hasNext;
 
+        this._item = item;
+        this._base = item.displayText;
+
+        this.fireItemSelectedEvent(item);
+
         if (itemHasNextLevel) {
-            this.fireFetchMenuDataEvent(this.getSanitizedValue());
+            this.fireFetchMenuDataEvent(item);
         }
 
         // And add a period if selected option has next level
-        this.setValueAndCursor(event.detail.value, itemHasNextLevel);
+        this.setValueAndCursor(item.displayText, itemHasNextLevel);
     }
 
     /**
@@ -250,27 +334,23 @@ export default class Combobox extends Element {
      */
     handleBlur() {
         // Remove the last dot from the expression
-        if (this._isResourceState && this.state.value.charAt(this.state.value.length - 2) === '.') {
-            this.state.value = this.state.value.substring(0, this.state.value.length - 2) + '}';
+        if (this._isMergeField && this.state.displayText.charAt(this.state.displayText.length - 2) === '.') {
+            this.state.displayText = this.state.displayText.substring(0, this.state.displayText.length - 2) + '}';
         }
+
+        // If value is null, check if there is one item associated with displayText
+        this.matchTextWithItem();
 
         // do validation
         this.validate();
 
         // Only fire event if value has changed
-        if (this.state.value && this.state.value !== this._lastRecordedValue) {
-            let item;
-            if (this._isResourceState) {
-                item = this.findItem();
-            }
+        if ((this.state.displayText !== this._lastRecordedDisplayText) || (this._item !== this._lastRecordedItem)) {
+            this.fireComboboxValueChangedEvent(this._item, this.state.displayText, this._errorMessage);
 
-            this.fireValueChangedEvent(
-                (item && item.id) ? item : this.state.value,
-                this._errorMessage
-            );
-
-            // Update _lastRecordedValue to the current value
-            this._lastRecordedValue = this.state.value;
+            // Update _lastRecordedItem && _lastRecordedDisplayText
+            this._lastRecordedDisplayText = this.state.displayText;
+            this._lastRecordedItem = this._item;
         }
     }
 
@@ -281,11 +361,11 @@ export default class Combobox extends Element {
     /**
      * Set the resource state if the value start with '{!' and ends with '}'
      */
-    setResourceState() {
-        if (!isUndefinedOrNull(this.state.value) && this.state.value.startsWith('{!') && this.state.value.endsWith('}')) {
-            this._isResourceState = !this.isExpressionIdentifierLiteral(this.state.value, true);
+    setMergeFieldState() {
+        if (this.state.displayText.startsWith('{!') && this.state.displayText.endsWith('}')) {
+            this._isMergeField = !this.isExpressionIdentifierLiteral(true);
         } else {
-            this._isResourceState = false;
+            this._isMergeField = false;
         }
     }
 
@@ -311,14 +391,13 @@ export default class Combobox extends Element {
 
     /**
      * Fire value change event with error message if provided
-     * @param {String} value The value to send
+     * @param {Object} item The item, if any, that was selected
+     * @param {String} displayText Only the display text string
      * @param {String} errorMessage optional error message
      */
-    fireValueChangedEvent(value, errorMessage) {
-        const valueChangedEvent = (errorMessage && errorMessage !== '') ?
-            new ValueChangedEvent(value, errorMessage) :
-            new ValueChangedEvent(value);
-        this.dispatchEvent(valueChangedEvent);
+    fireComboboxValueChangedEvent(item, displayText, errorMessage) {
+        const comboboxValueChangedEvent = new ComboboxValueChangedEvent(item, displayText, errorMessage);
+        this.dispatchEvent(comboboxValueChangedEvent);
     }
 
     /**
@@ -330,22 +409,52 @@ export default class Combobox extends Element {
     }
 
     /**
+     * Fire item selected event
+     * @param {Object} item The item that was selected
+     */
+    fireItemSelectedEvent(item) {
+        const itemSelectedEvent = new ItemSelectedEvent(item);
+        this.dispatchEvent(itemSelectedEvent);
+    }
+
+    /**
+     * If there is a single item that matches with text, assign that to _item
+     * @param {String} text The text to match with an item's displayText
+     */
+    matchTextWithItem(text = this.state.displayText) {
+        if (!this._item) {
+            const matchedItems = [];
+            for (let i = 0; i < this.state.menuData.length; i++) {
+                this.state.menuData[i].items.forEach(item => {
+                    if (item.displayText === text) {
+                        matchedItems.push(item);
+                    }
+                });
+            }
+            if (matchedItems.length === 1) {
+                this._item = matchedItems[0];
+            }
+        }
+    }
+
+    /**
      * Grabs the item associated with the selected value.
      * If no value is found, returns undefined
+     * @param {String} value The unique value to find the item
      * @returns {Object} the return value
      */
-    findItem() {
+    findItem(value) {
         let foundItem;
         const groupCount = this.state.menuData.length;
         // check if the item has already been cached to avoid running through the nested arrays
-        if (this._itemCache[this.state.value]) {
-            return this._itemCache[this.state.value];
+        if (this._itemCache[value]) {
+            return this._itemCache[value];
         }
         for (let i = 0; i < groupCount; i++) {
             foundItem = this.state.menuData[i].items.find(item => {
                 // add item to the cache whether or not it's the foundItem
                 this._itemCache[item.value] = item;
-                return item.value === this.state.value;
+                return item.value === value;
             });
             if (foundItem) {
                 return foundItem;
@@ -360,26 +469,35 @@ export default class Combobox extends Element {
      * @returns {Number} the combobox current data level
      */
     getLevel() {
-        if (this.state.value) {
-            return this.state.value.split('.').length;
-        }
-        return 1;
+        return this.state.displayText.split('.').length;
     }
 
     /**
-     * Determines whether a period was entered or deleted
+     * Determines whether a period was entered
      * @param {String} previousValue the previous value of the combobox
-     * @returns {Boolean} whether a period was entered or deleted
+     * @returns {Boolean} whether a period was entered
      */
-    wasPeriodEnteredOrDeleted(previousValue) {
-        if (this._isResourceState) {
-            // a period was entered or deleted in resource state
-            if ((this.state.value.length === previousValue.length + 1 &&
-                this.state.value.charAt(this.state.value.length - 2) === '.') ||
-                (this.state.value.length === previousValue.length - 1 &&
-                previousValue.charAt(previousValue.length - 2) === '.')) {
-                return true;
-            }
+    wasPeriodEntered(previousValue) {
+        // a period was entered in resource state
+        if ((this.state.displayText.length === previousValue.length + 1) &&
+            (previousValue.charAt(previousValue.length - 2) !== '.') &&
+            (this.state.displayText.charAt(this.state.displayText.length - 2) === '.')) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines whether a period was deleted
+     * @param {String} previousValue the previous value of the combobox
+     * @returns {Boolean} whether a period was deleted
+     */
+    wasPeriodDeleted(previousValue) {
+        // a period was deleted in resource state
+        if ((this.state.displayText.length === previousValue.length - 1) &&
+            (this.state.displayText.charAt(this.state.displayText.length - 2) !== '.') &&
+            (previousValue.charAt(previousValue.length - 2) === '.')) {
+            return true;
         }
         return false;
     }
@@ -389,7 +507,7 @@ export default class Combobox extends Element {
      * @param {String} value the value to set
      * @param {String} hasNextLevel whether or not the selected item has a next level
      */
-    setValueAndCursor(value, hasNextLevel) {
+    setValueAndCursor(value, hasNextLevel = false) {
         const combobox = this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
         const input = combobox.getElementsByTagName('input')[0];
 
@@ -402,9 +520,9 @@ export default class Combobox extends Element {
             }
         }
 
-        this.state.value = input.value = value;
+        this.state.displayText = input.value = value;
         // Lightning components team may provide a method to accomplish this in the future
-        input.setSelectionRange(this.state.value.length - 1, this.state.value.length - 1);
+        input.setSelectionRange(this.state.displayText.length - 1, this.state.displayText.length - 1);
     }
 
     /**
@@ -413,10 +531,10 @@ export default class Combobox extends Element {
      * @returns {String} The resource value or full text
      */
     getSanitizedValue() {
-        if (this._isResourceState) {
-            return this.state.value.substring(2, this.state.value.length - 1);
+        if (this._isMergeField) {
+            return this.state.displayText.substring(2, this.state.displayText.length - 1);
         }
-        return this.state.value;
+        return this.state.displayText;
     }
 
     /**
@@ -427,8 +545,8 @@ export default class Combobox extends Element {
      */
     getFilterText(sanitizedValue) {
         const lastIndex = sanitizedValue.lastIndexOf('.');
-        if (this._isResourceState && lastIndex !== -1) {
-            return sanitizedValue.substring(lastIndex);
+        if (this._isMergeField && lastIndex !== -1 && (this._item || this._base)) {
+            return sanitizedValue.substring(lastIndex + 1);
         }
         return sanitizedValue;
     }
@@ -437,7 +555,7 @@ export default class Combobox extends Element {
      * Input icon search for no selection otherwise clear.
      */
     updateInputIcon() {
-        if (this.state.value && this.state.value.length > 0) {
+        if (this.state.displayText && this.state.displayText.length > 0) {
             this.state.inputIcon = 'utility:clear';
         } else {
             this.state.inputIcon = 'utility:search';
@@ -459,6 +577,7 @@ export default class Combobox extends Element {
         const groupedCombobox = this.getGroupedCombobox();
         if (groupedCombobox) {
             groupedCombobox.setCustomValidity(customErrorMessage);
+            groupedCombobox.showHelpMessageIfInvalid();
         }
         this._errorMessage = customErrorMessage;
     }
@@ -488,8 +607,8 @@ export default class Combobox extends Element {
             return;
         }
 
-        if (this.state.value) {
-            if (this._isResourceState) {
+        if (this.state.displayText) {
+            if (this._isMergeField) {
                 this.validateResource();
             } else {
                 this.validateLiteral();
@@ -506,8 +625,8 @@ export default class Combobox extends Element {
         // literals allowed in combobox, validates number, currency (number), date and date time.
         // date and date time converts the input date string to format 'MM/DD/YYYY HH:MM:ss TZD
         if (this._isLiteralAllowed) {
-            this.validateLiteralForDataType(this.state.value);
-        } else if (!this.findItem()) {
+            this.validateLiteralForDataType(this.state.displayText);
+        } else if (!this._item) {
             this.setErrorMessage(ERROR_MESSAGE.GENERIC);
         }
     }
@@ -516,9 +635,9 @@ export default class Combobox extends Element {
      * Validates the resource value (value enclosed in {! and } ) selected or entered.
      */
     validateResource() {
-        if (this.isExpressionIdentifierLiteral(this.state.value) && this._isLiteralAllowed) {
-            this.validateLiteralForDataType(this.state.value);
-        } else if (!this.findItem()) {
+        if (this.isExpressionIdentifierLiteral() && this._isLiteralAllowed) {
+            this.validateLiteralForDataType(this.state.displayText);
+        } else if (!this._item) {
             this.setErrorMessage(ERROR_MESSAGE.GENERIC);
         }
     }
@@ -576,7 +695,7 @@ export default class Combobox extends Element {
     validateAndFormatDate(dateString, isDateTime) {
         const dateValue = this.isValidDateTime(dateString);
         if (dateValue) {
-            this.state.value = this.formatDate(dateValue, isDateTime);
+            this.state.displayText = formatDate(dateValue, isDateTime);
         } else {
             this.setErrorMessage(ERROR_MESSAGE[this._dataType]);
         }
@@ -592,42 +711,25 @@ export default class Combobox extends Element {
     }
 
     /**
-     * Formats the input date into 'MM/DD/YYYY' for date or 'MM/DD/YYYY HH:MM:SS TZ' for date time
-     * Note: Date format is not final yet and might change.
-     * @param {String} dateValue input Date value
-     * @param {boolean} isDateTime whether to append time
-     * @returns {String} formatted date string
-     */
-    formatDate(dateValue, isDateTime) {
-        const datePart = (dateValue.getMonth() + 1).toString().padStart(2, 0) + '/'
-            + dateValue.getDate().toString().padStart(2, 0) + '/' + dateValue.getFullYear();
-        if (isDateTime) {
-            return datePart + ' ' + dateValue.toTimeString();
-        }
-        return datePart;
-    }
-
-    /**
      * Validates if the expression literal identifier is a valid dev name.
      * Eg: {!testVar} - is a valid expression, returns false
      *     {^testVar} - is a valid expression literal, returns true
      * Dot at the end is allowed for SObject where dot signifies to fetch next level data
      * TODO: May not be needed with validation rules.
-     * @param {String} inputValue expression literal string
      * @param {boolean} allowDotSuffix to allow dot at the end of the expression identifier
      * @returns {*} returns false if invalid dev name chars or regex result.
      */
-    isExpressionIdentifierLiteral(inputValue, allowDotSuffix) {
+    isExpressionIdentifierLiteral(allowDotSuffix) {
         let value;
         let devNameRegex;
-        if (!isUndefinedOrNull(this.state.value) && this.state.value.startsWith('{!') && this.state.value.endsWith('}')) {
-            value = this.state.value.substring(2, this.state.value.length - 1);
+        if (this.state.displayText.startsWith('{!') && this.state.displayText.endsWith('}')) {
+            value = this.state.displayText.substring(2, this.state.displayText.length - 1);
         }
 
         if (allowDotSuffix) {
-            devNameRegex = new RegExp('^[a-zA-Z]+\\w+[a-zA-Z0-9\\.]$');
+            devNameRegex = TYPING_DEV_NAME_REGEX;
         } else {
-            devNameRegex = new RegExp('^[a-zA-Z]+\\w+[a-zA-Z0-9]$');
+            devNameRegex = VALIDATION_DEV_NAME_REGEX;
         }
 
         return value ? !devNameRegex.exec(value) : true; // {!} is valid string constant

@@ -5,9 +5,7 @@ export const mockRules =
         left:{
             paramType:'Data',
             paramIndex:1,
-            dataType:{
-                value:'Date'
-            },
+            dataType: 'Date',
             collection:false,
             canBeField:'CanBe',
             canBeSysVar:'CanBe'
@@ -17,9 +15,7 @@ export const mockRules =
             {
                 paramType:'Data',
                 paramIndex:1,
-                dataType:{
-                    value:'Date'
-                },
+                dataType: 'Date',
                 collection:false,
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'
@@ -27,9 +23,7 @@ export const mockRules =
             {
                 paramType:'Data',
                 paramIndex:1,
-                dataType:{
-                    value:'DateTime'
-                },
+                dataType: 'DateTime',
                 collection:false,
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'
@@ -41,9 +35,7 @@ export const mockRules =
         left:{
             paramType:'Data',
             paramIndex:1,
-            dataType:{
-                value:'DateTime'
-            },
+            dataType: 'DateTime',
             collection:false,
             canBeField:'CanBe',
             canBeSysVar:'CanBe'
@@ -53,9 +45,7 @@ export const mockRules =
             {
                 paramType:'Data',
                 paramIndex:1,
-                dataType:{
-                    value:'Date'
-                },
+                dataType: 'Date',
                 collection:false,
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'
@@ -63,9 +53,7 @@ export const mockRules =
             {
                 paramType:'Data',
                 paramIndex:1,
-                dataType:{
-                    value:'DateTime'
-                },
+                dataType: 'DateTime',
                 collection:false,
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'
@@ -145,9 +133,7 @@ export const mockRules =
         left:{
             paramType:'Data',
             paramIndex:1,
-            dataType:{
-                value:'SObject'
-            },
+            dataType: 'SObject',
             collection:false,
             canBeField:'CannotBe',
             canBeSysVar:'CanBe'
@@ -157,9 +143,7 @@ export const mockRules =
             {
                 paramType:'Data',
                 paramIndex:1,
-                dataType:{
-                    value:'SObject'
-                },
+                dataType: 'SObject',
                 collection:false,
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'

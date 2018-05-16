@@ -14,7 +14,7 @@ const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = RULE_PROPERTY_INFO;
  * @returns {String}            the value at the given property
  */
 const getDataTypeOrElementType = (param) => {
-    return param[DATA_TYPE] ? param[DATA_TYPE].value : param[ELEMENT_TYPE];
+    return param[DATA_TYPE] ? param[DATA_TYPE] : param[ELEMENT_TYPE];
 };
 
 /**

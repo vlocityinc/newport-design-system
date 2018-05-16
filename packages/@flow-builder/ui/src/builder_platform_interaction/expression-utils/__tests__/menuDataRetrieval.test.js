@@ -66,13 +66,13 @@ describe('Menu data retrieval', () => {
         const allowedVariables = getElementsForMenuData({element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true}, sampleParamTypes);
         expect(allowedVariables).toHaveLength(1);
         expect(allowedVariables[0].items).toHaveLength(1);
-        expect(allowedVariables[0].items[0].value).toBe(addCurlyBraces(store.numberVariableDevName));
+        expect(allowedVariables[0].items[0].displayText).toBe(addCurlyBraces(store.numberVariableDevName));
     });
     it('should preserve devName in text & value field', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
         const copiedElement = getElementsForMenuData({element: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
         expect(copiedElement.text).toBe(store.numberVariableDevName);
-        expect(copiedElement.value).toBe(addCurlyBraces(store.numberVariableDevName));
+        expect(copiedElement.displayText).toBe(addCurlyBraces(store.numberVariableDevName));
     });
     it('should set subText to objectType for sObject var', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid]]);
@@ -102,9 +102,9 @@ describe('Menu data retrieval', () => {
 describe('LHS retrieval', () => {
     it('should handle the case when LHS is guid', () => {
         const normalizedElement = normalizeLHS(store.numberVariableGuid);
-        expect(normalizedElement.display).toBe('{!' + store.numberVariableDevName + '}');
+        expect(normalizedElement.item.displayText).toBe('{!' + store.numberVariableDevName + '}');
         expect(normalizedElement.parameter.collection).toBe(false);
-        expect(normalizedElement.parameter.dataType).toBe(numberParam.dataType.value);
+        expect(normalizedElement.parameter.dataType).toBe(numberParam.dataType);
         expect(normalizedElement.parameter.elementType).toBe(store.variable);
     });
 });

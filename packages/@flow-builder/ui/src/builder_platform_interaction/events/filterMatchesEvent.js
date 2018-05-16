@@ -4,14 +4,15 @@
 const eventName = 'filtermatches';
 
 export class FilterMatchesEvent extends Event {
-    constructor(value = null) {
+    constructor(value = null, isMergeField = false) {
         super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
         });
-        this.detail = {
-            value
+        this.detail =  {
+            value,
+            isMergeField
         };
     }
 

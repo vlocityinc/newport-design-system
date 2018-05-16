@@ -2,9 +2,9 @@
     <div class="slds-grid slds-gutters slds-grid_vertical-align-start slds-gutters_xx-small">
         <builder_platform_interaction-combobox class="slds-col slds-grow"
                 label={lhsLabel}
-                value={state.normalizedLHS.display}
+                value={state.normalizedLHS.item}
                 onfetchmenudata={handleFetchLHSMenuData}
-                onvaluechanged={handleLHSValueChanged}
+                oncomboboxvaluechanged={handleLHSValueChanged}
                 onfiltermatches={handleFilterLHSMatches}
                 menu-data={lhsMenuData}
                 error-message={state.expression.leftHandSide.error}
@@ -24,10 +24,11 @@
         </template>
         <builder_platform_interaction-combobox class="slds-col slds-grow"
                 label={rhsLabel}
-                value={state.rhsDisplay}
+                display-text={state.normalizedRHS.displayText}
+                value={state.normalizedRHS.item}
                 disabled={rhsDisabled}
                 onfetchmenudata={handleFetchRHSMenuData}
-                onvaluechanged={handleRHSValueChanged}
+                oncomboboxvaluechanged={handleRHSValueChanged}
                 onfiltermatches={handleFilterRHSMatches}
                 menu-data={rhsMenuData}
                 error-message={state.expression.rightHandSide.error}

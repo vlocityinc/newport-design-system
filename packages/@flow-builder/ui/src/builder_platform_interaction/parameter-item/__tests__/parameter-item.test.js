@@ -1,9 +1,9 @@
 import { createElement } from 'engine';
 import ParameterItem from 'builder_platform_interaction-parameter-item';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
-import { UpdateParameterItemEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
+import { UpdateParameterItemEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
 import { stringCollectionVariable1Guid, stringCollectionVariable1DevName } from 'mock-store-data';
-import { comboboxConfig } from 'mock-combobox-data';
+import { comboboxInitialConfig } from 'mock-combobox-data';
 
 const defaultProps = {
     elementType: ELEMENT_TYPE.ACTION_CALL,
@@ -66,7 +66,7 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
 jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
         getElementsForMenuData: jest.fn().mockReturnValue(
-            require.requireActual('mock-combobox-data').comboboxConfig.menuData
+            require.requireActual('mock-combobox-data').comboboxInitialConfig.menuData
         ),
         getElementByGuid: require.requireActual('builder_platform_interaction-store-utils').getElementByGuid,
     };
@@ -99,7 +99,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox should be empty', () => {
-                expect(builderCombobox.value).toEqual('');
+                expect(builderCombobox.displayText).toEqual('');
             });
             it('combobox should be required', () => {
                 expect(builderCombobox.required).toBe(true);
@@ -122,13 +122,13 @@ describe('parameter-item', () => {
                 toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it("combobox.menuData", () => {
-                expect(builderCombobox.menuData).toEqual(comboboxConfig.menuData);
+                expect(builderCombobox.menuData).toEqual(comboboxInitialConfig.menuData);
             });
             it('combobox should be shown', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox value should be equal to Test', () => {
-                expect(builderCombobox.value).toEqual(paramValue);
+                expect(builderCombobox.displayText).toEqual(paramValue);
             });
             it('combobox should be required', () => {
                 expect(builderCombobox.required).toBe(true);
@@ -176,7 +176,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox value should be equal to Test', () => {
-                expect(builderCombobox.value).toEqual(paramValue);
+                expect(builderCombobox.displayText).toEqual(paramValue);
             });
             it('combobox should not be required', () => {
                 expect(builderCombobox.required).toBe(false);
@@ -204,7 +204,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox value should be empty', () => {
-                expect(builderCombobox.value).toHaveLength(0);
+                expect(builderCombobox.displayText).toHaveLength(0);
             });
             it('combobox should not be required', () => {
                 expect(builderCombobox.required).toBe(false);
@@ -229,7 +229,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox value should be equal to stringCollectionVariable1DevName', () => {
-                expect(builderCombobox.value).toEqual(`{!${stringCollectionVariable1DevName}}`);
+                expect(builderCombobox.displayText).toEqual(`{!${stringCollectionVariable1DevName}}`);
             });
             it('combobox should not be required', () => {
                 expect(builderCombobox.required).toBe(false);
@@ -289,7 +289,7 @@ describe('parameter-item', () => {
             toggleInput.dispatchEvent(new ToggleOnChangeEvent());
             const combobox = getBuilderComboboxElement(parameterItemCmp);
             expect(combobox).not.toBeNull();
-            expect(combobox.value).toEqual(paramValue);
+            expect(combobox.displayText).toEqual(paramValue);
             done();
         });
         it("should fire 'UpdateParameterItemEvent'", done => {
@@ -317,7 +317,7 @@ describe('parameter-item', () => {
             const eventCallback = jest.fn();
             parameterItemCmp.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
             const newParamValue = 'new value';
-            const cbChangeEvent = new ValueChangedEvent(newParamValue);
+            const cbChangeEvent = new ComboboxValueChangedEvent(null, newParamValue);
             const builderCombobox = getBuilderComboboxElement(parameterItemCmp);
             builderCombobox.dispatchEvent(cbChangeEvent);
             expect(eventCallback).toHaveBeenCalled();

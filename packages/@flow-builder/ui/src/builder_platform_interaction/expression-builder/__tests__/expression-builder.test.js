@@ -1,7 +1,7 @@
 import { createElement } from 'engine';
 // Importing using relative path here to ensure that we get the actual component and not the mocked version
 import ExpressionBuilder from '../expression-builder.js';
-import { RowContentsChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
+import { RowContentsChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
 import { numberVariableGuid, numberVariableDevName, elements } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
@@ -57,11 +57,11 @@ function getLightningCombobox(expressionBuilder) {
 }
 
 const CBreturnItem = {
-    id: elements[numberVariableGuid].guid,
-    value: '{!' + elements[numberVariableGuid].name + '}'
+    value: elements[numberVariableGuid].guid,
+    displayText: '{!' + elements[numberVariableGuid].name + '}'
 };
 
-const ourCBChangeEvent = new ValueChangedEvent(CBreturnItem);
+const ourCBChangeEvent = new ComboboxValueChangedEvent(CBreturnItem);
 
 const newCBValue = numberVariableGuid;
 
@@ -89,9 +89,11 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         getElementsForMenuData: jest.fn().mockReturnValue([]),
         EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction-expression-utils').EXPRESSION_PROPERTY_TYPE,
         normalizeLHS: require.requireActual('builder_platform_interaction-expression-utils').normalizeLHS,
+        normalizeRHS: require.requireActual('builder_platform_interaction-expression-utils').normalizeRHS,
         retrieveRHSVal: require.requireActual('builder_platform_interaction-expression-utils').retrieveRHSVal,
         getElementByGuid: require.requireActual('builder_platform_interaction-store-utils').getElementByGuid,
         isElementAllowed: require.requireActual('builder_platform_interaction-expression-utils').isElementAllowed,
+        sanitizeGuid: require.requireActual('builder_platform_interaction-expression-utils').sanitizeGuid,
     };
 });
 
@@ -219,9 +221,9 @@ describe('expression-builder', () => {
             const lhsCombobox = comboboxes[0];
             const operatorCombobox = getLightningCombobox(expressionBuilder);
             const rhsCombobox = comboboxes[1];
-            expect(lhsCombobox.value).toEqual(devNameToComboboxValue(numberVariableDevName));
+            expect(lhsCombobox.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
             expect(operatorCombobox.value).toEqual('Assign');
-            expect(rhsCombobox.value).toEqual(devNameToComboboxValue(numberVariableDevName));
+            expect(rhsCombobox.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
         });
     });
 });

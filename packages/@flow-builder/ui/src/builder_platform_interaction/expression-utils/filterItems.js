@@ -86,12 +86,13 @@ function isEmpty(value) {
 
 /**
  * Filters the data passed in based on the text in a format that the combobox expects
- * @param {String} filterText - The value used to filter. This should just be the final string in an expression.
+ * @param {String} filterText The value used to filter. This should just be the final string in an expression.
  * If the full value is '{!MyAccount.FirstN}', filterText should be 'FirstN'. If the full value is '{!MyAcc', filterText should be 'MyAcc'.
- * @param {Array} menuData - The menu data that needs to be filtered
+ * @param {Array} menuData The menu data that needs to be filtered
+ * @param {Boolean} isMergeField Whether only merge fields should be in the menu data
  * @return {Array} The filtered and highlighted menu data
  */
-export function filterMatches(filterText, menuData) {
+export function filterMatches(filterText, menuData, isMergeField) {
     if (!Array.isArray(menuData)) {
         throw new Error(`Menu data must be an array but was ${menuData}`);
     }
@@ -102,7 +103,14 @@ export function filterMatches(filterText, menuData) {
     for (let i = 0; i < countGroups; i++) {
         clearHighlight(menuData[i].items || []);
 
-        const matchedGroupItems = menuData[i].items.filter(menuItem => {
+        let itemsToMatch = menuData[i].items;
+        if (isMergeField) {
+            itemsToMatch = itemsToMatch.filter(menuItem => {
+                return menuItem.displayText.startsWith('{!') && menuItem.displayText.endsWith('}');
+            });
+        }
+
+        const matchedGroupItems = itemsToMatch.filter(menuItem => {
             return isEmpty(filterText) || getIndex(filterText, menuItem.text) !== -1 || getIndex(filterText, menuItem.subText) !== -1;
         });
 

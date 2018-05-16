@@ -11,9 +11,10 @@ const cachedEntityFields = {};
 /**
  * Fields from SObjects have data types that need to be mapped to Flow
  * @param {Array} fields - Fields from SObject
- * @returns {Array} Modified fields
+ * @returns {Map} Modified fields
  */
 const mapToFlowDataType = (fields) => {
+    const fieldsMap = {};
     fields.forEach((field) => {
         field.dataType = field.dataType[0] + field.dataType.substring(1).toLowerCase();
         // TODO: W-4917767 Need to use the service instead of this!
@@ -32,8 +33,9 @@ const mapToFlowDataType = (fields) => {
             default:
                 break;
         }
+        fieldsMap[field.apiName] = field;
     });
-    return fields;
+    return fieldsMap;
 };
 
 /**

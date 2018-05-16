@@ -1,7 +1,7 @@
 import { createElement } from 'engine';
 import ActionSelector from '../action-selector';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
-import { ValueChangedEvent } from 'builder_platform_interaction-events';
+import { ValueChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
 import { mockActions, mockApexPlugins, mockSubflows } from 'mock-action-selector-data';
 
 const createComponentUnderTest = () => {
@@ -101,23 +101,25 @@ describe('Action selector', () => {
                 elementType : ELEMENT_TYPE.ACTION_CALL
             };
             await Promise.resolve();
-            expect(interactionCombobox.value).toBe('emailSimple-emailSimple');
+            expect(interactionCombobox.displayText).toBe('emailSimple-emailSimple');
             lightningCombobox.dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_CALL}}));
             await Promise.resolve();
             expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_CALL);
-            expect(interactionCombobox.value).toBe('');
+            expect(interactionCombobox.displayText).toBe('');
         });
     });
     describe('When an action is selected', () => {
+        const cbEventItem = { value: 'emailSimple-emailSimple', displayText: 'emailSimple-emailSimple' };
+
         it('should fire ValueChangedEvent', () => {
             const eventCallback = jest.fn();
             document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
-            interactionCombobox.dispatchEvent(new ValueChangedEvent('emailSimple-emailSimple'));
+            interactionCombobox.dispatchEvent(new ComboboxValueChangedEvent(cbEventItem));
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail.value).toMatchObject({actionName: 'emailSimple', actionType: 'emailSimple'});
         });
         it('api should return the selected element', () => {
-            interactionCombobox.dispatchEvent(new ValueChangedEvent('emailSimple-emailSimple'));
+            interactionCombobox.dispatchEvent(new ComboboxValueChangedEvent(cbEventItem));
             expect(actionSelectorComponent.selectedAction).toMatchObject({actionName: 'emailSimple', actionType: 'emailSimple'});
         });
     });
@@ -131,7 +133,7 @@ describe('Action selector', () => {
             expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_PLUGIN_CALL);
         });
         it('should display no value in the Action combobox', () => {
-            expect(interactionCombobox.value).toBe('');
+            expect(interactionCombobox.displayText).toBe('');
         });
     });
     describe('When selecting an action using the api', () => {
@@ -147,7 +149,7 @@ describe('Action selector', () => {
         });
         it('should display the corresponding action label in the Action combobox', () => {
             // TODO : fix once we display the label
-            expect(interactionCombobox.value).toBe('emailSimple-emailSimple');
+            expect(interactionCombobox.displayText).toBe('emailSimple-emailSimple');
         });
     });
 });

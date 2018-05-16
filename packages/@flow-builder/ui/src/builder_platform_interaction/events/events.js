@@ -24,3 +24,5 @@ export { EditElementEvent } from './element-events/edit-element-event';
 export { PaletteItemClickedEvent } from './palette-events/palette-item-clicked-event';
 export { PaletteSectionToggleEvent } from './palette-events/palette-section-toggle-event';
 export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';
+export { ItemSelectedEvent } from './itemSelectedEvent';
+export { ComboboxValueChangedEvent } from './comboboxValueChangedEvent';
