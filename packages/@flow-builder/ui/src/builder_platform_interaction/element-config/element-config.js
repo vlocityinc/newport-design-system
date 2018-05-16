@@ -290,10 +290,10 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.LOOP]: {
         descriptor: 'builder_platform_interaction:loopEditor',
         nodeConfig: {
-            iconName: 'standard:feed',
+            iconName: 'standard:channel_program_history',
             maxConnections: 1
         },
-        modalSize: MODAL_SIZE.LARGE,
+        modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.LOOPS,
         // TODO: Use the label file for the element labels.
         labels: {
