@@ -1,10 +1,17 @@
 import { ELEMENT_TYPE, getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
+import startElementLabel from '@label/FlowBuilderCanvas.startElementLabel';
 
 export const CONNECTOR_TYPE = {
     REGULAR: 'REGULAR',
     FAULT: 'FAULT',
-    DEFAULT: 'DEFAULT'
+    DEFAULT: 'DEFAULT',
+    START: 'START'
+};
+
+export const START_ELEMENT_X_Y = {
+    x: 50,
+    y: 50
 };
 
 /**
@@ -80,6 +87,23 @@ export const getMaxConnections = node => {
     }
 
     return maxConnections;
+};
+
+/**
+ * Method to create the start element object
+ *
+ * @returns {Object} startElement   the start element object
+ */
+export const createStartElement = () => {
+    const startElement = {};
+    startElement.guid = generateGuid(ELEMENT_TYPE.START_ELEMENT);
+    startElement.elementType = ELEMENT_TYPE.START_ELEMENT;
+    startElement.label = startElementLabel;
+    startElement.locationX = START_ELEMENT_X_Y.x;
+    startElement.locationY = START_ELEMENT_X_Y.y;
+    startElement.config = { isSelected: false };
+
+    return startElement;
 };
 
 /**
@@ -188,16 +212,23 @@ export const createConnectorObjects = (node, parentId) => {
  *
  * @param {String} nodeId         guid of the canvas element
  * @param {Objects} elements      collection of all elements in the store mapped by guid
+ * @param {String} startNodeId    guid of the element that the start element connects to
  *
  * @returns {Array} connectors    array of connector objects for the given canvas element
  */
-export const createConnectorsAndConnectionProperties = (nodeId, elements) => {
+export const createConnectorsAndConnectionProperties = (nodeId, elements, startNodeId) => {
     const node = elements[nodeId];
     const connectors = [];
     const elementType = node.elementType;
 
     // Create connector objects for the canvas element
-    connectors.push(...createConnectorObjects(node));
+    if (elementType === ELEMENT_TYPE.START_ELEMENT) {
+        if (startNodeId) {
+            connectors.push(createConnectorObject(node.guid, null, startNodeId, null, CONNECTOR_TYPE.START));
+        }
+    } else {
+        connectors.push(...createConnectorObjects(node));
+    }
 
     // Create connector objects for any child elements of the canvas element (ex. outcomes on a decision)
     let childReferences = [];
@@ -225,11 +256,16 @@ export const createConnectorsAndConnectionProperties = (nodeId, elements) => {
 
 /**
  * Method to set connector properties on all the elements in the store in the flow metadata shape (when translating before save)
+ * This method will also return the guid of the canvas element marked as the start element if one exists.
  *
- * @param {String} connectors     collection of connector objects to set
- * @param {Objects} elements      collection of all elements in the store mapped by guid
+ * @param {String} connectors           collection of connector objects to set
+ * @param {Objects} elements            collection of all elements in the store mapped by guid
+ *
+ * @return {String} startElementId      guid of the canvas element marked as the start element
  */
 export const setConnectorsOnElements = (connectors, elements) => {
+    let startElementId;
+
     connectors.forEach(connector => {
         const element = connector.childSource
             ? elements[connector.childSource]
@@ -261,10 +297,17 @@ export const setConnectorsOnElements = (connectors, elements) => {
                 break;
             }
 
+            case CONNECTOR_TYPE.START: {
+                startElementId = connector.target;
+                break;
+            }
+
             default:
                 break;
         }
 
         // TODO: Add logic for connectors on the Loop element once we have final UI designs
     });
+
+    return startElementId;
 };

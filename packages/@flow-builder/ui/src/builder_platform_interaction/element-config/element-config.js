@@ -35,6 +35,7 @@ export const ELEMENT_TYPE = {
     SCREEN: 'SCREEN',
     STEP: 'STEP',
     SUBFLOW: 'SUBFLOW',
+    START_ELEMENT: 'START_ELEMENT',
     WAIT: 'WAIT',
     DEFAULT: 'defaultElement'
 };
@@ -50,6 +51,13 @@ export const SUB_ELEMENT_TYPE = {
  * @type {object}
  */
 export const elementTypeToConfigMap = {
+    [ELEMENT_TYPE.START_ELEMENT]: {
+        nodeConfig: {
+            iconName: 'standard:flow',
+            maxConnections: 1
+        },
+        canvasElement: true
+    },
     [ELEMENT_TYPE.SUBFLOW]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {

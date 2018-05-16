@@ -3,7 +3,7 @@ import { ELEMENT_INFOS, FLOW_PROPERTIES } from './translation-config';
 import { swapDevNamesToUids } from './uid-swapping';
 import { pick } from 'builder_platform_interaction-data-mutation-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
-import { createConnectorsAndConnectionProperties } from 'builder_platform_interaction-connector-utils';
+import { createConnectorsAndConnectionProperties, createStartElement } from 'builder_platform_interaction-connector-utils';
 
 /**
  * Decorate the element with ui specific data and data corresponding to it's element type
@@ -106,7 +106,12 @@ export function translateFlowToUIModel(flow) {
     // All canvas element ids
     const canvasElements = [];
 
-    // convert each type of element ex: assignments, decisions, variables
+    // Create start element
+    const startElement = createStartElement();
+    elements[startElement.guid] = startElement;
+    canvasElements.push(startElement.guid);
+
+    // Convert each type of element ex: assignments, decisions, variables
     Object.entries(ELEMENT_INFOS).forEach(([elementType, elementInfo]) => {
         let elementsToConvert = flow.metadata[elementInfo.metadataKey];
         if (elementInfo.metadataFilter && elementsToConvert) {
@@ -140,11 +145,15 @@ export function translateFlowToUIModel(flow) {
     // Swap out dev names for guids in all element references
     swapDevNamesToUids(nameToGuid, elements);
 
-    // Create connector objects for all canvas elements
+    // Create connector objects for all canvas elements including start element
     const connectors = [];
+    let startElementTarget;
+    if (flow.metadata.startElementReference) {
+        startElementTarget = nameToGuid[flow.metadata.startElementReference];
+    }
     canvasElements.forEach(elementId => {
         connectors.push(
-            ...createConnectorsAndConnectionProperties(elementId, elements)
+            ...createConnectorsAndConnectionProperties(elementId, elements, startElementTarget)
         );
     });
 
@@ -153,18 +162,11 @@ export function translateFlowToUIModel(flow) {
     properties.fullName = flow.fullName;
     properties.versionNumber = flow.versionNumber;
 
-    // Set the start element
-    let startElement;
-    if (flow.metadata.startElementReference) {
-        startElement = nameToGuid[flow.metadata.startElementReference];
-    }
-
     return {
         elements,
         connectors,
         variables,
         canvasElements,
-        properties,
-        startElement
+        properties
     };
 }

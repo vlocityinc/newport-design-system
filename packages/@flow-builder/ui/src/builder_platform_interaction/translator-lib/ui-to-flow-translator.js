@@ -106,7 +106,7 @@ export function translateUIModelToFlow(uiModel) {
     updateElementLocation(uiModel.canvasElements, elements);
 
     // Set connector properties on all elements
-    setConnectorsOnElements(uiModel.connectors, elements);
+    const startElementId = setConnectorsOnElements(uiModel.connectors, elements);
 
     // Swap out guids for dev names in all element references
     swapUidsForDevNames(uiModel.elements, elements);
@@ -148,9 +148,9 @@ export function translateUIModelToFlow(uiModel) {
 
     metadata = updateProperties(metadata, pick(uiModel.properties, FLOW_PROPERTIES));
 
-    if (uiModel.startElement !== null &&
-         uiModel.elements[uiModel.startElement]) {
-        metadata.startElementReference = uiModel.elements[uiModel.startElement].name;
+    if (startElementId &&
+         uiModel.elements[startElementId]) {
+        metadata.startElementReference = uiModel.elements[startElementId].name;
     }
 
     return {
