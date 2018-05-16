@@ -60,6 +60,7 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
         getRHSTypes: jest.fn(),
         getRulesForContext: jest.fn().mockReturnValue([]),
         RULE_PROPERTY_INFO: require.requireActual('builder_platform_interaction-rule-lib').RULE_PROPERTY_INFO,
+        RULE_OPERATOR: require.requireActual('builder_platform_interaction-rule-lib').RULE_PROPERTY_INFO,
     };
 });
 
