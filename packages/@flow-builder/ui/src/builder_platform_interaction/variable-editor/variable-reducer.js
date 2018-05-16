@@ -1,4 +1,4 @@
-import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
+import { updateProperties, isItemHydratedWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 
 /**
@@ -9,9 +9,12 @@ import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
  */
 export const variableReducer = (variable, action) => {
     switch (action.type) {
-        case PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY:
+        case PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY: {
             // TODO: validation W-4900878
-            return updateProperties(variable, {[action.payload.propertyName]: {error: action.payload.error, value: action.payload.value}});
+            const propertyValue = isItemHydratedWithErrors(variable[action.payload.propertyName]) ?
+                {error: action.payload.error, value: action.payload.value} : action.payload.value;
+            return updateProperties(variable, {[action.payload.propertyName]: propertyValue});
+        }
         default: return variable;
     }
 };

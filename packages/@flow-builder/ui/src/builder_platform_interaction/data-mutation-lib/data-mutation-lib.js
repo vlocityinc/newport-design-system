@@ -4,3 +4,4 @@ export * from './elementDataMutation';
 export * from './propertyEditorDataMutation';
 export * from './stringMutation';
 export { mutateOutcome } from './decisionEditorDataMutation';
+export { GUID_SUFFIX } from './ferovEditorDataMutation';

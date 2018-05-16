@@ -5,7 +5,7 @@
  * @param {Object} item to evaluate if its hydrated
  * @return {boolean} returns true if item has error and value property otherwise false
  */
-const isItemHydratedWithErrors = (item) => {
+export const isItemHydratedWithErrors = (item) => {
     return item && item.hasOwnProperty('value') && item.hasOwnProperty('error');
 };
 

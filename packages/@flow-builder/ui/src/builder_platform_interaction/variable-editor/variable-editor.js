@@ -1,9 +1,12 @@
 import { Element, api, track, unwrap } from 'engine';
-import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem, GUID_SUFFIX } from 'builder_platform_interaction-data-mutation-lib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { variableReducer } from './variable-reducer';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { PropertyEditorWarningEvent } from 'builder_platform_interaction-events';
+import { filterMatches, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
+import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 // the property names in a variable element (after mutation)
 const VARIABLE_FIELDS = {
@@ -26,6 +29,8 @@ const EXTERNAL_ACCESS_VALUES = [
 
 // fields on which warning can be set in variable editor
 const VARIABLE_WARNING_FIELDS = [VARIABLE_FIELDS.NAME, VARIABLE_FIELDS.IS_INPUT, VARIABLE_FIELDS.IS_OUTPUT];
+// TODO: use FLOW_DATA_TYPE from service once availiable
+const DATATYPES_WITH_NO_DEFAULT_VALUE = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value, FLOW_DATA_TYPE.SOBJECT.value];
 
 const flowDataTypeMenuItems = Object.values(FLOW_DATA_TYPE);
 
@@ -62,8 +67,10 @@ export default class VariableEditor extends Element {
         // TODO: update when W-4889306 is closed
         this.variableResource = unwrap(newValue);
         this._devNamePreviousValue = this.variableResource.name;
+        this._lastRecordedDataType = getValueFromHydratedItem(this.variableResource.dataType);
 
         this.initializeExternalAccessValues();
+        this.fetchDefaultValueMenuData();
     }
 
     // used to keep track of whether this is an existing variable resource
@@ -131,6 +138,35 @@ export default class VariableEditor extends Element {
         return externalAccessHelpText;
     }
 
+    /**
+     * Returns the default value for the variable resource.
+     * TODO: To string logic will change once combobox latest refactor goes in.
+     * @return {String} returns the default value for the variable resource if exists, otherwise empty string.
+     */
+    get defaultValue() {
+        const defaultValue = getValueFromHydratedItem(this.variableResource.defaultValue);
+        if (defaultValue && typeof defaultValue === 'number') {
+            return defaultValue.toString();
+        }
+        return defaultValue;
+    }
+
+    /**
+     * No Default Value for Picklist, Multipicklist and SObject and collection variables.
+     * @return {boolean} false for Picklist, Multipicklist and SObject data type or collection variables, otherwise true.
+     */
+    get hasDefaultValue() {
+        return !(this.variableResource.isCollection || (this.dataType && DATATYPES_WITH_NO_DEFAULT_VALUE.includes(this.dataType)));
+    }
+
+    /**
+     * Menu data for the default value combobox.
+     * @return {*} menu data in format grouped-combobox expects
+     */
+    get defaultValueMenuData() {
+        return this._defaultValueMenuData;
+    }
+
     // previous value of external access input output checkbox. Used to assess warning.
     _externalAccessPreviousValues = new Set();
 
@@ -139,6 +175,12 @@ export default class VariableEditor extends Element {
 
     // previous dev name from label description. Used to assess warning.
     _devNamePreviousValue = '';
+
+    _fullDefaultValueMenuData = {};
+
+    _defaultValueMenuData;
+
+    _lastRecordedDataType = '';
 
     /* ********************** */
     /*     Event handlers     */
@@ -157,10 +199,20 @@ export default class VariableEditor extends Element {
     handleDataTypeSelect(event) {
         this.handleChange(event, VARIABLE_FIELDS.DATA_TYPE);
         // TODO: handle clearing of fields when data type is changed
+
+        const selectedDataType = getValueFromHydratedItem(this.variableResource.defaultValue);
+        if (this._lastRecordedDataType !== selectedDataType) {
+            this._lastRecordedDataType = selectedDataType;
+            this.fetchDefaultValueMenuData();
+        }
     }
 
     handleCollectionChange(event) {
-        this.handleChange(event, VARIABLE_FIELDS.IS_COLLECTION);
+        const isCollection = event.detail.checked;
+        this.updateProperty(VARIABLE_FIELDS.IS_COLLECTION, isCollection, null);
+        if (!isCollection && !this._defaultValueMenuData) {
+            this.fetchDefaultValueMenuData();
+        }
     }
 
     /**
@@ -185,6 +237,23 @@ export default class VariableEditor extends Element {
         this.assessWarning();
     }
 
+    /**
+     * Handles the value change event from default value combobox.
+     * @param {object} event - Value changed event from combobox.
+     */
+    handleDefaultValuePropertyChanged(event) {
+        this.handleChange(event, VARIABLE_FIELDS.DEFAULT_VALUE);
+    }
+
+    /**
+     * Use the filter matches utils to filter the combobox data when user types the search text
+     * @param {object} event Filter matches event from combobox.
+     */
+    handleDefaultValueFilterMatches(event) {
+        event.stopPropagation();
+        this._defaultValueMenuData = filterMatches(event.detail.value, this._fullDefaultValueMenuData);
+    }
+
     /** *********************************/
     /*         Helper methods           */
     /** *********************************/
@@ -196,8 +265,24 @@ export default class VariableEditor extends Element {
      */
     handleChange(event, propertyName) {
         event.stopPropagation();
+
         const valueErrorObj = this.getEventValueAndError(event);
-        this.updateProperty(propertyName, valueErrorObj.value, valueErrorObj.error);
+        let value = valueErrorObj.value;
+        const error = valueErrorObj.error;
+
+        // for defaultValue extract out the guid and value from menu item
+        if (propertyName === VARIABLE_FIELDS.DEFAULT_VALUE) {
+            let defaultValueGuidValue;
+            if (event.detail.value.value) {
+                value = event.detail.value.value;
+                defaultValueGuidValue = event.detail.value.id;
+            } else {
+                defaultValueGuidValue = '';
+            }
+            this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, defaultValueGuidValue, null);
+        }
+
+        this.updateProperty(propertyName, value, error);
     }
 
     /**
@@ -209,17 +294,6 @@ export default class VariableEditor extends Element {
     updateProperty(propertyName, value, error) {
         const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
         this.variableResource = variableReducer(this.variableResource, action);
-    }
-
-    /**
-     * Extract out value and error from the event based on whether the detail is present.
-     * @param {object} event Event for the data type
-     * @return {object} value and error object
-     */
-    getEventValueAndError(event) {
-        return event.detail
-            ? { value: event.detail.value, error: event.detail.error }
-            : { value: event.value, error: event.error };
     }
 
     /**
@@ -271,6 +345,28 @@ export default class VariableEditor extends Element {
     fireWarningEvent(propertyName, message) {
         const warningEvent = new PropertyEditorWarningEvent(propertyName, message);
         this.dispatchEvent(warningEvent);
+    }
+
+    /**
+     * Fetch the element data based on the data type of the variable.
+     */
+    fetchDefaultValueMenuData() {
+        if (this.hasDefaultValue) {
+            const element = ELEMENT_TYPE.VARIABLE;
+            const rhsTypes = getRHSTypes(this.variableResource, RULE_OPERATOR.ASSIGN, getRulesForContext({elementType: ELEMENT_TYPE.VARIABLE}));
+            this._fullDefaultValueMenuData = this._defaultValueMenuData = getElementsForMenuData({element}, rhsTypes, true /* include new resource */);
+        }
+    }
+
+    /**
+     * Extract out value and error from the event based on whether the detail is present.
+     * @param {object} event Event for the data type
+     * @return {object} value and error object
+     */
+    getEventValueAndError(event) {
+        return event.detail
+            ? { value: event.detail.value, error: event.detail.error }
+            : { value: event.value, error: event.error };
     }
 
     /** *********************************/

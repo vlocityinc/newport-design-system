@@ -37,6 +37,11 @@ export const RULE_PROPERTY_INFO = {
     ELEMENT_TYPE: 'elementType',
 };
 
+// operators in rule, will be added as needed
+export const RULE_OPERATOR = {
+    ASSIGN: 'Assign',
+};
+
 /**
  * Method to set the rules
  * @param {String} rules The JSON string that includes the rules returned by the services

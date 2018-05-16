@@ -16,7 +16,7 @@ const META_DATA_TYPES_TO_FEROV_TYPES_MAP = {
 const FEROV_DATA_TYPE_VALUES = Object.keys(META_DATA_TYPES_TO_FEROV_TYPES_MAP);
 
 // guid suffix to add to defaultValue when ferov object value is a reference
-const GUID_SUFFIX = 'Guid';
+export const GUID_SUFFIX = 'Guid';
 
 /**
  * Returns true if ferov is type reference
