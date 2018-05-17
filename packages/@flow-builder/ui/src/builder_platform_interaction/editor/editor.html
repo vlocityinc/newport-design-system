@@ -6,12 +6,7 @@
         </div>
         <div class="slds-col slds-grow slds-grid">
             <div class="slds-col slds-panel slds-size_medium slds-border_right" aria-hidden="false">
-                <div class="slds-panel__header">
-                    <h2 class="slds-panel__header-title slds-text-heading_small">Flow Tools</h2>
-                </div>
-                <div class="slds-panel__body slds-p-around_x-small">
-                    <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement}></builder_platform_interaction-left-panel>
-                </div>
+                <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement}></builder_platform_interaction-left-panel>
             </div>
              <div class="slds-col">
                 <builder_platform_interaction-canvas nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}

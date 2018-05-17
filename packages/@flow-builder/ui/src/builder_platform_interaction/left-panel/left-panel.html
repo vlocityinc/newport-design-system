@@ -1,15 +1,20 @@
 <template>
-    <builder_platform_interaction-tabset ontabchange={handleTabChange}>
-        <!-- Tab items go into the unnamed slot. -->
-        <builder_platform_interaction-tabitem tabid="left-panel-tabitem-elements" label="Elements" controls="left-panel-tabcontent-elements" activeid={activetabid}></builder_platform_interaction-tabitem>
-        <builder_platform_interaction-tabitem tabid="left-panel-tabitem-resources" label="Resource Manager" controls="left-panel-tabcontent-resources" activeid={activetabid}></builder_platform_interaction-tabitem>
-        <div slot="contents">
-            <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-elements" labelledby="left-panel-tabitem-elements" activeid={activetabid}>
-                <builder_platform_interaction-left-panel-elements></builder_platform_interaction-left-panel-elements>
-            </builder_platform_interaction-tabcontent>
-            <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-resources" labelledby="left-panel-tabitem-resources" activeid={activetabid}>
-                <builder_platform_interaction-left-panel-resources resources={resources} onpaletteitemclicked={handleResourceClicked}></builder_platform_interaction-left-panel-resources>
-            </builder_platform_interaction-tabcontent>
-        </div>
-    </builder_platform_interaction-tabset>
+    <div class="slds-panel__header">
+        <h2 class="slds-panel__header-title slds-text-heading_small">Flow Tools</h2>
+    </div>
+    <div class="slds-panel__body slds-p-right_none">
+        <builder_platform_interaction-tabset ontabchange={handleTabChange}>
+            <!-- Tab items go into the unnamed slot. -->
+            <builder_platform_interaction-tabitem tabid="left-panel-tabitem-elements" label="Elements" controls="left-panel-tabcontent-elements" activeid={activetabid}></builder_platform_interaction-tabitem>
+            <builder_platform_interaction-tabitem tabid="left-panel-tabitem-resources" label="Resource Manager" controls="left-panel-tabcontent-resources" activeid={activetabid}></builder_platform_interaction-tabitem>
+            <div slot="contents" class="slds-scrollable_y">
+                <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-elements" labelledby="left-panel-tabitem-elements" activeid={activetabid}>
+                    <builder_platform_interaction-left-panel-elements></builder_platform_interaction-left-panel-elements>
+                </builder_platform_interaction-tabcontent>
+                <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-resources" labelledby="left-panel-tabitem-resources" activeid={activetabid}>
+                    <builder_platform_interaction-left-panel-resources resources={resources} onpaletteitemclicked={handleResourceClicked}></builder_platform_interaction-left-panel-resources>
+                </builder_platform_interaction-tabcontent>
+            </div>
+        </builder_platform_interaction-tabset>
+    </div>
 </template>

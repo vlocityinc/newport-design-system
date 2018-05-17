@@ -17,6 +17,14 @@
     width: 100%;
 }
 
+.THIS builder_platform_interaction-left-panel builder_platform_interaction-tabset div.container {
+    display: block;
+    height: calc(100vh - 191px);
+    -webkit-overflow-scrolling: touch;
+    overflow:hidden;
+    overflow-y:auto
+}
+
 /************* Canvas *****************/
 .THIS builder_platform_interaction-canvas .canvas {
     background-color: t(colorForegroundPrimary);
