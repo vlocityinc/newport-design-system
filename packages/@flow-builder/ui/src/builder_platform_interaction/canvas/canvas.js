@@ -2,7 +2,7 @@ import { Element, api, track } from 'engine';
 import { CONNECTOR_OVERLAY, drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
 import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pan-utils';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
-import { isCanvasElement } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE, isCanvasElement } from 'builder_platform_interaction-element-config';
 import { AddElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
 
 /**
@@ -86,6 +86,16 @@ export default class Canvas extends Element {
             type: CONNECTOR_TYPE.REGULAR
 
         };
+
+        // TODO: This is a temporary fix and shall be refactored as a part of W-4962977
+        const nodeLength = this.nodes.length;
+        for (let i = 0; i < nodeLength; i++) {
+            if (connectorInfo.sourceId === this.nodes[i].guid && this.nodes[i].elementType === ELEMENT_TYPE.START_ELEMENT) {
+                connectorProperties.type = CONNECTOR_TYPE.START;
+                break;
+            }
+        }
+
         if (connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL) && connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).getLabel()) {
             connectorProperties.label = connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).getLabel();
         }

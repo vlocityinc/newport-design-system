@@ -30,7 +30,7 @@ const getCanvasElements = (canvasElements, elements) => {
  * @param {Object} elements All elements in the flow
  */
 const updateElementLocation = (canvasElements, elements) => {
-    const EXTRA_SPACING = 50;
+    const EXTRA_SPACING = 180;
 
     const flowBounds = getFlowBounds(getCanvasElements(canvasElements, elements));
 

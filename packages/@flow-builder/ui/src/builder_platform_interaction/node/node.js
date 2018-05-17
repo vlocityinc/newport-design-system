@@ -1,7 +1,12 @@
 import { Element, api } from 'engine';
-import { getConfigForElementType } from "builder_platform_interaction-element-config";
+import { ELEMENT_TYPE, getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { EditElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
+import labelAlternativeText from '@label/FlowBuilderCanvasElement.labelAlternativeText';
+import descriptionAlternativeText from '@label/FlowBuilderCanvasElement.descriptionAlternativeText';
+import trashCanAlternativeText from '@label/FlowBuilderCanvasElement.trashCanAlternativeText';
+import startElement from './start-element.html';
+import nodeElement from './node.html';
 
 /**
  * Node component for flow builder.
@@ -24,10 +29,9 @@ export default class Node extends Element {
     }
 
     get nodeTitle() {
-        // TODO: Localize Label and Description - W-4962967
-        let title = 'Label: ' + this.node.label;
+        let title = labelAlternativeText + ': ' + this.node.label;
         if (this.node.description) {
-            title = title + ', Description: ' + this.node.description;
+            title = title + ', ' + descriptionAlternativeText + ': ' + this.node.description;
         }
         return title;
     }
@@ -50,6 +54,10 @@ export default class Node extends Element {
 
     get isSelected() {
         return this.node.config.isSelected;
+    }
+
+    get trashCanAlternativeText() {
+        return trashCanAlternativeText + ' ' + this.node.label;
     }
 
     get nodeLabel() {
@@ -160,21 +168,30 @@ export default class Node extends Element {
         }
     };
 
+    render() {
+        if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT) {
+            return startElement;
+        }
+        return nodeElement;
+    }
+
     renderedCallback() {
         if (lib.getContainer().classList.contains('inner-canvas')) {
             const nodeContainer = document.getElementById(this.node.guid).parentElement;
 
-            lib.setDraggable(nodeContainer, {
-                start: (event) => this.dragStart(event),
-                stop: (event) => this.dragStop(event)
-            });
+            if (this.node.elementType !== ELEMENT_TYPE.START_ELEMENT) {
+                lib.setDraggable(nodeContainer, {
+                    start : (event) => this.dragStart(event),
+                    stop: (event) => this.dragStop(event)
+                });
+
+                if (!lib.isTarget(this.node.guid)) {
+                    lib.makeTarget(this.node.guid);
+                }
+            }
 
             if (!lib.isSource(this.node.guid)) {
                 lib.makeSource(this.node.guid, this.node.maxConnections);
-            }
-
-            if (!lib.isTarget(this.node.guid)) {
-                lib.makeTarget(this.node.guid);
             }
 
             if (this.node.config.isSelected) {

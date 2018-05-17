@@ -1,0 +1,16 @@
+<template>
+    <div class='element-container slds-is-absolute slds-text-align_center' style={nodeLocation} title={nodeTitle}>
+        <div class={nodeClasses} id={nodeGuid}>
+            <!--Node icon -->
+            <lightning-icon icon-name={iconName} size='large'></lightning-icon>
+
+            <!--End Point-->
+            <button if:true={hasAvailableConnections} tabindex='0' class='end-point slds-is-absolute'></button>
+        </div>
+
+        <!--Label-->
+        <div class='text-container slds-is-absolute'>
+            <div class='text-label slds-text-body_regular slds-truncate'>{nodeLabel}</div>
+        </div>
+    </div>
+</template>
