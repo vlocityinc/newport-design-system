@@ -23,9 +23,9 @@ export default class Connector extends Element {
                 this.jsPlumbConnector = lib.setExistingConnections(this.connector.source, this.connector.target,
                     this.connector.label, this.connector.guid, this.connector.type);
             } else if (this.connector.config.isSelected) {
-                lib.selectConnector(this.jsPlumbConnector);
+                lib.selectConnector(this.jsPlumbConnector, this.connector.type);
             } else if (!this.connector.config.isSelected) {
-                lib.deselectConnector(this.jsPlumbConnector);
+                lib.deselectConnector(this.jsPlumbConnector, this.connector.type);
             }
         }
     }

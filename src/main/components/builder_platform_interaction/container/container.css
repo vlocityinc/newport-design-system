@@ -35,8 +35,6 @@
 .THIS builder_platform_interaction-canvas .canvas .inner-canvas {
     height: 100%;
     width: 100%;
-    /* TODO: Update it based on final designs */
-    /*transition: transform 0.2s ease;*/
 }
 
 /************* Zoom Panel *****************/
@@ -184,6 +182,23 @@
     border-color: t(colorBrandDark);
     color: t(colorBrandDarker) !important;
     box-shadow: t(shadowButtonFocus);
+    cursor: pointer;
+}
+
+.THIS builder_platform_interaction-canvas .canvas .jtk-overlay.fault-label {
+    color: t(colorTextError) !important;
+    border: 1px solid t(colorBorderDestructive);
+}
+
+.THIS builder_platform_interaction-canvas .canvas .jtk-overlay.jtk-hover.fault-label {
+    border-color: t(colorBorderDestructiveHover);
+    color: t(colorTextError) !important;
+}
+
+.THIS builder_platform_interaction-canvas .canvas .jtk-overlay.fault-label-selected {
+    border-color: t(colorBorderDestructiveActive);
+    color: t(colorTextError) !important;
+    box-shadow: 0 0 3px t(colorBorderDestructiveActive);
     cursor: pointer;
 }
 

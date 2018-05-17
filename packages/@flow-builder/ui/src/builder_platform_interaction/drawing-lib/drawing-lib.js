@@ -1,7 +1,12 @@
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 
 const CONNECTOR_OVERLAY = {
-    ARROW: '__arrow',
+    ARROW: ['PlainArrow', {
+        location: -1,
+        width: 14,
+        length: 8,
+        id: '__arrow'
+    }],
     LABEL: '__label'
 };
 
@@ -29,25 +34,17 @@ class DrawingLib {
                 HoverPaintStyle: {
                     strokeWidth: 2,
                     stroke: '#1589ee'
-                },
-                ConnectionOverlays: [
-                    ['PlainArrow', {
-                        location: -1,
-                        visible: false,
-                        width: 14,
-                        length: 8,
-                        id: CONNECTOR_OVERLAY.ARROW
-                    }],
-                    ['Label', {
-                        id: CONNECTOR_OVERLAY.LABEL,
-                        visible: false
-                    }]
-                ]
+                }
             });
         }
     }
 
     connectorStyles = {
+        faultConnector: {
+            strokeWidth: 2,
+            stroke: '#c23934',
+            dashstyle: '4 6'
+        },
         deselectedConnector: {
             strokeWidth: 2,
             stroke: '#919297'
@@ -56,14 +53,15 @@ class DrawingLib {
             strokeWidth: 3,
             stroke: '#0070d2'
         },
-        dashedConnector: {
-            strokeWidth: 2,
-            stroke: '#919297',
-            dashstyle: '4 6'
+        selectedFaultConnector: {
+            strokeWidth: 3,
+            stroke: '#870500'
         },
         hoverConnector: {
-            strokeWidth: 2,
             stroke: '#1589ee'
+        },
+        hoverFaultConnector: {
+            stroke: '#a61a14'
         }
     } ;
 
@@ -166,19 +164,25 @@ class DrawingLib {
      */
     setExistingConnections = (sourceGuid, targetGuid, label, connectorGuid, connectorType) => {
         const connectionInstance = {source: sourceGuid, target: targetGuid};
-        if (label) {
-            connectionInstance.label = label;
-        }
+
         const connection = instance.connect(connectionInstance);
         if (!connection) {
             // guard in case we're editing a flow with unsupported elements
             return null;
         }
-        if (connectorType === CONNECTOR_TYPE.DEFAULT || connectorType === CONNECTOR_TYPE.FAULT) {
-            connection.setPaintStyle(this.connectorStyles.dashedConnector);
+
+        if (label) {
+            if (connectorType === CONNECTOR_TYPE.FAULT) {
+                connection.setPaintStyle(this.connectorStyles.faultConnector);
+                connection.setHoverPaintStyle(this.connectorStyles.hoverFaultConnector);
+                connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label, cssClass: 'fault-label'}]);
+            } else {
+                connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label}]);
+            }
         }
+
         connection.id = connectorGuid;
-        connection.getOverlay(CONNECTOR_OVERLAY.ARROW).setVisible(true);
+        connection.addOverlay(CONNECTOR_OVERLAY.ARROW);
         return connection;
     };
 
@@ -199,31 +203,60 @@ class DrawingLib {
     };
 
     /**
+     * Helper method to set the paint styles and labels of the connectors when selected or deselected.
+     * @param {Object} connection - The connector that has been selected/deselected
+     * @param {Object} paintStyle - Paint style of the selected/deselected connector
+     * @param {Object} hoverPaintStyle - Hover paint style of the selected/deselected connector
+     * @param {String} cssClass - css class that needs to be added
+     */
+    setPaintStyleAndLabel = (connection, paintStyle, hoverPaintStyle, cssClass) => {
+        connection.setPaintStyle(paintStyle);
+        connection.setHoverPaintStyle(hoverPaintStyle);
+        const labelOverlay = connection.getOverlay(CONNECTOR_OVERLAY.LABEL);
+        if (labelOverlay && labelOverlay.label) {
+            connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);
+            connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label: labelOverlay.label, cssClass}]);
+        }
+    };
+
+    /**
      * Sets up the paint style of the connector when it's selected.
      * @param {Object} connection - The connector that has been selected
+     * @param {String} connectorType - Type of connector
      */
-    selectConnector = (connection) => {
-        connection.setPaintStyle(this.connectorStyles.selectedConnector);
-        connection.setHoverPaintStyle({});
-        const labelText = connection.getOverlay(CONNECTOR_OVERLAY.LABEL).label;
-        if (labelText && labelText !== '') {
-            connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);
-            connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, cssClass: 'label-selected', label: labelText}]);
+    selectConnector = (connection, connectorType) => {
+        let cssClass;
+        let paintStyle;
+        const hoverPaintStyle = {};
+        if (connectorType === CONNECTOR_TYPE.FAULT) {
+            paintStyle = this.connectorStyles.selectedFaultConnector;
+            cssClass = 'fault-label-selected';
+        } else {
+            paintStyle = this.connectorStyles.selectedConnector;
+            cssClass = 'label-selected';
         }
+        this.setPaintStyleAndLabel(connection, paintStyle, hoverPaintStyle, cssClass);
     };
 
     /**
      * Sets up the paint style of the connector when it's deselected.
      * @param {Object} connection - The connector that has been deselected
+     * @param {String} connectorType - Type of connector
      */
-    deselectConnector = (connection) => {
-        connection.setPaintStyle(this.connectorStyles.deselectedConnector);
-        connection.setHoverPaintStyle(this.connectorStyles.hoverConnector);
-        const labelText = connection.getOverlay(CONNECTOR_OVERLAY.LABEL).label;
-        if (labelText && labelText !== '') {
-            connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);
-            connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label: labelText}]);
+    deselectConnector = (connection, connectorType) => {
+        let cssClass;
+        let paintStyle;
+        let hoverPaintStyle;
+        if (connectorType === CONNECTOR_TYPE.FAULT) {
+            paintStyle = this.connectorStyles.faultConnector;
+            hoverPaintStyle = this.connectorStyles.hoverFaultConnector;
+            cssClass = 'fault-label';
+        } else {
+            paintStyle = this.connectorStyles.deselectedConnector;
+            hoverPaintStyle = this.connectorStyles.hoverConnector;
+            cssClass = '';
         }
+        this.setPaintStyleAndLabel(connection, paintStyle, hoverPaintStyle, cssClass);
     };
 
     /**

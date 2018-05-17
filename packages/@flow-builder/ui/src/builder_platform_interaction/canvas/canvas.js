@@ -75,23 +75,37 @@ export default class Canvas extends Element {
     }
 
     /**
+     * Helper method to get the source, target, connector type and label of the new connection.
+     * @param {object} connectorInfo - Contains all the information about the new connector
+     * @return {object} connectorProperties - Contains the connector source, target, type and label
+     */
+    getConnectorProperties = (connectorInfo) => {
+        const connectorProperties = {
+            source: connectorInfo.sourceId,
+            target: connectorInfo.targetId,
+            type: CONNECTOR_TYPE.REGULAR
+
+        };
+        if (connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL) && connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).getLabel()) {
+            connectorProperties.label = connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).getLabel();
+        }
+        return connectorProperties;
+    };
+
+    /**
      * Method to set up any new connections made within the canvas.
      * @param {object} connectorInfo - Contains all the information about the new connector
      */
     connectionAdded = (connectorInfo) => {
-        connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.ARROW).setVisible(true);
-        connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).setVisible(true);
-        connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).setLabel('Label');
+        connectorInfo.connection.addOverlay(CONNECTOR_OVERLAY.ARROW);
+        // Todo: Edit and enable the following code once work for connector selection is done (Decision outcomes etc.) - W-4962977
+        // connectorInfo.connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label: 'Fault-Label', cssClass: 'fault-label'}]);
+        const connectorProperties = this.getConnectorProperties(connectorInfo);
         const addConnectionEvent = new CustomEvent(CANVAS_EVENT.ADD_CONNECTION,
             {
                 bubbles: true,
                 composed: true,
-                detail: {
-                    source: connectorInfo.sourceId,
-                    target: connectorInfo.targetId,
-                    label: connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).getLabel(),
-                    type: CONNECTOR_TYPE.REGULAR
-                }
+                detail: connectorProperties
             }
         );
         this.dispatchEvent(addConnectionEvent);

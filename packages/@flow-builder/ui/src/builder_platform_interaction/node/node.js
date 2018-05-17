@@ -24,7 +24,12 @@ export default class Node extends Element {
     }
 
     get nodeTitle() {
-        return 'Label: ' + this.node.label + ', Description: ' + this.node.description;
+        // TODO: Localize Label and Description - W-4962967
+        let title = 'Label: ' + this.node.label;
+        if (this.node.description) {
+            title = title + ', Description: ' + this.node.description;
+        }
+        return title;
     }
 
     get nodeClasses() {
