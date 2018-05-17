@@ -5,9 +5,14 @@ import {
 } from 'builder_platform_interaction-events';
 
 const mockNewState = {
+    label: {value: 'New Decision'},
+    name: {value: 'New Dec Dev Name'},
+    guid: {value: 'decision99'},
+    defaultConnectorLabel: { value: 'foo'},
     outcomes: [{
         guid: 'outcome 3',
         label: { value: ''},
+        name: { value: ''},
         conditionLogic: { value: ''},
         conditions: []
     }]
