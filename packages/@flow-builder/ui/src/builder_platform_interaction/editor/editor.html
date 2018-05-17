@@ -1,8 +1,11 @@
-﻿<template>
+<template>
+    <div if:true={showSpinner} class="slds-spinner_container">
+        <lightning-spinner variant="brand" alternative-text={labels.SPINNER_ALTERNATIVE_TEXT}></lightning-spinner>
+    </div>
     <div class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
         <div class="slds-col slds-grow-none slds-builder-header_container slds-is-relative">
             <builder_platform_interaction-header flow-name={appState.properties.label} flow-version={appState.properties.versionNumber} back-url={backUrl} help-url={helpUrl}></builder_platform_interaction-header>
-            <builder_platform_interaction-toolbar onsave={handleSaveFlow}></builder_platform_interaction-toolbar>
+            <builder_platform_interaction-toolbar onsave={handleSaveFlow} is-save-disabled={disableSave}></builder_platform_interaction-toolbar>
         </div>
         <div class="slds-col slds-grow slds-grid">
             <div class="slds-col slds-panel slds-size_medium slds-border_right" aria-hidden="false">

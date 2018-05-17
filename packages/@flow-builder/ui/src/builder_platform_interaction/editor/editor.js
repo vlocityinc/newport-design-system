@@ -12,8 +12,15 @@ import { reducer } from "builder_platform_interaction-reducers";
 import { setRules } from "builder_platform_interaction-rule-lib";
 import { setEntities } from 'builder_platform_interaction-sobject-lib';
 
+
+import spinnerAlternativeText from '@label/FlowBuilderEditor.spinnerAlternativeText';
+
 let unsubscribeStore;
 let storeInstance;
+
+const LABELS = {
+    SPINNER_ALTERNATIVE_TEXT: spinnerAlternativeText
+};
 
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -39,6 +46,11 @@ export default class Editor extends Element {
 
     @track helpUrl;
 
+    isFlowServerCallInProgress = false;
+
+    @track showSpinner = false;
+
+    @track disableSave = false;
 
     constructor() {
         super();
@@ -46,9 +58,9 @@ export default class Editor extends Element {
         storeInstance = Store.getStore(reducer);
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
         // TODO: Move these server calls after getting the Flow
-        fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
         fetch(SERVER_ACTION_TYPE.GET_RULES, this.getRulesCallback);
         fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' }, {background: true});
+        fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
     }
 
     @api
@@ -64,7 +76,13 @@ export default class Editor extends Element {
                 id: newFlowId
             };
             fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallback, params);
+            this.isFlowServerCallInProgress = true;
+            this.showSpinner = true;
         }
+    }
+
+    get labels() {
+        return LABELS;
     }
 
     /**
@@ -96,6 +114,7 @@ export default class Editor extends Element {
         } else {
             storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
         }
+        this.isFlowServerCallInProgress = false;
     };
 
     /**
@@ -113,6 +132,7 @@ export default class Editor extends Element {
             this.currentFlowId = data;
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + data);
         }
+        this.disableSave = false;
     };
 
     /**
@@ -161,6 +181,7 @@ export default class Editor extends Element {
         };
 
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
+        this.disableSave = true;
     };
 
     /**
@@ -336,6 +357,12 @@ export default class Editor extends Element {
         // action based on that.
         const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)), storeInstance.getCurrentState());
         storeInstance.dispatch(addElement(nodeForStore));
+    }
+
+    renderedCallback() {
+        if (!this.isFlowServerCallInProgress && this.showSpinner) {
+            this.showSpinner = false;
+        }
     }
 
     disconnectedCallback() {

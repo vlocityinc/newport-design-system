@@ -1,4 +1,4 @@
-import { Element } from 'engine';
+import { Element, api } from 'engine';
 
 const SAVE = 'save';
 /**
@@ -9,6 +9,8 @@ const SAVE = 'save';
  * @since 214
  */
 export default class Toolbar extends Element {
+    @api isSaveDisabled;
+
     /**
      * Event handler for click event on save button.
      * It dispatches an event named save which can be handled by parent component
