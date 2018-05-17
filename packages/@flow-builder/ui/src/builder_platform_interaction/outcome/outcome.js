@@ -184,6 +184,6 @@ export default class Outcome extends Element {
     handlePropertyChanged(event) {
         // just decorate the event with the outcome guid and let it flow up
         // to be handled by the parent component
-        event.guid = this.outcome.guid;
+        event.detail.guid = this.outcome.guid;
     }
 }

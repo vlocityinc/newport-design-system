@@ -8,7 +8,7 @@ function createComponentForTest() {
     return el;
 }
 
-describe('decision-reducer', () => {
+describe('loop-reducer', () => {
     let originalState;
     beforeEach(() => {
         originalState = {

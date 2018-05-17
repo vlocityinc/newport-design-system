@@ -199,7 +199,9 @@ describe('Outcome', () => {
 
                     expect(eventCallback).toHaveBeenCalled();
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        parentGUID: element.outcome.guid
+                        detail: {
+                            parentGUID: element.outcome.guid
+                        }
                     });
                 });
             });
@@ -220,8 +222,10 @@ describe('Outcome', () => {
                     conditionList.dispatchEvent(new DeleteListItemEvent(indexToDelete));
 
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        parentGUID: element.outcome.guid,
-                        index: indexToDelete
+                        detail: {
+                            parentGUID: element.outcome.guid,
+                            index: indexToDelete
+                        }
                     });
                 });
             });
@@ -250,9 +254,11 @@ describe('Outcome', () => {
 
                     expect(eventCallback).toHaveBeenCalled();
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        parentGUID: element.outcome.guid,
-                        index: updateData.index,
-                        value: updateData.value,
+                        detail: {
+                            parentGUID: element.outcome.guid,
+                            index: updateData.index,
+                            value: updateData.value,
+                        }
                     });
                 });
             });
@@ -358,10 +364,12 @@ describe('Outcome', () => {
 
                             expect(eventCallback).toHaveBeenCalled();
                             expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                                guid: element.outcome.guid,
-                                propertyName: 'conditionLogic',
-                                value: '1 AND 2 AND 3',
-                                error: null
+                                detail: {
+                                    guid: element.outcome.guid,
+                                    propertyName: 'conditionLogic',
+                                    value: '1 AND 2 AND 3',
+                                    error: null
+                                }
                             });
                         });
                     });
@@ -386,10 +394,12 @@ describe('Outcome', () => {
 
                             expect(eventCallback).toHaveBeenCalled();
                             expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                                guid: element.outcome.guid,
-                                propertyName: 'conditionLogic',
-                                value: '1 OR 2 OR 3',
-                                error: null
+                                detail: {
+                                    guid: element.outcome.guid,
+                                    propertyName: 'conditionLogic',
+                                    value: '1 OR 2 OR 3',
+                                    error: null
+                                }
                             });
                         });
                     });
@@ -446,7 +456,9 @@ describe('Outcome', () => {
                 removeButton.click();
 
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    guid: element.outcome.guid
+                    detail: {
+                        guid: element.outcome.guid
+                    }
                 });
             });
         });

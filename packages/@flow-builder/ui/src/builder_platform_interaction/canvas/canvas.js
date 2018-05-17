@@ -189,8 +189,8 @@ export default class Canvas extends Element {
      * @param {object} event - click to zoom event coming from zoom-panel.js
      */
     handleZoom = (event) => {
-        if (event && event.action) {
-            this.canvasZoom(event.action);
+        if (event && event.detail.action) {
+            this.canvasZoom(event.detail.action);
         }
     };
 
@@ -217,8 +217,8 @@ export default class Canvas extends Element {
      * @param {Object} event - toggle pan mode event coming from zoom-panel.js
      */
     handleTogglePanMode = (event) => {
-        if (event && event.action) {
-            this.togglePan(event.action);
+        if (event && event.detail.action) {
+            this.togglePan(event.detail.action);
         }
     };
 

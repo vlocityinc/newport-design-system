@@ -11,10 +11,12 @@ export class PropertyChangedEvent extends Event {
             composed: true,
             bubbles: true,
         });
-        this.propertyName = propertyName;
-        this.value = value;
-        this.error = error;
-        this.guid = guid;
+        this.detail = {
+            propertyName,
+            value,
+            error,
+            guid
+        };
     }
 
     static EVENT_NAME = eventName;

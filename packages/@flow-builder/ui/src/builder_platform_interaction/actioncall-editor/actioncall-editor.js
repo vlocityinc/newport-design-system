@@ -104,10 +104,7 @@ export default class ActionCallEditor extends Element {
      */
     handlePropertyChanged(event) {
         event.stopPropagation();
-        const propertyName = event.propertyName;
-        const value = event.value;
-        const error = event.error;
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error});
+        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { ...event.detail });
         this.actionCallNode = actionCallReducer(this.node, action);
     }
 

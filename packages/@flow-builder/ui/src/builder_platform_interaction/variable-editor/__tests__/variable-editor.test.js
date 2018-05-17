@@ -209,8 +209,8 @@ describe('variable-editor', () => {
             expect(propertyWarningHandler).toHaveBeenCalledTimes(expectedEventData.length);
             const maxLength = expectedEventData.length;
             for (let i = 0; i < maxLength; i++) {
-                expect(propertyWarningHandler.mock.calls[i][0].propertyName).toBe(expectedEventData[i].propertyName);
-                expect(propertyWarningHandler.mock.calls[i][0].warning).toBe(expectedEventData[i].warning);
+                expect(propertyWarningHandler.mock.calls[i][0].detail.propertyName).toBe(expectedEventData[i].propertyName);
+                expect(propertyWarningHandler.mock.calls[i][0].detail.warning).toBe(expectedEventData[i].warning);
             }
         }
     });

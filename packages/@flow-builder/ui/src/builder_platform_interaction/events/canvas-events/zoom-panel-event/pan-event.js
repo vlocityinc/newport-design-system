@@ -10,7 +10,9 @@ export class TogglePanModeEvent extends Event {
             composed: true,
             cancelable: true
         });
-        this.action = action;
+        this.detail = {
+            action
+        };
     }
 
     static EVENT_NAME = eventName;

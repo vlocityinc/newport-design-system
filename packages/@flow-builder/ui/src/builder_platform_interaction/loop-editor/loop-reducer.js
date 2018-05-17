@@ -4,8 +4,14 @@ import {loopValidation} from './loop-validation';
 import {updateProperties} from 'builder_platform_interaction-data-mutation-lib';
 
 const loopPropertyChanged = (state, event) => {
-    event.error = event.error === null ? loopValidation.validateProperty(event.propertyName, event.value) : event.error;
-    return updateProperties(state, {[event.propertyName]: {value: event.value, error: event.error}});
+    event.detail.error = event.detail.error === null ?
+        loopValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    return updateProperties(state, {
+        [event.detail.propertyName]: {
+            value: event.detail.value,
+            error: event.detail.error
+        }
+    });
 };
 
 /**

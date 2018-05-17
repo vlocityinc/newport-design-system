@@ -102,7 +102,9 @@ describe('decision-reducer', () => {
         it('with a valid guid deletes the outcome', () => {
             const deleteOutcomeAction = {
                 type: DeleteOutcomeEvent.EVENT_NAME,
-                guid: originalState.outcomes[0].guid
+                detail: {
+                    guid: originalState.outcomes[0].guid
+                }
             };
 
             const newState = decisionReducer(originalState, deleteOutcomeAction);
@@ -114,7 +116,9 @@ describe('decision-reducer', () => {
         it('with an invalid guid does nothing', () => {
             const deleteOutcomeAction = {
                 type: DeleteOutcomeEvent.EVENT_NAME,
-                guid: 'guidNotPresent'
+                detail: {
+                    guid: 'guidNotPresent'
+                }
             };
 
             const newState = decisionReducer(originalState, deleteOutcomeAction);

@@ -31,7 +31,7 @@ const addOutcome = (state) => {
 
 const deleteOutcome = (state, event) => {
     const outcomes = state.outcomes.filter((outcome) => {
-        return outcome.guid !== event.guid;
+        return outcome.guid !== event.detail.guid;
     });
 
     return updateProperties(state, {outcomes});
@@ -63,7 +63,7 @@ const addCondition = (state, event) => {
             [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
             rowIndex: generateGuid(SUB_ELEMENT_TYPE.CONDITION),
         };
-        return outcome.guid === event.parentGUID ? updateProperties(outcome, {
+        return outcome.guid === event.detail.parentGUID ? updateProperties(outcome, {
             conditions: addItem(outcome.conditions, newCondition),
         }) : outcome;
     });
@@ -74,8 +74,8 @@ const addCondition = (state, event) => {
 
 const deleteCondition = (state, event) => {
     const outcomes = state.outcomes.map((outcome) => {
-        return outcome.guid === event.parentGUID ? updateProperties(outcome, {
-            conditions: deleteItem(outcome.conditions, event.index)
+        return outcome.guid === event.detail.parentGUID ? updateProperties(outcome, {
+            conditions: deleteItem(outcome.conditions, event.detail.index)
         }) : outcome;
     });
 
@@ -84,11 +84,11 @@ const deleteCondition = (state, event) => {
 
 const updateCondition = (state, event) => {
     const outcomes = state.outcomes.map((outcome) => {
-        if (outcome.guid === event.parentGUID) {
-            const newCondition = updateProperties(outcome.conditions[event.index], event.value);
+        if (outcome.guid === event.detail.parentGUID) {
+            const newCondition = updateProperties(outcome.conditions[event.detail.index], event.detail.value);
 
             return updateProperties(outcome, {
-                conditions: replaceItem(outcome.conditions, newCondition, event.index)
+                conditions: replaceItem(outcome.conditions, newCondition, event.detail.index)
             });
         }
 
@@ -99,11 +99,12 @@ const updateCondition = (state, event) => {
 };
 
 const outcomePropertyChanged = (state, event) => {
-    event.error = event.error === null ? decisionValidation.validateProperty(event.propertyName, event.value) : event.error;
+    event.detail.error = event.detail.error === null ?
+        decisionValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
 
     const outcomes = state.outcomes.map((outcome) => {
-        return event.guid !== outcome.guid ? outcome : updateProperties(outcome, {
-            [event.propertyName]: {error: event.error, value: event.value}
+        return event.detail.guid !== outcome.guid ? outcome : updateProperties(outcome, {
+            [event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}
         });
     });
 
@@ -111,8 +112,9 @@ const outcomePropertyChanged = (state, event) => {
 };
 
 const decisionPropertyChanged = (state, event) => {
-    event.error = event.error === null ? decisionValidation.validateProperty(event.propertyName, event.value) : event.error;
-    return updateProperties(state, {[event.propertyName]: {error: event.error, value: event.value}});
+    event.detail.error = event.detail.error === null ?
+        decisionValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    return updateProperties(state, {[event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}});
 };
 
 /**
@@ -126,7 +128,7 @@ export const decisionReducer = (state, event) => {
         case PROPERTY_EDITOR_ACTION.ADD_DECISION_OUTCOME:
             return addOutcome(state);
         case PropertyChangedEvent.EVENT_NAME:
-            if (event.guid) {
+            if (event.detail.guid) {
                 return outcomePropertyChanged(state, event);
             }
 

@@ -59,7 +59,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'label', value: newValue});
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail:{propertyName: 'label', value: newValue}});
                 });
             });
 
@@ -96,7 +96,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'label', value: newValueStripped});
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyName: 'label', value: newValueStripped}});
                 });
             });
         });
@@ -161,8 +161,8 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'label', value: newValue});
-                    expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: 'UniqueName'});
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyName: 'label', value: newValue}});
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {propertyName: 'name', value: 'UniqueName'}});
                 });
             });
 
@@ -182,7 +182,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).toHaveBeenCalledTimes(1);
-                    expect(eventCallback.mock.calls[0][0]).not.toMatchObject({propertyName: 'name'});
+                    expect(eventCallback.mock.calls[0][0]).not.toMatchObject({detail: {propertyName: 'name'}});
                 });
             });
         });
@@ -260,7 +260,7 @@ describe('label-description', () => {
                     devNameLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'name', value: newValue});
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyName: 'name', value: newValue}});
                 });
             });
 
@@ -296,7 +296,7 @@ describe('label-description', () => {
                     devNameLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'name', value: newValueStripped});
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyName: 'name', value: newValueStripped}});
                 });
             });
         });
@@ -351,7 +351,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback.mock.calls).toHaveLength(2);
-                    expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: newValue});
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {propertyName: 'name', value: newValue}});
                 });
             });
 
@@ -372,7 +372,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback.mock.calls).toHaveLength(1);
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'name', value: newValue});
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyName: 'name', value: newValue}});
                 });
             });
 
@@ -414,7 +414,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback.mock.calls).toHaveLength(1);
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'label', value: newValue});
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyName: 'label', value: newValue}});
                 });
             });
 
@@ -434,7 +434,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback.mock.calls).toHaveLength(2);
-                    expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: 'newValue'});
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {propertyName: 'name', value: 'newValue'}});
                 });
             });
             it('should strip off preceding invalid characters', () => {
@@ -453,7 +453,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback.mock.calls).toHaveLength(2);
-                    expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: 'newValue'});
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {propertyName: 'name', value: 'newValue'}});
                 });
             });
             it('should replace concurrent invalid characters with a single underscore', () => {
@@ -472,7 +472,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback.mock.calls).toHaveLength(2);
-                    expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: 'new_Value'});
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {propertyName: 'name', value: 'new_Value'}});
                 });
             });
 
@@ -492,7 +492,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback.mock.calls).toHaveLength(2);
-                    expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: 'X1b'});
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {propertyName: 'name', value: 'X1b'}});
                 });
             });
             it('should strip preceding invalid characters and prepend an "X" if label begins with invalid characters ' +
@@ -512,7 +512,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback.mock.calls).toHaveLength(2);
-                    expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: 'X9b'});
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {propertyName: 'name', value: 'X9b'}});
                 });
             });
             it('should strip preceding invalid characters and prepend an "X" if label begins with invalid characters ' +
@@ -534,7 +534,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback.mock.calls).toHaveLength(2);
-                    expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: 'X9_b'});
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {propertyName: 'name', value: 'X9_b'}});
                 });
             });
             it('should truncate label to 80 characters', () => {
@@ -554,7 +554,7 @@ describe('label-description', () => {
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback.mock.calls).toHaveLength(2);
-                    expect(eventCallback.mock.calls[1][0]).toMatchObject({propertyName: 'name', value: expectedValue});
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {propertyName: 'name', value: expectedValue}});
                 });
             });
         });
@@ -590,7 +590,7 @@ describe('label-description', () => {
                     descriptionLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({propertyName: 'description', value: newValue});
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyName: 'description', value: newValue}});
                 });
             });
 

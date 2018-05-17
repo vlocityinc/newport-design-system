@@ -4,7 +4,7 @@ import {
 } from 'builder_platform_interaction-events';
 
 const recordPropertyChanged = (state, event) => {
-    return updateProperties(state, {[event.propertyName]: {error: event.error, value: event.value}});
+    return updateProperties(state, {[event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}});
 };
 
 /**

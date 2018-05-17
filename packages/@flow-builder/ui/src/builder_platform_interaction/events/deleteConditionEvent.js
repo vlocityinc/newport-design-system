@@ -8,8 +8,10 @@ export class DeleteConditionEvent extends Event {
             bubbles: true,
         });
 
-        this.parentGUID = parentGUID;
-        this.index = index;
+        this.detail = {
+            parentGUID,
+            index
+        };
     }
 
     static EVENT_NAME = eventName;

@@ -30,9 +30,11 @@ describe('the best assignment reducer ever', () => {
     it('updates the label', () => {
         const event = {
             type: PropertyChangedEvent.EVENT_NAME,
-            propertyName: 'label',
-            value: 'newlabel',
-            error: null
+            detail: {
+                propertyName: 'label',
+                value: 'newlabel',
+                error: null
+            }
         };
         const resultObj = assignmentReducer(deepCopy(state), event);
         expect(resultObj).toBeDefined();
@@ -43,9 +45,11 @@ describe('the best assignment reducer ever', () => {
     it('fetch the error from the property change event instead of rerunning validation', () => {
         const event = {
             type: PropertyChangedEvent.EVENT_NAME,
-            propertyName: 'label',
-            value: 'newlabel',
-            error: 'errorFromChildComponent'
+            detail: {
+                propertyName: 'label',
+                value: 'newlabel',
+                error: 'errorFromChildComponent'
+            }
         };
         const resultObj = assignmentReducer(deepCopy(state), event);
         expect(resultObj).toBeDefined();

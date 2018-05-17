@@ -8,7 +8,9 @@ export class DeleteOutcomeEvent extends Event {
             bubbles: true,
         });
 
-        this.guid = guid;
+        this.detail = {
+            guid
+        };
     }
 
     static EVENT_NAME = eventName;

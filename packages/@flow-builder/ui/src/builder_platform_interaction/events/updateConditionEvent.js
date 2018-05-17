@@ -8,9 +8,11 @@ export class UpdateConditionEvent extends Event {
             bubbles: true,
         });
 
-        this.parentGUID = parentGUID;
-        this.index = index;
-        this.value = value;
+        this.detail = {
+            parentGUID,
+            index,
+            value
+        };
     }
 
     static EVENT_NAME = eventName;

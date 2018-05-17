@@ -11,8 +11,10 @@ export class PropertyEditorWarningEvent extends Event {
             composed: true,
             bubbles: true,
         });
-        this.propertyName = propertyName;
-        this.warning = warning;
+        this.detail = {
+            propertyName,
+            warning
+        };
     }
 
     static EVENT_NAME = eventName;

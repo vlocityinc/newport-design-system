@@ -190,8 +190,8 @@ export default class VariableEditor extends Element {
      * @param {object} event property changed event coming from label-description component
      */
     handlePropertyChanged(event) {
-        this.handleChange(event, event.propertyName);
-        if (event.propertyName === VARIABLE_FIELDS.NAME) {
+        this.handleChange(event, event.detail.propertyName);
+        if (event.detail.propertyName === VARIABLE_FIELDS.NAME) {
             this.assessWarning();
         }
     }

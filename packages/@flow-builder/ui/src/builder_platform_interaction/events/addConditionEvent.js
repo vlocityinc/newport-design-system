@@ -7,7 +7,9 @@ export class AddConditionEvent extends Event {
             composed: true,
             bubbles: true,
         });
-        this.parentGUID = parentGUID;
+        this.detail = {
+            parentGUID
+        };
     }
 
     static EVENT_NAME = eventName;

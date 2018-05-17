@@ -20,9 +20,11 @@ describe('decision-reducer', () => {
         it('updates the label', () => {
             const event = {
                 type: PropertyChangedEvent.EVENT_NAME,
-                propertyName: 'label',
-                value: 'newlabel',
-                error: null
+                detail: {
+                    propertyName: 'label',
+                    value: 'newlabel',
+                    error: null
+                }
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.label.value).toEqual('newlabel');
@@ -32,9 +34,11 @@ describe('decision-reducer', () => {
         it('fetch the error from the property change event instead of rerunning validation', () => {
             const event = {
                 type: PropertyChangedEvent.EVENT_NAME,
-                propertyName: 'label',
-                value: 'label',
-                error: 'errorFromChildComponent'
+                detail: {
+                    propertyName: 'label',
+                    value: 'label',
+                    error: 'errorFromChildComponent'
+                }
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.label.value).toEqual('label');
@@ -44,9 +48,11 @@ describe('decision-reducer', () => {
         it('ignores unknown events', () => {
             const event = {
                 type: 'unknown event',
-                propertyName: 'label',
-                value: 'newlabel',
-                error: null
+                detail: {
+                    propertyName: 'label',
+                    value: 'newlabel',
+                    error: null
+                }
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj).toBe(originalState);

@@ -41,8 +41,11 @@ const updateAssignmentItem = (state, event) => {
 };
 
 const assignmentPropertyChanged = (state, event) => {
-    event.error = event.error === null ? assignmentValidation.validateProperty(event.propertyName, event.value) : event.error;
-    return updateProperties(state, {[event.propertyName]: {error: event.error, value: event.value}});
+    event.error = event.error === null ?
+        assignmentValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    return updateProperties(state, {
+        [event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}
+    });
 };
 
 /**
