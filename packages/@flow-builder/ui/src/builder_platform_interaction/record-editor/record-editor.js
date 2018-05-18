@@ -1,7 +1,17 @@
 import { Element, api, track, unwrap } from 'engine';
 import { recordReducer } from './record-reducer';
+import { ENTITY_TYPE, getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
+import { RESOURCE_PICKER_MODE } from 'builder_platform_interaction-expression-utils';
+import { LABELS } from './record-editor-labels';
 
 export default class RecordEditor extends Element {
+    labels = LABELS;
+
+    crudFilterType = ENTITY_TYPE.QUERYABLE
+    resourcePickerMode = RESOURCE_PICKER_MODE.ENTITY_MODE
+
+    @track
+    fields = [];
     /**
      * Internal state for the editor
      */
@@ -61,5 +71,17 @@ export default class RecordEditor extends Element {
     handleEvent(event) {
         event.stopPropagation();
         this.element = recordReducer(this.element, event);
+    }
+
+    handleResourceChanged(event) {
+        const item = event.detail.item;
+        getFieldsForEntity(item.id, (fields) => {
+            this.fields = fields;
+        });
+    }
+
+    handleFieldSelected(event) {
+        event.stopPropagation();
+        // TODO: Handle Field Selection Event in W-4961522
     }
 }
