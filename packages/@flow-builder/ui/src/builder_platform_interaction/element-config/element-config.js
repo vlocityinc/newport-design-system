@@ -252,6 +252,7 @@ export const elementTypeToConfigMap = {
             plural: 'Screens'
         },
         canvasElement: true,
+        bodyCssClass: 'slds-scrollable_none',
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -281,6 +282,7 @@ export const elementTypeToConfigMap = {
             plural: 'Decisions'
         },
         canvasElement: true,
+        bodyCssClass: 'slds-scrollable_none',
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -468,7 +470,8 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:custom',
             maxConnections: 1
-        }
+        },
+        bodyCssClass: '',
     }
 };
 

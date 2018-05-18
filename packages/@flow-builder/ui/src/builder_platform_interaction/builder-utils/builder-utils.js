@@ -1,9 +1,6 @@
 // eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
-
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
-import { capitalizeFirstLetter } from 'builder_platform_interaction-data-mutation-lib';
-
 /**
  * @constant state of callback result
  * @type {Object}
@@ -48,56 +45,105 @@ export const CRUD = {
 };
 
 /**
+ * @param {string} cmpName component name descriptor
+ * @param {object} attr attributes for the component
+ * @returns {Promise} which resolves with a successful component creation or rejects with an errorMessage
+ */
+const createComponentPromise = (cmpName, attr) => {
+    return new Promise((resolve, reject) => {
+        createComponent(cmpName, attr, (newCmp, status, errorMessage) => {
+            if (status === STATE.SUCCESS) {
+                resolve(newCmp);
+            } else if (status === "ERROR") {
+                reject(errorMessage);
+            }
+        });
+    });
+};
+
+/**
+ * TODO: i18n after W-4693112
+ * @param {string} mode based on whether the event is for adding a new element or editing
+ * @param {string} elementType eg: Assignment, Decision, etc
+ * @returns {string} title for the modal
+ */
+const getTitleForModalHeader = (mode, elementType) => {
+    let titlePrefix;
+    if (mode === "editelement") {
+        titlePrefix = "Edit";
+    } else if (mode === "addelelement") {
+        titlePrefix = "New";
+    }
+
+    if (!getConfigForElementType(elementType) || !getConfigForElementType(elementType).labels) {
+        throw new Error("label is not defined in the element config for the element type: " + elementType);
+    }
+    const label = getConfigForElementType(elementType).labels.singular;
+    return titlePrefix + " " + label;
+};
+
+/**
  * Invokes the panel and creates property editor inside it
  * @param {string} cmpName - Name of the component to be created
  * @param {object} attributes - contains a nodeupadate callback and actual node data
  */
 export function invokePanel(cmpName, attributes) {
-    let elementType, nodeUpdate, node, descriptorType;
-
-    const titleForModal = capitalizeFirstLetter(attributes.modalTitle);
-
-    if (attributes.modalType === 'CANVAS') {
-        elementType = attributes.node.elementType;
-        nodeUpdate = attributes.nodeUpdate;
-        node = attributes.node;
-        descriptorType = getConfigForElementType(elementType).descriptor;
-
-        if (!attributes || !node || !nodeUpdate) {
-            throw new Error("attributes passed to invoke panel method are incorrect");
-        }
+    if (!attributes || !attributes.node ||  !attributes.nodeUpdate) {
+        throw new Error("attributes passed to invoke panel method are incorrect");
     }
 
-    if (attributes.modalType === 'RESOURCE' && attributes.mode === 'CREATE') {
-        descriptorType = 'builder_platform_interaction:resourceEditor';
-        elementType = 'VARIABLE';
-    }
+    const mode = attributes.mode;
+    const elementType = attributes.node.elementType;
+    const nodeUpdate = attributes.nodeUpdate;
+    const node = attributes.node;
+
+    const titleForModal = getTitleForModalHeader(mode, elementType);
+    const descriptor = getConfigForElementType(elementType).descriptor;
+
+    /**
+     * New Resource Work TODO: W-4844731
+     * The following will not work and should be removed as part of the above work item.
+     * Instead of relying on modalType and mode, one can either pass mode as event.type which will be exclusive in add resource or call a different function altogether (instead of invokePanel)
+     */
+    //    if (attributes.modalType === 'RESOURCE' && attributes.mode === 'CREATE') {
+    //        descriptorType = 'builder_platform_interaction:resourceEditor';
+    //        elementType = 'VARIABLE';
+    //    }
 
     const attr = {
         elementType,
         nodeUpdate,
-        titleForModal,
         override: {
-            body: { descriptor: descriptorType, attr: { node } }
+            body: {
+                descriptor,
+                attr: {
+                    node
+                }
+            }
         }
     };
 
-    createComponent(cmpName, attr, (newCmp, status) => {
+    const propertyEditorBodyPromise = createComponentPromise(cmpName, attr);
+    const propertyEditorHeaderPromise = createComponentPromise("builder_platform_interaction:propertyEditorHeader", {titleForModal});
+    const propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter");
+    Promise.all([propertyEditorBodyPromise, propertyEditorHeaderPromise, propertyEditorFooterPromise]).then((newComponents) => {
         const createPanelEventAttributes = {
             panelType: MODAL,
             visible: true,
             panelConfig : {
-                body: newCmp,
-                flavor: getConfigForElementType(attr.elementType).modalSize,
-                bodyClass: ''// to remove the extra default padding class
-                // TODO: set footer and header component here
+                body: newComponents[0],
+                flavor: getConfigForElementType(elementType).modalSize,
+                bodyClass: getConfigForElementType(elementType).bodyCssClass,
+                header: newComponents[1],
+                footer: newComponents[2],
             }
         };
-        if (status === STATE.SUCCESS) {
-            dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
-        }
+        dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
+    }).catch(errorMessage => {
+        throw new Error("UI panel creation failed: " + errorMessage);
     });
 }
+
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!

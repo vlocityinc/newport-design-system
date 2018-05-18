@@ -1,0 +1,8 @@
+<!-- TODO: i18n after W-4693112 -->
+<aura:component>
+    <!-- notify to close the panel -->
+    <aura:registerEvent name="notify" type="ui:notify"/>
+  
+    <lightning:button title="Cancel" onclick="{!c.handleCancel}">Cancel</lightning:button>
+    <lightning:button variant="brand" onclick="{!c.handleOk}">OK</lightning:button>
+</aura:component>

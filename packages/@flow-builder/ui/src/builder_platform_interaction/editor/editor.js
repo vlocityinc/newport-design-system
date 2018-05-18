@@ -207,10 +207,10 @@ export default class Editor extends Element {
     handleEditElement = (event) => {
         if (event && event.detail) {
             this.handleNodeSelection(event);
-            const mode = CRUD.UPDATE;
+            const mode = event.type;
             const node = elementPropertyEditorSelector(storeInstance.getCurrentState(), event.detail.canvasElementGUID);
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
-            invokePanel(PROPERTY_EDITOR, { mode, nodeUpdate, node, modalType: 'CANVAS', modalTitle: node.elementType });
+            invokePanel(PROPERTY_EDITOR, { mode, nodeUpdate, node });
         }
     };
 
@@ -323,7 +323,7 @@ export default class Editor extends Element {
      * @param {Object} event canvas element drop event
      */
     handleAddElement = (event) => {
-        const mode = CRUD.CREATE;
+        const mode = event.type;
 
         let node = createFlowElement(event.detail.elementType);
         node.locationX = event.detail.locationX;
@@ -333,7 +333,7 @@ export default class Editor extends Element {
         node = hydrateWithErrors(node);
 
         const nodeUpdate = this.deMutateAndAddNodeCollection;
-        invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate, modalType: 'CANVAS', modalTitle: node.elementType });
+        invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate });
     };
 
     /**

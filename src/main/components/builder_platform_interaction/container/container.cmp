@@ -16,7 +16,9 @@
 
     <!-- Dependencies -->
     <aura:dependency resource="markup://builder_platform_interaction:propertyEditor" type="COMPONENT" />
-
+    <aura:dependency resource="markup://builder_platform_interaction:propertyEditorHeader" type="COMPONENT" />
+    <aura:dependency resource="markup://builder_platform_interaction:propertyEditorFooter" type="COMPONENT" />
+    
     <!-- Editors must be included here because the dependency chain isn't being enforced by default
      All ( or most ) other modules are included by default because they're referenced by either
      lwc templates or lwc javascript files.

@@ -9,14 +9,7 @@
                   // TODO: handle it more elegantly using a generic user friendly error message popup instead of a stack trace.
                   throw new Error('Error creating the property editor: ' + errorMessage);
               }              
-            }.bind(this));
+            });
         }
-    },
-    
-    closePanel: function(cmp) {
-        cmp.getEvent('notify').setParams({
-            action: 'closePanel',
-            typeOf: 'ui:closePanel'
-        }).fire();
     }
 })
