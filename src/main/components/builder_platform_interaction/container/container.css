@@ -17,9 +17,17 @@
     width: 100%;
 }
 
-.THIS builder_platform_interaction-left-panel builder_platform_interaction-tabset div.container {
+.THIS builder_platform_interaction-left-panel #left-panel-tabcontent-elements {
     display: block;
     height: calc(100vh - 191px);
+    -webkit-overflow-scrolling: touch;
+    overflow:hidden;
+    overflow-y:auto
+}
+
+.THIS builder_platform_interaction-left-panel div.resource-manager-container {
+    display: block;
+    height: calc(100vh - 241px);
     -webkit-overflow-scrolling: touch;
     overflow:hidden;
     overflow-y:auto
