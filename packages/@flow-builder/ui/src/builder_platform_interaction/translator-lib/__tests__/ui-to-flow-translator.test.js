@@ -1,4 +1,5 @@
 import {translateUIModelToFlow} from '../ui-to-flow-translator';
+import { PROCESS_METADATA_VALUES } from 'builder_platform_interaction-flow-metadata';
 
 const UI_MODEL = {
     'elements': {
@@ -186,5 +187,10 @@ describe('UI to Flow Translator', () => {
         const flow = translateUIModelToFlow(UI_MODEL);
 
         expect(flow.metadata.actionCalls).toHaveLength(2);
+    });
+
+    it('adds BuilderType to processMetadataValues', () => {
+        const flow = translateUIModelToFlow(UI_MODEL);
+        expect(flow.metadata.processMetadataValues).toEqual(PROCESS_METADATA_VALUES);
     });
 });

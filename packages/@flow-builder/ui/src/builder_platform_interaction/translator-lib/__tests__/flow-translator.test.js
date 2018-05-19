@@ -1,6 +1,7 @@
 import { translateFlowToUIModel } from '../flow-to-ui-translator';
 import { translateUIModelToFlow } from '../ui-to-flow-translator';
 import { deepCopy, isPlainObject } from 'builder_platform_interaction-store-lib';
+import { PROCESS_METADATA_VALUES } from 'builder_platform_interaction-flow-metadata';
 
 // Fetchable from browser xhr
 export const sampleFlow = {
@@ -162,7 +163,7 @@ export const sampleFlow = {
         }],
         "interviewLabel": "screenFlow {!$Flow.CurrentDateTime}",
         "label": "screenFlow",
-        "processMetadataValues": [],
+        "processMetadataValues": PROCESS_METADATA_VALUES,
         "processType": "Flow",
         "screens": [{
             "allowBack": true,
@@ -244,7 +245,6 @@ export const FUTURE_ELEMENTS = [
     "dynamicChoiceSets",
     "formulas",
     "loops",
-    "processMetadataValues",
     "recordCreates",
     "recordDeletes",
     "recordLookups",
@@ -255,13 +255,28 @@ export const FUTURE_ELEMENTS = [
     "textTemplates",
     "waits"];
 
+const isTopLevelProcessMetadataValues = (value) => {
+    if (!Array.isArray(value) || value.length === 0) {
+        return false;
+    }
+
+    let result = false;
+    for (let i = 0; i < value.length; i++) {
+        if (value[i].name === 'BuilderType') {
+            result = true;
+            break;
+        }
+    }
+    return result;
+};
 
 // The database/server provide many fields that aren't yet used/supported by the client
 // in order to get a clean comparison of before and after it's best to strip out this extra
 // data
 //
-// The field processMetadataValues appears throughout the metadats but is only used by
-// process builder ( any possibly other builders )
+// The field processMetadataValues appears throughout the metadata but we only use it at the
+// top level to flag if a flow version was created by Lightning Flow Builder. Below that it
+// is only used by process builder (and possibly other builders)
 const cleanData = (object) => {
     if (Array.isArray(object)) {
         object.forEach(element => {
@@ -270,10 +285,11 @@ const cleanData = (object) => {
     } else if (isPlainObject(object)) {
         Object.keys(object).forEach(objectKey => {
             const value = object[objectKey];
-            if (objectKey === 'processMetadataValues') {
+            if (objectKey !== 'processMetadataValues') {
+                cleanData(value);
+            } else if (!isTopLevelProcessMetadataValues(value)) {
                 delete object[objectKey];
             }
-            cleanData(value);
         });
     }
 };

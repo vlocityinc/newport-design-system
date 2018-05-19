@@ -37,3 +37,16 @@ export const CONDITION_LOGIC = {
     OR: 'or',
     CUSTOM_LOGIC: 'custom_logic'
 };
+
+/**
+ * The top level process metadata values to save with each flow. This includes the BuilderType
+ * which helps us identify flow versions created by the Lightning Flow Builder.
+ */
+export const PROCESS_METADATA_VALUES = [
+    {
+        name: 'BuilderType',
+        value: {
+            stringValue: 'LightningFlowBuilder'
+        }
+    }
+];

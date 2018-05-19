@@ -1,5 +1,6 @@
 import { ELEMENT_INFOS, FLOW_PROPERTIES } from './translation-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { PROCESS_METADATA_VALUES } from 'builder_platform_interaction-flow-metadata';
 import { swapUidsForDevNames } from './uid-swapping';
 import { omit, pick, updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
@@ -152,6 +153,8 @@ export function translateUIModelToFlow(uiModel) {
          uiModel.elements[startElementId]) {
         metadata.startElementReference = uiModel.elements[startElementId].name;
     }
+
+    metadata.processMetadataValues = PROCESS_METADATA_VALUES;
 
     return {
         metadata,
