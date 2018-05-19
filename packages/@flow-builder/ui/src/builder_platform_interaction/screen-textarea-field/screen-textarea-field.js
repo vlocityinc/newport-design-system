@@ -7,10 +7,10 @@ import {
 /**
  * Wrapper used to represent visual preview of screen fields which are are text areas.
  */
-export default class TextareaWrapper extends Element {
-    @api name = '';
+export default class ScreenTextareaField extends Element {
+    @api name;
     @api label = ' '; // empty label is not allowed by the lightning component used to render this field type.
-    @api value = '';
+    @api value;
     @api required = false;
     @api disabled = false;
 

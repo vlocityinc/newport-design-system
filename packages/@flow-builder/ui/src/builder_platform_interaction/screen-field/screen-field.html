@@ -5,24 +5,25 @@
                                                                  screenfield={screenfield}
                                                                  class='screen-field-card'>
             </builder_platform_interaction-extension-screen-field>
-            <builder_platform_interaction-input-wrapper if:true={isInputFieldType} 
-                                                        type-name={screenfield.type.name} 
-                                                        label={screenfield.fieldText}
-                                                        key={screenfield.key}
-                                                        value={screenfield.defaultValue}
-                                                        required={screenfield.isRequired}>
-            </builder_platform_interaction-input-wrapper>
-            <builder_platform_interaction-display-text-wrapper if:true={isDisplayTextType}
-                                                               type-name={screenfield.type.name}
-                                                               title={screenfield.name}
-                                                               value={fieldText}
-                                                               key={screenfield.key}>
-            </builder_platform_interaction-display-text-wrapper>
-            <builder_platform_interaction-textarea-wrapper if:true={isTextAreaType}
-                                                           label={screenfield.fieldText}
-                                                           key={screenfield.key}
-                                                           required={screenfield.isRequired}>
-            </builder_platform_interaction-textarea-wrapper>
+            <builder_platform_interaction-screen-input-field if:true={isInputFieldType} 
+                                                             type-name={screenfield.type.name} 
+                                                             label={screenfield.fieldText}
+                                                             key={screenfield.key}
+                                                             value={screenfield.defaultValue}
+                                                             required={screenfield.isRequired}>
+            </builder_platform_interaction-screen-input-field>
+            <builder_platform_interaction-screen-display-text-field if:true={isDisplayTextType}
+                                                                    type-name={screenfield.type.name}
+                                                                    title={screenfield.name}
+                                                                    value={screenfield.fieldText}
+                                                                    key={screenfield.key}>
+            </builder_platform_interaction-screen-display-text-field>
+            <builder_platform_interaction-screen-textarea-field if:true={isTextAreaType}
+                                                                label={screenfield.fieldText}
+                                                                key={screenfield.key}
+                                                                value={screenfield.defaultValue}
+                                                                required={screenfield.isRequired}>
+            </builder_platform_interaction-screen-textarea-field>
         </div>
     </div>
 </template>

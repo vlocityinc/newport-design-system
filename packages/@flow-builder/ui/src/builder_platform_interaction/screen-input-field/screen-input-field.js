@@ -7,7 +7,7 @@ import {
 /**
  * Wrapper used to represent visual preview of screen fields which are are input fields.
  */
-export default class InputWrapper extends Element {
+export default class ScreenInputField extends Element {
     @api name;
     @api label = ' '; // empty label is not allowed by the lightning component used to render this field type.
     @api value;
@@ -19,6 +19,11 @@ export default class InputWrapper extends Element {
     @api
     get typeName() {
         return this._typeName;
+    }
+
+    @api
+    get formatter() {
+        return this._formatter;
     }
 
     @api
@@ -41,26 +46,26 @@ export default class InputWrapper extends Element {
 
     @api
     get type() {
-        if (this.typeName === 'TextBox') {
+        if (this._typeName === 'TextBox') {
             // if no type is specified, you get a simple text box, as that is the default.
             return null;
         }
-        if (this.typeName === 'Number') {
+        if (this._typeName === 'Number') {
             return 'number';
         }
-        if (this.typeName === 'Currency') {
+        if (this._typeName === 'Currency') {
             return 'number';
         }
-        if (this.typeName === 'Date') {
+        if (this._typeName === 'Date') {
             return 'date';
         }
-        if (this.typeName === 'DateTime') {
+        if (this._typeName === 'DateTime') {
             return 'datetime-local';
         }
-        if (this.typeName === 'Checkbox') {
+        if (this._typeName === 'Checkbox') {
             return 'checkbox';
         }
-        if (this.typeName === 'Password') {
+        if (this._typeName === 'Password') {
             return 'password';
         }
         throw new Error('Unknown typeName: ' + this.typeName);

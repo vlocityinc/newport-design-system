@@ -20,7 +20,7 @@ export default class ScreenField extends Element {
     }
 
     get isInputFieldType() {
-        return this.screenfield.type.fieldType === 'InputField';
+        return this.screenfield.type.fieldType === 'InputField' || this.screenfield.type.fieldType === 'PasswordField';
     }
 
     get isTextAreaType() {

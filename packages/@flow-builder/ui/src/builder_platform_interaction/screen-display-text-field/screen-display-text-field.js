@@ -3,7 +3,7 @@ import { Element, api } from 'engine';
 /**
  * Wrapper used to represent visual preview of screen fields which are are display fields.
  */
-export default class DisplayTextWrapper extends Element {
+export default class ScreenDisplayTextField extends Element {
     @api title;
     @api value;
     @api typeName;
