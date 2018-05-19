@@ -11,7 +11,7 @@ export default class ScreenEditorErrorsPanel extends Element {
     @api set errors(errs) {
         this._errors = [];
         for (const error of errs) {
-            this._errors.push({error, guid: generateGuid});
+            this._errors.push({error, guid: generateGuid()});
         }
     }
 

@@ -1,34 +1,43 @@
-.highlight.selected, .highlight:hover {
-    margin-top: -1.5rem;
+* {
+    outline:none;
+} 
+
+.highlight {
+    z-index: 3; /* lightning-datepicker has an icon with z-index: 2, this makes sure that icon can't be clicked when preventing events */
+    margin-bottom: var(--lwc-borderWidthThin);
 }
 
-.highlight.selected .highlight-header-title, .highlight.selected .highlight-icons-container {
+.highlight.selected .highlight-header, .highlight.selected .highlight-icons-container {
     background-color: var(--lwc-colorBrandDarker);
-    box-shadow: var(--lwc-shadowFocusInset);
 }
 
 .highlight.selected .highlight-frame {
     border-color: var(--lwc-colorBrandDarker);
 }
 
-.highlight.selected .highlight-header, .highlight:hover .highlight-header {
-    visibility: visible;
-    height: var(--lwc-varSpacingVerticalLarge);    
+.highlight.selected:focus .has-box-shadow {
+    outline: 0;
+    box-shadow: var(--lwc-shadowButtonFocus);
 }
 
-.highlight.selected .highlight-frame, .highlight:hover .highlight-frame {
+.highlight.selected .highlight-header, .highlight:hover .highlight-header, .highlight:focus .highlight-header {
+    visibility: visible;
+    z-index: 4; /* Or the frame border (with the shadow) will appear on top of the header */
+}
+
+.highlight.selected .highlight-frame, .highlight:hover .highlight-frame, .highlight:focus .highlight-frame {
     border-style: solid;
 }
 
-.highlight.selected .highlight-icons-container, .highlight:hover .highlight-icons-container {
+.highlight.selected .highlight-icons-container, .highlight:hover .highlight-icons-container, .highlight:focus .highlight-icons-container {
     visibility: visible;
 }
 
 .highlight-header {
     visibility: hidden;
-}
-
-.highlight-header-title {
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(-1 * var(--lwc-varSpacingVerticalLarge));    
     line-height: var(--lwc-varSpacingVerticalLarge);
     background-color: var(--lwc-colorBrandDark);
     border-radius: var(--lwc-borderRadiusMedium) var(--lwc-borderRadiusMedium) 0 0;
@@ -38,17 +47,16 @@
 .highlight-frame {
     height: 100%;
     border: var(--lwc-borderWidthThick) hidden var(--lwc-colorBrandDark);
+    z-index: 3;
 }
 
 .highlight-icons-container {
-    visibility: hidden;
-    right: 0;
-    top: 0;
-    
+    visibility: hidden;    
     transform: scale(.55); /* waiting for Owen to file a TD */
     transform-origin: top right;
     background-color: var(--lwc-colorBrandDark);
-    padding-left: .1rem;
+    top: 0; /* for preventevents false, as in that case this div is absolute */
+    right: 0; /* for preventevents false, as in that case this div is absolute */
 }
 
 .highlight-icon-container {

@@ -1,29 +1,26 @@
 <template>
-    <div>
-        <div>
-            <builder_platform_interaction-extension-screen-field if:true={isExtension} 
-                                                                 screenfield={screenfield}
-                                                                 class='screen-field-card'>
-            </builder_platform_interaction-extension-screen-field>
-            <builder_platform_interaction-screen-input-field if:true={isInputFieldType} 
-                                                             type-name={screenfield.type.name} 
-                                                             label={screenfield.fieldText}
-                                                             key={screenfield.key}
-                                                             value={screenfield.defaultValue}
-                                                             required={screenfield.isRequired}>
-            </builder_platform_interaction-screen-input-field>
-            <builder_platform_interaction-screen-display-text-field if:true={isDisplayTextType}
-                                                                    type-name={screenfield.type.name}
-                                                                    title={screenfield.name}
-                                                                    value={screenfield.fieldText}
-                                                                    key={screenfield.key}>
-            </builder_platform_interaction-screen-display-text-field>
-            <builder_platform_interaction-screen-textarea-field if:true={isTextAreaType}
-                                                                label={screenfield.fieldText}
-                                                                key={screenfield.key}
-                                                                value={screenfield.defaultValue}
-                                                                required={screenfield.isRequired}>
-            </builder_platform_interaction-screen-textarea-field>
-        </div>
+    <div class='slds-p-horizontal_small slds-p-vertical_x-small'>
+        <builder_platform_interaction-screen-extension-field if:true={isExtension} 
+                                                             screenfield={screenfield}>
+        </builder_platform_interaction-screen-extension-field>
+        <builder_platform_interaction-screen-input-field if:true={isInputFieldType} 
+                                                         type-name={screenfield.type.name} 
+                                                         label={screenfield.fieldText}
+                                                         key={screenfield.key}
+                                                         value={screenfield.defaultValue}
+                                                         required={screenfield.isRequired}>
+        </builder_platform_interaction-screen-input-field>
+        <builder_platform_interaction-screen-display-text-field if:true={isDisplayTextType}
+                                                                type-name={screenfield.type.name}
+                                                                title={screenfield.name}
+                                                                value={screenfield.fieldText}
+                                                                key={screenfield.key}>
+        </builder_platform_interaction-screen-display-text-field>
+        <builder_platform_interaction-screen-textarea-field if:true={isTextAreaType}
+                                                            label={screenfield.fieldText}
+                                                            key={screenfield.key}
+                                                            value={screenfield.defaultValue}
+                                                            required={screenfield.isRequired}>
+        </builder_platform_interaction-screen-textarea-field>
     </div>
 </template>

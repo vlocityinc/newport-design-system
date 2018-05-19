@@ -1,40 +1,34 @@
 <template>
-    <div onclick={handleSelected}>
-        <div class='highlight'>
-            <div class='highlight-header slds-grid slds-is-collapsed'>                
-                <div class='highlight-header-title slds-grid slds-p-horizontal_x-small slds-is-relative slds-align_absolute-center'>
-                    <lightning-icon icon-name='utility:connected_apps' size='x-small' variant='inverse'></lightning-icon>
-                    <div class='slds-p-left_xx-small slds-text-body_small'>{title}</div>
+    <div class='highlight slds-is-relative' onclick={handleSelected} tabindex={tabIndex}>
+        <div class='highlight-header has-box-shadow slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center'>
+            <lightning-icon icon-name='utility:connected_apps' size='x-small' variant='inverse'></lightning-icon>
+            <div class='slds-p-left_xx-small slds-text-body_small'>{title}</div>
+        </div>
+        
+        <div if:false={shouldPreventEvents} class='highlight-frame has-box-shadow'>
+            <slot name='screen-element'></slot>
+            <div class='highlight-icons-container slds-grid slds-is-absolute'>
+                <div if:true={shouldDisplayMoveIcon} class='highlight-icon-container slds-text-align_center'>                    
+                    <lightning-icon icon-name='utility:move' variant='inverse' size='small'></lightning-icon>
                 </div>
-            </div>
-            
-            <div if:false={shouldPreventEvents} class='highlight-frame'>
-                <div class='slds-grid slds-is-relative'>
-                    <slot name='screen-element'></slot>
-                </div>
-                <div class='highlight-icons-container slds-grid slds-is-absolute'>
+                <div class='highlight-icon-container slds-text-align_center'>
+                    <lightning-button-icon icon-name='utility:close' variant='bare-inverse' size='large' onclick={handleDelete}></lightning-button-icon>
+                </div>     
+            </div>            
+        </div>
+        
+        <div if:true={shouldPreventEvents} class='slds-grid slds-is-relative'>
+            <slot name='screen-element'></slot>
+            <div class='slds-size_full highlight-frame has-box-shadow slds-is-absolute'>
+                <div class='highlight-icons-container slds-grid slds-is-relative slds-float_right'>
                     <div if:true={shouldDisplayMoveIcon} class='highlight-icon-container slds-text-align_center'>                    
                         <lightning-icon icon-name='utility:move' variant='inverse' size='small'></lightning-icon>
                     </div>
                     <div class='highlight-icon-container slds-text-align_center'>
-                        <lightning-button-icon icon-name='utility:close' variant='bare-inverse' size='large' onclick={handleDelete}></lightning-button-icon>
+                        <lightning-button-icon class='has-box-shadow' icon-name='utility:close' variant='bare-inverse' size='large' onclick={handleDelete}></lightning-button-icon>
                     </div>     
-                </div>            
-            </div>
-            
-            <div if:true={shouldPreventEvents} class='slds-grid slds-is-relative'>
-                <slot name='screen-element'></slot>
-                <div class='slds-size_full highlight-frame slds-is-absolute'>
-                    <div class='highlight-icons-container slds-grid slds-is-absolute'>
-                        <div if:true={shouldDisplayMoveIcon} class='highlight-icon-container slds-text-align_center'>                    
-                            <lightning-icon icon-name='utility:move' variant='inverse' size='small'></lightning-icon>
-                        </div>
-                        <div class='highlight-icon-container slds-text-align_center'>
-                            <lightning-button-icon icon-name='utility:close' variant='bare-inverse' size='large' onclick={handleDelete}></lightning-button-icon>
-                        </div>     
-                    </div>
-                </div> 
-            </div>            
-        </div>
+                </div>
+            </div> 
+        </div>            
     </div>
 </template>

@@ -1,28 +1,23 @@
 import { Element, api, track } from 'engine';
 import { toDeveloperName } from 'builder_platform_interaction-screen-editor-utils';
-import { localizeString, I18N_KEY_SCREEN_PROPERTIES, I18N_KEY_SCREEN_REVIEW_ERRORS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { PropertyValueChangedEvent } from 'builder_platform_interaction-events';
+
 /*
  * Dynamic property editor TODO: refactor to be used as the property editor for LCs - W-4947239
  */
 export default class ScreenPropertiesEditor extends Element {
     @api element;
     @track errors;
-
-    get propertiesLabel() {
-        return localizeString(I18N_KEY_SCREEN_PROPERTIES);
-    }
-
-    get propertiesErrorLabel() {
-        return localizeString(I18N_KEY_SCREEN_REVIEW_ERRORS);
-    }
+    labels = LABELS;
 
     handlePropertyChange = (event) => {
-        const field = event.detail.field;
+        const field = event.field;
         if (field) {
             if (field.isBoolean) { // Visibility changes
                 const parentProperty = field.property;
-                const value = event.detail.event.currentTarget.checked;
-                for (const fld of this.root.querySelectorAll('builder_platform_interaction-screen-property-field')) {
+                const value = event.event.currentTarget.checked;
+                for (const fld of this.template.querySelectorAll('builder_platform_interaction-screen-property-field')) {
                     const property = fld.property;
                     if (property.parent && property.parent.name === parentProperty.name) {
                         fld.setVisible(value);
@@ -38,12 +33,8 @@ export default class ScreenPropertiesEditor extends Element {
         }
     }
 
-    isImmediate = (field) => {
-        return field.isBoolean;
-    }
-
     handlePropertyBlur = (event) => {
-        const field = event.detail.field;
+        const field = event.field;
 
         // Label to unique name for screen fields
         if (field.property.name === 'label') {
@@ -60,6 +51,10 @@ export default class ScreenPropertiesEditor extends Element {
         }
     }
 
+    isImmediate = (field) => {
+        return field.isBoolean;
+    }
+
     validate = (property) => {
         const field = this.getField(property.name);
         const value = field.getValue();
@@ -73,19 +68,14 @@ export default class ScreenPropertiesEditor extends Element {
     }
 
     getField = (name) => {
-        return this.root.querySelector('builder_platform_interaction-screen-property-field[data-property-name=' + name + ']');
+        return this.template.querySelector('builder_platform_interaction-screen-property-field[data-property-name=' + name + ']');
     }
 
     dispatchValueChangedEvent = (field) => {
         const oldValue = field.property.value;
         const newValue = field.getValue();
         if (oldValue !== newValue) {
-            this.dispatchEvent(new CustomEvent('propertyvaluechanged', {
-                bubbles: true,
-                cancelable: true,
-                composed: true,
-                detail: {field, property: field.property, oldValue, newValue}
-            }));
+            this.dispatchEvent(new PropertyValueChangedEvent(field, field.property, oldValue, newValue));
         }
     }
 }

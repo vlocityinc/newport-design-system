@@ -1,15 +1,13 @@
 import { Element } from 'engine';
 import { getAllScreenFieldTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
-import {
-    localizeString,
-    I18N_KEY_SCREEN_PALETTE_TITLE,
-    I18N_KEY_SCREEN_PALETTE_SEARCH,
-    I18N_KEY_SCREEN_PALETTE_SEARCH_PLACEHOLDER
-} from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+
+const FILTER_INPUT_SELECTOR = '#filter-input';
 
 export default class ScreenPalette extends Element {
     types;
+    labels = LABELS;
 
     // Create palette model
     constructor() {
@@ -38,24 +36,9 @@ export default class ScreenPalette extends Element {
         }
     }
 
-    get titleLabel() {
-        return localizeString(I18N_KEY_SCREEN_PALETTE_TITLE);
-    }
-
-    get searchLabel() {
-        return localizeString(I18N_KEY_SCREEN_PALETTE_SEARCH);
-    }
-
-    get searchPlaceholder() {
-        return localizeString(I18N_KEY_SCREEN_PALETTE_SEARCH_PLACEHOLDER);
-    }
-
     handleSearch() {
-        this.root.querySelector('builder_platform_interaction-palette').filter(this.root.querySelector('#filter-input').value);
+        this.template.querySelector('builder_platform_interaction-palette').filter(this.template.querySelector(FILTER_INPUT_SELECTOR).value);
     }
 
-    handleClearSearch() {
-        this.root.querySelector('#filter-input').value = '';
-        this.handleSearch();
-    }
+    handleReload() {}
 }

@@ -3,8 +3,8 @@
         <div class='slds-panel__header slds-shrink-none -slds-border_bottom-none slds-grid'>
             <div class='slds-grow'>
                 <h2 class='slds-panel__header-title slds-text-heading_small'>
-                    <span if:true={isScreen}>{screenLabel}</span>
-                    <span if:false={isScreen}><a onclick={handleScreenSelection}>{screenLabel}</a> > {node.type.label}</span>
+                    <span if:true={isScreen}>{labels.screen}</span>
+                    <span if:false={isScreen}><a onclick={handleScreenSelection}>{labels.screen}</a> > {node.type.label}</span>
                 </h2>
             </div>
             <div><lightning-icon icon-name={toggleIconName} size='xx-small' variant='default' onclick={handleToggleExpand}></lightning-icon></div>

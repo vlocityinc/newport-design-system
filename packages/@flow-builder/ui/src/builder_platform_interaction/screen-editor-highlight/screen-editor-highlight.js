@@ -1,4 +1,8 @@
 import { Element, api } from 'engine';
+import { ScreenElementSelectedEvent, ScreenElementDeletedEvent } from 'builder_platform_interaction-events';
+
+const SELECTED_CLASS = 'selected';
+const CONTAINER_DIV_SELECTOR = 'div.highlight';
 
 /*
  * Selection frame with a header and support for deleting components
@@ -6,12 +10,13 @@ import { Element, api } from 'engine';
 export default class ScreenEditorHighlight extends Element {
     @api screenElement;
     @api property;
-    @api preventEvents = 'false';
-    @api displayMoveIcon = 'false';
+    @api preventEvents = false;
+    @api displayMoveIcon = false;
     @api title;
+    @api tabIndex = 0;
 
     @api get selected() {
-        return this.root.querySelector('div.highlight').classList.contains('selected');
+        return this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.contains(SELECTED_CLASS);
     }
 
     @api select() {
@@ -23,42 +28,31 @@ export default class ScreenEditorHighlight extends Element {
     }
 
     get shouldPreventEvents() {
-        return this.preventEvents.toLowerCase() === 'true';
+        return typeof this.preventEvents === 'string' ? this.preventEvents.toLowerCase() === 'true' : this.preventEvents;
     }
 
     get shouldDisplayMoveIcon() {
-        return this.displayMoveIcon.toLowerCase() === 'true';
+        return typeof this.displayMoveIcon === 'string' ? this.displayMoveIcon.toLowerCase() === 'true' : this.displayMoveIcon;
     }
 
     setSelected(value) {
-        const element = this.root.querySelector('div.highlight');
-        if (value !== element.classList.contains('selected')) {
-            element.classList.toggle('selected');
+        const element = this.template.querySelector(CONTAINER_DIV_SELECTOR);
+        if (value !== element.classList.contains(SELECTED_CLASS)) {
+            element.classList.toggle(SELECTED_CLASS);
         }
     }
 
     handleSelected = (event) => {
         if (!this.selected) {
             this.setSelected(true);
-            this.fireEvent('screenelementselected');
-            event.stopPropagation();
+            this.dispatchEvent(new ScreenElementSelectedEvent(this.screenElement, this.property));
         }
-    }
 
-    handleDelete = (event) => {
-        this.fireEvent('screenelementdeleted');
         event.stopPropagation();
     }
 
-    fireEvent = (name) => {
-        this.dispatchEvent(new CustomEvent(name, {
-            bubbles: true,
-            cancelable: true,
-            composed: true,
-            detail: {
-                screenElement: this.screenElement,
-                property: this.property
-            }
-        }));
+    handleDelete = (event) => {
+        this.dispatchEvent(new ScreenElementDeletedEvent(this.screenElement, this.property));
+        event.stopPropagation();
     }
 }

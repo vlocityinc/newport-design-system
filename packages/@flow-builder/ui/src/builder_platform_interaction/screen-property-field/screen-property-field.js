@@ -1,4 +1,5 @@
 import { Element, api, track, unwrap } from 'engine';
+import { ScreenValueChangedEvent, ScreenBlurEvent } from 'builder_platform_interaction-events';
 
 // QUILL supported formats
 const rteFormats = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
@@ -44,6 +45,10 @@ export default class ScreenPropertyField extends Element {
         }
     }
 
+    get showLabel() {
+        return !this.isBoolean;
+    }
+
     get propertyValue() {
         return this.element[this.property.name];
     }
@@ -73,7 +78,7 @@ export default class ScreenPropertyField extends Element {
     }
 
     @api getValue() {
-        const input = this.root.querySelector('.property-input');
+        const input = this.template.querySelector('.property-input');
         if (this.isString || this.isLongString || this.isRichString) {
             return input.value;
         } else if (this.isBoolean) {
@@ -86,22 +91,12 @@ export default class ScreenPropertyField extends Element {
     }
 
     handleChange = (event) => {
-        this.dispatchEvent(new CustomEvent('valuechange', {
-            bubbles: true,
-            cancelable: true,
-            composed: true,
-            detail: {field: this, event}
-        }));
+        this.dispatchEvent(new ScreenValueChangedEvent(this, event));
         event.stopPropagation();
     }
 
     handleBlur = (event) => {
-        this.dispatchEvent(new CustomEvent('blur', {
-            bubbles: true,
-            cancelable: true,
-            composed: true,
-            detail: {field: this, event}
-        }));
+        this.dispatchEvent(new ScreenBlurEvent(this, event));
         event.stopPropagation();
     }
 }

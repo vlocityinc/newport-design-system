@@ -1,20 +1,4 @@
-import {
-    localizeString,
-    I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT,
-    I18N_KEY_SCREEN_FIELD_CATEGORY_DISPLAY,
-    I18N_KEY_SCREEN_FIELD_CATEGORY_CUSTOM,
-    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_TEXT_FIELD,
-    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_LARGE_TEXT_AREA,
-    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_NUMBER,
-    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_CURRENCY,
-    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATE,
-    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATETIME,
-    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_PASSWORD,
-    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_CHECKBOX,
-    // I18N_KEY_SCREEN_FIELD_TYPE_LABEL_RADIO_BUTTONS,
-    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DISPLAY_TEXT,
-    I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DISPLAY_RICH_TEXT
-} from 'builder_platform_interaction-screen-editor-i18n-utils';
+import {LABELS} from 'builder_platform_interaction-screen-editor-i18n-utils';
 
 // Screen Fields Templates -- INCOMPLETE - TODO W-4967572
 const baseScreenFieldTemplate = {
@@ -46,90 +30,90 @@ const screenFieldTypes = [
         name: 'TextBox',
         fieldType: 'InputField',
         dataType: 'String',
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_TEXT_FIELD),
+        label: LABELS.fieldTypeLabelTextField,
         icon: 'utility:type_tool',
         template: textScreenFieldTemplate,
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
+        category: LABELS.fieldCategoryInput
     }, { /* cambiar */
         name: 'LargeTextArea',
         fieldType: 'LargeTextArea',
         dataType: undefined,
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_LARGE_TEXT_AREA),
+        label: LABELS.fieldTypeLabelLargeTextArea,
         icon: 'utility:type_tool',
         template: textScreenFieldTemplate,
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
+        category: LABELS.fieldCategoryInput
     }, {
         name: 'Number',
         fieldType: 'InputField',
         dataType: 'Number',
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_NUMBER),
+        label: LABELS.fieldTypeLabelNumber,
         icon: 'utility:topic2',
         template: numberScreenFieldTemplate,
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
+        category: LABELS.fieldCategoryInput
     }, {
         name: 'Currency',
         fieldType: 'InputField',
         dataType: 'Currency',
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_CURRENCY),
+        label: LABELS.fieldTypeLabelCurrency,
         icon: 'utility:moneybag',
         template: numberScreenFieldTemplate,
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
+        category: LABELS.fieldCategoryInput
     }, {
         name: 'Date',
         fieldType: 'InputField',
         dataType: 'Date',
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATE),
+        label: LABELS.fieldTypeLabelDate,
         icon: 'utility:event',
         template: textScreenFieldTemplate, /* Change when all templates are available */
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
+        category: LABELS.fieldCategoryInput
     }, {
         name: 'DateTime',
         fieldType: 'InputField',
         dataType: 'DateTime',
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DATETIME),
+        label: LABELS.fieldTypeLabelDateTime,
         icon: 'utility:event',
         template: textScreenFieldTemplate, /* Change when all templates are available */
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
+        category: LABELS.fieldCategoryInput
     }, {
         name: 'Password',
         fieldType: 'PasswordField',
         dataType: undefined,
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_PASSWORD),
+        label: LABELS.fieldTypeLabelPassword,
         icon: 'utility:lock',
         template: textScreenFieldTemplate, /* Change when all templates are available */
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
+        category: LABELS.fieldCategoryInput
     }, {
         name: 'Checkbox',
         fieldType: 'InputField',
         dataType: 'Boolean',
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_CHECKBOX),
+        label: LABELS.fieldTypeLabelCheckbox,
         icon: 'utility:check',
         template: baseScreenFieldTemplate,
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
+        category: LABELS.fieldCategoryInput
     }, /* {
         name: 'Radio',
         fieldType: 'InputField',
         dataType: '',
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_RADIO_BUTTONS),
+        label: LABELS.fieldTypeLabelRadioButtons,
         icon: 'standard:contact_list',
         template: baseScreenFieldTemplate,
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_INPUT)
+        category: LABELS.fieldCategoryInput
     }, */ {
         name: 'DisplayText',
         fieldType: 'DisplayText',
         dataType: undefined,
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DISPLAY_TEXT),
+        label: LABELS.fieldTypeLabelDisplayText,
         icon: 'utility:type_tool',
         template: displayTextScreenFieldTemplate,
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_DISPLAY)
+        category: LABELS.fieldCategoryDisplay
     }, {
         name: 'DisplayRichText',
         fieldType: 'DisplayText',
         dataType: undefined,
-        label: localizeString(I18N_KEY_SCREEN_FIELD_TYPE_LABEL_DISPLAY_RICH_TEXT),
+        label: LABELS.fieldTypeLabelDisplayRichText,
         icon: 'utility:type_tool',
         template: displayTextScreenFieldTemplate,
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_DISPLAY)
+        category: LABELS.fieldCategoryDisplay
     }, {
         name: 'c:accountPicker',
         fieldType: 'ComponentInstance',
@@ -137,7 +121,7 @@ const screenFieldTypes = [
         label: 'Account Picker',
         icon: 'utility:connected_apps', // 'standard:custom_notification', //Removing this until we clarify how to change the size and the background of icons in the palette
         template: baseScreenFieldTemplate, /* Change when all templates are available */
-        category: localizeString(I18N_KEY_SCREEN_FIELD_CATEGORY_CUSTOM)
+        category: LABELS.fieldCategoryCustom
     }
 ];
 

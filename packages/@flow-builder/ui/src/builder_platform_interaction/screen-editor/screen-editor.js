@@ -31,7 +31,7 @@ export default class ScreenEditor extends Element {
      * @returns {object} list of errors
      */
     @api validate() {
-        // TODO: Run  node validation rules for all fields -- W-4947106
+        // TODO: Run node validation rules for all fields -- W-4947106
         return [];
     }
 
@@ -47,9 +47,9 @@ export default class ScreenEditor extends Element {
     }
 
     handleDeleteScreenElement = (event) => {
-        const element = event.detail.screenElement;
+        const element = event.screenElement;
         if (element.guid === this.screen.guid) {
-            const propertyName = event.detail.property;
+            const propertyName = event.property;
             this.screen[propertyName] = false;
             this.selectedNode[propertyName] = false;
         } else {
@@ -59,7 +59,7 @@ export default class ScreenEditor extends Element {
     }
 
     handleSelectScreenElement = (event) => {
-        const elem = event.detail.screenElement;
+        const elem = event.screenElement;
         if (elem && elem.guid !== this.screen.guid) {
             this.setSelectedNode(this.screen.getFieldByGUID(elem.guid));
         } else {
@@ -71,17 +71,17 @@ export default class ScreenEditor extends Element {
         this.setSelectedNode(this.screen);
     }
 
-    handleScreenElementDeselected = (/* event */) => {
+    handleDeselectScreenElement = (/* event */) => {
         this.setSelectedNode(this.screen);
-        this.root.querySelector('builder_platform_interaction-screen-editor-canvas').clearSelection();
+        this.template.querySelector('builder_platform_interaction-screen-editor-canvas').clearSelection();
     }
 
     handlePropertyValueChanged = (event) => {
         if (this.selectedNode.guid !== this.screen.guid) { // A screenfield is selected
             const field = this.screen.getFieldByGUID(this.selectedNode.guid);
-            field[event.detail.property.name] = event.detail.newValue;
+            field[event.property.name] = event.newValue;
         } else {
-            this.screen[event.detail.property.name] = event.detail.newValue;
+            this.screen[event.property.name] = event.newValue;
         }
     }
 }

@@ -1,11 +1,12 @@
 <template>
-    <div class='slds-p-around_small screen-editor-canvas-container' onscreenelementdeleted={handleScreenElementDeleted} 
+    <div if:true={screen} class='slds-p-around_small screen-editor-canvas-container' onscreenelementdeleted={handleScreenElementDeleted} 
                                                                     onscreenelementselected={handleScreenElementSelected}
                                                                     onclick={handleOnClick}>
         <div class='slds-grow screen-editor-canvas-content slds-p-top_small slds-grid'>
             <div class='slds-card slds-card_boundary slds-grow slds-grid slds-grid_vertical'>
                 <!--  header -->
-                <builder_platform_interaction-screen-editor-highlight if:true={screen.showHeader} screen-element={screen} property='showHeader' prevent-events='true' title={headerHighlightLabel}>
+                <builder_platform_interaction-screen-editor-highlight if:true={screen.showHeader} screen-element={screen} property='showHeader' 
+                                                                      prevent-events='true' title={labels.header} tab-index={nextTabIndex}>
                     <div slot='screen-element' class='slds-card__header slds-grid slds-border_bottom slds-grow'>
                         <header class='slds-media slds-media_center slds-has-flexi-truncate'>
                             <div class='slds-media__body'>
@@ -13,30 +14,31 @@
                             </div>
                         </header>
                         <div if:true={screen.helpText} class='slds-no-flex'>
-                            <lightning-button-icon icon-name='utility:info' variant='bare' alternative-text='TODO' size='small'></lightning-button-icon>
+                            <lightning-button-icon icon-name='utility:info' variant='bare' alternative-text='{labels.buttonHelpTextAltText}' size='small'></lightning-button-icon>
                         </div>
                     </div>
                 </builder_platform_interaction-screen-editor-highlight>
                 
                 <!--  body -->  
-                <div class='slds-card__body slds-p-horizontal_x-small'>
+                <div class='slds-card__body slds-m-bottom_none'>
                     <template for:each={screen.fields} for:item='field'>
-                        <div class='slds-p-top_x-small' key={field.guid}>
-                            <builder_platform_interaction-screen-editor-highlight screen-element={field} prevent-events='true' display-move-icon='true' title={field.fieldType}>
-                                <!-- field preview -->
-                                <builder_platform_interaction-screen-field slot='screen-element' screenfield={field} class='slds-grow'></builder_platform_interaction-screen-field> 
-                            </builder_platform_interaction-screen-editor-highlight>
-                        </div>                        
+                        <builder_platform_interaction-screen-editor-highlight key={field.guid} screen-element={field} 
+                                                                              prevent-events='true' display-move-icon='true'
+                                                                              title={field.fieldType} tab-index={nextTabIndex}>
+                            <!-- field preview -->
+                            <builder_platform_interaction-screen-field slot='screen-element' screenfield={field} class='slds-grow'></builder_platform_interaction-screen-field> 
+                        </builder_platform_interaction-screen-editor-highlight>
                     </template>
                 </div>
                 
                 <!--  footer -->
-                <builder_platform_interaction-screen-editor-highlight if:true={screen.showFooter} screen-element={screen} property='showFooter' prevent-events='true' title={footerHighlightLabel}>
+                <builder_platform_interaction-screen-editor-highlight if:true={screen.showFooter} screen-element={screen} property='showFooter'
+                                                                      prevent-events='true' title={labels.footer} tab-index={nextTabIndex}>
                     <div slot='screen-element' class='slds-card__footer slds-grid slds-border_top slds-grow'>
-                        <button if:true={screen.allowPause} class='slds-button slds-button--neutral' type='button'>{pauseLabel}</button>
+                        <button if:true={screen.allowPause} class='slds-button slds-button--neutral' type='button' tabindex='-1'>{labels.pause}</button>
                         <div class='slds-col_bump-left'>
-                            <button if:true={screen.allowBack} class='slds-button slds-button--neutral' type='button'>{previousLabel}</button>
-                            <button if:true={screen.allowFinish} class='slds-button slds-button--brand' type='button'>{finishLabel}</button>
+                            <button if:true={screen.allowBack} class='slds-button slds-button--neutral' type='button' tabindex='-1'>{labels.previous}</button>
+                            <button if:true={screen.allowFinish} class='slds-button slds-button--brand' type='button' tabindex='-1'>{labels.finish}</button>
                         </div>
                     </div>
                 </builder_platform_interaction-screen-editor-highlight>

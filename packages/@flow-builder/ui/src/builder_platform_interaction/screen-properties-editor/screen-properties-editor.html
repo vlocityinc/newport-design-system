@@ -1,7 +1,7 @@
 <template>
-    <builder_platform_interaction-screen-editor-errors-panel label={propertiesErrorLabel} errors={errors}></builder_platform_interaction-screen-editor-errors-panel>
+    <builder_platform_interaction-screen-editor-errors-panel label={labels.reviewErrors} errors={errors}></builder_platform_interaction-screen-editor-errors-panel>
     
-    <div if:true={element.categories} class='-categories-panel'>
+    <div if:true={element.categories}>
         <template for:each={element.categories} for:item='category'>
             <builder_platform_interaction-accordion key={category.name}>
                 <builder_platform_interaction-accordion-section>
@@ -10,7 +10,7 @@
                         <template for:each={category.properties} for:item='prop'>
                             <builder_platform_interaction-screen-property-field element={element} property={prop} 
                                                                                 key={prop.guid} data-property-name={prop.name} 
-                                                                                onvaluechange={handlePropertyChange} onblur={handlePropertyBlur}>
+                                                                                onvaluechanged={handlePropertyChange} onblur={handlePropertyBlur}>
                             </builder_platform_interaction-screen-property-field>
                         </template>                    
                     </div>

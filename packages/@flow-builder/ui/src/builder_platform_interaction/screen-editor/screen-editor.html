@@ -4,17 +4,17 @@
             <builder_platform_interaction-screen-editor-palette onpaletteitemclicked={handleAddScreenField}>
             </builder_platform_interaction-screen-editor-palette>
         </div>
-        <div class='canvas-container slds-grow slds-shrink slds-grid slds-grid_vertical slds-scrollable'>
+        <div class='canvas-container slds-grow slds-shrink slds-grid slds-grid_vertical slds-scrollable' onclick={handleDeselectScreenElement}>
             <builder_platform_interaction-screen-editor-canvas screen={screen} 
                                                                onaddscreenfield={handleAddScreenField} 
                                                                onscreenelementselected={handleSelectScreenElement}
-                                                               onscreenelementdeselected={handleSelectScreenElement}
+                                                               onscreenelementdeselected={handleDeselectScreenElement}
                                                                onscreenelementdeleted={handleDeleteScreenElement} >
             </builder_platform_interaction-screen-editor-canvas>
         </div>
         <div class='slds-grow-none slds-shrink-none'>
             <builder_platform_interaction-screen-properties-editor-container node={selectedNode} 
-                                                                             onscreenselected={handleScreenElementDeselected} 
+                                                                             onscreennodeselected={handleDeselectScreenElement} 
                                                                              onpropertyvaluechanged={handlePropertyValueChanged}>
             </builder_platform_interaction-screen-properties-editor-container>
         </div>

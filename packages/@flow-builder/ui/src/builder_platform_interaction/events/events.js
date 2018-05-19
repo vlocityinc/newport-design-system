@@ -1,6 +1,7 @@
 /*
  * Contains all custom event classes
  */
+export  * from './screenEditorEvents';
 export { PropertyChangedEvent } from './propertyChangedEvent';
 export { FetchMenuDataEvent } from './fetchMenuDataEvent';
 export { ValueChangedEvent } from './valueChangedEvent';

@@ -1,6 +1,6 @@
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { getScreenFieldType } from './screen-editor-field-type-utils.js';
-import { localizeString, REQUIRED_ERROR} from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 
 // Developer name validation regex - TODO Remove if the FB validation framework provides one
 const DEV_NAME_REGEX = /[^a-zA-Z0-9_-]/gi;
@@ -76,7 +76,7 @@ function createProperty(type, name, masterLabel, defaultValue, required, validat
             const errors = [];
             if (this.required && !value) {
                 if (!this.parent || parentValue) {
-                    errors.push(localizeString(REQUIRED_ERROR));
+                    errors.push(LABELS.errorRequired);
                 }
             }
 
