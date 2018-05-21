@@ -566,7 +566,7 @@ export default class Combobox extends Element {
      * Clears an error message if any previously set on the combobox.
      */
     clearErrorMessage() {
-        this.setErrorMessage('');
+        this.setErrorMessage(null);
     }
 
     /**

@@ -1,9 +1,10 @@
 <template>
     <builder_platform_interaction-combobox
         label={label}
+        placeholder={placeholder}
         disabled={disabled}
-        value={item.value}
-        menu-data={menuData}
+        value={state.item}
+        menu-data={state.menuData}
         required={required}
         literals-allowed={literalsAllowed}
         type={elementDataType}

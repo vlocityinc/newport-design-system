@@ -4,8 +4,8 @@ import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interacti
 import { variableReducer } from './variable-reducer';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { PropertyEditorWarningEvent } from 'builder_platform_interaction-events';
-import { filterMatches, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
-import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
+import { filterMatches, getElementsForMenuData, RESOURCE_PICKER_MODE } from 'builder_platform_interaction-expression-utils';
+import { getRulesForContext, getRHSTypes, RULE_OPERATOR} from 'builder_platform_interaction-rule-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 // the property names in a variable element (after mutation)
@@ -26,6 +26,13 @@ const EXTERNAL_ACCESS_VALUES = [
     { label: 'Use as Input', value: VARIABLE_FIELDS.IS_INPUT },
     { label: 'Use as Output', value: VARIABLE_FIELDS.IS_OUTPUT }
 ];
+
+// TODO: use labels W-4954505
+const sobjectPickerLabel = 'Salesforce Object';
+const collectionLabel = 'Collection';
+const externalAccessLabel = 'Allow External Access';
+
+const sobjectPickerPlaceholder = 'Find an object...';
 
 // fields on which warning can be set in variable editor
 const VARIABLE_WARNING_FIELDS = [VARIABLE_FIELDS.NAME, VARIABLE_FIELDS.IS_INPUT, VARIABLE_FIELDS.IS_OUTPUT];
@@ -51,6 +58,21 @@ const warningMessage = 'Changing this field may result in runtime errors when th
  * @since 216
  */
 export default class VariableEditor extends Element {
+    // previous value of external access input output checkbox. Used to assess warning.
+    _externalAccessPreviousValues = new Set();
+
+    // currently selected external access values. Used to assess warning.
+    _externalAccessSelectedValues = [];
+
+    // previous dev name from label description. Used to assess warning.
+    _devNamePreviousValue = '';
+
+    _fullDefaultValueMenuData = {};
+
+    _defaultValueMenuData;
+
+    _lastRecordedDataType = '';
+
     /**
      * Internal state for the variable editor
      */
@@ -145,10 +167,18 @@ export default class VariableEditor extends Element {
      */
     get defaultValue() {
         const defaultValue = getValueFromHydratedItem(this.variableResource.defaultValue);
-        if (defaultValue && typeof defaultValue === 'number') {
+        if (defaultValue && (typeof defaultValue === 'number' || typeof defaultValue === 'boolean')) {
             return defaultValue.toString();
         }
         return defaultValue;
+    }
+
+    get objectType() {
+        return getValueFromHydratedItem(this.variableResource.objectType);
+    }
+
+    get hasObjectType() {
+        return !!this.variableResource.objectType;
     }
 
     /**
@@ -159,6 +189,10 @@ export default class VariableEditor extends Element {
         return !(this.variableResource.isCollection || (this.dataType && DATATYPES_WITH_NO_DEFAULT_VALUE.includes(this.dataType)));
     }
 
+    get elementType() {
+        return ELEMENT_TYPE.VARIABLE;
+    }
+
     /**
      * Menu data for the default value combobox.
      * @return {*} menu data in format grouped-combobox expects
@@ -167,20 +201,25 @@ export default class VariableEditor extends Element {
         return this._defaultValueMenuData;
     }
 
-    // previous value of external access input output checkbox. Used to assess warning.
-    _externalAccessPreviousValues = new Set();
+    get sobjectPickerMode() {
+        return RESOURCE_PICKER_MODE.ENTITY_MODE;
+    }
 
-    // currently selected external access values. Used to assess warning.
-    _externalAccessSelectedValues = [];
+    get sobjectPickerLabel() {
+        return sobjectPickerLabel;
+    }
 
-    // previous dev name from label description. Used to assess warning.
-    _devNamePreviousValue = '';
+    get sobjectPickerPlaceholder() {
+        return sobjectPickerPlaceholder;
+    }
 
-    _fullDefaultValueMenuData = {};
+    get collectionLabel() {
+        return collectionLabel;
+    }
 
-    _defaultValueMenuData;
-
-    _lastRecordedDataType = '';
+    get externalAccessLabel() {
+        return externalAccessLabel;
+    }
 
     /* ********************** */
     /*     Event handlers     */
@@ -223,7 +262,6 @@ export default class VariableEditor extends Element {
         // reset the values since the event has info about only selected values
         this.variableResource[VARIABLE_FIELDS.IS_INPUT] = false;
         this.variableResource[VARIABLE_FIELDS.IS_OUTPUT] = false;
-
         this._externalAccessSelectedValues = event.detail.value;
         this._externalAccessSelectedValues.forEach((propertyName) => {
             this.variableResource[propertyName] = true;
@@ -242,7 +280,7 @@ export default class VariableEditor extends Element {
      * @param {object} event - Value changed event from combobox.
      */
     handleDefaultValuePropertyChanged(event) {
-        this.handleChange(event, VARIABLE_FIELDS.DEFAULT_VALUE);
+        this.handleFlowComboboxChange(event, VARIABLE_FIELDS.DEFAULT_VALUE);
     }
 
     /**
@@ -252,6 +290,10 @@ export default class VariableEditor extends Element {
     handleDefaultValueFilterMatches(event) {
         event.stopPropagation();
         this._defaultValueMenuData = filterMatches(event.detail.value, this._fullDefaultValueMenuData);
+    }
+
+    handleObjectTypeChange(event) {
+        this.handleFlowComboboxChange(event, VARIABLE_FIELDS.OBJECT_TYPE);
     }
 
     /** *********************************/
@@ -266,23 +308,41 @@ export default class VariableEditor extends Element {
     handleChange(event, propertyName) {
         event.stopPropagation();
 
-        const valueErrorObj = this.getEventValueAndError(event);
-        let value = valueErrorObj.value;
-        const error = valueErrorObj.error;
+        const value = event.detail.value;
+        const error = event.detail.error;
 
+        this.updateProperty(propertyName, value, error);
+    }
+
+    /**
+     * Helper method to handle a flow combobox value changed event and update the given property name
+     * @param {ComboboxValueChangedEvent} event flow combobobx value changed event to handle
+     * @param {String} propertyName proeprty name to update
+     */
+    handleFlowComboboxChange(event, propertyName) {
+        event.stopPropagation();
+        const payload = this.getComboboxEventPayload(event);
+        const error = event.detail.error;
+        let valueToUpdate = payload;
+
+        // the value we want to dispatch is inside
+        if (propertyName === VARIABLE_FIELDS.OBJECT_TYPE) {
+            // the value of is the api name of the selected sobject
+            valueToUpdate = payload.value;
+        }
         // for defaultValue extract out the guid and value from menu item
         if (propertyName === VARIABLE_FIELDS.DEFAULT_VALUE) {
             let defaultValueGuidValue;
-            if (event.detail.value.value) {
-                value = event.detail.value.value;
-                defaultValueGuidValue = event.detail.value.id;
+            // if we have a display text then we have a select, otherwise we are dealing with a literal
+            if (payload.displayText) {
+                valueToUpdate = payload.displayText;
+                defaultValueGuidValue = payload.value;
             } else {
                 defaultValueGuidValue = '';
             }
             this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, defaultValueGuidValue, null);
         }
-
-        this.updateProperty(propertyName, value, error);
+        this.updateProperty(propertyName, valueToUpdate, error);
     }
 
     /**
@@ -359,14 +419,15 @@ export default class VariableEditor extends Element {
     }
 
     /**
-     * Extract out value and error from the event based on whether the detail is present.
-     * @param {object} event Event for the data type
-     * @return {object} value and error object
+     * Extract out value from the event or item if payload is from combobox
+     * Ex: If a select happened it will have an item as payload
+     * Ex: if a literal is typed then the event will not have an item, just a display text
+     * @param {Object} event Event for the data type
+     * @return {Object|String} value of the event payload
      */
-    getEventValueAndError(event) {
-        return event.detail
-            ? { value: event.detail.value, error: event.detail.error }
-            : { value: event.value, error: event.error };
+    getComboboxEventPayload(event) {
+        // if it is a combobox value changed event we have two cases: literals or item select
+        return event.detail.item ? event.detail.item : event.detail.displayText;
     }
 
     /** *********************************/

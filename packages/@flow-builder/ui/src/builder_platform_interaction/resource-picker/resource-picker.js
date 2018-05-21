@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { Element, api, track, unwrap } from 'engine';
 import {
     getElementsForMenuData,
     filterMatches,
@@ -37,26 +37,23 @@ export default class ResourcePicker extends Element {
 
     /**
      * the actual value of the combobox item (contains text, value, and id)
-     * @typedef item
-     * @type {Object}
+     * @typedef {Object} item
      * @property {String} type  the type of menu data display type ex: option-inline
      * @property {String} text  the text that will be displayed by the combobox (can be highlighted)
-     * @property {String} value the value stored by the inner 'grouped-combobox' component
-     * @property {String} id    TODO: remove this once combobox changes are in. the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
-     */
+     * @property {String} subtext the subtext that will displayed below the text
+     * @property {String} displayText   the value displayed in the input field when this menu item is selected
+     * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
+     * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
+    */
 
     /**
-      * @type {item}
-      */
-    @track
-    item = {};
-
-    /**
-     * the current menu data held by the combobox, not necessarily the full menu data
-     * Same shape as @member {Array}_fulMenuData
+     * the state of the resource picker containing the current item and the menu data
+     * @typedef {Object} resourcePickerState
+     * @property {item} the currently selected menu item
+     * @property {Object[]} the current menu data held by the combobox, not necessarily the full menu data
      */
     @track
-    menuData = [];
+    state = {};
 
     /**
      * the label shown by the resource picker
@@ -64,6 +61,13 @@ export default class ResourcePicker extends Element {
      */
     @api
     label;
+
+    /**
+     * placeholder text displayed in the input field
+     * @type {String}
+     */
+    @api
+    placeholder;
 
     /**
      * True if resource picker is disabled, false otherwise
@@ -181,6 +185,10 @@ export default class ResourcePicker extends Element {
         return this._elementType;
     }
 
+    get myItem() {
+        return this.state.item;
+    }
+
     // this is used to populate menu data when first creating the resource picker
     connectedCallback() {
         this.populateMenuData();
@@ -191,13 +199,15 @@ export default class ResourcePicker extends Element {
 
     handleFilterMatches(event) {
         event.stopPropagation();
-        this.menuData = filterMatches(event.detail.value, this._fullMenuData);
+        this.state.menuData = filterMatches(event.detail.value, this._fullMenuData);
     }
 
     handleValueChange(event) {
-        // we do not stop propagation of the event here because we just extract the event detail value
-        this.item = event.detail.value;
+        // if we are in ferov mode we allow items and literals
+        // TODO: W-5013881 remove unwrap when LWC team makes changes to wrapping event payloads in membranes
+        this.state.item = event.detail.item ? unwrap(event.detail.item) : event.detail.displayText;
     }
+
 
     /** HELPER METHODS */
 
@@ -210,19 +220,19 @@ export default class ResourcePicker extends Element {
         };
         const rhsTypes = getRHSTypes(elementParam, 'Assign', this._rules);
         this._fullMenuData = getElementsForMenuData({ element: this._elementType}, rhsTypes, false);
-        this.menuData = this._fullMenuData;
+        this.state.menuData = this._fullMenuData;
     }
 
     populateEntityMenuData() {
         this._fullMenuData = getEntitiesMenuData(this.crudFilterType);
-        this.menuData = this._fullMenuData;
+        this.state.menuData = this._fullMenuData;
         /*
-        when first initializing the entity menu data, our item will NOT have an id meaning it was not selected through combobox
-        the item was given as a prop and only contains the api name. We want to get the entire item information
+        when first initializing the entity menu data, our item will NOT have a value prop meaning it was not selected through combobox
+        the item was given from store as a prop and only contains the api name. We want to get the entire item information
         */
-        if (!this._isInitialized && this.initialItem && !this.initialItem.id) {
-            const foundItem = this.menuData[0].items.find(item => item.id === this.initialItem);
-            this.item = foundItem;
+        if (!this._isInitialized && this.initialItem && !this.initialItem.value) {
+            const foundItem = this.state.menuData[0].items.find(item => item.value === this.initialItem);
+            this.state.item = foundItem;
         }
     }
 

@@ -1,56 +1,77 @@
 <template>
     <div if:true={variableResource} class='slds-p-around_small'>
-        <builder_platform_interaction-label-description dev-name={variableResource.name}
-                                                        dev-name-label='API Name'
-                                                        description={variableResource.description}
-                                                        hide-label=true
-                                                        onpropertychanged={handlePropertyChanged}>
-        </builder_platform_interaction-label-description>
+        <div class="slds-form slds-form_compound">
+            <builder_platform_interaction-label-description dev-name={variableResource.name}
+                                                            dev-name-label='API Name'
+                                                            description={variableResource.description}
+                                                            hide-label=true
+                                                            onpropertychanged={handlePropertyChanged}>
+            </builder_platform_interaction-label-description>
 
-        <div class="slds-form-element_group slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
-            <!-- TODO: use labels W-4813532-->
-            <lightning-combobox
-                class="slds-form-element slds-col slds-grow slds-size_1-of-2"
-                label="Data Type"
-                placeholder="Select Data Type"
-                options={dataTypeList}
-                value={dataType}
-                disabled={isFieldDisabled}
-                onchange={handleDataTypeSelect}
-                field-level-help={dataTypeHelpText}
-                required
-                >
-            </lightning-combobox>
-            <lightning-input
-                class="slds-form-element slds-col slds-grow slds-size_2-of-2 slds-align-middle"
-                label="Collection"
-                type="checkbox"
-                checked={variableResource.isCollection}
-                disabled={isFieldDisabled}
-                onchange={handleCollectionChange}
-                field-level-help={collectionHelpText}
-                >
-            </lightning-input>
-        </div>
-        
-        <div if:true={hasDefaultValue} class='default-value'>
-            <builder_platform_interaction-combobox label="Default Value"
-                                                   value={defaultValue}
-                                                   menu-data={defaultValueMenuData}
-                                                   type={dataType}
-                                                   literals-allowed="true"
-                                                   error-message={defaultValueErrorMessage}
-                                                   onvaluechanged={handleDefaultValuePropertyChanged}
-                                                   onfiltermatches={handleDefaultValueFilterMatches}>
-            </builder_platform_interaction-combobox>
-        </div>
+            <div class="slds-form-element_group slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
+                <!-- TODO: use labels W-4813532-->
+                <lightning-combobox
+                    class="slds-form-element slds-col slds-grow slds-size_1-of-2"
+                    label="Data Type"
+                    placeholder="Select Data Type"
+                    options={dataTypeList}
+                    value={dataType}
+                    disabled={isFieldDisabled}
+                    onchange={handleDataTypeSelect}
+                    field-level-help={dataTypeHelpText}
+                    required
+                    >
+                </lightning-combobox>
+                <lightning-input
+                    class="slds-form-element slds-col slds-grow slds-size_2-of-2 slds-align-middle"
+                    label={collectionLabel}
+                    type="checkbox"
+                    checked={variableResource.isCollection}
+                    disabled={isFieldDisabled}
+                    onchange={handleCollectionChange}
+                    field-level-help={collectionHelpText}
+                    >
+                </lightning-input>
+            </div>
+            
+            <div if:true={hasDefaultValue} class='default-value'>
+                <builder_platform_interaction-combobox label="Default Value"
+                                                    value={defaultValue}
+                                                    menu-data={defaultValueMenuData}
+                                                    type={dataType}
+                                                    error-message={defaultValueErrorMessage}
+                                                    oncomboboxvaluechanged={handleDefaultValuePropertyChanged}
+                                                    onfiltermatches={handleDefaultValueFilterMatches}>
+                </builder_platform_interaction-combobox>
+            </div>
 
-        <!-- TODO: Add field-level-help={externalAccessHelpText} once W-4972926 is fixed. Tracking bug W-4981924 -->
-        <lightning-checkbox-group label='Allow External Access'
-                                  value={externalAccessValue}
-                                  options={externalAccessOptions}
-                                  onchange={handleExternalAccessPropertyChanged}
-                                  onblur={handleExternalAccessOnBlur}>
-        </lightning-checkbox-group>
+
+            <div if:true={hasObjectType} class="slds-form-element__row">
+                <!-- TODO: use labels W-4813532-->            
+                <builder_platform_interaction-resource-picker
+                    class="slds-form-element slds-size_1-of-2"
+                    label={sobjectPickerLabel}
+                    placeholder={sobjectPickerPlaceholder}
+                    disabled={isFieldDisabled}
+                    required
+                    initial-item={objectType}
+                    mode={sobjectPickerMode}
+                    element-data-type={dataType}
+                    element-is-collection={variableResource.isCollection}
+                    element-type={elementType}
+                    oncomboboxvaluechanged={handleObjectTypeChange}>
+                </builder_platform_interaction-resource-picker>
+            </div>
+            
+            <!-- TODO: Add field-level-help={externalAccessHelpText} once W-4972926 is fixed. Tracking bug W-4981924 -->
+            <lightning-checkbox-group 
+                                    class="slds-form-element"
+                                    label={externalAccessLabel}
+                                    value={externalAccessValue}
+                                    options={externalAccessOptions}
+                                    onchange={handleExternalAccessPropertyChanged}
+                                    onblur={handleExternalAccessOnBlur}>
+            </lightning-checkbox-group>
+        </div>
     </div>
 </template>

@@ -26,7 +26,6 @@ const RESOURCE_PICKER_MODE = {
  * @property {String} displayText   the value displayed in the input field when this menu item is selected
  * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
  * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
- * @property {String} id the id of the combobox TODO: this will be removed in another CL)
  */
 
 /**
@@ -37,10 +36,9 @@ const RESOURCE_PICKER_MODE = {
  * @param {String} displayText the display text of the menu item
  * @param {String} iconName the icon of the menu item
  * @param {String} value the value of the menu item
- * @param {String} id the id of the menu items TODO: this will be removed
  * @returns {MenuItem}  the generated menu item
  */
-const createMenuItem = (type, text, subtext, displayText, iconName, value, id) => {
+const createMenuItem = (type, text, subtext, displayText, iconName, value) => {
     return {
         type,
         text,
@@ -48,7 +46,6 @@ const createMenuItem = (type, text, subtext, displayText, iconName, value, id) =
         displayText,
         iconName,
         value,
-        id,
     };
 };
 
@@ -178,7 +175,6 @@ const mutateEntitiesToComboboxShape = (entities) => {
             entity.entityLabel,
             undefined,
             entity.apiName,
-            entity.apiName, // TODO: remove this once combobox changes are in
         );
     });
     const groupedMenuItems = createGroupedMenuItems(items);
