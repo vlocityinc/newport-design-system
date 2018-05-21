@@ -24,15 +24,7 @@ const STATE_EMPTY = {
  */
 const STATE_NON_EMPTY = {
     "elements": {
-        "ASSIGNMENT_0": {
-            "assignmentItems": [{
-                "assignToReference": "VARIABLE_4",
-                "operator": "Assign",
-                "processMetadataValues": [],
-                "value": {
-                    "stringValue": "abc"
-                }
-            }],
+        "STARTELEMENT_0": {
             "connector": {
                 "processMetadataValues": [],
                 "targetReference": "ASSIGNMENT_1",
@@ -40,19 +32,14 @@ const STATE_NON_EMPTY = {
                     "isSelected": false
                 }
             },
-            "label": "Assignment One",
-            "locationX": 101,
-            "locationY": 64,
-            "name": "Assignment_One",
             "processMetadataValues": [],
-            "elementType": "ASSIGNMENT",
-            "isCanvasElement": true,
+            "elementType": "START_ELEMENT",
             "config": {
                 "isSelected": false
             },
             "maxConnections": 1,
             "connectorCount": 1,
-            "guid": "ASSIGNMENT_0"
+            "guid": "STARTELEMENT_0"
         },
         "ASSIGNMENT_1": {
             "assignmentItems": [{
@@ -163,7 +150,7 @@ const STATE_NON_EMPTY = {
         }
     }],
     "variables": ["VARIABLE_4", "VARIABLE_5"],
-    "canvasElements": ["ASSIGNMENT_0", "ASSIGNMENT_1", "DECISION_3"],
+    "canvasElements": ["STARTELEMENT_0", "ASSIGNMENT_1", "DECISION_3"],
     "properties": {
         "label": "Assignment and Decision",
         "interviewLabel": "Assignment and Decision {!$Flow.CurrentDateTime}",
@@ -171,10 +158,11 @@ const STATE_NON_EMPTY = {
         "fullName": "Assignment_and_Decision-1"
     },
     "outcomes": ["OUTCOME_2"],
-    "startElement": "ASSIGNMENT_0"
+    "startElement": "STARTELEMENT_0"
 };
 
 function verifyItem(item) {
+    expect(item.elementType).not.toBe('START_ELEMENT');
     expect(item).toHaveProperty('elementType');
     expect(item.guid).toMatch(new RegExp('^' + item.elementType + '_'));
     expect(item).toHaveProperty('label');
@@ -234,8 +222,14 @@ describe('resourcesSelector', () => {
         expect(resources).toHaveLength(0);
     });
 
-    it('should return non-empty resources with expected values for the resource tab of the left-panel', () => {
+    it('should return non-empty resources excluding START_ELEMENT for the resource tab of the left-panel', () => {
         const resources = resourcesSelector(STATE_NON_EMPTY);
         verifyResources(resources);
+    });
+
+    it('should return empty section for Start Elements', () => {
+        const resources = resourcesSelector(STATE_NON_EMPTY);
+        const unCategorizedSections = resources.filter(section => section.label === 'Uncategorized');
+        expect(unCategorizedSections).toHaveLength(0);
     });
 });

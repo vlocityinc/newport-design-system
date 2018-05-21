@@ -67,6 +67,10 @@ const getVariables = (elements, variables) => variables.reduce((acc, guid) => {
 const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((acc, guid) => {
     const element = elements[guid];
 
+    if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
+        return acc;
+    }
+
     const canvasElement = {
         elementType: element.elementType,
         guid,
