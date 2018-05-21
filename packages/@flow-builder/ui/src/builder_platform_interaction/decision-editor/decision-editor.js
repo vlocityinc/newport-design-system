@@ -2,7 +2,7 @@ import { Element, api, track, unwrap } from 'engine';
 import { decisionReducer } from './decision-reducer';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
-
+import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome'
 };
@@ -106,8 +106,12 @@ export default class DecisionEditor extends Element {
     handleDefaultOutcomeChangedEvent(event) {
         event.stopPropagation();
 
-        event.propertyName = 'defaultConnectorLabel';
-        this.decisionElement = decisionReducer(this.decisionElement, event);
+        const defaultOutcomeChangedEvent = new PropertyChangedEvent(
+            'defaultConnectorLabel',
+            event.detail.value
+        );
+
+        this.decisionElement = decisionReducer(this.decisionElement, defaultOutcomeChangedEvent);
     }
 
     /**
@@ -133,10 +137,5 @@ export default class DecisionEditor extends Element {
     handleOutcomeSelected(event) {
         event.stopPropagation();
         this.activeOutcomeId = event.detail.itemId;
-    }
-
-    handleDefaultOutcomeClicked(event) {
-        event.stopPropagation();
-        this.activeOutcomeId = null;
     }
 }
