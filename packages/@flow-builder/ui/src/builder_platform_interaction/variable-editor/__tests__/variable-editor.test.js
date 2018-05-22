@@ -7,11 +7,13 @@ import { variableReducer } from '../variable-reducer';
 import { PropertyEditorWarningEvent, PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { filterMatches } from 'builder_platform_interaction-expression-utils';
+import { deepCopy } from 'builder_platform_interaction-store-lib';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     EXTERNAL_ACCESS_CHECKBOX_GROUP: 'lightning-checkbox-group',
     DEFAULT_VALUE_COMBOBOX: '.default-value builder_platform_interaction-combobox',
+    RESOURCE_PICKER: 'builder_platform_interaction-resource-picker',
 };
 
 const setupComponentUnderTest = (props) => {
@@ -23,6 +25,7 @@ const setupComponentUnderTest = (props) => {
     return element;
 };
 
+
 jest.mock('builder_platform_interaction-actions', () => {
     return {
         createAction: jest.fn().mockReturnValue({}),
@@ -30,10 +33,11 @@ jest.mock('builder_platform_interaction-actions', () => {
     };
 });
 
+
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../variable-reducer', () => {
     return {
-        variableReducer: jest.fn().mockImplementation(obj => Object.assign({}, obj)),
+        variableReducer: jest.fn().mockImplementation(((obj, action) => Object.assign({}, obj, action))),
     };
 });
 
@@ -42,6 +46,7 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
         getRHSTypes: jest.fn(),
         getRulesForContext: jest.fn().mockReturnValue([]),
         RULE_OPERATOR: require.requireActual('builder_platform_interaction-rule-lib').RULE_OPERATOR,
+        RULE_PROPERTY_INFO: require.requireActual('builder_platform_interaction-rule-lib').RULE_PROPERTY_INFO,
     };
 });
 
@@ -49,12 +54,16 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
         filterMatches: jest.fn(),
         getElementsForMenuData: jest.fn(),
+        getEntitiesMenuData: jest.fn(),
+        RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction-expression-utils').RESOURCE_PICKER_MODE,
     };
 });
 
+const defaultValueItem = {value: 'var1', displayText: 'var 1'};
+
 function getComboboxValueChangedEvent() {
-    const valueChangedEvent = new CustomEvent('valuechanged', {
-        detail: {value: 'var1'},
+    const valueChangedEvent = new CustomEvent('comboboxvaluechanged', {
+        detail: defaultValueItem,
     });
     return valueChangedEvent;
 }
@@ -63,7 +72,12 @@ describe('variable-editor', () => {
     selectorsMock.readableElementsSelector.mockReturnValue([mockStoreData.elements[mockStoreData.numberVariableGuid], mockStoreData.elements[mockStoreData.accountSObjectVariableGuid],
         mockStoreData.elements[mockStoreData.stringCollectionVariable1Guid], mockStoreData.elements[mockStoreData.dateVariableGuid]]);
 
-    const stringVariable = mockStoreData.hydratedElements[mockStoreData.stringVariableGuid];
+    let stringVariable;
+
+    beforeEach(() => {
+        stringVariable = deepCopy(mockStoreData.hydratedElements[mockStoreData.stringVariableGuid]);
+    });
+
     it('contains a variable element', () => {
         const variableEditor = setupComponentUnderTest(stringVariable);
         return Promise.resolve().then(() => {
@@ -280,6 +294,39 @@ describe('variable-editor', () => {
                 const defaultValueCombobox = variableEditor.querySelector(SELECTORS.DEFAULT_VALUE_COMBOBOX);
                 defaultValueCombobox.dispatchEvent(filterMatchesEvent);
                 expect(filterMatches).toHaveBeenCalled();
+            });
+        });
+    });
+
+    describe('sobject type picker', () => {
+        let accountVariable;
+        beforeEach(() => {
+            accountVariable = deepCopy(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
+        });
+
+        it('exists for sobject data type', () => {
+            const variableEditor = setupComponentUnderTest(accountVariable);
+            return Promise.resolve().then(() => {
+                const resourcePicker = variableEditor.querySelector(SELECTORS.RESOURCE_PICKER);
+                expect(resourcePicker).not.toBeNull();
+            });
+        });
+
+        it('does not exist for non sobject data type', () => {
+            const variableEditor = setupComponentUnderTest(stringVariable);
+            return Promise.resolve().then(() => {
+                const resourcePicker = variableEditor.querySelector(SELECTORS.RESOURCE_PICKER);
+                expect(resourcePicker).toBeNull();
+            });
+        });
+
+        it('handles flow combobox value changed event', () => {
+            const variableEditor = setupComponentUnderTest(accountVariable);
+            const resourcePicker = variableEditor.querySelector(SELECTORS.RESOURCE_PICKER);
+            resourcePicker.dispatchEvent(getComboboxValueChangedEvent());
+            return Promise.resolve().then(() => {
+                expect(createAction.mock.calls[0][1].propertyName).toEqual('objectType');
+                expect(variableReducer).toHaveBeenCalledWith(variableEditor.node, {});
             });
         });
     });
