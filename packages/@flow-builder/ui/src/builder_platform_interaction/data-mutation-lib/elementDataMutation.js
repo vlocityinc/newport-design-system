@@ -1,5 +1,7 @@
 // TODO: pass blacklist config form editor Idea is blackListFields being passed per elementType, this config should probably come from builder-utils
 
+const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex'];
+
 /**
  * Returns true if the input item is hydrated with errors.
  * @param {Object} item to evaluate if its hydrated
@@ -9,26 +11,35 @@ export const isItemHydratedWithErrors = (item) => {
     return item && item.hasOwnProperty('value') && item.hasOwnProperty('error');
 };
 
-/**
- * Exported function for hydrating element object with errors
- * @param {Object} element element data object
- * @param {string[]} blackListFields List of key values not to be hydrated
- * @return {Object} hydrated element object
- */
-export const hydrateWithErrors = (
-    element,
-    blackListFields = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex']
-) => {
-    Object.entries(element).filter(([key]) => !blackListFields.includes(key)).forEach(
+const doHydrateWithErrors = (element, blackList) => {
+    Object.entries(element).filter(([key]) => !blackList.includes(key)).forEach(
         ([key, val]) => {
             if (typeof val === 'string' || val === null || val === undefined) {
                 element[key] = { value : val, error: null };
             } else if (typeof val === 'object') {
-                hydrateWithErrors(val, blackListFields);
+                doHydrateWithErrors(val, blackList);
             }
         }
     );
+
     return element;
+};
+
+/**
+ * Exported function for hydrating element object with errors
+ * @param {Object} element element data object
+ * @param {string[]} elementBlackListFields List of keys in the element not to be hydrated
+ * @param {boolean} useDefaultBlackList - Determines if the default blacklist should be merged with the elementblacklist
+ * @return {Object} hydrated element object
+ */
+export const hydrateWithErrors = (
+    element,
+    elementBlackListFields = [],
+    useDefaultBlackList = true
+) => {
+    // Merge elementBlacklist and blackList fields
+    const allBlacklistFields = useDefaultBlackList ? DEFAULT_BLACK_LIST.concat(elementBlackListFields) : elementBlackListFields;
+    return doHydrateWithErrors(element, allBlacklistFields);
 };
 
 /**

@@ -1,4 +1,6 @@
 import { deepCopy } from 'builder_platform_interaction-store-lib';
+import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+
 import {
     mutateEditorElement,
     hydrateWithErrors
@@ -13,8 +15,11 @@ import {
 export const elementPropertyEditorSelector = (state, guid) => {
     let selectedElement = deepCopy(state.elements[guid]);
     if (selectedElement) {
+        const elementType = getConfigForElementType(selectedElement.elementType);
+        const backlistedProperties = elementType.nonHydratableProperties;
         selectedElement = hydrateWithErrors(
-            mutateEditorElement(selectedElement, state)
+            mutateEditorElement(selectedElement, state),
+            backlistedProperties
         );
     }
 
