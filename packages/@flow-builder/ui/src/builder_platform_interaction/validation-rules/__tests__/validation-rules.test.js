@@ -1,4 +1,14 @@
 import * as rules from 'builder_platform_interaction-validation-rules';
+import { numberVariableGuid } from 'mock-store-data';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
+
+jest.mock('builder_platform_interaction-rule-lib', () => {
+    return {
+        getRulesForContext: jest.fn().mockReturnValue([]),
+        elementToParam: require.requireActual('builder_platform_interaction-rule-lib').elementToParam,
+        getRHSTypes: require.requireActual('builder_platform_interaction-rule-lib').getRHSTypes,
+    };
+});
 
 describe('shouldNotBeBlank method', () => {
     it('should return null with a non blank value', () => {
@@ -53,5 +63,46 @@ describe('maximumCharactersLimit method', () => {
     });
     it('should return an error message if the input exceeds the character limit', () => {
         expect(rules.maximumCharactersLimit(charLimit)('wrong input which exceeds character limit')).toBe('Cannot accept more than 12 characters.');
+    });
+});
+describe('validateExpressionWith3Properties', () => {
+    it('should always return an object containing LHS rule shouldNotBeBlank', () => {
+        const rulesObject = rules.validateExpressionWith3Properties()(
+            {
+                [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {},
+                [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {},
+                [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {}
+            });
+        expect(rulesObject).toMatchObject({[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [rules.shouldNotBeBlank]});
+    });
+    it('should return an object containing operator rule if LHS is populated', () => {
+        const rulesObject = rules.validateExpressionWith3Properties()(
+            {
+                [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'populated'},
+                [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {},
+                [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {}
+            });
+        expect(rulesObject).toMatchObject({[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [rules.shouldNotBeBlank], [EXPRESSION_PROPERTY_TYPE.OPERATOR]: [rules.shouldNotBeBlank]});
+    });
+    it('should not contain RHS rule if LHS, operator, and RHS are all populated', () => {
+        const rulesObject = rules.validateExpressionWith3Properties()(
+            {
+                [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'populated'},
+                [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: 'populated'},
+                [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: 'populated'}
+            });
+        expect(rulesObject).toEqual({[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [rules.shouldNotBeBlank], [EXPRESSION_PROPERTY_TYPE.OPERATOR]: [rules.shouldNotBeBlank]});
+    });
+});
+describe('RHS validation', () => {
+    it('allows null when valid', () => {
+        const rulesArray = rules.validateExpressionWith3Properties({elementType: 'ASSIGNMENT'})(
+            {
+                [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: numberVariableGuid},
+                [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value:'ASSIGN'},
+                [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {}
+            });
+        const result = rulesArray.rightHandSide[0]();
+        expect(result).toBeTruthy();
     });
 });
