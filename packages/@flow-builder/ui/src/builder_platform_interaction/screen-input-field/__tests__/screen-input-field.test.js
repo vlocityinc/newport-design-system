@@ -1,13 +1,19 @@
 import { createElement } from 'engine';
 import ScreenInputField from 'builder_platform_interaction-screen-input-field';
 import {
-    hiddenLabel,
-    standardLabel
+    hiddenLabelVariant,
+    standardLabelVariant,
+    currencyFormat,
+    lightningInputTypes
 } from 'builder_platform_interaction-screen-editor-utils';
 
+const SELECTORS = {
+    INPUT : 'lightning-input'
+};
+const testLabel = 'input1';
 
 function createComponentForTest(props) {
-    const el = createElement('screen-input-wrapper', { is: ScreenInputField });
+    const el = createElement('builder_platform_interaction-screen-input-field', { is: ScreenInputField });
     Object.assign(el, props);
     document.body.appendChild(el);
     return el;
@@ -15,70 +21,97 @@ function createComponentForTest(props) {
 
 describe('Currency screen field', () => {
     let inputWrapperCmp;
-    beforeAll(() => {
+    beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
-            label: 'input1',
+            label: testLabel,
             required: false,
             typeName: 'Currency'
         });
     });
     it('Type should be number', () => {
-        expect(inputWrapperCmp.type).toEqual('number');
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.type).toEqual(lightningInputTypes.number);
+        });
     });
     it('Formatter should be set to currency', () => {
-        expect(inputWrapperCmp.formatter).toEqual('currency');
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.formatter).toEqual(currencyFormat);
+        });
     });
     it('Label should be standard', () => {
-        expect(inputWrapperCmp.variant).toEqual(standardLabel);
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.variant).toEqual(standardLabelVariant);
+        });
     });
 });
 
 describe('Number screen field', () => {
     let inputWrapperCmp;
-    beforeAll(() => {
+    beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
-            label: 'input1',
+            label: testLabel,
             required: false,
             typeName: 'Number'
         });
     });
     it('Type should be number', () => {
-        expect(inputWrapperCmp.type).toEqual('number');
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.type).toEqual(lightningInputTypes.number);
+        });
     });
     it('Formatter should be set to undefined', () => {
-        expect(inputWrapperCmp.formatter).toBeUndefined();
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.formatter).toBeUndefined();
+        });
     });
     it('Label should be standard', () => {
-        expect(inputWrapperCmp.variant).toEqual(standardLabel);
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.variant).toEqual(standardLabelVariant);
+        });
     });
 });
 
 describe('Textbox screen field', () => {
     let inputWrapperCmp;
-    beforeAll(() => {
+    beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
-            label: 'input1',
+            label: testLabel,
             required: false,
             typeName: 'TextBox'
         });
     });
     it('Type should be null', () => {
-        expect(inputWrapperCmp.type).toBeNull();
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.type).toBeNull();
+        });
     });
     it('Formatter should be set to undefined', () => {
-        expect(inputWrapperCmp.formatter).toBeUndefined();
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.formatter).toBeUndefined();
+        });
     });
     it('Label should be standard', () => {
-        expect(inputWrapperCmp.variant).toEqual(standardLabel);
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.variant).toEqual(standardLabelVariant);
+        });
     });
 });
 
 describe('Screen input field with no label', () => {
     let inputWrapperCmp;
-    beforeAll(() => {
+    beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
             label: '',
@@ -87,7 +120,45 @@ describe('Screen input field with no label', () => {
         });
     });
     it('Label should be hidden when it is empty', () => {
-        expect(inputWrapperCmp.variant).toEqual(hiddenLabel);
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.variant).toEqual(hiddenLabelVariant);
+        });
+    });
+});
+
+describe('Screen input field with empty space only should not be displayed', () => {
+    let inputWrapperCmp;
+    beforeEach(() => {
+        inputWrapperCmp = createComponentForTest({
+            value: '',
+            label: ' ',
+            required: false,
+            typeName: 'Number'
+        });
+    });
+    it('Label should be hidden when it is empty', () => {
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.variant).toEqual(hiddenLabelVariant);
+        });
+    });
+});
+
+describe('DateTime screen input field', () => {
+    let inputWrapperCmp;
+    beforeEach(() => {
+        inputWrapperCmp = createComponentForTest({
+            value: '',
+            label: testLabel,
+            typeName: 'DateTime'
+        });
+    });
+    it('Lightning input type should be number', () => {
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.type).toEqual(lightningInputTypes.dateTime);
+        });
     });
 });
 
@@ -96,7 +167,7 @@ describe('Invalid screen type', () => {
         const componentCreation = () => {
             createComponentForTest({
                 value: '',
-                label: 'input1',
+                label: testLabel,
                 required: false,
                 typeName: 'foo'
             });
@@ -104,4 +175,3 @@ describe('Invalid screen type', () => {
         expect(componentCreation).toThrow();
     });
 });
-
