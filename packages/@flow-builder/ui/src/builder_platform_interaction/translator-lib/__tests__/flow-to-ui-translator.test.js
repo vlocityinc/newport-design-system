@@ -146,13 +146,38 @@ describe('Flow To UI Translator', () => {
     });
 
     describe('action calls', () => {
-        it('Converts Flow to UI', () => {
+        let uiFlow;
+        beforeAll(() => {
             const sampleFlow = cleanFlowSample();
-            const uiFlow = translateFlowToUIModel(sampleFlow);
+            uiFlow = translateFlowToUIModel(sampleFlow);
+        });
+        it('are translated to UI elements', () => {
+            const actionCallElements = Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.ACTION_CALL);
+            const apexCallElements = Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.APEX_CALL);
+            expect(actionCallElements).toHaveLength(2);
+            expect(apexCallElements).toHaveLength(1);
+        });
+        it('are canvas elements in UI model', () => {
+            const actionCallElements = Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.ACTION_CALL);
+            const apexCallElements = Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.APEX_CALL);
+            expect(uiFlow.canvasElements).toEqual(expect.arrayContaining([...actionCallElements, ...apexCallElements].map(element => element.guid)));
+        });
+    });
 
-            expect(uiFlow).toBeTruthy();
-            expect(Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.ACTION_CALL)).toHaveLength(2);
-            expect(Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.APEX_CALL)).toHaveLength(1);
+    describe('formulas', () => {
+        let uiFlow;
+        beforeAll(() => {
+            const sampleFlow = cleanFlowSample();
+            uiFlow = translateFlowToUIModel(sampleFlow);
+        });
+        it('are translated to UI elements', () => {
+            expect(Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.FORMULA)).toHaveLength(1);
+            expect(uiFlow.formulas).toHaveLength(1);
+        });
+        it('are not canvas elements in UI model', () => {
+            const formulaElements = Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.FORMULA);
+            const formulaGuids = formulaElements.map(element => element.guid);
+            expect(uiFlow.canvasElements.some(guid => formulaGuids.indexOf(guid) >= 0)).toBe(false);
         });
     });
 

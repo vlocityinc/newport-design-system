@@ -15,6 +15,10 @@ export const ADD_VARIABLE = 'ADD_VARIABLE';
 export const UPDATE_VARIABLE = 'UPDATE_VARIABLE';
 export const DELETE_VARIABLE = 'DELETE_VARIABLE';
 
+export const ADD_FORMULA = 'ADD_FORMULA';
+export const UPDATE_FORMULA = 'UPDATE_FORMULA';
+export const DELETE_FORMULA = 'DELETE_FORMULA';
+
 export const ADD_CONNECTOR = 'ADD_CONNECTOR';
 
 export const SELECT_ON_CANVAS = 'SELECT_ON_CANVAS';
@@ -69,8 +73,8 @@ export const updateProperties = (payload) => createAction(UPDATE_PROPERTIES, pay
 export const addElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
-            // For variables
             case ELEMENT_TYPE.VARIABLE: return createAction(ADD_VARIABLE, payload);
+            case ELEMENT_TYPE.FORMULA: return createAction(ADD_FORMULA, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(ADD_DECISION_WITH_OUTCOMES, payload);
             default:
@@ -91,9 +95,10 @@ export const addElement = (payload) => {
 export const updateElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
-            // For variables
             case ELEMENT_TYPE.VARIABLE:
                 return createAction(UPDATE_VARIABLE, payload);
+            case ELEMENT_TYPE.FORMULA:
+                return createAction(UPDATE_FORMULA, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(MODIFY_DECISION_WITH_OUTCOMES, payload);
             default:
@@ -116,6 +121,7 @@ export const deleteElement = (payload) => {
         switch (payload.elementType) {
             // For variables
             case ELEMENT_TYPE.VARIABLE: return createAction(DELETE_VARIABLE, payload);
+            case ELEMENT_TYPE.FORMULA: return createAction(DELETE_FORMULA, payload);
             default:
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(DELETE_CANVAS_ELEMENT, payload);

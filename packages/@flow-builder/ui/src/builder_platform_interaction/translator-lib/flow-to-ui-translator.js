@@ -103,6 +103,9 @@ export function translateFlowToUIModel(flow) {
     // All variable ids
     const variables = [];
 
+    // All formula ids
+    const formulas = [];
+
     // All canvas element ids
     const canvasElements = [];
 
@@ -137,6 +140,8 @@ export function translateFlowToUIModel(flow) {
                     canvasElements.push(element.guid);
                 } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
                     variables.push(element.guid);
+                } else if (element.elementType === ELEMENT_TYPE.FORMULA) {
+                    formulas.push(element.guid);
                 }
             });
         }
@@ -167,6 +172,7 @@ export function translateFlowToUIModel(flow) {
         connectors,
         variables,
         canvasElements,
-        properties
+        properties,
+        formulas
     };
 }

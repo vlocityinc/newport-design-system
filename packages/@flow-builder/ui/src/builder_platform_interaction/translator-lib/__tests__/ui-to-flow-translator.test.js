@@ -144,6 +144,16 @@ const UI_MODEL = {
             "maxConnections": 1,
             "connectorCount": 0,
             "guid": "APEXCALL_7"
+        },
+        "FORMULA_8": {
+            "dataType": "Number",
+            "expression": "2+2",
+            "name": "myFormula",
+            "processMetadataValues": [],
+            "scale": 2,
+            "elementType": "FORMULA",
+            "guid": "FORMULA_8",
+            "isCanvasElement": false
         }
     },
     'properties': {
@@ -153,8 +163,9 @@ const UI_MODEL = {
         'fullName': 'bestFlow'
     },
     'variables': ['VARIABLE_4', 'VARIABLE_5'],
-    'canvasElements': ['ASSIGNMENT_0', 'DECISION_3'],
-    'connectors': []
+    'canvasElements': ['ASSIGNMENT_0', 'DECISION_3', 'ACTIONCALL_6', 'APEXCALL_7'],
+    'connectors': [],
+    'formulas': ['FORMULA_8']
 };
 
 
@@ -192,5 +203,11 @@ describe('UI to Flow Translator', () => {
     it('adds BuilderType to processMetadataValues', () => {
         const flow = translateUIModelToFlow(UI_MODEL);
         expect(flow.metadata.processMetadataValues).toEqual(PROCESS_METADATA_VALUES);
+    });
+
+    it('translates formulas', () => {
+        const flow = translateUIModelToFlow(UI_MODEL);
+
+        expect(flow.metadata.formulas).toHaveLength(1);
     });
 });

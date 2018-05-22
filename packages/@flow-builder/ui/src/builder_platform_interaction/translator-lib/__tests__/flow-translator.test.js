@@ -161,6 +161,13 @@ export const sampleFlow = {
                 "processMetadataValues": []
             }]
         }],
+        "formulas": [{
+            "dataType": "Number",
+            "expression": "2+2",
+            "name": "myFormula",
+            "processMetadataValues": [],
+            "scale": 2
+        }],
         "interviewLabel": "screenFlow {!$Flow.CurrentDateTime}",
         "label": "screenFlow",
         "processMetadataValues": PROCESS_METADATA_VALUES,
@@ -243,7 +250,6 @@ export const FUTURE_ELEMENTS = [
     "choices",
     "constants",
     "dynamicChoiceSets",
-    "formulas",
     "loops",
     "recordCreates",
     "recordDeletes",

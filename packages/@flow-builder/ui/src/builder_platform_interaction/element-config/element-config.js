@@ -465,6 +465,20 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: false
     },
+    [ELEMENT_TYPE.FORMULA]: {
+        descriptor: 'builder_platform_interaction:formulaEditor',
+        nodeConfig: {
+            iconName: 'utility:topic2'
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.FORMULAS,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Formula',
+            plural: 'Formulas'
+        },
+        canvasElement: false
+    },
     [ELEMENT_TYPE.DEFAULT]: {
         // defaultEditor doesn't exist but should lead here making it easier to debug the issue
         descriptor: 'builder_platform_interaction:defaultEditor',

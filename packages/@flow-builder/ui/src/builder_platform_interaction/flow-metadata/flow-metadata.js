@@ -16,6 +16,7 @@ export const METADATA_KEY = {
     APEX_PLUGIN_CALLS: 'apexPluginCalls',
     ASSIGNMENTS: 'assignments',
     DECISIONS: 'decisions',
+    FORMULAS: 'formulas',
     VARIABLES: 'variables',
     SUBFLOWS: 'subflows',
     RECORD_CREATE: 'recordCreates',

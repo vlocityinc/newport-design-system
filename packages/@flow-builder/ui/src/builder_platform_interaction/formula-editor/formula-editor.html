@@ -1,0 +1,10 @@
+<template>
+    <div if:true={formulaResource} class='slds-p-around_small'>
+        <builder_platform_interaction-label-description dev-name={formulaResource.name}
+                                                        dev-name-label='API Name'
+                                                        description={formulaResource.description}
+                                                        hide-label=true
+                                                        onpropertychanged={handlePropertyChanged}>
+        </builder_platform_interaction-label-description>
+    </div>
+</template>

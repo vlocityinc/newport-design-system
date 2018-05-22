@@ -130,6 +130,16 @@ const STATE_NON_EMPTY = {
             "elementType": "VARIABLE",
             "isCanvasElement": false,
             "guid": "VARIABLE_5"
+        },
+        "FORMULA_8": {
+            "dataType": "Number",
+            "expression": "2+2",
+            "name": "myFormula",
+            "processMetadataValues": [],
+            "scale": 2,
+            "elementType": "FORMULA",
+            "guid": "FORMULA_8",
+            "isCanvasElement": false
         }
     },
     "connectors": [{
@@ -151,6 +161,7 @@ const STATE_NON_EMPTY = {
     }],
     "variables": ["VARIABLE_4", "VARIABLE_5"],
     "canvasElements": ["STARTELEMENT_0", "ASSIGNMENT_1", "DECISION_3"],
+    "formulas": ["FORMULA_8"],
     "properties": {
         "label": "Assignment and Decision",
         "interviewLabel": "Assignment and Decision {!$Flow.CurrentDateTime}",
@@ -217,19 +228,27 @@ function verifyResources(resources) {
 }
 
 describe('resourcesSelector', () => {
-    it('should handle empty flows gracefully', () => {
-        const resources = resourcesSelector(STATE_EMPTY);
-        expect(resources).toHaveLength(0);
+    describe('When flow is empty', () => {
+        it('should be handled gracefully', () => {
+            const resources = resourcesSelector(STATE_EMPTY);
+            expect(resources).toHaveLength(0);
+        });
     });
 
-    it('should return non-empty resources excluding START_ELEMENT for the resource tab of the left-panel', () => {
-        const resources = resourcesSelector(STATE_NON_EMPTY);
-        verifyResources(resources);
-    });
-
-    it('should return empty section for Start Elements', () => {
-        const resources = resourcesSelector(STATE_NON_EMPTY);
-        const unCategorizedSections = resources.filter(section => section.label === 'Uncategorized');
-        expect(unCategorizedSections).toHaveLength(0);
+    describe('When flow has resources', () => {
+        it('should return resources excluding START_ELEMENT with expected values for the resource tab of the left-panel', () => {
+            const resources = resourcesSelector(STATE_NON_EMPTY);
+            verifyResources(resources);
+        });
+        it('should have a non-empty section for formulas', () => {
+            const resources = resourcesSelector(STATE_NON_EMPTY);
+            const formulaSections = resources.filter(section => section.label === 'Formulas');
+            expect(formulaSections).toHaveLength(1);
+        });
+        it('should return empty section for Start Elements', () => {
+            const resources = resourcesSelector(STATE_NON_EMPTY);
+            const unCategorizedSections = resources.filter(section => section.label === 'Uncategorized');
+            expect(unCategorizedSections).toHaveLength(0);
+        });
     });
 });
