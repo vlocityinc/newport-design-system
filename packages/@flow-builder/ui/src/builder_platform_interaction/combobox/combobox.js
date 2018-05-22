@@ -4,6 +4,7 @@ import { FetchMenuDataEvent, ComboboxValueChangedEvent, FilterMatchesEvent, NewR
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expression-utils';
 import { isUndefinedOrNull, formatDate } from 'builder_platform_interaction-common-utils';
+import { LABELS } from './combobox-labels';
 
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
@@ -14,11 +15,11 @@ const SELECTORS = {
  * TODO: Use labels and doc review. W-4813532
  */
 const ERROR_MESSAGE = {
-    [FLOW_DATA_TYPE.CURRENCY.value]: 'Not a valid currency. Re-enter in decimal format.',
-    [FLOW_DATA_TYPE.NUMBER.value]: 'Not a valid number. Re-enter in decimal format.',
-    [FLOW_DATA_TYPE.DATE.value] : 'Re-enter date as MM/DD/YYYY.',
-    [FLOW_DATA_TYPE.DATE_TIME.value] : 'Re-enter datetime as MM/DD/YYYY HH:mm:ss TZD.',
-    GENERIC: 'You have entered an invalid value.',
+    [FLOW_DATA_TYPE.CURRENCY.value]: LABELS.currencyErrorMessage,
+    [FLOW_DATA_TYPE.NUMBER.value]: LABELS.numberErrorMessage,
+    [FLOW_DATA_TYPE.DATE.value] : LABELS.dateErrorMessage,
+    [FLOW_DATA_TYPE.DATE_TIME.value] : LABELS.datetimeErrorMessage,
+    GENERIC: LABELS.genericErrorMessage
 };
 
 /**

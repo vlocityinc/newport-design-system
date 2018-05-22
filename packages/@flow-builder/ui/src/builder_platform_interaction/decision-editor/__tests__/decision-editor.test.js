@@ -151,7 +151,7 @@ describe('Decision Editor', () => {
                     expect(menuItems[1].element).toEqual(decisionWithTwoOutcomes.outcomes[1]);
                     expect(menuItems[2]).toEqual({
                         element: {},
-                        label: '[Default Outcome]',
+                        label: 'FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel',
                         isDraggable: false
                     });
                 });

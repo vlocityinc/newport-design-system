@@ -3,6 +3,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { assignmentReducer } from './assignment-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
+import { LABELS } from './assignment-editor-labels';
 
 /**
  * @constant UPDATE_PROPERTY
@@ -15,10 +16,7 @@ export default class AssignmentEditor extends Element {
      */
     @track assignmentElement;
 
-    get addLabel() {
-        // TODO labels W-4813532
-        return 'Add';
-    }
+    labels = LABELS;
 
     get expressionBuilderConfig() {
         return { elementType: ELEMENT_TYPE.ASSIGNMENT };

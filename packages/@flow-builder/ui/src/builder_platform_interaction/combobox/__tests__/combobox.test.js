@@ -10,14 +10,19 @@ const SELECTORS = {
 
 /**
  * Error message map for validation of literal value.
- * TODO: Use labels. W-4813532
+ *
+ * Note that the labels here are not the actual labels, but rather the '<section_name.key_name>'.
+ * This is due to the fact that we are importing labels via a Global Value Provider (GVP) and the
+ * test runner returns default values for those imports. See the following for more info:
+ *
+ * http://raptor.sfdc.es/guide/testing-core.html#Handling-GVP-Imports
  */
 const VALIDATION_ERROR_MESSAGE = {
-    CURRENCY : 'Not a valid currency. Re-enter in decimal format.',
-    NUMBER : 'Not a valid number. Re-enter in decimal format.',
-    DATE : 'Re-enter date as MM/DD/YYYY.',
-    DATE_TIME : 'Re-enter datetime as MM/DD/YYYY HH:mm:ss TZD.',
-    GENERIC : 'You have entered an invalid value.',
+    CURRENCY : 'FlowBuilderCombobox.currencyErrorMessage',
+    NUMBER : 'FlowBuilderCombobox.numberErrorMessage',
+    DATE : 'FlowBuilderCombobox.dateErrorMessage',
+    DATE_TIME : 'FlowBuilderCombobox.datetimeErrorMessage',
+    GENERIC : 'FlowBuilderCombobox.genericErrorMessage'
 };
 
 describe('Combobox Tests', () => {
@@ -279,7 +284,7 @@ describe('Combobox Tests', () => {
                 { value: 'literal', error: VALIDATION_ERROR_MESSAGE.GENERIC },
             ],
             Boolean : [
-                { value: 'true', error: 'You have entered an invalid value.' },
+                { value: 'true', error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!MyBooleanVar}', error: null },
             ],
             Picklist : [
@@ -334,7 +339,7 @@ describe('Combobox Tests', () => {
             combobox.required = true;
             combobox.displayText = '';
             groupedCombobox.dispatchEvent(blurEvent);
-            expect(groupedCombobox.validity).toEqual('You have entered an invalid value.');
+            expect(groupedCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGE.GENERIC);
         });
 
         it('for invalid data type', () => {
