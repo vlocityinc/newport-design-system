@@ -82,9 +82,9 @@ function expectCleanFieldWithNoErrors(field) {
 }
 /** Helper Functions - End **/
 
-describe('hydrateWithErrors function', () => {
+describe('hydrateWithErrors function without default backlist', () => {
     const blackListFields = ['guid', 'description'];
-    const resultObj = hydrateWithErrors(testObj, blackListFields);
+    const resultObj = hydrateWithErrors(testObj, blackListFields, false);
     const fieldsToBeTestedForHydration = {
         name: resultObj.name,
         label: resultObj.label,
