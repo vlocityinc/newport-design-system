@@ -86,6 +86,7 @@ export const getRulesForContext = (config) => {
     let rules;
     switch (config.elementType) {
         case ELEMENT_TYPE.DECISION:
+        case ELEMENT_TYPE.RECORD_LOOKUP:
             rules = rulesInstance[RULE_TYPES.COMPARISON];
             break;
         case ELEMENT_TYPE.ASSIGNMENT:

@@ -250,7 +250,7 @@ export const normalizeRHS = (rhsIdentifier, callback) => {
     if (flowElement && complexGuid.fieldName) {
         // TODO: W-4960448: the field will appear empty briefly when fetching the first time
         sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
-            rhs.item = mutateFieldsToComboboxShape(fields[complexGuid.fieldName], mutateFlowElementsToComboboxShape(flowElement));
+            rhs.item = mutateFieldToComboboxShape(fields[complexGuid.fieldName], mutateFlowElementsToComboboxShape(flowElement), true, true);
         });
         callback(rhsIdentifier);
     } else if (flowElement) {
@@ -267,19 +267,27 @@ export const normalizeRHS = (rhsIdentifier, callback) => {
  * the expression builder will need to use to work with that LHS.
  *
  * @param {String} lhsIdentifier    Used to identify the LHS (e.g. GUID for flow elements)
+ * @param {String} elementType    in case lhsIdentifier.guid is not the flow element, we need this to pass in elementToParam
  * @param {Function} callback       The value returned by this function. Only used in the callback
  * @returns {Object}                {lhsValue, lhsParameter}, lhsValue is the combobox display value, lhsParameter is needed for the rules service
  */
-export const normalizeLHS = (lhsIdentifier, callback) => {
+export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
     const lhs = {};
     const complexGuid = sanitizeGuid(lhsIdentifier);
     const flowElement = getElementByGuid(complexGuid.guid);
-    if (flowElement && complexGuid.fieldName) {
+    if (complexGuid.fieldName) {
         // TODO: W-4960448: the field will appear empty briefly when fetching the first time
-        sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
+        const sobject = (flowElement) ? flowElement.objectType : complexGuid.guid;
+        sobjectLib.getFieldsForEntity(sobject, (fields) => {
             const field = fields[complexGuid.fieldName];
-            lhs.item = mutateFieldsToComboboxShape(field, mutateFlowElementsToComboboxShape(flowElement));
-            field.elementType = flowElement.elementType;
+            if (flowElement) {
+                lhs.item = mutateFieldToComboboxShape(field, mutateFlowElementsToComboboxShape(flowElement), true, true);
+                field.elementType = flowElement.elementType;
+            } else {
+                // in case lhsIdentifier = sobjectApiName.fieldApiName
+                lhs.item = mutateFieldToComboboxShape(field, {value: field.sobjectName}, false, false);
+                field.elementType = elementType;
+            }
             // Can an SObject field be a collection?
             field.isCollection = false;
             lhs.parameter = elementToParam(field);
@@ -311,6 +319,7 @@ function getSelector({element, shouldBeWritable}) {
         case ELEMENT_TYPE.EMAIL_ALERT:
         case ELEMENT_TYPE.SUBFLOW:
         case ELEMENT_TYPE.VARIABLE:
+        case ELEMENT_TYPE.RECORD_LOOKUP:
             return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         case ELEMENT_TYPE.DECISION:
             return readableElementsSelector;
@@ -379,11 +388,13 @@ export const getEntitiesMenuData = (entityType) => {
  * @param {Object} chosenElement The parent chosen element
  * @param {Object} allowedParamTypes  If present, is used to determine if each element is valid for this menuData
  * @param {Array} fields Array of the fields to be filtered
+ * @param {boolean} showAsFieldReference show display text as field reference
+ * @param {boolean} showSubText show sub text
  * @returns {Array} array of alphabetized objects
  */
-export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, fields) {
+export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, fields, showAsFieldReference, showSubText) {
     const items = Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
-        return mutateFieldsToComboboxShape(element, chosenElement);
+        return mutateFieldToComboboxShape(element, chosenElement, showAsFieldReference, showSubText);
     });
     const objectFieldsMenuData = [{
         items
@@ -417,16 +428,18 @@ function mutateFlowElementsToComboboxShape(element) {
  *
  * @param {Object} field Field to be copied
  * @param {Object} parent Parent object
+ * @param {boolean} showAsFieldReference true to show the display text as field reference, otherwise show the field's apiName
+ * @param {boolean} showSubText true to show the sub text
  * @returns {Object} Representation of flow element in shape combobox needs
  */
-function mutateFieldsToComboboxShape(field, parent) {
+function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSubText) {
     const formattedField = {};
 
     // TODO this shape is temporary
     formattedField.text = field.apiName;
-    formattedField.subText = field.label;
+    formattedField.subText = (showSubText) ? field.label : '';
     formattedField.value = parent.value + '.' + field.apiName;
-    formattedField.displayText = parent.displayText.substring(0, parent.displayText.length - 1) + '.' + field.apiName + '}';
+    formattedField.displayText = showAsFieldReference ? (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + field.apiName + '}') : field.apiName;
     formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     // TODO: fetch icon
 
