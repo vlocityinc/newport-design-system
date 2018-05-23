@@ -66,6 +66,11 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.SUBFLOWS,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'SubFlow',
+            plural: 'SubFlows'
+        },
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -93,6 +98,11 @@ export const elementTypeToConfigMap = {
                                     element.actionType !== ACTION_TYPE.APEX &&
                                     element.actionType !== ACTION_TYPE.FLOW &&
                                     element.actionType !== ACTION_TYPE.LOCAL_ACTION,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Action',
+            plural: 'Actions'
+        },
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -116,6 +126,11 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.APEX_PLUGIN_CALLS,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Apex Plugin',
+            plural: 'Apex Plugins'
+        },
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -139,6 +154,11 @@ export const elementTypeToConfigMap = {
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
         metadataFilter : element => element.actionType === ACTION_TYPE.APEX,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Apex',
+            plural: 'Apex'
+        },
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -163,6 +183,11 @@ export const elementTypeToConfigMap = {
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
         metadataFilter : element => element.actionType === ACTION_TYPE.COMPONENT,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Local Action',
+            plural: 'Local Actions'
+        },
         canvasElement: true,
         template: {
             config: { isSelected: false },
@@ -187,6 +212,11 @@ export const elementTypeToConfigMap = {
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
         metadataFilter : element => element.actionType === ACTION_TYPE.EMAIL_ALERT,
+        // TODO: Use the label file for the element labels.
+        labels: {
+            singular: 'Email Alert',
+            plural: 'Email Alerts'
+        },
         canvasElement: true,
         template: {
             config: { isSelected: false },
