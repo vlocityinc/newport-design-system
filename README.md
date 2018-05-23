@@ -7,10 +7,13 @@ Welcome to the [Vlocity Newport Design System] brought to you by [Vlocity](https
 
 ## Quick start
 
+Before getting started ensure you have 
+
 1. Clone the project with `git clone https://github.com/vlocityinc/newport-design-system.git`
-2. Run `npm install` in the root design-system folder.
-3. Run `npm start` to launch the Previewer.
-4. Visit http://localhost:3003/local/preview
+2. Change into the `newport-design-system` folder using `cd newport-design-system`.
+3. Run `npm install`. 
+4. Run `npm start` to launch the Previewer.
+5. Visit http://localhost:3003/local/preview
 
 Having trouble getting these steps to work on your machine? Follow the [troubleshooting](#troubleshooting) guide below.
 

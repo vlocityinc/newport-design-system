@@ -11,7 +11,7 @@ import classNames from 'classnames';
 let Demo = props => (
   <div
     className={classNames('demo-only', props.className)}
-    style={{ height: '6rem' }}
+    style={{ height: '9rem' }}
   >
     {props.children}
   </div>
@@ -26,8 +26,38 @@ export let SpinnerContainer = props => (
 export let Spinner = props => (
   <div role="status" className={classNames('nds-spinner', props.className)}>
     <span className="nds-assistive-text">Loading</span>
-    <div className="nds-spinner__dot-a" />
-    <div className="nds-spinner__dot-b" />
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <circle cy="50">
+        <animateTransform
+          attributeName="transform"
+          dur="1s"
+          type="translate"
+          values="0 15 ; 0 -15; 0 15"
+          repeatCount="indefinite"
+          begin="0.1"
+        />
+      </circle>
+      <circle cy="50">
+        <animateTransform
+          attributeName="transform"
+          dur="1s"
+          type="translate"
+          values="0 10 ; 0 -10; 0 10"
+          repeatCount="indefinite"
+          begin="0.2"
+        />
+      </circle>
+      <circle cy="50">
+        <animateTransform
+          attributeName="transform"
+          dur="1s"
+          type="translate"
+          values="0 5 ; 0 -5; 0 5"
+          repeatCount="indefinite"
+          begin="0.3"
+        />
+      </circle>
+    </svg>
   </div>
 );
 

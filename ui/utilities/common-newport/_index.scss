@@ -1,10 +1,11 @@
-ng-form {
+ng-form,
+form {
     display: inline-block;
     width: 100%;
-}
 
-ng-form.ng-valid span.nds-required {
-    color: $color-valid-control;
+    .ng-valid span.nds-required {
+      color: $color-valid-control;
+    }
 }
 
 section.nds-page-header {
@@ -12,54 +13,31 @@ section.nds-page-header {
     box-shadow: none;
     background: $color-border-tab-active;
 
-    .nds-progress {
-        .nds-progress__list {
-            top: -1px;
-        }
-    }
-
     ol li button .nds-button__icon {
-        width: .875rem;
-        height: .875rem;
         fill: $color-blue-text-primary;
-        position: relative;
-        top: -.35rem;
     }
 
-        ol li.nds-has-error button .nds-button__icon {
-            top: -0.15rem;
-            fill: currentColor;
-            #{$left}: -0.2rem;
-            position: absolute;
-            background: $color-border-tab-active;
-        }
+    ol li.nds-has-error button .nds-button__icon {
+        fill: currentColor;
+        background: $color-border-tab-active;
+    }
 
     ol li.nds-progress__item {
         cursor: pointer;
         outline: none;
    }
 
-    ol li.nds-has-error {
-        .nds-button {
-            top: 0px !important;
-        }
-
-        .nds-progress__item_label {
-            top: 1.5rem;
-        }
-    }
-
     ol li.nds-progress__item .nds-progress__marker {
-        top: 1px;
         box-shadow: unset;
     }
 
     ol li.nds-is-completed .nds-button {
         border: 0;
-        padding: 0;
-        margin: 0px;
-        position: relative;
-        top: -2px;
+
+        .nds-icon {
+          width: auto;
+          height: auto;
+        }
     }
 
     ol li.nds-progress__item .nds-popover_tooltip {
@@ -105,7 +83,7 @@ div.noUISlider[vlc-range-slider-generated] {
 .vlc-typeahead-newopt-displaynone {
     display: none;
 }
-    
+
 .noUi-horizontal {
     .noUi-handle {
         width: 1.5rem;
@@ -313,7 +291,8 @@ ul.nds-dropdown-list {
     background-color: $color-border-error;
 }
 
-.nds-modal__container .nds-modal__content ng-form {
+.nds-modal__container .nds-modal__content ng-form,
+.nds-modal__container .nds-modal__content form {
     padding-top: 0;
     margin-bottom: 0.5rem;
 }
@@ -413,7 +392,7 @@ span[vlc-slds-pop-over] {
         pointer-events: none;
     }
 
-    //just for rtl 
+    //just for rtl
     .nds-nubbin--top-right{
         &:before,&:after{
             #{$left}: auto;
@@ -536,7 +515,7 @@ button.nds-step__next-link[disabled] {
     svg {
         fill: $color-palette-cool-gray-5;
     }
-    
+
 }
 
 .nds-tooltip_container {
@@ -556,7 +535,7 @@ button.nds-step__next-link[disabled] {
             top: -4.3rem;
         }
     }
-    
+
 }
 
 .nds-file-selector.nds-file-custom-selector + .nds-tooltip_container .nds-nonfocused_control {
@@ -569,7 +548,7 @@ button.nds-step__next-link[disabled] {
             white-space: nowrap;
             top: -1.6875rem;
 
-            &::before, 
+            &::before,
             &::after {
                 width: 1rem;
                 height: 1rem;
@@ -614,7 +593,7 @@ button.nds-step__next-link[disabled] {
         display: block;
         overflow: hidden;
     }
-}   
+}
 
 .vlc-slds-filter__item {
     display: flex;
@@ -678,7 +657,7 @@ button.nds-step__next-link[disabled] {
     margin-#{$left}: 0;
 }
 
-.nds-disable_svg-icon { 
+.nds-disable_svg-icon {
     pointer-events: none;
     opacity: 0.5;
 }

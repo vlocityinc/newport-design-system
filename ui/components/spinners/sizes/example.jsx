@@ -10,7 +10,7 @@ import { SpinnerContainer, Spinner } from '../base/example';
 /// ///////////////////////////////////////////
 
 let Demo = props => (
-  <div className="demo-only" style={{ height: '6.25rem' }}>
+  <div className="demo-only" style={{ height: '9rem' }}>
     {props.children}
   </div>
 );

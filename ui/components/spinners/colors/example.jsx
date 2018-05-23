@@ -13,7 +13,7 @@ import { Spinner } from '../base/example';
 let Demo = props => (
   <div
     className={classNames('demo-only', props.className)}
-    style={{ height: '5rem' }}
+    style={{ height: '9rem' }}
   >
     {props.children}
   </div>

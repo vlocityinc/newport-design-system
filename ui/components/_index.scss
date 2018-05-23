@@ -53,8 +53,8 @@
 
   // Forms
   'form-element/base/index',
+  'form-element/animate/index',
   'input/base/index',
-  'input/animate/index',
   'textarea/base/index',
   'textarea/animate/index',
   'radio-group/base/index',
@@ -218,4 +218,7 @@
   'expandable-section/base/index',
 
   // Vertical Tabs
-  'vertical-tabs/base/index';
+  'vertical-tabs/base/index',
+
+  // OmniScript
+  'omniscript/base/index';
