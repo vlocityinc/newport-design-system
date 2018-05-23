@@ -283,7 +283,6 @@ export const elementTypeToConfigMap = {
             plural: 'Decisions'
         },
         canvasElement: true,
-        bodyCssClass: 'slds-scrollable_none',
         template: {
             config: { isSelected: false },
             connectorCount: 0,

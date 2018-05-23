@@ -474,16 +474,16 @@ describe('editor', () => {
             });
         });
     });
-
-    describe('Left Panel Resources Tab', () => {
-        it('fires add new resource event when NEW RESOURCE button is clicked', () => {
-            const leftPanelComponent = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                leftPanelComponent.addEventListener('addnewresource', eventCallback);
-                leftPanelComponent.querySelector(selectors.addnewresource).click();
-                expect(eventCallback).toHaveBeenCalled();
-            });
-        });
-    });
+//    TODO: W-4844731 Enable it with the work item mentioned
+//    describe('Left Panel Resources Tab', () => {
+//        it('fires add new resource event when NEW RESOURCE button is clicked', () => {
+//            const leftPanelComponent = createComponentUnderTest();
+//            return Promise.resolve().then(() => {
+//                const eventCallback = jest.fn();
+//                leftPanelComponent.addEventListener('addnewresource', eventCallback);
+//                leftPanelComponent.querySelector(selectors.addnewresource).click();
+//                expect(eventCallback).toHaveBeenCalled();
+//            });
+//        });
+//    });
 });

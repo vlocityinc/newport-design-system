@@ -37,13 +37,6 @@ const hoverPanels = {};
 // component name used when calling invokePanel
 export const PROPERTY_EDITOR = 'builder_platform_interaction:propertyEditor';
 
-export const CRUD = {
-    CREATE: 'CREATE',
-    READ: 'READ',
-    UPDATE: 'UPDATE',
-    DELETE: 'DELETE'
-};
-
 /**
  * @param {string} cmpName component name descriptor
  * @param {object} attr attributes for the component
@@ -71,7 +64,7 @@ const getTitleForModalHeader = (mode, elementType) => {
     let titlePrefix;
     if (mode === "editelement") {
         titlePrefix = "Edit";
-    } else if (mode === "addelelement") {
+    } else if (mode === "addelement") {
         titlePrefix = "New";
     }
 
@@ -92,13 +85,13 @@ export function invokePanel(cmpName, attributes) {
         throw new Error("attributes passed to invoke panel method are incorrect");
     }
 
-    const mode = attributes.mode;
-    const elementType = attributes.node.elementType;
-    const nodeUpdate = attributes.nodeUpdate;
-    const node = attributes.node;
-
-    const titleForModal = getTitleForModalHeader(mode, elementType);
-    const descriptor = getConfigForElementType(elementType).descriptor;
+    const mode = attributes.mode,
+        elementType = attributes.node.elementType,
+        nodeUpdate = attributes.nodeUpdate,
+        node = attributes.node,
+        elementConfig = getConfigForElementType(elementType),
+        descriptor = elementConfig.descriptor,
+        titleForModal = getTitleForModalHeader(mode, elementType);
 
     /**
      * New Resource Work TODO: W-4844731
@@ -111,7 +104,6 @@ export function invokePanel(cmpName, attributes) {
     //    }
 
     const attr = {
-        elementType,
         nodeUpdate,
         override: {
             body: {
@@ -132,8 +124,8 @@ export function invokePanel(cmpName, attributes) {
             visible: true,
             panelConfig : {
                 body: newComponents[0],
-                flavor: getConfigForElementType(elementType).modalSize,
-                bodyClass: getConfigForElementType(elementType).bodyCssClass,
+                flavor: elementConfig.modalSize,
+                bodyClass: elementConfig.bodyCssClass,
                 header: newComponents[1],
                 footer: newComponents[2],
             }
