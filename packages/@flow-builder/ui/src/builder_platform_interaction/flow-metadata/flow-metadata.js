@@ -51,3 +51,12 @@ export const PROCESS_METADATA_VALUES = [
         }
     }
 ];
+
+/**
+ * The record filter type using to filter a record lookup.
+ * @type {{ALL: string, NONE: string}}
+ */
+export const RECORD_LOOKUP_FILTER_CRITERIA = {
+    ALL: 'all',
+    NONE: 'none'
+};

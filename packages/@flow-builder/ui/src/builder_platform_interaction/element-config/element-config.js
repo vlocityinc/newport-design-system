@@ -42,7 +42,8 @@ export const ELEMENT_TYPE = {
 
 export const SUB_ELEMENT_TYPE = {
     ASSIGNMENT_ITEM: 'ASSIGNMENT_ITEM',
-    CONDITION: 'CONDITION'
+    CONDITION: 'CONDITION',
+    RECORD_LOOKUP_FILTER_ITEM: 'RECORD_LOOKUP_FILTER_ITEM'
 };
 
 /**
@@ -382,8 +383,8 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.RECORD_LOOKUP]: {
-        // TODO: recordEditor is only a place holder now.
-        descriptor: 'builder_platform_interaction:recordEditor',
+        // TODO: recordLookupEditor is only a place holder now.
+        descriptor: 'builder_platform_interaction:recordLookupEditor',
         nodeConfig: {
             iconName: 'standard:search',
             maxConnections: 1
@@ -400,6 +401,16 @@ export const elementTypeToConfigMap = {
             config: { isSelected: false },
             connectorCount: 0,
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+            filters: [
+                {
+                    field: '',
+                    operator: '',
+                    value: {
+                        stringValue: ''
+                    }
+                }
+            ],
+            object: '',
             guid: '',
             isCanvasElement: true,
             label: '',

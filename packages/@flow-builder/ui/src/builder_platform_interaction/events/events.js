@@ -27,3 +27,7 @@ export { PaletteSectionToggleEvent } from './palette-events/palette-section-togg
 export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';
 export { ItemSelectedEvent } from './itemSelectedEvent';
 export { ComboboxValueChangedEvent } from './comboboxValueChangedEvent';
+export { AddRecordLookupFilterEvent } from './addRecordLookupFilterEvent';
+export { UpdateRecordLookupFilterEvent } from './updateRecordLookupFilterEvent';
+export { DeleteRecordLookupFilterEvent } from './deleteRecordLookupFilterEvent';
+export { RecordLookupFilterTypeChangedEvent } from './recordLookupFilterTypeChangedEvent';

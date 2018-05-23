@@ -11,6 +11,10 @@ import {
     mutateVariable,
     deMutateVariable,
 } from './variableEditorDataMutation';
+import {
+    mutateRecordLookup,
+    deMutateRecordLookup
+} from './recordLookupEditorDataMutation';
 
 /**
  * Add property editor mutation for a given element
@@ -27,6 +31,8 @@ export const mutateEditorElement = (element, state) => {
         mutateDecision(element, state);
     } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
         return mutateVariable(element);
+    } else if (element.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
+        return mutateRecordLookup(element);
     }
 
     // TODO Add other element types
@@ -57,6 +63,8 @@ export const removeEditorElementMutation = (element, state) => {
         return decisionWithModifiedAndDeletedOutcomes;
     } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
         return deMutateVariable(element);
+    } else if (element.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
+        return deMutateRecordLookup(element);
     }
     // TODO: Should we throw an exception if  the element type isn't recognized?
     return element;
