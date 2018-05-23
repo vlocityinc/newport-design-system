@@ -186,30 +186,32 @@ export default class ActionSelector extends Element {
     @api
     get selectedAction() {
         let selectedAction;
-        if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-            const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.name === this.state.selectedActionValue.value);
-            if (apexPluginFound) {
-                selectedAction = {
-                    apexClass : apexPluginFound.name,
-                    elementType : this.state.selectedElementType
-                };
-            }
-        } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
-            const subflowFound = this.subflows.find(subflow => subflow.developerName === this.state.selectedActionValue.value);
-            if (subflowFound) {
-                selectedAction = {
-                    flowName : subflowFound.developerName,
-                    elementType : this.state.selectedElementType
-                };
-            }
-        } else {
-            const actionFound = this.invocableActions.find(action => action.durableId === this.state.selectedActionValue.value);
-            if (actionFound) {
-                selectedAction = {
-                    actionName : actionFound.name,
-                    actionType : actionFound.type,
-                    elementType : this.state.selectedElementType
-                };
+        if (this.state.selectedActionValue) {
+            if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
+                const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.name === this.state.selectedActionValue.value);
+                if (apexPluginFound) {
+                    selectedAction = {
+                        apexClass : apexPluginFound.name,
+                        elementType : this.state.selectedElementType
+                    };
+                }
+            } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
+                const subflowFound = this.subflows.find(subflow => subflow.developerName === this.state.selectedActionValue.value);
+                if (subflowFound) {
+                    selectedAction = {
+                        flowName : subflowFound.developerName,
+                        elementType : this.state.selectedElementType
+                    };
+                }
+            } else {
+                const actionFound = this.invocableActions.find(action => action.durableId === this.state.selectedActionValue.value);
+                if (actionFound) {
+                    selectedAction = {
+                        actionName : actionFound.name,
+                        actionType : actionFound.type,
+                        elementType : this.state.selectedElementType
+                    };
+                }
             }
         }
         return selectedAction;

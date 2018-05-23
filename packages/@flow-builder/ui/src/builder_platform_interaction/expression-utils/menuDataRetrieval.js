@@ -220,17 +220,19 @@ function getNewResourceItem() {
 
 /**
  * If a guid contains more than one level, separates it out to two parts
- * @param {String} guid The guid to sanitize
- * @returns {Object} The complex object containing the guid and the field name
+ * @param {String} potentialGuid The guid to sanitize. This can be the value in the case of literals.
+ * @returns {Object} The complex object containing the guid and the field name. Returns an empty object in the literals case.
  */
-export const sanitizeGuid = (guid) => {
+export const sanitizeGuid = (potentialGuid) => {
     const complexGuid = {};
-    const periodIndex = guid.indexOf('.');
-    if (periodIndex !== -1) {
-        complexGuid.guid = guid.substring(0, periodIndex);
-        complexGuid.fieldName = guid.substring(periodIndex + 1);
-    } else {
-        complexGuid.guid = guid;
+    if (typeof potentialGuid === 'string') {
+        const periodIndex = potentialGuid.indexOf('.');
+        if (periodIndex !== -1) {
+            complexGuid.guid = potentialGuid.substring(0, periodIndex);
+            complexGuid.fieldName = potentialGuid.substring(periodIndex + 1);
+        } else {
+            complexGuid.guid = potentialGuid;
+        }
     }
     return complexGuid;
 };

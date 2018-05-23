@@ -35,6 +35,8 @@ export default class ExpressionBuilder extends Element {
         expression: undefined, // the expression to be displayed
         normalizedLHS: {}, // contains display, for the combobox to display, and parameter, to use with the rules service
         normalizedRHS: {}, // for the rhs combobox to display, as the rhs could be passed as a guid
+        lhsMenuData: [], // the menu data being passed to lhs combobox
+        rhsMenuData: [], // the menu data being passed to rhs combobox
     };
 
     @api
@@ -72,7 +74,7 @@ export default class ExpressionBuilder extends Element {
 
         // TODO default operator case W-4912900
         if (expression[RHS]) {
-            this.state.normalizedRHS = normalizeRHS(expression[RHS].value, (rhsIdentifier) => {
+            this.state.normalizedRHS = normalizeRHS(expression[RHS].value ? expression[RHS].value : expression[RHS], (rhsIdentifier) => {
                 if (!this._fetchedRHSInfo) {
                     this._fetchedRHSInfo = true;
                     const newExpression = updateProperties(this.state.expression, {[RHS] : {value : rhsIdentifier, error: expression[RHS].error}});
@@ -161,9 +163,10 @@ export default class ExpressionBuilder extends Element {
     handleLHSValueChanged(event) {
         event.stopPropagation();
         const newLHSItem = event.detail.item;
-        const expressionUpdates = {[LHS] : {value : newLHSItem ? newLHSItem.value : event.detail.displayText, error: event.detail.error}};
+        const newValue = newLHSItem ? newLHSItem.value : event.detail.displayText;
+        const expressionUpdates = {[LHS] : {value : newValue, error: event.detail.error}};
 
-        const complexGuid = sanitizeGuid(newLHSItem.value);
+        const complexGuid = sanitizeGuid(newValue);
         const flowElement = getElementByGuid(complexGuid.guid);
         let elementOrField;
         // if lhs's value is a entity field (it could be flowElement.fieldApiName or objectType.fieldApiName)
@@ -176,12 +179,13 @@ export default class ExpressionBuilder extends Element {
         } else {
             elementOrField = flowElement;
         }
-
-        const newLHSParam = elementToParam(elementOrField);
-        if (!getOperators(newLHSParam, rules).includes(this.state.expression.operator.value)) {
-            expressionUpdates[OPERATOR] = this._clearedProperty;
-            expressionUpdates[RHS] = this._clearedProperty;
-            expressionUpdates[RHSDT] = this._clearedProperty;
+        if (elementOrField) {
+            const newLHSParam = elementToParam(elementOrField);
+            if (!getOperators(newLHSParam, rules).includes(this.state.expression.operator.value)) {
+                expressionUpdates[OPERATOR] = this._clearedProperty;
+                expressionUpdates[RHS] = this._clearedProperty;
+                expressionUpdates[RHSDT] = this._clearedProperty;
+            }
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);
         this.firePropertyChangedEvent(newExpression);

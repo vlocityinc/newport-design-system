@@ -89,6 +89,13 @@ export default class Combobox extends Element {
     }
 
     /**
+     * An object that represents the value to set on combobox
+     * @typedef {Object} item
+     * @property {String} displayText   the value displayed in the input field when this menu item is selected
+     * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
+     */
+
+    /**
      * Input value for the combobox.
      * Combobox expects and returns date time value in 'MM/DD/YYYY HH:mm:ss TZD' format.
      * Note: Date time format is under discussion and might change.
@@ -100,8 +107,9 @@ export default class Combobox extends Element {
         if (item && !isUndefinedOrNull(item.displayText)) {
             this._item = item;
             this._lastRecordedItem = item;
-            this.state.displayText = item.displayText;
-            this._lastRecordedDisplayText = item.displayText;
+            const displayText = this.getStringValue(item.displayText);
+            this.state.displayText = displayText;
+            this._lastRecordedDisplayText = displayText;
             this.updateInputIcon();
             this.setMergeFieldState();
         } else {
@@ -127,11 +135,12 @@ export default class Combobox extends Element {
         if (this._item) {
             // do nothing
         } else if (!isUndefinedOrNull(text)) {
-            this.state.displayText = text;
-            this._lastRecordedDisplayText = text;
+            const displayText = this.getStringValue(text);
+            this.state.displayText = displayText;
+            this._lastRecordedDisplayText = displayText;
             this.updateInputIcon();
             this.setMergeFieldState();
-        } else if (isUndefinedOrNull(text)) {
+        } else {
             // Set to empty string
             this.state.displayText = '';
             this._lastRecordedDisplayText = '';
@@ -221,7 +230,7 @@ export default class Combobox extends Element {
 
     _isLiteralAllowed = true;
 
-    _lastRecordedDisplayText;
+    _lastRecordedDisplayText = '';
 
     _itemCache = {};
 
@@ -358,6 +367,18 @@ export default class Combobox extends Element {
     /* **************************** */
     /*    Private Helper methods    */
     /* **************************** */
+
+    /**
+     * Returns the the string value of numbers and booleans
+     * @param {*} valueToConvert The value to convert to string
+     * @returns {String} The string value
+     */
+    getStringValue(valueToConvert = '') {
+        if (['number', 'boolean'].includes(typeof valueToConvert)) {
+            return valueToConvert.toString();
+        }
+        return valueToConvert;
+    }
 
     /**
      * Set the resource state if the value start with '{!' and ends with '}'
