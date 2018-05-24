@@ -20,6 +20,7 @@ const selectors = {
     label: '.label',
     devName: '.devName',
     description: '.description',
+    container: '.container',
 };
 
 const focusoutEvent = new FocusEvent('focusout', {
@@ -28,6 +29,35 @@ const focusoutEvent = new FocusEvent('focusout', {
 });
 
 describe('label-description', () => {
+    describe('element classes', () => {
+        it('for vertical should match the layoutMode', () => {
+            const labelDescription = createComponentUnderTest();
+            labelDescription.layoutMode = 'vertical';
+
+            return Promise.resolve().then(() => {
+                const containerDiv = labelDescription.querySelector(selectors.container);
+                const labelLightningInput = labelDescription.querySelector(selectors.label);
+                const nameLightningInput = labelDescription.querySelector(selectors.devName);
+                expect(containerDiv.classList).toContain('slds-grid_vertical');
+                expect(labelLightningInput.classList).not.toContain('slds-size_1-of-2');
+                expect(nameLightningInput.classList).not.toContain('slds-size_1-of-2');
+            });
+        });
+
+        it('for horizontal should match the layoutMode', () => {
+            const labelDescription = createComponentUnderTest();
+
+            return Promise.resolve().then(() => {
+                const containerDiv = labelDescription.querySelector(selectors.container);
+                const labelLightningInput = labelDescription.querySelector(selectors.label);
+                const nameLightningInput = labelDescription.querySelector(selectors.devName);
+                expect(containerDiv.classList).not.toContain('slds-grid_vertical');
+                expect(labelLightningInput.classList).toContain('slds-size_1-of-2');
+                expect(nameLightningInput.classList).toContain('slds-size_1-of-2');
+            });
+        });
+    });
+
     describe('label', () => {
         it('input value is set when passed in as attribute', () => {
             const newValue = 'newValue';

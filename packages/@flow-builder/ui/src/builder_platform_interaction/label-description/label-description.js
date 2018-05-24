@@ -38,6 +38,9 @@ export default class LabelDescription extends Element {
     devNameLabel = 'Unique Name';
 
     @api
+    layoutMode = 'horizontal';
+
+    @api
     get label() {
         return this.state.label;
     }
@@ -158,12 +161,35 @@ export default class LabelDescription extends Element {
         }
     }
 
+    get isVertical() {
+        return this.layoutMode && this.layoutMode.toLowerCase() === 'vertical';
+    }
+
+    /**
+     * Returns class for label to display according to the layout mode (width set to 50% when horizontal)
+     * @returns {string} class name for name
+     */
+    get computedNameClass() {
+        return 'slds-col label' + (this.isVertical ? '' :  ' slds-size_1-of-2');
+    }
+
     /**
      * Returns class for devName to expand full width when label is hidden.
      * @returns {string} class name for dev name
      */
     get computedDevNameClass() {
-        return 'slds-col devName' + (this.hideLabel ? '' : ' slds-size_1-of-2');
+        return this.isVertical ?
+            'slds-col devName slds-m-top_x-small' :
+            'slds-col devName' + (this.hideLabel ? '' : ' slds-size_1-of-2');
+    }
+
+    /**
+     * Returns class for the container to display according to the layout mode (flex-direction: vertical when vertical)
+     * @returns {string} class name for name
+     */
+    get computedNameAndDevContainerClass() {
+        return 'container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small' +
+            (this.isVertical ? ' slds-grid_vertical' : '');
     }
 
     handleLabelFocusOut(e) {

@@ -1,13 +1,13 @@
 <template>
     <span class="slds-hide">HACK TO FORCE RERENDER:{label.error}{devName.error}{description.error}</span>
     <div class="slds-form slds-form_compound">
-        <div class="slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
+        <div class={computedNameAndDevContainerClass}>
             <lightning-input if:false={hideLabel} type="text" label="Name"
                              onfocusout={handleLabelFocusOut}
                              value={label.value}
                              required
                              message-when-value-missing={showErrorMessageIfBlank}
-                             class="slds-col slds-size_1-of-2 label"></lightning-input>
+                             class={computedNameClass}></lightning-input>
             <lightning-input if:false={hideDevName} type="text" label={devNameLabel}
                              onfocusout={handleDevNameFocusOut}
                              value={devName.value}
