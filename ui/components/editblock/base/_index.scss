@@ -53,18 +53,25 @@
 
     .nds-table tr {
         cursor: pointer;
+
         .nds-required {
-            top: .28rem;
+            top: 0.6875rem;
+            font-size: 1rem;
         }
+
         td {
             border-top: none;
         }
+
         form div {
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
             width: calc(100% - 2rem);
             color: $color-blue-text-secondary;
+         }
+         > td:first-child {
+            padding-left: 0.5rem;
          }
     }
 
@@ -100,6 +107,7 @@
         .nds-edit-block_cards-action-container {
             margin-#{$right}: 0.5rem;
             margin-top: 0.5rem;
+            position: relative;
         }
     }
 
@@ -259,9 +267,10 @@
 
 .nds-edit-block_cards-action-container {
     .nds-required {
-        position: relative;
-        top: .2rem;
-        #{$left}: .8rem
+        position: absolute;
+        top: 0.2rem;
+        #{$left}: -0.6rem;
+        font-size: 1rem;
     }
 }
 

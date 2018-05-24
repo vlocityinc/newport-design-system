@@ -737,3 +737,24 @@ button.nds-step__next-link[disabled] {
     }
 }
 
+.nds-mob-conf {
+    
+    svg.nds-icon {
+      fill: $color-light-blue-hue;
+    }
+
+    .nds-mob-conf__body {
+      display: inline-block;
+      margin-#{$left}: 0.5rem;
+
+      .nds-form-element__label {
+        color: $color-light-blue-hue;
+        font-size: 0.8125rem;
+
+        span.nds-ref-number {
+            font-weight: 700;
+        }
+      }
+    }
+}
+
