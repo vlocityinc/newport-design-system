@@ -105,6 +105,13 @@ export default class ExpressionBuilder extends Element {
     @api
     rhsLabel;
 
+    /**
+     * @typedef expressionConfig
+     * @param {String} elementType    the parent element of this expression
+     * @param {String} objectType     the sObject which this expression is based on, i.e. for the LHS fields
+     * @param {String[]} lhsFields    fields to be used for the LHS of this expression
+     */
+
     @api
     set configuration(config) {
         contextConfig = config;

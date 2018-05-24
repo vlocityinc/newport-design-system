@@ -1,4 +1,3 @@
-// constants for the rule tree. Should be moved to the constants directory
 import { shallowCopyArray, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import { RULE_TYPES, RULE_PROPERTY, RULE_PROPERTY_INFO } from './rules';
 
@@ -7,10 +6,31 @@ const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS } = RULE_PROPERTY;
 const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = RULE_PROPERTY_INFO;
 
 /**
+ * Describes a FlowOperatorParam coming from the Rules Service
+ * @typedef {Object.<string, string>} param
+ * @param {String} elementType    flow element type
+ * @param {String} dataType       flow data type
+ * @param {boolean} isCollection  does this represent a collection variable
+ */
+
+/**
+ * A map from an elementType or dataType to an array of params relating to that elementType or dataType.
+ * @typedef {Object.<string, param[]>} allowedParamMap
+ */
+
+/**
+ * An operator rule
+ * @typedef {Object} operatorRule
+ * @param {param} RULE_PROPERTY.LEFT           represents the lhs of this rule
+ * @param {String} RULE_PROPERTY.OPERATOR      represents the operator of this rule
+ * @param {param[]} RULE_PROPERTY.RHS_PARAMS   all rhs possible for this lhs & operator combination
+ */
+
+/**
  * Helper to get the value inside of either data type or element type. This accounts for
  * the inner value inside of the rules returned by the FlowOperatorRuleUtil service
  * Hopefully we will not need this in the future
- * @param {Object} param        the param we are extracting the value from
+ * @param {param} param        the param we are extracting the value from
  * @returns {String}            the value at the given property
  */
 const getDataTypeOrElementType = (param) => {
@@ -19,7 +39,7 @@ const getDataTypeOrElementType = (param) => {
 
 /**
  * Filters rules by rule type eg: assignment/comparison
- * @param {Array} rules     list of rules to filter
+ * @param {operatorRule[]} rules     list of rules to filter
  * @param {String} ruleType the rule type you want
  * @returns {Array}         filtered list of rules based on the given rule type
  */
@@ -61,18 +81,7 @@ export const elementToParam = (element) => {
 
 /**
  * Check if the given rule param matches the element
- * @param {Object} ruleParam        the rule param we are inspecting, taken from the FlowOperatorRulesUtil service
- * {
-        'paramType':'Data',
-        'paramIndex':1,
-        'dataType':{
-            'value':'Date'
-        },
-        'elementType':null,
-        'collection':false,
-        'canBeField':'CanBe',
-        'canBeSysVar':'CanBe'
-    }
+ * @param {param} ruleParam        the rule param we are inspecting
  * @param {Object} element          the element we are checking to see if it matches the given rule param. This is taken from the store
  * @returns {Boolean}               true if the param matches the element, false otherwise
  */
@@ -103,11 +112,9 @@ export const isMatch = (ruleParam, element) => {
 
 /**
  * Get the allowed left hand side types based on the rule type
- * Example: Get all the left hand side types for assignments
- * getLHSTypes( [...listOfRules], 'assignment')
- * @param {Array} rules         list of rules we are checking for lhs types. These are taken from the FlowOperatorRuleUtil service
+ * @param {operatorRule[]} rules         list of rules we are checking for lhs types. These are taken from the FlowOperatorRuleUtil service
  * @param {String} ruleType     the rule type of the given rules eg: assignment/comparator
- * @returns {Object}            map of data types & element types to allowed left hand side types
+ * @returns {allowedParamMap}   map of data types & element types to allowed left hand side types
  */
 export const getLHSTypes = (rules, ruleType) => {
     if (!Array.isArray(rules)) {
@@ -141,11 +148,8 @@ export const getLHSTypes = (rules, ruleType) => {
 
 /**
  * Gets the allowed operators based on the given left hand side element and list of rules
- * Example: Get all the operators for a collection string variable
- * getOperators( { dataType: 'String', isCollection: true}, [...listOfRules], 'assignment')
  * @param {Object} lhsElement           the element representing our left hand side that we are checking against the given rules. This element is taken from the store
- * For example { isCollection: true, dataType: "String" }
- * @param {Array} rules                 list of rules we are checking for operator types. These are taken from the FlowOperatorRuleUtil service
+ * @param {operatorRule[]} rules                 list of rules we are checking for operator types. These are taken from the FlowOperatorRuleUtil service
  * @param {String} ruleType             the rule type of the given rules eg: assignment/comparator
  * @returns {Array}                     the allowed list of operators based on rules that matched the lhsElement
  */
@@ -179,8 +183,8 @@ export const getOperators = (lhsElement = {}, rules, ruleType) => {
  * in the format that the lightning-combobox can use, so this
  * provides the operators in the correct format
  *
- * @param {Array} operators    the list of operators as it comes from the rule service
- * @returns {Array}            operators in the shape the combobox expects
+ * @param {String[]} operators    the list of operators as it comes from the rule service
+ * @returns {Array}               operators in the shape the combobox expects
  */
 export const transformOperatorsForCombobox = (operators) => {
     // TODO: labels! W-4813532
@@ -196,14 +200,11 @@ export const transformOperatorsForCombobox = (operators) => {
 
 /**
  * Gets the allowed right hand side types based on the given left hand side element, operator, and rules
- * Example: Get all the right hand side types for an assignment rule where lhs element is String and operator is add
- * getRHSTypes({ dataType: 'String', isCollection: false}, 'ADD', [...rules], 'assignment')
  * @param {Object} lhsElement       the element that represents our left hand side that we are checking against the given rules. This element is taken from the store.
- * For example { isCollection: true, dataType: "String" }
  * @param {String} operator         the value representing your operator eg: "ASSIGNMENT"
- * @param {Array} rules             list of rules we are checking for right hand side types. These are taken from the FlowOperatorRuleUtil service
+ * @param {operatorRule[]} rules             list of rules we are checking for right hand side types. These are taken from the FlowOperatorRuleUtil service
  * @param {String} ruleType         the rule type of the given rules eg: assignment/comparator
- * @returns {Object}                map of data types, element types, and object types to allowed right hand side types
+ * @returns {allowedParamMap}       map of data types, element types, and object types to allowed right hand side types
  */
 export const getRHSTypes = (lhsElement, operator, rules, ruleType) => {
     // sanity checks

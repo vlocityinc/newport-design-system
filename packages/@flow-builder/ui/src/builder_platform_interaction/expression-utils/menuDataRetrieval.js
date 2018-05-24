@@ -184,13 +184,9 @@ const mutateEntitiesToComboboxShape = (entities) => {
 export { RESOURCE_PICKER_MODE };
 
 /**
- * Takes in a map of allowed rules in the shape
- *     {
- *         [dataType or elementType] : {rule params pertaining to that dataType or elementType}
- *     }
- * and an element, and determines if that element is allowed by those param specifications
+ * Takes in a map of allowed rules and an element, and determines if that element is allowed by those param specifications
  *
- * @param {Object} allowedParamTypes        map from dataTypes/elementTypes to rule params which specificy those data or element types
+ * @param {operator-rule-util/allowedParamMap} allowedParamTypes        map from dataTypes/elementTypes to rule params which specificy those data or element types
  * @param {Object} element                  object with the necessary specifications to be compared to rule params (usually flow element, but a "fake" one can be built for fields, etc)
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
@@ -264,14 +260,21 @@ export const normalizeRHS = (rhsIdentifier, callback) => {
 };
 
 /**
+ * The shape an expression builder needs to operator on any LHS.
+ * @typedef {Object} normalizedLHS
+ * @param {MenuItem} item     what the combobox needs to display this lhs
+ * @param {operator-rule-util/param} param       the param representation of this lhs object/element
+ */
+
+/**
  * This function handles any identifier that may be passed to the LHS,
  * such as GUIDs for flow elements, and returns what the
  * the expression builder will need to use to work with that LHS.
  *
  * @param {String} lhsIdentifier    Used to identify the LHS (e.g. GUID for flow elements)
- * @param {String} elementType    in case lhsIdentifier.guid is not the flow element, we need this to pass in elementToParam
+ * @param {String} elementType      in case lhsIdentifier.guid is not the flow element, we need this to pass in elementToParam
  * @param {Function} callback       The value returned by this function. Only used in the callback
- * @returns {Object}                {lhsValue, lhsParameter}, lhsValue is the combobox display value, lhsParameter is needed for the rules service
+ * @returns {normalizedLHS}         {item, parameter}, lhsValue is the item to pass to the combobox, lhsParameter is needed for the rules service
  */
 export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
     const lhs = {};
@@ -334,7 +337,7 @@ function getSelector({element, shouldBeWritable}) {
  * Gets list of elements to display in combobox, in shape combobox expects
  *
  * @param {Object} elementConfig        {element, shouldBeWritable} element is the element type this expression builder is inside, shouldBeWritable is so property editors can specify the data they need
- * @param {Object} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
+ * @param {operator-rule-util/allowedParamMap} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
  * @param {boolean} includeNewResource  if true, include new resource as first menu item
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
