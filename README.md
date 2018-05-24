@@ -185,4 +185,4 @@ See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>.
 
 ## Got feedback?
 
-Please open a new <a href="https://github.com/salesforce-ux/design-system/issues">GitHub Issue</a>.
+Please open a new <a href="https://github.com/vlocityinc/newport-design-system/issues">GitHub Issue</a>.
