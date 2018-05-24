@@ -133,6 +133,13 @@ export const createConnectorObject = (source, childSource, target, label, type) 
     return connector;
 };
 
+const addConnectorReferenceToNode = (node, connectorGuid) => {
+    if (!node.connectorReferences) {
+        node.connectorReferences = [];
+    }
+    node.connectorReferences.push(connectorGuid);
+};
+
 /**
  * Method to create connector objects for a given element
  *
@@ -158,6 +165,7 @@ export const createConnectorObjects = (node, parentId) => {
             CONNECTOR_TYPE.REGULAR
         );
         connectors.push(connector);
+        addConnectorReferenceToNode(node, connector.guid);
         delete node.connector;
     } else if (node.connectors) {
         // Step elements have an array of connectors
@@ -171,6 +179,7 @@ export const createConnectorObjects = (node, parentId) => {
                     CONNECTOR_TYPE.REGULAR
                 );
                 connectors.push(connector);
+                addConnectorReferenceToNode(node, connector.guid);
             }
         });
         delete node.connectors;
@@ -186,6 +195,7 @@ export const createConnectorObjects = (node, parentId) => {
             CONNECTOR_TYPE.FAULT
         );
         connectors.push(faultConnector);
+        addConnectorReferenceToNode(node, faultConnector.guid);
         delete node.faultConnector;
     }
 
@@ -199,6 +209,7 @@ export const createConnectorObjects = (node, parentId) => {
             CONNECTOR_TYPE.DEFAULT
         );
         connectors.push(defaultConnector);
+        addConnectorReferenceToNode(node, defaultConnector.guid);
         delete node.defaultConnector;
     }
 
@@ -224,7 +235,9 @@ export const createConnectorsAndConnectionProperties = (nodeId, elements, startN
     // Create connector objects for the canvas element
     if (elementType === ELEMENT_TYPE.START_ELEMENT) {
         if (startNodeId) {
-            connectors.push(createConnectorObject(node.guid, null, startNodeId, null, CONNECTOR_TYPE.START));
+            const startElementConnector = createConnectorObject(node.guid, null, startNodeId, null, CONNECTOR_TYPE.START);
+            connectors.push(startElementConnector);
+            addConnectorReferenceToNode(node, startElementConnector.guid);
         }
     } else {
         connectors.push(...createConnectorObjects(node));

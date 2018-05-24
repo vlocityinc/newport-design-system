@@ -124,10 +124,11 @@ describe('Connector Utils', () => {
                 type: CONNECTOR_TYPE.REGULAR
             };
 
-            expect(createConnectorObjects(node)[0]).toMatchObject(
-                expectedConnectorObject
-            );
+            const connectorObject = createConnectorObjects(node)[0];
+            expect(connectorObject).toMatchObject(expectedConnectorObject);
             expect(node.connector).toBeUndefined();
+            expect(node.connectorReferences).toHaveLength(1);
+            expect(node.connectorReferences[0]).toEqual(connectorObject.guid);
         });
 
         it('For a node with a child element connector', () => {
@@ -144,10 +145,11 @@ describe('Connector Utils', () => {
                 type: CONNECTOR_TYPE.REGULAR
             };
 
-            expect(createConnectorObjects(node, 'parentGuid')[0]).toMatchObject(
-                expectedConnectorObject
-            );
+            const connectorObject = createConnectorObjects(node, 'parentGuid')[0];
+            expect(connectorObject).toMatchObject(expectedConnectorObject);
             expect(node.connector).toBeUndefined();
+            expect(node.connectorReferences).toHaveLength(1);
+            expect(node.connectorReferences[0]).toEqual(connectorObject.guid);
         });
 
         it('For a node with an array of regular connectors', () => {
@@ -177,6 +179,9 @@ describe('Connector Utils', () => {
             expect(connectorObjects[0]).toMatchObject(expectedConnectorObject1);
             expect(connectorObjects[1]).toMatchObject(expectedConnectorObject2);
             expect(node.connectors).toBeUndefined();
+            expect(node.connectorReferences).toHaveLength(2);
+            expect(node.connectorReferences[0]).toEqual(connectorObjects[0].guid);
+            expect(node.connectorReferences[1]).toEqual(connectorObjects[1].guid);
         });
 
         it('For a node with a fault connector', () => {
@@ -192,10 +197,11 @@ describe('Connector Utils', () => {
                 type: CONNECTOR_TYPE.FAULT
             };
 
-            expect(createConnectorObjects(node)[0]).toMatchObject(
-                expectedConnectorObject
-            );
+            const connectorObject = createConnectorObjects(node)[0];
+            expect(connectorObject).toMatchObject(expectedConnectorObject);
             expect(node.faultConnector).toBeUndefined();
+            expect(node.connectorReferences).toHaveLength(1);
+            expect(node.connectorReferences[0]).toEqual(connectorObject.guid);
         });
 
         it('For a node with a default connector', () => {
@@ -212,10 +218,11 @@ describe('Connector Utils', () => {
                 type: CONNECTOR_TYPE.DEFAULT
             };
 
-            expect(createConnectorObjects(node)[0]).toMatchObject(
-                expectedConnectorObject
-            );
+            const connectorObject = createConnectorObjects(node)[0];
+            expect(connectorObject).toMatchObject(expectedConnectorObject);
             expect(node.defaultConnector).toBeUndefined();
+            expect(node.connectorReferences).toHaveLength(1);
+            expect(node.connectorReferences[0]).toEqual(connectorObject.guid);
         });
 
         it('For a node with connectors of different types', () => {
@@ -245,6 +252,7 @@ describe('Connector Utils', () => {
             expect(connectorObjects[1]).toMatchObject(expectedConnectorObject2);
             expect(node.connector).toBeUndefined();
             expect(node.faultConnector).toBeUndefined();
+            expect(node.connectorReferences).toHaveLength(2);
         });
     });
 
