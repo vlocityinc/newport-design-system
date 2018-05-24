@@ -7,6 +7,7 @@ import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -73,7 +74,7 @@ export default class ExpressionBuilder extends Element {
         }
 
         // TODO default operator case W-4912900
-        if (expression[RHS]) {
+        if (expression[RHS] && !isUndefinedOrNull(expression[RHS].value)) {
             this.state.normalizedRHS = normalizeRHS(expression[RHS].value ? expression[RHS].value : expression[RHS], (rhsIdentifier) => {
                 if (!this._fetchedRHSInfo) {
                     this._fetchedRHSInfo = true;
@@ -81,6 +82,9 @@ export default class ExpressionBuilder extends Element {
                     this.firePropertyChangedEvent(newExpression);
                 }
             });
+        }
+
+        if (expression[LHS].value && expression[OPERATOR]) {
             const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, expression[OPERATOR].value, rules);
             this._fullRHSMenuData = getElementsForMenuData({element}, rhsTypes, true);
             this.state.rhsMenuData = this._fullRHSMenuData;
@@ -185,6 +189,15 @@ export default class ExpressionBuilder extends Element {
                 expressionUpdates[OPERATOR] = this._clearedProperty;
                 expressionUpdates[RHS] = this._clearedProperty;
                 expressionUpdates[RHSDT] = this._clearedProperty;
+                expressionUpdates[RHSG] = this._clearedProperty;
+            } else {
+                const rhsTypes = getRHSTypes(newLHSParam, this.state.expression.operator.value, rules);
+                const rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
+                if (!rhsValid) {
+                    expressionUpdates[RHS] = this._clearedProperty;
+                    expressionUpdates[RHSDT] = this._clearedProperty;
+                    expressionUpdates[RHSG] = this._clearedProperty;
+                }
             }
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);
@@ -206,6 +219,7 @@ export default class ExpressionBuilder extends Element {
             if (!rhsValid) {
                 expressionUpdates[RHS] = this._clearedProperty;
                 expressionUpdates[RHSDT] = this._clearedProperty;
+                expressionUpdates[RHSG] = this._clearedProperty;
             }
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);
