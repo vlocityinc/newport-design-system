@@ -1,0 +1,15 @@
+<template>
+    <builder_platform_interaction-combobox
+        label={comboboxConfig.label}
+        placeholder={comboboxConfig.placeholder}
+        disabled={comboboxConfig.disabled}
+        value={state.item}
+        display-text={state.displayText}
+        menu-data={state.menuData}
+        required={comboboxConfig.required}
+        literals-allowed={comboboxConfig.literalsAllowed}
+        type={comboboxConfig.type}
+        onfiltermatches={handleFilterMatches}
+        oncomboboxvaluechanged={handleValueChange}>
+    </builder_platform_interaction-combobox>
+</template>
