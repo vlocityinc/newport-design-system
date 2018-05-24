@@ -190,8 +190,10 @@ export default class Node extends Element {
                 }
             }
 
+            // All nodes can potentially support infinite outgoing connectors, but whether potential anchor points
+            // are present is determined by hasAvailableConnections
             if (!lib.isSource(this.node.guid)) {
-                lib.makeSource(this.node.guid, this.node.maxConnections);
+                lib.makeSource(this.node.guid);
             }
 
             if (this.node.config.isSelected) {

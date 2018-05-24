@@ -57,27 +57,37 @@ export default function elementsReducer(state = {}, action) {
  *
  * @param {Object} state - current state of elements in the store
  * @param {Object} decision - the decision being added/modified
- * @param {Array} deletedOutcomes - All outcomes being deleted
+ * @param {Array} deletedOutcomes - All outcomes being deleted. If deleted outcomes have connectors, then
+ * the decision connectorCount will be decremented appropriately
  * @param {Array} outcomes - All outcomes being added/modified
  * @return {Object} new state after reduction
  * @private
  */
-function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outcomes) {
+function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outcomes = []) {
     let newState = updateProperties(state);
     newState[decision.guid] = updateProperties(newState[decision.guid], decision);
 
-    outcomes.forEach((outcome) => {
+    for (const outcome of outcomes) {
         newState[outcome.guid] = updateProperties(newState[outcome.guid], outcome);
-    });
+    }
 
-    // TODO handle connectors when deleting outcomes.  Also handling decision max connectors
-    // when adding outcomes
-    // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004uM1nIAE/view
-    const deletedOutcomeGUIDs = deletedOutcomes.map((outcome) => {
-        return outcome.guid;
-    });
+    const deletedOutcomeGuids = [];
+    let connectorCount = newState[decision.guid].connectorCount;
 
-    newState = omit(newState, deletedOutcomeGUIDs);
+    for (const outcome of deletedOutcomes) {
+        if (outcome.connectorReferences && outcome.connectorReferences.length > 0) {
+            connectorCount -= outcome.connectorReferences.length;
+        }
+
+        deletedOutcomeGuids.push(outcome.guid);
+    }
+
+    // Max connections for a decision is the number of outcomes + 1 for the default outcome
+    const maxConnections = outcomes.length + 1;
+
+    newState[decision.guid] = updateProperties(newState[decision.guid], {maxConnections, connectorCount});
+
+    newState = omit(newState, deletedOutcomeGuids);
 
     return newState;
 }

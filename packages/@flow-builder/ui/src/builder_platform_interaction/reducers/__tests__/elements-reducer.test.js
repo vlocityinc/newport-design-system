@@ -1,5 +1,14 @@
 import elementReducer from '../elements-reducer';
-import { UPDATE_FLOW, ADD_CANVAS_ELEMENT, UPDATE_CANVAS_ELEMENT, DELETE_CANVAS_ELEMENT, ADD_VARIABLE, UPDATE_VARIABLE, DELETE_VARIABLE } from 'builder_platform_interaction-actions';
+import {
+    UPDATE_FLOW,
+    ADD_CANVAS_ELEMENT,
+    UPDATE_CANVAS_ELEMENT,
+    DELETE_CANVAS_ELEMENT,
+    ADD_VARIABLE,
+    UPDATE_VARIABLE,
+    DELETE_VARIABLE,
+    MODIFY_DECISION_WITH_OUTCOMES
+} from 'builder_platform_interaction-actions';
 
 const newElements = {
     guid2: {
@@ -115,5 +124,138 @@ describe('elements-reducer', () => {
         const newElementState = elementReducer(oldProperties, {type: DELETE_CANVAS_ELEMENT,
             payload : { selectedCanvasElementGUIDs: omitProps, canvasElementsToUpdate:  []}});
         expect(newElementState).toEqual({});
+    });
+
+    describe('MODIFY_DECISION_WITH_OUTCOMES', () => {
+        let decision;
+        let outcome;
+        let originalState;
+
+        beforeEach(() => {
+            decision = {
+                guid: 'decision1',
+                label: 'origLabel',
+                connectorCount: 2,
+                maxConnections: 3
+            };
+
+            outcome = {
+                guid: 'outcome2',
+                label: 'outcomeLabel'
+            };
+
+            originalState = {
+                [decision.guid]: decision,
+                [outcome.guid]: outcome
+            };
+        });
+
+        it('updates the decision element', () => {
+            const updatedDecision = {
+                guid: decision.guid,
+                label: 'newLabel'
+            };
+
+            const newState = elementReducer(originalState, {
+                type: MODIFY_DECISION_WITH_OUTCOMES,
+                payload: {
+                    decision: updatedDecision,
+                    outcomes: [],
+                    deletedOutcomes: [],
+
+                }
+            });
+
+            const newDecision = newState[decision.guid];
+
+            expect(newDecision).not.toBe(decision);
+
+            expect(newDecision.guid).toEqual(updatedDecision.guid);
+            expect(newDecision.label).toEqual(updatedDecision.label);
+        });
+
+        it('updates outcomes', () => {
+            const updatedOutcome = {
+                guid: outcome.guid,
+                label: 'new outcome label'
+            };
+
+            const newState = elementReducer(originalState, {
+                type: MODIFY_DECISION_WITH_OUTCOMES,
+                payload: {
+                    decision,
+                    outcomes: [updatedOutcome],
+                    deletedOutcomes: [],
+
+                }
+            });
+
+            const newOutcome = newState[outcome.guid];
+
+            expect(newOutcome).not.toBe(outcome);
+
+            expect(newOutcome.guid).toEqual(updatedOutcome.guid);
+            expect(newOutcome.label).toEqual(updatedOutcome.label);
+        });
+
+        describe('deleted outcomes', () => {
+            it('are deleted', () => {
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: {
+                        decision,
+                        outcomes: [],
+                        deletedOutcomes: [outcome],
+
+                    }
+                });
+
+                expect(newState[outcome.guid]).toBeUndefined();
+            });
+
+            it('updates decision maxConnections', () => {
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: {
+                        decision,
+                        outcomes: [{}],
+                        deletedOutcomes: [outcome],
+
+                    }
+                });
+
+                expect(newState[decision.guid].maxConnections).toBe(2);
+            });
+
+            it('without connector does not change connectorCount', () => {
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: {
+                        decision,
+                        outcomes: [],
+                        deletedOutcomes: [outcome],
+
+                    }
+                });
+
+                expect(newState[decision.guid].connectorCount).toBe(decision.connectorCount);
+            });
+
+            it('with connector decrements connectorCount', () => {
+                outcome.connectorReferences = ['someConnectorGuid'];
+
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: {
+                        decision,
+                        outcomes: [],
+                        deletedOutcomes: [outcome],
+
+                    }
+                });
+
+                expect(newState[decision.guid].connectorCount).toBe(decision.connectorCount - 1);
+            });
+        });
     });
 });

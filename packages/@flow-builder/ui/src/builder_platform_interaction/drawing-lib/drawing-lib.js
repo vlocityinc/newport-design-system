@@ -119,15 +119,14 @@ class DrawingLib {
     /**
      * Makes the end-points of all the nodes a source point to start creating connectors from.
      * @param {String} nodeId - The node id
-     * @param {Number} connections - Maximum number of connections a node can have
      */
-    makeSource = (nodeId, connections) => {
+    makeSource = (nodeId) => {
         instance.makeSource(nodeId, {
             filter: '.end-point',
             endpoint: 'Dot',
             endpointStyle: {},
             allowLoopback: false,
-            maxConnections: connections
+            maxConnections: -1
         });
     };
 
