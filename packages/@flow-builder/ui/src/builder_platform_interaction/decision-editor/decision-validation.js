@@ -1,32 +1,46 @@
-// import * as ValidationRules from 'builder_platform_interaction-validation-rules';
+import * as ValidationRules from 'builder_platform_interaction-validation-rules';
 import { Validation } from 'builder_platform_interaction-validation';
-
-// TODO copied from assignment-validation, needs to be refactored and filled out
-
+import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
+// import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 /**
  * @constant additionalRules - map of propertyName to validation rules
  * @type {Object}
  */
 const additionalRules = {
-    // Example rules : actual rules will be put in after spike
-    // TODO: Fix for Avinash's refactoring
-    // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004uM2RIAU/view
-    // 'label' : [ValidationRules.shouldNotBeMoreThan256Chars],
-    // 'name': [ValidationRules.shouldNotBeEmpty]
-    'label' : [],
-    'name': [],
+    label: [
+        ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
+        ValidationRules.maximumCharactersLimit(255)
+    ],
+    name: [
+        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
+        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
+        ValidationRules.maximumCharactersLimit(80)
+    ],
+    defaultConnectorLabel: [
+        ValidationRules.shouldNotBeBlank
+    ],
+    // TODO: add validation for custom logic input here
+    conditionLogic: [],
+    // TODO: add this validation for the expression builder in each outcome
+    // ValidationRules.validateExpressionWith3Properties({elementType: ELEMENT_TYPE.DECISION}),
+    conditions: ''
 };
+
 
 class DecisionValidation extends Validation {
     /**
-     * @param {string} propName - property name to be validated
-     * @param {string} value - value
-     * @returns {string|null} error - error string or null based on if the field value is valid or not
+     * @param {Object} decisionElement - decision element data passed as an object.
+     * @param {Object} overrideRules - if passed, will override the default rules.
+     * @returns {Object} nodeElement - updated Node element after all the rules are run on respective data values.
      */
-    validateProperty(propName, value) {
-        return super.validateProperty(propName, value, additionalRules[propName]);
+    validateAll(decisionElement, overrideRules) {
+        const outcomes = decisionElement.outcomes.map((outcome) => {
+            return super.validateAll(outcome, overrideRules);
+        });
+        decisionElement = updateProperties(decisionElement, {outcomes});
+        return super.validateAll(decisionElement, overrideRules);
     }
 }
-export const decisionValidation = new DecisionValidation();
 
+export const decisionValidation = new DecisionValidation(additionalRules);

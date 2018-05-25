@@ -19,6 +19,7 @@ import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { createFlowElement, ELEMENT_TYPE, SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
+import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 
 const addOutcome = (state) => {
     let newOutcome = mutateOutcome(createFlowElement(ELEMENT_TYPE.OUTCOME, false));
@@ -143,6 +144,8 @@ export const decisionReducer = (state, event) => {
             return deleteCondition(state, event);
         case UpdateConditionEvent.EVENT_NAME:
             return updateCondition(state, event);
+        case VALIDATE_ALL:
+            return decisionValidation.validateAll(state);
         default:
             return state;
     }

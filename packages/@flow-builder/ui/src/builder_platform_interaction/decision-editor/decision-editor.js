@@ -4,6 +4,7 @@ import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './decision-editor-labels';
+import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome'
@@ -31,7 +32,8 @@ export default class DecisionEditor extends Element {
      * @returns {object} list of errors
      */
     @api validate() {
-        // TODO : validation for ok button, W-4875650
+        const event = { type: VALIDATE_ALL };
+        this.decisionElement = decisionReducer(this.decisionElement, event);
         return getErrorsFromHydratedElement(this.decisionElement);
     }
 
