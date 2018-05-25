@@ -231,7 +231,7 @@ export default class ResourcePicker extends Element {
         the item was given from store as a prop and only contains the api name. We want to get the entire item information
         */
         if (!this._isInitialized && this.initialItem && !this.initialItem.value) {
-            const foundItem = this.state.menuData[0].items.find(item => item.value === this.initialItem);
+            const foundItem = this.state.menuData.find(item => item.value === this.initialItem);
             this.state.item = foundItem;
         }
     }
