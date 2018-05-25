@@ -17,6 +17,9 @@
                     class="slds-col slds-size_1-of-3 types">
                 </lightning-combobox>
             </template>
+            <template if:false={state.showFieldSelector}>
+                <div id="helpText" class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium">{labels.sortOrderNotSortedHelp}</div>
+            </template>
         </div>
     </div>
 </template>
