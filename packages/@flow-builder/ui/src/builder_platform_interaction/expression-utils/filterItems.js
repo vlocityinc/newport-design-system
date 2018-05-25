@@ -1,21 +1,35 @@
 /**
  * Persist original text/subText else clear highlight if present.
- * @param {Array} items - Menu Items to clear the highlighting from its text/subText
+ * @param {Object} groupOrItem - Menu data group or item to clear highlighting.
  */
-function clearHighlight(items) {
-    items.forEach(item => {
-        if (!item.textNoHighlight) {
-            item.textNoHighlight = item.text;
-        } else if (hasHighlight(item.text)) {
-            item.text = item.textNoHighlight;
-        }
+function clearHighlight(groupOrItem) {
+    // a menu data group
+    if (groupOrItem.items) {
+        groupOrItem.items.forEach(item => {
+            clearHighlightForItem(item);
+        });
+    } else {
+        // a menu data item
+        clearHighlightForItem(groupOrItem);
+    }
+}
 
-        if (item.subText && !item.subTextNoHighlight) {
-            item.subTextNoHighlight = item.subText;
-        } else if (hasHighlight(item.subText)) {
-            item.subText = item.subTextNoHighlight;
-        }
-    });
+/**
+ * Persist original text/subText else clear highlight if present from the menu data item.
+ * @param {Object} item - Menu data item to clear the highlighting from its text/subText.
+ */
+function clearHighlightForItem(item) {
+    if (item.text && !item.textNoHighlight) {
+        item.textNoHighlight = item.text;
+    } else if (hasHighlight(item.text)) {
+        item.text = item.textNoHighlight;
+    }
+
+    if (item.subText && !item.subTextNoHighlight) {
+        item.subTextNoHighlight = item.subText;
+    } else if (hasHighlight(item.subText)) {
+        item.subText = item.subTextNoHighlight;
+    }
 }
 
 /**
@@ -97,33 +111,41 @@ export function filterMatches(filterText, menuData, isMergeField) {
         throw new Error(`Menu data must be an array but was ${menuData}`);
     }
 
-    const matchedGroups = [];
-    const countGroups = menuData.length;
+    const matchedGroupsOrItems = [];
+    const countGroupsOrItems = menuData.length;
 
-    for (let i = 0; i < countGroups; i++) {
-        clearHighlight(menuData[i].items || []);
+    for (let i = 0; i < countGroupsOrItems; i++) {
+        clearHighlight(menuData[i] || {});
 
-        let itemsToMatch = menuData[i].items;
+        // if items is present, its a grouped menu data
+        // if its menu data item convert it into array for matching
+        let itemsToMatch = menuData[i].items || [menuData[i]];
         if (isMergeField) {
             itemsToMatch = itemsToMatch.filter(menuItem => {
                 return menuItem.displayText.startsWith('{!') && menuItem.displayText.endsWith('}');
             });
         }
 
-        const matchedGroupItems = itemsToMatch.filter(menuItem => {
+        const matchedItems = itemsToMatch.filter(menuItem => {
             return isEmpty(filterText) || getIndex(filterText, menuItem.text) !== -1 || getIndex(filterText, menuItem.subText) !== -1;
         });
 
         // Only add group with matched items
-        if (matchedGroupItems && matchedGroupItems.length > 0) {
-            matchedGroupItems.forEach(menuItem => {
+        if (matchedItems && matchedItems.length > 0) {
+            matchedItems.forEach(menuItem => {
                 highlightItem(filterText, menuItem);
             });
-            matchedGroups.push({
-                label: menuData[i].label,
-                items: matchedGroupItems
-            });
+            // a menu data group
+            if (menuData[i].items) {
+                matchedGroupsOrItems.push({
+                    label: menuData[i].label,
+                    items: matchedItems
+                });
+            } else {
+                // a menu data item
+                matchedGroupsOrItems.push(matchedItems[0]);
+            }
         }
     }
-    return matchedGroups;
+    return matchedGroupsOrItems;
 }

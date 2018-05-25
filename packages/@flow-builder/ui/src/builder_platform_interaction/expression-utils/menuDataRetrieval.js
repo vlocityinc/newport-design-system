@@ -57,19 +57,6 @@ const createMenuItem = (type, text, subtext, displayText, iconName, value) => {
  */
 
 /**
- * Create a GroupedMenuItems object
- * @param {MenuItem[]} menuItems   a list of menu items you want included in the menu data
- * @param {String} label            the label for the menu data
- * @returns {GroupedMenuItems}           an object representing GroupedMenuItems
- */
-const createGroupedMenuItems = (menuItems, label) => {
-    return {
-        label,
-        items: menuItems,
-    };
-};
-
-/**
  * The menu data that will be displayed in a flow combobox, it contains a list of GroupedMenuItems
  * @typedef {GroupedMenuItems[]} MenuData
  */
@@ -167,7 +154,7 @@ function elementMatchesRule(allowedParamTypes, element) {
  * @returns {MenuData} combobox menu data for the given entities
  */
 const mutateEntitiesToComboboxShape = (entities) => {
-    const items = entities.map(entity => {
+    return entities.map(entity => {
         return createMenuItem(
             COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
             entity.entityLabel,
@@ -177,8 +164,6 @@ const mutateEntitiesToComboboxShape = (entities) => {
             entity.apiName,
         );
     });
-    const groupedMenuItems = createGroupedMenuItems(items);
-    return [groupedMenuItems];
 };
 
 export { RESOURCE_PICKER_MODE };
@@ -205,12 +190,10 @@ export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
 function getNewResourceItem() {
     // TODO: use proper labels W-4813532
     return {
-        items: [{
-            text : 'New Resource',
-            type : COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
-            value : COMBOBOX_NEW_RESOURCE_VALUE,
-            iconName : 'utility:add'
-        }]
+        text : 'New Resource',
+        type : COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
+        value : COMBOBOX_NEW_RESOURCE_VALUE,
+        iconName : 'utility:add'
     };
 }
 
@@ -398,13 +381,9 @@ export const getEntitiesMenuData = (entityType) => {
  * @returns {Array} array of alphabetized objects
  */
 export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, fields, showAsFieldReference, showSubText) {
-    const items = Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
+    return Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
         return mutateFieldToComboboxShape(element, chosenElement, showAsFieldReference, showSubText);
     });
-    const objectFieldsMenuData = [{
-        items
-    }];
-    return objectFieldsMenuData;
 }
 
 /**

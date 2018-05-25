@@ -14,11 +14,7 @@ export default class ActionSelector extends Element {
     state = {
         selectedElementType : ELEMENT_TYPE.ACTION_CALL,
         selectedActionValue : null,
-        actionMenuData : [
-            {
-                items : []
-            }
-        ],
+        actionMenuData : [],
         spinnerActive : true,
         actionComboLabel : '',
         actionPlaceholder : '',
@@ -252,7 +248,7 @@ export default class ActionSelector extends Element {
         }
         this.state.actionComboLabel = LABELS[selectedElementType].ACTION_COMBO_LABEL;
         this.state.actionPlaceholder = LABELS[selectedElementType].ACTION_COMBO_PLACEHOLDER;
-        this.state.actionMenuData = [{ items }];
+        this.state.actionMenuData = items;
     }
 
     updateTypeCombo() {

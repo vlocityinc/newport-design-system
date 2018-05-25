@@ -60,7 +60,7 @@ describe('Action selector', () => {
             expect(lightningCombobox.value).toBe(ELEMENT_TYPE.ACTION_CALL);
         });
         test('Combobox should contain all ACTION_CALL items', () => {
-            expect(groupedCombobox.items[0].items.map(item => item.text)).toEqual(['Post to Chatter', 'Send Email']);
+            expect(groupedCombobox.items.map(item => item.text)).toEqual(['Post to Chatter', 'Send Email']);
         });
         test('Combobox placeholder should be : Find an Action...', () => {
             expect(groupedCombobox.placeholder).toBe('FlowBuilderActionCallEditor.actionComboboxPlaceholder');
@@ -75,7 +75,7 @@ describe('Action selector', () => {
             lightningCombobox.dispatchEvent(lightningCBChangeEventForApex);
             return Promise.resolve().then(() => {
                 expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_CALL);
-                expect(groupedCombobox.items[0].items.map(item => item.text)).toEqual(['Apex1', 'Apex2', 'Apex3']);
+                expect(groupedCombobox.items.map(item => item.text)).toEqual(['Apex1', 'Apex2', 'Apex3']);
             });
         });
         it('should update the Action combobox placeholder', () => {

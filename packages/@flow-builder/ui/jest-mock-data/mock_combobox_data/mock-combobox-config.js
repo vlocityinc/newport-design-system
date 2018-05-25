@@ -1,6 +1,12 @@
 export const comboboxInitialConfig = {
     menuData: [
         {
+            text: 'New Resource',
+            value: '%%NewResource%%',
+            iconName: 'utility:add',
+            type: 'option-inline',
+        },
+        {
             label: 'SObject Variables',
             items: [
                 {
@@ -27,7 +33,6 @@ export const comboboxInitialConfig = {
             label: 'Variables',
             items: [
                 {
-                    
                     text: 'MyName',
                     subText: 'String',
                     value: 'VAR3',
@@ -75,32 +80,27 @@ export const comboboxInitialConfig = {
     errorMessage: 'testErrorMessage',
 };
 
-
 export const secondLevelMenuData =
 [
     {
-        items: [
-            {
-                type: 'option-card',
-                text: 'FirstName',
-                iconName: 'standard:account',
-                subText: 'First Name',
-                value: '{!MyAccount.FirstName}'
-            },
-            {
-                type: 'option-card',
-                text: 'LastName',
-                iconName: 'standard:account',
-                subText: 'Last Name',
-                value: '{!MyAccount.LastName}'
-            },
-            {
-                type: 'option-card',
-                text: 'AnnualRevenue',
-                iconName: 'standard:account',
-                subText: 'Annual Revenue',
-                value: '{!MyAccount.AnnualRevenue}'
-            },
-        ]
-    }
+        type: 'option-card',
+        text: 'FirstName',
+        iconName: 'standard:account',
+        subText: 'First Name',
+        value: '{!MyAccount.FirstName}'
+    },
+    {
+        type: 'option-card',
+        text: 'LastName',
+        iconName: 'standard:account',
+        subText: 'Last Name',
+        value: '{!MyAccount.LastName}'
+    },
+    {
+        type: 'option-card',
+        text: 'AnnualRevenue',
+        iconName: 'standard:account',
+        subText: 'Annual Revenue',
+        value: '{!MyAccount.AnnualRevenue}'
+    },
 ];

@@ -446,12 +446,22 @@ export default class Combobox extends Element {
     matchTextWithItem(text = this.state.displayText) {
         if (!this._item) {
             const matchedItems = [];
-            for (let i = 0; i < this.state.menuData.length; i++) {
-                this.state.menuData[i].items.forEach(item => {
+            const groupOrItemCount =  this.state.menuData.length;
+            for (let i = 0; i < groupOrItemCount; i++) {
+                if (this.state.menuData[i].items) {
+                    // a menu data group
+                    this.state.menuData[i].items.forEach(item => {
+                        if (item.displayText === text) {
+                            matchedItems.push(item);
+                        }
+                    });
+                } else {
+                    // a menu data item
+                    const item = this.state.menuData[i];
                     if (item.displayText === text) {
                         matchedItems.push(item);
                     }
-                });
+                }
             }
             if (matchedItems.length === 1) {
                 this._item = matchedItems[0];
@@ -473,11 +483,19 @@ export default class Combobox extends Element {
             return this._itemCache[value];
         }
         for (let i = 0; i < groupCount; i++) {
-            foundItem = this.state.menuData[i].items.find(item => {
-                // add item to the cache whether or not it's the foundItem
-                this._itemCache[item.value] = item;
-                return item.value === value;
-            });
+            const groupOrItem = this.state.menuData[i];
+            if (groupOrItem.items) {
+                // a menu data group
+                foundItem = groupOrItem.items.find(item => {
+                    // add item to the cache whether or not it's the foundItem
+                    this._itemCache[item.value] = item;
+                    return item.value === value;
+                });
+            } else if (groupOrItem.value === value) {
+                // a menu data item
+                this._itemCache[groupOrItem.value] = groupOrItem;
+                foundItem = groupOrItem;
+            }
             if (foundItem) {
                 return foundItem;
             }
@@ -501,12 +519,9 @@ export default class Combobox extends Element {
      */
     wasPeriodEntered(previousValue) {
         // a period was entered in resource state
-        if ((this.state.displayText.length === previousValue.length + 1) &&
+        return ((this.state.displayText.length === previousValue.length + 1) &&
             (previousValue.charAt(previousValue.length - 2) !== '.') &&
-            (this.state.displayText.charAt(this.state.displayText.length - 2) === '.')) {
-            return true;
-        }
-        return false;
+            (this.state.displayText.charAt(this.state.displayText.length - 2) === '.'));
     }
 
     /**
@@ -516,12 +531,9 @@ export default class Combobox extends Element {
      */
     wasPeriodDeleted(previousValue) {
         // a period was deleted in resource state
-        if ((this.state.displayText.length === previousValue.length - 1) &&
+        return ((this.state.displayText.length === previousValue.length - 1) &&
             (this.state.displayText.charAt(this.state.displayText.length - 2) !== '.') &&
-            (previousValue.charAt(previousValue.length - 2) === '.')) {
-            return true;
-        }
-        return false;
+            (previousValue.charAt(previousValue.length - 2) === '.'));
     }
 
     /**
