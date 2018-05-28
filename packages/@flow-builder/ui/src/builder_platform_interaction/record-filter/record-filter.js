@@ -21,13 +21,13 @@ export default class RecordFilter extends Element {
     labels = LABELS;
 
     @track
-    selectedFilter;
+    selectedFilter = RECORD_LOOKUP_FILTER_CRITERIA.NONE;
 
     @track items = [];
 
     @track entityFields = [];
 
-    @track entityName;
+    @track entityName = '';
 
     /**
      * The filter type to pass as value of the rule for finding record drop down
