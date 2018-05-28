@@ -1,13 +1,13 @@
 /* Labels */
-import findRecords from '@label/FlowBuilderRecordLookupEditor.findRecords';
-import ruleFindingRecords from '@label/FlowBuilderRecordLookupEditor.ruleFindingRecords';
-import addCriteria from '@label/FlowBuilderRecordLookupEditor.addCriteria';
-import filterLhsLabel from '@label/FlowBuilderRecordLookupEditor.filterLhsLabel';
-import filterOperatorLabel from '@label/FlowBuilderRecordLookupEditor.filterOperatorLabel';
-import filterRhsLabel from '@label/FlowBuilderRecordLookupEditor.filterRhsLabel';
-import filterNoCriteria from '@label/FlowBuilderRecordLookupEditor.filterNoCriteria';
-import filterAllCriterias from '@label/FlowBuilderRecordLookupEditor.filterAllCriterias';
-import filterPrefix from '@label/FlowBuilderRecordLookupEditor.filterPrefix';
+import findRecords from '@label/FlowBuilderRecordEditor.findRecords';
+import ruleFindingRecords from '@label/FlowBuilderRecordEditor.ruleFindingRecords';
+import addCriteria from '@label/FlowBuilderRecordEditor.addCriteria';
+import filterLhsLabel from '@label/FlowBuilderRecordEditor.filterLhsLabel';
+import filterOperatorLabel from '@label/FlowBuilderRecordEditor.filterOperatorLabel';
+import filterRhsLabel from '@label/FlowBuilderRecordEditor.filterRhsLabel';
+import filterNoCriteria from '@label/FlowBuilderRecordEditor.filterNoCriteria';
+import filterAllCriterias from '@label/FlowBuilderRecordEditor.filterAllCriterias';
+import filterPrefix from '@label/FlowBuilderRecordEditor.filterPrefix';
 
 export const LABELS = {
     findRecords,
