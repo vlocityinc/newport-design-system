@@ -11,7 +11,10 @@ import {
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
     ADD_DECISION_WITH_OUTCOMES,
-    MODIFY_DECISION_WITH_OUTCOMES
+    MODIFY_DECISION_WITH_OUTCOMES,
+    ADD_FORMULA,
+    UPDATE_FORMULA,
+    DELETE_FORMULA
 } from 'builder_platform_interaction-actions';
 import {deepCopy} from 'builder_platform_interaction-store-lib';
 import {updateProperties, omit} from 'builder_platform_interaction-data-mutation-lib';
@@ -29,14 +32,17 @@ export default function elementsReducer(state = {}, action) {
             return deepCopy(action.payload.elements);
         case ADD_CANVAS_ELEMENT:
         case ADD_VARIABLE:
+        case ADD_FORMULA:
         case UPDATE_CANVAS_ELEMENT:
         case UPDATE_VARIABLE:
+        case UPDATE_FORMULA:
             return _addOrUpdateElement(state, action.payload.guid, action.payload);
         case DELETE_CANVAS_ELEMENT:
             return _deleteElementAndDecrementCount(state, action.payload.selectedCanvasElementGUIDs, action.payload.canvasElementsToUpdate);
         case ADD_CONNECTOR:
             return _incrementConnectorCount(state, action.payload.source);
         case DELETE_VARIABLE:
+        case DELETE_FORMULA:
             return omit(state, [action.payload.guid]);
         case SELECT_ON_CANVAS:
             return _selectCanvasElement(state, action.payload.guid);
