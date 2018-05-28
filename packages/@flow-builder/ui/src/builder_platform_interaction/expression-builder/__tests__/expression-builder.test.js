@@ -5,6 +5,8 @@ import { RowContentsChangedEvent, ComboboxValueChangedEvent } from 'builder_plat
 import { numberVariableGuid, numberVariableDevName, elements } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { mockAccountFields } from 'mock-server-entity-data';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-expression-builder', { is: ExpressionBuilder });
@@ -94,6 +96,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         getElementByGuid: require.requireActual('builder_platform_interaction-store-utils').getElementByGuid,
         isElementAllowed: require.requireActual('builder_platform_interaction-expression-utils').isElementAllowed,
         sanitizeGuid: require.requireActual('builder_platform_interaction-expression-utils').sanitizeGuid,
+        filterFieldsForChosenElement: require.requireActual('builder_platform_interaction-expression-utils').filterFieldsForChosenElement,
     };
 });
 
@@ -224,6 +227,51 @@ describe('expression-builder', () => {
             expect(lhsCombobox.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
             expect(operatorCombobox.value).toEqual('Assign');
             expect(rhsCombobox.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
+        });
+    });
+    describe('building expression for entity fields', () => {
+        const OPERATOR = 'EqualTo', LHS_VALUE = 'Account.Description', RHS_VALUE = 'Account Description', OBJECT_TYPE = 'Account';
+        const mockExpressionForEntityFields = {
+            [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: OPERATOR, error: null},
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: LHS_VALUE, error: null},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: RHS_VALUE, error: null},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: 'string', error: null},
+        };
+
+        const mockConfigurationForEntityFields = {
+            elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+            lhsFields: mockAccountFields,
+            objectType: OBJECT_TYPE
+        };
+        let expressionBuilder;
+        beforeEach(() => {
+            expressionBuilder = createComponentForTest({
+                expression: mockExpressionForEntityFields,
+                showOperator: true,
+                configuration: mockConfigurationForEntityFields,
+            });
+        });
+
+        it('should populate the lhs menu data as a list of entity fields', () => {
+            const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+            const lhsMenuData = lhsCombobox.menuData;
+            expect(lhsMenuData).toHaveLength(expressionBuilder.configuration.lhsFields.length);
+            expressionBuilder.configuration.lhsFields.forEach((field, index) => {
+                expect(lhsMenuData[index].displayText).toEqual(field.apiName);
+                expect(lhsMenuData[index].value).toEqual(OBJECT_TYPE + "." + field.apiName);
+            });
+        });
+
+        it('should populate operator menu and set to EqualTo', () => {
+            const operatorCombobox = getLightningCombobox(expressionBuilder);
+            expect(operatorCombobox.options).toBeDefined();
+            expect(operatorCombobox.value).toEqual(OPERATOR);
+        });
+
+        it('should populate rhs menu data and have a value', () => {
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            expect(rhsCombobox.menuData).toBeDefined();
+            expect(rhsCombobox.displayText).toEqual(RHS_VALUE);
         });
     });
 });
