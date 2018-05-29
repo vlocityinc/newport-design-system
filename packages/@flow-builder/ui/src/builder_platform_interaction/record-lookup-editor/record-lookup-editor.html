@@ -18,7 +18,7 @@
     </div>
     
     <!-- Find Records section -->
-    <builder_platform_interaction-record-filter if:true={recordEntityName} filter-items={filterItems} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={filterType} onaddrecordlookupfilter={handleEvent} onupdaterecordlookupfilter={handleEvent} ondeleterecordlookupfilter={handleEvent}></builder_platform_interaction-record-filter>
+    <builder_platform_interaction-record-filter if:true={recordEntityName} element-type={elementType} filter-items={filterItems} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={filterType} onaddrecordlookupfilter={handleEvent} onupdaterecordlookupfilter={handleEvent} ondeleterecordlookupfilter={handleEvent}></builder_platform_interaction-record-filter>
     
     <!-- Sort Records section -->
     <builder_platform_interaction-record-sort resource-api-name={resourceApiName} onfieldselected={handleFieldSelected}></builder_platform_interaction-record-sort>

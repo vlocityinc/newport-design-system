@@ -1,5 +1,4 @@
 import { Element, api, track } from "engine";
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { RECORD_LOOKUP_FILTER_CRITERIA } from 'builder_platform_interaction-flow-metadata';
 import { LABELS } from './record-filter-labels';
 import {
@@ -28,6 +27,9 @@ export default class RecordFilter extends Element {
     @track entityFields = [];
 
     @track entityName = '';
+
+    @api
+    elementType;
 
     /**
      * The filter type to pass as value of the rule for finding record drop down
@@ -86,7 +88,7 @@ export default class RecordFilter extends Element {
      * expression builder config to pass to expression-builder component
      */
     get expressionBuilderConfig() {
-        return {elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+        return {elementType: this.elementType,
             lhsFields: this.entityFields,
             objectType: this.entityName};
     }

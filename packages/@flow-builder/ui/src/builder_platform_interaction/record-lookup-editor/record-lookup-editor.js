@@ -61,6 +61,10 @@ export default class RecordLookupEditor extends Element {
         return this.fields;
     }
 
+    get elementType() {
+        return this.recordLookupElement.elementType;
+    }
+
     updateFields() {
         if (this.recordEntityName) {
             getFieldsForEntity(this.recordEntityName, (fields) => {
