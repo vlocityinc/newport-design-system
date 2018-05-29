@@ -11,7 +11,10 @@ filesToFix.forEach(previewFile => {
     if (err) {
       return console.log(err);
     }
-    var result = data.replace(/SLDS/g, 'NDS').replace(/slds/g, 'nds');
+    var result = data
+      .replace(/SLDS/g, 'NDS')
+      .replace(/slds/g, 'nds')
+      .replace(/salesforce1/g, 'connected_apps');
 
     fs.writeFile(prefix + previewFile, result, 'utf8', err => {
       if (err) return console.log(err);

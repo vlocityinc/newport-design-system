@@ -1,7 +1,5 @@
 # Contributing to NDS
 
-Do you ❤️ the Salesforce Lightning Design System and want to get involved? We would love your help! We are always looking for both internal and external contributors of Salesforce and there are plenty of ways you can help!
-
 Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
 
 Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. In return, they should reciprocate that respect in addressing your issue or assessing patches and features.
@@ -53,8 +51,6 @@ Good pull requests - patches, improvements, new features - are a fantastic help.
 
 Before starting down the long journey of any significant pull request, **please ask first** if someone else is working on the same feature or ask a core developer if your feature is in-scope for NDS. This will help reduce the risk of spending a lot of time working on something where in the end conflicts with someone else's changes or developers determine it does not want to be merged.
 
-Salesforce has a very large ecosystem and the design system has a lot of touch-points within that ecosystem. A small change can have a large-scale effect (which is AWESOME but we have to be aware about what we are changing).
-
 Before starting your project, please open a new issue or point to a related issue with discussions for whatever you are adding. That way, we can also offer suggestions or let you know if there is already an effort in progress.
 
 If you are changing CSS, please adhere to the SASS coding conventions [found here](https://github.com/salesforce-ux/design-system-internal/wiki/Sass-Styleguide). This will help expedite the review process as well as keeping code quality high.
@@ -64,11 +60,11 @@ Following these steps is the best way to get your work included into the project
 1. Fork the project, clone your fork, and configure the remotes:
 ```sh
 # Clone your fork of the repo into the current directory
-git clone https://github.com/<your-username>/design-system.git
+git clone https://github.com/<your-username>/newport-design-system.git
 # Navigate to the newly cloned directory
-cd design-system
+cd newport-design-system
 # Assign the original repo to a remote called "upstream"
-git remote add upstream https://github.com/salesforce-ux/design-system.git
+git remote add upstream https://github.com/vlocityinc/newport-design-system.git
 ```    
 2. Make sure you have the latest changes from the upstream:
 ```sh
@@ -79,7 +75,7 @@ git pull upstream master
 ```sh
 git checkout -b <topic-branch-name>
 ```
-4. Commit your changes in logical chunks. This project follows [Semantic Release Guidelines](https://github.com/salesforce-ux/design-system/blob/master/CONTRIBUTING.md#commit-guidelines). Please read and adhere to our commit guidelines before committing. This will expedite the review process and success rate of a PR getting merged. Use Git's [interactive rebase](https://help.github.com/articles/about-git-rebase/) feature to tidy up your commits before making them public.
+4. Commit your changes in logical chunks. This project follows [Semantic Release Guidelines](https://github.com/vlocityinc/newport-design-system/blob/master/CONTRIBUTING.md#commit-guidelines). Please read and adhere to our commit guidelines before committing. This will expedite the review process and success rate of a PR getting merged. Use Git's [interactive rebase](https://help.github.com/articles/about-git-rebase/) feature to tidy up your commits before making them public.
 5. Locally merge (or rebase) the upstream development branch into your topic branch:
 ```sh
 git pull [--rebase] upstream master
@@ -88,16 +84,16 @@ git pull [--rebase] upstream master
 ```sh
 git push origin <topic-branch-name>
 ```
-12. Open a [Pull Request](https://help.github.com/articles/about-pull-requests/) with a clear title and description that follows our [Semantic Release Guidelines](https://github.com/salesforce-ux/design-system/blob/master/CONTRIBUTING.md#commit-guidelines).
+12. Open a [Pull Request](https://help.github.com/articles/about-pull-requests/) with a clear title and description that follows our [Semantic Release Guidelines](https://github.com/vlocityinc/newport-design-system/blob/master/CONTRIBUTING.md#commit-guidelines).
 
 ## Setting up a local copy
 
-1. Clone the project with `git clone https://github.com/salesforce-ux/design-system.git`
+1. Clone the project with `git clone https://github.com/vlocityinc/newport-design-system.git`
 2. Run `npm install` in the root design-system folder.
 3. Run `npm start` to launch the Previewer.
 4. Visit http://localhost:3003/local/preview
 
-Having trouble getting these steps to work on your machine? Follow the [troubleshooting](https://github.com/salesforce-ux/design-system/README.md#troubleshooting) guide in our README.md.
+Having trouble getting these steps to work on your machine? Follow the [troubleshooting](https://github.com/vlocityinc/newport-design-system/README.md#troubleshooting) guide in our README.md.
 
 ## Using the Previewer
 

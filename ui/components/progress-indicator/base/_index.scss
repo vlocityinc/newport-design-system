@@ -94,6 +94,12 @@
 .nds-progress__item {
   display: inline-flex;
   align-self: center;
+  cursor: pointer;
+  outline: none;
+
+  .nds-button__icon {
+    fill: $color-blue-text-primary;
+  }
 
   &.nds-is-completed .nds-progress__marker,
   &.nds-is-active .nds-progress__marker {
@@ -115,6 +121,25 @@
   &.nds-is-completed .nds-progress__marker--icon {
     border-color: $progress-color-background;
     color: $progress-bar-color-background-fill;
+    box-shadow: unset;
+  }
+
+  &.nds-is-completed .nds-progress__marker,
+  &.nds-has-error .nds-progress__marker {
+    border-color: $progress-color-background;
+    width: auto;
+    height: auto;
+    line-height: 1;
+    .nds-icon {
+      width: .875rem;
+      height: .875rem;
+      line-height: 1.875rem;
+    }
+  }
+
+  &.nds-has-error .nds-progress__marker .nds-button__icon {
+    fill: currentColor;
+    background: $color-border-tab-active;
   }
 
   /**
@@ -163,6 +188,19 @@
       box-shadow: 0 0 3px 0 $color-border-error;
     }
   }
+
+
+  .nds-popover_tooltip {
+    display: none;
+    #{$left}: calc(-50% + 8px);
+    max-width: 30rem;
+    white-space: nowrap;
+    top: -2.8rem;
+  }
+
+  &:hover .nds-popover_tooltip {
+    display: block;
+  }
 }
 
 /**
@@ -191,4 +229,18 @@
   &--icon {
     @include square(auto);
   }
+}
+
+
+/**
+ * A label for the step
+ *
+ * @selector .nds-progress__step-label
+ * @restrict .nds-progress ol li div
+ * @required
+ */
+.nds-progress__step-label {
+  #{$left}: calc(-50% + 8px);
+  max-width: 30rem;
+  white-space: nowrap;
 }
