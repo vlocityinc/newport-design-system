@@ -40,6 +40,9 @@ export default class ExpressionBuilder extends Element {
         rhsMenuData: [], // the menu data being passed to rhs combobox
     };
 
+    @track
+    operatorAndRHSDisabled;
+
     @api
     showOperator;
 
@@ -68,6 +71,9 @@ export default class ExpressionBuilder extends Element {
                     this.firePropertyChangedEvent(newExpression);
                 }
             });
+            this.operatorAndRHSDisabled = false;
+        } else {
+            this.operatorAndRHSDisabled = true;
         }
         if (expression[OPERATOR]) {
             this.setOperatorErrorMessage(expression[OPERATOR].error);
@@ -144,19 +150,6 @@ export default class ExpressionBuilder extends Element {
         return this.state.expression[OPERATOR] ? this.state.expression[OPERATOR].value : null;
     }
 
-    /**
-     * If there is nothing in the LHS, operator and RHS should be disabled
-     */
-    get operatorDisabled() {
-        return false;
-        // TODO: determine this logic W-4712116
-    }
-
-    get rhsDisabled() {
-        return false;
-        // TODO: determine this logic W-4712116
-    }
-
     /* ***************** */
     /* Private Variables */
     /* ***************** */
@@ -206,6 +199,11 @@ export default class ExpressionBuilder extends Element {
                     expressionUpdates[RHSG] = this._clearedProperty;
                 }
             }
+        } else {
+            expressionUpdates[OPERATOR] = this._clearedProperty;
+            expressionUpdates[RHS] = this._clearedProperty;
+            expressionUpdates[RHSDT] = this._clearedProperty;
+            expressionUpdates[RHSG] = this._clearedProperty;
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);
         this.firePropertyChangedEvent(newExpression);
@@ -220,7 +218,7 @@ export default class ExpressionBuilder extends Element {
         event.stopPropagation();
         const newOperator = event.detail.value;
         const expressionUpdates = {[OPERATOR]: {value: newOperator, error: null}};
-        if (this.state.expression.rightHandSideGuid) {
+        if (this.state.expression.rightHandSideGuid.value) {
             const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, newOperator, rules);
             const rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
             if (!rhsValid) {

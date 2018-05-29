@@ -15,7 +15,7 @@
             <lightning-combobox class="operator slds-col slds-grow"
                     label={operatorLabel}
                     value={operatorComboBoxValue}
-                    disabled={operatorDisabled}
+                    disabled={operatorAndRHSDisabled}
                     options={operatorMenuData}
                     onchange={handleOperatorChanged}
                     >
@@ -25,7 +25,7 @@
                 label={rhsLabel}
                 display-text={state.normalizedRHS.displayText}
                 value={state.normalizedRHS.item}
-                disabled={rhsDisabled}
+                disabled={operatorAndRHSDisabled}
                 onfetchmenudata={handleFetchRHSMenuData}
                 oncomboboxvaluechanged={handleRHSValueChanged}
                 onfiltermatches={handleFilterRHSMatches}
