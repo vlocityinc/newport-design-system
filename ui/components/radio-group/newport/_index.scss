@@ -242,13 +242,30 @@ fieldset.nds-form-element + .nds-has-error div div.nds-has-error small:first-chi
 }
 
 .nds-radio_custom-group .nds-button.nds-radio_button.nds-radio_aspect-ratio {
-    position: relative;
-    
-    span.nds-radio_button__label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+  position: relative;
+
+  span.nds-radio_button__label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+
+.nds-form-element__control.nds-radio_horizontal {
+  position: relative;
+  height: 2.0625rem;
+
+  .nds-radio_button-group {
+    position: absolute;
+
+    .nds-button.nds-radio_button {
+      .nds-radio_button__label {
+        background-color: inherit;
+        width: 100%;
+      }
     }
   }
+}
