@@ -1,7 +1,7 @@
 import * as ValidationRules from 'builder_platform_interaction-validation-rules';
 import { Validation } from 'builder_platform_interaction-validation';
 import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
-// import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 /**
  * @constant additionalRules - map of propertyName to validation rules
@@ -20,26 +20,27 @@ const additionalRules = {
     defaultConnectorLabel: [
         ValidationRules.shouldNotBeBlank
     ],
-    // TODO: add validation for custom logic input here
-    conditionLogic: [],
-    // TODO: add this validation for the expression builder in each outcome
-    // ValidationRules.validateExpressionWith3Properties({elementType: ELEMENT_TYPE.DECISION}),
-    conditions: ''
+    conditionLogic: [
+        ValidationRules.shouldNotBeBlank
+    ],
+    conditions: ValidationRules.validateExpressionWith3Properties({elementType: ELEMENT_TYPE.DECISION})
 };
 
 
 class DecisionValidation extends Validation {
     /**
-     * @param {Object} decisionElement - decision element data passed as an object.
+     * @param {Object} nodeElement - node element data passed as an object.
      * @param {Object} overrideRules - if passed, will override the default rules.
      * @returns {Object} nodeElement - updated Node element after all the rules are run on respective data values.
      */
-    validateAll(decisionElement, overrideRules) {
-        const outcomes = decisionElement.outcomes.map((outcome) => {
-            return super.validateAll(outcome, overrideRules);
-        });
-        decisionElement = updateProperties(decisionElement, {outcomes});
-        return super.validateAll(decisionElement, overrideRules);
+    validateAll(nodeElement, overrideRules) {
+        if (nodeElement.outcomes) {
+            const outcomes = nodeElement.outcomes.map((outcome) => {
+                return super.validateAll(outcome, overrideRules);
+            });
+            nodeElement = updateProperties(nodeElement, {outcomes});
+        }
+        return super.validateAll(nodeElement, overrideRules);
     }
 }
 
