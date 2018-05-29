@@ -94,6 +94,7 @@ export const getRulesForContext = (config) => {
         case ELEMENT_TYPE.APEX_CALL:
         case ELEMENT_TYPE.EMAIL_ALERT:
         case ELEMENT_TYPE.APEX_PLUGIN_CALL:
+        case ELEMENT_TYPE.LOCAL_ACTION_CALL:
         case ELEMENT_TYPE.VARIABLE:
             rules = rulesInstance[RULE_TYPES.ASSIGNMENT];
             break;

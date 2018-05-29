@@ -306,6 +306,7 @@ function getSelector({element, shouldBeWritable}) {
         case ELEMENT_TYPE.ASSIGNMENT:
         case ELEMENT_TYPE.EMAIL_ALERT:
         case ELEMENT_TYPE.SUBFLOW:
+        case ELEMENT_TYPE.LOCAL_ACTION_CALL:
         case ELEMENT_TYPE.VARIABLE:
         case ELEMENT_TYPE.RECORD_LOOKUP:
             return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
