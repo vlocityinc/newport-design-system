@@ -171,6 +171,44 @@ export default class Editor extends Element {
     };
 
     /**
+     * @typedef {Object} GuidCollections
+     * @property {String[]} connectorGUIDs - Array of guids for connectors
+     * @property {String[]} canvasElementGUIDs - Array of guids for elements
+     */
+
+    /**
+     * Helper method to return the canvas elements and connectors which are linked to a given set of elements and
+     * connectors.  It will return all elements which are the source of a connector for one of the elements passed it
+     * as well as all connectors passed in in addition to any connector which has either source or target of one of the
+     * elements passed in.
+     *
+     * @param {String[]} selectedCanvasElementGUIDs - Contains GUIDs of all the selected canvas elements
+     * @param {String[]} selectedConnectorGUIDs - Contains GUIDs of all the connectors that need to be deleted
+     * @returns {GuidCollections} - Contains arrays of canvas element and connector guids which are related to the
+     * the supplied canvas elements and connectors
+     */
+    getElementsAndConnectorsToUpdate = (selectedCanvasElementGUIDs, selectedConnectorGUIDs) => {
+        const connectorGuidsToUpdate = new Set(selectedConnectorGUIDs);
+        const canvasElementsToUpdate = [];
+
+        for (let i = 0; i < this.appState.canvas.connectors.length; i++) {
+            const connector = this.appState.canvas.connectors[i];
+
+            if (selectedCanvasElementGUIDs.indexOf(connector.target) !== -1) {
+                canvasElementsToUpdate.push(connector.source);
+                connectorGuidsToUpdate.add(connector.guid);
+            } else if (selectedCanvasElementGUIDs.indexOf(connector.source) !== -1) {
+                connectorGuidsToUpdate.add(connector.guid);
+            }
+        }
+
+        return {
+            connectorGUIDs: Array.from(connectorGuidsToUpdate),
+            canvasElementGUIDs: canvasElementsToUpdate
+        };
+    };
+
+    /**
      * Handle save event fired by a child component. Fires another event
      * containing flow information, which is handled by container.cmp.
      */
@@ -270,10 +308,34 @@ export default class Editor extends Element {
      */
     handleDeleteOnCanvas = (event) => {
         if (event && event.detail) {
+            let selectedCanvasElementGUIDs = event.detail.selectedCanvasElementGUIDs;
+            const selectedConnectiorGuids = [];
+
+            if (!selectedCanvasElementGUIDs) {
+                selectedCanvasElementGUIDs = [];
+
+                for (let i = 0; i < this.appState.canvas.nodes.length; i++) {
+                    const node = this.appState.canvas.nodes[i];
+
+                    if (node.config.isSelected) {
+                        selectedCanvasElementGUIDs.push(node.guid);
+                    }
+                }
+
+                for (const connector of this.appState.canvas.connectors) {
+                    if (connector.config.isSelected) {
+                        selectedConnectiorGuids.push(connector.guid);
+                    }
+                }
+            }
+
+            const {connectorGUIDs, canvasElementGUIDs} =
+                this.getElementsAndConnectorsToUpdate(selectedCanvasElementGUIDs, selectedConnectiorGuids);
+
             const payload = {
-                selectedCanvasElementGUIDs: event.detail.selectedCanvasElementGUIDs,
-                connectorGUIDs: event.detail.connectorGUIDs,
-                canvasElementsToUpdate: event.detail.canvasElementsToUpdate,
+                selectedCanvasElementGUIDs,
+                connectorGUIDs,
+                canvasElementsToUpdate: canvasElementGUIDs,
                 // TODO: Update in second iteration
                 elementType: ELEMENT_TYPE.ASSIGNMENT
             };

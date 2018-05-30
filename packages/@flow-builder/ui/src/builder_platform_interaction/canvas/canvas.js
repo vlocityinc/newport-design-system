@@ -376,46 +376,19 @@ export default class Canvas extends Element {
     };
 
     /**
-     * Helper method to update connectorGUIDs and canvasElementsToUpdate arrays
-     * @param {Array} selectedCanvasElementGUIDs - Contains GUIDs of all the selected canvas elements
-     * @param {Array} connectorGUIDs - Contains GUIDs of all the connectors that need to be deleted
-     * @param {Array} canvasElementsToUpdate - Contains GUIDs of all the canvas elements that need to be updated
-     * @param {Object} connector - A single connector object
-     */
-    updateCanvasAndConnectorArray = (selectedCanvasElementGUIDs, connectorGUIDs, canvasElementsToUpdate, connector) => {
-        if (selectedCanvasElementGUIDs.indexOf(connector.target) !== -1) {
-            canvasElementsToUpdate.push(connector.source);
-            connectorGUIDs.push(connector.guid);
-        } else if (selectedCanvasElementGUIDs.indexOf(connector.source) !== -1) {
-            connectorGUIDs.push(connector.guid);
-        }
-    };
-
-    /**
      * Handling the trash click event coming from node.js
      * @param {object} event - canvas element delete event
      */
     handleCanvasElementDelete = (event) => {
         if (event && event.detail) {
             const selectedCanvasElementGUIDs = [event.detail.canvasElementGUID];
-            const connectorGUIDs = [];
-            const canvasElementsToUpdate = [];
-
-            // Pushing all the selected and associated connectors to connectorGUIDs and pushing all affected canvas
-            // elements to canvasElementsToUpdate to update their connector count
-            this.connectors.map((connector) => {
-                this.updateCanvasAndConnectorArray(selectedCanvasElementGUIDs, connectorGUIDs, canvasElementsToUpdate, connector);
-                return connector;
-            });
 
             const deleteEvent = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
                 detail: {
-                    selectedCanvasElementGUIDs,
-                    connectorGUIDs,
-                    canvasElementsToUpdate
+                    selectedCanvasElementGUIDs
                 }
             });
             this.dispatchEvent(deleteEvent);
@@ -429,41 +402,13 @@ export default class Canvas extends Element {
     handleKeyDown = (event) => {
         if (this.hasCanvasElements) {
             if (event.key === KEYS.BACKSPACE && !this.isPanModeOn) {
-                // Code block for deletion of canvas elements
                 event.preventDefault();
-                const selectedCanvasElementGUIDs = [];
-                const connectorGUIDs = [];
-                const canvasElementsToUpdate = [];
-
-                // Pushing all the selected canvas elements to selectedCanvasElementGUIDs
-                this.nodes.map((node) => {
-                    if (node.config.isSelected) {
-                        selectedCanvasElementGUIDs.push(node.guid);
-                    }
-                    return node;
-                });
-
-                // Pushing all the selected and associated connectors to connectorGUIDs and pushing all affected canvas
-                // elements to canvasElementsToUpdate to update their connector count
-                this.connectors.map((connector) => {
-                    if (connector.config.isSelected) {
-                        connectorGUIDs.push(connector.guid);
-                        canvasElementsToUpdate.push(connector.source);
-                    } else {
-                        this.updateCanvasAndConnectorArray(selectedCanvasElementGUIDs, connectorGUIDs, canvasElementsToUpdate, connector);
-                    }
-                    return connector;
-                });
 
                 const deleteEvent = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
                     bubbles: true,
                     composed: true,
                     cancelable: true,
-                    detail: {
-                        selectedCanvasElementGUIDs,
-                        connectorGUIDs,
-                        canvasElementsToUpdate
-                    }
+                    detail: {}
                 });
                 this.dispatchEvent(deleteEvent);
             } else if (event.metaKey && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL)) {

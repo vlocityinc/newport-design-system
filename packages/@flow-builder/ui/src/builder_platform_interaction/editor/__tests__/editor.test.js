@@ -138,10 +138,20 @@ const deselectionAction = {
     type : 'DESELECT_ON_CANVAS'
 };
 
-const deleteElement = {
+const deleteElementByGuid = {
     payload : {
         selectedCanvasElementGUIDs: ['2'],
         connectorGUIDs: ['c1', 'c2'],
+        canvasElementsToUpdate: ['1'],
+        elementType: ELEMENT_TYPE.ASSIGNMENT
+    },
+    type : 'DELETE_CANVAS_ELEMENT'
+};
+
+const deleteElementByIsSelected = {
+    payload : {
+        selectedCanvasElementGUIDs: ['2'],
+        connectorGUIDs: ['c2', 'c1'],
         canvasElementsToUpdate: ['1'],
         elementType: ELEMENT_TYPE.ASSIGNMENT
     },
@@ -401,16 +411,14 @@ describe('editor', () => {
                 composed: true,
                 cancelable: true,
                 detail: {
-                    selectedCanvasElementGUIDs: ['2'],
-                    connectorGUIDs: ['c1', 'c2'],
-                    canvasElementsToUpdate: ['1']
+                    selectedCanvasElementGUIDs: ['2']
                 }
             });
             editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(deleteElement);
+                expect(spy.mock.calls[0][0]).toEqual(deleteElementByGuid);
             });
         });
 
@@ -420,17 +428,13 @@ describe('editor', () => {
                 bubbles: true,
                 composed: true,
                 cancelable: true,
-                detail: {
-                    selectedCanvasElementGUIDs: ['2'],
-                    connectorGUIDs: ['c1', 'c2'],
-                    canvasElementsToUpdate: ['1']
-                }
+                detail: {}
             });
             editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(deleteElement);
+                expect(spy.mock.calls[0][0]).toEqual(deleteElementByIsSelected);
             });
         });
 
