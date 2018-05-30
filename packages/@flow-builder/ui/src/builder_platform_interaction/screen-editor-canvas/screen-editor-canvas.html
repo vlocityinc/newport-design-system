@@ -10,10 +10,10 @@
                     <div slot='screen-element' class='slds-card__header slds-grid slds-border_bottom slds-grow'>
                         <header class='slds-media slds-media_center slds-has-flexi-truncate'>
                             <div class='slds-media__body'>
-                                <h2><span class='slds-card__header-link slds-text-heading_small'>{screen.label}</span></h2>
+                                <h2><span class='slds-card__header-link slds-text-heading_small'>{screen.label.value}</span></h2>
                             </div>
                         </header>
-                        <div if:true={screen.helpText} class='slds-no-flex'>
+                        <div if:true={screen.helpText.value} class='slds-no-flex'>
                             <lightning-button-icon icon-name='utility:info' variant='bare' alternative-text='{labels.buttonHelpTextAltText}' size='small'></lightning-button-icon>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                     <template for:each={screen.fields} for:item='field'>
                         <builder_platform_interaction-screen-editor-highlight key={field.guid} screen-element={field} 
                                                                               prevent-events='true' display-move-icon='true'
-                                                                              title={field.fieldType} tab-index={nextTabIndex}>
+                                                                              title={field.type.label} tab-index={nextTabIndex}>
                             <!-- field preview -->
                             <builder_platform_interaction-screen-field slot='screen-element' screenfield={field} class='slds-grow'></builder_platform_interaction-screen-field> 
                         </builder_platform_interaction-screen-editor-highlight>

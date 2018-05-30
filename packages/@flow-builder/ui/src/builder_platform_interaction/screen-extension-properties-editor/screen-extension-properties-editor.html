@@ -1,0 +1,21 @@
+<template>
+    <builder_platform_interaction-screen-editor-errors-panel label={labels.reviewErrors} errors={errors}></builder_platform_interaction-screen-editor-errors-panel>
+    
+    <div if:true={element.categories}>
+        <template for:each={element.categories} for:item='category'>
+            <builder_platform_interaction-accordion key={category.name}>
+                <builder_platform_interaction-accordion-section>
+                    <div slot="accordion-header">{category.name}</div>
+                    <div slot="accordion-body">
+                        <template for:each={category.properties} for:item='prop'>
+                            <builder_platform_interaction-screen-property-field element={element} property={prop} 
+                                                                                key={prop.guid} data-property-name={prop.name} 
+                                                                                onvaluechanged={handlePropertyChange} onblur={handlePropertyBlur}>
+                            </builder_platform_interaction-screen-property-field>
+                        </template>                    
+                    </div>
+                </builder_platform_interaction-accordion-section>
+            </builder_platform_interaction-accordion>
+        </template>
+    </div>
+</template>

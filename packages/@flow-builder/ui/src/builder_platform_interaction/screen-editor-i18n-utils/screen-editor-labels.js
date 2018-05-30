@@ -1,6 +1,6 @@
 /* Labels */
 import errorRequired from '@label/FlowBuilderScreenEditor.errorRequired';
-import reviewErrors from '@label/FlowBuilderScreenEditor.reviewErrors';
+// import reviewErrors from '@label/FlowBuilderScreenEditor.reviewErrors';
 import screen from '@label/FlowBuilderScreenEditor.screen';
 import finish from '@label/FlowBuilderScreenEditor.finish';
 import previous from '@label/FlowBuilderScreenEditor.previous';
@@ -26,10 +26,24 @@ import fieldTypeLabelRadioButtons from '@label/FlowBuilderScreenEditor.fieldType
 import fieldTypeLabelDisplayText from '@label/FlowBuilderScreenEditor.fieldTypeLabelDisplayText';
 import fieldTypeLabelDisplayRichText from '@label/FlowBuilderScreenEditor.fieldTypeLabelDisplayRichText';
 import buttonHelpTextAltText from '@label/FlowBuilderScreenEditor.buttonHelpTextAltText';
+import screenContainerOptions from '@label/FlowBuilderScreenEditor.screenContainerOptions';
+import screenContainerTooltip from '@label/FlowBuilderScreenEditor.screenContainerTooltip';
+import showHeader from '@label/FlowBuilderScreenEditor.showHeader';
+import showFooter from '@label/FlowBuilderScreenEditor.showFooter';
+import navigationOptions from '@label/FlowBuilderScreenEditor.navigationOptions';
+import navigationOptionsTooltip from '@label/FlowBuilderScreenEditor.navigationOptionsTooltip';
+import allowFinishButton from '@label/FlowBuilderScreenEditor.allowFinishButton';
+import allowPreviousButton from '@label/FlowBuilderScreenEditor.allowPreviousButton';
+import allowPauseButton from '@label/FlowBuilderScreenEditor.allowPauseButton';
+import allowPauseButtonTooltip from '@label/FlowBuilderScreenEditor.allowPauseButtonTooltip';
+import pauseConfirmationMessage from '@label/FlowBuilderScreenEditor.pauseConfirmationMessage';
+import pauseConfirmationMessageTooltip from '@label/FlowBuilderScreenEditor.pauseConfirmationMessageTooltip';
+import helpText from '@label/FlowBuilderScreenEditor.helpText';
+import required from '@label/FlowBuilderScreenEditor.requred';
 
 export const LABELS = {
     errorRequired,
-    reviewErrors,
+    // reviewErrors, -- Not used as of 5/23/18, not removing it as it may be needed before GA, revisit in 218-220
     screen,
     finish,
     previous,
@@ -54,5 +68,19 @@ export const LABELS = {
     fieldTypeLabelRadioButtons,
     fieldTypeLabelDisplayText,
     fieldTypeLabelDisplayRichText,
-    buttonHelpTextAltText
+    buttonHelpTextAltText,
+    screenContainerOptions,
+    screenContainerTooltip,
+    showHeader,
+    showFooter,
+    navigationOptions,
+    navigationOptionsTooltip,
+    allowFinishButton,
+    allowPreviousButton,
+    allowPauseButton,
+    allowPauseButtonTooltip,
+    pauseConfirmationMessage,
+    pauseConfirmationMessageTooltip,
+    helpText,
+    required
 };

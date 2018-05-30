@@ -5,20 +5,17 @@
         </builder_platform_interaction-screen-extension-field>
         <builder_platform_interaction-screen-input-field if:true={isInputFieldType} 
                                                          type-name={screenfield.type.name} 
-                                                         label={screenfield.fieldText}
-                                                         key={screenfield.key}
+                                                         label={screenfield.fieldText.value}
                                                          value={screenfield.defaultValue}
                                                          required={screenfield.isRequired}>
         </builder_platform_interaction-screen-input-field>
         <builder_platform_interaction-screen-display-text-field if:true={isDisplayTextType}
                                                                 type-name={screenfield.type.name}
-                                                                title={screenfield.name}
-                                                                value={screenfield.fieldText}
-                                                                key={screenfield.key}>
+                                                                title={screenfield.name.value}
+                                                                value={screenfield.fieldText.value}>
         </builder_platform_interaction-screen-display-text-field>
         <builder_platform_interaction-screen-textarea-field if:true={isTextAreaType}
-                                                            label={screenfield.fieldText}
-                                                            key={screenfield.key}
+                                                            label={screenfield.fieldText.value}
                                                             value={screenfield.defaultValue}
                                                             required={screenfield.isRequired}>
         </builder_platform_interaction-screen-textarea-field>

@@ -10,9 +10,10 @@
             <div><lightning-icon icon-name={toggleIconName} size='xx-small' variant='default' onclick={handleToggleExpand}></lightning-icon></div>
         </div>
         <div class='slds-panel__body slds-scrollable_y slds-p-around_none slds-grid slds-grid_vertical slds-grow'>
-            <builder_platform_interaction-screen-properties-editor class='properties-editor-panel slds-size_medium -slds-m-horizontal_small toggle-animated' 
-                                                                   element={node}>
+            <builder_platform_interaction-screen-properties-editor if:true={isScreen} class='properties-editor-panel slds-size_medium -slds-m-horizontal_small toggle-animated' 
+                                                                   screen={node}>
             </builder_platform_interaction-screen-properties-editor>
+            <div if:false={isScreen}>Screen field property editor (TBI)</div>
         </div>
     </div>
 </template>

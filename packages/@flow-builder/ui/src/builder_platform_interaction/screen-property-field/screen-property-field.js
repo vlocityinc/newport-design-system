@@ -1,18 +1,24 @@
-import { Element, api, track, unwrap } from 'engine';
-import { ScreenValueChangedEvent, ScreenBlurEvent } from 'builder_platform_interaction-events';
+import { Element, api } from 'engine';
+import { PropertyChangedEvent } from 'builder_platform_interaction-events';
+import { isItemHydratedWithErrors } from 'builder_platform_interaction-data-mutation-lib';
+import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 
 // QUILL supported formats
 const rteFormats = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
 
 /*
- * A property editor for the dynamic properties editor (this will be part of the new LC properties editor)
- * Will be refactored as part of  - W-4947239
+ * A property editor
  */
 export default class ScreenPropertyField extends Element {
-    @api element;
-    @track _property; // TODO: Move back to @api, no need to track? - W-4947239
-    @track classlist;
-    @track errors;
+    @api name;
+    @api label;
+    @api type;
+    @api value;
+    @api required =  false;
+    @api readOnly = false;
+    @api helpText;
+
+    labels = LABELS;
 
     @api get formats() {
         return rteFormats;
@@ -22,62 +28,57 @@ export default class ScreenPropertyField extends Element {
         throw new Error('You cannot change rich text editor formats');
     }
 
-    @api get property() {
-        return this._property;
-    }
-
-    @api set property(value) {
-        this._property = unwrap(value);
-        this.setVisible(this._property);
-    }
-
-    @api setVisible(value) {
-        this.classlist = value ? 'container prop-visible' : 'container prop-invisible';
-    }
-
-    @api setErrors(errors) {
-        this.errors = errors;
-    }
-
-    @api clearErrors() {
-        if (this.errors && this.errors.length) {
-            this.errors = null;
-        }
+    get classList() {
+        return this.value.error ? 'property-input slds-has-error' : 'property-input';
     }
 
     get showLabel() {
-        return !this.isBoolean;
+        return this.label && !this.isBoolean;
     }
 
-    get propertyValue() {
-        return this.element[this.property.name];
+    get isRequired() {
+        return this.required && (this.required === 'true' || this.required === 'required');
+    }
+
+    get isChecked() {
+        return this.isBoolean && (this.value === 'true' || this.value ===  true);
     }
 
     get isString() {
-        return this.property.type === 'string';
+        return this.type === 'string';
     }
 
     get isLongString() {
-        return this.property.type === 'long_string';
+        return this.type === 'long_string';
     }
 
     get isRichString() {
-        return this.property.type === 'rich_string';
+        return this.type === 'rich_string';
     }
 
     get isBoolean() {
-        return this.property.type === 'boolean';
+        return this.type === 'boolean';
     }
 
     get isNumber() {
-        return this.property.type === 'number';
+        return this.type === 'number';
     }
 
-    @api setValue(newValue) {
-        this.property.value = newValue;
+    get isInput() {
+        return !this.isLongString && !this.isRichString;
     }
 
-    @api getValue() {
+    get inputType() {
+        if (this.isNumber) {
+            return 'number';
+        } else if (this.isBoolean) {
+            return 'checkbox';
+        }
+
+        return 'text';
+    }
+
+    get domValue() {
         const input = this.template.querySelector('.property-input');
         if (this.isString || this.isLongString || this.isRichString) {
             return input.value;
@@ -87,16 +88,17 @@ export default class ScreenPropertyField extends Element {
             return input.value;
         }
 
-        throw new Error('Unknown type for property field ' + this.property.type);
+        throw new Error('Unknown type for property field ' + this.type);
     }
 
-    handleChange = (event) => {
-        this.dispatchEvent(new ScreenValueChangedEvent(this, event));
-        event.stopPropagation();
+    get dehydratedValue() {
+        return isItemHydratedWithErrors(this.value) ? this.value.value : this.value;
     }
 
-    handleBlur = (event) => {
-        this.dispatchEvent(new ScreenBlurEvent(this, event));
-        event.stopPropagation();
+    handleEvent = () => {
+        const newValue = this.domValue;
+        if (this.dehydratedValue !== newValue) {
+            this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, null, null, this.value));
+        }
     }
 }

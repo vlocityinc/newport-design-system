@@ -16,10 +16,10 @@ export const elementPropertyEditorSelector = (state, guid) => {
     let selectedElement = deepCopy(state.elements[guid]);
     if (selectedElement) {
         const elementType = getConfigForElementType(selectedElement.elementType);
-        const backlistedProperties = elementType.nonHydratableProperties;
+        const blacklistedProperties = elementType.nonHydratableProperties;
         selectedElement = hydrateWithErrors(
             mutateEditorElement(selectedElement, state),
-            backlistedProperties
+            blacklistedProperties
         );
     }
 

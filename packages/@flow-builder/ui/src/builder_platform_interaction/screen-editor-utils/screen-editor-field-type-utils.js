@@ -129,6 +129,7 @@ export function getAllScreenFieldTypes() {
     return screenFieldTypes;
 }
 
+/*
 // Creates an empty screen field
 export function createEmptyNodeOfType(type) {
     return {
@@ -158,6 +159,7 @@ export function createEmptyNodeOfType(type) {
         outputParameters: []
     };
 }
+*/
 
 // Returns a field type object from the enum from a field
 export function getScreenFieldType(field) {
