@@ -1,36 +1,38 @@
 <template>
-  <div if:true={assignmentElement}>
-    <!-- Name Label Desc Component -->
-    <builder_platform_interaction-label-description label={assignmentElement.label}
+   <div if:true={assignmentElement}>
+    <div class="slds-p-horizontal_small slds-p-top_small">
+     <!-- Name Label Desc Component -->
+     <builder_platform_interaction-label-description label={assignmentElement.label}
         dev-name={assignmentElement.name}
         description={assignmentElement.description}
         onpropertychanged={handleEvent}>
-    </builder_platform_interaction-label-description>
-    <!-- Assignments Section -->
-    <div class="slds-m-bottom_small slds-border_top">
-      <h3 class="slds-section__title slds-p-vertical_small">{labels.assignmentsSectionHeader}</h3>
-      <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium">{labels.assignmentsSectionDescription}</div>
-      <builder_platform_interaction-list items={assignmentElement.assignmentItems} 
-        onaddlistitem={handleEvent}
-        onupdatelistitem={handleEvent} 
-        ondeletelistitem={handleEvent}
-        add-label={labels.addButtonLabel}>
-        <template for:each={assignmentElement.assignmentItems} for:item="item" for:index="itemIndex" slot="listBody">
-          <div class="slds-list__item slds-is-relative" key={item.rowIndex}>
-            <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
-              <div slot="rowBody">
-                <builder_platform_interaction-expression-builder configuration={expressionBuilderConfig} 
-                    expression={item}
-                    show-operator=true
-                    lhs-label={labels.lhsLabel}
-                    operator-label={labels.operatorLabel}
-                    rhs-label={labels.rhsLabel}>
-                </builder_platform_interaction-expression-builder>
-              </div>
-            </builder_platform_interaction-row>
-          </div>
-        </template>
-      </builder_platform_interaction-list>
+     </builder_platform_interaction-label-description>
     </div>
-  </div>
+         <!-- Assignments Section -->
+     <div class=" slds-border_top slds-p-around_small">
+        <h3 class="slds-text-heading_small slds-p-bottom_small">{labels.assignmentsSectionHeader}</h3>
+        <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium">{labels.assignmentsSectionDescription}</div>
+        <builder_platform_interaction-list items={assignmentElement.assignmentItems} 
+           onaddlistitem={handleEvent}
+           onupdatelistitem={handleEvent} 
+           ondeletelistitem={handleEvent}
+           add-label={labels.addButtonLabel}>
+           <template for:each={assignmentElement.assignmentItems} for:item="item" for:index="itemIndex" slot="listBody">
+              <div class="slds-list__item slds-is-relative" key={item.rowIndex}>
+                 <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
+                    <div slot="rowBody">
+                       <builder_platform_interaction-expression-builder configuration={expressionBuilderConfig} 
+                          expression={item}
+                          show-operator=true
+                          lhs-label={labels.lhsLabel}
+                          operator-label={labels.operatorLabel}
+                          rhs-label={labels.rhsLabel}>
+                       </builder_platform_interaction-expression-builder>
+                    </div>
+                 </builder_platform_interaction-row>
+              </div>
+           </template>
+        </builder_platform_interaction-list>
+     </div>
+   </div>
 </template>

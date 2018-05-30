@@ -1,6 +1,9 @@
 // eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction-events';
+import { LABELS } from './builder-utils-labels';
+
 /**
  * @constant state of callback result
  * @type {Object}
@@ -47,7 +50,7 @@ const createComponentPromise = (cmpName, attr) => {
         createComponent(cmpName, attr, (newCmp, status, errorMessage) => {
             if (status === STATE.SUCCESS) {
                 resolve(newCmp);
-            } else if (status === "ERROR") {
+            } else if (status === STATE.ERROR) {
                 reject(errorMessage);
             }
         });
@@ -55,24 +58,23 @@ const createComponentPromise = (cmpName, attr) => {
 };
 
 /**
- * TODO: i18n after W-4693112
  * @param {string} mode based on whether the event is for adding a new element or editing
  * @param {string} elementType eg: Assignment, Decision, etc
  * @returns {string} title for the modal
  */
 const getTitleForModalHeader = (mode, elementType) => {
-    let titlePrefix;
-    if (mode === "editelement") {
-        titlePrefix = "Edit";
-    } else if (mode === "addelement") {
-        titlePrefix = "New";
+    let titlePrefix = '';
+    if (mode === EditElementEvent.EVENT_NAME) {
+        titlePrefix = LABELS.existingElementHeaderPrefix;
+    } else if (mode === AddElementEvent.EVENT_NAME) {
+        titlePrefix = LABELS.newElementHeaderPrefix;
     }
 
     if (!getConfigForElementType(elementType) || !getConfigForElementType(elementType).labels) {
-        throw new Error("label is not defined in the element config for the element type: " + elementType);
+        throw new Error('label is not defined in the element config for the element type: ' + elementType);
     }
     const label = getConfigForElementType(elementType).labels.singular;
-    return titlePrefix + " " + label;
+    return titlePrefix + ' ' + label;
 };
 
 /**
@@ -82,7 +84,7 @@ const getTitleForModalHeader = (mode, elementType) => {
  */
 export function invokePanel(cmpName, attributes) {
     if (!attributes || !attributes.node ||  !attributes.nodeUpdate) {
-        throw new Error("attributes passed to invoke panel method are incorrect");
+        throw new Error('attributes passed to invoke panel method are incorrect');
     }
 
     const mode = attributes.mode,
@@ -116,8 +118,8 @@ export function invokePanel(cmpName, attributes) {
     };
 
     const propertyEditorBodyPromise = createComponentPromise(cmpName, attr);
-    const propertyEditorHeaderPromise = createComponentPromise("builder_platform_interaction:propertyEditorHeader", {titleForModal});
-    const propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter");
+    const propertyEditorHeaderPromise = createComponentPromise('builder_platform_interaction:propertyEditorHeader', {titleForModal});
+    const propertyEditorFooterPromise = createComponentPromise('builder_platform_interaction:propertyEditorFooter');
     Promise.all([propertyEditorBodyPromise, propertyEditorHeaderPromise, propertyEditorFooterPromise]).then((newComponents) => {
         const createPanelEventAttributes = {
             panelType: MODAL,
@@ -125,14 +127,14 @@ export function invokePanel(cmpName, attributes) {
             panelConfig : {
                 body: newComponents[0],
                 flavor: elementConfig.modalSize,
-                bodyClass: elementConfig.bodyCssClass,
+                bodyClass: elementConfig.bodyCssClass || '',
                 header: newComponents[1],
                 footer: newComponents[2],
             }
         };
         dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
     }).catch(errorMessage => {
-        throw new Error("UI panel creation failed: " + errorMessage);
+        throw new Error('UI panel creation failed: ' + errorMessage);
     });
 }
 

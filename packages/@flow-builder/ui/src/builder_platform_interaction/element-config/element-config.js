@@ -247,6 +247,7 @@ export const elementTypeToConfigMap = {
             plural: 'Assignments'
         },
         canvasElement: true,
+        bodyCssClass: 'slds-p-around_none',
         template: {
             assignmentItems: [
                 {
