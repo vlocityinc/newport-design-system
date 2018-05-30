@@ -21,18 +21,23 @@ function createMockPopulatedExpression() {
     return {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
             value: numberVariableGuid,
+            error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
             value: 'Assign',
+            error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
             value: '{!' + numberVariableDevName + '}',
+            error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
-            value: 'reference'
+            value: 'reference',
+            error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {
             value: numberVariableGuid,
+            error: null,
         }
     };
 }
