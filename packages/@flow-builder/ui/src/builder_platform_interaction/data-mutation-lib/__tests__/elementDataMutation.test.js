@@ -1,4 +1,5 @@
 import { hydrateWithErrors, dehydrate, getErrorsFromHydratedElement, getValueFromHydratedItem, getErrorFromHydratedItem } from '../elementDataMutation';
+import {deepCopy} from 'builder_platform_interaction-store-lib';
 
 /** Mock data objects - Start **/
 // TODO: think about moving all these move objects to a mock util that can be used by all the tests
@@ -27,7 +28,8 @@ const testObj = {
     label : 'testAssignmentLabel',
     locationX : 358,
     locationY : 227,
-    name : 'testAssignmentName'
+    name : 'testAssignmentName',
+    rowIndex: 1
 };
 
 const hydratedObject = {
@@ -82,34 +84,66 @@ function expectCleanFieldWithNoErrors(field) {
 }
 /** Helper Functions - End **/
 
-describe('hydrateWithErrors function without default backlist', () => {
-    const blackListFields = ['guid', 'description'];
-    const resultObj = hydrateWithErrors(testObj, blackListFields, false);
-    const fieldsToBeTestedForHydration = {
-        name: resultObj.name,
-        label: resultObj.label,
-        elementType: resultObj.elementType,
-        leftHandSide: resultObj.assignmentItems[0].leftHandSide,
-        operator: resultObj.assignmentItems[0].operator,
-        rightHandSide: resultObj.assignmentItems[0].rightHandSide
-    };
+describe('hydrateWithErrors function', () => {
+    describe('without default blacklist', () => {
+        const blackListFields = ['guid', 'description'];
+        const resultObj = hydrateWithErrors(deepCopy(testObj), blackListFields, false);
+        const fieldsToBeTestedForHydration = {
+            name: resultObj.name,
+            label: resultObj.label,
+            elementType: resultObj.elementType,
+            leftHandSide: resultObj.assignmentItems[0].leftHandSide,
+            operator: resultObj.assignmentItems[0].operator,
+            rightHandSide: resultObj.assignmentItems[0].rightHandSide
+        };
 
-    Object.entries(fieldsToBeTestedForHydration).forEach(([fieldKey, fieldValue]) => {
-        it(`${fieldKey}:Needs to have a value and an empty error property`, () => {
-            expectFieldToHaveValueAndErrorProperty(fieldValue);
+        Object.entries(fieldsToBeTestedForHydration).forEach(([fieldKey, fieldValue]) => {
+            it(`${fieldKey}:Needs to have a value and an empty error property`, () => {
+                expectFieldToHaveValueAndErrorProperty(fieldValue);
+            });
+        });
+
+        const fieldsNotToBeHydrated = {
+            description: resultObj.description, // Blacklisted
+            guid: resultObj.guid, // Blacklisted
+            locationX: resultObj.locationX, // number
+            locationY: resultObj.locationY, // number
+            isCanvasElement: resultObj.isCanvasElement // boolean
+        };
+        Object.entries(fieldsNotToBeHydrated).forEach(([fieldKey, fieldValue]) => {
+            it(`${fieldKey} should not have the error or value property on itself`, () => {
+                expectCleanFieldWithNoErrors(fieldValue);
+            });
         });
     });
+    describe('with default blacklist', () => {
+        const blackListFields = ['leftHandSide', 'name'];
+        const resultObj = hydrateWithErrors(deepCopy(testObj), blackListFields);
+        const fieldsToBeTestedForHydration = {
+            label: resultObj.label,
+            operator: resultObj.assignmentItems[0].operator,
+            rightHandSide: resultObj.assignmentItems[0].rightHandSide
+        };
 
-    const fieldsNotToBeHydrated = {
-        description: resultObj.description, // Blacklisted
-        guid: resultObj.guid, // Blacklisted
-        locationX: resultObj.locationX, // number
-        locationY: resultObj.locationY, // number
-        isCanvasElement: resultObj.isCanvasElement // boolean
-    };
-    Object.entries(fieldsNotToBeHydrated).forEach(([fieldKey, fieldValue]) => {
-        it(`${fieldKey} should not have the error or value property on itself`, () => {
-            expectCleanFieldWithNoErrors(fieldValue);
+        Object.entries(fieldsToBeTestedForHydration).forEach(([fieldKey, fieldValue]) => {
+            it(`${fieldKey}:Needs to have a value and an empty error property`, () => {
+                expectFieldToHaveValueAndErrorProperty(fieldValue);
+            });
+        });
+
+        const fieldsNotToBeHydrated = {
+            guid: resultObj.guid,
+            locationX: resultObj.locationX,
+            locationY: resultObj.locationY,
+            elementType: resultObj.elementType,
+            rowIndex: resultObj.rowIndex,
+            leftHandSide: resultObj.assignmentItems[0].leftHandSide,
+            name: resultObj.name
+        };
+        Object.entries(fieldsNotToBeHydrated).forEach(([fieldKey, fieldValue]) => {
+            it(`${fieldKey} should not have the error or value property on itself`, () => {
+                expectCleanFieldWithNoErrors(fieldValue);
+            });
         });
     });
 });
