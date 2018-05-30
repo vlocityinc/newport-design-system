@@ -1,6 +1,6 @@
 import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
-import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
+import { updateProperties, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, isElementAllowed, normalizeRHS, filterFieldsForChosenElement, sanitizeGuid } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox, elementToParam } from 'builder_platform_interaction-rule-lib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
@@ -81,7 +81,7 @@ export default class ExpressionBuilder extends Element {
 
         // TODO default operator case W-4912900
         if (expression[RHS] && !isUndefinedOrNull(expression[RHS].value)) {
-            this.state.normalizedRHS = normalizeRHS(expression[RHS].value ? expression[RHS].value : expression[RHS], (rhsIdentifier) => {
+            this.state.normalizedRHS = normalizeRHS(getValueFromHydratedItem(expression[RHS]), (rhsIdentifier) => {
                 if (!this._fetchedRHSInfo) {
                     this._fetchedRHSInfo = true;
                     const newExpression = updateProperties(this.state.expression, {[RHS] : {value : rhsIdentifier, error: expression[RHS].error}});
