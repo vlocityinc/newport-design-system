@@ -17,6 +17,23 @@ function createComponentForTest(props) {
     return el;
 }
 
+function createBlankExpression() {
+    return {
+        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+            value: '',
+            error: null,
+        },
+        [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
+            value: '',
+            error: null,
+        },
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
+            value: '',
+            error: null,
+        },
+    };
+}
+
 function createMockPopulatedExpression() {
     return {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
@@ -61,6 +78,13 @@ function getComboboxElements(expressionBuilder) {
 
 function getLightningCombobox(expressionBuilder) {
     return expressionBuilder.querySelector("lightning-combobox");
+}
+
+function checkOperatorAndRHSDisabled(expressionBuilder, expected) {
+    const operatorCombobox = getLightningCombobox(expressionBuilder);
+    expect(operatorCombobox.disabled).toBe(expected);
+    const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+    expect(rhsCombobox.disabled).toBe(expected);
 }
 
 const CBreturnItem = {
@@ -277,6 +301,35 @@ describe('expression-builder', () => {
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
             expect(rhsCombobox.menuData).toBeDefined();
             expect(rhsCombobox.displayText).toEqual(RHS_VALUE);
+        });
+    });
+    describe('disabling the operator and RHS field', () => {
+        it('should be disabled when the expression is initialized', () => {
+            const expressionBuilder = createComponentForTest({
+                expression: createBlankExpression(),
+                showOperator: true,
+            });
+            checkOperatorAndRHSDisabled(expressionBuilder, true);
+        });
+        it('should be enabled when the expression is populated', () => {
+            const expressionBuilder = createDefaultComponentForTest();
+            checkOperatorAndRHSDisabled(expressionBuilder, false);
+        });
+        it('should be disabled if LHS is cleared', () => {
+            const expressionBuilder = createDefaultComponentForTest();
+            Promise.resolve().then(() => {
+                const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+                const eventCallback = jest.fn();
+                expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+                const CBreturn = {
+                    value: '',
+                    displayText: '',
+                };
+                lhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(CBreturn));
+                return Promise.resolve().then(() => {
+                    checkOperatorAndRHSDisabled(expressionBuilder, true);
+                });
+            });
         });
     });
 });
