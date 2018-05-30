@@ -19,7 +19,8 @@
                     required
                     >
             </lightning-combobox>
-            <lightning-input if:true={showScale} 
+            <lightning-input if:true={showScale}
+                             class="scale"
                              type="number" min="0" max="17" label={labels.scaleLabel}
                              onfocusout={handleScaleFocusOut}
                              value={formulaResource.scale}
@@ -28,7 +29,7 @@
             </lightning-input>
          </div>
         
-        <lightning-textarea class="slds-form-element"
+        <lightning-textarea class="slds-form-element expression"
                             label="Formula" max-length="3900"
                             onfocusout={handleFormulaFocusOut}
                             value={formulaResource.expression.value}

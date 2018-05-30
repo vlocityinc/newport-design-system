@@ -22,6 +22,8 @@ export default class LightningInput extends Element {
     @api fieldLevelHelp;
     @api checked;
     @api formatter;
+    @api min;
+    @api max;
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {
