@@ -246,7 +246,7 @@ export const normalizeRHS = (rhsIdentifier, callback) => {
  * The shape an expression builder needs to operator on any LHS.
  * @typedef {Object} normalizedLHS
  * @param {MenuItem} item     what the combobox needs to display this lhs
- * @param {operator-rule-util/param} param       the param representation of this lhs object/element
+ * @param {rules/param} param       the param representation of this lhs object/element
  */
 
 /**

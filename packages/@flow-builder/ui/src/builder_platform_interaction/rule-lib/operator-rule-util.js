@@ -6,24 +6,8 @@ const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS } = RULE_PROPERTY;
 const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = RULE_PROPERTY_INFO;
 
 /**
- * Describes a FlowOperatorParam coming from the Rules Service
- * @typedef {Object.<string, string>} param
- * @param {String} elementType    flow element type
- * @param {String} dataType       flow data type
- * @param {boolean} isCollection  does this represent a collection variable
- */
-
-/**
  * A map from an elementType or dataType to an array of params relating to that elementType or dataType.
  * @typedef {Object.<string, param[]>} allowedParamMap
- */
-
-/**
- * An operator rule
- * @typedef {Object} operatorRule
- * @param {param} RULE_PROPERTY.LEFT           represents the lhs of this rule
- * @param {String} RULE_PROPERTY.OPERATOR      represents the operator of this rule
- * @param {param[]} RULE_PROPERTY.RHS_PARAMS   all rhs possible for this lhs & operator combination
  */
 
 /**

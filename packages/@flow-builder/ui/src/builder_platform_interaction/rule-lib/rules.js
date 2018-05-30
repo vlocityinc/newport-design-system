@@ -9,8 +9,31 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { set } from 'builder_platform_interaction-data-mutation-lib';
 
 /**
- * contains an instance of the rules
+ * Describes a FlowOperatorParam coming from the Rules Service
+ * @typedef {Object.<string, string>} param
+ * @param {String} elementType    flow element type
+ * @param {String} dataType       flow data type
+ * @param {boolean} isCollection  does this represent a collection variable
  */
+
+/**
+ * An operator rule
+ * @typedef {Object} operatorRule
+ * @param {param} RULE_PROPERTY.LEFT           represents the lhs of this rule
+ * @param {String} RULE_PROPERTY.OPERATOR      represents the operator of this rule
+ * @param {param[]} RULE_PROPERTY.RHS_PARAMS   all rhs possible for this lhs & operator combination
+ */
+
+/**
+ * @typedef {Object} rulesInstance
+ * @property {operatorRule[]} assignment                               assignment rules that can be used in any element
+ * @property {operatorRule[]} comparison                               comparison rules that can be used in any element
+ * @property {Object.map<ruleType, operatorRule[]>} exampleElement     Any element which appears in the includeElems list
+ *                                                                     of a rule has an entry in rulesInstance with two arrays -
+ *                                                                     the list of assignment rules specific to this element and
+ *                                                                     the list of decision rules specific to this element.
+ */
+
 const rulesInstance = [];
 
 export const RULE_TYPES = {
@@ -24,6 +47,8 @@ export const RULE_PROPERTY = {
     LEFT: 'left',
     OPERATOR: 'operator',
     RHS_PARAMS: 'rhsParams',
+    INCLUDE_ELEMS: 'includeElems',
+    EXCLUDE_ELEMS: 'excludeElems',
 };
 
 // the inner properties in a rule ( rule.left )
@@ -58,12 +83,35 @@ export const setRules = (rules = null) => {
     );
     // Add rules to the correct buckets
     if (allRules) {
-        allRules.forEach((rule) => {
+        let rule;
+        for (let i = 0; i < allRules.length; i++) {
+            rule = allRules[i];
             const ruleTypeName = rule[RULE_PROPERTY.RULE_TYPE];
             // rules come in with two fields - assignmentOperator and comparisonOperator
             // this combines those into one operator field for easier use throughout the client
-            rulesInstance[ruleTypeName].push(set(rule, RULE_PROPERTY.OPERATOR, rule[ruleTypeName + 'Operator'].value));
-        });
+            const ruleWithSingleOperatorField = set(rule, RULE_PROPERTY.OPERATOR, rule[ruleTypeName + 'Operator'].value);
+
+            const includedElems = ruleWithSingleOperatorField[RULE_PROPERTY.INCLUDE_ELEMS];
+            // if a rule is specific to certain elements, don't add to the main list of rules
+            if (includedElems && includedElems.length > 0) {
+                // for each element in this rule's includeElems...
+                let elementType;
+                for (let j = 0; j < includedElems.length; j++) {
+                    elementType = includedElems[j];
+                    // if this element doesn't have any specific rules yet, create an entry in rulesInstance
+                    if (!rulesInstance[elementType]) {
+                        rulesInstance[elementType] = {};
+                        rulesInstance[elementType][ruleTypeName] = []; // separate the element-specific rules by ruleType
+                    } else if (!rulesInstance[elementType][ruleTypeName]) {
+                        rulesInstance[elementType][ruleTypeName] = [];
+                    }
+                    rulesInstance[elementType][ruleTypeName].push(ruleWithSingleOperatorField);
+                }
+            } else {
+                // add rules with no includeElems list to the main rule array for their type
+                rulesInstance[ruleTypeName].push(ruleWithSingleOperatorField);
+            }
+        }
     }
 };
 
@@ -83,11 +131,12 @@ export const getRules = () => {
  * @returns {Object} the rules needed for the given context
  */
 export const getRulesForContext = (config) => {
+    let ruleType;
     let rules;
     switch (config.elementType) {
         case ELEMENT_TYPE.DECISION:
         case ELEMENT_TYPE.RECORD_LOOKUP:
-            rules = rulesInstance[RULE_TYPES.COMPARISON];
+            ruleType = RULE_TYPES.COMPARISON;
             break;
         case ELEMENT_TYPE.ASSIGNMENT:
         case ELEMENT_TYPE.ACTION_CALL:
@@ -96,10 +145,15 @@ export const getRulesForContext = (config) => {
         case ELEMENT_TYPE.APEX_PLUGIN_CALL:
         case ELEMENT_TYPE.LOCAL_ACTION_CALL:
         case ELEMENT_TYPE.VARIABLE:
-            rules = rulesInstance[RULE_TYPES.ASSIGNMENT];
+            ruleType = RULE_TYPES.ASSIGNMENT;
             break;
         default:
             throw new Error(`Trying to get rules for unknown elementType: ${config.elementType}`);
+    }
+    rules = rulesInstance[ruleType];
+    if (rulesInstance[config.elementType] && rulesInstance[config.elementType][ruleType]) {
+        // if this element has specific rules, retrieve them here
+        rules = rules.concat(rulesInstance[config.elementType][ruleType]);
     }
 
     return rules;
