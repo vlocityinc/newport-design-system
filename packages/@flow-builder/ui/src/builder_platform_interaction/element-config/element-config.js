@@ -417,7 +417,9 @@ export const elementTypeToConfigMap = {
             label: '',
             locationX: 0,
             locationY: 0,
-            name: ''
+            name: '',
+            sortField : 'Name',
+            sortOrder : 'Asc',
         }
     },
     [ELEMENT_TYPE.RECORD_DELETE]: {

@@ -65,6 +65,14 @@ export default class RecordLookupEditor extends Element {
         return this.recordLookupElement.elementType;
     }
 
+    get sortOrder() {
+        return this.recordLookupElement.sortOrder.value;
+    }
+
+    get sortField() {
+        return this.recordLookupElement.sortField.value;
+    }
+
     updateFields() {
         if (this.recordEntityName) {
             getFieldsForEntity(this.recordEntityName, (fields) => {
