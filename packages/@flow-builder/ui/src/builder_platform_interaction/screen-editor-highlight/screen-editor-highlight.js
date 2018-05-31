@@ -1,5 +1,5 @@
 import { Element, api } from 'engine';
-import { ScreenElementSelectedEvent, ScreenElementDeletedEvent } from 'builder_platform_interaction-events';
+import { ReorderListEvent, ScreenElementSelectedEvent, ScreenElementDeletedEvent } from 'builder_platform_interaction-events';
 
 const SELECTED_CLASS = 'selected';
 const CONTAINER_DIV_SELECTOR = 'div.highlight';
@@ -12,6 +12,7 @@ export default class ScreenEditorHighlight extends Element {
     @api property;
     @api preventEvents = false;
     @api displayMoveIcon = false;
+    @api draggable = false;
     @api title;
     @api tabIndex = 0;
 
@@ -25,6 +26,10 @@ export default class ScreenEditorHighlight extends Element {
 
     @api deselect() {
         this.setSelected(false);
+    }
+
+    get isDraggable() {
+        return typeof this.draggable === 'string' ? this.draggable.toLowerCase() === 'true' : this.draggable;
     }
 
     get shouldPreventEvents() {
@@ -54,5 +59,33 @@ export default class ScreenEditorHighlight extends Element {
     handleDelete = (event) => {
         this.dispatchEvent(new ScreenElementDeletedEvent(this.screenElement, this.property));
         event.stopPropagation();
+    }
+
+    handleDragStart(event) {
+        // Cannot use a different attribute here because only 'text' works in IE
+        event.dataTransfer.setData('text', this.screenElement.guid);
+        event.dataTransfer.effectAllowed = 'move';
+        event.stopPropagation();
+    }
+
+    handleDragOver(event) {
+        event.preventDefault();
+    }
+
+    handleDrop(event) {
+        event.preventDefault();
+        const sourceIndex = event.dataTransfer.getData('text');
+        const destIndex = this.screenElement.guid;
+
+        if (sourceIndex) {
+            this.fireReorder(sourceIndex, destIndex);
+        }
+    }
+
+    fireReorder(sourceIndex, destIndex) {
+        if (sourceIndex !== destIndex) {
+            const reorderListEvent = new ReorderListEvent(sourceIndex, destIndex);
+            this.dispatchEvent(reorderListEvent);
+        }
     }
 }

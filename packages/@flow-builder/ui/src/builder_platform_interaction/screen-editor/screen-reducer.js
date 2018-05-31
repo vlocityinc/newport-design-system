@@ -1,7 +1,8 @@
 import { screenValidation } from './screen-validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { updateProperties, isItemHydratedWithErrors, set, deleteItem } from 'builder_platform_interaction-data-mutation-lib';
-import { PropertyChangedEvent, screenEventNames } from 'builder_platform_interaction-events';
+import { ReorderListEvent, PropertyChangedEvent, screenEventNames } from 'builder_platform_interaction-events';
+
 
 const screenPropertyChanged = (state, event) => {
     let error = event.detail.error;
@@ -24,6 +25,25 @@ const deleteScreenField = (screen, event) => {
     return set(screen, 'fields', updatedItems);
 };
 
+export const reorderFields = (state, event) => {
+    let fields = state.fields;
+
+    const destinationIndex = state.fields.findIndex((element) => {
+        return element.guid === event.detail.destinationGuid;
+    });
+
+    const movedField = fields.find((field) => {
+        return field.guid === event.detail.sourceGuid;
+    });
+    if (destinationIndex >= 0 && movedField) {
+        fields = fields.filter((field) => {
+            return field.guid !== event.detail.sourceGuid;
+        });
+        fields.splice(destinationIndex, 0, movedField);
+    }
+    return updateProperties(state, {fields});
+};
+
 /**
  * screen reducer function runs validation rules and returns back the updated screen element
  * @param {object} state - element / assignment node
@@ -41,6 +61,10 @@ export const screenReducer = (state, event) => {
         case VALIDATE_ALL:
             return screenValidation.validateAll(state);
 
+        case ReorderListEvent.EVENT_NAME:
+            return reorderFields(state, event);
+
         default: return state;
     }
 };
+

@@ -89,4 +89,14 @@ export default class ScreenEditor extends Element {
         this.setSelectedNode(this.screen);
         this.template.querySelector('builder_platform_interaction-screen-editor-canvas').clearSelection();
     }
+
+
+    /**
+     * Handles reordering a list of the screen fields
+     * @param {object} event - reorderListEvent
+     */
+    handleReorder(event) {
+        this.screen = screenReducer(this.screen, event);
+        event.stopPropagation();
+    }
 }

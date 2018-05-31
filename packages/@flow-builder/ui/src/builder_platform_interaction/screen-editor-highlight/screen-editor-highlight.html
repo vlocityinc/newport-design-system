@@ -1,5 +1,11 @@
 <template>
-    <div class='highlight slds-is-relative' onclick={handleSelected} tabindex={tabIndex}>
+    <div class='highlight slds-is-relative'
+         onclick={handleSelected} 
+         tabindex={tabIndex}
+         draggable={isDraggable}
+         ondragstart={handleDragStart}
+         ondragover={handleDragOver}
+         ondrop={handleDrop}>
         <div class='highlight-header has-box-shadow slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center'>
             <lightning-icon icon-name='utility:connected_apps' size='x-small' variant='inverse'></lightning-icon>
             <div class='slds-p-left_xx-small slds-text-body_small'>{title}</div>
