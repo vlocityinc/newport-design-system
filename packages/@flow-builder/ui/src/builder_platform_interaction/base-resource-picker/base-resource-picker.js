@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { filterMatches } from 'builder_platform_interaction-expression-utils';
 
 /**
@@ -49,7 +49,7 @@ export default class BaseResourcePicker extends Element {
 
     /**
      * Object with properties used to configure the flow combobox
-     * @param {ComboboxConfig} config the combobox config object used to initialize the resource picker's combobox
+     * @param {ComboboxConfig} config the combobox config objec t used to initialize the resource picker's combobox
      */
     @api
     set comboboxConfig(config) {
@@ -139,15 +139,5 @@ export default class BaseResourcePicker extends Element {
     handleFilterMatches(event) {
         event.stopPropagation();
         this.state.menuData = filterMatches(event.detail.value, this._fullMenuData);
-    }
-
-    handleValueChange(event) {
-        // the combobox value changed event will contain a combobox menu item on item select or just display text for a literal
-        // TODO: W-5013881 remove unwrap when LWC team makes changes to wrapping event payloads in membranes
-        if (event.detail.item) {
-            this.state.item = unwrap(event.detail.item);
-        } else {
-            this.state.displayText = unwrap(event.detail.displayText);
-        }
     }
 }
