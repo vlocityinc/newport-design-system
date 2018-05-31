@@ -13,6 +13,10 @@ export default class FormulaEditor extends Element {
 
     labels = LABELS;
 
+    // used to keep track of whether this is an existing formula resource
+    @api
+    isNewMode = false;
+
     @api
     get node() {
         return this.formulaResource;
@@ -44,11 +48,15 @@ export default class FormulaEditor extends Element {
     }
 
     get isDataTypeComboboxDisabled() {
-        return false;
+        return !this.isNewMode;
     }
 
     get showScale() {
         return this.dataType === FLOW_DATA_TYPE.NUMBER.value || this.dataType === FLOW_DATA_TYPE.CURRENCY.value;
+    }
+
+    get dataTypeHelpText() {
+        return !this.isNewMode ? this.labels.dataTypeCannotBeChangedHelpText : null;
     }
 
     /**
