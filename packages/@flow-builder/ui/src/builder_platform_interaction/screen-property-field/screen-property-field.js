@@ -28,8 +28,16 @@ export default class ScreenPropertyField extends Element {
         throw new Error('You cannot change rich text editor formats');
     }
 
+    get hasError() {
+        return this.value && this.value.error;
+    }
+
     get classList() {
-        return this.value.error ? 'property-input slds-has-error' : 'property-input';
+        return this.value && this.value.error ? 'property-input slds-has-error' : 'property-input';
+    }
+
+    get propertyValue() {
+        return this.value ? this.value.value : null;
     }
 
     get showLabel() {

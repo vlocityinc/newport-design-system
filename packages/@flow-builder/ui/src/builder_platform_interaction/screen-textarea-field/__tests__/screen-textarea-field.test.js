@@ -1,9 +1,8 @@
 import { createElement } from 'engine';
 import ScreenTextareaField from 'builder_platform_interaction-screen-textarea-field';
-import {
-    hiddenLabelVariant,
-    standardLabelVariant
-} from 'builder_platform_interaction-screen-editor-utils';
+
+const hiddenLabelVariant = 'label-hidden';
+const standardLabelVariant = 'standard';
 
 const SELECTORS = {
     AREA: 'lightning-textarea'

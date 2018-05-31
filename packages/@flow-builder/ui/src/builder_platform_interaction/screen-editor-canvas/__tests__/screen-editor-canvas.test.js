@@ -15,7 +15,7 @@ const createComponentUnderTest = (props) => {
 describe('screen-editor-canvas', () => {
     it('displays the help icon when there is help text', () => {
         const screenEditorCanvasElement = createComponentUnderTest({
-            screen: {helpText: "help!!", showHeader: true}
+            screen: {helpText: {value: "help!!", error: null}, label:{value:"label", error: null}, showHeader: true}
         });
         return Promise.resolve().then(() => {
             const helpIcon = screenEditorCanvasElement.querySelector('lightning-button-icon');

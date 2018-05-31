@@ -1,17 +1,17 @@
 <template>
     <div class='slds-form-element slds-m-top_x-small'>
-        <lightning-input if:true={isInput} id={name} class={classList} name={name} label={label} value={value.value} checked={isChecked}
+        <lightning-input if:true={isInput} id={name} class={classList} name={name} label={label} value={propertyValue} checked={isChecked}
                                            required={required} type={inputType} field-level-help={helpText} onchange={handleEvent} onblur={handleEvent}>
         </lightning-input>
         
-        <lightning-textarea if:true={isLongString} id={name} class={classList} name={name} label={label} value={value.value}
+        <lightning-textarea if:true={isLongString} id={name} class={classList} name={name} label={label} value={propertyValue}
                                                    required={required} field-level-help={helpText} onchange={handleEvent} onblur={handleEvent}>
         </lightning-textarea>
         
         <lightning-input-rich-text if:true={isRichString} id={name} class={classList} name={name} label={label}
-                                                          value={value.value} formats={formats} onchange={handleEvent} onblur={handleEvent}>
+                                                          value={propertyValue} formats={formats} onchange={handleEvent} onblur={handleEvent}>
         </lightning-input-rich-text>
 
-        <div if:true={value.error} class='slds-form-element_help slds-text-color_error'>{value.error}</div>
+        <div if:true={hasError} class='slds-form-element_help slds-text-color_error'>{value.error}</div>
     </div>
 </template>

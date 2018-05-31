@@ -14,6 +14,10 @@ export default class ScreenEditorCanvas extends Element {
         return ++this._tabIndex;
     }
 
+    get hasHelpText() {
+        return this.screen.helpText && this.screen.helpText.value;
+    }
+
     @api clearSelection() {
         for (const highlight of this.template.querySelectorAll('builder_platform_interaction-screen-editor-highlight')) {
             highlight.deselect();

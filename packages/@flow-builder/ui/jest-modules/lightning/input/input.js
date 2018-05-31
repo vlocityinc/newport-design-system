@@ -1,7 +1,9 @@
 import { Element, api } from 'engine';
 
 /**
+ *
  * Dummy lightning input component for use by Jest tests
+ * @param {string} textEntered - The value
  *
  * @ScrumTeam Process UI
  * @author Aaron Liebling
@@ -24,6 +26,8 @@ export default class LightningInput extends Element {
     @api formatter;
     @api min;
     @api max;
+    @api name;
+    @api fieldLevelHelp;
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {

@@ -1,11 +1,12 @@
 import { createElement } from 'engine';
 import ScreenInputField from 'builder_platform_interaction-screen-input-field';
 import {
-    hiddenLabelVariant,
-    standardLabelVariant,
     currencyFormat,
     lightningInputTypes
 } from 'builder_platform_interaction-screen-editor-utils';
+
+const hiddenLabelVariant = 'label-hidden';
+const standardLabelVariant = 'standard';
 
 const SELECTORS = {
     INPUT : 'lightning-input'
