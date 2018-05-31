@@ -1,10 +1,9 @@
 import { Element, api, track, unwrap } from 'engine';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
-import { decorateScreen, undecorateScreen, isScreen } from 'builder_platform_interaction-screen-editor-utils';
+import { isScreen } from 'builder_platform_interaction-screen-editor-utils';
 import { screenReducer } from './screen-reducer';
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import { deepCopy } from 'builder_platform_interaction-store-lib';
 
 /*
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -18,19 +17,19 @@ export default class ScreenEditor extends Element {
     }
 
     @api set node(newValue) {
-        this.screen = decorateScreen(unwrap(newValue)) || {};
+        this.screen = newValue || {};
         this.setSelectedNode(this.screen);
     }
 
-    /*
+    /**
      * public api function to return the unwrapped node
      * @returns {object} node - unwrapped node
      */
     @api getNode() {
-        return undecorateScreen(deepCopy(unwrap(this.screen))); // Returning a deep copy because removing the "decoration" causes a rerender that fails because of the missing decoration (W-4947242)
+        return unwrap(this.screen);
     }
 
-    /*
+    /**
      * public api function to run the rules from assignment validation library
      * @returns {object} list of errors
      */

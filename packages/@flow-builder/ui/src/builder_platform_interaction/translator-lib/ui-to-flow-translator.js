@@ -135,6 +135,10 @@ export function translateUIModelToFlow(uiModel) {
         // Hydrate decsions with their outcomes (rules)
         if (element.elementType === ELEMENT_TYPE.DECISION) {
             includeOutcomesInDecision(element, elements);
+        } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
+            for (const field of element.fields) {
+                delete field.guid;
+            }
         }
 
         // remove transient fields to avoid breaking deserialization

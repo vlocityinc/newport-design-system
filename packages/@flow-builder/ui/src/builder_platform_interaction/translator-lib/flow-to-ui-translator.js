@@ -78,8 +78,13 @@ export function convertElements(elements, elementType, isCanvasElement) {
             elementType,
             isCanvasElement
         );
+
         if (elementType === ELEMENT_TYPE.DECISION) {
             convertedElements.push(...convertDecision(convertedElement));
+        } else if (elementType === ELEMENT_TYPE.SCREEN) {
+            for (const field of convertedElement.fields) {
+                field.guid = generateGuid();
+            }
         }
         convertedElements.push(convertedElement);
     });

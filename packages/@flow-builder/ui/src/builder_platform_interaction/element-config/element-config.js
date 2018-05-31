@@ -284,7 +284,7 @@ export const elementTypeToConfigMap = {
             plural: 'Screens'
         },
         canvasElement: true,
-        nonHydratableProperties: ['fieldType', 'dataType', 'elementReference', 'numberValue', 'dateValue', 'booleanValue', 'stringValue'],
+        nonHydratableProperties: ['fieldType', 'dataType', 'elementReference', 'numberValue', 'dateValue', 'booleanValue', 'stringValue', 'type'],
         bodyCssClass: 'slds-scrollable_none',
         template: {
             config: { isSelected: false },

@@ -15,6 +15,10 @@ import {
     mutateRecordLookup,
     deMutateRecordLookup
 } from './recordLookupEditorDataMutation';
+import {
+    mutateScreen,
+    demutateScreen
+} from './screenEditorDataMutation';
 
 /**
  * Add property editor mutation for a given element
@@ -33,6 +37,8 @@ export const mutateEditorElement = (element, state) => {
         return mutateVariable(element);
     } else if (element.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
         return mutateRecordLookup(element);
+    } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
+        return mutateScreen(element);
     }
 
     // TODO Add other element types
@@ -65,6 +71,8 @@ export const removeEditorElementMutation = (element, state) => {
         return deMutateVariable(element);
     } else if (element.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
         return deMutateRecordLookup(element);
+    } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
+        return demutateScreen(element);
     }
     // TODO: Should we throw an exception if  the element type isn't recognized?
     return element;
