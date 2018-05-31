@@ -1,7 +1,7 @@
 <template>
     <div class="slds-m-bottom_small slds-border_top">
         <h3 class="slds-text-heading_small slds-p-around_small">{labels.findRecords}</h3>
-        <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
+        <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
             <lightning-combobox label={labels.ruleFindingRecords} value={selectedFilter} options={filterOptions} onchange={handleFilterTypeChanged} >
             </lightning-combobox>
         </div>
@@ -9,7 +9,7 @@
         <builder_platform_interaction-list items={filterItems} class={filterItemsClass} onaddlistitem={handleAddFilter} onupdatelistitem={handleUpdateFilter} ondeletelistitem={handleDeleteFilter} add-label={labels.addCriteria}>
             <div slot="listBody">
                 <template for:each={filterItems} for:item="filterItem" for:index="filterIndex">
-                <div class="slds-list__item slds-is-relative" key={filterItem.rowIndex}>
+                <div class="slds-list__item slds-is-relative slds-p-left_large" key={filterItem.rowIndex}>
                     <builder_platform_interaction-row item-index={filterIndex} show-delete={showDeleteFilter}>
                     <div slot="rowBody">
                         <builder_platform_interaction-expression-builder configuration={expressionBuilderConfig}

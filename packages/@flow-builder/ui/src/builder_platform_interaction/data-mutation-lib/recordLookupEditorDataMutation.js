@@ -7,7 +7,11 @@ export const mutateFilterItems = (filterItems, objectType) => {
     filterItems.forEach((item, itemIndex) => {
         item.rowIndex = generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM);
         if (item.hasOwnProperty('field')) {
-            item.leftHandSide = objectType + "." + item.field;
+            if (item.field) {
+                item.leftHandSide = objectType + '.' + item.field;
+            } else {
+                item.leftHandSide = '';
+            }
             delete item.field;
         }
         if (item.hasOwnProperty('value')) {
