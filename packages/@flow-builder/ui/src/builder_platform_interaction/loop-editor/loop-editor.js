@@ -33,7 +33,7 @@ export default class LoopEditor extends Element {
     }
 
     /**
-     * public api function to run the rules from assignment validation library
+     * public api function to run the rules from loop validation library
      * @returns {object} list of errors
      */
     @api validate() {

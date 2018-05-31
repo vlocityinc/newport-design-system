@@ -304,6 +304,7 @@ function getSelector({element, shouldBeWritable}) {
         case ELEMENT_TYPE.APEX_CALL:
         case ELEMENT_TYPE.APEX_PLUGIN_CALL:
         case ELEMENT_TYPE.ASSIGNMENT:
+        case ELEMENT_TYPE.LOOP:
         case ELEMENT_TYPE.EMAIL_ALERT:
         case ELEMENT_TYPE.SUBFLOW:
         case ELEMENT_TYPE.LOCAL_ACTION_CALL:

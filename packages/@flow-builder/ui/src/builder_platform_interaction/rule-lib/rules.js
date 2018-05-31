@@ -39,6 +39,7 @@ const rulesInstance = [];
 export const RULE_TYPES = {
     ASSIGNMENT: 'assignment',
     COMPARISON: 'comparison',
+    LOOP: 'loop',
 };
 
 // the top level properties in a rule
@@ -139,6 +140,7 @@ export const getRulesForContext = (config) => {
             ruleType = RULE_TYPES.COMPARISON;
             break;
         case ELEMENT_TYPE.ASSIGNMENT:
+        case ELEMENT_TYPE.LOOP:
         case ELEMENT_TYPE.ACTION_CALL:
         case ELEMENT_TYPE.APEX_CALL:
         case ELEMENT_TYPE.EMAIL_ALERT:
