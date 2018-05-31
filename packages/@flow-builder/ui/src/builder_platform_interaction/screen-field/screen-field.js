@@ -20,4 +20,12 @@ export default class ScreenField extends Element {
     get isDisplayTextType() {
         return this.screenfield.type.fieldType === 'DisplayText';
     }
+
+    get isRequired() {
+        // There is no concept of required for a checkbox.
+        if (this.screenfield.type.name === 'Checkbox') {
+            return false;
+        }
+        return this.screenfield.isRequired;
+    }
 }
