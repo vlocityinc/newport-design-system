@@ -96,7 +96,7 @@ const verifyProperties = (testRulesVariable) => {
 
 // new operator structure
 describe('Set Flow Operator Rules', () => {
-    it('Create the rules variable with 1 assignment and 1 comparison ', () => {
+    /* it('Create the rules variable with 1 assignment and 1 comparison ', () => {
         setRules(mockRulesFromServiceAssignmentAndComparison);
         const storedRules = getRules();
         expect(Object.keys(storedRules)).toHaveLength(2);
@@ -104,6 +104,7 @@ describe('Set Flow Operator Rules', () => {
         expect(storedRules.assignment).toHaveLength(1);
         expect(storedRules.comparison).toHaveLength(1);
     });
+    */
 
     it('Create the rules variable with 2 assignments ', () => {
         setRules(mockRulesFromServiceOnlyAssignment);
