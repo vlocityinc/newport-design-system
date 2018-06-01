@@ -13,11 +13,11 @@ export default class ScreenPropertyField extends Element {
     @api name;
     @api label;
     @api type;
-    @api value;
     @api required =  false;
     @api readOnly = false;
     @api helpText;
 
+    _value;
     labels = LABELS;
 
     @api get formats() {
@@ -28,8 +28,20 @@ export default class ScreenPropertyField extends Element {
         throw new Error('You cannot change rich text editor formats');
     }
 
-    get hasError() {
-        return this.value && this.value.error;
+    @api set value(newValue) {
+        this._value = newValue;
+        const input = this.input;
+        if (input) {
+            input.setCustomValidity(this.error);
+        }
+    }
+
+    @api get value() {
+        return this._value;
+    }
+
+    get error() {
+        return (this.value && this.value.error) || '';
     }
 
     get classList() {
@@ -86,8 +98,12 @@ export default class ScreenPropertyField extends Element {
         return 'text';
     }
 
+    get input() {
+        return this.template.querySelector('.property-input');
+    }
+
     get domValue() {
-        const input = this.template.querySelector('.property-input');
+        const input = this.input;
         if (this.isString || this.isLongString || this.isRichString) {
             return input.value;
         } else if (this.isBoolean) {

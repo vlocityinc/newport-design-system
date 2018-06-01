@@ -11,7 +11,5 @@
         <lightning-input-rich-text if:true={isRichString} id={name} class={classList} name={name} label={label}
                                                           value={propertyValue} formats={formats} onchange={handleEvent} onblur={handleEvent}>
         </lightning-input-rich-text>
-
-        <div if:true={hasError} class='slds-form-element_help slds-text-color_error'>{value.error}</div>
     </div>
 </template>
