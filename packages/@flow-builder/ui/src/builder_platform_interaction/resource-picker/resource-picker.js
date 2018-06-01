@@ -218,8 +218,8 @@ export default class ResourcePicker extends Element {
             [IS_COLLECTION]: this._elementIsCollection,
             [ELEMENT_TYPE]: this._elementType
         };
-        const rhsTypes = getRHSTypes(elementParam, 'Assign', this._rules);
-        this._fullMenuData = getElementsForMenuData({ element: this._elementType}, rhsTypes, false);
+        const rhsTypes = getRHSTypes(this._elementType, elementParam, 'Assign', this._rules);
+        this._fullMenuData = getElementsForMenuData({ elementType: this._elementType}, rhsTypes, false);
         this.state.menuData = this._fullMenuData;
     }
 

@@ -421,9 +421,9 @@ export default class VariableEditor extends Element {
      */
     fetchDefaultValueMenuData() {
         if (this.hasDefaultValue) {
-            const element = ELEMENT_TYPE.VARIABLE;
-            const rhsTypes = getRHSTypes(this.variableResource, RULE_OPERATOR.ASSIGN, getRulesForContext({elementType: ELEMENT_TYPE.VARIABLE}));
-            this._fullDefaultValueMenuData = this._defaultValueMenuData = getElementsForMenuData({element}, rhsTypes, true /* include new resource */);
+            const elementType = ELEMENT_TYPE.VARIABLE;
+            const rhsTypes = getRHSTypes(ELEMENT_TYPE.VARIABLE, this.variableResource, RULE_OPERATOR.ASSIGN, getRulesForContext({elementType: ELEMENT_TYPE.VARIABLE}));
+            this._fullDefaultValueMenuData = this._defaultValueMenuData = getElementsForMenuData({elementType}, rhsTypes, true /* include new resource */);
         }
     }
 

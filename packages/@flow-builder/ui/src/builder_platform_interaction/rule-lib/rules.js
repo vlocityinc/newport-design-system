@@ -34,12 +34,11 @@ import { set } from 'builder_platform_interaction-data-mutation-lib';
  *                                                                     the list of decision rules specific to this element.
  */
 
-const rulesInstance = [];
+const rulesInstance = {};
 
 export const RULE_TYPES = {
     ASSIGNMENT: 'assignment',
     COMPARISON: 'comparison',
-    LOOP: 'loop',
 };
 
 // the top level properties in a rule

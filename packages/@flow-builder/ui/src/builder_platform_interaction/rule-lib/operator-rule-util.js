@@ -2,7 +2,7 @@ import { shallowCopyArray, getValueFromHydratedItem } from 'builder_platform_int
 import { RULE_TYPES, RULE_PROPERTY, RULE_PROPERTY_INFO } from './rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
-const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS } = RULE_PROPERTY;
+const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
 const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = RULE_PROPERTY_INFO;
 
 /**
@@ -96,11 +96,12 @@ export const isMatch = (ruleParam, element) => {
 
 /**
  * Get the allowed left hand side types based on the rule type
+ * @param {String} elementType      elementType where this rule is being used
  * @param {operatorRule[]} rules         list of rules we are checking for lhs types. These are taken from the FlowOperatorRuleUtil service
  * @param {String} ruleType     the rule type of the given rules eg: assignment/comparator
  * @returns {allowedParamMap}   map of data types & element types to allowed left hand side types
  */
-export const getLHSTypes = (rules, ruleType) => {
+export const getLHSTypes = (elementType, rules, ruleType) => {
     if (!Array.isArray(rules)) {
         throw new Error(`Rules must be an Array but instead was ${typeof rules}`);
     }
@@ -112,14 +113,16 @@ export const getLHSTypes = (rules, ruleType) => {
     // create our dataType/elementType map. This helps sort allowed types by dataType/elementType
     const paramTypeMap = {};
     allowedRules.forEach((rule) => {
-        const type = getDataTypeOrElementType(rule[LEFT]);
-        // given the type, check to see if we have the key already in our map
-        if (!paramTypeMap.hasOwnProperty(type)) {
-            paramTypeMap[type] = new Set();
+        if ((!rule[EXCLUDE_ELEMS] || !rule[EXCLUDE_ELEMS].includes(elementType))) {
+            const type = getDataTypeOrElementType(rule[LEFT]);
+            // given the type, check to see if we have the key already in our map
+            if (!paramTypeMap.hasOwnProperty(type)) {
+                paramTypeMap[type] = new Set();
+            }
+            // serialize the type and add to our set to help avoid duplicates
+            const serializedValue = JSON.stringify(rule[LEFT]);
+            paramTypeMap[type].add(serializedValue);
         }
-        // serialize the type and add to our set to help avoid duplicates
-        const serializedValue = JSON.stringify(rule[LEFT]);
-        paramTypeMap[type].add(serializedValue);
     });
     // now iterate through the param type map and deserialize all the values and convert the sets to arrays
     Object.keys(paramTypeMap).forEach((key) => {
@@ -132,12 +135,13 @@ export const getLHSTypes = (rules, ruleType) => {
 
 /**
  * Gets the allowed operators based on the given left hand side element and list of rules
+ * @param {String} elementType      elementType where this rule is being used
  * @param {Object} lhsElement           the element representing our left hand side that we are checking against the given rules. This element is taken from the store
  * @param {operatorRule[]} rules                 list of rules we are checking for operator types. These are taken from the FlowOperatorRuleUtil service
  * @param {String} ruleType             the rule type of the given rules eg: assignment/comparator
  * @returns {Array}                     the allowed list of operators based on rules that matched the lhsElement
  */
-export const getOperators = (lhsElement = {}, rules, ruleType) => {
+export const getOperators = (elementType, lhsElement = {}, rules, ruleType) => {
     // sanity checks
     if (!lhsElement || Object.keys(lhsElement).length === 0) {
         return [];
@@ -151,7 +155,7 @@ export const getOperators = (lhsElement = {}, rules, ruleType) => {
         allowedRules = filterByRuleType(rules, ruleType);
     }
     const reducer = (operatorSet, rule) => {
-        if (isMatch(rule[LEFT], lhsElement)) {
+        if ((!rule[EXCLUDE_ELEMS] || !rule[EXCLUDE_ELEMS].includes(elementType)) && isMatch(rule[LEFT], lhsElement)) {
             operatorSet.add(rule[OPERATOR]);
         }
         return operatorSet;
@@ -184,13 +188,14 @@ export const transformOperatorsForCombobox = (operators) => {
 
 /**
  * Gets the allowed right hand side types based on the given left hand side element, operator, and rules
+ * @param {String} elementType      elementType where this rule is being used
  * @param {Object} lhsElement       the element that represents our left hand side that we are checking against the given rules. This element is taken from the store.
  * @param {String} operator         the value representing your operator eg: "ASSIGNMENT"
  * @param {operatorRule[]} rules             list of rules we are checking for right hand side types. These are taken from the FlowOperatorRuleUtil service
  * @param {String} ruleType         the rule type of the given rules eg: assignment/comparator
  * @returns {allowedParamMap}       map of data types, element types, and object types to allowed right hand side types
  */
-export const getRHSTypes = (lhsElement, operator, rules, ruleType) => {
+export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) => {
     // sanity checks
     if (!lhsElement || Object.keys(lhsElement).length === 0) {
         return [];
@@ -210,12 +215,14 @@ export const getRHSTypes = (lhsElement, operator, rules, ruleType) => {
     let index = 0;
     while (!foundMatchingRule && index < allowedRules.length) {
         rule = allowedRules[index];
-        const ruleOperator = rule[OPERATOR];
-        // first check if we have the correct operator and rule
-        if (ruleOperator === operator && isMatch(rule[LEFT], lhsElement)) {
-            foundMatchingRule = true;
-            // extract the allowed types
-            allowedTypes = shallowCopyArray(rule[RHS_PARAMS]);
+        if (!rule[EXCLUDE_ELEMS] || !rule[EXCLUDE_ELEMS].includes(elementType)) {
+            const ruleOperator = rule[OPERATOR];
+            // first check if we have the correct operator and rule
+            if (ruleOperator === operator && isMatch(rule[LEFT], lhsElement)) {
+                foundMatchingRule = true;
+                // extract the allowed types
+                allowedTypes = shallowCopyArray(rule[RHS_PARAMS]);
+            }
         }
         index++;
     }

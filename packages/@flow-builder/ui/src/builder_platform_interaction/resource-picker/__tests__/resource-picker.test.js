@@ -77,9 +77,9 @@ describe('resource-picker', () => {
             expect(getRulesForContext).toHaveBeenCalledTimes(times);
             expect(getRulesForContext).toHaveBeenLastCalledWith({elementType: elemParam[ELEMENT_TYPE]});
             expect(getRHSTypes).toHaveBeenCalledTimes(times);
-            expect(getRHSTypes).toHaveBeenLastCalledWith(elemParam, 'Assign', expect.any(Array));
+            expect(getRHSTypes).toHaveBeenLastCalledWith(elemParam[ELEMENT_TYPE], elemParam, 'Assign', expect.any(Array));
             expect(getElementsForMenuData).toHaveBeenCalledTimes(times);
-            expect(getElementsForMenuData).toHaveBeenLastCalledWith({element: elemParam[ELEMENT_TYPE]}, expect.any(Object), false);
+            expect(getElementsForMenuData).toHaveBeenLastCalledWith({elementType: elemParam[ELEMENT_TYPE]}, expect.any(Object), false);
         };
 
         beforeEach(() => {

@@ -19,7 +19,8 @@ const RHSDT = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
 
 const RHSG = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID;
 
-let element;
+// the element type where this expression lives
+let elementType;
 let rules;
 let contextConfig;
 
@@ -64,7 +65,7 @@ export default class ExpressionBuilder extends Element {
         // TODO handle literals, "hi my name is {!firstName}" W-4817362
         // TODO handle multi-level merge fields W-4723095
         if (expression[LHS] && expression[LHS].value) {
-            this.state.normalizedLHS = normalizeLHS(expression[LHS].value, element, (lhsIdentifier) => {
+            this.state.normalizedLHS = normalizeLHS(expression[LHS].value, elementType, (lhsIdentifier) => {
                 if (!this._fetchedLHSInfo) {
                     this._fetchedLHSInfo = true;
                     const newExpression = updateProperties(this.state.expression, {[LHS] : {value : lhsIdentifier, error: expression[LHS].error}});
@@ -91,8 +92,8 @@ export default class ExpressionBuilder extends Element {
         }
 
         if (expression[LHS].value && expression[OPERATOR]) {
-            const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, expression[OPERATOR].value, rules);
-            this._fullRHSMenuData = getElementsForMenuData({element}, rhsTypes, true);
+            const rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, expression[OPERATOR].value, rules);
+            this._fullRHSMenuData = getElementsForMenuData({elementType}, rhsTypes, true);
             this.state.rhsMenuData = this._fullRHSMenuData;
         }
 
@@ -121,7 +122,7 @@ export default class ExpressionBuilder extends Element {
     @api
     set configuration(config) {
         contextConfig = config;
-        element = contextConfig.elementType;
+        elementType = contextConfig.elementType;
         rules = getRulesForContext(contextConfig);
         this.getLHSMenuData(contextConfig);
     }
@@ -136,7 +137,7 @@ export default class ExpressionBuilder extends Element {
     }
 
     get operatorMenuData() {
-        return transformOperatorsForCombobox(getOperators(this.state.normalizedLHS.parameter, rules));
+        return transformOperatorsForCombobox(getOperators(elementType, this.state.normalizedLHS.parameter, rules));
     }
 
     get rhsMenuData() {
@@ -185,13 +186,13 @@ export default class ExpressionBuilder extends Element {
         }
         if (elementOrField) {
             const newLHSParam = elementToParam(elementOrField);
-            if (!getOperators(newLHSParam, rules).includes(this.state.expression.operator.value)) {
+            if (!getOperators(elementType, newLHSParam, rules).includes(this.state.expression.operator.value)) {
                 expressionUpdates[OPERATOR] = this._clearedProperty;
                 expressionUpdates[RHS] = this._clearedProperty;
                 expressionUpdates[RHSDT] = this._clearedProperty;
                 expressionUpdates[RHSG] = this._clearedProperty;
             } else {
-                const rhsTypes = getRHSTypes(newLHSParam, this.state.expression.operator.value, rules);
+                const rhsTypes = getRHSTypes(elementType, newLHSParam, this.state.expression.operator.value, rules);
                 const rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
                 if (!rhsValid) {
                     expressionUpdates[RHS] = this._clearedProperty;
@@ -219,7 +220,7 @@ export default class ExpressionBuilder extends Element {
         const newOperator = event.detail.value;
         const expressionUpdates = {[OPERATOR]: {value: newOperator, error: null}};
         if (this.state.expression.rightHandSideGuid.value) {
-            const rhsTypes = getRHSTypes(this.state.normalizedLHS.parameter, newOperator, rules);
+            const rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, newOperator, rules);
             const rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
             if (!rhsValid) {
                 expressionUpdates[RHS] = this._clearedProperty;
@@ -267,10 +268,10 @@ export default class ExpressionBuilder extends Element {
         const selectedItem = event.detail.item;
         if (selectedItem) {
             getFieldsForEntity((selectedItem.subText instanceof Array) ? selectedItem.subTextNoHighlight : selectedItem.subText, (fields) => {
-                this._fullLHSMenuData = this.state.lhsMenuData = filterFieldsForChosenElement(selectedItem, getLHSTypes(rules), fields, true, true);
+                this._fullLHSMenuData = this.state.lhsMenuData = filterFieldsForChosenElement(selectedItem, getLHSTypes(elementType, rules), fields, true, true);
             });
         } else {
-            this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData({element, shouldBeWritable: true}, getLHSTypes(rules), true);
+            this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData({elementType, shouldBeWritable: true}, getLHSTypes(elementType, rules), true);
         }
     }
 
@@ -278,24 +279,24 @@ export default class ExpressionBuilder extends Element {
         const selectedItem = event.detail.item;
         if (selectedItem) {
             getFieldsForEntity((selectedItem.subText instanceof Array) ? selectedItem.subTextNoHighlight : selectedItem.subText, (fields) => {
-                this._fullRHSMenuData = this.state.rhsMenuData = filterFieldsForChosenElement(selectedItem, getLHSTypes(rules), fields, true, true);
+                this._fullRHSMenuData = this.state.rhsMenuData = filterFieldsForChosenElement(selectedItem, getLHSTypes(elementType, rules), fields, true, true);
             });
         } else {
-            this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({element}, getRHSTypes(this.state.normalizedLHS.parameter, this.state.expression[OPERATOR].value, rules), true);
+            this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({elementType}, getRHSTypes(elementType, this.state.normalizedLHS.parameter, this.state.expression[OPERATOR].value, rules), true);
         }
     }
 
     getLHSMenuData(config) {
         let menuData;
-        switch (element) {
+        switch (elementType) {
             // TODO: this switch statement will be used when the expression-builder needs more than just
             // elementType to determine the correct menuData. For example, for Record Lookup, the
             // config could contain the selected SObject type so the correct set of fields will be provided
             case ELEMENT_TYPE.RECORD_LOOKUP:
-                menuData = filterFieldsForChosenElement({value: config.objectType}, getLHSTypes(rules), config.lhsFields, false, false);
+                menuData = filterFieldsForChosenElement({value: config.objectType}, getLHSTypes(elementType, rules), config.lhsFields, false, false);
                 break;
             default:
-                menuData = getElementsForMenuData({element, shouldBeWritable: true}, getLHSTypes(rules), true);
+                menuData = getElementsForMenuData({elementType, shouldBeWritable: true}, getLHSTypes(elementType, rules), true);
         }
         this._fullLHSMenuData = this.state.lhsMenuData = menuData;
     }

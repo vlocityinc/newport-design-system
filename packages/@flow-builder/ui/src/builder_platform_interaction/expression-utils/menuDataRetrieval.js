@@ -294,12 +294,12 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
 
 /**
  * This method returns the selector that should be used to find elements for the menuData
- * @param {Object} element              the element type this expression builder lives in
+ * @param {Object} elementType              the element type this expression builder lives in
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
  * @returns {function}                  retrieves elements from store
  */
-function getSelector({element, shouldBeWritable}) {
-    switch (element) {
+function getSelector({elementType, shouldBeWritable}) {
+    switch (elementType) {
         case ELEMENT_TYPE.ACTION_CALL:
         case ELEMENT_TYPE.APEX_CALL:
         case ELEMENT_TYPE.APEX_PLUGIN_CALL:

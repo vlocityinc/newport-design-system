@@ -205,9 +205,9 @@ export default class ParameterItem extends Element {
             [RULE_PROPERTY_INFO.IS_COLLECTION]: this.isCollection,
         };
         const rules = getRulesForContext({elementType: this.elementType});
-        const rhsTypes = getRHSTypes(leftElement, RULE_OPERATOR.ASSIGN, rules);
+        const rhsTypes = getRHSTypes(this.elementType, leftElement, RULE_OPERATOR.ASSIGN, rules);
         const shouldBeWritable = this.isInput;
-        const menuD = getElementsForMenuData({element: this.elementType, shouldBeWritable}, rhsTypes, true);
+        const menuD = getElementsForMenuData({elementType: this.elementType, shouldBeWritable}, rhsTypes, true);
         return menuD;
     }
 

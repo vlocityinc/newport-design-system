@@ -28,7 +28,7 @@ export const mockRules =
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'
             }
-        ]
+        ],
     },
     {
         ruleType:'assignment',
@@ -58,7 +58,8 @@ export const mockRules =
                 canBeField:'CanBe',
                 canBeSysVar:'CanBe'
             }
-        ]
+        ],
+        excludeElems: ['ASSIGNMENT'],
     },
     {
         ruleType:'assignment',
@@ -102,7 +103,8 @@ export const mockRules =
                 canBeField:'CannotBe',
                 canBeSysVar:'CanBe'
             }
-        ]
+        ],
+        excludeElems:['DECISION']
     },
     // duplicate rule needed for testing removal of duplicates.
     // there will never be a direct copy of a rule, just duplicates on LHS or Operator
@@ -121,7 +123,7 @@ export const mockRules =
             {
                 paramType:'Element',
                 paramIndex:1,
-                elementType:'STAGE',
+                dataType:'DateTime',
                 collection:false,
                 canBeField:'CannotBe',
                 canBeSysVar:'CanBe'
@@ -149,5 +151,27 @@ export const mockRules =
                 canBeSysVar:'CanBe'
             }
         ]
-    }
+    },
+    {
+        ruleType:'comparison',
+        left:{
+            paramType:'Element',
+            paramIndex:1,
+            elementType:'STAGE',
+            collection:true,
+            canBeField:'CannotBe',
+            canBeSysVar:'MustBe'
+        },
+        operator:'Equals',
+        rhsParams:[
+            {
+                paramType:'Element',
+                paramIndex:1,
+                dataType: 'DateTime',
+                collection:false,
+                canBeField:'CannotBe',
+                canBeSysVar:'CanBe'
+            }
+        ],
+    },
 ];
