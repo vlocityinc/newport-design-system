@@ -8,7 +8,7 @@ const sortValues = {
     descanding: 'Desc'
 };
 
-const defaultFieldValue = 'Name';
+const defaultFieldValue = '';
 
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction-server-data-lib', () => {
@@ -58,14 +58,14 @@ describe('record-sort-result default', () => {
         recordSortResultComponent = createComponentUnderTest(null, null);
         sortOrderCmb = getSortOrderCombobox(recordSortResultComponent);
     });
-    test('"Asc" should be the selected sort order', () => {
-        expect(sortOrderCmb.value).toBe(sortValues.ascending);
+    test('"notSorted" should be the selected sort order', () => {
+        expect(sortOrderCmb.value).toBe(sortValues.notSorted);
     });
     test('Filter combobox is displayed', () => {
         expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
     });
-    test('Filter combobox value should be "Name" by default', () => {
-        expect(getFilterCombobox(recordSortResultComponent).value).toBe(defaultFieldValue);
+    test('Filter combobox value should be empty by default', () => {
+        expect(getFilterCombobox(recordSortResultComponent).value).toBe('');
     });
     describe('When sort order changes', () => {
         it('fields combobox should be visible when Ascending is selected', async () => {

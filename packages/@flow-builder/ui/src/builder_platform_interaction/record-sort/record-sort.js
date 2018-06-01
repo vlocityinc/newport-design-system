@@ -3,7 +3,6 @@ import { LABELS } from './record-sort-labels';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 
 const NOT_SORTED_VALUE = 'NotSorted';
-const FIELD_NAME_VALUE = 'Name';
 
 const SORT_ORDER_OPTIONS = [{
     label : LABELS.sortOrderAscendingLabel,
@@ -24,8 +23,8 @@ export default class RecordSort extends Element {
     @track
     state = {
         showFieldSelector : true,
-        selectedSortOrder : 'Asc',
-        selectedField : FIELD_NAME_VALUE,
+        selectedSortOrder : 'NotSorted',
+        selectedField : '',
         fieldsOptions : []
     };
 
