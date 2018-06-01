@@ -145,6 +145,7 @@ export const getRulesForContext = (config) => {
         case ELEMENT_TYPE.APEX_CALL:
         case ELEMENT_TYPE.EMAIL_ALERT:
         case ELEMENT_TYPE.APEX_PLUGIN_CALL:
+        case ELEMENT_TYPE.SUBFLOW:
         case ELEMENT_TYPE.LOCAL_ACTION_CALL:
         case ELEMENT_TYPE.VARIABLE:
         case ELEMENT_TYPE.FORMULA:
