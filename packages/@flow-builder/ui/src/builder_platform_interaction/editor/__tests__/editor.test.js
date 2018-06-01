@@ -39,49 +39,94 @@ const selectors = {
 };
 
 jest.mock('builder_platform_interaction-store-lib', () => {
-    const createTestObj = () => {
-        return {
-            nodes : [
-                {
-                    guid: '1',
-                    locationX : '20',
-                    locationY : '40',
-                    elementType : 'ASSIGNMENT',
-                    label : 'First Node',
-                    description : 'My first test node',
-                    config: {isSelected: false}
-                },
-                {
-                    guid: '2',
-                    locationX : '50',
-                    locationY : '40',
-                    elementType : 'ASSIGNMENT',
-                    label : 'Second Node',
-                    description : 'My second test node',
-                    config: {isSelected: true}
-                }
-            ],
-            connectors : [
-                {
-                    guid: 'c1',
-                    source: '1',
-                    target: '2',
-                    label: 'label',
-                    config: {isSelected: false}
-                },
-                {
-                    guid: 'c2',
-                    source: '2',
-                    target: '1',
-                    label: 'label',
-                    config: {isSelected: true}
-                }
-            ],
-            properties : {
-                label: 'Flow Name',
-                versionNumber: '1'
+    const storeState = {
+        elements : {
+            '1' : {
+                guid: '1',
+                locationX : '20',
+                locationY : '40',
+                elementType : 'ASSIGNMENT',
+                label : 'First Node',
+                description : 'My first test node',
+                config: {isSelected: false}
+            },
+            '2' : {
+                guid: '2',
+                locationX : '50',
+                locationY : '40',
+                elementType : 'ASSIGNMENT',
+                label : 'Second Node',
+                description : 'My second test node',
+                config: {isSelected: true}
+            },
+            '3' : {
+                guid: '3',
+                locationX : '100',
+                locationY : '240',
+                elementType : 'DECISION',
+                label : 'Third Node',
+                description : 'My third test node',
+                outcomeReferences: [{
+                    outcomeReference: '4'
+                }],
+                config: {isSelected: false}
+            },
+            '4' : {
+                guid: '4',
+                elementType : 'OUTCOME',
+                label : 'Fourth Node',
+                description : 'My fourth test node',
+            },
+            '5' : {
+                guid: '5',
+                locationX : '250',
+                locationY : '240',
+                elementType : 'ASSIGNMENT',
+                label : 'Fifth Node',
+                description : 'My fifth test node',
+                config: {isSelected: false}
+            },
+        },
+        canvasElements: [
+            {guid: '1'},
+            {guid: '2'},
+            {guid: '3'},
+            {guid: '5'},
+        ],
+        connectors : [
+            {
+                guid: 'c1',
+                source: '1',
+                target: '2',
+                label: 'label',
+                config: {isSelected: false}
+            },
+            {
+                guid: 'c2',
+                source: '2',
+                target: '1',
+                label: 'label',
+                config: {isSelected: true}
+            },
+            {
+                guid: 'c3',
+                source: '4',
+                target: '5',
+                label: 'label',
+                config: {isSelected: false}
+            },
+            {
+                guid: 'c4',
+                source: '5',
+                target: '3',
+                label: 'label',
+                config: {isSelected: false}
             }
-        };
+        ],
+        properties : {
+            label: 'Flow Name',
+            versionNumber: '1'
+        }
     };
 
     const dispatchSpy = jest.fn().mockImplementation(() => {});
@@ -91,14 +136,14 @@ jest.mock('builder_platform_interaction-store-lib', () => {
             getStore : () => {
                 return {
                     subscribe: (mapAppStateToStore) => {
-                        mapAppStateToStore();
+                        mapAppStateToStore(storeState);
                         return jest.fn().mockImplementation(() => {
                             return 'Testing';
                         });
                     },
                     dispatch: dispatchSpy,
                     getCurrentState : () => {
-                        return createTestObj();
+                        return storeState;
                     }
                 };
             }
@@ -109,17 +154,13 @@ jest.mock('builder_platform_interaction-store-lib', () => {
         generateGuid: jest.fn().mockImplementation((prefix) => {
             return prefix;
         }),
-        combinedReducer: jest.fn()
-    };
-});
-
-jest.mock('builder_platform_interaction-selectors', () => {
-    return {
-        canvasSelector : jest.fn().mockImplementation((obj) => {
-            return obj.nodes;
-        }),
-        resourcesSelector : jest.fn().mockImplementation((obj) => {
-            return obj;
+        combinedReducer: jest.fn(),
+        createSelector: jest.fn().mockImplementation(() => {
+            return () => {
+                return storeState.canvasElements.map((canvasElement) => {
+                    return storeState.elements[canvasElement.guid];
+                });
+            };
         })
     };
 });
@@ -153,6 +194,17 @@ const deleteElementByIsSelected = {
         selectedCanvasElementGUIDs: ['2'],
         connectorGUIDs: ['c2', 'c1'],
         canvasElementsToUpdate: ['1'],
+        elementType: ELEMENT_TYPE.ASSIGNMENT
+    },
+    type : 'DELETE_CANVAS_ELEMENT'
+};
+
+const deleteDecision = {
+    payload : {
+        selectedCanvasElementGUIDs: ['3'],
+        connectorGUIDs: ['c4'],
+        canvasElementsToUpdate: ['5'],
+        // Event currently always thrown with 'assignment'
         elementType: ELEMENT_TYPE.ASSIGNMENT
     },
     type : 'DELETE_CANVAS_ELEMENT'
@@ -404,23 +456,44 @@ describe('editor', () => {
             });
         });
 
-        it('Checks if node deletion is handled correctly when trash-can is clicked', () => {
-            const editorComponent = createComponentUnderTest();
-            const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    selectedCanvasElementGUIDs: ['2']
-                }
+        describe('delete of a single element', () => {
+            it('deletes associated connectors and updates associated nodes', () => {
+                const editorComponent = createComponentUnderTest();
+                const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
+                    bubbles: true,
+                    composed: true,
+                    cancelable: true,
+                    detail: {
+                        selectedCanvasElementGUIDs: ['2']
+                    }
+                });
+                editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+                return Promise.resolve().then(() => {
+                    const spy = Store.getStore().dispatch;
+                    expect(spy).toHaveBeenCalled();
+                    expect(spy.mock.calls[0][0]).toEqual(deleteElementByGuid);
+                });
             });
-            editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(deleteElementByGuid);
+
+            it('decision with outcomes deletes associated connectors and updates associated nodes', () => {
+                const editorComponent = createComponentUnderTest();
+                const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
+                    bubbles: true,
+                    composed: true,
+                    cancelable: true,
+                    detail: {
+                        selectedCanvasElementGUIDs: ['3']
+                    }
+                });
+                editorComponent.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+                return Promise.resolve().then(() => {
+                    const spy = Store.getStore().dispatch;
+                    expect(spy).toHaveBeenCalled();
+                    expect(spy.mock.calls[0][0]).toEqual(deleteDecision);
+                });
             });
         });
+
 
         it('Checks if node and connector deletion is handled correctly when delete key is pressed', () => {
             const editorComponent = createComponentUnderTest();

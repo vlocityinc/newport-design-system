@@ -1,4 +1,12 @@
-import { UPDATE_FLOW, DELETE_CANVAS_ELEMENT, ADD_CONNECTOR, SELECT_ON_CANVAS, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS } from 'builder_platform_interaction-actions';
+import {
+    UPDATE_FLOW,
+    DELETE_CANVAS_ELEMENT,
+    ADD_CONNECTOR,
+    SELECT_ON_CANVAS,
+    TOGGLE_ON_CANVAS,
+    DESELECT_ON_CANVAS,
+    MODIFY_DECISION_WITH_OUTCOMES
+} from 'builder_platform_interaction-actions';
 import { addItem, updateProperties, replaceItem} from 'builder_platform_interaction-data-mutation-lib';
 
 /**
@@ -16,6 +24,7 @@ export default function connectorsReducer(state = [], action) {
         case SELECT_ON_CANVAS: return _selectConnector(state, action.payload.guid);
         case TOGGLE_ON_CANVAS: return _toggleConnector(state, action.payload.guid);
         case DESELECT_ON_CANVAS: return _deselectConnectors(state);
+        case MODIFY_DECISION_WITH_OUTCOMES: return _deleteConnectorsForElements(state, action.payload.deletedOutcomes);
         default: return state;
     }
 }
@@ -24,16 +33,42 @@ export default function connectorsReducer(state = [], action) {
  * Helper function to delete all selected and associated connectors.
  *
  * @param {Array} connectors - current state of connectors in the store
- * @param {Array} connectorGUIDs - contains GUIDs of all selected and associated connectors
+ * @param {Array} connectorGUIDs - contains GUIDs of all selcted and associated connectors
  * @return {Array} new state of connectors after reduction
  * @private
  */
 function _deleteConnectors(connectors, connectorGUIDs) {
     let newState = connectors;
     if (connectorGUIDs && connectorGUIDs.length > 0) {
-        newState = connectors.filter(connector => (connectorGUIDs.indexOf(connector.guid) === -1));
+        newState = connectors.filter((connector) => {
+            return (connectorGUIDs.indexOf(connector.guid) === -1);
+        });
     }
     return newState;
+}
+
+/**
+ * Delete connectors for all of the given elements
+ * @param {Array} connectors - current state of connectors in the store
+ * @param {Array} elements - array of elements
+ * @return {Array} new state of connectors after reduction
+ * @private
+ */
+function _deleteConnectorsForElements(connectors, elements) {
+    const connectorsToDelete = [];
+
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+
+        // If we remove connectorReferences, we will do this by comparing connector childSource to the outcome guid
+        if (element.connectorReferences) {
+            connectorsToDelete.push(...element.connectorReferences);
+        }
+    }
+
+    connectors = _deleteConnectors(connectors, connectorsToDelete);
+
+    return connectors;
 }
 
 /**

@@ -11,7 +11,7 @@ import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform
 import { reducer } from "builder_platform_interaction-reducers";
 import { setRules } from "builder_platform_interaction-rule-lib";
 import { setEntities } from 'builder_platform_interaction-sobject-lib';
-
+import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 
 import spinnerAlternativeText from '@label/FlowBuilderEditor.spinnerAlternativeText';
 
@@ -203,7 +203,7 @@ export default class Editor extends Element {
         }
 
         return {
-            connectorGUIDs: Array.from(connectorGuidsToUpdate),
+            connectorGUIDs: [...connectorGuidsToUpdate],
             canvasElementGUIDs: canvasElementsToUpdate
         };
     };
@@ -304,36 +304,60 @@ export default class Editor extends Element {
     /**
      * Handles the multi-element delete event and dispatches an action to delete all the selected nodes and connectors.
      *
-     * @param {object} event - multi delete event coming from canvas.js
+     * @param {object} event - multi delete event coming from canvas.js.  If it contains the selectedCanvasElementGUIDs
+     * attribute, then those guids will be used as the basis for the delete.  Otherwise, all canvas nodes will be
+     * checked for isSelected and if true then they will be included in the list to delete
      */
     handleDeleteOnCanvas = (event) => {
         if (event && event.detail) {
-            let selectedCanvasElementGUIDs = event.detail.selectedCanvasElementGUIDs;
-            const selectedConnectiorGuids = [];
+            const elementsToDelete = [];
+            const elementGuidsToDelete = [];
 
-            if (!selectedCanvasElementGUIDs) {
-                selectedCanvasElementGUIDs = [];
+            const selectedElementGuids = event.detail.selectedCanvasElementGUIDs;
+            const selectedConnectorGuids = [];
 
+            // Guids were passed in
+            if (selectedElementGuids) {
+                const currentState = storeInstance.getCurrentState();
+
+                for (let i = 0; i < selectedElementGuids.length; i++) {
+                    const element = currentState.elements[selectedElementGuids[i]];
+                    elementsToDelete.push(element);
+                }
+            } else {
+                // Need to get element and connector guids based on canvas selections
                 for (let i = 0; i < this.appState.canvas.nodes.length; i++) {
                     const node = this.appState.canvas.nodes[i];
 
+                    // Cleaning up jsplumb nodes to keep it in sync with the store
+                    // TODO: @ankush - add story number to refactor
                     if (node.config.isSelected) {
-                        selectedCanvasElementGUIDs.push(node.guid);
+                        elementsToDelete.push(node);
+                        lib.removeNodeFromLib(node.guid);
                     }
                 }
 
-                for (const connector of this.appState.canvas.connectors) {
+                for (let i = 0; i < this.appState.canvas.connectors.length; i++) {
+                    const connector = this.appState.canvas.connectors[i];
+
                     if (connector.config.isSelected) {
-                        selectedConnectiorGuids.push(connector.guid);
+                        selectedConnectorGuids.push(connector.guid);
                     }
                 }
             }
 
+            // Collect the guids for all elements to delete and their subelements
+            for (let i = 0; i < elementsToDelete.length; i++) {
+                const element = elementsToDelete[i];
+
+                elementGuidsToDelete.push(element.guid);
+            }
+
             const {connectorGUIDs, canvasElementGUIDs} =
-                this.getElementsAndConnectorsToUpdate(selectedCanvasElementGUIDs, selectedConnectiorGuids);
+                this.getElementsAndConnectorsToUpdate(elementGuidsToDelete, selectedConnectorGuids);
 
             const payload = {
-                selectedCanvasElementGUIDs,
+                selectedCanvasElementGUIDs: elementGuidsToDelete,
                 connectorGUIDs,
                 canvasElementsToUpdate: canvasElementGUIDs,
                 // TODO: Update in second iteration

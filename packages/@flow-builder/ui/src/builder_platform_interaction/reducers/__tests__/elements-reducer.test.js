@@ -220,7 +220,6 @@ describe('elements-reducer', () => {
                         decision,
                         outcomes: [{}],
                         deletedOutcomes: [outcome],
-
                     }
                 });
 

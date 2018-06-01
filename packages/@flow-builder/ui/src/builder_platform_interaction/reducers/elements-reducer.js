@@ -18,6 +18,7 @@ import {
 } from 'builder_platform_interaction-actions';
 import {deepCopy} from 'builder_platform_interaction-store-lib';
 import {updateProperties, omit} from 'builder_platform_interaction-data-mutation-lib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 /**
  * Reducer for elements.
@@ -114,16 +115,44 @@ function _addOrUpdateElement(state, guid, element) {
 }
 
 /**
+ * Returns an array of subelements for a given element.  For example, for a decision, return an array of all
+ * outcome guids
+ *
+ * @param {Object} node element to check for subelements
+ * @return {Object[]} Array of subelement giuds for the given element.  Can be an empty array
+ */
+function _getSubElementGuids(node) {
+    const subElementsGuids = [];
+
+    if (node.elementType === ELEMENT_TYPE.DECISION) {
+        for (let i = 0; i < node.outcomeReferences.length; i++) {
+            subElementsGuids.push(node.outcomeReferences[i].outcomeReference);
+        }
+    }
+
+    return subElementsGuids;
+}
+
+/**
  * Helper function to delete all selected canvas elements and to update the affected canvas elements with the new connector count
  *
  * @param {Object} elements - current state of elements in the store
- * @param {Array} deleteGUIDs - GUIDs of canvas elements that need to be deleted
+ * @param {Array} originalGUIDs - GUIDs of canvas elements that need to be deleted
  * @param {Array} decrementGUIDs - GUIDs of all the canvas elements for which the connector count needs to decrement
  * @returns {Object} new state after reduction
  * @private
  */
-function _deleteElementAndDecrementCount(elements, deleteGUIDs, decrementGUIDs) {
-    const newState = omit(elements, deleteGUIDs);
+function _deleteElementAndDecrementCount(elements, originalGUIDs, decrementGUIDs) {
+    const guidsToDelete = [];
+    for (let i = 0; i < originalGUIDs.length; i++) {
+        const guid = originalGUIDs[i];
+        guidsToDelete.push(..._getSubElementGuids(elements[guid]));
+    }
+
+    guidsToDelete.push(...originalGUIDs);
+
+    const newState = omit(elements, guidsToDelete);
+
     decrementGUIDs.forEach((guid) => {
         if (newState[guid] && newState[guid].connectorCount) {
             const connectorCount = newState[guid].connectorCount - 1;

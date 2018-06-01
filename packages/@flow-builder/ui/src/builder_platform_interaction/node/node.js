@@ -114,6 +114,10 @@ export default class Node extends Element {
      */
     handleTrashClick = (event) => {
         event.stopPropagation();
+
+        // Cleaning up jsplumb nodes to keep it in sync with the store
+        lib.removeNodeFromLib(this.node.guid);
+
         const canvasElementDeleteEvent = new CustomEvent(CANVAS_EVENT.CANVAS_ELEMENT_DELETE, {
             bubbles: true,
             composed: true,
@@ -202,10 +206,5 @@ export default class Node extends Element {
                 lib.removeFromDragSelection(nodeContainer);
             }
         }
-    }
-
-    disconnectedCallback() {
-        // Remove the node from JsPlumb
-        lib.removeNodeFromLib(this.node.guid);
     }
 }
