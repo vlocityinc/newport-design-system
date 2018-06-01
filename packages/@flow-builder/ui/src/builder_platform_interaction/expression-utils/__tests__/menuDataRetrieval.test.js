@@ -93,7 +93,7 @@ describe('Menu data retrieval', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
         const allowedVariables = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true}, sampleParamTypes, true);
         expect(allowedVariables).toHaveLength(2);
-        expect(allowedVariables[0].text).toBe('New Resource');
+        expect(allowedVariables[0].text).toBe('FlowBuilderExpressionUtils.newResourceLabel');
         expect(allowedVariables[0].value).toBe('%%NewResource%%');
     });
     // TODO: write tests for gettings category once we switch to using labels

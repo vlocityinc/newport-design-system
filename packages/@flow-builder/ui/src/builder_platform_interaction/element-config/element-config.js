@@ -1,5 +1,6 @@
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 import { ACTION_TYPE, CONDITION_LOGIC, METADATA_KEY } from 'builder_platform_interaction-flow-metadata';
+import { LABELS } from './element-config-labels';
 
 /**
  * @constant
@@ -67,10 +68,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.SUBFLOWS,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'SubFlow',
-            plural: 'SubFlows'
+            singular: LABELS.subflowSingularLabel,
+            plural: LABELS.subflowPluralLabel
         },
         canvasElement: true,
         template: {
@@ -99,10 +99,9 @@ export const elementTypeToConfigMap = {
                                     element.actionType !== ACTION_TYPE.APEX &&
                                     element.actionType !== ACTION_TYPE.FLOW &&
                                     element.actionType !== ACTION_TYPE.LOCAL_ACTION,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Action',
-            plural: 'Actions'
+            singular: LABELS.actionSingularLabel,
+            plural: LABELS.actionPluralLabel
         },
         canvasElement: true,
         template: {
@@ -127,10 +126,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.APEX_PLUGIN_CALLS,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Apex Plugin',
-            plural: 'Apex Plugins'
+            singular: LABELS.apexPluginSingularLabel,
+            plural: LABELS.apexPluginPluralLabel
         },
         canvasElement: true,
         template: {
@@ -155,10 +153,9 @@ export const elementTypeToConfigMap = {
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
         metadataFilter : element => element.actionType === ACTION_TYPE.APEX,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Apex',
-            plural: 'Apex'
+            singular: LABELS.apexSingularLabel,
+            plural: LABELS.apexPluralLabel
         },
         canvasElement: true,
         template: {
@@ -184,10 +181,9 @@ export const elementTypeToConfigMap = {
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
         metadataFilter : element => element.actionType === ACTION_TYPE.COMPONENT,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Local Action',
-            plural: 'Local Actions'
+            singular: LABELS.localActionSingularLabel,
+            plural: LABELS.localActionPluralLabel
         },
         canvasElement: true,
         template: {
@@ -213,10 +209,9 @@ export const elementTypeToConfigMap = {
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
         metadataFilter : element => element.actionType === ACTION_TYPE.EMAIL_ALERT,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Email Alert',
-            plural: 'Email Alerts'
+            singular: LABELS.emailAlertSingularLabel,
+            plural: LABELS.emailAlertPluralLabel
         },
         canvasElement: true,
         template: {
@@ -241,10 +236,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ASSIGNMENTS,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Assignment',
-            plural: 'Assignments'
+            singular: LABELS.assignmentSingularLabel,
+            plural: LABELS.assignmentPluralLabel
         },
         canvasElement: true,
         bodyCssClass: 'slds-p-around_none',
@@ -278,10 +272,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.SCREENS,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Screen',
-            plural: 'Screens'
+            singular: LABELS.screenSingularLabel,
+            plural: LABELS.screenPluralLabel
         },
         canvasElement: true,
         nonHydratableProperties: ['fieldType', 'dataType', 'elementReference', 'numberValue', 'dateValue', 'booleanValue', 'stringValue', 'type'],
@@ -309,10 +302,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.DECISIONS,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Decision',
-            plural: 'Decisions'
+            singular: LABELS.decisionSingularLabel,
+            plural: LABELS.decisionPluralLabel
         },
         canvasElement: true,
         template: {
@@ -337,10 +329,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.LOOPS,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Loop',
-            plural: 'Loops'
+            singular: LABELS.loopSingularLabel,
+            plural: LABELS.loopPluralLabel
         },
         canvasElement: true,
         template: {
@@ -365,10 +356,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_CREATE,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Record create',
-            plural: 'Records create'
+            singular: LABELS.recordCreateSingularLabel,
+            plural: LABELS.recordCreatePluralLabel
         },
         canvasElement: true,
         template: {
@@ -392,10 +382,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_LOOKUP,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Record lookup',
-            plural: 'Records lookup'
+            singular: LABELS.recordLookupSingularLabel,
+            plural: LABELS.recordLookupPluralLabel
         },
         canvasElement: true,
         template: {
@@ -431,10 +420,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_DELETE,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Record delete',
-            plural: 'Records delete'
+            singular: LABELS.recordDeleteSingularLabel,
+            plural: LABELS.recordDeletePluralLabel
         },
         canvasElement: true,
         template: {
@@ -458,10 +446,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_UPDATE,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Record update',
-            plural: 'Records update'
+            singular: LABELS.recordUpdateSingularLabel,
+            plural: LABELS.recordUpdatePluralLabel
         },
         canvasElement: true,
         template: {
@@ -501,10 +488,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.VARIABLES,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Variable',
-            plural: 'Variables'
+            singular: LABELS.variableSingularLabel,
+            plural: LABELS.variablePluralLabel
         },
         canvasElement: false
     },
@@ -515,10 +501,9 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.FORMULAS,
-        // TODO: Use the label file for the element labels.
         labels: {
-            singular: 'Formula',
-            plural: 'Formulas'
+            singular: LABELS.formulaSingularLabel,
+            plural: LABELS.formulaPluralLabel
         },
         canvasElement: false
     },

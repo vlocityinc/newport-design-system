@@ -4,6 +4,7 @@ import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import * as sobjectLib from 'builder_platform_interaction-sobject-lib';
+import newResourceLabel from '@label/FlowBuilderExpressionUtils.newResourceLabel';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
@@ -188,9 +189,8 @@ export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
  * @returns {Object} menu data group object with only new resource as item
  */
 function getNewResourceItem() {
-    // TODO: use proper labels W-4813532
     return {
-        text : 'New Resource',
+        text : newResourceLabel,
         type : COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
         value : COMBOBOX_NEW_RESOURCE_VALUE,
         iconName : 'utility:add'
