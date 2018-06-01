@@ -5,8 +5,7 @@ const SECTION_PREFIX = 'RESOURCES_PALETTE_SECTION';
 
 const elementsSelector = (state) => state.elements;
 const canvasElementsSelector = (state) => state.canvasElements;
-const variablesSelector = (state) => state.variables;
-const formulasSelector = (state) => state.formulas;
+const resourcesSelector = (state) => state.resources;
 
 /**
  * A case-insensitive comparison function used to sort arrays of palette items by label.
@@ -37,26 +36,23 @@ function createSection(elementType, items) {
     return section;
 }
 
-/**
- * Transforms resource (non-canvas elements) guids into a form that is usable by lightning-tree-grid.
- * @param {Object} elements list of all the elements
- * @param {Array} resourceElements list of resources guids
- * @param {Object} config for the element type
- * @returns {Array} collection of lightning-tree-grid items
- */
-const getResourceElements = (elements, resourceElements, config) => resourceElements.reduce((acc, guid) => {
+const getResourceElements = (elements, canvasElements) => canvasElements.reduce((acc, guid) => {
     const element = elements[guid];
+    const config = getConfigForElementType(element.elementType);
 
-    const resource = {
+    const resourceElement = {
         elementType: element.elementType,
         guid,
         iconName: config.nodeConfig.iconName,
         label: element.name
     };
-    acc.push(resource);
+    if (!acc[element.elementType]) {
+        acc[element.elementType] = [];
+    }
+    acc[element.elementType].push(resourceElement);
 
     return acc;
-}, []);
+}, {});
 
 /**
  * Transforms canvas element guids into a form that is usable by lightning-tree-grid. These are
@@ -86,37 +82,28 @@ const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((a
     return acc;
 }, {});
 
-const getSectionForResourceElements = (elements, resourceElements, elementType) => {
-    if (!resourceElements || resourceElements.length === 0) {
-        return null;
-    }
-    const config = getConfigForElementType(elementType);
-    const items = getResourceElements(elements, resourceElements, config);
-    if (items.length === 0) {
-        return null;
-    }
-    const section = createSection(elementType, items.sort(compareItems));
-    return section;
-};
-
 /**
  * Combines non-canvas elements into their respective groupings in a form that is usable by
  * lightning-tree-grid.
  * @param {Object} elements list of all the elements
- * @param {Array} variables list of variable guids
- * @param {Array} formulas list of formula guids
+ * @param {Array} resources list of resource guids
  * @param {Array} canvasElements list of canvasElement guids
  * @returns {Array} collection of lightning-tree-grid items
  */
-const getResources = (elements, variables, formulas, canvasElements) => {
-    const resources = [];
-    const formulasSection = getSectionForResourceElements(elements, formulas, ELEMENT_TYPE.FORMULA);
-    if (formulasSection) {
-        resources.push(formulasSection);
-    }
-    const variablesSection = getSectionForResourceElements(elements, variables, ELEMENT_TYPE.VARIABLE);
-    if (variablesSection) {
-        resources.push(variablesSection);
+const getResourceSections = (elements, resources, canvasElements) => {
+    const resourceSections = [];
+    if (resources && resources.length > 0) {
+        const resourceElementMap = getResourceElements(elements, resources);
+        const elementTypes = [ELEMENT_TYPE.FORMULA, ELEMENT_TYPE.VARIABLE];
+        const length = elementTypes.length;
+        for (let i = 0; i < length; i++) {
+            const elementType = elementTypes[i];
+            const items = resourceElementMap[elementType];
+            if (items && items.length > 0) {
+                const section = createSection(elementType, items.sort(compareItems));
+                resourceSections.push(section);
+            }
+        }
     }
     if (canvasElements && canvasElements.length > 0) {
         const canvasElementMap = getCanvasElements(elements, canvasElements);
@@ -125,13 +112,13 @@ const getResources = (elements, variables, formulas, canvasElements) => {
                 const items = canvasElementMap[elementType];
                 if (items && items.length > 0) {
                     const section = createSection(elementType, items.sort(compareItems));
-                    resources.push(section);
+                    resourceSections.push(section);
                 }
             }
         }
     }
 
-    return resources;
+    return resourceSections;
 };
 
-export const resourcesSelector = createSelector([elementsSelector, variablesSelector, formulasSelector, canvasElementsSelector], getResources);
+export const resourceSectionsSelector = createSelector([elementsSelector, resourcesSelector, canvasElementsSelector], getResourceSections);

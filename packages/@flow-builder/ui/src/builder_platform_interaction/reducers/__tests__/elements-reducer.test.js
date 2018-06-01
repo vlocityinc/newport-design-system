@@ -4,9 +4,9 @@ import {
     ADD_CANVAS_ELEMENT,
     UPDATE_CANVAS_ELEMENT,
     DELETE_CANVAS_ELEMENT,
-    ADD_VARIABLE,
-    UPDATE_VARIABLE,
-    DELETE_VARIABLE,
+    ADD_RESOURCE,
+    UPDATE_RESOURCE,
+    DELETE_RESOURCE,
     MODIFY_DECISION_WITH_OUTCOMES
 } from 'builder_platform_interaction-actions';
 
@@ -38,7 +38,7 @@ describe('elements-reducer', () => {
         expect(newElementState).toEqual(newElements);
     });
 
-    it('with state set to defined & action type set to DELETE_VARIABLE should return the new element state with the excluded properties', () => {
+    it('with state set to defined & action type set to DELETE_RESOURCE should return the new element state with the excluded properties', () => {
         const omitProps = 'description';
         const oldProperties = {
             name: 'ass1',
@@ -46,7 +46,7 @@ describe('elements-reducer', () => {
             description: 'desc 1',
             guid: 'guid_1'
         };
-        const newElementState = elementReducer(oldProperties, {type: DELETE_VARIABLE, payload: {guid: omitProps }});
+        const newElementState = elementReducer(oldProperties, {type: DELETE_RESOURCE, payload: {guid: omitProps }});
         expect(newElementState).not.toHaveProperty('description');
         expect(newElementState).toHaveProperty('name');
         expect(newElementState).toHaveProperty('label');
@@ -54,17 +54,17 @@ describe('elements-reducer', () => {
 
     it('with state set to undefined & action type set to DELETE_VARIABLE should return an empty object', () => {
         const propToOmit = 'description';
-        const newElementState = elementReducer(undefined, {type: DELETE_VARIABLE, payload: {guid: propToOmit }});
+        const newElementState = elementReducer(undefined, {type: DELETE_RESOURCE, payload: {guid: propToOmit }});
         expect(newElementState).toEqual({});
     });
 
     it('with state set to defined & action type set to ADD_VARIABLE should return the new element state with the added property', () => {
-        const newElementState = elementReducer(oldElements, {type: ADD_VARIABLE, payload: {guid: 'guid2', name: 'ass-3' }});
+        const newElementState = elementReducer(oldElements, {type: ADD_RESOURCE, payload: {guid: 'guid2', name: 'ass-3' }});
         expect(newElementState).toHaveProperty('guid2');
     });
 
     it('with state set to undefined & action type set to ADD_VARIABLE should return the new element state with the added property', () => {
-        const newElementState = elementReducer(undefined, {type: ADD_VARIABLE, payload: {guid: 'guid2', name: 'ass-3' }});
+        const newElementState = elementReducer(undefined, {type: ADD_RESOURCE, payload: {guid: 'guid2', name: 'ass-3' }});
         expect(newElementState).toHaveProperty('guid2');
     });
 
@@ -75,7 +75,7 @@ describe('elements-reducer', () => {
                 description: 'desc 1',
                 guid: 'guid1' }
         };
-        const newElementState = elementReducer(oldElements, {type: UPDATE_VARIABLE, payload: {guid: 'guid1', name: 'ass-3' }});
+        const newElementState = elementReducer(oldElements, {type: UPDATE_RESOURCE, payload: {guid: 'guid1', name: 'ass-3' }});
         expect(newElementState).toEqual(updatedElements);
     });
 

@@ -162,10 +162,9 @@ const UI_MODEL = {
         'processType': 'AutoLaunchedFlow',
         'fullName': 'bestFlow'
     },
-    'variables': ['VARIABLE_4', 'VARIABLE_5'],
+    'resources': ['VARIABLE_4', 'VARIABLE_5', 'FORMULA_8'],
     'canvasElements': ['ASSIGNMENT_0', 'DECISION_3', 'ACTIONCALL_6', 'APEXCALL_7'],
-    'connectors': [],
-    'formulas': ['FORMULA_8']
+    'connectors': []
 };
 
 

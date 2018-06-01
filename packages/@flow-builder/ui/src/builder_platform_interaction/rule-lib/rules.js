@@ -147,6 +147,7 @@ export const getRulesForContext = (config) => {
         case ELEMENT_TYPE.APEX_PLUGIN_CALL:
         case ELEMENT_TYPE.LOCAL_ACTION_CALL:
         case ELEMENT_TYPE.VARIABLE:
+        case ELEMENT_TYPE.FORMULA:
             ruleType = RULE_TYPES.ASSIGNMENT;
             break;
         default:

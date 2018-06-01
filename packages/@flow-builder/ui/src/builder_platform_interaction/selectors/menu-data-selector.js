@@ -1,7 +1,8 @@
 import { createSelector } from 'builder_platform_interaction-store-lib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 const elementsSelector = (state) => state.elements;
-const variablesSelector = (state) => state.variables;
+const resourcesSelector = (state) => state.resources;
 const canvasElementsSelector = (state) => state.canvasElements;
 
 const getElements = (elements, guids) => guids.reduce((acc, guid) => {
@@ -9,15 +10,15 @@ const getElements = (elements, guids) => guids.reduce((acc, guid) => {
     return acc;
 }, []);
 
-const getWritableElements = (elements, variables) => {
-    const writableElementGuids = [...variables];
+const getWritableElements = (elements, resources) => {
+    const writableElementGuids = resources.filter(guid => elements[guid].elementType === ELEMENT_TYPE.VARIABLE);
     return getElements(elements, writableElementGuids);
 };
 
-const getReadableElements = (elements, variables, canvasElements) => {
-    const readableElementGuids = [...variables, ...canvasElements];
+const getReadableElements = (elements, resources, canvasElements) => {
+    const readableElementGuids = [...resources, ...canvasElements];
     return getElements(elements, readableElementGuids);
 };
 
-export const writableElementsSelector = createSelector([elementsSelector, variablesSelector], getWritableElements);
-export const readableElementsSelector = createSelector([elementsSelector, variablesSelector, canvasElementsSelector], getReadableElements);
+export const writableElementsSelector = createSelector([elementsSelector, resourcesSelector], getWritableElements);
+export const readableElementsSelector = createSelector([elementsSelector, resourcesSelector, canvasElementsSelector], getReadableElements);

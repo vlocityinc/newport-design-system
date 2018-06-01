@@ -171,8 +171,10 @@ describe('Flow To UI Translator', () => {
             uiFlow = translateFlowToUIModel(sampleFlow);
         });
         it('are translated to UI elements', () => {
-            expect(Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.FORMULA)).toHaveLength(1);
-            expect(uiFlow.formulas).toHaveLength(1);
+            const formulaElements = Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.FORMULA);
+            const formulaGuids = formulaElements.map(element => element.guid);
+            expect(formulaElements).toHaveLength(1);
+            expect(formulaGuids.every(guid => uiFlow.resources.indexOf(guid) > -1)).toBe(true);
         });
         it('are not canvas elements in UI model', () => {
             const formulaElements = Object.values(uiFlow.elements).filter(element => element.elementType === ELEMENT_TYPE.FORMULA);

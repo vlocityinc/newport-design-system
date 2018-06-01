@@ -1,6 +1,6 @@
 import { Element, api, track } from 'engine';
 import { EditElementEvent } from 'builder_platform_interaction-events';
-import { resourcesSelector } from 'builder_platform_interaction-selectors';
+import { resourceSectionsSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
 
 
@@ -38,7 +38,7 @@ export default class LeftPanel extends Element {
 
     mapAppStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
-        this.resources = resourcesSelector(currentState);
+        this.resources = resourceSectionsSelector(currentState);
     };
 
     @api

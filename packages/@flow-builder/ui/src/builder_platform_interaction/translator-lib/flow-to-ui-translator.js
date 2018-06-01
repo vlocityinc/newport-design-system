@@ -105,11 +105,8 @@ export function translateFlowToUIModel(flow) {
     // Map of element dev names to guids
     const nameToGuid = {};
 
-    // All variable ids
-    const variables = [];
-
-    // All formula ids
-    const formulas = [];
+    // All resource ids (variables, formulas ...)
+    const resources = [];
 
     // All canvas element ids
     const canvasElements = [];
@@ -143,10 +140,8 @@ export function translateFlowToUIModel(flow) {
                 // Construct arrays of all canvas element and variable guids
                 if (element.isCanvasElement) {
                     canvasElements.push(element.guid);
-                } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
-                    variables.push(element.guid);
-                } else if (element.elementType === ELEMENT_TYPE.FORMULA) {
-                    formulas.push(element.guid);
+                } else if (element.elementType === ELEMENT_TYPE.VARIABLE || element.elementType === ELEMENT_TYPE.FORMULA) {
+                    resources.push(element.guid);
                 }
             });
         }
@@ -175,9 +170,8 @@ export function translateFlowToUIModel(flow) {
     return {
         elements,
         connectors,
-        variables,
+        resources,
         canvasElements,
-        properties,
-        formulas
+        properties
     };
 }
