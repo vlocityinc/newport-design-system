@@ -4,8 +4,9 @@
             <builder_platform_interaction-screen-editor-palette onpaletteitemclicked={handleAddScreenField}>
             </builder_platform_interaction-screen-editor-palette>
         </div>
-        <div class='canvas-container slds-grow slds-shrink slds-grid slds-grid_vertical slds-scrollable' onclick={handleDeselectScreenElement}>
-            <builder_platform_interaction-screen-editor-canvas screen={screen} 
+        <div class='canvas-container slds-grow slds-shrink slds-scrollable_x'>
+            <builder_platform_interaction-screen-editor-canvas class='slds-size_full'
+                                                               screen={screen} 
                                                                onaddscreenfield={handleAddScreenField} 
                                                                onscreenelementselected={handleSelectScreenElement}
                                                                onreorderlist={handleReorder}

@@ -1,7 +1,14 @@
 <template>
-    <div if:true={screen} class='slds-p-around_small screen-editor-canvas-container' onscreenelementdeleted={handleScreenElementDeleted} 
+    <div if:true={screen} class='slds-p-around_small screen-editor-canvas-container slds-scrollable' 
+                                                                    onscreenelementdeleted={handleScreenElementDeleted} 
                                                                     onscreenelementselected={handleScreenElementSelected}
-                                                                    onclick={handleOnClick}>
+                                                                    onclick={handleOnClick} 
+                                                                    ondragenter={handleDragEnter} 
+                                                                    ondragover={handleDragOver}
+                                                                    ondragend={handleDragEnd}
+                                                                    ondrop={handleDrop} 
+                                                                    onscroll={handleScroll}>
+                                                                    
         <div class='slds-grow screen-editor-canvas-content slds-p-top_small slds-grid'>
             <div class='slds-card slds-card_boundary slds-grow slds-grid slds-grid_vertical'>
                 <!--  header -->
@@ -20,7 +27,7 @@
                 </builder_platform_interaction-screen-editor-highlight>
                 
                 <!--  body -->  
-                <div class='slds-card__body slds-m-bottom_none'>
+                <div class='screen-editor-canvas-body slds-card__body slds-m-bottom_none slds-is-relative'>
                     <template for:each={screen.fields} for:item='field'>
                         <builder_platform_interaction-screen-editor-highlight key={field.guid}
                                                                               draggable='true'
@@ -33,6 +40,10 @@
                             <builder_platform_interaction-screen-field slot='screen-element' screenfield={field} class='slds-grow'></builder_platform_interaction-screen-field> 
                         </builder_platform_interaction-screen-editor-highlight>
                     </template>
+                    
+                    <div class='screen-editor-canvas-dragging-region slds-hide slds-is-absolute'>
+                        <hr class='screen-editor-canvas-insertion-line slds-is-relative slds-m-around_none slds-p-around_none'></hr>
+                    </div>
                 </div>
                 
                 <!--  footer -->

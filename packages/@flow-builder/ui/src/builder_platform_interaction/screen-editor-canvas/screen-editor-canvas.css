@@ -1,8 +1,24 @@
 .screen-editor-canvas-container {
-    height: 100%;    
+    height: 100%;
+    background-color:var(--lwc-colorGray4);
 }
 
 .screen-editor-canvas-content {
     min-width: var(--lwc-sizeMedium);
-    max-height: 100%;
+}
+
+.screen-editor-canvas-dragging-region {
+    background:rgba(75, 202, 129, 0.15);
+    border: var(--lwc-borderWidthThin) solid var(--lwc-colorBackgroundSuccess);
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+
+.screen-editor-canvas-insertion-line {
+    border: var(--lwc-borderWidthThin) solid var(--lwc-colorGray1);
+    background: var(--lwc-colorBackgroundSuccess);
+    height: var(--lwc-borderWidthThick);
 }

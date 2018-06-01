@@ -1,5 +1,5 @@
 <template>
-    <div class='screen-properties-editor-container-container slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-grid slds-grid_vertical' aria-hidden='false' >
+    <div class='screen-properties-editor-container-container slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-border_left slds-grid slds-grid_vertical' aria-hidden='false' >
         <div class='slds-panel__header slds-shrink-none -slds-border_bottom-none slds-grid'>
             <div class='slds-grow'>
                 <h2 class='slds-panel__header-title slds-text-heading_small'>
@@ -13,7 +13,7 @@
             <builder_platform_interaction-screen-properties-editor if:true={isScreen} class='properties-editor-panel slds-size_medium -slds-m-horizontal_small toggle-animated' 
                                                                    screen={node}>
             </builder_platform_interaction-screen-properties-editor>
-            <div if:false={isScreen}>Screen field property editor (TBI)</div>
+            <div if:false={isScreen} class='properties-editor-panel slds-size_medium'>Screen field property editor (TBI)</div>
         </div>
     </div>
 </template>

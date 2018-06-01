@@ -15,21 +15,21 @@
     border-color: var(--lwc-colorBrandDarker);
 }
 
-.highlight.selected:focus .has-box-shadow {
+.highlight:not(.dragging).selected:focus .has-box-shadow {
     outline: 0;
     box-shadow: var(--lwc-shadowButtonFocus);
 }
 
-.highlight.selected .highlight-header, .highlight:hover .highlight-header, .highlight:focus .highlight-header {
+.highlight:not(.dragging).selected .highlight-header, .highlight:not(.dragging):hover .highlight-header, .highlight:not(.dragging):focus .highlight-header {
     visibility: visible;
     z-index: 4; /* Or the frame border (with the shadow) will appear on top of the header */
 }
 
-.highlight.selected .highlight-frame, .highlight:hover .highlight-frame, .highlight:focus .highlight-frame {
+.highlight:not(.dragging).selected .highlight-frame, .highlight:not(.dragging):hover .highlight-frame, .highlight:not(.dragging):focus .highlight-frame {
     border-style: solid;
 }
 
-.highlight.selected .highlight-icons-container, .highlight:hover .highlight-icons-container, .highlight:focus .highlight-icons-container {
+.highlight:not(.dragging).selected .highlight-icons-container, .highlight:not(.dragging):hover .highlight-icons-container, .highlight:not(.dragging):focus .highlight-icons-container {
     visibility: visible;
 }
 

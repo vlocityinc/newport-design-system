@@ -16,7 +16,7 @@ export default class ScreenEditorPropertiesEditorContainer extends Element {
     }
 
     handleToggleExpand = (/* event */) => {
-        const container = this.template.querySelector('builder_platform_interaction-screen-properties-editor');
+        const container = this.template.querySelector('.properties-editor-panel');
 
         container.classList.toggle('slds-size_medium');
         const expanded = container.classList.toggle('slds-size_x-large');

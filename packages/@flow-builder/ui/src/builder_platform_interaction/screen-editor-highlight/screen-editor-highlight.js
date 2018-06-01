@@ -1,7 +1,8 @@
 import { Element, api } from 'engine';
-import { ReorderListEvent, ScreenElementSelectedEvent, ScreenElementDeletedEvent } from 'builder_platform_interaction-events';
+import { ScreenElementSelectedEvent, ScreenElementDeletedEvent } from 'builder_platform_interaction-events';
 
 const SELECTED_CLASS = 'selected';
+const DRAGGING_CLASS = 'dragging';
 const CONTAINER_DIV_SELECTOR = 'div.highlight';
 
 /*
@@ -62,30 +63,13 @@ export default class ScreenEditorHighlight extends Element {
     }
 
     handleDragStart(event) {
+        this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.add(DRAGGING_CLASS);
+        event.dataTransfer.effectAllowed = 'move';
         // Cannot use a different attribute here because only 'text' works in IE
         event.dataTransfer.setData('text', this.screenElement.guid);
-        event.dataTransfer.effectAllowed = 'move';
-        event.stopPropagation();
     }
 
-    handleDragOver(event) {
-        event.preventDefault();
-    }
-
-    handleDrop(event) {
-        event.preventDefault();
-        const sourceIndex = event.dataTransfer.getData('text');
-        const destIndex = this.screenElement.guid;
-
-        if (sourceIndex) {
-            this.fireReorder(sourceIndex, destIndex);
-        }
-    }
-
-    fireReorder(sourceIndex, destIndex) {
-        if (sourceIndex !== destIndex) {
-            const reorderListEvent = new ReorderListEvent(sourceIndex, destIndex);
-            this.dispatchEvent(reorderListEvent);
-        }
+    handleDragEnd(/* event */) {
+        this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.remove(DRAGGING_CLASS);
     }
 }
