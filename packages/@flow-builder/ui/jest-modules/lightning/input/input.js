@@ -22,12 +22,10 @@ export default class LightningInput extends Element {
     @api messageWhenValueMissing;
     @api disabled;
     @api fieldLevelHelp;
-    @api checked;
     @api formatter;
     @api min;
     @api max;
     @api name;
-    @api fieldLevelHelp;
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {
