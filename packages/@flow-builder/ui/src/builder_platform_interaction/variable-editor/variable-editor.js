@@ -4,7 +4,8 @@ import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interacti
 import { variableReducer } from './variable-reducer';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { PropertyEditorWarningEvent } from 'builder_platform_interaction-events';
-import { filterMatches, getElementsForMenuData, RESOURCE_PICKER_MODE } from 'builder_platform_interaction-expression-utils';
+import { filterMatches, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
+import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { getRulesForContext, getRHSTypes, RULE_OPERATOR} from 'builder_platform_interaction-rule-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
@@ -201,8 +202,16 @@ export default class VariableEditor extends Element {
         return this._defaultValueMenuData;
     }
 
-    get sobjectPickerMode() {
-        return RESOURCE_PICKER_MODE.ENTITY_MODE;
+    get entityComboboxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.sobjectPickerLabel,
+            this.sobjectPickerPlaceholder,
+            undefined,
+            undefined,
+            true,
+            this.isFieldDisabled,
+            this.dataType,
+        );
     }
 
     get sobjectPickerLabel() {

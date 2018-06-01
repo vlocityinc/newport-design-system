@@ -13,7 +13,7 @@ const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     EXTERNAL_ACCESS_CHECKBOX_GROUP: 'lightning-checkbox-group',
     DEFAULT_VALUE_COMBOBOX: '.default-value builder_platform_interaction-combobox',
-    RESOURCE_PICKER: 'builder_platform_interaction-resource-picker',
+    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
 };
 
 const setupComponentUnderTest = (props) => {
@@ -54,7 +54,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
         filterMatches: jest.fn(),
         getElementsForMenuData: jest.fn(),
-        getEntitiesMenuData: jest.fn(),
+        getEntitiesMenuData: jest.fn().mockReturnValue(['full menu data']),
         RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction-expression-utils').RESOURCE_PICKER_MODE,
     };
 });
@@ -238,7 +238,7 @@ describe('variable-editor', () => {
             });
         });
 
-        it('should not exists for sobject data type', () => {
+        it('should not exist for sobject data type', () => {
             const variableEditor = setupComponentUnderTest(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
             return Promise.resolve().then(() => {
                 const defaultValueCombobox = variableEditor.querySelector(SELECTORS.DEFAULT_VALUE_COMBOBOX);
@@ -304,26 +304,26 @@ describe('variable-editor', () => {
             accountVariable = deepCopy(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
         });
 
-        it('exists for sobject data type', () => {
+        it('contains an entity resource picker for sobject variables', () => {
             const variableEditor = setupComponentUnderTest(accountVariable);
             return Promise.resolve().then(() => {
-                const resourcePicker = variableEditor.querySelector(SELECTORS.RESOURCE_PICKER);
-                expect(resourcePicker).not.toBeNull();
+                const entityResourcePicker = variableEditor.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+                expect(entityResourcePicker).not.toBeNull();
             });
         });
 
         it('does not exist for non sobject data type', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
-                const resourcePicker = variableEditor.querySelector(SELECTORS.RESOURCE_PICKER);
-                expect(resourcePicker).toBeNull();
+                const entityResourcePicker = variableEditor.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+                expect(entityResourcePicker).toBeNull();
             });
         });
 
         it('handles flow combobox value changed event', () => {
             const variableEditor = setupComponentUnderTest(accountVariable);
-            const resourcePicker = variableEditor.querySelector(SELECTORS.RESOURCE_PICKER);
-            resourcePicker.dispatchEvent(getComboboxValueChangedEvent());
+            const entityResourcePicker = variableEditor.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+            entityResourcePicker.dispatchEvent(getComboboxValueChangedEvent());
             return Promise.resolve().then(() => {
                 expect(createAction.mock.calls[0][1].propertyName).toEqual('objectType');
                 expect(variableReducer).toHaveBeenCalledWith(variableEditor.node, {});
