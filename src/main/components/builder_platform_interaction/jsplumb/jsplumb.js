@@ -1,5 +1,14 @@
 function lib(){
     /**
+     * IMPORTANT: DO NOT IGNORE THESE COMMENTS
+     * JSPLUMB version: 2.5.11
+     * Made changes in following lines to make JSPLUMB performant. Please be mindful of it before updating the version:
+     * 1) Line 1414 - CL 15923035
+     * 2) Line 4269 - CL 15923035 
+     * 3) Line 6493 & 6511 - CL 15923035
+     * 4) Line 6584 & 6586 - CL 15923035
+     */
+    /**
      * jsBezier
      *
      * Copyright (c) 2010 - 2017 jsPlumb (hello@jsplumbtoolkit.com)
@@ -1401,7 +1410,8 @@ function lib(){
             },
             _setDroppablesActive = function(dd, val, andHover, drag) {
                 _foreach(dd, function(e) {
-                    e.setActive(val);
+                    // Commenting it because whenever connector is drawn between 2 nodes, active class is added. This was slowing the drawing of connector and not needed for our use case. So, commenting it out. 
+                    // e.setActive(val);
                     if (val) e.updatePosition();
                     if (andHover) e.setHover(drag, val);
                 });
@@ -4255,7 +4265,11 @@ function lib(){
                     if (element == null) {
                         return null;
                     }
-                    var id = _currentInstance.getAttribute(element, "id");
+                    var id;
+                    // Adding this check to make sure that element has an "id" attribute.
+                    if (element.hasAttribute("id")) {
+                        id = _currentInstance.getAttribute(element, "id");                        
+                    }
                     if (!id || id === "undefined") {
                         // check if fixed uuid parameter is given
                         if (arguments.length === 2 && arguments[1] !== undefined) {
@@ -6475,8 +6489,9 @@ function lib(){
              possible that will continue to be the case.
              */
             this.register = function (el) {
-                var id = _currentInstance.getId(el),
-                    parentOffset = _currentInstance.getOffset(el);
+                var id = _currentInstance.getId(el);
+                // Assigning value only when needed
+                var parentOffset;
 
                 if (!_draggables[id]) {
                     _draggables[id] = el;
@@ -6492,6 +6507,10 @@ function lib(){
                                 var cEl = jsPlumb.getElement(p.childNodes[i]),
                                     cid = _currentInstance.getId(p.childNodes[i], null, true);
                                 if (cid && _elementsWithEndpoints[cid] && _elementsWithEndpoints[cid] > 0) {
+                                    // Calculating parent offset only if needed
+                                    if (!parentOffset) {
+                                        parentOffset = _currentInstance.getOffset(el);
+                                    }
                                     var cOff = _currentInstance.getOffset(cEl);
                                     _delements[id][cid] = {
                                         id: cid,
@@ -6561,10 +6580,10 @@ function lib(){
 
                 while (p != null && p !== b) {
                     var pid = _currentInstance.getId(p, null, true);
-                    if (pid && _draggables[pid]) {
-                        var pLoc = _currentInstance.getOffset(p);
-
+                    if (pid && _draggables[pid]) {                        
                         if (_delements[pid][id] == null) {
+                            // Moving offset here, so that offset doesn't get calculated again while drawing second endpoint
+                            var pLoc = _currentInstance.getOffset(p);
                             var cLoc = _currentInstance.getOffset(el);
                             _delements[pid][id] = {
                                 id: id,

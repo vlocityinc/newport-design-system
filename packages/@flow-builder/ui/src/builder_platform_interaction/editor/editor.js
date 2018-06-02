@@ -81,6 +81,10 @@ export default class Editor extends Element {
         }
     }
 
+    get shouldCreateCanvas() {
+        return (this.appState.canvas.nodes && this.appState.canvas.nodes.length > 0);
+    }
+
     get labels() {
         return LABELS;
     }

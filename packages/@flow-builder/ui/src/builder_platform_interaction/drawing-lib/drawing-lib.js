@@ -109,45 +109,45 @@ class DrawingLib {
 
     /**
      * Checks if the given iconSection is a source or not.
-     * @param {String} nodeId - The node id
+     * @param {String} canvasElementContainer - The canvas element container
      * @returns {Boolean} Indicating if the iconSection is a source or not
      */
-    isSource = (nodeId) => {
-        return instance.isSource(nodeId);
+    isSource = (canvasElementContainer) => {
+        return instance.isSource(canvasElementContainer);
     };
 
     /**
      * Makes the end-points of all the nodes a source point to start creating connectors from.
-     * @param {String} nodeId - The node id
+     * @param {String} canvasElementContainer - The canvas element container
      */
-    makeSource = (nodeId) => {
-        instance.makeSource(nodeId, {
+    makeSource = (canvasElementContainer) => {
+        instance.makeSource(canvasElementContainer, {
             filter: '.end-point',
             endpoint: 'Dot',
             endpointStyle: {},
             allowLoopback: false,
-            maxConnections: -1
+            maxConnections: -1,
         });
     };
 
     /**
      * Checks if the given iconSection is a target or not.
-     * @param {String} nodeId - The node id
+     * @param {String} canvasElementContainer - The canvas element container
      * @returns {Boolean} Indicating if the iconSection is a source or not
      */
-    isTarget = (nodeId) => {
-        return instance.isTarget(nodeId);
+    isTarget = (canvasElementContainer) => {
+        return instance.isTarget(canvasElementContainer);
     };
 
     /**
      * Makes all the nodes a target region for the connectors to be dropped at.
-     * @param {String} nodeId - The node id
+     * @param {String} canvasElementContainer - The canvas element container
      */
-    makeTarget = (nodeId) => {
-        instance.makeTarget(nodeId, {
+    makeTarget = (canvasElementContainer) => {
+        instance.makeTarget(canvasElementContainer, {
             allowLoopback: false,
             maxConnections: -1,
-            dropOptions: {hoverClass: 'targetHover'}
+            dropOptions: {hoverClass: 'targetHover'},
         });
     };
 

@@ -15,19 +15,12 @@ export default class Connector extends Element {
      */
     jsPlumbConnector;
 
-    renderedCallback() {
-        if (lib.getContainer().classList.contains('inner-canvas')) {
-            // Setting up existing connections
-            if (!this.jsPlumbConnector) {
-                // TODO: Update it to set existing connections in bulk to improve performance
-                this.jsPlumbConnector = lib.setExistingConnections(this.connector.source, this.connector.target,
-                    this.connector.label, this.connector.guid, this.connector.type);
-            } else if (this.connector.config.isSelected) {
-                lib.selectConnector(this.jsPlumbConnector, this.connector.type);
-            } else if (!this.connector.config.isSelected) {
-                lib.deselectConnector(this.jsPlumbConnector, this.connector.type);
-            }
-        }
+    @api getJsPlumbConnector() {
+        return this.jsPlumbConnector;
+    }
+
+    @api setJsPlumbConnector(newValue) {
+        this.jsPlumbConnector = newValue;
     }
 
     disconnectedCallback() {

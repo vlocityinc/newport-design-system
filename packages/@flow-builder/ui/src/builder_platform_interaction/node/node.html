@@ -1,6 +1,6 @@
 <template>
-    <div class='element-container node-container slds-is-absolute slds-text-align_center' style={nodeLocation} title={nodeTitle}>
-        <div class={nodeClasses} id={nodeGuid}>
+    <div id={nodeGuid} class='element-container node-container slds-is-absolute slds-text-align_center' style={nodeLocation} title={nodeTitle}>
+        <div class={nodeClasses}>
             <!--Node icon -->
             <button tabindex='0' class='icon' onfocus={handleNodeClick} onclick={handleNodeClick} ondblclick={handleDblClick}>
                 <lightning-icon icon-name={iconName} size='large'></lightning-icon>

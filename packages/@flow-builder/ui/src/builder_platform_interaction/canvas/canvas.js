@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { Element, api, track, unwrap } from 'engine';
 import { CONNECTOR_OVERLAY, drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
 import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pan-utils';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
@@ -37,7 +37,6 @@ export default class Canvas extends Element {
     canvasArea;
     innerCanvasArea;
 
-    jsPlumbContainer = false;
     isMouseDown = false;
 
     // Viewport variables used for zooming
@@ -477,11 +476,58 @@ export default class Canvas extends Element {
     }
 
     renderedCallback() {
-        if (!this.jsPlumbContainer) {
+        if (!lib.getContainer()) {
             this.canvasArea = this.template.querySelector('#canvas');
             this.innerCanvasArea = this.template.querySelector('#innerCanvas');
             lib.setContainer('innerCanvas');
-            this.jsPlumbContainer = true;
         }
+        const canvasElements = this.template.querySelectorAll('builder_platform_interaction-node');
+        const connectors = this.template.querySelectorAll('builder_platform_interaction-connector');
+        const canvasElementsLength = canvasElements.length;
+        const connectorsLength = connectors.length;
+        lib.setSuspendDrawing(true);
+        for (let canvasElementIndex = 0; canvasElementIndex < canvasElementsLength; canvasElementIndex++) {
+            const canvasElementContainerTemplate = canvasElements[canvasElementIndex];
+            const dragStart = canvasElementContainerTemplate.dragStart;
+            const dragStop = canvasElementContainerTemplate.dragStop;
+            const canvasElementContainer = unwrap(canvasElementContainerTemplate).firstChild;
+            const isSelected = canvasElementContainerTemplate.node.config.isSelected;
+            const elementType = canvasElementContainerTemplate.node.elementType;
+
+            if (elementType !== ELEMENT_TYPE.START_ELEMENT) {
+                lib.setDraggable(canvasElementContainer, {
+                    start : dragStart,
+                    stop: dragStop
+                });
+                if (!lib.isTarget(canvasElementContainer)) {
+                    lib.makeTarget(canvasElementContainer);
+                }
+            }
+
+            if (!lib.isSource(canvasElementContainer)) {
+                lib.makeSource(canvasElementContainer);
+            }
+            // All nodes can potentially support infinite outgoing connectors, but whether potential anchor points
+            // are present is determined by hasAvailableConnections
+
+            if (isSelected) {
+                lib.addToDragSelection(canvasElementContainer);
+            } else {
+                lib.removeFromDragSelection(canvasElementContainer);
+            }
+        }
+        for (let connectorIndex = 0; connectorIndex < connectorsLength; connectorIndex++) {
+            const connector = connectors[connectorIndex].connector;
+            let jsPlumbConnector = connectors[connectorIndex].getJsPlumbConnector();
+            if (!jsPlumbConnector) {
+                jsPlumbConnector = lib.setExistingConnections(connector.source, connector.target, connector.label, connector.guid, connector.type);
+                connectors[connectorIndex].setJsPlumbConnector(jsPlumbConnector);
+            } else if (connector.config.isSelected) {
+                lib.selectConnector(jsPlumbConnector, connector.type);
+            } else if (!connector.config.isSelected) {
+                lib.deselectConnector(jsPlumbConnector, connector.type);
+            }
+        }
+        lib.setSuspendDrawing(false, true);
     }
 }

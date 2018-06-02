@@ -29,9 +29,9 @@ export default class Node extends Element {
     }
 
     get nodeTitle() {
-        let title = labelAlternativeText + ': ' + this.node.label;
+        let title = `${labelAlternativeText}: ${this.node.label}`;
         if (this.node.description) {
-            title = title + ', ' + descriptionAlternativeText + ': ' + this.node.description;
+            title = `${title}, ${descriptionAlternativeText}: ${this.node.description}`;
         }
         return title;
     }
@@ -39,7 +39,7 @@ export default class Node extends Element {
     get nodeClasses() {
         let classes = 'icon-section';
         if (this.node.config.isSelected) {
-            classes = 'icon-section selected';
+            classes = `${classes} selected`;
         }
         return classes;
     }
@@ -134,7 +134,7 @@ export default class Node extends Element {
      * as soon as drag begins
      * @param {object} event - drag start event
      */
-    dragStart = (event) => {
+    @api dragStart = (event) => {
         this.isNodeDragging = true;
         if (!this.node.config.isSelected) {
             const isMultiSelectKeyPressed = this.isMultiSelect(event.e);
@@ -155,7 +155,7 @@ export default class Node extends Element {
      * Updates the location of the node once the user stops dragging it on the canvas.
      * @param {object} event - drag stop event
      */
-    dragStop = (event) => {
+    @api dragStop = (event) => {
         if (event.finalPos[0] !== this.node.locationX || event.finalPos[1] !== this.node.locationY) {
             const dragStopEvent = new CustomEvent(CANVAS_EVENT.DRAG_STOP, {
                 bubbles: true,
@@ -177,34 +177,5 @@ export default class Node extends Element {
             return startElement;
         }
         return nodeElement;
-    }
-
-    renderedCallback() {
-        if (lib.getContainer().classList.contains('inner-canvas')) {
-            const nodeContainer = document.getElementById(this.node.guid).parentElement;
-
-            if (this.node.elementType !== ELEMENT_TYPE.START_ELEMENT) {
-                lib.setDraggable(nodeContainer, {
-                    start : (event) => this.dragStart(event),
-                    stop: (event) => this.dragStop(event)
-                });
-
-                if (!lib.isTarget(this.node.guid)) {
-                    lib.makeTarget(this.node.guid);
-                }
-            }
-
-            // All nodes can potentially support infinite outgoing connectors, but whether potential anchor points
-            // are present is determined by hasAvailableConnections
-            if (!lib.isSource(this.node.guid)) {
-                lib.makeSource(this.node.guid);
-            }
-
-            if (this.node.config.isSelected) {
-                lib.addToDragSelection(nodeContainer);
-            } else {
-                lib.removeFromDragSelection(nodeContainer);
-            }
-        }
     }
 }
