@@ -9,11 +9,11 @@
             <slot name='screen-element'></slot>
             <div class='highlight-icons-container slds-grid slds-is-absolute'>
                 <div if:true={shouldDisplayMoveIcon} class='highlight-icon-container slds-text-align_center'>                    
-                    <lightning-icon icon-name='utility:move' variant='inverse' size='small'></lightning-icon>
+                    <lightning-button-icon class='highlight-icon left' icon-name='utility:move' variant='bare-inverse' size='small' tab-index='-1' disabled></lightning-button-icon>
                 </div>
                 <div class='highlight-icon-container slds-text-align_center'>
-                    <lightning-button-icon icon-name='utility:close' variant='bare-inverse' size='large' onclick={handleDelete}></lightning-button-icon>
-                </div>     
+                    <lightning-button-icon class='highlight-icon right has-box-shadow' icon-name='utility:close' variant='bare-inverse' size='small' alternative-text={labels.deleteAlternativeText} onclick={handleDelete}></lightning-button-icon>
+                </div>                    
             </div>            
         </div>
         
@@ -22,10 +22,10 @@
             <div class='slds-size_full highlight-frame has-box-shadow slds-is-absolute'>
                 <div class='highlight-icons-container slds-grid slds-is-relative slds-float_right'>
                     <div if:true={shouldDisplayMoveIcon} class='highlight-icon-container slds-text-align_center'>                    
-                        <lightning-icon icon-name='utility:move' variant='inverse' size='small'></lightning-icon>
+                        <lightning-button-icon class='highlight-icon left' icon-name='utility:move' variant='bare-inverse' size='small' tab-index='-1' disabled></lightning-button-icon>
                     </div>
                     <div class='highlight-icon-container slds-text-align_center'>
-                        <lightning-button-icon class='has-box-shadow' icon-name='utility:close' variant='bare-inverse' size='large' onclick={handleDelete}></lightning-button-icon>
+                        <lightning-button-icon class='highlight-icon right has-box-shadow' icon-name='utility:close' variant='bare-inverse' size='small' alternative-text={labels.deleteAlternativeText} onclick={handleDelete}></lightning-button-icon>
                     </div>     
                 </div>
             </div> 

@@ -1,5 +1,6 @@
 import { Element, api } from 'engine';
 import { ScreenElementSelectedEvent, ScreenElementDeletedEvent } from 'builder_platform_interaction-events';
+import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 
 const SELECTED_CLASS = 'selected';
 const DRAGGING_CLASS = 'dragging';
@@ -16,6 +17,8 @@ export default class ScreenEditorHighlight extends Element {
     @api draggable = false;
     @api title;
     @api tabIndex = 0;
+
+    labels = LABELS;
 
     @api get selected() {
         return this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.contains(SELECTED_CLASS);

@@ -51,16 +51,33 @@
 }
 
 .highlight-icons-container {
-    visibility: hidden;    
-    transform: scale(.55); /* waiting for Owen to file a TD */
-    transform-origin: top right;
-    background-color: var(--lwc-colorBrandDark);
+    visibility: hidden;
+    background-color:var(--lwc-colorBrandDark);    
     top: 0; /* for preventevents false, as in that case this div is absolute */
     right: 0; /* for preventevents false, as in that case this div is absolute */
 }
 
 .highlight-icon-container {
-    width: 1.8rem;
-    height: 1.8rem;
-    transform: scale(.75); /* waiting for Owen to file a TD */
+    width: 1rem;    
+    height: 1rem;
+}
+
+.highlight-icon {    
+    position: absolute;
+    top: -2px;
+    display: inline-flex;
+    border-radius: 0;
+}
+
+.highlight-icon-container:focus, .highlight-icon-container:focus-within {
+    box-shadow:none;
+    outline: 5px auto rgb(128, 185, 252);
+}
+
+.highlight-icon.left {
+    left: 2px;
+}
+
+.highlight-icon.right {
+    right: 2px;
 }
