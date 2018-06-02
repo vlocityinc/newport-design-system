@@ -37,6 +37,13 @@ export default class FerovResourcePicker extends Element {
     }
 
     /**
+     * The element type of the property editor from element config.
+     * @type {String}
+     */
+    @api
+    propertyEditorElementType;
+
+    /**
      * The element param that represents the left hand side in operator rules.
      * @type {module:operator-rule-util.param}
      */
@@ -94,11 +101,10 @@ export default class FerovResourcePicker extends Element {
      * If elementConfig is set use that to fetch the menu data.
      */
     populateFerovMenuData() {
-        const elementType = this.elementParam.elementType;
         if (!this.elementConfig) {
-            this._rules = getRulesForContext({elementType});
-            const paramTypes = getRHSTypes(this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
-            this._menuData = getElementsForMenuData({ element: elementType }, paramTypes, this.showNewResource);
+            this._rules = getRulesForContext({ elementType: this.propertyEditorElementType });
+            const paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
+            this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType }, paramTypes, this.showNewResource);
         } else {
             this._menuData = getElementsForMenuData(this.elementConfig, {}, this.showNewResource);
         }
