@@ -1,4 +1,4 @@
-import {Element, api, track} from 'engine';
+import { Element, api, track } from 'engine';
 import {
     PropertyChangedEvent,
     DeleteOutcomeEvent,
@@ -6,8 +6,7 @@ import {
     DeleteConditionEvent,
     UpdateConditionEvent
 } from 'builder_platform_interaction-events';
-import {CONDITION_LOGIC} from 'builder_platform_interaction-flow-metadata';
-import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'

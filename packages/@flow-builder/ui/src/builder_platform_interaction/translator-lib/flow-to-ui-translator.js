@@ -2,7 +2,7 @@ import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 import { ELEMENT_INFOS, FLOW_PROPERTIES } from './translation-config';
 import { swapDevNamesToUids } from './uid-swapping';
 import { pick } from 'builder_platform_interaction-data-mutation-lib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { createConnectorsAndConnectionProperties, createStartElement } from 'builder_platform_interaction-connector-utils';
 
 /**

@@ -1,4 +1,5 @@
-import { ELEMENT_TYPE, SUB_ELEMENT_TYPE, createFlowElement } from 'builder_platform_interaction-element-config';
+import { createFlowElement } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE, SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
 

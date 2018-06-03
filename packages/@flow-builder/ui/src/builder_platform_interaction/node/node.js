@@ -1,5 +1,6 @@
 import { Element, api } from 'engine';
-import { ELEMENT_TYPE, getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { EditElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import labelAlternativeText from '@label/FlowBuilderCanvasElement.labelAlternativeText';

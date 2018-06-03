@@ -15,7 +15,7 @@ import {
 } from 'builder_platform_interaction-actions';
 import {deepCopy} from 'builder_platform_interaction-store-lib';
 import {updateProperties, omit} from 'builder_platform_interaction-data-mutation-lib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * Reducer for elements.

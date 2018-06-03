@@ -1,6 +1,6 @@
-import {isMatch, elementToParam} from "builder_platform_interaction-rule-lib";
-import {writableElementsSelector, readableElementsSelector} from "builder_platform_interaction-selectors";
-import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
+import { isMatch, elementToParam } from "builder_platform_interaction-rule-lib";
+import { writableElementsSelector, readableElementsSelector } from "builder_platform_interaction-selectors";
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import * as sobjectLib from 'builder_platform_interaction-sobject-lib';

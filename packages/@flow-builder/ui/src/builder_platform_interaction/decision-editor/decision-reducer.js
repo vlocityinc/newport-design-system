@@ -1,4 +1,4 @@
-import {decisionValidation} from './decision-validation';
+import { decisionValidation } from './decision-validation';
 import {
     updateProperties,
     addItem,
@@ -16,7 +16,8 @@ import {
     UpdateConditionEvent
 } from 'builder_platform_interaction-events';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
-import { createFlowElement, ELEMENT_TYPE, SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { createFlowElement } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE, SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import {PROPERTY_EDITOR_ACTION} from 'builder_platform_interaction-actions';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';

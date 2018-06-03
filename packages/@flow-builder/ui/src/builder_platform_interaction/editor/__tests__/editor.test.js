@@ -1,5 +1,5 @@
 import { createElement } from 'engine';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import Editor from '../editor';
 import { CANVAS_EVENT } from 'builder_platform_interaction-events';
 import { Store } from 'builder_platform_interaction-store-lib';

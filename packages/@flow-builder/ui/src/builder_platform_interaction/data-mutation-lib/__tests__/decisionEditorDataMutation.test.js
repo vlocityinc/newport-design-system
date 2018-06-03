@@ -1,9 +1,5 @@
-import {
-    mutateDecision,
-    deMutateDecision
-} from '../decisionEditorDataMutation';
-
-import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
+import { mutateDecision, deMutateDecision } from '../decisionEditorDataMutation';
+import {ELEMENT_TYPE} from 'builder_platform_interaction-flow-metadata';
 
 describe('mutateDecision function', () => {
     const state = {

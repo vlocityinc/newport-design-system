@@ -1,6 +1,6 @@
 import { assignmentValidation } from './assignment-validation';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
-import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { updateProperties, set, deleteItem } from 'builder_platform_interaction-data-mutation-lib';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';

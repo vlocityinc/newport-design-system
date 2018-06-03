@@ -1,7 +1,6 @@
 import { Element, api, track, unwrap } from "engine";
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
-import { ACTION_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE} from 'builder_platform_interaction-flow-metadata';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { LABELS } from './action-selector-labels';
 

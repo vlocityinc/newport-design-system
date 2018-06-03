@@ -3,7 +3,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { mockRules, dateParam, stageParam, stringParam } from 'mock-rule-service';
 import { elements, dateVariableGuid, stageGuid, stringVariableGuid, accountSObjectVariableGuid, hydratedElements } from 'mock-store-data';
 import { RULE_TYPES, RULE_PROPERTY } from '../rules';
-import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { DATE: { value: DATE } } = FLOW_DATA_TYPE;

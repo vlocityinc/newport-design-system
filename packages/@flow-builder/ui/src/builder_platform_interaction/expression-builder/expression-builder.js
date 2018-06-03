@@ -6,7 +6,7 @@ import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOp
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;

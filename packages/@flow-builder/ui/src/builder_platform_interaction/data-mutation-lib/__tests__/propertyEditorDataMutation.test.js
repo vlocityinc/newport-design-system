@@ -1,8 +1,5 @@
-import {
-    mutateEditorElement,
-    removeEditorElementMutation,
-} from '../propertyEditorDataMutation';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { mutateEditorElement, removeEditorElementMutation } from '../propertyEditorDataMutation';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 import {
     mutateAssignment,

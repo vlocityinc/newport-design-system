@@ -5,7 +5,7 @@ import { RowContentsChangedEvent, ComboboxValueChangedEvent } from 'builder_plat
 import { numberVariableGuid, numberVariableDevName, elements } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { mockAccountFields } from 'mock-server-entity-data';
 
 function createComponentForTest(props) {

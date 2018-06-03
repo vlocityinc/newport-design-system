@@ -8,7 +8,7 @@ import {
 } from 'builder_platform_interaction-events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
-import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 const recordPropertyChanged = (state, event) => {
     return updateProperties(state, {[event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}});

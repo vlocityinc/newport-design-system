@@ -1,7 +1,7 @@
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { getRulesForContext, getRHSTypes, elementToParam } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, isElementAllowed } from 'builder_platform_interaction-expression-utils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 // TODO i18n after W-4693112
 /**

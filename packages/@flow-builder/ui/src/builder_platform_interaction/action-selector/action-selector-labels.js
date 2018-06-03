@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /* Labels */
 import retrieveInvocableActionsError from '@label/FlowBuilderActionCallEditor.retrieveInvocableActionsError';

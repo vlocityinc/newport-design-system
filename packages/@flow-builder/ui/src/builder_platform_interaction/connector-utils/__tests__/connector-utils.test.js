@@ -7,7 +7,7 @@ import {
     setConnectorsOnElements,
     CONNECTOR_TYPE
 } from 'builder_platform_interaction-connector-utils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 jest.mock('builder_platform_interaction-store-lib', () => {
     return {

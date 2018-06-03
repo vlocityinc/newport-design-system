@@ -1,5 +1,5 @@
 import { Element, api, track, unwrap } from 'engine';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { loopReducer } from './loop-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';

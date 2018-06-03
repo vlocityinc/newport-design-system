@@ -1,6 +1,6 @@
 import { createElement } from 'engine';
 import ActionSelector from '../action-selector';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { ValueChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
 import { mockActions, mockApexPlugins, mockSubflows } from 'mock-action-selector-data';
 

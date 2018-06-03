@@ -2,7 +2,7 @@ import { createElement } from 'engine';
 import FerovResourcePicker from '../ferov-resource-picker';
 import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker',

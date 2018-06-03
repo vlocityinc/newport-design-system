@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * @param {Object} item     parameter item

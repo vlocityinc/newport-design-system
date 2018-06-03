@@ -1,5 +1,5 @@
-import {addElement, updateElement, ADD_DECISION_WITH_OUTCOMES, MODIFY_DECISION_WITH_OUTCOMES} from '../actions';
-import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
+import { addElement, updateElement, ADD_DECISION_WITH_OUTCOMES, MODIFY_DECISION_WITH_OUTCOMES } from '../actions';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 describe('updateElement', () => {
     it('handles modify decision with outcomes', () => {

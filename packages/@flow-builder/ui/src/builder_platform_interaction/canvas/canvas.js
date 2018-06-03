@@ -2,7 +2,8 @@ import { Element, api, track, unwrap } from 'engine';
 import { CONNECTOR_OVERLAY, drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
 import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pan-utils';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
-import { ELEMENT_TYPE, isCanvasElement } from 'builder_platform_interaction-element-config';
+import { isCanvasElement } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { AddElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
 
 /**

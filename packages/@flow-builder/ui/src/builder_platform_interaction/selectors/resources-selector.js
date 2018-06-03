@@ -1,4 +1,5 @@
-import { ELEMENT_TYPE, getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { createSelector, generateGuid } from 'builder_platform_interaction-store-lib';
 
 const SECTION_PREFIX = 'RESOURCES_PALETTE_SECTION';

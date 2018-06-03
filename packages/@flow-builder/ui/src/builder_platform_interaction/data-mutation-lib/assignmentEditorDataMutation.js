@@ -1,6 +1,6 @@
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
-import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * Add property editor mutation for assignment

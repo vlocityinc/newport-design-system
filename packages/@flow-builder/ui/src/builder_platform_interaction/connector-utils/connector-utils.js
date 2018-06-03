@@ -1,4 +1,5 @@
-import { ELEMENT_TYPE, getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import startElementLabel from '@label/FlowBuilderCanvas.startElementLabel';
 

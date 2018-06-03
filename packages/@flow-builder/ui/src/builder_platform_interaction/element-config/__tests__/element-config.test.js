@@ -1,11 +1,10 @@
 import {
     createFlowElement,
     elementTypeToConfigMap,
-    ELEMENT_TYPE,
     getConfigForElementType,
     isCanvasElement
 } from '../element-config';
-import {CONDITION_LOGIC} from 'builder_platform_interaction-flow-metadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 function verifyConfig(elementType, config) {
     let expectedConfig = elementTypeToConfigMap[elementType];

@@ -1,5 +1,5 @@
 import { createSelector } from 'builder_platform_interaction-store-lib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 const elementsSelector = (state) => state.elements;
 const resourcesSelector = (state) => state.resources;

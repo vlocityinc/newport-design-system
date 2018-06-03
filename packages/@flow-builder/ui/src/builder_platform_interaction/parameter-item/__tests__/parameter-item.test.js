@@ -1,6 +1,6 @@
 import { createElement } from 'engine';
 import ParameterItem from 'builder_platform_interaction-parameter-item';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { UpdateParameterItemEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
 import { stringCollectionVariable1Guid, stringCollectionVariable1DevName } from 'mock-store-data';
 import { comboboxInitialConfig } from 'mock-combobox-data';

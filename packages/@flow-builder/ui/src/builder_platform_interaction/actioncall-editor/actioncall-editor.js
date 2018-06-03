@@ -1,7 +1,7 @@
 import { Element, api, track, unwrap } from 'engine';
 import { actionCallReducer } from './actioncall-reducer';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { LABELS } from './actioncall-editor-labels';
 

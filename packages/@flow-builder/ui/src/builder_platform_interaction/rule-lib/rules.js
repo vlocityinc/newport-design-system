@@ -5,7 +5,7 @@
  * @author cnastasa
  * @since 214
  */
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { set } from 'builder_platform_interaction-data-mutation-lib';
 
 /**

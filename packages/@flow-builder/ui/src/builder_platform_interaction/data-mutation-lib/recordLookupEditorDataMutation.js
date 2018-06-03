@@ -1,7 +1,6 @@
-import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
-import { RECORD_LOOKUP_FILTER_CRITERIA } from 'builder_platform_interaction-flow-metadata';
+import { RECORD_LOOKUP_FILTER_CRITERIA, SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 export const mutateFilterItems = (filterItems, objectType) => {
     filterItems.forEach((item, itemIndex) => {

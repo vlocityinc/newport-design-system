@@ -1,7 +1,7 @@
 import { actionCallValidation } from './actioncall-validation';
 import { updateProperties, omit } from 'builder_platform_interaction-data-mutation-lib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 const changeActionType = (state, action) => {
     let newState = omit(state, ['actionName', 'actionType', 'flowName', 'apexClass', 'inputParameters', 'outputParameters', 'inputAssignments', 'outputAssignments']);

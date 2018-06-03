@@ -1,7 +1,7 @@
 import { getElementsForMenuData, normalizeLHS } from '../menuDataRetrieval';
 import { numberParam } from 'mock-rule-service';
 import * as store from 'mock-store-data';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import * as selectorsMock from 'builder_platform_interaction-selectors';
 
 const collectionVariable = 'COLLECTION ' + store.variable;

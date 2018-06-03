@@ -1,7 +1,7 @@
-import {convertElement, convertElements, translateFlowToUIModel} from '../flow-to-ui-translator';
-import {ELEMENT_TYPE} from 'builder_platform_interaction-element-config';
-import {deepCopy} from 'builder_platform_interaction-store-lib';
-import {cleanFlowSample} from './flow-translator.test';
+import { convertElement, convertElements, translateFlowToUIModel } from '../flow-to-ui-translator';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { deepCopy } from 'builder_platform_interaction-store-lib';
+import { cleanFlowSample } from './flow-translator.test';
 
 function isUid(potential, prefix) {
     prefix = String(prefix || '').replace(/[^a-zA-Z]/g, '') || 'uid';

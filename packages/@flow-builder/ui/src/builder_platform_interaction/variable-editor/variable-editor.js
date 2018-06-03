@@ -5,7 +5,7 @@ import { variableReducer } from './variable-reducer';
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { PropertyEditorWarningEvent } from 'builder_platform_interaction-events';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 // the property names in a variable element (after mutation)
 const VARIABLE_FIELDS = {
