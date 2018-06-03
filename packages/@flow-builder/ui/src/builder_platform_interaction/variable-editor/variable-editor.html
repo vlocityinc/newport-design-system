@@ -33,16 +33,16 @@
                     >
                 </lightning-input>
             </div>
-            
+
             <div if:true={hasDefaultValue} class='default-value'>
-                <builder_platform_interaction-combobox label="Default Value"
-                                                    value={defaultValue}
-                                                    menu-data={defaultValueMenuData}
-                                                    type={dataType}
-                                                    error-message={defaultValueErrorMessage}
-                                                    oncomboboxvaluechanged={handleDefaultValuePropertyChanged}
-                                                    onfiltermatches={handleDefaultValueFilterMatches}>
-                </builder_platform_interaction-combobox>
+                <builder_platform_interaction-ferov-resource-picker
+                    value={defaultValue}
+                    display-text={defaultValue}
+                    combobox-config={defaultValueComboboxConfig}
+                    property-editor-element-type={variableResource.elementType}
+                    element-param={variableResource}
+                    oncomboboxvaluechanged={handleDefaultValuePropertyChanged}>
+                </builder_platform_interaction-ferov-resource-picker>
             </div>
 
             <div if:true={hasObjectType} class="slds-form-element__row">

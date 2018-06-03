@@ -1,10 +1,10 @@
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
 
 // this is the object we get from the metadata that represents the default value of the variable
-const ferovObjName = 'value';
+const FEROV_OBJECT_NAME = 'value';
 // this is the name of the property we want to represent our default value after mutation. We transform value => defaultValue
-const defaultValueProperty = 'defaultValue';
-const ferovDataTypeProperty = 'ferovDataType';
+const DEFAULT_VALUE_PROPERTY = 'defaultValue';
+export const FEROV_DATA_TYPE_PROPERTY = 'ferovDataType';
 /**
  * Mutate a variable element for use in the variable property editor
  * @param {Object} variable Variable element to mutate
@@ -15,9 +15,9 @@ export const mutateVariable = variable => {
 
     // variables already have a value but we want just a scalar not the ferov object from metatda
     // variables already have a data type but in some cases the ferovDataType is different (ie: ferovDataType is 'reference')
-    const mutatedVariable = mutateFEROV(variable, ferovObjName, {
-        valueProperty: defaultValueProperty,
-        dataTypeProperty: ferovDataTypeProperty,
+    const mutatedVariable = mutateFEROV(variable, FEROV_OBJECT_NAME, {
+        valueProperty: DEFAULT_VALUE_PROPERTY,
+        dataTypeProperty: FEROV_DATA_TYPE_PROPERTY,
     });
     return mutatedVariable;
 };
@@ -29,9 +29,9 @@ export const mutateVariable = variable => {
  */
 export const deMutateVariable = (variable) => {
     // TOOD: update this function if we end up mutating more properties
-    const deMutatedVariable = deMutateFEROV(variable, ferovObjName, {
-        valueProperty: defaultValueProperty,
-        dataTypeProperty: ferovDataTypeProperty
+    const deMutatedVariable = deMutateFEROV(variable, FEROV_OBJECT_NAME, {
+        valueProperty: DEFAULT_VALUE_PROPERTY,
+        dataTypeProperty: FEROV_DATA_TYPE_PROPERTY
     });
     return deMutatedVariable;
 };

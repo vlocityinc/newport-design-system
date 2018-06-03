@@ -6,3 +6,4 @@ export * from './stringMutation';
 export { mutateOutcome } from './decisionEditorDataMutation';
 export { mutateFilterItems } from './recordLookupEditorDataMutation';
 export { GUID_SUFFIX } from './ferovEditorDataMutation';
+export { FEROV_DATA_TYPE_PROPERTY } from './variableEditorDataMutation';

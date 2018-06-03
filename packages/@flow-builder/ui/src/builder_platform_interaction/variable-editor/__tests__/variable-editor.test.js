@@ -5,15 +5,13 @@ import * as selectorsMock from 'builder_platform_interaction-selectors';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { variableReducer } from '../variable-reducer';
 import { PropertyEditorWarningEvent, PropertyChangedEvent } from 'builder_platform_interaction-events';
-import { getRHSTypes } from 'builder_platform_interaction-rule-lib';
-import { filterMatches } from 'builder_platform_interaction-expression-utils';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     EXTERNAL_ACCESS_CHECKBOX_GROUP: 'lightning-checkbox-group',
-    DEFAULT_VALUE_COMBOBOX: '.default-value builder_platform_interaction-combobox',
     ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
+    FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
 };
 
 const setupComponentUnderTest = (props) => {
@@ -59,13 +57,12 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
     };
 });
 
-const defaultValueItem = {value: 'var1', displayText: 'var 1'};
+const defaultValueItem = {item: {value: 'guid1', displayText: 'var 1'}};
 
 function getComboboxValueChangedEvent() {
-    const valueChangedEvent = new CustomEvent('comboboxvaluechanged', {
+    return new CustomEvent('comboboxvaluechanged', {
         detail: defaultValueItem,
     });
-    return valueChangedEvent;
 }
 
 describe('variable-editor', () => {
@@ -73,9 +70,13 @@ describe('variable-editor', () => {
         mockStoreData.elements[mockStoreData.stringCollectionVariable1Guid], mockStoreData.elements[mockStoreData.dateVariableGuid]]);
 
     let stringVariable;
+    let numberVariable;
+    let dateVariable;
 
     beforeEach(() => {
         stringVariable = deepCopy(mockStoreData.hydratedElements[mockStoreData.stringVariableGuid]);
+        numberVariable = deepCopy(mockStoreData.elements[mockStoreData.numberVariableGuid]);
+        dateVariable = deepCopy(mockStoreData.elements[mockStoreData.dateVariableGuid]);
     });
 
     it('contains a variable element', () => {
@@ -230,18 +231,30 @@ describe('variable-editor', () => {
     });
 
     describe('default value combobox', () => {
-        it('exists for string data type', () => {
-            const variableEditor = setupComponentUnderTest(stringVariable);
+        function testDefaultValueExists(variable) {
+            const variableEditor = setupComponentUnderTest(variable);
             return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.DEFAULT_VALUE_COMBOBOX);
+                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 expect(defaultValueCombobox).toBeDefined();
             });
+        }
+
+        it('exists for string data type', () => {
+            return testDefaultValueExists(stringVariable);
+        });
+
+        it('exists for number data type', () => {
+            return testDefaultValueExists(numberVariable);
+        });
+
+        it('exists for date data type', () => {
+            return testDefaultValueExists(dateVariable);
         });
 
         it('should not exist for sobject data type', () => {
             const variableEditor = setupComponentUnderTest(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
             return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.DEFAULT_VALUE_COMBOBOX);
+                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 expect(defaultValueCombobox).toBeNull();
             });
         });
@@ -249,51 +262,20 @@ describe('variable-editor', () => {
         it('should not exists for collection variables', () => {
             const variableEditor = setupComponentUnderTest(mockStoreData.elements[mockStoreData.stringCollectionVariable1Guid]);
             return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.DEFAULT_VALUE_COMBOBOX);
+                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 expect(defaultValueCombobox).toBeNull();
-            });
-        });
-
-        it('has menu data populated', () => {
-            const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.DEFAULT_VALUE_COMBOBOX);
-                expect(getRHSTypes).toHaveBeenCalled();
-                expect(defaultValueCombobox.menuData).toBeDefined();
             });
         });
 
         it('has variable reducer called for defaultValue and defaultValueGuid', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.DEFAULT_VALUE_COMBOBOX);
+                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 defaultValueCombobox.dispatchEvent(getComboboxValueChangedEvent());
-                expect(variableReducer).toHaveBeenCalledTimes(2);
+                expect(variableReducer).toHaveBeenCalledTimes(3);
                 expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
                 expect(variableReducer.mock.calls[1][0]).toEqual(variableEditor.node);
-            });
-        });
-
-        it('does not fetch menu data for same default value selected', () => {
-            const valueChangedEvent = getComboboxValueChangedEvent();
-            const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.DEFAULT_VALUE_COMBOBOX);
-                defaultValueCombobox.dispatchEvent(valueChangedEvent);
-                defaultValueCombobox.dispatchEvent(valueChangedEvent);
-                expect(getRHSTypes).toHaveBeenCalledTimes(1);
-            });
-        });
-
-        it('handles filter matches event', () => {
-            const filterMatchesEvent = new CustomEvent('filtermatches', {
-                detail: {value: 'var1'},
-            });
-            const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.querySelector(SELECTORS.DEFAULT_VALUE_COMBOBOX);
-                defaultValueCombobox.dispatchEvent(filterMatchesEvent);
-                expect(filterMatches).toHaveBeenCalled();
+                expect(variableReducer.mock.calls[2][0]).toEqual(variableEditor.node);
             });
         });
     });

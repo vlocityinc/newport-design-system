@@ -1,12 +1,10 @@
 import { Element, api, track, unwrap } from 'engine';
-import { getErrorsFromHydratedElement, getValueFromHydratedItem, GUID_SUFFIX } from 'builder_platform_interaction-data-mutation-lib';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem, GUID_SUFFIX, FEROV_DATA_TYPE_PROPERTY } from 'builder_platform_interaction-data-mutation-lib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { variableReducer } from './variable-reducer';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { PropertyEditorWarningEvent } from 'builder_platform_interaction-events';
-import { filterMatches, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
-import { getRulesForContext, getRHSTypes, RULE_OPERATOR} from 'builder_platform_interaction-rule-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-element-config';
 
 // the property names in a variable element (after mutation)
@@ -68,10 +66,6 @@ export default class VariableEditor extends Element {
     // previous dev name from label description. Used to assess warning.
     _devNamePreviousValue = '';
 
-    _fullDefaultValueMenuData = {};
-
-    _defaultValueMenuData;
-
     _lastRecordedDataType = '';
 
     /**
@@ -93,7 +87,6 @@ export default class VariableEditor extends Element {
         this._lastRecordedDataType = getValueFromHydratedItem(this.variableResource.dataType);
 
         this.initializeExternalAccessValues();
-        this.fetchDefaultValueMenuData();
     }
 
     // used to keep track of whether this is an existing variable resource
@@ -163,11 +156,18 @@ export default class VariableEditor extends Element {
 
     /**
      * Returns the default value for the variable resource.
-     * TODO: To string logic will change once combobox latest refactor goes in.
-     * @return {String} returns the default value for the variable resource if exists, otherwise empty string.
+     * @return {String|Object} returns the default value for the variable resource if exists, otherwise empty string.
      */
     get defaultValue() {
         const defaultValue = getValueFromHydratedItem(this.variableResource.defaultValue);
+        const defaultValueGuid = getValueFromHydratedItem(this.variableResource.defaultValueGuid);
+        if (defaultValueGuid) {
+            return {
+                text: defaultValue,
+                displayText: defaultValue,
+                value: defaultValueGuid
+            };
+        }
         if (defaultValue && (typeof defaultValue === 'number' || typeof defaultValue === 'boolean')) {
             return defaultValue.toString();
         }
@@ -190,16 +190,21 @@ export default class VariableEditor extends Element {
         return !(this.variableResource.isCollection || (this.dataType && DATATYPES_WITH_NO_DEFAULT_VALUE.includes(this.dataType)));
     }
 
-    get elementType() {
-        return ELEMENT_TYPE.VARIABLE;
+    // TODO: use labels W-4954505
+    get defaultValueComboboxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            'Default Value',
+            null,
+            null,
+            true,
+            false,
+            false,
+            this.dataType
+        );
     }
 
-    /**
-     * Menu data for the default value combobox.
-     * @return {*} menu data in format grouped-combobox expects
-     */
-    get defaultValueMenuData() {
-        return this._defaultValueMenuData;
+    get elementType() {
+        return ELEMENT_TYPE.VARIABLE;
     }
 
     get entityComboboxConfig() {
@@ -246,21 +251,11 @@ export default class VariableEditor extends Element {
 
     handleDataTypeSelect(event) {
         this.handleChange(event, VARIABLE_FIELDS.DATA_TYPE);
-        // TODO: handle clearing of fields when data type is changed
-
-        const selectedDataType = getValueFromHydratedItem(this.variableResource.defaultValue);
-        if (this._lastRecordedDataType !== selectedDataType) {
-            this._lastRecordedDataType = selectedDataType;
-            this.fetchDefaultValueMenuData();
-        }
     }
 
     handleCollectionChange(event) {
         const isCollection = event.detail.checked;
         this.updateProperty(VARIABLE_FIELDS.IS_COLLECTION, isCollection, null);
-        if (!isCollection && !this._defaultValueMenuData) {
-            this.fetchDefaultValueMenuData();
-        }
     }
 
     /**
@@ -292,15 +287,6 @@ export default class VariableEditor extends Element {
         this.handleFlowComboboxChange(event, VARIABLE_FIELDS.DEFAULT_VALUE);
     }
 
-    /**
-     * Use the filter matches utils to filter the combobox data when user types the search text
-     * @param {object} event Filter matches event from combobox.
-     */
-    handleDefaultValueFilterMatches(event) {
-        event.stopPropagation();
-        this._defaultValueMenuData = filterMatches(event.detail.value, this._fullDefaultValueMenuData);
-    }
-
     handleObjectTypeChange(event) {
         this.handleFlowComboboxChange(event, VARIABLE_FIELDS.OBJECT_TYPE);
     }
@@ -318,7 +304,7 @@ export default class VariableEditor extends Element {
         event.stopPropagation();
 
         const value = event.detail.value;
-        const error = event.detail.error;
+        const error = event.detail.error || null;
 
         this.updateProperty(propertyName, value, error);
     }
@@ -342,14 +328,21 @@ export default class VariableEditor extends Element {
         // for defaultValue extract out the guid and value from menu item
         if (propertyName === VARIABLE_FIELDS.DEFAULT_VALUE) {
             let defaultValueGuidValue;
-            // if we have a display text then we have a select, otherwise we are dealing with a literal
+            // if we have a displayText then we have a select, otherwise we are dealing with a literal
             if (payload.displayText) {
                 valueToUpdate = payload.displayText;
                 defaultValueGuidValue = payload.value;
             } else {
                 defaultValueGuidValue = '';
+                // default value is not a refernce, update the ferovDataType
+                this.updateProperty(FEROV_DATA_TYPE_PROPERTY, FEROV_DATA_TYPE.STRING, null);
             }
             this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, defaultValueGuidValue, null);
+
+            // populate the ferovDataType for cases when the initial default value is empty
+            if (defaultValueGuidValue && !this.variableResource.hasOwnProperty(FEROV_DATA_TYPE_PROPERTY)) {
+                this.updateProperty(FEROV_DATA_TYPE_PROPERTY, FEROV_DATA_TYPE.REFERENCE, null);
+            }
         }
         this.updateProperty(propertyName, valueToUpdate, error);
     }
@@ -414,17 +407,6 @@ export default class VariableEditor extends Element {
     fireWarningEvent(propertyName, message) {
         const warningEvent = new PropertyEditorWarningEvent(propertyName, message);
         this.dispatchEvent(warningEvent);
-    }
-
-    /**
-     * Fetch the element data based on the data type of the variable.
-     */
-    fetchDefaultValueMenuData() {
-        if (this.hasDefaultValue) {
-            const elementType = ELEMENT_TYPE.VARIABLE;
-            const rhsTypes = getRHSTypes(ELEMENT_TYPE.VARIABLE, this.variableResource, RULE_OPERATOR.ASSIGN, getRulesForContext({elementType: ELEMENT_TYPE.VARIABLE}));
-            this._fullDefaultValueMenuData = this._defaultValueMenuData = getElementsForMenuData({elementType}, rhsTypes, true /* include new resource */);
-        }
     }
 
     /**
