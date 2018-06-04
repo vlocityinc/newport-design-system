@@ -163,6 +163,25 @@ describe('DateTime screen input field', () => {
     });
 });
 
+describe('Field with help text', () => {
+    let inputWrapperCmp;
+    const helpTextValue = 'Enter your name';
+    beforeEach(() => {
+        inputWrapperCmp = createComponentForTest({
+            value: '',
+            label: testLabel,
+            helpText: {value: helpTextValue, error: null},
+            typeName: 'TextBox'
+        });
+    });
+    it('Help text should be passed through', () => {
+        return Promise.resolve().then(() => {
+            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            expect(input.fieldLevelHelp).toEqual(helpTextValue);
+        });
+    });
+});
+
 describe('Invalid screen type', () => {
     it('Should throw error', () => {
         const componentCreation = () => {

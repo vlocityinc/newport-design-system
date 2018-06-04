@@ -14,6 +14,7 @@ export default class ScreenInputField extends Element {
     @track formatter;
     @track type;
     @track _typeName;
+    @track _helpText;
 
     @api
     get typeName() {
@@ -51,5 +52,15 @@ export default class ScreenInputField extends Element {
     @api
     get variant() {
         return getVariant(this.label);
+    }
+
+    @api
+    set helpText(newValue) {
+        this._helptext = newValue;
+    }
+
+    @api
+    get helpText() {
+        return (this._helptext && this._helptext.value) || null;
     }
 }

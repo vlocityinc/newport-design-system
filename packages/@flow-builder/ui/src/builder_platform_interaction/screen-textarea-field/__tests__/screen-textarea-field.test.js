@@ -16,38 +16,38 @@ function createComponentForTest(props) {
 }
 
 describe('Textarea display is required', () => {
-    let inputWrapperCmp;
+    let textWrapperCmp;
     beforeEach(() => {
-        inputWrapperCmp = createComponentForTest({
+        textWrapperCmp = createComponentForTest({
             label: 'display1',
             required: true
         });
     });
     it('Value should be undefined', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.AREA);
+            const input = textWrapperCmp.querySelector(SELECTORS.AREA);
             expect(input.value).toBeUndefined();
         });
     });
     it('Required should be true', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.AREA);
+            const input = textWrapperCmp.querySelector(SELECTORS.AREA);
             expect(input.required).toEqual(true);
         });
     });
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.AREA);
+            const input = textWrapperCmp.querySelector(SELECTORS.AREA);
             expect(input.variant).toEqual(standardLabelVariant);
         });
     });
 });
 
 describe('Textarea field not required', () => {
-    let inputWrapperCmp;
+    let textWrapperCmp;
     const defaultValue = 'Default value here';
     beforeEach(() => {
-        inputWrapperCmp = createComponentForTest({
+        textWrapperCmp = createComponentForTest({
             label: 'display1',
             required: false,
             value: defaultValue
@@ -55,28 +55,28 @@ describe('Textarea field not required', () => {
     });
     it('Value should be as specified', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.AREA);
+            const input = textWrapperCmp.querySelector(SELECTORS.AREA);
             expect(input.value).toEqual(defaultValue);
         });
     });
     it('Required should be false', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.AREA);
+            const input = textWrapperCmp.querySelector(SELECTORS.AREA);
             expect(input.required).toEqual(false);
         });
     });
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.AREA);
+            const input = textWrapperCmp.querySelector(SELECTORS.AREA);
             expect(input.variant).toEqual(standardLabelVariant);
         });
     });
 });
 
 describe('Screen input field with no label', () => {
-    let inputWrapperCmp;
+    let textWrapperCmp;
     beforeEach(() => {
-        inputWrapperCmp = createComponentForTest({
+        textWrapperCmp = createComponentForTest({
             value: '',
             label: '',
             required: false
@@ -84,16 +84,34 @@ describe('Screen input field with no label', () => {
     });
     it('Label should be hidden when it is empty', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.AREA);
+            const input = textWrapperCmp.querySelector(SELECTORS.AREA);
             expect(input.variant).toEqual(hiddenLabelVariant);
         });
     });
 });
 
-describe('Screen input field with empty space only should not be displayed', () => {
-    let inputWrapperCmp;
+describe('Field with help text', () => {
+    let textWrapperCmp;
+    const helpTextValue = 'Enter your name';
     beforeEach(() => {
-        inputWrapperCmp = createComponentForTest({
+        textWrapperCmp = createComponentForTest({
+            value: '',
+            label: '',
+            helpText: {value: helpTextValue, error: null},
+        });
+    });
+    it('Help text should be passed through', () => {
+        return Promise.resolve().then(() => {
+            const input = textWrapperCmp.querySelector(SELECTORS.AREA);
+            expect(input.fieldLevelHelp).toEqual(helpTextValue);
+        });
+    });
+});
+
+describe('Screen input field with empty space only should not be displayed', () => {
+    let textWrapperCmp;
+    beforeEach(() => {
+        textWrapperCmp = createComponentForTest({
             value: '',
             label: ' ',
             required: false
@@ -101,7 +119,7 @@ describe('Screen input field with empty space only should not be displayed', () 
     });
     it('Label should be hidden when it is empty', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.AREA);
+            const input = textWrapperCmp.querySelector(SELECTORS.AREA);
             expect(input.variant).toEqual(hiddenLabelVariant);
         });
     });
