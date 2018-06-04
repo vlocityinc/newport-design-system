@@ -243,7 +243,7 @@ describe('resourcesSelector', () => {
         });
         it('should have a non-empty section for formulas', () => {
             const resources = resourceSectionsSelector(STATE_NON_EMPTY);
-            const formulaSections = resources.filter(section => section.label === 'Formulas');
+            const formulaSections = resources.filter(section => section.label === 'FlowBuilderElementConfig.formulaPluralLabel');
             expect(formulaSections).toHaveLength(1);
         });
         it('should return empty section for Start Elements', () => {
