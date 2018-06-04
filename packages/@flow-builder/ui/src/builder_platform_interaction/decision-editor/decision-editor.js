@@ -58,12 +58,15 @@ export default class DecisionEditor extends Element {
         return this.decisionElement.outcomes.length > 1;
     }
 
+    // getErrorsFromHydratedElement recursively walks the object structure and there could be performance issues by calling it in a getter
+    // (and thus on every render) depending on the object depth
     get outcomesWithDefaultOutcome() {
         const outcomesWithDefaultOutcome = this.decisionElement.outcomes.map(outcome => {
             return {
                 element: outcome,
                 label: outcome.label && outcome.label.value ? outcome.label.value : EMPTY_OUTCOME_LABEL,
-                isDraggable: true
+                isDraggable: true,
+                hasErrors: getErrorsFromHydratedElement(outcome).length > 0
             };
         });
 
@@ -73,7 +76,8 @@ export default class DecisionEditor extends Element {
         outcomesWithDefaultOutcome.push({
             element: {},
             label: defaultLabel && defaultLabel.value ? defaultLabel.value : EMPTY_DEFAULT_OUTCOME_LABEL,
-            isDraggable: false
+            isDraggable: false,
+            hasErrors: defaultLabel && defaultLabel.error
         });
 
         return outcomesWithDefaultOutcome;

@@ -1,60 +1,56 @@
 <template>
     <div if:true={decisionElement}>
-        <builder_platform_interaction-accordion>
-            <div class="slds-p-horizontal_small slds-p-top_small">
-                <builder_platform_interaction-label-description label={decisionElement.label} dev-name-label={labels.decisionApiNameLabel} dev-name={decisionElement.name} description={decisionElement.description} onpropertychanged={handleEvent}> </builder_platform_interaction-label-description>
-            </div>
-            <h3 class="slds-section__title slds-accordion__summary-heading -slds-theme_shade slds-p-horizontal_small slds-shrink-none">
-                <span>{labels.outcomesSectionHeader}</span>
+        <div class="slds-p-horizontal_small slds-p-top_small">
+            <builder_platform_interaction-label-description label={decisionElement.label} dev-name-label={labels.decisionApiNameLabel} dev-name={decisionElement.name} description={decisionElement.description} onpropertychanged={handleEvent}> </builder_platform_interaction-label-description>
+        </div>
+        <h3 class="slds-section__title slds-accordion__summary-heading -slds-theme_shade slds-p-horizontal_small slds-shrink-none">
+            <span>{labels.outcomesSectionHeader}</span>
                 <div class="slds-text-color_weak slds-text-body_small slds-p-left_small slds-truncate">{labels.outcomesSectionDescription}</div>
-            </h3>
-            <div class="slds-vertical-tabs slds-is-relative slds-grow">
-                <!-- Note: If the labels.outcomeListHeader string is long the + button goes to next line -->
-                <builder_platform_interaction-reorderable-vertical-navigation
-                        class="slds-theme_shade"
-                        menu-items={outcomesWithDefaultOutcome}
-                        active-item-id={activeOutcomeId}
-                        onitemselected={handleOutcomeSelected}
-                        onreorderlist={handleReorderOutcomes}
-                        hide-footer=true>
-                    <div slot="header">
-                        {labels.outcomeListHeader}
-                        <lightning-helptext class="slds-p-left_xx-small" content={labels.outcomeListHelptext}></lightning-helptext>
-                        <lightning-button-icon icon-name="utility:add" variant="border-filled" class="slds-p-left_xx-small"  onclick={handleAddOutcome} title={labels.addOutcomeButtonLabel}></lightning-button-icon>
+        </h3>
+        <div class="slds-vertical-tabs slds-is-relative slds-grow">
+            <!-- Note: If the labels.outcomeListHeader string is long the + button goes to next line -->
+            <builder_platform_interaction-reorderable-vertical-navigation
+                    class="slds-theme_shade"
+                    menu-items={outcomesWithDefaultOutcome}
+                    active-item-id={activeOutcomeId}
+                    onitemselected={handleOutcomeSelected}
+                    onreorderlist={handleReorderOutcomes}
+                    hide-footer=true>
+                <div slot="header">
+                    {labels.outcomeListHeader}
+                    <lightning-helptext class="slds-p-left_xx-small" content={labels.outcomeListHelptext}></lightning-helptext>
+                    <lightning-button-icon icon-name="utility:add" variant="border-filled" class="slds-p-left_xx-small"  onclick={handleAddOutcome} title={labels.addOutcomeButtonLabel}></lightning-button-icon>
+                </div>
+            </builder_platform_interaction-reorderable-vertical-navigation>
+            <div class="slds-vertical-tabs__content slds-show" role="tabpanel">
+                <builder_platform_interaction-outcome if:true={activeOutcomeId}
+                                                      outcome={activeOutcome}
+                                                      show-delete={showDeleteOutcome}
+                                                      ondeleteoutcome={handleDeleteOutcome}
+                                                      onaddcondition={handleEvent}
+                                                      ondeletecondition={handleEvent}
+                                                      onupdatecondition={handleEvent}
+                                                      onpropertychanged={handleEvent}></builder_platform_interaction-outcome>
+                <div if:false={activeOutcomeId}>
+                    <div class="slds-grid slds-m-bottom_x-small">
+                        <h3 class="slds-text-title_caps">
+                            <span class="slds-truncate">{labels.outcomeDetailsHeader}</span>
+                        </h3>
                     </div>
-                    <div slot="footer"></div>
-                </builder_platform_interaction-reorderable-vertical-navigation>
-                <div class="slds-vertical-tabs__content slds-show" role="tabpanel">
-                    <builder_platform_interaction-outcome if:true={activeOutcomeId}
-                                                          outcome={activeOutcome}
-                                                          show-delete={showDeleteOutcome}
-                                                          ondeleteoutcome={handleDeleteOutcome}
-                                                          onaddcondition={handleEvent}
-                                                          ondeletecondition={handleEvent}
-                                                          onupdatecondition={handleEvent}
-                                                          onpropertychanged={handleEvent}></builder_platform_interaction-outcome>
-                    <div if:false={activeOutcomeId}>
-                        <div class="slds-grid slds-m-bottom_x-small">
-                            <h3 class="slds-text-title_caps">
-                                <span class="slds-truncate">{labels.outcomeDetailsHeader}</span>
-                            </h3>
-                        </div>
-                        <builder_platform_interaction-label-description
-                                label={decisionElement.defaultConnectorLabel}
-                                onpropertychanged={handleDefaultOutcomeChangedEvent}
-                                hide-dev-name=true
-                                hide-description=true
-                                class="defaultOutcome"
-                        >
-                        </builder_platform_interaction-label-description>
-                        <div class="slds-text-align_center">
-                            <img src="/img/LakeMountainSimplified.svg" />
-                            <div class="slds-text-heading_medium slds-text-color_weak">{labels.defaultOutcomeDetailsDescription1}</div>
-                            <div class="slds-text-body_regular slds-text-color_weak">{labels.defaultOutcomeDetailsDescription2}</div>
-                        </div>
+                    <builder_platform_interaction-label-description
+                            label={decisionElement.defaultConnectorLabel}
+                            onpropertychanged={handleDefaultOutcomeChangedEvent}
+                            hide-dev-name=true
+                            hide-description=true
+                            class="defaultOutcome">
+                    </builder_platform_interaction-label-description>
+                    <div class="slds-text-align_center">
+                        <img src="/img/LakeMountainSimplified.svg" />
+                        <div class="slds-text-heading_medium slds-text-color_weak">{labels.defaultOutcomeDetailsDescription1}</div>
+                        <div class="slds-text-body_regular slds-text-color_weak">{labels.defaultOutcomeDetailsDescription2}</div>
                     </div>
                 </div>
             </div>
-        </builder_platform_interaction-accordion>
+        </div>
     </div>
 </template>

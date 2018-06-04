@@ -22,6 +22,7 @@ export default class ReorderableVerticalNavigation extends Element {
      * @type {Object}
      * @property {Object} element
      * @property {boolean} isDraggable
+     * @property {boolean} hasErrors
      */
 
     /**
@@ -33,12 +34,13 @@ export default class ReorderableVerticalNavigation extends Element {
 
     get decoratedMenuItems() {
         return this.menuItems.map((menuItem) => {
-            const {element, label, isDraggable} = menuItem;
+            const {element, label, isDraggable, hasErrors} = menuItem;
             return {
                 guid: element.guid,
                 label: label !== '' ? label : this.defaultLabel,
                 class: this.isItemActive(element.guid) ? CLASS_ACTIVE : CLASS_INACTIVE,
-                isDraggable
+                isDraggable,
+                hasErrors
             };
         });
     }

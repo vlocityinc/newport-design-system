@@ -18,7 +18,8 @@
                     title={item.label}
                     role="presentation"
                     onitemclicked={handleItemClicked}
-                    is-draggable={item.isDraggable}>
+                    is-draggable={item.isDraggable}
+                    has-end-icon={item.hasErrors}>
                     <div slot='front-icon'>
                         <lightning-icon icon-name='utility:rows' size='x-small' class='slds-m-right_x-small'></lightning-icon>
                     </div>
