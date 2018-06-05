@@ -1,9 +1,9 @@
 <template>
     <div class="slds-grid slds-grid_vertical">
-        <div class="slds-col slds-shrink-none slds-p-right_large">
+        <div class="slds-col slds-shrink-none slds-p-around_x-small">
             <lightning-button variant="Neutral" label="New Resource" onclick={handleAddNewResourceButtonClick} class="test-left-panel-add-resource"></lightning-button>
         </div>
-        <div class="slds-col slds-grow resource-manager-container">
+        <div class="slds-col slds-grow resource-manager-container slds-p-left_xx-small">
             <builder_platform_interaction-palette data={resources} items-draggable="false" icon-size="x-small"></builder_platform_interaction-palette>
         </div>
     </div>

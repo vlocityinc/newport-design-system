@@ -1,0 +1,25 @@
+<template>
+    <div class="slds-grid">
+        <div class="slds-p-bottom_small">
+            <div class="slds-text-title_caps slds-m-top_x-small slds-m-bottom_x-small">{labels.RESOURCE_DETAILS_PANEL_DETAILS_TEXT}</div>
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_TYPE_TEXT}
+                    <div class="slds-form-element__icon slds-align-middle">
+                        <lightning-icon if:true={hasIcon} icon-name={resourcedetails.ICON_NAME} size="xx-small" alternative-text={resourcedetails.LABEL}></lightning-icon>
+                    </div>
+                    {resourcedetails.TYPE}
+                </label>
+            </div>
+            <div class="slds-form-element" if:true={hasUniqueName}>
+                <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_UNIQUE_NAME_TEXT}
+                    {resourcedetails.NAME}
+                </label>
+            </div>
+            <div class="slds-form-element" if:true={hasDescription}>
+                <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_DESCRIPTION_TEXT}
+                    {resourcedetails.DESCRIPTION}
+                </label>
+            </div>
+        </div>
+    </div>
+</template>

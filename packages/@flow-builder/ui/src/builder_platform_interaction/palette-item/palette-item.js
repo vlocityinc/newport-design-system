@@ -1,5 +1,5 @@
 import { Element, api } from 'engine';
-import { PaletteItemClickedEvent } from 'builder_platform_interaction-events';
+import { PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -12,8 +12,8 @@ export default class PaletteItem extends Element {
     @api elementType;
     @api guid;
     @api iconName;
-    @api iconSize;
     @api label;
+    @api iconSize;
 
     get hasIcon() {
         return this.iconName !== undefined && this.iconName !== null && this.iconName.length > 0;
@@ -25,6 +25,17 @@ export default class PaletteItem extends Element {
         const guid = this.guid;
         const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);
         this.dispatchEvent(paletteItemClickedEvent);
+    }
+
+    handleChevronClick(event) {
+        event.stopPropagation();
+        const elementType = this.elementType;
+        const guid = this.guid;
+        const label = this.label;
+        const iconName = this.iconName;
+        const description = this.description;
+        const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(elementType, guid, label, iconName, description);
+        this.dispatchEvent(paletteItemChevronClickedEvent);
     }
 
     @api

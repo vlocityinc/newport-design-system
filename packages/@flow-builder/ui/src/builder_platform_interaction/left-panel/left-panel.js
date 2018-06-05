@@ -3,32 +3,33 @@ import { EditElementEvent } from 'builder_platform_interaction-events';
 import { resourceSectionsSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
 
+import headerText from '@label/FlowBuilderLeftPanel.headerText';
+import elementTabText from '@label/FlowBuilderLeftPanel.elementTabText';
+import resourceTabText from '@label/FlowBuilderLeftPanel.resourceTabText';
+import editButtonLabel from '@label/FlowBuilderResourceDetailsPanel.editButtonLabel';
+import backButtonAltText from '@label/FlowBuilderResourceDetailsPanel.backButtonAltText';
 
-// TODO: We will pull labels from another file/section soon.
-import elementsLabel from '@label/DesignerLabels.palette_label';
-import resourcesLabel from '@label/DesignerLabels.resources_label';
+const LABELS = {
+    LEFT_PANEL_HEADER_TEXT: headerText,
+    LEFT_PANEL_ELEMENT_TAB_TEXT: elementTabText,
+    LEFT_PANEL_RESOURCE_TAB_TEXT: resourceTabText,
+    RESOURCE_DETAILS_EDIT_BUTTON_TEXT: editButtonLabel,
+    RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT: backButtonAltText
+};
 
 const ACTIVETABID_DEFAULT = 'left-panel-tabitem-elements';
 
 let storeInstance;
 let unsubscribeStore;
 
-/**
- * Left panel component for flow builder.
- *
- * @ScrumTeam Process UI
- * @author Ankush Bansal
- * @since 214
- */
 export default class LeftPanel extends Element {
     @track activetabid = ACTIVETABID_DEFAULT;
 
+    @track showResourceDetailsPanel = false;
+
     @track resources = [];
 
-    labels = {
-        elements: elementsLabel,
-        resources: resourcesLabel
-    };
+    @track resourceDetails;
 
     constructor() {
         super();
@@ -46,6 +47,14 @@ export default class LeftPanel extends Element {
         return this.activetabid;
     }
 
+    get getPanelTitle() {
+        return this.showResourceDetailsPanel ? this.resourceDetails.NAME : LABELS.LEFT_PANEL_HEADER_TEXT;
+    }
+
+    get labels() {
+        return LABELS;
+    }
+
     handleTabChange(event) {
         this.activetabid = event.detail.tabId;
     }
@@ -54,6 +63,29 @@ export default class LeftPanel extends Element {
         const canvasElementGUID = event.detail.guid;
         const editElementEvent = new EditElementEvent(canvasElementGUID);
         this.dispatchEvent(editElementEvent);
+    }
+
+    handlePaletteItemChevronClicked(event) {
+        this.resourceDetails = {
+            TYPE: storeInstance.getCurrentState().elements[event.detail.elementGUID].elementType,
+            GUID: storeInstance.getCurrentState().elements[event.detail.elementGUID].guid,
+            LABEL: storeInstance.getCurrentState().elements[event.detail.elementGUID].label,
+            ICON_NAME: event.detail.iconName,
+            DESCRIPTION: storeInstance.getCurrentState().elements[event.detail.elementGUID].description,
+            NAME: storeInstance.getCurrentState().elements[event.detail.elementGUID].name
+        };
+        this.showResourceDetailsPanel = true;
+    }
+
+    handleEditButtonClicked(event) {
+        event.stopPropagation();
+        const guid = this.resourceDetails.GUID;
+        const editElementEvent = new EditElementEvent(guid);
+        this.dispatchEvent(editElementEvent);
+    }
+
+    handleResourceDetailsBackLinkClicked() {
+        this.showResourceDetailsPanel = false;
     }
 
     disconnectedCallback() {

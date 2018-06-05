@@ -27,10 +27,18 @@
 
 .THIS builder_platform_interaction-left-panel div.resource-manager-container {
     display: block;
-    height: calc(100vh - 241px);
+    height: calc(100vh - 261px);
     -webkit-overflow-scrolling: touch;
     overflow:hidden;
     overflow-y:auto
+}
+
+/*
+ * Makes the panel item detail button appear on row hover for the panel deep
+ * nesting design pattern. This type of override doesn't work in Raptor.
+ */
+.THIS builder_platform_interaction-left-panel-resources .palette-item:hover>td lightning-button-icon.detail-button {
+    visibility: visible !important;
 }
 
 /************* Canvas *****************/
