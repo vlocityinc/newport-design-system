@@ -4,7 +4,7 @@ import * as mockStoreData from 'mock-store-data';
 import * as selectorsMock from 'builder_platform_interaction-selectors';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { variableReducer } from '../variable-reducer';
-import { PropertyEditorWarningEvent, PropertyChangedEvent } from 'builder_platform_interaction-events';
+import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 
 const SELECTORS = {
@@ -22,7 +22,6 @@ const setupComponentUnderTest = (props) => {
     document.body.appendChild(element);
     return element;
 };
-
 
 jest.mock('builder_platform_interaction-actions', () => {
     return {
@@ -276,6 +275,26 @@ describe('variable-editor', () => {
                 expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
                 expect(variableReducer.mock.calls[1][0]).toEqual(variableEditor.node);
                 expect(variableReducer.mock.calls[2][0]).toEqual(variableEditor.node);
+            });
+        });
+
+        it('has ferovDataType set to reference when default value changed from literal to reference', () => {
+            const variableEditor = setupComponentUnderTest(stringVariable);
+            const selectedMenuItem = {
+                text: '{!var1}',
+                value: 'GUID1',
+                displayText: '{!var1}'
+            };
+            const expectedUpdatePropPayload = {
+                propertyName: 'ferovDataType',
+                value: 'reference',
+                error: null
+            };
+            const valueChangedEvent = new ComboboxValueChangedEvent(selectedMenuItem, null, null);
+            return Promise.resolve().then(() => {
+                const flowCombobox = variableEditor.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+                flowCombobox.dispatchEvent(valueChangedEvent);
+                expect(createAction.mock.calls[1][1]).toEqual(expectedUpdatePropPayload);
             });
         });
     });

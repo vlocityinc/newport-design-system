@@ -334,13 +334,15 @@ export default class VariableEditor extends Element {
                 defaultValueGuidValue = payload.value;
             } else {
                 defaultValueGuidValue = '';
-                // default value is not a refernce, update the ferovDataType
+                // default value is not a reference, update the ferovDataType
+                // TODO: Once util is ready use the correct frevoDataType for the literal as part of W-4900878
                 this.updateProperty(FEROV_DATA_TYPE_PROPERTY, FEROV_DATA_TYPE.STRING, null);
             }
             this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, defaultValueGuidValue, null);
 
             // populate the ferovDataType for cases when the initial default value is empty
-            if (defaultValueGuidValue && !this.variableResource.hasOwnProperty(FEROV_DATA_TYPE_PROPERTY)) {
+            // or converting literal value to reference
+            if (defaultValueGuidValue && !this.hasFerovDataTypeRef()) {
                 this.updateProperty(FEROV_DATA_TYPE_PROPERTY, FEROV_DATA_TYPE.REFERENCE, null);
             }
         }
@@ -419,6 +421,14 @@ export default class VariableEditor extends Element {
     getComboboxEventPayload(event) {
         // if it is a combobox value changed event we have two cases: literals or item select
         return event.detail.item ? event.detail.item : event.detail.displayText;
+    }
+
+    /**
+     * Checks if the ferovDataType property exists with value 'reference'.
+     * @return {boolean} Returns true for ferovDataType 'reference', otherwise false.
+     */
+    hasFerovDataTypeRef() {
+        return this.variableResource[FEROV_DATA_TYPE_PROPERTY] === FEROV_DATA_TYPE.REFERENCE;
     }
 
     /** *********************************/
