@@ -13,15 +13,4 @@ const additionalRules = {
     ]
 };
 
-class FormulaValidation extends Validation {
-    /**
-     * @param {string} propName - property name to be validated
-     * @param {string} value - value
-     * @returns {string|null} error - error string or null based on if the field value is valid or not
-     */
-    validateProperty(propName, value) {
-        return super.validateProperty(propName, value, additionalRules[propName]);
-    }
-}
-
-export const formulaValidation = new FormulaValidation();
+export const formulaValidation = new Validation(additionalRules);
