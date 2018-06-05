@@ -22,8 +22,8 @@ export default class RecordSort extends Element {
 
     @track
     state = {
-        showFieldSelector : true,
-        selectedSortOrder : 'NotSorted',
+        showFieldSelector : false,
+        selectedSortOrder : '',
         selectedField : '',
         fieldsOptions : []
     };
@@ -48,7 +48,7 @@ export default class RecordSort extends Element {
 
     /**
      * the value of the order sort dropdown.
-     * @param {string} value    This value can be : "Default", "Asc", "Desc"
+     * @param {string} value    This value can be : "NotSorted", "Asc", "Desc"
      */
     @api
     set sortOrder(value) {

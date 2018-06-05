@@ -1,6 +1,6 @@
 <template>
     <div class="slds-m-bottom_small slds-border_top">
-        <h3 class="slds-text-heading_small slds-p-around_small">{labels.sortTabHeader}</h3>
+        <h3 class="slds-text-heading_small slds-p-left_small slds-p-top_small">{labels.sortTabHeader}</h3>
         <div class="slds-card slds-no-flex">
             <div class="slds-grid slds-p-around_small">
                 <lightning-combobox label={labels.sortOrderLabel}
@@ -15,7 +15,8 @@
                     value={selectedField}
                     onchange={handleSelectedFieldChanged}
                     placeholder={labels.selectFieldToSortResultLabel}
-                    class="slds-m-left_small slds-size_small types">
+                    class="slds-m-left_small slds-size_small types"
+                    required>
                 </lightning-combobox>
             </template>
             <template if:false={state.showFieldSelector}>

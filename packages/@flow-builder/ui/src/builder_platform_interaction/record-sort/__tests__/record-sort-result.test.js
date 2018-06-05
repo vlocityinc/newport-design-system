@@ -55,17 +55,14 @@ describe('record-sort-result default', () => {
     let recordSortResultComponent;
     let sortOrderCmb;
     beforeEach(() => {
-        recordSortResultComponent = createComponentUnderTest(null, null);
+        recordSortResultComponent = createComponentUnderTest(null, sortValues.notSorted);
         sortOrderCmb = getSortOrderCombobox(recordSortResultComponent);
     });
     test('"notSorted" should be the selected sort order', () => {
         expect(sortOrderCmb.value).toBe(sortValues.notSorted);
     });
-    test('Filter combobox is displayed', () => {
-        expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
-    });
-    test('Filter combobox value should be empty by default', () => {
-        expect(getFilterCombobox(recordSortResultComponent).value).toBe('');
+    test('Filter combobox is not displayed', () => {
+        expect(getFilterCombobox(recordSortResultComponent)).not.toBeDefined();
     });
     describe('When sort order changes', () => {
         it('fields combobox should be visible when Ascending is selected', async () => {
