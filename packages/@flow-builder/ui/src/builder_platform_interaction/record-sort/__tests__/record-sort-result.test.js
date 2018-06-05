@@ -3,9 +3,9 @@ import { mockAccountFields, mockAccountExpectedFields } from 'mock-record-data';
 import RecordSortResult from 'builder_platform_interaction-record-sort';
 
 const sortValues = {
-    notSorted: 'NotSorted',
     ascending: 'Asc',
-    descanding: 'Desc'
+    descanding: 'Desc',
+    notSorted: 'NotSorted',
 };
 
 const defaultFieldValue = '';
@@ -23,7 +23,7 @@ jest.mock('builder_platform_interaction-server-data-lib', () => {
 });
 
 
-const createComponentUnderTest = (resourceApiName, sortOrder) => {
+const createComponentUnderTest = (resourceApiName, sortOrder, sortField) => {
     const el = createElement('builder_platform_interaction-record-sort', {
         is: RecordSortResult
     });
@@ -33,12 +33,16 @@ const createComponentUnderTest = (resourceApiName, sortOrder) => {
     if (sortOrder) {
         el.sortOrder = sortOrder;
     }
+    if (sortField) {
+        el.selectedField = sortField;
+    }
     document.body.appendChild(el);
     return el;
 };
 
 const selectors = {
-    lightningCombobox: 'lightning-combobox'
+    lightningCombobox: 'lightning-combobox',
+    filterHelpText: '#helpText',
 };
 
 const getSortOrderCombobox = (recordSortResultComponent) => {
@@ -51,6 +55,10 @@ const getFilterCombobox = (recordSortResultComponent) => {
     return lightningComboboxes[1];
 };
 
+const getFilterHelpText = (recordSortResultComponent) => {
+    return recordSortResultComponent.querySelector(selectors.filterHelpText);
+};
+
 describe('record-sort-result default', () => {
     let recordSortResultComponent;
     let sortOrderCmb;
@@ -58,11 +66,20 @@ describe('record-sort-result default', () => {
         recordSortResultComponent = createComponentUnderTest(null, sortValues.notSorted);
         sortOrderCmb = getSortOrderCombobox(recordSortResultComponent);
     });
+    test('sort order list should have 3 options', () => {
+        expect(sortOrderCmb.options).toHaveLength(3);
+        sortOrderCmb.options.forEach((option, index) => {
+            expect(option.value).toEqual(Object.values(sortValues)[index]);
+        });
+    });
     test('"notSorted" should be the selected sort order', () => {
         expect(sortOrderCmb.value).toBe(sortValues.notSorted);
     });
     test('Filter combobox is not displayed', () => {
         expect(getFilterCombobox(recordSortResultComponent)).not.toBeDefined();
+    });
+    test('Filter help text is displayed', () => {
+        expect(getFilterHelpText(recordSortResultComponent)).toBeDefined();
     });
     describe('When sort order changes', () => {
         it('fields combobox should be visible when Ascending is selected', async () => {
@@ -95,6 +112,11 @@ describe('record-sort With values', () => {
     test('"Asc" as value, check list of fields is correct', () => {
         recordSortResultComponent = createComponentUnderTest('Account', sortValues.ascending);
         expect(getFilterCombobox(recordSortResultComponent).options).toEqual(mockAccountExpectedFields);
+    });
+    test('"Asc" and "Description" as value, sort field should be populated', () => {
+        const sortField = 'Description';
+        recordSortResultComponent = createComponentUnderTest('Account', sortValues.ascending, sortField);
+        expect(getFilterCombobox(recordSortResultComponent).value).toEqual(sortField);
     });
     test('"NotSorted" as value, filter combobox should not be displayed', () => {
         recordSortResultComponent = createComponentUnderTest(null, sortValues.notSorted);
