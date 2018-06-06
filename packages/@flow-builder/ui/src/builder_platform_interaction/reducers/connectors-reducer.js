@@ -24,7 +24,7 @@ export default function connectorsReducer(state = [], action) {
         case SELECT_ON_CANVAS: return _selectConnector(state, action.payload.guid);
         case TOGGLE_ON_CANVAS: return _toggleConnector(state, action.payload.guid);
         case DESELECT_ON_CANVAS: return _deselectConnectors(state);
-        case MODIFY_DECISION_WITH_OUTCOMES: return _deleteConnectorsForElements(state, action.payload.deletedOutcomes);
+        case MODIFY_DECISION_WITH_OUTCOMES: return _deleteConnectorsForChildElements(state, action.payload.deletedOutcomes);
         default: return state;
     }
 }
@@ -48,25 +48,24 @@ function _deleteConnectors(connectors, connectorGUIDs) {
 }
 
 /**
- * Delete connectors for all of the given elements
- * @param {Array} connectors - current state of connectors in the store
- * @param {Array} elements - array of elements
+ * Delete connectors for all of the given child elements
+ *
+ * @param {Array} connectors   current state of connectors in the store
+ * @param {Array} elements     array of child elements (outcomes or wait events) whose connectors are to be deleted
+ *
  * @return {Array} new state of connectors after reduction
  * @private
  */
-function _deleteConnectorsForElements(connectors, elements) {
-    const connectorsToDelete = [];
-
+function _deleteConnectorsForChildElements(connectors, elements) {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
 
-        // If we remove connectorReferences, we will do this by comparing connector childSource to the outcome guid
-        if (element.connectorReferences) {
-            connectorsToDelete.push(...element.connectorReferences);
-        }
+        // Keep in the connector list only if the connector does not have a child source,
+        // OR if child source exists and it does not match the element's guid
+        connectors = connectors.filter(connector => {
+            return !connector.childSource || connector.childSource !== element.guid;
+        });
     }
-
-    connectors = _deleteConnectors(connectors, connectorsToDelete);
 
     return connectors;
 }

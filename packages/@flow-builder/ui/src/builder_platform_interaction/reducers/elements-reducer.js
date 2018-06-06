@@ -16,6 +16,7 @@ import {
 import {deepCopy} from 'builder_platform_interaction-store-lib';
 import {updateProperties, omit} from 'builder_platform_interaction-data-mutation-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 
 /**
  * Reducer for elements.
@@ -60,7 +61,8 @@ export default function elementsReducer(state = {}, action) {
  * @param {Object} decision - the decision being added/modified
  * @param {Array} deletedOutcomes - All outcomes being deleted. If deleted outcomes have connectors, then
  * the decision connectorCount will be decremented appropriately
- * @param {Array} outcomes - All outcomes being added/modified
+ * @param {Array} outcomes - All outcomes in the updated decision state (does not include deleted outcomes)
+ *
  * @return {Object} new state after reduction
  * @private
  */
@@ -72,12 +74,52 @@ function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outc
         newState[outcome.guid] = updateProperties(newState[outcome.guid], outcome);
     }
 
+    const availableConnections = newState[decision.guid].availableConnections || [];
+
+    // Figure out what outcomes were newly added and add them to the list of available connections
+    const currentDecision = state[decision.guid];
+    let newOutcomeGuids = [];
+    if (currentDecision) {
+        const currentOutcomes = currentDecision.outcomeReferences;
+        for (let i = 0; i < outcomes.length; i++) {
+            let outcomeCurrentlyExists = false;
+            for (let j = 0; j < currentOutcomes.length; j++) {
+                if (outcomes[i].guid === currentOutcomes[j].outcomeReference) {
+                    outcomeCurrentlyExists = true;
+                    break;
+                }
+            }
+            if (!outcomeCurrentlyExists) {
+                newOutcomeGuids.push(outcomes[i].guid);
+            }
+        }
+    } else {
+        newOutcomeGuids = outcomes.map(outcome => outcome.guid);
+    }
+    for (let i = 0; i < newOutcomeGuids.length; i++) {
+        availableConnections.push({
+            type: CONNECTOR_TYPE.REGULAR,
+            childReference: newOutcomeGuids[i]
+        });
+    }
+
     const deletedOutcomeGuids = [];
     let connectorCount = newState[decision.guid].connectorCount;
-
     for (const outcome of deletedOutcomes) {
-        if (outcome.connectorReferences && outcome.connectorReferences.length > 0) {
-            connectorCount -= outcome.connectorReferences.length;
+        let availableConnectionExists = false;
+        for (let i = 0; i < availableConnections.length; i++) {
+            // If the deleted outcome was part of the list of available connections,
+            // remove it from the list
+            if (outcome.guid === availableConnections[i].childReference) {
+                availableConnections.splice(i, 1);
+                availableConnectionExists = true;
+                break;
+            }
+        }
+        // If the deleted outcome was not part of the list of available connections,
+        // it means that a connector existed for that outcome, so decrement the connector count
+        if (!availableConnectionExists) {
+            connectorCount -= 1;
         }
 
         deletedOutcomeGuids.push(outcome.guid);
@@ -86,7 +128,7 @@ function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outc
     // Max connections for a decision is the number of outcomes + 1 for the default outcome
     const maxConnections = outcomes.length + 1;
 
-    newState[decision.guid] = updateProperties(newState[decision.guid], {maxConnections, connectorCount});
+    newState[decision.guid] = updateProperties(newState[decision.guid], {maxConnections, connectorCount, availableConnections});
 
     newState = omit(newState, deletedOutcomeGuids);
 

@@ -3,7 +3,8 @@ import { MODIFY_DECISION_WITH_OUTCOMES } from 'builder_platform_interaction-acti
 
 const connectorsState = [{
     guid: 'c1',
-    label: 'l1'
+    label: 'l1',
+    childSource: 'o1'
 }, {
     guid: 'c2',
     label: 'l2'
@@ -43,7 +44,7 @@ describe('connectors-reducer', () => {
                     decision: {},
                     outcomes: [{}],
                     deletedOutcomes: [{
-                        connectorReferences: [connectorsState[0].guid]
+                        guid: 'o1'
                     }],
                 };
 

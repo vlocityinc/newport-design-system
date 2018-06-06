@@ -1,9 +1,10 @@
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 import { ELEMENT_INFOS, FLOW_PROPERTIES } from './translation-config';
+import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { swapDevNamesToUids } from './uid-swapping';
 import { pick } from 'builder_platform_interaction-data-mutation-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { createConnectorsAndConnectionProperties, createStartElement } from 'builder_platform_interaction-connector-utils';
+import { createConnectorsAndConnectionProperties, createStartElement, CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 
 /**
  * Decorate the element with ui specific data and data corresponding to it's element type
@@ -49,11 +50,19 @@ const convertDecisionRules = decision => {
 const convertDecision = decision => {
     const outcomes = convertDecisionRules(decision);
 
-    // For now, just create the array of rule devNames.  These will be converted
+    // For now, just create the array of rule devNames. These will be converted
     // to guids when all other devName->guid conversion happens
     decision.outcomeReferences = outcomes.map(outcome => {
         return { outcomeReference: outcome.name };
     });
+
+    decision.availableConnections = outcomes.map(outcome => {
+        return {
+            type: CONNECTOR_TYPE.REGULAR,
+            childReference: outcome.name
+        };
+    });
+    decision.availableConnections.push({type: CONNECTOR_TYPE.DEFAULT});
 
     delete decision.rules;
 
@@ -64,13 +73,16 @@ const convertDecision = decision => {
  * Generates a GUID and decorates the element with it's guid, element type, canvas status
  *
  * @param {Array} elements           array of the elements of a given type
- * @param {String} elementType       type of element ex: assignment,
- * @param {boolean} isCanvasElement  indicator if the element shows on the canvas
+ * @param {String} elementType       type of element ex: assignment
  *
  * @returns {Array}                  list of converted elements
  */
-export function convertElements(elements, elementType, isCanvasElement) {
+export function convertElements(elements, elementType) {
     const convertedElements = [];
+    const elementConfig = getConfigForElementType(elementType);
+    const isCanvasElement = elementConfig.canvasElement;
+    const canHaveFaultConnector = elementConfig.canHaveFaultConnector;
+    const canHaveDefaultConnector = elementConfig.canHaveDefaultConnector;
 
     elements.forEach(element => {
         const convertedElement = convertElement(
@@ -81,11 +93,28 @@ export function convertElements(elements, elementType, isCanvasElement) {
 
         if (elementType === ELEMENT_TYPE.DECISION) {
             convertedElements.push(...convertDecision(convertedElement));
+        } else if (elementType === ELEMENT_TYPE.LOOP) {
+            convertedElement.availableConnections = [];
+            convertedElement.availableConnections.push({type : CONNECTOR_TYPE.LOOP_NEXT});
+            convertedElement.availableConnections.push({type : CONNECTOR_TYPE.LOOP_END});
         } else if (elementType === ELEMENT_TYPE.SCREEN) {
             for (const field of convertedElement.fields) {
                 field.guid = generateGuid();
             }
+        } else if (canHaveFaultConnector || canHaveDefaultConnector) {
+            convertedElement.availableConnections = [];
+
+            if (canHaveFaultConnector) {
+                convertedElement.availableConnections.push({type : CONNECTOR_TYPE.FAULT});
+            }
+
+            if (canHaveDefaultConnector) {
+                convertedElement.availableConnections.push({type : CONNECTOR_TYPE.DEFAULT});
+            }
+
+            convertedElement.availableConnections.push({type : CONNECTOR_TYPE.REGULAR});
         }
+
         convertedElements.push(convertedElement);
     });
 
@@ -128,8 +157,7 @@ export function translateFlowToUIModel(flow) {
         if (elementsToConvert) {
             const convertedElements = convertElements(
                 elementsToConvert,
-                elementType,
-                elementInfo.canvasElement
+                elementType
             );
 
             convertedElements.forEach(element => {

@@ -7,7 +7,9 @@ export const CONNECTOR_TYPE = {
     REGULAR: 'REGULAR',
     FAULT: 'FAULT',
     DEFAULT: 'DEFAULT',
-    START: 'START'
+    START: 'START',
+    LOOP_NEXT: 'LOOP_NEXT',
+    LOOP_END: 'LOOP_END'
 };
 
 export const START_ELEMENT_X_Y = {
@@ -134,11 +136,20 @@ export const createConnectorObject = (source, childSource, target, label, type) 
     return connector;
 };
 
-const addConnectorReferenceToNode = (node, connectorGuid) => {
-    if (!node.connectorReferences) {
-        node.connectorReferences = [];
+/**
+ * Method to remove connector from list of available connections on a given node
+ *
+ * @param {String} node           canvas element object
+ * @param {String} connector      connector to remove from list of available connections on node
+ */
+export const removeFromAvailableConnections = (node, connector) => {
+    if (node.availableConnections) {
+        node.availableConnections = node.availableConnections.filter(connection => {
+            // Keep in the list of available connections if the connection type does not match the connector type,
+            // OR if the connection is for a child reference (example, outcomes) and the child reference does not match the connector child source
+            return connection.type !== connector.type || (connection.childReference && connection.childReference !== connector.childSource);
+        });
     }
-    node.connectorReferences.push(connectorGuid);
 };
 
 /**
@@ -166,7 +177,6 @@ export const createConnectorObjects = (node, parentId) => {
             CONNECTOR_TYPE.REGULAR
         );
         connectors.push(connector);
-        addConnectorReferenceToNode(node, connector.guid);
         delete node.connector;
     } else if (node.connectors) {
         // Step elements have an array of connectors
@@ -180,7 +190,6 @@ export const createConnectorObjects = (node, parentId) => {
                     CONNECTOR_TYPE.REGULAR
                 );
                 connectors.push(connector);
-                addConnectorReferenceToNode(node, connector.guid);
             }
         });
         delete node.connectors;
@@ -196,7 +205,6 @@ export const createConnectorObjects = (node, parentId) => {
             CONNECTOR_TYPE.FAULT
         );
         connectors.push(faultConnector);
-        addConnectorReferenceToNode(node, faultConnector.guid);
         delete node.faultConnector;
     }
 
@@ -210,7 +218,6 @@ export const createConnectorObjects = (node, parentId) => {
             CONNECTOR_TYPE.DEFAULT
         );
         connectors.push(defaultConnector);
-        addConnectorReferenceToNode(node, defaultConnector.guid);
         delete node.defaultConnector;
     }
 
@@ -238,7 +245,6 @@ export const createConnectorsAndConnectionProperties = (nodeId, elements, startN
         if (startNodeId) {
             const startElementConnector = createConnectorObject(node.guid, null, startNodeId, null, CONNECTOR_TYPE.START);
             connectors.push(startElementConnector);
-            addConnectorReferenceToNode(node, startElementConnector.guid);
         }
     } else {
         connectors.push(...createConnectorObjects(node));
@@ -260,6 +266,11 @@ export const createConnectorsAndConnectionProperties = (nodeId, elements, startN
         const childElement = elements[childReference];
         connectors.push(...createConnectorObjects(childElement, node.guid));
     });
+
+
+    for (let i = 0; i < connectors.length; i++) {
+        removeFromAvailableConnections(node, connectors[i]);
+    }
 
     // Set connection properties on the canvas element
     node.connectorCount = connectors.length;

@@ -9,6 +9,7 @@ import {
     DELETE_RESOURCE,
     MODIFY_DECISION_WITH_OUTCOMES
 } from 'builder_platform_interaction-actions';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 
 const newElements = {
     guid2: {
@@ -136,11 +137,12 @@ describe('elements-reducer', () => {
                 guid: 'decision1',
                 label: 'origLabel',
                 connectorCount: 2,
-                maxConnections: 3
+                maxConnections: 3,
+                outcomeReferences: [{outcomeReference: 'outcome1'}]
             };
 
             outcome = {
-                guid: 'outcome2',
+                guid: 'outcome1',
                 label: 'outcomeLabel'
             };
 
@@ -198,6 +200,29 @@ describe('elements-reducer', () => {
             expect(newOutcome.label).toEqual(updatedOutcome.label);
         });
 
+        it('adds outcomes', () => {
+            const outcome2 = {
+                guid: 'newO',
+                label: 'new outcome label'
+            };
+
+            const newState = elementReducer(originalState, {
+                type: MODIFY_DECISION_WITH_OUTCOMES,
+                payload: {
+                    decision,
+                    outcomes: [outcome, outcome2],
+                    deletedOutcomes: [],
+
+                }
+            });
+
+            const newOutcome = newState[outcome2.guid];
+            const newDecision = newState[decision.guid];
+
+            expect(newOutcome).toEqual(outcome2);
+            expect(newDecision.availableConnections).toEqual([{type: CONNECTOR_TYPE.REGULAR, childReference: newOutcome.guid}]);
+        });
+
         describe('deleted outcomes', () => {
             it('are deleted', () => {
                 const newState = elementReducer(originalState, {
@@ -227,6 +252,8 @@ describe('elements-reducer', () => {
             });
 
             it('without connector does not change connectorCount', () => {
+                decision.availableConnections = [{childReference: outcome.guid}];
+
                 const newState = elementReducer(originalState, {
                     type: MODIFY_DECISION_WITH_OUTCOMES,
                     payload: {
@@ -241,7 +268,7 @@ describe('elements-reducer', () => {
             });
 
             it('with connector decrements connectorCount', () => {
-                outcome.connectorReferences = ['someConnectorGuid'];
+                decision.availableConnections = [];
 
                 const newState = elementReducer(originalState, {
                     type: MODIFY_DECISION_WITH_OUTCOMES,

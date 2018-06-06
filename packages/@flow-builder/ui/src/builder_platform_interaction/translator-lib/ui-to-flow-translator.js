@@ -61,7 +61,7 @@ const updateElementLocation = (canvasElements, elements) => {
 };
 
 const omitTransientFields = (element) => {
-    return omit(element, ['guid', 'elementType', 'isCanvasElement', 'config', 'connectorCount', 'maxConnections', 'connectorReferences']);
+    return omit(element, ['guid', 'elementType', 'isCanvasElement', 'config', 'connectorCount', 'maxConnections', 'availableConnections']);
 };
 
 const translateElementHashToHaveDevNameKeys = (elements) => {

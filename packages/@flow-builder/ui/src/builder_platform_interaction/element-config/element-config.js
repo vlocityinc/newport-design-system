@@ -37,6 +37,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.subflowPluralLabel
         },
         canvasElement: true,
+        canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -68,6 +69,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.actionPluralLabel
         },
         canvasElement: true,
+        canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -95,6 +97,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.apexPluginPluralLabel
         },
         canvasElement: true,
+        canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -122,6 +125,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.apexPluralLabel
         },
         canvasElement: true,
+        canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -150,6 +154,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.localActionPluralLabel
         },
         canvasElement: true,
+        canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -178,6 +183,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.emailAlertPluralLabel
         },
         canvasElement: true,
+        canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -271,6 +277,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.decisionPluralLabel
         },
         canvasElement: true,
+        canHaveDefaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -325,6 +332,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordCreatePluralLabel
         },
         canvasElement: true,
+        canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -351,6 +359,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordLookupPluralLabel
         },
         canvasElement: true,
+        canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -389,6 +398,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordDeletePluralLabel
         },
         canvasElement: true,
+        canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
@@ -415,6 +425,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordUpdatePluralLabel
         },
         canvasElement: true,
+        canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
