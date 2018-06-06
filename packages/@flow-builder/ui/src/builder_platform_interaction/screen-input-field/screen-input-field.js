@@ -61,6 +61,6 @@ export default class ScreenInputField extends Element {
 
     @api
     get helpText() {
-        return (this._helptext && this._helptext.value) || null;
+        return this._helptext ? this._helptext.value : null;
     }
 }
