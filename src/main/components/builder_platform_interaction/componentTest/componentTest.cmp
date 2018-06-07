@@ -1,0 +1,46 @@
+<aura:component controller="serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController" description="Component to configure/enable component tests">
+
+    <!--
+        This is a test component but in order to avoid raptor namespace calling restrictions it's best to place it in the builder_platform_interaction namespace
+
+        This component will instantiate a property editor for the given element type.
+      -->
+
+    <!--Handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+
+    <aura:attribute name="elementType" type="String"/>
+    <aura:attribute name="initialized" type="Boolean"/>
+
+    <aura:attribute name="node" type="Object"/>
+    <!-- callback to update-->
+    <aura:attribute name="nodeUpdate" type="Object"/>
+    <!-- factory override -->
+    <aura:attribute name="override" type="Object" />
+
+    <!-- include related dependencies -->
+    <aura:dependency resource="builder_platform_interaction:container"/>
+
+    <aura:import library="test_platform_interaction:builderTestLib" property="builderTestLib" />
+
+ 
+
+    <builder_platform_interaction:serverDataLib aura:id="serverDataLib"/>
+    <builder_platform_interaction:elementConfig aura:id="elementConfig"/>
+    <builder_platform_interaction:dataMutationLib aura:id="dataMutationLib"/>
+    <builder_platform_interaction:storeLib aura:id="storeLib"/>
+    <builder_platform_interaction:reducers aura:id="reducers"/>
+    <builder_platform_interaction:actions aura:id="actions"/>
+
+    <builder_platform_interaction:ruleLib aura:id="ruleLib"/>
+    <!-- Not used yet but required if we want sobject data?  -->
+    <builder_platform_interaction:sobjectLib aura:id="sobjectLib"/>
+
+    <aura:if isTrue="{!v.initialized}">
+        <builder_platform_interaction:propertyEditor 
+            aura:id="propertyEditor"
+            node="{!v.node}"
+            nodeUpdate="{!v.nodeUpdate}"
+            override="{!v.override}"/>
+    </aura:if>
+</aura:component>
