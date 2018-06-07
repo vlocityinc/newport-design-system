@@ -48,8 +48,9 @@ const validateRHS = (lhs, operator, contextConfig) => {
         const blankRHSParam = {
             isCollection: null,
             elementType: ELEMENT_TYPE.VARIABLE,
+            dataType: 'String',
         };
-        const rhsTypes = getRHSTypes(elementToParam(getElementByGuid(lhs)), operator, getRulesForContext(contextConfig));
+        const rhsTypes = getRHSTypes(contextConfig.elementType, elementToParam(getElementByGuid(lhs)), operator, getRulesForContext(contextConfig));
         const rhsValid = isElementAllowed(rhsTypes, blankRHSParam);
         if (!rhsValid) {
             return cannotBeBlankError;
