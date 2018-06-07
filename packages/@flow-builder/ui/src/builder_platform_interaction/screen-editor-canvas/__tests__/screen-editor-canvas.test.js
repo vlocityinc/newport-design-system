@@ -1,5 +1,6 @@
 import { createElement } from 'engine';
-import ScreenEditorCanvas from '../screen-editor-canvas';
+import  ScreenEditorCanvas  from '../screen-editor-canvas';
+import { ScreenElementSelectedEvent, screenEventNames } from 'builder_platform_interaction-events';
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-editor-canvas', {
@@ -15,7 +16,8 @@ const createComponentUnderTest = (props) => {
 describe('screen-editor-canvas', () => {
     it('displays the help icon when there is help text', () => {
         const screenEditorCanvasElement = createComponentUnderTest({
-            screen: {helpText: {value: "help!!", error: null}, label:{value:"label", error: null}, showHeader: true}
+            screen: {helpText: {value: "help!!", error: null}, label:{value:"label", error: null}, showHeader: true},
+            labels: {}
         });
         return Promise.resolve().then(() => {
             const helpIcon = screenEditorCanvasElement.querySelector('lightning-button-icon');
@@ -40,7 +42,8 @@ describe('canvas elements draggability', () => {
                         type: { dataType: "String", label: "Text Field"}
                     },
                 ]
-            }
+            },
+            labels: {}
         });
     });
     it('screen field is draggable', () => {
@@ -53,6 +56,31 @@ describe('canvas elements draggability', () => {
         return Promise.resolve().then(() => {
             const header = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-content builder_platform_interaction-screen-editor-highlight');
             expect(header.draggable).toBeFalsy();
+        });
+    });
+});
+
+describe('Click handling on canvas', () => {
+    let screenEditorCanvasElement;
+    beforeEach(() => {
+        screenEditorCanvasElement = createComponentUnderTest({
+            screen: {
+                helpText: {value: "help!!", error: null},
+                label: {value: "label", error: null},
+                showHeader: true,
+                fields: []
+            },
+            labels: {}
+        });
+    });
+    it('clicking on the canvas fires correct event', () => {
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn().mockImplementation();
+            screenEditorCanvasElement.addEventListener(screenEventNames.screenElementSelectedEvent, eventCallback);
+            const canvasDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            const selectEvent = new ScreenElementSelectedEvent();
+            canvasDiv.dispatchEvent(selectEvent);
+            expect(eventCallback).toHaveBeenCalled();
         });
     });
 });
