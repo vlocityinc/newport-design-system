@@ -257,6 +257,8 @@ export default class ExpressionBuilder extends Element {
     }
 
     handleFilterLHSMatches(event) {
+        this.operatorAndRHSDisabled = !this.template.querySelector('.lhs').displayText;
+
         this.state.lhsMenuData = filterMatches(event.detail.value, this._fullLHSMenuData, event.detail.isMergeField);
     }
 
