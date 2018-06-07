@@ -9,7 +9,7 @@
         </div>
         <div class="slds-col slds-grow slds-grid">
             <div class="slds-col slds-panel slds-size_medium slds-border_right" aria-hidden="false">
-                <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement}></builder_platform_interaction-left-panel>
+                <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement} ondeleteoncanvas={handleDeleteOnCanvas}></builder_platform_interaction-left-panel>
             </div>
              <div class="slds-col">
                 <builder_platform_interaction-canvas if:true={shouldCreateCanvas} nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}
