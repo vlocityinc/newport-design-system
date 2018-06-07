@@ -3,17 +3,19 @@
  */
 const eventName = 'palettesectiontoggle';
 
-export class PaletteSectionToggleEvent extends Event {
+
+export class PaletteSectionToggleEvent {
     constructor(expanded, sectionKey) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
-            cancelable: true
+            cancelable: true,
+            detail: {
+                expanded,
+                sectionKey
+
+            }
         });
-        this.detail = {
-            expanded,
-            sectionKey
-        };
     }
 
     static EVENT_NAME = eventName;

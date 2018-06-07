@@ -1,17 +1,17 @@
 const eventName = 'updaterecordlookupfilter';
 
-export class UpdateRecordLookupFilterEvent extends Event {
+
+export class UpdateRecordLookupFilterEvent {
     constructor(index, value) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                index,
+                value
+            }
         });
-
-        this.detail = {
-            index,
-            value
-        };
     }
 
     static EVENT_NAME = eventName;

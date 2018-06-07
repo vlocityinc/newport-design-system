@@ -5,17 +5,18 @@
  */
 const eventName = 'reorderlist';
 
-export class ReorderListEvent extends Event {
+
+export class ReorderListEvent {
     constructor(sourceGuid, destinationGuid) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
-            bubbles: true
+            bubbles: true,
+            detail: {
+                sourceGuid,
+                destinationGuid
+            }
         });
-        this.detail = {
-            sourceGuid,
-            destinationGuid
-        };
     }
 
     static EVENT_NAME = eventName;

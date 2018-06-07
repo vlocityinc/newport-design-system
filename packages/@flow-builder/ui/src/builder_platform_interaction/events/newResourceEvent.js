@@ -4,12 +4,13 @@
 
 const eventName = 'addnewresource';
 
-export class NewResourceEvent extends Event {
+
+export class NewResourceEvent {
     constructor() {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: true,
             composed: true,
-            bubbles: true,
+            bubbles: true
         });
     }
 

@@ -1,15 +1,16 @@
 const eventName = 'deletelistitem';
 
-export class DeleteListItemEvent extends Event {
+
+export class DeleteListItemEvent {
     constructor(index) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                index
+            }
         });
-        this.detail = {
-            index
-        };
     }
 
     static EVENT_NAME = eventName;

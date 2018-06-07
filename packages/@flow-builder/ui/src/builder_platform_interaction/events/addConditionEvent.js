@@ -1,15 +1,15 @@
 const eventName = 'addcondition';
 
-export class AddConditionEvent extends Event {
+export class AddConditionEvent {
     constructor(parentGUID) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                parentGUID
+            }
         });
-        this.detail = {
-            parentGUID
-        };
     }
 
     static EVENT_NAME = eventName;

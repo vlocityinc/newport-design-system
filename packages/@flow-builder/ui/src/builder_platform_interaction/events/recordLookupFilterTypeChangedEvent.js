@@ -1,15 +1,16 @@
 const eventName = 'recordlookupfiltertypechanged';
 
-export class RecordLookupFilterTypeChangedEvent extends Event {
+
+export class RecordLookupFilterTypeChangedEvent {
     constructor(filterType) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                filterType
+            }
         });
-        this.detail = {
-            filterType
-        };
     }
 
     static EVENT_NAME = eventName;

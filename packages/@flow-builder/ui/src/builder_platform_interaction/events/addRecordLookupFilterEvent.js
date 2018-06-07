@@ -1,11 +1,12 @@
 const eventName = 'addrecordlookupfilter';
 
-export class AddRecordLookupFilterEvent extends Event {
+
+export class AddRecordLookupFilterEvent {
     constructor() {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
-            bubbles: true,
+            bubbles: true
         });
     }
 

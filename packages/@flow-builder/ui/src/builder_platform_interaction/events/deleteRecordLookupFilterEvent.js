@@ -1,16 +1,16 @@
 const eventName = 'deleterecordlookupfilter';
 
-export class DeleteRecordLookupFilterEvent extends Event {
+
+export class DeleteRecordLookupFilterEvent {
     constructor(index) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                index
+            }
         });
-
-        this.detail = {
-            index
-        };
     }
 
     static EVENT_NAME = eventName;

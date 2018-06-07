@@ -3,16 +3,16 @@
  */
 const eventName = 'editelement';
 
-export class EditElementEvent extends Event {
+export class EditElementEvent {
     constructor(canvasElementGUID) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
-            cancelable: true
+            cancelable: true,
+            detail: {
+                canvasElementGUID
+            }
         });
-        this.detail = {
-            canvasElementGUID
-        };
     }
 
     static EVENT_NAME = eventName;

@@ -3,17 +3,18 @@
  */
 const eventName = 'valuechanged';
 
-export class ValueChangedEvent extends Event {
+
+export class ValueChangedEvent {
     constructor(value = null, error = null) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                value,
+                error
+            }
         });
-        this.detail = {
-            value,
-            error
-        };
     }
 
     static EVENT_NAME = eventName;

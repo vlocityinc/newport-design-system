@@ -1,15 +1,16 @@
 const eventName = 'rowcontentschanged';
 
-export class RowContentsChangedEvent extends Event {
+
+export class RowContentsChangedEvent {
     constructor(newValue = null) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                newValue
+            }
         });
-        this.detail = {
-            newValue
-        };
     }
 
     static EVENT_NAME = eventName;

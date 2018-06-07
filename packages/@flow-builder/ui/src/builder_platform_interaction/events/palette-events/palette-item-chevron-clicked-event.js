@@ -3,20 +3,22 @@
  */
 const eventName = 'paletteitemchevronclicked';
 
-export class PaletteItemChevronClickedEvent extends Event {
+
+export class PaletteItemChevronClickedEvent {
     constructor(elementType, elementGUID, label, iconName, description) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
-            cancelable: true
+            cancelable: true,
+            detail: {
+                elementType,
+                elementGUID,
+                label,
+                iconName,
+                description
+
+            }
         });
-        this.detail = {
-            elementType,
-            elementGUID,
-            label,
-            iconName,
-            description
-        };
     }
 
     static EVENT_NAME = eventName;

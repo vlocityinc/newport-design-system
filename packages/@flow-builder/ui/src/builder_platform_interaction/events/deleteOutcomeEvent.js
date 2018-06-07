@@ -1,16 +1,16 @@
 const eventName = 'deleteoutcome';
 
-export class DeleteOutcomeEvent extends Event {
+
+export class DeleteOutcomeEvent {
     constructor(guid) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                guid
+            }
         });
-
-        this.detail = {
-            guid
-        };
     }
 
     static EVENT_NAME = eventName;

@@ -1,15 +1,16 @@
 const eventName = 'addlistitem';
 
-export class AddListItemEvent extends Event {
+
+export class AddListItemEvent {
     constructor(index) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                index
+            }
         });
-        this.detail = {
-            index
-        };
     }
 
     static EVENT_NAME = eventName;

@@ -4,20 +4,21 @@
  */
 const eventName = 'propertychanged';
 
-export class PropertyChangedEvent extends Event {
+
+export class PropertyChangedEvent {
     constructor(propertyName, value, error = null, guid = null, oldValue = undefined) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                propertyName,
+                value,
+                error,
+                guid,
+                oldValue
+            }
         });
-        this.detail = {
-            propertyName,
-            value,
-            error,
-            guid,
-            oldValue
-        };
     }
 
     static EVENT_NAME = eventName;

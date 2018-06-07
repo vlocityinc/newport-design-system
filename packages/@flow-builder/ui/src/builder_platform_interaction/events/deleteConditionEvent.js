@@ -1,17 +1,17 @@
 const eventName = 'deletecondition';
 
-export class DeleteConditionEvent extends Event {
+
+export class DeleteConditionEvent {
     constructor(parentGUID, index) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                parentGUID,
+                index
+            }
         });
-
-        this.detail = {
-            parentGUID,
-            index
-        };
     }
 
     static EVENT_NAME = eventName;

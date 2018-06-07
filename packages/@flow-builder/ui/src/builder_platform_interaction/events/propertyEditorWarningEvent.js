@@ -4,17 +4,18 @@
  */
 const eventName = 'propeditorwarning';
 
-export class PropertyEditorWarningEvent extends Event {
+
+export class PropertyEditorWarningEvent {
     constructor(propertyName, warning = null) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                propertyName,
+                warning
+            }
         });
-        this.detail = {
-            propertyName,
-            warning
-        };
     }
 
     static EVENT_NAME = eventName;

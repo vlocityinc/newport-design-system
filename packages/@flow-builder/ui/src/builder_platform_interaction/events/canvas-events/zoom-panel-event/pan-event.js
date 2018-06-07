@@ -3,16 +3,16 @@
  */
 const eventName = 'togglepanmode';
 
-export class TogglePanModeEvent extends Event {
+export class TogglePanModeEvent {
     constructor(action = null) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
-            cancelable: true
+            cancelable: true,
+            detail: {
+                action
+            }
         });
-        this.detail = {
-            action
-        };
     }
 
     static EVENT_NAME = eventName;

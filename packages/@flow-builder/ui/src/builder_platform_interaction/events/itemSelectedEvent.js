@@ -3,16 +3,17 @@
  */
 const eventName = 'itemselected';
 
-export class ItemSelectedEvent extends Event {
+
+export class ItemSelectedEvent {
     constructor(item = null) {
-        super(eventName, {
+        return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
+            detail: {
+                item
+            }
         });
-        this.detail = {
-            item
-        };
     }
 
     static EVENT_NAME = eventName;
