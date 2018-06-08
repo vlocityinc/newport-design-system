@@ -8,31 +8,17 @@
                                                             onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-label-description>
 
-            <div class="slds-form-element_group slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
-                <!-- TODO: use labels W-4813532-->
-                <lightning-combobox
-                    class="slds-form-element slds-col slds-grow slds-size_1-of-2"
-                    label="Data Type"
-                    placeholder="Select Data Type"
-                    options={dataTypeList}
-                    value={dataType}
-                    disabled={isFieldDisabled}
-                    onchange={handleDataTypeSelect}
-                    field-level-help={dataTypeHelpText}
-                    required
-                    >
-                </lightning-combobox>
-                <lightning-input
-                    class="slds-form-element slds-col slds-grow slds-size_2-of-2 slds-align-middle"
-                    label={collectionLabel}
-                    type="checkbox"
-                    checked={variableResource.isCollection}
-                    disabled={isFieldDisabled}
-                    onchange={handleCollectionChange}
-                    field-level-help={collectionHelpText}
-                    >
-                </lightning-input>
-            </div>
+            <builder_platform_interaction-data-type-picker available-data-types={dataTypeList}
+                                                           type-and-collection-disabled={isFieldDisabled}
+                                                           allow-scale
+                                                           allow-collection
+                                                           required
+                                                           help-text={dataTypeHelpText}
+                                                           collection-help-text={collectionHelpText}
+                                                           value={dataTypePickerValue}
+                                                           onvaluechanged={handleDataTypeChanged}
+                                                           >
+            </builder_platform_interaction-data-type-picker>
 
             <div if:true={hasDefaultValue} class='default-value'>
                 <builder_platform_interaction-ferov-resource-picker

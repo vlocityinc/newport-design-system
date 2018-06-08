@@ -43,6 +43,13 @@ const FLOW_DATA_TYPE = {
     },
 };
 
+export const SCALE_RANGE = {
+    min : 0,
+    max : 17
+};
+
+export const SCALE_DEFAULT = 2;
+
 const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.STRING.value]: ["id", "reference", "address", "anytype", "base64", "combobox", "complexvalue", "datacategorygroupreference", "email", "encryptedstring", "location", "phone", "string", "textarea", "url"],
     [FLOW_DATA_TYPE.PICKLIST.value]: ["picklist"],

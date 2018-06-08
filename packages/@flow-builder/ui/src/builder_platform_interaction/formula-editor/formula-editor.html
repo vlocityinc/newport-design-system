@@ -6,32 +6,19 @@
                                                         hide-label=true
                                                         onpropertychanged={handlePropertyChanged}>
         </builder_platform_interaction-label-description>
-    
-        <div class="slds-form-element__group">
-            <lightning-combobox
-                    class="slds-form-element"
-                    label={labels.dataTypeLabel}
-                    placeholder={labels.dataTypePlaceholder}
-                    options={dataTypeMenuItems}
-                    value={dataType}
-                    disabled={isDataTypeComboboxDisabled}
-                    onchange={handleDataTypeChanged}
-                    field-level-help={dataTypeHelpText}
-                    required
-                    >
-            </lightning-combobox>
-            <lightning-input if:true={showScale}
-                             class="scale"
-                             type="number" min="0" max="17" label={labels.scaleLabel}
-                             onfocusout={handleScaleFocusOut}
-                             value={formulaResource.scale}
-                             required
-                             message-when-value-missing={labels.scaleMessageWhenValueMissing}>
-            </lightning-input>
-         </div>
-        
+
+        <builder_platform_interaction-data-type-picker available-data-types={dataTypes}
+                                                       value={selectedDataType}
+                                                       type-and-collection-disabled={isEditMode}
+                                                       onvaluechanged={handleDataTypeChanged}
+                                                       help-text={dataTypeHelpText}
+                                                       allow-scale
+                                                       required>
+        </builder_platform_interaction-data-type-picker>
+
         <lightning-textarea class="slds-form-element expression"
-                            label="Formula" max-length="3900"
+                            label={labels.formulaLabel}
+                            max-length="3900"
                             onfocusout={handleFormulaFocusOut}
                             value={formulaResource.expression.value}
                             required>

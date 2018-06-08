@@ -10,6 +10,9 @@ const additionalRules = {
         ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
         ValidationRules.maximumCharactersLimit(80)
+    ],
+    'expression' : [
+        ValidationRules.maximumCharactersLimit(3900)
     ]
 };
 

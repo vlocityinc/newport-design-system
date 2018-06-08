@@ -4,7 +4,7 @@ import * as mockStoreData from 'mock-store-data';
 import * as selectorsMock from 'builder_platform_interaction-selectors';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { variableReducer } from '../variable-reducer';
-import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
+import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxValueChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 
 const SELECTORS = {
@@ -124,10 +124,10 @@ describe('variable-editor', () => {
         it('handles change event when data type option is selected', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
-                const dataTypePicker = variableEditor.querySelector('lightning-combobox');
-                const mockChangeEvent = new CustomEvent('change', { detail: { value: ''}});
+                const dataTypePicker = variableEditor.querySelector('builder_platform_interaction-data-type-picker');
+                const mockChangeEvent = new ValueChangedEvent({ dataType : 'Currency', isCollection:false, scale:3 });
                 dataTypePicker.dispatchEvent(mockChangeEvent);
-                expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
+                expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE);
                 expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
             });
         });

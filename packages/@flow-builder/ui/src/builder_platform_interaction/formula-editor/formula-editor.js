@@ -5,7 +5,7 @@ import { formulaReducer } from './formula-reducer';
 import { LABELS } from './formula-editor-labels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
-const dataTypeMenuItems = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY, FLOW_DATA_TYPE.BOOLEAN, FLOW_DATA_TYPE.DATE, FLOW_DATA_TYPE.DATE_TIME];
+const dataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY, FLOW_DATA_TYPE.BOOLEAN, FLOW_DATA_TYPE.DATE, FLOW_DATA_TYPE.DATE_TIME];
 
 export default class FormulaEditor extends Element {
     @track
@@ -39,20 +39,19 @@ export default class FormulaEditor extends Element {
         return unwrap(this.formulaResource);
     }
 
-    get dataType() {
-        return getValueFromHydratedItem(this.formulaResource.dataType);
+    get dataTypes() {
+        return dataTypes;
     }
 
-    get dataTypeMenuItems() {
-        return dataTypeMenuItems;
+    get selectedDataType() {
+        return  {
+            dataType : getValueFromHydratedItem(this.formulaResource.dataType),
+            scale : this.formulaResource.scale
+        };
     }
 
-    get isDataTypeComboboxDisabled() {
+    isEditMode() {
         return !this.isNewMode;
-    }
-
-    get showScale() {
-        return this.dataType === FLOW_DATA_TYPE.NUMBER.value || this.dataType === FLOW_DATA_TYPE.CURRENCY.value;
     }
 
     get dataTypeHelpText() {
@@ -73,21 +72,11 @@ export default class FormulaEditor extends Element {
 
     handleDataTypeChanged(event) {
         event.stopPropagation();
-        const dataType = event.detail.value;
-        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value : { dataType } });
-        this.formulaResource = formulaReducer(this.formulaResource, action);
-    }
-
-    handleScaleFocusOut(event) {
-        event.stopPropagation();
-        const dataType = this.formulaResource.dataType.value;
-        const scale = Number(event.target.value);
-        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value : { dataType, scale } });
+        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value : event.detail.value });
         this.formulaResource = formulaReducer(this.formulaResource, action);
     }
 
     handleFormulaFocusOut(event) {
-        event.stopPropagation();
         const propertyName = 'expression';
         const value = event.target.value;
         const error = null;

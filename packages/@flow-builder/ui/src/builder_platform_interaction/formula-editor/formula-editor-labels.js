@@ -1,16 +1,12 @@
 /* Labels */
 import apiNameLabel from '@label/FlowBuilderFormulaEditor.apiNameLabel';
-import scaleLabel from '@label/FlowBuilderFormulaEditor.scaleLabel';
-import dataTypeLabel from '@label/FlowBuilderFormulaEditor.dataTypeLabel';
-import dataTypePlaceholder from '@label/FlowBuilderFormulaEditor.dataTypePlaceholder';
-import scaleMessageWhenValueMissing from '@label/FlowBuilderFormulaEditor.scaleMessageWhenValueMissing';
 import dataTypeCannotBeChangedHelpText from '@label/FlowBuilderFormulaEditor.dataTypeCannotBeChangedHelpText';
+import scaleMessageWhenOutOfRange from '@label/FlowBuilderDataTypePicker.scaleMessageWhenOutOfRange';
+import formulaLabel from '@label/FlowBuilderFormulaEditor.formulaLabel';
 
 export const LABELS = {
     apiNameLabel,
-    scaleLabel,
-    dataTypeLabel,
-    dataTypePlaceholder,
-    scaleMessageWhenValueMissing,
-    dataTypeCannotBeChangedHelpText
+    dataTypeCannotBeChangedHelpText,
+    scaleMessageWhenOutOfRange,
+    formulaLabel
 };

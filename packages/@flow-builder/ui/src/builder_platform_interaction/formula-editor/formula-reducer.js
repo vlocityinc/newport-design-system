@@ -1,6 +1,7 @@
 import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { formulaValidation } from './formula-validation';
+import { SCALE_DEFAULT } from 'builder_platform_interaction-data-type-lib';
 
 const formulaPropertyChanged = (state, action) => {
     action.payload.error = action.payload.error === null ? formulaValidation.validateProperty(action.payload.propertyName, action.payload.value) : action.payload.error;
@@ -8,11 +9,16 @@ const formulaPropertyChanged = (state, action) => {
 };
 
 const formulaDataTypeChanged = (state, action) => {
-    action.payload.error = formulaValidation.validateProperty('dataType', action.payload.value.dataType);
-    if (typeof action.payload.value.scale !== 'number') {
-        action.payload.value.scale = 2;
+    const dataType = action.payload.value.dataType;
+    let dataTypeError = formulaValidation.validateProperty('dataType', dataType);
+    let scale = action.payload.value.scale;
+    if (typeof scale !== 'number') {
+        scale = SCALE_DEFAULT;
     }
-    return updateProperties(state, { dataType : { error: action.payload.error, value: action.payload.value.dataType }, scale: action.payload.value.scale });
+    if (dataTypeError === null) {
+        dataTypeError = formulaValidation.validateProperty('scale', scale);
+    }
+    return updateProperties(state, { dataType : { error: dataTypeError, value: dataType }, scale });
 };
 
 /**

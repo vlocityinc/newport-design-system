@@ -108,6 +108,14 @@ export default class VariableEditor extends Element {
         return getValueFromHydratedItem(this.variableResource.dataType);
     }
 
+    get dataTypePickerValue() {
+        return  {
+            dataType : getValueFromHydratedItem(this.variableResource.dataType),
+            scale : this.variableResource.scale,
+            isCollection : this.variableResource.isCollection
+        };
+    }
+
     // we want to disable certain fields based on whether we are editing an existing variable or a new variable
     get isFieldDisabled() {
         return !this.isNewMode;
@@ -249,13 +257,10 @@ export default class VariableEditor extends Element {
         }
     }
 
-    handleDataTypeSelect(event) {
-        this.handleChange(event, VARIABLE_FIELDS.DATA_TYPE);
-    }
-
-    handleCollectionChange(event) {
-        const isCollection = event.detail.checked;
-        this.updateProperty(VARIABLE_FIELDS.IS_COLLECTION, isCollection, null);
+    handleDataTypeChanged(event) {
+        event.stopPropagation();
+        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value : event.detail.value });
+        this.variableResource = variableReducer(this.variableResource, action);
     }
 
     /**

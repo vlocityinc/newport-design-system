@@ -1,0 +1,36 @@
+<template>
+    <div class="slds-form-element__group">
+        <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
+            <lightning-combobox
+                class="slds-form-element slds-col slds-grow slds-size_1-of-2"
+                label={labels.dataTypeLabel}
+                placeholder={labels.dataTypePlaceholder}
+                options={availableDataTypes}
+                value={state.dataType}
+                disabled={typeAndCollectionDisabled}
+                onchange={handleDataTypeChanged}
+                field-level-help={helpText}
+                required={required}
+                >
+            </lightning-combobox>
+            <lightning-input if:true={allowCollection}
+                class="slds-form-element slds-col slds-grow slds-size_1-of-2 slds-align-middle"
+                label={labels.collectionLabel}
+                type="checkbox"
+                checked={state.isCollection}
+                disabled={typeAndCollectionDisabled}
+                onchange={handleCollectionChange}
+                field-level-help={collectionHelpText}
+                >
+            </lightning-input>
+        </div>
+        <lightning-input if:true={showScale}
+            class="slds-form-element"
+            type="number" min={scaleRange.min} max={scaleRange.max} label={labels.scaleLabel}
+            onblur={handleScaleBlur}
+            onchange={handleScaleChanged}
+            disabled={scaleDisabled}
+            value={state.scale}>
+         </lightning-input>
+    </div>
+</template>

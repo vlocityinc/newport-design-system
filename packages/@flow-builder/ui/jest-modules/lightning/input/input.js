@@ -26,6 +26,8 @@ export default class LightningInput extends Element {
     @api min;
     @api max;
     @api name;
+    @api messageWhenRangeOverflow;
+    @api messageWhenRangeUnderflow;
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {

@@ -9,8 +9,7 @@ const createComponentUnderTest = (node) => {
 };
 
 const selectors = {
-    dataTypeCombobox: 'lightning-combobox',
-    scaleInput: 'lightning-input.scale',
+    dataTypePicker: 'builder_platform_interaction-data-type-picker',
     expressionTextArea : 'lightning-textarea.expression'
 };
 
@@ -42,13 +41,10 @@ describe('formula-editor', () => {
         beforeEach(() => {
             formulaEditor = createComponentUnderTest(formulaResource);
         });
-        it('Number should be selected', () => {
-            const dataTypeCombobox = formulaEditor.querySelector(selectors.dataTypeCombobox);
-            expect(dataTypeCombobox.value).toBe('Number');
-        });
-        it('Scale input should have the proper value', () => {
-            const scaleInput = formulaEditor.querySelector(selectors.scaleInput);
-            expect(scaleInput.value).toBe(1);
+        it('Number should be selected, scale should be 1', () => {
+            const dataTypePicker = formulaEditor.querySelector(selectors.dataTypePicker);
+            expect(dataTypePicker.value.dataType).toBe('Number');
+            expect(dataTypePicker.value.scale).toBe(1);
         });
         it('Expression textarea should have the proper value', () => {
             const expressionTextArea = formulaEditor.querySelector(selectors.expressionTextArea);
