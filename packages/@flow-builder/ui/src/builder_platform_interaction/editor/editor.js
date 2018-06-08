@@ -53,6 +53,8 @@ export default class Editor extends Element {
 
     @track disableSave = false;
 
+    @track errors;
+
     constructor() {
         super();
         // Initialising store
@@ -130,12 +132,11 @@ export default class Editor extends Element {
     saveFlowCallback = ({data, error}) => {
         if (error) {
             // TODO: handle error case
-        } else if (data !== 'fail') {
-            // TODO: handle saving a flow case
-            // Updating URL
-            // Hack: fix it once we payload onsave is defined properly
-            this.currentFlowId = data;
-            window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + data);
+        } else if (data.isSuccess) {
+            this.currentFlowId = data.flowId;
+            window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
+        } else {
+            this.errors = data.errors;
         }
         this.disableSave = false;
     };

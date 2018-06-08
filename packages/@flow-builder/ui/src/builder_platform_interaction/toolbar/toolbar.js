@@ -11,6 +11,8 @@ const SAVE = 'save';
 export default class Toolbar extends Element {
     @api isSaveDisabled;
 
+    @api errors;
+
     /**
      * Event handler for click event on save button.
      * It dispatches an event named save which can be handled by parent component
