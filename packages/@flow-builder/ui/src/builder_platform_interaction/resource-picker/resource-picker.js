@@ -5,9 +5,9 @@ import {
     getEntitiesMenuData,
     RESOURCE_PICKER_MODE,
 } from 'builder_platform_interaction-expression-utils';
-import { getRulesForContext, getRHSTypes, RULE_PROPERTY_INFO } from 'builder_platform_interaction-rule-lib';
+import { getRulesForContext, getRHSTypes, PARAM_PROPERTY } from 'builder_platform_interaction-rule-lib';
 
-const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = RULE_PROPERTY_INFO;
+const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = PARAM_PROPERTY;
 
 /**
  * Reusable resource picker that displays a list of Flow Elements or SObject entities

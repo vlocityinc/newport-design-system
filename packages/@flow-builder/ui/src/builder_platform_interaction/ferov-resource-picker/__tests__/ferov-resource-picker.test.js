@@ -27,7 +27,7 @@ const paramTypes = {
 jest.mock('builder_platform_interaction-rule-lib', () => {
     return {
         RULE_OPERATOR: require.requireActual('builder_platform_interaction-rule-lib').RULE_OPERATOR,
-        RULE_PROPERTY_INFO: require.requireActual('builder_platform_interaction-rule-lib').RULE_PROPERTY_INFO,
+        PARAM_PROPERTY: require.requireActual('builder_platform_interaction-rule-lib').PARAM_PROPERTY,
         getRulesForContext: jest.fn().mockReturnValue([]).mockName('getRulesForContext'),
         getRHSTypes: jest.fn().mockReturnValue({paramType:'Data', dataType:'Currency', collection:false}).mockName('getRHSTypes')
     };

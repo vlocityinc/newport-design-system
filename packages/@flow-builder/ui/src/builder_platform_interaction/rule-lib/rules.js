@@ -10,10 +10,16 @@ import { set } from 'builder_platform_interaction-data-mutation-lib';
 
 /**
  * Describes a FlowOperatorParam coming from the Rules Service
- * @typedef {Object.<string, string>} param
- * @param {String} elementType    flow element type
- * @param {String} dataType       flow data type
- * @param {boolean} isCollection  does this represent a collection variable
+ * @typedef {Object.<string, string>}  param
+ * @param {String} paramType           either 'element' or 'data', only elementType or dataType is populated in any param
+ * @param {String} elementType         flow element type
+ * @param {String} dataType            flow data type
+ * @param {boolean} isCollection       does this represent a collection variable
+ *
+ * the below properties are only used if the paramType is 'data'
+ * @param {String[]} mustBeElements    this param can only be used to describe an element included in this list
+ * @param {String[]} cannotBeElements  this param cannot be used to describe elements in this list
+ * @param {String[]} canBeElements     this param can be used to describe elements in this list
  */
 
 /**
@@ -22,6 +28,8 @@ import { set } from 'builder_platform_interaction-data-mutation-lib';
  * @param {param} RULE_PROPERTY.LEFT           represents the lhs of this rule
  * @param {String} RULE_PROPERTY.OPERATOR      represents the operator of this rule
  * @param {param[]} RULE_PROPERTY.RHS_PARAMS   all rhs possible for this lhs & operator combination
+ * @param {String[]} includeElems              this rule should ONLY be used in the elements listed here
+ * @param {String[]} excludeElems              this rule should be used in all elements EXCEPT those listed here
  */
 
 /**
@@ -51,15 +59,26 @@ export const RULE_PROPERTY = {
     EXCLUDE_ELEMS: 'excludeElems',
 };
 
-// the inner properties in a rule ( rule.left )
-export const RULE_PROPERTY_INFO = {
+// the properties in an operator param ( rule.left )
+export const PARAM_PROPERTY = {
     PARAM_TYPE: 'paramType',
+    PARAM_TYPE_ELEMENT: 'Element',
     PARAM_INDEX: 'paramIndex',
     DATA_TYPE: 'dataType',
     IS_COLLECTION: 'collection',
     CAN_BE_FIELD: 'canBeField',
     CAN_BE_SYS_VAR: 'canBeSysVar',
     ELEMENT_TYPE: 'elementType',
+    CAN_BE_ELEMENTS: 'canBeElements',
+    CANNOT_BE_ELEMENTS: 'cannotBeElements',
+    MUST_BE_ELEMENTS: 'mustBeElements',
+    SOBJECT_FIELD_REQUIREMENT: 'canBeSobjectField',
+};
+
+export const CONSTRAINT = {
+    CAN_BE: 'CanBe',
+    CANNOT_BE: 'CannotBe',
+    MUST_BE: 'MustBe',
 };
 
 // operators in rule, will be added as needed

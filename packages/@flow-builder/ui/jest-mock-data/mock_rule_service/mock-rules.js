@@ -7,8 +7,10 @@ export const mockRules =
             paramIndex:1,
             dataType: 'Date',
             collection:false,
-            canBeField:'CanBe',
-            canBeSysVar:'CanBe'
+            canBeSobjectField:'CanBe',
+            canBeSystemVariable:'CanBe',
+            canBeElements:['VARIABLE'],
+            cannotBeElements:['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD']
         },
         operator:'Assign',
         rhsParams:[
@@ -17,16 +19,18 @@ export const mockRules =
                 paramIndex:1,
                 dataType: 'Date',
                 collection:false,
-                canBeField:'CanBe',
-                canBeSysVar:'CanBe'
+                canBeSobjectField:'CanBe',
+                canBeSystemVariable:'CanBe',
+                canBeElements:['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
             },
             {
                 paramType:'Data',
                 paramIndex:1,
                 dataType: 'DateTime',
                 collection:false,
-                canBeField:'CanBe',
-                canBeSysVar:'CanBe'
+                canBeSobjectField:'CanBe',
+                canBeSystemVariable:'CanBe',
+                canBeElements:['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
             }
         ],
     },
@@ -37,8 +41,10 @@ export const mockRules =
             paramIndex:1,
             dataType: 'DateTime',
             collection:false,
-            canBeField:'CanBe',
-            canBeSysVar:'CanBe'
+            canBeSobjectField:'CanBe',
+            canBeSystemVariable:'CanBe',
+            canBeElements:['VARIABLE'],
+            cannotBeElements:['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD']
         },
         operator:'Assign',
         rhsParams:[
@@ -47,16 +53,18 @@ export const mockRules =
                 paramIndex:1,
                 dataType: 'Date',
                 collection:false,
-                canBeField:'CanBe',
-                canBeSysVar:'CanBe'
+                canBeSobjectField:'CanBe',
+                canBeSystemVariable:'CanBe',
+                canBeElements:['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
             },
             {
                 paramType:'Data',
                 paramIndex:1,
                 dataType: 'DateTime',
                 collection:false,
-                canBeField:'CanBe',
-                canBeSysVar:'CanBe'
+                canBeSobjectField:'CanBe',
+                canBeSystemVariable:'CanBe',
+                canBeElements:['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
             }
         ],
         excludeElems: ['ASSIGNMENT'],
@@ -68,8 +76,8 @@ export const mockRules =
             paramIndex:1,
             elementType:'STAGE',
             collection:true,
-            canBeField:'CannotBe',
-            canBeSysVar:'MustBe'
+            canBeSobjectField:'CannotBe',
+            canBeSystemVariable:'MustBe'
         },
         operator:'Equals',
         rhsParams:[
@@ -78,8 +86,8 @@ export const mockRules =
                 paramIndex:1,
                 elementType:'STAGE',
                 collection:false,
-                canBeField:'CannotBe',
-                canBeSysVar:'CanBe'
+                canBeSobjectField:'CannotBe',
+                canBeSystemVariable:'CanBe'
             }
         ]
     },
@@ -89,9 +97,9 @@ export const mockRules =
             paramType:'Element',
             paramIndex:1,
             elementType:'STAGE',
-            collection:true,
-            canBeField:'CannotBe',
-            canBeSysVar:'MustBe'
+            collection:false,
+            canBeSobjectField:'CannotBe',
+            canBeSystemVariable:'MustBe'
         },
         operator:'Equals',
         rhsParams:[
@@ -100,8 +108,8 @@ export const mockRules =
                 paramIndex:1,
                 elementType:'STAGE',
                 collection:false,
-                canBeField:'CannotBe',
-                canBeSysVar:'CanBe'
+                canBeSobjectField:'CannotBe',
+                canBeSystemVariable:'CanBe'
             }
         ],
         excludeElems:['DECISION']
@@ -114,9 +122,9 @@ export const mockRules =
             paramType:'Element',
             paramIndex:1,
             elementType:'STAGE',
-            collection:true,
-            canBeField:'CannotBe',
-            canBeSysVar:'MustBe'
+            collection:false,
+            canBeSobjectField:'CannotBe',
+            canBeSystemVariable:'MustBe'
         },
         operator:'Equals',
         rhsParams:[
@@ -125,8 +133,8 @@ export const mockRules =
                 paramIndex:1,
                 dataType:'DateTime',
                 collection:false,
-                canBeField:'CannotBe',
-                canBeSysVar:'CanBe'
+                canBeSobjectField:'CannotBe',
+                canBeSystemVariable:'CanBe'
             }
         ]
     },
@@ -137,8 +145,8 @@ export const mockRules =
             paramIndex:1,
             dataType: 'SObject',
             collection:false,
-            canBeField:'CannotBe',
-            canBeSysVar:'CanBe'
+            canBeSobjectField:'CannotBe',
+            canBeSystemVariable:'CanBe'
         },
         operator:'Assign',
         rhsParams:[
@@ -147,8 +155,8 @@ export const mockRules =
                 paramIndex:1,
                 dataType: 'SObject',
                 collection:false,
-                canBeField:'CanBe',
-                canBeSysVar:'CanBe'
+                canBeSobjectField:'CanBe',
+                canBeSystemVariable:'CanBe'
             }
         ]
     },
@@ -158,9 +166,9 @@ export const mockRules =
             paramType:'Element',
             paramIndex:1,
             elementType:'STAGE',
-            collection:true,
-            canBeField:'CannotBe',
-            canBeSysVar:'MustBe'
+            collection:false,
+            canBeSobjectField:'CannotBe',
+            canBeSystemVariable:'MustBe'
         },
         operator:'Equals',
         rhsParams:[
@@ -169,8 +177,8 @@ export const mockRules =
                 paramIndex:1,
                 dataType: 'DateTime',
                 collection:false,
-                canBeField:'CannotBe',
-                canBeSysVar:'CanBe'
+                canBeSobjectField:'CannotBe',
+                canBeSystemVariable:'CanBe'
             }
         ],
     },

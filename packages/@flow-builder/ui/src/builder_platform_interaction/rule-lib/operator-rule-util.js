@@ -1,9 +1,12 @@
 import { shallowCopyArray, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
-import { RULE_TYPES, RULE_PROPERTY, RULE_PROPERTY_INFO } from './rules';
+import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
-const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = RULE_PROPERTY_INFO;
+const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE, CAN_BE_ELEMENTS,
+    MUST_BE_ELEMENTS, PARAM_TYPE_ELEMENT, PARAM_TYPE, SOBJECT_FIELD_REQUIREMENT } = PARAM_PROPERTY;
+const { CAN_BE, CANNOT_BE, MUST_BE } = CONSTRAINT;
+const IS_SOBJECT_FIELD = 'isSObjectField';
 
 /**
  * A map from an elementType or dataType to an array of params relating to that elementType or dataType.
@@ -51,17 +54,31 @@ export const elementToParam = (element) => {
     if (!element || Object.keys(element).length === 0) {
         throw new Error(`Element must be non empty object but instead was ${element}`);
     }
-    const param = {
+    return {
         [DATA_TYPE]: getValueFromHydratedItem(element.dataType),
         [ELEMENT_TYPE]: element.elementType,
         // the param in the rules service has 'collection' but flow elements have 'isCollection'. In some scenarios,
         // an element goes through this function twice, and on the first pass it will have 'isCollection' but on the second
         // it has 'collection', so we have to account for both options
         [IS_COLLECTION]: element.hasOwnProperty('collection') ? element.collection : element.isCollection,
+        [IS_SOBJECT_FIELD]: !!element.sobjectName,
     };
-    return param;
 };
 
+const elementTypeAllowed = (rule, element) => {
+    return (rule[MUST_BE_ELEMENTS] && rule[MUST_BE_ELEMENTS].includes(element)) ||
+        (rule[CAN_BE_ELEMENTS] && rule[CAN_BE_ELEMENTS].includes(element));
+};
+
+const sObjectFieldAllowed = (rule, element) => {
+    return rule[SOBJECT_FIELD_REQUIREMENT] === CAN_BE ||
+        (rule[SOBJECT_FIELD_REQUIREMENT] === MUST_BE && element[IS_SOBJECT_FIELD]) ||
+        (rule[SOBJECT_FIELD_REQUIREMENT] === CANNOT_BE && !element[IS_SOBJECT_FIELD]);
+};
+
+const propertyMatches = (rule, element, property) => {
+    return !rule[property] || element[property] === rule[property];
+};
 
 /**
  * Check if the given rule param matches the element
@@ -74,24 +91,22 @@ export const isMatch = (ruleParam, element) => {
     if (!ruleParam || Object.keys(ruleParam).length === 0) {
         throw new Error(`Rule param from service must be non empty object but instead was ${ruleParam}`);
     }
+
     // convert the given element into the rule service param shape
     const elementParam = elementToParam(element);
+    let matches = ruleParam[PARAM_TYPE] === PARAM_TYPE_ELEMENT
+        || elementTypeAllowed(ruleParam, elementParam)
+        || sObjectFieldAllowed(ruleParam, elementParam);
 
-    // extract the type from the rule param. Can be either a data type or element type
-    const typeValue = getDataTypeOrElementType(ruleParam);
+    const propertiesToCompare = [DATA_TYPE, ELEMENT_TYPE, IS_COLLECTION];
+    let i = 0;
+    while (matches && i < propertiesToCompare.length) {
+        matches = propertyMatches(ruleParam, elementParam, propertiesToCompare[i]);
+        i++;
+    }
 
-    /**
-     * if neither the element type or data type match then there is no match
-     * the given ruleParam only ever has either element or data type while the element from the store
-     * can have both element & data type. That is why we check both
-     */
-    const isValidType = elementParam[DATA_TYPE] === typeValue || elementParam[ELEMENT_TYPE] === typeValue;
-
-    // if the element specifies a collection property, check if it matches the rule param
-    const isCollectionMatch = elementParam[IS_COLLECTION] === undefined || elementParam[IS_COLLECTION] === ruleParam[IS_COLLECTION];
-
-    // TODO: we are only checking for dataType, elementType, and isCollection. We may need to rethink this method later when we want to consider canBeField, and canBeSysVar
-    return isValidType && isCollectionMatch;
+    // TODO: need to add sysVar consideration
+    return matches;
 };
 
 /**

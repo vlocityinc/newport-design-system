@@ -10,8 +10,9 @@ export const dateParam = {
     paramIndex:1,
     dataType: 'Date',
     collection:false,
-    canBeField:'CanBe',
-    canBeSysVar:'CanBe'
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    canBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
 };
 
 export const stringParam = {
@@ -19,8 +20,9 @@ export const stringParam = {
     paramIndex:1,
     dataType: 'String',
     collection:false,
-    canBeField:'CanBe',
-    canBeSysVar:'CanBe'
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    canBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
 };
 
 export const numberParam = {
@@ -28,8 +30,9 @@ export const numberParam = {
     paramIndex:1,
     dataType: 'Number',
     collection:false,
-    canBeField:'CanBe',
-    canBeSysVar:'CanBe'
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    canBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
 };
 
 export const stageParam = {
@@ -37,7 +40,8 @@ export const stageParam = {
     paramIndex:1,
     elementType:'STAGE',
     collection:true,
-    canBeField:'CannotBe',
-    canBeSysVar:'MustBe'
+    canBeSobjectField:'CannotBe',
+    canBeSystemVariable:'CanBe',
+    cannotBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
 };
 

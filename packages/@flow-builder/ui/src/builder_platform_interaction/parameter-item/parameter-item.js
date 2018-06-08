@@ -2,7 +2,7 @@ import { Element, track, api } from 'engine';
 import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction-data-type-lib';
 import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
-import { getRulesForContext, getRHSTypes, RULE_PROPERTY_INFO, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
+import { getRulesForContext, getRHSTypes, PARAM_PROPERTY, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { getParameterLabel, isInputParameter, isRequiredParameter, getParameterDataType } from 'builder_platform_interaction-parameter-item-utils';
 import { UpdateParameterItemEvent } from 'builder_platform_interaction-events';
 
@@ -201,8 +201,8 @@ export default class ParameterItem extends Element {
      */
     get menuData() {
         const leftElement = {
-            [RULE_PROPERTY_INFO.DATA_TYPE]: this.type,
-            [RULE_PROPERTY_INFO.IS_COLLECTION]: this.isCollection,
+            [PARAM_PROPERTY.DATA_TYPE]: this.type,
+            [PARAM_PROPERTY.IS_COLLECTION]: this.isCollection,
         };
         const rules = getRulesForContext({elementType: this.elementType});
         const rhsTypes = getRHSTypes(this.elementType, leftElement, RULE_OPERATOR.ASSIGN, rules);

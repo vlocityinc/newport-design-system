@@ -1,6 +1,6 @@
 import ResourcePicker from '../resource-picker';
 import { createElement } from 'engine';
-import { getRulesForContext, getRHSTypes, RULE_PROPERTY_INFO } from 'builder_platform_interaction-rule-lib';
+import { getRulesForContext, getRHSTypes, PARAM_PROPERTY } from 'builder_platform_interaction-rule-lib';
 import {
     getElementsForMenuData,
     filterMatches,
@@ -27,11 +27,11 @@ const ferovMenuData = ['ferovMenuData'];
 const entityMenuData = [{items: [{value:'entityMenuData', displayText: 'entity menu data'}]}];
 const filteredMenuData = ['filteredMenuData'];
 
-const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = RULE_PROPERTY_INFO;
+const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = PARAM_PROPERTY;
 
 jest.mock('builder_platform_interaction-rule-lib', () => {
     return {
-        RULE_PROPERTY_INFO: require.requireActual('builder_platform_interaction-rule-lib').RULE_PROPERTY_INFO,
+        PARAM_PROPERTY: require.requireActual('builder_platform_interaction-rule-lib').PARAM_PROPERTY,
         getRulesForContext: jest.fn().mockReturnValue([]).mockName('getRulesForContext'),
         getRHSTypes: jest.fn().mockReturnValue({}).mockName('getRHSTypes')
     };
