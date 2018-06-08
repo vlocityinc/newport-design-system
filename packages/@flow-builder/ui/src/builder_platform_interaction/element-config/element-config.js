@@ -383,6 +383,9 @@ export const elementTypeToConfigMap = {
             name: '',
             sortField : '',
             sortOrder : 'NotSorted',
+            assignNullValuesIfNoRecordsFound : false,
+            outputAssignments : [],
+            outputReference : {},
         }
     },
     [ELEMENT_TYPE.RECORD_DELETE]: {

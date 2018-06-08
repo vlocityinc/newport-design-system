@@ -32,3 +32,4 @@ export { UpdateRecordLookupFilterEvent } from './updateRecordLookupFilterEvent';
 export { DeleteRecordLookupFilterEvent } from './deleteRecordLookupFilterEvent';
 export { RecordLookupFilterTypeChangedEvent } from './recordLookupFilterTypeChangedEvent';
 export { PaletteItemChevronClickedEvent } from './palette-events/palette-item-chevron-clicked-event';
+export { RecordStoreOptionChangedEvent } from './recordStoreOptionChangedEvent';

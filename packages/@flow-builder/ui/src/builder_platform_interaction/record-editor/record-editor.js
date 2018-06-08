@@ -3,6 +3,7 @@ import { recordReducer } from './record-reducer';
 import { ENTITY_TYPE } from 'builder_platform_interaction-sobject-lib';
 import { RESOURCE_PICKER_MODE } from 'builder_platform_interaction-expression-utils';
 import { LABELS } from './record-editor-labels';
+import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 
 export default class RecordEditor extends Element {
     labels = LABELS;
@@ -55,6 +56,19 @@ export default class RecordEditor extends Element {
      */
     get devName() {
         return this.recordNode.name;
+    }
+
+    get numberRecordsToStore() {
+        if (this.recordNode.outputReference && this.recordNode.outputReference.value) {
+            const variable = getElementByGuid(this.recordNode.outputReference.value);
+            return variable.dataType === "SObject" && variable.isCollection ? "allRecord" : "firstRecord";
+        }
+        // TODO : Modify it when implementing : W-4961821
+        return "firstRecord";
+    }
+
+    get assignNullValuesIfNoRecordsFound() {
+        return this.recordNode.assignNullValuesIfNoRecordsFound;
     }
 
     /**

@@ -3,6 +3,7 @@ import { recordLookupReducer } from './record-lookup-reducer';
 import { ENTITY_TYPE, getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { RESOURCE_PICKER_MODE } from 'builder_platform_interaction-expression-utils';
 import { LABELS } from './record-lookup-editor-labels';
+import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 
 export default class RecordLookupEditor extends Element {
     labels = LABELS;
@@ -66,11 +67,30 @@ export default class RecordLookupEditor extends Element {
     }
 
     get sortOrder() {
-        return this.recordLookupElement.sortOrder.value;
+        if (this.recordLookupElement.sortOrder) {
+            return this.recordLookupElement.sortOrder.value;
+        }
+        return 'NotSorted';
     }
 
     get sortField() {
-        return this.recordLookupElement.sortField.value;
+        if (this.recordLookupElement.sortField) {
+            return this.recordLookupElement.sortField.value;
+        }
+        return '';
+    }
+
+    get numberRecordsToStore() {
+        if (this.recordLookupElement.outputReference && this.recordLookupElement.outputReference.value) {
+            const variable = getElementByGuid(this.recordLookupElement.outputReference.value);
+            return variable.dataType === 'SObject' && variable.isCollection ? 'allRecord' : 'firstRecord';
+        }
+        // TODO : Modify it when implementing : W-4961821
+        return 'firstRecord';
+    }
+
+    get assignNullValuesIfNoRecordsFound() {
+        return this.recordLookupElement.assignNullValuesIfNoRecordsFound;
     }
 
     updateFields() {

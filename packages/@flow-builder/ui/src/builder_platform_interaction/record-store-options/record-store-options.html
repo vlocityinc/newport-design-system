@@ -1,0 +1,34 @@
+<template>
+    <div class="slds-m-bottom_small slds-border_top ">
+        <div class="slds-form slds-form_stacked slds-p-around_small slds-no-flex">
+            <lightning-formatted-rich-text 
+                value={title} 
+                class="slds-text-body_regular">
+            </lightning-formatted-rich-text>
+            <lightning-radio-group label='{labels.selectionHowManyRecordsToStoreLabel}' 
+                name="numberRecordsToStoreRdGrp" 
+                options={numberRecordsToStoreOption}
+                value={state.numberOfRecordsToStore}
+                onchange={handleNumberRecordsToStoreChange}
+                class="slds-m-top_x-small">
+            </lightning-radio-group>
+            <lightning-radio-group 
+                if:true={state.showWayToStoreFieldSelector}
+                label='{labels.selectionWhereToStoreRecordsLabel}' 
+                name="wayToStoreFieldsInRdGrp" 
+                options={wayToStoreFieldsOption}
+                value={state.selectedWayToStoreFields}
+                onchange={handleWayToStoreFieldsChange}
+                class="slds-m-top_x-small">
+            </lightning-radio-group>
+            <lightning-input 
+                class='property-input slds-m-top_x-small' 
+                type='checkbox' 
+                name="assignNullIfNoRecordFoundCBx" 
+                label={labels.selectionAssignNullIfNoRecordFoundLabel}
+                checked={state.assignNullValuesIfNoRecordsFound} 
+                onchange={handleAssignNullToVariableNoRecordChange}>
+            </lightning-input>
+        </div>
+    </div>
+</template>

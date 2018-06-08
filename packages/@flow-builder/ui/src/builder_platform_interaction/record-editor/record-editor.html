@@ -18,6 +18,11 @@
     
 
 <!-- Sort Records section -->
-<builder_platform_interaction-record-sort resource-api-name={resourceApiName} onfieldselected={handleFieldSelected}></builder_platform_interaction-record-sort>
+<builder_platform_interaction-record-sort if:true={resourceApiName} resource-api-name={resourceApiName} onfieldselected={handleFieldSelected}></builder_platform_interaction-record-sort>
 
+    <!-- Record Store Fields Selection section -->
+    <builder_platform_interaction-record-store-options if:true={resourceApiName} 
+            resource-api-name={resourceApiName}
+            number-of-records-to-store={numberRecordsToStore}
+            assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}></builder_platform_interaction-record-store-options>
 </template> 

@@ -26,4 +26,11 @@
             selected-field={sortField}
             sort-order={sortOrder}
             onfieldselected={handleFieldSelected}></builder_platform_interaction-record-sort>
+            
+    <!-- Record Store Fields Selection section -->
+    <builder_platform_interaction-record-store-options if:true={recordEntityName} 
+            resource-api-name={recordEntityName}
+            number-of-records-to-store={numberRecordsToStore}
+            assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}></builder_platform_interaction-record-store-options>
+    
 </template> 
