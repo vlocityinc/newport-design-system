@@ -182,4 +182,26 @@ export const mockRules =
             }
         ],
     },
+    {
+        ruleType:'comparison',
+        left:{
+            paramType:'Element',
+            paramIndex:1,
+            elementType:'STAGE',
+            collection:true,
+            canBeSobjectField:'CannotBe',
+            canBeSystemVariable:'MustBe'
+        },
+        operator:'Equals',
+        rhsParams:[
+            {
+                paramType:'Element',
+                paramIndex:1,
+                dataType: 'DateTime',
+                collection:true,
+                canBeSobjectField:'CannotBe',
+                canBeSystemVariable:'CanBe'
+            }
+        ],
+    },
 ];

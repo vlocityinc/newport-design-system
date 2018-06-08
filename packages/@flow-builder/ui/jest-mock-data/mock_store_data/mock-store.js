@@ -5,6 +5,7 @@ export const stringCollectionVariable2Guid = 'guid4';
 export const choiceGuid = 'guid5';
 export const dateVariableGuid = 'guid6';
 export const stageGuid = 'guid7';
+export const stageCollectionGuid = 'guid8';
 
 export const numberVariableDevName = 'numVar1';
 export const stringVariableGuid = 'strVar1';
@@ -109,11 +110,17 @@ export const elements = {
         name: dateVariableDevName,
         objectType: null,
     },
-    [stageGuid]: {
+    [stageCollectionGuid]: {
         // haven't filled in more of this because we don't have this in our store yet- add as needed except for dataType
         // dataType is weird, if we find ourselves needing it we need to raise it and handle it properly
         elementType: stageElementType,
         isCollection: true,
+    },
+    [stageGuid]: {
+        // haven't filled in more of this because we don't have this in our store yet- add as needed except for dataType
+        // dataType is weird, if we find ourselves needing it we need to raise it and handle it properly
+        elementType: stageElementType,
+        isCollection: false,
     }
 };
 

@@ -1,7 +1,8 @@
 import { isMatch, getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { mockRules, dateParam, stageParam, stringParam } from 'mock-rule-service';
-import { elements, dateVariableGuid, stageGuid, stringVariableGuid, accountSObjectVariableGuid, hydratedElements } from 'mock-store-data';
+import { mockRules, dateParam, stageParam, stringParam, stageCollectionParam, dateCollectionParam } from 'mock-rule-service';
+import { elements, dateVariableGuid, stageGuid, stringVariableGuid, accountSObjectVariableGuid,
+    stageCollectionGuid, hydratedElements } from 'mock-store-data';
 import { RULE_TYPES, RULE_PROPERTY } from '../rules';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
@@ -13,13 +14,23 @@ const { LEFT, RHS_PARAMS } = RULE_PROPERTY;
 
 describe('Operator Rule Util', () => {
     describe('isMatch util', () => {
-        it('should return true if rule param and store element match', () => {
+        it('should return true if rule param and store element match, collection = false', () => {
             const isEqual = isMatch(stageParam, elements[stageGuid]);
             expect(isEqual).toBeTruthy();
         });
 
-        it('should return false if rule param and store element do not match', () => {
+        it('should return true if rule param and store element match, collection = true', () => {
+            const isEqual = isMatch(stageCollectionParam, elements[stageCollectionGuid]);
+            expect(isEqual).toBeTruthy();
+        });
+
+        it('should return false if rule param and store element do not match, collection = false', () => {
             const isEqual = isMatch(dateParam, elements[stageGuid]);
+            expect(isEqual).toBeFalsy();
+        });
+
+        it('should return false if rule param and store element do not match, collection = true', () => {
+            const isEqual = isMatch(dateCollectionParam, elements[stageCollectionGuid]);
             expect(isEqual).toBeFalsy();
         });
 
@@ -89,9 +100,10 @@ describe('Operator Rule Util', () => {
 
         it('should return all the left hand side types for comparison rules', () => {
             const rules = getLHSTypes(ELEMENT_TYPE.ASSIGNMENT, mockRules, COMPARISON);
-            const expectedStage = mockRules[3][LEFT];
+            const expectedStage1 = mockRules[3][LEFT];
+            const expectedStage2 = mockRules[7][LEFT];
             expect(rules).toMatchObject({
-                'STAGE': [expectedStage],
+                'STAGE': [expectedStage1, expectedStage2],
             });
         });
 

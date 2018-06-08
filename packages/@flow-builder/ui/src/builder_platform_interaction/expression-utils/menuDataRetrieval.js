@@ -401,7 +401,7 @@ function mutateFlowElementsToComboboxShape(element) {
     newElement.subText = getSubText(element.dataType, element.objectType, element.label);
     newElement.value = element.guid;
     newElement.displayText = '{!' + element.name + '}';
-    newElement.hasNext = element.dataType === 'SObject';
+    newElement.hasNext = element.dataType === 'SObject' && !element.isCollection;
     // TODO: remove upper case-ing once we're using labels for categories W-4813532
     newElement.category = getCategory(element.elementType, element.dataType, element.isCollection).toUpperCase();
     // TODO: fetch icon

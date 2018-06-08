@@ -15,6 +15,16 @@ export const dateParam = {
     canBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
 };
 
+export const dateCollectionParam = {
+    paramType:'Data',
+    paramIndex:1,
+    dataType: 'Date',
+    collection:true,
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    canBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
+};
+
 export const stringParam = {
     paramType:'Data',
     paramIndex:1,
@@ -35,7 +45,7 @@ export const numberParam = {
     canBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
 };
 
-export const stageParam = {
+export const stageCollectionParam = {
     paramType:'Element',
     paramIndex:1,
     elementType:'STAGE',
@@ -45,3 +55,12 @@ export const stageParam = {
     cannotBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
 };
 
+export const stageParam = {
+    paramType:'Element',
+    paramIndex:1,
+    elementType:'STAGE',
+    collection:false,
+    canBeSobjectField:'CannotBe',
+    canBeSystemVariable:'CanBe',
+    cannotBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
+};

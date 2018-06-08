@@ -1,4 +1,5 @@
 import { shallowCopyArray, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
+import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
 import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
@@ -6,7 +7,9 @@ const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
 const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE, CAN_BE_ELEMENTS,
     MUST_BE_ELEMENTS, PARAM_TYPE_ELEMENT, PARAM_TYPE, SOBJECT_FIELD_REQUIREMENT } = PARAM_PROPERTY;
 const { CAN_BE, CANNOT_BE, MUST_BE } = CONSTRAINT;
+
 const IS_SOBJECT_FIELD = 'isSObjectField';
+const OBJECT_TYPE = 'objectType';
 
 /**
  * A map from an elementType or dataType to an array of params relating to that elementType or dataType.
@@ -55,6 +58,7 @@ export const elementToParam = (element) => {
         throw new Error(`Element must be non empty object but instead was ${element}`);
     }
     return {
+        [OBJECT_TYPE]: element.objectType ? element.objectType : undefined,
         [DATA_TYPE]: getValueFromHydratedItem(element.dataType),
         [ELEMENT_TYPE]: element.elementType,
         // the param in the rules service has 'collection' but flow elements have 'isCollection'. In some scenarios,
@@ -77,7 +81,9 @@ const sObjectFieldAllowed = (rule, element) => {
 };
 
 const propertyMatches = (rule, element, property) => {
-    return !rule[property] || element[property] === rule[property];
+    return isUndefinedOrNull(rule[property]) // if the rule doesn't have a property defined, disregard that property
+        || element[property] === rule[property] // if the element and rule both have a property defined, the values should match
+        || (!rule[property] && !element[property]); // in the case rule[property] is false (not falsy), that property can be either undefined or false on the element
 };
 
 /**
