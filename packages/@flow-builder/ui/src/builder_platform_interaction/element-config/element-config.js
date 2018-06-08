@@ -6,7 +6,7 @@ import { LABELS } from './element-config-labels';
  * @constant
  * @type {string} MODAL_SIZE large or medium (default)
  */
-const MODAL_SIZE = {
+export const MODAL_SIZE = {
     LARGE: 'large', // To be used by screen and decision elementType
     MEDIUM: 'medium'
 };
@@ -273,6 +273,7 @@ export const elementTypeToConfigMap = {
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.DECISIONS,
         labels: {
+            connectorPicker: LABELS.decisionConnectorPickerLabel,
             singular: LABELS.decisionSingularLabel,
             plural: LABELS.decisionPluralLabel
         },

@@ -6,7 +6,7 @@ import { updateFlow, addElement, updateElement, deleteElement, addConnector, sel
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 import { createFlowElement } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { createConnectorObject } from 'builder_platform_interaction-connector-utils';
+import { CONNECTOR_TYPE, createConnectorObject } from 'builder_platform_interaction-connector-utils';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform_interaction-translator-lib";
 import { reducer } from "builder_platform_interaction-reducers";
@@ -177,44 +177,6 @@ export default class Editor extends Element {
     };
 
     /**
-     * @typedef {Object} GuidCollections
-     * @property {String[]} connectorGUIDs - Array of guids for connectors
-     * @property {String[]} canvasElementGUIDs - Array of guids for elements
-     */
-
-    /**
-     * Helper method to return the canvas elements and connectors which are linked to a given set of elements and
-     * connectors.  It will return all elements which are the source of a connector for one of the elements passed it
-     * as well as all connectors passed in in addition to any connector which has either source or target of one of the
-     * elements passed in.
-     *
-     * @param {String[]} selectedCanvasElementGUIDs - Contains GUIDs of all the selected canvas elements
-     * @param {String[]} selectedConnectorGUIDs - Contains GUIDs of all the connectors that need to be deleted
-     * @returns {GuidCollections} - Contains arrays of canvas element and connector guids which are related to the
-     * the supplied canvas elements and connectors
-     */
-    getElementsAndConnectorsToUpdate = (selectedCanvasElementGUIDs, selectedConnectorGUIDs) => {
-        const connectorGuidsToUpdate = new Set(selectedConnectorGUIDs);
-        const canvasElementsToUpdate = [];
-
-        for (let i = 0; i < this.appState.canvas.connectors.length; i++) {
-            const connector = this.appState.canvas.connectors[i];
-
-            if (selectedCanvasElementGUIDs.indexOf(connector.target) !== -1) {
-                canvasElementsToUpdate.push(connector.source);
-                connectorGuidsToUpdate.add(connector.guid);
-            } else if (selectedCanvasElementGUIDs.indexOf(connector.source) !== -1) {
-                connectorGuidsToUpdate.add(connector.guid);
-            }
-        }
-
-        return {
-            connectorGUIDs: [...connectorGuidsToUpdate],
-            canvasElementGUIDs: canvasElementsToUpdate
-        };
-    };
-
-    /**
      * Handle save event fired by a child component. Fires another event
      * containing flow information, which is handled by container.cmp.
      */
@@ -308,64 +270,65 @@ export default class Editor extends Element {
     };
 
     /**
+     * Helper method to determine if the connector is an associated connector or not
+     * @param {Array} selectedCanvasElementGUIDs - Contains GUIDs of all the selected canvas elements
+     * @param {Object} connector - A single connector object
+     * @return {boolean} returns boolean based on if the connector is associated with any canvas element that is being deleted or not
+     */
+    isAssociatedConnector = (selectedCanvasElementGUIDs, connector) => {
+        return (selectedCanvasElementGUIDs.indexOf(connector.target) !== -1 || selectedCanvasElementGUIDs.indexOf(connector.source) !== -1);
+    };
+
+    /**
      * Handles the multi-element delete event and dispatches an action to delete all the selected nodes and connectors.
      *
-     * @param {object} event - multi delete event coming from canvas.js.  If it contains the selectedCanvasElementGUIDs
-     * attribute, then those guids will be used as the basis for the delete.  Otherwise, all canvas nodes will be
-     * checked for isSelected and if true then they will be included in the list to delete
+     * @param {object} event - multi delete event coming from canvas.js
      */
     handleDeleteOnCanvas = (event) => {
         if (event && event.detail) {
-            const elementsToDelete = [];
-            const elementGuidsToDelete = [];
+            const selectedCanvasElementGUIDs = [];
+            const connectorsToDelete = [];
 
-            const selectedElementGuids = event.detail.selectedCanvasElementGUIDs;
-            const selectedConnectorGuids = [];
+            if (!event.detail.selectedCanvasElementGUID) {
+                const nodesLength = this.appState.canvas.nodes.length;
+                for (let i = 0; i < nodesLength; i++) {
+                    // Removes all the selected nodes from jsPlumb and adds them to the selectedCanvasElementGUIDs array
+                    const canvasElement = this.appState.canvas.nodes[i];
 
-            // Guids were passed in
-            if (selectedElementGuids) {
-                const currentState = storeInstance.getCurrentState();
+                    if (canvasElement.config.isSelected) {
+                        lib.removeNodeFromLib(canvasElement.guid);
+                        selectedCanvasElementGUIDs.push(canvasElement.guid);
+                    }
+                }
 
-                for (let i = 0; i < selectedElementGuids.length; i++) {
-                    const element = currentState.elements[selectedElementGuids[i]];
-                    elementsToDelete.push(element);
+                const connectorsLength = this.appState.canvas.connectors.length;
+                for (let i = 0; i < connectorsLength; i++) {
+                    // Adds all the selected and associated connectors to the connectorsToDelete array
+                    const connector = this.appState.canvas.connectors[i];
+                    if (connector.config.isSelected) {
+                        connectorsToDelete.push(connector);
+                    } else if (this.isAssociatedConnector(selectedCanvasElementGUIDs, connector)) {
+                        connectorsToDelete.push(connector);
+                    }
                 }
             } else {
-                // Need to get element and connector guids based on canvas selections
-                for (let i = 0; i < this.appState.canvas.nodes.length; i++) {
-                    const node = this.appState.canvas.nodes[i];
+                const selectedGUID = event.detail.selectedCanvasElementGUID[0];
+                lib.removeNodeFromLib(selectedGUID);
+                selectedCanvasElementGUIDs.push(selectedGUID);
+                const connectorsLength = this.appState.canvas.connectors.length;
 
-                    // Cleaning up jsplumb nodes to keep it in sync with the store
-                    // TODO: @ankush - add story number to refactor
-                    if (node.config.isSelected) {
-                        elementsToDelete.push(node);
-                        lib.removeNodeFromLib(node.guid);
-                    }
-                }
-
-                for (let i = 0; i < this.appState.canvas.connectors.length; i++) {
+                for (let i = 0; i < connectorsLength; i++) {
+                    // Adds all the associated connectors to the connectorsToDelete array
                     const connector = this.appState.canvas.connectors[i];
-
-                    if (connector.config.isSelected) {
-                        selectedConnectorGuids.push(connector.guid);
+                    if (this.isAssociatedConnector(selectedCanvasElementGUIDs, connector)) {
+                        connectorsToDelete.push(connector);
                     }
                 }
             }
-
-            // Collect the guids for all elements to delete and their subelements
-            for (let i = 0; i < elementsToDelete.length; i++) {
-                const element = elementsToDelete[i];
-
-                elementGuidsToDelete.push(element.guid);
-            }
-
-            const {connectorGUIDs, canvasElementGUIDs} =
-                this.getElementsAndConnectorsToUpdate(elementGuidsToDelete, selectedConnectorGuids);
 
             const payload = {
-                selectedCanvasElementGUIDs: elementGuidsToDelete,
-                connectorGUIDs,
-                canvasElementsToUpdate: canvasElementGUIDs,
+                selectedCanvasElementGUIDs,
+                connectorsToDelete,
                 // TODO: Update in second iteration
                 elementType: ELEMENT_TYPE.ASSIGNMENT
             };
@@ -391,20 +354,120 @@ export default class Editor extends Element {
     };
 
     /**
-     * Handles the add connection event and dispatches an action to add the newly created connector.
+     * Method to get the connector label and value used for building combobox options
+     *
+     * @param {object} elements - State of elements in the store
+     * @param {object} sourceElement - Source element of the connector
+     * @param {string} childReference - GUID of the child reference
+     * @param {string} availableConnectionType - Type of the available connection
+     * @return {object} - The connector label and value
+     */
+    getConnectorLabelAndValue = (elements, sourceElement, childReference, availableConnectionType) => {
+        let label,
+            value;
+
+        if (childReference) {
+            label = elements[childReference].label;
+            value = childReference;
+        } else if (availableConnectionType === CONNECTOR_TYPE.DEFAULT) {
+            label = sourceElement.defaultConnectorLabel;
+            value = availableConnectionType;
+        } else if (availableConnectionType === CONNECTOR_TYPE.FAULT) {
+            label = CONNECTOR_TYPE.FAULT;
+            value = availableConnectionType;
+        }
+
+        return {
+            label,
+            value
+        };
+    };
+
+    /**
+     * Dispatches add connection action  with the new connector
+     *
+     * @param {string} source - Contains the source guid
+     * @param {string} target - Contains the target guid
+     * @return {Function} - Creates the connector object based on the selected value
+     */
+    createAndAddConnector = (source, target) => (valueFromCombobox) => {
+        const currentState = storeInstance.getCurrentState();
+        const elements = currentState.elements;
+
+        let type,
+            label,
+            childSource;
+
+        if (valueFromCombobox === CONNECTOR_TYPE.DEFAULT) {
+            type = CONNECTOR_TYPE.DEFAULT;
+            label = elements[source].defaultConnectorLabel;
+        } else if (valueFromCombobox === CONNECTOR_TYPE.FAULT) {
+            type = CONNECTOR_TYPE.FAULT;
+            label = CONNECTOR_TYPE.FAULT;
+        } else {
+            type = CONNECTOR_TYPE.REGULAR;
+            label = elements[valueFromCombobox].label;
+            childSource = valueFromCombobox;
+        }
+
+        const connectorObject = createConnectorObject(source, childSource, target, label, type);
+        storeInstance.dispatch(addConnector(connectorObject));
+    };
+
+    /**
+     * Handles the add connection event and dispatches an action to either add the newly created connector or invoke a connector picker panel
      *
      * @param {object} event - add connection event coming from canvas.js
      */
     handleAddConnection = (event) => {
         if (event && event.detail) {
-            const connector = createConnectorObject(
-                event.detail.source,
-                event.detail.childSource,
-                event.detail.target,
-                event.detail.label,
-                event.detail.type
-            );
-            storeInstance.dispatch(addConnector(connector));
+            const currentState = storeInstance.getCurrentState();
+            const elements = currentState.elements;
+            const sourceElement = elements[event.detail.sourceGuid];
+            const targetElement = elements[event.detail.targetGuid];
+            if (sourceElement && targetElement) {
+                const sourceElementType = sourceElement.elementType;
+                const targetElementLabel = targetElement.label;
+
+                const availableConnections = sourceElement.availableConnections;
+                if (!availableConnections) {
+                    // Creates a regular connection. Would be needed for Start element, Assignment element, Screen element and Steps element
+                    const connector = createConnectorObject(event.detail.sourceGuid, null, event.detail.targetGuid, null, CONNECTOR_TYPE.REGULAR);
+                    storeInstance.dispatch(addConnector(connector));
+                } else if (availableConnections.length === 1) {
+                    // Creates the only connection remaining in availableConnections
+                    const childReference = availableConnections[0].childReference;
+                    const availableConnectionType = availableConnections[0].type;
+                    const labelAndValue = this.getConnectorLabelAndValue(elements, sourceElement, childReference, availableConnectionType);
+                    const connector = createConnectorObject(event.detail.sourceGuid, childReference, event.detail.targetGuid, labelAndValue.label, availableConnectionType);
+                    storeInstance.dispatch(addConnector(connector));
+                } else if (sourceElementType === ELEMENT_TYPE.DECISION || sourceElementType === ELEMENT_TYPE.WAIT) {
+                    // Opens the connector-picker to select which connector to connect when there are multiple available connections
+                    const comboboxOptions = [];
+                    const availableConnectionsLength = availableConnections.length;
+
+                    for (let i = 0; i < availableConnectionsLength; i++) {
+                        const childReference = availableConnections[i].childReference;
+                        const availableConnectionType = availableConnections[i].type;
+                        const {label, value} = this.getConnectorLabelAndValue(elements, sourceElement, childReference, availableConnectionType);
+
+                        comboboxOptions.push({
+                            label,
+                            value
+                        });
+                    }
+
+                    // Invokes the connector-picker panel
+                    const mode = event.type;
+                    const nodeUpdate = this.createAndAddConnector(event.detail.sourceGuid, event.detail.targetGuid);
+                    invokePanel(PROPERTY_EDITOR, {mode, nodeUpdate, comboboxOptions, sourceElementType, targetElementLabel});
+                } else {
+                    // Creates the first regular connector for all element types (such as CRUD, Action etc.)
+                    // that support 2 connectors namely regular and fault
+                    const connector = createConnectorObject(event.detail.sourceGuid, null, event.detail.targetGuid, null, CONNECTOR_TYPE.REGULAR);
+                    storeInstance.dispatch(addConnector(connector));
+                }
+            }
         }
     };
 

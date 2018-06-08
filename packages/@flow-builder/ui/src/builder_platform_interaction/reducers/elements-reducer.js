@@ -14,7 +14,7 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES
 } from 'builder_platform_interaction-actions';
 import {deepCopy} from 'builder_platform_interaction-store-lib';
-import {updateProperties, omit} from 'builder_platform_interaction-data-mutation-lib';
+import {updateProperties, omit, addItem} from 'builder_platform_interaction-data-mutation-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 
@@ -35,9 +35,9 @@ export default function elementsReducer(state = {}, action) {
         case UPDATE_RESOURCE:
             return _addOrUpdateElement(state, action.payload.guid, action.payload);
         case DELETE_CANVAS_ELEMENT:
-            return _deleteElementAndDecrementCount(state, action.payload.selectedCanvasElementGUIDs, action.payload.canvasElementsToUpdate);
+            return _deleteAndUpdateElements(state, action.payload.selectedCanvasElementGUIDs, action.payload.connectorsToDelete);
         case ADD_CONNECTOR:
-            return _incrementConnectorCount(state, action.payload.source);
+            return _updateElementOnAddConnection(state, action.payload);
         case DELETE_RESOURCE:
             return omit(state, [action.payload.guid]);
         case SELECT_ON_CANVAS:
@@ -59,9 +59,9 @@ export default function elementsReducer(state = {}, action) {
  *
  * @param {Object} state - current state of elements in the store
  * @param {Object} decision - the decision being added/modified
- * @param {Array} deletedOutcomes - All outcomes being deleted. If deleted outcomes have connectors, then
+ * @param {Object[]} deletedOutcomes - All outcomes being deleted. If deleted outcomes have connectors, then
  * the decision connectorCount will be decremented appropriately
- * @param {Array} outcomes - All outcomes in the updated decision state (does not include deleted outcomes)
+ * @param {Object[]} outcomes - All outcomes in the updated decision state (does not include deleted outcomes)
  *
  * @return {Object} new state after reduction
  * @private
@@ -173,12 +173,12 @@ function _getSubElementGuids(node) {
  * Helper function to delete all selected canvas elements and to update the affected canvas elements with the new connector count
  *
  * @param {Object} elements - current state of elements in the store
- * @param {Array} originalGUIDs - GUIDs of canvas elements that need to be deleted
- * @param {Array} decrementGUIDs - GUIDs of all the canvas elements for which the connector count needs to decrement
+ * @param {String[]} originalGUIDs - GUIDs of canvas elements that need to be deleted
+ * @param {Object[]} connectorsToDelete - All connector objects that need to be deleted
  * @returns {Object} new state after reduction
  * @private
  */
-function _deleteElementAndDecrementCount(elements, originalGUIDs, decrementGUIDs) {
+function _deleteAndUpdateElements(elements, originalGUIDs, connectorsToDelete) {
     const guidsToDelete = [];
     for (let i = 0; i < originalGUIDs.length; i++) {
         const guid = originalGUIDs[i];
@@ -189,12 +189,26 @@ function _deleteElementAndDecrementCount(elements, originalGUIDs, decrementGUIDs
 
     const newState = omit(elements, guidsToDelete);
 
-    decrementGUIDs.forEach((guid) => {
-        if (newState[guid] && newState[guid].connectorCount) {
-            const connectorCount = newState[guid].connectorCount - 1;
-            newState[guid] = updateProperties(newState[guid], {connectorCount});
+    const connectorsToDeleteLength = connectorsToDelete.length;
+    for (let i = 0; i < connectorsToDeleteLength; i++) {
+        const connector = connectorsToDelete[i];
+        const connectorSourceElement = updateProperties(newState[connector.source]);
+        if (connectorSourceElement && connectorSourceElement.connectorCount) {
+            // Decrements the connector count
+            connectorSourceElement.connectorCount--;
+
+            if (connectorSourceElement.availableConnections) {
+                // Adds the deleted connector to availableConnections
+                connectorSourceElement.availableConnections = addItem(connectorSourceElement.availableConnections, {
+                    type: connector.type,
+                    childReference: connector.childSource
+                });
+            }
+
+            newState[connector.source] = connectorSourceElement;
         }
-    });
+    }
+
     return newState;
 }
 
@@ -202,14 +216,31 @@ function _deleteElementAndDecrementCount(elements, originalGUIDs, decrementGUIDs
  * Helper function to increment the connector count of a given canvas element when a new connection has been added
  *
  * @param {Object} elements - current state of elements in the store
- * @param {String} sourceGUID - GUID of the canvas element for which the connector count needs to increment
+ * @param {String} connector - connector object
  * @returns {Object} new state after reduction
  * @private
  */
-function _incrementConnectorCount(elements, sourceGUID) {
+function _updateElementOnAddConnection(elements, connector) {
     const newState = updateProperties(elements);
-    const connectorCount = newState[sourceGUID].connectorCount + 1;
-    newState[sourceGUID] = updateProperties(newState[sourceGUID], {connectorCount});
+    const sourceGuid = connector.source;
+    const sourceElement = updateProperties(newState[sourceGuid]);
+    const connectorType = connector.type;
+    const childSourceGUID = connector.childSource;
+
+    if (sourceElement.availableConnections) {
+        // Removes the newly added connection from availableConnections
+        if (childSourceGUID) {
+            sourceElement.availableConnections =
+                sourceElement.availableConnections.filter(availableConnector => (availableConnector.childReference !==  childSourceGUID));
+        } else {
+            sourceElement.availableConnections =
+                sourceElement.availableConnections.filter(availableConnector => (availableConnector.type !==  connectorType));
+        }
+    }
+
+    // Increments the connector count
+    sourceElement.connectorCount++;
+    newState[connector.source] = sourceElement;
     return newState;
 }
 

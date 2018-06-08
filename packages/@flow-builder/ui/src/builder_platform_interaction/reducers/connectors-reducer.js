@@ -10,16 +10,16 @@ import {
 import { addItem, updateProperties, replaceItem} from 'builder_platform_interaction-data-mutation-lib';
 
 /**
- * Reducer for canvas element.
+ * Reducer for connectors.
  *
- * @param {Array} state - canvas element array in the store
+ * @param {Object[]} state - connector array in the store
  * @param {Object} action - with type and payload
- * @return {Array} new state after reduction
+ * @return {Object[]} new state after reduction
  */
 export default function connectorsReducer(state = [], action) {
     switch (action.type) {
         case UPDATE_FLOW: return [...action.payload.connectors];
-        case DELETE_CANVAS_ELEMENT: return _deleteConnectors(state, action.payload.connectorGUIDs);
+        case DELETE_CANVAS_ELEMENT: return _deleteConnectors(state, action.payload.connectorsToDelete);
         case ADD_CONNECTOR: return addItem(state, action.payload);
         case SELECT_ON_CANVAS: return _selectConnector(state, action.payload.guid);
         case TOGGLE_ON_CANVAS: return _toggleConnector(state, action.payload.guid);
@@ -32,17 +32,18 @@ export default function connectorsReducer(state = [], action) {
 /**
  * Helper function to delete all selected and associated connectors.
  *
- * @param {Array} connectors - current state of connectors in the store
- * @param {Array} connectorGUIDs - contains GUIDs of all selcted and associated connectors
- * @return {Array} new state of connectors after reduction
+ * @param {Object[]} connectors - current state of connectors in the store
+ * @param {Object[]} connectorsToDelete - contains all selected and associated connectors
+ * @return {Object[]} new state of connectors after reduction
  * @private
  */
-function _deleteConnectors(connectors, connectorGUIDs) {
+function _deleteConnectors(connectors, connectorsToDelete) {
     let newState = connectors;
-    if (connectorGUIDs && connectorGUIDs.length > 0) {
-        newState = connectors.filter((connector) => {
-            return (connectorGUIDs.indexOf(connector.guid) === -1);
+    if (connectorsToDelete && connectorsToDelete.length > 0) {
+        const connectorGUIDs = connectorsToDelete.map(deleteConnector => {
+            return deleteConnector.guid;
         });
+        newState = connectors.filter(connector => (connectorGUIDs.indexOf(connector.guid) === -1));
     }
     return newState;
 }
@@ -50,10 +51,10 @@ function _deleteConnectors(connectors, connectorGUIDs) {
 /**
  * Delete connectors for all of the given child elements
  *
- * @param {Array} connectors   current state of connectors in the store
- * @param {Array} elements     array of child elements (outcomes or wait events) whose connectors are to be deleted
+ * @param {Object[]} connectors   current state of connectors in the store
+ * @param {Object[]} elements     array of child elements (outcomes or wait events) whose connectors are to be deleted
  *
- * @return {Array} new state of connectors after reduction
+ * @return {Object[]} new state of connectors after reduction
  * @private
  */
 function _deleteConnectorsForChildElements(connectors, elements) {
@@ -74,9 +75,9 @@ function _deleteConnectorsForChildElements(connectors, elements) {
  * Helper function to select a connectors. Iterates over all the connectors and sets the isSelected property for
  * the selected connector to true. Also sets the isSelected property for all other connectors to false.
  *
- * @param {Array} connectors - current state of connectors in the store
+ * @param {Object[]} connectors - current state of connectors in the store
  * @param {String} selectedGUID - GUID of the connector to be selected
- * @return {Array} new state of connectors after reduction
+ * @return {Object[]} new state of connectors after reduction
  * @private
  */
 function _selectConnector(connectors, selectedGUID) {
@@ -103,9 +104,9 @@ function _selectConnector(connectors, selectedGUID) {
 /**
  * Helper function to toggle the isSelected state of a connector.
  *
- * @param {Array} connectors - current state of connectors in the store
+ * @param {Object[]} connectors - current state of connectors in the store
  * @param {String} selectedGUID - GUID of the connector to be toggled
- * @return {Array} new state of connectors after reduction
+ * @return {Object[]} new state of connectors after reduction
  * @private
  */
 function _toggleConnector(connectors, selectedGUID) {
@@ -125,8 +126,8 @@ function _toggleConnector(connectors, selectedGUID) {
  * Helper function to deselect all the selected connectors. Iterates over all the connectors and sets the
  * isSelected property of all the currently selected connectors to false.
  *
- * @param {Array} connectors - current state of connectors in the store
- * @return {Array} new state of connectors after reduction
+ * @param {Object[]} connectors - current state of connectors in the store
+ * @return {Object[]} new state of connectors after reduction
  * @private
  */
 function _deselectConnectors(connectors) {

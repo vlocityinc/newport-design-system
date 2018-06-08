@@ -1,10 +1,9 @@
 import { Element, api, track, unwrap } from 'engine';
-import { CONNECTOR_OVERLAY, drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
+import { drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
 import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pan-utils';
-import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { AddElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * Canvas component for flow builder.
@@ -75,47 +74,18 @@ export default class Canvas extends Element {
     }
 
     /**
-     * Helper method to get the source, target, connector type and label of the new connection.
-     * @param {object} connectorInfo - Contains all the information about the new connector
-     * @return {object} connectorProperties - Contains the connector source, target, type and label
-     */
-    getConnectorProperties = (connectorInfo) => {
-        const connectorProperties = {
-            source: connectorInfo.sourceId,
-            target: connectorInfo.targetId,
-            type: CONNECTOR_TYPE.REGULAR
-
-        };
-
-        // TODO: This is a temporary fix and shall be refactored as a part of W-4962977
-        const nodeLength = this.nodes.length;
-        for (let i = 0; i < nodeLength; i++) {
-            if (connectorInfo.sourceId === this.nodes[i].guid && this.nodes[i].elementType === ELEMENT_TYPE.START_ELEMENT) {
-                connectorProperties.type = CONNECTOR_TYPE.START;
-                break;
-            }
-        }
-
-        if (connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL) && connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).getLabel()) {
-            connectorProperties.label = connectorInfo.connection.getOverlay(CONNECTOR_OVERLAY.LABEL).getLabel();
-        }
-        return connectorProperties;
-    };
-
-    /**
      * Method to set up any new connections made within the canvas.
      * @param {object} connectorInfo - Contains all the information about the new connector
      */
     connectionAdded = (connectorInfo) => {
-        connectorInfo.connection.addOverlay(CONNECTOR_OVERLAY.ARROW);
-        // Todo: Edit and enable the following code once work for connector selection is done (Decision outcomes etc.) - W-4962977
-        // connectorInfo.connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label: 'Fault-Label', cssClass: 'fault-label'}]);
-        const connectorProperties = this.getConnectorProperties(connectorInfo);
         const addConnectionEvent = new CustomEvent(CANVAS_EVENT.ADD_CONNECTION,
             {
                 bubbles: true,
                 composed: true,
-                detail: connectorProperties
+                detail: {
+                    sourceGuid: connectorInfo.sourceId,
+                    targetGuid: connectorInfo.targetId
+                }
             }
         );
         this.dispatchEvent(addConnectionEvent);
@@ -372,26 +342,6 @@ export default class Canvas extends Element {
                 cancelable: true
             });
             this.dispatchEvent(canvasMouseUpEvent);
-        }
-    };
-
-    /**
-     * Handling the trash click event coming from node.js
-     * @param {object} event - canvas element delete event
-     */
-    handleCanvasElementDelete = (event) => {
-        if (event && event.detail) {
-            const selectedCanvasElementGUIDs = [event.detail.canvasElementGUID];
-
-            const deleteEvent = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    selectedCanvasElementGUIDs
-                }
-            });
-            this.dispatchEvent(deleteEvent);
         }
     };
 

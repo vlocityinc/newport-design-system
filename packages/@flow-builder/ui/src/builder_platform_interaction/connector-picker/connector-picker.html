@@ -1,0 +1,16 @@
+<template>
+    <div class='connector-picker'>
+        <div class='picker-title slds-m-bottom_medium slds-align_absolute-center'>
+            {connectorPicketTitle}
+        </div>
+        <div class='slds-align_absolute-center'>
+            <lightning-combobox required
+                                label={optionsLabel}
+                                value={defaultOptionAndValue}
+                                options={comboboxOptions}
+                                title={optionsLabel}
+                                onchange={handlePickerValueChange}>
+            </lightning-combobox>
+        </div>
+    </div>
+</template>

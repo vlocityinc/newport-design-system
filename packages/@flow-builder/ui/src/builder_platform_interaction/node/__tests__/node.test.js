@@ -96,7 +96,7 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(true);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(CANVAS_EVENT.CANVAS_ELEMENT_DELETE, callback);
+            nodeComponent.addEventListener(CANVAS_EVENT.DELETE_ON_CANVAS, callback);
             nodeComponent.querySelector(selectors.trash).click();
             expect(callback).toHaveBeenCalled();
         });

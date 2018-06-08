@@ -56,52 +56,6 @@ describe('Canvas', () => {
         return el;
     };
 
-    describe('handleCanvasElementDelete', () => {
-        it('fires a DELETE_ON_CANVAS event', () => {
-            const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-
-            const eventCallback = jest.fn();
-            canvas.addEventListener(CANVAS_EVENT.DELETE_ON_CANVAS, eventCallback);
-
-            const deleteEvent = new CustomEvent(CANVAS_EVENT.CANVAS_ELEMENT_DELETE, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    canvasElementGUID: defaultNodes[0].guid
-                }
-            });
-
-            const node = canvas.querySelector(SELECTORS.NODE);
-            node.dispatchEvent(deleteEvent);
-
-            expect(eventCallback).toHaveBeenCalled();
-        });
-
-        it('event includes node guid and no connectors', () => {
-            const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-
-            const eventCallback = jest.fn();
-            canvas.addEventListener(CANVAS_EVENT.DELETE_ON_CANVAS, eventCallback);
-
-            const deleteEvent = new CustomEvent(CANVAS_EVENT.CANVAS_ELEMENT_DELETE, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    canvasElementGUID: defaultNodes[0].guid
-                }
-            });
-
-            const node = canvas.querySelector(SELECTORS.NODE);
-            node.dispatchEvent(deleteEvent);
-
-            expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
-                selectedCanvasElementGUIDs: [defaultNodes[0].guid]
-            });
-        });
-    });
-
     describe('handleKeyDown', () => {
         describe('BACKSPACE', () => {
             it('does nothing if canvas is empty', () => {

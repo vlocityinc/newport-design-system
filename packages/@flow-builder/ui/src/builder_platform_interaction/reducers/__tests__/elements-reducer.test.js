@@ -4,6 +4,7 @@ import {
     ADD_CANVAS_ELEMENT,
     UPDATE_CANVAS_ELEMENT,
     DELETE_CANVAS_ELEMENT,
+    ADD_CONNECTOR,
     ADD_RESOURCE,
     UPDATE_RESOURCE,
     DELETE_RESOURCE,
@@ -114,17 +115,80 @@ describe('elements-reducer', () => {
 
     it('with state set to defined & action type is DELETE_CANVAS_ELEMENT should delete the property from the element object ', () => {
         const omitProps = ['guid_1'];
+        const connector = {
+            source: 'guid_2',
+            type: 'DEFAULT',
+        };
         const oldProperties = {
             'guid_1' : {
                 name: 'ass1',
                 label: 'assignment 1',
                 description: 'desc 1',
                 guid: 'guid_1'
+            },
+            'guid_2' : {
+                name: 'des2',
+                label: 'decision 2',
+                description: 'desc 2',
+                guid: 'guid_2',
+                connectorCount: 1,
+                availableConnections: []
             }
         };
+        const newProperties = {
+            'guid_2' : {
+                name: 'des2',
+                label: 'decision 2',
+                description: 'desc 2',
+                guid: 'guid_2',
+                connectorCount: 0,
+                availableConnections: [{
+                    childReference: undefined,
+                    type: 'DEFAULT'
+                }]
+            }
+        };
+
         const newElementState = elementReducer(oldProperties, {type: DELETE_CANVAS_ELEMENT,
-            payload : { selectedCanvasElementGUIDs: omitProps, canvasElementsToUpdate:  []}});
-        expect(newElementState).toEqual({});
+            payload : { selectedCanvasElementGUIDs: omitProps, connectorsToDelete:  [connector]}});
+        expect(newElementState).toEqual(newProperties);
+    });
+
+    it('with state set to defined & action type is ADD_CONNECTOR should increment connectorCount and remove the connector from availableConnections', () => {
+        const connector = {
+            source: 'guid_1',
+            type: 'REGULAR',
+            childSource: 'outcome_1'
+        };
+        const oldProperties = {
+            'guid_1' : {
+                name: 'des1',
+                label: 'decision 1',
+                description: 'desc 1',
+                guid: 'guid_1',
+                outcomeReferences: ['outcome_1'],
+                connectorCount: 0,
+                availableConnections: [{
+                    type: 'REGULAR',
+                    childReference: 'outcome_1'
+                }]
+            }
+        };
+        const newProperties = {
+            'guid_1' : {
+                name: 'des1',
+                label: 'decision 1',
+                description: 'desc 1',
+                guid: 'guid_1',
+                outcomeReferences: ['outcome_1'],
+                connectorCount: 1,
+                availableConnections: []
+            }
+        };
+
+        const newElementState = elementReducer(oldProperties, {type: ADD_CONNECTOR,
+            payload : connector});
+        expect(newElementState).toEqual(newProperties);
     });
 
     describe('MODIFY_DECISION_WITH_OUTCOMES', () => {

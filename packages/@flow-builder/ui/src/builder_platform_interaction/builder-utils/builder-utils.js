@@ -1,7 +1,7 @@
 // eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
-import { getConfigForElementType } from 'builder_platform_interaction-element-config';
-import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction-events';
+import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction-element-config';
+import { AddElementEvent, EditElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 import { LABELS } from './builder-utils-labels';
 
 /**
@@ -58,52 +58,96 @@ const createComponentPromise = (cmpName, attr) => {
 };
 
 /**
- * @param {string} mode based on whether the event is for adding a new element or editing
+ * @param {string} mode based on the event type
  * @param {string} elementType eg: Assignment, Decision, etc
  * @returns {string} title for the modal
  */
 const getTitleForModalHeader = (mode, elementType) => {
-    let titlePrefix = '';
+    const elementConfig = getConfigForElementType(elementType);
+    if (!elementConfig || !elementConfig.labels) {
+        throw new Error("label is not defined in the element config for the element type: " + elementType);
+    }
+
+    let titlePrefix = '',
+        label;
+
     if (mode === EditElementEvent.EVENT_NAME) {
         titlePrefix = LABELS.existingElementHeaderPrefix;
     } else if (mode === AddElementEvent.EVENT_NAME) {
         titlePrefix = LABELS.newElementHeaderPrefix;
     }
 
-    if (!getConfigForElementType(elementType) || !getConfigForElementType(elementType).labels) {
-        throw new Error('label is not defined in the element config for the element type: ' + elementType);
+    if (mode === CANVAS_EVENT.ADD_CONNECTION) {
+        titlePrefix = LABELS.connectorPickerHeaderPrefix;
+        label = elementConfig.labels.connectorPicker;
+    } else {
+        label = elementConfig.labels.singular;
     }
-    const label = getConfigForElementType(elementType).labels.singular;
+
     return titlePrefix + ' ' + label;
 };
 
 /**
- * Invokes the panel and creates property editor inside it
- * @param {string} cmpName - Name of the component to be created
- * @param {object} attributes - contains a nodeupadate callback and actual node data
+ * Gets the connector picker config
+ * @param {string} mode based on the event type
+ * @param {object} attributes - contains a callback and actual data
+ * @return {object} - contains the attr for the editor and panel config
  */
-export function invokePanel(cmpName, attributes) {
-    if (!attributes || !attributes.node ||  !attributes.nodeUpdate) {
-        throw new Error('attributes passed to invoke panel method are incorrect');
+const getConnectorPickerConfig = (mode, attributes) => {
+    if (!attributes.nodeUpdate || !attributes.comboboxOptions || !attributes.sourceElementType || !attributes.targetElementLabel) {
+        throw new Error("Attributes passed to invoke connector selection panel method are incorrect. Must contain nodeUpdate, comboboxOptions, sourceElementType and targetElementLabel");
     }
 
-    const mode = attributes.mode,
-        elementType = attributes.node.elementType,
-        nodeUpdate = attributes.nodeUpdate,
-        node = attributes.node,
-        elementConfig = getConfigForElementType(elementType),
-        descriptor = elementConfig.descriptor,
-        titleForModal = getTitleForModalHeader(mode, elementType);
+    const nodeUpdate = attributes.nodeUpdate,
+        comboboxOptions = attributes.comboboxOptions,
+        elementType = attributes.sourceElementType,
+        optionsLabel = getConfigForElementType(elementType).labels.connectorPicker,
+        titleForModal = getTitleForModalHeader(mode, elementType),
+        targetElementLabel = attributes.targetElementLabel;
 
-    /**
-     * New Resource Work TODO: W-4844731
-     * The following will not work and should be removed as part of the above work item.
-     * Instead of relying on modalType and mode, one can either pass mode as event.type which will be exclusive in add resource or call a different function altogether (instead of invokePanel)
-     */
-    //    if (attributes.modalType === 'RESOURCE' && attributes.mode === 'CREATE') {
-    //        descriptorType = 'builder_platform_interaction:resourceEditor';
-    //        elementType = 'VARIABLE';
-    //    }
+    const attr = {
+        nodeUpdate,
+        override: {
+            body: {
+                descriptor: "builder_platform_interaction:connectorPicker",
+                attr: {
+                    comboboxOptions,
+                    optionsLabel,
+                    targetElementLabel
+                }
+            }
+        }
+    };
+
+    const panelConfig = {
+        titleForModal,
+        flavor: MODAL_SIZE.MEDIUM,
+        bodyClass: 'slds-p-around_medium'
+    };
+
+    return {
+        attr,
+        panelConfig
+    };
+};
+
+/**
+ * Gets the property editor config
+ * @param {string} mode based on the event type
+ * @param {object} attributes - contains a callback and actual data
+ * @return {object} - contains the attr for the editor and panel config
+ */
+const getPropertyEditorConfig = (mode, attributes) => {
+    if (!attributes.node || !attributes.nodeUpdate) {
+        throw new Error('Attributes passed to invoke panel method are incorrect. Must contain node and nodeUpdate');
+    }
+
+    const nodeUpdate = attributes.nodeUpdate,
+        node = attributes.node,
+        elementType = attributes.node.elementType,
+        elementConfig = getConfigForElementType(elementType),
+        titleForModal = getTitleForModalHeader(mode, elementType),
+        descriptor = elementConfig.descriptor;
 
     const attr = {
         nodeUpdate,
@@ -117,17 +161,50 @@ export function invokePanel(cmpName, attributes) {
         }
     };
 
+    const panelConfig = {
+        titleForModal,
+        flavor: elementConfig.modalSize,
+        bodyClass: elementConfig.bodyCssClass || ''
+    };
+
+    return {
+        attr,
+        panelConfig
+    };
+};
+
+/**
+ * Gets the editor config based on the mode
+ * @param {string} mode based on the event type
+ * @param {object} attributes - contains a callback and actual data
+ * @return {object} - contains the attr for the editor and panel config
+ */
+const getEditorConfig = (mode, attributes) => {
+    if (mode === CANVAS_EVENT.ADD_CONNECTION) {
+        return getConnectorPickerConfig(mode, attributes);
+    }
+
+    return getPropertyEditorConfig(mode, attributes);
+};
+
+/**
+ * Invokes the ui-panel
+ * @param {string} cmpName - Name of the component to be created
+ * @param {object} attr - contains a callback and actual data
+ * @param {object} panelConfig - contains the modal title, flavor and css for the editor
+ */
+const doInvoke = (cmpName, attr, panelConfig) => {
     const propertyEditorBodyPromise = createComponentPromise(cmpName, attr);
-    const propertyEditorHeaderPromise = createComponentPromise('builder_platform_interaction:propertyEditorHeader', {titleForModal});
-    const propertyEditorFooterPromise = createComponentPromise('builder_platform_interaction:propertyEditorFooter');
+    const propertyEditorHeaderPromise = createComponentPromise("builder_platform_interaction:propertyEditorHeader", {titleForModal: panelConfig.titleForModal});
+    const propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter");
     Promise.all([propertyEditorBodyPromise, propertyEditorHeaderPromise, propertyEditorFooterPromise]).then((newComponents) => {
         const createPanelEventAttributes = {
             panelType: MODAL,
             visible: true,
             panelConfig : {
                 body: newComponents[0],
-                flavor: elementConfig.modalSize,
-                bodyClass: elementConfig.bodyCssClass || '',
+                flavor: panelConfig.flavor,
+                bodyClass: panelConfig.bodyClass,
                 header: newComponents[1],
                 footer: newComponents[2],
             }
@@ -136,8 +213,24 @@ export function invokePanel(cmpName, attributes) {
     }).catch(errorMessage => {
         throw new Error('UI panel creation failed: ' + errorMessage);
     });
-}
+};
 
+/**
+ * Invokes the panel and creates property editor inside it
+ * @param {string} cmpName - Name of the component to be created
+ * @param {object} attributes - contains a callback and actual data
+ */
+export function invokePanel(cmpName, attributes) {
+    if (!attributes || !attributes.mode) {
+        throw new Error("Attributes passed to invoke connector selection panel method are incorrect. Must contain a mode");
+    }
+
+    const mode = attributes.mode;
+
+    const {attr, panelConfig} = getEditorConfig(mode, attributes);
+
+    doInvoke(cmpName, attr, panelConfig);
+}
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!

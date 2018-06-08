@@ -17,6 +17,7 @@ import screenSingularLabel from '@label/FlowBuilderElementConfig.screenSingularL
 import screenPluralLabel from '@label/FlowBuilderElementConfig.screenPluralLabel';
 import decisionSingularLabel from '@label/FlowBuilderElementConfig.decisionSingularLabel';
 import decisionPluralLabel from '@label/FlowBuilderElementConfig.decisionPluralLabel';
+import decisionConnectorPickerLabel from '@label/FlowBuilderElementConfig.decisionConnectorPickerLabel';
 import loopSingularLabel from '@label/FlowBuilderElementConfig.loopSingularLabel';
 import loopPluralLabel from '@label/FlowBuilderElementConfig.loopPluralLabel';
 import recordCreateSingularLabel from '@label/FlowBuilderElementConfig.recordCreateSingularLabel';
@@ -51,6 +52,7 @@ export const LABELS = {
     screenPluralLabel,
     decisionSingularLabel,
     decisionPluralLabel,
+    decisionConnectorPickerLabel,
     loopSingularLabel,
     loopPluralLabel,
     recordCreateSingularLabel,
