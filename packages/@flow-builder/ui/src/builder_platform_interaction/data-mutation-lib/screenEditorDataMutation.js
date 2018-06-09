@@ -1,6 +1,6 @@
 import { getScreenFieldType } from 'builder_platform_interaction-screen-editor-utils';
 
-const mutateScreenField = field => {
+export const mutateScreenField = field => {
     field.type = getScreenFieldType(field);
 
     if (field.hasOwnProperty('defaultValue')) {
@@ -41,13 +41,17 @@ const mutateScreenField = field => {
             }
         });
     }
+
+    return field;
 };
 
-const demutateScreenField = field => {
+export const demutateScreenField = field => {
     delete field.type;
     delete field.defaultValue;
     field.defaultValue = field._defaultValue;
     delete field._defaultValue;
+
+    return field;
 };
 
 export const mutateScreen = screen => {
@@ -75,6 +79,16 @@ export const mutateScreen = screen => {
         return undefined;
     };
 
+    screen.getFieldIndexByGUID = function (guid) {
+        if (this.fields) {
+            return this.fields.findIndex(field => {
+                return field.guid === guid;
+            });
+        }
+
+        return -1;
+    };
+
     return screen;
 };
 
@@ -84,6 +98,7 @@ export const demutateScreen = screen => {
     }
 
     delete screen.getFieldByGUID;
+    delete screen.getFieldIndexByGUID;
     delete screen.getFieldIndex;
     return screen;
 };

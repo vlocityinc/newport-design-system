@@ -1,12 +1,10 @@
 import { createElement } from 'engine';
 import ScreenInputField from 'builder_platform_interaction-screen-input-field';
 import {
-    currencyFormat,
-    lightningInputTypes
+    CURRENCY_FORMAT,
+    LIGHTNING_INPUT_TYPES,
+    LIGHTNING_INPUT_VARIANTS
 } from 'builder_platform_interaction-screen-editor-utils';
-
-const hiddenLabelVariant = 'label-hidden';
-const standardLabelVariant = 'standard';
 
 const SELECTORS = {
     INPUT : 'lightning-input'
@@ -33,19 +31,19 @@ describe('Currency screen field', () => {
     it('Type should be number', () => {
         return Promise.resolve().then(() => {
             const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
-            expect(input.type).toEqual(lightningInputTypes.number);
+            expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.NUMBER);
         });
     });
     it('Formatter should be set to currency', () => {
         return Promise.resolve().then(() => {
             const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
-            expect(input.formatter).toEqual(currencyFormat);
+            expect(input.formatter).toEqual(CURRENCY_FORMAT);
         });
     });
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
             const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
-            expect(input.variant).toEqual(standardLabelVariant);
+            expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
 });
@@ -63,7 +61,7 @@ describe('Number screen field', () => {
     it('Type should be number', () => {
         return Promise.resolve().then(() => {
             const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
-            expect(input.type).toEqual(lightningInputTypes.number);
+            expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.NUMBER);
         });
     });
     it('Formatter should be set to undefined', () => {
@@ -75,7 +73,7 @@ describe('Number screen field', () => {
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
             const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
-            expect(input.variant).toEqual(standardLabelVariant);
+            expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
 });
@@ -105,7 +103,7 @@ describe('Textbox screen field', () => {
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
             const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
-            expect(input.variant).toEqual(standardLabelVariant);
+            expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
 });
@@ -123,7 +121,7 @@ describe('Screen input field with no label', () => {
     it('Label should be hidden when it is empty', () => {
         return Promise.resolve().then(() => {
             const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
-            expect(input.variant).toEqual(hiddenLabelVariant);
+            expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN);
         });
     });
 });
@@ -141,7 +139,7 @@ describe('Screen input field with empty space only should not be displayed', () 
     it('Label should be hidden when it is empty', () => {
         return Promise.resolve().then(() => {
             const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
-            expect(input.variant).toEqual(hiddenLabelVariant);
+            expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN);
         });
     });
 });
@@ -158,7 +156,7 @@ describe('DateTime screen input field', () => {
     it('Lightning input type should be number', () => {
         return Promise.resolve().then(() => {
             const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
-            expect(input.type).toEqual(lightningInputTypes.dateTime);
+            expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.DATE_TIME);
         });
     });
 });

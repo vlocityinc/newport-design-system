@@ -1,6 +1,6 @@
 import { generateGuid } from 'builder_platform_interaction-store-lib';
+import { mutateScreenField } from 'builder_platform_interaction-data-mutation-lib';
 
-// **************************************** MODEL SUPPORT FUNCTIONS *********************************************
 export function createEmptyScreenNode() {
     return {
         allowBack: true,
@@ -19,11 +19,20 @@ export function createEmptyScreenNode() {
     };
 }
 
-// Returns a new screen empty node (TODO: This is not used right now, should be used from the FB palette if necessary)
-export const createEmptyNodeOfType = (type) => {
-    return {
-        guid: generateGuid,
+export function createEmptyNodeOfType(type) {
+    return mutateScreenField({
+        guid:generateGuid(),
+        isRequired: false,
+        helpText: null,
+        defaultValue:null,
+        dataType: type.dataType,
+        name: '',
+        choiceReferences: [],
+        defaultSelectedChoiceReference: null,
         fieldType: type.fieldType,
-        dataType: type.dataType
-    };
-};
+        inputParameters: [],
+        fieldText: null,
+        label: null,
+        outputParameters: []
+    });
+}

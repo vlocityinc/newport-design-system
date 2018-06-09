@@ -1,6 +1,6 @@
 import { Element, api } from 'engine';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
-import { ReorderListEvent, ScreenElementDeselectedEvent } from 'builder_platform_interaction-events';
+import { ReorderListEvent, createScreenElementDeselectedEvent } from 'builder_platform_interaction-events';
 
 const DRAGGING_REGION_SELECTOR = '.screen-editor-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-editor-canvas-insertion-line';
@@ -10,12 +10,8 @@ const INSERTION_LINE_SELECTOR = '.screen-editor-canvas-insertion-line';
  */
 export default class ScreenEditorCanvas extends Element {
     @api screen;
+    @api tabIndex = 0;
     labels = LABELS;
-    _tabIndex = 0;
-
-    get nextTabIndex() {
-        return ++this._tabIndex;
-    }
 
     get hasHelpText() {
         return this.screen.helpText && this.screen.helpText.value;
@@ -45,7 +41,7 @@ export default class ScreenEditorCanvas extends Element {
     handleOnClick = (/* event */) => {
         const selected = this.getSelectedElement();
         this.clearSelection();
-        this.dispatchEvent(new ScreenElementDeselectedEvent(selected));
+        this.dispatchEvent(createScreenElementDeselectedEvent(selected));
         event.stopPropagation();
     }
 

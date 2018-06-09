@@ -1,28 +1,5 @@
 import {LABELS} from 'builder_platform_interaction-screen-editor-i18n-utils';
 
-// Screen Fields Templates -- INCOMPLETE - TODO W-4967572
-const baseScreenFieldTemplate = {
-    'General Info': ['label', 'developerName', 'defaultValue'],
-    'Input Validation': ['validate', 'validationFormula', 'validationError'],
-    'Help Text': ['helpText']
-};
-
-const textScreenFieldTemplate = {
-    'General Info': ['label', 'developerName', 'defaultValue', 'required'],
-    'Input Validation': ['validate', 'validationFormula', 'validationError'],
-    'Help Text': ['helpText']
-};
-
-const numberScreenFieldTemplate = {
-    'General Info': ['label', 'developerName', 'defaultValue', 'scale', 'required'],
-    'Input Validation': ['validate', 'validationFormula', 'validationError'],
-    'Help Text': ['helpText']
-};
-
-const displayTextScreenFieldTemplate = {
-    'General Info': ['developerName', 'displayText']
-};
-
 // Screen field types INCOMPLETE - TODO W-4967572
 // QUESTION FOR UI TEAM: Are we planning to return localized labels from the server side or translate everything locally based on keys?
 const screenFieldTypes = [
@@ -32,15 +9,13 @@ const screenFieldTypes = [
         dataType: 'String',
         label: LABELS.fieldTypeLabelTextField,
         icon: 'utility:type_tool',
-        template: textScreenFieldTemplate,
         category: LABELS.fieldCategoryInput
-    }, { /* cambiar */
+    }, {
         name: 'LargeTextArea',
         fieldType: 'LargeTextArea',
         dataType: undefined,
         label: LABELS.fieldTypeLabelLargeTextArea,
         icon: 'utility:type_tool',
-        template: textScreenFieldTemplate,
         category: LABELS.fieldCategoryInput
     }, {
         name: 'Number',
@@ -48,7 +23,6 @@ const screenFieldTypes = [
         dataType: 'Number',
         label: LABELS.fieldTypeLabelNumber,
         icon: 'utility:topic2',
-        template: numberScreenFieldTemplate,
         category: LABELS.fieldCategoryInput
     }, {
         name: 'Currency',
@@ -56,7 +30,6 @@ const screenFieldTypes = [
         dataType: 'Currency',
         label: LABELS.fieldTypeLabelCurrency,
         icon: 'utility:moneybag',
-        template: numberScreenFieldTemplate,
         category: LABELS.fieldCategoryInput
     }, {
         name: 'Date',
@@ -64,7 +37,6 @@ const screenFieldTypes = [
         dataType: 'Date',
         label: LABELS.fieldTypeLabelDate,
         icon: 'utility:event',
-        template: textScreenFieldTemplate, /* Change when all templates are available */
         category: LABELS.fieldCategoryInput
     }, {
         name: 'DateTime',
@@ -72,7 +44,6 @@ const screenFieldTypes = [
         dataType: 'DateTime',
         label: LABELS.fieldTypeLabelDateTime,
         icon: 'utility:event',
-        template: textScreenFieldTemplate, /* Change when all templates are available */
         category: LABELS.fieldCategoryInput
     }, {
         name: 'Password',
@@ -80,7 +51,6 @@ const screenFieldTypes = [
         dataType: undefined,
         label: LABELS.fieldTypeLabelPassword,
         icon: 'utility:lock',
-        template: textScreenFieldTemplate, /* Change when all templates are available */
         category: LABELS.fieldCategoryInput
     }, {
         name: 'Checkbox',
@@ -88,7 +58,6 @@ const screenFieldTypes = [
         dataType: 'Boolean',
         label: LABELS.fieldTypeLabelCheckbox,
         icon: 'utility:check',
-        template: baseScreenFieldTemplate,
         category: LABELS.fieldCategoryInput
     }, /* {
         name: 'Radio',
@@ -104,7 +73,6 @@ const screenFieldTypes = [
         dataType: undefined,
         label: LABELS.fieldTypeLabelDisplayText,
         icon: 'utility:type_tool',
-        template: displayTextScreenFieldTemplate,
         category: LABELS.fieldCategoryDisplay
     }, {
         name: 'DisplayRichText',
@@ -112,15 +80,13 @@ const screenFieldTypes = [
         dataType: undefined,
         label: LABELS.fieldTypeLabelDisplayRichText,
         icon: 'utility:type_tool',
-        template: displayTextScreenFieldTemplate,
         category: LABELS.fieldCategoryDisplay
     }, {
-        name: 'c:accountPicker',
+        name: 'Extension',
         fieldType: 'ComponentInstance',
         dataType: undefined,
         label: 'Account Picker',
         icon: 'utility:connected_apps', // 'standard:custom_notification', //Removing this until we clarify how to change the size and the background of icons in the palette
-        template: baseScreenFieldTemplate, /* Change when all templates are available */
         category: LABELS.fieldCategoryCustom
     }
 ];
@@ -129,37 +95,15 @@ export function getAllScreenFieldTypes() {
     return screenFieldTypes;
 }
 
-/*
-// Creates an empty screen field
-export function createEmptyNodeOfType(type) {
-    return {
-        isRequired: false,
-        helpText: null,
-        defaultValue: {
-            dateValue: '',
-            stringValue: '',
-            dateTimeValue: '',
-            booleanValue: false,
-            numberValue :'',
-            elementReference: '',
-            inputValue: {
-                converterName: '',
-                label: '',
-                value: ''
-            }
-        },
-        dataType: type.dataType,
-        name: 'New ' + type.name + ' screen field',
-        choiceReferences: '',
-        defaultSelectedChoiceReference: '',
-        fieldType: type.fieldType,
-        inputParameters: [],
-        fieldText: '',
-        label: ' ',
-        outputParameters: []
-    };
+export function getScreenFieldTypeByName(name) {
+    for (const type of screenFieldTypes) {
+        if (type.name.toLowerCase() === name.toLowerCase()) {
+            return type;
+        }
+    }
+
+    throw new Error('No such screen field type: ' + name);
 }
-*/
 
 // Returns a field type object from the enum from a field
 export function getScreenFieldType(field) {

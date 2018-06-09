@@ -1,6 +1,6 @@
 import { Element, api, track } from 'engine';
 import { isScreen } from 'builder_platform_interaction-screen-editor-utils';
-import { ScreenNodeSelectedEvent } from 'builder_platform_interaction-events';
+import { createScreenNodeSelectedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 
 /*
@@ -25,6 +25,6 @@ export default class ScreenEditorPropertiesEditorContainer extends Element {
     }
 
     handleScreenSelection =  (/* event */) => {
-        this.dispatchEvent(new ScreenNodeSelectedEvent(this.node));
+        this.dispatchEvent(createScreenNodeSelectedEvent(this.node));
     }
 }

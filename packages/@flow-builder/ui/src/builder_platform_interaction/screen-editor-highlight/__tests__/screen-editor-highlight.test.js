@@ -1,6 +1,6 @@
 import { createElement } from 'engine';
 import ScreenEditorHighlight from 'builder_platform_interaction-screen-editor-highlight';
-import { screenEventNames } from 'builder_platform_interaction-events';
+import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-highlight', { is: ScreenEditorHighlight });
@@ -26,7 +26,7 @@ describe('Click highlight', () => {
         return Promise.resolve().then(() => {
             const hightlistDiv = highlight.querySelector('div.highlight');
             const callback = jest.fn();
-            highlight.addEventListener(screenEventNames.screenElementSelectedEvent, callback);
+            highlight.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, callback);
             hightlistDiv.click();
             expect(callback).toHaveBeenCalled();
         });

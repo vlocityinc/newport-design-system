@@ -1,67 +1,85 @@
-export const screenEventNames = {
-    screenElementDeletedEvent: 'screenelementdeleted',
-    screenElementDeselectedEvent: 'screenelementdeselected',
-    screenElementSelectedEvent: 'screenelementselected',
-    screenNodeSelectedEvent: 'screennodeselected'
+export const SCREEN_EDITOR_EVENT_NAME = {
+    SCREEN_FIELD_ADDED: 'addscreenfield',
+    SCREEN_ELEMENT_DELETED: 'screenelementdeleted',
+    SCREEN_ELEMENT_DESELECTED: 'screenelementdeselected',
+    SCREEN_ELEMENT_SELECTED: 'screenelementselected',
+    SCREEN_NODE_SELECTED: 'screennodeselected'
 };
 
 
 /**
- * Parent class of all screen editor events
+ * Factory function for screen events
+ * @param {string} type - The type of the event
+ * @param {object} detail - The detail of the event
+ * @param {boolean} cancelable - Should the event be cancelable
+ * @param {boolean} composed - Should the event propagate across the shadow DOM boundary
+ * @param {boolean} bubbles - Should the event bubble up
+ * @returns {event} The event
  */
-class ScreenEditorEvent extends CustomEvent {
-    constructor(eventName, detail = {}, cancelable = true, composed = true, bubbles = true) {
-        super(eventName, {cancelable, composed, bubbles, detail});
-
-        this.eventName = eventName;
-        for (const key in detail) {
-            if (detail.hasOwnProperty(key)) {
-                Object.defineProperty(this, key, {
-                    get() {
-                        return detail[key];
-                    },
-                    set() {
-                        throw new Error('Event properties are read-only');
-                    }
-                });
-            }
+export function createScreenEditorEvent(type, detail = {}, cancelable = true, composed = true, bubbles = true) {
+    const event = new Event(type, {cancelable, composed, bubbles});
+    event.detail = detail;
+    for (const key in detail) {
+        if (detail.hasOwnProperty(key)) {
+            Object.defineProperty(event, key, {
+                get() {
+                    return detail[key];
+                },
+                set() {
+                    throw new Error('Event properties are read-only');
+                }
+            });
         }
     }
+
+    return event;
 }
 
 /**
- * Fired when the user clicks the delete button for a screen element in the canvas
+ * Creates an event to be fired when the user clicks the delete button for a screen element in the canvas
+ * @param {string} typeName - The type of the field to add
+ * @param {number} position - The position in the canvas
+ * @returns {event} The event
  */
-export class ScreenElementDeletedEvent extends ScreenEditorEvent {
-    constructor(screenElement, property) {
-        super(screenEventNames.screenElementDeletedEvent, {screenElement, property});
-    }
+export function createAddScreenFieldEvent(typeName, position) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, {typeName, position});
 }
 
 /**
- * Fired when the user deselects a screen element in the canvas (clicks in an empty space to clear whatever is selected)
+ * Creates an event to be fired when the user clicks the delete button for a screen element in the canvas
+ * @param {object} screenElement - The screen element, either a screen or a screen field
+ * @param {string} property - Applies only for when screenElement is a SCREEN, and it marks the property to toggle (showHeader or showFooter)
+ * @returns {event} The event
  */
-export class ScreenElementDeselectedEvent extends ScreenEditorEvent {
-    constructor(screenElement) {
-        super(screenEventNames.screenElementDeselectedEvent, {screenElement});
-    }
+export function createScreenElementDeletedEvent(screenElement, property) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED, {screenElement, property});
 }
 
 /**
- * Fired by the canvas when the user selects a screen element (header, footer or screen field)
+ * Creates an event to be fired when the user deselects a screen element in the canvas (clicks in an empty space to clear whatever is selected)
+ * @param {object} screenElement - The screen element, either a screen or a screen field
+ * @returns {event} The event
  */
-export class ScreenElementSelectedEvent extends ScreenEditorEvent {
-    constructor(screenElement, property) {
-        super(screenEventNames.screenElementSelectedEvent, {screenElement, property});
-    }
+export function createScreenElementDeselectedEvent(screenElement) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DESELECTED, {screenElement});
 }
 
 /**
- * Fired when the user selects to display the screen property editor in the property editor container (the 'screen' link in the right panel)
+ * Creates an event to be fired by the canvas when the user selects a screen element (header, footer or screen field)
+ * @param {object} screenElement - The screen element, either a screen or a screen field
+ * @param {string} property - Applies only for when screenElement is a SCREEN, and it marks the property to toggle (showHeader or showFooter)
+ * @returns {event} The event
+ */
+export function createScreenElementSelectedEvent(screenElement, property) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, {screenElement, property});
+}
+
+/**
+ * Creates an event to be fired when the user selects to display the screen property editor in the property editor container (the 'screen' link in the right panel)
  * Includes the screen field being deselected as 'screenElement'
+ * @param {object} screenElement - The screen element, either a screen or a screen field
+ * @returns {event} The event
  */
-export class ScreenNodeSelectedEvent extends ScreenEditorEvent {
-    constructor(screenElement) {
-        super(screenEventNames.screenNodeSelectedEvent, {screenElement});
-    }
+export function createScreenNodeSelectedEvent(screenElement) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_NODE_SELECTED, {screenElement});
 }

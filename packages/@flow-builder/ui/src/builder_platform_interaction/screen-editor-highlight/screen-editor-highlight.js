@@ -1,5 +1,5 @@
 import { Element, api } from 'engine';
-import { ScreenElementSelectedEvent, ScreenElementDeletedEvent } from 'builder_platform_interaction-events';
+import { createScreenElementSelectedEvent, createScreenElementDeletedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 
 const SELECTED_CLASS = 'selected';
@@ -54,14 +54,14 @@ export default class ScreenEditorHighlight extends Element {
     handleSelected = (event) => {
         if (!this.selected) {
             this.setSelected(true);
-            this.dispatchEvent(new ScreenElementSelectedEvent(this.screenElement, this.property));
+            this.dispatchEvent(createScreenElementSelectedEvent(this.screenElement, this.property));
         }
 
         event.stopPropagation();
     }
 
     handleDelete = (event) => {
-        this.dispatchEvent(new ScreenElementDeletedEvent(this.screenElement, this.property));
+        this.dispatchEvent(createScreenElementDeletedEvent(this.screenElement, this.property));
         event.stopPropagation();
     }
 

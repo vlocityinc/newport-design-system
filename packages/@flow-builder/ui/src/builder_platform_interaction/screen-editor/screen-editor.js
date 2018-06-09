@@ -45,10 +45,9 @@ export default class ScreenEditor extends Element {
 
     handleSave = (/* event */) => {}
 
-    handleAddScreenField = (/* event */) => { // TODO Move to reducer
-        /*
-        addFieldToScreen(this.screen, event.detail.elementType);
-        */
+    handleAddScreenField = (event) => {
+        this.screen = screenReducer(this.screen, event);
+        this.setSelectedNode(this.screen);
     }
 
     handleDeleteScreenElement = (event) => {
