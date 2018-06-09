@@ -1,10 +1,8 @@
 import { Element, api } from 'engine';
 import { createScreenElementSelectedEvent, createScreenElementDeletedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { SELECTED_CLASS, DRAGGING_CLASS, CONTAINER_DIV_SELECTOR} from 'builder_platform_interaction-screen-editor-utils';
 
-const SELECTED_CLASS = 'selected';
-const DRAGGING_CLASS = 'dragging';
-const CONTAINER_DIV_SELECTOR = 'div.highlight';
 
 /*
  * Selection frame with a header and support for deleting components

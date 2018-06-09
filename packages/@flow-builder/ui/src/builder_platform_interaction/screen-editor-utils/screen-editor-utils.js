@@ -16,6 +16,9 @@ export const LIGHTNING_INPUT_VARIANTS = {
     STANDARD: 'standard',
     LABEL_HIDDEN: 'label-hidden'
 };
+export const SELECTED_CLASS = 'selected';
+export const DRAGGING_CLASS = 'dragging';
+export const CONTAINER_DIV_SELECTOR = 'div.highlight';
 
 export function isScreen(element) {
     return element && element.elementType && element.elementType === 'SCREEN';
