@@ -1,5 +1,4 @@
-ng-form,
-form {
+ng-form {
   display: inline-block;
   width: 100%;
   .ng-valid span.nds-required {
@@ -183,6 +182,7 @@ ul.nds-dropdown-list {
       width: 90%;
       .nds-modal__content {
         min-height: 27rem;
+        height: 27rem;
       }
       .nds-modal__header {
         border-bottom: unset;
@@ -505,6 +505,11 @@ button.nds-step__next-link[disabled] {
     position: absolute;
     #{$right}: 0;
     pointer-events: none;
+  }
+
+  svg.nds-icon[alt="edit"] {
+    pointer-events: initial;
+    cursor: pointer;
   }
 }
 
