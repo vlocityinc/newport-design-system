@@ -1,5 +1,5 @@
 import { Element, track, api } from 'engine';
-import { CRUD, invokePanel, PROPERTY_EDITOR } from 'builder_platform_interaction-builder-utils';
+import { invokePanel, PROPERTY_EDITOR } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { updateFlow, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
@@ -196,10 +196,10 @@ export default class Editor extends Element {
      *  @param {object} event - when add resource button is clicked.
      */
     handleAddResourceClick = (event) => {
-        if (event) {
-            const mode = CRUD.CREATE;
-            invokePanel(PROPERTY_EDITOR, {mode, modalType: 'RESOURCE', modalTitle: 'New Resource'});
-        }
+        const mode = event.type;
+
+        const nodeUpdate = this.deMutateAndAddNodeCollection;
+        invokePanel(PROPERTY_EDITOR, { mode, nodeUpdate });
     };
 
     /** *********** Canvas and Node Event Handling *************** **/

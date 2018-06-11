@@ -1,7 +1,7 @@
 // eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
 import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction-element-config';
-import { AddElementEvent, EditElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
+import { AddElementEvent, EditElementEvent, NewResourceEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 import { LABELS } from './builder-utils-labels';
 
 /**
@@ -85,6 +85,39 @@ const getTitleForModalHeader = (mode, elementType) => {
     }
 
     return titlePrefix + ' ' + label;
+};
+
+let newResourceConfig;
+
+const getNewResourceConfig = (attributes) => {
+    if (newResourceConfig) {
+        return newResourceConfig;
+    }
+    const nodeUpdate = attributes.nodeUpdate;
+    const descriptor = 'builder_platform_interaction-resource-editor';
+    const titleForModal = 'New Resource';
+
+    const attr = {
+        nodeUpdate,
+        override: {
+            descriptor,
+            attr: {
+                node: {},
+            },
+        },
+    };
+
+    const panelConfig = {
+        titleForModal,
+        flavor: MODAL_SIZE.MEDIUM,
+        bodyClass: undefined,
+    };
+
+    newResourceConfig = {
+        attr,
+        panelConfig,
+    };
+    return newResourceConfig;
 };
 
 /**
@@ -182,6 +215,9 @@ const getPropertyEditorConfig = (mode, attributes) => {
 const getEditorConfig = (mode, attributes) => {
     if (mode === CANVAS_EVENT.ADD_CONNECTION) {
         return getConnectorPickerConfig(mode, attributes);
+    }
+    if (mode === NewResourceEvent.EVENT_NAME) {
+        return getNewResourceConfig(attributes);
     }
 
     return getPropertyEditorConfig(mode, attributes);
