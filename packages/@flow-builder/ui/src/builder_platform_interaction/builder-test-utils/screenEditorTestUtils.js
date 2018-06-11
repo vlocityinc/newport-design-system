@@ -159,6 +159,7 @@ export function createTestScreen(name, screenFieldTypeNames = [], config = {}) {
         helpText: getStringValue(null, 'Screen 1 Help Text', hydrateValues),
         showFooter:booleanValue(config, 'showFooter', true),
         showHeader:booleanValue(config, 'showHeader', true),
+        pausedText: getStringValue(null, 'Screen 1 Paused Text', hydrateValues),
         guid:generateGuid(),
         processMetadataValues:[],
         rules:[],

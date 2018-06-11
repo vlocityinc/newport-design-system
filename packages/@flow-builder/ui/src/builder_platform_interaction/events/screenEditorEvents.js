@@ -77,7 +77,7 @@ export function createScreenElementSelectedEvent(screenElement, property) {
 /**
  * Creates an event to be fired when the user selects to display the screen property editor in the property editor container (the 'screen' link in the right panel)
  * Includes the screen field being deselected as 'screenElement'
- * @param {object} screenElement - The screen element, either a screen or a screen field
+ * @param {object} screenElement - The previously selected element
  * @returns {event} The event
  */
 export function createScreenNodeSelectedEvent(screenElement) {

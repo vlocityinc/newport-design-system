@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { Element, api, track } from 'engine';
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { isItemHydratedWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
@@ -17,7 +17,7 @@ export default class ScreenPropertyField extends Element {
     @api readOnly = false;
     @api helpText;
 
-    _value;
+    @track _value;
     labels = LABELS;
 
     @api get formats() {
@@ -31,7 +31,7 @@ export default class ScreenPropertyField extends Element {
     @api set value(newValue) {
         this._value = newValue;
         const input = this.input;
-        if (input) {
+        if (input && input.setCustomValidity) {
             input.setCustomValidity(this.error);
         }
     }
@@ -49,7 +49,11 @@ export default class ScreenPropertyField extends Element {
     }
 
     get propertyValue() {
-        return this.value ? this.value.value : null;
+        if (this.value) {
+            return this.value.value ? this.value.value : this.value;
+        }
+
+        return null;
     }
 
     get showLabel() {

@@ -28,4 +28,12 @@ export default class ScreenField extends Element {
         }
         return this.screenfield.isRequired;
     }
+
+    get name() {
+        return this.screenfield && this.screenfield.name ? this.screenfield.name.value : '';
+    }
+
+    get fieldText() {
+        return this.screenfield && this.screenfield.fieldText ? this.screenfield.fieldText.value : ' ';
+    }
 }

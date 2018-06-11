@@ -5,17 +5,25 @@ import { screenReducer } from './screen-reducer';
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 
-/*
+/**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
  */
 export default class ScreenEditor extends Element {
     @track screen;
     @track selectedNode;
 
+    /**
+     * Screen node getter
+     * @returns {object} The screen
+     */
     @api get node() {
         return this.screen;
     }
 
+    /**
+     * Screen node setter, sets the value and initializes the selectedNode
+     * @param {object} newValue - The new screen
+     */
     @api set node(newValue) {
         this.screen = newValue || {};
         this.setSelectedNode(this.screen);
@@ -39,31 +47,51 @@ export default class ScreenEditor extends Element {
         return getErrorsFromHydratedElement(this.screen);
     }
 
+    /**
+     * Returns the selected node in the editor (added for testing)
+     * @returns {object} - The selected node
+     */
+    @api getSelectedNode() {
+        return this.selectedNode;
+    }
+
+    /**
+     * Sets the selected node in the editor to the value provided
+     * @param {object} value - The new selected node
+     */
     setSelectedNode(value) {
         this.selectedNode = unwrap(value); // Unwrapping to get rid of the double proxy warning message (Property "selectedNode" is set to a non-trackable object...)
     }
 
-    handleSave = (/* event */) => {}
-
+    /**
+     * Handler for the add screen field event
+     * @param {event} event - The event
+     */
     handleAddScreenField = (event) => {
         this.screen = screenReducer(this.screen, event);
         this.setSelectedNode(this.screen);
     }
 
+    /**
+     * Handler for the delete screen element event. Deletes a screen field or sets the showHeader/showFooter elements to false
+     * @param {event} event - The event
+     */
     handleDeleteScreenElement = (event) => {
         const element = event.screenElement;
         if (element.guid === this.screen.guid) { // Delete footer or header
-            this.handlePropertyChanged(new PropertyChangedEvent(event.property, false, null, null, null, true));
+            this.handlePropertyChanged(new PropertyChangedEvent(event.property, false, null, null, true));
         } else {
             this.screen = screenReducer(this.screen, event);
             this.setSelectedNode(this.screen);
         }
     }
 
+    /**
+     * Handler for the property changed event
+     * @param {event} event - The event
+     */
     handlePropertyChanged = (event) => {
-        const screenElement = screenReducer(this.screen, event);
-
-        this.screen = screenElement;
+        this.screen = screenReducer(this.screen, event);
         if (isScreen(this.selectedNode)) {
             this.setSelectedNode(this.screen);
         } else {
@@ -71,6 +99,10 @@ export default class ScreenEditor extends Element {
         }
     }
 
+    /**
+     * Handler for the select screen element event
+     * @param {event} event - The event
+     */
     handleSelectScreenElement = (event) => {
         const elem = event.screenElement;
         if (elem && elem.guid !== this.screen.guid) {
@@ -80,10 +112,9 @@ export default class ScreenEditor extends Element {
         }
     }
 
-    handleEditScreen = (/* event */) => {
-        this.setSelectedNode(this.screen);
-    }
-
+    /**
+     * Handler for the deselect screen element event, sets the selected node to the screen and clears the selection in the canvas
+     */
     handleDeselectScreenElement = (/* event */) => {
         this.setSelectedNode(this.screen);
         this.template.querySelector('builder_platform_interaction-screen-editor-canvas').clearSelection();
@@ -91,7 +122,7 @@ export default class ScreenEditor extends Element {
 
     /**
      * Handles reordering a list of the screen fields
-     * @param {object} event - reorderListEvent
+     * @param {efvent} event - reorderListEvent
      */
     handleReorder(event) {
         this.screen = screenReducer(this.screen, event);

@@ -4,6 +4,12 @@ import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
 import { getScreenFieldTypeByName, createEmptyNodeOfType } from 'builder_platform_interaction-screen-editor-utils';
 
+/**
+ * Handles changes in properties in the screen.
+ * @param {object} state - The screen
+ * @param {event} event - The property changed event
+ * @returns {object} - A new screen with the changes applied
+ */
 const screenPropertyChanged = (state, event) => {
     let error = event.detail.error;
     const property = event.detail.propertyName;
@@ -20,6 +26,12 @@ const screenPropertyChanged = (state, event) => {
     return state;
 };
 
+/**
+ * Adds screen fields to a screen.
+ * @param {object} screen - The screen
+ * @param {event} event - The add screen field event
+ * @returns {object} - A new screen with the changes applied
+ */
 const addScreenField = (screen, event) => {
     const position = Number.isInteger(event.position) ? event.position : screen.fields.length;
     const typeName = event.typeName;
@@ -29,16 +41,28 @@ const addScreenField = (screen, event) => {
     return set(screen, 'fields', updatedItems);
 };
 
+/**
+ * Deletes screen fields to a screen.
+ * @param {object} screen - The screen
+ * @param {event} event - The delete screen field event
+ * @returns {object} - A new screen with the changes applied
+ */
 const deleteScreenField = (screen, event) => {
     const updatedItems = deleteItem(screen.fields, screen.getFieldIndex(event.screenElement));
     return set(screen, 'fields', updatedItems);
 };
 
-export const reorderFields = (state, event) => {
-    let fields = state.fields;
+/**
+ * Rearranges fields in a screen.
+ * @param {object} screen - The screen
+ * @param {event} event - The add screen field event
+ * @returns {object} - A new screen with the changes applied
+ */
+const reorderFields = (screen, event) => {
+    let fields = screen.fields;
 
-    const destinationIndex = state.getFieldIndexByGUID(event.detail.destinationGuid);
-    const movedField = state.getFieldByGUID(event.detail.sourceGuid);
+    const destinationIndex = screen.getFieldIndexByGUID(event.detail.destinationGuid);
+    const movedField = screen.getFieldByGUID(event.detail.sourceGuid);
 
     if (destinationIndex >= 0 && movedField) {
         fields = fields.filter((field) => {
@@ -46,13 +70,13 @@ export const reorderFields = (state, event) => {
         });
         fields.splice(destinationIndex, 0, movedField);
     }
-    return updateProperties(state, {fields});
+    return updateProperties(screen, {fields});
 };
 
 /**
- * screen reducer function runs validation rules and returns back the updated screen element
- * @param {object} state - element / assignment node
- * @param {object} event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
+ * Screen reducer function, performs changes and validation on a screen and returns the updated (new) screen element
+ * @param {object} state - element / screen node
+ * @param {object} event - event to process
  * @returns {object} screen - the updated screen
  */
 export const screenReducer = (state, event) => {

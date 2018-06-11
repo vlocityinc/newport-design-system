@@ -5,18 +5,18 @@
         </builder_platform_interaction-screen-extension-field>
         <builder_platform_interaction-screen-input-field if:true={isInputFieldType} 
                                                          type-name={screenfield.type.name} 
-                                                         label={screenfield.fieldText.value}
+                                                         label={fieldText}
                                                          value={screenfield.defaultValue}
                                                          help-text={screenfield.helpText}
                                                          required={isRequired}>
         </builder_platform_interaction-screen-input-field>
         <builder_platform_interaction-screen-display-text-field if:true={isDisplayTextType}
                                                                 type-name={screenfield.type.name}
-                                                                title={screenfield.name.value}
-                                                                value={screenfield.fieldText.value}>
+                                                                title={name}
+                                                                value={fieldText}>
         </builder_platform_interaction-screen-display-text-field>
         <builder_platform_interaction-screen-textarea-field if:true={isTextAreaType}
-                                                            label={screenfield.fieldText.value}
+                                                            label={fieldText}
                                                             value={screenfield.defaultValue}
                                                             help-text={screenfield.helpText}
                                                             required={screenfield.isRequired}>
