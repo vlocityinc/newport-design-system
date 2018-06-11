@@ -93,7 +93,7 @@ export default class ExpressionBuilder extends Element {
 
         if (expression[LHS].value && expression[OPERATOR]) {
             const rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, expression[OPERATOR].value, rules);
-            this._fullRHSMenuData = getElementsForMenuData({elementType}, rhsTypes, true);
+            this._fullRHSMenuData = getElementsForMenuData({elementType}, rhsTypes, true, true);
             this.state.rhsMenuData = this._fullRHSMenuData;
         }
 

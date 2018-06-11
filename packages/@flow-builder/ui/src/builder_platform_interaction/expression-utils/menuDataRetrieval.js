@@ -5,8 +5,11 @@ import { Store } from 'builder_platform_interaction-store-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import * as sobjectLib from 'builder_platform_interaction-sobject-lib';
 import newResourceLabel from '@label/FlowBuilderExpressionUtils.newResourceLabel';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
+
+const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
 
 const COMBOBOX_ITEM_DISPLAY_TYPE = {
     OPTION_CARD: 'option-card',
@@ -71,7 +74,7 @@ const createMenuItem = (type, text, subtext, displayText, iconName, value) => {
  * @returns {String} the full category label for this element
  */
 function getCategory(elementType, dataType, isCollection) {
-    return (dataType === 'SObject' ? 'SObject ' : '') +
+    return (dataType === SObjectType ? 'SObject ' : '') +
         (isCollection ? 'Collection ' : '') +
         elementType;
 }
@@ -87,7 +90,7 @@ function getCategory(elementType, dataType, isCollection) {
  */
 function getSubText(dataType, objectType, label) {
     let subText;
-    if (dataType === 'SObject') {
+    if (dataType === SObjectType) {
         subText = objectType;
     } else if (label) {
         subText = label;
@@ -174,12 +177,14 @@ export { RESOURCE_PICKER_MODE };
  *
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes        map from dataTypes/elementTypes to rule params which specificy those data or element types
  * @param {Object} element                  object with the necessary specifications to be compared to rule params (usually flow element, but a "fake" one can be built for fields, etc)
+ * @param {boolean} allowSObjectForFields   true if sObject's should be included, as a way for users to get to sObject fields
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
-export function isElementAllowed(allowedParamTypes, element) {
+export function isElementAllowed(allowedParamTypes, element, allowSObjectForFields) {
     return !allowedParamTypes || (allowedParamTypes.hasOwnProperty(element.dataType) && elementMatchesRule(allowedParamTypes[element.dataType], element))
         || (allowedParamTypes.hasOwnProperty(element.elementType) && elementMatchesRule(allowedParamTypes[element.elementType], element))
-        || (allowedParamTypes.hasOwnProperty(element.objectType) && elementMatchesRule(allowedParamTypes[element.objectType], element));
+        || (allowedParamTypes.hasOwnProperty(element.objectType) && elementMatchesRule(allowedParamTypes[element.objectType], element))
+        || (allowSObjectForFields && element.dataType === SObjectType);
 }
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
@@ -324,15 +329,16 @@ function getSelector({elementType, shouldBeWritable}) {
  * @param {Object} elementConfig        {element, shouldBeWritable} element is the element type this expression builder is inside, shouldBeWritable is so property editors can specify the data they need
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
  * @param {boolean} includeNewResource  if true, include new resource as first menu item
+ * @param {boolean} allowSObjectForFields   true if sObjects should be included, to allow users to access sObject fields
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
-export function getElementsForMenuData(elementConfig, allowedParamTypes, includeNewResource) {
+export function getElementsForMenuData(elementConfig, allowedParamTypes, includeNewResource, allowSObjectForFields) {
     const state = Store.getStore().getCurrentState();
 
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
     // TODO: if this function ever deals with server calls, we need to memoize it, because it gets called everytime the component rerenders
     const menuData = getSelector(elementConfig)(state)
-        .filter(element => isElementAllowed(allowedParamTypes, element))
+        .filter(element => isElementAllowed(allowedParamTypes, element, allowSObjectForFields))
         .map(element => {
             return mutateFlowElementsToComboboxShape(element);
         })
@@ -401,7 +407,7 @@ function mutateFlowElementsToComboboxShape(element) {
     newElement.subText = getSubText(element.dataType, element.objectType, element.label);
     newElement.value = element.guid;
     newElement.displayText = '{!' + element.name + '}';
-    newElement.hasNext = element.dataType === 'SObject' && !element.isCollection;
+    newElement.hasNext = element.dataType === SObjectType && !element.isCollection;
     // TODO: remove upper case-ing once we're using labels for categories W-4813532
     newElement.category = getCategory(element.elementType, element.dataType, element.isCollection).toUpperCase();
     // TODO: fetch icon
