@@ -87,12 +87,14 @@ export default class DataTypePicker extends Element {
         if (newScale < SCALE_RANGE.min) {
             newScale = SCALE_RANGE.min;
         }
-        this.state.scale = newScale;
         event.target.value = newScale;
         if (!event.target.valid) {
             event.target.reportValidity();
         }
-        this.dispatchValueChangedEvent();
+        if (newScale !== this.state.scale) {
+            this.state.scale = newScale;
+            this.dispatchValueChangedEvent();
+        }
     }
 
     handleScaleChanged(event) {

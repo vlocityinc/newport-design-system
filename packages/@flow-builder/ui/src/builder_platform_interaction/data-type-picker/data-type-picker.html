@@ -14,7 +14,7 @@
                 >
             </lightning-combobox>
             <lightning-input if:true={allowCollection}
-                class="slds-form-element slds-col slds-grow slds-size_1-of-2 slds-align-middle"
+                class="slds-form-element slds-col slds-grow slds-size_1-of-2 slds-align-middle collection"
                 label={labels.collectionLabel}
                 type="checkbox"
                 checked={state.isCollection}
@@ -25,7 +25,7 @@
             </lightning-input>
         </div>
         <lightning-input if:true={showScale}
-            class="slds-form-element"
+            class="slds-form-element scale"
             type="number" min={scaleRange.min} max={scaleRange.max} label={labels.scaleLabel}
             onblur={handleScaleBlur}
             onchange={handleScaleChanged}
