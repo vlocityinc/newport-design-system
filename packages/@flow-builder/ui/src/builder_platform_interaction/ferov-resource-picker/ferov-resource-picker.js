@@ -106,7 +106,7 @@ export default class FerovResourcePicker extends Element {
             const paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
             this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType }, paramTypes, this.showNewResource);
         } else {
-            this._menuData = getElementsForMenuData(this.elementConfig, {}, this.showNewResource);
+            this._menuData = getElementsForMenuData(this.elementConfig, null, this.showNewResource);
         }
         this._baseResourcePicker.setMenuData(this._menuData);
     }

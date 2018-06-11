@@ -87,7 +87,7 @@ describe('ferov-resource-picker', () => {
             expect(getRulesForContext).not.toHaveBeenCalled();
             expect(getRHSTypes).not.toHaveBeenCalled();
             expect(getElementsForMenuData).toHaveBeenCalledTimes(1);
-            expect(getElementsForMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, {}, false);
+            expect(getElementsForMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, null, false);
         });
     });
 
