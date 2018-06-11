@@ -8,7 +8,8 @@ const SELECTORS = {
     DIV: 'div',
     LINK: 'a',
     LIST_ITEM: 'li',
-    FIRST_LIST_ITEM: '#item1'
+    FIRST_LIST_ITEM: '#item1',
+    VERTICAL_TAB_NAV_ITEM: '.slds-vertical-tabs__nav-item'
 };
 
 const initialMenu = [
@@ -76,7 +77,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const firstMenuItem = element.querySelector(SELECTORS.FIRST_LIST_ITEM);
+            const firstMenuItem = element.querySelector(SELECTORS.VERTICAL_TAB_NAV_ITEM).shadowRoot.querySelector(SELECTORS.FIRST_LIST_ITEM);
 
             const eventCallback = jest.fn();
             element.addEventListener('itemselected', eventCallback);

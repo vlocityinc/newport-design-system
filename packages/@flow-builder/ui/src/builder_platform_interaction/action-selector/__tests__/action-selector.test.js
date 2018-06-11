@@ -45,9 +45,9 @@ describe('Action selector', () => {
     let interactionCombobox;
     beforeEach(() => {
         actionSelectorComponent = createComponentUnderTest();
-        lightningCombobox = actionSelectorComponent.querySelector(selectors.lightningCombobox);
-        groupedCombobox = actionSelectorComponent.querySelector(selectors.lightningGroupedCombobox);
-        interactionCombobox = actionSelectorComponent.querySelector(selectors.lightningInteractionCombobox);
+        lightningCombobox = actionSelectorComponent.shadowRoot.querySelector(selectors.lightningCombobox);
+        interactionCombobox = actionSelectorComponent.shadowRoot.querySelector(selectors.lightningInteractionCombobox);
+        groupedCombobox = interactionCombobox.shadowRoot.querySelector(selectors.lightningGroupedCombobox);
     });
     it('does not display action types without action instances', () => {
         // No elements for "Email Alert"

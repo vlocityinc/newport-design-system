@@ -116,7 +116,7 @@ describe('variable-editor', () => {
         it('gives flow data type menu items to the data type combobox', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
-                const dataTypePicker = variableEditor.querySelector('lightning-combobox');
+                const dataTypePicker = variableEditor.querySelector('builder_platform_interaction-data-type-picker').shadowRoot.querySelector('lightning-combobox');
                 expect(dataTypePicker.options).toHaveLength(9);
             });
         });

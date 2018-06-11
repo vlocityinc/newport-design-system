@@ -44,7 +44,8 @@ describe('left-panel', () => {
 
         const guid = 'TEST_1';
         const editButtonClickedEvent = new EditElementEvent(guid);
-        leftPanelComponent.querySelector('lightning-button').dispatchEvent(editButtonClickedEvent);
+        const button = leftPanelComponent.querySelector('builder_platform_interaction-left-panel-resources').shadowRoot.querySelector('lightning-button');
+        button.dispatchEvent(editButtonClickedEvent);
         return Promise.resolve().then(() => {
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
