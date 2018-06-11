@@ -5,6 +5,7 @@
                 value={state.normalizedLHS.item}
                 onfetchmenudata={handleFetchLHSMenuData}
                 oncomboboxvaluechanged={handleLHSValueChanged}
+                onitemselected={handleLHSValueChanged}
                 onfiltermatches={handleFilterLHSMatches}
                 menu-data={lhsMenuData}
                 error-message={state.expression.leftHandSide.error}

@@ -304,6 +304,7 @@ describe('expression-builder', () => {
         });
     });
     describe('disabling the operator and RHS field', () => {
+        // TODO: tests for operator/RHS being enabled onItemSelected and onFilterMatches
         it('should be disabled when the expression is initialized', () => {
             const expressionBuilder = createComponentForTest({
                 expression: createBlankExpression(),
