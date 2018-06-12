@@ -94,7 +94,10 @@ function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outc
             }
         }
     } else {
+        // For a new decision, all the outcomes are new outcomes,
+        // Also, the default connector always exists so add to the list of available connections
         newOutcomeGuids = outcomes.map(outcome => outcome.guid);
+        availableConnections.push({ type: CONNECTOR_TYPE.DEFAULT });
     }
     for (let i = 0; i < newOutcomeGuids.length; i++) {
         availableConnections.push({
@@ -104,7 +107,7 @@ function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outc
     }
 
     const deletedOutcomeGuids = [];
-    let connectorCount = newState[decision.guid].connectorCount;
+    let connectorCount = newState[decision.guid].connectorCount || 0;
     for (const outcome of deletedOutcomes) {
         let availableConnectionExists = false;
         for (let i = 0; i < availableConnections.length; i++) {

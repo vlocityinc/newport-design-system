@@ -8,6 +8,8 @@ import {
     CONNECTOR_TYPE
 } from 'builder_platform_interaction-connector-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
+import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.endOfLoopConnectorLabel';
 
 jest.mock('builder_platform_interaction-store-lib', () => {
     return {
@@ -186,7 +188,7 @@ describe('Connector Utils', () => {
                 source: 'guid1',
                 childSource: null,
                 target: 'targetRef',
-                label: CONNECTOR_TYPE.FAULT,
+                label: faultConnectorLabel,
                 type: CONNECTOR_TYPE.FAULT
             };
 
@@ -214,6 +216,42 @@ describe('Connector Utils', () => {
             expect(node.defaultConnector).toBeUndefined();
         });
 
+        it('For a loop node with next value connector', () => {
+            const node = {
+                guid: 'guid1',
+                nextValueConnector: { targetReference: 'targetRef' }
+            };
+            const expectedConnectorObject = {
+                source: 'guid1',
+                childSource: null,
+                target: 'targetRef',
+                label: null,
+                type: CONNECTOR_TYPE.LOOP_NEXT
+            };
+
+            const connectorObject = createConnectorObjects(node)[0];
+            expect(connectorObject).toMatchObject(expectedConnectorObject);
+            expect(node.nextValueConnector).toBeUndefined();
+        });
+
+        it('For a loop node with no more values connector', () => {
+            const node = {
+                guid: 'guid1',
+                noMoreValuesConnector: { targetReference: 'targetRef' }
+            };
+            const expectedConnectorObject = {
+                source: 'guid1',
+                childSource: null,
+                target: 'targetRef',
+                label: loopEndConnectorLabel,
+                type: CONNECTOR_TYPE.LOOP_END
+            };
+
+            const connectorObject = createConnectorObjects(node)[0];
+            expect(connectorObject).toMatchObject(expectedConnectorObject);
+            expect(node.noMoreValuesConnector).toBeUndefined();
+        });
+
         it('For a node with connectors of different types', () => {
             const node = {
                 guid: 'guid1',
@@ -232,7 +270,7 @@ describe('Connector Utils', () => {
                 source: 'guid1',
                 childSource: null,
                 target: 'targetRef2',
-                label: CONNECTOR_TYPE.FAULT,
+                label: faultConnectorLabel,
                 type: CONNECTOR_TYPE.FAULT
             };
 
@@ -376,6 +414,42 @@ describe('Connector Utils', () => {
             setConnectorsOnElements([connectorObject], elements);
 
             expect(elements.guid1.connector).toEqual({
+                targetReference: 'targetRef'
+            });
+        });
+
+        it('For a loop node with next value connector', () => {
+            const elements = {
+                guid1: {}
+            };
+            const connectorObject = {
+                source: 'guid1',
+                childSource: null,
+                target: 'targetRef',
+                type: CONNECTOR_TYPE.LOOP_NEXT
+            };
+
+            setConnectorsOnElements([connectorObject], elements);
+
+            expect(elements.guid1.nextValueConnector).toEqual({
+                targetReference: 'targetRef'
+            });
+        });
+
+        it('For a loop node with no more values connector', () => {
+            const elements = {
+                guid1: {}
+            };
+            const connectorObject = {
+                source: 'guid1',
+                childSource: null,
+                target: 'targetRef',
+                type: CONNECTOR_TYPE.LOOP_END
+            };
+
+            setConnectorsOnElements([connectorObject], elements);
+
+            expect(elements.guid1.noMoreValuesConnector).toEqual({
                 targetReference: 'targetRef'
             });
         });

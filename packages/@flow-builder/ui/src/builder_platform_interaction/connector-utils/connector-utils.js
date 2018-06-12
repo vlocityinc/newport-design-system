@@ -2,6 +2,8 @@ import { getConfigForElementType } from 'builder_platform_interaction-element-co
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import startElementLabel from '@label/FlowBuilderCanvas.startElementLabel';
+import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
+import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.endOfLoopConnectorLabel';
 
 export const CONNECTOR_TYPE = {
     REGULAR: 'REGULAR',
@@ -195,13 +197,39 @@ export const createConnectorObjects = (node, parentId) => {
         delete node.connectors;
     }
 
+    // Create next value connector (if the current node is of type loop)
+    if (node.nextValueConnector && node.nextValueConnector.targetReference) {
+        const nextValueConnector = createConnectorObject(
+            node.guid,
+            null,
+            node.nextValueConnector.targetReference,
+            null,
+            CONNECTOR_TYPE.LOOP_NEXT
+        );
+        connectors.push(nextValueConnector);
+        delete node.nextValueConnector;
+    }
+
+    // Create no more values aka end of loop connector (if the current node is of type loop)
+    if (node.noMoreValuesConnector && node.noMoreValuesConnector.targetReference) {
+        const noMoreValuesConnector = createConnectorObject(
+            node.guid,
+            null,
+            node.noMoreValuesConnector.targetReference,
+            loopEndConnectorLabel,
+            CONNECTOR_TYPE.LOOP_END
+        );
+        connectors.push(noMoreValuesConnector);
+        delete node.noMoreValuesConnector;
+    }
+
     // Create fault connector if one exists
     if (node.faultConnector && node.faultConnector.targetReference) {
         const faultConnector = createConnectorObject(
             node.guid,
             null,
             node.faultConnector.targetReference,
-            CONNECTOR_TYPE.FAULT,
+            faultConnectorLabel,
             CONNECTOR_TYPE.FAULT
         );
         connectors.push(faultConnector);
@@ -220,8 +248,6 @@ export const createConnectorObjects = (node, parentId) => {
         connectors.push(defaultConnector);
         delete node.defaultConnector;
     }
-
-    // TODO: Add logic for connectors on the Loop element once we have final UI designs
 
     return connectors;
 };
@@ -309,6 +335,16 @@ export const setConnectorsOnElements = (connectors, elements) => {
                 break;
             }
 
+            case CONNECTOR_TYPE.LOOP_NEXT: {
+                element.nextValueConnector = { targetReference: connector.target };
+                break;
+            }
+
+            case CONNECTOR_TYPE.LOOP_END: {
+                element.noMoreValuesConnector = { targetReference: connector.target };
+                break;
+            }
+
             case CONNECTOR_TYPE.FAULT: {
                 element.faultConnector = { targetReference: connector.target };
                 break;
@@ -330,8 +366,6 @@ export const setConnectorsOnElements = (connectors, elements) => {
             default:
                 break;
         }
-
-        // TODO: Add logic for connectors on the Loop element once we have final UI designs
     });
 
     return startElementId;

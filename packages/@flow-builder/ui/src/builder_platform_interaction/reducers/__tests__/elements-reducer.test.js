@@ -240,6 +240,41 @@ describe('elements-reducer', () => {
             expect(newDecision.label).toEqual(updatedDecision.label);
         });
 
+        it('adds a new decision element', () => {
+            const newDecision = {
+                guid: 'newDecisionGuid',
+                label: 'newLabel'
+            };
+
+            const newOutcome = {
+                guid: 'outcome2',
+                label: 'outcome2Label'
+            };
+
+            const newState = elementReducer(originalState, {
+                type: MODIFY_DECISION_WITH_OUTCOMES,
+                payload: {
+                    decision: newDecision,
+                    outcomes: [newOutcome],
+                    deletedOutcomes: [],
+                }
+            });
+
+            const addedDecision = newState[newDecision.guid];
+
+            expect(addedDecision.guid).toEqual(newDecision.guid);
+            expect(addedDecision.label).toEqual(newDecision.label);
+
+            const expectedAvailableConnections = [
+                {type: CONNECTOR_TYPE.REGULAR, childReference: newOutcome.guid},
+                {type: CONNECTOR_TYPE.DEFAULT}];
+            expect(addedDecision.availableConnections).toHaveLength(2);
+            expect(addedDecision.availableConnections).toContainEqual(expectedAvailableConnections[0]);
+            expect(addedDecision.availableConnections).toContainEqual(expectedAvailableConnections[1]);
+            expect(addedDecision.connectorCount).toEqual(0);
+            expect(addedDecision.maxConnections).toEqual(2);
+        });
+
         it('updates outcomes', () => {
             const updatedOutcome = {
                 guid: outcome.guid,
@@ -284,6 +319,7 @@ describe('elements-reducer', () => {
             const newDecision = newState[decision.guid];
 
             expect(newOutcome).toEqual(outcome2);
+            expect(newDecision.maxConnections).toEqual(3);
             expect(newDecision.availableConnections).toEqual([{type: CONNECTOR_TYPE.REGULAR, childReference: newOutcome.guid}]);
         });
 

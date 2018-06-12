@@ -13,6 +13,7 @@ import { reducer } from "builder_platform_interaction-reducers";
 import { setRules } from "builder_platform_interaction-rule-lib";
 import { setEntities } from 'builder_platform_interaction-sobject-lib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
+import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
 
 import spinnerAlternativeText from '@label/FlowBuilderEditor.spinnerAlternativeText';
 
@@ -373,7 +374,7 @@ export default class Editor extends Element {
             label = sourceElement.defaultConnectorLabel;
             value = availableConnectionType;
         } else if (availableConnectionType === CONNECTOR_TYPE.FAULT) {
-            label = CONNECTOR_TYPE.FAULT;
+            label = faultConnectorLabel;
             value = availableConnectionType;
         }
 
@@ -403,7 +404,7 @@ export default class Editor extends Element {
             label = elements[source].defaultConnectorLabel;
         } else if (valueFromCombobox === CONNECTOR_TYPE.FAULT) {
             type = CONNECTOR_TYPE.FAULT;
-            label = CONNECTOR_TYPE.FAULT;
+            label = faultConnectorLabel;
         } else {
             type = CONNECTOR_TYPE.REGULAR;
             label = elements[valueFromCombobox].label;
