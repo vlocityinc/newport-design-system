@@ -9,17 +9,10 @@ const SELECTORS = {
 export default class FerovResourcePicker extends Element {
     /**
      * The value item to set on combobox.
-     * @type {module:expression-utils.MenuItem}
+     * @type {module:expression-utils.MenuItem|String}
      */
     @api
     value;
-
-    /**
-     * The literal value to set on combobox. value takes precendence.
-     * @type {String}
-     */
-    @api
-    displayText;
 
     /**
      * Flow combobox config

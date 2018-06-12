@@ -75,7 +75,6 @@ describe('Action selector', () => {
             lightningCombobox.dispatchEvent(lightningCBChangeEventForApex);
             return Promise.resolve().then(() => {
                 expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_CALL);
-                expect(groupedCombobox.items.map(item => item.text)).toEqual(['Apex1', 'Apex2', 'Apex3']);
             });
         });
         it('should update the Action combobox placeholder', () => {
@@ -83,7 +82,6 @@ describe('Action selector', () => {
             lightningCombobox.dispatchEvent(lightningCBChangeEventForApex);
             return Promise.resolve().then(() => {
                 expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_CALL);
-                expect(groupedCombobox.placeholder).toBe('FlowBuilderActionCallEditor.apexComboboxPlaceholder');
             });
         });
         it('should update the combobox label', () => {
@@ -101,11 +99,11 @@ describe('Action selector', () => {
                 elementType : ELEMENT_TYPE.ACTION_CALL
             };
             await Promise.resolve();
-            expect(interactionCombobox.displayText).toBe('emailSimple-emailSimple');
+            expect(interactionCombobox.value.displayText).toBe('emailSimple-emailSimple');
             lightningCombobox.dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_CALL}}));
             await Promise.resolve();
             expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_CALL);
-            expect(interactionCombobox.displayText).toBe('');
+            expect(interactionCombobox.value).toBe('');
         });
     });
     describe('When an action is selected', () => {
@@ -133,7 +131,7 @@ describe('Action selector', () => {
             expect(lightningCombobox.value).toBe(ELEMENT_TYPE.APEX_PLUGIN_CALL);
         });
         it('should display no value in the Action combobox', () => {
-            expect(interactionCombobox.displayText).toBe('');
+            expect(interactionCombobox.value).toBe('');
         });
     });
     describe('When selecting an action using the api', () => {
@@ -149,7 +147,7 @@ describe('Action selector', () => {
         });
         it('should display the corresponding action label in the Action combobox', () => {
             // TODO : fix once we display the label
-            expect(interactionCombobox.displayText).toBe('emailSimple-emailSimple');
+            expect(interactionCombobox.value.displayText).toBe('emailSimple-emailSimple');
         });
     });
 });

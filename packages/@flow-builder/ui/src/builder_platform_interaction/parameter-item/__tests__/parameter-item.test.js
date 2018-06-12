@@ -74,15 +74,15 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
 });
 
 function getBuilderComboboxElement(parameterItem) {
-    return parameterItem.querySelector("builder_platform_interaction-combobox");
+    return parameterItem.shadowRoot.querySelector("builder_platform_interaction-combobox");
 }
 
 function getHiddenBuilderComboboxElement(parameterItem) {
-    return parameterItem.querySelector("builder_platform_interaction-combobox.slds-hide");
+    return parameterItem.shadowRoot.querySelector("builder_platform_interaction-combobox.slds-hide");
 }
 
 function getLightningInputToggle(parameterItem) {
-    return parameterItem.querySelector("lightning-input");
+    return parameterItem.shadowRoot.querySelector("lightning-input");
 }
 
 describe('parameter-item', () => {
@@ -100,7 +100,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox should be empty', () => {
-                expect(builderCombobox.displayText).toEqual('');
+                expect(builderCombobox.value).toEqual('');
             });
             it('combobox should be required', () => {
                 expect(builderCombobox.required).toBe(true);
@@ -129,7 +129,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox value should be equal to Test', () => {
-                expect(builderCombobox.displayText).toEqual(paramValue);
+                expect(builderCombobox.value).toEqual(paramValue);
             });
             it('combobox should be required', () => {
                 expect(builderCombobox.required).toBe(true);
@@ -177,7 +177,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox value should be equal to Test', () => {
-                expect(builderCombobox.displayText).toEqual(paramValue);
+                expect(builderCombobox.value).toEqual(paramValue);
             });
             it('combobox should not be required', () => {
                 expect(builderCombobox.required).toBe(false);
@@ -205,7 +205,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox value should be empty', () => {
-                expect(builderCombobox.displayText).toHaveLength(0);
+                expect(builderCombobox.value).toHaveLength(0);
             });
             it('combobox should not be required', () => {
                 expect(builderCombobox.required).toBe(false);
@@ -230,7 +230,7 @@ describe('parameter-item', () => {
                 expect(builderCombobox).not.toBeNull();
             });
             it('combobox value should be equal to stringCollectionVariable1DevName', () => {
-                expect(builderCombobox.displayText).toEqual(`{!${stringCollectionVariable1DevName}}`);
+                expect(builderCombobox.value.displayText).toEqual(`{!${stringCollectionVariable1DevName}}`);
             });
             it('combobox should not be required', () => {
                 expect(builderCombobox.required).toBe(false);
@@ -290,7 +290,7 @@ describe('parameter-item', () => {
             toggleInput.dispatchEvent(new ToggleOnChangeEvent());
             const combobox = getBuilderComboboxElement(parameterItemCmp);
             expect(combobox).not.toBeNull();
-            expect(combobox.displayText).toEqual(paramValue);
+            expect(combobox.value).toEqual(paramValue);
             done();
         });
         it("should fire 'UpdateParameterItemEvent'", done => {

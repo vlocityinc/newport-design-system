@@ -22,3 +22,12 @@ export const formatDate = (dateValue, isDateTime) => {
     }
     return datePart;
 };
+
+/**
+ * Determines if item is an object
+ * @param {*} item The item in question of being an object
+ * @returns {Boolean} Whether item is an object or not
+ */
+export const isObject = (item) => {
+    return (typeof item === 'object' && !Array.isArray(item) && !isUndefinedOrNull(item));
+};

@@ -1,5 +1,6 @@
 import { Element, api, track } from 'engine';
 import { getEntitiesMenuData } from 'builder_platform_interaction-expression-utils';
+import { isObject } from 'builder_platform_interaction-common-utils';
 
 const resourcePickerSelector = 'builder_platform_interaction-base-resource-picker';
 /**
@@ -85,32 +86,16 @@ export default class EntityResourcePicker extends Element {
 
     /**
      * The combobox item that represents the value selected
-     * Use this when you have a combobox menu item
-     * @param {module:base-resource-picker.item} item the new item
+     * @param {module:base-resource-picker.item|String} itemOrDisplayText the new item
      */
     @api
-    set value(item) {
-        this.state.item = item;
+    set value(itemOrDisplayText) {
+        this.state.itemOrDisplayText = itemOrDisplayText;
     }
 
     @api
     get value() {
-        return this.state.item;
-    }
-
-    /**
-     * Set the display text
-     * Use this when you only have a literal/text to display
-     * @param {String} displayText the new display text
-     */
-    @api
-    set displayText(displayText) {
-        this.state.displayText = displayText;
-    }
-
-    @api
-    get displayText() {
-        return this.state.displayText;
+        return this.state.itemOrDisplayText;
     }
 
     renderedCallback() {
@@ -121,9 +106,9 @@ export default class EntityResourcePicker extends Element {
             // when loading the entity resource picker for the first time, we only get the api value (displayText) not the item
             // to dislay the correct label we need to query for the matching menu item
             // this may go away if combobox eventually does this work
-            if (!this.value && this.displayText) {
-                const foundValue = this._fullEntityMenuData.find((item => item.value === this.displayText));
-                this.state.item = foundValue;
+            if (!isObject(this.value)) {
+                const foundValue = this._fullEntityMenuData.find((item => item.displayText === this.value));
+                this.state.itemOrDisplayText = foundValue;
             }
         }
     }

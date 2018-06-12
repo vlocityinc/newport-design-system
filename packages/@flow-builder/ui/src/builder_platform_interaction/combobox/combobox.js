@@ -1,9 +1,10 @@
-import { Element, api, track } from 'engine';
+import { Element, api, track, unwrap } from 'engine';
 import { parseDateTime } from 'builder_platform_interaction-date-time-utils';
 import { FetchMenuDataEvent, ComboboxValueChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expression-utils';
-import { isUndefinedOrNull, formatDate } from 'builder_platform_interaction-common-utils';
+import { isUndefinedOrNull, formatDate, isObject } from 'builder_platform_interaction-common-utils';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 import { LABELS } from './combobox-labels';
 
 const SELECTORS = {
@@ -56,8 +57,8 @@ export default class Combobox extends Element {
      */
     @api
     set label(value) {
-        if (!value || value === '') {
-            this._comboboxVariant = 'label-hidden';
+        if (!value) {
+            this._comboboxVariant = LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN;
         } else {
             this._comboboxLabel = value;
         }
@@ -66,6 +67,25 @@ export default class Combobox extends Element {
     @api
     get label() {
         return this._comboboxLabel;
+    }
+
+    /**
+     * Variant type for grouped-combobox
+     * Must be from the LIGHTNING_INPUT_VARIANTS const
+     * @param {String} value The variant type to set
+     */
+    @api
+    set variant(value) {
+        if (LIGHTNING_INPUT_VARIANTS[value]) {
+            this._comboboxVariant = value;
+        } else {
+            throw new Error(`Variant must either be '${LIGHTNING_INPUT_VARIANTS.STANDARD}' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`);
+        }
+    }
+
+    @api
+    get variant() {
+        return this._comboboxVariant;
     }
 
     /**
@@ -89,85 +109,69 @@ export default class Combobox extends Element {
     }
 
     /**
-     * An object that represents the value to set on combobox
-     * @typedef {Object} item
-     * @property {String} displayText   the value displayed in the input field when this menu item is selected
-     * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
+     * If passing in a MenuItem, it must have a value and displayText.
+     * If the item is the second level, then parent must also be passed in.
      */
 
     /**
      * Input value for the combobox.
      * Combobox expects and returns date time value in 'MM/DD/YYYY HH:mm:ss TZD' format.
      * Note: Date time format is under discussion and might change.
-     * @param {Object} item - The value of the combobox
+     * @param {menuDataRetrieval.MenuItem|String} itemOrDisplayText - The value of the combobox
      */
     @api
-    set value(item) {
-        // item should have displayText
-        if (item && !isUndefinedOrNull(item.displayText)) {
-            this._item = item;
-            this._lastRecordedItem = item;
-            const displayText = this.getStringValue(item.displayText);
-            this.state.displayText = displayText;
-            this._lastRecordedDisplayText = displayText;
-            this.updateInputIcon();
-            this.setMergeFieldState();
+    set value(itemOrDisplayText) {
+        let displayText;
+        if (isObject(itemOrDisplayText)) {
+            if (itemOrDisplayText.value) {
+                const item = unwrap(itemOrDisplayText);
+                displayText = item.displayText = this.getStringValue(item.displayText);
+                this._item = this._lastRecordedItem = item;
+                // set the base value to parent for fetching previous level
+                if (itemOrDisplayText.parent) {
+                    this._base = itemOrDisplayText.parent.displayText;
+                }
+            } else {
+                throw new Error('Setting an item on Flow Combobox without a value property!');
+            }
         } else {
-            // Set to empty string
-            this.state.displayText = '';
-            this._lastRecordedDisplayText = '';
+            this._item = null;
+            this._lastRecordedItem = null;
+            displayText = this.getStringValue(unwrap(itemOrDisplayText));
         }
+        this.state.displayText = displayText;
+        this._lastRecordedDisplayText = displayText;
+        this.updateInputIcon();
+        this.setMergeFieldState();
     }
 
+    /**
+     * Returns the Menu Item associated with the combobox value or the literal string value if no item has been selected
+     * @returns {menuDataRetrieval.MenuItem|String} the current value of the combobox
+     */
     @api
     get value() {
-        return this._item;
+        return this._item ? this._item : this.state.displayText;
     }
 
     /**
-     * Use this when there is not item associated but need to populate the combobox with a literal
-     * @param {String} text The text to set
-     */
-    @api
-    set displayText(text) {
-        // If item is already set, that has precedence over setting displayText
-        // displayText should only be set in the case of literals
-        if (this._item) {
-            // do nothing
-        } else if (!isUndefinedOrNull(text)) {
-            const displayText = this.getStringValue(text);
-            this.state.displayText = displayText;
-            this._lastRecordedDisplayText = displayText;
-            this.updateInputIcon();
-            this.setMergeFieldState();
-        } else {
-            // Set to empty string
-            this.state.displayText = '';
-            this._lastRecordedDisplayText = '';
-        }
-    }
-
-    @api
-    get displayText() {
-        return this.state.displayText;
-    }
-
-    /**
-     * Datatype for this combobox.
+     * Possible datatypes for this combobox.
      * Needed for validation for literal and showing date picker for date/datetime.
-     * @param {String} dataType The FlowDataType that this combobox accepts.
+     * @param {String} dataType The FlowDataTypes that this combobox accepts.
      */
     @api
     set type(dataType) {
-        if (!Object.values(FLOW_DATA_TYPE).find(type => type.value === dataType)) {
-            throw new Error(`Data type must be non-empty and a valid Flow Data Type but instead was ${dataType}`);
-        } else {
+        if (dataType && dataType.toUpperCase) {
+            if (!Object.values(FLOW_DATA_TYPE).find(type => type.value === dataType)) {
+                throw new Error(`Data type must be a valid Flow Data Type but instead was ${dataType}`);
+            }
             this._dataType = dataType;
-        }
-
-        // No literals allowed for SObject and Boolean data type
-        if ([FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.BOOLEAN.value].includes(this._dataType)) {
-            this._isLiteralAllowed = false;
+            // No literals allowed for SObject and Boolean data type
+            // if ([FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.BOOLEAN.value].includes(this._dataType)) {
+            // TODO: W-4967895. Make Boolean only allow Global Constant True/False
+            if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+                this._isLiteralAllowed = false;
+            }
         }
     }
 
@@ -222,7 +226,7 @@ export default class Combobox extends Element {
      */
     _isMergeField = false;
 
-    _comboboxVariant = 'standard';
+    _comboboxVariant = LIGHTNING_INPUT_VARIANTS.STANDARD;
 
     _comboboxLabel;
 
@@ -283,8 +287,8 @@ export default class Combobox extends Element {
 
         // If a . is typed or deleted when in resource state, fire an event to fetch new menu data
         // As of 216 and we support showing only 2 level of menu data
-        // TODO: The following code doesn't account for highlighting and deleting and copy pasting
-        if (this._isMergeField) {
+        // TODO: W-5064397. The following code doesn't account for highlighting and deleting and copy pasting
+        if (this._isMergeField && this.getLevel() <= MAX_LEVEL_MENU_DATA) {
             if (this.wasPeriodEntered(previousValue)) {
                 // set base and fetch next level
                 this.matchTextWithItem(previousValue);
@@ -319,9 +323,6 @@ export default class Combobox extends Element {
             return;
         }
 
-        this.setMergeFieldState();
-        this.updateInputIcon();
-
         // Get next level menu data if the selected option hasNext
         const item = this.findItem(event.detail.value);
         const itemHasNextLevel = item && item.hasNext;
@@ -334,6 +335,9 @@ export default class Combobox extends Element {
         if (itemHasNextLevel) {
             this.fireFetchMenuDataEvent(item);
         }
+
+        this.setMergeFieldState(item.displayText);
+        this.updateInputIcon();
 
         // And add a period if selected option has next level
         this.setValueAndCursor(item.displayText, itemHasNextLevel);
@@ -364,6 +368,15 @@ export default class Combobox extends Element {
         }
     }
 
+    /**
+     * On focus, filter the menu data based on the current text displayed
+     */
+    handleFocus() {
+        if (this.state.displayText) {
+            this.fireFilterMatchesEvent(this.getFilterText(this.getSanitizedValue()), this._isMergeField);
+        }
+    }
+
     /* **************************** */
     /*    Private Helper methods    */
     /* **************************** */
@@ -373,19 +386,24 @@ export default class Combobox extends Element {
      * @param {*} valueToConvert The value to convert to string
      * @returns {String} The string value
      */
-    getStringValue(valueToConvert = '') {
-        if (['number', 'boolean'].includes(typeof valueToConvert)) {
+    getStringValue(valueToConvert) {
+        if (isUndefinedOrNull(valueToConvert)) {
+            valueToConvert = '';
+        } else if (['number', 'boolean'].includes(typeof valueToConvert)) {
             return valueToConvert.toString();
+        } else if (typeof valueToConvert !== 'string') {
+            throw new Error(`Trying to set value of invalid type ${typeof valueToConvert} on Flow Combobox!`);
         }
         return valueToConvert;
     }
 
     /**
      * Set the resource state if the value start with '{!' and ends with '}'
+     * @param {String} value the value to set state on, defaults to displayText
      */
-    setMergeFieldState() {
-        if (this.state.displayText.startsWith('{!') && this.state.displayText.endsWith('}')) {
-            this._isMergeField = !this.isExpressionIdentifierLiteral(true);
+    setMergeFieldState(value = this.state.displayText) {
+        if (value.startsWith('{!') && value.endsWith('}')) {
+            this._isMergeField = !this.isExpressionIdentifierLiteral(value, true);
         } else {
             this._isMergeField = false;
         }
@@ -556,7 +574,9 @@ export default class Combobox extends Element {
 
         this.state.displayText = input.value = value;
         // Lightning components team may provide a method to accomplish this in the future
-        input.setSelectionRange(this.state.displayText.length - 1, this.state.displayText.length - 1);
+        if (this._isMergeField) {
+            input.setSelectionRange(this.state.displayText.length - 1, this.state.displayText.length - 1);
+        }
     }
 
     /**
@@ -659,7 +679,7 @@ export default class Combobox extends Element {
         // literals allowed in combobox, validates number, currency (number), date and date time.
         // date and date time converts the input date string to format 'MM/DD/YYYY HH:MM:ss TZD
         if (this._isLiteralAllowed) {
-            this.validateLiteralForDataType(this.state.displayText);
+            this.validateLiteralForDataType();
         } else if (!this._item) {
             this.setErrorMessage(ERROR_MESSAGE.GENERIC);
         }
@@ -670,39 +690,40 @@ export default class Combobox extends Element {
      */
     validateResource() {
         if (this.isExpressionIdentifierLiteral() && this._isLiteralAllowed) {
-            this.validateLiteralForDataType(this.state.displayText);
+            this.validateLiteralForDataType();
         } else if (!this._item) {
             this.setErrorMessage(ERROR_MESSAGE.GENERIC);
         }
     }
 
     /**
-     * Validates the literal value entered in the combobox against the _dataType
+     * Validates the literal value entered in the combobox against the _dataTypes
      * @param {String} value literal value
      */
-    validateLiteralForDataType(value) {
-        switch (this._dataType) {
-            case FLOW_DATA_TYPE.NUMBER.value:
-            case FLOW_DATA_TYPE.CURRENCY.value:
-                this.validateNumber(value);
-                break;
-            case FLOW_DATA_TYPE.DATE.value:
-                this.validateAndFormatDate(value);
-                break;
-            case FLOW_DATA_TYPE.DATE_TIME.value:
-                this.validateAndFormatDate(value, true);
-                break;
-            default:
-                break;
+    validateLiteralForDataType() {
+        if (this._dataType) {
+            switch (this._dataType) {
+                case FLOW_DATA_TYPE.NUMBER.value:
+                case FLOW_DATA_TYPE.CURRENCY.value:
+                    this.validateNumber();
+                    break;
+                case FLOW_DATA_TYPE.DATE.value:
+                    this.validateAndFormatDate();
+                    break;
+                case FLOW_DATA_TYPE.DATE_TIME.value:
+                    this.validateAndFormatDate(true);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     /**
      * Validate the input value is a valid number and set error
-     * @param {String} value - input number string
      */
-    validateNumber(value) {
-        if (this.isValidNumber(value)) {
+    validateNumber() {
+        if (this.isValidNumber(this.state.displayText)) {
             this.clearErrorMessage();
         } else {
             this.setErrorMessage(ERROR_MESSAGE[this._dataType]);
@@ -723,11 +744,10 @@ export default class Combobox extends Element {
     /**
      * Validate the input string is a valid date or date time.
      * If valid format it otherwise set error message.
-     * @param {String} dateString input date or date time string
      * @param {Boolean} isDateTime whether to validate for date time
      */
-    validateAndFormatDate(dateString, isDateTime) {
-        const dateValue = this.isValidDateTime(dateString);
+    validateAndFormatDate(isDateTime) {
+        const dateValue = this.isValidDateTime(this.state.displayText);
         if (dateValue) {
             this.state.displayText = formatDate(dateValue, isDateTime);
         } else {
@@ -750,14 +770,15 @@ export default class Combobox extends Element {
      *     {^testVar} - is a valid expression literal, returns true
      * Dot at the end is allowed for SObject where dot signifies to fetch next level data
      * TODO: May not be needed with validation rules.
+     * @param {String} valueToCheck the value to check, defaults to displayText
      * @param {boolean} allowDotSuffix to allow dot at the end of the expression identifier
      * @returns {*} returns false if invalid dev name chars or regex result.
      */
-    isExpressionIdentifierLiteral(allowDotSuffix) {
+    isExpressionIdentifierLiteral(valueToCheck = this.state.displayText, allowDotSuffix) {
         let value;
         let devNameRegex;
-        if (this.state.displayText.startsWith('{!') && this.state.displayText.endsWith('}')) {
-            value = this.state.displayText.substring(2, this.state.displayText.length - 1);
+        if (valueToCheck.startsWith('{!') && valueToCheck.endsWith('}')) {
+            value = valueToCheck.substring(2, valueToCheck.length - 1);
         }
 
         if (allowDotSuffix) {
@@ -766,6 +787,6 @@ export default class Combobox extends Element {
             devNameRegex = VALIDATION_DEV_NAME_REGEX;
         }
 
-        return value ? !devNameRegex.exec(value) : true; // {!} is valid string constant
+        return value ? !devNameRegex.exec(value) : (allowDotSuffix ? false : true); // {!} is valid string constant
     }
 }

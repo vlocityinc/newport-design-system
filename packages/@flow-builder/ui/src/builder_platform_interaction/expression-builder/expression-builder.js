@@ -64,25 +64,38 @@ export default class ExpressionBuilder extends Element {
         // TODO error handling? W-4755917
         // TODO handle literals, "hi my name is {!firstName}" W-4817362
         // TODO handle multi-level merge fields W-4723095
-        if (expression[LHS] && expression[LHS].value) {
-            this.state.normalizedLHS = normalizeLHS(expression[LHS].value, elementType, (lhsIdentifier) => {
+        const lhsVal = getValueFromHydratedItem(expression[LHS]);
+        if (expression[LHS] && !isUndefinedOrNull(lhsVal)) {
+            this.state.normalizedLHS = normalizeLHS(lhsVal, elementType, (lhsIdentifier) => {
                 if (!this._fetchedLHSInfo) {
                     this._fetchedLHSInfo = true;
                     const newExpression = updateProperties(this.state.expression, {[LHS] : {value : lhsIdentifier, error: expression[LHS].error}});
                     this.firePropertyChangedEvent(newExpression);
                 }
             });
+        }
+
+        if (this.state.normalizedLHS.item) {
             this.operatorAndRHSDisabled = false;
         } else {
             this.operatorAndRHSDisabled = true;
         }
+
+        // In the case that the existing LHS is a field on the second level, get the appropriate menu data
+        if (this.state.normalizedLHS.item && this.state.normalizedLHS.item.parent) {
+            getFieldsForEntity(this.state.normalizedLHS.item.parent.subText, (fields) => {
+                this._fullLHSMenuData = this.state.lhsMenuData = filterFieldsForChosenElement(this.state.normalizedLHS.item.parent, getLHSTypes(elementType, rules), fields, true, true);
+            });
+        }
+
         if (expression[OPERATOR]) {
             this.setOperatorErrorMessage(expression[OPERATOR].error);
         }
 
         // TODO default operator case W-4912900
-        if (expression[RHS] && !isUndefinedOrNull(expression[RHS].value)) {
-            this.state.normalizedRHS = normalizeRHS(getValueFromHydratedItem(expression[RHS]), (rhsIdentifier) => {
+        const rhsVal = getValueFromHydratedItem(expression[RHSG] ? expression[RHSG] : expression[RHS]);
+        if (expression[RHS] && !isUndefinedOrNull(rhsVal)) {
+            this.state.normalizedRHS = normalizeRHS(rhsVal, (rhsIdentifier) => {
                 if (!this._fetchedRHSInfo) {
                     this._fetchedRHSInfo = true;
                     const newExpression = updateProperties(this.state.expression, {[RHS] : {value : rhsIdentifier, error: expression[RHS].error}});
@@ -91,10 +104,16 @@ export default class ExpressionBuilder extends Element {
             });
         }
 
-        if (expression[LHS].value && expression[OPERATOR]) {
+        if (lhsVal && expression[OPERATOR]) {
             const rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, expression[OPERATOR].value, rules);
-            this._fullRHSMenuData = getElementsForMenuData({elementType}, rhsTypes, true, true);
-            this.state.rhsMenuData = this._fullRHSMenuData;
+            // In the case that the existing RHS is a field on the second level, get the appropriate menu data
+            if (this.state.normalizedRHS.itemOrDisplayText && this.state.normalizedRHS.itemOrDisplayText.parent) {
+                getFieldsForEntity(this.state.normalizedRHS.itemOrDisplayText.parent.subText, (fields) => {
+                    this._fullRHSMenuData = this.state.rhsMenuData = filterFieldsForChosenElement(this.state.normalizedRHS.itemOrDisplayText.parent, rhsTypes, fields, true, true);
+                });
+            } else {
+                this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({elementType}, rhsTypes, true, true);
+            }
         }
 
         this.state.expression = expression;
@@ -193,7 +212,10 @@ export default class ExpressionBuilder extends Element {
                 expressionUpdates[RHSG] = this._clearedProperty;
             } else {
                 const rhsTypes = getRHSTypes(elementType, newLHSParam, this.state.expression.operator.value, rules);
-                const rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
+                let rhsValid = false;
+                if (this.state.expression.rightHandSideGuid.value) {
+                    rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
+                }
                 if (!rhsValid) {
                     expressionUpdates[RHS] = this._clearedProperty;
                     expressionUpdates[RHSDT] = this._clearedProperty;
@@ -221,7 +243,10 @@ export default class ExpressionBuilder extends Element {
         const expressionUpdates = {[OPERATOR]: {value: newOperator, error: null}};
         if (this.state.expression.rightHandSideGuid.value) {
             const rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, newOperator, rules);
-            const rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
+            let rhsValid = false;
+            if (this.state.expression.rightHandSideGuid.value) {
+                rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
+            }
             if (!rhsValid) {
                 expressionUpdates[RHS] = this._clearedProperty;
                 expressionUpdates[RHSDT] = this._clearedProperty;
@@ -248,12 +273,38 @@ export default class ExpressionBuilder extends Element {
             // TODO: not all literals are strings! dealing with literals in W-4795778
             rhsAndRHSDT = {
                 [RHS]: {value: event.detail.displayText, error: errorMessage},
-                [RHSDT]: {value: FEROV_DATA_TYPE.STRING, error: null},
+                // Set the dataType to LHS dataType
+                [RHSDT]: {value: this.lhsType, error: null},
             };
         }
         const newExpression = updateProperties(this.state.expression, rhsAndRHSDT);
         const propertyChangedEvent = new RowContentsChangedEvent(newExpression, errorMessage);
         this.dispatchEvent(propertyChangedEvent);
+    }
+
+    get lhsType() {
+        if (this.state.normalizedLHS.parameter) {
+            const allowedDataTypes = [];
+            const types = getRHSTypes(elementType, this.state.normalizedLHS.parameter, this.state.expression[OPERATOR].value, rules);
+            if (types) {
+                // This can contain Flow dataTypes and element types
+                const typeKeys = Object.keys(types);
+                for (let i = 0; i < typeKeys.length; i++) {
+                    const typeKey = typeKeys[i];
+                    if (types[typeKey][0].dataType) {
+                        allowedDataTypes.push(types[typeKey][0].dataType);
+                    }
+                }
+            }
+
+            // If more than one allowedDataType, default to LHS dataType
+            if (allowedDataTypes.length === 1) {
+                return allowedDataTypes[0];
+            } else if (allowedDataTypes.length > 1 && this.state.normalizedLHS.parameter.dataType) {
+                return this.state.normalizedLHS.parameter.dataType;
+            }
+        }
+        return '';
     }
 
     handleFilterLHSMatches(event) {

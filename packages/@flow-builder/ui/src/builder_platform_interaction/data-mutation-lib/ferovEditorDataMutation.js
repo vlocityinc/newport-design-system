@@ -166,7 +166,12 @@ function convertToProps(ferovObject, valueProperty, dataTypeProperty) {
 
     if (!isUndefined(value)) {
         props[dataTypeProperty] = META_DATA_TYPES_TO_FEROV_TYPES_MAP[getMetaDataType(ferovObject)];
-        props[valueProperty] = value;
+        // TODO: W-4967895. Boolean needs to be mapped to Global Constant
+        if (['number', 'boolean'].includes(typeof value)) {
+            props[valueProperty] = value.toString();
+        } else {
+            props[valueProperty] = value;
+        }
         if (guid) {
             props[valueProperty + GUID_SUFFIX] = guid;
         }
@@ -248,7 +253,9 @@ export const deMutateFEROV = (element, ferovObjectName, { valueProperty, dataTyp
     }
 
     // find the data type key of the element object
-    const ferovDataTypeValue = element[dataTypeProperty];
+    // TODO: Picklist & Multipicklist. Make a mapping for these three?
+    // currency literals should always be mapped as a number
+    const ferovDataTypeValue = (element[dataTypeProperty] === 'currency') ? 'number' : element[dataTypeProperty];
     const ferovDataTypeKey = FEROV_DATA_TYPE_VALUES.find((type) => {
         return ferovDataTypeValue === META_DATA_TYPES_TO_FEROV_TYPES_MAP[type];
     });

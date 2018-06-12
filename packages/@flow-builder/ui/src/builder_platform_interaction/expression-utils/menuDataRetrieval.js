@@ -30,6 +30,7 @@ const RESOURCE_PICKER_MODE = {
  * @property {String} displayText   the value displayed in the input field when this menu item is selected
  * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
  * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
+ * @property {Object} parent in the case that this is a second level item, this is the parent flow element in combobox shape
  */
 
 /**
@@ -40,9 +41,10 @@ const RESOURCE_PICKER_MODE = {
  * @param {String} displayText the display text of the menu item
  * @param {String} iconName the icon of the menu item
  * @param {String} value the value of the menu item
+ * @param {Object} parent the parent flow element of the second level item in combobox shape
  * @returns {MenuItem}  the generated menu item
  */
-const createMenuItem = (type, text, subtext, displayText, iconName, value) => {
+const createMenuItem = (type, text, subtext, displayText, iconName, value, parent) => {
     return {
         type,
         text,
@@ -50,6 +52,7 @@ const createMenuItem = (type, text, subtext, displayText, iconName, value) => {
         displayText,
         iconName,
         value,
+        parent,
     };
 };
 
@@ -236,13 +239,13 @@ export const normalizeRHS = (rhsIdentifier, callback) => {
     if (flowElement && complexGuid.fieldName) {
         // TODO: W-4960448: the field will appear empty briefly when fetching the first time
         sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
-            rhs.item = mutateFieldToComboboxShape(fields[complexGuid.fieldName], mutateFlowElementsToComboboxShape(flowElement), true, true);
+            rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[complexGuid.fieldName], mutateFlowElementToComboboxShape(flowElement), true, true);
         });
         callback(rhsIdentifier);
     } else if (flowElement) {
-        rhs.item = mutateFlowElementsToComboboxShape(flowElement);
+        rhs.itemOrDisplayText = mutateFlowElementToComboboxShape(flowElement);
     } else {
-        rhs.displayText = rhsIdentifier;
+        rhs.itemOrDisplayText = rhsIdentifier;
     }
     return rhs;
 };
@@ -274,7 +277,7 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
         sobjectLib.getFieldsForEntity(sobject, (fields) => {
             const field = fields[complexGuid.fieldName];
             if (flowElement) {
-                lhs.item = mutateFieldToComboboxShape(field, mutateFlowElementsToComboboxShape(flowElement), true, true);
+                lhs.item = mutateFieldToComboboxShape(field, mutateFlowElementToComboboxShape(flowElement), true, true);
                 field.elementType = flowElement.elementType;
             } else {
                 // in case lhsIdentifier = sobjectApiName.fieldApiName
@@ -287,7 +290,7 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
             callback(lhsIdentifier);
         });
     } else if (flowElement) {
-        lhs.item = mutateFlowElementsToComboboxShape(flowElement);
+        lhs.item = mutateFlowElementToComboboxShape(flowElement);
         lhs.parameter = elementToParam(flowElement);
     } else {
         // TODO handle the case where LHS is not a flow element here
@@ -340,7 +343,7 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     const menuData = getSelector(elementConfig)(state)
         .filter(element => isElementAllowed(allowedParamTypes, element, allowSObjectForFields))
         .map(element => {
-            return mutateFlowElementsToComboboxShape(element);
+            return mutateFlowElementToComboboxShape(element);
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
 
@@ -400,7 +403,7 @@ export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, f
  * @param {Object} element   element from flow
  * @returns {Object}         representation of flow element in shape combobox needs
  */
-function mutateFlowElementsToComboboxShape(element) {
+function mutateFlowElementToComboboxShape(element) {
     const newElement = {};
 
     newElement.text = element.name;
@@ -427,11 +430,11 @@ function mutateFlowElementsToComboboxShape(element) {
 function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSubText) {
     const formattedField = {};
 
-    // TODO this shape is temporary
     formattedField.text = field.apiName;
     formattedField.subText = (showSubText) ? field.label : '';
     formattedField.value = parent.value + '.' + field.apiName;
     formattedField.displayText = showAsFieldReference ? (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + field.apiName + '}') : field.apiName;
+    formattedField.parent = parent;
     formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     // TODO: fetch icon
 

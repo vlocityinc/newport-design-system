@@ -72,9 +72,13 @@ export const comboboxInitialConfig = {
         }
     ],
     placeholder: 'placeholderText',
-    value: 'testvalue',
+    value: {
+        value: 'testGuid',
+        displayText: 'testvalue',
+    },
     label: 'label',
     type: 'String',
+    literalsAllowed: true,
     disabled: false,
     required: true,
     errorMessage: 'testErrorMessage',

@@ -53,7 +53,7 @@ describe('ferov-resource-picker', () => {
     it('contains a base resource picker', () => {
         const ferovResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = ferovResourcePicker.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker).toBeDefined();
         });
     });
@@ -97,25 +97,25 @@ describe('ferov-resource-picker', () => {
         };
         const ferovResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = ferovResourcePicker.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
         });
     });
 
-    it('sets the displayText of the base resource picker', () => {
-        props.displayText = 'test display text';
+    it('sets the value of the base resource picker as a string', () => {
+        props.value = 'test display text';
         const ferovResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = ferovResourcePicker.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-            expect(baseResourcePicker.displayText).toEqual(props.displayText);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            expect(baseResourcePicker.value).toEqual(props.value);
         });
     });
 
-    it('sets the value of the base resource picker', () => {
+    it('sets the value of the base resource picker as an item', () => {
         props.value = { value: 'testValue', displayText: 'test display text'};
         const ferovResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = ferovResourcePicker.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.value).toEqual(props.value);
         });
     });

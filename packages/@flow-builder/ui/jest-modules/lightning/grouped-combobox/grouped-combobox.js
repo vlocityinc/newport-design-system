@@ -11,6 +11,7 @@ export default class GroupedCombobox extends Element {
     @api messageWhenValueMissing;
     @api showActivityIndicator;
     @api required;
+    @api variant;
 
     @api
     setCustomValidity(value) {

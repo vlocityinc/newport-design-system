@@ -167,7 +167,7 @@ export default class ParameterItem extends Element {
             }
             // TODO: value = literals + VARIABLE (My name is {!VARIRABLE_1}. Hello world!)
             const value = this.state.parameterItem.value[Object.keys(this.item.value)[0]].value;
-            return this.createComboboxValue(null, value);
+            return value;
         }
         // return {!value} if this parameter is output parameter and has a reference value
         if (this.state.parameterItem.assignToReference) {

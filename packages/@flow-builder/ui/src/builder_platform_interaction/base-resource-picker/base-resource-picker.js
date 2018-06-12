@@ -64,31 +64,16 @@ export default class BaseResourcePicker extends Element {
     /**
      * Sets the value of the flow combobox
      * Use this when you have a flow combobox menu item to display
-     * @param {item} item the menu item being set to the flow combobox
+     * @param {menuDataRetrieval.MenuItem|String} itemOrDisplayText the menu item being set to the flow combobox
      */
     @api
-    set value(item) {
-        this.state.item = item;
+    set value(itemOrDisplayText) {
+        this.state.itemOrDisplayText = itemOrDisplayText;
     }
 
     @api
     get value() {
-        return this.state.item;
-    }
-
-    /**
-     * Sets the display text for the flow combobox
-     * Use this when you want to display a literal/merge field
-     * @param {String} displayText the given display text to show in combobox input field
-     */
-    @api
-    set displayText(displayText) {
-        this.state.displayText = displayText;
-    }
-
-    @api
-    get displayText() {
-        return this.state.displayText;
+        return this.state.itemOrDisplayText;
     }
 
     /**

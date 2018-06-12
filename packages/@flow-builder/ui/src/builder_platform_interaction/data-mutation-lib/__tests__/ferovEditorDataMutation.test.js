@@ -33,7 +33,7 @@ describe('mutateFerov function', () => {
         const item = {};
         item.ferov = { numberValue: variableFerovValue };
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toEqual(variableFerovValue);
+        expect(mutatedItem.rightHandSide).toEqual(variableFerovValue.toString());
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.NUMBER);
     });
 

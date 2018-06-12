@@ -24,13 +24,13 @@
         </template>
         <builder_platform_interaction-combobox class="slds-col slds-grow"
                 label={rhsLabel}
-                display-text={state.normalizedRHS.displayText}
-                value={state.normalizedRHS.item}
+                value={state.normalizedRHS.itemOrDisplayText}
                 disabled={operatorAndRHSDisabled}
                 onfetchmenudata={handleFetchRHSMenuData}
                 oncomboboxvaluechanged={handleRHSValueChanged}
                 onfiltermatches={handleFilterRHSMatches}
                 menu-data={rhsMenuData}
+                type={lhsType}
                 error-message={state.expression.rightHandSide.error}
                 >
         </builder_platform_interaction-combobox>

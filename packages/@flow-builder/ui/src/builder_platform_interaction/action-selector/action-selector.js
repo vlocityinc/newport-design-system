@@ -2,6 +2,7 @@ import { Element, api, track, unwrap } from "engine";
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE} from 'builder_platform_interaction-flow-metadata';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
+import { filterMatches } from 'builder_platform_interaction-expression-utils';
 import { LABELS } from './action-selector-labels';
 
 const SELECTORS = {
@@ -31,6 +32,8 @@ export default class ActionSelector extends Element {
     subflows = [];
     subflowsLoaded = false;
     stopCallbackExecutionSubflows = null;
+
+    _fullMenuData = [];
 
     connectedCallback() {
         this.stopCallbackExecutionApexPlugins = fetch(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, this.getApexPluginsCallback);
@@ -163,13 +166,17 @@ export default class ActionSelector extends Element {
      */
     @api
     set selectedAction(newValue) {
+        newValue = unwrap(newValue);
         this.state.selectedElementType = newValue.elementType ? newValue.elementType : ELEMENT_TYPE.ACTION_CALL;
         if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
             this.state.selectedActionValue = newValue.apexClass ? this.getComboItemFromApexPlugin(newValue) : null;
         } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
             this.state.selectedActionValue = newValue.flowName ? this.getComboItemFromSubflow(newValue) : null;
         } else {
-            this.state.selectedActionValue = newValue.actionType && newValue.actionName ? this.getComboItemFromInvocableAction(newValue) : null;
+            if (newValue.actionType && newValue.actionName) {
+                newValue.durableId = newValue.actionType + '-' + newValue.actionName;
+            }
+            this.state.selectedActionValue = newValue.durableId ? this.getComboItemFromInvocableAction(newValue) : null;
         }
     }
 
@@ -247,7 +254,7 @@ export default class ActionSelector extends Element {
         }
         this.state.actionComboLabel = LABELS[selectedElementType].ACTION_COMBO_LABEL;
         this.state.actionPlaceholder = LABELS[selectedElementType].ACTION_COMBO_PLACEHOLDER;
-        this.state.actionMenuData = items;
+        this._fullMenuData = this.state.actionMenuData = items;
     }
 
     updateTypeCombo() {
@@ -288,7 +295,7 @@ export default class ActionSelector extends Element {
             type : 'option-card',
             text : action.label,
             value: action.durableId,
-            displayText: action.actionType + '-' + action.actionName,
+            displayText: action.durableId,
             subText : action.description || ''
         };
     }
@@ -322,5 +329,9 @@ export default class ActionSelector extends Element {
             const valueChangedEvent = new ValueChangedEvent(selectedAction);
             this.dispatchEvent(valueChangedEvent);
         }
+    }
+
+    handleFilterMatches(event) {
+        this.state.actionMenuData = filterMatches(event.detail.value, this._fullMenuData, event.detail.isMergeField);
     }
 }

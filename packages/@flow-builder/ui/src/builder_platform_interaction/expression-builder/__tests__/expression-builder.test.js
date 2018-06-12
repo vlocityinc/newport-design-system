@@ -73,11 +73,11 @@ function createDefaultComponentForTest() {
 }
 
 function getComboboxElements(expressionBuilder) {
-    return expressionBuilder.querySelectorAll("builder_platform_interaction-combobox");
+    return expressionBuilder.shadowRoot.querySelectorAll("builder_platform_interaction-combobox");
 }
 
 function getLightningCombobox(expressionBuilder) {
-    return expressionBuilder.querySelector("lightning-combobox");
+    return expressionBuilder.shadowRoot.querySelector("lightning-combobox");
 }
 
 function checkOperatorAndRHSDisabled(expressionBuilder, expected) {
@@ -253,9 +253,9 @@ describe('expression-builder', () => {
             const lhsCombobox = comboboxes[0];
             const operatorCombobox = getLightningCombobox(expressionBuilder);
             const rhsCombobox = comboboxes[1];
-            expect(lhsCombobox.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
+            expect(lhsCombobox.value.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
             expect(operatorCombobox.value).toEqual('Assign');
-            expect(rhsCombobox.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
+            expect(rhsCombobox.value.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
         });
     });
     describe('building expression for entity fields', () => {
@@ -300,7 +300,7 @@ describe('expression-builder', () => {
         it('should populate rhs menu data and have a value', () => {
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
             expect(rhsCombobox.menuData).toBeDefined();
-            expect(rhsCombobox.displayText).toEqual(RHS_VALUE);
+            expect(rhsCombobox.value).toEqual(RHS_VALUE);
         });
     });
     describe('disabling the operator and RHS field', () => {

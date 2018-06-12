@@ -1,5 +1,5 @@
 import * as ValidationRules from 'builder_platform_interaction-validation-rules';
-import { updateProperties, set } from 'builder_platform_interaction-data-mutation-lib';
+import { updateProperties, set, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 
 /**
  * @constant defaultRules - map of propertyName to validation rules
@@ -85,7 +85,7 @@ export class Validation {
             if (nodeElement.hasOwnProperty(key)) { // find out if the key exists in the top level object itself
                 const nodeElementValueObject = nodeElement[key];
                 if (Array.isArray(rules)) { // if there is an array of rules, evaluate it
-                    const errorReturnedFromRule = this.runRulesOnData(rules, nodeElementValueObject.value);
+                    const errorReturnedFromRule = this.runRulesOnData(rules, getValueFromHydratedItem(nodeElementValueObject));
                     if (errorReturnedFromRule !== null) {
                         nodeElement = updateProperties(nodeElement, {
                             [key] : { value: nodeElementValueObject.value, error: errorReturnedFromRule }

@@ -23,7 +23,6 @@
             <div if:true={hasDefaultValue} class='default-value'>
                 <builder_platform_interaction-ferov-resource-picker
                     value={defaultValue}
-                    display-text={defaultValue}
                     combobox-config={defaultValueComboboxConfig}
                     property-editor-element-type={variableResource.elementType}
                     element-param={variableResource}
@@ -36,7 +35,7 @@
                 <builder_platform_interaction-entity-resource-picker
                     class="slds-form-element slds-size_1-of-2"
                     combobox-config={entityComboboxConfig}
-                    display-text={objectType}
+                    value={objectType}
                     oncomboboxvaluechanged={handleObjectTypeChange}>
                 </builder_platform_interaction-entity-resource-picker>
             </div>

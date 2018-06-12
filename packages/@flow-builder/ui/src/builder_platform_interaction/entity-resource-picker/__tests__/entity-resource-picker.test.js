@@ -12,11 +12,11 @@ const setupComponentUnderTest = (props) => {
     return element;
 };
 
-const entityMenuData = [{value:'entityMenuData', displayText: 'entity menu data'}];
+const entityMenuData = [{value:'entityMenuData', displayText: 'entity menu data'}, {value: 'testValue', displayText: 'test display text'}];
 
 jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
-        getEntitiesMenuData: jest.fn().mockReturnValue([{value:'entityMenuData', displayText: 'entity menu data'}]).mockName('getEntitiesMenuData'),
+        getEntitiesMenuData: jest.fn().mockReturnValue([{value:'entityMenuData', displayText: 'entity menu data'}, {value: 'testValue', displayText: 'test display text'}]).mockName('getEntitiesMenuData'),
     };
 });
 
@@ -36,14 +36,14 @@ describe('entity-resource-picker', () => {
     it('contains one base resource picker', () => {
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = entityResourcePicker.querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(selectors.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker).toBeDefined();
         });
     });
 
     it('retrieves entity menu data on initial load', () => {
         const entityResourcePicker = setupComponentUnderTest(props);
-        const baseResourcePicker = entityResourcePicker.querySelector(selectors.BASE_RESOURCE_PICKER);
+        const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(selectors.BASE_RESOURCE_PICKER);
         return Promise.resolve().then(() => {
             expect(getEntitiesMenuData).toHaveBeenCalledTimes(1);
             expect(getEntitiesMenuData).toHaveBeenCalledWith(props.crudFilterType);
@@ -67,25 +67,25 @@ describe('entity-resource-picker', () => {
         };
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = entityResourcePicker.querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(selectors.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
         });
     });
 
-    it('sets the displayText of the base resource picker', () => {
-        props.displayText = 'test display text';
+    it('sets the value of the base resource picker as a string', () => {
+        props.value = 'test display text';
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = entityResourcePicker.querySelector(selectors.BASE_RESOURCE_PICKER);
-            expect(baseResourcePicker.displayText).toEqual(props.displayText);
+            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(selectors.BASE_RESOURCE_PICKER);
+            expect(baseResourcePicker.value.displayText).toEqual(props.value);
         });
     });
 
-    it('sets the value of the base resource picker', () => {
+    it('sets the value of the base resource picker as an item', () => {
         props.value = { value: 'testValue', displayText: 'test display text'};
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = entityResourcePicker.querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(selectors.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.value).toEqual(props.value);
         });
     });
