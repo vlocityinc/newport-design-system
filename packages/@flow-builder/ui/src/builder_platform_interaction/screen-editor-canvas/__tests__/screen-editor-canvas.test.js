@@ -68,3 +68,205 @@ describe('Click handling on canvas', () => {
         });
     });
 });
+
+describe('handleDragEnter', () => {
+    let screenEditorCanvasElement;
+    beforeEach(() => {
+        screenEditorCanvasElement = createComponentUnderTest({
+            screen: createTestScreen('Screen 1', null),
+            labels: {}
+        });
+    });
+    it('dragEnter removes the expect class from the highlight', () => {
+        return Promise.resolve().then(() => {
+            const dragEnterEvent = new CustomEvent('dragenter');
+
+            // Before firing the event, we should see the class in question.
+            const draggingRegion = screenEditorCanvasElement.querySelector('.screen-editor-canvas-dragging-region');
+            expect(draggingRegion.classList).toContain('slds-hide');
+
+            // Fire dragEnter event on the canvas
+            const canvasDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            canvasDiv.dispatchEvent(dragEnterEvent);
+            expect(draggingRegion.classList).not.toContain('slds-hide');
+        });
+    });
+});
+
+describe('handleDragEnd', () => {
+    let screenEditorCanvasElement;
+    beforeEach(() => {
+        screenEditorCanvasElement = createComponentUnderTest({
+            screen: createTestScreen('Screen 1', null),
+            labels: {}
+        });
+    });
+    it('dragEnd adds the expected class to the highlight', () => {
+        return Promise.resolve().then(() => {
+            const dragEndEvent = new CustomEvent('dragend');
+            const draggingRegion = screenEditorCanvasElement.querySelector('.screen-editor-canvas-dragging-region');
+
+            // First dragEnter so the class is removed.
+            const dragEnterEvent = new CustomEvent('dragenter');
+            const canvasDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            canvasDiv.dispatchEvent(dragEnterEvent);
+            expect(draggingRegion.classList).not.toContain('slds-hide');
+
+            // Fire dragEnd event on the canvas
+            canvasDiv.dispatchEvent(dragEndEvent);
+            expect(draggingRegion.classList).toContain('slds-hide');
+        });
+    });
+});
+
+describe('onDrop', () => {
+    let screenEditorCanvasElement;
+    beforeEach(() => {
+        screenEditorCanvasElement = createComponentUnderTest({
+            screen: createTestScreen('Screen 1', null),
+            labels: {}
+        });
+
+        // Assume each screen field is 120 pixels side and long.
+        function boundingClientRectMock(counter) {
+            return function () {
+                return {
+                    width: 120,
+                    height: 120,
+                    top: counter * 120,
+                    left: 0,
+                    bottom: (counter + 1) * 120,
+                    right: 120,
+                };
+            };
+        }
+
+        // Add a getBoundingClientRect() funciont to each highlight element, which is used by the dragging method.
+        const fieldHighlights = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-body').querySelectorAll('builder_platform_interaction-screen-editor-highlight');
+        let counter = 0;
+        for (const fieldHighlight of fieldHighlights) {
+            fieldHighlight.getBoundingClientRect = boundingClientRectMock(counter);
+            counter++;
+        }
+    });
+    it('dropping an element to the same location does not result in reorder', () => {
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn().mockImplementation();
+            screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
+
+            // This drop even tries to drop field 0 to it's current location.
+            const dropEvent = new CustomEvent('drop');
+            dropEvent.dataTransfer = {
+                data: {},
+                setData(type, val) {
+                    this.data[type] = val;
+                },
+                getData(type) {
+                    return this.data[type];
+                }
+            };
+            dropEvent.y = 100;
+            dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
+
+            const canvasBodyDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            canvasBodyDiv.dispatchEvent(dropEvent);
+            expect(eventCallback).not.toHaveBeenCalled();
+        });
+    });
+    it('dropping an element to a higher y coordiant should result in reorder event', () => {
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn().mockImplementation();
+            screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
+
+            // Drop field index 2 to the area where field index 0 current resides.
+            const dropEvent = new CustomEvent('drop');
+            dropEvent.dataTransfer = {
+                data: {},
+                setData(type, val) {
+                    this.data[type] = val;
+                },
+                getData(type) {
+                    return this.data[type];
+                }
+            };
+            dropEvent.y = 100;
+            dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[2].guid);
+
+            const canvasBodyDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            canvasBodyDiv.dispatchEvent(dropEvent);
+            expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+    it('dropping an element to a lower y coordiant should result in reorder event', () => {
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn().mockImplementation();
+            screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
+
+            // Drop field index 0 to the area where field index 1 current resides.
+            const dropEvent = new CustomEvent('drop');
+            dropEvent.dataTransfer = {
+                data: {},
+                setData(type, val) {
+                    this.data[type] = val;
+                },
+                getData(type) {
+                    return this.data[type];
+                }
+            };
+            dropEvent.y = 230;
+            dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
+
+            const canvasBodyDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            canvasBodyDiv.dispatchEvent(dropEvent);
+            expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+    it('dropping to the bottom fires a re-order event', () => {
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn().mockImplementation();
+            screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
+
+            // Drop field index 0 to the area where field index 1 current resides.
+            const dropEvent = new CustomEvent('drop');
+            dropEvent.dataTransfer = {
+                data: {},
+                setData(type, val) {
+                    this.data[type] = val;
+                },
+                getData(type) {
+                    return this.data[type];
+                }
+            };
+            dropEvent.y = 1202;
+            dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
+
+            const canvasBodyDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            canvasBodyDiv.dispatchEvent(dropEvent);
+            expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+    it('if no y coordinate is found, no reordering should be fired', () => {
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn().mockImplementation();
+            screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
+
+            // Drop field index 0 to the area where field index 1 current resides.
+            const dropEvent = new CustomEvent('drop');
+            dropEvent.dataTransfer = {
+                data: {},
+                setData(type, val) {
+                    this.data[type] = val;
+                },
+                getData(type) {
+                    return this.data[type];
+                }
+            };
+            dropEvent.y = null;
+            dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
+
+            const canvasBodyDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            canvasBodyDiv.dispatchEvent(dropEvent);
+            expect(eventCallback).not.toHaveBeenCalled();
+        });
+    });
+});

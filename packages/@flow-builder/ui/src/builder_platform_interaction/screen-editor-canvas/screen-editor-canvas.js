@@ -45,12 +45,11 @@ export default class ScreenEditorCanvas extends Element {
         event.stopPropagation();
     }
 
-    handleDrop(/* event */) {
+    handleDrop(event) {
         this.handleDragEnd();
 
         const range = this.getDraggingRange(event);
         const sourceGuid = event.dataTransfer.getData('text');
-
 
         const destGuid = range.index === 0 ? this.screen.fields[range.index].guid : this.screen.fields[range.index - 1].guid;
         if (sourceGuid) {
@@ -85,7 +84,9 @@ export default class ScreenEditorCanvas extends Element {
         if (!this.ranges) {
             this.ranges = [];
             let idx = 0;
-            for (const highlight of this.template.querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight')) {
+
+            // iterate over all screen fields and get their vertical coordinates.
+            for (const highlight of this.template.querySelector('div.screen-editor-canvas-body').querySelectorAll('builder_platform_interaction-screen-editor-highlight')) {
                 const rect = highlight.getBoundingClientRect();
                 this.ranges.push({
                     top: rect.top,
@@ -96,6 +97,7 @@ export default class ScreenEditorCanvas extends Element {
                 idx++;
             }
 
+            // Add a range element to represent the very bottom spot.
             this.ranges.push({
                 top: idx > 0 ? this.ranges[idx - 1].bottom + 1 : 0,
                 bottom: this.top + 2,
@@ -104,6 +106,7 @@ export default class ScreenEditorCanvas extends Element {
             });
         }
 
+        // Figure out which screen field's corresponding range is associated with this event.
         for (let i = 0, length = this.ranges.length; i < length; i++) {
             const range = this.ranges[i];
             if (event.y >= range.top && event.y <= range.bottom) {
