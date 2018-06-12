@@ -13,10 +13,10 @@ const additionalRules = {
     'name'  : [
         ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
-        ValidationRules.maximumCharactersLimit(8)
+        ValidationRules.maximumCharactersLimit(80)
     ],
     'helpText' : [
-        ValidationRules.maximumCharactersLimit(8)
+        // ValidationRules.maximumCharactersLimit(8) // Testing validator
     ]
 };
 

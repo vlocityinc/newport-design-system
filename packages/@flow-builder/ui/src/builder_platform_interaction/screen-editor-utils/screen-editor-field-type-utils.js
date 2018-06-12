@@ -1,7 +1,8 @@
 import {LABELS} from 'builder_platform_interaction-screen-editor-i18n-utils';
 
-// Screen field types INCOMPLETE - TODO W-4967572
-// QUESTION FOR UI TEAM: Are we planning to return localized labels from the server side or translate everything locally based on keys?
+/**
+ * All screen field types
+ */
 const screenFieldTypes = [
     {
         name: 'TextBox',
@@ -91,10 +92,20 @@ const screenFieldTypes = [
     }
 ];
 
+/**
+ * Returns all scren field types, including name, fieldType, dataType, label (localized), icon and category (localized)
+ * @return {array} - The field types
+ */
 export function getAllScreenFieldTypes() {
     return screenFieldTypes;
 }
 
+/**
+ * Returns a type given a name
+ * @param {string} name - The name of the type
+ * @returns {object} - The type
+ * @throws if type can't be found
+ */
 export function getScreenFieldTypeByName(name) {
     for (const type of screenFieldTypes) {
         if (type.name.toLowerCase() === name.toLowerCase()) {
@@ -105,7 +116,12 @@ export function getScreenFieldTypeByName(name) {
     throw new Error('No such screen field type: ' + name);
 }
 
-// Returns a field type object from the enum from a field
+/**
+ * Returns the type object corresponding to the given field (determined by looking at the fieldType and the dataType
+ * @param {object} field - The screen field
+ * @returns {object} - The corresponding type
+ * @throws if type can't be found
+ */
 export function getScreenFieldType(field) {
     const fieldType = field.fieldType;
     const dataType = field.dataType;
