@@ -5,8 +5,8 @@
                 value={title} 
                 class="slds-text-body_regular">
             </lightning-formatted-rich-text>
-            <lightning-radio-group label='{labels.selectionHowManyRecordsToStoreLabel}' 
-                name="numberRecordsToStoreRdGrp" 
+            <lightning-radio-group label='{labels.numberRecordsToStoreLabel}'
+                name="numberRecordsToStoreRadioGroup" 
                 options={numberRecordsToStoreOption}
                 value={state.numberOfRecordsToStore}
                 onchange={handleNumberRecordsToStoreChange}
@@ -14,20 +14,20 @@
             </lightning-radio-group>
             <lightning-radio-group 
                 if:true={state.showWayToStoreFieldSelector}
-                label='{labels.selectionWhereToStoreRecordsLabel}' 
-                name="wayToStoreFieldsInRdGrp" 
+                name="wayToStoreFieldsRadioGroup"
+                label={labels.wayToStoreFieldsLabel} 
                 options={wayToStoreFieldsOption}
-                value={state.selectedWayToStoreFields}
+                value={state.wayToStoreFields}
                 onchange={handleWayToStoreFieldsChange}
                 class="slds-m-top_x-small">
             </lightning-radio-group>
             <lightning-input 
+                name="assignNullIfNoRecordFoundComboBox" 
                 class='property-input slds-m-top_x-small' 
                 type='checkbox' 
-                name="assignNullIfNoRecordFoundCBx" 
-                label={labels.selectionAssignNullIfNoRecordFoundLabel}
+                label={labels.assignNullValuesIfNoRecordsFoundLabel}
                 checked={state.assignNullValuesIfNoRecordsFound} 
-                onchange={handleAssignNullToVariableNoRecordChange}>
+                onchange={handleAssignNullValuesIfNoRecordsFoundChange}>
             </lightning-input>
         </div>
     </div>

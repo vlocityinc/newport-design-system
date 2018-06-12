@@ -100,7 +100,7 @@ export default class RecordStoreFieldsSelection extends Element {
         // this.state.showWayToStoreFieldSelector = this.state.numberOfRecordsToStore === NUMBER_RECORDS_TO_STORE_OPTIONS[0].value;
         this.dispatchEvent(new RecordStoreOptionChangedEvent(this.state.numberOfRecordsToStore,
             this.state.wayToStoreFields,
-            this.state.selectedAssignNullToVariableNoRecord));
+            this.state.assignNullValuesIfNoRecordsFound));
     }
 
     handleWayToStoreFieldsChange(event) {
@@ -108,14 +108,14 @@ export default class RecordStoreFieldsSelection extends Element {
         this.state.wayToStoreFields = event.detail.value;
         this.dispatchEvent(new RecordStoreOptionChangedEvent(this.state.numberOfRecordsToStore,
             this.state.wayToStoreFields,
-            this.state.selectedAssignNullToVariableNoRecord));
+            this.state.assignNullValuesIfNoRecordsFound));
     }
 
-    handleAssignNullToVariableNoRecordChange(event) {
+    handleAssignNullValuesIfNoRecordsFoundChange(event) {
         event.stopPropagation();
-        this.state.selectedAssignNullToVariableNoRecord = event.detail.value;
+        this.state.assignNullValuesIfNoRecordsFound = event.detail.value;
         this.dispatchEvent(new RecordStoreOptionChangedEvent(this.state.numberOfRecordsToStore,
             this.state.wayToStoreFields,
-            this.state.selectedAssignNullToVariableNoRecord));
+            this.state.assignNullValuesIfNoRecordsFound));
     }
 }
