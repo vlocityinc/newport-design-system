@@ -28,6 +28,14 @@ jest.mock('../decision-reducer', () => {
     };
 });
 
+jest.mock('builder_platform_interaction-data-mutation-lib', () => {
+    return {
+        getErrorsFromHydratedElement: jest.fn(() => {
+            return ['some error'];
+        })
+    };
+});
+
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome',
     REORDERABLE_NAV: 'builder_platform_interaction-reorderable-vertical-navigation',
@@ -177,6 +185,19 @@ describe('Decision Editor', () => {
                     expect(menuItems[2].isDraggable).toBeFalsy();
                 });
             });
+            it('shows an error icon when there is an error in the outcome', () => {
+                const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+
+                return Promise.resolve().then(() => {
+                    const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                    const menuItems = reorderableOutcomeNav.menuItems;
+
+                    // We mocked getErrorsFromHydratedElement to always return an error
+                    // so all non-default outcomes will show the error
+                    expect(menuItems[0].hasErrors).toBeTruthy();
+                    expect(menuItems[1].hasErrors).toBeTruthy();
+                });
+            });
         });
     });
 
@@ -213,6 +234,30 @@ describe('Decision Editor', () => {
                 expect(decisionReducerEvent.type).toEqual(expectedReducerEvent.type);
                 expect(decisionReducerEvent.detail.propertyName).toEqual(expectedReducerEvent.detail.propertyName);
                 expect(decisionReducerEvent.detail.value).toEqual(expectedReducerEvent.detail.value);
+            });
+        });
+        it('initial default outcome does not have an error', () => {
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+
+            return Promise.resolve().then(() => {
+                const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                const menuItems = reorderableOutcomeNav.menuItems;
+
+                expect(menuItems[1].hasErrors).toBeFalsy();
+            });
+        });
+        it('default outcome has an error if there is no label', () => {
+            decisionWithOneOutcome.defaultConnectorLabel = {
+                value: '',
+                error: 'Label should not be empty'
+            };
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+
+            return Promise.resolve().then(() => {
+                const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                const menuItems = reorderableOutcomeNav.menuItems;
+
+                expect(menuItems[1].hasErrors).toBeTruthy();
             });
         });
     });
