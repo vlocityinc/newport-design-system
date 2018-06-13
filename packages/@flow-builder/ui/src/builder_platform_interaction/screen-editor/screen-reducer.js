@@ -1,6 +1,6 @@
 import { screenValidation } from './screen-validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem } from 'builder_platform_interaction-data-mutation-lib';
+import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, mutateScreenField } from 'builder_platform_interaction-data-mutation-lib';
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
 import { getScreenFieldTypeByName, createEmptyNodeOfType } from 'builder_platform_interaction-screen-editor-utils';
 
@@ -37,6 +37,7 @@ const addScreenField = (screen, event) => {
     const typeName = event.typeName;
     const type = getScreenFieldTypeByName(typeName);
     const field = createEmptyNodeOfType(type);
+    mutateScreenField(field);
     const updatedItems = insertItem(screen.fields, field, position);
     return set(screen, 'fields', updatedItems);
 };

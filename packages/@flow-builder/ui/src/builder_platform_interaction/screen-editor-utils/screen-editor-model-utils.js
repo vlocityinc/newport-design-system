@@ -1,5 +1,4 @@
 import { generateGuid } from 'builder_platform_interaction-store-lib';
-import { mutateScreenField } from 'builder_platform_interaction-data-mutation-lib';
 
 /**
  * Creates an empty screen
@@ -29,7 +28,7 @@ export function createEmptyScreenNode() {
  * @return {object} - The new screen field
  */
 export function createEmptyNodeOfType(type) {
-    return mutateScreenField({
+    return {
         guid:generateGuid(),
         isRequired: false,
         helpText: null,
@@ -43,5 +42,5 @@ export function createEmptyNodeOfType(type) {
         fieldText: null,
         label: null,
         outputParameters: []
-    });
+    };
 }

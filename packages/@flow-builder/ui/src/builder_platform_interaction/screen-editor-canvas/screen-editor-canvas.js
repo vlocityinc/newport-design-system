@@ -23,6 +23,22 @@ export default class ScreenEditorCanvas extends Element {
         }
     }
 
+    /**
+     * select the given screen field by index number.
+     * Deselect all others.
+     * @param {string} fieldIndex number
+     */
+    @api selectField(fieldIndex) {
+        const fieldHighlights = this.template.querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
+        for (let i = 0; i < fieldHighlights.length; i++) {
+            if (i !== fieldIndex) {
+                fieldHighlights[i].deselect();
+            } else {
+                fieldHighlights[i].select();
+            }
+        }
+    }
+
     handleScreenElementSelected = (event) => {
         for (const highlight of this.template.querySelectorAll('builder_platform_interaction-screen-editor-highlight')) {
             if (highlight.screenElement !== event.target.screenElement || highlight.property !== event.target.property) {

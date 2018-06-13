@@ -68,8 +68,15 @@ export default class ScreenEditor extends Element {
      * @param {event} event - The event
      */
     handleAddScreenField = (event) => {
+        // Add the new field to the canvas.
         this.screen = screenReducer(this.screen, event);
-        this.setSelectedNode(this.screen);
+
+        // select the new field on the canvas.
+        Promise.resolve().then(() => {
+            const position = Number.isInteger(event.position) ? event.position : this.screen.fields.length - 1;
+            const canvas = this.template.querySelector('builder_platform_interaction-screen-editor-canvas');
+            canvas.selectField(position);
+        });
     }
 
     /**

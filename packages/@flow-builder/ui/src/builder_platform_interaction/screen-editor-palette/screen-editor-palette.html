@@ -15,7 +15,12 @@
                 </div>
                 <lightning-button-icon icon-name='utility:refresh' size='large' onclick={handleReload}></lightning-button-icon>
             </div>
-            <builder_platform_interaction-palette class='slds-p-horizontal_small' data={types} items-draggable='true' icon-size='x-small' show-section-item-count='true'>
+            <builder_platform_interaction-palette class='slds-p-horizontal_small'
+                                                  data={types}
+                                                  items-draggable='true'
+                                                  icon-size='x-small'
+                                                  onpaletteitemclicked={handlePaletteItemClickedEvent}
+                                                  show-section-item-count='true'>
             </builder_platform_interaction-palette>            
         	</div>
     </div>

@@ -22,8 +22,14 @@ export default class ScreenEditorHighlight extends Element {
         return this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.contains(SELECTED_CLASS);
     }
 
+    /**
+     * Set the component to selected, if it's not already.
+     */
     @api select() {
-        this.setSelected(true);
+        if (!this.selected) {
+            this.setSelected(true);
+            this.dispatchEvent(createScreenElementSelectedEvent(this.screenElement, this.property));
+        }
     }
 
     @api deselect() {
@@ -50,11 +56,7 @@ export default class ScreenEditorHighlight extends Element {
     }
 
     handleSelected = (event) => {
-        if (!this.selected) {
-            this.setSelected(true);
-            this.dispatchEvent(createScreenElementSelectedEvent(this.screenElement, this.property));
-        }
-
+        this.select();
         event.stopPropagation();
     }
 
