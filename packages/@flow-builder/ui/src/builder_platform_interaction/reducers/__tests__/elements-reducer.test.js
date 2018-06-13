@@ -1,9 +1,9 @@
 import elementReducer from '../elements-reducer';
 import {
     UPDATE_FLOW,
+    DELETE_ELEMENT,
     ADD_CANVAS_ELEMENT,
     UPDATE_CANVAS_ELEMENT,
-    DELETE_CANVAS_ELEMENT,
     ADD_CONNECTOR,
     ADD_RESOURCE,
     UPDATE_RESOURCE,
@@ -48,7 +48,7 @@ describe('elements-reducer', () => {
             description: 'desc 1',
             guid: 'guid_1'
         };
-        const newElementState = elementReducer(oldProperties, {type: DELETE_RESOURCE, payload: {guid: omitProps }});
+        const newElementState = elementReducer(oldProperties, {type: DELETE_RESOURCE, payload: {selectedElementGUIDs: [omitProps] }});
         expect(newElementState).not.toHaveProperty('description');
         expect(newElementState).toHaveProperty('name');
         expect(newElementState).toHaveProperty('label');
@@ -56,7 +56,7 @@ describe('elements-reducer', () => {
 
     it('with state set to undefined & action type set to DELETE_VARIABLE should return an empty object', () => {
         const propToOmit = 'description';
-        const newElementState = elementReducer(undefined, {type: DELETE_RESOURCE, payload: {guid: propToOmit }});
+        const newElementState = elementReducer(undefined, {type: DELETE_RESOURCE, payload: {selectedElementGUIDs: [propToOmit] }});
         expect(newElementState).toEqual({});
     });
 
@@ -113,7 +113,7 @@ describe('elements-reducer', () => {
         expect(newElementState).toEqual(updatedElements);
     });
 
-    it('with state set to defined & action type is DELETE_CANVAS_ELEMENT should delete the property from the element object ', () => {
+    it('with state set to defined & action type is DELETE_ELEMENT should delete the property from the element object ', () => {
         const omitProps = ['guid_1'];
         const connector = {
             source: 'guid_2',
@@ -149,8 +149,8 @@ describe('elements-reducer', () => {
             }
         };
 
-        const newElementState = elementReducer(oldProperties, {type: DELETE_CANVAS_ELEMENT,
-            payload : { selectedCanvasElementGUIDs: omitProps, connectorsToDelete:  [connector]}});
+        const newElementState = elementReducer(oldProperties, {type: DELETE_ELEMENT,
+            payload : { selectedElementGUIDs: omitProps, connectorsToDelete:  [connector]}});
         expect(newElementState).toEqual(newProperties);
     });
 

@@ -1,5 +1,5 @@
 import reducer from '../connectors-reducer';
-import { ADD_CONNECTOR, DELETE_CANVAS_ELEMENT, MODIFY_DECISION_WITH_OUTCOMES } from 'builder_platform_interaction-actions';
+import { ADD_CONNECTOR, DELETE_ELEMENT, MODIFY_DECISION_WITH_OUTCOMES } from 'builder_platform_interaction-actions';
 
 const connectorsState = [{
     guid: 'c1',
@@ -43,7 +43,7 @@ describe('connectors-reducer', () => {
         });
     });
 
-    describe('DELETE_CANVAS_ELEMENT', () => {
+    describe('DELETE_ELEMENT', () => {
         it('with deleting one associated connector', () => {
             const payload = {
                 connectorsToDelete: [{
@@ -52,7 +52,7 @@ describe('connectors-reducer', () => {
             };
 
             expect(reducer(connectorsState, {
-                type: DELETE_CANVAS_ELEMENT,
+                type: DELETE_ELEMENT,
                 payload
             })).toEqual(newConnectorStateAfterConnectorDeletion);
         });

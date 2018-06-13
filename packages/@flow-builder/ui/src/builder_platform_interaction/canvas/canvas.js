@@ -2,7 +2,7 @@ import { Element, api, track, unwrap } from 'engine';
 import { drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
 import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pan-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
-import { AddElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
+import { AddElementEvent, DeleteElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /**
@@ -353,13 +353,7 @@ export default class Canvas extends Element {
         if (this.hasCanvasElements) {
             if (event.key === KEYS.BACKSPACE && !this.isPanModeOn) {
                 event.preventDefault();
-
-                const deleteEvent = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
-                    bubbles: true,
-                    composed: true,
-                    cancelable: true,
-                    detail: {}
-                });
+                const deleteEvent = new DeleteElementEvent();
                 this.dispatchEvent(deleteEvent);
             } else if (event.metaKey && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL)) {
                 // Code block for zooming shortcuts

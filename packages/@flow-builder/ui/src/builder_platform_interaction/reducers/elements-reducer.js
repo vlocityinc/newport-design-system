@@ -2,7 +2,7 @@ import {
     UPDATE_FLOW,
     ADD_CANVAS_ELEMENT,
     UPDATE_CANVAS_ELEMENT,
-    DELETE_CANVAS_ELEMENT,
+    DELETE_ELEMENT,
     ADD_CONNECTOR,
     ADD_RESOURCE,
     UPDATE_RESOURCE,
@@ -34,12 +34,12 @@ export default function elementsReducer(state = {}, action) {
         case UPDATE_CANVAS_ELEMENT:
         case UPDATE_RESOURCE:
             return _addOrUpdateElement(state, action.payload.guid, action.payload);
-        case DELETE_CANVAS_ELEMENT:
-            return _deleteAndUpdateElements(state, action.payload.selectedCanvasElementGUIDs, action.payload.connectorsToDelete);
+        case DELETE_ELEMENT:
+            return _deleteAndUpdateElements(state, action.payload.selectedElementGUIDs, action.payload.connectorsToDelete);
         case ADD_CONNECTOR:
             return _updateElementOnAddConnection(state, action.payload);
         case DELETE_RESOURCE:
-            return omit(state, [action.payload.guid]);
+            return omit(state, action.payload.selectedElementGUIDs);
         case SELECT_ON_CANVAS:
             return _selectCanvasElement(state, action.payload.guid);
         case TOGGLE_ON_CANVAS:

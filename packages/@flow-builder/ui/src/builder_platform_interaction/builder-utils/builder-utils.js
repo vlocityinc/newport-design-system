@@ -3,6 +3,7 @@ import { createComponent, dispatchGlobalEvent } from 'aura';
 import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction-element-config';
 import { AddElementEvent, EditElementEvent, NewResourceEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 import { LABELS } from './builder-utils-labels';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * @constant state of callback result
@@ -75,11 +76,16 @@ const getTitleForModalHeader = (mode, elementType) => {
         titlePrefix = LABELS.existingElementHeaderPrefix;
     } else if (mode === AddElementEvent.EVENT_NAME) {
         titlePrefix = LABELS.newElementHeaderPrefix;
+    } else if (mode === CANVAS_EVENT.ADD_CONNECTION) {
+        if (elementType === ELEMENT_TYPE.LOOP) {
+            titlePrefix = LABELS.loopConnectorPickerHeaderPrefix;
+        } else {
+            titlePrefix = LABELS.connectorPickerHeaderPrefix;
+        }
     }
 
     if (mode === CANVAS_EVENT.ADD_CONNECTION) {
-        titlePrefix = LABELS.connectorPickerHeaderPrefix;
-        label = elementConfig.labels.connectorPicker;
+        label = elementConfig.labels.connectorPickerHeaderSuffix;
     } else {
         label = elementConfig.labels.singular;
     }
@@ -134,7 +140,9 @@ const getConnectorPickerConfig = (mode, attributes) => {
     const nodeUpdate = attributes.nodeUpdate,
         comboboxOptions = attributes.comboboxOptions,
         elementType = attributes.sourceElementType,
-        optionsLabel = getConfigForElementType(elementType).labels.connectorPicker,
+        elementConfig = getConfigForElementType(elementType),
+        bodyText = elementConfig.labels.connectorPickerBodyText,
+        comboBoxLabel = elementConfig.labels.comboBoxLabel,
         titleForModal = getTitleForModalHeader(mode, elementType),
         targetElementLabel = attributes.targetElementLabel;
 
@@ -145,7 +153,8 @@ const getConnectorPickerConfig = (mode, attributes) => {
                 descriptor: "builder_platform_interaction:connectorPicker",
                 attr: {
                     comboboxOptions,
-                    optionsLabel,
+                    bodyText,
+                    comboBoxLabel,
                     targetElementLabel
                 }
             }

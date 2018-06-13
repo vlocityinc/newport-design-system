@@ -1,5 +1,5 @@
 import { createElement } from 'engine';
-import { EditElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
+import { EditElementEvent, DeleteElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 import Node from 'builder_platform_interaction-node';
 
 const createComponentUnderTest = (isSelected) => {
@@ -96,7 +96,7 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(true);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(CANVAS_EVENT.DELETE_ON_CANVAS, callback);
+            nodeComponent.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
             nodeComponent.querySelector(selectors.trash).click();
             expect(callback).toHaveBeenCalled();
         });

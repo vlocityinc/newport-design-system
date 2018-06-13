@@ -1,5 +1,5 @@
 import { Element, api, track } from 'engine';
-import { EditElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
+import { EditElementEvent, DeleteElementEvent } from 'builder_platform_interaction-events';
 import { resourceSectionsSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
 
@@ -58,11 +58,6 @@ export default class LeftPanel extends Element {
         return LABELS;
     }
 
-    // TO DO: Remove this logic once we figure out how we are handling Non Canvas Elements Deletion
-    get showDeleteButton() {
-        return storeInstance.getCurrentState().elements[this.resourceDetails.GUID].isCanvasElement;
-    }
-
     handleTabChange(event) {
         this.activetabid = event.detail.tabId;
     }
@@ -94,15 +89,7 @@ export default class LeftPanel extends Element {
 
     handleDeleteButtonClicked() {
         this.showResourceDetailsPanel = false;
-        const selectedCanvasElementGUIDs = [this.resourceDetails.GUID];
-        const deleteEvent = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                selectedCanvasElementGUIDs
-            }
-        });
+        const deleteEvent = new DeleteElementEvent([this.resourceDetails.GUID], this.resourceDetails.TYPE);
         this.dispatchEvent(deleteEvent);
     }
 

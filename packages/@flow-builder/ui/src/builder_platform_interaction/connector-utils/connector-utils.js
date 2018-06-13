@@ -3,7 +3,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import startElementLabel from '@label/FlowBuilderCanvas.startElementLabel';
 import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
-import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.endOfLoopConnectorLabel';
+import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.loopEndConnectorLabel';
 
 export const CONNECTOR_TYPE = {
     REGULAR: 'REGULAR',

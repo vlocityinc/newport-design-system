@@ -1,15 +1,15 @@
 <template>
     <div class='connector-picker'>
         <div class='picker-title slds-m-bottom_medium slds-align_absolute-center'>
-            {connectorPicketTitle}
+            {connectorPickerTitle}
         </div>
-        <div class='slds-align_absolute-center'>
-            <lightning-combobox required
-                                label={optionsLabel}
+        <div class='slds-grid slds-grid_align-center'>
+            <lightning-combobox label={comboBoxLabel}
                                 value={defaultOptionAndValue}
                                 options={comboboxOptions}
-                                title={optionsLabel}
-                                onchange={handlePickerValueChange}>
+                                title={comboBoxLabel}
+                                onchange={handlePickerValueChange}
+                                class='slds-size_large'>
             </lightning-combobox>
         </div>
     </div>

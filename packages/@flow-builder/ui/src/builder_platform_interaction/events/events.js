@@ -22,6 +22,7 @@ export { TogglePanModeEvent } from './canvas-events/zoom-panel-event/pan-event';
 export { ClickToZoomEvent } from './canvas-events/zoom-panel-event/zoom-event';
 export { AddElementEvent } from './element-events/add-element-event';
 export { EditElementEvent } from './element-events/edit-element-event';
+export { DeleteElementEvent } from './element-events/delete-element-event';
 export { PaletteItemClickedEvent } from './palette-events/palette-item-clicked-event';
 export { PaletteSectionToggleEvent } from './palette-events/palette-section-toggle-event';
 export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';

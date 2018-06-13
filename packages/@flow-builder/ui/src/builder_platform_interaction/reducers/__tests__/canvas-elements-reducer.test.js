@@ -1,8 +1,8 @@
 import canvasElementsReducer from '../canvas-elements-reducer';
 import {
     UPDATE_FLOW,
+    DELETE_ELEMENT,
     ADD_CANVAS_ELEMENT,
-    DELETE_CANVAS_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES
 } from 'builder_platform_interaction-actions';
 
@@ -48,10 +48,10 @@ describe('canvas-elements-reducer', () => {
         expect(newCanvasElementState).toHaveLength(1);
     });
 
-    it('with state set to defined & action type is DELETE_CANVAS_ELEMENT should return the array with excluded canvas element', () => {
+    it('with state set to defined & action type is DELETE_ELEMENT should return the array with excluded canvas element', () => {
         const newCanvasElementState = canvasElementsReducer(oldCanvasElementsState, {
-            type: DELETE_CANVAS_ELEMENT,
-            payload: {selectedCanvasElementGUIDs: [oldCanvasElementsState[1]]}
+            type: DELETE_ELEMENT,
+            payload: {selectedElementGUIDs: [oldCanvasElementsState[1]]}
         });
         expect(newCanvasElementState).not.toBe(oldCanvasElementsState[0]);
         expect(newCanvasElementState).toHaveLength(1);

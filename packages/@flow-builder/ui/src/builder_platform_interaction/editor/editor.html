@@ -1,6 +1,6 @@
 <template>
     <div if:true={showSpinner} class="slds-spinner_container">
-        <lightning-spinner variant="brand" alternative-text={labels.SPINNER_ALTERNATIVE_TEXT}></lightning-spinner>
+        <lightning-spinner variant="brand" alternative-text={spinnerAlternativeText}></lightning-spinner>
     </div>
     <div class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
         <div class="slds-col slds-grow-none slds-builder-header_container slds-is-relative">
@@ -9,12 +9,12 @@
         </div>
         <div class="slds-col slds-grow slds-grid">
             <div class="slds-col slds-panel slds-size_medium slds-border_right" aria-hidden="false">
-                <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement} ondeleteoncanvas={handleDeleteOnCanvas}></builder_platform_interaction-left-panel>
+                <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement} ondeleteelement={handleElementDelete}></builder_platform_interaction-left-panel>
             </div>
              <div class="slds-col">
                 <builder_platform_interaction-canvas if:true={shouldCreateCanvas} nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}
                     oncanvasmouseup={handleElementDeselection} oneditelement={handleEditElement} onnodeselected={handleNodeSelection}
-                    ondragnodestop={handleDragNodeStop} ondeleteoncanvas={handleDeleteOnCanvas}
+                    ondragnodestop={handleDragNodeStop} ondeleteelement={handleElementDelete}
                     onaddconnection={handleAddConnection} onconnectorselected={handleConnectorSelection} onaddelement={handleAddElement}>
                 </builder_platform_interaction-canvas>
             </div>

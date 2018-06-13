@@ -11,7 +11,7 @@ export default function resourcesReducer(state = [], action) {
     switch (action.type) {
         case UPDATE_FLOW: return [...action.payload.resources];
         case ADD_RESOURCE: return addItem(state, action.payload.guid);
-        case DELETE_RESOURCE: return deleteItem(state, state.indexOf(action.payload.guid));
+        case DELETE_RESOURCE: return deleteItem(state, state.indexOf(action.payload.selectedElementGUIDs[0]));
         default: return state;
     }
 }

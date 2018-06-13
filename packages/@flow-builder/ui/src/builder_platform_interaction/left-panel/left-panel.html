@@ -20,7 +20,7 @@
         <builder_platform_interaction-resource-details if:true={showResourceDetailsPanel} resourcedetails={resourceDetails}></builder_platform_interaction-resource-details>
     </div>
     <div if:true={showResourceDetailsPanel} class="slds-grid slds-grid_align-end slds-p-around_small slds-border_top slds-border_bottom">
-        <div if:true={showDeleteButton} class="slds-col slds-p-horizontal_x-small">
+        <div class="slds-col slds-p-horizontal_x-small">
             <lightning-button variant="Destructive" label={labels.RESOURCE_DETAILS_DELETE_BUTTON_TEXT} onclick={handleDeleteButtonClicked}></lightning-button>
         </div>
         <div class="slds-col slds-p-horizontal_x-small">

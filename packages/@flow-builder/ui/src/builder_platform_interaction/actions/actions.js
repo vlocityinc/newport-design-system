@@ -7,7 +7,8 @@ export const UPDATE_PROPERTIES = 'UPDATE_PROPERTIES';
 
 export const ADD_CANVAS_ELEMENT = 'ADD_CANVAS_ELEMENT';
 export const UPDATE_CANVAS_ELEMENT = 'UPDATE_CANVAS_ELEMENT';
-export const DELETE_CANVAS_ELEMENT = 'DELETE_CANVAS_ELEMENT';
+
+export const DELETE_ELEMENT = 'DELETE_ELEMENT';
 
 export const ADD_RESOURCE = 'ADD_RESOURCE';
 export const UPDATE_RESOURCE = 'UPDATE_RESOURCE';
@@ -110,17 +111,24 @@ export const updateElement = (payload) => {
  * @returns {Object} action new action based on type and payload
  */
 export const deleteElement = (payload) => {
-    if (payload) {
-        switch (payload.elementType) {
-            case ELEMENT_TYPE.VARIABLE:
-            case ELEMENT_TYPE.FORMULA: return createAction(DELETE_RESOURCE, payload);
-            default:
-                if (isCanvasElement(payload.elementType)) {
-                    return createAction(DELETE_CANVAS_ELEMENT, payload);
-                }
-        }
+    if (!payload) {
+        return {};
     }
-    return {};
+
+    let action = createAction(DELETE_ELEMENT, payload);
+    switch (payload.elementType) {
+        case ELEMENT_TYPE.VARIABLE:
+        case ELEMENT_TYPE.FORMULA: {
+            action = createAction(DELETE_RESOURCE, payload);
+            break;
+        }
+        default:
+            if (isCanvasElement(payload.elementType)) {
+                action = createAction(DELETE_ELEMENT, payload);
+            }
+    }
+
+    return action;
 };
 
 /**

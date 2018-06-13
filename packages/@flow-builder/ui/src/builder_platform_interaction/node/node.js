@@ -1,7 +1,7 @@
 import { Element, api } from 'engine';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { EditElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
+import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent } from 'builder_platform_interaction-events';
 import labelAlternativeText from '@label/FlowBuilderCanvasElement.labelAlternativeText';
 import descriptionAlternativeText from '@label/FlowBuilderCanvasElement.descriptionAlternativeText';
 import trashCanAlternativeText from '@label/FlowBuilderCanvasElement.trashCanAlternativeText';
@@ -114,14 +114,7 @@ export default class Node extends Element {
      */
     handleTrashClick = (event) => {
         event.stopPropagation();
-        const deleteEvent = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                selectedCanvasElementGUID: [this.node.guid]
-            }
-        });
+        const deleteEvent = new DeleteElementEvent([this.node.guid], this.node.elementType);
         this.dispatchEvent(deleteEvent);
     };
 

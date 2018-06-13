@@ -9,7 +9,7 @@ import {
 } from 'builder_platform_interaction-connector-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
-import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.endOfLoopConnectorLabel';
+import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.loopEndConnectorLabel';
 
 jest.mock('builder_platform_interaction-store-lib', () => {
     return {

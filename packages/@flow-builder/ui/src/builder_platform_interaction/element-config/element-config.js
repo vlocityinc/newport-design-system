@@ -266,16 +266,16 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:decisionEditor',
         nodeConfig: {
             iconName: 'standard:feed',
-            // TODO: This should be set dynamically  based on connector-utils.getMaxConnections
-            // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004uM1nIAE/view
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.DECISIONS,
         labels: {
-            connectorPicker: LABELS.decisionConnectorPickerLabel,
             singular: LABELS.decisionSingularLabel,
-            plural: LABELS.decisionPluralLabel
+            plural: LABELS.decisionPluralLabel,
+            connectorPickerHeaderSuffix: LABELS.decisionConnectorPickerHeaderSuffix,
+            connectorPickerBodyText: LABELS.decisionConnectorPickerBodyText,
+            comboBoxLabel: LABELS.decisionConnectorPickerComboBoxLabel
         },
         canvasElement: true,
         canHaveDefaultConnector: true,
@@ -297,19 +297,21 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:loopEditor',
         nodeConfig: {
             iconName: 'standard:channel_program_history',
-            maxConnections: 1
+            maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.LOOPS,
         labels: {
             singular: LABELS.loopSingularLabel,
-            plural: LABELS.loopPluralLabel
+            plural: LABELS.loopPluralLabel,
+            connectorPickerHeaderSuffix: LABELS.loopConnectorPickerHeaderSuffix,
+            connectorPickerBodyText: LABELS.loopConnectorPickerBodyText,
+            comboBoxLabel: LABELS.loopConnectorPickerComboBoxLabel
         },
         canvasElement: true,
         template: {
             config: { isSelected: false },
             connectorCount: 0,
-            defaultConnectorLabel: 'Next element',
             elementType: ELEMENT_TYPE.LOOP,
             guid: '',
             isCanvasElement: true,

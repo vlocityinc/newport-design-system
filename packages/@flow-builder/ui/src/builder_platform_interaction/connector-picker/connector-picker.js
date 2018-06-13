@@ -1,11 +1,10 @@
 import { Element, api } from 'engine';
-import connectorPickerTitlePrefix from '@label/FlowBuilderConnectorPicker.connectorPickerTitlePrefix';
-import connectorPickerTitleSuffix from '@label/FlowBuilderConnectorPicker.connectorPickerTitleSuffix';
 
 export default class ConnectorPicker extends Element {
     @api data;
     @api comboboxOptions;
-    @api optionsLabel;
+    @api bodyText;
+    @api comboBoxLabel;
     @api targetElementLabel;
 
     _pickerValue;
@@ -18,8 +17,8 @@ export default class ConnectorPicker extends Element {
         return this._pickerValue;
     }
 
-    get connectorPicketTitle() {
-        return `${connectorPickerTitlePrefix} ${this.optionsLabel.toLowerCase()} ${connectorPickerTitleSuffix} "${this.targetElementLabel}"`;
+    get connectorPickerTitle() {
+        return `${this.bodyText} "${this.targetElementLabel}".`;
     }
 
     get defaultOptionAndValue() {

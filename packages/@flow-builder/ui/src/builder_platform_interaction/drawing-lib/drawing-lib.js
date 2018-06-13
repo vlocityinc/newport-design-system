@@ -279,12 +279,15 @@ class DrawingLib {
      * @param {String} nodeId - The node id
      */
     removeNodeFromLib = (nodeId) => {
-        instance.removeFromDragSelection(document.getElementById(nodeId).parentElement);
-        instance.unmakeSource(nodeId);
-        delete instance.sourceEndpointDefinitions[nodeId];
-        instance.unmakeTarget(nodeId);
-        instance.destroyDraggable(nodeId);
-        instance.destroyDroppable(nodeId);
+        const canvasElementContainer = document.getElementById(nodeId);
+        if (canvasElementContainer) {
+            instance.removeFromDragSelection(canvasElementContainer);
+            instance.unmakeSource(nodeId);
+            delete instance.sourceEndpointDefinitions[nodeId];
+            instance.unmakeTarget(nodeId);
+            instance.destroyDraggable(nodeId);
+            instance.destroyDroppable(nodeId);
+        }
     };
 
     /**

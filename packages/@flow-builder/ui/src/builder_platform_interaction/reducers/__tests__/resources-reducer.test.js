@@ -48,14 +48,14 @@ describe('resources-reducer', () => {
     });
 
     it('with state set to defined & action type set to DELETE_RESOURCE should return the array with the omitted resource object', () => {
-        const newVariableState = reducer(oldVariablesState, {type: DELETE_RESOURCE, payload: {guid: oldVariablesState[1] }});
+        const newVariableState = reducer(oldVariablesState, {type: DELETE_RESOURCE, payload: {selectedElementGUIDs: [oldVariablesState[1]] }});
         expect(newVariableState).not.toBe(oldVariablesState[0]);
         expect(newVariableState).toHaveLength(1);
     });
 
     it('with state set to undefined & action type set to DELETE_RESOURCE should throw an error.', () => {
         expect(() => {
-            reducer(undefined, {type: DELETE_RESOURCE, payload: {guid: oldVariablesState[0] }});
+            reducer(undefined, {type: DELETE_RESOURCE, payload: {selectedElementGUIDs: [oldVariablesState[0]] }});
         }).toThrow();
     });
 });

@@ -17,9 +17,14 @@ import screenSingularLabel from '@label/FlowBuilderElementConfig.screenSingularL
 import screenPluralLabel from '@label/FlowBuilderElementConfig.screenPluralLabel';
 import decisionSingularLabel from '@label/FlowBuilderElementConfig.decisionSingularLabel';
 import decisionPluralLabel from '@label/FlowBuilderElementConfig.decisionPluralLabel';
-import decisionConnectorPickerLabel from '@label/FlowBuilderElementConfig.decisionConnectorPickerLabel';
+import decisionConnectorPickerHeaderSuffix from '@label/FlowBuilderConnectorPicker.decisionConnectorPickerHeaderSuffix';
+import decisionConnectorPickerBodyText from '@label/FlowBuilderConnectorPicker.decisionConnectorPickerBodyText';
+import decisionConnectorPickerComboBoxLabel from '@label/FlowBuilderConnectorPicker.decisionConnectorPickerComboBoxLabel';
 import loopSingularLabel from '@label/FlowBuilderElementConfig.loopSingularLabel';
 import loopPluralLabel from '@label/FlowBuilderElementConfig.loopPluralLabel';
+import loopConnectorPickerHeaderSuffix from '@label/FlowBuilderConnectorPicker.loopConnectorPickerHeaderSuffix';
+import loopConnectorPickerBodyText from '@label/FlowBuilderConnectorPicker.loopConnectorPickerBodyText';
+import loopConnectorPickerComboBoxLabel from '@label/FlowBuilderConnectorPicker.loopConnectorPickerComboBoxLabel';
 import recordCreateSingularLabel from '@label/FlowBuilderElementConfig.recordCreateSingularLabel';
 import recordCreatePluralLabel from '@label/FlowBuilderElementConfig.recordCreatePluralLabel';
 import recordLookupSingularLabel from '@label/FlowBuilderElementConfig.recordLookupSingularLabel';
@@ -52,9 +57,14 @@ export const LABELS = {
     screenPluralLabel,
     decisionSingularLabel,
     decisionPluralLabel,
-    decisionConnectorPickerLabel,
+    decisionConnectorPickerHeaderSuffix,
+    decisionConnectorPickerBodyText,
+    decisionConnectorPickerComboBoxLabel,
     loopSingularLabel,
     loopPluralLabel,
+    loopConnectorPickerHeaderSuffix,
+    loopConnectorPickerBodyText,
+    loopConnectorPickerComboBoxLabel,
     recordCreateSingularLabel,
     recordCreatePluralLabel,
     recordLookupSingularLabel,

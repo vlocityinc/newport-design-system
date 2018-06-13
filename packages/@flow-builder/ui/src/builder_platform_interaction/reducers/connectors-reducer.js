@@ -1,6 +1,6 @@
 import {
     UPDATE_FLOW,
-    DELETE_CANVAS_ELEMENT,
+    DELETE_ELEMENT,
     ADD_CONNECTOR,
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
@@ -19,7 +19,7 @@ import { addItem, updateProperties, replaceItem} from 'builder_platform_interact
 export default function connectorsReducer(state = [], action) {
     switch (action.type) {
         case UPDATE_FLOW: return [...action.payload.connectors];
-        case DELETE_CANVAS_ELEMENT: return _deleteConnectors(state, action.payload.connectorsToDelete);
+        case DELETE_ELEMENT: return _deleteConnectors(state, action.payload.connectorsToDelete);
         case ADD_CONNECTOR: return addItem(state, action.payload);
         case SELECT_ON_CANVAS: return _selectConnector(state, action.payload.guid);
         case TOGGLE_ON_CANVAS: return _toggleConnector(state, action.payload.guid);

@@ -13,16 +13,10 @@ import { reducer } from "builder_platform_interaction-reducers";
 import { setRules } from "builder_platform_interaction-rule-lib";
 import { setEntities } from 'builder_platform_interaction-sobject-lib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
-import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
-
-import spinnerAlternativeText from '@label/FlowBuilderEditor.spinnerAlternativeText';
+import { LABELS } from './editor-labels';
 
 let unsubscribeStore;
 let storeInstance;
-
-const LABELS = {
-    SPINNER_ALTERNATIVE_TEXT: spinnerAlternativeText
-};
 
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -89,8 +83,8 @@ export default class Editor extends Element {
         return (this.appState.canvas.nodes && this.appState.canvas.nodes.length > 0);
     }
 
-    get labels() {
-        return LABELS;
+    get spinnerAlternativeText() {
+        return LABELS.spinnerAlternativeText;
     }
 
     /**
@@ -272,12 +266,12 @@ export default class Editor extends Element {
 
     /**
      * Helper method to determine if the connector is an associated connector or not
-     * @param {Array} selectedCanvasElementGUIDs - Contains GUIDs of all the selected canvas elements
+     * @param {Array} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
      * @param {Object} connector - A single connector object
      * @return {boolean} returns boolean based on if the connector is associated with any canvas element that is being deleted or not
      */
-    isAssociatedConnector = (selectedCanvasElementGUIDs, connector) => {
-        return (selectedCanvasElementGUIDs.indexOf(connector.target) !== -1 || selectedCanvasElementGUIDs.indexOf(connector.source) !== -1);
+    isAssociatedConnector = (selectedElementGUIDs, connector) => {
+        return (selectedElementGUIDs.indexOf(connector.target) !== -1 || selectedElementGUIDs.indexOf(connector.source) !== -1);
     };
 
     /**
@@ -285,20 +279,21 @@ export default class Editor extends Element {
      *
      * @param {object} event - multi delete event coming from canvas.js
      */
-    handleDeleteOnCanvas = (event) => {
+    handleElementDelete = (event) => {
         if (event && event.detail) {
-            const selectedCanvasElementGUIDs = [];
+            const selectedElementGUIDs = [];
             const connectorsToDelete = [];
+            let elementType;
 
-            if (!event.detail.selectedCanvasElementGUID) {
+            if (!event.detail.selectedElementGUID) {
                 const nodesLength = this.appState.canvas.nodes.length;
                 for (let i = 0; i < nodesLength; i++) {
-                    // Removes all the selected nodes from jsPlumb and adds them to the selectedCanvasElementGUIDs array
+                    // Removes all the selected nodes from jsPlumb and adds them to the selectedElementGUIDs array
                     const canvasElement = this.appState.canvas.nodes[i];
 
                     if (canvasElement.config.isSelected) {
                         lib.removeNodeFromLib(canvasElement.guid);
-                        selectedCanvasElementGUIDs.push(canvasElement.guid);
+                        selectedElementGUIDs.push(canvasElement.guid);
                     }
                 }
 
@@ -308,30 +303,33 @@ export default class Editor extends Element {
                     const connector = this.appState.canvas.connectors[i];
                     if (connector.config.isSelected) {
                         connectorsToDelete.push(connector);
-                    } else if (this.isAssociatedConnector(selectedCanvasElementGUIDs, connector)) {
+                    } else if (this.isAssociatedConnector(selectedElementGUIDs, connector)) {
                         connectorsToDelete.push(connector);
                     }
                 }
             } else {
-                const selectedGUID = event.detail.selectedCanvasElementGUID[0];
+                const selectedGUID = event.detail.selectedElementGUID[0];
+
+                elementType = event.detail.selectedElementType;
+
                 lib.removeNodeFromLib(selectedGUID);
-                selectedCanvasElementGUIDs.push(selectedGUID);
+                selectedElementGUIDs.push(selectedGUID);
+
                 const connectorsLength = this.appState.canvas.connectors.length;
 
                 for (let i = 0; i < connectorsLength; i++) {
                     // Adds all the associated connectors to the connectorsToDelete array
                     const connector = this.appState.canvas.connectors[i];
-                    if (this.isAssociatedConnector(selectedCanvasElementGUIDs, connector)) {
+                    if (this.isAssociatedConnector(selectedElementGUIDs, connector)) {
                         connectorsToDelete.push(connector);
                     }
                 }
             }
 
             const payload = {
-                selectedCanvasElementGUIDs,
+                selectedElementGUIDs,
                 connectorsToDelete,
-                // TODO: Update in second iteration
-                elementType: ELEMENT_TYPE.ASSIGNMENT
+                elementType
             };
             storeInstance.dispatch(deleteElement(payload));
         }
@@ -367,15 +365,19 @@ export default class Editor extends Element {
         let label,
             value;
 
+        value = availableConnectionType;
+
         if (childReference) {
             label = elements[childReference].label;
             value = childReference;
         } else if (availableConnectionType === CONNECTOR_TYPE.DEFAULT) {
             label = sourceElement.defaultConnectorLabel;
-            value = availableConnectionType;
         } else if (availableConnectionType === CONNECTOR_TYPE.FAULT) {
-            label = faultConnectorLabel;
-            value = availableConnectionType;
+            label = LABELS.faultConnectorLabel;
+        } else if (availableConnectionType === CONNECTOR_TYPE.LOOP_NEXT) {
+            label = LABELS.loopNextComboBoxOption;
+        } else if (availableConnectionType === CONNECTOR_TYPE.LOOP_END) {
+            label = LABELS.loopEndComboBoxOption;
         }
 
         return {
@@ -385,26 +387,30 @@ export default class Editor extends Element {
     };
 
     /**
-     * Dispatches add connection action  with the new connector
+     * Dispatches add connection action with the new connector
      *
      * @param {string} source - Contains the source guid
      * @param {string} target - Contains the target guid
-     * @return {Function} - Creates the connector object based on the selected value
+     * @return {Function} - Creates the connector object based on the selected or remaining availableConnection value
      */
     createAndAddConnector = (source, target) => (valueFromCombobox) => {
         const currentState = storeInstance.getCurrentState();
         const elements = currentState.elements;
 
-        let type,
+        let type = valueFromCombobox,
             label,
             childSource;
 
-        if (valueFromCombobox === CONNECTOR_TYPE.DEFAULT) {
-            type = CONNECTOR_TYPE.DEFAULT;
+        if (valueFromCombobox === CONNECTOR_TYPE.REGULAR) {
+            label = null;
+        } else if (valueFromCombobox === CONNECTOR_TYPE.DEFAULT) {
             label = elements[source].defaultConnectorLabel;
         } else if (valueFromCombobox === CONNECTOR_TYPE.FAULT) {
-            type = CONNECTOR_TYPE.FAULT;
-            label = faultConnectorLabel;
+            label = LABELS.faultConnectorLabel;
+        } else if (valueFromCombobox === CONNECTOR_TYPE.LOOP_NEXT) {
+            label = null;
+        } else if (valueFromCombobox === CONNECTOR_TYPE.LOOP_END) {
+            label = LABELS.loopEndConnectorLabel;
         } else {
             type = CONNECTOR_TYPE.REGULAR;
             label = elements[valueFromCombobox].label;
@@ -437,12 +443,16 @@ export default class Editor extends Element {
                     storeInstance.dispatch(addConnector(connector));
                 } else if (availableConnections.length === 1) {
                     // Creates the only connection remaining in availableConnections
+                    let remainingConnectionValue;
                     const childReference = availableConnections[0].childReference;
                     const availableConnectionType = availableConnections[0].type;
-                    const labelAndValue = this.getConnectorLabelAndValue(elements, sourceElement, childReference, availableConnectionType);
-                    const connector = createConnectorObject(event.detail.sourceGuid, childReference, event.detail.targetGuid, labelAndValue.label, availableConnectionType);
-                    storeInstance.dispatch(addConnector(connector));
-                } else if (sourceElementType === ELEMENT_TYPE.DECISION || sourceElementType === ELEMENT_TYPE.WAIT) {
+                    if (childReference) {
+                        remainingConnectionValue = childReference;
+                    } else {
+                        remainingConnectionValue = availableConnectionType;
+                    }
+                    this.createAndAddConnector(event.detail.sourceGuid, event.detail.targetGuid)(remainingConnectionValue);
+                } else if (sourceElementType === ELEMENT_TYPE.DECISION || sourceElementType === ELEMENT_TYPE.WAIT || sourceElementType === ELEMENT_TYPE.LOOP) {
                     // Opens the connector-picker to select which connector to connect when there are multiple available connections
                     const comboboxOptions = [];
                     const availableConnectionsLength = availableConnections.length;
@@ -465,8 +475,7 @@ export default class Editor extends Element {
                 } else {
                     // Creates the first regular connector for all element types (such as CRUD, Action etc.)
                     // that support 2 connectors namely regular and fault
-                    const connector = createConnectorObject(event.detail.sourceGuid, null, event.detail.targetGuid, null, CONNECTOR_TYPE.REGULAR);
-                    storeInstance.dispatch(addConnector(connector));
+                    this.createAndAddConnector(event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.REGULAR);
                 }
             }
         }
