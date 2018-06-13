@@ -3,6 +3,8 @@ import {PropertyChangedEvent, ComboboxValueChangedEvent} from 'builder_platform_
 import {loopValidation} from './loop-validation';
 import {updateProperties} from 'builder_platform_interaction-data-mutation-lib';
 
+const LIGHTNING_RADIO_GROUP_CHANGED = 'change';
+
 const loopPropertyChanged = (state, event) => {
     event.detail.error = event.detail.error === null ?
         loopValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
@@ -26,6 +28,15 @@ const loopComboboxValueChanged = (state, event) => {
     });
 };
 
+const loopIterationOrderChanged = (state, event) => {
+    return updateProperties(state, {
+        iterationOrder: {
+            value: event.detail.value,
+            error: null
+        }
+    });
+};
+
 /**
  * @typedef {type:String, payload: {propertyName: String, value: String, error: String} Event
  */
@@ -42,6 +53,8 @@ export const loopReducer = (state, event) => {
             return loopPropertyChanged(state, event);
         case ComboboxValueChangedEvent.EVENT_NAME:
             return loopComboboxValueChanged(state, event);
+        case LIGHTNING_RADIO_GROUP_CHANGED:
+            return loopIterationOrderChanged(state, event);
         case VALIDATE_ALL: {
             return loopValidation.validateAll(state);
         }

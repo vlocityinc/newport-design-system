@@ -1,27 +1,53 @@
 <template> <!-- TODO: Localize all labels after W-4693112 -->
 	<div if:true={loopElement}>
 	   <div class="slds-p-horizontal_small slds-p-top_small">
-			<builder_platform_interaction-label-description
-				label={loopElement.label} dev-name-label="Loop API Name"
-				dev-name={loopElement.name} description={loopElement.description}
-				onpropertychanged={handleEvent}>
-			</builder_platform_interaction-label-description>
-            <builder_platform_interaction-ferov-resource-picker
-                    value={collectionVariable}
-                    combobox-config={collectionVariableComboboxConfig}
-                    property-editor-element-type={loopElement.elementType}
-                    element-config={collectionVariableElementConfig}
-                    oncomboboxvaluechanged={handleCollectionVariablePropertyChanged}
-                    show-new-resource>
-            </builder_platform_interaction-ferov-resource-picker>
-            <builder_platform_interaction-ferov-resource-picker
-                    value={loopVariable}
-                    combobox-config={loopVariableComboboxConfig}
-                    property-editor-element-type={loopElement.elementType}
-                    element-config={loopVariableElementConfig}
-                    oncomboboxvaluechanged={handleLoopVariablePropertyChanged}
-                    show-new-resource>
-            </builder_platform_interaction-ferov-resource-picker>            
+            <h3 class="slds-modal__content slds-p-around_medium">Loop through a collection and for each item in the collection, perform an evaluation.</h3>
+            <div class="slds-p-horizontal_small slds-p-top_small">
+                <builder_platform_interaction-label-description
+                    label={loopElement.label} dev-name-label="Loop API Name"
+                    dev-name={loopElement.name} description={loopElement.description}
+                    onpropertychanged={handleEvent}>
+                </builder_platform_interaction-label-description>
+                <div class=" slds-border_top slds-p-around_small">
+                    <h3 class="slds-text-heading_small slds-p-bottom_small">Select Collection Variable</h3>
+                    <div class="slds-size_medium">
+                        <builder_platform_interaction-ferov-resource-picker
+                            value={collectionVariable}
+                            combobox-config={collectionVariableComboboxConfig}
+                            property-editor-element-type={loopElement.elementType}
+                            element-config={collectionVariableElementConfig}
+                            oncomboboxvaluechanged={handleCollectionVariablePropertyChanged}
+                            show-new-resource>
+                        </builder_platform_interaction-ferov-resource-picker>
+                    </div>
+                </div>
+                <div class=" slds-border_top slds-p-around_small">
+                    <h3 class="slds-text-heading_small slds-p-bottom_small slds-list_inline">Evaluate Collection Variable</h3>
+                    <lightning-helptext class="slds-p-left_xx-small slds-m-bottom_small" content="Iteration order of the collection variable i.e. Ascending or Descending"></lightning-helptext>
+                    <lightning-radio-group
+                        label="In which direction do you want to loop through the collection?"
+                        name="iterationOrder"
+                        value={iterationOrderValue}
+                        options={iterationOrderOptions}
+                        onchange={handleEvent}
+                        required>
+                    </lightning-radio-group>
+                </div>
+                <div class=" slds-border_top slds-p-around_small">
+                    <h3 class="slds-text-heading_small slds-p-bottom_small slds-list_inline">Assign Collection Item to a Loop Variable</h3>
+                    <lightning-helptext class="slds-p-left_xx-small slds-m-bottom_small" content="This Variable temporarily stores the value of the collection item currently being evaluated by the loop logic."></lightning-helptext>
+                    <div class="slds-size_medium">
+                        <builder_platform_interaction-ferov-resource-picker
+                            value={loopVariable}
+                            combobox-config={loopVariableComboboxConfig}
+                            property-editor-element-type={loopElement.elementType}
+                            element-config={loopVariableElementConfig}
+                            oncomboboxvaluechanged={handleLoopVariablePropertyChanged}
+                            show-new-resource>
+                        </builder_platform_interaction-ferov-resource-picker>   
+                    </div>
+                </div>
+            </div>         
 		</div>
 	</div>
 </template>

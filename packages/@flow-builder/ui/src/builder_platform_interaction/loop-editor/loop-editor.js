@@ -15,6 +15,8 @@ const LOOP_PROPERTIES = {
 const VARIABLE_LABEL = 'Variable';
 const COLLECTION_VAR_PLACEHOLDER = 'Find a collection variable...';
 const LOOP_VAR_PLACEHOLDER = 'Find a variable...';
+const ITERATION_ORDER_ASCENDING = 'Asc';
+const ITERATION_ORDER_DECENDING = 'Desc';
 // TODO: Separate this in 2 error messages in W-4961131
 const VARIABLE_ERROR_MESSAGE = null;
 const VARIABLE_LITERALS_ALLOWED = false;
@@ -133,6 +135,14 @@ export default class LoopEditor extends Element {
         );
     }
 
+    get iterationOrderOptions() {
+        return [{ 'label': 'First to last', 'value': ITERATION_ORDER_ASCENDING }, { 'label': 'Last to first', 'value': ITERATION_ORDER_DECENDING }];
+    }
+
+    get iterationOrderValue() {
+        return this.loopElement.iterationOrder ? this.loopElement.iterationOrder.value : ITERATION_ORDER_ASCENDING;
+    }
+
     handleEvent(event) {
         event.stopPropagation();
         this.loopElement = loopReducer(this.loopElement, event);
@@ -154,4 +164,3 @@ export default class LoopEditor extends Element {
         this.loopElement = loopReducer(this.loopElement, event);
     }
 }
-
