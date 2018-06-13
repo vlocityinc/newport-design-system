@@ -1,13 +1,23 @@
 <template>
     <div class="toolbar slds-grid slds-border_bottom">
-        <div class="toolbar-left slds-grid slds-p-left_xx-small">
-            <div class="slds-col slds-button-group" role="group">
-                <!--Placeholder for icons on left hand side of the toolbar-->
-            </div>
-        </div>
         <div class="toolbar-right slds-col_bump-left slds-grid">
             <div class="slds-col slds-p-right_xx-small">
-                <lightning-button label="Save" variant="brand" title="Save" onclick={handleSave} class="toolbar-save" disabled={isSaveDisabled}></lightning-button>
+                <builder_platform_interaction-status-icon 
+                    messages={errors} 
+                    type="error"
+                    direction="south"
+                    headerforsummary={headerTitleForSummary}>
+                </builder_platform_interaction-status-icon>
+            </div>
+            <div class="slds-col slds-p-right_xx-small">
+                <lightning-button
+                    label="Save"
+                    variant="brand"
+                    title="Save"
+                    onclick={handleSave}
+                    class="toolbar-save"
+                    disabled={isSaveDisabled}>
+                </lightning-button>
             </div>
         </div>
     </div>

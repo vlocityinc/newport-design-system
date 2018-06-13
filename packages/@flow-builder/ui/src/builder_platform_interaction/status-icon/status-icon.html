@@ -1,0 +1,12 @@
+<template>
+    <div class={classForIcon}>
+        <div if:true={isIconVisible}>
+            <lightning-button-icon variant={type}
+                icon-name={iconNameFromType}
+                icon-class={iconClassFromType}
+                size="medium"
+                onclick={handleIconClick}>
+            </lightning-button-icon>
+        </div> 
+    </div>
+</template>

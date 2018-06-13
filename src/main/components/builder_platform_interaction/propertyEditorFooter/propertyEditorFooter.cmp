@@ -1,8 +1,27 @@
-<!-- TODO: i18n after W-4693112 -->
+<!-- TODO: i18n in this work item itself, wait till next CL please -->
 <aura:component>
     <!-- notify to close the panel -->
-    <aura:registerEvent name="notify" type="ui:notify"/>
-  
-    <lightning:button title="Cancel" onclick="{!c.handleCancel}">Cancel</lightning:button>
-    <lightning:button variant="brand" onclick="{!c.handleOk}">OK</lightning:button>
+    <aura:registerEvent name="notify" type="ui:notify" />
+    <aura:attribute type="String[]" name="messages" description="messages for status icon component" />
+    <aura:attribute type="Object" name="closeActionCallback" description="set after panel creation" />
+    <aura:attribute type="Object" name="panelInstance" description="set after panel creation" />
+    <aura:attribute type="boolean" name="isSaveDisabled" default="false" description="true if save is disabled" />
+    <aura:attribute type="boolean" name="showOnlyNumberOfErrors" default="false" description="only show the number of errors in the body" />
+    
+    <div class="slds-grid slds-grid--align-end">
+        <div class="slds-col slds-p-right_xx-small">
+            <builder_platform_interaction:statusIcon 
+                aura:id="statusIcon" messages="{!v.messages}"
+                direction="north" type="error"
+                showOnlyNumberOfErrors="true"
+                headerforsummary="Resolve errors">
+            </builder_platform_interaction:statusIcon>
+        </div>
+        <div class="slds-col slds-p-right_xx-small">
+            <lightning:button title="Cancel" onclick="{!c.handleCancel}">Cancel</lightning:button>
+        </div>
+        <div class="slds-col slds-p-right_xx-small">
+            <lightning:button variant="brand" disabled="{!v.isSaveDisabled}" onclick="{!c.handleOk}">OK</lightning:button>
+        </div>
+    </div>
 </aura:component>

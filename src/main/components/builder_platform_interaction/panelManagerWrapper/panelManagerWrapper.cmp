@@ -9,7 +9,8 @@
                         </ui:button>
                     </aura:set>
                 </ui:modal>
-                <force:hoverPanel alias="hoverPanel" aura:id="hoverPanel"></force:hoverPanel>
+				<force:hoverPanel alias="hoverPanel" aura:id="hoverPanel"></force:hoverPanel>
+                <ui:panel alias="panel" aura:id="panel"></ui:panel>
             </aura:set>
         </ui:panelManager2>
     </div>

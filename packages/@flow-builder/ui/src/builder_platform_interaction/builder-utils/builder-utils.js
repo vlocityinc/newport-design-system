@@ -127,6 +127,19 @@ const getNewResourceConfig = (attributes) => {
 };
 
 /**
+ * Callback that executes just before closing any property editor modal
+ * @param {Object} panel : panel Instance of status icon
+ */
+const closeActionCallback = (panel) => {
+    const panelFooter = panel.get('v.footer')[0];
+    const statusIconCmp = panelFooter.find('statusIcon');
+    if (statusIconCmp && statusIconCmp.getPanelInstance()) {
+        statusIconCmp.closePanelInstance();
+    }
+    panel.close();
+};
+
+/**
  * Gets the connector picker config
  * @param {string} mode based on the event type
  * @param {object} attributes - contains a callback and actual data
@@ -252,6 +265,14 @@ const doInvoke = (cmpName, attr, panelConfig) => {
                 bodyClass: panelConfig.bodyClass,
                 header: newComponents[1],
                 footer: newComponents[2],
+                closeAction: (panel) => {
+                    closeActionCallback(panel);
+                }
+            },
+            onCreate: (panel) => {
+                const panelFooter = panel.get('v.footer')[0];
+                panelFooter.set('v.panelInstance', panel);
+                panelFooter.set('v.closeActionCallback', closeActionCallback);
             }
         };
         dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
