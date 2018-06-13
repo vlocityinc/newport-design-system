@@ -93,4 +93,46 @@ describe('screen reducer', () => {
         expect(screen.fields[2]).toBe(newScreen.fields[1]);
         expect(newScreen.fields).toHaveLength(screen.fields.length);
     });
+    it('reorders fields when dest and source are the same results in no change', () => {
+        const screen = createTestScreen(SCREEN_NAME, null);
+        const event = {
+            type: ReorderListEvent.EVENT_NAME,
+            detail: {
+                sourceGuid: screen.fields[0].guid,
+                destinationGuid: screen.fields[0].guid
+            }
+        };
+
+        const newScreen = screenReducer(screen, event);
+        expect(screen.fields).toEqual(newScreen.fields);
+        expect(newScreen.fields).toHaveLength(screen.fields.length);
+    });
+    it('invalid guid for destination field results in no change', () => {
+        const screen = createTestScreen(SCREEN_NAME, null);
+        const event = {
+            type: ReorderListEvent.EVENT_NAME,
+            detail: {
+                sourceGuid: screen.fields[0].guid,
+                destinationGuid: screen.guid
+            }
+        };
+
+        const newScreen = screenReducer(screen, event);
+        expect(screen.fields).toEqual(newScreen.fields);
+        expect(newScreen.fields).toHaveLength(screen.fields.length);
+    });
+    it('invalid guid for source field results in no change', () => {
+        const screen = createTestScreen(SCREEN_NAME, null);
+        const event = {
+            type: ReorderListEvent.EVENT_NAME,
+            detail: {
+                sourceGuid: screen.guid,
+                destinationGuid: screen.fields[0].guid
+            }
+        };
+
+        const newScreen = screenReducer(screen, event);
+        expect(screen.fields).toEqual(newScreen.fields);
+        expect(newScreen.fields).toHaveLength(screen.fields.length);
+    });
 });
