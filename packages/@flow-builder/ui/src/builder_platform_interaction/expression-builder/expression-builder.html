@@ -5,7 +5,7 @@
                 value={state.normalizedLHS.item}
                 onfetchmenudata={handleFetchLHSMenuData}
                 oncomboboxvaluechanged={handleLHSValueChanged}
-                onitemselected={handleLHSValueChanged}
+                onitemselected={handleLHSItemSelected}
                 onfiltermatches={handleFilterLHSMatches}
                 menu-data={lhsMenuData}
                 error-message={state.expression.leftHandSide.error}
@@ -17,7 +17,7 @@
                     label={operatorLabel}
                     value={operatorComboBoxValue}
                     disabled={operatorAndRHSDisabled}
-                    options={operatorMenuData}
+                    options={state.operatorMenuData}
                     onchange={handleOperatorChanged}
                     >
             </lightning-combobox>

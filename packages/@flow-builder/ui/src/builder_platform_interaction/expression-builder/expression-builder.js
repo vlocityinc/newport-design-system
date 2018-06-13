@@ -8,6 +8,7 @@ import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
+import genericErrorMessage from '@label/FlowBuilderCombobox.genericErrorMessage';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -38,7 +39,9 @@ export default class ExpressionBuilder extends Element {
         normalizedLHS: {}, // contains display, for the combobox to display, and parameter, to use with the rules service
         normalizedRHS: {}, // for the rhs combobox to display, as the rhs could be passed as a guid
         lhsMenuData: [], // the menu data being passed to lhs combobox
+        operatorMenuData: undefined,
         rhsMenuData: [], // the menu data being passed to rhs combobox
+        rhsTypes: null,
     };
 
     @track
@@ -77,6 +80,7 @@ export default class ExpressionBuilder extends Element {
 
         if (this.state.normalizedLHS.item) {
             this.operatorAndRHSDisabled = false;
+            this.state.operatorMenuData = transformOperatorsForCombobox(getOperators(elementType, this.state.normalizedLHS.parameter, rules));
         } else {
             this.operatorAndRHSDisabled = true;
         }
@@ -105,14 +109,14 @@ export default class ExpressionBuilder extends Element {
         }
 
         if (lhsVal && expression[OPERATOR]) {
-            const rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, expression[OPERATOR].value, rules);
+            this.state.rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, expression[OPERATOR].value, rules);
             // In the case that the existing RHS is a field on the second level, get the appropriate menu data
             if (this.state.normalizedRHS.itemOrDisplayText && this.state.normalizedRHS.itemOrDisplayText.parent) {
                 getFieldsForEntity(this.state.normalizedRHS.itemOrDisplayText.parent.subText, (fields) => {
-                    this._fullRHSMenuData = this.state.rhsMenuData = filterFieldsForChosenElement(this.state.normalizedRHS.itemOrDisplayText.parent, rhsTypes, fields, true, true);
+                    this._fullRHSMenuData = this.state.rhsMenuData = filterFieldsForChosenElement(this.state.normalizedRHS.itemOrDisplayText.parent, this.state.rhsTypes, fields, true, true);
                 });
             } else {
-                this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({elementType}, rhsTypes, true, true);
+                this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({elementType}, this.state.rhsTypes, true, true);
             }
         }
 
@@ -155,10 +159,6 @@ export default class ExpressionBuilder extends Element {
         return this.state.lhsMenuData;
     }
 
-    get operatorMenuData() {
-        return transformOperatorsForCombobox(getOperators(elementType, this.state.normalizedLHS.parameter, rules));
-    }
-
     get rhsMenuData() {
         return this.state.rhsMenuData;
     }
@@ -184,8 +184,23 @@ export default class ExpressionBuilder extends Element {
 
     _fetchedRHSInfo = false;
 
+    firePropertyChangedEvent(newExpression) {
+        const propertyChangedEvent = new RowContentsChangedEvent(newExpression);
+        this.dispatchEvent(propertyChangedEvent);
+    }
+
+    handleLHSItemSelected(event) {
+        this.operatorAndRHSDisabled = false;
+
+        if (!this.state.operatorMenuData) {
+            const normalizedNewLHS = normalizeLHS(event.detail.item.value);
+            this.state.operatorMenuData = transformOperatorsForCombobox(getOperators(elementType, normalizedNewLHS.parameter, rules));
+        }
+    }
+
     handleLHSValueChanged(event) {
         event.stopPropagation();
+        this.state.operatorMenuData = undefined;
         const newLHSItem = event.detail.item;
         const newValue = newLHSItem ? newLHSItem.value : event.detail.displayText;
         const expressionUpdates = {[LHS] : {value : newValue, error: event.detail.error}};
@@ -211,10 +226,9 @@ export default class ExpressionBuilder extends Element {
                 expressionUpdates[RHSDT] = this._clearedProperty;
                 expressionUpdates[RHSG] = this._clearedProperty;
             } else {
-                const rhsTypes = getRHSTypes(elementType, newLHSParam, this.state.expression.operator.value, rules);
                 let rhsValid = false;
                 if (this.state.expression.rightHandSideGuid.value) {
-                    rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
+                    rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
                 }
                 if (!rhsValid) {
                     expressionUpdates[RHS] = this._clearedProperty;
@@ -232,20 +246,14 @@ export default class ExpressionBuilder extends Element {
         this.firePropertyChangedEvent(newExpression);
     }
 
-    firePropertyChangedEvent(newExpression) {
-        const propertyChangedEvent = new RowContentsChangedEvent(newExpression);
-        this.dispatchEvent(propertyChangedEvent);
-    }
-
     handleOperatorChanged(event) {
         event.stopPropagation();
         const newOperator = event.detail.value;
         const expressionUpdates = {[OPERATOR]: {value: newOperator, error: null}};
         if (this.state.expression.rightHandSideGuid.value) {
-            const rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, newOperator, rules);
             let rhsValid = false;
             if (this.state.expression.rightHandSideGuid.value) {
-                rhsValid = isElementAllowed(rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
+                rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
             }
             if (!rhsValid) {
                 expressionUpdates[RHS] = this._clearedProperty;
@@ -261,16 +269,19 @@ export default class ExpressionBuilder extends Element {
     handleRHSValueChanged(event) {
         event.stopPropagation();
         const newRHSItem = event.detail.item;
-        const errorMessage = event.detail.error;
+        let errorMessage = event.detail.error;
+
         let rhsAndRHSDT;
         if (newRHSItem) {
+            if (!errorMessage && !newRHSItem.parent && !isElementAllowed(this.state.rhsTypes, elementToParam(getElementByGuid(newRHSItem.value)))) {
+                errorMessage = genericErrorMessage;
+            }
             rhsAndRHSDT = {
                 [RHS]: {value: newRHSItem.displayText, error: errorMessage},
                 [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: null},
                 [RHSG]: {value: newRHSItem.value, error: null}
             };
         } else {
-            // TODO: not all literals are strings! dealing with literals in W-4795778
             rhsAndRHSDT = {
                 [RHS]: {value: event.detail.displayText, error: errorMessage},
                 // Set the dataType to LHS dataType
@@ -285,14 +296,13 @@ export default class ExpressionBuilder extends Element {
     get lhsType() {
         if (this.state.normalizedLHS.parameter) {
             const allowedDataTypes = [];
-            const types = getRHSTypes(elementType, this.state.normalizedLHS.parameter, this.state.expression[OPERATOR].value, rules);
-            if (types) {
+            if (this.state.rhsTypes) {
                 // This can contain Flow dataTypes and element types
-                const typeKeys = Object.keys(types);
+                const typeKeys = Object.keys(this.state.rhsTypes);
                 for (let i = 0; i < typeKeys.length; i++) {
                     const typeKey = typeKeys[i];
-                    if (types[typeKey][0].dataType) {
-                        allowedDataTypes.push(types[typeKey][0].dataType);
+                    if (this.state.rhsTypes[typeKey][0].dataType) {
+                        allowedDataTypes.push(this.state.rhsTypes[typeKey][0].dataType);
                     }
                 }
             }
@@ -308,7 +318,7 @@ export default class ExpressionBuilder extends Element {
     }
 
     handleFilterLHSMatches(event) {
-        this.operatorAndRHSDisabled = !this.template.querySelector('.lhs').displayText;
+        this.operatorAndRHSDisabled = !this.template.querySelector('.lhs').value;
 
         this.state.lhsMenuData = filterMatches(event.detail.value, this._fullLHSMenuData, event.detail.isMergeField);
     }
@@ -332,10 +342,10 @@ export default class ExpressionBuilder extends Element {
         const selectedItem = event.detail.item;
         if (selectedItem) {
             getFieldsForEntity((selectedItem.subText instanceof Array) ? selectedItem.subTextNoHighlight : selectedItem.subText, (fields) => {
-                this._fullRHSMenuData = this.state.rhsMenuData = filterFieldsForChosenElement(selectedItem, getLHSTypes(elementType, rules), fields, true, true);
+                this._fullRHSMenuData = this.state.rhsMenuData = filterFieldsForChosenElement(selectedItem, this.state.rhsTypes, fields, true, true);
             });
         } else {
-            this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({elementType}, getRHSTypes(elementType, this.state.normalizedLHS.parameter, this.state.expression[OPERATOR].value, rules), true);
+            this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({elementType}, this.state.rhsTypes, true);
         }
     }
 

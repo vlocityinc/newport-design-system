@@ -292,10 +292,9 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
     } else if (flowElement) {
         lhs.item = mutateFlowElementToComboboxShape(flowElement);
         lhs.parameter = elementToParam(flowElement);
-    } else {
-        // TODO handle the case where LHS is not a flow element here
-        // getFieldsForEntity will need to be called here too
-        // use lhsIdentifier here
+    } else if (lhsIdentifier) {
+        lhs.item = {};
+        lhs.item.value = lhsIdentifier;
     }
     return lhs;
 };
