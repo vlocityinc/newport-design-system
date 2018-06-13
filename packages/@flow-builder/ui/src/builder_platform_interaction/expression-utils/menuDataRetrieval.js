@@ -1,5 +1,10 @@
 import { isMatch, elementToParam } from "builder_platform_interaction-rule-lib";
-import { writableElementsSelector, readableElementsSelector } from "builder_platform_interaction-selectors";
+import {
+    writableElementsSelector,
+    readableElementsSelector,
+    collectionElementsSelector,
+    byTypeElementsSelector
+} from "builder_platform_interaction-selectors";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
@@ -305,13 +310,12 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
  * @returns {function}                  retrieves elements from store
  */
-function getSelector({elementType, shouldBeWritable}) {
+function getSelector({elementType, shouldBeWritable, isCollection, dataType}) {
     switch (elementType) {
         case ELEMENT_TYPE.ACTION_CALL:
         case ELEMENT_TYPE.APEX_CALL:
         case ELEMENT_TYPE.APEX_PLUGIN_CALL:
         case ELEMENT_TYPE.ASSIGNMENT:
-        case ELEMENT_TYPE.LOOP:
         case ELEMENT_TYPE.EMAIL_ALERT:
         case ELEMENT_TYPE.SUBFLOW:
         case ELEMENT_TYPE.LOCAL_ACTION_CALL:
@@ -320,6 +324,8 @@ function getSelector({elementType, shouldBeWritable}) {
             return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         case ELEMENT_TYPE.DECISION:
             return readableElementsSelector;
+        case ELEMENT_TYPE.LOOP:
+            return isCollection ? collectionElementsSelector : byTypeElementsSelector(dataType);
         default:
             return undefined;
     }

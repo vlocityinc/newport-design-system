@@ -6,6 +6,22 @@
 				dev-name={loopElement.name} description={loopElement.description}
 				onpropertychanged={handleEvent}>
 			</builder_platform_interaction-label-description>
+            <builder_platform_interaction-ferov-resource-picker
+                    value={collectionVariable}
+                    combobox-config={collectionVariableComboboxConfig}
+                    property-editor-element-type={loopElement.elementType}
+                    element-config={collectionVariableElementConfig}
+                    oncomboboxvaluechanged={handleCollectionVariablePropertyChanged}
+                    show-new-resource>
+            </builder_platform_interaction-ferov-resource-picker>
+            <builder_platform_interaction-ferov-resource-picker
+                    value={loopVariable}
+                    combobox-config={loopVariableComboboxConfig}
+                    property-editor-element-type={loopElement.elementType}
+                    element-config={loopVariableElementConfig}
+                    oncomboboxvaluechanged={handleLoopVariablePropertyChanged}
+                    show-new-resource>
+            </builder_platform_interaction-ferov-resource-picker>            
 		</div>
 	</div>
 </template>

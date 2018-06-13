@@ -31,3 +31,25 @@ export const formatDate = (dateValue, isDateTime) => {
 export const isObject = (item) => {
     return (typeof item === 'object' && !Array.isArray(item) && !isUndefinedOrNull(item));
 };
+
+/*
+ * Append curly braces and bang to the value.
+ * @param {string}      value input
+ * @return {string}     returns value surrounded by curly braces and bang
+ */
+export const addCurlyBraces = (value) => {
+    return '{!' + value + '}';
+};
+
+/**
+ * Remove curly braces and bang from the value if it exists.
+ * TODO: move this method to generic utils
+ * @param {string}      value to remove the curly braces
+ * @return {string}     string without curly braces and bang
+ */
+export const removeCurlyBraces = (value) =>  {
+    if (value && value.startsWith('{!') && value.endsWith('}')) {
+        return value.substring(2, value.length - 1);
+    }
+    return value;
+};

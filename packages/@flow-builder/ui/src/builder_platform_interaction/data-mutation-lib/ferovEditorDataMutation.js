@@ -1,6 +1,7 @@
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { omit, updateProperties } from './objectMutation';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction-common-utils';
 
 // keys are the types we find in our ferov objects, values are flow builder ferov data types
 const META_DATA_TYPES_TO_FEROV_TYPES_MAP = {
@@ -25,29 +26,6 @@ export const GUID_SUFFIX = 'Guid';
  */
 function isFerovReference(metaDataType) {
     return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.REFERENCE;
-}
-
-/**
- * Append curly braces and bang to the value.
- * TODO: move this method to generic utils
- * @param {string}      value input
- * @return {string}     returns value surrounded by curly braces and bang
- */
-function addCurlyBraces(value) {
-    return '{!' + value + '}';
-}
-
-/**
- * Remove curly braces and bang from the value if it exists.
- * TODO: move this method to generic utils
- * @param {string}      value to remove the curly braces
- * @return {string}     string without curly braces and bang
- */
-function removeCurlyBraces(value) {
-    if (value && value.startsWith('{!') && value.endsWith('}')) {
-        return value.substring(2, value.length - 1);
-    }
-    return value;
 }
 
 /**

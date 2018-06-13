@@ -1,18 +1,36 @@
 import { Element, api, track, unwrap } from 'engine';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { loopReducer } from './loop-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
+import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
+import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+
+const LOOP_PROPERTIES = {
+    COLLECTION_VARIABLE: 'collectionReference',
+    LOOP_VARIABLE: 'assignNextValueToReference'
+};
+// TODO: use labels W-4960986
+const VARIABLE_LABEL = 'Variable';
+const COLLECTION_VAR_PLACEHOLDER = 'Find a collection variable...';
+const LOOP_VAR_PLACEHOLDER = 'Find a variable...';
+// TODO: Separate this in 2 error messages in W-4961131
+const VARIABLE_ERROR_MESSAGE = null;
+const VARIABLE_LITERALS_ALLOWED = false;
+const VARIABLE_REQUIRED = true;
+const VARIABLE_DISABLED = false;
+
+const COLLECTION_VAR_ELEMENT_CONFIG = {
+    elementType: ELEMENT_TYPE.LOOP,
+    isCollection: true
+};
 
 export default class LoopEditor extends Element {
     /**
      * internal state for the loop editor
      */
     @track loopElement;
-
-    get expressionBuilderConfig() {
-        return { elementType: ELEMENT_TYPE.LOOP };
-    }
 
     @api
     get node() {
@@ -22,6 +40,8 @@ export default class LoopEditor extends Element {
     @api
     set node(newValue) {
         this.loopElement = newValue || {};
+        this._collectionVariable = getElementByGuid(getValueFromHydratedItem(this.loopElement.collectionReference));
+        this._loopVariable = getElementByGuid(getValueFromHydratedItem(this.loopElement.assignNextValueToReference));
     }
 
     /**
@@ -43,10 +63,94 @@ export default class LoopEditor extends Element {
     }
 
     /**
-     * @param {object} event - property changed event coming from label-description component
+     * Gets the developer name of the collection variable in the loop element
+     * The name is in the {!name} format
+     * @returns {String} name
      */
+    get collectionVariable() {
+        if (this._collectionVariable) {
+            return {
+                text: addCurlyBraces(this._collectionVariable.name),
+                displayText: addCurlyBraces(this._collectionVariable.name),
+                value: this.loopElement.collectionReference
+            };
+        }
+        return '';
+    }
+
+    get loopVariable() {
+        if (this._loopVariable) {
+            return {
+                text: addCurlyBraces(this._loopVariable.name),
+                displayText: addCurlyBraces(this._loopVariable.name),
+                value: this.loopElement.assignNextValueToReference
+            };
+        }
+        return '';
+    }
+
+    get collectionVariableElementConfig() {
+        return COLLECTION_VAR_ELEMENT_CONFIG;
+    }
+
+    get loopVariableElementConfig() {
+        const collectionVariableDataType = this._collectionVariable ? this._collectionVariable.dataType : 'String';
+        return {
+            elementType: ELEMENT_TYPE.LOOP,
+            dataType: collectionVariableDataType
+        };
+    }
+
+    // TODO: use labels W-4960986
+    get collectionVariableComboboxConfig() {
+        const collectionVariableDataTypeForValidation = this._collectionVariable ? this._collectionVariable.dataType : 'String';
+        return BaseResourcePicker.getComboboxConfig(
+            VARIABLE_LABEL,
+            COLLECTION_VAR_PLACEHOLDER,
+            VARIABLE_ERROR_MESSAGE,
+            VARIABLE_LITERALS_ALLOWED,
+            VARIABLE_REQUIRED,
+            VARIABLE_DISABLED,
+            collectionVariableDataTypeForValidation
+        );
+    }
+
+    // TODO: use labels W-4960986
+    get loopVariableComboboxConfig() {
+        // TODO: Fix isDisabled to be updated on ItemSelectedEvent
+        const isDisabled = !this._collectionVariable;
+        // The validation for the 'String' dataType will never happen because the combobox will be disabled
+        // but the combobox config requires a non-empty string there
+        const loopVariableDataTypeForValidation = isDisabled ? 'String' : this._collectionVariable.dataType;
+        return BaseResourcePicker.getComboboxConfig(
+            VARIABLE_LABEL,
+            LOOP_VAR_PLACEHOLDER,
+            VARIABLE_ERROR_MESSAGE,
+            VARIABLE_LITERALS_ALLOWED,
+            VARIABLE_REQUIRED,
+            isDisabled,
+            loopVariableDataTypeForValidation
+        );
+    }
+
     handleEvent(event) {
         event.stopPropagation();
+        this.loopElement = loopReducer(this.loopElement, event);
+    }
+
+    handleCollectionVariablePropertyChanged(event) {
+        event.stopPropagation();
+        // TODO: in W-5079245 replace this and get the data needed directly from the event
+        this._collectionVariable = getElementByGuid(event.detail.item.value);
+        event.detail.propertyName = LOOP_PROPERTIES.COLLECTION_VARIABLE;
+        this.loopElement = loopReducer(this.loopElement, event);
+    }
+
+    handleLoopVariablePropertyChanged(event) {
+        event.stopPropagation();
+        // TODO: in W-5079245 replace this and get the data needed directly from the event
+        this._loopVariable = getElementByGuid(event.detail.item.value);
+        event.detail.propertyName = LOOP_PROPERTIES.LOOP_VARIABLE;
         this.loopElement = loopReducer(this.loopElement, event);
     }
 }
