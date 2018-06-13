@@ -171,6 +171,14 @@ describe('Combobox Tests', () => {
                 expect(groupedCombobox.inputText).toEqual('{!}');
             });
         });
+
+        it('textinput event with undefined text does nothing}', () => {
+            const textInputEvent = getTextInputEvent(undefined);
+            groupedCombobox.dispatchEvent(textInputEvent);
+            return Promise.resolve().then(() => {
+                expect(groupedCombobox.inputText).toEqual('{');
+            });
+        });
     });
 
     describe('Icon Tests', () => {

@@ -267,6 +267,12 @@ export default class Combobox extends Element {
      * @param {Object} event - Event fired from grouped-combobox
      */
     handleTextInput(event) {
+        // Do nothing if the event is fired with undefined.  This is catching an issue with IE11 where textinput events
+        // are being fired with undefined upon initial element rendering
+        if (event.detail.text === undefined) {
+            return;
+        }
+
         // Typing should invalidate the selected _item
         this._item = null;
 
