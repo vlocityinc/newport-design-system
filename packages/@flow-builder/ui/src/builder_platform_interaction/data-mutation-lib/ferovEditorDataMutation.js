@@ -1,4 +1,4 @@
-import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { omit, updateProperties } from './objectMutation';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 
@@ -181,6 +181,27 @@ function convertToProps(ferovObject, valueProperty, dataTypeProperty) {
 }
 
 /**
+ * Converts Flow datatypes to FEROV compatible datatype
+ * @param {String} value The string representation of the Flow datatype
+ * @returns {String} The FEROF compatible datatype
+ */
+function getFerovDataTypeValue(value) {
+    let dataType;
+    switch (value) {
+        case FLOW_DATA_TYPE.CURRENCY.value:
+            dataType = FLOW_DATA_TYPE.NUMBER.value;
+            break;
+        case FLOW_DATA_TYPE.PICKLIST.value:
+        case FLOW_DATA_TYPE.MULTI_PICKLIST.value:
+            dataType = FLOW_DATA_TYPE.STRING.value;
+            break;
+        default:
+            dataType = value;
+    }
+    return dataType.toLowerCase();
+}
+
+/**
  * Sanity checks on the mutate and deMutate params
  * @param {Object} element              Property editor element with ferov (eg. condition or variable)
  * @param {Object} ferovObjectName      Name of Ferov object inside the element. This object will be chagned into a scalar and placed in side valueProperty
@@ -253,9 +274,7 @@ export const deMutateFEROV = (element, ferovObjectName, { valueProperty, dataTyp
     }
 
     // find the data type key of the element object
-    // TODO: Picklist & Multipicklist. Make a mapping for these three?
-    // currency literals should always be mapped as a number
-    const ferovDataTypeValue = (element[dataTypeProperty] === 'currency') ? 'number' : element[dataTypeProperty];
+    const ferovDataTypeValue = getFerovDataTypeValue(element[dataTypeProperty]);
     const ferovDataTypeKey = FEROV_DATA_TYPE_VALUES.find((type) => {
         return ferovDataTypeValue === META_DATA_TYPES_TO_FEROV_TYPES_MAP[type];
     });
