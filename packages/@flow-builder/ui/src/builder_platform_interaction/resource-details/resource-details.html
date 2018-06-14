@@ -5,19 +5,17 @@
             <div class="slds-form-element">
                 <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_TYPE_TEXT}
                     <div class="slds-form-element__icon slds-align-middle">
-                        <lightning-icon if:true={hasIcon} icon-name={resourcedetails.ICON_NAME} size="xx-small" alternative-text={resourcedetails.LABEL}></lightning-icon>
+                        <lightning-icon if:true={hasIcon} icon-name={internalResourceDetails.ICON_NAME} size="xx-small" alternative-text={internalResourceDetails.LABEL}></lightning-icon>
                     </div>
-                    {resourcedetails.TYPE}
+                    {internalResourceDetails.TYPE}
                 </label>
             </div>
             <div class="slds-form-element" if:true={hasUniqueName}>
-                <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_UNIQUE_NAME_TEXT}
-                    {resourcedetails.NAME}
+                <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_UNIQUE_NAME_TEXT} {internalResourceDetails.NAME}
                 </label>
             </div>
             <div class="slds-form-element" if:true={hasDescription}>
-                <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_DESCRIPTION_TEXT}
-                    {resourcedetails.DESCRIPTION}
+                <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_DESCRIPTION_TEXT} {internalResourceDetails.DESCRIPTION}
                 </label>
             </div>
         </div>

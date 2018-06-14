@@ -20,6 +20,8 @@ const LABELS = {
 };
 
 const ACTIVETABID_DEFAULT = 'left-panel-tabitem-elements';
+const CLASS_ACTIVE = "slds-show";
+const CLASS_INACTIVE = "slds-hide";
 
 let storeInstance;
 let unsubscribeStore;
@@ -56,6 +58,14 @@ export default class LeftPanel extends Element {
 
     get labels() {
         return LABELS;
+    }
+
+    get classNameForResourceDetails() {
+        return this.showResourceDetailsPanel ?  CLASS_ACTIVE : CLASS_INACTIVE;
+    }
+
+    get classNameForTabSet() {
+        return this.showResourceDetailsPanel ?  CLASS_INACTIVE : CLASS_ACTIVE;
     }
 
     handleTabChange(event) {

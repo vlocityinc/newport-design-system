@@ -11,8 +11,23 @@ import { Element, api } from 'engine';
 export default class Tabset extends Element {
     @api isvertical = false;
 
+    @api
     get cssclass() {
-        return this.isvertical === "true" ? "slds-vertical-tabs" : "slds-tabs_default";
+        return this.classList;
+    }
+
+    @api
+    set cssclass(value) {
+        const classes = ["slds-show", "slds-hide", "slds-vertical-tabs", "slds-tabs_default"];
+        for (let i = 0; i < classes.length; i++) {
+            this.classList.remove(classes[i]);
+        }
+        this.classList.add(value);
+        if (this.isvertical === "true") {
+            this.classList.add("slds-vertical-tabs");
+        } else {
+            this.classList.add("slds-tabs_default");
+        }
     }
 
     get ulcssclass() {
