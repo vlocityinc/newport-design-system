@@ -1,0 +1,12 @@
+<template>
+      <header class="slds-modal__header">
+        <h2 class="slds-text-heading_medium slds-hyphenate">{title}</h2>
+      </header>
+      <div class="slds-modal__content slds-p-around_medium">
+        <p class="slds-align_absolute-center">{bodyText}</p>
+      </div>
+      <footer class="slds-modal__footer">
+        <lightning-button variant={primaryVariant} class="slds-p-horizontal_x-small" label={primaryActionText} onclick={handlePrimaryButtonClick}></lightning-button>
+        <lightning-button variant={secondaryVariant} label={secondaryActionText} onclick={handleSecondaryButtonClick}></lightning-button>
+      </footer>
+</template>

@@ -36,7 +36,7 @@ export function createScreenEditorEvent(type, detail = {}, cancelable = true, co
 }
 
 /**
- * Creates an event to be fired when the user clicks the delete button for a screen element in the canvas
+ * Creates an event to be fired when the user adds an element to the canvas
  * @param {string} typeName - The type of the field to add
  * @param {number} position - The position in the canvas
  * @returns {event} The event

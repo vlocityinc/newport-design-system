@@ -41,6 +41,9 @@ import pauseConfirmationMessageTooltip from '@label/FlowBuilderScreenEditor.paus
 import helpText from '@label/FlowBuilderScreenEditor.helpText';
 import required from '@label/FlowBuilderScreenEditor.required';
 import deleteAlternativeText from '@label/FlowBuilderScreenEditor.deleteAlternativeText';
+import cancel from '@label/FlowBuilderScreenEditor.cancel';
+import deleteConfirmation from '@label/FlowBuilderScreenEditor.deleteConfirmation';
+import deleteConsequence from '@label/FlowBuilderScreenEditor.deleteConsequence';
 
 
 export const LABELS = {
@@ -85,5 +88,8 @@ export const LABELS = {
     pauseConfirmationMessageTooltip,
     helpText,
     required,
-    deleteAlternativeText
+    deleteAlternativeText,
+    cancel,
+    deleteConfirmation,
+    deleteConsequence
 };

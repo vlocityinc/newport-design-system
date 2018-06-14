@@ -61,8 +61,8 @@ export default class ScreenEditorHighlight extends Element {
     }
 
     handleDelete = (event) => {
-        this.dispatchEvent(createScreenElementDeletedEvent(this.screenElement, this.property));
         event.stopPropagation();
+        this.dispatchEvent(createScreenElementDeletedEvent(this.screenElement, this.property));
     }
 
     handleDragStart(event) {

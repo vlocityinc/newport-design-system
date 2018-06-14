@@ -1,7 +1,6 @@
 import { Element, api } from 'engine';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { ReorderListEvent, createScreenElementDeselectedEvent } from 'builder_platform_interaction-events';
-
 const DRAGGING_REGION_SELECTOR = '.screen-editor-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-editor-canvas-insertion-line';
 
@@ -46,11 +45,6 @@ export default class ScreenEditorCanvas extends Element {
             }
         }
 
-        // let event bubble up
-    }
-
-    handleScreenElementDeleted = (/* event */) => {
-        this.clearSelection();
         // let event bubble up
     }
 
