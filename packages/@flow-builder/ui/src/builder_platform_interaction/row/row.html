@@ -1,18 +1,20 @@
 <template>
-    <template if:true={showPrefix}>
-        <legend class="slds-is-absolute slds-p-top_large slds-m-top_xx-small">
-            <span>{itemPrefix}</span>
-        </legend>
-    </template>
-	<div class={rowContentsClass} onrowcontentschanged={handleRowContentsChanged}>
+    <fieldset>
+        <template if:true={showPrefix}>
+            <legend class="slds-is-absolute slds-p-top_large slds-m-top_xx-small">
+                <strong>{itemPrefix}</strong>
+            </legend>
+        </template>
+        <div class={rowContentsClass} onrowcontentschanged={handleRowContentsChanged}>
 
-        <div class="slds-col">
-            <slot name="rowBody"></slot>
-        </div>
+            <div class="slds-col">
+                <slot name="rowBody"></slot>
+            </div>
 
-        <div class="slds-col slds-grow-none slds-p-top_medium slds-m-top_xx-small">
-            <lightning-button-icon icon-name="utility:delete" size="large" onclick={handleDelete} disabled={disableDelete}>
-            </lightning-button-icon>
+            <div class="slds-col slds-grow-none slds-p-top_medium slds-m-top_xx-small">
+                <lightning-button-icon icon-name="utility:delete" size="large" onclick={handleDelete} disabled={disableDelete}>
+                </lightning-button-icon>
+            </div>
         </div>
-    </div>
+    </fieldset>
 </template>
