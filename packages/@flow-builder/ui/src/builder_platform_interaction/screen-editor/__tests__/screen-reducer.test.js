@@ -104,8 +104,7 @@ describe('screen reducer', () => {
         };
 
         const newScreen = screenReducer(screen, event);
-        expect(screen.fields).toEqual(newScreen.fields);
-        expect(newScreen.fields).toHaveLength(screen.fields.length);
+        expect(newScreen.fields).toEqual(screen.fields);
     });
     it('invalid guid for destination field results in no change', () => {
         const screen = createTestScreen(SCREEN_NAME, null);
@@ -118,8 +117,7 @@ describe('screen reducer', () => {
         };
 
         const newScreen = screenReducer(screen, event);
-        expect(screen.fields).toEqual(newScreen.fields);
-        expect(newScreen.fields).toHaveLength(screen.fields.length);
+        expect(newScreen.fields).toEqual(screen.fields);
     });
     it('invalid guid for source field results in no change', () => {
         const screen = createTestScreen(SCREEN_NAME, null);
@@ -132,7 +130,6 @@ describe('screen reducer', () => {
         };
 
         const newScreen = screenReducer(screen, event);
-        expect(screen.fields).toEqual(newScreen.fields);
-        expect(newScreen.fields).toHaveLength(screen.fields.length);
+        expect(newScreen.fields).toEqual(screen.fields);
     });
 });

@@ -56,10 +56,6 @@ export default class ScreenPropertyField extends Element {
         return null;
     }
 
-    get showLabel() {
-        return this.label && !this.isBoolean;
-    }
-
     get isRequired() {
         return this.required && (this.required === 'true' || this.required === 'required');
     }
