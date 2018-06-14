@@ -6,10 +6,12 @@ import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import {PropertyChangedEvent} from 'builder_platform_interaction-events';
 
 const LOOP_PROPERTIES = {
     COLLECTION_VARIABLE: 'collectionReference',
-    LOOP_VARIABLE: 'assignNextValueToReference'
+    LOOP_VARIABLE: 'assignNextValueToReference',
+    ITERATION_ORDER: 'iterationOrder'
 };
 // TODO: use labels W-4960986
 const VARIABLE_LABEL = 'Variable';
@@ -162,5 +164,11 @@ export default class LoopEditor extends Element {
         this._loopVariable = getElementByGuid(event.detail.item.value);
         event.detail.propertyName = LOOP_PROPERTIES.LOOP_VARIABLE;
         this.loopElement = loopReducer(this.loopElement, event);
+    }
+
+    handleLoopIterationOrderChanged(event) {
+        event.stopPropagation();
+        const iterationOrderChangedEvent = new PropertyChangedEvent(LOOP_PROPERTIES.ITERATION_ORDER, event.detail.value, null);
+        this.loopElement = loopReducer(this.loopElement, iterationOrderChangedEvent);
     }
 }
