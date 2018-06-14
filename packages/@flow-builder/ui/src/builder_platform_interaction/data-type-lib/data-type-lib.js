@@ -62,6 +62,8 @@ const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.SOBJECT.value]: ["sobject"],
 };
 
+let resourceTypes = [];
+
 export { FLOW_DATA_TYPE };
 
 export const FEROV_DATA_TYPE = {
@@ -82,4 +84,20 @@ export const FEROV_DATA_TYPE = {
 export function getFlowDataType(dataType) {
     const flowDataType = Object.keys(TYPE_MAPPING).find(key => TYPE_MAPPING[key].includes(dataType.toLowerCase()));
     return (flowDataType) ? flowDataType : undefined;
+}
+
+/**
+ * Set the supported resource types for New Resource panel. This is called at the very beginning of the flow.
+ * @param {String} newResourceTypes - String object of all supported resource types.
+ */
+export function setResourceTypes(newResourceTypes = []) {
+    resourceTypes = newResourceTypes;
+}
+
+/**
+ * Returns supported resource types for New Resource panel.
+ * @return {Array} resource types
+ */
+export function getResourceTypes() {
+    return resourceTypes;
 }

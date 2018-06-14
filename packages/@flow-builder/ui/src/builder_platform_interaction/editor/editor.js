@@ -14,6 +14,7 @@ import { setRules } from "builder_platform_interaction-rule-lib";
 import { setEntities } from 'builder_platform_interaction-sobject-lib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { LABELS } from './editor-labels';
+import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -59,6 +60,7 @@ export default class Editor extends Element {
         fetch(SERVER_ACTION_TYPE.GET_RULES, this.getRulesCallback);
         fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' }, {background: true});
         fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
+        fetch(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES, this.getResourceTypesCallback);
     }
 
     @api
@@ -168,6 +170,18 @@ export default class Editor extends Element {
         } else {
             this.backUrl = data.backUrl;
             this.helpUrl = data.helpUrl;
+        }
+    };
+
+    /**
+     * Callback which gets executed after fetching the resource types for New Resource editor
+     * @param {Object} has error property if there is error fetching the data else has data property
+     */
+    getResourceTypesCallback = ({data, error}) => {
+        if (error) {
+            // TODO: handle error case
+        } else {
+            setResourceTypes(data);
         }
     };
 

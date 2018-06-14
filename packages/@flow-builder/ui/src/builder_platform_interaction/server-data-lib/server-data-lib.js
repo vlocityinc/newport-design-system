@@ -12,7 +12,8 @@ export const SERVER_ACTION_TYPE = {
     GET_ORG_ACCESSIBLE_ENTITY_FIELDS: 'getOrgAcessibleEntityFields',
     GET_GLOBAL_VARIABLE_TYPES: 'getGlobalVariableTypes',
     GET_GLOBAL_VARIABLES: 'getGlobalVariables',
-    GET_HEADER_URLS: 'getHeaderUrls'
+    GET_HEADER_URLS: 'getHeaderUrls',
+    GET_RESOURCE_TYPES: 'getResourceTypes',
 };
 
 const actionConfig = {
@@ -29,7 +30,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_ORG_ACCESSIBLE_ENTITY_FIELDS]: 'c.getOrgAccessibleFieldsForEntity',
     [SERVER_ACTION_TYPE.GET_GLOBAL_VARIABLE_TYPES]: 'c.getGlobalVariableTypes',
     [SERVER_ACTION_TYPE.GET_GLOBAL_VARIABLES]: 'c.getGlobalVariables',
-    [SERVER_ACTION_TYPE.GET_HEADER_URLS]: 'c.retrieveHeaderUrls'
+    [SERVER_ACTION_TYPE.GET_HEADER_URLS]: 'c.retrieveHeaderUrls',
+    [SERVER_ACTION_TYPE.GET_RESOURCE_TYPES]: 'c.getResourceTypes',
 };
 
 let auraFetch;
