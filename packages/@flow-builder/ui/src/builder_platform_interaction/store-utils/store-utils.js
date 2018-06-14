@@ -1,1 +1,1 @@
-export { getElementByGuid } from './storeQuery';
+export { getElementByGuid, getElementByDevName } from './storeQuery';

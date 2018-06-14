@@ -19,7 +19,10 @@ import {
     mutateScreen,
     demutateScreen
 } from './screenEditorDataMutation';
-
+import {
+    mutateFormula,
+    demutateFormula
+} from './formulaEditorDataMutation';
 /**
  * Add property editor mutation for a given element
  *
@@ -39,6 +42,8 @@ export const mutateEditorElement = (element, state) => {
         return mutateRecordLookup(element);
     } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
         return mutateScreen(element);
+    } else if (element.elementType === ELEMENT_TYPE.FORMULA) {
+        return mutateFormula(element);
     }
 
     // TODO Add other element types
@@ -73,6 +78,8 @@ export const removeEditorElementMutation = (element, state) => {
         return deMutateRecordLookup(element);
     } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
         return demutateScreen(element);
+    }  else if (element.elementType === ELEMENT_TYPE.FORMULA) {
+        return demutateFormula(element);
     }
     // TODO: Should we throw an exception if  the element type isn't recognized?
     return element;
