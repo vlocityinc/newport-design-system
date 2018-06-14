@@ -323,6 +323,7 @@ function getSelector({elementType, shouldBeWritable, isCollection, dataType}) {
         case ELEMENT_TYPE.RECORD_LOOKUP:
             return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         case ELEMENT_TYPE.DECISION:
+        case ELEMENT_TYPE.SCREEN:
             return readableElementsSelector;
         case ELEMENT_TYPE.LOOP:
             return isCollection ? collectionElementsSelector : byTypeElementsSelector(dataType);

@@ -1,5 +1,6 @@
 import { Element, api, track } from 'engine';
 import { filterMatches } from 'builder_platform_interaction-expression-utils';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 
 /**
  * The base resource picker that contains one flow combobox
@@ -97,6 +98,7 @@ export default class BaseResourcePicker extends Element {
      * @param {Boolean} required true if required field, false otherwise
      * @param {Boolean} disabled true if disabled field, false otherwise
      * @param {String} type the data type of the flow combobox, needed for validation
+     * @param {String} variant the variant for the combobox (label-hidden or standard)
      * @returns {ComboboxConfig} The combobox config object
      */
     static getComboboxConfig = (
@@ -106,7 +108,8 @@ export default class BaseResourcePicker extends Element {
         literalsAllowed,
         required,
         disabled,
-        type
+        type,
+        variant = LIGHTNING_INPUT_VARIANTS.STANDARD
     ) => {
         return {
             label,
@@ -115,7 +118,8 @@ export default class BaseResourcePicker extends Element {
             literalsAllowed,
             required,
             disabled,
-            type
+            type,
+            variant
         };
     };
 

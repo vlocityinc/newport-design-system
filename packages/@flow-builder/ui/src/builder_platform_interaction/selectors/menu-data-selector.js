@@ -17,7 +17,9 @@ const getWritableElements = (elements, resources) => {
 };
 
 const getReadableElements = (elements, resources, canvasElements) => {
-    const readableElementGuids = [...resources, ...canvasElements];
+    // the start element will never be needed for menu data
+    const editableCanvasElements = canvasElements.filter(guid => elements[guid].elementType !== ELEMENT_TYPE.START_ELEMENT);
+    const readableElementGuids = [...resources, ...editableCanvasElements];
     return getElements(elements, readableElementGuids);
 };
 

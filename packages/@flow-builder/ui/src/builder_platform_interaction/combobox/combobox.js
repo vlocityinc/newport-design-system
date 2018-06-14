@@ -76,11 +76,14 @@ export default class Combobox extends Element {
      */
     @api
     set variant(value) {
-        if (LIGHTNING_INPUT_VARIANTS[value]) {
-            this._comboboxVariant = value;
-        } else {
-            throw new Error(`Variant must either be '${LIGHTNING_INPUT_VARIANTS.STANDARD}' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`);
+        for (const key in LIGHTNING_INPUT_VARIANTS) {
+            if (LIGHTNING_INPUT_VARIANTS[key] === value) {
+                this._comboboxVariant = value;
+                return;
+            }
         }
+
+        throw new Error(`Variant must either be '${LIGHTNING_INPUT_VARIANTS.STANDARD}' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`);
     }
 
     @api
