@@ -60,7 +60,7 @@ export const elementToParam = (element) => {
     return {
         [OBJECT_TYPE]: element.objectType ? element.objectType : undefined,
         [DATA_TYPE]: getValueFromHydratedItem(element.dataType),
-        [ELEMENT_TYPE]: element.elementType,
+        [ELEMENT_TYPE]: getValueFromHydratedItem(element.elementType),
         // the param in the rules service has 'collection' but flow elements have 'isCollection'. In some scenarios,
         // an element goes through this function twice, and on the first pass it will have 'isCollection' but on the second
         // it has 'collection', so we have to account for both options
@@ -75,7 +75,7 @@ const elementTypeAllowed = (rule, element) => {
 };
 
 const sObjectFieldAllowed = (rule, element) => {
-    return rule[SOBJECT_FIELD_REQUIREMENT] === CAN_BE ||
+    return (rule[SOBJECT_FIELD_REQUIREMENT] === CAN_BE && element[IS_SOBJECT_FIELD]) ||
         (rule[SOBJECT_FIELD_REQUIREMENT] === MUST_BE && element[IS_SOBJECT_FIELD]) ||
         (rule[SOBJECT_FIELD_REQUIREMENT] === CANNOT_BE && !element[IS_SOBJECT_FIELD]);
 };
@@ -101,7 +101,7 @@ export const isMatch = (ruleParam, element) => {
     // convert the given element into the rule service param shape
     const elementParam = elementToParam(element);
     let matches = ruleParam[PARAM_TYPE] === PARAM_TYPE_ELEMENT
-        || elementTypeAllowed(ruleParam, elementParam)
+        || elementTypeAllowed(ruleParam, elementParam[ELEMENT_TYPE])
         || sObjectFieldAllowed(ruleParam, elementParam);
 
     const propertiesToCompare = [DATA_TYPE, ELEMENT_TYPE, IS_COLLECTION];

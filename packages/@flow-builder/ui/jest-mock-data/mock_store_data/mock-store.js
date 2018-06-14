@@ -6,6 +6,7 @@ export const choiceGuid = 'guid5';
 export const dateVariableGuid = 'guid6';
 export const stageGuid = 'guid7';
 export const stageCollectionGuid = 'guid8';
+export const dateCollectionVariableGuid = 'guid9';
 
 export const numberVariableDevName = 'numVar1';
 export const stringVariableGuid = 'strVar1';
@@ -107,6 +108,16 @@ export const elements = {
         guid: dateVariableGuid,
         isCanvasElement: false,
         isCollection: false,
+        name: dateVariableDevName,
+        objectType: null,
+    },
+    [dateCollectionVariableGuid]: {
+        dataType: dateDataType,
+        description: '',
+        elementType: variable,
+        guid: dateVariableGuid,
+        isCanvasElement: false,
+        isCollection: true,
         name: dateVariableDevName,
         objectType: null,
     },

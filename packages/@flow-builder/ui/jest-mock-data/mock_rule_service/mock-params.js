@@ -5,6 +5,8 @@
  * of full rules.
  */
 
+const allElements = ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'];
+
 export const dateParam = {
     paramType:'Data',
     paramIndex:1,
@@ -12,7 +14,7 @@ export const dateParam = {
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
+    canBeElements: allElements,
 };
 
 export const dateCollectionParam = {
@@ -22,7 +24,7 @@ export const dateCollectionParam = {
     collection:true,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
+    canBeElements: allElements,
 };
 
 export const stringParam = {
@@ -30,19 +32,38 @@ export const stringParam = {
     paramIndex:1,
     dataType: 'String',
     collection:false,
-    canBeSobjectField:'CanBe',
+    canBeSobjectField:'CannotBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
+    canBeElements: allElements,
 };
 
-export const numberParam = {
+export const numberParamMustBeField = {
+    paramType:'Data',
+    paramIndex:1,
+    dataType: 'Number',
+    collection:false,
+    canBeSobjectField:'MustBe',
+    canBeSystemVariable:'CanBe',
+    canBeElements: allElements,
+};
+export const numberParamCannotBeField = {
+    paramType:'Data',
+    paramIndex:1,
+    dataType: 'Number',
+    collection:false,
+    canBeSobjectField:'CannotBe',
+    canBeSystemVariable:'CanBe',
+    canBeElements: allElements,
+};
+
+export const numberParamCanBeField = {
     paramType:'Data',
     paramIndex:1,
     dataType: 'Number',
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
+    canBeElements: allElements,
 };
 
 export const stageCollectionParam = {
@@ -52,7 +73,7 @@ export const stageCollectionParam = {
     collection:true,
     canBeSobjectField:'CannotBe',
     canBeSystemVariable:'CanBe',
-    cannotBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
+    cannotBeElements: allElements,
 };
 
 export const stageParam = {
@@ -62,5 +83,41 @@ export const stageParam = {
     collection:false,
     canBeSobjectField:'CannotBe',
     canBeSystemVariable:'CanBe',
-    cannotBeElements: ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
+    cannotBeElements: allElements,
+};
+
+// these params deal with hypothetical situations that we account for but don't exist right now
+export const dateParamMissingCollection = {
+    paramType:'Data',
+    paramIndex:1,
+    dataType: 'Date',
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    canBeElements: allElements,
+};
+
+export const dateParamMustBeElements = {
+    paramType:'Data',
+    paramIndex:1,
+    dataType: 'Date',
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    mustBeElements: allElements,
+};
+
+export const dateParamCannotBeElements = {
+    paramType:'Data',
+    paramIndex:1,
+    dataType: 'Date',
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    cannotBeElements: allElements,
+};
+
+export const dateParamNoElementsList = {
+    paramType:'Data',
+    paramIndex:1,
+    dataType: 'Date',
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
 };

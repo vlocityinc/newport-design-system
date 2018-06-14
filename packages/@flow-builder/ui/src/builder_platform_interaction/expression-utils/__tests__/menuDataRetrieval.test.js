@@ -1,5 +1,5 @@
 import { getElementsForMenuData, normalizeLHS } from '../menuDataRetrieval';
-import { numberParam } from 'mock-rule-service';
+import { numberParamCanBeField } from 'mock-rule-service';
 import * as store from 'mock-store-data';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import * as selectorsMock from 'builder_platform_interaction-selectors';
@@ -27,7 +27,7 @@ const sobjectVariable = 'SOBJECT ' + store.variable;
  */
 
 const sampleParamTypes = {
-    Number : [numberParam],
+    Number : [numberParamCanBeField],
 };
 
 jest.mock('builder_platform_interaction-selectors', () => {
@@ -96,6 +96,13 @@ describe('Menu data retrieval', () => {
         expect(allowedVariables[0].text).toBe('FlowBuilderExpressionUtils.newResourceLabel');
         expect(allowedVariables[0].value).toBe('%%NewResource%%');
     });
+    it('should be able to include sobjects when only primitives are valid', () => {
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid]]);
+        const primitivesWithObjects = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true}, sampleParamTypes, false, true);
+        expect(primitivesWithObjects).toHaveLength(1);
+        const primitivesNoObjects = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true}, sampleParamTypes, false, false);
+        expect(primitivesNoObjects).toHaveLength(0);
+    });
     // TODO: write tests for gettings category once we switch to using labels
 });
 describe('LHS retrieval', () => {
@@ -103,7 +110,7 @@ describe('LHS retrieval', () => {
         const normalizedElement = normalizeLHS(store.numberVariableGuid);
         expect(normalizedElement.item.displayText).toBe('{!' + store.numberVariableDevName + '}');
         expect(normalizedElement.parameter.collection).toBe(false);
-        expect(normalizedElement.parameter.dataType).toBe(numberParam.dataType);
+        expect(normalizedElement.parameter.dataType).toBe(numberParamCanBeField.dataType);
         expect(normalizedElement.parameter.elementType).toBe(store.variable);
     });
 });

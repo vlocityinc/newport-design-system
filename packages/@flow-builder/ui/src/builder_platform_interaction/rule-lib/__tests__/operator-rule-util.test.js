@@ -1,45 +1,23 @@
 import { isMatch, getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { mockRules, dateParam, stageParam, stringParam, stageCollectionParam, dateCollectionParam } from 'mock-rule-service';
-import { elements, dateVariableGuid, stageGuid, stringVariableGuid, accountSObjectVariableGuid,
-    stageCollectionGuid, hydratedElements } from 'mock-store-data';
+import { mockRules, dateParam, stageParam, stringParam, numberParamMustBeField, numberParamCannotBeField, numberParamCanBeField,
+    dateCollectionParam, dateParamMissingCollection, dateParamMustBeElements, dateParamCannotBeElements,
+    dateParamNoElementsList } from 'mock-rule-service';
+import { elements, dateVariableGuid, dateCollectionVariableGuid, stageGuid, stringVariableGuid, accountSObjectVariableGuid,
+    hydratedElements } from 'mock-store-data';
 import { RULE_TYPES, RULE_PROPERTY } from '../rules';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
-const { DATE: { value: DATE } } = FLOW_DATA_TYPE;
 const ASSIGNMENT_OPERATOR = 'Assign';
 const EQUALS_OPERATOR = 'Equals';
 const { LEFT, RHS_PARAMS } = RULE_PROPERTY;
+const mockAccountField = {
+    "sobjectName":"Account",
+    "dataType":"Number",
+};
 
 describe('Operator Rule Util', () => {
     describe('isMatch util', () => {
-        it('should return true if rule param and store element match, collection = false', () => {
-            const isEqual = isMatch(stageParam, elements[stageGuid]);
-            expect(isEqual).toBeTruthy();
-        });
-
-        it('should return true if rule param and store element match, collection = true', () => {
-            const isEqual = isMatch(stageCollectionParam, elements[stageCollectionGuid]);
-            expect(isEqual).toBeTruthy();
-        });
-
-        it('should return false if rule param and store element do not match, collection = false', () => {
-            const isEqual = isMatch(dateParam, elements[stageGuid]);
-            expect(isEqual).toBeFalsy();
-        });
-
-        it('should return false if rule param and store element do not match, collection = true', () => {
-            const isEqual = isMatch(dateCollectionParam, elements[stageCollectionGuid]);
-            expect(isEqual).toBeFalsy();
-        });
-
-        it('should return true if rule param and store element with no collection property match', () => {
-            const lhsElementDateNoCollection = { dataType: DATE };
-            const isEqual = isMatch(dateParam, lhsElementDateNoCollection);
-            expect(isEqual).toBeTruthy();
-        });
-
         it('should return true if rule param and store element hydrated with errors match', () => {
             const isEqual = isMatch(stringParam, hydratedElements[stringVariableGuid]);
             expect(isEqual).toBeTruthy();
@@ -55,6 +33,48 @@ describe('Operator Rule Util', () => {
             expect(() => {
                 isMatch(stageParam, {});
             }).toThrow();
+        });
+        it('rule with collection = true should only match collection elements', () => {
+            let isEqual = isMatch(dateCollectionParam, elements[dateCollectionVariableGuid]);
+            expect(isEqual).toBeTruthy();
+            isEqual = isMatch(dateCollectionParam, elements[dateVariableGuid]);
+            expect(isEqual).toBeFalsy();
+        });
+        it('rule with collection = false should not match collection elements', () => {
+            let isEqual = isMatch(dateParam, elements[dateVariableGuid]);
+            expect(isEqual).toBeTruthy();
+            isEqual = isMatch(dateParam, elements[dateCollectionVariableGuid]);
+            expect(isEqual).toBeFalsy();
+        });
+        it('rule with collection undefined should match noncollection or collection elements', () => {
+            let isEqual = isMatch(dateParamMissingCollection, elements[dateVariableGuid]);
+            expect(isEqual).toBeTruthy();
+            isEqual = isMatch(dateParamMissingCollection, elements[dateCollectionVariableGuid]);
+            expect(isEqual).toBeTruthy();
+        });
+        it('for dataType param, elementType can be in canBe or mustBe list', () => {
+            let isEqual = isMatch(dateParam, elements[dateVariableGuid]);
+            expect(isEqual).toBeTruthy();
+            isEqual = isMatch(dateParamMustBeElements, elements[dateVariableGuid]);
+            expect(isEqual).toBeTruthy();
+        });
+        it('for dataType param, elementType can not be in cannotBe list', () => {
+            const isEqual = isMatch(dateParamCannotBeElements, elements[dateVariableGuid]);
+            expect(isEqual).toBeFalsy();
+        });
+        it('dataType param should not match if elementType is not mentioned', () => {
+            const isEqual = isMatch(dateParamNoElementsList, elements[dateVariableGuid]);
+            expect(isEqual).toBeFalsy();
+        });
+        it('field should not be allowed if operator param says cannotBe sObjectField', () => {
+            const isEqual = isMatch(numberParamCannotBeField, mockAccountField);
+            expect(isEqual).toBeFalsy();
+        });
+        it('field should be allowed if operator param says canBe or mustBe sObjectField', () => {
+            let isEqual = isMatch(numberParamCanBeField, mockAccountField);
+            expect(isEqual).toBeTruthy();
+            isEqual = isMatch(numberParamMustBeField, mockAccountField);
+            expect(isEqual).toBeTruthy();
         });
     });
 
