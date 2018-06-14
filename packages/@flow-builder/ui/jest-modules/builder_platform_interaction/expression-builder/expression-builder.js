@@ -20,6 +20,15 @@ export default class ExpressionBuilder extends Element {
     rhsLabel;
 
     @api
+    lhsPlaceholder;
+
+    @api
+    operatorPlaceholder;
+
+    @api
+    rhsPlaceholder;
+
+    @api
     lhsMenuData;
 
     @api

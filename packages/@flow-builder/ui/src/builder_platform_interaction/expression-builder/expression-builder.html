@@ -10,15 +10,17 @@
                 menu-data={lhsMenuData}
                 error-message={state.expression.leftHandSide.error}
                 literals-allowed=false
+                placeholder={lhsPlaceholder}
                 >
         </builder_platform_interaction-combobox>
         <template if:true={showOperator}>
-            <lightning-combobox class="operator slds-col slds-grow"
+            <lightning-combobox class="operator slds-col slds-grow slds-size_x-small"
                     label={operatorLabel}
                     value={operatorComboBoxValue}
                     disabled={operatorAndRHSDisabled}
                     options={state.operatorMenuData}
                     onchange={handleOperatorChanged}
+                    placeholder={operatorPlaceholder}
                     >
             </lightning-combobox>
         </template>
@@ -32,6 +34,7 @@
                 menu-data={rhsMenuData}
                 type={lhsType}
                 error-message={state.expression.rightHandSide.error}
+                placeholder={rhsPlaceholder}
                 >
         </builder_platform_interaction-combobox>
     </div>

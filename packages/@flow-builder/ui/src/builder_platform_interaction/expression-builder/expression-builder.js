@@ -135,6 +135,15 @@ export default class ExpressionBuilder extends Element {
     @api
     rhsLabel;
 
+    @api
+    lhsPlaceholder;
+
+    @api
+    operatorPlaceholder;
+
+    @api
+    rhsPlaceholder;
+
     /**
      * @typedef expressionConfig
      * @param {String} elementType    the parent element of this expression

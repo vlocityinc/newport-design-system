@@ -131,6 +131,8 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
 
 describe('expression-builder', () => {
     const labels = ['lhsLabel', 'operatorLabel', 'rhsLabel'];
+    const placeholders = ['lhsPlaceholder', 'operatorPlaceholder', 'rhsPlaceholder'];
+
     describe('showing or hiding the operator', () => {
         it('should show the operator when showOperator is true', () => {
             const expressionBuilder = createDefaultComponentForTest();
@@ -164,6 +166,20 @@ describe('expression-builder', () => {
                     rhsLabel: "RHS"
                 });
                 expect(expressionBuilder[labels[i]]).toBeDefined();
+            });
+        }
+    });
+
+    describe('placeholder sanity checks', () => {
+        for (let i = 0; i < 3; i++) {
+            it(`has the ${placeholders[i]} defined`, () => {
+                const expressionBuilder = createComponentForTest({
+                    expression: createMockPopulatedExpression(),
+                    lhsPlaceholder: "LHS",
+                    operatorPlaceholder: "operator",
+                    rhsPlaceholder: "RHS"
+                });
+                expect(expressionBuilder[placeholders[i]]).toBeDefined();
             });
         }
     });
