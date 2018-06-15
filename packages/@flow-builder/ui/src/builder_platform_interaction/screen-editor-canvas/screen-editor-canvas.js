@@ -1,7 +1,7 @@
 import { Element, api } from 'engine';
 import { CANVAS_SCREEN_GUIDS } from 'builder_platform_interaction-screen-editor-utils';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
-import { ReorderListEvent, createScreenElementDeselectedEvent } from 'builder_platform_interaction-events';
+import { ReorderListEvent, createScreenElementDeselectedEvent, createAddScreenFieldEvent } from 'builder_platform_interaction-events';
 const DRAGGING_REGION_SELECTOR = '.screen-editor-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-editor-canvas-insertion-line';
 
@@ -48,14 +48,22 @@ export default class ScreenEditorCanvas extends Element {
 
     handleDrop(event) {
         this.handleDragEnd();
-
         const range = this.getDraggingRange(event);
-        const sourceGuid = event.dataTransfer.getData('text');
 
-        const destGuid = range.index === 0 ? this.screen.fields[range.index].guid : this.screen.fields[range.index - 1].guid;
-        if (sourceGuid) {
-            this.fireReorder(sourceGuid, destGuid);
-            this.clearDraggingState();
+        // Figure out if we're adding a field or moving a field and fire the correct event.
+        if (event.dataTransfer.effectAllowed === 'copy') {
+            // Field is being added from the palette.
+            const fieldTypeName = event.dataTransfer.getData('text');
+            const addFieldEvent = createAddScreenFieldEvent(fieldTypeName, range.index);
+            this.dispatchEvent(addFieldEvent);
+        } else {
+            // Existing field is being moved around.
+            const sourceGuid = event.dataTransfer.getData('text');
+            const destGuid = range.index === 0 ? this.screen.fields[range.index].guid : this.screen.fields[range.index - 1].guid;
+            if (sourceGuid) {
+                this.fireReorder(sourceGuid, destGuid);
+                this.clearDraggingState();
+            }
         }
     }
 

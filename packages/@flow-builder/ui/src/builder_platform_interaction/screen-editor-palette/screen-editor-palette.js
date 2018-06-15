@@ -27,12 +27,14 @@ export default class ScreenPalette extends Element {
                 this.types.push(section);
             }
 
+            const fieldGuid = generateGuid();
             sections[fieldType.category]._children.push({
                 description: fieldType.description || '',
-                elementType: fieldType,
-                guid: generateGuid(),
+                elementType: fieldGuid,
+                guid: fieldGuid,
                 iconName: fieldType.icon,
-                label: fieldType.label
+                label: fieldType.label,
+                fieldTypeName: fieldType.name
             });
         }
     }
@@ -42,10 +44,43 @@ export default class ScreenPalette extends Element {
     }
 
     handlePaletteItemClickedEvent = (event) => {
-        const addFieldEvent = createAddScreenFieldEvent(event.detail.elementType.name);
+        // Clicking on an element from the palette should add the corresponding field
+        // type to the canvas.
+        const fieldGuid = event.detail.guid;
+        const fieldTypeName = getFieldTypeNameByGuid(this.types, fieldGuid);
+        const addFieldEvent = createAddScreenFieldEvent(fieldTypeName);
         this.dispatchEvent(addFieldEvent);
         event.stopPropagation();
     }
 
+    handleDragStart(event) {
+        // Dragging an element could mean user wants to add the corresponding
+        // field type to the canvas. Figureo out which field type user wants
+        // to add.
+        const fieldGuid = event.dataTransfer.getData('text');
+        const fieldTypeName = getFieldTypeNameByGuid(this.types, fieldGuid);
+        event.dataTransfer.setData('text', fieldTypeName);
+        event.dataTransfer.effectAllowed = 'copy';
+    }
+
     handleReload() {}
+}
+
+/**
+ * Given a guid, looks up all the fields in palette and figures out which field type
+ * it corresponds to.
+ * @param {array} types - the field types to check
+ * @param {string} guid - the guid to check against
+ * @returns {string} Corresponding field type name
+ */
+function getFieldTypeNameByGuid(types, guid) {
+    for (let i = 0; i < types.length; i++) {
+        const category = types[i];
+        for (const fieldType of category._children) {
+            if (fieldType.guid === guid) {
+                return fieldType.fieldTypeName;
+            }
+        }
+    }
+    throw new Error("Unable to find field type by guid");
 }

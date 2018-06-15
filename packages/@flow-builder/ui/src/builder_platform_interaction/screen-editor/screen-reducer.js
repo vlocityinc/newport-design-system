@@ -33,9 +33,9 @@ const screenPropertyChanged = (state, event) => {
  * @returns {object} - A new screen with the changes applied
  */
 const addScreenField = (screen, event) => {
+    // Figure out if the field be added to the end or somewhere in between.
     const position = Number.isInteger(event.position) ? event.position : screen.fields.length;
-    const typeName = event.typeName;
-    const type = getScreenFieldTypeByName(typeName);
+    const type = getScreenFieldTypeByName(event.typeName);
     const field = createEmptyNodeOfType(type);
     mutateScreenField(field);
     const updatedItems = insertItem(screen.fields, field, position);
