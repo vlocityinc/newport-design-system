@@ -1,4 +1,5 @@
 import { createElement } from 'engine';
+import { getShadowRoot } from 'lwc-test-utils';
 import Combobox from 'builder_platform_interaction-combobox';
 import { comboboxInitialConfig } from 'mock-combobox-data';
 import { ComboboxValueChangedEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
@@ -32,7 +33,7 @@ describe('Combobox Tests', () => {
             is: Combobox,
         });
         document.body.appendChild(combobox);
-        groupedCombobox = combobox.shadowRoot.querySelector(SELECTORS.GROUPED_COMBOBOX);
+        groupedCombobox = getShadowRoot(combobox).querySelector(SELECTORS.GROUPED_COMBOBOX);
     });
 
     const getTextInputEvent = function (inputValue) {

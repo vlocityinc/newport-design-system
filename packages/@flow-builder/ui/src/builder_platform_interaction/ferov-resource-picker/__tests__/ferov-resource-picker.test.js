@@ -1,4 +1,5 @@
 import { createElement } from 'engine';
+import { getShadowRoot } from 'lwc-test-utils';
 import FerovResourcePicker from '../ferov-resource-picker';
 import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
@@ -53,7 +54,7 @@ describe('ferov-resource-picker', () => {
     it('contains a base resource picker', () => {
         const ferovResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker).toBeDefined();
         });
     });
@@ -97,7 +98,7 @@ describe('ferov-resource-picker', () => {
         };
         const ferovResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
         });
     });
@@ -106,7 +107,7 @@ describe('ferov-resource-picker', () => {
         props.value = 'test display text';
         const ferovResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.value).toEqual(props.value);
         });
     });
@@ -115,7 +116,7 @@ describe('ferov-resource-picker', () => {
         props.value = { value: 'testValue', displayText: 'test display text'};
         const ferovResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.value).toEqual(props.value);
         });
     });

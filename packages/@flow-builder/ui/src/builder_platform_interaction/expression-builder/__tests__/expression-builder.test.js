@@ -1,4 +1,5 @@
 import { createElement } from 'engine';
+import { getShadowRoot } from 'lwc-test-utils';
 // Importing using relative path here to ensure that we get the actual component and not the mocked version
 import ExpressionBuilder from '../expression-builder.js';
 import { RowContentsChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
@@ -99,11 +100,11 @@ function createDefaultComponentForTest() {
 }
 
 function getComboboxElements(expressionBuilder) {
-    return expressionBuilder.shadowRoot.querySelectorAll("builder_platform_interaction-combobox");
+    return getShadowRoot(expressionBuilder).querySelectorAll("builder_platform_interaction-combobox");
 }
 
 function getLightningCombobox(expressionBuilder) {
-    return expressionBuilder.shadowRoot.querySelector("lightning-combobox");
+    return getShadowRoot(expressionBuilder).querySelector("lightning-combobox");
 }
 
 function checkOperatorAndRHSDisabled(expressionBuilder, expected) {

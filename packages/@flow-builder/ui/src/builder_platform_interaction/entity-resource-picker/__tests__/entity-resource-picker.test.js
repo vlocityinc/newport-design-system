@@ -1,4 +1,5 @@
 import { createElement } from 'engine';
+import { getShadowRoot } from 'lwc-test-utils';
 import { getEntitiesMenuData } from 'builder_platform_interaction-expression-utils';
 import EntityResourcePicker from '../entity-resource-picker';
 
@@ -36,14 +37,14 @@ describe('entity-resource-picker', () => {
     it('contains one base resource picker', () => {
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker).toBeDefined();
         });
     });
 
     it('retrieves entity menu data on initial load', () => {
         const entityResourcePicker = setupComponentUnderTest(props);
-        const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(selectors.BASE_RESOURCE_PICKER);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
         return Promise.resolve().then(() => {
             expect(getEntitiesMenuData).toHaveBeenCalledTimes(1);
             expect(getEntitiesMenuData).toHaveBeenCalledWith(props.crudFilterType);
@@ -67,7 +68,7 @@ describe('entity-resource-picker', () => {
         };
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
         });
     });
@@ -76,7 +77,7 @@ describe('entity-resource-picker', () => {
         props.value = 'test display text';
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.value.displayText).toEqual(props.value);
         });
     });
@@ -85,7 +86,7 @@ describe('entity-resource-picker', () => {
         props.value = { value: 'testValue', displayText: 'test display text'};
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.value).toEqual(props.value);
         });
     });

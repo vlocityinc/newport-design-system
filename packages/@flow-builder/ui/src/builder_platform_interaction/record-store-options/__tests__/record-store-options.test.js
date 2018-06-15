@@ -1,4 +1,5 @@
 import {createElement} from 'engine';
+import { getShadowRoot } from 'lwc-test-utils';
 import RecordStoreOption from 'builder_platform_interaction-record-store-options';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction-events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
@@ -29,17 +30,17 @@ const selectors = {
 };
 
 const getNumberRecordsToStoreRadioGroup = (recordStoreOptionComponent) => {
-    const numberRecordsToStoreRadioGroup = recordStoreOptionComponent.shadowRoot.querySelectorAll(selectors.lightningRadioGroup);
+    const numberRecordsToStoreRadioGroup = getShadowRoot(recordStoreOptionComponent).querySelectorAll(selectors.lightningRadioGroup);
     return numberRecordsToStoreRadioGroup[0];
 };
 
 const getTitle = (recordStoreOptionComponent) => {
-    const formattedRichText = recordStoreOptionComponent.shadowRoot.querySelector(selectors.lightningFormattedRichText);
+    const formattedRichText = getShadowRoot(recordStoreOptionComponent).querySelector(selectors.lightningFormattedRichText);
     return formattedRichText;
 };
 
 const getAssignNullIfNoRecordFoundCombobox = (recordStoreOptionComponent) => {
-    const assignNullIfNoRecordFoundCombobox = recordStoreOptionComponent.shadowRoot.querySelector(selectors.lightningCombobox);
+    const assignNullIfNoRecordFoundCombobox = getShadowRoot(recordStoreOptionComponent).querySelector(selectors.lightningCombobox);
     return assignNullIfNoRecordFoundCombobox;
 };
 

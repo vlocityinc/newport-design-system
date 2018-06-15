@@ -1,4 +1,5 @@
 import { createElement } from 'engine';
+import { getShadowRoot } from 'lwc-test-utils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { FilterMatchesEvent } from 'builder_platform_interaction-events';
 import { filterMatches } from 'builder_platform_interaction-expression-utils';
@@ -54,7 +55,7 @@ describe('base-resource-picker', () => {
     it('contains one flow combobox', () => {
         const baseResourcePicker = setupComponentUnderTest({comboboxConfig});
         return Promise.resolve().then(() => {
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
             expect(flowCombobox).toBeDefined();
         });
     });
@@ -62,7 +63,7 @@ describe('base-resource-picker', () => {
     it('initialized the combobox with the values inside the combobox config object', () => {
         const baseResourcePicker = setupComponentUnderTest({comboboxConfig, value: 'test display text'});
         return Promise.resolve().then(() => {
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
             expect(flowCombobox.label).toEqual(comboboxConfig.label);
             expect(flowCombobox.placeholder).toEqual(comboboxConfig.placeholder);
             expect(flowCombobox.literalsAllowed).toEqual(comboboxConfig.literalsAllowed);
@@ -76,7 +77,7 @@ describe('base-resource-picker', () => {
         const defaultValue = {value:'testVal', displayText:'test val'};
         const baseResourcePicker = setupComponentUnderTest({comboboxConfig, value: defaultValue});
         return Promise.resolve().then(() => {
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
             expect(flowCombobox.value).toEqual(defaultValue);
         });
     });
@@ -85,7 +86,7 @@ describe('base-resource-picker', () => {
         const defaultDisplayText = 'test display text';
         const baseResourcePicker = setupComponentUnderTest({comboboxConfig, value: defaultDisplayText});
         return Promise.resolve().then(() => {
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
             expect(flowCombobox.value).toEqual(defaultDisplayText);
         });
     });
@@ -95,7 +96,7 @@ describe('base-resource-picker', () => {
             const baseResourcePicker = setupComponentUnderTest({comboboxConfig, });
             const fullMenuData = ['full menu data'];
             baseResourcePicker.setMenuData(fullMenuData);
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
             flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue'));
             return Promise.resolve().then(() => {
                 expect(filterMatches).toHaveBeenCalledWith('someValue', fullMenuData);

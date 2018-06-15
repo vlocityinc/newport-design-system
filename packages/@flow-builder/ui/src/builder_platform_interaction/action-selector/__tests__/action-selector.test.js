@@ -1,4 +1,5 @@
 import { createElement } from 'engine';
+import { getShadowRoot } from 'lwc-test-utils';
 import ActionSelector from '../action-selector';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { ValueChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
@@ -45,9 +46,9 @@ describe('Action selector', () => {
     let interactionCombobox;
     beforeEach(() => {
         actionSelectorComponent = createComponentUnderTest();
-        lightningCombobox = actionSelectorComponent.shadowRoot.querySelector(selectors.lightningCombobox);
-        interactionCombobox = actionSelectorComponent.shadowRoot.querySelector(selectors.lightningInteractionCombobox);
-        groupedCombobox = interactionCombobox.shadowRoot.querySelector(selectors.lightningGroupedCombobox);
+        lightningCombobox = getShadowRoot(actionSelectorComponent).querySelector(selectors.lightningCombobox);
+        interactionCombobox = getShadowRoot(actionSelectorComponent).querySelector(selectors.lightningInteractionCombobox);
+        groupedCombobox = getShadowRoot(interactionCombobox).querySelector(selectors.lightningGroupedCombobox);
     });
     it('does not display action types without action instances', () => {
         // No elements for "Email Alert"

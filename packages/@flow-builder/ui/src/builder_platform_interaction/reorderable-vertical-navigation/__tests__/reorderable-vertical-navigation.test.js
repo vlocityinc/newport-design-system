@@ -1,4 +1,5 @@
 import {createElement} from 'engine';
+import { getShadowRoot } from 'lwc-test-utils';
 import ReorderableVerticalNavigation from 'builder_platform_interaction-reorderable-vertical-navigation';
 
 const SELECTORS = {
@@ -77,7 +78,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const firstMenuItem = element.querySelector(SELECTORS.VERTICAL_TAB_NAV_ITEM).shadowRoot.querySelector(SELECTORS.FIRST_LIST_ITEM);
+            const firstMenuItem = getShadowRoot(element.querySelector(SELECTORS.VERTICAL_TAB_NAV_ITEM)).querySelector(SELECTORS.FIRST_LIST_ITEM);
 
             const eventCallback = jest.fn();
             element.addEventListener('itemselected', eventCallback);

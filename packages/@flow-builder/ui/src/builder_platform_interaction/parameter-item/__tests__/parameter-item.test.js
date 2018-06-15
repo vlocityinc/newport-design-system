@@ -1,4 +1,5 @@
 import { createElement } from 'engine';
+import { getShadowRoot } from 'lwc-test-utils';
 import ParameterItem from 'builder_platform_interaction-parameter-item';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { UpdateParameterItemEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
@@ -74,15 +75,15 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
 });
 
 function getBuilderComboboxElement(parameterItem) {
-    return parameterItem.shadowRoot.querySelector("builder_platform_interaction-combobox");
+    return getShadowRoot(parameterItem).querySelector("builder_platform_interaction-combobox");
 }
 
 function getHiddenBuilderComboboxElement(parameterItem) {
-    return parameterItem.shadowRoot.querySelector("builder_platform_interaction-combobox.slds-hide");
+    return getShadowRoot(parameterItem).querySelector("builder_platform_interaction-combobox.slds-hide");
 }
 
 function getLightningInputToggle(parameterItem) {
-    return parameterItem.shadowRoot.querySelector("lightning-input");
+    return getShadowRoot(parameterItem).querySelector("lightning-input");
 }
 
 describe('parameter-item', () => {
