@@ -34,3 +34,7 @@ export { DeleteRecordLookupFilterEvent } from './deleteRecordLookupFilterEvent';
 export { RecordLookupFilterTypeChangedEvent } from './recordLookupFilterTypeChangedEvent';
 export { PaletteItemChevronClickedEvent } from './palette-events/palette-item-chevron-clicked-event';
 export { RecordStoreOptionChangedEvent } from './recordStoreOptionChangedEvent';
+export { OutputReferenceChangedEvent } from './outputReferenceChangedEvent';
+export { AddRecordLookupFieldEvent } from './addRecordLookupFieldEvent';
+export { UpdateRecordLookupFieldEvent } from './updateRecordLookupFieldEvent';
+export { DeleteRecordLookupFieldEvent } from './deleteRecordLookupFieldEvent';

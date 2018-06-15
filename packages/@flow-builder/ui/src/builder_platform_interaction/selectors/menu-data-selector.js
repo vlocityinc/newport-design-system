@@ -1,10 +1,10 @@
 import { createSelector } from 'builder_platform_interaction-store-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 const elementsSelector = (state) => state.elements;
 const resourcesSelector = (state) => state.resources;
 const canvasElementsSelector = (state) => state.canvasElements;
-let dataTypeSelector;
 
 const getElements = (elements, guids) => guids.reduce((acc, guid) => {
     acc.push(elements[guid]);
@@ -28,16 +28,60 @@ const getCollectionElements = (elements, resources) => {
     return getElements(elements, collectionElementGuids);
 };
 
-const getNonCollectionElementsByType = (elements, resources) => {
+const getNonCollectionElementsByType = (elements, resources, dataType) => {
     const filteredElementGuids = resources.filter(guid =>
-        (elements[guid].dataType === dataTypeSelector) && (!elements[guid].isCollection)
+        (elements[guid].dataType === dataType) && (!elements[guid].isCollection)
     );
     return getElements(elements, filteredElementGuids);
 };
 
+/**
+ * Filter the sobject or sobject collection variables by entity name.
+ * @param {Object[]} elements elements from store
+ * @param {String[]} resources resources from store
+ * @param {Object} wayToRetrieve {allSObjectsAndSObjectCollections}
+ * @returns {Object[]}  list of sobject/sobject collection variables
+ */
+const getSObjectOrSObjectCollectionByEntityElements = (elements, resources, wayToRetrieve) => {
+    const allElements = [];
+    const dataType = FLOW_DATA_TYPE.SOBJECT.value;
+    if (wayToRetrieve) {
+        if (wayToRetrieve.allSObjectsAndSObjectCollections) {
+            allElements.push(...getCollectionElements(elements, resources).filter(element => element.dataType === dataType));
+            allElements.push(...getNonCollectionElementsByType(elements, resources));
+        } else if (wayToRetrieve.isCollection) {
+            allElements.push(...getCollectionElements(elements, resources).filter(element => element.dataType === dataType));
+        } else {
+            allElements.push(...getNonCollectionElementsByType(elements, resources, dataType));
+        }
+        // filter entityName
+        if (wayToRetrieve.entityName) {
+            return allElements.filter(element => element.objectType === wayToRetrieve.entityName);
+        }
+    }
+    return allElements;
+};
+
+/**
+ * @typedef {Object} RetrieveOptions
+ *
+ * @property {Boolean} allSObjectsAndSObjectCollections - true to retrieve both sObject and sObject collection variables.
+ * @property {Boolean} isCollection - true to retrieve only sObject collection variables. It's ignored if there is allSObjectsAndSObjectCollections property.
+ * @property {String} entityName - filter by entity name.
+ */
+
+/**
+ * Filter the sobject or sobject collection variables by entity name.
+ * @param {RetrieveOptions} retrieveOptions way to retrieve the sObject or sObject collection variables.
+ * @returns {Object} selector
+ */
+
+export const sObjectOrSObjectCollectionByEntitySelector = (retrieveOptions) => {
+    return createSelector([elementsSelector, resourcesSelector], (elements, resources) => getSObjectOrSObjectCollectionByEntityElements(elements, resources, retrieveOptions));
+};
+
 export const byTypeElementsSelector = (dataType) => {
-    dataTypeSelector = dataType;
-    return createSelector([elementsSelector, resourcesSelector], getNonCollectionElementsByType);
+    return createSelector([elementsSelector, resourcesSelector], (elements, resources) => getNonCollectionElementsByType(elements, resources, dataType));
 };
 
 export const writableElementsSelector = createSelector([elementsSelector, resourcesSelector], getWritableElements);

@@ -34,6 +34,9 @@
                 resource-api-name={recordEntityName}
                 number-of-records-to-store={numberRecordsToStore}
                 assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}>
-                </builder_platform_interaction-record-store-options>
-   	</div>
+        </builder_platform_interaction-record-store-options>
+        <!-- SObject or SObject collection section -->
+        <builder_platform_interaction-record-assign-fields is-collection={isCollection} record-entity-name={recordEntityName} element-type={elementType} queried-fields={queriedFields}
+                output-reference={outputReference} onoutputreferencechanged={handleEvent} onaddrecordlookupfield={handleEvent} onupdaterecordlookupfield={handleEvent} ondeleterecordlookupfield={handleEvent}></builder_platform_interaction-record-assign-fields>
+    </div>
 </template> 

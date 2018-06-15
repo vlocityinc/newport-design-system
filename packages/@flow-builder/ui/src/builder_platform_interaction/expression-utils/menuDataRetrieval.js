@@ -3,7 +3,8 @@ import {
     writableElementsSelector,
     readableElementsSelector,
     collectionElementsSelector,
-    byTypeElementsSelector
+    byTypeElementsSelector,
+    sObjectOrSObjectCollectionByEntitySelector
 } from "builder_platform_interaction-selectors";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { Store } from 'builder_platform_interaction-store-lib';
@@ -308,9 +309,13 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
  * This method returns the selector that should be used to find elements for the menuData
  * @param {Object} elementType              the element type this expression builder lives in
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
+ * @param {Boolean} isCollection    true if using selector to retrieve collection variables
+ * @param {String} dataType    data type to pass in byTypeElementsSelector
+ * @param {String} entityName    optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
+ * @param {Boolean} sObjectSelector optional: true if using selector to retrieve sobject/sobject collection variables
  * @returns {function}                  retrieves elements from store
  */
-function getSelector({elementType, shouldBeWritable, isCollection, dataType}) {
+function getSelector({elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector}) {
     switch (elementType) {
         case ELEMENT_TYPE.ACTION_CALL:
         case ELEMENT_TYPE.APEX_CALL:
@@ -320,11 +325,12 @@ function getSelector({elementType, shouldBeWritable, isCollection, dataType}) {
         case ELEMENT_TYPE.SUBFLOW:
         case ELEMENT_TYPE.LOCAL_ACTION_CALL:
         case ELEMENT_TYPE.VARIABLE:
-        case ELEMENT_TYPE.RECORD_LOOKUP:
             return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         case ELEMENT_TYPE.DECISION:
         case ELEMENT_TYPE.SCREEN:
             return readableElementsSelector;
+        case ELEMENT_TYPE.RECORD_LOOKUP:
+            return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         case ELEMENT_TYPE.LOOP:
             return isCollection ? collectionElementsSelector : byTypeElementsSelector(dataType);
         default:
@@ -458,5 +464,25 @@ function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSub
 export function getElementByDevName(elements = {}, devName) {
     return Object.values(elements).find((element) => {
         return element.name === devName;
+    });
+}
+
+/**
+ * Get the list of fields of the selected entity. This list should exclude some preselected fields to prevent selection the same field twice.
+ * Then transform them to combobox menu data as a list of {type: 'option-inline', text: fieldApiName, displayText: fieldApiName, value: fieldApiName}
+ *
+ * @param {String} recordEntityName   name of the selected entity
+ * @param {String[]} excludedFields   the excluded fields
+ * @param {function} callback the callback function with menudata
+ */
+export function getFieldsMenuData(recordEntityName, excludedFields, callback) {
+    sobjectLib.getFieldsForEntity(recordEntityName, fields => {
+        const menuData = [];
+        Object.keys(fields).forEach(field => {
+            if (!excludedFields.includes(field)) {
+                menuData.push(createMenuItem(COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE, field, undefined, field, undefined, field));
+            }
+        });
+        callback(menuData);
     });
 }

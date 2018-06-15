@@ -13,6 +13,12 @@ const selectors = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
 };
 
+jest.mock('builder_platform_interaction-selectors', () => {
+    return {
+        collectionElementsSelector: jest.fn().mockReturnValue([]),
+    };
+});
+
 describe('loop-editor', () => {
     let originalState;
     beforeEach(() => {

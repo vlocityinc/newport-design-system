@@ -93,6 +93,21 @@ export default class RecordLookupEditor extends Element {
         return this.recordLookupElement.assignNullValuesIfNoRecordsFound;
     }
 
+    get isCollection() {
+        return this.numberRecordsToStore === 'allRecord';
+    }
+
+    get outputReference() {
+        if (this.recordLookupElement.outputReference && this.recordLookupElement.outputReference.value) {
+            return this.recordLookupElement.outputReference.value;
+        }
+        return '';
+    }
+
+    get queriedFields() {
+        return this.recordLookupElement.queriedFields;
+    }
+
     updateFields() {
         if (this.recordEntityName) {
             getFieldsForEntity(this.recordEntityName, (fields) => {
@@ -112,9 +127,11 @@ export default class RecordLookupEditor extends Element {
 
     handleResourceChanged(event) {
         const item = event.detail.item;
-        this.recordEntityName = item.value;
-        this.updateFields();
-        // TODO: call reducer to update object type, filters, filter type - W-4961522
-        this.recordLookupElement = recordLookupReducer(this.recordLookupElement, event);
+        if (item) {
+            this.recordEntityName = item.value;
+            this.updateFields();
+            // TODO: call reducer to update object type, filters, filter type - W-4961522
+            this.recordLookupElement = recordLookupReducer(this.recordLookupElement, event);
+        }
     }
 }

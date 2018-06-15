@@ -35,6 +35,19 @@ export const mutateRecordLookup = record => {
         record.filterType = (filterItems.length > 0 && filterItems[0].field) ? RECORD_LOOKUP_FILTER_CRITERIA.ALL : RECORD_LOOKUP_FILTER_CRITERIA.NONE;
         record.filters = mutateFilterItems(filterItems, record.object);
     }
+    if (record.queriedFields) {
+        // push 'Id' as a mandatory field
+        if (!record.queriedFields.includes('Id')) {
+            record.queriedFields.push('Id');
+        }
+        // create at least one empty in queriedFields + 'Id'
+        if (record.queriedFields.length === 1) {
+            record.queriedFields.push('');
+        }
+        record.queriedFields.forEach((queriedField, index) => {
+            record.queriedFields[index] = {field: queriedField, rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FIELD)};
+        });
+    }
     return record;
 };
 
@@ -63,6 +76,11 @@ export const deMutateRecordLookup = record => {
             }
         });
     }
+    const queriedFields = record.queriedFields;
+    if (queriedFields) {
+        queriedFields.forEach((queriedField, index) => {
+            queriedFields[index] = queriedField.field;
+        });
+    }
     return record;
 };
-

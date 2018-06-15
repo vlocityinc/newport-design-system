@@ -388,6 +388,7 @@ export const elementTypeToConfigMap = {
             assignNullValuesIfNoRecordsFound : false,
             outputAssignments : [],
             outputReference : {},
+            queriedFields: [],
         }
     },
     [ELEMENT_TYPE.RECORD_DELETE]: {

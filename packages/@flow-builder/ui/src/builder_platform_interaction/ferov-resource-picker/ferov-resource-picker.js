@@ -22,6 +22,8 @@ export default class FerovResourcePicker extends Element {
     set comboboxConfig(newComboboxConfig) {
         this._comboboxConfig = newComboboxConfig;
         this._isInitialized = false;
+        // re-populate menu data if the config change
+        this.populateFerovMenuData();
     }
 
     @api
@@ -83,7 +85,6 @@ export default class FerovResourcePicker extends Element {
         if (!this._isInitialized) {
             this._baseResourcePicker = this.template.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
             this.populateFerovMenuData();
-            this._isInitialized = true;
         }
     }
 
@@ -94,13 +95,16 @@ export default class FerovResourcePicker extends Element {
      * If elementConfig is set use that to fetch the menu data.
      */
     populateFerovMenuData() {
-        if (!this.elementConfig) {
-            this._rules = getRulesForContext({ elementType: this.propertyEditorElementType });
-            const paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
-            this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType }, paramTypes, this.showNewResource);
-        } else {
-            this._menuData = getElementsForMenuData(this.elementConfig, null, this.showNewResource);
+        if (this._baseResourcePicker) {
+            if (!this.elementConfig) {
+                this._rules = getRulesForContext({ elementType: this.propertyEditorElementType });
+                const paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
+                this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType }, paramTypes, this.showNewResource);
+            } else {
+                this._menuData = getElementsForMenuData(this.elementConfig, null, this.showNewResource);
+            }
+            this._baseResourcePicker.setMenuData(this._menuData);
+            this._isInitialized = true;
         }
-        this._baseResourcePicker.setMenuData(this._menuData);
     }
 }

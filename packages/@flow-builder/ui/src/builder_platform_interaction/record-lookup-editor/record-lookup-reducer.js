@@ -1,10 +1,14 @@
-import { updateProperties, set, deleteItem, mutateFilterItems, hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
+import { updateProperties, set, deleteItem, mutateFilterItems, hydrateWithErrors, replaceItem } from 'builder_platform_interaction-data-mutation-lib';
 import {
     PropertyChangedEvent,
     AddRecordLookupFilterEvent,
     UpdateRecordLookupFilterEvent,
     DeleteRecordLookupFilterEvent,
-    ComboboxValueChangedEvent
+    ComboboxValueChangedEvent,
+    OutputReferenceChangedEvent,
+    AddRecordLookupFieldEvent,
+    UpdateRecordLookupFieldEvent,
+    DeleteRecordLookupFieldEvent,
 } from 'builder_platform_interaction-events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
@@ -39,12 +43,57 @@ const updateRecordLookupFilter = (state, event) => {
     return set(state, path, item);
 };
 
-const resetRecordLookupFilterItems = (state, event) => {
+const addQueriedField = (state) => {
+    const emptyField = hydrateWithErrors({field: '', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM)});
+    const path = ['queriedFields', state.queriedFields.length];
+    return set(state, path, emptyField);
+};
+
+const deleteQueriedField = (state, event) => {
+    const updatedItems = deleteItem(state.queriedFields, event.detail.index);
+    return set(state, 'queriedFields', updatedItems);
+};
+
+const updateQueriedField = (state, event) => {
+    if (!event.detail.error) {
+        const newField = hydrateWithErrors({field: event.detail.value, rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM)});
+        state = updateProperties(state, {
+            queriedFields: replaceItem(state.queriedFields, newField, event.detail.index)
+        });
+    }
+    // TODO: handle error
+    return state;
+};
+
+const updateOutputReference = (state, value) => {
+    return updateProperties(state, {'outputReference': {value, error: null}});
+};
+
+const resetQueriedFields = (state) => {
+    // reset queriedFields: create one empty filter item + Id
+    return set(state, 'queriedFields', hydrateWithErrors([{field: 'Id', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM)}, {field: '', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM)}]));
+};
+
+const updateOutputReferenceAndQueriedFields = (state, event) => {
+    if (!event.detail.error) {
+        // update outputReference
+        state = updateOutputReference(state, event.detail.value);
+        // reset queriedFields: create one empty filter item + Id
+        return resetQueriedFields(state);
+    }
+    // TODO: handle error
+    return state;
+};
+
+const resetRecordLookup = (state, event) => {
     // update object type
     state = updateProperties(state, {'object': {error: event.detail.error, value: event.detail.item.value}});
     // reset filters: create one empty filter item
     const emptyFilterItem = hydrateWithErrors(mutateFilterItems([{field: '', operator: '', value: { stringValue: ''}}], event.detail.item.value));
-    return set(state, 'filters', emptyFilterItem);
+    state = set(state, 'filters', emptyFilterItem);
+    // reset outputReference and queried fields
+    state = updateOutputReference(state, '', event.detail.error);
+    return resetQueriedFields(state);
 };
 
 /**
@@ -64,7 +113,15 @@ export const recordLookupReducer = (state, event) => {
         case DeleteRecordLookupFilterEvent.EVENT_NAME:
             return deleteRecordLookupFilter(state, event);
         case ComboboxValueChangedEvent.EVENT_NAME:
-            return resetRecordLookupFilterItems(state, event);
+            return resetRecordLookup(state, event);
+        case OutputReferenceChangedEvent.EVENT_NAME:
+            return updateOutputReferenceAndQueriedFields(state, event);
+        case AddRecordLookupFieldEvent.EVENT_NAME:
+            return addQueriedField(state, event);
+        case UpdateRecordLookupFieldEvent.EVENT_NAME:
+            return updateQueriedField(state, event);
+        case DeleteRecordLookupFieldEvent.EVENT_NAME:
+            return deleteQueriedField(state, event);
         default:
             return state;
     }
