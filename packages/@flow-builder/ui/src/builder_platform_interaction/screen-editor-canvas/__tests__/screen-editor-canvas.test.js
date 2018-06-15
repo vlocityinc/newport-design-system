@@ -14,7 +14,7 @@ const createComponentUnderTest = (props) => {
     return el;
 };
 
-describe('screen-editor-canvas', () => {
+describe('help icon', () => {
     it('displays the help icon when there is help text', () => {
         const screenEditorCanvasElement = createComponentUnderTest({
             screen: createTestScreen(), // {helpText: {value: "help!!", error: null}, label:{value:"label", error: null}, showHeader: true},
@@ -23,6 +23,38 @@ describe('screen-editor-canvas', () => {
         return Promise.resolve().then(() => {
             const helpIcon = screenEditorCanvasElement.querySelector('lightning-button-icon');
             expect(helpIcon).toBeDefined();
+        });
+    });
+});
+
+describe('fields rendered', () => {
+    let screenEditorCanvasElement;
+    beforeEach(() => {
+        screenEditorCanvasElement = createComponentUnderTest({
+            screen: createTestScreen('Screen 1', null),
+            labels: {}
+        });
+    });
+    it('Correct number of screen fields are rendered', () => {
+        return Promise.resolve().then(() => {
+            const highlightFields = screenEditorCanvasElement.querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
+            expect(highlightFields).toHaveLength(9);
+        });
+    });
+});
+
+describe('No fields rendered for empty screen', () => {
+    let screenEditorCanvasElement;
+    beforeEach(() => {
+        screenEditorCanvasElement = createComponentUnderTest({
+            screen: createTestScreen('Screen 1', []),
+            labels: {}
+        });
+    });
+    it('Correct number of screen fields are rendered', () => {
+        return Promise.resolve().then(() => {
+            const highlightFields = screenEditorCanvasElement.querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
+            expect(highlightFields).toHaveLength(0);
         });
     });
 });
@@ -250,7 +282,7 @@ describe('onDrop', () => {
             const eventCallback = jest.fn().mockImplementation();
             screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
 
-            // Drop field index 0 to the area where field index 1 current resides.
+            // Setup the even with no y target.
             const dropEvent = new CustomEvent('drop');
             dropEvent.dataTransfer = {
                 data: {},

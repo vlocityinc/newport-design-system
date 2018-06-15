@@ -1,6 +1,5 @@
 <template>
     <div if:true={screen} class='slds-p-around_small screen-editor-canvas-container slds-scrollable' 
-                                                                    onscreenelementselected={handleScreenElementSelected}
                                                                     onclick={handleOnClick} 
                                                                     ondragenter={handleDragEnter} 
                                                                     ondragover={handleDragOver}
@@ -12,7 +11,7 @@
             <div class='slds-card slds-card_boundary slds-grow slds-grid slds-grid_vertical'>
                 <!--  header -->
                 <builder_platform_interaction-screen-editor-highlight if:true={screen.showHeader} screen-element={screen} property='showHeader' 
-                                                                      prevent-events='true' title={labels.header} tab-index={tabIndex}>
+                                                                      prevent-events='true' title={labels.header} tab-index={tabIndex} selected={headerSelected}>
                     <div slot='screen-element' class='slds-card__header slds-grid slds-border_bottom slds-grow'>
                         <header class='slds-media slds-media_center slds-has-flexi-truncate'>
                             <div class='slds-media__body'>
@@ -27,16 +26,17 @@
                 
                 <!--  body -->  
                 <div class='screen-editor-canvas-body slds-card__body slds-m-bottom_none slds-is-relative'>
-                    <template for:each={screen.fields} for:item='field'>
-                        <builder_platform_interaction-screen-editor-highlight key={field.guid}
+                    <template for:each={fields} for:item='field'>
+                        <builder_platform_interaction-screen-editor-highlight key={field.field.guid}
                                                                               draggable='true'
-                                                                              screen-element={field} 
+                                                                              screen-element={field.field} 
                                                                               prevent-events='true'
                                                                               display-move-icon='true'
-                                                                              title={field.type.label} 
-                                                                              tab-index={tabIndex}>
+                                                                              title={field.field.type.label} 
+                                                                              tab-index={tabIndex}
+                                                                              selected={field.selected}>
                             <!-- field preview -->
-                            <builder_platform_interaction-screen-field slot='screen-element' screenfield={field} class='slds-grow'></builder_platform_interaction-screen-field> 
+                            <builder_platform_interaction-screen-field slot='screen-element' screenfield={field.field} class='slds-grow'></builder_platform_interaction-screen-field> 
                         </builder_platform_interaction-screen-editor-highlight>
                     </template>
                     
@@ -47,7 +47,7 @@
                 
                 <!--  footer -->
                 <builder_platform_interaction-screen-editor-highlight if:true={screen.showFooter} screen-element={screen} property='showFooter'
-                                                                      prevent-events='true' title={labels.footer} tab-index={tabIndex}>
+                                                                      prevent-events='true' title={labels.footer} tab-index={tabIndex} selected={footerSelected}>
                     <div slot='screen-element' class='slds-card__footer slds-grid slds-border_top slds-grow'>
                         <button if:true={screen.allowPause} class='slds-button slds-button--neutral' type='button' tabindex='-1'>{labels.pause}</button>
                         <div class='slds-col_bump-left'>

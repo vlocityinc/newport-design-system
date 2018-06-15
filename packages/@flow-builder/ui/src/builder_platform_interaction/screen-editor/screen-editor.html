@@ -7,11 +7,12 @@
         <div class='canvas-container slds-grow slds-shrink slds-scrollable_x'>
             <builder_platform_interaction-screen-editor-canvas class='slds-size_full'
                                                                screen={screen} 
+                                                               selected-item-guid={selectedItemGuid}
                                                                onaddscreenfield={handleAddScreenField} 
                                                                onscreenelementselected={handleSelectScreenElement}
                                                                onreorderlist={handleReorder}
                                                                onscreenelementdeselected={handleDeselectScreenElement}
-                                                               onscreenelementdeleted={handleDeleteScreenElement} >
+                                                               onscreenelementdeleted={handleDeleteScreenElement}>
             </builder_platform_interaction-screen-editor-canvas>
         </div>
         <div class='slds-grow-none slds-shrink-none'>

@@ -1,4 +1,5 @@
 import { Element, api } from 'engine';
+import { CANVAS_SCREEN_GUIDS } from 'builder_platform_interaction-screen-editor-utils';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { ReorderListEvent, createScreenElementDeselectedEvent } from 'builder_platform_interaction-events';
 const DRAGGING_REGION_SELECTOR = '.screen-editor-canvas-dragging-region';
@@ -10,47 +11,37 @@ const INSERTION_LINE_SELECTOR = '.screen-editor-canvas-insertion-line';
 export default class ScreenEditorCanvas extends Element {
     @api screen;
     @api tabIndex = 0;
+    @api selectedItemGuid;
+
     labels = LABELS;
 
     get hasHelpText() {
         return this.screen.helpText && this.screen.helpText.value;
     }
 
-    @api clearSelection() {
-        for (const highlight of this.template.querySelectorAll('builder_platform_interaction-screen-editor-highlight')) {
-            highlight.deselect();
-        }
+    get headerSelected() {
+        return this.selectedItemGuid === CANVAS_SCREEN_GUIDS.HEADER_GUID;
     }
 
-    /**
-     * select the given screen field by index number.
-     * Deselect all others.
-     * @param {string} fieldIndex number
-     */
-    @api selectField(fieldIndex) {
-        const fieldHighlights = this.template.querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
-        for (let i = 0; i < fieldHighlights.length; i++) {
-            if (i !== fieldIndex) {
-                fieldHighlights[i].deselect();
-            } else {
-                fieldHighlights[i].select();
-            }
-        }
+    get footerSelected() {
+        return this.selectedItemGuid === CANVAS_SCREEN_GUIDS.FOOTER_GUID;
     }
 
-    handleScreenElementSelected = (event) => {
-        for (const highlight of this.template.querySelectorAll('builder_platform_interaction-screen-editor-highlight')) {
-            if (highlight.screenElement !== event.target.screenElement || highlight.property !== event.target.property) {
-                highlight.deselect();
-            }
+    get fields() {
+        if (this.screen) {
+            return this.screen.fields.map((field) => {
+                return {
+                    field,
+                    selected: (this.selectedItemGuid === field.guid)
+                };
+            });
         }
 
-        // let event bubble up
+        return [];
     }
 
     handleOnClick = (/* event */) => {
         const selected = this.getSelectedElement();
-        this.clearSelection();
         this.dispatchEvent(createScreenElementDeselectedEvent(selected));
         event.stopPropagation();
     }

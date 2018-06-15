@@ -16,6 +16,12 @@ export const LIGHTNING_INPUT_VARIANTS = {
     STANDARD: 'standard',
     LABEL_HIDDEN: 'label-hidden'
 };
+
+export const CANVAS_SCREEN_GUIDS = {
+    HEADER_GUID: 'showHeader',
+    FOOTER_GUID: 'showFooter'
+};
+
 export const SELECTED_CLASS = 'selected';
 export const DRAGGING_CLASS = 'dragging';
 export const CONTAINER_DIV_SELECTOR = 'div.highlight';
@@ -28,4 +34,16 @@ export function getVariant(label) {
     // field labels are not required in flow, but they are required by the lightning component
     // we're using to preview them. Hide the label if the label is an empty string or equivalent.
     return (label && label.trim().length > 0) ? LIGHTNING_INPUT_VARIANTS.STANDARD : LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN;
+}
+
+export function booleanAttributeValue(element, property) {
+    if (element && property) {
+        return booleanValue(element[property], property);
+    }
+
+    return false;
+}
+
+export function booleanValue(value, name) {
+    return value && (value === 'true' || value === true || value === name);
 }

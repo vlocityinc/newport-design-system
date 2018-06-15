@@ -13,6 +13,7 @@ import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 export default class ScreenEditor extends Element {
     @track screen;
     @track selectedNode;
+    @track selectedItemGuid;
 
     /**
      * Screen node getter
@@ -60,9 +61,17 @@ export default class ScreenEditor extends Element {
     /**
      * Sets the selected node in the editor to the value provided
      * @param {object} value - The new selected node
+     * @param {string} property - The property to select in the canvas in case the selected node is the screen (this would be either the header or the footer)
      */
-    setSelectedNode(value) {
+    setSelectedNode(value, property) {
         this.selectedNode = unwrap(value); // Unwrapping to get rid of the double proxy warning message (Property "selectedNode" is set to a non-trackable object...)
+        if (value === this.screen) {
+            this.selectedItemGuid = property;
+        } else if (value) {
+            this.selectedItemGuid = value.guid;
+        } else {
+            this.selectedItemGuid = null;
+        }
     }
 
     /**
@@ -74,11 +83,8 @@ export default class ScreenEditor extends Element {
         this.screen = screenReducer(this.screen, event);
 
         // select the new field on the canvas.
-        Promise.resolve().then(() => {
-            const position = Number.isInteger(event.position) ? event.position : this.screen.fields.length - 1;
-            const canvas = this.template.querySelector('builder_platform_interaction-screen-editor-canvas');
-            canvas.selectField(position);
-        });
+        const position = Number.isInteger(event.position) ? event.position : this.screen.fields.length - 1;
+        this.setSelectedNode(this.screen.fields[position]);
     }
 
     /**
@@ -132,7 +138,7 @@ export default class ScreenEditor extends Element {
         if (elem && elem.guid !== this.screen.guid) {
             this.setSelectedNode(this.screen.getFieldByGUID(elem.guid));
         } else {
-            this.setSelectedNode(this.screen);
+            this.setSelectedNode(this.screen, event.property);
         }
     }
 
@@ -141,7 +147,7 @@ export default class ScreenEditor extends Element {
      */
     handleDeselectScreenElement = (/* event */) => {
         this.setSelectedNode(this.screen);
-        this.template.querySelector('builder_platform_interaction-screen-editor-canvas').clearSelection();
+        this.selectedItemGuid = null;
     }
 
     /**
