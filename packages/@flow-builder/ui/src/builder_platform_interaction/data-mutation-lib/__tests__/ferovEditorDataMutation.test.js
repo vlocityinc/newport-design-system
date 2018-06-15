@@ -2,6 +2,7 @@ import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { mutateFEROV, deMutateFEROV } from '../ferovEditorDataMutation';
 import * as store from 'mock-store-data';
 import * as storeUtilMock from 'builder_platform_interaction-store-utils';
+import { FLOW_DATA_TYPE } from '../../data-type-lib/data-type-lib';
 
 const stringFerovValue = 'abc';
 const variableFerovValue = 123;
@@ -112,7 +113,7 @@ describe('deMutateFerov function', () => {
     it('should demutate ferov with string value', () => {
         const item = {};
         item.rightHandSide = stringFerovValue;
-        item.rightHandSideDataType = FEROV_DATA_TYPE.STRING;
+        item.rightHandSideDataType = FLOW_DATA_TYPE.STRING.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
         expect(deMutatedItem.ferov.stringValue).toEqual(stringFerovValue);
@@ -121,7 +122,16 @@ describe('deMutateFerov function', () => {
     it('should demutate ferov with number value', () => {
         const item = {};
         item.rightHandSide = variableFerovValue;
-        item.rightHandSideDataType = FEROV_DATA_TYPE.NUMBER;
+        item.rightHandSideDataType = FLOW_DATA_TYPE.NUMBER.value;
+
+        const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
+        expect(deMutatedItem.ferov.numberValue).toEqual(variableFerovValue);
+    });
+
+    it('should demutate ferov with currency value', () => {
+        const item = {};
+        item.rightHandSide = variableFerovValue;
+        item.rightHandSideDataType = FLOW_DATA_TYPE.CURRENCY.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
         expect(deMutatedItem.ferov.numberValue).toEqual(variableFerovValue);
@@ -130,7 +140,7 @@ describe('deMutateFerov function', () => {
     it('should demutate ferov with date value', () => {
         const item = {};
         item.rightHandSide = dateFerovValue;
-        item.rightHandSideDataType = FEROV_DATA_TYPE.DATE;
+        item.rightHandSideDataType = FLOW_DATA_TYPE.DATE.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
         expect(deMutatedItem.ferov.dateValue).toEqual(dateFerovValue);
@@ -139,7 +149,7 @@ describe('deMutateFerov function', () => {
     it('should demutate ferov with dateTime value', () => {
         const item = {};
         item.rightHandSide = dateTimeFerovValue;
-        item.rightHandSideDataType = FEROV_DATA_TYPE.DATETIME;
+        item.rightHandSideDataType = FLOW_DATA_TYPE.DATE_TIME.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
         expect(deMutatedItem.ferov.dateTimeValue).toEqual(dateTimeFerovValue);
@@ -148,7 +158,7 @@ describe('deMutateFerov function', () => {
     it('should demutate ferov with boolean value', () => {
         const item = {};
         item.rightHandSide = true;
-        item.rightHandSideDataType = FEROV_DATA_TYPE.BOOLEAN;
+        item.rightHandSideDataType = FLOW_DATA_TYPE.BOOLEAN.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
         expect(deMutatedItem.ferov.booleanValue).toBeTruthy();

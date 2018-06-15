@@ -145,7 +145,7 @@ function convertToProps(ferovObject, valueProperty, dataTypeProperty) {
     if (!isUndefined(value)) {
         props[dataTypeProperty] = META_DATA_TYPES_TO_FEROV_TYPES_MAP[getMetaDataType(ferovObject)];
         // TODO: W-4967895. Boolean needs to be mapped to Global Constant
-        if (['number', 'boolean'].includes(typeof value)) {
+        if ([FEROV_DATA_TYPE.NUMBER, FEROV_DATA_TYPE.BOOLEAN].includes(typeof value)) {
             props[valueProperty] = value.toString();
         } else {
             props[valueProperty] = value;

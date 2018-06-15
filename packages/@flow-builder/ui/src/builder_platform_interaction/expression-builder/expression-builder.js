@@ -97,7 +97,8 @@ export default class ExpressionBuilder extends Element {
         }
 
         // TODO default operator case W-4912900
-        const rhsVal = getValueFromHydratedItem(expression[RHSG] ? expression[RHSG] : expression[RHS]);
+        const rhsGuid = getValueFromHydratedItem(expression[RHSG]);
+        const rhsVal = rhsGuid ? rhsGuid : getValueFromHydratedItem(expression[RHS]);
         if (expression[RHS] && !isUndefinedOrNull(rhsVal)) {
             this.state.normalizedRHS = normalizeRHS(rhsVal, (rhsIdentifier) => {
                 if (!this._fetchedRHSInfo) {

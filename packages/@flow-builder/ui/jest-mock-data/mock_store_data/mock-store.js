@@ -7,9 +7,14 @@ export const dateVariableGuid = 'guid6';
 export const stageGuid = 'guid7';
 export const stageCollectionGuid = 'guid8';
 export const dateCollectionVariableGuid = 'guid9';
+export const stringVariableGuid = 'guid10';
+export const currencyVariableGuid = 'guid11';
+export const assignmentElementGuid = 'guid12';
 
+export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
-export const stringVariableGuid = 'strVar1';
+export const currencyVariableDevName = 'currencyVar1';
+export const stringVariableDevName = 'strVar1';
 export const accountSObjectVariableDevName = 'accVar1';
 export const stringCollectionVariable1DevName = 'collStrVar1';
 export const stringCollectionVariable2DevName = 'collStrVar2';
@@ -19,6 +24,7 @@ const dateVariableDevName = 'dateVar1';
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
 export const stringDataType = 'String';
+export const currencyDataType = 'Currency';
 const dateDataType = 'Date';
 
 const choiceElementType = 'CHOICE';
@@ -27,6 +33,7 @@ const stageElementType = 'STAGE';
 export const account = 'Account';
 export const choiceLabel = 'Choice 1';
 export const variable = 'VARIABLE';
+export const assignment = 'ASSIGNMENT';
 
 export const elements = {
     [numberVariableGuid]: {
@@ -45,16 +52,29 @@ export const elements = {
         dataType: stringDataType,
         description: 'random description',
         elementType: variable,
-        guid: numberVariableGuid,
+        guid: stringVariableGuid,
         isCanvasElement: false,
         isCollection: false,
         isInput: false,
         isOutput: false,
-        name: numberVariableDevName,
+        name: stringVariableDevName,
         objectType: null,
         value: {
             stringValue: 'fooDefault',
         },
+    },
+    [currencyVariableGuid]: {
+        dataType: currencyDataType,
+        description: 'random description',
+        elementType: variable,
+        guid: currencyVariableGuid,
+        isCanvasElement: false,
+        isCollection: false,
+        isInput: false,
+        isOutput: false,
+        name: currencyVariableDevName,
+        scale: 2,
+        objectType: null,
     },
     [accountSObjectVariableGuid]: {
         dataType: sobjectDataType,
@@ -132,7 +152,25 @@ export const elements = {
         // dataType is weird, if we find ourselves needing it we need to raise it and handle it properly
         elementType: stageElementType,
         isCollection: false,
-    }
+    },
+    [assignmentElementGuid]: {
+        assignmentItems: [{
+            assignToReference: stringVariableGuid,
+            operator: "Assign",
+            processMetadataValues: [],
+            value: {elementReference: numberVariableGuid},
+        }],
+        config: {isSelected: false},
+        connectorCount: 0,
+        elementType: assignment,
+        guid: assignmentElementGuid,
+        isCanvasElement: true,
+        label: assignmentElementName,
+        locationX: 379,
+        locationY: 149,
+        maxConnections: 1,
+        name: assignmentElementName,
+    },
 };
 
 export const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCollectionVariable1Guid,

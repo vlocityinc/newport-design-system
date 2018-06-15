@@ -2,11 +2,12 @@ import { createElement } from 'engine';
 // Importing using relative path here to ensure that we get the actual component and not the mocked version
 import ExpressionBuilder from '../expression-builder.js';
 import { RowContentsChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
-import { numberVariableGuid, numberVariableDevName, elements } from 'mock-store-data';
+import { numberVariableGuid, numberVariableDevName, stringVariableGuid, dateVariableGuid, currencyVariableGuid, assignmentElementGuid, elements } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { mockAccountFields } from 'mock-server-entity-data';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-expression-builder', { is: ExpressionBuilder });
@@ -31,6 +32,31 @@ function createBlankExpression() {
             value: '',
             error: null,
         },
+    };
+}
+
+function createMockEmptyRHSExpression(lhsValue, wasVisited = false) {
+    return {
+        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+            value: lhsValue,
+            error: null,
+        },
+        [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
+            value: wasVisited ? 'wasVisited' : 'Assign',
+            error: null,
+        },
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
+            value: '',
+            error: null,
+        },
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+            value: '',
+            error: null,
+        },
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {
+            value: '',
+            error: null,
+        }
     };
 }
 
@@ -346,6 +372,73 @@ describe('expression-builder', () => {
                 return Promise.resolve().then(() => {
                     checkOperatorAndRHSDisabled(expressionBuilder, true);
                 });
+            });
+        });
+    });
+
+    describe('RHS literal datatype depending on LHS/Operator', () => {
+        it('String', () => {
+            const expression = createMockEmptyRHSExpression(stringVariableGuid);
+            const expressionBuilder = createComponentForTest({
+                expression,
+                showOperator: true,
+            });
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            rhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(null, 'foobar'));
+            Promise.resolve().then(() => {
+                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.STRING.value);
+            });
+        });
+
+        it('Number', () => {
+            const expression = createMockEmptyRHSExpression(numberVariableGuid);
+            const expressionBuilder = createComponentForTest({
+                expression,
+                showOperator: true,
+            });
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            rhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(null, '123'));
+            Promise.resolve().then(() => {
+                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.NUMBER.value);
+            });
+        });
+
+        it('Currency', () => {
+            const expression = createMockEmptyRHSExpression(currencyVariableGuid);
+            const expressionBuilder = createComponentForTest({
+                expression,
+                showOperator: true,
+            });
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            rhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(null, '123'));
+            Promise.resolve().then(() => {
+                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.NUMBER.value);
+            });
+        });
+
+        it('Date', () => {
+            const expression = createMockEmptyRHSExpression(dateVariableGuid);
+            const expressionBuilder = createComponentForTest({
+                expression,
+                showOperator: true,
+            });
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            rhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(null, '1/1/2018'));
+            Promise.resolve().then(() => {
+                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.DATE.value);
+            });
+        });
+
+        it('Element', () => {
+            const expression = createMockEmptyRHSExpression(assignmentElementGuid, true);
+            const expressionBuilder = createComponentForTest({
+                expression,
+                showOperator: true,
+            });
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            rhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(null, 'true'));
+            Promise.resolve().then(() => {
+                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
         });
     });
