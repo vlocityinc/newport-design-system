@@ -1,36 +1,26 @@
 import { Element, api, track } from 'engine';
-import { LABELS } from './record-store-options-labels';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { LABELS, NUMBER_RECORDS_OPTIONS,
+    NUMBER_RECORDS_LABELS,
+    WAY_TO_STORE_FIELDS_LABELS,
+    WAY_TO_STORE_FIELDS_OPTIONS } from './record-store-options-labels';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction-events';
 
-const NUMBER_RECORDS_TO_STORE_OPTIONS = [{
-    label : LABELS.firstRecord,
-    value : 'firstRecord'
-}, {
-    label : LABELS.allRecords,
-    value : 'allRecord'
-}];
-
-const WAY_TO_STORE_FIELDS_OPTIONS = [{
-    label : LABELS.togetherInsObjectVariable,
-    value : 'sObjectVariable'
-}, {
-    label : LABELS.separateVariable,
-    value : 'separateVariables'
-}];
-
 export default class RecordStoreFieldsSelection extends Element {
-    numberRecordsToStoreOption = NUMBER_RECORDS_TO_STORE_OPTIONS;
     wayToStoreFieldsOption = WAY_TO_STORE_FIELDS_OPTIONS;
     labels = LABELS;
 
     @track
     state = {
-        showWayToStoreFieldSelector : false,
+        showWayToStoreFieldSelector : false, // TODO : should be true when implementing : W-4961821
         numberOfRecordsToStore : 'firstRecord',
         wayToStoreFields : 'sObjectVariable',
         assignNullValuesIfNoRecordsFound : false,
         resourceApiName : '',
     };
+
+    @api
+    elementType;
 
     @api
     set resourceApiName(value) {
@@ -92,12 +82,34 @@ export default class RecordStoreFieldsSelection extends Element {
     get title() {
         return this.labels.storeFieldsSelectionLabel.replace('{0}', this.state.resourceApiName);
     }
+
+    /**
+     * @returns {boolean} true if the element is a lookup element false otherwise
+     */
+    get isLookupElement() {
+        return this.elementType === ELEMENT_TYPE.RECORD_LOOKUP;
+    }
+
+    get recordStoreOptions() {
+        return NUMBER_RECORDS_OPTIONS[this.elementType];
+    }
+
+    get numberRecordsToStoreLabel() {
+        return NUMBER_RECORDS_LABELS[this.elementType];
+    }
+
+    get wayToStoreRecordLabel() {
+        return WAY_TO_STORE_FIELDS_LABELS[this.elementType];
+    }
+
     handleNumberRecordsToStoreChange(event) {
         event.stopPropagation();
         this.state.numberOfRecordsToStore = event.detail.value;
         // The second radio button group is displayed only if the 2 radio button is selected.
         // TODO : Uncomment when implementing : W-4961821
-        // this.state.showWayToStoreFieldSelector = this.state.numberOfRecordsToStore === NUMBER_RECORDS_TO_STORE_OPTIONS[0].value;
+        /* this.state.showWayToStoreFieldSelector = (this.elementType === ELEMENT_TYPE.RECORD_LOOKUP
+                                                || this.elementType === ELEMENT_TYPE.RECORD_CREATE)
+                                                && this.state.numberOfRecordsToStore === NUMBER_RECORDS_OPTIONS.get(this.elementType)[0].value; */
         this.dispatchEvent(new RecordStoreOptionChangedEvent(this.state.numberOfRecordsToStore,
             this.state.wayToStoreFields,
             this.state.assignNullValuesIfNoRecordsFound));

@@ -2,12 +2,13 @@
     <div class="slds-m-bottom_small slds-border_top ">
         <div class="slds-form slds-form_stacked slds-p-around_small slds-no-flex">
             <lightning-formatted-rich-text 
+                if:true={isLookupElement}
                 value={title} 
                 class="slds-text-body_regular">
             </lightning-formatted-rich-text>
-            <lightning-radio-group label='{labels.numberRecordsToStoreLabel}'
+            <lightning-radio-group label='{numberRecordsToStoreLabel}'
                 name="numberRecordsToStoreRadioGroup" 
-                options={numberRecordsToStoreOption}
+                options={recordStoreOptions}
                 value={state.numberOfRecordsToStore}
                 onchange={handleNumberRecordsToStoreChange}
                 class="slds-m-top_x-small">
@@ -15,13 +16,14 @@
             <lightning-radio-group 
                 if:true={state.showWayToStoreFieldSelector}
                 name="wayToStoreFieldsRadioGroup"
-                label={labels.wayToStoreFieldsLabel} 
+                label={WayToStoreRecordLabel} 
                 options={wayToStoreFieldsOption}
                 value={state.wayToStoreFields}
                 onchange={handleWayToStoreFieldsChange}
                 class="slds-m-top_x-small">
             </lightning-radio-group>
             <lightning-input 
+                if:true={isLookupElement}
                 name="assignNullIfNoRecordFoundComboBox" 
                 class='property-input slds-m-top_x-small' 
                 type='checkbox' 

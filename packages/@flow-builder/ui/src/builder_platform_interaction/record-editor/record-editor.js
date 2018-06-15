@@ -58,6 +58,10 @@ export default class RecordEditor extends Element {
         return this.recordNode.name;
     }
 
+    get elementType() {
+        return this.recordNode.elementType;
+    }
+
     get numberRecordsToStore() {
         if (this.recordNode.outputReference && this.recordNode.outputReference.value) {
             const variable = getElementByGuid(this.recordNode.outputReference.value);

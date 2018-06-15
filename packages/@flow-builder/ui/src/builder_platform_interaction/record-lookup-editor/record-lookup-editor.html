@@ -17,20 +17,23 @@
         </div>
     </div>
     
-    <!-- Find Records section -->
-    <builder_platform_interaction-record-filter if:true={recordEntityName} element-type={elementType} filter-items={filterItems} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={filterType} onaddrecordlookupfilter={handleEvent} onupdaterecordlookupfilter={handleEvent} ondeleterecordlookupfilter={handleEvent}></builder_platform_interaction-record-filter>
-    
-    <!-- Sort Records section -->
-    <builder_platform_interaction-record-sort if:true={recordEntityName} 
-            resource-api-name={recordEntityName}
-            selected-field={sortField}
-            sort-order={sortOrder}
-            onfieldselected={handleFieldSelected}></builder_platform_interaction-record-sort>
-            
-    <!-- Record Store Fields Selection section -->
-    <builder_platform_interaction-record-store-options if:true={recordEntityName} 
-            resource-api-name={recordEntityName}
-            number-of-records-to-store={numberRecordsToStore}
-            assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}></builder_platform_interaction-record-store-options>
-    
+    <div if:true={recordEntityName}>
+        <!-- Find Records section -->
+        <builder_platform_interaction-record-filter element-type={elementType} filter-items={filterItems} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={filterType} onaddrecordlookupfilter={handleEvent} onupdaterecordlookupfilter={handleEvent} ondeleterecordlookupfilter={handleEvent}></builder_platform_interaction-record-filter>
+        
+        <!-- Sort Records section -->
+        <builder_platform_interaction-record-sort
+                resource-api-name={recordEntityName}
+                selected-field={sortField}
+                sort-order={sortOrder}
+                onfieldselected={handleFieldSelected}></builder_platform_interaction-record-sort>
+                
+        <!-- Record Store Fields Selection section -->
+        <builder_platform_interaction-record-store-options
+                element-type={elementType}
+                resource-api-name={recordEntityName}
+                number-of-records-to-store={numberRecordsToStore}
+                assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}>
+                </builder_platform_interaction-record-store-options>
+   	</div>
 </template> 

@@ -1,11 +1,13 @@
 import {createElement} from 'engine';
 import RecordStoreOption from 'builder_platform_interaction-record-store-options';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction-events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
-const createComponentUnderTest = () => {
+const createComponentUnderTest = (elementType) => {
     const el = createElement('builder_platform_interaction-record-store-options', {
         is: RecordStoreOption
     });
+    el.elementType = elementType;
     document.body.appendChild(el);
     return el;
 };
@@ -58,7 +60,7 @@ const getRecordStoreOptionChangedEventDetail = (assignNullToVariableNoRecordValu
 describe('record-store-options default', () => {
     let recordStoreOptionComponent;
     beforeEach(() => {
-        recordStoreOptionComponent = createComponentUnderTest();
+        recordStoreOptionComponent = createComponentUnderTest(ELEMENT_TYPE.RECORD_LOOKUP);
     });
     test('Check Label', () => {
         expect(recordStoreOptionComponent).toBeDefined();
@@ -85,5 +87,15 @@ describe('record-store-options default', () => {
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
         expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(true, NUMBER_RECORDS_TO_STORE_OPTIONS.firstRecord, WAY_TO_STORE_FIELDS_OPTIONS.togetherInsObjectVariable));
+    });
+});
+describe('record-store-options Record Create', () => {
+    let recordStoreOptionComponent;
+    beforeEach(() => {
+        recordStoreOptionComponent = createComponentUnderTest(ELEMENT_TYPE.RECORD_CREATE);
+    });
+    test('Check Label', () => {
+        expect(recordStoreOptionComponent).toBeDefined();
+        expect(getTitle(recordStoreOptionComponent)).toBeNull();
     });
 });
