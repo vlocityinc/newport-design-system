@@ -2,7 +2,6 @@ import { Element, api, track, unwrap } from 'engine';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { isScreen } from 'builder_platform_interaction-screen-editor-utils';
 import { screenReducer } from './screen-reducer';
-import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { showConfirmationDialog } from 'builder_platform_interaction-builder-utils';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
@@ -92,28 +91,23 @@ export default class ScreenEditor extends Element {
      * @param {event} event - The event
      */
     handleDeleteScreenElement = (event) => {
-        const element = event.screenElement;
-        if (element.guid === this.screen.guid) {
-            // TODO W-4971424: Remove this, we shouldn't be able to delete header & footer from canvas
-            this.handlePropertyChanged(new PropertyChangedEvent(event.property, false, null, null, true));
-        } else {
-            const dialogAttributes = {
-                title: LABELS.deleteConfirmation,
-                bodyText: LABELS.deleteConsequence,
-                primaryButton: {
-                    actionText: LABELS.cancel,
-                    variant: "neutral"
-                },
-                secondaryButton: {
-                    actionText: LABELS.deleteAlternativeText,
-                    variant: "destructive"
-                }
-            };
-            showConfirmationDialog(dialogAttributes, () => {
-                this.screen = screenReducer(this.screen, event);
-                this.handleDeselectScreenElement();
-            });
-        }
+        const dialogAttributes = {
+            title: LABELS.deleteConfirmation,
+            bodyText: LABELS.deleteConsequence,
+            primaryButton: {
+                actionText: LABELS.cancel,
+                variant: "neutral"
+            },
+            secondaryButton: {
+                actionText: LABELS.deleteAlternativeText,
+                variant: "destructive"
+            }
+        };
+
+        showConfirmationDialog(dialogAttributes, () => {
+            this.screen = screenReducer(this.screen, event);
+            this.handleDeselectScreenElement();
+        });
     }
 
     /**

@@ -10,7 +10,7 @@ export default class ScreenEditorHighlight extends Element {
     @api screenElement;
     @api property;
     @api preventEvents = false;
-    @api displayMoveIcon = false;
+    @api displayIcons = false;
     @api draggable = false;
     @api title;
     @api tabIndex = 0;
@@ -23,15 +23,15 @@ export default class ScreenEditorHighlight extends Element {
     }
 
     get isDraggable() {
-        return typeof this.draggable === 'string' ? this.draggable.toLowerCase() === 'true' : this.draggable;
+        return booleanAttributeValue(this, 'draggable');
     }
 
     get shouldPreventEvents() {
-        return typeof this.preventEvents === 'string' ? this.preventEvents.toLowerCase() === 'true' : this.preventEvents;
+        return booleanAttributeValue(this, 'preventEvents');
     }
 
-    get shouldDisplayMoveIcon() {
-        return typeof this.displayMoveIcon === 'string' ? this.displayMoveIcon.toLowerCase() === 'true' : this.displayMoveIcon;
+    get shouldDisplayIcons() {
+        return booleanAttributeValue(this, 'displayIcons');
     }
 
     handleSelected = (event) => {

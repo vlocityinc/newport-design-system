@@ -1,5 +1,5 @@
 import { Element, api } from 'engine';
-import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+
 /**
  * Alert/confirmation message dialog
  * @since 216
@@ -16,8 +16,6 @@ export default class MessageDialog extends Element {
 
     @api primaryVariant;
     @api secondaryVariant;
-
-    labels = LABELS;
 
     handlePrimaryButtonClick() {
         if (typeof this.handlePrimaryCallback === 'function') {
