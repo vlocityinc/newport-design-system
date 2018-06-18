@@ -39,24 +39,24 @@ const getNonCollectionElementsByType = (elements, resources, dataType) => {
  * Filter the sobject or sobject collection variables by entity name.
  * @param {Object[]} elements elements from store
  * @param {String[]} resources resources from store
- * @param {Object} wayToRetrieve {allSObjectsAndSObjectCollections}
+ * @param {RetrieveOptions} retrieveOptions way to retrieve the sObject or sObject collection variables
  * @returns {Object[]}  list of sobject/sobject collection variables
  */
-const getSObjectOrSObjectCollectionByEntityElements = (elements, resources, wayToRetrieve) => {
+const getSObjectOrSObjectCollectionByEntityElements = (elements, resources, retrieveOptions) => {
     const allElements = [];
     const dataType = FLOW_DATA_TYPE.SOBJECT.value;
-    if (wayToRetrieve) {
-        if (wayToRetrieve.allSObjectsAndSObjectCollections) {
+    if (retrieveOptions) {
+        if (retrieveOptions.allSObjectsAndSObjectCollections) {
             allElements.push(...getCollectionElements(elements, resources).filter(element => element.dataType === dataType));
-            allElements.push(...getNonCollectionElementsByType(elements, resources));
-        } else if (wayToRetrieve.isCollection) {
+            allElements.push(...getNonCollectionElementsByType(elements, resources, dataType));
+        } else if (retrieveOptions.isCollection) {
             allElements.push(...getCollectionElements(elements, resources).filter(element => element.dataType === dataType));
         } else {
             allElements.push(...getNonCollectionElementsByType(elements, resources, dataType));
         }
         // filter entityName
-        if (wayToRetrieve.entityName) {
-            return allElements.filter(element => element.objectType === wayToRetrieve.entityName);
+        if (retrieveOptions.entityName) {
+            return allElements.filter(element => element.objectType === retrieveOptions.entityName);
         }
     }
     return allElements;
