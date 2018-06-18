@@ -6,6 +6,7 @@ import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import {PropertyChangedEvent} from 'builder_platform_interaction-events';
 
 const LOOP_PROPERTIES = {
@@ -98,42 +99,39 @@ export default class LoopEditor extends Element {
     }
 
     get loopVariableElementConfig() {
-        const collectionVariableDataType = this._collectionVariable ? this._collectionVariable.dataType : 'String';
+        const collectionVariableDataType = this._collectionVariable ? this._collectionVariable.dataType : null;
         return {
             elementType: ELEMENT_TYPE.LOOP,
-            dataType: collectionVariableDataType
+            dataType: collectionVariableDataType,
+            sObjectSelector: collectionVariableDataType === FLOW_DATA_TYPE.SOBJECT.value,
+            entityName: this._collectionVariable.objectType
         };
     }
 
     // TODO: use labels W-4960986
     get collectionVariableComboboxConfig() {
-        const collectionVariableDataTypeForValidation = this._collectionVariable ? this._collectionVariable.dataType : 'String';
         return BaseResourcePicker.getComboboxConfig(
             VARIABLE_LABEL,
             COLLECTION_VAR_PLACEHOLDER,
             VARIABLE_ERROR_MESSAGE,
             VARIABLE_LITERALS_ALLOWED,
             VARIABLE_REQUIRED,
-            VARIABLE_DISABLED,
-            collectionVariableDataTypeForValidation
+            VARIABLE_DISABLED
         );
     }
 
     // TODO: use labels W-4960986
     get loopVariableComboboxConfig() {
-        // TODO: Fix isDisabled to be updated on ItemSelectedEvent
-        const isDisabled = !this._collectionVariable;
-        // The validation for the 'String' dataType will never happen because the combobox will be disabled
-        // but the combobox config requires a non-empty string there
-        const loopVariableDataTypeForValidation = isDisabled ? 'String' : this._collectionVariable.dataType;
+        // TODO: In W-5093993, replace VARIABLE_DISABLED with isDisabled variable
+        // that will be updated as per the design requirements:
+        // https://docs.google.com/presentation/d/1lCa0ObycEtRKv2TIOiRp616vLrmCHNaNyw-fQTfP0m0/edit?ts=5b21bdfc#slide=id.g3a08245287_3_26
         return BaseResourcePicker.getComboboxConfig(
             VARIABLE_LABEL,
             LOOP_VAR_PLACEHOLDER,
             VARIABLE_ERROR_MESSAGE,
             VARIABLE_LITERALS_ALLOWED,
             VARIABLE_REQUIRED,
-            isDisabled,
-            loopVariableDataTypeForValidation
+            VARIABLE_DISABLED
         );
     }
 
@@ -153,7 +151,7 @@ export default class LoopEditor extends Element {
     handleCollectionVariablePropertyChanged(event) {
         event.stopPropagation();
         // TODO: in W-5079245 replace this and get the data needed directly from the event
-        this._collectionVariable = getElementByGuid(event.detail.item.value);
+        this._collectionVariable = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
         event.detail.propertyName = LOOP_PROPERTIES.COLLECTION_VARIABLE;
         this.loopElement = loopReducer(this.loopElement, event);
     }
@@ -161,7 +159,7 @@ export default class LoopEditor extends Element {
     handleLoopVariablePropertyChanged(event) {
         event.stopPropagation();
         // TODO: in W-5079245 replace this and get the data needed directly from the event
-        this._loopVariable = getElementByGuid(event.detail.item.value);
+        this._loopVariable = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
         event.detail.propertyName = LOOP_PROPERTIES.LOOP_VARIABLE;
         this.loopElement = loopReducer(this.loopElement, event);
     }

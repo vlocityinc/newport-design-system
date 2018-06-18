@@ -1,6 +1,7 @@
 import { createElement } from 'engine';
 import LoopEditor from '../loop-editor';
 import {PropertyChangedEvent, ComboboxValueChangedEvent} from 'builder_platform_interaction-events';
+import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-loop-editor', { is: LoopEditor });
@@ -43,7 +44,7 @@ describe('loop-editor', () => {
             loopElement.node = originalState;
             return Promise.resolve().then(() => {
                 const event = new PropertyChangedEvent('description', 'new desc', null);
-                loopElement.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION).dispatchEvent(event);
+                getShadowRoot(loopElement).querySelector(selectors.LABEL_DESCRIPTION).dispatchEvent(event);
                 expect(loopElement.node.description.value).toBe('new desc');
             });
         });
@@ -55,7 +56,7 @@ describe('loop-editor', () => {
                     value: 'VARIABLE_8',
                     error: null
                 }, 'VARIABLE_8', null);
-                loopElement.shadowRoot.querySelector(selectors.FEROV_RESOURCE_PICKER).dispatchEvent(event);
+                getShadowRoot(loopElement).querySelector(selectors.FEROV_RESOURCE_PICKER).dispatchEvent(event);
                 expect(loopElement.node.collectionReference.value).toBe('VARIABLE_8');
                 expect(loopElement.node.collectionReference.error).toBe(null);
             });

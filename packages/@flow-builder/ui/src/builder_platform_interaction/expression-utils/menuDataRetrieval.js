@@ -332,7 +332,7 @@ function getSelector({elementType, shouldBeWritable, isCollection, dataType, ent
         case ELEMENT_TYPE.RECORD_LOOKUP:
             return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         case ELEMENT_TYPE.LOOP:
-            return isCollection ? collectionElementsSelector : byTypeElementsSelector(dataType);
+            return isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
         default:
             return undefined;
     }

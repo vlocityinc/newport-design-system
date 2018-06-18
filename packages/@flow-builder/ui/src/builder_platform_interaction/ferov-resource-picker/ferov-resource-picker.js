@@ -20,10 +20,12 @@ export default class FerovResourcePicker extends Element {
      */
     @api
     set comboboxConfig(newComboboxConfig) {
-        this._comboboxConfig = newComboboxConfig;
-        this._isInitialized = false;
-        // re-populate menu data if the config change
-        this.populateFerovMenuData();
+        if (JSON.stringify(this._comboboxConfig) !== JSON.stringify(newComboboxConfig)) {
+            this._comboboxConfig = newComboboxConfig;
+            this._isInitialized = false;
+            // re-populate menu data if the config change
+            this.populateFerovMenuData();
+        }
     }
 
     @api
@@ -49,10 +51,22 @@ export default class FerovResourcePicker extends Element {
      * The element config using which selector is determined for the element type while getting elements for menu data.
      * Eg: {element, shouldBeWritable} element is the element type this expression builder is inside,
      * shouldBeWritable is so property editors can specify the data they need.
-     * @type {Object} the element config
+     * @param {module:ferov-resource-picker.ElementConfig} newElementConfig the new element config
      */
     @api
-    elementConfig;
+    set elementConfig(newElementConfig) {
+        if (JSON.stringify(this._elementConfig) !== JSON.stringify(newElementConfig)) {
+            this._elementConfig = newElementConfig;
+            this._isInitialized = false;
+            // re-populate menu data if the element config change
+            this.populateFerovMenuData();
+        }
+    }
+
+    @api
+    get elementConfig() {
+        return this._elementConfig;
+    }
 
     /**
      * Set it to true to show 'New Resource' as first item in combobox menu data.
@@ -80,6 +94,7 @@ export default class FerovResourcePicker extends Element {
     _menuData;
 
     _comboboxConfig;
+    _elementConfig;
 
     renderedCallback() {
         if (!this._isInitialized) {
@@ -96,12 +111,12 @@ export default class FerovResourcePicker extends Element {
      */
     populateFerovMenuData() {
         if (this._baseResourcePicker) {
-            if (!this.elementConfig) {
+            if (!this._elementConfig) {
                 this._rules = getRulesForContext({ elementType: this.propertyEditorElementType });
                 const paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
                 this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType }, paramTypes, this.showNewResource);
             } else {
-                this._menuData = getElementsForMenuData(this.elementConfig, null, this.showNewResource);
+                this._menuData = getElementsForMenuData(this._elementConfig, null, this.showNewResource);
             }
             this._baseResourcePicker.setMenuData(this._menuData);
             this._isInitialized = true;
