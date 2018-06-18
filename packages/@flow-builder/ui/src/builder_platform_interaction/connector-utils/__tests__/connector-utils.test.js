@@ -9,6 +9,7 @@ import {
 } from 'builder_platform_interaction-connector-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
+import loopNextConnectorLabel from '@label/FlowBuilderConnectorLabels.loopNextConnectorLabel';
 import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.loopEndConnectorLabel';
 
 jest.mock('builder_platform_interaction-store-lib', () => {
@@ -225,7 +226,7 @@ describe('Connector Utils', () => {
                 source: 'guid1',
                 childSource: null,
                 target: 'targetRef',
-                label: null,
+                label: loopNextConnectorLabel,
                 type: CONNECTOR_TYPE.LOOP_NEXT
             };
 

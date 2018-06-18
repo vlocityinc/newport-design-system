@@ -1,12 +1,12 @@
 <template>
     <div class='zoom-panel slds-is-fixed slds-p-around_large'>
-        <lightning-button-icon-stateful variant='border-filled' selected={isPanModeOn} icon-name='utility:move' id='moveButton' title='Pan (Spacebar + Mouse Click)' class='slds-m-right_xx-small' onclick={togglePanMode}></lightning-button-icon-stateful>
+        <lightning-button-icon-stateful variant='border-filled' selected={isPanModeOn} icon-name='utility:move' id='moveButton' title='Pan (Spacebar + Mouse Click)' alternative-text='Pan (Spacebar + Mouse Click)' class='slds-m-right_xx-small' onclick={togglePanMode}></lightning-button-icon-stateful>
 
         <div class='slds-button-group' role='group'>
-            <lightning-button-icon variant='border-filled' disabled={isZoomOutDisabled} icon-name='utility:dash' id='zoomOutButton' title='Zoom Out (&#8984; -)' onclick={handleZoomOutClick}></lightning-button-icon>
-            <lightning-button-icon variant='border-filled' if:true={isZoomToView} icon-name='utility:contract_alt' id='fitButton' title='Zoom to Fit (&#8984; 0)' onclick={handleZoomToFitClick}></lightning-button-icon>
-            <lightning-button-icon variant='border-filled' if:false={isZoomToView} icon-name='utility:expand_alt' id='expandButton' title='Zoom to 100% (&#8984; 1)' onclick={handleZoomToViewClick}></lightning-button-icon>
-            <lightning-button-icon variant='border-filled' disabled={isZoomInDisabled} icon-name='utility:add' id='zoomInButton' title='Zoom In (&#8984; +)' onclick={handleZoomInClick}></lightning-button-icon>
+            <lightning-button-icon variant='border-filled' disabled={isZoomOutDisabled} icon-name='utility:dash' id='zoomOutButton' title='Zoom Out (&#8984; -)' alternative-text='Zoom Out (&#8984; -)' onclick={handleZoomOutClick}></lightning-button-icon>
+            <lightning-button-icon variant='border-filled' if:true={isZoomToView} icon-name='utility:contract_alt' id='fitButton' title='Zoom to Fit (&#8984; 0)' alternative-text='Zoom to Fit (&#8984; 0)' onclick={handleZoomToFitClick}></lightning-button-icon>
+            <lightning-button-icon variant='border-filled' if:false={isZoomToView} icon-name='utility:expand_alt' id='expandButton' title='Zoom to 100% (&#8984; 1)' alternative-text='Zoom to 100% (&#8984; 1)' onclick={handleZoomToViewClick}></lightning-button-icon>
+            <lightning-button-icon variant='border-filled' disabled={isZoomInDisabled} icon-name='utility:add' id='zoomInButton' title='Zoom In (&#8984; +)' alternative-text='Zoom In (&#8984; +)' onclick={handleZoomInClick}></lightning-button-icon>
         </div>
     </div>
 </template>

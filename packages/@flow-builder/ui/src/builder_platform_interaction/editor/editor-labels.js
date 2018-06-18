@@ -2,6 +2,7 @@ import spinnerAlternativeText from '@label/FlowBuilderEditor.spinnerAlternativeT
 import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
 import loopNextComboBoxOption from '@label/FlowBuilderConnectorPicker.loopNextComboBoxOption';
 import loopEndComboBoxOption from '@label/FlowBuilderConnectorPicker.loopEndComboBoxOption';
+import loopNextConnectorLabel from '@label/FlowBuilderConnectorLabels.loopNextConnectorLabel';
 import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.loopEndConnectorLabel';
 
 export const LABELS = {
@@ -9,5 +10,6 @@ export const LABELS = {
     faultConnectorLabel,
     loopNextComboBoxOption,
     loopEndComboBoxOption,
+    loopNextConnectorLabel,
     loopEndConnectorLabel,
 };

@@ -162,7 +162,7 @@ class DrawingLib {
      * @return {Object} connection - jsPlumb's connector instance
      */
     setExistingConnections = (sourceGuid, targetGuid, label, connectorGuid, connectorType) => {
-        const connectionInstance = {source: sourceGuid, target: targetGuid};
+        const connectionInstance = {source: sourceGuid, target: targetGuid, detachable: false};
 
         const connection = instance.connect(connectionInstance);
         if (!connection) {

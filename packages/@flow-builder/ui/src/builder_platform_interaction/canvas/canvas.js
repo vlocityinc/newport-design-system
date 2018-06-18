@@ -30,10 +30,6 @@ export default class Canvas extends Element {
     @track isZoomInDisabled = true;
     @track isZoomToView = true;
 
-    get hasCanvasElements() {
-        return (this.nodes && this.nodes.length > 0);
-    }
-
     canvasArea;
     innerCanvasArea;
 
@@ -161,6 +157,10 @@ export default class Canvas extends Element {
             // anything on the screen
             this.isZoomOutDisabled = (this.innerCanvasArea.style.transform === 'scale(0.2)' || this.currentScale < SCALE_BOUNDS.MIN_SCALE);
             this.isZoomToView = this.isZoomInDisabled = (this.innerCanvasArea.style.transform === 'scale(1)');
+
+            if ((this.isZoomOutDisabled || this.isZoomInDisabled || action === ZOOM_ACTION.ZOOM_TO_FIT || action === ZOOM_ACTION.ZOOM_TO_VIEW) && document.activeElement !== this.canvasArea) {
+                this.canvasArea.focus();
+            }
         }
     };
 
@@ -350,28 +350,26 @@ export default class Canvas extends Element {
      * @param {object} event - key down event
      */
     handleKeyDown = (event) => {
-        if (this.hasCanvasElements) {
-            if (event.key === KEYS.BACKSPACE && !this.isPanModeOn) {
-                event.preventDefault();
-                const deleteEvent = new DeleteElementEvent();
-                this.dispatchEvent(deleteEvent);
-            } else if (event.metaKey && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL)) {
-                // Code block for zooming shortcuts
-                event.preventDefault();
-                if (event.key === KEYS.NEGATIVE) {
-                    this.canvasZoom(ZOOM_ACTION.ZOOM_OUT);
-                } else if (event.key === KEYS.ZERO) {
-                    this.canvasZoom(ZOOM_ACTION.ZOOM_TO_FIT);
-                } else if (event.key === KEYS.ONE) {
-                    this.canvasZoom(ZOOM_ACTION.ZOOM_TO_VIEW);
-                } else if (event.key === KEYS.EQUAL) {
-                    this.canvasZoom(ZOOM_ACTION.ZOOM_IN);
-                }
-            } else if (event.key === KEYS.SPACE && !this.isPanModeOn) {
-                // Code block for enabling panning mode
-                event.preventDefault();
-                this.togglePan(PAN_ACTION.PAN_ON);
+        if (event.key === KEYS.BACKSPACE && !this.isPanModeOn) {
+            event.preventDefault();
+            const deleteEvent = new DeleteElementEvent();
+            this.dispatchEvent(deleteEvent);
+        } else if ((event.metaKey || event.ctrlKey) && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL)) {
+            // Code block for zooming shortcuts
+            event.preventDefault();
+            if (event.key === KEYS.NEGATIVE) {
+                this.canvasZoom(ZOOM_ACTION.ZOOM_OUT);
+            } else if (event.key === KEYS.ZERO) {
+                this.canvasZoom(ZOOM_ACTION.ZOOM_TO_FIT);
+            } else if (event.key === KEYS.ONE) {
+                this.canvasZoom(ZOOM_ACTION.ZOOM_TO_VIEW);
+            } else if (event.key === KEYS.EQUAL) {
+                this.canvasZoom(ZOOM_ACTION.ZOOM_IN);
             }
+        } else if (event.key === KEYS.SPACE && !this.isPanModeOn) {
+            // Code block for enabling panning mode
+            event.preventDefault();
+            this.togglePan(PAN_ACTION.PAN_ON);
         }
     };
 

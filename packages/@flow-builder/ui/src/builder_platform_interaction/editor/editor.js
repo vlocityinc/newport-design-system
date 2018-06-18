@@ -422,7 +422,7 @@ export default class Editor extends Element {
         } else if (valueFromCombobox === CONNECTOR_TYPE.FAULT) {
             label = LABELS.faultConnectorLabel;
         } else if (valueFromCombobox === CONNECTOR_TYPE.LOOP_NEXT) {
-            label = null;
+            label = LABELS.loopNextConnectorLabel;
         } else if (valueFromCombobox === CONNECTOR_TYPE.LOOP_END) {
             label = LABELS.loopEndConnectorLabel;
         } else {
@@ -453,7 +453,12 @@ export default class Editor extends Element {
                 const availableConnections = sourceElement.availableConnections;
                 if (!availableConnections) {
                     // Creates a regular connection. Would be needed for Start element, Assignment element, Screen element and Steps element
-                    const connector = createConnectorObject(event.detail.sourceGuid, null, event.detail.targetGuid, null, CONNECTOR_TYPE.REGULAR);
+                    let connector;
+                    if (sourceElementType === ELEMENT_TYPE.START_ELEMENT) {
+                        connector = createConnectorObject(event.detail.sourceGuid, null, event.detail.targetGuid, null, CONNECTOR_TYPE.START);
+                    } else {
+                        connector = createConnectorObject(event.detail.sourceGuid, null, event.detail.targetGuid, null, CONNECTOR_TYPE.REGULAR);
+                    }
                     storeInstance.dispatch(addConnector(connector));
                 } else if (availableConnections.length === 1) {
                     // Creates the only connection remaining in availableConnections

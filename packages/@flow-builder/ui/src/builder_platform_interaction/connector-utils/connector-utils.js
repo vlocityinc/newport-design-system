@@ -3,6 +3,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import startElementLabel from '@label/FlowBuilderCanvas.startElementLabel';
 import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
+import loopNextConnectorLabel from '@label/FlowBuilderConnectorLabels.loopNextConnectorLabel';
 import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.loopEndConnectorLabel';
 
 export const CONNECTOR_TYPE = {
@@ -203,7 +204,7 @@ export const createConnectorObjects = (node, parentId) => {
             node.guid,
             null,
             node.nextValueConnector.targetReference,
-            null,
+            loopNextConnectorLabel,
             CONNECTOR_TYPE.LOOP_NEXT
         );
         connectors.push(nextValueConnector);
