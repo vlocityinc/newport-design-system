@@ -5,7 +5,7 @@ import ExpressionBuilder from '../expression-builder.js';
 import { RowContentsChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
 import { numberVariableGuid, numberVariableDevName, stringVariableGuid, dateVariableGuid, currencyVariableGuid, assignmentElementGuid, elements } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
-import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
+import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { mockAccountFields } from 'mock-server-entity-data';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
@@ -91,10 +91,10 @@ function devNameToComboboxValue(val) {
     return '{!' + val + '}';
 }
 
-function createDefaultComponentForTest() {
+function createDefaultComponentForTest(operator = OPERATOR_DISPLAY_OPTION.COMBOBOX) {
     const expressionBuilder = createComponentForTest({
-        showOperator: true,
         expression: createMockPopulatedExpression(),
+        operatorDisplayOption: operator,
     });
     return expressionBuilder;
 }
@@ -105,6 +105,10 @@ function getComboboxElements(expressionBuilder) {
 
 function getLightningCombobox(expressionBuilder) {
     return getShadowRoot(expressionBuilder).querySelector("lightning-combobox");
+}
+
+function getOperatorIcon(expressionBuilder) {
+    return getShadowRoot(expressionBuilder).querySelector("lightning-icon");
 }
 
 function checkOperatorAndRHSDisabled(expressionBuilder, expected) {
@@ -153,6 +157,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         isElementAllowed: require.requireActual('builder_platform_interaction-expression-utils').isElementAllowed,
         sanitizeGuid: require.requireActual('builder_platform_interaction-expression-utils').sanitizeGuid,
         filterFieldsForChosenElement: require.requireActual('builder_platform_interaction-expression-utils').filterFieldsForChosenElement,
+        OPERATOR_DISPLAY_OPTION: require.requireActual('builder_platform_interaction-expression-utils').OPERATOR_DISPLAY_OPTION,
     };
 });
 
@@ -160,8 +165,10 @@ describe('expression-builder', () => {
     const labels = ['lhsLabel', 'operatorLabel', 'rhsLabel'];
     const placeholders = ['lhsPlaceholder', 'operatorPlaceholder', 'rhsPlaceholder'];
 
-    describe('showing or hiding the operator', () => {
-        it('should show the operator when showOperator is true', () => {
+    const icons = [OPERATOR_DISPLAY_OPTION.LEFT_ARROW, OPERATOR_DISPLAY_OPTION.RIGHT_ARROW];
+
+    describe('showing or hiding the operator and arrows', () => {
+        it('should show the operator by default', () => {
             const expressionBuilder = createDefaultComponentForTest();
             const ourComboboxes = getComboboxElements(expressionBuilder);
             const operator = getLightningCombobox(expressionBuilder);
@@ -169,18 +176,17 @@ describe('expression-builder', () => {
             expect(ourComboboxes).toHaveLength(2);
             expect(operator).toBeDefined();
         });
-        it('should not show the operator when showOperator is false', () => {
-            const expressionBuilder = createComponentForTest({
-                expression: createMockPopulatedExpression(),
-                showOperator: false
+        for (let i = 0; i < 2; i++) {
+            it(`when passed ${icons[i]}, should show the icon and not the operator`, () => {
+                const expressionBuilder = createDefaultComponentForTest(icons[i]);
+                const operator = getLightningCombobox(expressionBuilder);
+                const icon = getOperatorIcon(expressionBuilder);
+
+                expect(operator).toBeFalsy();
+                expect(icon).toBeDefined();
+                expect(icon.iconName).toBe(icons[i]);
             });
-
-            const ourComboboxes = getComboboxElements(expressionBuilder);
-            const operator = getLightningCombobox(expressionBuilder);
-
-            expect(ourComboboxes).toHaveLength(2);
-            expect(operator).toBeNull();
-        });
+        }
     });
 
     describe('label sanity checks', () => {
@@ -319,7 +325,6 @@ describe('expression-builder', () => {
         beforeEach(() => {
             expressionBuilder = createComponentForTest({
                 expression: mockExpressionForEntityFields,
-                showOperator: true,
                 configuration: mockConfigurationForEntityFields,
             });
         });
@@ -351,7 +356,6 @@ describe('expression-builder', () => {
         it('should be disabled when the expression is initialized', () => {
             const expressionBuilder = createComponentForTest({
                 expression: createBlankExpression(),
-                showOperator: true,
             });
             checkOperatorAndRHSDisabled(expressionBuilder, true);
         });

@@ -1,7 +1,8 @@
 import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { updateProperties, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
-import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, isElementAllowed, normalizeRHS, filterFieldsForChosenElement, sanitizeGuid } from 'builder_platform_interaction-expression-utils';
+import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, isElementAllowed, normalizeRHS,
+    filterFieldsForChosenElement, sanitizeGuid, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox, elementToParam } from 'builder_platform_interaction-rule-lib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
@@ -48,7 +49,7 @@ export default class ExpressionBuilder extends Element {
     operatorAndRHSDisabled;
 
     @api
-    showOperator;
+    operatorDisplayOption = OPERATOR_DISPLAY_OPTION.COMBOBOX;
 
     @api
     get expression() {
@@ -173,6 +174,13 @@ export default class ExpressionBuilder extends Element {
         return this.state.rhsMenuData;
     }
 
+    get showOperatorCombobox() {
+        return this.operatorDisplayOption === OPERATOR_DISPLAY_OPTION.COMBOBOX;
+    }
+
+    get operatorReplacement() {
+        return this.operatorDisplayOption === OPERATOR_DISPLAY_OPTION.RIGHT_ARROW || this.operatorDisplayOption === OPERATOR_DISPLAY_OPTION.LEFT_ARROW;
+    }
     /**
      * These are the text strings that should be displayed by the comboBoxes
      */

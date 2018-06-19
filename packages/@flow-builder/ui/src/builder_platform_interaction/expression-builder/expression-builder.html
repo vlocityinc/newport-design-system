@@ -13,7 +13,7 @@
                 placeholder={lhsPlaceholder}
                 >
         </builder_platform_interaction-combobox>
-        <template if:true={showOperator}>
+        <template if:true={showOperatorCombobox}>
             <lightning-combobox class="operator slds-col slds-grow slds-size_x-small"
                     label={operatorLabel}
                     value={operatorComboBoxValue}
@@ -23,6 +23,11 @@
                     placeholder={operatorPlaceholder}
                     >
             </lightning-combobox>
+        </template>
+        <template if:true={operatorReplacement}>
+            <div class="">
+                <lightning-icon class="slds-col slds-grow-none slds-p-top_medium slds-m-top_xx-small slds-no-flex" variant="container" icon-name={operatorDisplayOption}></lightning-icon>
+            </div>
         </template>
         <builder_platform_interaction-combobox class="slds-col slds-grow"
                 label={rhsLabel}
