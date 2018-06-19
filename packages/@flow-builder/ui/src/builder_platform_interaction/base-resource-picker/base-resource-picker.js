@@ -2,6 +2,10 @@ import { Element, api, track } from 'engine';
 import { filterMatches } from 'builder_platform_interaction-expression-utils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 
+const SELECTORS = {
+    COMBOBOX: 'builder_platform_interaction-combobox'
+};
+
 /**
  * The base resource picker that contains one flow combobox
  * This class holds the full menu data, fitlered menu data and handles the events comboboox value changed & filter matches
@@ -69,12 +73,18 @@ export default class BaseResourcePicker extends Element {
      */
     @api
     set value(itemOrDisplayText) {
-        this.state.itemOrDisplayText = itemOrDisplayText;
+        const combo = this.template.querySelector(SELECTORS.COMBOBOX);
+        if (combo) {
+            combo.value = itemOrDisplayText;
+        } else {
+            this.state.initialValue = itemOrDisplayText;
+        }
     }
 
     @api
     get value() {
-        return this.state.itemOrDisplayText;
+        const combo = this.template.querySelector(SELECTORS.COMBOBOX);
+        return combo ? combo.value : this.state.initialValue;
     }
 
     /**

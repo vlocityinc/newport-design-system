@@ -11,8 +11,21 @@ export default class FerovResourcePicker extends Element {
      * The value item to set on combobox.
      * @type {module:expression-utils.MenuItem|String}
      */
-    @api
-    value;
+    initialValue;
+
+    @api get value() {
+        const picker = this.template.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+        return picker ? picker.value : this.initialValue;
+    }
+
+    @api set value(newValue) {
+        const picker = this.template.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+        if (picker) {
+            picker.value = newValue;
+        } else {
+            this.initialValue = newValue;
+        }
+    }
 
     /**
      * Flow combobox config

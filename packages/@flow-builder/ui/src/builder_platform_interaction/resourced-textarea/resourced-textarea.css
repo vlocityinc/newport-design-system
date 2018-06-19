@@ -1,0 +1,18 @@
+.container {
+    border: var(--lwc-borderWidthThin) solid var(--lwc-colorGray5);
+    border-radius: var(--lwc-borderRadiusMedium);
+    background: var(--lwc-colorGray2);
+    padding: 0;
+}
+
+.textarea-input {
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top: var(--lwc-borderWidthThin) solid var(--lwc-colorGray5);
+    border-radius: 0 0 var(--lwc-borderRadiusMedium) var(--lwc-borderRadiusMedium);
+}
+
+.has-error {
+    border: var(--lwc-borderWidthThick) solid var(--lwc-colorBorderError);
+}

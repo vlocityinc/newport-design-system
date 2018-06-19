@@ -1,0 +1,22 @@
+<template>
+    <div class='property-input slds-form-element'>
+        <label for={name} class='slds-form-element__label'>
+            <abbr if:true={isRequired} title={labels.required} class='slds-required'>*</abbr>
+            {label}
+        </label>
+        <lightning-helptext if:true={helpText} class='slds-form-element'></lightning-helptext>
+        
+        <div class={classList}>
+            <div class='slds-p-around_x-small slds-p-bottom_xx-small'> 
+                <builder_platform_interaction-ferov-resource-picker combobox-config={resourceComboBoxConfig}
+                                                                    element-config={elementConfig}
+                                                                    onitemselected={handleResourcePickerSelection}>
+                </builder_platform_interaction-ferov-resource-picker>
+            </div>                
+            <textarea id={name} class='slds-textarea textarea-input' name={name} onblur={handleEvent} onchange={handleEvent}>{_value}</textarea>
+        </div>
+        <div if:true={error} class='slds-has-error'>
+            <div role='alert' class='slds-form-element__help'>{error}</div>
+        </div>
+    </div>
+</template>

@@ -339,8 +339,6 @@ export default class Combobox extends Element {
         this._item = item;
         this._base = item.displayText;
 
-        this.fireItemSelectedEvent(item);
-
         if (itemHasNextLevel) {
             this.fireFetchMenuDataEvent(item);
         }
@@ -350,6 +348,8 @@ export default class Combobox extends Element {
 
         // And add a period if selected option has next level
         this.setValueAndCursor(item.displayText, itemHasNextLevel);
+
+        this.fireItemSelectedEvent(item);
     }
 
     /**
