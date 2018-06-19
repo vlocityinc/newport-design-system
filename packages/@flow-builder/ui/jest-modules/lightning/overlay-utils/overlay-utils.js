@@ -3,4 +3,10 @@
  * All Rights Reserved
  * Company Confidential
  */
+export const showCustomOverlayTestPanel = {
+    close() {}
+};
 
+export function showCustomOverlay() {
+    return Promise.resolve(showCustomOverlayTestPanel);
+}

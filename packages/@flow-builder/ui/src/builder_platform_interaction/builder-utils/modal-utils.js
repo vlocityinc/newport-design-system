@@ -19,6 +19,7 @@ export function showModal(body) {
  * Shows a confirmation dialog
  * @param {object} dialogAttributes Holds the attributes to set on MessageDialog
  * @param {function} callback function to be called upon confirmation (secondary button)
+ * @returns {object} dialog
  */
 export function showConfirmationDialog(dialogAttributes, callback) {
     const dialog = createElement('builder_platform_interaction-message-dialog', {
@@ -44,4 +45,5 @@ export function showConfirmationDialog(dialogAttributes, callback) {
             }
         };
     });
+    return dialog;
 }

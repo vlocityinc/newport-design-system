@@ -14,7 +14,7 @@ import {
     PropertyChangedEvent,
     ReorderListEvent,
     createAddScreenFieldEvent,
-    // createScreenElementDeletedEvent,
+    createScreenElementDeletedEvent,
     createScreenElementSelectedEvent,
     createScreenNodeSelectedEvent,
     createScreenElementDeselectedEvent
@@ -33,6 +33,14 @@ const createComponentUnderTest = (props) => {
     document.body.appendChild(el);
     return el;
 };
+
+jest.mock('builder_platform_interaction-builder-utils', () => {
+    return {
+        showConfirmationDialog: jest.fn((attributes, cb) => {
+            cb();
+        })
+    };
+});
 
 describe('Event handling on editor', () => {
     let screenEditorElement;
@@ -53,23 +61,12 @@ describe('Event handling on editor', () => {
         });
     });
 
-    it('delete screen field event deletes a field', () => { // handleDeleteScreenElement - Field (onscreenelementdeleted)
+    it('delete screen field event deletes the field', () => { // handleDeleteScreenElement - Field (onscreenelementdeleted)
         return Promise.resolve().then(() => {
-            // TODO W-5025380: Update with tests for the modal & call-backs
-            /* const length = screenEditorElement.node.fields.length;
+            const length = screenEditorElement.node.fields.length;
             const canvas = screenEditorElement.querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[1]));
-            expect(screenEditorElement.node.fields).toHaveLength(length - 1); */
-        });
-    });
-
-    it('delete screen header sets showHeader to false', () => { // handleDeleteScreenElement - Screen (onscreenelementdeleted)
-        return Promise.resolve().then(() => {
-            // TODO W-4971424: Update this test
-            /* expect(screenEditorElement.node.showHeader).toBeTruthy();
-            const canvas = screenEditorElement.querySelector(CANVAS_ELEMENT_NAME);
-            canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node, 'showHeader'));
-            expect(screenEditorElement.node.showHeader).toBeFalsy(); */
+            expect(screenEditorElement.node.fields).toHaveLength(length - 1);
         });
     });
 
