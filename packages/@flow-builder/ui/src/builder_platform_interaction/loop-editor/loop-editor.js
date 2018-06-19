@@ -104,7 +104,7 @@ export default class LoopEditor extends Element {
             elementType: ELEMENT_TYPE.LOOP,
             dataType: collectionVariableDataType,
             sObjectSelector: collectionVariableDataType === FLOW_DATA_TYPE.SOBJECT.value,
-            entityName: this._collectionVariable.objectType
+            entityName: this._collectionVariable ? this._collectionVariable.objectType : null
         };
     }
 
