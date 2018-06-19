@@ -474,6 +474,18 @@ export const elementTypeToConfigMap = {
             singular: LABELS.variableSingularLabel,
             plural: LABELS.variablePluralLabel
         },
+        template: {
+            name: '',
+            label: undefined,
+            guid: '',
+            elementType: ELEMENT_TYPE.VARIABLE,
+            dataType: null,
+            isCollection: false,
+            isInput: false,
+            isOutput: false,
+            objectType: null,
+            scale: null,
+        },
         canvasElement: false
     },
     [ELEMENT_TYPE.FORMULA]: {

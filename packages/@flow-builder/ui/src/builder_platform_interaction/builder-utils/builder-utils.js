@@ -101,23 +101,25 @@ const getNewResourceConfig = (attributes) => {
         return newResourceConfig;
     }
     const nodeUpdate = attributes.nodeUpdate;
-    const descriptor = 'builder_platform_interaction-resource-editor';
+    const descriptor = 'builder_platform_interaction:resourceEditor';
     const titleForModal = 'New Resource';
 
     const attr = {
         nodeUpdate,
         override: {
-            descriptor,
-            attr: {
-                node: {},
-            },
+            body: {
+                descriptor,
+                attr: {
+                    node: {},
+                },
+            }
         },
     };
 
     const panelConfig = {
         titleForModal,
         flavor: MODAL_SIZE.MEDIUM,
-        bodyClass: undefined,
+        bodyClass: 'slds-p-around_none',
     };
 
     newResourceConfig = {

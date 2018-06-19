@@ -187,7 +187,7 @@ export default class VariableEditor extends Element {
     }
 
     get hasObjectType() {
-        return !!this.variableResource.objectType;
+        return this.dataType === FLOW_DATA_TYPE.SOBJECT.value;
     }
 
     /**

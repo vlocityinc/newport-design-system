@@ -11,103 +11,27 @@ import { Store } from 'builder_platform_interaction-store-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import * as sobjectLib from 'builder_platform_interaction-sobject-lib';
 import newResourceLabel from '@label/FlowBuilderExpressionUtils.newResourceLabel';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { FLOW_DATA_TYPE, getResourceTypes } from 'builder_platform_interaction-data-type-lib';
+import {
+    createMenuItem,
+    mutateFieldToComboboxShape,
+    mutateFlowElementToComboboxShape,
+    mutateEntitiesToComboboxShape
+} from './menuDataGenerator';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
 const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
 
-const COMBOBOX_ITEM_DISPLAY_TYPE = {
+export const COMBOBOX_ITEM_DISPLAY_TYPE = {
     OPTION_CARD: 'option-card',
     OPTION_INLINE: 'option-inline'
 };
 
-const RESOURCE_PICKER_MODE = {
+export const RESOURCE_PICKER_MODE = {
     FEROV_MODE: 'ferov',
     ENTITY_MODE: 'entity',
 };
-
-/**
- * An object that represents one option in the combobox menu dropdown
- * @typedef {Object} MenuItem
- * @property {String} type  the type of menu data display type ex: option-inline
- * @property {String} text  the text that will be displayed by the combobox (can be highlighted)
- * @property {String} subtext the subtext that will displayed below the text
- * @property {String} displayText   the value displayed in the input field when this menu item is selected
- * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
- * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
- * @property {Object} parent in the case that this is a second level item, this is the parent flow element in combobox shape
- */
-
-/**
- * Create one menu item
- * @param {String} type the type of the menu item
- * @param {String} text the text of the menu item
- * @param {String} subtext  the subtext of the menu item
- * @param {String} displayText the display text of the menu item
- * @param {String} iconName the icon of the menu item
- * @param {String} value the value of the menu item
- * @param {Object} parent the parent flow element of the second level item in combobox shape
- * @returns {MenuItem}  the generated menu item
- */
-const createMenuItem = (type, text, subtext, displayText, iconName, value, parent) => {
-    return {
-        type,
-        text,
-        subtext,
-        displayText,
-        iconName,
-        value,
-        parent,
-    };
-};
-
-/**
- * An object that contains a list of menu items with an optional header
- * @typedef {Object} GroupedMenuItems
- * @property {String} label    an optional header/category for the list of items that will be displayed
- * @property {MenuItem[]} items    list of menu items in order that they will be displayed
- */
-
-/**
- * The menu data that will be displayed in a flow combobox, it contains a list of GroupedMenuItems
- * @typedef {GroupedMenuItems[]} MenuData
- */
-
-/**
- * Determines category for display. Eventually will use the label service
- *
- * @param {String} elementType the element type of an element
- * @param {String} dataType the datatype of an element
- * @param {Boolean} isCollection whether or not that element is a collection
- * @returns {String} the full category label for this element
- */
-function getCategory(elementType, dataType, isCollection) {
-    return (dataType === SObjectType ? 'SObject ' : '') +
-        (isCollection ? 'Collection ' : '') +
-        elementType;
-}
-
-/**
- * The subtext of a row varies a bit. This function captures those rules.
- * This will also probably use a label service eventually.
- *
- * @param {String} dataType  datatype of an element
- * @param {String} objectType  object type of an element, if exists
- * @param {String} label  the label of an element, if exists
- * @returns {String} the subtext to display in a combobox row
- */
-function getSubText(dataType, objectType, label) {
-    let subText;
-    if (dataType === SObjectType) {
-        subText = objectType;
-    } else if (label) {
-        subText = label;
-    } else {
-        subText = dataType;
-    }
-    return subText;
-}
 
 /**
  * Eventually the elements need to be sorted alphabetically by category, as well as
@@ -160,26 +84,6 @@ function elementMatchesRule(allowedParamTypes, element) {
     }
     return false;
 }
-
-/**
- * Creates a new array of combobx menu data from an existing array of entities taken from the service
- * @param {Array} entities the array of entities that you want to mutate into comboobx shape
- * @returns {MenuData} combobox menu data for the given entities
- */
-const mutateEntitiesToComboboxShape = (entities) => {
-    return entities.map(entity => {
-        return createMenuItem(
-            COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
-            entity.entityLabel,
-            undefined,
-            entity.entityLabel,
-            undefined,
-            entity.apiName,
-        );
-    });
-};
-
-export { RESOURCE_PICKER_MODE };
 
 /**
  * Takes in a map of allowed rules and an element, and determines if that element is allowed by those param specifications
@@ -410,50 +314,6 @@ export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, f
 }
 
 /**
- * Makes copy of a Flow Element with fields as needed by combobox
- *
- * @param {Object} element   element from flow
- * @returns {Object}         representation of flow element in shape combobox needs
- */
-function mutateFlowElementToComboboxShape(element) {
-    const newElement = {};
-
-    newElement.text = element.name;
-    newElement.subText = getSubText(element.dataType, element.objectType, element.label);
-    newElement.value = element.guid;
-    newElement.displayText = '{!' + element.name + '}';
-    newElement.hasNext = element.dataType === SObjectType && !element.isCollection;
-    // TODO: remove upper case-ing once we're using labels for categories W-4813532
-    newElement.category = getCategory(element.elementType, element.dataType, element.isCollection).toUpperCase();
-    // TODO: fetch icon
-    newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
-    return newElement;
-}
-
-/**
- * Makes copy of server data fields of parent objects(SObjects, Globa/System Variables) with fields as needed by combobox
- *
- * @param {Object} field Field to be copied
- * @param {Object} parent Parent object
- * @param {boolean} showAsFieldReference true to show the display text as field reference, otherwise show the field's apiName
- * @param {boolean} showSubText true to show the sub text
- * @returns {Object} Representation of flow element in shape combobox needs
- */
-function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSubText) {
-    const formattedField = {};
-
-    formattedField.text = field.apiName;
-    formattedField.subText = (showSubText) ? field.label : '';
-    formattedField.value = parent.value + '.' + field.apiName;
-    formattedField.displayText = showAsFieldReference ? (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + field.apiName + '}') : field.apiName;
-    formattedField.parent = parent;
-    formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
-    // TODO: fetch icon
-
-    return formattedField;
-}
-
-/**
  * Comboboxes return only the devName of the selected element,
  * this finds the corresponding element.
  *
@@ -486,3 +346,18 @@ export function getFieldsMenuData(recordEntityName, excludedFields, callback) {
         callback(menuData);
     });
 }
+
+/**
+ * Get a list of menu data based from the allowed resource types returned by the java controller
+ * @returns {MenuItem[]} list of menu items representing the allowed resource types
+ */
+export const getResourceTypesMenuData = () => {
+    const resourceTypes = getResourceTypes();
+    // TODO : include the description prop when TD-0051525 is completed and we can add subtext
+    return resourceTypes.map(resourceObject => {
+        return {
+            value: resourceObject.value,
+            label: resourceObject.label,
+        };
+    });
+};
