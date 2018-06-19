@@ -1,6 +1,11 @@
 import { createElement } from 'engine';
 import  ScreenPropertyField  from '../screen-property-field';
 
+jest.mock('builder_platform_interaction-selectors', () => {
+    return {
+        readableElementsSelector: jest.fn(data => Object.values(data.elements)),
+    };
+});
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-property-field', {
@@ -14,7 +19,7 @@ const createComponentUnderTest = (props) => {
 };
 
 const fieldName = 'field1';
-const TEX_AREA_SELECTOR = 'lightning-textarea';
+const TEXT_AREA_SELECTOR = 'builder_platform_interaction-resourced-textarea';
 const INPUT_SELECTOR = 'lightning-input';
 const RICH_TEXT = 'lightning-input-rich-text';
 
@@ -25,7 +30,7 @@ describe('screen-property-field', () => {
             type: 'long_string',
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.querySelector(TEX_AREA_SELECTOR);
+            const elem = screenPropertyFieldElement.querySelector(TEXT_AREA_SELECTOR);
             expect(elem).toBeDefined();
         });
     });

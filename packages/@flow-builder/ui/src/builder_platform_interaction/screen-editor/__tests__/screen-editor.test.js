@@ -42,6 +42,12 @@ jest.mock('builder_platform_interaction-builder-utils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction-selectors', () => {
+    return {
+        readableElementsSelector: jest.fn(data => Object.values(data.elements)),
+    };
+});
+
 describe('Event handling on editor', () => {
     let screenEditorElement;
     beforeEach(() => {

@@ -4,7 +4,7 @@
             <abbr if:true={isRequired} title={labels.required} class='slds-required'>*</abbr>
             {label}
         </label>
-        <lightning-helptext if:true={helpText} class='slds-form-element'></lightning-helptext>
+        <lightning-helptext if:true={helpText} class='slds-form-element' content={helpText}></lightning-helptext>
         
         <div class={classList}>
             <div class='slds-p-around_x-small slds-p-bottom_xx-small'> 
