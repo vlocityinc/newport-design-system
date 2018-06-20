@@ -1,13 +1,15 @@
 <template>
-    <div class='slds-form slds-form_compound slds-p-around_small'>
-        <lightning-combobox class="slds-col slds-grow"
-                            label="Resource Type"
-                            options={resourceTypes}
-                            placeholder="Select Resource Type"
-                            onchange={handleResourceChange}>
-        </lightning-combobox>
+    <div class="resource_editor">
+        <div class='slds-form slds-form_compound slds-p-around_small'>
+            <lightning-combobox class="slds-col slds-grow"
+                                label="Resource Type"
+                                options={resourceTypes}
+                                placeholder="Select Resource Type"
+                                onchange={handleResourceChange}>
+            </lightning-combobox>
+        </div>
+        <builder_platform_interaction-resource-editor-container
+            selected-resource={selectedResource}>
+        </builder_platform_interaction-resource-editor-container>
     </div>
-    <builder_platform_interaction-resource-editor-container
-        selected-resource={selectedResource}>
-    </builder_platform_interaction-resource-editor-container>
 </template>

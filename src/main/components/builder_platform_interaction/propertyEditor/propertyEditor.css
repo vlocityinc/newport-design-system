@@ -1,0 +1,4 @@
+/************* Resource Editor *****************/
+.THIS builder_platform_interaction-resource-editor .resource_editor {
+    min-height: t(sizeSmall);
+}
