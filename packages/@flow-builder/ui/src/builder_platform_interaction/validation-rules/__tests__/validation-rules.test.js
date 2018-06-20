@@ -28,6 +28,9 @@ describe('shouldNotBeginOrEndWithUnderscores method', () => {
     it('should return an error message when the value ends with an underscore', () => {
         expect(rules.shouldNotBeginOrEndWithUnderscores('test value_')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
     });
+    it('should return null when the value ends with _0', () => {
+        expect(rules.shouldNotBeginOrEndWithUnderscores('Assignment_0')).toBeNull();
+    });
 });
 describe('shouldAcceptOnlyAlphanumericOrSpecialCharacters method', () => {
     it('should return null when the input has only alphanumeric or special characters', () => {

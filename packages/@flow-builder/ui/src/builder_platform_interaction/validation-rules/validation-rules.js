@@ -25,7 +25,7 @@ const regexConfig = {
         message: cannotBeBlankError,
     },
     shouldNotBeginOrEndWithUnderscores: {
-        regexPattern: '^[_{0,}]+|_{2,}|[_{0,}]+$',
+        regexPattern: '^_{1,}|_{1,}$|_{2,}',
         message: 'Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.',
     },
     shouldAcceptOnlyAlphanumericOrSpecialCharacters: {
