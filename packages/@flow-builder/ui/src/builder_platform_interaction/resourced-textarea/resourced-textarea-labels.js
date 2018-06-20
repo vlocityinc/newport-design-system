@@ -1,7 +1,7 @@
 /* Labels */
-import resourcePickerTitle from '@label/FlowBuilderScreenEditor.resourcePickerTitle';
-import resourcePickerPlaceholder from '@label/FlowBuilderScreenEditor.resourcePickerPlaceholder';
-import required from '@label/FlowBuilderScreenEditor.required';
+import resourcePickerTitle from '@label/FlowBuilderResourcedTextArea.resourcePickerTitle';
+import resourcePickerPlaceholder from '@label/FlowBuilderResourcedTextArea.resourcePickerPlaceholder';
+import required from '@label/FlowBuilderResourcedTextArea.inputRequiredTitle';
 
 export const LABELS = {
     resourcePickerTitle,
