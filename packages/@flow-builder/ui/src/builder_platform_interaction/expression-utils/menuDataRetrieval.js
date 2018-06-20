@@ -192,12 +192,13 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
             } else {
                 // in case lhsIdentifier = sobjectApiName.fieldApiName
                 lhs.item = mutateFieldToComboboxShape(field, {value: field.sobjectName}, false, false);
-                field.elementType = elementType;
             }
             // Can an SObject field be a collection?
             field.isCollection = false;
             lhs.parameter = elementToParam(field);
-            callback(lhsIdentifier);
+            if (callback) {
+                callback(lhsIdentifier);
+            }
         });
     } else if (flowElement) {
         lhs.item = mutateFlowElementToComboboxShape(flowElement);

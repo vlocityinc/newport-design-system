@@ -1,6 +1,5 @@
 import { RULE_TYPES } from "../rules";
 
-const assignmentElement = 'ASSIGNMENT';
 const decisionElement = 'DECISION';
 
 const mockRulesFromServiceAssignmentAndComparison =
@@ -88,27 +87,6 @@ const mockRulesFromServiceAssignmentComparisonAndIncludedElems =
     '               "collection":false' +
     '           }],' +
     '       "includeElems":null,' +
-    '       "excludeElems":null' +
-    '   },' +
-    '   {' +
-    '       "ruleType": "assignment",' +
-    '       "assignmentOperator":{"value":"Assign"},' +
-    '       "comparisonOperator":null,' +
-    '       "left":{' +
-    '           "paramType":"Data",' +
-    '           "paramIndex":1,' +
-    '           "dataType":{"value":"String"},' +
-    '           "elementType":null,' +
-    '           "collection":false' +
-    '           },' +
-    '       "rhsParams":[{' +
-    '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
-    '               "dataType":{"value":"String"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           }],' +
-    '       "includeElems":["' + assignmentElement + '"],' +
     '       "excludeElems":null' +
     '    },'  +
     '    {' +
@@ -201,16 +179,12 @@ describe('Set Flow Operator Rules', () => {
         const rulesLib = require.requireActual('builder_platform_interaction-rule-lib');
         rulesLib.setRules(mockRulesFromServiceAssignmentComparisonAndIncludedElems);
         const storedRules = rulesLib.getRules();
-        expect(Object.keys(storedRules)).toHaveLength(4);
+        expect(Object.keys(storedRules)).toHaveLength(3);
         verifyProperties(storedRules);
         expect(storedRules).toHaveProperty(decisionElement);
-        expect(storedRules).toHaveProperty(assignmentElement);
         const decisionSpecificRules = storedRules[decisionElement];
-        const assignmentSpecificRules = storedRules[assignmentElement];
         expect(decisionSpecificRules).toHaveProperty('comparison');
-        expect(assignmentSpecificRules).toHaveProperty('assignment');
         expect(decisionSpecificRules[RULE_TYPES.COMPARISON]).toHaveLength(1);
-        expect(assignmentSpecificRules[RULE_TYPES.ASSIGNMENT]).toHaveLength(1);
     });
 
     it('Create the rules variable with 2 assignments ', () => {

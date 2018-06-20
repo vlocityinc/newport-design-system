@@ -62,9 +62,9 @@ describe('Operator Rule Util', () => {
             const isEqual = isMatch(dateParamCannotBeElements, elements[dateVariableGuid]);
             expect(isEqual).toBeFalsy();
         });
-        it('dataType param should not match if elementType is not mentioned', () => {
+        it('dataType param should match if elementType is not mentioned', () => {
             const isEqual = isMatch(dateParamNoElementsList, elements[dateVariableGuid]);
-            expect(isEqual).toBeFalsy();
+            expect(isEqual).toBeTruthy();
         });
         it('field should not be allowed if operator param says cannotBe sObjectField', () => {
             const isEqual = isMatch(numberParamCannotBeField, mockAccountField);

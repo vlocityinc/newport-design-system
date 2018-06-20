@@ -4,7 +4,7 @@ import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
-const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE, CAN_BE_ELEMENTS,
+const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE, CANNOT_BE_ELEMENTS,
     MUST_BE_ELEMENTS, PARAM_TYPE_ELEMENT, PARAM_TYPE, SOBJECT_FIELD_REQUIREMENT } = PARAM_PROPERTY;
 const { CAN_BE, CANNOT_BE, MUST_BE } = CONSTRAINT;
 
@@ -69,13 +69,13 @@ export const elementToParam = (element) => {
     };
 };
 
-const elementTypeAllowed = (rule, element) => {
-    return (rule[MUST_BE_ELEMENTS] && rule[MUST_BE_ELEMENTS].includes(element)) ||
-        (rule[CAN_BE_ELEMENTS] && rule[CAN_BE_ELEMENTS].includes(element));
+const elementTypeNotAllowedForDataParam = (rule, element) => {
+    return (rule[MUST_BE_ELEMENTS] && rule[MUST_BE_ELEMENTS].length > 0 && !rule[MUST_BE_ELEMENTS].includes(element))
+        || (rule[CANNOT_BE_ELEMENTS] && rule[CANNOT_BE_ELEMENTS].includes(element));
 };
 
 const sObjectFieldAllowed = (rule, element) => {
-    return (rule[SOBJECT_FIELD_REQUIREMENT] === CAN_BE && element[IS_SOBJECT_FIELD]) ||
+    return rule[SOBJECT_FIELD_REQUIREMENT] === CAN_BE ||
         (rule[SOBJECT_FIELD_REQUIREMENT] === MUST_BE && element[IS_SOBJECT_FIELD]) ||
         (rule[SOBJECT_FIELD_REQUIREMENT] === CANNOT_BE && !element[IS_SOBJECT_FIELD]);
 };
@@ -100,9 +100,13 @@ export const isMatch = (ruleParam, element) => {
 
     // convert the given element into the rule service param shape
     const elementParam = elementToParam(element);
+
+    /* if the rule param's paramType is element, skip to comparing properties directly
+       if the rule param's paramType is data, and the element has an elementType, make sure the element type is allowed
+       if all of the above is ok, make sure that the rule param's sObjectField requirement is respected */
     let matches = ruleParam[PARAM_TYPE] === PARAM_TYPE_ELEMENT
-        || elementTypeAllowed(ruleParam, elementParam[ELEMENT_TYPE])
-        || sObjectFieldAllowed(ruleParam, elementParam);
+        || ((elementParam[ELEMENT_TYPE] ? !elementTypeNotAllowedForDataParam(ruleParam, elementParam[ELEMENT_TYPE]) : true)
+        && sObjectFieldAllowed(ruleParam, elementParam));
 
     const propertiesToCompare = [DATA_TYPE, ELEMENT_TYPE, IS_COLLECTION];
     let i = 0;
