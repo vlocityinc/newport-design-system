@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { Element, api, track, unwrap } from 'engine';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -249,7 +249,7 @@ export default class Palette extends Element {
         const dragElement = referenceElement.iconElement;
         event.dataTransfer.setData('text', item.elementType);
         if (event.dataTransfer.setDragImage && dragElement) {
-            event.dataTransfer.setDragImage(dragElement, 0, 0);
+            event.dataTransfer.setDragImage(unwrap(dragElement), 0, 0);
         }
         event.dataTransfer.effectAllowed = 'copy';
     }
