@@ -10,6 +10,7 @@ export const dateCollectionVariableGuid = 'guid9';
 export const stringVariableGuid = 'guid10';
 export const currencyVariableGuid = 'guid11';
 export const assignmentElementGuid = 'guid12';
+export const accountSObjectCollectionVariableGuid = 'guid13';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -20,6 +21,7 @@ export const stringCollectionVariable1DevName = 'collStrVar1';
 export const stringCollectionVariable2DevName = 'collStrVar2';
 export const choiceDevName = 'numberChoice';
 const dateVariableDevName = 'dateVar1';
+export const accountSObjectCollectionVariableDevName = 'accCollectionVar1';
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -86,6 +88,18 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: accountSObjectVariableDevName,
+        objectType: account,
+    },
+    [accountSObjectCollectionVariableGuid]: {
+        dataType: sobjectDataType,
+        description: '',
+        elementType: variable,
+        guid: accountSObjectCollectionVariableGuid,
+        isCanvasElement: false,
+        isCollection: true,
+        isInput: false,
+        isOutput: false,
+        name: accountSObjectCollectionVariableDevName,
         objectType: account,
     },
     [stringCollectionVariable1Guid]: {
