@@ -77,5 +77,12 @@ export default class ScreenTextAreaPropertyField extends Element {
         }
     }
 
-    handleEvent(/* event */) {} // This is here to force the onblur and onchange events to fire
+    handleEvent(event) {
+        // Change events are not composed, let's re-dispatch
+        const val = this.template.querySelector(SELECTORS.TEXTAREA).value;
+        if (val !== this.value) {
+            this.value = val;
+            this.dispatchEvent(new Event(event.type));
+        }
+    }
 }
