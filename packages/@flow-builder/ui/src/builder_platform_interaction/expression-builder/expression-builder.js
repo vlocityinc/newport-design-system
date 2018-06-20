@@ -101,10 +101,15 @@ export default class ExpressionBuilder extends Element {
         const rhsGuid = getValueFromHydratedItem(expression[RHSG]);
         const rhsVal = rhsGuid ? rhsGuid : getValueFromHydratedItem(expression[RHS]);
         if (expression[RHS] && !isUndefinedOrNull(rhsVal)) {
-            this.state.normalizedRHS = normalizeRHS(rhsVal, (rhsIdentifier) => {
-                if (!this._fetchedRHSInfo) {
+            this.state.normalizedRHS = normalizeRHS(rhsVal, (rhsItem) => {
+                if (!this._fetchedRHSInfo && rhsItem) {
                     this._fetchedRHSInfo = true;
-                    const newExpression = updateProperties(this.state.expression, {[RHS] : {value : rhsIdentifier, error: expression[RHS].error}});
+                    const expressionUpdates = {
+                        [RHS]: {value: rhsItem.displayText, error: expression[RHS].error},
+                        [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: expression[RHSDT].error},
+                        [RHSG]: {value: rhsItem.value, error:expression[RHSG].error},
+                    };
+                    const newExpression = updateProperties(this.state.expression, expressionUpdates);
                     this.firePropertyChangedEvent(newExpression);
                 }
             });
@@ -188,6 +193,13 @@ export default class ExpressionBuilder extends Element {
         return this.state.expression[OPERATOR] ? this.state.expression[OPERATOR].value : null;
     }
 
+    renderedCallback() {
+        if (this.state.expression[RHS] && !this.state.expression[RHS].error) {
+            // only do validation if there is no current error
+            this.getRHSCombobox().validate();
+        }
+    }
+
     /* ***************** */
     /* Private Variables */
     /* ***************** */
@@ -221,14 +233,37 @@ export default class ExpressionBuilder extends Element {
         this.state.operatorMenuData = undefined;
         const newLHSItem = event.detail.item;
         const newValue = newLHSItem ? newLHSItem.value : event.detail.displayText;
-        const expressionUpdates = {[LHS] : {value : newValue, error: event.detail.error}};
+        const expressionUpdates = {[LHS] : {value: newValue, error: event.detail.error}};
 
-        const complexGuid = sanitizeGuid(newValue);
+        const lhsElementOrField = this.getElementOrField(newValue);
+        if (lhsElementOrField) {
+            const newLHSParam = elementToParam(lhsElementOrField);
+            if (!getOperators(elementType, newLHSParam, rules).includes(this.state.expression.operator.value)) {
+                // if the current operator is not valid
+                expressionUpdates[OPERATOR] = this._clearedProperty;
+                this.updateRHSWithError(expressionUpdates);
+            } else if (this.state.expression.rightHandSideGuid && this.state.expression.rightHandSideGuid.value) {
+                // if the current operator is valid && RHS is a flow element reference
+                this.state.rhsTypes = getRHSTypes(elementType, newLHSParam, this.state.expression[OPERATOR].value, rules);
+                const rhsElementOrField = this.getElementOrField(this.state.expression.rightHandSideGuid.value);
+                const rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(rhsElementOrField));
+                if (!rhsValid) {
+                    this.updateRHSWithError(expressionUpdates);
+                }
+            }
+        } else {
+            expressionUpdates[OPERATOR] = this._clearedProperty;
+            this.updateRHSWithError(expressionUpdates, true);
+        }
+        const newExpression = updateProperties(this.state.expression, expressionUpdates);
+        this.firePropertyChangedEvent(newExpression);
+    }
+
+    getElementOrField(value) {
+        const complexGuid = sanitizeGuid(value);
         const flowElement = getElementByGuid(complexGuid.guid);
         let elementOrField;
-        // if lhs's value is a entity field (it could be flowElement.fieldApiName or objectType.fieldApiName)
         if (complexGuid.fieldName) {
-            // get the object type (entity name)
             const objectType = (flowElement) ? flowElement.objectType : contextConfig.objectType;
             getFieldsForEntity(objectType, (fields) => {
                 elementOrField = fields[complexGuid.fieldName];
@@ -236,47 +271,20 @@ export default class ExpressionBuilder extends Element {
         } else {
             elementOrField = flowElement;
         }
-        if (elementOrField) {
-            const newLHSParam = elementToParam(elementOrField);
-            if (!getOperators(elementType, newLHSParam, rules).includes(this.state.expression.operator.value)) {
-                expressionUpdates[OPERATOR] = this._clearedProperty;
-                expressionUpdates[RHS] = this._clearedProperty;
-                expressionUpdates[RHSDT] = this._clearedProperty;
-                expressionUpdates[RHSG] = this._clearedProperty;
-            } else {
-                let rhsValid = false;
-                if (this.state.expression.rightHandSideGuid.value) {
-                    rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
-                }
-                if (!rhsValid) {
-                    expressionUpdates[RHS] = this._clearedProperty;
-                    expressionUpdates[RHSDT] = this._clearedProperty;
-                    expressionUpdates[RHSG] = this._clearedProperty;
-                }
-            }
-        } else {
-            expressionUpdates[OPERATOR] = this._clearedProperty;
-            expressionUpdates[RHS] = this._clearedProperty;
-            expressionUpdates[RHSDT] = this._clearedProperty;
-            expressionUpdates[RHSG] = this._clearedProperty;
-        }
-        const newExpression = updateProperties(this.state.expression, expressionUpdates);
-        this.firePropertyChangedEvent(newExpression);
+        return elementOrField;
     }
 
     handleOperatorChanged(event) {
         event.stopPropagation();
         const newOperator = event.detail.value;
         const expressionUpdates = {[OPERATOR]: {value: newOperator, error: null}};
-        if (this.state.expression.rightHandSideGuid.value) {
-            let rhsValid = false;
-            if (this.state.expression.rightHandSideGuid.value) {
-                rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(getElementByGuid(this.state.expression.rightHandSideGuid.value)));
-            }
+        if (this.state.expression.rightHandSideGuid && this.state.expression.rightHandSideGuid.value) {
+            // if RHS is a flow element reference
+            this.state.rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, newOperator, rules);
+            const rhsElementOrField = this.getElementOrField(this.state.expression.rightHandSideGuid.value);
+            const rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(rhsElementOrField));
             if (!rhsValid) {
-                expressionUpdates[RHS] = this._clearedProperty;
-                expressionUpdates[RHSDT] = this._clearedProperty;
-                expressionUpdates[RHSG] = this._clearedProperty;
+                this.updateRHSWithError(expressionUpdates);
             }
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);
@@ -304,6 +312,7 @@ export default class ExpressionBuilder extends Element {
                 [RHS]: {value: event.detail.displayText, error: errorMessage},
                 // Set the dataType to LHS dataType
                 [RHSDT]: {value: this.lhsType, error: null},
+                [RHSG]: this._clearedProperty,
             };
         }
         const newExpression = updateProperties(this.state.expression, rhsAndRHSDT);
@@ -333,6 +342,15 @@ export default class ExpressionBuilder extends Element {
             }
         }
         return '';
+    }
+
+    updateRHSWithError(newExpression, disabled = false) {
+        if (disabled) {
+            newExpression[RHS] = { value: this.state.normalizedRHS.itemOrDisplayText, error: null };
+        } else if (this.state.normalizedRHS.itemOrDisplayText) {
+            // only set an error if RHS isn't empty
+            newExpression[RHS] = { value: this.state.normalizedRHS.itemOrDisplayText, error: genericErrorMessage };
+        }
     }
 
     handleFilterLHSMatches(event) {
@@ -388,5 +406,9 @@ export default class ExpressionBuilder extends Element {
             lightningCombobox.setCustomValidity(errorMessage);
             lightningCombobox.showHelpMessageIfInvalid();
         }
+    }
+
+    getRHSCombobox() {
+        return this.template.querySelector('.rhs');
     }
 }

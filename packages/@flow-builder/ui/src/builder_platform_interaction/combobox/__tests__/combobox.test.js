@@ -274,6 +274,25 @@ describe('Combobox Tests', () => {
             });
         });
 
+        it('FetchMenuData is fired when the length of displayText is less than base length', () => {
+            combobox.value = {
+                text: 'MyAccount',
+                subText: 'Account',
+                value: 'GUID1',
+                displayText: '{!MyAccount}',
+                hasNext: true,
+                iconName: 'standard:account',
+                type: 'option-card',
+            };
+            return Promise.resolve().then(() => {
+                textInputEvent = getTextInputEvent('{!MyAccount.}');
+                groupedCombobox.dispatchEvent(textInputEvent);
+                textInputEvent = getTextInputEvent('{!MyAc}');
+                groupedCombobox.dispatchEvent(textInputEvent);
+                expect(fetchMenuDataHandler).toHaveBeenCalledTimes(2);
+            });
+        });
+
         it('FetchMenuData is not fired third level data', () => {
             combobox.value = '{!MyAccount.name}';
             return Promise.resolve().then(() => {
@@ -283,13 +302,15 @@ describe('Combobox Tests', () => {
             });
         });
 
-        it('ItemSelected is fired when a selection is made (tests findItem)', () => {
+        it('ItemSelected is fired when a selection is made (tests findItem), and deleting everything fires FetchMenuData on previous level', () => {
             combobox.value = '';
             combobox.menuData = comboboxInitialConfig.menuData;
             selectEvent = getSelectEvent(comboboxInitialConfig.menuData[1].items[0].value);
             groupedCombobox.dispatchEvent(selectEvent);
             expect(itemSelectedHandler).toHaveBeenCalledTimes(1);
             expect(itemSelectedHandler.mock.calls[0][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
+            textInputEvent = getTextInputEvent('');
+            expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
         });
 
         it('ItemSelected is fired when a period is entered and matches with a menu item', () => {

@@ -151,7 +151,7 @@ export const normalizeRHS = (rhsIdentifier, callback) => {
         sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
             rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[complexGuid.fieldName], mutateFlowElementToComboboxShape(flowElement), true, true);
         });
-        callback(rhsIdentifier);
+        callback(rhs.itemOrDisplayText);
     } else if (flowElement) {
         rhs.itemOrDisplayText = mutateFlowElementToComboboxShape(flowElement);
     } else {
@@ -203,8 +203,8 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
         lhs.item = mutateFlowElementToComboboxShape(flowElement);
         lhs.parameter = elementToParam(flowElement);
     } else if (lhsIdentifier) {
-        lhs.item = {};
-        lhs.item.value = lhsIdentifier;
+        // Pass in lhsIdentifier as string in this case
+        lhs.item = lhsIdentifier;
     }
     return lhs;
 };

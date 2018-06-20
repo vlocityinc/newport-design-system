@@ -96,17 +96,6 @@ describe('mutateFerov function', () => {
         expect(mutatedItem.rightHandSideGuid).toEqual(store.numberVariableGuid);
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.REFERENCE);
     });
-    it('should mutate ferov with reference sobject field', () => {
-        const accountSourceSuffix = '.AccountSource';
-        const accountVariableElement = store.elements[store.accountSObjectVariableGuid];
-        storeUtilMock.getElementByGuid.mockReturnValue(accountVariableElement);
-        const item = {};
-        item.ferov = { elementReference : store.accountSObjectVariableGuid + accountSourceSuffix };
-        const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toEqual('{!' + store.elements[store.accountSObjectVariableGuid].name + accountSourceSuffix + '}');
-        expect(mutatedItem.rightHandSideGuid).toEqual(store.accountSObjectVariableGuid);
-        expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.REFERENCE);
-    });
 });
 
 describe('deMutateFerov function', () => {
@@ -179,16 +168,6 @@ describe('deMutateFerov function', () => {
         item.rightHandSideDataType = FEROV_DATA_TYPE.REFERENCE;
 
         const expectedItem = { elementReference: 'VARIABLE_12'};
-        const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
-        expect(deMutatedItem.ferov).toEqual(expectedItem);
-    });
-    it('should demutate ferov with reference sobject field', () => {
-        const item = {};
-        item.rightHandSide = '{!myAccount.name}';
-        item.rightHandSideGuid = 'VARIABLE_12';
-        item.rightHandSideDataType = FEROV_DATA_TYPE.REFERENCE;
-
-        const expectedItem = { elementReference: 'VARIABLE_12.name'};
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
         expect(deMutatedItem.ferov).toEqual(expectedItem);
     });

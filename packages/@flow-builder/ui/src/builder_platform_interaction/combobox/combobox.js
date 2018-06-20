@@ -218,6 +218,14 @@ export default class Combobox extends Element {
      */
     @api required = false;
 
+    /**
+     * Validates the value of the combobox.
+     */
+    @api
+    validate() {
+        this.doValidation();
+    }
+
     /* ***************** */
     /* Private Variables */
     /* ***************** */
@@ -318,6 +326,13 @@ export default class Combobox extends Element {
             }
         }
 
+        // TODO: W-5064397. This needs to be improved to be smarter.
+        // Get previous level menu data in the case that the length of the displayText is shorter than base
+        if (this._base && (!this.state.displayText || this.state.displayText.indexOf(this.getSanitizedValue(this._base)) === -1)) {
+            this._base = null;
+            this.fireFetchMenuDataEvent();
+        }
+
         // Fire event to filter Menu Data
         this.fireFilterMatchesEvent(this.getFilterText(sanitizedValue), this._isMergeField);
     }
@@ -337,9 +352,9 @@ export default class Combobox extends Element {
         const itemHasNextLevel = item && item.hasNext;
 
         this._item = item;
-        this._base = item.displayText;
 
         if (itemHasNextLevel) {
+            this._base = item.displayText;
             this.fireFetchMenuDataEvent(item);
         }
 
@@ -365,7 +380,7 @@ export default class Combobox extends Element {
         this.matchTextWithItem();
 
         // do validation
-        this.validate();
+        this.doValidation(true);
 
         // Only fire event if value has changed
         if ((this.state.displayText !== this._lastRecordedDisplayText) || (this._item !== this._lastRecordedItem)) {
@@ -591,13 +606,16 @@ export default class Combobox extends Element {
     /**
      * Get the proper value depending on the combobox state.
      * If in resource state, returns value without {! & }
+     * @param {String} value The value to sanitize. Defaults to displayText
      * @returns {String} The resource value or full text
      */
-    getSanitizedValue() {
-        if (this._isMergeField) {
-            return this.state.displayText.substring(2, this.state.displayText.length - 1);
+    getSanitizedValue(value = this.state.displayText) {
+        if (value === this.state.displayText && this._isMergeField) {
+            return value.substring(2, value.length - 1);
+        } else if (value.startsWith('{!') && value.endsWith('}')) {
+            return value.substring(2, value.length - 1);
         }
-        return this.state.displayText;
+        return value;
     }
 
     /**
@@ -660,19 +678,21 @@ export default class Combobox extends Element {
     // TODO: Use validation rules and move the generic methods to utils.
 
     /**
-     * Validates the value of the combobox.
+     * Runs the validation for this combobox
+     * @param {Boolean} isBlur whether or not this validate is happening on blur
      */
-    validate() {
+    doValidation(isBlur = false) {
         this.clearErrorMessage();
 
         // No validation for three or more level of data to let super user type in higher level values.
-        if (this.getLevel() > MAX_LEVEL_MENU_DATA) {
+        if (this.getLevel() > MAX_LEVEL_MENU_DATA || this.disabled) {
+            this._dataType = null;
             return;
         }
 
         if (this.state.displayText) {
             if (this._isMergeField) {
-                this.validateResource();
+                this.validateResource(isBlur);
             } else {
                 this.validateLiteral();
             }
@@ -680,7 +700,6 @@ export default class Combobox extends Element {
             this.setErrorMessage(ERROR_MESSAGE.GENERIC);
         }
     }
-
     /**
      * Validates the literal value entered in combobox.
      */
@@ -696,11 +715,12 @@ export default class Combobox extends Element {
 
     /**
      * Validates the resource value (value enclosed in {! and } ) selected or entered.
+     * @param {Boolean} isBlur whether or not this validation is happening onblur
      */
-    validateResource() {
+    validateResource(isBlur = false) {
         if (this.isExpressionIdentifierLiteral() && this._isLiteralAllowed) {
             this.validateLiteralForDataType();
-        } else if (!this._item) {
+        } else if (!this._item && isBlur) {
             this.setErrorMessage(ERROR_MESSAGE.GENERIC);
         }
     }

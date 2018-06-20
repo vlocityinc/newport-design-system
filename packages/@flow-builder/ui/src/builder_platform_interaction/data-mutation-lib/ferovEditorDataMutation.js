@@ -1,7 +1,7 @@
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { omit, updateProperties } from './objectMutation';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
-import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction-common-utils';
+import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 
 // keys are the types we find in our ferov objects, values are flow builder ferov data types
 const META_DATA_TYPES_TO_FEROV_TYPES_MAP = {
@@ -43,8 +43,8 @@ function convertGuidToDevName(value) {
     }
 
     const ferovObjectValueParts = value.split('.');
-    const guid = ferovObjectValueParts[0];
-    const flowElement = getElementByGuid(guid);
+    const guid = value;
+    const flowElement = getElementByGuid(ferovObjectValueParts[0]);
 
     if (flowElement) {
         ferovObjectValueParts[0] = flowElement.name;
@@ -53,39 +53,6 @@ function convertGuidToDevName(value) {
     }
 
     return { value };
-}
-
-/**
- * Convert the dev name in the value property to guid.
- * Eg: {element[valueProperty]: {!myAccount.name}, element[valueProperty + 'Guid']: 'VARIABLE_12'}
- *      -> VARIABLE_12.name
- * Note: Does not handle merge fields, needs more spiking.
- * merge field - 'Flow Builder is going pilot in {!releasePilot} and GA in {!releaseGA}'
- * @param {Object}      element object with valueProperty and valueProperty+Guid
- * @param {string}      valueProperty name of the property that needs to be converted
- * @return {Object}     element with value property converted to guid or null if valueProperty is empty/undefined/null
- */
-function convertDevNameToGuid(element, valueProperty) {
-    if (!element) {
-        throw new Error(`Input element must be non empty but instead was ${element}`);
-    }
-
-    if (!valueProperty) {
-        throw new Error(`Input valueProperty must be non empty but instead was ${element}`);
-    }
-
-    if (!element[valueProperty]) {
-        return null;
-    }
-
-    const ferovObjectValueParts = removeCurlyBraces(element[valueProperty]).split('.');
-    const valuePropertyGuid = valueProperty + GUID_SUFFIX;
-
-    if (element[valuePropertyGuid]) {
-        ferovObjectValueParts[0] = element[valuePropertyGuid];
-    }
-
-    return ferovObjectValueParts.join('.');
 }
 
 /**
@@ -263,7 +230,7 @@ export const deMutateFEROV = (element, ferovObjectName, { valueProperty, dataTyp
     // set the value of the ferov to the given property or its guid on the element
     // store the value stored in the element before deleting it
     if (isFerovReference(ferovDataTypeKey) && element.hasOwnProperty(valuePropertyGuid)) {
-        ferovObject[ferovDataTypeKey] = convertDevNameToGuid(element, valueProperty);
+        ferovObject[ferovDataTypeKey] = element[valuePropertyGuid];
     } else {
         ferovObject[ferovDataTypeKey] = element[valueProperty];
     }

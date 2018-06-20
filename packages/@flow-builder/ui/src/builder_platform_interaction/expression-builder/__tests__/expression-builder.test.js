@@ -3,12 +3,14 @@ import { getShadowRoot } from 'lwc-test-utils';
 // Importing using relative path here to ensure that we get the actual component and not the mocked version
 import ExpressionBuilder from '../expression-builder.js';
 import { RowContentsChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
-import { numberVariableGuid, numberVariableDevName, stringVariableGuid, dateVariableGuid, currencyVariableGuid, assignmentElementGuid, elements } from 'mock-store-data';
+import { numberVariableGuid, numberVariableDevName, stringVariableGuid, stringVariableDevName, dateVariableGuid, currencyVariableGuid, assignmentElementGuid, elements } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { mockAccountFields } from 'mock-server-entity-data';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import genericErrorMessage from '@label/FlowBuilderCombobox.genericErrorMessage';
+import numberErrorMessage from '@label/FlowBuilderCombobox.numberErrorMessage';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-expression-builder', { is: ExpressionBuilder });
@@ -269,6 +271,89 @@ describe('expression-builder', () => {
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {newValue: newExpression}});
             });
         });
+
+        describe('Validation', () => {
+            it('Invalid LHS has value populated but with error message', () => {
+                const invalidValue = 'blah';
+                const expression = createBlankExpression();
+                expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value = invalidValue;
+                const expressionBuilder = createComponentForTest({
+                    expression,
+                    showOperator: true,
+                });
+                Promise.resolve().then(() => {
+                    const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+                    expect(lhsCombobox.value).toEqual(invalidValue);
+                    expect(lhsCombobox.errorMessage).toEqual(genericErrorMessage);
+                });
+            });
+
+            it('Invalid literals on RHS has value populated but with error message', () => {
+                const expression = {
+                    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+                        value: stringVariableGuid,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
+                        value: 'Assign',
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
+                        value: 'foobar',
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+                        value: 'String',
+                        error: null,
+                    },
+                };
+                const expressionBuilder = createComponentForTest({
+                    expression,
+                    showOperator: true,
+                });
+                Promise.resolve().then(() => {
+                    const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+                    lhsCombobox.dispatchEvent(ourCBChangeEvent);
+                    const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                    expect(rhsCombobox.errorMessage).toEqual(numberErrorMessage);
+                });
+            });
+
+            it('Invalid resources on RHS has value populated but with error message', () => {
+                const expression = {
+                    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+                        value: stringVariableGuid,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
+                        value: 'Assign',
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
+                        value: '{!' + stringVariableDevName + '}',
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+                        value: 'reference',
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {
+                        value: stringVariableGuid,
+                        error: null,
+                    }
+                };
+                const expressionBuilder = createComponentForTest({
+                    expression,
+                    showOperator: true,
+                });
+                Promise.resolve().then(() => {
+                    const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+                    lhsCombobox.dispatchEvent(ourCBChangeEvent);
+                    const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                    expect(rhsCombobox.errorMessage).toEqual(genericErrorMessage);
+                });
+            });
+        });
     });
     describe('building expression from existing item', () => {
         it('should populate the lhs menu data', () => {
@@ -376,6 +461,8 @@ describe('expression-builder', () => {
                 lhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(CBreturn));
                 return Promise.resolve().then(() => {
                     checkOperatorAndRHSDisabled(expressionBuilder, true);
+                    const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                    expect(rhsCombobox.value.displayText).toEqual('{!' + numberVariableDevName + '}');
                 });
             });
         });
