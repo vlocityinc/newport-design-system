@@ -104,7 +104,7 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
 
     /**
      * handle event when changing the sObject or sObject collection variable
-     * @param {Object} event the comboboxvaluechanged event
+     * @param {Object} event the comboboxstatechanged event
      */
     handleSObjectVariableChanged(event) {
         event.stopPropagation();

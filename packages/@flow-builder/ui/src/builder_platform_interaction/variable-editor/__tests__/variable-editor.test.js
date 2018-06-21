@@ -5,7 +5,7 @@ import * as mockStoreData from 'mock-store-data';
 import * as selectorsMock from 'builder_platform_interaction-selectors';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { variableReducer } from '../variable-reducer';
-import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxValueChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
+import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxStateChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 
 const SELECTORS = {
@@ -59,8 +59,8 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
 
 const defaultValueItem = {item: {value: 'guid1', displayText: 'var 1'}};
 
-function getComboboxValueChangedEvent() {
-    return new CustomEvent('comboboxvaluechanged', {
+function getComboboxStateChangedEvent() {
+    return new CustomEvent('comboboxstatechanged', {
         detail: defaultValueItem,
     });
 }
@@ -273,7 +273,7 @@ describe('variable-editor', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
                 const defaultValueCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-                defaultValueCombobox.dispatchEvent(getComboboxValueChangedEvent());
+                defaultValueCombobox.dispatchEvent(getComboboxStateChangedEvent());
                 expect(variableReducer).toHaveBeenCalledTimes(3);
                 expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
                 expect(variableReducer.mock.calls[1][0]).toEqual(variableEditor.node);
@@ -293,7 +293,7 @@ describe('variable-editor', () => {
                 value: 'reference',
                 error: null
             };
-            const valueChangedEvent = new ComboboxValueChangedEvent(selectedMenuItem, null, null);
+            const valueChangedEvent = new ComboboxStateChangedEvent(selectedMenuItem, null, null);
             return Promise.resolve().then(() => {
                 const flowCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 flowCombobox.dispatchEvent(valueChangedEvent);
@@ -327,7 +327,7 @@ describe('variable-editor', () => {
         it('handles flow combobox value changed event', () => {
             const variableEditor = setupComponentUnderTest(accountVariable);
             const entityResourcePicker = getShadowRoot(variableEditor).querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
-            entityResourcePicker.dispatchEvent(getComboboxValueChangedEvent());
+            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
             return Promise.resolve().then(() => {
                 expect(createAction.mock.calls[0][1].propertyName).toEqual('objectType');
                 expect(variableReducer).toHaveBeenCalledWith(variableEditor.node, {});

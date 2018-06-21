@@ -2,7 +2,7 @@ import { createElement } from 'engine';
 import { getShadowRoot } from 'lwc-test-utils';
 import Combobox from 'builder_platform_interaction-combobox';
 import { comboboxInitialConfig } from 'mock-combobox-data';
-import { ComboboxValueChangedEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
+import { ComboboxStateChangedEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
 
 const SELECTORS = {
     COMBOBOX_PATH: 'builder_platform_interaction-combobox',
@@ -218,16 +218,16 @@ describe('Combobox Tests', () => {
     });
 
     describe('Events Testing', () => {
-        let fetchMenuDataHandler, comboboxValueChangedHandler, selectHandler, itemSelectedHandler;
+        let fetchMenuDataHandler, comboboxStateChangedHandler, selectHandler, itemSelectedHandler;
         let textInputEvent, blurEvent, selectEvent;
         beforeEach(() => {
             fetchMenuDataHandler = jest.fn();
-            comboboxValueChangedHandler = jest.fn();
+            comboboxStateChangedHandler = jest.fn();
             selectHandler = jest.fn();
             itemSelectedHandler = jest.fn();
 
             combobox.addEventListener('fetchmenudata', fetchMenuDataHandler);
-            combobox.addEventListener(ComboboxValueChangedEvent.EVENT_NAME, comboboxValueChangedHandler);
+            combobox.addEventListener(ComboboxStateChangedEvent.EVENT_NAME, comboboxStateChangedHandler);
             combobox.addEventListener(NewResourceEvent.EVENT_NAME, selectHandler);
             combobox.addEventListener(ItemSelectedEvent.EVENT_NAME, itemSelectedHandler);
 
@@ -337,7 +337,7 @@ describe('Combobox Tests', () => {
             expect(itemSelectedHandler).not.toHaveBeenCalled();
         });
 
-        it('ComboboxValueChanged is fired on blur (tests matchTextWithItem)', () => {
+        it('ComboboxStateChanged is fired on blur (tests matchTextWithItem)', () => {
             const initialValue = '{!foobar}';
             let blurValue = '{!Blah}';
 
@@ -346,9 +346,9 @@ describe('Combobox Tests', () => {
             groupedCombobox.dispatchEvent(textInputEvent);
             blurEvent = new CustomEvent('blur');
             groupedCombobox.dispatchEvent(blurEvent);
-            expect(comboboxValueChangedHandler).toHaveBeenCalledTimes(1);
-            expect(comboboxValueChangedHandler.mock.calls[0][0].detail.item).toEqual(null);
-            expect(comboboxValueChangedHandler.mock.calls[0][0].detail.displayText).toEqual(blurValue);
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(null);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.displayText).toEqual(blurValue);
 
             // This second part tests matchTextWithItem as well
             blurValue = '{!MyAccount}';
@@ -357,17 +357,17 @@ describe('Combobox Tests', () => {
             textInputEvent = getTextInputEvent(blurValue);
             groupedCombobox.dispatchEvent(textInputEvent);
             groupedCombobox.dispatchEvent(blurEvent);
-            expect(comboboxValueChangedHandler).toHaveBeenCalledTimes(2);
-            expect(comboboxValueChangedHandler.mock.calls[1][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
-            expect(comboboxValueChangedHandler.mock.calls[1][0].detail.displayText).toEqual(blurValue);
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
+            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
+            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.displayText).toEqual(blurValue);
         });
 
-        it('ComboboxValueChanged is not fired on blur if value has not changed', () => {
+        it('ComboboxStateChanged is not fired on blur if value has not changed', () => {
             blurEvent = new CustomEvent('blur');
 
             groupedCombobox.dispatchEvent(blurEvent);
 
-            expect(comboboxValueChangedHandler).not.toHaveBeenCalled();
+            expect(comboboxStateChangedHandler).not.toHaveBeenCalled();
         });
 
         it('NewResource event is fired when New Resource is selected.', () => {
@@ -444,11 +444,15 @@ describe('Combobox Tests', () => {
 
         let blurEvent;
         let testName;
+        let comboboxStateChangedHandler;
         const ignoreTZRegex = new RegExp('^.*?GMT');
 
         beforeEach(() => {
             blurEvent = new CustomEvent('blur');
             combobox.menuData = comboboxInitialConfig.menuData;
+
+            comboboxStateChangedHandler = jest.fn();
+            combobox.addEventListener(ComboboxStateChangedEvent.EVENT_NAME, comboboxStateChangedHandler);
         });
 
         Object.keys(validationTestData).forEach(dataType => {
@@ -470,7 +474,7 @@ describe('Combobox Tests', () => {
                     groupedCombobox.dispatchEvent(textInputEvent);
                     groupedCombobox.dispatchEvent(blurEvent);
 
-                    expect(groupedCombobox.validity).toEqual(testData.error);
+                    expect(comboboxStateChangedHandler.mock.calls[0][0].detail.error).toEqual(testData.error);
                     if (testData.expectedValue) {
                         if (dataType !== 'DateTime') {
                             expect(combobox.value).toEqual(testData.expectedValue);
@@ -486,7 +490,7 @@ describe('Combobox Tests', () => {
             combobox.required = true;
             combobox.displayText = '';
             groupedCombobox.dispatchEvent(blurEvent);
-            expect(groupedCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGE.GENERIC);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.error).toEqual(VALIDATION_ERROR_MESSAGE.GENERIC);
         });
 
         it('for invalid data type', () => {

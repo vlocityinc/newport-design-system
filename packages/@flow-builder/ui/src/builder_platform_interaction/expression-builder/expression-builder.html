@@ -4,7 +4,7 @@
                 label={lhsLabel}
                 value={state.normalizedLHS.item}
                 onfetchmenudata={handleFetchLHSMenuData}
-                oncomboboxvaluechanged={handleLHSValueChanged}
+                oncomboboxstatechanged={handleLHSValueChanged}
                 onitemselected={handleLHSItemSelected}
                 onfiltermatches={handleFilterLHSMatches}
                 menu-data={lhsMenuData}
@@ -34,7 +34,7 @@
                 value={state.normalizedRHS.itemOrDisplayText}
                 disabled={operatorAndRHSDisabled}
                 onfetchmenudata={handleFetchRHSMenuData}
-                oncomboboxvaluechanged={handleRHSValueChanged}
+                oncomboboxstatechanged={handleRHSValueChanged}
                 onfiltermatches={handleFilterRHSMatches}
                 menu-data={rhsMenuData}
                 type={lhsType}

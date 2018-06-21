@@ -4,7 +4,7 @@ import {
     AddRecordLookupFilterEvent,
     UpdateRecordLookupFilterEvent,
     DeleteRecordLookupFilterEvent,
-    ComboboxValueChangedEvent,
+    ComboboxStateChangedEvent,
     OutputReferenceChangedEvent,
     AddRecordLookupFieldEvent,
     UpdateRecordLookupFieldEvent,
@@ -112,7 +112,7 @@ export const recordLookupReducer = (state, event) => {
             return updateRecordLookupFilter(state, event);
         case DeleteRecordLookupFilterEvent.EVENT_NAME:
             return deleteRecordLookupFilter(state, event);
-        case ComboboxValueChangedEvent.EVENT_NAME:
+        case ComboboxStateChangedEvent.EVENT_NAME:
             return resetRecordLookup(state, event);
         case OutputReferenceChangedEvent.EVENT_NAME:
             return updateOutputReferenceAndQueriedFields(state, event);

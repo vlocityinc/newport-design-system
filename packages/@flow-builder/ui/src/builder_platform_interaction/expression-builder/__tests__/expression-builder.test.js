@@ -2,7 +2,7 @@ import { createElement } from 'engine';
 import { getShadowRoot } from 'lwc-test-utils';
 // Importing using relative path here to ensure that we get the actual component and not the mocked version
 import ExpressionBuilder from '../expression-builder.js';
-import { RowContentsChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
+import { RowContentsChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction-events';
 import { numberVariableGuid, numberVariableDevName, stringVariableGuid, stringVariableDevName, dateVariableGuid, currencyVariableGuid, assignmentElementGuid, elements } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
@@ -125,7 +125,7 @@ const CBreturnItem = {
     displayText: '{!' + elements[numberVariableGuid].name + '}'
 };
 
-const ourCBChangeEvent = new ComboboxValueChangedEvent(CBreturnItem);
+const ourCBChangeEvent = new ComboboxStateChangedEvent(CBreturnItem);
 
 const newCBValue = numberVariableGuid;
 
@@ -458,7 +458,7 @@ describe('expression-builder', () => {
                     value: '',
                     displayText: '',
                 };
-                lhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(CBreturn));
+                lhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(CBreturn));
                 return Promise.resolve().then(() => {
                     checkOperatorAndRHSDisabled(expressionBuilder, true);
                     const rhsCombobox = getComboboxElements(expressionBuilder)[1];
@@ -476,7 +476,7 @@ describe('expression-builder', () => {
                 showOperator: true,
             });
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            rhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(null, 'foobar'));
+            rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, 'foobar'));
             Promise.resolve().then(() => {
                 expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.STRING.value);
             });
@@ -489,7 +489,7 @@ describe('expression-builder', () => {
                 showOperator: true,
             });
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            rhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(null, '123'));
+            rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '123'));
             Promise.resolve().then(() => {
                 expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.NUMBER.value);
             });
@@ -502,7 +502,7 @@ describe('expression-builder', () => {
                 showOperator: true,
             });
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            rhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(null, '123'));
+            rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '123'));
             Promise.resolve().then(() => {
                 expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.NUMBER.value);
             });
@@ -515,7 +515,7 @@ describe('expression-builder', () => {
                 showOperator: true,
             });
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            rhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(null, '1/1/2018'));
+            rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '1/1/2018'));
             Promise.resolve().then(() => {
                 expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.DATE.value);
             });
@@ -528,7 +528,7 @@ describe('expression-builder', () => {
                 showOperator: true,
             });
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            rhsCombobox.dispatchEvent(new ComboboxValueChangedEvent(null, 'true'));
+            rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, 'true'));
             Promise.resolve().then(() => {
                 expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });

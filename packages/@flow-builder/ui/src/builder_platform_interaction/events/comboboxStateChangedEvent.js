@@ -1,7 +1,7 @@
 /**
  * Used by components to indicate that it's value has changed
  */
-const eventName = 'comboboxvaluechanged';
+const eventName = 'comboboxstatechanged';
 
 /**
  * @typedef {Object} item same as Menu Item
@@ -14,7 +14,7 @@ const eventName = 'comboboxvaluechanged';
  * @property {String} id the id of the combobox TODO: this will be removed in another CL)
  */
 
-export class ComboboxValueChangedEvent {
+export class ComboboxStateChangedEvent {
     constructor(item = null, displayText = null, error = null) {
         return new CustomEvent(eventName, {
             cancelable: false,

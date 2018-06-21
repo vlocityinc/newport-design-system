@@ -2,7 +2,7 @@ import {createElement} from 'engine';
 import { getShadowRoot } from 'lwc-test-utils';
 import { mockAccountFields } from 'mock-server-entity-data';
 import {
-    ComboboxValueChangedEvent,
+    ComboboxStateChangedEvent,
     UpdateRecordLookupFieldEvent,
 } from 'builder_platform_interaction-events';
 import RecordFieldPickerRow from 'builder_platform_interaction-record-field-picker-row';
@@ -99,7 +99,7 @@ describe('record-field-picker-row', () => {
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
                 recordFieldPickerRow.addEventListener(UpdateRecordLookupFieldEvent.EVENT_NAME, eventCallback);
-                baseResourcePicker.dispatchEvent(new ComboboxValueChangedEvent(null, newParamValue));
+                baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {index: 1, value: newParamValue}});
             });

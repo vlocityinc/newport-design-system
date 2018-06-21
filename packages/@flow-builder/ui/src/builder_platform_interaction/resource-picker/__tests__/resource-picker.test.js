@@ -7,7 +7,7 @@ import {
     getEntitiesMenuData,
     RESOURCE_PICKER_MODE,
 } from 'builder_platform_interaction-expression-utils';
-import { ComboboxValueChangedEvent, FilterMatchesEvent } from 'builder_platform_interaction-events';
+import { ComboboxStateChangedEvent, FilterMatchesEvent } from 'builder_platform_interaction-events';
 
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-resource-picker', {
@@ -169,7 +169,7 @@ describe('resource-picker', () => {
         it('handles the combobox value changed event', () => {
             const resourcePicker = setupComponentUnderTest({mode: RESOURCE_PICKER_MODE.ENTITY_MODE, initialItem: 'entityMenuData'});
             const flowCombobox = resourcePicker.querySelector(selectors.COMBOBOX);
-            flowCombobox.dispatchEvent(new ComboboxValueChangedEvent({value: 'someValue', displayText: 'someValue'}));
+            flowCombobox.dispatchEvent(new ComboboxStateChangedEvent({value: 'someValue', displayText: 'someValue'}));
             return Promise.resolve().then(() => {
                 expect(flowCombobox.value).toEqual({value: 'someValue', displayText: 'someValue'});
             });

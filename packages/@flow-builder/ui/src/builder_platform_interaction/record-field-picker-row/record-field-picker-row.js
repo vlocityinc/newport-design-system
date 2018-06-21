@@ -133,7 +133,7 @@ export default class RecordFieldPickerRow extends Element {
 
     /**
      * handle field changed
-     * @param {Object} event the comboboxvaluechanged event
+     * @param {Object} event the comboboxstatechanged event
      */
     handleFieldChanged(event) {
         event.stopPropagation();

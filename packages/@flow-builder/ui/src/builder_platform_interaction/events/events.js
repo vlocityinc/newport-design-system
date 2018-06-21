@@ -29,7 +29,7 @@ export { PaletteItemClickedEvent } from './palette-events/palette-item-clicked-e
 export { PaletteSectionToggleEvent } from './palette-events/palette-section-toggle-event';
 export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';
 export { ItemSelectedEvent } from './itemSelectedEvent';
-export { ComboboxValueChangedEvent } from './comboboxValueChangedEvent';
+export { ComboboxStateChangedEvent } from './comboboxStateChangedEvent';
 export { AddRecordLookupFilterEvent } from './addRecordLookupFilterEvent';
 export { UpdateRecordLookupFilterEvent } from './updateRecordLookupFilterEvent';
 export { DeleteRecordLookupFilterEvent } from './deleteRecordLookupFilterEvent';

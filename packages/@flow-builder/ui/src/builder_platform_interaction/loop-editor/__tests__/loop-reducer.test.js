@@ -1,5 +1,5 @@
 import {loopReducer} from '../loop-reducer';
-import {PropertyChangedEvent, ComboboxValueChangedEvent} from 'builder_platform_interaction-events';
+import {PropertyChangedEvent, ComboboxStateChangedEvent} from 'builder_platform_interaction-events';
 
 const COLLECTIONREFERENCE = 'collectionReference';
 const IAMERRORED = 'IAMERRORED';
@@ -22,10 +22,10 @@ describe('loop-reducer', () => {
             locationY : 123,
         };
     });
-    describe('loopComboboxValueChanged event updates loop element properties', () => {
+    describe('loopComboboxStateChanged event updates loop element properties', () => {
         it('updates the collection reference', () => {
             const event = {
-                type: ComboboxValueChangedEvent.EVENT_NAME,
+                type: ComboboxStateChangedEvent.EVENT_NAME,
                 detail: {
                     propertyName: COLLECTIONREFERENCE,
                     item: {
@@ -41,7 +41,7 @@ describe('loop-reducer', () => {
         });
         it('error from the collection reference', () => {
             const event = {
-                type: ComboboxValueChangedEvent.EVENT_NAME,
+                type: ComboboxStateChangedEvent.EVENT_NAME,
                 detail: {
                     propertyName: COLLECTIONREFERENCE,
                     item: {
@@ -57,7 +57,7 @@ describe('loop-reducer', () => {
         });
         it('updates the collection variable', () => {
             const event = {
-                type: ComboboxValueChangedEvent.EVENT_NAME,
+                type: ComboboxStateChangedEvent.EVENT_NAME,
                 detail: {
                     propertyName: 'assignNextValueToReference',
                     item: {
@@ -73,7 +73,7 @@ describe('loop-reducer', () => {
         });
         it('error from the collection variable', () => {
             const event = {
-                type: ComboboxValueChangedEvent.EVENT_NAME,
+                type: ComboboxStateChangedEvent.EVENT_NAME,
                 detail: {
                     propertyName: 'assignNextValueToReference',
                     item: {

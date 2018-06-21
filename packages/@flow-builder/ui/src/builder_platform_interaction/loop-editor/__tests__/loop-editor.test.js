@@ -1,6 +1,6 @@
 import { createElement } from 'engine';
 import LoopEditor from '../loop-editor';
-import {PropertyChangedEvent, ComboboxValueChangedEvent} from 'builder_platform_interaction-events';
+import {PropertyChangedEvent, ComboboxStateChangedEvent} from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest() {
@@ -52,7 +52,7 @@ describe('loop-editor', () => {
             const loopElement = createComponentForTest();
             loopElement.node = originalState;
             return Promise.resolve().then(() => {
-                const event = new ComboboxValueChangedEvent({
+                const event = new ComboboxStateChangedEvent({
                     value: 'VARIABLE_8',
                     error: null
                 }, 'VARIABLE_8', null);

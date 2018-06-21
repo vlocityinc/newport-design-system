@@ -2,7 +2,7 @@
     <builder_platform_interaction-row item-index={fieldIndex} show-delete={showDelete} if:false={isIdField}>
         <div slot="rowBody">
             <!-- Fields combobox: available options shrink as fields -->
-            <builder_platform_interaction-base-resource-picker combobox-config={fieldComboboxConfig} value={value} oncomboboxvaluechanged={handleFieldChanged}>
+            <builder_platform_interaction-base-resource-picker combobox-config={fieldComboboxConfig} value={value} oncomboboxstatechanged={handleFieldChanged}>
             </builder_platform_interaction-base-resource-picker>
         </div>
     </builder_platform_interaction-row>    

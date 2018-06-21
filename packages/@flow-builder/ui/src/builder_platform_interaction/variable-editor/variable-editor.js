@@ -316,7 +316,7 @@ export default class VariableEditor extends Element {
 
     /**
      * Helper method to handle a flow combobox value changed event and update the given property name
-     * @param {ComboboxValueChangedEvent} event flow combobobx value changed event to handle
+     * @param {ComboboxStateChangedEvent} event flow combobobx value changed event to handle
      * @param {String} propertyName proeprty name to update
      */
     handleFlowComboboxChange(event, propertyName) {

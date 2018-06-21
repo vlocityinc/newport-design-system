@@ -2,7 +2,7 @@ import { createElement } from 'engine';
 import { getShadowRoot } from 'lwc-test-utils';
 import ActionSelector from '../action-selector';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { ValueChangedEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
+import { ValueChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction-events';
 import { mockActions, mockApexPlugins, mockSubflows } from 'mock-action-selector-data';
 
 const createComponentUnderTest = () => {
@@ -113,12 +113,12 @@ describe('Action selector', () => {
         it('should fire ValueChangedEvent', () => {
             const eventCallback = jest.fn();
             document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
-            interactionCombobox.dispatchEvent(new ComboboxValueChangedEvent(cbEventItem));
+            interactionCombobox.dispatchEvent(new ComboboxStateChangedEvent(cbEventItem));
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail.value).toMatchObject({actionName: 'emailSimple', actionType: 'emailSimple'});
         });
         it('api should return the selected element', () => {
-            interactionCombobox.dispatchEvent(new ComboboxValueChangedEvent(cbEventItem));
+            interactionCombobox.dispatchEvent(new ComboboxStateChangedEvent(cbEventItem));
             expect(actionSelectorComponent.selectedAction).toMatchObject({actionName: 'emailSimple', actionType: 'emailSimple'});
         });
     });

@@ -2,7 +2,7 @@ import { createElement } from 'engine';
 import { getShadowRoot } from 'lwc-test-utils';
 import ParameterItem from 'builder_platform_interaction-parameter-item';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { UpdateParameterItemEvent, ComboboxValueChangedEvent } from 'builder_platform_interaction-events';
+import { UpdateParameterItemEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction-events';
 import { stringCollectionVariable1Guid, stringCollectionVariable1DevName } from 'mock-store-data';
 import { comboboxInitialConfig } from 'mock-combobox-data';
 
@@ -319,7 +319,7 @@ describe('parameter-item', () => {
             const eventCallback = jest.fn();
             parameterItemCmp.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
             const newParamValue = 'new value';
-            const cbChangeEvent = new ComboboxValueChangedEvent(null, newParamValue);
+            const cbChangeEvent = new ComboboxStateChangedEvent(null, newParamValue);
             const builderCombobox = getBuilderComboboxElement(parameterItemCmp);
             builderCombobox.dispatchEvent(cbChangeEvent);
             expect(eventCallback).toHaveBeenCalled();
