@@ -1,6 +1,8 @@
 import { createElement } from 'engine';
 import LeftPanelResources from 'builder_platform_interaction-left-panel-resources';
 
+import newResourceButtonText from '@label/FlowBuilderLeftPanel.newResourceButtonText';
+
 const selectors = {
     root: '.left-panel-resources',
     addnewresource: '.test-left-panel-add-resource',
@@ -18,7 +20,7 @@ describe("left-panel-resources", () => {
     describe('New Resource BUTTON', () => {
         it('Label name should be New Resource ', () => {
             const leftPanelComponent = createComponentUnderTest();
-            expect(leftPanelComponent.querySelector(selectors.addnewresource).label).toEqual("New Resource");
+            expect(leftPanelComponent.querySelector(selectors.addnewresource).label).toEqual(newResourceButtonText);
         });
         it('fires add event when NEW RESOURCE button is clicked', () => {
             const leftPanelComponent = createComponentUnderTest();
