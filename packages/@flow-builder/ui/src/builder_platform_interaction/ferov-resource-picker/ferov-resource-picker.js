@@ -1,4 +1,4 @@
-import { Element, api }  from 'engine';
+import { Element, api, track }  from 'engine';
 import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 
@@ -7,6 +7,9 @@ const SELECTORS = {
 };
 
 export default class FerovResourcePicker extends Element {
+    @track
+    comboboxConfigState;
+
     /**
      * The value item to set on combobox.
      * @type {module:expression-utils.MenuItem|String}
@@ -33,17 +36,13 @@ export default class FerovResourcePicker extends Element {
      */
     @api
     set comboboxConfig(newComboboxConfig) {
-        if (JSON.stringify(this._comboboxConfig) !== JSON.stringify(newComboboxConfig)) {
-            this._comboboxConfig = newComboboxConfig;
-            this._isInitialized = false;
-            // re-populate menu data if the config change
-            this.populateFerovMenuData();
-        }
+        this.comboboxConfigState = newComboboxConfig;
+        this._isInitialized = false;
     }
 
     @api
     get comboboxConfig() {
-        return this._comboboxConfig;
+        return this.comboboxConfigState;
     }
 
     /**
@@ -106,7 +105,6 @@ export default class FerovResourcePicker extends Element {
      */
     _menuData;
 
-    _comboboxConfig;
     _elementConfig;
 
     renderedCallback() {

@@ -16,15 +16,14 @@ const LOOP_PROPERTIES = {
 };
 // TODO: use labels W-4960986
 const VARIABLE_LABEL = 'Variable';
-const COLLECTION_VAR_PLACEHOLDER = 'Find a collection variable...';
-const LOOP_VAR_PLACEHOLDER = 'Find a variable...';
+const COLLECTION_VARIABLE_PLACEHOLDER = 'Find a collection variable...';
+const LOOP_VARIABLE_PLACEHOLDER = 'Find a variable...';
 const ITERATION_ORDER_ASCENDING = 'Asc';
 const ITERATION_ORDER_DECENDING = 'Desc';
-// TODO: Separate this in 2 error messages in W-4961131
-const VARIABLE_ERROR_MESSAGE = null;
-const VARIABLE_LITERALS_ALLOWED = false;
-const VARIABLE_REQUIRED = true;
-const VARIABLE_DISABLED = false;
+const LOOPVAR_ERROR_MESSAGE = null;
+const LOOPVAR_LITERALS_ALLOWED = false;
+const LOOPVAR_REQUIRED = true;
+const LOOPCOLLECTION_DISABLED = false;
 
 const COLLECTION_VAR_ELEMENT_CONFIG = {
     elementType: ELEMENT_TYPE.LOOP,
@@ -36,6 +35,8 @@ export default class LoopEditor extends Element {
      * internal state for the loop editor
      */
     @track loopElement;
+    @track isLoopVariableDisabled;
+    @track loopVariableState;
 
     @api
     get node() {
@@ -46,7 +47,8 @@ export default class LoopEditor extends Element {
     set node(newValue) {
         this.loopElement = newValue || {};
         this._collectionVariable = getElementByGuid(getValueFromHydratedItem(this.loopElement.collectionReference));
-        this._loopVariable = getElementByGuid(getValueFromHydratedItem(this.loopElement.assignNextValueToReference));
+        this.loopVariableState = getElementByGuid(getValueFromHydratedItem(this.loopElement.assignNextValueToReference));
+        this.isLoopVariableDisabled = !this._collectionVariable;
     }
 
     /**
@@ -84,11 +86,11 @@ export default class LoopEditor extends Element {
     }
 
     get loopVariable() {
-        if (this._loopVariable) {
+        if (this.loopVariableState && this.loopVariableState !== null) {
             return {
-                text: addCurlyBraces(this._loopVariable.name),
-                displayText: addCurlyBraces(this._loopVariable.name),
-                value: this.loopElement.assignNextValueToReference
+                text: addCurlyBraces(this.loopVariableState.name),
+                displayText: addCurlyBraces(this.loopVariableState.name),
+                value: this.loopVariableState.guid
             };
         }
         return '';
@@ -112,26 +114,23 @@ export default class LoopEditor extends Element {
     get collectionVariableComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             VARIABLE_LABEL,
-            COLLECTION_VAR_PLACEHOLDER,
-            VARIABLE_ERROR_MESSAGE,
-            VARIABLE_LITERALS_ALLOWED,
-            VARIABLE_REQUIRED,
-            VARIABLE_DISABLED
+            COLLECTION_VARIABLE_PLACEHOLDER,
+            LOOPVAR_ERROR_MESSAGE,
+            LOOPVAR_LITERALS_ALLOWED,
+            LOOPVAR_REQUIRED,
+            LOOPCOLLECTION_DISABLED
         );
     }
 
     // TODO: use labels W-4960986
     get loopVariableComboboxConfig() {
-        // TODO: In W-5093993, replace VARIABLE_DISABLED with isDisabled variable
-        // that will be updated as per the design requirements:
-        // https://docs.google.com/presentation/d/1lCa0ObycEtRKv2TIOiRp616vLrmCHNaNyw-fQTfP0m0/edit?ts=5b21bdfc#slide=id.g3a08245287_3_26
         return BaseResourcePicker.getComboboxConfig(
             VARIABLE_LABEL,
-            LOOP_VAR_PLACEHOLDER,
-            VARIABLE_ERROR_MESSAGE,
-            VARIABLE_LITERALS_ALLOWED,
-            VARIABLE_REQUIRED,
-            VARIABLE_DISABLED
+            LOOP_VARIABLE_PLACEHOLDER,
+            LOOPVAR_ERROR_MESSAGE,
+            LOOPVAR_LITERALS_ALLOWED,
+            LOOPVAR_REQUIRED,
+            this.isLoopVariableDisabled
         );
     }
 
@@ -150,16 +149,31 @@ export default class LoopEditor extends Element {
 
     handleCollectionVariablePropertyChanged(event) {
         event.stopPropagation();
+
         // TODO: in W-5079245 replace this and get the data needed directly from the event
-        this._collectionVariable = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
         event.detail.propertyName = LOOP_PROPERTIES.COLLECTION_VARIABLE;
+
+        this._collectionVariable = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
+        this.isLoopVariableDisabled = this._collectionVariable === null;
+
+        const _oldLoopVariableDataType = this.loopVariableState ? this.loopVariableState.dataType : null;
+        const loopVariableDatatTypeChanged = _oldLoopVariableDataType !== this._collectionVariable.dataType;
+
+        // update loopVariable when collectionVariable is null or dataType changes.
+        if (this._collectionVariable === null || loopVariableDatatTypeChanged) {
+            if (this.loopVariableState !== null && this.loopVariableState) {
+                const loopVariableChangedEvent = new PropertyChangedEvent(LOOP_PROPERTIES.LOOP_VARIABLE, '', null);
+                this.loopElement = loopReducer(this.loopElement, loopVariableChangedEvent);
+                this.loopVariableState = null;
+            }
+        }
         this.loopElement = loopReducer(this.loopElement, event);
     }
 
     handleLoopVariablePropertyChanged(event) {
         event.stopPropagation();
         // TODO: in W-5079245 replace this and get the data needed directly from the event
-        this._loopVariable = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
+        this.loopVariableState = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
         event.detail.propertyName = LOOP_PROPERTIES.LOOP_VARIABLE;
         this.loopElement = loopReducer(this.loopElement, event);
     }

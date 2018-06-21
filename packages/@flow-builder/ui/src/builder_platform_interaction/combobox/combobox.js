@@ -266,7 +266,9 @@ export default class Combobox extends Element {
      * Called once the component has finished rendering to set the error message
      */
     renderedCallback() {
-        this.setErrorMessage(this.errorMessage);
+        if (this.errorMessage || this.errorMessage === null) {
+            this.setErrorMessage(this.errorMessage);
+        }
     }
 
     /* ********************** */
