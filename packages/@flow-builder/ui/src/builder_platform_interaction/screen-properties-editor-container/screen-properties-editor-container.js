@@ -2,6 +2,7 @@ import { Element, api, track } from 'engine';
 import { isScreen } from 'builder_platform_interaction-screen-editor-utils';
 import { createScreenNodeSelectedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 
 /*
  * Right hand side component, used to toggle between screen and field property editors.
@@ -13,6 +14,10 @@ export default class ScreenEditorPropertiesEditorContainer extends Element {
 
     get isScreen() {
         return isScreen(this.node);
+    }
+
+    get hasErrors() {
+        return getErrorsFromHydratedElement(this.node).length > 0;
     }
 
     handleToggleExpand = (/* event */) => {

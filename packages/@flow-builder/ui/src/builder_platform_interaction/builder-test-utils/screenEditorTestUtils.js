@@ -1,10 +1,52 @@
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { getScreenFieldTypeByName } from 'builder_platform_interaction-screen-editor-utils';
 import { mutateScreen, demutateScreen } from 'builder_platform_interaction-data-mutation-lib';
+
+const SELECTOR_REGEX = /(.*)\[([^$*^|~]*)(.*)?=["'](.*)["']\]/g;
+
 /**
  * Used as an argument to createScreenField when no defaultValue should be added (don't use null as it creates a random default value)
  */
 export const SCREEN_NO_DEF_VALUE = 'noDefValue$';
+
+export const ATT_SELECTOR_OPERATORS = {
+    CONTAINS: '*',
+    CONTAINS_WORD: '~',
+    STARTS_WITH: '^',
+    STARTS_WITH_WORD: '|',
+    ENDS_WITH: '$',
+
+    parse: (opValue) => {
+        if (opValue) {
+            for (const prop in ATT_SELECTOR_OPERATORS) {
+                if (ATT_SELECTOR_OPERATORS[prop] === opValue) {
+                    return prop;
+                }
+            }
+        }
+
+        return undefined;
+    }
+};
+
+// Compares value and expected value using operator
+function check(value = '', expectedValue, operator) {
+    if (operator === ATT_SELECTOR_OPERATORS.CONTAINS) {
+        return value.indexOf(expectedValue) > -1;
+    } else if (operator === ATT_SELECTOR_OPERATORS.CONTAINS_WORD) {
+        return value.startsWith(expectedValue + ' ') ||
+               value.indexOf(' ' + expectedValue + ' ') > -1 ||
+               value.endsWith(' ' + expectedValue);
+    } else if (operator === ATT_SELECTOR_OPERATORS.STARTS_WITH) {
+        return value.startsWith(expectedValue);
+    } else if (operator === ATT_SELECTOR_OPERATORS.STARTS_WITH_WORD) {
+        return value.startsWith(expectedValue) || value.startsWith(expectedValue + '-');
+    } else if (operator === ATT_SELECTOR_OPERATORS.ENDS_WITH) {
+        return value.endsWith(expectedValue);
+    }
+
+    return value === expectedValue;
+}
 
 /**
  * Screen field type names with default values
@@ -214,4 +256,47 @@ export function mutateTestScreen(screen) {
  */
 export function demutateTestScreen(screen) {
     return demutateScreen(screen);
+}
+
+/**
+ * Returns the child of element that is returned by the selector.
+ * element.querySelector(selector), where selector is:
+ * tag[attribute<operator>="value"], where operator can be *, |, ^, ~, $ or empty
+ *
+ * @param {Element} element - The parent element
+ * @param {String} selector - The name (tagName) of the child
+ * @return {Element} the element or null
+ */
+export function query(element, selector) {
+    SELECTOR_REGEX.lastIndex = 0;
+    const res = SELECTOR_REGEX.exec(selector);
+    if (res && res.length === 5) {
+        return find(element, res[1], res[2], res[4], ATT_SELECTOR_OPERATORS.parse(res[3]));
+    }
+
+    return null;
+}
+
+/**
+ * Returns the child of element that contains an attribute with the given value.
+ * This would be the equivalent to:
+ * element.querySelector('childName[attributeName="attributeValue"]')
+ *
+ * @param {Element} element - The parent element
+ * @param {String} childName - The name (tagName) of the child
+ * @param {String} attributeName - The name of the attribute
+ * @param {String} attributeValue - The value of the attribute
+ * @param {ATT_SELECTOR_OPERATORS} operator - The operation to use for comparing
+ * @return {Element} the element or null
+ */
+export function find(element, childName, attributeName, attributeValue, operator) {
+    for (const child of element.querySelectorAll(childName)) {
+        if (child.hasOwnProperty(attributeName)) {
+            if (check(child[attributeName], attributeValue, ATT_SELECTOR_OPERATORS[operator])) {
+                return child;
+            }
+        }
+    }
+
+    return null;
 }

@@ -1,6 +1,7 @@
 import { createElement } from 'engine';
 import ScreenEditorPropertiesEditorContainer from '../screen-properties-editor-container';
 import { getAllScreenFieldTypes } from 'builder_platform_interaction-screen-editor-utils';
+import { query } from 'builder_platform_interaction-builder-test-utils';
 
 jest.mock('builder_platform_interaction-selectors', () => {
     return {
@@ -20,6 +21,7 @@ const createComponentUnderTest = (props) => {
 };
 
 const headerSelector = '.slds-panel__header-title';
+const errorIconSelector = 'lightning-button-icon[iconName="utility:error"]';
 
 describe('screen-properties-editor-container', () => {
     it('displays the screen properties header by default', () => {
@@ -38,6 +40,24 @@ describe('screen-properties-editor-container', () => {
         return Promise.resolve().then(() => {
             const header = screenPropertiesEditorContainerElement.querySelector(headerSelector);
             expect(header.textContent).toBe('FlowBuilderScreenEditor.screen > FlowBuilderScreenEditor.fieldTypeLabelTextField');
+        });
+    });
+    it('displays the error icon when the node has errors', () => {
+        const screenPropertiesEditorContainerElement = createComponentUnderTest({
+            node:{type: getAllScreenFieldTypes()[0], value: {value: '', error: 'error'}}
+        });
+        return Promise.resolve().then(() => {
+            const icon = query(screenPropertiesEditorContainerElement, errorIconSelector);
+            expect(icon).toBeTruthy();
+        });
+    });
+    it('does not display the error icon when the node has no errors', () => {
+        const screenPropertiesEditorContainerElement = createComponentUnderTest({
+            node:{type: getAllScreenFieldTypes()[0], value: {value: '', error: null}}
+        });
+        return Promise.resolve().then(() => {
+            const icon = query(screenPropertiesEditorContainerElement, errorIconSelector);
+            expect(icon).toBeFalsy();
         });
     });
 });

@@ -7,7 +7,14 @@
                     <span if:false={isScreen}><a onclick={handleScreenSelection}>{labels.screen}</a> > {node.type.label}</span>
                 </h2>
             </div>
-            <div><lightning-icon icon-name={toggleIconName} size='xx-small' variant='default' onclick={handleToggleExpand}></lightning-icon></div>
+
+            <lightning-button-icon if:true={hasErrors} class="slds-p-right_x-small" icon-name='utility:error' 
+                                                       icon-class='slds-icon-text-error' size='medium' 
+                                                       variant='bare' title={labels.errorIconTitle}>
+            </lightning-button-icon>
+            <lightning-button-icon icon-name={toggleIconName} size='medium' variant='bare' 
+                                   title={labels.togglePropertiesPanelTitle} onclick={handleToggleExpand}>
+            </lightning-button-icon>
         </div>
         <div class='slds-panel__body slds-scrollable_y slds-p-around_none slds-grid slds-grid_vertical slds-grow'>
             <builder_platform_interaction-screen-properties-editor if:true={isScreen} class='properties-editor-panel slds-size_medium -slds-m-horizontal_small toggle-animated' 
