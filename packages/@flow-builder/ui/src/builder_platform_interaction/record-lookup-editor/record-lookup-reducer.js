@@ -44,7 +44,7 @@ const updateRecordLookupFilter = (state, event) => {
 };
 
 const addQueriedField = (state) => {
-    const emptyField = hydrateWithErrors({field: '', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM)});
+    const emptyField = hydrateWithErrors({field: '', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FIELD)});
     const path = ['queriedFields', state.queriedFields.length];
     return set(state, path, emptyField);
 };
@@ -56,7 +56,7 @@ const deleteQueriedField = (state, event) => {
 
 const updateQueriedField = (state, event) => {
     if (!event.detail.error) {
-        const newField = hydrateWithErrors({field: event.detail.value, rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM)});
+        const newField = hydrateWithErrors({field: event.detail.value, rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FIELD)});
         state = updateProperties(state, {
             queriedFields: replaceItem(state.queriedFields, newField, event.detail.index)
         });
@@ -71,7 +71,7 @@ const updateOutputReference = (state, value) => {
 
 const resetQueriedFields = (state) => {
     // reset queriedFields: create one empty filter item + Id
-    return set(state, 'queriedFields', hydrateWithErrors([{field: 'Id', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM)}, {field: '', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM)}]));
+    return set(state, 'queriedFields', hydrateWithErrors([{field: 'Id', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FIELD)}, {field: '', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FIELD)}]));
 };
 
 const updateOutputReferenceAndQueriedFields = (state, event) => {

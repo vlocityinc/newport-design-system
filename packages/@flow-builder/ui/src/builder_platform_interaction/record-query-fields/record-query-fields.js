@@ -1,12 +1,12 @@
 import { Element, api, track } from "engine";
-import { LABELS } from './record-assign-fields-labels';
+import { LABELS } from './record-query-fields-labels';
 import {
     AddRecordLookupFieldEvent,
     DeleteRecordLookupFieldEvent,
     UpdateRecordLookupFieldEvent,
 } from 'builder_platform_interaction-events';
 
-export default class RecordAssignFields extends Element {
+export default class RecordQueryFields extends Element {
     labels = LABELS;
 
     @track
