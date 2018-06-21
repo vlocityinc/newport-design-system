@@ -18,7 +18,7 @@ export default class Tabset extends Element {
 
     @api
     set cssclass(value) {
-        const classes = ["slds-show", "slds-hide", "slds-vertical-tabs", "slds-tabs_default"];
+        const classes = ["slds-vertical-tabs", "slds-tabs_default"];
         for (let i = 0; i < classes.length; i++) {
             this.classList.remove(classes[i]);
         }
@@ -31,6 +31,6 @@ export default class Tabset extends Element {
     }
 
     get ulcssclass() {
-        return this.isvertical  === "true" ? "slds-vertical-tabs__nav" : "slds-tabs_default__nav";
+        return this.isvertical  === "true" ? "slds-vertical-tabs__nav slds-m-left_medium slds-m-right_medium" : "slds-tabs_default__nav slds-m-left_medium slds-m-right_medium";
     }
 }

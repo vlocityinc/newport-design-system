@@ -1,6 +1,8 @@
 /*
  * Contains all custom event classes
  */
+
+
 export  * from './screenEditorEvents';
 export { PropertyChangedEvent } from './propertyChangedEvent';
 export { FetchMenuDataEvent } from './fetchMenuDataEvent';
@@ -38,3 +40,4 @@ export { OutputReferenceChangedEvent } from './outputReferenceChangedEvent';
 export { AddRecordLookupFieldEvent } from './addRecordLookupFieldEvent';
 export { UpdateRecordLookupFieldEvent } from './updateRecordLookupFieldEvent';
 export { DeleteRecordLookupFieldEvent } from './deleteRecordLookupFieldEvent';
+export { DeleteResourceEvent } from './deleteResourceEvent';

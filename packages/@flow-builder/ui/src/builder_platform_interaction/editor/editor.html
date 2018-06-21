@@ -3,19 +3,17 @@
         <lightning-spinner variant="brand" alternative-text={spinnerAlternativeText}></lightning-spinner>
     </div>
     <div class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
-        <div class="slds-col slds-grow-none slds-builder-header_container slds-is-relative">
+        <div class="slds-builder-header_container slds-is-relative">
             <builder_platform_interaction-header flow-name={appState.properties.label} flow-version={appState.properties.versionNumber} back-url={backUrl} help-url={helpUrl}></builder_platform_interaction-header>
             <builder_platform_interaction-toolbar onsave={handleSaveFlow} errors={errors} is-save-disabled={disableSave}></builder_platform_interaction-toolbar>
         </div>
         <div class="slds-col slds-grow slds-grid">
-            <div class="slds-col slds-panel slds-size_medium slds-border_right" aria-hidden="false">
-                <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement} ondeleteelement={handleElementDelete}></builder_platform_interaction-left-panel>
-            </div>
-             <div class="slds-col">
+            <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceClick} onaddelement={handleAddElement} oneditelement={handleEditElement} ondeleteelement={handleElementDelete}></builder_platform_interaction-left-panel>
+            <div class="slds-col canvas-container">
                 <builder_platform_interaction-canvas if:true={shouldCreateCanvas} nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}
-                    oncanvasmouseup={handleElementDeselection} oneditelement={handleEditElement} onnodeselected={handleNodeSelection}
-                    ondragnodestop={handleDragNodeStop} ondeleteelement={handleElementDelete}
-                    onaddconnection={handleAddConnection} onconnectorselected={handleConnectorSelection} onaddelement={handleAddElement}>
+                oncanvasmouseup={handleElementDeselection} oneditelement={handleEditElement} onnodeselected={handleNodeSelection}
+                ondragnodestop={handleDragNodeStop} ondeleteelement={handleElementDelete}
+                onaddconnection={handleAddConnection} onconnectorselected={handleConnectorSelection} onaddelement={handleAddElement}>
                 </builder_platform_interaction-canvas>
             </div>
         </div>

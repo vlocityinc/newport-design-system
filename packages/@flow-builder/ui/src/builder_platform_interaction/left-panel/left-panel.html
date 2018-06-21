@@ -1,30 +1,28 @@
 <template>
-    <div class="slds-panel__header slds-shrink-none">
-        <lightning-button-icon if:true={showResourceDetailsPanel} variant="bare" size="medium" icon-name="utility:back" class="slds-icon_container slds-icon-utility-back slds-current-color" onclick={handleResourceDetailsBackLinkClicked} alternative-text={labels.RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT}></lightning-button-icon>
-        <h2 class="slds-panel__header-title slds-text-heading_small">{getPanelTitle}</h2>
-    </div>
-    <div class="slds-panel__body slds-border_top slds-p-right_xxx-small">
-        <builder_platform_interaction-tabset cssclass={classNameForTabSet} ontabchange={handleTabChange}>
-            <!-- Tab items go into the unnamed slot. -->
-            <builder_platform_interaction-tabitem tabid="left-panel-tabitem-elements" label={labels.LEFT_PANEL_ELEMENT_TAB_TEXT} controls="left-panel-tabcontent-elements" activeid={activetabid}></builder_platform_interaction-tabitem>
-            <builder_platform_interaction-tabitem tabid="left-panel-tabitem-resources" label={labels.LEFT_PANEL_RESOURCE_TAB_TEXT} controls="left-panel-tabcontent-resources" activeid={activetabid}></builder_platform_interaction-tabitem>
-            <div slot="contents" class="slds-scrollable_y">
-                <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-elements" labelledby="left-panel-tabitem-elements" activeid={activetabid}>
-                    <builder_platform_interaction-left-panel-elements></builder_platform_interaction-left-panel-elements>
-                </builder_platform_interaction-tabcontent>
-                <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-resources" labelledby="left-panel-tabitem-resources" activeid={activetabid}>
-                    <builder_platform_interaction-left-panel-resources resources={resources} onpaletteitemclicked={handleResourceClicked} onpaletteitemchevronclicked={handlePaletteItemChevronClicked}></builder_platform_interaction-left-panel-resources>
-                </builder_platform_interaction-tabcontent>
-            </div>
-        </builder_platform_interaction-tabset>
-        <builder_platform_interaction-resource-details class={classNameForResourceDetails} resource-details={resourceDetails}></builder_platform_interaction-resource-details>
-    </div>
-    <div if:true={showResourceDetailsPanel} class="panel-footer slds-grid slds-grid_align-end slds-p-around_small slds-border_top slds-border_bottom">
-        <div class="slds-col slds-p-horizontal_x-small">
-            <lightning-button variant="Neutral" label={labels.RESOURCE_DETAILS_DELETE_BUTTON_TEXT} onclick={handleDeleteButtonClicked} title={labels.RESOURCE_DETAILS_DELETE_BUTTON_TEXT}></lightning-button>
+    <div class={panelClasses}>
+        <div class={panelHeaderClasses}>
+            <h2 class="slds-text-heading_small">{getPanelTitle}</h2>
+            <lightning-button-icon if:true={showResourceDetailsPanel} variant="bare" size="medium" icon-name="utility:back" class="slds-panel__close" onclick={handleResourceDetailsBackLinkClicked} alternative-text={labels.RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT}></lightning-button-icon>
         </div>
-        <div class="slds-col slds-p-horizontal_x-small">
-            <lightning-button variant="Brand" label={labels.RESOURCE_DETAILS_EDIT_BUTTON_TEXT} onclick={handleEditButtonClicked} title={labels.RESOURCE_DETAILS_EDIT_BUTTON_TEXT}></lightning-button>
+        <div class="slds-panel__body slds-p-around_none slds-grid">
+            <div class="flow-resource-list">
+                <builder_platform_interaction-tabset cssclass={classNameForTabSet} ontabchange={handleTabChange}>
+                    <!-- Tab items go into the unnamed slot. -->
+                    <builder_platform_interaction-tabitem tabid="left-panel-tabitem-elements" label={labels.LEFT_PANEL_ELEMENT_TAB_TEXT} controls="left-panel-tabcontent-elements" activeid={activetabid}></builder_platform_interaction-tabitem>
+                    <builder_platform_interaction-tabitem tabid="left-panel-tabitem-resources" label={labels.LEFT_PANEL_RESOURCE_TAB_TEXT} controls="left-panel-tabcontent-resources" activeid={activetabid}></builder_platform_interaction-tabitem>
+                    <div slot="contents" class="slds-scrollable_y slds-p-left_small">
+                        <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-elements" labelledby="left-panel-tabitem-elements" activeid={activetabid}>
+                            <builder_platform_interaction-left-panel-elements></builder_platform_interaction-left-panel-elements>
+                        </builder_platform_interaction-tabcontent>
+                        <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-resources" labelledby="left-panel-tabitem-resources" activeid={activetabid}>
+                            <builder_platform_interaction-left-panel-resources resources={resources} onpaletteitemclicked={handleResourceClicked} onpaletteitemchevronclicked={handlePaletteItemChevronClicked}></builder_platform_interaction-left-panel-resources>
+                        </builder_platform_interaction-tabcontent>
+                    </div>
+                </builder_platform_interaction-tabset>
+            </div>
+            <div class="flow-resource-details">
+                <builder_platform_interaction-resource-details if:true={showResourceDetailsPanel} resource-details={resourceDetails} ondeleteresource={handleDeleteButtonClicked}></builder_platform_interaction-resource-details>
+            </div>
         </div>
     </div>
 </template>

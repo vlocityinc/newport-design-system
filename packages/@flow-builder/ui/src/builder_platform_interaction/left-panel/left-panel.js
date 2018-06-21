@@ -6,22 +6,16 @@ import { Store } from 'builder_platform_interaction-store-lib';
 import headerText from '@label/FlowBuilderLeftPanel.headerText';
 import elementTabText from '@label/FlowBuilderLeftPanel.elementTabText';
 import resourceTabText from '@label/FlowBuilderLeftPanel.resourceTabText';
-import editButtonLabel from '@label/FlowBuilderResourceDetailsPanel.editButtonLabel';
-import deleteButtonLabel from '@label/FlowBuilderResourceDetailsPanel.deleteButtonLabel';
 import backButtonAltText from '@label/FlowBuilderResourceDetailsPanel.backButtonAltText';
 
 const LABELS = {
     LEFT_PANEL_HEADER_TEXT: headerText,
     LEFT_PANEL_ELEMENT_TAB_TEXT: elementTabText,
     LEFT_PANEL_RESOURCE_TAB_TEXT: resourceTabText,
-    RESOURCE_DETAILS_EDIT_BUTTON_TEXT: editButtonLabel,
-    RESOURCE_DETAILS_DELETE_BUTTON_TEXT: deleteButtonLabel,
     RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT: backButtonAltText
 };
 
 const ACTIVETABID_DEFAULT = 'left-panel-tabitem-elements';
-const CLASS_ACTIVE = "slds-show";
-const CLASS_INACTIVE = "slds-hide";
 
 let storeInstance;
 let unsubscribeStore;
@@ -52,20 +46,27 @@ export default class LeftPanel extends Element {
         return this.activetabid;
     }
 
-    get getPanelTitle() {
-        return this.showResourceDetailsPanel ? this.resourceDetails.NAME : LABELS.LEFT_PANEL_HEADER_TEXT;
-    }
-
     get labels() {
         return LABELS;
     }
 
-    get classNameForResourceDetails() {
-        return this.showResourceDetailsPanel ?  CLASS_ACTIVE : CLASS_INACTIVE;
+    get getPanelTitle() {
+        return this.showResourceDetailsPanel ? this.resourceDetails.NAME : LABELS.LEFT_PANEL_HEADER_TEXT;
     }
 
-    get classNameForTabSet() {
-        return this.showResourceDetailsPanel ?  CLASS_INACTIVE : CLASS_ACTIVE;
+    get panelClasses() {
+        let classes = 'slds-panel slds-size_medium slds-panel_docked slds-panel_docked-left slds-is-directional slds-is-open';
+        if (this.showResourceDetailsPanel) {
+            classes = `${classes} show-details`;
+        }
+        return classes;
+    }
+    get panelHeaderClasses() {
+        let classes = 'slds-panel__header slds-m-bottom_medium';
+        if (!this.showResourceDetailsPanel) {
+            classes = `${classes} slds-p-left_medium`;
+        }
+        return classes;
     }
 
     handleTabChange(event) {
@@ -90,21 +91,14 @@ export default class LeftPanel extends Element {
         this.showResourceDetailsPanel = true;
     }
 
-    handleEditButtonClicked(event) {
-        event.stopPropagation();
-        const guid = this.resourceDetails.GUID;
-        const editElementEvent = new EditElementEvent(guid);
-        this.dispatchEvent(editElementEvent);
+    handleResourceDetailsBackLinkClicked() {
+        this.showResourceDetailsPanel = false;
     }
 
     handleDeleteButtonClicked() {
         this.showResourceDetailsPanel = false;
         const deleteEvent = new DeleteElementEvent([this.resourceDetails.GUID], this.resourceDetails.TYPE);
         this.dispatchEvent(deleteEvent);
-    }
-
-    handleResourceDetailsBackLinkClicked() {
-        this.showResourceDetailsPanel = false;
     }
 
     disconnectedCallback() {

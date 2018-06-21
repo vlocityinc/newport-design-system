@@ -1,23 +1,26 @@
 <template>
-    <div class="slds-grid">
-        <div class="slds-p-bottom_small">
-            <div class="slds-text-title_caps slds-m-top_x-small slds-m-bottom_x-small">{labels.RESOURCE_DETAILS_PANEL_DETAILS_TEXT}</div>
-            <div class="slds-form-element">
-                <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_TYPE_TEXT}
-                    <div class="slds-form-element__icon slds-align-middle">
-                        <lightning-icon if:true={hasIcon} icon-name={internalResourceDetails.ICON_NAME} size="xx-small" alternative-text={internalResourceDetails.LABEL}></lightning-icon>
-                    </div>
-                    {internalResourceDetails.TYPE}
-                </label>
-            </div>
-            <div class="slds-form-element" if:true={hasUniqueName}>
-                <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_UNIQUE_NAME_TEXT} {internalResourceDetails.NAME}
-                </label>
-            </div>
-            <div class="slds-form-element" if:true={hasDescription}>
-                <label class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_DESCRIPTION_TEXT} {internalResourceDetails.DESCRIPTION}
-                </label>
-            </div>
+    <div class="slds-text-title_caps slds-p-horizontal_medium slds-m-bottom_small">{labels.RESOURCE_DETAILS_PANEL_DETAILS_TEXT}</div>
+    <ul class="slds-p-horizontal_medium slds-m-bottom_medium slds-scrollable_y">
+        <li class="slds-item slds-p-vertical_xxx-small">
+            <span class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_TYPE_TEXT}</span>
+            <lightning-icon if:true={hasIcon} icon-name={resourceDetails.ICON_NAME} size="xx-small" alternative-text={resourceDetails.LABEL}></lightning-icon>
+            <span class="slds-text-body_regular slds-align-middle">{resourceDetails.TYPE}</span>
+        </li>
+        <li if:true={hasUniqueName} class="slds-item slds-p-vertical_xxx-small">
+            <span class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_UNIQUE_NAME_TEXT}</span>
+            <span class="slds-text-body_regular slds-align-middle">{resourceDetails.NAME}</span>
+        </li>
+        <li if:true={hasDescription} class="slds-item slds-p-vertical_xxx-small">
+            <span class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_DESCRIPTION_TEXT}</span>
+            <span class="slds-text-body_regular slds-align-middle">{resourceDetails.DESCRIPTION}</span>
+        </li>
+    </ul>
+    <div class="panel-footer slds-grid slds-grid_align-end slds-p-around_small slds-border_top slds-border_bottom">
+        <div class="slds-col slds-p-horizontal_x-small">
+            <lightning-button variant="Neutral" label={labels.RESOURCE_DETAILS_PANEL_DELETE_BUTTON_TEXT}  title={labels.RESOURCE_DETAILS_PANEL_DELETE_BUTTON_TEXT} onclick={handleDeleteButtonClicked}></lightning-button>
+        </div>
+        <div class="slds-col slds-p-horizontal_x-small">
+            <lightning-button variant="Brand" label={labels.RESOURCE_DETAILS_PANEL_EDIT_BUTTON_TEXT} title={labels.RESOURCE_DETAILS_PANEL_EDIT_BUTTON_TEXT} onclick={handleEditButtonClicked}></lightning-button>
         </div>
     </div>
 </template>

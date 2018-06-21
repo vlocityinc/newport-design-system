@@ -1,8 +1,3 @@
-/************* Place holder for Editor.html css *****************/
-.THIS .slds-panel__header {
-    border-bottom: none;
-}
-
 /************* Header *****************/
 .THIS builder_platform_interaction-header .flow-builder-header-label {
     color: t(colorTextInverse);
@@ -33,15 +28,70 @@
     overflow-y:auto
 }
 
+.THIS builder_platform_interaction-left-panel div.flow-resource-details ul {
+    display: block;
+    max-height: calc(100vh - 260px);
+    -webkit-overflow-scrolling: touch;
+    overflow:hidden;
+    overflow-y:auto
+}
+
+.THIS builder_platform_interaction-left-panel div.flow-resource-details {
+    width: 100%;
+    flex: none;
+    transition: margin t(durationSlide) ease-in-out, opacity t(durationPromptly) ease;
+    opacity: 0;
+}
+
+.THIS builder_platform_interaction-left-panel div.flow-resource-list {
+    width: 100%;
+    flex: none;
+    transition: margin t(durationSlide) ease-in-out, opacity t(durationPromptly) ease;
+}
+
+.THIS builder_platform_interaction-left-panel .slds-panel {
+    overflow-x: hidden;
+}
+
+.THIS builder_platform_interaction-left-panel .slds-panel__header {
+    transition: padding t(durationSlide) ease;
+}
+
+.THIS builder_platform_interaction-left-panel .slds-panel__close {
+    transform: translateX(-42px);
+    transition: transform t(durationSlide) ease;
+}
+
+.THIS builder_platform_interaction-left-panel .show-details .slds-panel__close {
+    transform: translateX(0px);
+}
+
+.THIS builder_platform_interaction-left-panel .show-details .slds-panel__close {
+    transform: translateX(0px);
+}
+
+.THIS builder_platform_interaction-left-panel .show-details .flow-resource-list {
+    opacity: 0;
+    margin-left: -320px;
+}
+
+.THIS builder_platform_interaction-left-panel .show-details .flow-resource-details {
+    opacity: 1;
+}
+
 /*
  * Makes the panel item detail button appear on row hover for the panel deep
  * nesting design pattern. This type of override doesn't work in Raptor.
  */
-.THIS builder_platform_interaction-left-panel-resources .palette-item:hover>td lightning-button-icon.detail-button {
+.THIS builder_platform_interaction-left-panel-resources .palette-item>td lightning-button-icon.detail-button {
     visibility: visible !important;
 }
 
 /************* Canvas *****************/
+.THIS .canvas-container {
+    margin-left: 1px;
+}
+
 .THIS builder_platform_interaction-canvas .canvas {
     background-color: t(colorForegroundPrimary);
     height: 100%;

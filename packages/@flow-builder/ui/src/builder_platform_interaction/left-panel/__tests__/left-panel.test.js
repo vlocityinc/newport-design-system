@@ -1,10 +1,9 @@
 import { createElement } from 'engine';
-import { EditElementEvent, DeleteElementEvent, PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
+import { EditElementEvent, DeleteElementEvent, DeleteResourceEvent, PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 import LeftPanel from 'builder_platform_interaction-left-panel';
 
 import backButtonAltText from '@label/FlowBuilderResourceDetailsPanel.backButtonAltText';
-import editButtonLabel from '@label/FlowBuilderResourceDetailsPanel.editButtonLabel';
-import deleteButtonLabel from '@label/FlowBuilderResourceDetailsPanel.deleteButtonLabel';
+
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-left-panel', {
@@ -15,13 +14,15 @@ const createComponentUnderTest = () => {
 };
 
 const selectors = {
-    resourceDetailsBackButton: 'lightning-button-icon',
-    panelFooter: '.panel-footer',
-    panelFooterButtons: 'lightning-button',
+    panel: '.slds-panel',
+    panelHeader: '.slds-panel__header',
+    panelHeaderBackButton: 'lightning-button-icon',
     panelBody: '.slds-panel__body',
     resourceDetailsBody: 'builder_platform_interaction-resource-details',
     tabSetContentsBody: 'builder_platform_interaction-tabset',
-    tabItems: 'builder_platform_interaction-tabitem'
+    tabItems: 'builder_platform_interaction-tabitem',
+    footer: '.panel-footer',
+    footerButtons: 'lightning-button',
 };
 
 const constants = {
@@ -29,146 +30,106 @@ const constants = {
 };
 
 describe('left-panel', () => {
-    describe('header section', () => {
-        it('no back-button when showResourceDetails is false.', () => {
+    describe('element classes', () => {
+        it('when in Flow Resource List view - the panel should match the transition layout classes.', () => {
             const element = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                const backButton = element.querySelector(selectors.resourceDetailsBackButton);
-                expect(backButton).toBeNull();
+                const panel = element.querySelector(selectors.panel);
+                expect(panel.classList).toContain('slds-is-open');
+                expect(panel.classList).not.toContain('show-details');
             });
         });
 
-        it('has back-button when showResourceDetails is true.', () => {
+        it('when in Flow Resource Details view - the panel header should match the transition layout classes.', () => {
             const element = createComponentUnderTest();
             const guid = "guid1";
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
             element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
-                const backButton = element.querySelector(selectors.resourceDetailsBackButton);
+                const panel = element.querySelector(selectors.panel);
+                expect(panel.classList).toContain('slds-is-open');
+                expect(panel.classList).toContain('show-details');
+            });
+        });
+    });
+
+    describe('header section', () => {
+        describe('element classes', () => {
+            it('when in Flow Resource List view - the panel header should match the layout classes.', () => {
+                const element = createComponentUnderTest();
+                return Promise.resolve().then(() => {
+                    const header = element.querySelector(selectors.panelHeader);
+                    expect(header.classList).toContain('slds-m-bottom_medium');
+                    expect(header.classList).toContain('slds-p-left_medium');
+                });
+            });
+
+            it('when in Flow Resource Details view - the panel header should match the layout classes.', () => {
+                const element = createComponentUnderTest();
+                const guid = "guid1";
+                const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
+                element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+                return Promise.resolve().then(() => {
+                    const header = element.querySelector(selectors.panelHeader);
+                    expect(header.classList).toContain('slds-m-bottom_medium');
+                    expect(header.classList).not.toContain('slds-p-left_medium');
+                });
+            });
+        });
+
+        it('when in Flow Resource List view - should NOT have Back Button Utility Icon.', () => {
+            const element = createComponentUnderTest();
+            return Promise.resolve().then(() => {
+                const backButton = element.querySelector(selectors.panelHeaderBackButton);
+                expect(backButton).toBeNull();
+            });
+        });
+
+        it('when in Flow Resource Details view - should have Back Button Utility Icon.', () => {
+            const element = createComponentUnderTest();
+            const guid = "guid1";
+            const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
+            element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+            return Promise.resolve().then(() => {
+                const backButton = element.querySelector(selectors.panelHeaderBackButton);
                 expect(backButton.iconName).toBe('utility:back');
                 expect(backButton.alternativeText).toBe(backButtonAltText);
             });
         });
 
-        it('handle back-button when showResourceDetails is true.', () => {
+        it('when in Flow Resource Details view - should handle back-button click.', () => {
             const element = createComponentUnderTest();
             const guid = "guid1";
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
             element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
-                const backButton = element.querySelector(selectors.resourceDetailsBackButton);
+                const backButton = element.querySelector(selectors.panelHeaderBackButton);
                 backButton.click();
                 return Promise.resolve().then(() => {
-                    const button = element.querySelector(selectors.resourceDetailsBackButton);
+                    const button = element.querySelector(selectors.panelHeaderBackButton);
                     expect(button).toBeNull();
                 });
             });
         });
     });
 
-    describe('footer section', () => {
-        it('no footer section when showResourceDetails is false.', () => {
-            const element = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const panelFooter = element.querySelector(selectors.panelFooter);
-                expect(panelFooter).toBeNull();
-            });
-        });
-
-        it('should have edit-button when showResourceDetails is true.', () => {
-            const element = createComponentUnderTest();
-            const guid = "guid1";
-            const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
-            return Promise.resolve().then(() => {
-                const footerButtons = element.querySelectorAll(`${selectors.panelFooter} ${selectors.panelFooterButtons}`);
-                expect(footerButtons[1].label).toBe(editButtonLabel);
-                expect(footerButtons[1].title).toBe(editButtonLabel);
-            });
-        });
-
-        it('click edit-button when showResourceDetails is true SHOULD fire EditElementEvent with outcome canvasElementGUID', () => {
-            const eventCallback = jest.fn();
-            const element = createComponentUnderTest();
-            element.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
-            const guid = "guid1";
-            const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
-            return Promise.resolve().then(() => {
-                const footerButtons = element.querySelectorAll(`${selectors.panelFooter} ${selectors.panelFooterButtons}`);
-                const editButtonClickedEvent = new EditElementEvent(guid);
-                footerButtons[1].dispatchEvent(editButtonClickedEvent);
-                return Promise.resolve().then(() => {
-                    expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        detail: {
-                            canvasElementGUID: guid
-                        }
-                    });
-                });
-            });
-        });
-
-        it('should have delete-button when showResourceDetails is true.', () => {
-            const element = createComponentUnderTest();
-            const guid = "guid1";
-            const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
-            return Promise.resolve().then(() => {
-                const footerButtons = element.querySelectorAll(`${selectors.panelFooter} ${selectors.panelFooterButtons}`);
-                expect(footerButtons[0].label).toBe(deleteButtonLabel);
-                expect(footerButtons[0].title).toBe(deleteButtonLabel);
-            });
-        });
-
-        it('click delete-button when showResourceDetails is true SHOULD fire DeleteElementEvent with outcome canvasElementGUID', () => {
-            const eventCallback = jest.fn();
-            const element = createComponentUnderTest();
-            element.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
-            const guid = "guid1";
-            const type = "VARIABLE";
-            const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
-            return Promise.resolve().then(() => {
-                const footerButtons = element.querySelectorAll(`${selectors.panelFooter} ${selectors.panelFooterButtons}`);
-                const deleteButtonClickedEvent = new DeleteElementEvent([guid], type);
-                footerButtons[0].dispatchEvent(deleteButtonClickedEvent);
-                return Promise.resolve().then(() => {
-                    expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        detail: {
-                            selectedElementGUID: [guid],
-                            selectedElementType: type
-                        }
-                    });
-                });
-            });
-        });
-    });
-
     describe('body section', () => {
-        it('should consists of tabset element classes when showResourceDetails is false.', () => {
+        it('when in Flow Resource List view - should NOT add show-details class.', () => {
             const element = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                const tabSetContent = element.querySelector(`${selectors.panelBody} ${selectors.tabSetContentsBody}`);
-                const resourceDetailsContent = element.querySelector(`${selectors.panelBody} ${selectors.resourceDetailsBody}`);
-                expect(tabSetContent.classList).toContain('slds-show');
-                expect(tabSetContent.classList).toContain('slds-tabs_default');
-                expect(resourceDetailsContent.classList).toContain('slds-hide');
+                const leftPanel = element.querySelector('.slds-panel');
+                expect(leftPanel.classList).not.toContain('show-details');
             });
         });
 
-        it('should consists of resource details element classes when showResourceDetails is true.', () => {
+        it('when in Flow Resource Details view - should add show-details class.', () => {
             const element = createComponentUnderTest();
             const guid = "guid1";
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
             element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
-                const tabSetContent = element.querySelector(`${selectors.panelBody} ${selectors.tabSetContentsBody}`);
-                const resourceDetailsContent = element.querySelector(`${selectors.panelBody} ${selectors.resourceDetailsBody}`);
-                expect(resourceDetailsContent.classList).toContain('slds-show');
-                expect(tabSetContent.classList).toContain('slds-tabs_default');
-                expect(tabSetContent.classList).toContain('slds-hide');
+                const leftPanel = element.querySelector('.slds-panel');
+                expect(leftPanel.classList).toContain('show-details');
             });
         });
 
@@ -179,7 +140,7 @@ describe('left-panel', () => {
                 expect(tabItemsContent[0].activeid).toEqual(constants.defaultActiveTabId);
             });
         });
-        describe('resource manage tab', () => {
+        describe('resource manager tab', () => {
             it('handle Pallete Item Chevron Click Event ', () => {
                 const leftPanelComponent = createComponentUnderTest();
                 const eventCallback = jest.fn();
@@ -218,6 +179,30 @@ describe('left-panel', () => {
                         detail: {
                             canvasElementGUID: guid
                         }
+                    });
+                });
+            });
+
+            it('handle delete resource action SHOULD fire DeleteElementEvent with outcome selectedElementGUID and selectedElementType', () => {
+                const eventCallback = jest.fn();
+                const guid = "guid1";
+                const element = createComponentUnderTest();
+                element.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
+
+                const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
+                element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+
+                return Promise.resolve().then(() => {
+                    const deleteResourceEvent = new DeleteResourceEvent([guid], 'VARIABLE');
+                    element.querySelector('builder_platform_interaction-resource-details').dispatchEvent(deleteResourceEvent);
+                    return Promise.resolve().then(() => {
+                        expect(eventCallback).toHaveBeenCalled();
+                        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                            detail: {
+                                selectedElementGUID: [guid],
+                                selectedElementType: "VARIABLE"
+                            }
+                        });
                     });
                 });
             });
