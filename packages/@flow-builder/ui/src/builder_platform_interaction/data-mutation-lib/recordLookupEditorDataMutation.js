@@ -13,12 +13,11 @@ export const mutateFilterItems = (filterItems, objectType) => {
             }
             delete item.field;
         }
-        if (item.hasOwnProperty('value')) {
-            filterItems[itemIndex] = mutateFEROV(item, 'value', {
-                valueProperty: 'rightHandSide',
-                dataTypeProperty: 'rightHandSideDataType',
-            });
-        }
+
+        filterItems[itemIndex] = mutateFEROV(item, 'value', {
+            valueProperty: 'rightHandSide',
+            dataTypeProperty: 'rightHandSideDataType',
+        });
     });
     return filterItems;
 };

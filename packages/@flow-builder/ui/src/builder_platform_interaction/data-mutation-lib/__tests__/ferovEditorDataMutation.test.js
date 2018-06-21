@@ -3,6 +3,8 @@ import { mutateFEROV, deMutateFEROV } from '../ferovEditorDataMutation';
 import * as store from 'mock-store-data';
 import * as storeUtilMock from 'builder_platform_interaction-store-utils';
 import { FLOW_DATA_TYPE } from '../../data-type-lib/data-type-lib';
+import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
+import { GLOBAL_CONSTANT } from 'builder_platform_interaction-flow-metadata';
 
 const stringFerovValue = 'abc';
 const variableFerovValue = 123;
@@ -30,6 +32,14 @@ describe('mutateFerov function', () => {
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.STRING);
     });
 
+    it('should mutate ferov with global constant empty string value', () => {
+        const item = {};
+        item.ferov = { stringValue: '' };
+        const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
+        expect(mutatedItem.rightHandSide).toEqual(addCurlyBraces(GLOBAL_CONSTANT.EMPTY_STRING));
+        expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.STRING);
+    });
+
     it('should mutate ferov with number value', () => {
         const item = {};
         item.ferov = { numberValue: variableFerovValue };
@@ -54,11 +64,19 @@ describe('mutateFerov function', () => {
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.DATETIME);
     });
 
-    it('should mutate ferov with boolean value', () => {
+    it('should mutate ferov with boolean value true', () => {
         const item = {};
         item.ferov = { booleanValue: true };
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toBeTruthy();
+        expect(mutatedItem.rightHandSide).toEqual(addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_TRUE));
+        expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.BOOLEAN);
+    });
+
+    it('should mutate ferov with boolean value false', () => {
+        const item = {};
+        item.ferov = { booleanValue: false };
+        const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
+        expect(mutatedItem.rightHandSide).toEqual(addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_FALSE));
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.BOOLEAN);
     });
 
@@ -68,6 +86,12 @@ describe('mutateFerov function', () => {
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
         expect(mutatedItem.rightHandSide).toEqual(elementReference);
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.REFERENCE);
+    });
+
+    it('should mutate ferov with null / undefined ferov', () => {
+        const item = {};
+        const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
+        expect(mutatedItem.rightHandSide).toEqual('');
     });
 
     it('should mutate ferov with null string value', () => {
@@ -82,8 +106,7 @@ describe('mutateFerov function', () => {
         const item = {};
         item.ferov = {};
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toBeUndefined();
-        expect(mutatedItem.rightHandSideDataType).toBeUndefined();
+        expect(mutatedItem.rightHandSide).toEqual('');
     });
 
     it('should mutate ferov with reference guid', () => {
@@ -106,6 +129,15 @@ describe('deMutateFerov function', () => {
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
         expect(deMutatedItem.ferov.stringValue).toEqual(stringFerovValue);
+    });
+
+    it('should demutate ferov with global constant empty string value', () => {
+        const item = {};
+        item.rightHandSide = addCurlyBraces(GLOBAL_CONSTANT.EMPTY_STRING);
+        item.rightHandSideDataType = FLOW_DATA_TYPE.STRING.value;
+
+        const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
+        expect(deMutatedItem.ferov.stringValue).toEqual('');
     });
 
     it('should demutate ferov with number value', () => {
@@ -144,13 +176,22 @@ describe('deMutateFerov function', () => {
         expect(deMutatedItem.ferov.dateTimeValue).toEqual(dateTimeFerovValue);
     });
 
-    it('should demutate ferov with boolean value', () => {
+    it('should demutate ferov with boolean true value', () => {
         const item = {};
-        item.rightHandSide = true;
+        item.rightHandSide = addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_TRUE);
         item.rightHandSideDataType = FLOW_DATA_TYPE.BOOLEAN.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
-        expect(deMutatedItem.ferov.booleanValue).toBeTruthy();
+        expect(deMutatedItem.ferov.booleanValue).toBe(true);
+    });
+
+    it('should demutate ferov with boolean false value', () => {
+        const item = {};
+        item.rightHandSide = addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_FALSE);
+        item.rightHandSideDataType = FLOW_DATA_TYPE.BOOLEAN.value;
+
+        const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
+        expect(deMutatedItem.ferov.booleanValue).toBe(false);
     });
 
     it('should demutate ferov with reference value', () => {
@@ -161,6 +202,7 @@ describe('deMutateFerov function', () => {
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
         expect(deMutatedItem.ferov.elementReference).toEqual(elementReference);
     });
+
     it('should demutate ferov with reference guid', () => {
         const item = {};
         item.rightHandSide = '{!var1}';
@@ -170,5 +212,14 @@ describe('deMutateFerov function', () => {
         const expectedItem = { elementReference: 'VARIABLE_12'};
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
         expect(deMutatedItem.ferov).toEqual(expectedItem);
+    });
+
+    it('should demutate ferov with empty / null value', () => {
+        const item = {};
+        item.rightHandSide = '';
+        item.rightHandSideDataType = FEROV_DATA_TYPE.STRING.value;
+
+        const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
+        expect(deMutatedItem.ferov).toBeUndefined();
     });
 });

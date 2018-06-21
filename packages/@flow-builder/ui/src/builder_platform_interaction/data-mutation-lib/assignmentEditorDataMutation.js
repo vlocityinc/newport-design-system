@@ -19,12 +19,11 @@ export const mutateAssignment = assignment => {
                 item.leftHandSide = item.assignToReference;
                 delete item.assignToReference;
             }
-            if (item.hasOwnProperty('value')) {
-                assignmentItems[itemIndex] = mutateFEROV(item, 'value', {
-                    valueProperty: 'rightHandSide',
-                    dataTypeProperty: 'rightHandSideDataType',
-                });
-            }
+
+            assignmentItems[itemIndex] = mutateFEROV(item, 'value', {
+                valueProperty: 'rightHandSide',
+                dataTypeProperty: 'rightHandSideDataType',
+            });
         });
     }
 };

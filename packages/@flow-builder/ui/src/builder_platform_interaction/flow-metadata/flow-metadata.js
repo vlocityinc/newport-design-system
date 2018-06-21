@@ -1,3 +1,7 @@
+import globalConstantEmptyStringLabel from '@label/FlowBuilderGlobalConstants.globalConstantEmptyString';
+import globalConstantTrueLabel from '@label/FlowBuilderGlobalConstants.globalConstantTrue';
+import globalConstantFalseLabel from '@label/FlowBuilderGlobalConstants.globalConstantFalse';
+
 export const FLOW_PROCESS_TYPE = {
     AUTO_LAUNCHED_FLOW : 'AutoLaunchedFlow',
     FLOW : 'Flow'
@@ -96,4 +100,14 @@ export const PROCESS_METADATA_VALUES = [
 export const RECORD_LOOKUP_FILTER_CRITERIA = {
     ALL: 'all',
     NONE: 'none'
+};
+
+/**
+ * Global constants used in the Flow Builder Client.
+ * @type {{EMPTY_STRING: string, BOOLEAN_TRUE: string, BOOLEAN_FALSE: string}}
+ */
+export const GLOBAL_CONSTANT = {
+    EMPTY_STRING: globalConstantEmptyStringLabel,
+    BOOLEAN_TRUE: globalConstantTrueLabel,
+    BOOLEAN_FALSE: globalConstantFalseLabel
 };

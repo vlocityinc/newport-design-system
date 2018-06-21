@@ -105,10 +105,7 @@ describe('element-config', () => {
             expect(element.conditionLogic).toEqual(CONDITION_LOGIC.AND);
             expect(element.conditions).toEqual([{
                 leftValueReference: '',
-                operator: '',
-                rightValue: {
-                    stringValue: ''
-                },
+                operator: ''
             }]);
         });
     });

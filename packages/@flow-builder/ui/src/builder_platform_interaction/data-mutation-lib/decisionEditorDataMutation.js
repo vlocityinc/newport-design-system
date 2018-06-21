@@ -18,13 +18,13 @@ export const mutateOutcome = (outcome) => {
             condition.leftHandSide = condition.leftValueReference;
             delete condition.leftValueReference;
         }
-        if (condition.hasOwnProperty('rightValue')) {
-            conditions[conditionIndex] = mutateFEROV(condition, 'rightValue', {
-                valueProperty: 'rightHandSide',
-                dataTypeProperty: 'rightHandSideDataType',
-            });
-        }
+
+        conditions[conditionIndex] = mutateFEROV(condition, 'rightValue', {
+            valueProperty: 'rightHandSide',
+            dataTypeProperty: 'rightHandSideDataType',
+        });
     });
+
     return outcome;
 };
 

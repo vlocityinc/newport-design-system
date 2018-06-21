@@ -216,10 +216,7 @@ export const elementTypeToConfigMap = {
             assignmentItems: [
                 {
                     assignToReference: '',
-                    operator: '',
-                    value: {
-                        stringValue: ''
-                    }
+                    operator: ''
                 }
             ],
             config: { isSelected: false },
@@ -370,10 +367,7 @@ export const elementTypeToConfigMap = {
             filters: [
                 {
                     field: '',
-                    operator: '',
-                    value: {
-                        stringValue: ''
-                    }
+                    operator: ''
                 }
             ],
             object: '',
@@ -455,10 +449,7 @@ export const elementTypeToConfigMap = {
             conditions: [
                 {
                     leftValueReference: '',
-                    operator: '',
-                    rightValue: {
-                        stringValue: ''
-                    },
+                    operator: ''
                 }
             ]
         }

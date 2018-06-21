@@ -2,6 +2,7 @@ import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction-da
 import { omit, updateProperties } from './objectMutation';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
+import { GLOBAL_CONSTANT } from 'builder_platform_interaction-flow-metadata';
 
 // keys are the types we find in our ferov objects, values are flow builder ferov data types
 const META_DATA_TYPES_TO_FEROV_TYPES_MAP = {
@@ -26,6 +27,33 @@ export const GUID_SUFFIX = 'Guid';
  */
 function isFerovReference(metaDataType) {
     return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.REFERENCE;
+}
+
+/**
+ * Returns true if ferov is type boolean
+ * @param {string}      metaDataType ferov object meta data type
+ * @return {boolean}    true if metaDataType is boolean otherwise false
+ */
+function isFerovBoolean(metaDataType) {
+    return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.BOOLEAN;
+}
+
+/**
+ * Returns true if ferov is type string
+ * @param {string}      metaDataType ferov object meta data type
+ * @return {boolean}    true if metaDataType is string otherwise false
+ */
+function isFerovString(metaDataType) {
+    return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.STRING;
+}
+
+/**
+ * Returns true if ferov is type reference
+ * @param {string}      metaDataType ferov object meta data type
+ * @return {boolean}    true if metaDataType is reference otherwise false
+ */
+function isFerovNumber(metaDataType) {
+    return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.NUMBER;
 }
 
 /**
@@ -105,20 +133,30 @@ function isUndefined(value) {
  * @returns {Object}    returns object with above properties
  */
 function convertToProps(ferovObject, valueProperty, dataTypeProperty) {
-    const { value, guid } = getFerovObjectValue(ferovObject);
+    const props = {[valueProperty]: ''};
 
-    const props = {};
+    if (ferovObject) {
+        const { value, guid } = getFerovObjectValue(ferovObject);
 
-    if (!isUndefined(value)) {
-        props[dataTypeProperty] = META_DATA_TYPES_TO_FEROV_TYPES_MAP[getMetaDataType(ferovObject)];
-        // TODO: W-4967895. Boolean needs to be mapped to Global Constant
-        if ([FEROV_DATA_TYPE.NUMBER, FEROV_DATA_TYPE.BOOLEAN].includes(typeof value)) {
-            props[valueProperty] = value.toString();
-        } else {
-            props[valueProperty] = value;
-        }
-        if (guid) {
-            props[valueProperty + GUID_SUFFIX] = guid;
+        if (!isUndefined(value)) {
+            const metadataType = getMetaDataType(ferovObject);
+            props[dataTypeProperty] = META_DATA_TYPES_TO_FEROV_TYPES_MAP[metadataType];
+            if (isFerovBoolean(metadataType)) {
+                if (value === true) {
+                    props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_TRUE);
+                } else {
+                    props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_FALSE);
+                }
+            } else if (isFerovNumber(metadataType)) {
+                props[valueProperty] = value.toString();
+            } else if (isFerovString(metadataType) && value === '') {
+                props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANT.EMPTY_STRING);
+            } else {
+                props[valueProperty] = value;
+            }
+            if (guid) {
+                props[valueProperty + GUID_SUFFIX] = guid;
+            }
         }
     }
 
@@ -143,6 +181,7 @@ function getFerovDataTypeValue(value) {
         default:
             dataType = value;
     }
+
     return dataType.toLowerCase();
 }
 
@@ -185,11 +224,6 @@ function validateParams(element, ferovObjectName, valueProperty, dataTypePropert
 export const mutateFEROV = (element, ferovObjectName, { valueProperty, dataTypeProperty }) => {
     validateParams(element, ferovObjectName, valueProperty, dataTypeProperty);
 
-    if (!element.hasOwnProperty(ferovObjectName)) {
-        // some elements of the same element type may not have the given ferovObject (ex: variables may or may not have default value)
-        return updateProperties(element);
-    }
-
     const props = convertToProps(element[ferovObjectName], valueProperty, dataTypeProperty);
 
     // omit the ferov object property
@@ -218,27 +252,48 @@ export const deMutateFEROV = (element, ferovObjectName, { valueProperty, dataTyp
         return updateProperties(element);
     }
 
-    // find the data type key of the element object
-    const ferovDataTypeValue = getFerovDataTypeValue(element[dataTypeProperty]);
-    const ferovDataTypeKey = FEROV_DATA_TYPE_VALUES.find((type) => {
-        return ferovDataTypeValue === META_DATA_TYPES_TO_FEROV_TYPES_MAP[type];
-    });
-
-    const ferovObject = {};
+    const value = element[valueProperty];
+    const dataType = element[dataTypeProperty];
     const valuePropertyGuid = valueProperty + GUID_SUFFIX;
+    let ferovObject;
 
-    // set the value of the ferov to the given property or its guid on the element
-    // store the value stored in the element before deleting it
-    if (isFerovReference(ferovDataTypeKey) && element.hasOwnProperty(valuePropertyGuid)) {
-        ferovObject[ferovDataTypeKey] = element[valuePropertyGuid];
-    } else {
-        ferovObject[ferovDataTypeKey] = element[valueProperty];
+    if (dataType && value !== '' && value !== undefined && value !== null) {
+        // find the data type key of the element object
+        const ferovDataTypeValue = getFerovDataTypeValue(dataType);
+        const ferovDataTypeKey = FEROV_DATA_TYPE_VALUES.find((type) => {
+            return ferovDataTypeValue === META_DATA_TYPES_TO_FEROV_TYPES_MAP[type];
+        });
+
+        ferovObject = {};
+
+        // set the value of the ferov to the given property or its guid on the element
+        // store the value stored in the element before deleting it
+        if (isFerovReference(ferovDataTypeKey) && element.hasOwnProperty(valuePropertyGuid)) {
+            ferovObject[ferovDataTypeKey] = element[valuePropertyGuid];
+        } else if (isFerovString(ferovDataTypeKey) && value === addCurlyBraces(GLOBAL_CONSTANT.EMPTY_STRING)) {
+            ferovObject[ferovDataTypeKey] = '';
+        } else if (isFerovBoolean(ferovDataTypeKey)) {
+            if (value === addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_TRUE)) {
+                ferovObject[ferovDataTypeKey] = true;
+            } else if (value === addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_FALSE)) {
+                ferovObject[ferovDataTypeKey] = false;
+            }
+        } else {
+            ferovObject[ferovDataTypeKey] = element[valueProperty];
+        }
     }
 
     // now omit the value property and the dataTypeProperty
     const elementNoValueProp = omit(element, [valueProperty, valuePropertyGuid, dataTypeProperty]);
 
-    // set the ferov object to the element
-    // Note: this only works if we want ferovObject to be a top level property. If we ever need to set it as an inner prop use set and pass a path instead of ferovObjectName
-    return updateProperties(elementNoValueProp, { [ferovObjectName]: ferovObject });
+    let deMutatedElement;
+    if (ferovObject) {
+        // set the ferov object to the element
+        // Note: this only works if we want ferovObject to be a top level property. If we ever need to set it as an inner prop use set and pass a path instead of ferovObjectName
+        deMutatedElement = updateProperties(elementNoValueProp, { [ferovObjectName]: ferovObject });
+    } else {
+        deMutatedElement = omit(elementNoValueProp, [ferovObjectName]);
+    }
+
+    return deMutatedElement;
 };
