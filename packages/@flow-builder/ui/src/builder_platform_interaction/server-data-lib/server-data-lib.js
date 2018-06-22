@@ -14,6 +14,8 @@ export const SERVER_ACTION_TYPE = {
     GET_GLOBAL_VARIABLES: 'getGlobalVariables',
     GET_HEADER_URLS: 'getHeaderUrls',
     GET_RESOURCE_TYPES: 'getResourceTypes',
+    GET_FLOW_EXTENSIONS: 'getFlowExtensions',
+    GET_FLOW_EXTENSION_PARAMS: 'getFlowExtensionParams',
 };
 
 const actionConfig = {
@@ -32,6 +34,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_GLOBAL_VARIABLES]: 'c.getGlobalVariables',
     [SERVER_ACTION_TYPE.GET_HEADER_URLS]: 'c.retrieveHeaderUrls',
     [SERVER_ACTION_TYPE.GET_RESOURCE_TYPES]: 'c.getResourceTypes',
+    [SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS]: 'c.getFlowExtensions',
+    [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_PARAMS]: 'c.getFlowExtensionParams',
 };
 
 let auraFetch;
