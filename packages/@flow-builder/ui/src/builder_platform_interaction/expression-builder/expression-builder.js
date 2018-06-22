@@ -3,7 +3,8 @@ import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { updateProperties, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, isElementAllowed, normalizeRHS,
     filterFieldsForChosenElement, sanitizeGuid, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
-import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox, elementToParam } from 'builder_platform_interaction-rule-lib';
+import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox,
+    elementToParam, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
@@ -68,6 +69,8 @@ export default class ExpressionBuilder extends Element {
         // TODO error handling? W-4755917
         // TODO handle literals, "hi my name is {!firstName}" W-4817362
         // TODO handle multi-level merge fields W-4723095
+        this.state.expression = expression;
+
         const lhsVal = getValueFromHydratedItem(expression[LHS]);
         if (expression[LHS] && !isUndefinedOrNull(lhsVal)) {
             this.state.normalizedLHS = normalizeLHS(lhsVal, elementType, (lhsIdentifier) => {
@@ -115,8 +118,8 @@ export default class ExpressionBuilder extends Element {
             });
         }
 
-        if (lhsVal && expression[OPERATOR]) {
-            this.state.rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, expression[OPERATOR].value, rules);
+        if (lhsVal && this.operatorForRules()) {
+            this.state.rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, this.operatorForRules(), rules);
             // In the case that the existing RHS is a field on the second level, get the appropriate menu data
             if (this.state.normalizedRHS.itemOrDisplayText && this.state.normalizedRHS.itemOrDisplayText.parent) {
                 getFieldsForEntity(this.state.normalizedRHS.itemOrDisplayText.parent.subText, (fields) => {
@@ -126,8 +129,6 @@ export default class ExpressionBuilder extends Element {
                 this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({elementType}, this.state.rhsTypes, true, true);
             }
         }
-
-        this.state.expression = expression;
     }
 
     /**
@@ -183,7 +184,7 @@ export default class ExpressionBuilder extends Element {
         return this.operatorDisplayOption === OPERATOR_DISPLAY_OPTION.COMBOBOX;
     }
 
-    get operatorReplacement() {
+    get hasOperatorReplacement() {
         return this.operatorDisplayOption === OPERATOR_DISPLAY_OPTION.RIGHT_ARROW || this.operatorDisplayOption === OPERATOR_DISPLAY_OPTION.LEFT_ARROW;
     }
     /**
@@ -238,13 +239,13 @@ export default class ExpressionBuilder extends Element {
         const lhsElementOrField = this.getElementOrField(newValue);
         if (lhsElementOrField) {
             const newLHSParam = elementToParam(lhsElementOrField);
-            if (!getOperators(elementType, newLHSParam, rules).includes(this.state.expression.operator.value)) {
+            if (this.showOperatorCombobox && !getOperators(elementType, newLHSParam, rules).includes(this.state.expression.operator.value)) {
                 // if the current operator is not valid
                 expressionUpdates[OPERATOR] = this._clearedProperty;
                 this.updateRHSWithError(expressionUpdates);
             } else if (this.state.expression.rightHandSideGuid && this.state.expression.rightHandSideGuid.value) {
                 // if the current operator is valid && RHS is a flow element reference
-                this.state.rhsTypes = getRHSTypes(elementType, newLHSParam, this.state.expression[OPERATOR].value, rules);
+                this.state.rhsTypes = getRHSTypes(elementType, newLHSParam, this.operatorForRules(), rules);
                 const rhsElementOrField = this.getElementOrField(this.state.expression.rightHandSideGuid.value);
                 const rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(rhsElementOrField));
                 if (!rhsValid) {
@@ -398,6 +399,11 @@ export default class ExpressionBuilder extends Element {
                 menuData = getElementsForMenuData({elementType, shouldBeWritable: true}, getLHSTypes(elementType, rules), true);
         }
         this._fullLHSMenuData = this.state.lhsMenuData = menuData;
+    }
+
+    // If the operator combobox is shown, use the user-entered operator with the rules service. If not, use 'Assign'
+    operatorForRules() {
+        return this.showOperatorCombobox ? (this.state.expression[OPERATOR] ? this.state.expression[OPERATOR].value : undefined) : RULE_OPERATOR.ASSIGN;
     }
 
     setOperatorErrorMessage(errorMessage) {

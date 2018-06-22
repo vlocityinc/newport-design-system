@@ -279,7 +279,6 @@ describe('expression-builder', () => {
                 expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value = invalidValue;
                 const expressionBuilder = createComponentForTest({
                     expression,
-                    showOperator: true,
                 });
                 Promise.resolve().then(() => {
                     const lhsCombobox = getComboboxElements(expressionBuilder)[0];
@@ -309,7 +308,6 @@ describe('expression-builder', () => {
                 };
                 const expressionBuilder = createComponentForTest({
                     expression,
-                    showOperator: true,
                 });
                 Promise.resolve().then(() => {
                     const lhsCombobox = getComboboxElements(expressionBuilder)[0];
@@ -344,7 +342,6 @@ describe('expression-builder', () => {
                 };
                 const expressionBuilder = createComponentForTest({
                     expression,
-                    showOperator: true,
                 });
                 Promise.resolve().then(() => {
                     const lhsCombobox = getComboboxElements(expressionBuilder)[0];
@@ -473,7 +470,6 @@ describe('expression-builder', () => {
             const expression = createMockEmptyRHSExpression(stringVariableGuid);
             const expressionBuilder = createComponentForTest({
                 expression,
-                showOperator: true,
             });
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
             rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, 'foobar'));
@@ -486,7 +482,6 @@ describe('expression-builder', () => {
             const expression = createMockEmptyRHSExpression(numberVariableGuid);
             const expressionBuilder = createComponentForTest({
                 expression,
-                showOperator: true,
             });
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
             rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '123'));
@@ -499,7 +494,6 @@ describe('expression-builder', () => {
             const expression = createMockEmptyRHSExpression(currencyVariableGuid);
             const expressionBuilder = createComponentForTest({
                 expression,
-                showOperator: true,
             });
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
             rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '123'));
@@ -512,7 +506,6 @@ describe('expression-builder', () => {
             const expression = createMockEmptyRHSExpression(dateVariableGuid);
             const expressionBuilder = createComponentForTest({
                 expression,
-                showOperator: true,
             });
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
             rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '1/1/2018'));
@@ -525,7 +518,6 @@ describe('expression-builder', () => {
             const expression = createMockEmptyRHSExpression(assignmentElementGuid, true);
             const expressionBuilder = createComponentForTest({
                 expression,
-                showOperator: true,
             });
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
             rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, 'true'));
