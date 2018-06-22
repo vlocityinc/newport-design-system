@@ -48,7 +48,14 @@
                                                       key={conditionWithPrefix.condition.rowIndex}>
                         <div slot="rowBody">
                             <!-- TODO: Localize labels after W-4693112 -->
-                            <builder_platform_interaction-expression-builder configuration={expressionBuilderConfig} expression={conditionWithPrefix.condition} lhs-label="Resource" operator-label="Operator" rhs-label="Value"></builder_platform_interaction-expression-builder>
+                            <builder_platform_interaction-expression-builder
+                                    configuration={expressionBuilderConfig}
+                                    expression={conditionWithPrefix.condition}
+                                    lhs-label="Resource" operator-label="Operator"
+                                    rhs-label="Value"
+                                    lhs-placeholder={labels.lhsPlaceholder}
+                                    operator-placeholder={labels.operatorPlaceholder}
+                                    rhs-placeholder={labels.rhsPlaceholder}></builder_platform_interaction-expression-builder>
                         </div>
                     </builder_platform_interaction-row>
                 </div>

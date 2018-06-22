@@ -470,6 +470,10 @@ export default class Canvas extends Element {
             } else if (!connector.config.isSelected) {
                 lib.deselectConnector(jsPlumbConnector, connector.type);
             }
+
+            if (jsPlumbConnector && jsPlumbConnector.getLabel() !== connector.label) {
+                jsPlumbConnector.setLabel(connector.label);
+            }
         }
         lib.setSuspendDrawing(false, true);
     }

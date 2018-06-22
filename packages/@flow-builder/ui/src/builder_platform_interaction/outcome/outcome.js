@@ -7,6 +7,7 @@ import {
     UpdateConditionEvent
 } from 'builder_platform_interaction-events';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { LABELS } from './outcome-labels';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
@@ -33,6 +34,8 @@ export default class Outcome extends Element {
     // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004ftBbIAI/view
     @track
     showErrorMessageIfBlank = "Cannot be Blank.";
+
+    labels = LABELS;
 
     get expressionBuilderConfig() {
         return {elementType: ELEMENT_TYPE.DECISION};

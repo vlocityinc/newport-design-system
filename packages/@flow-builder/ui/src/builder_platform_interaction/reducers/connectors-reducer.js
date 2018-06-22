@@ -24,7 +24,11 @@ export default function connectorsReducer(state = [], action) {
         case SELECT_ON_CANVAS: return _selectConnector(state, action.payload.guid);
         case TOGGLE_ON_CANVAS: return _toggleConnector(state, action.payload.guid);
         case DESELECT_ON_CANVAS: return _deselectConnectors(state);
-        case MODIFY_DECISION_WITH_OUTCOMES: return _deleteConnectorsForChildElements(state, action.payload.deletedOutcomes);
+        case MODIFY_DECISION_WITH_OUTCOMES: return _deleteAndUpdateConnectorsForChildElements(
+            state,
+            action.payload.outcomes,
+            action.payload.deletedOutcomes
+        );
         default: return state;
     }
 }
@@ -49,23 +53,45 @@ function _deleteConnectors(connectors, connectorsToDelete) {
 }
 
 /**
- * Delete connectors for all of the given child elements
+ * Update/delete connectors for all of the given child elements
  *
- * @param {Object[]} connectors   current state of connectors in the store
- * @param {Object[]} elements     array of child elements (outcomes or wait events) whose connectors are to be deleted
+ * @param {Object[]} origConnectors   current state of connectors in the store
+ * @param {Object[]} updatedElements     array of child elements (outcomes or wait events) whose connectors are to be
+ * updated
+ * @param {Object[]} deletedElements     array of child elements (outcomes or wait events) whose connectors are to be
+ * deleted
  *
  * @return {Object[]} new state of connectors after reduction
  * @private
  */
-function _deleteConnectorsForChildElements(connectors, elements) {
-    for (let i = 0; i < elements.length; i++) {
-        const element = elements[i];
+function _deleteAndUpdateConnectorsForChildElements(origConnectors, updatedElements, deletedElements) {
+    const deletedElementGuidMap = new Map();
+    for (let i = 0; i < deletedElements.length; i++) {
+        deletedElementGuidMap.set(deletedElements[i].guid, deletedElements[i]);
+    }
 
-        // Keep in the connector list only if the connector does not have a child source,
-        // OR if child source exists and it does not match the element's guid
-        connectors = connectors.filter(connector => {
-            return !connector.childSource || connector.childSource !== element.guid;
-        });
+    const updatedElementGuidMap = new Map();
+    for (let i = 0; i < updatedElements.length; i++) {
+        updatedElementGuidMap.set(updatedElements[i].guid, updatedElements[i]);
+    }
+
+    const connectors = [];
+
+    for (let i = 0; i < origConnectors.length; i++) {
+        const connector = origConnectors[i];
+
+        const updatedElement = updatedElementGuidMap.get(connector.childSource);
+
+        if (!connector.childSource) {
+            connectors.push(connector);
+        } else if (updatedElement) {
+            const updatedConnector = updateProperties(connector, {
+                label: updatedElement.label
+            });
+            connectors.push(updatedConnector);
+        } else if (!deletedElementGuidMap.has(connector.childSource)) {
+            connectors.push(connector);
+        }
     }
 
     return connectors;

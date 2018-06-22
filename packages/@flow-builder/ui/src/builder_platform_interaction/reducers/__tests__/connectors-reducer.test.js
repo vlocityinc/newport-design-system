@@ -72,6 +72,43 @@ describe('connectors-reducer', () => {
             })).toEqual(connectorsState);
         });
 
+        describe('with modified outcome label', () => {
+            it('with no connections does nothing', () => {
+                const payloadWithModifiedOutcomeButNoConnection = {
+                    decision: {},
+                    outcomes: [{
+                        guid: 'outcomeWithNoConnection'
+                    }],
+                    deletedOutcomes: [{}],
+                };
+
+                expect(reducer(connectorsState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: payloadWithModifiedOutcomeButNoConnection
+                })).toEqual(connectorsState);
+            });
+
+            it('with connection associatd with outcome updates the connection label', () => {
+                const newLabel = 'new label!';
+
+                const payloadWithModifiedOutcomeWithConnection = {
+                    decision: {},
+                    outcomes: [{
+                        guid: 'o1',
+                        label: newLabel
+                    }],
+                    deletedOutcomes: [],
+                };
+
+                const updatedConnectors = reducer(connectorsState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: payloadWithModifiedOutcomeWithConnection
+                });
+
+                expect(updatedConnectors[0].label).toEqual(newLabel);
+            });
+        });
+
         describe('with deleted outcome', () => {
             it('with no connections does nothing', () => {
                 const payloadWithDeletedOutcomeButNoConnection = {
