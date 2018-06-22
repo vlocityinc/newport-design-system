@@ -43,7 +43,7 @@ import { set } from 'builder_platform_interaction-data-mutation-lib';
  */
 
 const rulesInstance = {};
-const backwardsRules = [];
+const outputRules = [];
 
 export const RULE_TYPES = {
     ASSIGNMENT: 'assignment',
@@ -104,7 +104,7 @@ export const setRules = (rules = null) => {
     // Add rules to the correct buckets
     if (allRules) {
         let rule;
-        const stringifiedBackwardsRules = {};
+        const stringifiedoutputRules = {};
         for (let i = 0; i < allRules.length; i++) {
             rule = allRules[i];
             const ruleTypeName = rule[RULE_PROPERTY.RULE_TYPE];
@@ -146,21 +146,21 @@ export const setRules = (rules = null) => {
                 // store the rules with one rhs pointing to multiple lhs params
                 for (let k = 0; k < RHSparams.length; k++) {
                     const RHS = JSON.stringify(RHSparams[k]);
-                    if (!stringifiedBackwardsRules[RHS]) {
-                        stringifiedBackwardsRules[RHS] = new Set();
+                    if (!stringifiedoutputRules[RHS]) {
+                        stringifiedoutputRules[RHS] = new Set();
                     }
-                    stringifiedBackwardsRules[RHS].add(rule[RULE_PROPERTY.LEFT]);
+                    stringifiedoutputRules[RHS].add(rule[RULE_PROPERTY.LEFT]);
                 }
             }
         }
 
         // parse the stringified params & build object in the same shape as the original rules, so that the same utility functions can be applied
-        const allRHS = Object.keys(stringifiedBackwardsRules);
+        const allRHS = Object.keys(stringifiedoutputRules);
         for (let i = 0; i < allRHS.length; i++) {
             const assignFrom = JSON.parse(allRHS[i]);
             const assignTo = [];
 
-            stringifiedBackwardsRules[allRHS[i]].forEach((param) => {
+            stringifiedoutputRules[allRHS[i]].forEach((param) => {
                 assignTo.push(param);
             });
 
@@ -169,13 +169,17 @@ export const setRules = (rules = null) => {
             // this can be hardcoded here because a rule would only be in this object if this were true
             newRule[RULE_PROPERTY.OPERATOR] = RULE_OPERATOR.ASSIGN;
             newRule[RULE_PROPERTY.RHS_PARAMS] = assignTo;
-            backwardsRules.push(newRule);
+            outputRules.push(newRule);
         }
     }
 };
 
 export const getRules = () => {
     return rulesInstance;
+};
+
+export const getOutputRules = () => {
+    return outputRules;
 };
 
 /**
@@ -217,7 +221,7 @@ export const getRulesForContext = (config) => {
             rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, config.elementType);
             break;
         // TODO example for output/backwards rules
-        // case ELEMENT_TYPE.ACTION_CALL: rules = backwardsRules;
+        // case ELEMENT_TYPE.ACTION_CALL: rules = outputRules;
         default:
             throw new Error(`Trying to get rules for unknown elementType: ${config.elementType}`);
     }

@@ -1,4 +1,4 @@
-import { RULE_TYPES } from "../rules";
+import { RULE_TYPES, RULE_PROPERTY } from "../rules";
 
 const decisionElement = 'DECISION';
 
@@ -155,6 +155,36 @@ const mockRulesFromServiceOnlyAssignment =
     '       "excludeElems":null' +
     '   }]';
 
+const mockSingleAssignmentRule =
+    '[{' +
+    '       "ruleType": "assignment",' +
+    '       "assignmentOperator":{"value":"Assign"},' +
+    '       "comparisonOperator":null,' +
+    '       "left":{' +
+    '           "paramType":"Data",' +
+    '           "paramIndex":1,' +
+    '           "dataType":{"value":"String"},' +
+    '           "elementType":null,' +
+    '           "collection":false' +
+    '           },' +
+    '       "rhsParams":[{' +
+    '               "paramType":"Data",' +
+    '               "paramIndex":1,' +
+    '               "dataType":{"value":"Number"},' +
+    '               "elementType":null,' +
+    '               "collection":false' +
+    '           },' +
+    '           {' +
+    '               "paramType":"Data",' +
+    '               "paramIndex":1,' +
+    '               "dataType":{"value":"Date"},' +
+    '               "elementType":null,' +
+    '               "collection":false' +
+    '           }],' +
+    '       "includeElems":null,' +
+    '       "excludeElems":null' +
+    '   }]';
+
 const verifyProperties = (testRulesVariable) => {
     expect(testRulesVariable).toHaveProperty(RULE_TYPES.COMPARISON);
     expect(testRulesVariable).toHaveProperty(RULE_TYPES.ASSIGNMENT);
@@ -223,6 +253,28 @@ describe('Set Flow Operator Rules', () => {
         const storedRules2 = rulesLib.getRules();
         expect(storedRules1).toBe(storedRules2);
         expect(storedRules1[RULE_TYPES.ASSIGNMENT]).toHaveLength(1);
+    });
+    it('Stores assignment rules backwards to use as output rules', () => {
+        const initialRule = JSON.parse(mockSingleAssignmentRule)[0];
+        const initialLHS = initialRule[RULE_PROPERTY.LEFT];
+        const initialRHSParams = initialRule[RULE_PROPERTY.RHS_PARAMS];
+
+        const rulesLib = require.requireActual('builder_platform_interaction-rule-lib');
+        rulesLib.setRules(mockSingleAssignmentRule);
+        const outputRules = rulesLib.getOutputRules();
+
+        // there should be two output rules, one per RHS param of initial rule
+        expect(outputRules).toHaveLength(2);
+
+        // each output rule has the initial rule's LHS as an RHS
+        expect(outputRules[0][RULE_PROPERTY.RHS_PARAMS]).toHaveLength(1);
+        expect(outputRules[1][RULE_PROPERTY.RHS_PARAMS]).toHaveLength(1);
+        expect(outputRules[0][RULE_PROPERTY.RHS_PARAMS][0]).toMatchObject(initialLHS);
+        expect(outputRules[1][RULE_PROPERTY.RHS_PARAMS][0]).toMatchObject(initialLHS);
+
+        // each output rule has one of the initial RHS params as it's LHS
+        expect(outputRules[0][RULE_PROPERTY.LEFT]).toMatchObject(initialRHSParams[0]);
+        expect(outputRules[1][RULE_PROPERTY.LEFT]).toMatchObject(initialRHSParams[1]);
     });
 });
 describe('get rules for element type', () => {
