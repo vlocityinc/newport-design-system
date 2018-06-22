@@ -3,7 +3,7 @@ import { getShadowRoot } from 'lwc-test-utils';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import {
-    ComboboxValueChangedEvent,
+    ComboboxStateChangedEvent,
     OutputReferenceChangedEvent,
 } from 'builder_platform_interaction-events';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction-sobject-or-sobject-collection-picker';
@@ -157,7 +157,7 @@ describe('sobject-or-sobject-collection-picker', () => {
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
                 sobjectPicker.addEventListener(OutputReferenceChangedEvent.EVENT_NAME, eventCallback);
-                ferovResourcePicker.dispatchEvent(new ComboboxValueChangedEvent(null, newParamValue));
+                ferovResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {value: newParamValue}});
             });
