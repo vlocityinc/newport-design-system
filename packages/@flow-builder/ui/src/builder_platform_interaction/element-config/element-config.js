@@ -445,6 +445,7 @@ export const elementTypeToConfigMap = {
             name: '',
             label: '',
             guid: '',
+            elementType: ELEMENT_TYPE.OUTCOME,
             conditionLogic: CONDITION_LOGIC.AND,
             conditions: [
                 {
