@@ -2,6 +2,7 @@ import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { getRulesForContext, getRHSTypes, elementToParam } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, isElementAllowed } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
 
 // TODO i18n after W-4693112
 /**
@@ -98,6 +99,35 @@ export const shouldNotBeginWithNumericOrSpecialCharacters = (value) => evaluateR
  */
 export const shouldAcceptOnlyAlphanumericCharacters = (value) => evaluateRegex(regexConfig.shouldAcceptOnlyAlphanumericCharacters, value);
 
+/**
+ * Test if the value is null or undefined
+ * @param {String} value the value to be tested
+ * @returns {String|null} errorString or null
+ */
+export const shouldNotBeNullOrUndefined = (value) => {
+    if (isUndefinedOrNull(value)) {
+        return cannotBeBlankError;
+    }
+    return null;
+};
+
+/**
+ * Test if the given value is from an sobject element, and if it is also check that it is not null or undefined
+ * @param {Boolean} isSobject true if the value to be tested is an sobject, false otherwise
+ * @returns {function} function that checks if the given value is a valid sobject
+ */
+export const validateVariableObjectType = (isSobject) => {
+    /**
+     * @param {String} value the value to be tested
+     * @returns {String|null} errorString or null
+     */
+    return (value) => {
+        if (isSobject) {
+            return isUndefinedOrNull(value) ? cannotBeBlankError : null;
+        }
+        return null;
+    };
+};
 
 /**
  * Curry Function to test the length of the value does not go beyond a maximum character limit specified

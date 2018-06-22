@@ -6,6 +6,7 @@ import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction-da
 import { PropertyEditorWarningEvent } from 'builder_platform_interaction-events';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 
 // the property names in a variable element (after mutation)
 const VARIABLE_FIELDS = {
@@ -73,6 +74,12 @@ export default class VariableEditor extends Element {
      */
     @track
     variableResource;
+
+    @track
+    defaultValueError;
+
+    @track
+    sobjectValueError;
 
     @api
     get node() {
@@ -195,7 +202,7 @@ export default class VariableEditor extends Element {
      * @return {boolean} false for Picklist, Multipicklist and SObject data type or collection variables, otherwise true.
      */
     get hasDefaultValue() {
-        return !(this.variableResource.isCollection || (this.dataType && DATATYPES_WITH_NO_DEFAULT_VALUE.includes(this.dataType)));
+        return !this.variableResource.isCollection && this.dataType && !DATATYPES_WITH_NO_DEFAULT_VALUE.includes(this.dataType);
     }
 
     // TODO: use labels W-4954505
@@ -203,7 +210,7 @@ export default class VariableEditor extends Element {
         return BaseResourcePicker.getComboboxConfig(
             'Default Value',
             null,
-            null,
+            this.defaultValueError,
             true,
             false,
             false,
@@ -219,7 +226,7 @@ export default class VariableEditor extends Element {
         return BaseResourcePicker.getComboboxConfig(
             this.sobjectPickerLabel,
             this.sobjectPickerPlaceholder,
-            undefined,
+            this.sobjectValueError,
             undefined,
             true,
             this.isFieldDisabled,
@@ -259,7 +266,20 @@ export default class VariableEditor extends Element {
 
     handleDataTypeChanged(event) {
         event.stopPropagation();
-        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value : event.detail.value });
+        const value = event.detail.value;
+        // we want to clear the sobject value when switching away from it (this prevents false negatives on validation)
+        if (this.hasObjectType) {
+            this.updateProperty(VARIABLE_FIELDS.OBJECT_TYPE, null, null);
+        } else if (this.hasDefaultValue) {
+            // we want to clear the default value when switching data types
+            this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE, null, null);
+        }
+        // we want to set the scale to null when changing to a data type that does not have scale
+        if (value.dataType !== FLOW_DATA_TYPE.NUMBER.value && value.dataType !== FLOW_DATA_TYPE.CURRENCY.value) {
+            value.scale = null;
+        }
+
+        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value });
         this.variableResource = variableReducer(this.variableResource, action);
     }
 
@@ -329,9 +349,11 @@ export default class VariableEditor extends Element {
         if (propertyName === VARIABLE_FIELDS.OBJECT_TYPE) {
             // the value of is the api name of the selected sobject
             valueToUpdate = payload.value;
+            this.sobjectValueError = error;
         }
         // for defaultValue extract out the guid and value from menu item
         if (propertyName === VARIABLE_FIELDS.DEFAULT_VALUE) {
+            this.defaultValueError = error;
             let defaultValueGuidValue;
             // if we have a displayText then we have a select, otherwise we are dealing with a literal
             if (payload.displayText) {
@@ -339,9 +361,9 @@ export default class VariableEditor extends Element {
                 defaultValueGuidValue = payload.value;
             } else {
                 defaultValueGuidValue = '';
-                // default value is not a reference, update the ferovDataType
-                // TODO: Once util is ready use the correct frevoDataType for the literal as part of W-4900878
-                this.updateProperty(FEROV_DATA_TYPE_PROPERTY, FEROV_DATA_TYPE.STRING, null);
+                // set the correct ferov data type based on the user selected data type
+                // in this case the ferov data type is not a reference so we can just use flow data type
+                this.updateProperty(FEROV_DATA_TYPE_PROPERTY, this.dataType, null);
             }
             this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, defaultValueGuidValue, null);
 
@@ -449,6 +471,8 @@ export default class VariableEditor extends Element {
     validate() {
         // NOTE: if we find there is a case where an error can happen on a field without touching on it,
         // we might have to go through reducer to stuff the errors and call get errors method
+        const event = { type: VALIDATE_ALL };
+        this.variableResource = variableReducer(this.variableResource, event);
         return getErrorsFromHydratedElement(this.variableResource);
     }
 }
