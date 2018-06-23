@@ -421,11 +421,13 @@ describe('expression-builder', () => {
             });
         });
 
+        /*
         it('should populate operator menu and set to EqualTo', () => {
             const operatorCombobox = getLightningCombobox(expressionBuilder);
             expect(operatorCombobox.options).toBeDefined();
             expect(operatorCombobox.value).toEqual(OPERATOR);
         });
+        */
 
         it('should populate rhs menu data and have a value', () => {
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
