@@ -1,5 +1,9 @@
 <template>
-    <div class='slds-form-element slds-m-top_x-small'>
+    <div class='slds-form-element slds-p-top_x-small'>
+        <builder_platform_interaction-ferov-resource-picker if:true={allowsResources} combobox-config={resourceComboBoxConfig} value={propertyValue}
+                                                                                      element-param={elementParam} property-editor-element-type='SCREEN'>
+        </builder_platform_interaction-ferov-resource-picker>
+        
         <lightning-input if:true={isInput} id={name} class='property-input' name={name} label={label} value={propertyValue} checked={isChecked}
                                            required={required} type={inputType} field-level-help={helpText} onchange={handleEvent} onblur={handleEvent}>
         </lightning-input>

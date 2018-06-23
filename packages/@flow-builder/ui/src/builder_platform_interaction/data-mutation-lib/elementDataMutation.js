@@ -79,7 +79,7 @@ export const getErrorsFromHydratedElement = (element, errorsList = []) => {
     const listOfErrors = errorsList;
     Object.entries(element).forEach(
         ([key, value]) => {
-            if (typeof value === 'object') {
+            if (value && typeof value === 'object') {
                 if (Array.isArray(value)) {
                     value.forEach((item) => {
                         getErrorsFromHydratedElement(item, listOfErrors);

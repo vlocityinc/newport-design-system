@@ -2,7 +2,10 @@ import { Element, api, track } from 'engine';
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { isItemHydratedWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
-import { booleanAttributeValue } from 'builder_platform_interaction-screen-editor-utils';
+import { booleanAttributeValue, getValueFromFerov } from 'builder_platform_interaction-screen-editor-utils';
+import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { isObject } from 'builder_platform_interaction-common-utils';
 
 // QUILL supported formats
 const rteFormats = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
@@ -17,6 +20,10 @@ export default class ScreenPropertyField extends Element {
     @api required =  false;
     @api readOnly = false;
     @api helpText;
+    @api allowResources = false;
+    @api disallowLiterals = false;
+    @api collection = false;
+    @api objectType;
 
     @track _value;
     labels = LABELS;
@@ -47,10 +54,76 @@ export default class ScreenPropertyField extends Element {
 
     get propertyValue() {
         if (this.value) {
+            if (this.allowsResources && isObject(this.value) && !isItemHydratedWithErrors(this.value)) {
+                return getValueFromFerov(this.value);
+            }
+
             return this.value.value ? this.value.value : this.value;
         }
 
         return null;
+    }
+
+    get resourceComboBoxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.label, // Label
+            '', // Placeholder
+            null, // errorMessage
+            !this.disallowsLiterals, // literalsAllowed
+            this.required, // required
+            false, // disabled
+            this.normalizedType
+        );
+    }
+
+    get elementParam() {
+        const param = {
+            dataType: this.normalizedType,
+            collection: this.isCollection
+        };
+
+        if (this.objectType) {
+            param.objectType = this.objectType; // elementType, isSObjectField
+        }
+
+        return param;
+    }
+
+    get normalizedType() {
+        if (this.type && this.type.toUpperCase) {
+            let lcType = this.type.toUpperCase();
+            if (lcType === 'DECIMAL' || lcType === 'DOUBLE' || lcType === 'INTEGER' || lcType === 'LONG' || lcType === 'INT') {
+                lcType = 'NUMBER';
+            }
+
+            for (const typeName in FLOW_DATA_TYPE) {
+                if (FLOW_DATA_TYPE[typeName].value.toUpperCase() === lcType) {
+                    return FLOW_DATA_TYPE[typeName].value;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    get objectType() {
+        if (this.normalizedType === FLOW_DATA_TYPE.SOBJECT.value) {
+            return this.objectType;
+        }
+
+        return null;
+    }
+
+    get allowsResources() {
+        return booleanAttributeValue(this, 'allowResources');
+    }
+
+    get disallowsLiterals() {
+        return booleanAttributeValue(this, 'allowLiterals');
+    }
+
+    get isCollection() {
+        return booleanAttributeValue(this, 'collection');
     }
 
     get isRequired() {
@@ -82,7 +155,7 @@ export default class ScreenPropertyField extends Element {
     }
 
     get isInput() {
-        return !this.isLongString && !this.isRichString;
+        return !this.allowsResources && !this.isLongString && !this.isRichString;
     }
 
     get inputType() {
@@ -101,7 +174,7 @@ export default class ScreenPropertyField extends Element {
 
     get domValue() {
         const input = this.input;
-        if (this.isString || this.isLongString || this.isRichString) {
+        if (this.allowsResources || this.isString || this.isLongString || this.isRichString) {
             return input.value;
         } else if (this.isBoolean) {
             return input.checked;

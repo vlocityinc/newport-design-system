@@ -16,6 +16,14 @@ export default class ScreenEditorPropertiesEditorContainer extends Element {
         return isScreen(this.node);
     }
 
+    get isExtensionField() {
+        return this.node && this.node.type && this.node.type.name === 'Extension';
+    }
+
+    get isOther() {
+        return !this.isScreen && !this.isExtensionField;
+    }
+
     get hasErrors() {
         return getErrorsFromHydratedElement(this.node).length > 0;
     }

@@ -1,21 +1,34 @@
 <template>
-    <builder_platform_interaction-screen-editor-errors-panel label={labels.reviewErrors} errors={errors}></builder_platform_interaction-screen-editor-errors-panel>
-    
-    <div if:true={element.categories}>
-        <template for:each={element.categories} for:item='category'>
-            <builder_platform_interaction-accordion key={category.name}>
+    <div if:true={field} class='full-height'>
+        <div if:false={mergedField} class='slds-is-relative full-height'>
+            <lightning-spinner alternative-text={labels.spinnerAlternativeText} size='medium' variant='brand' class='spinner'></lightning-spinner>
+        </div>
+        
+        <div if:true={mergedField}>
+            <section class='slds-p-horizontal_small slds-p-bottom_small'>
+                <builder_platform_interaction-screen-property-field name='name' label={labels.apiNameLabel} type='string' value={mergedField.name} required='required'>
+                </builder_platform_interaction-screen-property-field>
+        
+                <template for:each={mergedField.inputParameters} for:item='param'>
+                    <builder_platform_interaction-screen-property-field key={param.guid} name={param.apiName} label={param.label} type={param.dataType} object-type={param.objectType}
+                                                                        value={param.value} required={param.isRequired} allow-resources='true' collection={param.isCollection}>
+                    </builder_platform_interaction-screen-property-field>
+                </template>
+            </section>
+
+            <builder_platform_interaction-accordion>
                 <builder_platform_interaction-accordion-section>
-                    <div slot="accordion-header">{category.name}</div>
-                    <div slot="accordion-body">
-                        <template for:each={category.properties} for:item='prop'>
-                            <builder_platform_interaction-screen-property-field element={element} property={prop} 
-                                                                                key={prop.guid} data-property-name={prop.name} 
-                                                                                onvaluechanged={handlePropertyChange} onblur={handlePropertyBlur}>
+                    <div slot='accordion-header'>{labels.extensionOutputsHeader}</div>
+                    <div slot='accordion-body'>
+                        <template for:each={mergedField.outputParameters} for:item='param'>
+                            <builder_platform_interaction-screen-property-field key={param.guid} name={param.apiName} label={param.label} value={param.assignToReference} 
+                                                                                type={param.dataType} object-type={param.objectType} required={param.isRequired}
+                                                                                allow-resources='true' disallow-literals='true'  collection={param.isCollection}>
                             </builder_platform_interaction-screen-property-field>
-                        </template>                    
+                        </template>               
                     </div>
                 </builder_platform_interaction-accordion-section>
             </builder_platform_interaction-accordion>
-        </template>
+        </div>
     </div>
 </template>

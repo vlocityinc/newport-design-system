@@ -56,6 +56,7 @@ export default class ScreenEditorCanvas extends Element {
             const fieldTypeName = event.dataTransfer.getData('text');
             const addFieldEvent = createAddScreenFieldEvent(fieldTypeName, range.index);
             this.dispatchEvent(addFieldEvent);
+            this.clearDraggingState();
         } else {
             // Existing field is being moved around.
             const sourceGuid = event.dataTransfer.getData('text');

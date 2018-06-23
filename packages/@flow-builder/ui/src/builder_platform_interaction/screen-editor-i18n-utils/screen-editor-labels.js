@@ -46,6 +46,9 @@ import deleteConfirmation from '@label/FlowBuilderScreenEditor.deleteConfirmatio
 import deleteConsequence from '@label/FlowBuilderScreenEditor.deleteConsequence';
 import errorIconTitle from '@label/FlowBuilderScreenEditor.errorIconTitle';
 import togglePropertiesPanelTitle from '@label/FlowBuilderScreenEditor.togglePropertiesPanelTitle';
+import apiNameLabel from '@label/FlowBuilderScreenEditor.apiNameLabel';
+import spinnerAlternativeText from '@label/FlowBuilderEditor.spinnerAlternativeText';
+import extensionOutputsHeader from '@label/FlowBuilderScreenEditor.extensionOutputsHeader';
 
 export const LABELS = {
     errorRequired,
@@ -94,5 +97,8 @@ export const LABELS = {
     deleteConfirmation,
     deleteConsequence,
     errorIconTitle,
-    togglePropertiesPanelTitle
+    togglePropertiesPanelTitle,
+    apiNameLabel,
+    spinnerAlternativeText,
+    extensionOutputsHeader
 };

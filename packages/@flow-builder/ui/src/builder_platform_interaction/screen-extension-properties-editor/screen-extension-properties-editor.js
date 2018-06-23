@@ -1,74 +1,81 @@
 import { Element, api, track } from 'engine';
-import { toDeveloperName } from 'builder_platform_interaction-screen-editor-utils';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { PropertyValueChangedEvent } from 'builder_platform_interaction-events';
+import { describeExtension } from 'builder_platform_interaction-screen-editor-utils';
+import { generateGuid } from 'builder_platform_interaction-store-lib';
 
 /*
  * Dynamic property editor TODO: refactor to be used as the property editor for LCs - W-4947239
  */
 export default class ScreenExtensionPropertiesEditor extends Element {
-    @api element;
-    @track errors;
+    @track _field;
+    @track mergedField;
     labels = LABELS;
 
-    handlePropertyChange = (event) => {
-        const field = event.field;
-        if (field) {
-            if (field.isBoolean) { // Visibility changes
-                const parentProperty = field.property;
-                const value = event.event.currentTarget.checked;
-                for (const fld of this.template.querySelectorAll('builder_platform_interaction-screen-property-field')) {
-                    const property = fld.property;
-                    if (property.parent && property.parent.name === parentProperty.name) {
-                        fld.setVisible(value);
-                    }
-                }
+    @api set field(val) {
+        this._field = val;
+        this.mergedField = null;
+        if (this._field && this._field.extensionName) {
+            describeExtension(this._field.extensionName.value).then(descriptor => {
+                this.mergedField = {
+                    extensionName: descriptor.name,
+                    name: this._field.name ? this._field.name : {value: '', error: null},
+                    inputParameters: this.mergeParameters(this._field.inputParameters, descriptor.inputParameters, 'value'),
+                    outputParameters: this.mergeParameters(this._field.outputParameters, descriptor.outputParameters, 'assignToReference'),
+                };
+            }).catch(error => {
+                throw error;
+            });
+        }
+    }
+
+    @api get field() {
+        return this._field;
+    }
+
+    mergeParameters = (fieldParameters, descParameters, valuePropName) => {
+        const fieldParamMap = [];
+        for (const param of fieldParameters) {
+            const fieldParam = {};
+            fieldParam.name = param.name.value;
+            fieldParam[valuePropName] = param[valuePropName];
+            fieldParamMap[param.name.value] = fieldParam;
+        }
+
+        const mergedParams = [];
+        for (const fieldParam of descParameters) {
+            const param = {
+                apiName: fieldParam.apiName,
+                dataType: fieldParam.dataType,
+                description: fieldParam.description,
+                hasDefaultValue: fieldParam.hasDefaultValue,
+                isRequired: fieldParam.isRequired,
+                label: fieldParam.label,
+                maxOccurs: fieldParam.maxOccurs,
+                isCollection: fieldParam.maxOccurs > 1,
+                guid: generateGuid()
+            };
+
+            if (fieldParam.objectType) {
+                param.objecType = fieldParam.objectType;
             }
-        }
 
-        this.getField(field.property.name).clearErrors();
-
-        if (this.isImmediate(field)) {
-            this.dispatchValueChangedEvent(field);
-        }
-    }
-
-    handlePropertyBlur = (event) => {
-        const field = event.field;
-
-        // Label to unique name for screen fields
-        if (field.property.name === 'label') {
-            const devNameField = this.getField('name');
-            if (!devNameField.getValue()) {
-                devNameField.setValue(toDeveloperName(field.getValue()));
-                devNameField.clearErrors();
+            const mdParam = fieldParamMap[param.apiName];
+            if (mdParam) {
+                param[valuePropName] = mdParam[valuePropName];
             }
+
+            mergedParams.push(param);
         }
 
-        // validate
-        if (this.validate(field.property).valid && !this.isImmediate(field)) {
-            this.dispatchValueChangedEvent(field);
-        }
+        return mergedParams;
     }
 
-    isImmediate = (field) => {
-        return field.isBoolean;
+    handlePropertyChange = (/* event */) => {
     }
 
-    validate = (property) => {
-        const field = this.getField(property.name);
-        const value = field.getValue();
-        const parentValue = property.parent ? this.getField(property.parent.name).getValue() : undefined;
-        const errors = property.validate(value, parentValue);
-        if (errors && errors.length) {
-            field.setErrors(errors);
-        }
-
-        return {valid: errors && errors.length === 0, errors};
-    }
-
-    getField = (name) => {
-        return this.template.querySelector('builder_platform_interaction-screen-property-field[data-property-name=' + name + ']');
+    handlePropertyBlur = (/* event */) => {
+    //    this.dispatchValueChangedEvent(field);
     }
 
     dispatchValueChangedEvent = (field) => {
