@@ -1,4 +1,3 @@
-<!-- TODO: i18n in this work item itself, wait till next CL please -->
 <aura:component>
     <!-- notify to close the panel -->
     <aura:registerEvent name="notify" type="ui:notify" />
@@ -18,10 +17,10 @@
             </builder_platform_interaction:statusIcon>
         </div>
         <div class="slds-col slds-p-right_xx-small">
-            <lightning:button title="Cancel" onclick="{!c.handleCancel}">Cancel</lightning:button>
+            <lightning:button title="{#$Label.FlowBuilderCommonPropertyEditor.cancelButton}" onclick="{!c.handleCancel}">{#$Label.FlowBuilderCommonPropertyEditor.cancelButton}</lightning:button>
         </div>
         <div class="slds-col slds-p-right_xx-small">
-            <lightning:button variant="brand" disabled="{!v.isSaveDisabled}" onclick="{!c.handleOk}">OK</lightning:button>
+            <lightning:button variant="brand" disabled="{!v.isSaveDisabled}" title="{#$Label.FlowBuilderCommonPropertyEditor.okButton}"  onclick="{!c.handleOk}">{#$Label.FlowBuilderCommonPropertyEditor.okButton}</lightning:button>
         </div>
     </div>
 </aura:component>

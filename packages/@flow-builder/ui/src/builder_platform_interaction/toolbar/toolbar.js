@@ -1,8 +1,7 @@
 import { Element, api } from 'engine';
+import { LABELS } from './toolbar-labels';
 
 const SAVE = 'save';
-
-const statusIconErrorTitle = 'Resolve Errors';
 
 /**
  * Toolbar component for flow builder.
@@ -15,7 +14,9 @@ export default class Toolbar extends Element {
     @api isSaveDisabled;
     @api errors;
 
-    headerTitleForSummary = statusIconErrorTitle;
+    headerTitleForSummary = LABELS.errorPopOverHeader;
+
+    labels = LABELS;
 
     /**
      * Event handler for click event on save button.

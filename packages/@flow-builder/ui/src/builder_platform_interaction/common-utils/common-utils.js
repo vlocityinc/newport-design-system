@@ -53,3 +53,21 @@ export const removeCurlyBraces = (value) =>  {
     }
     return value;
 };
+
+/**
+ * Formats an arbitrary number of arguments into a string by replacing {0}, {1}, ... {n} with the corresponding argument supplied after 'formatString'.
+ *
+ * @param {String} formatString The string to be formatted.
+ * @param {String} args The list of arguments to splice into formatString.
+ * @returns {String} a formatted String
+ * @export
+ */
+export const format = (formatString, ...args) => {
+    return formatString.replace(/\{(\d+)\}/gm, (match, index) => {
+        const substitution = args[index];
+        if (substitution === undefined) {
+            return match;
+        }
+        return substitution + '';
+    });
+};

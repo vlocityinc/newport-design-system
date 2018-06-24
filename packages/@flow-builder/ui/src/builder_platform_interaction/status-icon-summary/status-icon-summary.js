@@ -1,4 +1,7 @@
 import { Element, api } from 'engine';
+import { LABELS } from './status-icon-summary-labels';
+import { format } from 'builder_platform_interaction-common-utils';
+
 export default class StatusIconSummary extends Element {
     @api header;
     @api messages = [];
@@ -31,9 +34,11 @@ export default class StatusIconSummary extends Element {
     }
 
     /**
+     * TODO: W-5109914 (Make this component support various messages/different body types in status icon)
+     * Note: for warnings we might need to do a bit of refactoring, by either passing in the message or replacing the whole body/tmpl
      * @returns {string} message body with the number of errors, this replaces the list of errors in the body
      */
     get messageBody() {
-        return 'You have ' + this.messages.length + ' ' + this.type + '(s)';
+        return this.messages.length > 1 ? format(LABELS.popupErrorMessagePlural, this.messages.length) : format(LABELS.popupErrorMessageSingular, this.messages.length);
     }
 }

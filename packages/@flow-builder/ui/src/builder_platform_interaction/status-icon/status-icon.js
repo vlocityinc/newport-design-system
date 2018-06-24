@@ -37,6 +37,9 @@ export default class StatusIcon extends Element {
             }
         } else {
             this.isIconVisible = false;
+            if (this.panelInstance) {
+                this.panelInstance.hide();
+            }
         }
     }
 

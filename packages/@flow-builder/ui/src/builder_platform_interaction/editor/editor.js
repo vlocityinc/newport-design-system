@@ -132,6 +132,7 @@ export default class Editor extends Element {
         } else if (data.isSuccess) {
             this.currentFlowId = data.flowId;
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
+            this.errors = [];
         } else {
             this.errors = data.errors;
         }
