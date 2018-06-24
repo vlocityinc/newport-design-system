@@ -1,6 +1,6 @@
 import { Element, api, track } from 'engine';
 import { getEntitiesMenuData } from 'builder_platform_interaction-expression-utils';
-import { isObject } from 'builder_platform_interaction-common-utils';
+import { isObject, isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
 
 const resourcePickerSelector = 'builder_platform_interaction-base-resource-picker';
 /**
@@ -90,12 +90,33 @@ export default class EntityResourcePicker extends Element {
      */
     @api
     set value(itemOrDisplayText) {
-        this.state.itemOrDisplayText = itemOrDisplayText;
+        // if the user passes down display text we check if we already have a stored item
+        if (!isObject(itemOrDisplayText) && isObject(this.state.itemOrDisplayText) && this._isInitialized) {
+            // if the existing item does not match the given display text we attempt to match it to the menu data
+            if (this.state.itemOrDisplayText.value !== itemOrDisplayText) {
+                this.state.itemOrDisplayText = this.matchDisplayTextWithMenuDataItem(itemOrDisplayText);
+            }
+        } else {
+            // if the consumer passes down an item we override existing state and pass it down to combobox
+            this.state.itemOrDisplayText = itemOrDisplayText;
+        }
     }
 
     @api
     get value() {
         return this.state.itemOrDisplayText;
+    }
+
+    matchDisplayTextWithMenuDataItem(displayText) {
+        const foundValue = this._fullEntityMenuData.find((item => item.value === displayText));
+        if (isUndefinedOrNull(foundValue)) {
+            throw new Error(`Value does not match an item in entity menu data: ${displayText}`);
+        }
+        return foundValue;
+    }
+
+    handleComboboxChange(event) {
+        this.state.itemOrDisplayText = event.detail.item;
     }
 
     renderedCallback() {
@@ -107,7 +128,7 @@ export default class EntityResourcePicker extends Element {
             // to dislay the correct label we need to query for the matching menu item
             // this may go away if combobox eventually does this work
             if (!isObject(this.value)) {
-                const foundValue = this._fullEntityMenuData.find((item => item.displayText === this.value));
+                const foundValue = this._fullEntityMenuData.find((item => item.value === this.state.itemOrDisplayText));
                 this.state.itemOrDisplayText = foundValue;
             }
         }
