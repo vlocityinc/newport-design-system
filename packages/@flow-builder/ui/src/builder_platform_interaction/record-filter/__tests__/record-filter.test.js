@@ -1,6 +1,8 @@
 import {createElement} from 'engine';
 import { mockAccountFields } from 'mock-server-entity-data';
-import { RECORD_LOOKUP_FILTER_CRITERIA } from 'builder_platform_interaction-flow-metadata';
+import { getShadowRoot } from 'lwc-test-utils';
+import { RECORD_FILTER_CRITERIA, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+
 import {
     AddRecordLookupFilterEvent,
     UpdateRecordLookupFilterEvent,
@@ -9,7 +11,7 @@ import {
 import RecordLookupFilter from 'builder_platform_interaction-record-filter';
 
 const mockDefaultRecordFilter = {
-    filterType: RECORD_LOOKUP_FILTER_CRITERIA.NONE,
+    filterType: RECORD_FILTER_CRITERIA.NONE,
     recordEntityName: 'Account',
     filterItems: [{
         operator: {value: '', error: null},
@@ -19,6 +21,7 @@ const mockDefaultRecordFilter = {
         rowIndex: 'RECORDLOOKUPFILTERITEM_1',
     }],
     recordFields: mockAccountFields,
+    elementType: ELEMENT_TYPE.RECORD_LOOKUP,
 };
 
 const mock3FilterItems = [{
@@ -54,26 +57,36 @@ const createComponentUnderTest = () => {
 };
 
 const selectors = {
-    ruleForFindingRecordCombobox: 'lightning-combobox',
+    filterRecordsCombobox: 'lightning-combobox',
     hiddenFilterList: 'builder_platform_interaction-list.slds-hide',
     filterList: 'builder_platform_interaction-list',
     expressionBuilder: 'builder_platform_interaction-expression-builder',
+    warningIcon: 'lightning-icon',
+    warningMessage: 'lightning-formatted-rich-text',
 };
 
-const getRuleFindingRecordsCombobox = (recordLookupFilterCmp) => {
-    return recordLookupFilterCmp.querySelector(selectors.ruleForFindingRecordCombobox);
+const getFilterRecordsCombobox = (recordLookupFilterCmp) => {
+    return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.filterRecordsCombobox);
 };
 
 const getFilterList = (recordLookupFilterCmp) => {
-    return recordLookupFilterCmp.querySelector(selectors.filterList);
+    return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.filterList);
 };
 
 const getHiddenFilterList = (recordLookupFilterCmp) => {
-    return recordLookupFilterCmp.querySelector(selectors.hiddenFilterList);
+    return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.hiddenFilterList);
 };
 
 const getExpressionBuilders = (recordLookupFilterCmp) => {
-    return recordLookupFilterCmp.querySelectorAll(selectors.expressionBuilder);
+    return getShadowRoot(recordLookupFilterCmp).querySelectorAll(selectors.expressionBuilder);
+};
+
+const getWarningIcon = (recordLookupFilterCmp) => {
+    return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.warningIcon);
+};
+
+const getWarningMessage = (recordLookupFilterCmp) => {
+    return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.warningMessage);
 };
 
 class FilterTypeChangeEvent extends CustomEvent {
@@ -83,16 +96,56 @@ class FilterTypeChangeEvent extends CustomEvent {
 }
 
 describe('record-filter', () => {
-    describe('Rule for Finding Records', () => {
+    describe('Filter records combobox', () => {
         let element;
         beforeEach(() => {
             element = createComponentUnderTest();
         });
         it('"All Records (No Criteria)" should be the default selected ', () => {
-            expect(getRuleFindingRecordsCombobox(element).value).toBe(RECORD_LOOKUP_FILTER_CRITERIA.NONE);
+            expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.NONE);
         });
         it('Do not display filter lists', () => {
             expect(getHiddenFilterList(element)).not.toBeNull();
+        });
+    });
+
+    describe('Labels', () => {
+        let element;
+        it('Check filter records combobox label for record lookup', () => {
+            element = createComponentUnderTest();
+            expect(getFilterRecordsCombobox(element).label).toBe('FlowBuilderRecordEditor.ruleFindingRecords');
+        });
+        it('Check filter records combobox label for record update', () => {
+            mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_UPDATE;
+            element = createComponentUnderTest();
+            expect(getFilterRecordsCombobox(element).label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+        });
+        it('Check filter records combobox label for record delete', () => {
+            mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_DELETE;
+            element = createComponentUnderTest();
+            expect(getFilterRecordsCombobox(element).label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+        });
+    });
+
+    describe('Warning message', () => {
+        let element;
+        it('Should not display warning icon for record lookup', () => {
+            mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_LOOKUP;
+            element = createComponentUnderTest();
+            expect(getWarningIcon(element)).toBeNull();
+            expect(getWarningMessage(element)).toBeNull();
+        });
+        it('Should display warning icon and message for record update', () => {
+            mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_UPDATE;
+            element = createComponentUnderTest();
+            expect(getWarningIcon(element)).toBeDefined();
+            expect(getWarningMessage(element).value).toBe('FlowBuilderRecordEditor.updateAllRecords');
+        });
+        it('Should display warning icon and message for record delete', () => {
+            mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_DELETE;
+            element = createComponentUnderTest();
+            expect(getWarningIcon(element)).toBeDefined();
+            expect(getWarningMessage(element).value).toBe('FlowBuilderRecordEditor.deleteAllRecords');
         });
     });
 
@@ -102,7 +155,7 @@ describe('record-filter', () => {
             element = createComponentUnderTest();
         });
         it('Display the filter list when selecting "Criteria are Met"', () => {
-            getRuleFindingRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_LOOKUP_FILTER_CRITERIA.ALL));
+            getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
             return Promise.resolve().then(() => {
                 expect(getHiddenFilterList(element)).toBeNull();
                 expect(getFilterList(element)).not.toBeNull();
@@ -110,8 +163,8 @@ describe('record-filter', () => {
             });
         });
         it('Hide the filter list when selecting "All Records ()"', () => {
-            mockDefaultRecordFilter.filterType = RECORD_LOOKUP_FILTER_CRITERIA.ALL;
-            getRuleFindingRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_LOOKUP_FILTER_CRITERIA.NONE));
+            mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
+            getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
             return Promise.resolve().then(() => {
                 expect(getHiddenFilterList(element)).not.toBeNull();
             });
@@ -121,12 +174,12 @@ describe('record-filter', () => {
     describe('Filter Items', () => {
         let element;
         beforeEach(() => {
-            mockDefaultRecordFilter.filterType = RECORD_LOOKUP_FILTER_CRITERIA.ALL;
+            mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
             mockDefaultRecordFilter.filterItems = mock3FilterItems;
             element = createComponentUnderTest();
         });
         it('"Criteria are Met" should be the default selected ', () => {
-            expect(getRuleFindingRecordsCombobox(element).value).toBe(RECORD_LOOKUP_FILTER_CRITERIA.ALL);
+            expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);
         });
         it('Filter list should be displayed', () => {
             expect(getHiddenFilterList(element)).toBeNull();

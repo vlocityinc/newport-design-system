@@ -1,6 +1,6 @@
 import { Element, api, track } from "engine";
-import { RECORD_LOOKUP_FILTER_CRITERIA } from 'builder_platform_interaction-flow-metadata';
-import { LABELS } from './record-filter-labels';
+import { RECORD_FILTER_CRITERIA, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS } from './record-filter-labels';
 import {
     AddRecordLookupFilterEvent,
     DeleteRecordLookupFilterEvent,
@@ -10,17 +10,17 @@ import {
 
 const FILTER_TYPE_OPTIONS = [{
     label : LABELS.filterNoCriteria,
-    value : RECORD_LOOKUP_FILTER_CRITERIA.NONE
+    value : RECORD_FILTER_CRITERIA.NONE
 }, {
     label : LABELS.filterAllCriterias,
-    value : RECORD_LOOKUP_FILTER_CRITERIA.ALL
+    value : RECORD_FILTER_CRITERIA.ALL
 }];
 
 export default class RecordFilter extends Element {
     labels = LABELS;
 
     @track
-    selectedFilter = RECORD_LOOKUP_FILTER_CRITERIA.NONE;
+    selectedFilter = RECORD_FILTER_CRITERIA.NONE;
 
     @track items = [];
 
@@ -33,7 +33,7 @@ export default class RecordFilter extends Element {
 
     /**
      * The filter type to pass as value of the rule for finding record drop down
-     * @param {String} value - it's RECORD_LOOKUP_FILTER_CRITERIA.NONE or RECORD_LOOKUP_FILTER_CRITERIA.ALL
+     * @param {String} value - it's RECORD_FILTER_CRITERIA.NONE or RECORD_FILTER_CRITERIA.ALL
      */
     @api
     set filterType(value) {
@@ -102,9 +102,20 @@ export default class RecordFilter extends Element {
     }
 
     get filterItemsClass() {
-        return (this.selectedFilter === RECORD_LOOKUP_FILTER_CRITERIA.ALL) ? '' : 'slds-hide';
+        return (this.selectedFilter === RECORD_FILTER_CRITERIA.ALL) ? '' : 'slds-hide';
     }
 
+    get filterLabel() {
+        return CRITERIA_RECORDS_LABELS[this.elementType];
+    }
+
+    get warningMessage() {
+        return WARNING_LABELS[this.elementType].replace('{0}', this.entityName);
+    }
+
+    get showWarningMessage() {
+        return (this.elementType === ELEMENT_TYPE.RECORD_UPDATE || this.elementType === ELEMENT_TYPE.RECORD_DELETE) && this.selectedFilter === RECORD_FILTER_CRITERIA.NONE;
+    }
     /**
      * handle event when changing the filter type in the rule for finding record dropdown
      * @param {Object} event the filter type changed event

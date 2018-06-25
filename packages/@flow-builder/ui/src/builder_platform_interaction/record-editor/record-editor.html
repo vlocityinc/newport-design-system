@@ -9,21 +9,24 @@
     </builder_platform_interaction-accordion>
     
     <div class="slds-m-bottom_small slds-border_top">
-    <h3 class="slds-text-heading_small slds-p-around_small">{labels.selectObject}</h3>
-    <div class="slds-p-horizontal_small">
-        <builder_platform_interaction-resource-picker crud-filter-type={crudFilterType} 
-        label={labels.object} mode={resourcePickerMode} oncomboboxstatechanged={handleResourceChanged}></builder_platform_interaction-resource-picker>
+        <h3 class="slds-text-heading_small slds-p-around_small">{labels.selectObject}</h3>
+        <div class="slds-p-horizontal_small">
+            <builder_platform_interaction-resource-picker crud-filter-type={crudFilterType} 
+            label={labels.object} mode={resourcePickerMode} oncomboboxstatechanged={handleResourceChanged}></builder_platform_interaction-resource-picker>
+        </div>
     </div>
-</div>
+    <div if:true={resourceApiName}>
+        <!-- Find Records section -->
+        <builder_platform_interaction-record-filter if:true={showFilter} element-type={elementType} filter-items={filterItems} record-entity-name={resourceApiName} record-fields={recordFields} filter-type={filterType} onaddrecordlookupfilter={handleEvent} onupdaterecordlookupfilter={handleEvent} ondeleterecordlookupfilter={handleEvent}></builder_platform_interaction-record-filter>
     
-
-<!-- Sort Records section -->
-<builder_platform_interaction-record-sort if:true={resourceApiName} resource-api-name={resourceApiName} onfieldselected={handleFieldSelected}></builder_platform_interaction-record-sort>
-
-    <!-- Record Store Fields Selection section -->
-    <builder_platform_interaction-record-store-options if:true={resourceApiName} 
-            element-type={elementType}
-            resource-api-name={resourceApiName}
-            number-of-records-to-store={numberRecordsToStore}
-            assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}></builder_platform_interaction-record-store-options>
+        <!-- Sort Records section -->
+        <builder_platform_interaction-record-sort resource-api-name={resourceApiName} onfieldselected={handleFieldSelected}></builder_platform_interaction-record-sort>
+    
+        <!-- Record Store Fields Selection section -->
+        <builder_platform_interaction-record-store-options
+                element-type={elementType}
+                resource-api-name={resourceApiName}
+                number-of-records-to-store={numberRecordsToStore}
+                assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}></builder_platform_interaction-record-store-options>
+    </div>    
 </template> 

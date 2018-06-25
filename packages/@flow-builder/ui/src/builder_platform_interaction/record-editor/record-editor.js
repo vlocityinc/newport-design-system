@@ -4,6 +4,7 @@ import { ENTITY_TYPE } from 'builder_platform_interaction-sobject-lib';
 import { RESOURCE_PICKER_MODE } from 'builder_platform_interaction-expression-utils';
 import { LABELS } from './record-editor-labels';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import { ELEMENT_TYPE, RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-flow-metadata';
 
 export default class RecordEditor extends Element {
     labels = LABELS;
@@ -81,6 +82,24 @@ export default class RecordEditor extends Element {
      */
     @api validate() {
         return [];
+    }
+    get filterItems() {
+        // TODO: should be mutated and get from element.filters
+        return [];
+    }
+
+    get recordFields() {
+        // TODO: should be queried from resourceApiName
+        return {};
+    }
+
+    get filterType() {
+        // TODO: should be mutated and get from element.filterType
+        return RECORD_FILTER_CRITERIA.NONE;
+    }
+
+    get showFilter() {
+        return this.elementType !== ELEMENT_TYPE.RECORD_CREATE;
     }
 
     /**

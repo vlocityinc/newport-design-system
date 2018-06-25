@@ -1,6 +1,6 @@
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
-import { RECORD_LOOKUP_FILTER_CRITERIA, SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { RECORD_FILTER_CRITERIA, SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 export const mutateFilterItems = (filterItems, objectType) => {
     filterItems.forEach((item, itemIndex) => {
@@ -31,7 +31,7 @@ export const mutateRecordLookup = record => {
     // TODO: make this transform the record lookup in an immutable way.
     const filterItems = record.filters;
     if (filterItems) {
-        record.filterType = (filterItems.length > 0 && filterItems[0].field) ? RECORD_LOOKUP_FILTER_CRITERIA.ALL : RECORD_LOOKUP_FILTER_CRITERIA.NONE;
+        record.filterType = (filterItems.length > 0 && filterItems[0].field) ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
         record.filters = mutateFilterItems(filterItems, record.object);
     }
     if (record.queriedFields) {

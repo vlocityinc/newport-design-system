@@ -2,8 +2,15 @@
     <div class="slds-m-bottom_small slds-border_top">
         <h3 class="slds-text-heading_small slds-p-around_small">{labels.findRecords}</h3>
         <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
-            <lightning-combobox label={labels.ruleFindingRecords} value={selectedFilter} options={filterOptions} onchange={handleFilterTypeChanged} >
+            <lightning-combobox label={filterLabel} value={selectedFilter} options={filterOptions} onchange={handleFilterTypeChanged} >
             </lightning-combobox>
+        </div>
+        <div class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center" if:true={showWarningMessage}>
+            <lightning-icon icon-name="utility:warning" title={labels.warning} alternative-text={labels.warning} variant="warning" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
+             <lightning-formatted-rich-text 
+                value={warningMessage} 
+                class="slds-m-left_xx-small slds-m-top_xx-small">
+            </lightning-formatted-rich-text>
         </div>
         <div class="slds-p-horizontal_small ">
         <builder_platform_interaction-list items={filterItems} class={filterItemsClass} onaddlistitem={handleAddFilter} onupdatelistitem={handleUpdateFilter} ondeletelistitem={handleDeleteFilter} add-label={labels.addCriteria}>
