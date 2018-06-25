@@ -2,6 +2,7 @@ import { createElement } from 'engine';
 import AssignmentEditor from '../assignment-editor';
 import { PropertyChangedEvent, AddListItemEvent, DeleteListItemEvent, UpdateListItemEvent} from 'builder_platform_interaction-events';
 import {deepCopy} from 'builder_platform_interaction-store-lib';
+import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-assignment-editor', { is: AssignmentEditor });
@@ -49,7 +50,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
             const event = new PropertyChangedEvent('description', 'new desc', null);
-            assignmentElement.querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
+            getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
             expect(assignmentElement.node.description.value).toBe('new desc');
         });
     });
@@ -58,7 +59,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
             const event = new AddListItemEvent(1);
-            assignmentElement.querySelector('builder_platform_interaction-list').dispatchEvent(event);
+            getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-list').dispatchEvent(event);
             expect(assignmentElement.node.assignmentItems).toHaveLength(2);
         });
     });
@@ -67,7 +68,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
             const event = new DeleteListItemEvent(0);
-            assignmentElement.querySelector('builder_platform_interaction-list').dispatchEvent(event);
+            getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-list').dispatchEvent(event);
             expect(assignmentElement.node.assignmentItems).toHaveLength(0);
         });
     });
@@ -76,7 +77,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
             const event = new UpdateListItemEvent(0, {'leftHandSide': {value: 'val', error: 'err'}});
-            assignmentElement.querySelector('builder_platform_interaction-list').dispatchEvent(event);
+            getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-list').dispatchEvent(event);
             expect(assignmentElement.node.assignmentItems[0].leftHandSide.value).toBe('val');
         });
     });
@@ -86,7 +87,7 @@ describe('assignment-editor', () => {
         node.assignmentItems = deepCopy(size2);
         assignmentElement.node = node;
         return Promise.resolve().then(() => {
-            const rows = assignmentElement.querySelectorAll('builder_platform_interaction-row');
+            const rows = getShadowRoot(assignmentElement).querySelectorAll('builder_platform_interaction-row');
             rows.forEach(row => {
                 expect(row.showDelete).toBe(true);
             });
@@ -98,7 +99,7 @@ describe('assignment-editor', () => {
         node.assignmentItems = deepCopy(size1);
         assignmentElement.node = node;
         return Promise.resolve().then(() => {
-            const rows = assignmentElement.querySelectorAll('builder_platform_interaction-row');
+            const rows = getShadowRoot(assignmentElement).querySelectorAll('builder_platform_interaction-row');
             rows.forEach(row => {
                 expect(row.showDelete).toBe(false);
             });

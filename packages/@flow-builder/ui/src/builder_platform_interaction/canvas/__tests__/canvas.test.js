@@ -1,6 +1,7 @@
 import {createElement} from 'engine';
 import Canvas from 'builder_platform_interaction-canvas';
 import { CANVAS_EVENT } from 'builder_platform_interaction-events';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {
     CANVAS_DIV: '.canvas',
@@ -68,7 +69,7 @@ describe('Canvas', () => {
                     key: 'Backspace'
                 });
 
-                const canvasDiv = canvas.querySelector(SELECTORS.CANVAS_DIV);
+                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
                 canvasDiv.dispatchEvent(backspaceEvent);
 
                 expect(eventCallback).not.toHaveBeenCalled();
@@ -76,7 +77,7 @@ describe('Canvas', () => {
 
             it('does nothing if canvas is in pan mode', () => {
                 const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-                const canvasDiv = canvas.querySelector(SELECTORS.CANVAS_DIV);
+                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
 
                 // Space key to toggle pan mode on
                 const spaceEvent = new KeyboardEvent('keydown', {
@@ -107,7 +108,7 @@ describe('Canvas', () => {
                         key: 'Backspace'
                     });
 
-                    const canvasDiv = canvas.querySelector(SELECTORS.CANVAS_DIV);
+                    const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
 
                     canvasDiv.dispatchEvent(backspaceEvent);
 

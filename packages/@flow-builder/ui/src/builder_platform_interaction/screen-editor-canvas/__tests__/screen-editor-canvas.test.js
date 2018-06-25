@@ -2,6 +2,7 @@ import { createElement } from 'engine';
 import  ScreenEditorCanvas  from '../screen-editor-canvas';
 import { createScreenElementSelectedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
 import { createTestScreen } from 'builder_platform_interaction-builder-test-utils';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-editor-canvas', {
@@ -21,7 +22,7 @@ describe('help icon', () => {
             labels: {}
         });
         return Promise.resolve().then(() => {
-            const helpIcon = screenEditorCanvasElement.querySelector('lightning-button-icon');
+            const helpIcon = getShadowRoot(screenEditorCanvasElement).querySelector('lightning-button-icon');
             expect(helpIcon).toBeDefined();
         });
     });
@@ -37,7 +38,7 @@ describe('fields rendered', () => {
     });
     it('Correct number of screen fields are rendered', () => {
         return Promise.resolve().then(() => {
-            const highlightFields = screenEditorCanvasElement.querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
+            const highlightFields = getShadowRoot(screenEditorCanvasElement).querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
             expect(highlightFields).toHaveLength(9);
         });
     });
@@ -53,7 +54,7 @@ describe('No fields rendered for empty screen', () => {
     });
     it('Correct number of screen fields are rendered', () => {
         return Promise.resolve().then(() => {
-            const highlightFields = screenEditorCanvasElement.querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
+            const highlightFields = getShadowRoot(screenEditorCanvasElement).querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
             expect(highlightFields).toHaveLength(0);
         });
     });
@@ -69,13 +70,13 @@ describe('canvas elements draggability', () => {
     });
     it('screen field is draggable', () => {
         return Promise.resolve().then(() => {
-            const field = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
+            const field = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
             expect(field.draggable).toBeTruthy();
         });
     });
     it('screen header is not draggable', () => {
         return Promise.resolve().then(() => {
-            const header = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-content builder_platform_interaction-screen-editor-highlight');
+            const header = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-content builder_platform_interaction-screen-editor-highlight');
             expect(header.draggable).toBeFalsy();
         });
     });
@@ -93,7 +94,7 @@ describe('Click handling on canvas', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn().mockImplementation();
             screenEditorCanvasElement.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, eventCallback);
-            const canvasDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
             const selectEvent = createScreenElementSelectedEvent();
             canvasDiv.dispatchEvent(selectEvent);
             expect(eventCallback).toHaveBeenCalled();
@@ -114,11 +115,11 @@ describe('handleDragEnter', () => {
             const dragEnterEvent = new CustomEvent('dragenter');
 
             // Before firing the event, we should see the class in question.
-            const draggingRegion = screenEditorCanvasElement.querySelector('.screen-editor-canvas-dragging-region');
+            const draggingRegion = getShadowRoot(screenEditorCanvasElement).querySelector('.screen-editor-canvas-dragging-region');
             expect(draggingRegion.classList).toContain('slds-hide');
 
             // Fire dragEnter event on the canvas
-            const canvasDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
             canvasDiv.dispatchEvent(dragEnterEvent);
             expect(draggingRegion.classList).not.toContain('slds-hide');
         });
@@ -136,11 +137,11 @@ describe('handleDragEnd', () => {
     it('dragEnd adds the expected class to the highlight', () => {
         return Promise.resolve().then(() => {
             const dragEndEvent = new CustomEvent('dragend');
-            const draggingRegion = screenEditorCanvasElement.querySelector('.screen-editor-canvas-dragging-region');
+            const draggingRegion = getShadowRoot(screenEditorCanvasElement).querySelector('.screen-editor-canvas-dragging-region');
 
             // First dragEnter so the class is removed.
             const dragEnterEvent = new CustomEvent('dragenter');
-            const canvasDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
             canvasDiv.dispatchEvent(dragEnterEvent);
             expect(draggingRegion.classList).not.toContain('slds-hide');
 
@@ -174,7 +175,7 @@ describe('onDrop', () => {
         }
 
         // Add a getBoundingClientRect() funciont to each highlight element, which is used by the dragging method.
-        const fieldHighlights = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-body').querySelectorAll('builder_platform_interaction-screen-editor-highlight');
+        const fieldHighlights = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-body').querySelectorAll('builder_platform_interaction-screen-editor-highlight');
         let counter = 0;
         for (const fieldHighlight of fieldHighlights) {
             fieldHighlight.getBoundingClientRect = boundingClientRectMock(counter);
@@ -200,7 +201,7 @@ describe('onDrop', () => {
             dropEvent.y = 100;
             dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
 
-            const canvasBodyDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
             canvasBodyDiv.dispatchEvent(dropEvent);
             expect(eventCallback).not.toHaveBeenCalled();
         });
@@ -224,7 +225,7 @@ describe('onDrop', () => {
             dropEvent.y = 100;
             dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[2].guid);
 
-            const canvasBodyDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
             canvasBodyDiv.dispatchEvent(dropEvent);
             expect(eventCallback).toHaveBeenCalled();
         });
@@ -248,7 +249,7 @@ describe('onDrop', () => {
             dropEvent.y = 230;
             dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
 
-            const canvasBodyDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
             canvasBodyDiv.dispatchEvent(dropEvent);
             expect(eventCallback).toHaveBeenCalled();
         });
@@ -272,7 +273,7 @@ describe('onDrop', () => {
             dropEvent.y = 1202;
             dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
 
-            const canvasBodyDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
             canvasBodyDiv.dispatchEvent(dropEvent);
             expect(eventCallback).toHaveBeenCalled();
         });
@@ -296,7 +297,7 @@ describe('onDrop', () => {
             dropEvent.y = null;
             dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
 
-            const canvasBodyDiv = screenEditorCanvasElement.querySelector('div.screen-editor-canvas-container');
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
             canvasBodyDiv.dispatchEvent(dropEvent);
             expect(eventCallback).not.toHaveBeenCalled();
         });

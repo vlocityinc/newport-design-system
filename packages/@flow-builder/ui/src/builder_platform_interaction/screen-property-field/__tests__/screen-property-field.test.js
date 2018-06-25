@@ -1,5 +1,6 @@
 import { createElement } from 'engine';
 import  ScreenPropertyField  from '../screen-property-field';
+import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction-selectors', () => {
     return {
@@ -30,7 +31,7 @@ describe('screen-property-field', () => {
             type: 'long_string',
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.querySelector(TEXT_AREA_SELECTOR);
+            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(TEXT_AREA_SELECTOR);
             expect(elem).toBeDefined();
         });
     });
@@ -40,7 +41,7 @@ describe('screen-property-field', () => {
             type: 'rich_string',
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.querySelector(RICH_TEXT);
+            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(RICH_TEXT);
             expect(elem).toBeDefined();
         });
     });
@@ -50,7 +51,7 @@ describe('screen-property-field', () => {
             type: 'number',
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.querySelector(INPUT_SELECTOR);
+            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.type).toBe('number');
         });
@@ -61,7 +62,7 @@ describe('screen-property-field', () => {
             type: 'boolean',
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.querySelector(INPUT_SELECTOR);
+            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.type).toBe('checkbox');
         });
@@ -72,7 +73,7 @@ describe('screen-property-field', () => {
             type: 'string',
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.querySelector(INPUT_SELECTOR);
+            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.type).toBe('text');
         });
@@ -85,7 +86,7 @@ describe('screen-property-field', () => {
             helpText: helpValue
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.querySelector(INPUT_SELECTOR);
+            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.fieldLevelHelp).toBe(helpValue);
         });

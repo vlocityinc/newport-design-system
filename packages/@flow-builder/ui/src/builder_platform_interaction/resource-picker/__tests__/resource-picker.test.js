@@ -8,6 +8,7 @@ import {
     RESOURCE_PICKER_MODE,
 } from 'builder_platform_interaction-expression-utils';
 import { ComboboxStateChangedEvent, FilterMatchesEvent } from 'builder_platform_interaction-events';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-resource-picker', {
@@ -50,7 +51,7 @@ describe('resource-picker', () => {
     it('contains one inner flow combobox', () => {
         const resourcePicker = setupComponentUnderTest();
         return Promise.resolve().then(() => {
-            const flowCombobox = resourcePicker.querySelector(selectors.COMBOBOX);
+            const flowCombobox = getShadowRoot(resourcePicker).querySelector(selectors.COMBOBOX);
             expect(flowCombobox).toBeDefined();
         });
     });
@@ -100,7 +101,7 @@ describe('resource-picker', () => {
         it('populates combobox with ferov data when in ferov mode', () => {
             const resourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const flowCombobox = resourcePicker.querySelector(selectors.COMBOBOX);
+                const flowCombobox = getShadowRoot(resourcePicker).querySelector(selectors.COMBOBOX);
                 expect(flowCombobox.menuData).toEqual(ferovMenuData);
             });
         });
@@ -149,7 +150,7 @@ describe('resource-picker', () => {
         it('populates combobox with entity data when in entity mode', () => {
             const resourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const flowCombobox = resourcePicker.querySelector(selectors.COMBOBOX);
+                const flowCombobox = getShadowRoot(resourcePicker).querySelector(selectors.COMBOBOX);
                 expect(flowCombobox.menuData).toEqual(entityMenuData);
             });
         });
@@ -158,7 +159,7 @@ describe('resource-picker', () => {
     describe('event handlers', () => {
         it('handles the filter menu data event', () => {
             const resourcePicker = setupComponentUnderTest({mode: RESOURCE_PICKER_MODE.ENTITY_MODE});
-            const flowCombobox = resourcePicker.querySelector(selectors.COMBOBOX);
+            const flowCombobox = getShadowRoot(resourcePicker).querySelector(selectors.COMBOBOX);
             flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue'));
             return Promise.resolve().then(() => {
                 expect(filterMatches).toHaveBeenCalled();
@@ -168,7 +169,7 @@ describe('resource-picker', () => {
 
         it('handles the combobox value changed event', () => {
             const resourcePicker = setupComponentUnderTest({mode: RESOURCE_PICKER_MODE.ENTITY_MODE, initialItem: 'entityMenuData'});
-            const flowCombobox = resourcePicker.querySelector(selectors.COMBOBOX);
+            const flowCombobox = getShadowRoot(resourcePicker).querySelector(selectors.COMBOBOX);
             flowCombobox.dispatchEvent(new ComboboxStateChangedEvent({value: 'someValue', displayText: 'someValue'}));
             return Promise.resolve().then(() => {
                 expect(flowCombobox.value).toEqual({value: 'someValue', displayText: 'someValue'});

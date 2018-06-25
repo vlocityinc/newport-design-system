@@ -1,5 +1,6 @@
 import { createElement } from 'engine';
 import FormulaEditor from '../formula-editor';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-formula-editor', { is: FormulaEditor });
@@ -42,12 +43,12 @@ describe('formula-editor', () => {
             formulaEditor = createComponentUnderTest(formulaResource);
         });
         it('Number should be selected, scale should be 1', () => {
-            const dataTypePicker = formulaEditor.querySelector(selectors.dataTypePicker);
+            const dataTypePicker = getShadowRoot(formulaEditor).querySelector(selectors.dataTypePicker);
             expect(dataTypePicker.value.dataType).toBe('Number');
             expect(dataTypePicker.value.scale).toBe(1);
         });
         it('Expression textarea should have the proper value', () => {
-            const expressionTextArea = formulaEditor.querySelector(selectors.expressionTextArea);
+            const expressionTextArea = getShadowRoot(formulaEditor).querySelector(selectors.expressionTextArea);
             expect(expressionTextArea.value).toBe('2+2');
         });
     });

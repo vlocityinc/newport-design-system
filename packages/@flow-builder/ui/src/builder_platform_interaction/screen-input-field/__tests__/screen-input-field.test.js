@@ -5,6 +5,7 @@ import {
     LIGHTNING_INPUT_TYPES,
     LIGHTNING_INPUT_VARIANTS
 } from 'builder_platform_interaction-screen-editor-utils';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {
     INPUT : 'lightning-input'
@@ -30,19 +31,19 @@ describe('Currency screen field', () => {
     });
     it('Type should be number', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.NUMBER);
         });
     });
     it('Formatter should be set to currency', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.formatter).toEqual(CURRENCY_FORMAT);
         });
     });
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
@@ -60,19 +61,19 @@ describe('Number screen field', () => {
     });
     it('Type should be number', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.NUMBER);
         });
     });
     it('Formatter should be set to undefined', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.formatter).toBeUndefined();
         });
     });
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
@@ -90,19 +91,19 @@ describe('Textbox screen field', () => {
     });
     it('Type should be null', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.type).toBeNull();
         });
     });
     it('Formatter should be set to undefined', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.formatter).toBeUndefined();
         });
     });
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
@@ -120,7 +121,7 @@ describe('Screen input field with no label', () => {
     });
     it('Label should be hidden when it is empty', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN);
         });
     });
@@ -138,7 +139,7 @@ describe('Screen input field with empty space only should not be displayed', () 
     });
     it('Label should be hidden when it is empty', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN);
         });
     });
@@ -155,7 +156,7 @@ describe('DateTime screen input field', () => {
     });
     it('Lightning input type should be number', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.DATE_TIME);
         });
     });
@@ -174,7 +175,7 @@ describe('Field with help text', () => {
     });
     it('Help text should be passed through', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.querySelector(SELECTORS.INPUT);
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.fieldLevelHelp).toEqual(helpTextValue);
         });
     });

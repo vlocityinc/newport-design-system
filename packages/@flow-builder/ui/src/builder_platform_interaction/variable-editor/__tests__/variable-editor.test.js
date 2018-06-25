@@ -118,7 +118,7 @@ describe('variable-editor', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
                 const dataTypePicker = getShadowRoot(
-                    variableEditor.querySelector('builder_platform_interaction-data-type-picker')
+                    getShadowRoot(variableEditor).querySelector('builder_platform_interaction-data-type-picker')
                 ).querySelector('lightning-combobox');
                 expect(dataTypePicker.options).toHaveLength(9);
             });

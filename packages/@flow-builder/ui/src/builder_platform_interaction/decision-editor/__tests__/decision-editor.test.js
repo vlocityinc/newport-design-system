@@ -5,6 +5,7 @@ import {
     DeleteOutcomeEvent,
     PropertyChangedEvent
 } from 'builder_platform_interaction-events';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const mockNewState = {
     label: {value: 'New Decision'},
@@ -100,7 +101,7 @@ describe('Decision Editor', () => {
             return Promise.resolve().then(() => {
                 const deleteOutcomeEvent = new DeleteOutcomeEvent('outcomeGuid');
 
-                const outcome = decisionEditor.querySelector(SELECTORS.OUTCOME);
+                const outcome = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
                 outcome.dispatchEvent(deleteOutcomeEvent);
 
                 expect(decisionEditor.node).toEqual(mockNewState);
@@ -115,10 +116,10 @@ describe('Decision Editor', () => {
         //     return Promise.resolve().then(() => {
         //         const deleteOutcomeEvent = new DeleteOutcomeEvent('outcomeGuid');
         //
-        //         const outcomeElement = decisionEditor.querySelector(selectors.outcome);
+        //         const outcomeElement = getShadowRoot(decisionEditor).querySelector(selectors.outcome);
         //         outcomeElement.dispatchEvent(deleteOutcomeEvent);
         //     }).then(() => {
-        //         const outcomeElement = decisionEditor.querySelector(selectors.outcome);
+        //         const outcomeElement = getShadowRoot(decisionEditor).querySelector(selectors.outcome);
         //         debugger;
         //         expect(outcomeElement.outcome).toEqual(mockNewState.outcomes[0]);
         //     });
@@ -130,7 +131,7 @@ describe('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
             return Promise.resolve().then(() => {
-                const outcomeElement = decisionEditor.querySelector(SELECTORS.OUTCOME);
+                const outcomeElement = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
                 expect(outcomeElement.showDelete).toBe(true);
             });
         });
@@ -138,7 +139,7 @@ describe('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
 
             return Promise.resolve().then(() => {
-                const outcomeElement = decisionEditor.querySelector(SELECTORS.OUTCOME);
+                const outcomeElement = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
                 expect(outcomeElement.showDelete).toBe(false);
             });
         });
@@ -150,7 +151,7 @@ describe('Decision Editor', () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
                 return Promise.resolve().then(() => {
-                    const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                    const reorderableOutcomeNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
                     const menuItems = reorderableOutcomeNav.menuItems;
 
                     // menu includes the default
@@ -168,7 +169,7 @@ describe('Decision Editor', () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
                 return Promise.resolve().then(() => {
-                    const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                    const reorderableOutcomeNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
                     const menuItems = reorderableOutcomeNav.menuItems;
 
                     expect(menuItems[0].isDraggable).toBeTruthy();
@@ -179,7 +180,7 @@ describe('Decision Editor', () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
                 return Promise.resolve().then(() => {
-                    const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                    const reorderableOutcomeNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
                     const menuItems = reorderableOutcomeNav.menuItems;
 
                     expect(menuItems[2].isDraggable).toBeFalsy();
@@ -189,7 +190,7 @@ describe('Decision Editor', () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
                 return Promise.resolve().then(() => {
-                    const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                    const reorderableOutcomeNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
                     const menuItems = reorderableOutcomeNav.menuItems;
 
                     // We mocked getErrorsFromHydratedElement to always return an error
@@ -206,7 +207,7 @@ describe('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
 
             // trigger showing of default outcome
-            const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+            const reorderableOutcomeNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
             reorderableOutcomeNav.dispatchEvent(new CustomEvent('itemselected', {
                 detail: { itemId: null }
             }));
@@ -214,7 +215,7 @@ describe('Decision Editor', () => {
             return Promise.resolve().then(() => {
                 const modifyDefaultOutcomeEvent = new PropertyChangedEvent('name', 'newValue');
 
-                const defaultOutcome = decisionEditor.querySelector(SELECTORS.DEFAULT_OUTCOME);
+                const defaultOutcome = getShadowRoot(decisionEditor).querySelector(SELECTORS.DEFAULT_OUTCOME);
 
                 defaultOutcome.dispatchEvent(modifyDefaultOutcomeEvent);
 
@@ -240,7 +241,7 @@ describe('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
 
             return Promise.resolve().then(() => {
-                const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                const reorderableOutcomeNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
                 const menuItems = reorderableOutcomeNav.menuItems;
 
                 expect(menuItems[1].hasErrors).toBeFalsy();
@@ -254,7 +255,7 @@ describe('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
 
             return Promise.resolve().then(() => {
-                const reorderableOutcomeNav = decisionEditor.querySelector(SELECTORS.REORDERABLE_NAV);
+                const reorderableOutcomeNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
                 const menuItems = reorderableOutcomeNav.menuItems;
 
                 expect(menuItems[1].hasErrors).toBeTruthy();

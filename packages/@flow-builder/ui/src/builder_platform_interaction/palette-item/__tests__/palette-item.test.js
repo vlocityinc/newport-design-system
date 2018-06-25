@@ -1,6 +1,7 @@
 import { createElement } from 'engine';
 import { PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 import PaletteItem from 'builder_platform_interaction-palette-item';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-palette-item', {
@@ -16,7 +17,7 @@ const selectors = {
 
 
 const getRightChevronButtonIcon = (paletteItemComponent) => {
-    const lightningButtonIcon = paletteItemComponent.querySelectorAll(selectors.lightningButtonIcon);
+    const lightningButtonIcon = getShadowRoot(paletteItemComponent).querySelectorAll(selectors.lightningButtonIcon);
     return lightningButtonIcon[0];
 };
 
@@ -40,7 +41,7 @@ describe('Palette-Item', () => {
         recordPaletteItemComponent.addEventListener(PaletteItemChevronClickedEvent.EVENT_NAME, eventCallback);
 
         const paletteItemRightChevronClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', 'VARIABLE_1', 'LABEL', 'ICON_NAME', 'VARIABLE_DESCRIPTION');
-        recordPaletteItemComponent.querySelector(selectors.lightningButtonIcon).dispatchEvent(paletteItemRightChevronClickedEvent);
+        getShadowRoot(recordPaletteItemComponent).querySelector(selectors.lightningButtonIcon).dispatchEvent(paletteItemRightChevronClickedEvent);
         return Promise.resolve().then(() => {
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({

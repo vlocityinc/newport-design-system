@@ -3,6 +3,7 @@ import ScreenEditorHighlight from 'builder_platform_interaction-screen-editor-hi
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
 import { DRAGGING_CLASS, CONTAINER_DIV_SELECTOR} from 'builder_platform_interaction-screen-editor-utils';
 import { createTestScreenField } from 'builder_platform_interaction-builder-test-utils';
+import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-highlight', { is: ScreenEditorHighlight });
@@ -20,7 +21,7 @@ describe('Click highlight', () => {
     });
     it('clicking on highlight component fires correct event', () => {
         return Promise.resolve().then(() => {
-            const hightlightDiv = highlight.querySelector(CONTAINER_DIV_SELECTOR);
+            const hightlightDiv = getShadowRoot(highlight).querySelector(CONTAINER_DIV_SELECTOR);
             const callback = jest.fn();
             highlight.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, callback);
             hightlightDiv.click();
@@ -48,7 +49,7 @@ describe('onDragStart', () => {
                     return this.data[type];
                 }
             };
-            const hightlightDiv = highlight.querySelector(CONTAINER_DIV_SELECTOR);
+            const hightlightDiv = getShadowRoot(highlight).querySelector(CONTAINER_DIV_SELECTOR);
             hightlightDiv.dispatchEvent(dragStartEvent);
             expect(dragStartEvent.dataTransfer.effectAllowed).toBe('move');
             expect(dragStartEvent.dataTransfer.getData('text')).toBe(highlight.screenElement.guid);
@@ -78,7 +79,7 @@ describe('onDragEnd', () => {
             };
             const dragEndEvent = new CustomEvent('dragend');
 
-            const hightlightDiv = highlight.querySelector(CONTAINER_DIV_SELECTOR);
+            const hightlightDiv = getShadowRoot(highlight).querySelector(CONTAINER_DIV_SELECTOR);
             hightlightDiv.dispatchEvent(dragStartEvent);
             hightlightDiv.dispatchEvent(dragEndEvent);
             expect(hightlightDiv.classList).not.toContain(DRAGGING_CLASS);

@@ -2,6 +2,7 @@ import { createElement } from 'engine';
 import ScreenEditorPropertiesEditorContainer from '../screen-properties-editor-container';
 import { getAllScreenFieldTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { query } from 'builder_platform_interaction-builder-test-utils';
+import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction-selectors', () => {
     return {
@@ -29,7 +30,7 @@ describe('screen-properties-editor-container', () => {
             node: {elementType: 'SCREEN'}
         });
         return Promise.resolve().then(() => {
-            const header = screenPropertiesEditorContainerElement.querySelector(headerSelector);
+            const header = getShadowRoot(screenPropertiesEditorContainerElement).querySelector(headerSelector);
             expect(header.textContent).toBe('FlowBuilderScreenEditor.screen');
         });
     });
@@ -38,7 +39,7 @@ describe('screen-properties-editor-container', () => {
             node: {type: getAllScreenFieldTypes()[0]}
         });
         return Promise.resolve().then(() => {
-            const header = screenPropertiesEditorContainerElement.querySelector(headerSelector);
+            const header = getShadowRoot(screenPropertiesEditorContainerElement).querySelector(headerSelector);
             expect(header.textContent).toBe('FlowBuilderScreenEditor.screen > FlowBuilderScreenEditor.fieldTypeLabelTextField');
         });
     });

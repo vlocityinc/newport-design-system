@@ -1,5 +1,6 @@
 import { createElement } from 'engine';
 import Toolbar from 'builder_platform_interaction-toolbar';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-toolbar', {
@@ -21,7 +22,7 @@ describe('toolbar', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener('save', eventCallback);
-            toolbarComponent.querySelector(selectors.save).click();
+            getShadowRoot(toolbarComponent).querySelector(selectors.save).click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });

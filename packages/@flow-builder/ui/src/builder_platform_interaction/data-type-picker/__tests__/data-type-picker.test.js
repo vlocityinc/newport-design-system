@@ -2,6 +2,7 @@ import { createElement } from 'engine';
 import DataTypePicker from '../data-type-picker';
 import { FLOW_DATA_TYPE, SCALE_DEFAULT, SCALE_RANGE } from 'builder_platform_interaction-data-type-lib';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-data-type-picker', { is: DataTypePicker });
@@ -16,14 +17,14 @@ describe('Data Type picker', () => {
     let collectionComponent;
     beforeEach(() => {
         dataTypePickerComponent = createComponentUnderTest();
-        dataTypeComponent = () => dataTypePickerComponent.querySelector('lightning-combobox');
-        scaleComponent = () => dataTypePickerComponent.querySelector('.scale');
-        collectionComponent = () => dataTypePickerComponent.querySelector('.collection');
+        dataTypeComponent = () => getShadowRoot(dataTypePickerComponent).querySelector('lightning-combobox');
+        scaleComponent = () => getShadowRoot(dataTypePickerComponent).querySelector('.scale');
+        collectionComponent = () => getShadowRoot(dataTypePickerComponent).querySelector('.collection');
     });
     it('should only display given available data types', async () => {
         dataTypePickerComponent.availableDataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER];
         await Promise.resolve();
-        expect(dataTypePickerComponent.querySelector('lightning-combobox').options.map(option => option.label)).toEqual(['Text', 'Number']);
+        expect(getShadowRoot(dataTypePickerComponent).querySelector('lightning-combobox').options.map(option => option.label)).toEqual(['Text', 'Number']);
     });
     describe('When scale is allowed', () => {
         beforeEach(() => {

@@ -1,6 +1,7 @@
 import { createElement } from 'engine';
 import { EditElementEvent, DeleteElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 import Node from 'builder_platform_interaction-node';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = (isSelected) => {
     const el = createElement('builder_platform_interaction-node', {
@@ -31,7 +32,7 @@ const dblClick = (component) => {
         'bubbles'   : true,
         'cancelable': true,
     });
-    const nodeIcon = component.querySelector(selectors.icon);
+    const nodeIcon = getShadowRoot(component).querySelector(selectors.icon);
     nodeIcon.dispatchEvent(doubleClickEvent);
 };
 
@@ -54,7 +55,7 @@ describe('node', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(CANVAS_EVENT.NODE_SELECTED, callback);
-            nodeComponent.querySelector(selectors.icon).click();
+            getShadowRoot(nodeComponent).querySelector(selectors.icon).click();
             expect(callback).toHaveBeenCalled();
         });
     });
@@ -64,7 +65,7 @@ describe('node', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(CANVAS_EVENT.NODE_SELECTED, callback);
-            nodeComponent.querySelector(selectors.icon).click();
+            getShadowRoot(nodeComponent).querySelector(selectors.icon).click();
             expect(callback).toHaveBeenCalled();
         });
     });
@@ -73,7 +74,7 @@ describe('node', () => {
     it('Checks if a selected node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(true);
         return Promise.resolve().then(() => {
-            expect(nodeComponent.querySelector(selectors.iconSelected)).toBeTruthy();
+            expect(getShadowRoot(nodeComponent).querySelector(selectors.iconSelected)).toBeTruthy();
         });
     });
 
@@ -97,7 +98,7 @@ describe('node', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-            nodeComponent.querySelector(selectors.trash).click();
+            getShadowRoot(nodeComponent).querySelector(selectors.trash).click();
             expect(callback).toHaveBeenCalled();
         });
     });

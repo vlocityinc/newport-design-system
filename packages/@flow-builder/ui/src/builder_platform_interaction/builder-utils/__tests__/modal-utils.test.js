@@ -6,6 +6,8 @@ import {
     showCustomOverlayTestPanel
 } from 'lightning-overlay-utils';
 
+import { getShadowRoot } from 'lwc-test-utils';
+
 describe('Modal Utils', () => {
     it('Shows a confirmation dialog that has clickable buttons', () => {
         const attributes = {
@@ -32,11 +34,11 @@ describe('Modal Utils', () => {
 
         return Promise.resolve().then(() => {
             document.body.appendChild(dialog);
-            const primaryButton = dialog.querySelector(".primary-button");
+            const primaryButton = getShadowRoot(dialog).querySelector(".primary-button");
             primaryButton.click();
             expect(callback).not.toHaveBeenCalled();
             expect(closeCallback).toHaveBeenCalled();
-            const secondaryButton = dialog.querySelector(".secondary-button");
+            const secondaryButton = getShadowRoot(dialog).querySelector(".secondary-button");
             secondaryButton.click();
             expect(callback).toHaveBeenCalled();
             expect(closeCallback).toHaveBeenCalledTimes(2);

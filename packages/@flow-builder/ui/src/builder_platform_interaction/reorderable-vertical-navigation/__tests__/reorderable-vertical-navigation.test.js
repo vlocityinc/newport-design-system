@@ -43,7 +43,7 @@ describe('ReorderableVerticalNavigation', () => {
     it('is styled with vertical tabs', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
-            const div = element.querySelectorAll(SELECTORS.DIV);
+            const div = getShadowRoot(element).querySelectorAll(SELECTORS.DIV);
             expect(div).toHaveLength(3);
             expect(div[0].getAttribute('class')).toContain('slds-vertical-tabs__nav');
         });
@@ -52,7 +52,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const items = element.querySelectorAll(SELECTORS.ITEM);
+            const items = getShadowRoot(element).querySelectorAll(SELECTORS.ITEM);
 
             expect(items).toHaveLength(2);
         });
@@ -61,7 +61,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const menuItems = element.querySelectorAll(SELECTORS.ITEM);
+            const menuItems = getShadowRoot(element).querySelectorAll(SELECTORS.ITEM);
             expect(menuItems[0].isDraggable).toBeTruthy();
             expect(menuItems[1].isDraggable).toBeFalsy();
         });
@@ -70,7 +70,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const frontIcon = element.querySelectorAll(SELECTORS.FRONT_ICON);
+            const frontIcon = getShadowRoot(element).querySelectorAll(SELECTORS.FRONT_ICON);
             expect(frontIcon).toHaveLength(1);
         });
     });
@@ -78,7 +78,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const firstMenuItem = getShadowRoot(element.querySelector(SELECTORS.VERTICAL_TAB_NAV_ITEM)).querySelector(SELECTORS.FIRST_LIST_ITEM);
+            const firstMenuItem = getShadowRoot(getShadowRoot(element).querySelector(SELECTORS.VERTICAL_TAB_NAV_ITEM)).querySelector(SELECTORS.FIRST_LIST_ITEM);
 
             const eventCallback = jest.fn();
             element.addEventListener('itemselected', eventCallback);
@@ -92,7 +92,7 @@ describe('ReorderableVerticalNavigation', () => {
         element.menuItems = initialMenu;
         element.activeItemId = 'item1';
         return Promise.resolve().then(() => {
-            const listItems = element.querySelectorAll(SELECTORS.LIST_ITEM);
+            const listItems = getShadowRoot(element).querySelectorAll(SELECTORS.LIST_ITEM);
             expect(listItems[0].getAttribute('class')).toContain('slds-vertical-tabs__nav-item slds-is-active');
             expect(listItems[1].getAttribute('class')).toContain('slds-vertical-tabs__nav-item');
             expect(listItems[1].getAttribute('class')).not.toContain('slds-is-active');

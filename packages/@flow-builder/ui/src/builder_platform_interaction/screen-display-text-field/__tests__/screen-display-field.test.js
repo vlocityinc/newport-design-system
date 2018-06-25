@@ -1,5 +1,6 @@
 import { createElement } from 'engine';
 import ScreenDisplayField from 'builder_platform_interaction-screen-display-text-field';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {
     RICH : 'lightning-formatted-rich-text',
@@ -27,7 +28,7 @@ describe('Rich text display field', () => {
     });
     it('Value should be displayed', () => {
         return Promise.resolve().then(() => {
-            const disp = displayWrapperCmp.querySelector(SELECTORS.RICH);
+            const disp = getShadowRoot(displayWrapperCmp).querySelector(SELECTORS.RICH);
             expect(disp.value).toEqual(displayValue);
         });
     });
@@ -45,7 +46,7 @@ describe('Text display field', () => {
     });
     it('Value shoudld be displayed ', () => {
         return Promise.resolve().then(() => {
-            const disp = displayWrapperCmp.querySelector(SELECTORS.BASIC);
+            const disp = getShadowRoot(displayWrapperCmp).querySelector(SELECTORS.BASIC);
             expect(disp.value).toEqual(displayValue);
         });
     });

@@ -1,6 +1,7 @@
 import { createElement } from 'engine';
 import ActionSelector from '../action-selector';
 import { mockError } from 'mock-action-selector-data';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-action-selector', { is: ActionSelector });
@@ -39,7 +40,7 @@ describe('When error occurs when retrieving data from server', () => {
     let lightningCombobox;
     beforeEach(() => {
         actionSelectorComponent = createComponentUnderTest();
-        lightningCombobox = actionSelectorComponent.querySelector(selectors.lightningCombobox);
+        lightningCombobox = getShadowRoot(actionSelectorComponent).querySelector(selectors.lightningCombobox);
     });
     test('Error should be displayed', () => {
         expect(lightningCombobox.setCustomValidity).toHaveBeenCalledWith('FlowBuilderActionCallEditor.retrieveInvocableActionsError');

@@ -11,6 +11,7 @@ import {
     PropertyChangedEvent
 } from 'builder_platform_interaction-events';
 import {CONDITION_LOGIC} from 'builder_platform_interaction-flow-metadata';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const outcomeWithOneConditional = {
     label: {value: 'Test Name of the Outcome'},
@@ -59,7 +60,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithThreeConditionals;
 
             return Promise.resolve().then(() => {
-                const rowsArray = element.querySelectorAll(selectors.row);
+                const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
 
                 expect(rowsArray).toHaveLength(3);
             });
@@ -70,7 +71,7 @@ describe('Outcome', () => {
                 element.outcome = outcomeWithOneConditional;
 
                 return Promise.resolve().then(() => {
-                    const row = element.querySelector(selectors.row);
+                    const row = getShadowRoot(element).querySelector(selectors.row);
 
                     expect(row.showDelete).toBeFalsy();
                 });
@@ -80,7 +81,7 @@ describe('Outcome', () => {
                 element.outcome = outcomeWithThreeConditionals;
 
                 return Promise.resolve().then(() => {
-                    const rows = element.querySelectorAll(selectors.row);
+                    const rows = getShadowRoot(element).querySelectorAll(selectors.row);
 
                     expect(rows[0].showDelete).toBeTruthy();
                     expect(rows[1].showDelete).toBeTruthy();
@@ -94,7 +95,7 @@ describe('Outcome', () => {
                 element.outcome = outcomeWithThreeConditionals;
 
                 return Promise.resolve().then(() => {
-                    const rowsArray = element.querySelectorAll(selectors.row);
+                    const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
 
                     expect(rowsArray[0].showPrefix).toBeTruthy();
                     expect(rowsArray[1].showPrefix).toBeTruthy();
@@ -112,7 +113,7 @@ describe('Outcome', () => {
                     element.outcome = rule;
 
                     return Promise.resolve().then(() => {
-                        const rowsArray = element.querySelectorAll(selectors.row);
+                        const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
 
                         expect(rowsArray[0].itemPrefix).toEqual('');
                     });
@@ -128,7 +129,7 @@ describe('Outcome', () => {
                     element.outcome = rule;
 
                     return Promise.resolve().then(() => {
-                        const rowsArray = element.querySelectorAll(selectors.row);
+                        const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
 
                         expect(rowsArray[1].itemPrefix).toEqual('AND');
                         expect(rowsArray[2].itemPrefix).toEqual('AND');
@@ -146,7 +147,7 @@ describe('Outcome', () => {
                     element.outcome = rule;
 
                     return Promise.resolve().then(() => {
-                        const rowsArray = element.querySelectorAll(selectors.row);
+                        const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
 
                         expect(rowsArray[0].itemPrefix).toEqual('');
                     });
@@ -162,7 +163,7 @@ describe('Outcome', () => {
                     element.outcome = rule;
 
                     return Promise.resolve().then(() => {
-                        const rowsArray = element.querySelectorAll(selectors.row);
+                        const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
 
                         expect(rowsArray[1].itemPrefix).toEqual('OR');
                         expect(rowsArray[2].itemPrefix).toEqual('OR');
@@ -175,7 +176,7 @@ describe('Outcome', () => {
                     element.outcome = outcomeWithThreeConditionals;
 
                     return Promise.resolve().then(() => {
-                        const rowsArray = element.querySelectorAll(selectors.row);
+                        const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
 
                         expect(rowsArray[0].itemPrefix).toEqual('1');
                         expect(rowsArray[1].itemPrefix).toEqual('2');
@@ -194,7 +195,7 @@ describe('Outcome', () => {
                     const eventCallback = jest.fn();
                     element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
 
-                    const conditionList = element.querySelector(selectors.conditionList);
+                    const conditionList = getShadowRoot(element).querySelector(selectors.conditionList);
                     conditionList.dispatchEvent(new AddListItemEvent());
 
                     expect(eventCallback).toHaveBeenCalled();
@@ -218,7 +219,7 @@ describe('Outcome', () => {
                     const eventCallback = jest.fn();
                     element.addEventListener(DeleteConditionEvent.EVENT_NAME, eventCallback);
 
-                    const conditionList = element.querySelector(selectors.conditionList);
+                    const conditionList = getShadowRoot(element).querySelector(selectors.conditionList);
                     conditionList.dispatchEvent(new DeleteListItemEvent(indexToDelete));
 
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -245,7 +246,7 @@ describe('Outcome', () => {
                     const eventCallback = jest.fn();
                     element.addEventListener(UpdateConditionEvent.EVENT_NAME, eventCallback);
 
-                    const conditionList = element.querySelector(selectors.conditionList);
+                    const conditionList = getShadowRoot(element).querySelector(selectors.conditionList);
                     conditionList.dispatchEvent(new UpdateListItemEvent(
                         updateData.index,
                         updateData.value,
@@ -274,7 +275,7 @@ describe('Outcome', () => {
                     });
 
                     return Promise.resolve().then(() => {
-                        const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+                        const conditionLogicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
 
                         expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.AND);
                     });
@@ -287,7 +288,7 @@ describe('Outcome', () => {
                     });
 
                     return Promise.resolve().then(() => {
-                        const customLogicInput = element.querySelector(selectors.customLogicInput);
+                        const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
                         expect(customLogicInput).toBeNull();
                     });
                 });
@@ -302,7 +303,7 @@ describe('Outcome', () => {
                     });
 
                     return Promise.resolve().then(() => {
-                        const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+                        const conditionLogicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
 
                         expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.OR);
                     });
@@ -315,7 +316,7 @@ describe('Outcome', () => {
                     });
 
                     return Promise.resolve().then(() => {
-                        const customLogicInput = element.querySelector(selectors.customLogicInput);
+                        const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
                         expect(customLogicInput).toBeNull();
                     });
                 });
@@ -327,7 +328,7 @@ describe('Outcome', () => {
                     element.outcome = outcomeWithThreeConditionals;
 
                     return Promise.resolve().then(() => {
-                        const conditionLogicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+                        const conditionLogicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
 
                         expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.CUSTOM_LOGIC);
                     });
@@ -337,7 +338,7 @@ describe('Outcome', () => {
                     element.outcome = outcomeWithThreeConditionals;
 
                     return Promise.resolve().then(() => {
-                        const customLogicInput = element.querySelector(selectors.customLogicInput);
+                        const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
 
                         expect(customLogicInput.value).toEqual(outcomeWithThreeConditionals.conditionLogic.value);
                     });
@@ -355,7 +356,7 @@ describe('Outcome', () => {
                             const eventCallback = jest.fn();
                             element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
 
-                            const logicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+                            const logicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
                             logicComboBox.dispatchEvent(new CustomEvent('change', {
                                 detail: {
                                     value: CONDITION_LOGIC.CUSTOM_LOGIC
@@ -385,7 +386,7 @@ describe('Outcome', () => {
                             const eventCallback = jest.fn();
                             element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
 
-                            const logicComboBox = element.querySelector(selectors.conditionLogicComboBox);
+                            const logicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
                             logicComboBox.dispatchEvent(new CustomEvent('change', {
                                 detail: {
                                     value: CONDITION_LOGIC.CUSTOM_LOGIC
@@ -413,7 +414,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const labelAndNameComponents = element.querySelectorAll(selectors.labelAndName);
+                const labelAndNameComponents = getShadowRoot(element).querySelectorAll(selectors.labelAndName);
                 expect(labelAndNameComponents).toHaveLength(1);
                 expect(labelAndNameComponents[0].devName.value).toBe(outcomeWithOneConditional.name.value);
                 expect(labelAndNameComponents[0].label.value).toBe(outcomeWithOneConditional.label.value);
@@ -424,7 +425,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const removeButton = element.querySelectorAll(selectors.removeButton)[0];
+                const removeButton = getShadowRoot(element).querySelectorAll(selectors.removeButton)[0];
 
                 expect(removeButton.label).toBe('Remove');
                 expect(removeButton.title).toBe('Remove Outcome');
@@ -436,7 +437,7 @@ describe('Outcome', () => {
             element.showDelete = false;
 
             return Promise.resolve().then(() => {
-                const removeButton = element.querySelector(selectors.removeButton);
+                const removeButton = getShadowRoot(element).querySelector(selectors.removeButton);
 
                 expect(removeButton).toBeNull();
             });
@@ -452,7 +453,7 @@ describe('Outcome', () => {
                 const eventCallback = jest.fn();
                 element.addEventListener(DeleteOutcomeEvent.EVENT_NAME, eventCallback);
 
-                const removeButton = element.querySelector(selectors.button);
+                const removeButton = getShadowRoot(element).querySelector(selectors.button);
                 removeButton.click();
 
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({

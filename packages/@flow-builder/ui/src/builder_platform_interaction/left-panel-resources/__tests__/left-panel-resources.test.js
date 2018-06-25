@@ -1,5 +1,6 @@
 import { createElement } from 'engine';
 import LeftPanelResources from 'builder_platform_interaction-left-panel-resources';
+import { getShadowRoot } from 'lwc-test-utils';
 
 import newResourceButtonText from '@label/FlowBuilderLeftPanel.newResourceButtonText';
 
@@ -20,7 +21,7 @@ describe("left-panel-resources", () => {
     describe('New Resource BUTTON', () => {
         it('Label name should be New Resource ', () => {
             const leftPanelComponent = createComponentUnderTest();
-            expect(leftPanelComponent.querySelector(selectors.addnewresource).label).toEqual(newResourceButtonText);
+            expect(getShadowRoot(leftPanelComponent).querySelector(selectors.addnewresource).label).toEqual(newResourceButtonText);
         });
         it('fires add event when NEW RESOURCE button is clicked', () => {
             const leftPanelComponent = createComponentUnderTest();
@@ -28,7 +29,7 @@ describe("left-panel-resources", () => {
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
                 leftPanelComponent.addEventListener('addnewresource', eventCallback);
-                leftPanelComponent.querySelector(selectors.addnewresource).click();
+                getShadowRoot(leftPanelComponent).querySelector(selectors.addnewresource).click();
                 expect(eventCallback).toHaveBeenCalled();
             });
         });

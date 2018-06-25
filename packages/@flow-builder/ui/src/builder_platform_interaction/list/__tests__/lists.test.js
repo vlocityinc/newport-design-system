@@ -1,6 +1,7 @@
 import { createElement } from 'engine';
 import List from '../list';
 import {deepCopy} from 'builder_platform_interaction-store-lib';
+import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-list', { is: List });
@@ -22,7 +23,7 @@ describe('list', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             list.addEventListener('addlistitem', callback);
-            list.querySelector('lightning-button').click();
+            getShadowRoot(list).querySelector('lightning-button').click();
             expect(callback).toHaveBeenCalled();
         });
     });

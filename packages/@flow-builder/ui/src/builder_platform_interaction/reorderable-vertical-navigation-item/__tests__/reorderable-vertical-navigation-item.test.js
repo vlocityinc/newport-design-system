@@ -1,5 +1,6 @@
 import {createElement} from 'engine';
 import ReorderableVerticalNavigationItem from 'builder_platform_interaction-reorderable-vertical-navigation-item';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {
     DRAGGABLE: 'builder_platform_interaction-draggable',
@@ -20,8 +21,8 @@ describe('ReorderableVerticalNavigationItem', () => {
     it('does not have front or end icon by default', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
-            const frontIcon = element.querySelectorAll(SELECTORS.FRONT_ICON);
-            const endIcon = element.querySelectorAll(SELECTORS.END_ICON);
+            const frontIcon = getShadowRoot(element).querySelectorAll(SELECTORS.FRONT_ICON);
+            const endIcon = getShadowRoot(element).querySelectorAll(SELECTORS.END_ICON);
 
             expect(frontIcon).toHaveLength(0);
             expect(endIcon).toHaveLength(0);
@@ -32,7 +33,7 @@ describe('ReorderableVerticalNavigationItem', () => {
         const element = createComponentUnderTest();
         element.label = testItemTitle;
         return Promise.resolve().then(() => {
-            const link = element.querySelectorAll(SELECTORS.LINK);
+            const link = getShadowRoot(element).querySelectorAll(SELECTORS.LINK);
             expect(link).toHaveLength(1);
             expect(link[0].text).toContain(testItemTitle);
         });
@@ -42,7 +43,7 @@ describe('ReorderableVerticalNavigationItem', () => {
         const testNavItemId = '1';
         element.navItemId = testNavItemId;
         return Promise.resolve().then(() => {
-            const link = element.querySelector(SELECTORS.LINK);
+            const link = getShadowRoot(element).querySelector(SELECTORS.LINK);
 
             const eventCallback = jest.fn();
             element.addEventListener('itemclicked', eventCallback);
@@ -57,7 +58,7 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.isDraggable = true;
 
             return Promise.resolve().then(() => {
-                const draggables = element.querySelectorAll(SELECTORS.DRAGGABLE);
+                const draggables = getShadowRoot(element).querySelectorAll(SELECTORS.DRAGGABLE);
                 expect(draggables).toHaveLength(1);
             });
         });
@@ -67,7 +68,7 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.isDraggable = false;
 
             return Promise.resolve().then(() => {
-                const draggables = element.querySelectorAll(SELECTORS.DRAGGABLE);
+                const draggables = getShadowRoot(element).querySelectorAll(SELECTORS.DRAGGABLE);
                 expect(draggables).toHaveLength(0);
             });
         });

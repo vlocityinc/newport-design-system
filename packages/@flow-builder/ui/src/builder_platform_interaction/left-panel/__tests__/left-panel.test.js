@@ -3,7 +3,7 @@ import { EditElementEvent, DeleteElementEvent, DeleteResourceEvent, PaletteItemC
 import LeftPanel from 'builder_platform_interaction-left-panel';
 
 import backButtonAltText from '@label/FlowBuilderResourceDetailsPanel.backButtonAltText';
-
+import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-left-panel', {
@@ -34,7 +34,7 @@ describe('left-panel', () => {
         it('when in Flow Resource List view - the panel should match the transition layout classes.', () => {
             const element = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                const panel = element.querySelector(selectors.panel);
+                const panel = getShadowRoot(element).querySelector(selectors.panel);
                 expect(panel.classList).toContain('slds-is-open');
                 expect(panel.classList).not.toContain('show-details');
             });
@@ -44,9 +44,9 @@ describe('left-panel', () => {
             const element = createComponentUnderTest();
             const guid = "guid1";
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
-                const panel = element.querySelector(selectors.panel);
+                const panel = getShadowRoot(element).querySelector(selectors.panel);
                 expect(panel.classList).toContain('slds-is-open');
                 expect(panel.classList).toContain('show-details');
             });
@@ -58,7 +58,7 @@ describe('left-panel', () => {
             it('when in Flow Resource List view - the panel header should match the layout classes.', () => {
                 const element = createComponentUnderTest();
                 return Promise.resolve().then(() => {
-                    const header = element.querySelector(selectors.panelHeader);
+                    const header = getShadowRoot(element).querySelector(selectors.panelHeader);
                     expect(header.classList).toContain('slds-m-bottom_medium');
                     expect(header.classList).toContain('slds-p-left_medium');
                 });
@@ -68,9 +68,9 @@ describe('left-panel', () => {
                 const element = createComponentUnderTest();
                 const guid = "guid1";
                 const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-                element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+                getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
                 return Promise.resolve().then(() => {
-                    const header = element.querySelector(selectors.panelHeader);
+                    const header = getShadowRoot(element).querySelector(selectors.panelHeader);
                     expect(header.classList).toContain('slds-m-bottom_medium');
                     expect(header.classList).not.toContain('slds-p-left_medium');
                 });
@@ -80,7 +80,7 @@ describe('left-panel', () => {
         it('when in Flow Resource List view - should NOT have Back Button Utility Icon.', () => {
             const element = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                const backButton = element.querySelector(selectors.panelHeaderBackButton);
+                const backButton = getShadowRoot(element).querySelector(selectors.panelHeaderBackButton);
                 expect(backButton).toBeNull();
             });
         });
@@ -89,9 +89,9 @@ describe('left-panel', () => {
             const element = createComponentUnderTest();
             const guid = "guid1";
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
-                const backButton = element.querySelector(selectors.panelHeaderBackButton);
+                const backButton = getShadowRoot(element).querySelector(selectors.panelHeaderBackButton);
                 expect(backButton.iconName).toBe('utility:back');
                 expect(backButton.alternativeText).toBe(backButtonAltText);
             });
@@ -101,12 +101,12 @@ describe('left-panel', () => {
             const element = createComponentUnderTest();
             const guid = "guid1";
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
-                const backButton = element.querySelector(selectors.panelHeaderBackButton);
+                const backButton = getShadowRoot(element).querySelector(selectors.panelHeaderBackButton);
                 backButton.click();
                 return Promise.resolve().then(() => {
-                    const button = element.querySelector(selectors.panelHeaderBackButton);
+                    const button = getShadowRoot(element).querySelector(selectors.panelHeaderBackButton);
                     expect(button).toBeNull();
                 });
             });
@@ -117,7 +117,7 @@ describe('left-panel', () => {
         it('when in Flow Resource List view - should NOT add show-details class.', () => {
             const element = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                const leftPanel = element.querySelector('.slds-panel');
+                const leftPanel = getShadowRoot(element).querySelector('.slds-panel');
                 expect(leftPanel.classList).not.toContain('show-details');
             });
         });
@@ -126,16 +126,16 @@ describe('left-panel', () => {
             const element = createComponentUnderTest();
             const guid = "guid1";
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
-                const leftPanel = element.querySelector('.slds-panel');
+                const leftPanel = getShadowRoot(element).querySelector('.slds-panel');
                 expect(leftPanel.classList).toContain('show-details');
             });
         });
 
         it('should set the active id to tab item-elements attributes by default.', () => {
             const element = createComponentUnderTest();
-            const tabItemsContent = element.querySelectorAll(selectors.tabItems);
+            const tabItemsContent = getShadowRoot(element).querySelectorAll(selectors.tabItems);
             return Promise.resolve().then(() => {
                 expect(tabItemsContent[0].activeid).toEqual(constants.defaultActiveTabId);
             });
@@ -150,7 +150,7 @@ describe('left-panel', () => {
                 const name = "guid_1";
                 const desc = '';
                 const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(type, guid, name, name, desc);
-                leftPanelComponent.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
+                getShadowRoot(leftPanelComponent).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
                 return Promise.resolve().then(() => {
                     expect(eventCallback).toHaveBeenCalled();
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -172,7 +172,7 @@ describe('left-panel', () => {
                 const type = "VARIABLE";
                 const guid = "guid1";
                 const paletteItemClickedEvent = new PaletteItemClickedEvent(type, guid);
-                leftPanelComponent.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+                getShadowRoot(leftPanelComponent).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
                 return Promise.resolve().then(() => {
                     expect(eventCallback).toHaveBeenCalled();
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -190,11 +190,11 @@ describe('left-panel', () => {
                 element.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
 
                 const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-                element.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+                getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
 
                 return Promise.resolve().then(() => {
                     const deleteResourceEvent = new DeleteResourceEvent([guid], 'VARIABLE');
-                    element.querySelector('builder_platform_interaction-resource-details').dispatchEvent(deleteResourceEvent);
+                    getShadowRoot(element).querySelector('builder_platform_interaction-resource-details').dispatchEvent(deleteResourceEvent);
                     return Promise.resolve().then(() => {
                         expect(eventCallback).toHaveBeenCalled();
                         expect(eventCallback.mock.calls[0][0]).toMatchObject({

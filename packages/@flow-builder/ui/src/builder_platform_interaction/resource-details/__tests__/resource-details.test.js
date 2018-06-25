@@ -4,6 +4,7 @@ import ResourceDetails from 'builder_platform_interaction-resource-details';
 
 import editButtonLabel from '@label/FlowBuilderResourceDetailsPanel.editButtonLabel';
 import deleteButtonLabel from '@label/FlowBuilderResourceDetailsPanel.deleteButtonLabel';
+import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-resource-details', {
@@ -31,7 +32,7 @@ describe('Resource Details', () => {
     it('should display Edit Button', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
-            const footerButtons = element.querySelectorAll(`${selectors.footer} ${selectors.footerButtons}`);
+            const footerButtons = getShadowRoot(element).querySelectorAll(`${selectors.footer} ${selectors.footerButtons}`);
             expect(footerButtons[1].label).toBe(editButtonLabel);
             expect(footerButtons[1].title).toBe(editButtonLabel);
         });
@@ -43,7 +44,7 @@ describe('Resource Details', () => {
         const element = createComponentUnderTest();
         element.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
         return Promise.resolve().then(() => {
-            const footerButtons = element.querySelectorAll(`${selectors.footer} ${selectors.footerButtons}`);
+            const footerButtons = getShadowRoot(element).querySelectorAll(`${selectors.footer} ${selectors.footerButtons}`);
             const editButtonClickedEvent = new EditElementEvent(guid);
             footerButtons[1].dispatchEvent(editButtonClickedEvent);
             return Promise.resolve().then(() => {
@@ -60,7 +61,7 @@ describe('Resource Details', () => {
     it('should display Delete Button', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
-            const footerButtons = element.querySelectorAll(`${selectors.footer} ${selectors.footerButtons}`);
+            const footerButtons = getShadowRoot(element).querySelectorAll(`${selectors.footer} ${selectors.footerButtons}`);
             expect(footerButtons[0].label).toBe(deleteButtonLabel);
             expect(footerButtons[0].title).toBe(deleteButtonLabel);
         });
@@ -72,7 +73,7 @@ describe('Resource Details', () => {
         const element = createComponentUnderTest();
         element.addEventListener(DeleteResourceEvent.EVENT_NAME, eventCallback);
         return Promise.resolve().then(() => {
-            const footerButtons = element.querySelectorAll(`${selectors.footer} ${selectors.footerButtons}`);
+            const footerButtons = getShadowRoot(element).querySelectorAll(`${selectors.footer} ${selectors.footerButtons}`);
             const deleteButtonClickedEvent = new DeleteResourceEvent([guid], "ASSIGNMENT");
             footerButtons[0].dispatchEvent(deleteButtonClickedEvent);
             return Promise.resolve().then(() => {
