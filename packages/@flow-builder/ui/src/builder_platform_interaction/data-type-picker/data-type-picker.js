@@ -10,6 +10,9 @@ export default class DataTypePicker extends Element {
     @track
     state = {};
 
+    @track
+    comboboxError;
+
     @api
     availableDataTypes = Object.values(FLOW_DATA_TYPE);
 
@@ -66,6 +69,33 @@ export default class DataTypePicker extends Element {
 
     get showScale() {
         return this.allowScale && !this.state.isCollection && (this.state.dataType === FLOW_DATA_TYPE.NUMBER.value || this.state.dataType === FLOW_DATA_TYPE.CURRENCY.value);
+    }
+
+    @api
+    set comboboxErrorMessage(errorMessage) {
+        this.comboboxError = errorMessage;
+        this.validate();
+    }
+
+    @api
+    get comboboxErrorMessage() {
+        return this.comboboxError;
+    }
+
+    validate() {
+        const comboboxInstance = this.getCombobox();
+        if (comboboxInstance) {
+            // set the custom validity to our error message
+            comboboxInstance.setCustomValidity(this.comboboxError);
+            // we only want to trigger validation if we have a property editor error message
+            if (this.comboboxError) {
+                comboboxInstance.showHelpMessageIfInvalid();
+            }
+        }
+    }
+
+    getCombobox() {
+        return this.template.querySelector('lightning-combobox');
     }
 
     handleDataTypeChanged(event) {
