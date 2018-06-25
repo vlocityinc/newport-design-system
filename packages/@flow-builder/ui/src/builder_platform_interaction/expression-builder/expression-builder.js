@@ -47,7 +47,20 @@ export default class ExpressionBuilder extends Element {
     };
 
     @track
+    allowRHSLiterals = true;
+
+    @track
     operatorAndRHSDisabled;
+
+    @api
+    set rhsLiteralsAllowed(allowed) {
+        this.allowRHSLiterals = allowed;
+    }
+
+    @api
+    get rhsLiteralsAllowed() {
+        return this.allowRHSLiterals;
+    }
 
     @api
     operatorDisplayOption = OPERATOR_DISPLAY_OPTION.COMBOBOX;

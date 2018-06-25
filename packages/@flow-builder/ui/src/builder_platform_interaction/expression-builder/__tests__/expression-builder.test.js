@@ -467,6 +467,22 @@ describe('expression-builder', () => {
         });
     });
 
+    describe('RHS literals-allowed can be determined by parent', () => {
+        it('rhs literals should be allowed by default', () => {
+            const expressionBuilder = createDefaultComponentForTest();
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            expect(rhsCombobox.literalsAllowed).toBeTruthy();
+        });
+        it('when rhs literals-allowed has been set to false, literals should not be allowed', () => {
+            const expressionBuilder = createComponentForTest({
+                expression: createBlankExpression(),
+                rhsLiteralsAllowed: false,
+            });
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            expect(rhsCombobox.literalsAllowed).toBeFalsy();
+        });
+    });
+
     describe('RHS literal datatype depending on LHS/Operator', () => {
         it('String', () => {
             const expression = createMockEmptyRHSExpression(stringVariableGuid);
