@@ -1,7 +1,10 @@
 import { Element, api, track } from 'engine';
 import { getResourceTypesMenuData } from 'builder_platform_interaction-expression-utils';
+import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction-validation-rules';
+
 
 const CONTAINER_SELECTOR = 'builder_platform_interaction-resource-editor-container';
+const COMBOBOX_SELECTOR = 'lightning-combobox';
 
 /**
  * New resource property editor
@@ -62,8 +65,18 @@ export default class ResourceEditor extends Element {
      */
     @api
     validate() {
-        // TODO: W-4900878 do validation for resource editor (catch case where no resource type is selected)
-        return this.template.querySelector(CONTAINER_SELECTOR).validate();
+        const container = this.template.querySelector(CONTAINER_SELECTOR);
+        // instead of going through the property editor validation steps (calling validateAll) we know the editor is invalid by just checking selectedResource
+        const error = shouldNotBeNullOrUndefined(this.selectedResource);
+        if (error) {
+            // if we have an error set it on the combobox and return it to the property editor
+            const combobox = this.template.querySelector(COMBOBOX_SELECTOR);
+            combobox.setCustomValidity(error);
+            combobox.showHelpMessageIfInvalid();
+            return [error];
+        }
+        // if we don't have an error then we can call validate on our container which will then call validate on the chosen editor
+        return container.validate();
     }
 
     /**
@@ -80,5 +93,11 @@ export default class ResourceEditor extends Element {
 
     handleResourceChange(event) {
         this.selectedResource = event.detail.value;
+        // now that we have changed the resource type we can remove any errors we may have had
+        const combobox = this.template.querySelector(COMBOBOX_SELECTOR);
+        if (!combobox.checkValidity()) {
+            combobox.setCustomValidity(null);
+            combobox.showHelpMessageIfInvalid();
+        }
     }
 }

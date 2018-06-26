@@ -112,24 +112,6 @@ export const shouldNotBeNullOrUndefined = (value) => {
 };
 
 /**
- * Test if the given value is from an sobject element, and if it is also check that it is not null or undefined
- * @param {Boolean} isSobject true if the value to be tested is an sobject, false otherwise
- * @returns {function} function that checks if the given value is a valid sobject
- */
-export const validateVariableObjectType = (isSobject) => {
-    /**
-     * @param {String} value the value to be tested
-     * @returns {String|null} errorString or null
-     */
-    return (value) => {
-        if (isSobject) {
-            return isUndefinedOrNull(value) ? cannotBeBlankError : null;
-        }
-        return null;
-    };
-};
-
-/**
  * Curry Function to test the length of the value does not go beyond a maximum character limit specified
  * Usage - for a field rule : maximumCharacterLimit(80) it runs as :  maximumCharacterLimit(80) (value)
  * @param {number} limit - maximum number of characters possible in value
