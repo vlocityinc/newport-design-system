@@ -19,6 +19,9 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
     };
 
     @api
+    errorMessage;
+
+    @api
     elementType;
 
     @api
@@ -90,7 +93,7 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
         return BaseResourcePicker.getComboboxConfig(
             this.label,
             this.placeholder,
-            undefined,
+            this.errorMessage,
             'false',
             true,
             false,

@@ -319,8 +319,7 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.RECORD_CREATE]: {
-        // TODO: recordEditor is only a place holder now.
-        descriptor: 'builder_platform_interaction:recordEditor',
+        descriptor: 'builder_platform_interaction:recordCreateEditor',
         nodeConfig: {
             iconName: 'standard:record',
             maxConnections: 1
@@ -342,7 +341,8 @@ export const elementTypeToConfigMap = {
             label: '',
             locationX: 0,
             locationY: 0,
-            name: ''
+            name: '',
+            inputReference : ''
         }
     },
     [ELEMENT_TYPE.RECORD_LOOKUP]: {

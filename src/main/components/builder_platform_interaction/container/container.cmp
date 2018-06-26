@@ -29,7 +29,8 @@
     <aura:dependency resource="markup://builder_platform_interaction:decisionEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:loopEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:actioncallEditor" type="MODULE" />
-    <aura:dependency resource="markup://builder_platform_interaction:recordEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:recordCreateEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:recordLookupEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:variableEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:resourceEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:formulaEditor" type="MODULE" />
