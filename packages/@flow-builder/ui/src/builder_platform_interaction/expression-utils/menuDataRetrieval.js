@@ -40,10 +40,11 @@ export const RESOURCE_PICKER_MODE = {
  *
  * @param {Object} elemA an element to be compared
  * @param {Object} elemB an element to be compared
- * @returns {Boolean} true if elemA should be before elemB in a sorted list, false otherwise
+ * @returns {Integer} A negative number if elemA comes after elemB, positive number if elemB comes before elemA
  */
 function compareElementsByCategoryThenDevName(elemA, elemB) {
-    return elemA.category === elemB.category ? elemA.text < elemB.text : elemA.category < elemB.category;
+    return elemA.category === elemB.category ?  -elemA.text.localeCompare(elemB.text, undefined, {sensitivity:'base'})
+        : -elemA.category.localeCompare(elemB.category, undefined, {sensitivity:'base'});
 }
 
 /**
