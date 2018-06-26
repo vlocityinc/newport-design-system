@@ -11,8 +11,10 @@ const additionalRules = {
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
         ValidationRules.maximumCharactersLimit(80)
     ],
+    'dataType': [ValidationRules.shouldNotBeNullOrUndefined],
     'expression' : [
-        ValidationRules.maximumCharactersLimit(3900)
+        ValidationRules.maximumCharactersLimit(3900),
+        ValidationRules.shouldNotBeBlank
     ]
 };
 

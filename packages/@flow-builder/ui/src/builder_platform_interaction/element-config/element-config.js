@@ -491,6 +491,15 @@ export const elementTypeToConfigMap = {
             singular: LABELS.formulaSingularLabel,
             plural: LABELS.formulaPluralLabel
         },
+        template: {
+            name: '',
+            label: undefined,
+            guid: '',
+            elementType: ELEMENT_TYPE.FORMULA,
+            dataType: null,
+            scale: null,
+            expression: ''
+        },
         canvasElement: false
     },
     [ELEMENT_TYPE.DEFAULT]: {

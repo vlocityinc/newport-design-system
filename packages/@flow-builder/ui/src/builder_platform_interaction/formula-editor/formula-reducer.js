@@ -2,6 +2,7 @@ import { updateProperties } from 'builder_platform_interaction-data-mutation-lib
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { formulaValidation } from './formula-validation';
 import { SCALE_DEFAULT } from 'builder_platform_interaction-data-type-lib';
+import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 
 const formulaPropertyChanged = (state, action) => {
     action.payload.error = action.payload.error === null ? formulaValidation.validateProperty(action.payload.propertyName, action.payload.value) : action.payload.error;
@@ -33,6 +34,8 @@ export const formulaReducer = (state, action) => {
             return formulaPropertyChanged(state, action);
         case PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE:
             return formulaDataTypeChanged(state, action);
+        case VALIDATE_ALL:
+            return formulaValidation.validateAll(state);
         default: return state;
     }
 };

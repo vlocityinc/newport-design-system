@@ -3,9 +3,11 @@ import { createFlowElement } from 'builder_platform_interaction-element-config';
 import { hydrateWithErrors, mutateEditorElement } from 'builder_platform_interaction-data-mutation-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import variableEditorTemplate from './variable-editor-template.html';
+import formulaEditorTemplate from './formula-editor-template.html';
 
 const resourceTypeElementTypeMap = {
     variable: ELEMENT_TYPE.VARIABLE,
+    formula: ELEMENT_TYPE.FORMULA
 };
 
 const EDITOR_SELECTOR = '.editor_template';
@@ -93,6 +95,8 @@ export default class ResourceEditorContainer extends Element {
         switch (elementType) {
             case ELEMENT_TYPE.VARIABLE:
                 return variableEditorTemplate;
+            case ELEMENT_TYPE.FORMULA:
+                return formulaEditorTemplate;
             default:
                 return undefined;
         }

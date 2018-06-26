@@ -4,6 +4,7 @@ import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interacti
 import { formulaReducer } from './formula-reducer';
 import { LABELS } from './formula-editor-labels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 
 const dataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY, FLOW_DATA_TYPE.BOOLEAN, FLOW_DATA_TYPE.DATE, FLOW_DATA_TYPE.DATE_TIME];
 
@@ -50,7 +51,7 @@ export default class FormulaEditor extends Element {
         };
     }
 
-    isEditMode() {
+    get isEditMode() {
         return !this.isNewMode;
     }
 
@@ -76,9 +77,9 @@ export default class FormulaEditor extends Element {
         this.formulaResource = formulaReducer(this.formulaResource, action);
     }
 
-    handleFormulaFocusOut(event) {
+    handleFormulaExpressionChanged(event) {
         const propertyName = 'expression';
-        const value = event.target.value;
+        const value = event.detail.value;
         const error = null;
         const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
         this.formulaResource = formulaReducer(this.formulaResource, action);
@@ -86,6 +87,8 @@ export default class FormulaEditor extends Element {
 
     @api
     validate() {
+        const action = createAction(VALIDATE_ALL);
+        this.formulaResource = formulaReducer(this.formulaResource, action);
         return getErrorsFromHydratedElement(this.formulaResource);
     }
 }

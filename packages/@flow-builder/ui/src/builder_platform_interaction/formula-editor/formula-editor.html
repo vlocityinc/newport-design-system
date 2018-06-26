@@ -12,17 +12,15 @@
                                                        type-and-collection-disabled={isEditMode}
                                                        onvaluechanged={handleDataTypeChanged}
                                                        help-text={dataTypeHelpText}
+                                                       combobox-error-message={formulaResource.dataType.error}
                                                        allow-scale
                                                        required>
         </builder_platform_interaction-data-type-picker>
-
-        <lightning-textarea class="slds-form-element expression"
-                            label={labels.formulaLabel}
-                            max-length="3900"
-                            onfocusout={handleFormulaFocusOut}
-                            value={formulaResource.expression.value}
-                            required>
-        </lightning-textarea>
-        
+ 
+        <builder_platform_interaction-formula-textarea expression={formulaResource.expression.value}
+                                                       error={formulaResource.expression.error}
+                                                       onvaluechanged={handleFormulaExpressionChanged}>
+        </builder_platform_interaction-formula-textarea>
+ 
     </div>
 </template>
