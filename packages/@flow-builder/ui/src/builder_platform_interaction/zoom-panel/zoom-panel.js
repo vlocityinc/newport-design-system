@@ -1,5 +1,6 @@
 import { Element, api } from 'engine';
 import { TogglePanModeEvent, ClickToZoomEvent, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
+import { LABELS } from './zoom-panel-labels';
 
 /**
  * Zoom Panel component for flow builder.
@@ -13,6 +14,10 @@ export default class ZoomPanel extends Element {
     @api isZoomOutDisabled;
     @api isZoomToView;
     @api isZoomInDisabled;
+
+    get labels() {
+        return LABELS;
+    }
 
     /**
      * Handles click on the pan button and fires toggle pan mode event.

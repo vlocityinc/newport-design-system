@@ -2,12 +2,12 @@
     <div id={nodeGuid} class='element-container node-container slds-is-absolute slds-text-align_center' style={nodeLocation} title={nodeTitle}>
         <div class={nodeClasses}>
             <!--Node icon -->
-            <button tabindex='0' class='icon' onfocus={handleNodeClick} onclick={handleNodeClick} ondblclick={handleDblClick}>
+            <button title={nodeLabel} tabindex='0' class='icon' onfocus={handleNodeClick} onclick={handleNodeClick} ondblclick={handleDblClick}>
                 <lightning-icon icon-name={iconName} size='large'></lightning-icon>
             </button>
 
             <!--End Point-->
-            <button if:true={hasAvailableConnections} tabindex='0' class='end-point slds-is-absolute'></button>
+            <button if:true={hasAvailableConnections} title={endPointTitle} tabindex='0' class='end-point slds-is-absolute'></button>
 
             <!--Trash can-->
             <lightning-button-icon if:true={isSelected} tabindex='0' icon-name='utility:delete' variant='bare' size='small' alternative-text={trashCanAlternativeText} class='trash-can slds-is-absolute slds-button-icon_small' onclick={handleTrashClick}></lightning-button-icon>

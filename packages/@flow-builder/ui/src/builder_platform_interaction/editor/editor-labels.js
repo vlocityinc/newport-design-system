@@ -11,5 +11,5 @@ export const LABELS = {
     loopNextComboBoxOption,
     loopEndComboBoxOption,
     loopNextConnectorLabel,
-    loopEndConnectorLabel,
+    loopEndConnectorLabel
 };

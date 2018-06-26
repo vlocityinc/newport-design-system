@@ -1,24 +1,72 @@
 <template>
-    <div class="toolbar slds-grid slds-border_bottom">
-        <div class="toolbar-right slds-col_bump-left slds-grid">
-            <div class="slds-col slds-p-right_xx-small">
-                <builder_platform_interaction-status-icon 
-                    messages={errors} 
+    <div class="slds-builder-toolbar" role="toolbar">
+        <!--Left Hand Side -->
+        <!--TODO: Uncomment sections as we work on them-->
+        <!--Undo/Redo-->
+        <!--<div class="slds-builder-toolbar__item-group">-->
+            <!--<div class="slds-button-group" role="group">-->
+                <!--<lightning-button-icon variant="border-filled" icon-name="utility:undo" title="Undo" alternative-text="Undo">-->
+                <!--</lightning-button-icon>-->
+                <!--<lightning-button-icon variant="border-filled" icon-name="utility:redo" title="Redo" alternative-text="Redo">-->
+                <!--</lightning-button-icon>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--Cut/Copy/Paste-->
+        <!--<div class="slds-builder-toolbar__item-group">-->
+            <!--<div class="slds-button-group" role="group">-->
+                <!--<lightning-button-icon variant="border-filled" icon-name="utility:cut" title="Cut" alternative-text="Cut">-->
+                <!--</lightning-button-icon>-->
+                <!--<lightning-button-icon variant="border-filled" icon-name="utility:copy" title="Copy" alternative-text="Copy">-->
+                <!--</lightning-button-icon>-->
+                <!--<lightning-button-icon variant="border-filled" icon-name="utility:paste" title="Paste" alternative-text="Paste">-->
+                <!--</lightning-button-icon>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--Toggle Left Panel-->
+        <!--<div class="slds-builder-toolbar__item-group">-->
+            <!--<lightning-button-icon-stateful variant="border-filled" icon-name="utility:toggle_panel_left" title="Toggle Left Panel" alternative-text="Toggle Left Panel">-->
+            <!--</lightning-button-icon-stateful>-->
+        <!--</div>-->
+        <!--Flow Properties-->
+        <div class="slds-builder-toolbar__item-group">
+            <lightning-button-icon variant="border-filled" icon-name="utility:settings" title={labels.flowPropertiesTitle} alternative-text={labels.flowPropertiesTitle}>
+            </lightning-button-icon>
+        </div>
+
+        <!--Right Hand Side-->
+        <div class="slds-builder-toolbar__actions">
+            <div class="inline-display">
+                <builder_platform_interaction-status-icon
+                    messages={errors}
                     type="error"
                     direction="south"
                     headerforsummary={headerTitleForSummary}>
                 </builder_platform_interaction-status-icon>
             </div>
-            <div class="slds-col slds-p-right_xx-small">
+            <div class="slds-button-group slds-m-left_xx-small" role="group">
                 <lightning-button
-                    label={labels.saveTitle}
+                    label={labels.runTitle}
+                    title={labels.runTitle}
+                    onclick={handleRun}
+                    disabled={isRunDebugDisabled}
+                    class="test-toolbar-run">
+                </lightning-button>
+                <lightning-button
+                    label={labels.debugTitle}
+                    title={labels.debugTitle}
+                    onclick={handleDebug}
+                    disabled={isRunDebugDisabled}
+                    class="test-toolbar-debug">
+                </lightning-button>
+            </div>
+            <lightning-button
+                label={labels.saveTitle}
                     variant="brand"
                     title={labels.saveTitle}
                     onclick={handleSave}
-                    class="toolbar-save"
-                    disabled={isSaveDisabled}>
-                </lightning-button>
-            </div>
+                    disabled={isSaveDisabled}
+                    class="test-toolbar-save slds-m-left_xx-small">
+            </lightning-button>
         </div>
     </div>
 </template>

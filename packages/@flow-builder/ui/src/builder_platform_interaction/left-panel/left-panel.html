@@ -2,19 +2,20 @@
     <div class={panelClasses}>
         <div class={panelHeaderClasses}>
             <h2 class="slds-text-heading_small">{getPanelTitle}</h2>
-            <lightning-button-icon if:true={showResourceDetailsPanel} variant="bare" size="medium" icon-name="utility:back" class="slds-panel__close" onclick={handleResourceDetailsBackLinkClicked} alternative-text={labels.RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT}></lightning-button-icon>
+            <lightning-button-icon if:true={showResourceDetailsPanel} variant="bare" size="medium" icon-name="utility:back" class="back-button slds-panel__close" onclick={handleResourceDetailsBackLinkClicked} alternative-text={labels.RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT}></lightning-button-icon>
         </div>
         <div class="slds-panel__body slds-p-around_none slds-grid">
             <div class="flow-resource-list">
-                <builder_platform_interaction-tabset cssclass={classNameForTabSet} ontabchange={handleTabChange}>
+                <builder_platform_interaction-tabset ontabchange={handleTabChange}>
                     <!-- Tab items go into the unnamed slot. -->
                     <builder_platform_interaction-tabitem tabid="left-panel-tabitem-elements" label={labels.LEFT_PANEL_ELEMENT_TAB_TEXT} controls="left-panel-tabcontent-elements" activeid={activetabid}></builder_platform_interaction-tabitem>
                     <builder_platform_interaction-tabitem tabid="left-panel-tabitem-resources" label={labels.LEFT_PANEL_RESOURCE_TAB_TEXT} controls="left-panel-tabcontent-resources" activeid={activetabid}></builder_platform_interaction-tabitem>
-                    <div slot="contents" class="slds-scrollable_y slds-p-left_small">
+                    <div slot="contents" class="slds-scrollable_y">
                         <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-elements" labelledby="left-panel-tabitem-elements" activeid={activetabid}>
                             <builder_platform_interaction-left-panel-elements></builder_platform_interaction-left-panel-elements>
                         </builder_platform_interaction-tabcontent>
                         <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-resources" labelledby="left-panel-tabitem-resources" activeid={activetabid}>
+                            <lightning-button variant="Neutral" label={labels.LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON} title={labels.LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON} onclick={handleAddNewResourceButtonClick} class="new-resource-button slds-grid slds-p-horizontal_small"></lightning-button>
                             <builder_platform_interaction-left-panel-resources resources={resources} onpaletteitemclicked={handleResourceClicked} onpaletteitemchevronclicked={handlePaletteItemChevronClicked}></builder_platform_interaction-left-panel-resources>
                         </builder_platform_interaction-tabcontent>
                     </div>

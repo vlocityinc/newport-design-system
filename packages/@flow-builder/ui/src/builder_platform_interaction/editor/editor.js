@@ -19,6 +19,9 @@ import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
 let unsubscribeStore;
 let storeInstance;
 
+const RUN = 'run';
+const DEBUG = 'debug';
+
 /**
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and
@@ -43,11 +46,14 @@ export default class Editor extends Element {
 
     @track helpUrl;
 
+    runDebugUrl;
+
     isFlowServerCallInProgress = false;
 
     @track showSpinner = false;
 
-    @track disableSave = false;
+    @track disableRunDebug = true;
+    @track disableSave = true;
 
     @track errors;
 
@@ -136,6 +142,10 @@ export default class Editor extends Element {
         } else {
             this.errors = data.errors;
         }
+
+        if (this.flowId) {
+            this.disableRunDebug = false;
+        }
         this.disableSave = false;
     };
 
@@ -171,6 +181,7 @@ export default class Editor extends Element {
         } else {
             this.backUrl = data.backUrl;
             this.helpUrl = data.helpUrl;
+            this.runDebugUrl = data.runDebugUrl;
         }
     };
 
@@ -187,6 +198,39 @@ export default class Editor extends Element {
     };
 
     /**
+     * Helper method to construct the url for the run/debug mode and launch the window in a new tab
+     * @param {String} runOrDebug - Used for deciding whether the user is trying to run the flow or debug it.
+     */
+    runOrDebugFlow = (runOrDebug = RUN) => {
+        const currentState = storeInstance.getCurrentState();
+        let flowDevName;
+        let url;
+        if (currentState && currentState.properties) {
+            flowDevName = currentState.properties.label;
+            url = `${this.runDebugUrl}${flowDevName}/${this.flowId}`;
+            if (runOrDebug === DEBUG) {
+                url = `${url}?flow__debug=true`;
+            }
+        }
+
+        window.open(url, '_blank');
+    };
+
+    /**
+     * Handles the run flow event fired by the toolbar. Opens and runs the flow in a different tab.
+     */
+    handleRunFlow = () => {
+        this.runOrDebugFlow();
+    };
+
+    /**
+     * Handles the debug flow event fired by the toolbar. Opens the flow debug window in a different tab.
+     */
+    handleDebugFlow = () => {
+        this.runOrDebugFlow(DEBUG);
+    };
+
+    /**
      * Handle save event fired by a child component. Fires another event
      * containing flow information, which is handled by container.cmp.
      */
@@ -197,6 +241,7 @@ export default class Editor extends Element {
         };
 
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
+        this.disableRunDebug = true;
         this.disableSave = true;
     };
 
@@ -416,7 +461,7 @@ export default class Editor extends Element {
             label,
             childSource;
 
-        if (valueFromCombobox === CONNECTOR_TYPE.REGULAR) {
+        if (valueFromCombobox === CONNECTOR_TYPE.START || valueFromCombobox === CONNECTOR_TYPE.REGULAR) {
             label = null;
         } else if (valueFromCombobox === CONNECTOR_TYPE.DEFAULT) {
             label = elements[source].defaultConnectorLabel;
@@ -454,13 +499,11 @@ export default class Editor extends Element {
                 const availableConnections = sourceElement.availableConnections;
                 if (!availableConnections) {
                     // Creates a regular connection. Would be needed for Start element, Assignment element, Screen element and Steps element
-                    let connector;
                     if (sourceElementType === ELEMENT_TYPE.START_ELEMENT) {
-                        connector = createConnectorObject(event.detail.sourceGuid, null, event.detail.targetGuid, null, CONNECTOR_TYPE.START);
+                        this.createAndAddConnector(event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.START);
                     } else {
-                        connector = createConnectorObject(event.detail.sourceGuid, null, event.detail.targetGuid, null, CONNECTOR_TYPE.REGULAR);
+                        this.createAndAddConnector(event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.REGULAR);
                     }
-                    storeInstance.dispatch(addConnector(connector));
                 } else if (availableConnections.length === 1) {
                     // Creates the only connection remaining in availableConnections
                     let remainingConnectionValue;
@@ -547,6 +590,10 @@ export default class Editor extends Element {
     renderedCallback() {
         if (!this.isFlowServerCallInProgress && this.showSpinner) {
             this.showSpinner = false;
+            if (this.flowId) {
+                this.disableRunDebug = false;
+            }
+            this.disableSave = false;
         }
     }
 

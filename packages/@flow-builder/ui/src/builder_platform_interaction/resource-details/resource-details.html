@@ -1,6 +1,6 @@
 <template>
     <div class="slds-text-title_caps slds-p-horizontal_medium slds-m-bottom_small">{labels.RESOURCE_DETAILS_PANEL_DETAILS_TEXT}</div>
-    <ul class="slds-p-horizontal_medium slds-m-bottom_medium slds-scrollable_y">
+    <ul class="resource-detail-panel-body slds-p-horizontal_medium slds-m-bottom_medium slds-scrollable_y">
         <li class="slds-item slds-p-vertical_xxx-small">
             <span class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_TYPE_TEXT}</span>
             <lightning-icon if:true={hasIcon} icon-name={resourceDetails.ICON_NAME} size="xx-small" alternative-text={resourceDetails.LABEL}></lightning-icon>

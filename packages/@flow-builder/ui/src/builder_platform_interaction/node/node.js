@@ -2,9 +2,7 @@ import { Element, api } from 'engine';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent } from 'builder_platform_interaction-events';
-import labelAlternativeText from '@label/FlowBuilderCanvasElement.labelAlternativeText';
-import descriptionAlternativeText from '@label/FlowBuilderCanvasElement.descriptionAlternativeText';
-import trashCanAlternativeText from '@label/FlowBuilderCanvasElement.trashCanAlternativeText';
+import { LABELS } from './node-labels';
 import startElement from './start-element.html';
 import nodeElement from './node.html';
 
@@ -29,9 +27,9 @@ export default class Node extends Element {
     }
 
     get nodeTitle() {
-        let title = `${labelAlternativeText}: ${this.node.label}`;
+        let title = `${LABELS.labelAlternativeText}: ${this.node.label}`;
         if (this.node.description) {
-            title = `${title}, ${descriptionAlternativeText}: ${this.node.description}`;
+            title = `${title}, ${LABELS.descriptionAlternativeText}: ${this.node.description}`;
         }
         return title;
     }
@@ -57,7 +55,11 @@ export default class Node extends Element {
     }
 
     get trashCanAlternativeText() {
-        return trashCanAlternativeText + ' ' + this.node.label;
+        return LABELS.trashCanAlternativeText + ' ' + this.node.label;
+    }
+
+    get endPointTitle() {
+        return LABELS.endPointTitle;
     }
 
     get nodeLabel() {

@@ -1,9 +1,6 @@
 <template>
-    <div class="slds-grid slds-grid_vertical slds-shrink-none slds-p-horizontal_small">
-        <lightning-button variant="Neutral" label={labels.LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON} title={labels.LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON} onclick={handleAddNewResourceButtonClick} class="test-left-panel-add-resource slds-grow slds-m-top_small"></lightning-button>
-    </div>
     <div class="slds-grid slds-grid_vertical">
-        <div class="slds-col slds-grow resource-manager-container slds-p-left_xx-small">
+        <div class="resource-manager-container slds-col slds-grow slds-scrollable_y slds-p-left_medium">
             <builder_platform_interaction-palette data={resources} items-draggable="false" icon-size="x-small"></builder_platform_interaction-palette>
         </div>
     </div>

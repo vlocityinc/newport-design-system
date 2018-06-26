@@ -3,79 +3,101 @@
     color: t(colorTextInverse);
 }
 /************* Toolbar *****************/
-.THIS builder_platform_interaction-toolbar .toolbar {
-    line-height: t(lineHeightTab);
+/*TODO: Remove button-group css once lightning-button-group is available in raptor*/
+.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon .slds-button {
+    border-radius: 0;
+    margin-left: -1px;
+}
+
+.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:first-child .slds-button {
+    border-radius: .25rem 0 0 .25rem;
+    margin-left: t(spacingNone);
+}
+
+.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:last-child .slds-button {
+    border-radius: 0 .25rem .25rem 0;
+}
+
+.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:only-child .slds-button {
+    border-radius: t(borderRadiusMedium);
+}
+
+.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button .slds-button {
+    border-radius: 0;
+    margin-left: -1px;
+}
+
+.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:first-child .slds-button {
+    border-radius: .25rem 0 0 .25rem;
+    margin-left: t(spacingNone);
+}
+
+.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:last-child .slds-button {
+    border-radius: 0 .25rem .25rem 0;
+}
+
+.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:only-child .slds-button {
+    border-radius: t(borderRadiusMedium);
+}
+
+.THIS builder_platform_interaction-toolbar .slds-builder-toolbar__actions .inline-display {
+    display: inline-flex;
 }
 
 /************* Left Panel *****************/
-.THIS builder_platform_interaction-left-panel-resources .slds-button.slds-button_neutral {
+.THIS builder_platform_interaction-left-panel .left-panel {
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+.THIS builder_platform_interaction-left-panel .left-panel-header {
+    transition: padding t(durationSlide) ease;
+}
+
+.THIS builder_platform_interaction-left-panel .left-panel .flow-resource-list {
     width: 100%;
+    flex: none;
+    transition: margin t(durationSlide) ease-in-out, opacity t(durationPromptly) ease;
 }
 
 .THIS builder_platform_interaction-left-panel #left-panel-tabcontent-elements {
-    display: block;
-    height: calc(100vh - 191px);
+    height: calc(100vh - 198px);
     -webkit-overflow-scrolling: touch;
     overflow:hidden;
-    overflow-y:auto
+    overflow-y:auto;
 }
 
-.THIS builder_platform_interaction-left-panel div.resource-manager-container {
-    display: block;
-    height: calc(100vh - 261px);
-    -webkit-overflow-scrolling: touch;
-    overflow:hidden;
-    overflow-y:auto
-}
-
-.THIS builder_platform_interaction-left-panel div.flow-resource-details ul {
-    display: block;
-    max-height: calc(100vh - 260px);
-    -webkit-overflow-scrolling: touch;
-    overflow:hidden;
-    overflow-y:auto
-}
-
-.THIS builder_platform_interaction-left-panel div.flow-resource-details {
+.THIS builder_platform_interaction-left-panel .left-panel .flow-resource-details {
     width: 100%;
     flex: none;
     transition: margin t(durationSlide) ease-in-out, opacity t(durationPromptly) ease;
     opacity: 0;
 }
 
-.THIS builder_platform_interaction-left-panel div.flow-resource-list {
-    width: 100%;
-    flex: none;
-    transition: margin t(durationSlide) ease-in-out, opacity t(durationPromptly) ease;
+.THIS builder_platform_interaction-resource-details .resource-detail-panel-body {
+    max-height: calc(100vh - 177px);
+    -webkit-overflow-scrolling: touch;
 }
 
-.THIS builder_platform_interaction-left-panel .slds-panel {
-    overflow-x: hidden;
+.THIS builder_platform_interaction-left-panel .flow-resource-list .new-resource-button button {
+    flex-grow: 1;
 }
 
-.THIS builder_platform_interaction-left-panel .slds-panel__header {
-    transition: padding t(durationSlide) ease;
+.THIS builder_platform_interaction-left-panel-resources .resource-manager-container {
+    height: calc(100vh - 248px);
+    -webkit-overflow-scrolling: touch;
 }
 
-.THIS builder_platform_interaction-left-panel .slds-panel__close {
-    transform: translateX(-42px);
-    transition: transform t(durationSlide) ease;
-}
-
-.THIS builder_platform_interaction-left-panel .show-details .slds-panel__close {
+.THIS builder_platform_interaction-left-panel .left-panel.show-details .left-panel-header .back-button {
     transform: translateX(0px);
 }
 
-.THIS builder_platform_interaction-left-panel .show-details .slds-panel__close {
-    transform: translateX(0px);
-}
-
-.THIS builder_platform_interaction-left-panel .show-details .flow-resource-list {
+.THIS builder_platform_interaction-left-panel .left-panel.show-details .flow-resource-list {
     opacity: 0;
     margin-left: -320px;
 }
 
-.THIS builder_platform_interaction-left-panel .show-details .flow-resource-details {
+.THIS builder_platform_interaction-left-panel .left-panel.show-details .flow-resource-details {
     opacity: 1;
 }
 
@@ -88,10 +110,6 @@
 }
 
 /************* Canvas *****************/
-.THIS .canvas-container {
-    margin-left: 1px;
-}
-
 .THIS builder_platform_interaction-canvas .canvas {
     background-color: t(colorForegroundPrimary);
     height: 100%;
@@ -112,14 +130,29 @@
 }
 
 /************* Zoom Panel *****************/
+/*TODO: Remove button-group css once lightning-button-group is available in raptor*/
 .THIS builder_platform_interaction-zoom-panel .zoom-panel {
     bottom: t(spacingNone);
     right: t(spacingNone);
     z-index: 405;
 }
 
-.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button .slds-button__icon.slds-button__icon_left {
-    margin-right: t(spacingNone);
+.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon .slds-button {
+    border-radius: 0;
+    margin-left: -1px;
+}
+
+.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:first-child .slds-button {
+    border-radius: .25rem 0 0 .25rem;
+    margin-left: t(spacingNone);;
+}
+
+.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:last-child .slds-button {
+    border-radius: 0 .25rem .25rem 0;
+}
+
+.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:only-child .slds-button {
+    border-radius: t(borderRadiusMedium);
 }
 
 /************* Node *****************/

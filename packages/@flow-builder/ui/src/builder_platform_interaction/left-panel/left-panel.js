@@ -1,5 +1,5 @@
 import { Element, api, track } from 'engine';
-import { EditElementEvent, DeleteElementEvent } from 'builder_platform_interaction-events';
+import { EditElementEvent, DeleteElementEvent, NewResourceEvent } from 'builder_platform_interaction-events';
 import { resourceSectionsSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
 
@@ -7,12 +7,14 @@ import headerText from '@label/FlowBuilderLeftPanel.headerText';
 import elementTabText from '@label/FlowBuilderLeftPanel.elementTabText';
 import resourceTabText from '@label/FlowBuilderLeftPanel.resourceTabText';
 import backButtonAltText from '@label/FlowBuilderResourceDetailsPanel.backButtonAltText';
+import newResourceButtonText from '@label/FlowBuilderLeftPanel.newResourceButtonText';
 
 const LABELS = {
     LEFT_PANEL_HEADER_TEXT: headerText,
     LEFT_PANEL_ELEMENT_TAB_TEXT: elementTabText,
     LEFT_PANEL_RESOURCE_TAB_TEXT: resourceTabText,
-    RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT: backButtonAltText
+    RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT: backButtonAltText,
+    LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON: newResourceButtonText
 };
 
 const ACTIVETABID_DEFAULT = 'left-panel-tabitem-elements';
@@ -55,14 +57,14 @@ export default class LeftPanel extends Element {
     }
 
     get panelClasses() {
-        let classes = 'slds-panel slds-size_medium slds-panel_docked slds-panel_docked-left slds-is-directional slds-is-open';
+        let classes = 'left-panel slds-panel slds-size_medium slds-panel_docked slds-panel_docked-left slds-is-directional slds-is-open';
         if (this.showResourceDetailsPanel) {
             classes = `${classes} show-details`;
         }
         return classes;
     }
     get panelHeaderClasses() {
-        let classes = 'slds-panel__header slds-m-bottom_medium';
+        let classes = 'left-panel-header slds-panel__header slds-m-bottom_medium';
         if (!this.showResourceDetailsPanel) {
             classes = `${classes} slds-p-left_medium`;
         }
@@ -72,6 +74,12 @@ export default class LeftPanel extends Element {
     handleTabChange(event) {
         this.activetabid = event.detail.tabId;
     }
+
+    handleAddNewResourceButtonClick = (event) => {
+        event.stopPropagation();
+        const handleOnClickEvent = new NewResourceEvent();
+        this.dispatchEvent(handleOnClickEvent);
+    };
 
     handleResourceClicked(event) {
         const canvasElementGUID = event.detail.guid;
