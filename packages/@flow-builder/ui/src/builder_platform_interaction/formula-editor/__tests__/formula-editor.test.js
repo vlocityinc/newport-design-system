@@ -3,6 +3,7 @@ import FormulaEditor from '../formula-editor';
 import { getShadowRoot } from 'lwc-test-utils';
 import { createFlowElement } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { hydrateWithErrors, mutateEditorElement } from 'builder_platform_interaction-data-mutation-lib';
 
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-formula-editor', { is: FormulaEditor });
@@ -67,6 +68,8 @@ describe('formula-editor', () => {
         let formulaEditor;
         beforeEach(() => {
             formulaResource = createFlowElement(ELEMENT_TYPE.FORMULA, false);
+            formulaResource = mutateEditorElement(formulaResource);
+            formulaResource = hydrateWithErrors(formulaResource);
             formulaEditor = createComponentUnderTest(formulaResource);
         });
         it('No DataType should be selected', () => {

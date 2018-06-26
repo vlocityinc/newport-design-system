@@ -1,4 +1,4 @@
-import { mutateTemplate, demutateTemplate } from '../templateMutation';
+import { mutateTextWithMergeFields, demutateTextWithMergeFields } from '../mergeFieldsMutation';
 
 
 jest.mock('builder_platform_interaction-store-utils', () => {
@@ -20,35 +20,35 @@ jest.mock('builder_platform_interaction-store-utils', () => {
     };
 });
 
-describe('Template mutation', () => {
+describe('Text with merge fields mutation', () => {
     it('Replaces guid by devName for a merge field inside a template', () => {
-        expect(mutateTemplate('a template with {!VARIABLE_1}')).toEqual('a template with {!variable1}');
+        expect(mutateTextWithMergeFields('a template with {!VARIABLE_1}')).toEqual('a template with {!variable1}');
     });
     it('Replaces guid by devName for a compound merge field inside a template', () => {
-        expect(mutateTemplate('{!VARIABLE_1.name}')).toEqual('{!variable1.name}');
+        expect(mutateTextWithMergeFields('{!VARIABLE_1.name}')).toEqual('{!variable1.name}');
     });
     it('Replaces guids by devName for multiple merge fields inside a template', () => {
-        expect(mutateTemplate(' {!VARIABLE_1.name} {!VARIABLE_2.id}')).toEqual(' {!variable1.name} {!variable2.id}');
+        expect(mutateTextWithMergeFields(' {!VARIABLE_1.name} {!VARIABLE_2.id}')).toEqual(' {!variable1.name} {!variable2.id}');
     });
     it('Ignores unknown elements for merge fields', () => {
-        expect(mutateTemplate(' {!NOT_A_VARIABLE.a}')).toEqual(' {!NOT_A_VARIABLE.a}');
+        expect(mutateTextWithMergeFields(' {!NOT_A_VARIABLE.a}')).toEqual(' {!NOT_A_VARIABLE.a}');
     });
 });
 
-describe('Template demutation', () => {
+describe('Text with merge fields demutation', () => {
     it('Replaces devName by guid for a merge field inside a template', () => {
-        expect(demutateTemplate('{!variable1}')).toEqual('{!VARIABLE_1}');
+        expect(demutateTextWithMergeFields('{!variable1}')).toEqual('{!VARIABLE_1}');
     });
     it('Replaces devName by guid for a compound merge field inside a template', () => {
-        expect(demutateTemplate('{!variable1.first}')).toEqual('{!VARIABLE_1.first}');
+        expect(demutateTextWithMergeFields('{!variable1.first}')).toEqual('{!VARIABLE_1.first}');
     });
     it('Replaces guids by devName for multiple merge fields inside a template', () => {
-        expect(demutateTemplate(' {!variable1.a} {!variable2.a}')).toEqual(' {!VARIABLE_1.a} {!VARIABLE_2.a}');
+        expect(demutateTextWithMergeFields(' {!variable1.a} {!variable2.a}')).toEqual(' {!VARIABLE_1.a} {!VARIABLE_2.a}');
     });
     it('Ignores unknown elements for merge fields', () => {
-        expect(demutateTemplate(' {!not_a_variable.a}')).toEqual(' {!not_a_variable.a}');
+        expect(demutateTextWithMergeFields(' {!not_a_variable.a}')).toEqual(' {!not_a_variable.a}');
     });
     it('Properly handle {!{!', () => {
-        expect(demutateTemplate(' {!{!VARIABLE_1}}')).toEqual(' {!{!VARIABLE_1}}');
+        expect(demutateTextWithMergeFields(' {!{!VARIABLE_1}}')).toEqual(' {!{!VARIABLE_1}}');
     });
 });

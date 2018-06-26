@@ -1,4 +1,4 @@
-import { mutateTemplate, demutateTemplate } from './templateMutation';
+import { mutateTextWithMergeFields, demutateTextWithMergeFields } from './mergeFieldsMutation';
 import { set } from './objectMutation';
 
 /**
@@ -6,7 +6,7 @@ import { set } from './objectMutation';
  * @param {Object} formula Formula element to mutate
  * @return {Object} The mutated formula element
  */
-export const mutateFormula = formula => set(formula, 'expression', mutateTemplate(formula.expression));
+export const mutateFormula = formula => set(formula, 'expression', mutateTextWithMergeFields(formula.expression));
 
 /**
  * Remove property editor mutation for formula element
@@ -14,4 +14,4 @@ export const mutateFormula = formula => set(formula, 'expression', mutateTemplat
  * @param {Object} formula Formula element to de-mutate
  * @return {Object} The demutated formula element
  */
-export const demutateFormula = formula => set(formula, 'expression', demutateTemplate(formula.expression));
+export const demutateFormula = formula => set(formula, 'expression', demutateTextWithMergeFields(formula.expression));

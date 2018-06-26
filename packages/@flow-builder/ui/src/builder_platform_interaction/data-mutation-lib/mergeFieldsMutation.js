@@ -36,15 +36,15 @@ const replaceMergeFieldReferences = (template, mappingFunction) => {
 };
 
 /**
- * Mutate a template (formula expression, text template body, body of screen field of type Display Text)
+ * Mutate a text with merge fields (formula expression, text template body, body of screen field of type Display Text)
  * @param {string} template Template with merge fields containing guids
  * @return {string} The mutated template with merge fields containing devNames
  */
-export const mutateTemplate = template => replaceMergeFieldReferences(template, guidToDevName);
+export const mutateTextWithMergeFields = template => replaceMergeFieldReferences(template, guidToDevName);
 
 /**
- * Demutate a template
+ * Demutate a text with merge fields
  * @param {string} template Template with merge fields containing devNames
  * @return {string} The mutated template with merge fields containing guids
  */
-export const demutateTemplate = template => replaceMergeFieldReferences(template, devNameToGuid);
+export const demutateTextWithMergeFields = template => replaceMergeFieldReferences(template, devNameToGuid);
