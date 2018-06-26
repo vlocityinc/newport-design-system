@@ -93,9 +93,20 @@ export default class Combobox extends Element {
 
     /**
      * Pass the error message on to lightning-grouped-combobox
-     * @type {String}
+     * @param {String} error the new error message
      */
-    @api errorMessage;
+    @api
+    set errorMessage(error) {
+        this._errorMessage = error;
+        if (this._errorMessage || this._errorMessage === null) {
+            this.setErrorMessage(this._errorMessage);
+        }
+    }
+
+    @api
+    get errorMessage() {
+        return this._errorMessage;
+    }
 
     /**
      * If true, only references are allowed in this combobox
@@ -263,15 +274,6 @@ export default class Combobox extends Element {
      * Will be the value of the selected item.
      */
     _base;
-
-    /**
-     * Called once the component has finished rendering to set the error message
-     */
-    renderedCallback() {
-        if (this.errorMessage || this.errorMessage === null) {
-            this.setErrorMessage(this.errorMessage);
-        }
-    }
 
     /* ********************** */
     /*     Event handlers     */

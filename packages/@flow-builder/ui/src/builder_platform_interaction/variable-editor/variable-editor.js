@@ -75,12 +75,6 @@ export default class VariableEditor extends Element {
     @track
     variableResource;
 
-    @track
-    defaultValueError;
-
-    @track
-    sobjectValueError;
-
     @api
     get node() {
         return this.variableResource;
@@ -210,7 +204,7 @@ export default class VariableEditor extends Element {
         return BaseResourcePicker.getComboboxConfig(
             'Default Value',
             null,
-            this.defaultValueError,
+            this.variableResource.defaultValue.error,
             true,
             false,
             false,
@@ -226,7 +220,7 @@ export default class VariableEditor extends Element {
         return BaseResourcePicker.getComboboxConfig(
             this.sobjectPickerLabel,
             this.sobjectPickerPlaceholder,
-            this.sobjectValueError,
+            this.variableResource.objectType.error,
             undefined,
             true,
             this.isFieldDisabled,
@@ -268,7 +262,7 @@ export default class VariableEditor extends Element {
         event.stopPropagation();
         const value = event.detail.value;
         // we want to clear the sobject value when switching away from it (this prevents false negatives on validation)
-        if (this.hasObjectType) {
+        if (this.hasObjectType && value.dataType !== FLOW_DATA_TYPE.SOBJECT.value) {
             this.updateProperty(VARIABLE_FIELDS.OBJECT_TYPE, null, null);
         } else if (this.hasDefaultValue) {
             // we want to clear the default value when switching data types
@@ -349,11 +343,9 @@ export default class VariableEditor extends Element {
         if (propertyName === VARIABLE_FIELDS.OBJECT_TYPE) {
             // the value of is the api name of the selected sobject
             valueToUpdate = payload.value;
-            this.sobjectValueError = error;
         }
         // for defaultValue extract out the guid and value from menu item
         if (propertyName === VARIABLE_FIELDS.DEFAULT_VALUE) {
-            this.defaultValueError = error;
             let defaultValueGuidValue;
             // if we have a displayText then we have a select, otherwise we are dealing with a literal
             if (payload.displayText) {
