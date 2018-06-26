@@ -157,10 +157,10 @@ export default class LoopEditor extends Element {
         this.isLoopVariableDisabled = this._collectionVariable === null;
 
         const _oldLoopVariableDataType = this.loopVariableState ? this.loopVariableState.dataType : null;
-        const loopVariableDatatTypeChanged = _oldLoopVariableDataType !== this._collectionVariable.dataType;
+        const loopVariableDataTypeChanged = this._collectionVariable ? (_oldLoopVariableDataType !== this._collectionVariable.dataType) : false;
 
         // update loopVariable when collectionVariable is null or dataType changes.
-        if (this._collectionVariable === null || loopVariableDatatTypeChanged) {
+        if (this._collectionVariable === null || loopVariableDataTypeChanged) {
             if (this.loopVariableState !== null && this.loopVariableState) {
                 const loopVariableChangedEvent = new PropertyChangedEvent(LOOP_PROPERTIES.LOOP_VARIABLE, '', null);
                 this.loopElement = loopReducer(this.loopElement, loopVariableChangedEvent);
