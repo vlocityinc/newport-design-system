@@ -8,7 +8,7 @@ const SELECTORS = {
 
 /**
  * The base resource picker that contains one flow combobox
- * This class holds the full menu data, fitlered menu data and handles the events comboboox value changed & filter matches
+ * This class holds the full menu data, filtered menu data and handles the events combobox value changed & filter matches
  * All wrapper classes will have to implement their own logic for retrieving full menu data
  */
 export default class BaseResourcePicker extends Element {
@@ -54,7 +54,7 @@ export default class BaseResourcePicker extends Element {
 
     /**
      * Object with properties used to configure the flow combobox
-     * @param {ComboboxConfig} config the combobox config objec t used to initialize the resource picker's combobox
+     * @param {ComboboxConfig} config the combobox config object used to initialize the resource picker's combobox
      */
     @api
     set comboboxConfig(config) {

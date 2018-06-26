@@ -3,6 +3,7 @@ import { getShadowRoot } from 'lwc-test-utils';
 import Combobox from 'builder_platform_interaction-combobox';
 import { comboboxInitialConfig } from 'mock-combobox-data';
 import { ComboboxStateChangedEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 
 const SELECTORS = {
     COMBOBOX_PATH: 'builder_platform_interaction-combobox',
@@ -157,6 +158,21 @@ describe('Combobox Tests', () => {
             combobox.value = 'Should get replaced';
             combobox.value = validItem;
             expect(combobox.value).toEqual(validItem);
+        });
+    });
+
+    describe('Variant setter/getter tests', () => {
+        it('Setting an invalid variant should result in an error', () => {
+            const setVariant = () => {
+                combobox.variant = 'standard-hidden';
+            };
+            expect(() => {
+                setVariant();
+            }).toThrow('Variant must either be \'standard\' or \'label-hidden\'!');
+        });
+        it('Setting a valid variant', () => {
+            combobox.variant = LIGHTNING_INPUT_VARIANTS.STANDARD;
+            expect(combobox.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
 
