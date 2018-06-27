@@ -2,6 +2,8 @@ import { createElement } from 'engine';
 import LoopEditor from '../loop-editor';
 import {PropertyChangedEvent, ComboboxStateChangedEvent} from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';
+import * as selectorsMock from 'builder_platform_interaction-selectors';
+import * as mockStoreData from 'mock-store-data';
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-loop-editor', { is: LoopEditor });
@@ -45,10 +47,13 @@ describe('loop-editor', () => {
             return Promise.resolve().then(() => {
                 const event = new PropertyChangedEvent('description', 'new desc', null);
                 getShadowRoot(loopElement).querySelector(selectors.LABEL_DESCRIPTION).dispatchEvent(event);
-                expect(loopElement.node.description.value).toBe('new desc');
+                return Promise.resolve().then(() => {
+                    expect(loopElement.node.description.value).toBe('new desc');
+                });
             });
         });
         it('handles the combobox value changed event and updates the property', () => {
+            selectorsMock.collectionElementsSelector.mockReturnValue([mockStoreData.elements[mockStoreData.numberVariableGuid]]);
             const loopElement = createComponentForTest();
             loopElement.node = originalState;
             return Promise.resolve().then(() => {
