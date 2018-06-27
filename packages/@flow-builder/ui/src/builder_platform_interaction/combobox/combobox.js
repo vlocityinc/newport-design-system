@@ -180,12 +180,18 @@ export default class Combobox extends Element {
                 throw new Error(`Data type must be a valid Flow Data Type but instead was ${dataType}`);
             }
             this._dataType = dataType;
+
+            if (this.doValidation()) {
+                this.fireComboboxStateChangedEvent(this._item, this.state.displayText, this._errorMessage);
+            }
             // No literals allowed for SObject and Boolean data type
             // if ([FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.BOOLEAN.value].includes(this._dataType)) {
             // TODO: W-4967895. Make Boolean only allow Global Constant True/False
             if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
                 this._isLiteralAllowed = false;
             }
+        } else {
+            this._dataType = null;
         }
     }
 
@@ -646,7 +652,7 @@ export default class Combobox extends Element {
      */
     updateInputIcon() {
         if (this.state.displayText && this.state.displayText.length > 0) {
-            this.state.inputIcon = 'utility:clear';
+            this.state.inputIcon = '';
         } else {
             this.state.inputIcon = 'utility:search';
         }
@@ -705,7 +711,7 @@ export default class Combobox extends Element {
                 return this.validateResource(isBlur);
             }
             return this.validateLiteral();
-        } else if (this.required) {
+        } else if (this.required && isBlur) {
             this.fireComboboxStateChangedEvent(this._item, this.state.displayText, ERROR_MESSAGE.GENERIC);
             return false;
         }

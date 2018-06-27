@@ -207,13 +207,6 @@ export default class ExpressionBuilder extends Element {
         return this.state.expression[OPERATOR] ? this.state.expression[OPERATOR].value : null;
     }
 
-    renderedCallback() {
-        if (this.state.expression[RHS] && !this.state.expression[RHS].error) {
-            // only do validation if there is no current error
-            this.getRHSCombobox().validate();
-        }
-    }
-
     /* ***************** */
     /* Private Variables */
     /* ***************** */
@@ -261,11 +254,10 @@ export default class ExpressionBuilder extends Element {
                 this.state.rhsTypes = getRHSTypes(elementType, newLHSParam, this.operatorForRules(), rules);
                 const rhsElementOrField = this.getElementOrField(this.state.expression.rightHandSideGuid.value);
                 const rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(rhsElementOrField));
-                if (!rhsValid) {
-                    this.updateRHSWithError(expressionUpdates);
-                }
+                this.updateRHSWithError(expressionUpdates, rhsValid);
             }
         } else {
+            // Operator & RHS will be disabled in this case
             expressionUpdates[OPERATOR] = this._clearedProperty;
             this.updateRHSWithError(expressionUpdates, true);
         }
@@ -297,9 +289,7 @@ export default class ExpressionBuilder extends Element {
             this.state.rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, newOperator, rules);
             const rhsElementOrField = this.getElementOrField(this.state.expression.rightHandSideGuid.value);
             const rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(rhsElementOrField));
-            if (!rhsValid) {
-                this.updateRHSWithError(expressionUpdates);
-            }
+            this.updateRHSWithError(expressionUpdates, rhsValid);
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);
         const propertyChangedEvent = new RowContentsChangedEvent(newExpression);
@@ -358,12 +348,16 @@ export default class ExpressionBuilder extends Element {
         return '';
     }
 
-    updateRHSWithError(newExpression, disabled = false) {
-        if (disabled) {
-            newExpression[RHS] = { value: this.state.normalizedRHS.itemOrDisplayText, error: null };
-        } else if (this.state.normalizedRHS.itemOrDisplayText) {
+    updateRHSWithError(newExpression, isValidOrDisabled = false) {
+        let value = this.state.normalizedRHS.itemOrDisplayText;
+        if (this.state.normalizedRHS.itemOrDisplayText && this.state.normalizedRHS.itemOrDisplayText.displayText) {
+            value = this.state.normalizedRHS.itemOrDisplayText.displayText;
+        }
+        if (isValidOrDisabled) {
+            newExpression[RHS] = { value, error: null };
+        } else if (value) {
             // only set an error if RHS isn't empty
-            newExpression[RHS] = { value: this.state.normalizedRHS.itemOrDisplayText, error: genericErrorMessage };
+            newExpression[RHS] = { value, error: genericErrorMessage };
         }
     }
 

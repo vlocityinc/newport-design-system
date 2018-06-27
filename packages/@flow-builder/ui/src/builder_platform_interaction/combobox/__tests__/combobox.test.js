@@ -221,16 +221,6 @@ describe('Combobox Tests', () => {
                 });
             });
         });
-
-        // TODO Make sure only clicking on clear icon clears value
-        // TODO Clicking on search icon opens up menu
-
-        it('Clear icon when there is a value', () => {
-            combobox.value = 'testvalue';
-            return Promise.resolve().then(() => {
-                expect(groupedCombobox.inputIconName).toEqual('utility:clear');
-            });
-        });
     });
 
     describe('Events Testing', () => {
@@ -362,9 +352,10 @@ describe('Combobox Tests', () => {
             groupedCombobox.dispatchEvent(textInputEvent);
             blurEvent = new CustomEvent('blur');
             groupedCombobox.dispatchEvent(blurEvent);
-            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
-            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(null);
-            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.displayText).toEqual(blurValue);
+            // called twice here because it gets called in @type setter
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
+            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.item).toEqual(null);
+            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.displayText).toEqual(blurValue);
 
             // This second part tests matchTextWithItem as well
             blurValue = '{!MyAccount}';
@@ -373,9 +364,9 @@ describe('Combobox Tests', () => {
             textInputEvent = getTextInputEvent(blurValue);
             groupedCombobox.dispatchEvent(textInputEvent);
             groupedCombobox.dispatchEvent(blurEvent);
-            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
-            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
-            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.displayText).toEqual(blurValue);
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(3);
+            expect(comboboxStateChangedHandler.mock.calls[2][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
+            expect(comboboxStateChangedHandler.mock.calls[2][0].detail.displayText).toEqual(blurValue);
         });
 
         it('ComboboxStateChanged is not fired on blur if value has not changed', () => {
@@ -383,7 +374,8 @@ describe('Combobox Tests', () => {
 
             groupedCombobox.dispatchEvent(blurEvent);
 
-            expect(comboboxStateChangedHandler).not.toHaveBeenCalled();
+            // Called initially when set type is called
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
         });
 
         it('NewResource event is fired when New Resource is selected.', () => {
@@ -490,7 +482,8 @@ describe('Combobox Tests', () => {
                     groupedCombobox.dispatchEvent(textInputEvent);
                     groupedCombobox.dispatchEvent(blurEvent);
 
-                    expect(comboboxStateChangedHandler.mock.calls[0][0].detail.error).toEqual(testData.error);
+                    // Gets the second call since setting type calls the first one
+                    expect(comboboxStateChangedHandler.mock.calls[1][0].detail.error).toEqual(testData.error);
                     if (testData.expectedValue) {
                         if (dataType !== 'DateTime') {
                             expect(combobox.value).toEqual(testData.expectedValue);
