@@ -678,3 +678,8 @@ button.nds-step__next-link[disabled] {
     }
   }
 }
+
+.nds-disclosure .nds-form-element__label,
+.nds-range .nds-form-element__label span {
+    font-size: 0.875rem;
+}
