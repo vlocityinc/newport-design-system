@@ -60,12 +60,23 @@ describe('Event handling on editor', () => {
         expect(screen.fields).toHaveLength(9);
     });
 
-    it('add screen field event adds a field', () => { // handleAddScreenField (onaddscreenfield)
+    it('add screen field event adds a field to the end by default', () => { // handleAddScreenField (onaddscreenfield)
         return Promise.resolve().then(() => {
             const length = screenEditorElement.node.fields.length;
             const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createAddScreenFieldEvent('Currency'));
             expect(screenEditorElement.node.fields).toHaveLength(length + 1);
+            expect(screenEditorElement.node.fields[length].guid).toBe(screenEditorElement.getSelectedNode().guid);
+        });
+    });
+
+    it('add screen field event can add a field to a specific position', () => {
+        return Promise.resolve().then(() => {
+            const length = screenEditorElement.node.fields.length;
+            const canvas = screenEditorElement.querySelector(CANVAS_ELEMENT_NAME);
+            canvas.dispatchEvent(createAddScreenFieldEvent('Currency', 0));
+            expect(screenEditorElement.node.fields).toHaveLength(length + 1);
+            expect(screenEditorElement.node.fields[0].guid).toBe(screenEditorElement.getSelectedNode().guid);
         });
     });
 

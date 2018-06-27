@@ -1,8 +1,8 @@
 import { createElement } from 'engine';
 import  ScreenEditorCanvas  from '../screen-editor-canvas';
-import { createScreenElementSelectedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
 import { createTestScreen } from 'builder_platform_interaction-builder-test-utils';
 import { getShadowRoot } from 'lwc-test-utils';
+import { createScreenElementSelectedEvent, SCREEN_EDITOR_EVENT_NAME, ReorderListEvent } from 'builder_platform_interaction-events';
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-editor-canvas', {
@@ -15,6 +15,27 @@ const createComponentUnderTest = (props) => {
     return el;
 };
 
+const selectors = {
+    lightningButtonIcon: 'lightning-button-icon',
+    highlightFields: '.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight',
+    canvasContainer: 'div.screen-editor-canvas-container',
+    draggingRegion: '.screen-editor-canvas-dragging-region'
+};
+
+function createDropEvent() {
+    const dropEvent = new CustomEvent('drop');
+    dropEvent.dataTransfer = {
+        data: {},
+        setData(type, val) {
+            this.data[type] = val;
+        },
+        getData(type) {
+            return this.data[type];
+        }
+    };
+    return dropEvent;
+}
+
 describe('help icon', () => {
     it('displays the help icon when there is help text', () => {
         const screenEditorCanvasElement = createComponentUnderTest({
@@ -22,7 +43,7 @@ describe('help icon', () => {
             labels: {}
         });
         return Promise.resolve().then(() => {
-            const helpIcon = getShadowRoot(screenEditorCanvasElement).querySelector('lightning-button-icon');
+            const helpIcon = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.lightningButtonIcon);
             expect(helpIcon).toBeDefined();
         });
     });
@@ -38,7 +59,7 @@ describe('fields rendered', () => {
     });
     it('Correct number of screen fields are rendered', () => {
         return Promise.resolve().then(() => {
-            const highlightFields = getShadowRoot(screenEditorCanvasElement).querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
+            const highlightFields = getShadowRoot(screenEditorCanvasElement).querySelectorAll(selectors.highlightFields);
             expect(highlightFields).toHaveLength(9);
         });
     });
@@ -54,7 +75,7 @@ describe('No fields rendered for empty screen', () => {
     });
     it('Correct number of screen fields are rendered', () => {
         return Promise.resolve().then(() => {
-            const highlightFields = getShadowRoot(screenEditorCanvasElement).querySelectorAll('.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight');
+            const highlightFields = getShadowRoot(screenEditorCanvasElement).querySelectorAll(selectors.highlightFields);
             expect(highlightFields).toHaveLength(0);
         });
     });
@@ -94,7 +115,7 @@ describe('Click handling on canvas', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn().mockImplementation();
             screenEditorCanvasElement.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, eventCallback);
-            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
+            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
             const selectEvent = createScreenElementSelectedEvent();
             canvasDiv.dispatchEvent(selectEvent);
             expect(eventCallback).toHaveBeenCalled();
@@ -115,11 +136,11 @@ describe('handleDragEnter', () => {
             const dragEnterEvent = new CustomEvent('dragenter');
 
             // Before firing the event, we should see the class in question.
-            const draggingRegion = getShadowRoot(screenEditorCanvasElement).querySelector('.screen-editor-canvas-dragging-region');
+            const draggingRegion = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.draggingRegion);
             expect(draggingRegion.classList).toContain('slds-hide');
 
             // Fire dragEnter event on the canvas
-            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
+            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
             canvasDiv.dispatchEvent(dragEnterEvent);
             expect(draggingRegion.classList).not.toContain('slds-hide');
         });
@@ -137,11 +158,11 @@ describe('handleDragEnd', () => {
     it('dragEnd adds the expected class to the highlight', () => {
         return Promise.resolve().then(() => {
             const dragEndEvent = new CustomEvent('dragend');
-            const draggingRegion = getShadowRoot(screenEditorCanvasElement).querySelector('.screen-editor-canvas-dragging-region');
+            const draggingRegion = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.draggingRegion);
 
             // First dragEnter so the class is removed.
             const dragEnterEvent = new CustomEvent('dragenter');
-            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
+            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
             canvasDiv.dispatchEvent(dragEnterEvent);
             expect(draggingRegion.classList).not.toContain('slds-hide');
 
@@ -174,7 +195,7 @@ describe('onDrop', () => {
             };
         }
 
-        // Add a getBoundingClientRect() funciont to each highlight element, which is used by the dragging method.
+        // Add a getBoundingClientRect() function to each highlight element, which is used by the dragging method.
         const fieldHighlights = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-body').querySelectorAll('builder_platform_interaction-screen-editor-highlight');
         let counter = 0;
         for (const fieldHighlight of fieldHighlights) {
@@ -185,71 +206,44 @@ describe('onDrop', () => {
     it('dropping an element to the same location does not result in reorder', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn().mockImplementation();
-            screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
+            screenEditorCanvasElement.addEventListener(ReorderListEvent.EVENT_NAME, eventCallback);
 
-            // This drop even tries to drop field 0 to it's current location.
-            const dropEvent = new CustomEvent('drop');
-            dropEvent.dataTransfer = {
-                data: {},
-                setData(type, val) {
-                    this.data[type] = val;
-                },
-                getData(type) {
-                    return this.data[type];
-                }
-            };
+            // This drop event tries to drop field 0 to it's current location.
+            const dropEvent = createDropEvent();
             dropEvent.y = 100;
             dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
 
-            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
             canvasBodyDiv.dispatchEvent(dropEvent);
             expect(eventCallback).not.toHaveBeenCalled();
         });
     });
-    it('dropping an element to a higher y coordiant should result in reorder event', () => {
+    it('dropping an element to a higher y coordinate should result in reorder event', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn().mockImplementation();
-            screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
+            screenEditorCanvasElement.addEventListener(ReorderListEvent.EVENT_NAME, eventCallback);
 
             // Drop field index 2 to the area where field index 0 current resides.
-            const dropEvent = new CustomEvent('drop');
-            dropEvent.dataTransfer = {
-                data: {},
-                setData(type, val) {
-                    this.data[type] = val;
-                },
-                getData(type) {
-                    return this.data[type];
-                }
-            };
+            const dropEvent = createDropEvent();
             dropEvent.y = 100;
             dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[2].guid);
 
-            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
             canvasBodyDiv.dispatchEvent(dropEvent);
             expect(eventCallback).toHaveBeenCalled();
         });
     });
-    it('dropping an element to a lower y coordiant should result in reorder event', () => {
+    it('dropping an element to a lower y coordinate should result in reorder event', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn().mockImplementation();
-            screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
+            screenEditorCanvasElement.addEventListener(ReorderListEvent.EVENT_NAME, eventCallback);
 
             // Drop field index 0 to the area where field index 1 current resides.
-            const dropEvent = new CustomEvent('drop');
-            dropEvent.dataTransfer = {
-                data: {},
-                setData(type, val) {
-                    this.data[type] = val;
-                },
-                getData(type) {
-                    return this.data[type];
-                }
-            };
+            const dropEvent = createDropEvent();
             dropEvent.y = 230;
             dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
 
-            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
             canvasBodyDiv.dispatchEvent(dropEvent);
             expect(eventCallback).toHaveBeenCalled();
         });
@@ -257,23 +251,14 @@ describe('onDrop', () => {
     it('dropping to the bottom fires a re-order event', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn().mockImplementation();
-            screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
+            screenEditorCanvasElement.addEventListener(ReorderListEvent.EVENT_NAME, eventCallback);
 
             // Drop field index 0 to the area where field index 1 current resides.
-            const dropEvent = new CustomEvent('drop');
-            dropEvent.dataTransfer = {
-                data: {},
-                setData(type, val) {
-                    this.data[type] = val;
-                },
-                getData(type) {
-                    return this.data[type];
-                }
-            };
+            const dropEvent = createDropEvent();
             dropEvent.y = 1202;
             dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
 
-            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
             canvasBodyDiv.dispatchEvent(dropEvent);
             expect(eventCallback).toHaveBeenCalled();
         });
@@ -281,25 +266,32 @@ describe('onDrop', () => {
     it('if no y coordinate is found, no reordering should be fired', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn().mockImplementation();
-            screenEditorCanvasElement.addEventListener('reorderlist', eventCallback);
+            screenEditorCanvasElement.addEventListener(ReorderListEvent.EVENT_NAME, eventCallback);
 
-            // Setup the even with no y target.
-            const dropEvent = new CustomEvent('drop');
-            dropEvent.dataTransfer = {
-                data: {},
-                setData(type, val) {
-                    this.data[type] = val;
-                },
-                getData(type) {
-                    return this.data[type];
-                }
-            };
+            // Setup the event with no y target.
+            const dropEvent = createDropEvent();
             dropEvent.y = null;
             dropEvent.dataTransfer.setData('text', screenEditorCanvasElement.screen.fields[0].guid);
 
-            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector('div.screen-editor-canvas-container');
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
             canvasBodyDiv.dispatchEvent(dropEvent);
             expect(eventCallback).not.toHaveBeenCalled();
+        });
+    });
+    it('should fire the right event when dropping a new field from palette', () => {
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn().mockImplementation();
+            screenEditorCanvasElement.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, eventCallback);
+
+            const dropEvent = createDropEvent();
+            dropEvent.y = 100;
+            dropEvent.dataTransfer.setData('text', 'numberInput');
+            dropEvent.dataTransfer.effectAllowed = 'copy';
+
+            const canvasBodyDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
+            canvasBodyDiv.dispatchEvent(dropEvent);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail).toMatchObject({typeName: 'numberInput', position: 1});
         });
     });
 });

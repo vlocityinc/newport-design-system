@@ -12,6 +12,12 @@ function createComponentForTest(props) {
     return el;
 }
 
+function clickHighlight(highlight, callback) {
+    const hightlightDiv = getShadowRoot(highlight).querySelector(CONTAINER_DIV_SELECTOR);
+    highlight.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, callback);
+    hightlightDiv.click();
+}
+
 describe('Click highlight', () => {
     let highlight;
     beforeEach(() => {
@@ -21,12 +27,16 @@ describe('Click highlight', () => {
     });
     it('clicking on highlight component fires correct event', () => {
         return Promise.resolve().then(() => {
-            const hightlightDiv = getShadowRoot(highlight).querySelector(CONTAINER_DIV_SELECTOR);
             const callback = jest.fn();
-            highlight.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, callback);
-            hightlightDiv.click();
+            clickHighlight(highlight, callback);
             expect(callback).toHaveBeenCalled();
         });
+    });
+    it('should not fire an event when already selected', () => {
+        highlight.selected = true;
+        const callback = jest.fn();
+        clickHighlight(highlight, callback);
+        expect(callback).not.toHaveBeenCalled();
     });
 });
 
