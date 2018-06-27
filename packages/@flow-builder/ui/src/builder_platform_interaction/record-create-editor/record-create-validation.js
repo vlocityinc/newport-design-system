@@ -16,7 +16,7 @@ const additionalRules = {
         ValidationRules.maximumCharactersLimit(80)
     ],
     inputReference: [
-        ValidationRules.validateVariableObjectType(true),
+        ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeBlank
     ]
 };

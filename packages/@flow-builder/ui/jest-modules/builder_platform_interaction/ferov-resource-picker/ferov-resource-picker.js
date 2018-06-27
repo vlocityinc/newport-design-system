@@ -6,5 +6,11 @@ export default class ScreenTextAreaPropertyField extends Element {
 
     @api
     elementConfig;
+
+    @api
+    value;
+
+    @api
+    showNewResource;
 }
 
