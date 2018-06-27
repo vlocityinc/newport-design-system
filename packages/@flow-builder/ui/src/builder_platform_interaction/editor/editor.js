@@ -206,7 +206,7 @@ export default class Editor extends Element {
         let flowDevName;
         let url;
         if (currentState && currentState.properties) {
-            flowDevName = currentState.properties.label;
+            flowDevName = currentState.properties.fullName;
             url = `${this.runDebugUrl}${flowDevName}/${this.flowId}`;
             if (runOrDebug === DEBUG) {
                 url = `${url}?flow__debug=true`;
