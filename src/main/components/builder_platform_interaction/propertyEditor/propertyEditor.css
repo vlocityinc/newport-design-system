@@ -2,3 +2,8 @@
 .THIS builder_platform_interaction-resource-editor .resource_editor {
     min-height: t(sizeSmall);
 }
+
+.THIS builder_platform_interaction-expression-builder .expression-builder-icon-padding {
+    width: t(spacingLarge);
+    height: t(squareIconMediumBoundary);
+}

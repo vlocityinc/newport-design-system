@@ -25,8 +25,18 @@
             </lightning-combobox>
         </template>
         <template if:true={hasOperatorReplacement}>
-            <div class="">
-                <lightning-icon class="slds-col slds-grow-none slds-p-top_medium slds-m-top_xx-small slds-no-flex" variant="container" icon-name={operatorDisplayOption}></lightning-icon>
+            <div class="slds-grow-none">
+                <!-- TODO: label needs to be dynamic and localized W-5135682-->
+                <label class="slds-form-element__label slds-is-visually-empty"> to </label>
+                <div class="expression-builder-icon-padding slds-align_absolute-center">
+                    <lightning-icon
+                            size="x-small"
+                            class="slds-icon slds-icon_x-small"
+                            variant="container"
+                            icon-name={operatorDisplayOption}
+                            >
+                    </lightning-icon>
+                </div>
             </div>
         </template>
         <builder_platform_interaction-combobox class="rhs slds-col slds-grow"
