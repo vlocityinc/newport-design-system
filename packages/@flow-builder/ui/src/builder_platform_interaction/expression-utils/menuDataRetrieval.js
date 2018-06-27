@@ -189,7 +189,6 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
             const field = fields[complexGuid.fieldName];
             if (flowElement) {
                 lhs.item = mutateFieldToComboboxShape(field, mutateFlowElementToComboboxShape(flowElement), true, true);
-                field.elementType = flowElement.elementType;
             } else {
                 // in case lhsIdentifier = sobjectApiName.fieldApiName
                 lhs.item = mutateFieldToComboboxShape(field, {value: field.sobjectName}, false, false);

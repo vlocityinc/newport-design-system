@@ -60,12 +60,16 @@ export const elementToParam = (element) => {
     return {
         [OBJECT_TYPE]: element.objectType ? element.objectType : undefined,
         [DATA_TYPE]: getValueFromHydratedItem(element.dataType),
-        [ELEMENT_TYPE]: getValueFromHydratedItem(element.elementType),
+
+        // if it has sobjectName set, it's a field
+        [IS_SOBJECT_FIELD]: !!element.sobjectName,
+        // if it's a field, it doesn't have an elementType
+        [ELEMENT_TYPE]: element.sobjectName ? undefined : getValueFromHydratedItem(element.elementType),
+
         // the param in the rules service has 'collection' but flow elements have 'isCollection'. In some scenarios,
         // an element goes through this function twice, and on the first pass it will have 'isCollection' but on the second
         // it has 'collection', so we have to account for both options
         [IS_COLLECTION]: element.hasOwnProperty('collection') ? element.collection : element.isCollection,
-        [IS_SOBJECT_FIELD]: !!element.sobjectName,
     };
 };
 
