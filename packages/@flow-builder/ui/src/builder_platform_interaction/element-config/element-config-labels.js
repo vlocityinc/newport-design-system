@@ -37,6 +37,8 @@ import variableSingularLabel from '@label/FlowBuilderElementConfig.variableSingu
 import variablePluralLabel from '@label/FlowBuilderElementConfig.variablePluralLabel';
 import formulaSingularLabel from '@label/FlowBuilderElementConfig.formulaSingularLabel';
 import formulaPluralLabel from '@label/FlowBuilderElementConfig.formulaPluralLabel';
+import outcomeSingularLabel from '@label/FlowBuilderElementConfig.outcomeSingularLabel';
+import outcomePluralLabel from '@label/FlowBuilderElementConfig.outcomePluralLabel';
 
 export const LABELS = {
     subflowSingularLabel,
@@ -76,5 +78,7 @@ export const LABELS = {
     variableSingularLabel,
     variablePluralLabel,
     formulaSingularLabel,
-    formulaPluralLabel
+    formulaPluralLabel,
+    outcomeSingularLabel,
+    outcomePluralLabel
 };

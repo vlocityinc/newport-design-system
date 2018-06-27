@@ -2,6 +2,7 @@ import { Element, api, track } from 'engine';
 import { EditElementEvent, DeleteElementEvent, NewResourceEvent } from 'builder_platform_interaction-events';
 import { resourceSectionsSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
+import { isChildElement } from 'builder_platform_interaction-element-config';
 
 import headerText from '@label/FlowBuilderLeftPanel.headerText';
 import elementTabText from '@label/FlowBuilderLeftPanel.elementTabText';
@@ -88,13 +89,15 @@ export default class LeftPanel extends Element {
     }
 
     handlePaletteItemChevronClicked(event) {
+        const elementType = storeInstance.getCurrentState().elements[event.detail.elementGUID].elementType;
         this.resourceDetails = {
-            TYPE: storeInstance.getCurrentState().elements[event.detail.elementGUID].elementType,
+            TYPE: elementType,
             GUID: storeInstance.getCurrentState().elements[event.detail.elementGUID].guid,
             LABEL: storeInstance.getCurrentState().elements[event.detail.elementGUID].label,
             ICON_NAME: event.detail.iconName,
             DESCRIPTION: storeInstance.getCurrentState().elements[event.detail.elementGUID].description,
-            NAME: storeInstance.getCurrentState().elements[event.detail.elementGUID].name
+            NAME: storeInstance.getCurrentState().elements[event.detail.elementGUID].name,
+            IS_CHILD_ELEMENT: isChildElement(elementType)
         };
         this.showResourceDetailsPanel = true;
     }

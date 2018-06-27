@@ -15,7 +15,7 @@
             <span class="slds-text-body_regular slds-align-middle">{resourceDetails.DESCRIPTION}</span>
         </li>
     </ul>
-    <div class="panel-footer slds-grid slds-grid_align-end slds-p-around_small slds-border_top slds-border_bottom">
+    <div class={panelFooterClasses}>
         <div class="slds-col slds-p-horizontal_x-small">
             <lightning-button variant="Neutral" label={labels.RESOURCE_DETAILS_PANEL_DELETE_BUTTON_TEXT}  title={labels.RESOURCE_DETAILS_PANEL_DELETE_BUTTON_TEXT} onclick={handleDeleteButtonClicked}></lightning-button>
         </div>

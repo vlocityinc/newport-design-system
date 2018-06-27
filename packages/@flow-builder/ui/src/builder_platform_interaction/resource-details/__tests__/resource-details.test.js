@@ -16,7 +16,8 @@ const createComponentUnderTest = () => {
         LABEL: 'label',
         ICON_NAME: 'Assignment_Icon',
         DESCRIPTION: 'Assignment_Desc',
-        NAME: 'guid_1'
+        NAME: 'guid_1',
+        IS_CHILD_ELEMENT: false
     };
     el.resourceDetails = details;
     document.body.appendChild(el);

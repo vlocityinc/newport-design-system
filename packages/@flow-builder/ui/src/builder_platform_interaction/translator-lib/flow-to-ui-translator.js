@@ -3,7 +3,7 @@ import { ELEMENT_INFOS, FLOW_PROPERTIES } from './translation-config';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { swapDevNamesToUids } from './uid-swapping';
 import { pick } from 'builder_platform_interaction-data-mutation-lib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ELEMENT_TYPE, RESOURCE_TYPES } from 'builder_platform_interaction-flow-metadata';
 import { createConnectorsAndConnectionProperties, createStartElement, CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
 
 /**
@@ -168,7 +168,7 @@ export function translateFlowToUIModel(flow) {
                 // Construct arrays of all canvas element and variable guids
                 if (element.isCanvasElement) {
                     canvasElements.push(element.guid);
-                } else if (element.elementType === ELEMENT_TYPE.VARIABLE || element.elementType === ELEMENT_TYPE.FORMULA) {
+                } else if (RESOURCE_TYPES.indexOf(element.elementType) !== -1) {
                     resources.push(element.guid);
                 }
             });

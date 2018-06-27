@@ -441,6 +441,14 @@ export const elementTypeToConfigMap = {
     },
     [ELEMENT_TYPE.OUTCOME]: {
         // OUTCOME is not a canvas element, but is a first class element
+        nodeConfig: {
+            iconName: 'standard:feed'
+        },
+        labels: {
+            singular: LABELS.outcomeSingularLabel,
+            plural: LABELS.outcomePluralLabel
+        },
+        isChildElement: true,
         template: {
             name: '',
             label: '',
@@ -540,6 +548,17 @@ export function getConfigForElementType(elementType) {
  */
 export function isCanvasElement(elementType) {
     return !!getConfigForElementType(elementType).canvasElement;
+}
+
+/**
+ * Checks if the given element type is an top level element or not
+ *
+ * @param {String}
+ *            elementType one of the values defined in ELEMENT_TYPE
+ * @returns {boolean} true if the given element type is a top level element or not.
+ */
+export function isChildElement(elementType) {
+    return !!getConfigForElementType(elementType).isChildElement;
 }
 
 /**

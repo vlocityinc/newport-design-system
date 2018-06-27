@@ -3,6 +3,8 @@ import { EditElementEvent, DeleteElementEvent, DeleteResourceEvent, PaletteItemC
 import LeftPanel from 'builder_platform_interaction-left-panel';
 
 import backButtonAltText from '@label/FlowBuilderResourceDetailsPanel.backButtonAltText';
+import newResourceButtonText from '@label/FlowBuilderLeftPanel.newResourceButtonText';
+
 import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = () => {
@@ -23,6 +25,7 @@ const selectors = {
     tabItems: 'builder_platform_interaction-tabitem',
     footer: '.panel-footer',
     footerButtons: 'lightning-button',
+    addnewresource: '.new-resource-button'
 };
 
 const constants = {
@@ -141,6 +144,22 @@ describe('left-panel', () => {
             });
         });
         describe('resource manager tab', () => {
+            describe('New Resource BUTTON', () => {
+                it('Label name should be New Resource ', () => {
+                    const leftPanelComponent = createComponentUnderTest();
+                    expect(getShadowRoot(leftPanelComponent).querySelector(selectors.addnewresource).label).toEqual(newResourceButtonText);
+                });
+                it('fires add event when NEW RESOURCE button is clicked', () => {
+                    const leftPanelComponent = createComponentUnderTest();
+                    return Promise.resolve().then(() => {
+                        const eventCallback = jest.fn();
+                        leftPanelComponent.addEventListener('addnewresource', eventCallback);
+                        getShadowRoot(leftPanelComponent).querySelector(selectors.addnewresource).click();
+                        expect(eventCallback).toHaveBeenCalled();
+                    });
+                });
+            });
+
             it('handle Pallete Item Chevron Click Event ', () => {
                 const leftPanelComponent = createComponentUnderTest();
                 const eventCallback = jest.fn();

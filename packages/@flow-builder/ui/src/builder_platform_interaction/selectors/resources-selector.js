@@ -1,5 +1,5 @@
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ELEMENT_TYPE, RESOURCE_TYPES } from 'builder_platform_interaction-flow-metadata';
 import { createSelector, generateGuid } from 'builder_platform_interaction-store-lib';
 
 const SECTION_PREFIX = 'RESOURCES_PALETTE_SECTION';
@@ -37,7 +37,7 @@ function createSection(elementType, items) {
     return section;
 }
 
-const getResourceElements = (elements, canvasElements) => canvasElements.reduce((acc, guid) => {
+const getResourceElements = (elements, resourceElements) => resourceElements.reduce((acc, guid) => {
     const element = elements[guid];
     const config = getConfigForElementType(element.elementType);
 
@@ -95,7 +95,7 @@ const getResourceSections = (elements, resources, canvasElements) => {
     const resourceSections = [];
     if (resources && resources.length > 0) {
         const resourceElementMap = getResourceElements(elements, resources);
-        const elementTypes = [ELEMENT_TYPE.FORMULA, ELEMENT_TYPE.VARIABLE];
+        const elementTypes = RESOURCE_TYPES;
         const length = elementTypes.length;
         for (let i = 0; i < length; i++) {
             const elementType = elementTypes[i];

@@ -32,6 +32,14 @@ export default class ResourceDetails extends Element {
         return this.resourceDetails.DESCRIPTION !== undefined && this.resourceDetails.DESCRIPTION !== null && this.resourceDetails.DESCRIPTION.length > 0;
     }
 
+    get panelFooterClasses() {
+        let classes = 'panel-footer slds-grid slds-grid_align-end slds-p-around_small slds-border_top slds-border_bottom';
+        if (this.resourceDetails.IS_CHILD_ELEMENT) {
+            classes = `${classes} slds-hide`;
+        }
+        return classes;
+    }
+
     get labels() {
         return LABELS;
     }

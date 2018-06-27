@@ -1,7 +1,9 @@
 import { Element, api } from 'engine';
 import { PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
+import { isChildElement } from 'builder_platform_interaction-element-config';
 
 import detailsText from '@label/FlowBuilderResourceDetailsPanel.detailsText';
+
 
 const LABELS = {
     RESOURCE_DETAILS_PANEL_DETAILS_ALT_TEXT: detailsText
@@ -34,8 +36,10 @@ export default class PaletteItem extends Element {
         event.stopPropagation();
         const elementType = this.elementType;
         const guid = this.guid;
-        const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);
-        this.dispatchEvent(paletteItemClickedEvent);
+        if (!isChildElement(elementType)) {
+            const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);
+            this.dispatchEvent(paletteItemClickedEvent);
+        }
     }
 
     handleChevronClick(event) {

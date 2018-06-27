@@ -2,7 +2,8 @@ import {
     createFlowElement,
     elementTypeToConfigMap,
     getConfigForElementType,
-    isCanvasElement
+    isCanvasElement,
+    isChildElement
 } from '../element-config';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
@@ -49,6 +50,20 @@ describe('element-config', () => {
 
         it('returns true for a canvas element type', () => {
             expect(isCanvasElement(ELEMENT_TYPE.ASSIGNMENT)).toEqual(true);
+        });
+    });
+
+    describe('isChildElement', () => {
+        it('returns false for an empty element type', () => {
+            expect(isChildElement()).toEqual(false);
+        });
+
+        it('returns true for non-top level element', () => {
+            expect(isChildElement(ELEMENT_TYPE.OUTCOME)).toEqual(true);
+        });
+
+        it('returns false for a top level element', () => {
+            expect(isChildElement(ELEMENT_TYPE.ASSIGNMENT)).toEqual(false);
         });
     });
 
