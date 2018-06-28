@@ -14,6 +14,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 const KEYS = {
     BACKSPACE: 'Backspace',
+    DELETE: 'Delete',
     NEGATIVE: '-',
     ZERO: '0',
     ONE: '1',
@@ -350,7 +351,7 @@ export default class Canvas extends Element {
      * @param {object} event - key down event
      */
     handleKeyDown = (event) => {
-        if (event.key === KEYS.BACKSPACE && !this.isPanModeOn) {
+        if ((event.key === KEYS.BACKSPACE || event.key === KEYS.DELETE) && !this.isPanModeOn) {
             event.preventDefault();
             const deleteEvent = new DeleteElementEvent();
             this.dispatchEvent(deleteEvent);

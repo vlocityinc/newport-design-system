@@ -116,8 +116,11 @@ export default class Node extends Element {
      */
     handleTrashClick = (event) => {
         event.stopPropagation();
-        const deleteEvent = new DeleteElementEvent([this.node.guid], this.node.elementType);
-        this.dispatchEvent(deleteEvent);
+        if (!this.isNodeDragging) {
+            const deleteEvent = new DeleteElementEvent([this.node.guid], this.node.elementType);
+            this.dispatchEvent(deleteEvent);
+        }
+        this.isNodeDragging = false;
     };
 
     /**
