@@ -55,27 +55,6 @@ export default class ActionCallEditor extends Element {
         return [];
     }
 
-    /**
-     * @returns {object} label, eg : {value: "xyz", error: null}
-     */
-    get label() {
-        return (this.node && this.node.label) ? this.node.label : undefined;
-    }
-
-    /**
-     * @returns {object} description
-     */
-    get description() {
-        return (this.node && this.node.description) ? this.node.description : undefined;
-    }
-
-    /**
-     * @returns {object} devName
-     */
-    get devName() {
-        return (this.node && this.node.name) ? this.node.name : undefined;
-    }
-
     get elementType() {
         return (this.node && this.node.elementType) ? this.node.elementType : undefined;
     }

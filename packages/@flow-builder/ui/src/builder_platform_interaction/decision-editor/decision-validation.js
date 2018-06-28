@@ -42,6 +42,18 @@ class DecisionValidation extends Validation {
         }
         return super.validateAll(nodeElement, overrideRules);
     }
+
+    /**
+     * Method to check if an outcome devname is unique locally amongst all other outcomes.
+     * @param {Object[]} allOutcomes - list of all outcome objects
+     * @param {string} devNameToBeValidated - for uniqueness
+     * @param {string} currentOutcomeGuid - guid of the current outcome whose devname is tested for uniquness
+     * @returns {string|null} errorString or null
+     */
+    validateOutcomeNameUniquenessLocally = (allOutcomes, devNameToBeValidated, currentOutcomeGuid) => {
+        const matches = allOutcomes.filter(outcome => outcome.guid !== currentOutcomeGuid && outcome.name.value === devNameToBeValidated);
+        return matches.length > 0 ? "Field is not unique" : null; // Label in next CL
+    };
 }
 
 export const decisionValidation = new DecisionValidation(additionalRules);

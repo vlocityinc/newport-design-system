@@ -38,31 +38,6 @@ export default class RecordEditor extends Element {
         this.recordNode = newValue;
     }
 
-    /**
-     * @returns {object} label, eg : {value: "xyz", error: null}
-     */
-    get label() {
-        return this.recordNode.label;
-    }
-
-    /**
-     * @returns {object} description
-     */
-    get description() {
-        return this.recordNode.description;
-    }
-
-    /**
-     * @returns {object} devName
-     */
-    get devName() {
-        return this.recordNode.name;
-    }
-
-    get elementType() {
-        return this.recordNode.elementType;
-    }
-
     get numberRecordsToStore() {
         if (this.recordNode.outputReference && this.recordNode.outputReference.value) {
             const variable = getElementByGuid(this.recordNode.outputReference.value);
@@ -107,7 +82,7 @@ export default class RecordEditor extends Element {
      */
     handleEvent(event) {
         event.stopPropagation();
-        this.element = recordReducer(this.element, event);
+        this.recordNode = recordReducer(this.element, event);
     }
 
     handleResourceChanged(event) {

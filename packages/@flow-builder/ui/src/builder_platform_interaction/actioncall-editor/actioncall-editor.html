@@ -13,9 +13,10 @@
             <div slot='accordion-body'>
                 <div class='slds-m-bottom--x-small'>{labels.detailsSectionDescription}</div>
                 <!-- Name Label Desc Component -->
-                <builder_platform_interaction-label-description label={label} 
-                                                                      dev-name={devName} 
-                                                                      description={description}
+                <builder_platform_interaction-label-description label={actionCallNode.label} 
+                                                                      dev-name={actionCallNode.name} 
+                                                                      description={actionCallNode.description}
+                                                                      guid={actionCallNode.guid}
                                                                       onpropertychanged={handlePropertyChanged}>
                 </builder_platform_interaction-label-description>
             </div>

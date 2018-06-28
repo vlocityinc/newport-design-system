@@ -1,5 +1,6 @@
 import {Element, api, track} from "engine";
 import {PropertyChangedEvent} from 'builder_platform_interaction-events';
+import {isUniqueDevNameInStore} from 'builder_platform_interaction-validation-rules';
 
 const SELECTORS = {
     LABEL: '.label',
@@ -30,6 +31,10 @@ export default class LabelDescription extends Element {
 
     @api
     hideDevName;
+
+    // this is needed for checking uniqueness of devName from store
+    @api
+    guid;
 
     @api
     hideDescription;
@@ -115,10 +120,12 @@ export default class LabelDescription extends Element {
      * @param {String} newDevName - the dev name entered by the user
      */
     updateDevName(newDevName) {
+        const error = isUniqueDevNameInStore(newDevName, [this.guid]);
         const event = new PropertyChangedEvent(
             // TODO get property name from constant source
             'name',
-            newDevName);
+            newDevName,
+            error);
         this.dispatchEvent(event);
     }
 

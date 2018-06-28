@@ -3,7 +3,7 @@
         <builder_platform_interaction-accordion-section>
             <div slot='accordion-header'>Details</div>
             <div slot='accordion-body'>
-                <builder_platform_interaction-label-description label={label} dev-name={devName} description={description} onpropertychanged={handleEvent}> </builder_platform_interaction-label-description>
+                <builder_platform_interaction-label-description label={recordNode.label} dev-name={recordNode.name} description={recordNode.description} guid={recordNode.guid} onpropertychanged={handleEvent}> </builder_platform_interaction-label-description>
             </div>
         </builder_platform_interaction-accordion-section>
     </builder_platform_interaction-accordion>
@@ -24,7 +24,7 @@
     
         <!-- Record Store Fields Selection section -->
         <builder_platform_interaction-record-store-options
-                element-type={elementType}
+                element-type={recordNode.elementType}
                 resource-api-name={resourceApiName}
                 number-of-records-to-store={numberRecordsToStore}
                 assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}></builder_platform_interaction-record-store-options>

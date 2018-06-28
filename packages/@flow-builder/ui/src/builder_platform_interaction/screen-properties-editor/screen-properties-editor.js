@@ -13,9 +13,10 @@ export default class ScreenPropertiesEditor extends Element {
     handlePropertyChanged = (event) => {
         const property = event.detail.propertyName;
         const newValue = event.detail.value;
+        const error = event.detail.error;
         const currentValue = property && this.screen[property] && this.screen[property].value;
         if (currentValue !== newValue) {
-            this.dispatchEvent(new PropertyChangedEvent(property, newValue, null, null, this.screen[property]));
+            this.dispatchEvent(new PropertyChangedEvent(property, newValue, error, null, this.screen[property]));
         }
     }
 }

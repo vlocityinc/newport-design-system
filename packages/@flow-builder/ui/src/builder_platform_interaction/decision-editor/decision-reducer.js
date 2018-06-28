@@ -101,9 +101,13 @@ const updateCondition = (state, event) => {
 };
 
 const outcomePropertyChanged = (state, event) => {
-    event.detail.error = event.detail.error === null ?
-        decisionValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
-
+    if (event.detail.error === null) {
+        event.detail.error = decisionValidation.validateProperty(event.detail.propertyName, event.detail.value);
+        if (event.detail.property === 'name') {
+            // we need to run the outcome api name uniqueness validation within the current session of property editor
+            decisionValidation.validateOutcomeNameUniquenessLocally(state.outcomes, event.detail.value, event.detail.guid);
+        }
+    }
     const outcomes = state.outcomes.map((outcome) => {
         return event.detail.guid !== outcome.guid ? outcome : updateProperties(outcome, {
             [event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}
@@ -151,4 +155,3 @@ export const decisionReducer = (state, event) => {
             return state;
     }
 };
-

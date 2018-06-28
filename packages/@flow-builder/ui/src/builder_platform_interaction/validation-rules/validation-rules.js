@@ -3,8 +3,12 @@ import { getRulesForContext, getRHSTypes, elementToParam } from 'builder_platfor
 import { EXPRESSION_PROPERTY_TYPE, isElementAllowed } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
+import { Store } from 'builder_platform_interaction-store-lib';
 
 // TODO i18n after W-4693112
+
+const storeInstance = Store.getStore();
+
 /**
  * @param {Object} rule - object containing regex pattern and message
  * @param {string} value - value to be evaluated
@@ -151,6 +155,20 @@ export const validateExpressionWith3Properties = (contextConfig) => {
 
         return rules;
     };
+};
+
+/**
+ * Checks the uniqueness of the devName string amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
+ * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
+ * @param {string} nameToBeTested - for uniqueness in store
+ * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
+ * @returns {string|null} errorString or null
+ */
+export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
+    const currentState = storeInstance.getCurrentState();
+    const elements = currentState.elements;
+    const matches = Object.values(elements).filter(element => !listOfGuidsToSkip.includes(element.guid) && element.name === nameToBeTested);
+    return matches.length > 0 ? "Field is not unique" : null; // Label in next CL while this is being reviewed (I will probably do it for all the strings in this file)
 };
 
     /** Exported Validation Rules End **/
