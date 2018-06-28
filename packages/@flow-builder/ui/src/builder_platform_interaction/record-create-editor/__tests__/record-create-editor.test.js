@@ -3,7 +3,8 @@ import RecordCreateEditor from '../record-create-editor';
 import { getShadowRoot } from 'lwc-test-utils';
 import * as storeUtilMock from 'builder_platform_interaction-store-utils';
 import * as store from 'mock-store-data';
-import { RecordStoreOptionChangedEvent, OutputReferenceChangedEvent } from 'builder_platform_interaction-events';
+import { RecordStoreOptionChangedEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction-events';
+import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-create-editor', { is: RecordCreateEditor });
@@ -11,11 +12,6 @@ function createComponentForTest(node) {
     document.body.appendChild(el);
     return el;
 }
-
-const NUMBER_RECORDS_TO_STORE = {
-    FIRST_RECORD : 'firstRecord',
-    ALL_RECORD : 'allRecord'
-};
 
 jest.mock('builder_platform_interaction-store-utils', () => {
     return {
@@ -84,7 +80,7 @@ describe('record-create-editor', () => {
             storeUtilMock.getElementByGuid.mockReturnValue(sobjectCollectionVariableElement);
             recordCreateEditor = createComponentForTest(recordCreateElementWithSObject);
             const recordStoreOption = getRecordStoreOption(recordCreateEditor);
-            expect(recordStoreOption.numberOfRecordsToStore).toBe(NUMBER_RECORDS_TO_STORE.ALL_RECORD);
+            expect(recordStoreOption.numberOfRecordsToStore).toBe(NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
         });
         it('Selected sObject should be the same', () => {
             recordCreateEditor = createComponentForTest(recordCreateElementWithSObject);
@@ -111,7 +107,7 @@ describe('record-create-editor', () => {
             recordCreateEditor = createComponentForTest(recordCreateElementWithSObject);
         });
         it('Number of record change should empty the sObject picker', () => {
-            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.ALL_RECORD, '', false);
+            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.ALL_RECORDS, '', false);
             getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
@@ -121,7 +117,7 @@ describe('record-create-editor', () => {
         it('Number of record change should change the sObject or sObject Collection picker placeHolder', () => {
             let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
             expect(sObjectOrSObjectCollectionPicker.placeholder).toBe('FlowBuilderRecordEditor.sObjectVariablePlaceholder');
-            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.ALL_RECORD, '', false);
+            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.ALL_RECORDS, '', false);
             getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
                 sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
@@ -129,7 +125,7 @@ describe('record-create-editor', () => {
             });
         });
         it('handle Input Reference Changed', () => {
-            const event = new OutputReferenceChangedEvent('sObj2', null);
+            const event = new SObjectReferenceChangedEvent('sObj2', null);
             getSObjectOrSObjectCollectionPicker(recordCreateEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);

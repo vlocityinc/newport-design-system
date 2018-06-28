@@ -1,6 +1,7 @@
 import { Element, api, track } from "engine";
-import { RECORD_FILTER_CRITERIA, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS } from './record-filter-labels';
+import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-record-editor-lib';
 import {
     AddRecordLookupFilterEvent,
     DeleteRecordLookupFilterEvent,

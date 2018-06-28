@@ -1,7 +1,7 @@
-const eventName = 'outputreferencechanged';
+const eventName = 'sobjectreferencechanged';
 
 
-export class OutputReferenceChangedEvent {
+export class SObjectReferenceChangedEvent {
     constructor(value, error = null) {
         return new CustomEvent(eventName, {
             cancelable: false,

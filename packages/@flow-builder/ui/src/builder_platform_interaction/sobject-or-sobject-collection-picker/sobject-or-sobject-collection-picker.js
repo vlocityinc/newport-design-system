@@ -4,7 +4,7 @@ import BaseResourcePicker from 'builder_platform_interaction-base-resource-picke
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 import {
-    OutputReferenceChangedEvent,
+    SObjectReferenceChangedEvent,
 } from 'builder_platform_interaction-events';
 
 /**
@@ -112,9 +112,8 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
     handleSObjectVariableChanged(event) {
         event.stopPropagation();
         const newValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
-        if (newValue !== this.state.value) {
-            const outputReferenceChangedEvent = new OutputReferenceChangedEvent(newValue, event.detail.error);
-            this.dispatchEvent(outputReferenceChangedEvent);
-        }
+        this.errorMessage = event.detail.error;
+        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(newValue, event.detail.error);
+        this.dispatchEvent(sObjectReferenceChangedEvent);
     }
 }

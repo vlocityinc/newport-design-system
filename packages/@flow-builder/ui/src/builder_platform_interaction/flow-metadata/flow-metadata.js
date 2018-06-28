@@ -96,15 +96,6 @@ export const PROCESS_METADATA_VALUES = [
 ];
 
 /**
- * The record filter type using to filter a record lookup.
- * @type {{ALL: string, NONE: string}}
- */
-export const RECORD_FILTER_CRITERIA = {
-    ALL: 'all',
-    NONE: 'none'
-};
-
-/**
  * Global constants used in the Flow Builder Client.
  * @type {{EMPTY_STRING: string, BOOLEAN_TRUE: string, BOOLEAN_FALSE: string}}
  */

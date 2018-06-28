@@ -4,7 +4,7 @@ import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import {
     ComboboxStateChangedEvent,
-    OutputReferenceChangedEvent,
+    SObjectVariableChangedEvent,
 } from 'builder_platform_interaction-events';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction-sobject-or-sobject-collection-picker';
 import { sObjectOrSObjectCollectionByEntitySelector }  from 'builder_platform_interaction-selectors';
@@ -150,13 +150,13 @@ describe('sobject-or-sobject-collection-picker', () => {
     });
 
     describe('handling value change event from combobox', () => {
-        it("should fire 'OutputReferenceChangedEvent'", () => {
+        it("should fire 'SObjectVariableChangedEvent'", () => {
             const sobjectPicker = createComponentUnderTest({value: store.accountSObjectCollectionVariableGuid});
             const ferovResourcePicker = getFerovResourcePicker(sobjectPicker);
             const newParamValue = store.accountSObjectVariableGuid;
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                sobjectPicker.addEventListener(OutputReferenceChangedEvent.EVENT_NAME, eventCallback);
+                sobjectPicker.addEventListener(SObjectVariableChangedEvent.EVENT_NAME, eventCallback);
                 ferovResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {value: newParamValue}});

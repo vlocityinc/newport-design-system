@@ -1,15 +1,16 @@
 import { Element, api, track } from 'engine';
 import { LABELS } from './record-sort-labels';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
+import { SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
 
-const NOT_SORTED_VALUE = 'NotSorted';
+const NOT_SORTED_VALUE = SORT_ORDER.NOT_SORTED;
 
 const SORT_ORDER_OPTIONS = [{
     label : LABELS.sortOrderAscendingLabel,
-    value : 'Asc'
+    value : SORT_ORDER.ASC
 }, {
     label : LABELS.sortOrderDescendingLabel,
-    value : 'Desc'
+    value : SORT_ORDER.DESC
 }, {
     label : LABELS.sortOrderNotSortedLabel,
     value : NOT_SORTED_VALUE

@@ -3,40 +3,44 @@
         <builder_platform_interaction-accordion-section>
             <div slot='accordion-header'>Details</div>
             <div slot='accordion-body'>
-                <builder_platform_interaction-label-description label={recordLookupElement.label} dev-name={recordLookupElement.name} description={recordLookupElement.description} guid={recordLookupElement.guid} onpropertychanged={handleEvent}> </builder_platform_interaction-label-description>
+                <builder_platform_interaction-label-description label={recordLookupElement.label} dev-name={recordLookupElement.name} description={recordLookupElement.description} guid={recordLookupElement.guid} onpropertychanged={handlePropertyOrListItemChanged}> </builder_platform_interaction-label-description>
             </div>
         </builder_platform_interaction-accordion-section>
     </builder_platform_interaction-accordion>
     
-    <!-- temporary section for sobject picker.  -->
+    <!-- sobject picker -->
     <div class="slds-m-bottom_small slds-border_top">
         <h3 class="slds-text-heading_small slds-p-around_small">{labels.selectObject}</h3>
-        <div class="slds-p-horizontal_small">
-            <builder_platform_interaction-resource-picker crud-filter-type={crudFilterType} 
-            label={labels.object} mode={resourcePickerMode} initial-item={recordEntityName} oncomboboxstatechanged={handleResourceChanged}></builder_platform_interaction-resource-picker>
+        <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
+            <builder_platform_interaction-entity-resource-picker
+                    combobox-config={entityComboboxConfig}
+                    value={recordEntityName}
+                    oncomboboxstatechanged={handleResourceChanged}>
+            </builder_platform_interaction-entity-resource-picker>
         </div>
     </div>
     
     <div if:true={recordEntityName}>
         <!-- Find Records section -->
-        <builder_platform_interaction-record-filter element-type={elementType} filter-items={filterItems} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={filterType} onaddrecordlookupfilter={handleEvent} onupdaterecordlookupfilter={handleEvent} ondeleterecordlookupfilter={handleEvent}></builder_platform_interaction-record-filter>
-        
+        <builder_platform_interaction-record-filter element-type={elementType} filter-items={filterItems} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={filterType} onaddrecordlookupfilter={handlePropertyOrListItemChanged} onupdaterecordlookupfilter={handlePropertyOrListItemChanged} ondeleterecordlookupfilter={handlePropertyOrListItemChanged}></builder_platform_interaction-record-filter>
+
         <!-- Sort Records section -->
         <builder_platform_interaction-record-sort
                 resource-api-name={recordEntityName}
                 selected-field={sortField}
                 sort-order={sortOrder}
-                onfieldselected={handleFieldSelected}></builder_platform_interaction-record-sort>
+                onchange={handleRecordSortChanged}></builder_platform_interaction-record-sort>
                 
         <!-- Record Store Fields Selection section -->
         <builder_platform_interaction-record-store-options
                 element-type={elementType}
                 resource-api-name={recordEntityName}
                 number-of-records-to-store={numberRecordsToStore}
-                assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}>
+                assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}
+                onrecordstoreoptionchanged={handleRecordStoreOptionsChanged}>
         </builder_platform_interaction-record-store-options>
         <!-- SObject or SObject collection section -->
         <builder_platform_interaction-record-query-fields is-collection={isCollection} record-entity-name={recordEntityName} element-type={elementType} queried-fields={queriedFields}
-                output-reference={outputReference} onoutputreferencechanged={handleEvent} onaddrecordlookupfield={handleEvent} onupdaterecordlookupfield={handleEvent} ondeleterecordlookupfield={handleEvent}></builder_platform_interaction-record-query-fields>
+                output-reference={outputReference} onsobjectreferencechanged={handleSObjectReferenceChanged} onaddrecordlookupfield={handlePropertyOrListItemChanged} onupdaterecordlookupfield={handlePropertyOrListItemChanged} ondeleterecordlookupfield={handlePropertyOrListItemChanged}></builder_platform_interaction-record-query-fields>
     </div>
 </template> 

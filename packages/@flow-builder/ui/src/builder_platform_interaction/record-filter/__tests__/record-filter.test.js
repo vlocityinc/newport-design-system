@@ -1,7 +1,8 @@
 import {createElement} from 'engine';
 import { mockAccountFields } from 'mock-server-entity-data';
 import { getShadowRoot } from 'lwc-test-utils';
-import { RECORD_FILTER_CRITERIA, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-record-editor-lib';
 
 import {
     AddRecordLookupFilterEvent,

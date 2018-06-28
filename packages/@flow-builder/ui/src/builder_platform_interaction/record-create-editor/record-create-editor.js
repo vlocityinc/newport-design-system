@@ -6,11 +6,7 @@ import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interacti
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
-
-const NUMBER_RECORDS_TO_STORE = {
-    FIRST_RECORD : 'firstRecord',
-    ALL_RECORD : 'allRecord'
-};
+import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
 
 export default class RecordCreateEditor extends Element {
     labels = LABELS;
@@ -84,12 +80,12 @@ export default class RecordCreateEditor extends Element {
      * Returns the number of result stored.
      * If firstRecord then the user will be able to select a sObject variable
      * If allRecord then the user will be able to select a sObject Collection variable
-     * @returns {String} This value can be 'firstRecord' or 'allRecord'
+     * @returns {String} This value can be 'firstRecord' or 'allRecords'
      */
     get numberRecordsToStore() {
         if (this.recordCreateElement.inputReference && this.recordCreateElement.inputReference.value) {
             const variable = getElementByGuid(this.recordCreateElement.inputReference.value);
-            return variable && variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORD : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+            return variable && variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
         }
         // TODO : Modify it when implementing : W-4961821
         return this._numberRecordsToStore;
@@ -100,7 +96,7 @@ export default class RecordCreateEditor extends Element {
     }
 
     get isCollection() {
-        return this.numberRecordsToStore === NUMBER_RECORDS_TO_STORE.ALL_RECORD;
+        return this.numberRecordsToStore === NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     get inputReference() {

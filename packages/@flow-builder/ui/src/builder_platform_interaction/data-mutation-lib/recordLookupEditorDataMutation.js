@@ -1,6 +1,7 @@
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
-import { RECORD_FILTER_CRITERIA, SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { RECORD_FILTER_CRITERIA, SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
 
 export const mutateFilterItems = (filterItems, objectType) => {
     filterItems.forEach((item, itemIndex) => {
@@ -47,6 +48,10 @@ export const mutateRecordLookup = record => {
             record.queriedFields[index] = {field: queriedField, rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FIELD)};
         });
     }
+    if (!record.sortOrder) {
+        record.sortOrder = SORT_ORDER.NOT_SORTED;
+        record.sortField = '';
+    }
     return record;
 };
 
@@ -80,6 +85,10 @@ export const deMutateRecordLookup = record => {
         queriedFields.forEach((queriedField, index) => {
             queriedFields[index] = queriedField.field;
         });
+    }
+    if (record.sortOrder === SORT_ORDER.NOT_SORTED) {
+        delete record.sortOrder;
+        delete record.sortField;
     }
     return record;
 };

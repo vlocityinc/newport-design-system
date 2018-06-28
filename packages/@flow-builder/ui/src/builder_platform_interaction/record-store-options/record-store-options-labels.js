@@ -1,4 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
 /* Labels */
 import firstRecordLabel from '@label/FlowBuilderRecordEditor.firstRecord';
 import allRecordsLabel from '@label/FlowBuilderRecordEditor.allRecords';
@@ -39,10 +40,10 @@ export const LABELS = {
 const getNumberRecordsOption = (labelFirstRecord, labelAllRecord) => {
     return [{
         label : labelFirstRecord,
-        value : 'firstRecord',
+        value : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
     }, {
         label : labelAllRecord,
-        value : 'allRecord',
+        value : NUMBER_RECORDS_TO_STORE.ALL_RECORDS,
     }];
 };
 

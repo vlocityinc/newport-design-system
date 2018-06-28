@@ -1,6 +1,7 @@
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 import { ACTION_TYPE, CONDITION_LOGIC, METADATA_KEY, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LABELS } from './element-config-labels';
+import { SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
 
 /**
  * @constant
@@ -322,7 +323,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:recordCreateEditor',
         nodeConfig: {
             iconName: 'standard:record',
-            maxConnections: 1
+            maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_CREATE,
@@ -350,7 +351,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:recordLookupEditor',
         nodeConfig: {
             iconName: 'standard:search',
-            maxConnections: 1
+            maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_LOOKUP,
@@ -378,7 +379,7 @@ export const elementTypeToConfigMap = {
             locationY: 0,
             name: '',
             sortField : '',
-            sortOrder : 'NotSorted',
+            sortOrder : SORT_ORDER.NOT_SORTED,
             assignNullValuesIfNoRecordsFound : false,
             outputAssignments : [],
             outputReference : {},
@@ -390,7 +391,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:recordEditor',
         nodeConfig: {
             iconName: 'standard:unmatched',
-            maxConnections: 1
+            maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_DELETE,
@@ -417,7 +418,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:recordEditor',
         nodeConfig: {
             iconName: 'standard:recent',
-            maxConnections: 1
+            maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_UPDATE,

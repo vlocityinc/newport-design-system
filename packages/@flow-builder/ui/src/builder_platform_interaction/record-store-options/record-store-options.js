@@ -5,6 +5,7 @@ import { LABELS, NUMBER_RECORDS_OPTIONS,
     WAY_TO_STORE_FIELDS_LABELS,
     WAY_TO_STORE_FIELDS_OPTIONS } from './record-store-options-labels';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction-events';
+import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
 
 export default class RecordStoreFieldsSelection extends Element {
     wayToStoreFieldsOption = WAY_TO_STORE_FIELDS_OPTIONS;
@@ -13,7 +14,7 @@ export default class RecordStoreFieldsSelection extends Element {
     @track
     state = {
         showWayToStoreFieldSelector : false, // TODO : should be true when implementing : W-4961821
-        numberOfRecordsToStore : 'firstRecord',
+        numberOfRecordsToStore : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
         wayToStoreFields : 'sObjectVariable',
         assignNullValuesIfNoRecordsFound : false,
         resourceApiName : '',
@@ -34,7 +35,7 @@ export default class RecordStoreFieldsSelection extends Element {
 
     /**
      * Returns the number of result stored
-     * @returns {String} This value can be 'firstRecord' or 'allRecord'
+     * @returns {String} This value can be 'firstRecord' or 'allRecords'
      */
     @api
     get numberOfRecordsToStore() {
@@ -42,7 +43,7 @@ export default class RecordStoreFieldsSelection extends Element {
     }
 
     /**
-     * @param {String} value - This value can be 'firstRecord' or 'allRecord'
+     * @param {String} value - This value can be 'firstRecord' or 'allRecords'
      */
     @api
     set numberOfRecordsToStore(value) {
