@@ -12,7 +12,8 @@ function createComponentForTest() {
 }
 
 const selectors = {
-    FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
+    LOOP_COLLECTION_FEROV_RESOURCE_PICKER: '.test-loop-collection',
+    LOOP_VARIABLE_FEROV_RESOURCE_PICKER: '.test-loop-variable',
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
 };
 
@@ -52,18 +53,32 @@ describe('loop-editor', () => {
                 });
             });
         });
-        it('handles the combobox value changed event and updates the property', () => {
+        it('loop collection handles the combobox value changed event and updates the property', () => {
             selectorsMock.collectionElementsSelector.mockReturnValue([mockStoreData.elements[mockStoreData.numberVariableGuid]]);
             const loopElement = createComponentForTest();
             loopElement.node = originalState;
             return Promise.resolve().then(() => {
                 const event = new ComboboxStateChangedEvent({
-                    value: 'VARIABLE_8',
+                    value: 'VARIABLE_3',
                     error: null
-                }, 'VARIABLE_8', null);
-                getShadowRoot(loopElement).querySelector(selectors.FEROV_RESOURCE_PICKER).dispatchEvent(event);
-                expect(loopElement.node.collectionReference.value).toBe('VARIABLE_8');
+                }, 'VARIABLE_3', null);
+                getShadowRoot(loopElement).querySelector(selectors.LOOP_COLLECTION_FEROV_RESOURCE_PICKER).dispatchEvent(event);
+                expect(loopElement.node.collectionReference.value).toBe('VARIABLE_3');
                 expect(loopElement.node.collectionReference.error).toBe(null);
+            });
+        });
+        it('loop variable handles the combobox value changed event and updates the property', () => {
+            selectorsMock.collectionElementsSelector.mockReturnValue([mockStoreData.elements[mockStoreData.numberVariableGuid]]);
+            const loopElement = createComponentForTest();
+            loopElement.node = originalState;
+            return Promise.resolve().then(() => {
+                const event = new ComboboxStateChangedEvent({
+                    value: 'VARIABLE_4',
+                    error: null
+                }, 'VARIABLE_4', null);
+                getShadowRoot(loopElement).querySelector(selectors.LOOP_VARIABLE_FEROV_RESOURCE_PICKER).dispatchEvent(event);
+                expect(loopElement.node.assignNextValueToReference.value).toBe('VARIABLE_4');
+                expect(loopElement.node.assignNextValueToReference.error).toBe(null);
             });
         });
     });
