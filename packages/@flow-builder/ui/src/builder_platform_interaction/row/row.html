@@ -1,4 +1,4 @@
-<template>
+<template> <!-- TODO: Localize all labels after W-4693112 -->
     <fieldset>
         <template if:true={showPrefix}>
             <legend class="slds-is-absolute slds-p-top_large slds-m-top_xx-small">
@@ -12,7 +12,7 @@
             </div>
 
             <div class="slds-col slds-grow-none slds-p-top_medium slds-m-top_xx-small">
-                <lightning-button-icon icon-name="utility:delete" size="large" onclick={handleDelete} disabled={disableDelete}>
+                <lightning-button-icon icon-name="utility:delete" size="large" onclick={handleDelete} disabled={disableDelete} alternative-text="Delete row">
                 </lightning-button-icon>
             </div>
         </div>
