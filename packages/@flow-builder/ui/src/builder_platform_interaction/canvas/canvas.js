@@ -410,9 +410,8 @@ export default class Canvas extends Element {
             return;
         }
 
-        // TODO: utility method for offset math, needs to account for scrolling/panning/zooming
-        const locationX = event.clientX - this.canvasArea.offsetLeft;
-        const locationY = event.clientY - this.canvasArea.offsetTop;
+        const locationX = (event.clientX - this.innerCanvasArea.getBoundingClientRect().left) / this.currentScale;
+        const locationY = (event.clientY - this.innerCanvasArea.getBoundingClientRect().top) / this.currentScale;
 
         const addElementEvent = new AddElementEvent(elementType, locationX, locationY);
         this.dispatchEvent(addElementEvent);
