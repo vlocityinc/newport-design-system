@@ -247,19 +247,19 @@ export default class ExpressionBuilder extends Element {
             const newLHSParam = elementToParam(lhsElementOrField);
             if (this.showOperatorCombobox && !getOperators(elementType, newLHSParam, rules).includes(this.state.expression.operator.value)) {
                 // if the current operator is not valid
-                expressionUpdates[OPERATOR] = this._clearedProperty;
-                this.updateRHSWithError(expressionUpdates);
+                this.clearExpression(expressionUpdates, true);
             } else if (this.state.expression.rightHandSideGuid && this.state.expression.rightHandSideGuid.value) {
                 // if the current operator is valid && RHS is a flow element reference
                 this.state.rhsTypes = getRHSTypes(elementType, newLHSParam, this.operatorForRules(), rules);
                 const rhsElementOrField = this.getElementOrField(this.state.expression.rightHandSideGuid.value);
                 const rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(rhsElementOrField));
-                this.updateRHSWithError(expressionUpdates, rhsValid);
+                if (!rhsValid) {
+                    this.clearExpression(expressionUpdates);
+                }
             }
         } else {
-            // Operator & RHS will be disabled in this case
-            expressionUpdates[OPERATOR] = this._clearedProperty;
-            this.updateRHSWithError(expressionUpdates, true);
+            // Operator & RHS will be invalid or disabled in this case
+            this.clearExpression(expressionUpdates, true);
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);
         this.firePropertyChangedEvent(newExpression);
@@ -284,12 +284,14 @@ export default class ExpressionBuilder extends Element {
         event.stopPropagation();
         const newOperator = event.detail.value;
         const expressionUpdates = {[OPERATOR]: {value: newOperator, error: null}};
+        this.state.rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, newOperator, rules);
         if (this.state.expression.rightHandSideGuid && this.state.expression.rightHandSideGuid.value) {
             // if RHS is a flow element reference
-            this.state.rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, newOperator, rules);
             const rhsElementOrField = this.getElementOrField(this.state.expression.rightHandSideGuid.value);
             const rhsValid = isElementAllowed(this.state.rhsTypes, elementToParam(rhsElementOrField));
-            this.updateRHSWithError(expressionUpdates, rhsValid);
+            if (!rhsValid) {
+                this.clearExpression(expressionUpdates);
+            }
         }
         const newExpression = updateProperties(this.state.expression, expressionUpdates);
         const propertyChangedEvent = new RowContentsChangedEvent(newExpression);
@@ -348,17 +350,13 @@ export default class ExpressionBuilder extends Element {
         return '';
     }
 
-    updateRHSWithError(newExpression, isValidOrDisabled = false) {
-        let value = this.state.normalizedRHS.itemOrDisplayText;
-        if (this.state.normalizedRHS.itemOrDisplayText && this.state.normalizedRHS.itemOrDisplayText.displayText) {
-            value = this.state.normalizedRHS.itemOrDisplayText.displayText;
+    clearExpression(newExpression, clearOperator = false) {
+        if (clearOperator) {
+            newExpression[OPERATOR] = this._clearedProperty;
         }
-        if (isValidOrDisabled) {
-            newExpression[RHS] = { value, error: null };
-        } else if (value) {
-            // only set an error if RHS isn't empty
-            newExpression[RHS] = { value, error: genericErrorMessage };
-        }
+        newExpression[RHS] = this._clearedProperty;
+        newExpression[RHSG] = this._clearedProperty;
+        newExpression[RHSDT] = this._clearedProperty;
     }
 
     handleFilterLHSMatches(event) {

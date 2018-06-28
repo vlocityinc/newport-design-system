@@ -97,9 +97,8 @@ export default class Combobox extends Element {
      */
     @api
     set errorMessage(error) {
-        this._errorMessage = error;
-        if (this._errorMessage || this._errorMessage === null) {
-            this.setErrorMessage(this._errorMessage);
+        if (error || error === null) {
+            this.setErrorMessage(error);
         }
     }
 
@@ -181,9 +180,9 @@ export default class Combobox extends Element {
             }
             this._dataType = dataType;
 
-            if (this.doValidation()) {
-                this.fireComboboxStateChangedEvent(this._item, this.state.displayText, this._errorMessage);
-            }
+            this.doValidation();
+            this.fireComboboxStateChangedEvent();
+
             // No literals allowed for SObject and Boolean data type
             // if ([FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.BOOLEAN.value].includes(this._dataType)) {
             // TODO: W-4967895. Make Boolean only allow Global Constant True/False
@@ -235,14 +234,6 @@ export default class Combobox extends Element {
      */
     @api required = false;
 
-    /**
-     * Validates the value of the combobox.
-     */
-    @api
-    validate() {
-        this.doValidation();
-    }
-
     /* ***************** */
     /* Private Variables */
     /* ***************** */
@@ -268,7 +259,9 @@ export default class Combobox extends Element {
 
     _itemCache = {};
 
-    _errorMessage = '';
+    _errorMessage = null;
+
+    _lastRecordedErrorMessage = null;
 
     // TODO: This will need to change once multiple merge fields can be in the same string
     _item;
@@ -391,20 +384,9 @@ export default class Combobox extends Element {
         // If value is null, check if there is one item associated with displayText
         this.matchTextWithItem();
 
-        // do validation
-        const isValid = this.doValidation(true);
+        this.doValidation(true);
 
-        // Only fire event if value has changed
-        if ((this.state.displayText !== this._lastRecordedDisplayText) || (this._item !== this._lastRecordedItem)) {
-            // If not valid, doValidation will have already fired a valueChanged event with the appropriate errorMessage
-            if (isValid) {
-                this.fireComboboxStateChangedEvent(this._item, this.state.displayText, this._errorMessage);
-            }
-
-            // Update _lastRecordedItem && _lastRecordedDisplayText
-            this._lastRecordedDisplayText = this.state.displayText;
-            this._lastRecordedItem = this._item;
-        }
+        this.fireComboboxStateChangedEvent();
     }
 
     /**
@@ -470,13 +452,24 @@ export default class Combobox extends Element {
 
     /**
      * Fire value change event with error message if provided
+     * NOTE: This event is only fired if there have been changes
      * @param {Object} item The item, if any, that was selected
      * @param {String} displayText Only the display text string
      * @param {String} errorMessage optional error message
      */
-    fireComboboxStateChangedEvent(item, displayText, errorMessage) {
-        const comboboxStateChangedEvent = new ComboboxStateChangedEvent(item, displayText, errorMessage);
-        this.dispatchEvent(comboboxStateChangedEvent);
+    fireComboboxStateChangedEvent() {
+        if ((this.state.displayText !== this._lastRecordedDisplayText) ||
+            (this._item !== this._lastRecordedItem) ||
+            (this._errorMessage !== this._lastRecordedErrorMessage)) {
+            // only fire event if displayText, item, or errorMessage have changed
+            const comboboxStateChangedEvent = new ComboboxStateChangedEvent(this._item, this.state.displayText, this._errorMessage);
+            this.dispatchEvent(comboboxStateChangedEvent);
+
+            // Update _lastRecordedItem && _lastRecordedDisplayText && _lastRecordedErrorMessage
+            this._lastRecordedDisplayText = this.state.displayText;
+            this._lastRecordedItem = this._item;
+            this._lastRecordedErrorMessage = this._errorMessage;
+        }
     }
 
     /**
@@ -662,7 +655,7 @@ export default class Combobox extends Element {
      * Clears an error message if any previously set on the combobox.
      */
     clearErrorMessage() {
-        this.setErrorMessage(null);
+        this._errorMessage = null;
     }
 
     /**
@@ -676,6 +669,7 @@ export default class Combobox extends Element {
             groupedCombobox.showHelpMessageIfInvalid();
         }
         this._errorMessage = customErrorMessage;
+        this._lastRecordedErrorMessage = customErrorMessage;
     }
 
     /**
@@ -695,57 +689,48 @@ export default class Combobox extends Element {
     /**
      * Runs the validation for this combobox
      * @param {Boolean} isBlur whether or not this validate is happening on blur
-     * @returns {Boolean} whether or not validation succeeded or failed
      */
     doValidation(isBlur = false) {
         this.clearErrorMessage();
 
         // No validation for three or more level of data to let super user type in higher level values.
         if (this.getLevel() > MAX_LEVEL_MENU_DATA || this.disabled) {
-            this._dataType = null;
-            return true;
+            return;
         }
 
         if (this.state.displayText) {
             if (this._isMergeField) {
-                return this.validateResource(isBlur);
+                this.validateResource(isBlur);
+            } else {
+                this.validateLiteral();
             }
-            return this.validateLiteral();
         } else if (this.required && isBlur) {
-            this.fireComboboxStateChangedEvent(this._item, this.state.displayText, ERROR_MESSAGE.GENERIC);
-            return false;
+            this._errorMessage = ERROR_MESSAGE.GENERIC;
         }
-        return true;
     }
     /**
      * Validates the literal value entered in combobox.
-     * @returns {Boolean} whether or not literal validation succeeded or failed
      */
     validateLiteral() {
         // literals allowed in combobox, validates number, currency (number), date and date time.
         // date and date time converts the input date string to format 'MM/DD/YYYY HH:MM:ss TZD
         if (this._isLiteralAllowed) {
-            return this.validateLiteralForDataType();
+            this.validateLiteralForDataType();
         } else if (!this._item) {
-            this.fireComboboxStateChangedEvent(this._item, this.state.displayText, ERROR_MESSAGE.GENERIC);
-            return false;
+            this._errorMessage = ERROR_MESSAGE.GENERIC;
         }
-        return true;
     }
 
     /**
      * Validates the resource value (value enclosed in {! and } ) selected or entered.
      * @param {Boolean} isBlur whether or not this validation is happening onblur
-     * @returns {Boolean} whether or not resource validation succeeded or failed
      */
     validateResource(isBlur = false) {
         if (this.isExpressionIdentifierLiteral() && this._isLiteralAllowed) {
-            return this.validateLiteralForDataType();
+            this.validateLiteralForDataType();
         } else if (!this._item && isBlur) {
-            this.fireComboboxStateChangedEvent(this._item, this.state.displayText, ERROR_MESSAGE.GENERIC);
-            return false;
+            this._errorMessage = ERROR_MESSAGE.GENERIC;
         }
-        return true;
     }
 
     /**
@@ -772,15 +757,11 @@ export default class Combobox extends Element {
 
     /**
      * Validate the input value is a valid number and set error
-     * @returns {Boolean} whether or not number validation succeeded or failed
      */
     validateNumber() {
-        if (this.isValidNumber(this.state.displayText)) {
-            this.clearErrorMessage();
-            return true;
+        if (!this.isValidNumber(this.state.displayText)) {
+            this._errorMessage = ERROR_MESSAGE[this._dataType];
         }
-        this.fireComboboxStateChangedEvent(this._item, this.state.displayText, ERROR_MESSAGE[this._dataType]);
-        return false;
     }
 
     /**
@@ -798,16 +779,14 @@ export default class Combobox extends Element {
      * Validate the input string is a valid date or date time.
      * If valid format it otherwise set error message.
      * @param {Boolean} isDateTime whether to validate for date time
-     * @returns {Boolean} whether or not date/dateTime validation succeeded or failed
      */
     validateAndFormatDate(isDateTime) {
         const dateValue = this.isValidDateTime(this.state.displayText);
         if (dateValue) {
             this.state.displayText = formatDate(dateValue, isDateTime);
-            return true;
+        } else {
+            this._errorMessage = ERROR_MESSAGE[this._dataType];
         }
-        this.fireComboboxStateChangedEvent(this._item, this.state.displayText, ERROR_MESSAGE[this._dataType]);
-        return false;
     }
 
     /**

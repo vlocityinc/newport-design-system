@@ -182,6 +182,10 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
     const lhs = {};
     const complexGuid = sanitizeGuid(lhsIdentifier);
     const flowElement = getElementByGuid(complexGuid.guid);
+    if (!flowElement) {
+        // Pass in lhsIdentifier as string in the default case
+        lhs.item = lhsIdentifier;
+    }
     if (complexGuid.fieldName) {
         // TODO: W-4960448: the field will appear empty briefly when fetching the first time
         const sobject = (flowElement) ? flowElement.objectType : complexGuid.guid;
@@ -203,9 +207,6 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
     } else if (flowElement) {
         lhs.item = mutateFlowElementToComboboxShape(flowElement);
         lhs.parameter = elementToParam(flowElement);
-    } else if (lhsIdentifier) {
-        // Pass in lhsIdentifier as string in this case
-        lhs.item = lhsIdentifier;
     }
     return lhs;
 };

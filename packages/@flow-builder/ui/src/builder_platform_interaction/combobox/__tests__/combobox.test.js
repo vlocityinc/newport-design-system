@@ -352,10 +352,9 @@ describe('Combobox Tests', () => {
             groupedCombobox.dispatchEvent(textInputEvent);
             blurEvent = new CustomEvent('blur');
             groupedCombobox.dispatchEvent(blurEvent);
-            // called twice here because it gets called in @type setter
-            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
-            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.item).toEqual(null);
-            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.displayText).toEqual(blurValue);
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(null);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.displayText).toEqual(blurValue);
 
             // This second part tests matchTextWithItem as well
             blurValue = '{!MyAccount}';
@@ -364,9 +363,9 @@ describe('Combobox Tests', () => {
             textInputEvent = getTextInputEvent(blurValue);
             groupedCombobox.dispatchEvent(textInputEvent);
             groupedCombobox.dispatchEvent(blurEvent);
-            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(3);
-            expect(comboboxStateChangedHandler.mock.calls[2][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
-            expect(comboboxStateChangedHandler.mock.calls[2][0].detail.displayText).toEqual(blurValue);
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
+            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
+            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.displayText).toEqual(blurValue);
         });
 
         it('ComboboxStateChanged is not fired on blur if value has not changed', () => {
@@ -482,8 +481,7 @@ describe('Combobox Tests', () => {
                     groupedCombobox.dispatchEvent(textInputEvent);
                     groupedCombobox.dispatchEvent(blurEvent);
 
-                    // Gets the second call since setting type calls the first one
-                    expect(comboboxStateChangedHandler.mock.calls[1][0].detail.error).toEqual(testData.error);
+                    expect(comboboxStateChangedHandler.mock.calls[0][0].detail.error).toEqual(testData.error);
                     if (testData.expectedValue) {
                         if (dataType !== 'DateTime') {
                             expect(combobox.value).toEqual(testData.expectedValue);
