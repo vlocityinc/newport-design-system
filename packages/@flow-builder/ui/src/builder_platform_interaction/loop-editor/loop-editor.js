@@ -16,7 +16,6 @@ const LOOP_PROPERTIES = {
 };
 // TODO: use labels W-4960986
 const VARIABLE_LABEL = 'Variable';
-const SOBJECT_LABEL = 'SObject';
 const COLLECTION_VARIABLE_PLACEHOLDER = 'Find a collection variable...';
 const LOOP_VARIABLE_PLACEHOLDER = 'Find a variable...';
 const ITERATION_ORDER_ASCENDING = 'Asc';
@@ -117,7 +116,7 @@ export default class LoopEditor extends Element {
         return BaseResourcePicker.getComboboxConfig(
             VARIABLE_LABEL,
             COLLECTION_VARIABLE_PLACEHOLDER,
-            this.loopElement.collectionReference ? this.loopElement.collectionReference.error : null,
+            this.loopElement.collectionReference.error,
             LOOPVAR_LITERALS_ALLOWED,
             LOOPVAR_REQUIRED,
             LOOPCOLLECTION_DISABLED
@@ -129,7 +128,7 @@ export default class LoopEditor extends Element {
         return BaseResourcePicker.getComboboxConfig(
             VARIABLE_LABEL,
             LOOP_VARIABLE_PLACEHOLDER,
-            this.loopElement.assignNextValueToReference ? this.loopElement.assignNextValueToReference.error : null,
+            this.loopElement.assignNextValueToReference.error,
             LOOPVAR_LITERALS_ALLOWED,
             LOOPVAR_REQUIRED,
             this.isLoopVariableDisabled
@@ -155,28 +154,28 @@ export default class LoopEditor extends Element {
         event.detail.propertyName = LOOP_PROPERTIES.COLLECTION_VARIABLE;
         this._collectionVariable = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
 
-        if (this.loopVariableState && this.loopVariableState !== null && this._collectionVariable !== null) {
+        if (this.loopVariableState && this._collectionVariable) {
             // check if loop variable dataType or objectType changed
-            const collectionVariableDataType = this._collectionVariable ? this._collectionVariable.dataType : null;
-            let isLoopVariableSObjectObjectTypeChanged = false;
-            if (collectionVariableDataType === SOBJECT_LABEL && this._collectionVariable.dataType === SOBJECT_LABEL) {
-                isLoopVariableSObjectObjectTypeChanged = this.getLoopVariableSObjectType() !== this._collectionVariable.objectType;
-            }
-            const isLoopVariableDataTypeChanged = this.getLoopVariableDataType() !== collectionVariableDataType;
+            const isDataTypeChanged = this.getLoopVariableDataType() !==  this.getCollectionVariableDataType();
+            const isSObjectTypeChanged = this.getLoopVariableSObjectType() !== this.getCollectionVariableSObjectType();
 
             // set datatype mismatch error message for loopVariable
-            if (isLoopVariableDataTypeChanged && this.loopVariableState !== null && this.loopVariableState) {
+            if (this.loopVariableState && (isDataTypeChanged || isSObjectTypeChanged)) {
                 this.loopElement.assignNextValueToReference.error = LOOPVAR_ERROR_MESSAGE;
-            } else if (isLoopVariableSObjectObjectTypeChanged) {
-                this.loopElement.assignNextValueToReference.error = LOOPVAR_ERROR_MESSAGE;
-            } else if (this.loopElement.assignNextValueToReference) {
+            } else if (this.loopElement.assignNextValueToReference.value) {
                 this.loopElement.assignNextValueToReference.error = null;
             }
         }
+        // If loopCollection has error then clear datatypemismatch error message for loopVariable
+        if (event.detail.error !== null &&  this.loopElement.assignNextValueToReference.error === LOOPVAR_ERROR_MESSAGE) {
+            this.loopElement.assignNextValueToReference.error = null;
+        }
+
         // enable or disable loop variable
         this.isLoopVariableDisabled = this._collectionVariable === null;
         this.loopElement = loopReducer(this.loopElement, event);
     }
+
 
     handleLoopVariablePropertyChanged(event) {
         event.stopPropagation();
@@ -184,29 +183,19 @@ export default class LoopEditor extends Element {
         event.detail.propertyName = LOOP_PROPERTIES.LOOP_VARIABLE;
         this.loopVariableState = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
 
-        if (this._collectionVariable && this._collectionVariable !== null) {
+        if (this._collectionVariable && this._collectionVariable) {
             // check if loop variable dataType or objectType changed
-            const isLoopVariableDataTypeChanged = this.getCollectionVariableDataType() !== this.getLoopVariableDataType();
-            let isLoopVariableSObjectObjectTypeChanged = false;
-            if (this.getCollectionVariableDataType() === SOBJECT_LABEL && this.getLoopVariableDataType() === SOBJECT_LABEL) {
-                isLoopVariableSObjectObjectTypeChanged = this.getCollectionVariableSObjectType() !== this.getLoopVariableSObjectType();
-            }
+            const isDataTypeChanged = this.getLoopVariableDataType() !==  this.getCollectionVariableDataType();
+            const isSObjectTypeChanged = this.getLoopVariableSObjectType() !== this.getCollectionVariableSObjectType();
 
             // set datatype mismatch error message for loopVariable
-            if (isLoopVariableDataTypeChanged && this.loopElement.assignNextValueToReference) {
-                this.loopElement.assignNextValueToReference.error = LOOPVAR_ERROR_MESSAGE;
-            } else if (isLoopVariableSObjectObjectTypeChanged) {
+            if (isDataTypeChanged || isSObjectTypeChanged) {
                 this.loopElement.assignNextValueToReference.error = LOOPVAR_ERROR_MESSAGE;
                 // In case event.detail.error is null then it could overwrite LOOPVAR_ERROR_MESSAGE that was set in above line.
                 event.detail.error = event.detail.error === null ? LOOPVAR_ERROR_MESSAGE : event.detail.error;
-            }  else if (this.loopElement.assignNextValueToReference) {
+            } else if (this.loopElement.assignNextValueToReference.value) {
                 this.loopElement.assignNextValueToReference.error = null;
             }
-        }
-        // If loopCollection has error then clear datatypemismatch error message for loopVariable
-        const loopVariableErrorMessage = this.loopElement.assignNextValueToReference ? this.loopElement.assignNextValueToReference.error : null;
-        if (event.detail.error !== null &&  loopVariableErrorMessage === LOOPVAR_ERROR_MESSAGE) {
-            this.loopElement.assignNextValueToReference.error = null;
         }
         this.loopElement = loopReducer(this.loopElement, event);
     }

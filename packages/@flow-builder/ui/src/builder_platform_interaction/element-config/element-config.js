@@ -311,6 +311,8 @@ export const elementTypeToConfigMap = {
             config: { isSelected: false },
             connectorCount: 0,
             elementType: ELEMENT_TYPE.LOOP,
+            assignNextValueToReference: null,
+            collectionReference: null,
             guid: '',
             isCanvasElement: true,
             label: '',
