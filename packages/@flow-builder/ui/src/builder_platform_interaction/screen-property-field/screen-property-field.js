@@ -21,9 +21,7 @@ export default class ScreenPropertyField extends Element {
     @api readOnly = false;
     @api helpText;
     @api allowResources = false;
-    @api disallowLiterals = false;
-    @api collection = false;
-    @api objectType;
+    @api resourcePickerConfig;
 
     @track _value;
     labels = LABELS;
@@ -69,7 +67,7 @@ export default class ScreenPropertyField extends Element {
             this.label, // Label
             '', // Placeholder
             null, // errorMessage
-            !this.disallowsLiterals, // literalsAllowed
+            this.resourcePickerConfig.allowLiterals, // literalsAllowed
             this.required, // required
             false, // disabled
             this.normalizedType
@@ -79,11 +77,15 @@ export default class ScreenPropertyField extends Element {
     get elementParam() {
         const param = {
             dataType: this.normalizedType,
-            collection: this.isCollection
+            collection: this.resourceComboBoxConfig.collection
         };
 
-        if (this.objectType) {
-            param.objectType = this.objectType; // elementType, isSObjectField
+        if (this.resourcePickerConfig.objectType) {
+            param.objectType = this.resourcePickerConfig.objectType;
+        }
+
+        if (this.resourcePickerConfig.elementType) {
+            param.elementType = this.resourcePickerConfig.elementType; // isSObjectField
         }
 
         return param;
@@ -116,14 +118,6 @@ export default class ScreenPropertyField extends Element {
 
     get allowsResources() {
         return booleanAttributeValue(this, 'allowResources');
-    }
-
-    get disallowsLiterals() {
-        return booleanAttributeValue(this, 'allowLiterals');
-    }
-
-    get isCollection() {
-        return booleanAttributeValue(this, 'collection');
     }
 
     get isRequired() {
@@ -174,7 +168,9 @@ export default class ScreenPropertyField extends Element {
 
     get domValue() {
         const input = this.input;
-        if (this.allowsResources || this.isString || this.isLongString || this.isRichString) {
+        if (this.allowsResources) {
+            return input.value && input.value.value ? input.value.value : input.value;
+        } else if (this.isString || this.isLongString || this.isRichString) {
             return input.value;
         } else if (this.isBoolean) {
             return input.checked;

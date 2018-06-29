@@ -1,5 +1,5 @@
 <template>
-    <div class='full-height slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-border_left slds-grid slds-grid_vertical' aria-hidden='false' >
+    <div class='full-height slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-border_left slds-grid slds-grid_vertical slds-size_medium' aria-hidden='false' >
         <div class='slds-panel__header slds-shrink-none -slds-border_bottom-none slds-grid'>
             <div class='slds-grow'>
                 <h2 class='slds-panel__header-title slds-text-heading_small'>
@@ -16,15 +16,21 @@
                                    title={labels.togglePropertiesPanelTitle} onclick={handleToggleExpand}>
             </lightning-button-icon>
         </div>
-        <div class='slds-panel__body slds-scrollable_y slds-p-around_none slds-grid slds-grid_vertical slds-grow full-height'>
+        
+        <div if:true={displaySpinner} class='slds-is-relative full-height slds-shrink'>
+            <lightning-spinner alternative-text={labels.spinnerAlternativeText} size='medium' variant='brand' class='spinner'></lightning-spinner>
+        </div>
+        
+        <div if:false={displaySpinner} class='slds-panel__body slds-scrollable_y slds-p-around_none slds-grid slds-grid_vertical slds-grow full-height'>
             <builder_platform_interaction-screen-properties-editor if:true={isScreen} 
                                                                    class='properties-editor-panel slds-size_medium toggle-animated' 
                                                                    screen={node}>
             </builder_platform_interaction-screen-properties-editor>
 
             <builder_platform_interaction-screen-extension-properties-editor if:true={isExtensionField}
-                                                                             class='full-height properties-editor-panel slds-size_medium toggle-animated' 
-                                                                             field={node}>
+                                                                             class='full-height properties-editor-panel toggle-animated' 
+                                                                             field={node}
+                                                                             extension-description={extendedInfo}>
             </builder_platform_interaction-screen-extension-properties-editor>
             
             <div if:true={isOther} class='properties-editor-panel slds-size_medium'>Screen field property editor (TBI)</div>

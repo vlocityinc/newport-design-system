@@ -1,17 +1,17 @@
 <template>
-    <div if:true={field} class='full-height'>
-        <div if:false={mergedField} class='slds-is-relative full-height'>
-            <lightning-spinner alternative-text={labels.spinnerAlternativeText} size='medium' variant='brand' class='spinner'></lightning-spinner>
-        </div>
-        
+    <div if:true={field} class='full-height'>        
         <div if:true={mergedField}>
             <section class='slds-p-horizontal_small slds-p-bottom_small'>
-                <builder_platform_interaction-screen-property-field name='name' label={labels.apiNameLabel} type='string' value={mergedField.name} required='required'>
+                <builder_platform_interaction-screen-property-field name='name' label={labels.apiNameLabel} 
+                                                                    type='string' value={mergedField.name} 
+                                                                    required='required'>
                 </builder_platform_interaction-screen-property-field>
         
                 <template for:each={mergedField.inputParameters} for:item='param'>
-                    <builder_platform_interaction-screen-property-field key={param.guid} name={param.apiName} label={param.label} type={param.dataType} object-type={param.objectType}
-                                                                        value={param.value} required={param.isRequired} allow-resources='true' collection={param.isCollection}>
+                    <builder_platform_interaction-screen-property-field key={param.guid} name={param.apiName} data-param-type='input'
+                                                                        label={param.label} type={param.dataType}
+                                                                        value={param.value} required={param.isRequired} 
+                                                                        allow-resources='true' resource-picker-config={param.resourcePickerConfig}>
                     </builder_platform_interaction-screen-property-field>
                 </template>
             </section>
@@ -21,9 +21,10 @@
                     <div slot='accordion-header'>{labels.extensionOutputsHeader}</div>
                     <div slot='accordion-body'>
                         <template for:each={mergedField.outputParameters} for:item='param'>
-                            <builder_platform_interaction-screen-property-field key={param.guid} name={param.apiName} label={param.label} value={param.assignToReference} 
-                                                                                type={param.dataType} object-type={param.objectType} required={param.isRequired}
-                                                                                allow-resources='true' disallow-literals='true'  collection={param.isCollection}>
+                            <builder_platform_interaction-screen-property-field key={param.guid} name={param.apiName} data-param-type='output'
+                                                                                label={param.label} value={param.assignToReference}
+                                                                                type={param.dataType} required={param.isRequired}
+                                                                                allow-resources='true' resource-picker-config={param.resourcePickerConfig}>
                             </builder_platform_interaction-screen-property-field>
                         </template>               
                     </div>

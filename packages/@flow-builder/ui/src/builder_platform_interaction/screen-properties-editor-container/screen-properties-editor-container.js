@@ -1,5 +1,5 @@
 import { Element, api, track } from 'engine';
-import { isScreen } from 'builder_platform_interaction-screen-editor-utils';
+import { isScreen, describeExtension } from 'builder_platform_interaction-screen-editor-utils';
 import { createScreenNodeSelectedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
@@ -8,9 +8,25 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-
  * Right hand side component, used to toggle between screen and field property editors.
  */
 export default class ScreenEditorPropertiesEditorContainer extends Element {
-    @api node;
+    @track _node;
+    @track extendedInfo;
     @track toggleIconName = 'utility:expand_alt';
+    @track displaySpinner;
+
     labels = LABELS;
+
+    @api set node(value) {
+        this._node = value;
+        if (this.isExtensionField) {
+            this.fetchDescription();
+        } else {
+            this.extendedInfo = null;
+        }
+    }
+
+    @api get node() {
+        return this._node;
+    }
 
     get isScreen() {
         return isScreen(this.node);
@@ -39,5 +55,20 @@ export default class ScreenEditorPropertiesEditorContainer extends Element {
 
     handleScreenSelection =  (/* event */) => {
         this.dispatchEvent(createScreenNodeSelectedEvent(this.node));
+    }
+
+    fetchDescription() {
+        this.displaySpinner = true;
+        const node = this.node; // closure
+        describeExtension(node.extensionName.value, false, (desc, error) => {
+            this.displaySpinner = false;
+            if (this.node === node) { // Let's make sure the user didn't change the selection
+                if (error) {
+                    throw error;
+                } else {
+                    this.extendedInfo = desc;
+                }
+            }
+        });
     }
 }
