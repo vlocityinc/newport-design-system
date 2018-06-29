@@ -21,11 +21,23 @@ describe('Data Type picker', () => {
         scaleComponent = () => getShadowRoot(dataTypePickerComponent).querySelector('.scale');
         collectionComponent = () => getShadowRoot(dataTypePickerComponent).querySelector('.collection');
     });
+
     it('should only display given available data types', async () => {
         dataTypePickerComponent.availableDataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER];
         await Promise.resolve();
         expect(getShadowRoot(dataTypePickerComponent).querySelector('lightning-combobox').options.map(option => option.label)).toEqual(['Text', 'Number']);
     });
+
+    it('should display the given error message', () => {
+        const errorMessage = 'test error';
+        dataTypePickerComponent.errorMessage = errorMessage;
+        return Promise.resolve(() => {
+            const combobox = getShadowRoot(dataTypeComponent).querySelector('lightning-component');
+            expect(combobox.checkValidity()).toBeFalsy();
+            expect(combobox.errorMessage).toEqual(errorMessage);
+        });
+    });
+
     describe('When scale is allowed', () => {
         beforeEach(() => {
             dataTypePickerComponent.allowScale = true;

@@ -1,16 +1,16 @@
 import { api, Element } from 'engine';
 
-export default class ScreenTextAreaPropertyField extends Element {
-    @api
-    comboboxConfig;
+export default class FerovResourcePicker extends Element {
+    @api elementConfig;
 
-    @api
-    elementConfig;
+    @api propertyEditorElementType;
 
-    @api
-    value;
+    @api value;
 
-    @api
-    showNewResource;
+    @api comboboxConfig;
+
+    @api elementParam;
+
+    @api showNewResource;
 }
 

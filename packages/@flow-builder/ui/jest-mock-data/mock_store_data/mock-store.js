@@ -208,3 +208,84 @@ export const hydratedElements = {
     }
 };
 
+export const mutatedVariables = {
+    [stringVariableGuid]: {
+        dataType: { value: stringDataType, error: null },
+        description: 'random description',
+        elementType: { value: variable, error: null},
+        guid: numberVariableGuid,
+        isCanvasElement: false,
+        isCollection: false,
+        isInput: false,
+        isOutput: false,
+        name: { value: numberVariableDevName, error: null },
+        objectType: { value: null, error: null },
+        defaultValue: {
+            value: 'fooDefault',
+            error: null
+        }
+    },
+    [numberVariableGuid]: {
+        dataType: { value: numberDataType, error: null },
+        description: '',
+        elementType: variable,
+        guid: numberVariableGuid,
+        isCanvasElement: false,
+        isCollection: false,
+        isInput: false,
+        isOutput: false,
+        name: numberVariableDevName,
+        objectType: { value: null, error: null },
+        defaultValue: {
+            value: 45,
+            error: null
+        }
+    },
+    [dateVariableGuid]: {
+        dataType: { value: dateDataType, error: null },
+        description: '',
+        elementType: variable,
+        guid: dateVariableGuid,
+        isCanvasElement: false,
+        isCollection: false,
+        name: dateVariableDevName,
+        objectType: { value: null, error: null },
+        defaultValue: {
+            value: '10/24/1995',
+            error: null
+        }
+    },
+    [stringCollectionVariable1Guid]: {
+        dataType: { value: stringDataType, error: null },
+        description: '',
+        elementType: variable,
+        guid: stringCollectionVariable1Guid,
+        isCanvasElement: false,
+        isCollection: true,
+        isInput: false,
+        isOutput: false,
+        name: stringCollectionVariable1DevName,
+        objectType: { value: null, error: null },
+        defaultValue: {
+            value: null,
+            error: null
+        }
+    },
+    [accountSObjectVariableGuid]: {
+        dataType: { value : sobjectDataType, error: null },
+        description: '',
+        elementType: variable,
+        guid: accountSObjectVariableGuid,
+        isCanvasElement: false,
+        isCollection: false,
+        isInput: false,
+        isOutput: false,
+        name: accountSObjectVariableDevName,
+        objectType: { value : account, error: null },
+        defaultValue: {
+            value: null,
+            error: null,
+        }
+    },
+};
+

@@ -74,16 +74,16 @@ describe('entity-resource-picker', () => {
     });
 
     it('sets the value of the base resource picker as a string', () => {
-        props.value = 'test display text';
+        props.value = entityMenuData[1].value;
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
-            expect(baseResourcePicker.value.displayText).toEqual(props.value);
+            expect(baseResourcePicker.value.displayText).toEqual(entityMenuData[1].displayText);
         });
     });
 
     it('sets the value of the base resource picker as an item', () => {
-        props.value = { value: 'testValue', displayText: 'test display text'};
+        props.value = entityMenuData[1];
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);

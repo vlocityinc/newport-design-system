@@ -7,6 +7,8 @@ import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interacti
 import { variableReducer } from '../variable-reducer';
 import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxStateChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
+import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
@@ -24,6 +26,15 @@ const setupComponentUnderTest = (props) => {
     return element;
 };
 
+jest.mock('builder_platform_interaction-data-mutation-lib', () => {
+    return {
+        getErrorsFromHydratedElement: jest.fn(),
+        getValueFromHydratedItem: require.requireActual('builder_platform_interaction-data-mutation-lib').getValueFromHydratedItem,
+        GUID_SUFFIX: require.requireActual('builder_platform_interaction-data-mutation-lib').GUID_SUFFIX,
+        FEROV_DATA_TYPE_PROPERTY: require.requireActual('builder_platform_interaction-data-mutation-lib').FEROV_DATA_TYPE_PROPERTY
+    };
+});
+
 jest.mock('builder_platform_interaction-actions', () => {
     return {
         createAction: jest.fn().mockReturnValue({}),
@@ -31,11 +42,10 @@ jest.mock('builder_platform_interaction-actions', () => {
     };
 });
 
-
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../variable-reducer', () => {
     return {
-        variableReducer: jest.fn().mockImplementation(((obj, action) => Object.assign({}, obj, action))),
+        variableReducer: jest.fn().mockImplementation(((obj) => Object.assign({}, obj))),
     };
 });
 
@@ -74,9 +84,9 @@ describe('variable-editor', () => {
     let dateVariable;
 
     beforeEach(() => {
-        stringVariable = deepCopy(mockStoreData.hydratedElements[mockStoreData.stringVariableGuid]);
-        numberVariable = deepCopy(mockStoreData.elements[mockStoreData.numberVariableGuid]);
-        dateVariable = deepCopy(mockStoreData.elements[mockStoreData.dateVariableGuid]);
+        stringVariable = deepCopy(mockStoreData.mutatedVariables[mockStoreData.stringVariableGuid]);
+        numberVariable = deepCopy(mockStoreData.mutatedVariables[mockStoreData.numberVariableGuid]);
+        dateVariable = deepCopy(mockStoreData.mutatedVariables[mockStoreData.dateVariableGuid]);
     });
 
     it('contains a variable element', () => {
@@ -128,9 +138,10 @@ describe('variable-editor', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
                 const dataTypePicker = getShadowRoot(variableEditor).querySelector('builder_platform_interaction-data-type-picker');
-                const mockChangeEvent = new ValueChangedEvent({ dataType : 'Currency', isCollection:false, scale:3 });
+                const eventPayload = { dataType : 'Currency', isCollection:false, scale:3 };
+                const mockChangeEvent = new ValueChangedEvent(eventPayload);
                 dataTypePicker.dispatchEvent(mockChangeEvent);
-                expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE);
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value: eventPayload});
                 expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
             });
         });
@@ -332,6 +343,25 @@ describe('variable-editor', () => {
                 expect(createAction.mock.calls[0][1].propertyName).toEqual('objectType');
                 expect(variableReducer).toHaveBeenCalledWith(variableEditor.node, {});
             });
+        });
+    });
+
+    describe('validation', () => {
+        it('calls reducer with validate all event', () => {
+            const variableEditor = setupComponentUnderTest(stringVariable);
+            const node = variableEditor.node;
+            variableEditor.validate();
+            expect(variableReducer.mock.calls[0][0]).toEqual(node);
+            expect(variableReducer.mock.calls[0][1]).toEqual({type: VALIDATE_ALL});
+        });
+
+        it('gets the errors after validating', () => {
+            const variableEditor = setupComponentUnderTest(stringVariable);
+            const mockHydratedElementWithErrors = {key: 'mockKey', errorString: 'mockErrorString'};
+            getErrorsFromHydratedElement.mockReturnValueOnce(mockHydratedElementWithErrors);
+            const result = variableEditor.validate();
+            expect(getErrorsFromHydratedElement).toHaveBeenCalledWith(variableEditor.node);
+            expect(result).toEqual(mockHydratedElementWithErrors);
         });
     });
 });

@@ -66,6 +66,7 @@ describe('base-resource-picker', () => {
             const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
             expect(flowCombobox.label).toEqual(comboboxConfig.label);
             expect(flowCombobox.placeholder).toEqual(comboboxConfig.placeholder);
+            expect(flowCombobox.errorMessage).toEqual(comboboxConfig.errorMessage);
             expect(flowCombobox.literalsAllowed).toEqual(comboboxConfig.literalsAllowed);
             expect(flowCombobox.required).toEqual(comboboxConfig.required);
             expect(flowCombobox.disabled).toEqual(comboboxConfig.disabled);
