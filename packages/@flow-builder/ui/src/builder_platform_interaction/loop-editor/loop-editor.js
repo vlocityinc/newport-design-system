@@ -87,7 +87,7 @@ export default class LoopEditor extends Element {
     }
 
     get loopVariable() {
-        if (this.loopVariableState && this.loopVariableState !== null) {
+        if (this.loopVariableState) {
             return {
                 text: addCurlyBraces(this.loopVariableState.name),
                 displayText: addCurlyBraces(this.loopVariableState.name),
@@ -182,21 +182,6 @@ export default class LoopEditor extends Element {
         // TODO: in W-5079245 replace this and get the data needed directly from the event
         event.detail.propertyName = LOOP_PROPERTIES.LOOP_VARIABLE;
         this.loopVariableState = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
-
-        if (this._collectionVariable && this._collectionVariable) {
-            // check if loop variable dataType or objectType changed
-            const isDataTypeChanged = this.getLoopVariableDataType() !==  this.getCollectionVariableDataType();
-            const isSObjectTypeChanged = this.getLoopVariableSObjectType() !== this.getCollectionVariableSObjectType();
-
-            // set datatype mismatch error message for loopVariable
-            if (isDataTypeChanged || isSObjectTypeChanged) {
-                this.loopElement.assignNextValueToReference.error = LOOPVAR_ERROR_MESSAGE;
-                // In case event.detail.error is null then it could overwrite LOOPVAR_ERROR_MESSAGE that was set in above line.
-                event.detail.error = event.detail.error === null ? LOOPVAR_ERROR_MESSAGE : event.detail.error;
-            } else if (this.loopElement.assignNextValueToReference.value) {
-                this.loopElement.assignNextValueToReference.error = null;
-            }
-        }
         this.loopElement = loopReducer(this.loopElement, event);
     }
 
