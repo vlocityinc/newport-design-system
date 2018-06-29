@@ -108,6 +108,8 @@ export const createStartElement = () => {
     startElement.locationX = START_ELEMENT_X_Y.x;
     startElement.locationY = START_ELEMENT_X_Y.y;
     startElement.config = { isSelected: false };
+    startElement.maxConnections = 1;
+    startElement.connectorCount = 0;
 
     return startElement;
 };

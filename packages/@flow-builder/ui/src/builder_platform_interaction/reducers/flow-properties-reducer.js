@@ -7,7 +7,11 @@ import { updateProperties } from 'builder_platform_interaction-data-mutation-lib
  * @param {Object} action with type and payload
  * @return {Object} new state after reduction
  */
-export default function flowPropertiesReducer(state = {}, action) {
+
+// TODO: Replace this with user selected process type in 218. Hard coded to AutoLaunchedFlow for 216
+const flowProperties = {processType: 'AutoLaunchedFlow'};
+
+export default function flowPropertiesReducer(state = flowProperties, action) {
     switch (action.type) {
         case UPDATE_FLOW:
         case UPDATE_PROPERTIES:

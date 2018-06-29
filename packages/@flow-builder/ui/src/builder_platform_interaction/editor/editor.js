@@ -6,7 +6,7 @@ import { updateFlow, addElement, updateElement, deleteElement, addConnector, sel
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 import { createFlowElement } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { CONNECTOR_TYPE, createConnectorObject } from 'builder_platform_interaction-connector-utils';
+import { CONNECTOR_TYPE, createConnectorObject, createStartElement } from 'builder_platform_interaction-connector-utils';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform_interaction-translator-lib";
 import { reducer } from "builder_platform_interaction-reducers";
@@ -21,6 +21,9 @@ let storeInstance;
 
 const RUN = 'run';
 const DEBUG = 'debug';
+
+const UPDATE_SAVE_TYPE = 'saveDraft';
+const CREATE_SAVE_TYPE = 'createNewFlow';
 
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -84,6 +87,11 @@ export default class Editor extends Element {
             fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallback, params);
             this.isFlowServerCallInProgress = true;
             this.showSpinner = true;
+        } else {
+            // Create start element
+            const startElement = createStartElement();
+            storeInstance.dispatch(addElement(startElement));
+            this.disableSave = false;
         }
     }
 
@@ -236,8 +244,17 @@ export default class Editor extends Element {
      */
     handleSaveFlow = () => {
         const flow = translateUIModelToFlow(storeInstance.getCurrentState());
+
+        let saveType;
+        if (this.currentFlowId) {
+            saveType = UPDATE_SAVE_TYPE;
+        } else {
+            saveType = CREATE_SAVE_TYPE;
+        }
+
         const params = {
-            flow
+            flow,
+            saveType
         };
 
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
