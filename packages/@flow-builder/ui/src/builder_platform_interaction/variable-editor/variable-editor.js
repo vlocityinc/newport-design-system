@@ -244,6 +244,29 @@ export default class VariableEditor extends Element {
         return externalAccessLabel;
     }
 
+    isDataTypeOrCollectionChange(dataType, isCollection) {
+        return this.dataType !== dataType || this.variableResource.isCollection !== isCollection;
+    }
+
+    /**
+     * Based on the new dataType/scale/collection values, clear either default value, scale, or object type fields
+     * @param {Object} value the object containing the new dataType, scale, and collection values
+     */
+    clearOnDataTypeChange(value) {
+        // we want to clear the sobject value when switching away from it (this prevents false negatives on validation)
+        if (this.hasObjectType && value.dataType !== FLOW_DATA_TYPE.SOBJECT.value) {
+            this.updateProperty(VARIABLE_FIELDS.OBJECT_TYPE, null, null);
+        } else if (this.isDataTypeOrCollectionChange(value.dataType, value.isCollection)) {
+            // we want to clear the default value and scale when either switching data types or the collection status
+            this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE, null, null);
+            value.scale = null;
+        }
+        // we want to set the scale to null when changing to a data type that does not have scale
+        if (value.dataType !== FLOW_DATA_TYPE.NUMBER.value && value.dataType !== FLOW_DATA_TYPE.CURRENCY.value) {
+            value.scale = null;
+        }
+    }
+
     /* ********************** */
     /*     Event handlers     */
     /* ********************** */
@@ -261,18 +284,8 @@ export default class VariableEditor extends Element {
     handleDataTypeChanged(event) {
         event.stopPropagation();
         const value = event.detail.value;
-        // we want to clear the sobject value when switching away from it (this prevents false negatives on validation)
-        if (this.hasObjectType && value.dataType !== FLOW_DATA_TYPE.SOBJECT.value) {
-            this.updateProperty(VARIABLE_FIELDS.OBJECT_TYPE, null, null);
-        } else if (this.hasDefaultValue) {
-            // we want to clear the default value when switching data types
-            this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE, null, null);
-        }
-        // we want to set the scale to null when changing to a data type that does not have scale
-        if (value.dataType !== FLOW_DATA_TYPE.NUMBER.value && value.dataType !== FLOW_DATA_TYPE.CURRENCY.value) {
-            value.scale = null;
-        }
-
+        // clear any values that need to be cleared (ie: default value, object type)
+        this.clearOnDataTypeChange(value);
         const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value });
         this.variableResource = variableReducer(this.variableResource, action);
     }
