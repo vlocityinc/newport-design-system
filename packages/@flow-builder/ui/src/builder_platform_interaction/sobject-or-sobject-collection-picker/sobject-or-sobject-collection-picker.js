@@ -16,10 +16,18 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
         recordEntityName: '',
         value: '',
         isCollection: false,
+        errorMessage: ''
     };
 
     @api
-    errorMessage;
+    get errorMessage() {
+        return this.state.errorMessage;
+    }
+
+    @api
+    set errorMessage(value) {
+        this.state.errorMessage = value;
+    }
 
     @api
     elementType;
@@ -93,7 +101,7 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
         return BaseResourcePicker.getComboboxConfig(
             this.label,
             this.placeholder,
-            this.errorMessage,
+            this.state.errorMessage,
             'false',
             true,
             false,
@@ -112,7 +120,6 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
     handleSObjectVariableChanged(event) {
         event.stopPropagation();
         const newValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
-        this.errorMessage = event.detail.error;
         const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(newValue, event.detail.error);
         this.dispatchEvent(sObjectReferenceChangedEvent);
     }

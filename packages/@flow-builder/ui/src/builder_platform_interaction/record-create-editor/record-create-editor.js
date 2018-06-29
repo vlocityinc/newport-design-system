@@ -19,9 +19,6 @@ export default class RecordCreateEditor extends Element {
     @track
     recordCreateElement = {};
 
-    @track
-    sobjectErrorMessage;
-
     /**
      * public api function to return the unwrapped node
      *
@@ -49,27 +46,6 @@ export default class RecordCreateEditor extends Element {
         const event = { type: VALIDATE_ALL };
         this.recordCreateElement = recordCreateReducer(this.recordCreateElement, event);
         return getErrorsFromHydratedElement(this.recordCreateElement);
-    }
-
-    /**
-     * @returns {object} label, eg : {value: "xyz", error: null}
-     */
-    get label() {
-        return this.recordCreateElement.label;
-    }
-
-    /**
-     * @returns {object} description
-     */
-    get description() {
-        return this.recordCreateElement.description;
-    }
-
-    /**
-     * @returns {object} devName
-     */
-    get devName() {
-        return this.recordCreateElement.name;
     }
 
     get elementType() {
@@ -135,7 +111,6 @@ export default class RecordCreateEditor extends Element {
 
     handleInputReferenceChangedEvent(event) {
         event.stopPropagation();
-        this.sobjectErrorMessage = event.detail.error;
         this.updateProperty('inputReference', event.detail.value, event.detail.error);
     }
 

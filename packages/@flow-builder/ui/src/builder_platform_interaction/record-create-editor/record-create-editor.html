@@ -4,9 +4,9 @@
     </div>
     <div class="slds-p-horizontal_small slds-p-top_small">
         <builder_platform_interaction-label-description 
-            label={label} 
-            dev-name={devName} 
-            description={description} 
+            label={recordCreateElement.label} 
+            dev-name={recordCreateElement.name} 
+            description={recordCreateElement.description} 
             onpropertychanged={handlePropertyChangedEvent}>
         </builder_platform_interaction-label-description>
     </div>
@@ -29,7 +29,7 @@
                     placeholder={sObjectVariablePickerPlaceholder}
                     element-type={elementType}
                     value={inputReference}
-                    error-message={sobjectErrorMessage}
+                    error-message={recordCreateElement.inputReference.error}
                     onsobjectreferencechanged={handleInputReferenceChangedEvent}>
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>
             </div>
