@@ -48,10 +48,6 @@ export default class RecordCreateEditor extends Element {
         return getErrorsFromHydratedElement(this.recordCreateElement);
     }
 
-    get elementType() {
-        return this.recordCreateElement.elementType;
-    }
-
     /**
      * Returns the number of result stored.
      * If firstRecord then the user will be able to select a sObject variable

@@ -6,14 +6,15 @@
         <builder_platform_interaction-label-description 
             label={recordCreateElement.label} 
             dev-name={recordCreateElement.name} 
-            description={recordCreateElement.description} 
+            description={recordCreateElement.description}
+            guid={recordCreateElement.guid} 
             onpropertychanged={handlePropertyChangedEvent}>
         </builder_platform_interaction-label-description>
     </div>
     <div if:true={isSObjectVersion}>
         <!-- Record Store Fields Selection section -->
         <builder_platform_interaction-record-store-options
-            element-type={elementType}
+            element-type={recordCreateElement.elementType}
             resource-api-name={resourceApiName}
             number-of-records-to-store={numberRecordsToStore}
             assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}
@@ -27,7 +28,7 @@
                     is-collection={isCollection}
                     label={labels.object}
                     placeholder={sObjectVariablePickerPlaceholder}
-                    element-type={elementType}
+                    element-type={recordCreateElement.elementType}
                     value={inputReference}
                     error-message={recordCreateElement.inputReference.error}
                     onsobjectreferencechanged={handleInputReferenceChangedEvent}>
