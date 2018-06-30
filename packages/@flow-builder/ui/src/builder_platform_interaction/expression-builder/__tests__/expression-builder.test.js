@@ -4,7 +4,7 @@ import { getShadowRoot } from 'lwc-test-utils';
 import ExpressionBuilder from '../expression-builder.js';
 import { RowContentsChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction-events';
 import { numberVariableGuid, numberVariableDevName, stringVariableGuid, stringVariableDevName, dateVariableGuid, currencyVariableGuid, assignmentElementGuid, elements } from 'mock-store-data';
-import { getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
+import { getLHSTypes, getOperators, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { mockAccountFields } from 'mock-server-entity-data';
@@ -145,6 +145,7 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
         transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
         getRulesForContext: jest.fn().mockReturnValue([]),
         elementToParam: require.requireActual('builder_platform_interaction-rule-lib').elementToParam,
+        RULE_OPERATOR: require.requireActual('builder_platform_interaction-rule-lib').RULE_OPERATOR,
     };
 });
 
@@ -543,5 +544,23 @@ describe('expression-builder', () => {
                 expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
         });
+    });
+    describe('Expression should act like operator is Assign', () => {
+        for (let iconIndex = 0; iconIndex < 2; iconIndex++) {
+            it(`When rhs menudata is initialized if operator is replaced with ${icons[iconIndex]} `, () => {
+                createDefaultComponentForTest(icons[iconIndex]);
+                expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
+            });
+            it(`To validate existing RHS when LHS changes if operator is replaced with ${icons[iconIndex]}`, () => {
+                const expressionBuilder = createDefaultComponentForTest(icons[iconIndex]);
+
+                return Promise.resolve().then(() => {
+                    const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+                    lhsCombobox.dispatchEvent(ourCBChangeEvent);
+
+                    expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
+                });
+            });
+        }
     });
 });
