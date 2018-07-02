@@ -6,6 +6,7 @@ import * as selectorsMock from 'builder_platform_interaction-selectors';
 
 const collectionVariable = 'COLLECTION ' + store.variable;
 const sobjectVariable = 'SOBJECT ' + store.variable;
+const sobjectCollectionVariable = 'SOBJECT ' + collectionVariable;
 
 /*
     Desired format output from getElementsForMenuData
@@ -33,6 +34,7 @@ const sampleParamTypes = {
 jest.mock('builder_platform_interaction-selectors', () => {
     return {
         writableElementsSelector: jest.fn(),
+        sObjectOrSObjectCollectionByEntitySelector: jest.fn(),
     };
 });
 
@@ -102,6 +104,31 @@ describe('Menu data retrieval', () => {
         expect(primitivesWithObjects).toHaveLength(1);
         const primitivesNoObjects = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true}, sampleParamTypes, false, false);
         expect(primitivesNoObjects).toHaveLength(0);
+    });
+    it('should have only sobject variables', () => {
+        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(jest.fn().mockReturnValue([store.elements[store.accountSObjectVariableGuid]]));
+        const menuData = getElementsForMenuData({ elementType: ELEMENT_TYPE.RECORD_LOOKUP, sObjectSelector: true});
+        expect(menuData[0].label).toBe(sobjectVariable);
+        expect(menuData[0].items).toHaveLength(1);
+        expect(menuData[0].items[0].value).toEqual(store.accountSObjectVariableGuid);
+    });
+    it('should have only sobject collection variables', () => {
+        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(jest.fn().mockReturnValue([store.elements[store.accountSObjectCollectionVariableGuid]]));
+        const menuData = getElementsForMenuData({ elementType: ELEMENT_TYPE.RECORD_LOOKUP, sObjectSelector: true});
+        expect(menuData[0].label).toBe(sobjectCollectionVariable);
+        expect(menuData[0].items).toHaveLength(1);
+        expect(menuData[0].items[0].value).toEqual(store.accountSObjectCollectionVariableGuid);
+    });
+    it('should have one sobject variable and one sobject collection variable', () => {
+        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(jest.fn().mockReturnValue([store.elements[store.accountSObjectVariableGuid], store.elements[store.accountSObjectCollectionVariableGuid]]));
+        const menuData = getElementsForMenuData({ elementType: ELEMENT_TYPE.RECORD_LOOKUP, sObjectSelector: true});
+        expect(menuData).toHaveLength(2);
+        expect(menuData[0].label).toBe(sobjectCollectionVariable);
+        expect(menuData[1].label).toBe(sobjectVariable);
+        expect(menuData[0].items).toHaveLength(1);
+        expect(menuData[0].items[0].value).toEqual(store.accountSObjectCollectionVariableGuid);
+        expect(menuData[1].items).toHaveLength(1);
+        expect(menuData[1].items[0].value).toEqual(store.accountSObjectVariableGuid);
     });
     // TODO: write tests for gettings category once we switch to using labels
 });
