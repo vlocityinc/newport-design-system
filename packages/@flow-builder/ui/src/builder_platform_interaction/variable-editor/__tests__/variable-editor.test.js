@@ -37,7 +37,7 @@ jest.mock('builder_platform_interaction-data-mutation-lib', () => {
 
 jest.mock('builder_platform_interaction-actions', () => {
     return {
-        createAction: jest.fn().mockReturnValue({}),
+        createAction: jest.fn().mockImplementation((type, payload) => payload),
         PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction-actions').PROPERTY_EDITOR_ACTION,
     };
 });
@@ -116,6 +116,12 @@ describe('variable-editor', () => {
     });
 
     describe('data type picker', () => {
+        const dispatchValueChangedEvent = (variableEditor, payload) => {
+            const dataTypePicker = getShadowRoot(variableEditor).querySelector('builder_platform_interaction-data-type-picker');
+            const mockChangeEvent = new ValueChangedEvent(payload);
+            dataTypePicker.dispatchEvent(mockChangeEvent);
+        };
+
         it('has a data type picker', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
@@ -137,12 +143,34 @@ describe('variable-editor', () => {
         it('handles change event when data type option is selected', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
-                const dataTypePicker = getShadowRoot(variableEditor).querySelector('builder_platform_interaction-data-type-picker');
                 const eventPayload = { dataType : 'Currency', isCollection:false, scale:3 };
-                const mockChangeEvent = new ValueChangedEvent(eventPayload);
-                dataTypePicker.dispatchEvent(mockChangeEvent);
+                dispatchValueChangedEvent(variableEditor, eventPayload);
                 expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value: eventPayload});
                 expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
+            });
+        });
+
+        it('clears the default value when switching data type', () => {
+            stringVariable.defaultValue.value = 'mock default value';
+            const variableEditor = setupComponentUnderTest(stringVariable);
+            const eventPayload = { dataType : 'Currency', isCollection: false, scale: null };
+            dispatchValueChangedEvent(variableEditor, eventPayload);
+            return Promise.resolve().then(() => {
+                expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValue');
+                expect(createAction.mock.calls[0][1].value).toBeNull();
+                expect(variableReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
+            });
+        });
+
+        it('clears the default value when switching collection status', () => {
+            stringVariable.defaultValue.value = 'mock default value';
+            const variableEditor = setupComponentUnderTest(stringVariable);
+            const eventPayload = { dataType : 'String', isCollection: true, scale: null };
+            dispatchValueChangedEvent(variableEditor, eventPayload);
+            return Promise.resolve().then(() => {
+                expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValue');
+                expect(createAction.mock.calls[0][1].value).toBeNull();
+                expect(variableReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
             });
         });
     });
@@ -341,7 +369,7 @@ describe('variable-editor', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
             return Promise.resolve().then(() => {
                 expect(createAction.mock.calls[0][1].propertyName).toEqual('objectType');
-                expect(variableReducer).toHaveBeenCalledWith(variableEditor.node, {});
+                expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
             });
         });
     });
