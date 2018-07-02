@@ -457,6 +457,7 @@ export const elementTypeToConfigMap = {
             label: '',
             guid: '',
             elementType: ELEMENT_TYPE.OUTCOME,
+            dataType: 'Boolean',
             conditionLogic: CONDITION_LOGIC.AND,
             conditions: [
                 {

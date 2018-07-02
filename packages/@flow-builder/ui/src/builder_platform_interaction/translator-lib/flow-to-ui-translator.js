@@ -37,6 +37,7 @@ export function convertElement(element, elementType, isCanvasElement) {
  */
 const convertDecisionRules = decision => {
     return decision.rules.map(rule => {
+        rule.dataType = 'Boolean';
         return convertElement(rule, ELEMENT_TYPE.OUTCOME, false);
     });
 };

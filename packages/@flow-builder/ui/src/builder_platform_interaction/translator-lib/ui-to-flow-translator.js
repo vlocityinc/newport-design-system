@@ -87,6 +87,7 @@ const includeOutcomesInDecision = (decision, elements) => {
     decision.rules = decision.outcomeReferences.map((outcomeReference) => {
         let rule = elements[outcomeReference.outcomeReference];
         rule = omitTransientFields(rule);
+        rule = omit(rule, ['dataType']);
         return rule;
     });
 
