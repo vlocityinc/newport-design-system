@@ -13,4 +13,5 @@ export default class LightningButtonIcon extends Element {
     @api size = 'small';
     @api variant;
     @api disabled;
+    @api iconClass;
 }
