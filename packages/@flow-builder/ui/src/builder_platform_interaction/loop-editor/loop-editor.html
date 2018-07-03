@@ -1,7 +1,7 @@
 <template> <!-- TODO: Localize all labels after W-4693112 -->
 	<div if:true={loopElement}>
-	   <div class="slds-p-horizontal_small slds-p-top_small">
-            <h3 class="slds-modal__content slds-p-around_medium">Loop through a collection and for each item in the collection, perform an evaluation.</h3>
+	   <div class="slds-border_top slds-p-around_small">
+            <h3 class="slds-modal__content slds-m-left_small">Loop through a collection and for each item in the collection, perform an evaluation.</h3>
             <div class="slds-p-horizontal_small slds-p-top_small">
                 <builder_platform_interaction-label-description
                     label={loopElement.label} dev-name-label="Loop API Name"
@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div class=" slds-border_top slds-p-around_small">
-                    <div class="slds-grid slds-p-around_small">
-                        <h3 class="slds-text-heading_small slds-section__title slds-m-right_xx-small">
+                    <div class="slds-grid">
+                        <h3 class="slds-text-heading_small slds-section__title">
                             <span>Evaluate Collection</span>
                         </h3>
                       	<lightning-helptext content="Iteration order of the collection variable i.e. Ascending or Descending"></lightning-helptext>
@@ -38,14 +38,14 @@
                         required>
                     </lightning-radio-group>
                 </div>
-                <div class=" slds-border_top slds-p-around_small">
+                <div class=" slds-border_top">
                 <div class="slds-grid slds-p-around_small">
-                    <h3 class="slds-text-heading_small slds-section__title slds-m-right_xx-small">
+                    <h3 class="slds-text-heading_small slds-section__title">
                             <span>Assign Collection Item to a Loop Variable</span>
                     </h3>
                 <lightning-helptext content="This Variable temporarily stores the value of the collection item currently being evaluated by the loop logic."></lightning-helptext>
                 </div>
-                <div class="slds-size_medium">
+                <div class="slds-size_medium slds-m-left_x-small">
                     <builder_platform_interaction-ferov-resource-picker
                         class = "test-loop-variable"
                         value={loopVariable}
