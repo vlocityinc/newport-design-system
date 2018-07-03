@@ -1,30 +1,8 @@
 import { screenValidation } from './screen-validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, mutateScreenField } from 'builder_platform_interaction-data-mutation-lib';
+import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField } from 'builder_platform_interaction-data-mutation-lib';
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
-import { getScreenFieldTypeByName, createEmptyNodeOfType } from 'builder_platform_interaction-screen-editor-utils';
-
-/**
- * Handles changes in properties in the screen.
- * @param {object} state - The screen
- * @param {event} event - The property changed event
- * @returns {object} - A new screen with the changes applied
- */
-const screenPropertyChanged = (state, event) => {
-    let error = event.detail.error;
-    const property = event.detail.propertyName;
-    const value = event.detail.value;
-
-    const currentValue = event.detail.oldValue || state[property];
-    const hydrated = isItemHydratedWithErrors(currentValue);
-    if (value !== (hydrated ? currentValue.value : currentValue)) {
-        error = error === null ? screenValidation.validateProperty(property, value) : error;
-        const newValue = hydrated ? {error, value} : value;
-        return updateProperties(state, {[property]: newValue});
-    }
-
-    return state;
-};
+import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField } from 'builder_platform_interaction-screen-editor-utils';
 
 /**
  * Adds screen fields to a screen.
@@ -75,15 +53,54 @@ const reorderFields = (screen, event) => {
 };
 
 /**
+ * Handles changes in properties in the screen or node.
+ * @param {object} screen - The screen or node
+ * @param {event} event - The property changed event
+ * @param {object} selectedNode - the currently selected node
+ * @returns {object} - A new screen/node with the changes applied
+ */
+const screenPropertyChanged = (screen, event, selectedNode) => {
+    const property = event.detail.propertyName;
+    let error = event.detail.error;
+    const value = event.detail.value;
+    const currentValue = event.detail.oldValue || selectedNode[property];
+    const hydrated = isItemHydratedWithErrors(currentValue);
+
+    // Only update the field if the given property value actually changed.
+    let updatedNode = selectedNode;
+    if (value !== (hydrated ? currentValue.value : currentValue)) {
+        if (isScreen(selectedNode)) {
+            error = error === null ? screenValidation.validateProperty(property, value) : error;
+            const newValue = hydrated ? {error, value} : value;
+            updatedNode = updateProperties(screen, {[property]: newValue});
+        } else if (isExtensionField(selectedNode)) {
+            // TODO - W-4947239
+            updatedNode = selectedNode;
+        } else { // Screen field
+            const type = selectedNode.type.name;
+            const fullPropName = 'fields[type.name="' + type + '"].' + property;
+            error = error === null ? screenValidation.validateProperty(fullPropName, value) : error;
+            const newValue = hydrated ? {error, value} : value;
+            const newField = updateProperties(selectedNode, {[property]: newValue});
+            const fieldPosition = screen.getFieldIndexByGUID(selectedNode.guid);
+            const updatedItems =  replaceItem(screen.fields, newField, fieldPosition);
+            updatedNode = set(screen, 'fields', updatedItems);
+        }
+    }
+    return updatedNode;
+};
+
+/**
  * Screen reducer function, performs changes and validation on a screen and returns the updated (new) screen element
  * @param {object} state - element / screen node
  * @param {object} event - event to process
+ * @param {object} selectedNode - the currently selected node
  * @returns {object} screen - the updated screen
  */
-export const screenReducer = (state, event) => {
+export const screenReducer = (state, event, selectedNode) => {
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
-            return screenPropertyChanged(state, event);
+            return screenPropertyChanged(state, event, selectedNode);
 
         case SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED:
             return addScreenField(state, event);
@@ -100,4 +117,3 @@ export const screenReducer = (state, event) => {
         default: return state;
     }
 };
-

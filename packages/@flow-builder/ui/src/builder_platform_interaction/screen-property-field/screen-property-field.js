@@ -17,7 +17,7 @@ export default class ScreenPropertyField extends Element {
     @api name;
     @api label;
     @api type;
-    @api required =  false;
+    @api required = false;
     @api readOnly = false;
     @api helpText;
     @api allowResources = false;
@@ -185,10 +185,11 @@ export default class ScreenPropertyField extends Element {
         return isItemHydratedWithErrors(this.value) ? this.value.value : this.value;
     }
 
-    handleEvent = () => {
+    handleEvent = (event) => {
         const newValue = this.domValue;
         if (this.dehydratedValue !== newValue) {
             this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, null, null, this.value));
         }
+        event.stopPropagation();
     }
 }

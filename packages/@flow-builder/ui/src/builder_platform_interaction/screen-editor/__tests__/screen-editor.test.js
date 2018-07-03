@@ -9,7 +9,7 @@
  */
 import ScreenEditor from '../screen-editor';
 import { createElement } from 'engine';
-import { createTestScreen } from 'builder_platform_interaction-builder-test-utils';
+import { createTestScreen, createTestScreenField } from 'builder_platform_interaction-builder-test-utils';
 import {
     PropertyChangedEvent,
     ReorderListEvent,
@@ -146,6 +146,53 @@ describe('Event handling on editor', () => {
             canvas.dispatchEvent(new ReorderListEvent(field1.guid, field2.guid));
             expect(screenEditorElement.node.fields[4].guid).toBe(field2.guid);
             expect(screenEditorElement.node.fields[5].guid).toBe(field1.guid);
+        });
+    });
+});
+
+describe('Screen field property editor events', () => {
+    let screenEditorElement;
+    const origDisplayText = 'Display This Please';
+    const newDisplayText = 'New Display Text';
+    const newFieldName = 'my new screen field name';
+    beforeEach(() => {
+        const screen = createTestScreen('Screen1', null);
+        screen.showHeader = true;
+        screen.elementType = "SCREEN";
+        screen.fields = [];
+        const field = createTestScreenField('Screenfield1', 'DisplayText', origDisplayText);
+        screen.fields.push(field);
+        screenEditorElement = createComponentUnderTest({node:screen});
+
+        // Make sure screen is created with the expected fields.
+        expect(screen.fields).toHaveLength(1);
+    });
+    it('Value of DisplayText field changed', () => {
+        return Promise.resolve().then(() => {
+            const editor = getShadowRoot(screenEditorElement).querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+
+            // Select the field to be changed.
+            const field = screenEditorElement.node.fields[0];
+            canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+
+            // Change the field
+            editor.dispatchEvent(new PropertyChangedEvent('fieldText', newDisplayText, null, screenEditorElement.node.fields[0].guid, origDisplayText));
+            expect(screenEditorElement.node.fields[0].fieldText).toBe(newDisplayText);
+        });
+    });
+    it('Name of DisplayText field changed', () => {
+        return Promise.resolve().then(() => {
+            const editor = getShadowRoot(screenEditorElement).querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+
+            // Select the field to be changed.
+            const field = screenEditorElement.node.fields[0];
+            canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+
+            // Change the field
+            editor.dispatchEvent(new PropertyChangedEvent('name', newFieldName, null, screenEditorElement.node.fields[0].guid, 'Display This Please'));
+            expect(screenEditorElement.node.fields[0].name).toBe(newFieldName);
         });
     });
 });

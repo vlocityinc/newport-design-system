@@ -14,6 +14,7 @@ import paletteSearchPlaceholder from '@label/FlowBuilderScreenEditor.paletteSear
 import fieldCategoryInput from '@label/FlowBuilderScreenEditor.fieldCategoryInput';
 import fieldCategoryDisplay from '@label/FlowBuilderScreenEditor.fieldCategoryDisplay';
 import fieldCategoryCustom from '@label/FlowBuilderScreenEditor.fieldCategoryCustom';
+import fieldName from '@label/FlowBuilderScreenEditor.fieldName';
 import fieldTypeLabelTextField from '@label/FlowBuilderScreenEditor.fieldTypeLabelTextField';
 import fieldTypeLabelLargeTextArea from '@label/FlowBuilderScreenEditor.fieldTypeLabelLargeTextArea';
 import fieldTypeLabelNumber from '@label/FlowBuilderScreenEditor.fieldTypeLabelNumber';
@@ -66,6 +67,7 @@ export const LABELS = {
     fieldCategoryInput,
     fieldCategoryDisplay,
     fieldCategoryCustom,
+    fieldName,
     fieldTypeLabelTextField,
     fieldTypeLabelLargeTextArea,
     fieldTypeLabelNumber,

@@ -134,3 +134,19 @@ export function getScreenFieldType(field) {
 
     throw new Error('No type found for ' + fieldType + ', ' + dataType);
 }
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is an extension field type
+ */
+export function isExtensionField(field) {
+    return field && field.fieldType === 'componentInstance';
+}
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a DisplayText field (non-rich text)
+ */
+export function isDisplayTextField(field) {
+    return field && field.name === 'DisplayText';
+}

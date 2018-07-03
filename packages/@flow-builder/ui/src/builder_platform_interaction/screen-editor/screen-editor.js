@@ -115,7 +115,7 @@ export default class ScreenEditor extends Element {
      * @param {event} event - The event
      */
     handlePropertyChanged = (event) => {
-        this.screen = screenReducer(this.screen, event);
+        this.screen = screenReducer(this.screen, event, this.selectedNode);
         if (isScreen(this.selectedNode)) {
             this.setSelectedNode(this.screen);
         } else {

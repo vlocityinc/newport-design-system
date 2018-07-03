@@ -21,12 +21,31 @@ describe('screen reducer', () => {
             }
         };
         const screen = createTestScreen(SCREEN_NAME);
-        const newScreen = screenReducer(screen, event);
+        const newScreen = screenReducer(screen, event, screen);
         expect(newScreen).toBeDefined();
         expect(newScreen.label.value).toEqual('newlabel');
         expect(newScreen).not.toBe(screen);
     });
+    it('change screen field property', () => {
+        const newDisplayText = 'new display text';
+        const screen = createTestScreen(SCREEN_NAME, ['displayText']);
+        const event = {
+            type: PropertyChangedEvent.EVENT_NAME,
+            detail: {
+                propertyName: 'fieldText',
+                value: newDisplayText,
+                error: null,
+                guid: screen.fields[0].guid,
+                oldValue: screen.fields[0].fieldText
+            }
+        };
+        const newScreen = screenReducer(screen, event, screen.fields[0]);
 
+        // The changed property should be updated, but the unchanged property should be the same.
+        expect(newScreen).toBeDefined();
+        expect(newScreen.fields[0].fieldText.value).toBe(newDisplayText);
+        expect(newScreen.fields[0].name.value).toBe(screen.fields[0].name.value);
+    });
     it('fetches the error from the property change event instead of rerunning validation', () => {
         const event = {
             type: PropertyChangedEvent.EVENT_NAME,
@@ -51,7 +70,7 @@ describe('screen reducer', () => {
         expect(newScreen).toBe(screen);
     });
 
-    it('inserts an assignment item at a specific position', () => {
+    it('inserts a field at a specific position', () => {
         const fieldType = 'Currency';
         const screen = createTestScreen(SCREEN_NAME, null);
         const event = createAddScreenFieldEvent(fieldType, 5);
@@ -60,7 +79,7 @@ describe('screen reducer', () => {
         expect(newScreen.fields[5].type.name).toBe(fieldType);
     });
 
-    it('adds an assignment item at the end of the array', () => {
+    it('adds a field at the end of the array', () => {
         const fieldType = 'Currency';
         const screen = createTestScreen(SCREEN_NAME, null);
         const event = createAddScreenFieldEvent(fieldType);

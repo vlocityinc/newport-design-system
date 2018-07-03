@@ -1,5 +1,5 @@
 import { Element, api, track } from 'engine';
-import { isScreen, describeExtension } from 'builder_platform_interaction-screen-editor-utils';
+import { isScreen, isDisplayTextField, isExtensionField, describeExtension } from 'builder_platform_interaction-screen-editor-utils';
 import { createScreenNodeSelectedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
@@ -33,11 +33,15 @@ export default class ScreenEditorPropertiesEditorContainer extends Element {
     }
 
     get isExtensionField() {
-        return this.node && this.node.type && this.node.type.name === 'Extension';
+        return isExtensionField(this.node);
+    }
+
+    get isDisplayField() {
+        return isDisplayTextField(this.node);
     }
 
     get isOther() {
-        return !this.isScreen && !this.isExtensionField;
+        return !this.isScreen && !this.isExtensionField && !this.isDisplayField;
     }
 
     get hasErrors() {
