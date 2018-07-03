@@ -42,6 +42,11 @@ export default class LeftPanel extends Element {
     mapAppStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
         this.resources = resourceSectionsSelector(currentState);
+        if (this.showResourceDetailsPanel) {
+            const iconName = this.resourceDetails.ICON_NAME;
+            const currentElementState = storeInstance.getCurrentState().elements[this.resourceDetails.GUID];
+            this.retrieveResourceDetailsFromStore(currentElementState, iconName);
+        }
     };
 
     @api
@@ -76,12 +81,6 @@ export default class LeftPanel extends Element {
         this.activetabid = event.detail.tabId;
     }
 
-    handleAddNewResourceButtonClick = (event) => {
-        event.stopPropagation();
-        const handleOnClickEvent = new NewResourceEvent();
-        this.dispatchEvent(handleOnClickEvent);
-    };
-
     handleResourceClicked(event) {
         const canvasElementGUID = event.detail.guid;
         const editElementEvent = new EditElementEvent(canvasElementGUID);
@@ -89,18 +88,17 @@ export default class LeftPanel extends Element {
     }
 
     handlePaletteItemChevronClicked(event) {
-        const elementType = storeInstance.getCurrentState().elements[event.detail.elementGUID].elementType;
-        this.resourceDetails = {
-            TYPE: elementType,
-            GUID: storeInstance.getCurrentState().elements[event.detail.elementGUID].guid,
-            LABEL: storeInstance.getCurrentState().elements[event.detail.elementGUID].label,
-            ICON_NAME: event.detail.iconName,
-            DESCRIPTION: storeInstance.getCurrentState().elements[event.detail.elementGUID].description,
-            NAME: storeInstance.getCurrentState().elements[event.detail.elementGUID].name,
-            IS_CHILD_ELEMENT: isChildElement(elementType)
-        };
+        const iconName = event.detail.iconName;
+        const currentElementState = storeInstance.getCurrentState().elements[event.detail.elementGUID];
+        this.retrieveResourceDetailsFromStore(currentElementState, iconName);
         this.showResourceDetailsPanel = true;
     }
+
+    handleAddNewResourceButtonClick = (event) => {
+        event.stopPropagation();
+        const handleOnClickEvent = new NewResourceEvent();
+        this.dispatchEvent(handleOnClickEvent);
+    };
 
     handleResourceDetailsBackLinkClicked() {
         this.showResourceDetailsPanel = false;
@@ -110,6 +108,18 @@ export default class LeftPanel extends Element {
         this.showResourceDetailsPanel = false;
         const deleteEvent = new DeleteElementEvent([this.resourceDetails.GUID], this.resourceDetails.TYPE);
         this.dispatchEvent(deleteEvent);
+    }
+
+    retrieveResourceDetailsFromStore(currentElementState, iconName) {
+        this.resourceDetails = {
+            TYPE: currentElementState.elementType,
+            GUID: currentElementState.guid,
+            LABEL: currentElementState.label,
+            ICON_NAME: iconName,
+            DESCRIPTION: currentElementState.description,
+            NAME: currentElementState.name,
+            IS_CHILD_ELEMENT: isChildElement(currentElementState.elementType)
+        };
     }
 
     disconnectedCallback() {
