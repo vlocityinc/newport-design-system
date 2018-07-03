@@ -18,8 +18,8 @@ describe('Default Decision Validations - from label-dev name-description', () =>
         it('and when empty string is passed should return - Cannot be blank.', () => {
             expect(decisionValidation.validateProperty('name', '')).toBe(CANNOT_BE_BLANK_ERROR);
         });
-        it('and when a string starting with _ is passed should return - Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.', () => {
-            expect(decisionValidation.validateProperty('name', '_someUniqueName')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
+        it('and when a string starting with _ is passed should return - Should always begin with Alphabetical Characters instead of Numeric or Special Characters.', () => {
+            expect(decisionValidation.validateProperty('name', '_someUniqueName')).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
         });
         it('and when a string ending with _ is passed should return - Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.', () => {
             expect(decisionValidation.validateProperty('name', 'someUniqueName_')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');

@@ -15,7 +15,7 @@ describe('Default Validations', () => {
             expect(screenValidation.validateProperty('name', 'Hello__c')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
         });
         it('and when string has underscores at start, should return no starting underscores error', () => {
-            expect(screenValidation.validateProperty('name', '_Otherwise orindary')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
+            expect(screenValidation.validateProperty('name', '_Otherwise orindary')).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
         });
     });
     describe('when props set to NAME', () => {
@@ -32,7 +32,7 @@ describe('Default Validations', () => {
             expect(screenValidation.validateProperty('name', 'Hello__c')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
         });
         it('and when string has underscores at start, should return no starting underscores error', () => {
-            expect(screenValidation.validateProperty('name', '_Otherwise orindary')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
+            expect(screenValidation.validateProperty('name', '_Otherwise orindary')).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
         });
         it('and when string length more than 80 characters should return max string length error', () => {
             expect(screenValidation.validateProperty('name', 'OJqlWSveOtulUjcyHgrDOOSPArDKdbftmvEKPBPDxLqrwtseblHPBcgctlMYmRsbPyngaEmZqCqMxksyv')).toBe('Cannot accept more than 80 characters.');

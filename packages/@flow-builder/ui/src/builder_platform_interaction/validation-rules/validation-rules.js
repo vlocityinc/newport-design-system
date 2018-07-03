@@ -34,7 +34,7 @@ const regexConfig = {
         message: 'Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.',
     },
     shouldAcceptOnlyAlphanumericOrSpecialCharacters: {
-        regexPattern: '^[^a-zA-Z0-9!@#\\$%\\^\\&*\\)\\(+=.\\-_ ]+$',
+        regexPattern: '[^a-zA-Z0-9!@#\\$%\\^\\&*\\)\\(+=.\\-_ ]+',
         message: 'Accepts only AlphaNumeric or Special Characters.',
     },
     shouldNotBeginWithNumericOrSpecialCharacters: {
@@ -44,6 +44,10 @@ const regexConfig = {
     shouldAcceptOnlyAlphanumericCharacters: {
         regexPattern: '\\W+$',
         message: 'Cannot accept any Special Characters.',
+    },
+    shouldBeAPositiveIntegerOrZero : {
+        regexPattern: '[^0-9]+',
+        message: 'Must be a positive integer or zero'
     }
 };
 
@@ -102,6 +106,27 @@ export const shouldNotBeginWithNumericOrSpecialCharacters = (value) => evaluateR
  * @returns {string|null} errorString or null
  */
 export const shouldAcceptOnlyAlphanumericCharacters = (value) => evaluateRegex(regexConfig.shouldAcceptOnlyAlphanumericCharacters, value);
+
+/**
+ * Function to test the value is zero or a positive integer
+ * @param {string} value - value to be tested
+ * @returns {string|null} errorString or null
+ */
+export const shouldBeAPositiveIntegerOrZero = (value) => evaluateRegex(regexConfig.shouldBeAPositiveIntegerOrZero, value);
+
+/**
+ * Function to test the value is a valid date
+ * @param {string} value - value to be tested
+ * @returns {string|null} errorString or null
+ */
+export const shouldBeADate = (value) => {
+    const d = new Date(value);
+    if (!(d instanceof Date && isFinite(d))) {
+        return 'Must be a valid date';
+    }
+
+    return null;
+};
 
 /**
  * Test if the value is null or undefined

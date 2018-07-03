@@ -9,12 +9,12 @@ describe('Default Validations', () => {
             expect(formulaValidation.validateProperty('name', '')).toBe('Cannot be blank.');
         });
         it('should return an error if it starts with an underscore', () => {
-            expect(formulaValidation.validateProperty('name', '_startWithUnderscore')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
+            expect(formulaValidation.validateProperty('name', '_startWithUnderscore')).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
         });
         it('should return an error if it does not start with Alphabetical Characters', () => {
             expect(formulaValidation.validateProperty('name', '1111111')).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
         });
-        it('should return an error if it conatins Special Characters', () => {
+        it('should return an error if it contains Special Characters', () => {
             expect(formulaValidation.validateProperty('name', 'Special Characters $#$@&^%!$()')).toBe('Cannot accept any Special Characters.');
         });
         it('should return an error if length is > 80 characters', () => {

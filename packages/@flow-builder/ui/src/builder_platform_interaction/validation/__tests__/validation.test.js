@@ -81,6 +81,52 @@ describe('getMergedRules method', () => {
     });
     it('returns the appended keys in rules object if there are different keys in exisitng and additional rules', () => {});
 });
+describe('validateProperties function', () => {
+    it('validates using complex validation rules that include child validation [validation inside validation]', () => {
+        const rules = {
+            'name'  : [
+                ValidationRules.maximumCharactersLimit(30)
+            ],
+            'fields' : {
+                'name' : [
+                    ValidationRules.maximumCharactersLimit(25)
+                ],
+                'type.name="Number"': {
+                    'scale' : [
+                        ValidationRules.shouldBeAPositiveIntegerOrZero
+                    ]
+                },
+                'type.name="Date"': {
+                    name: [
+                        ValidationRules.maximumCharactersLimit(50)
+                    ],
+                    'defaultValue' : [
+                        ValidationRules.shouldBeADate
+                    ]
+                }
+            }
+        };
+
+        const validationRules = new Validation(rules);
+
+        // Screen
+        expect(validationRules.validateProperty('name', 'valueWithNoErrors')).toBeNull();
+        expect(validationRules.validateProperty('name', 'valueWithError(> 30 chars)-----')).toEqual('Cannot accept more than 30 characters.');
+
+        // Field Name
+        expect(validationRules.validateProperty('fields', 'valueWithNoErrors')).toBeNull();
+        expect(validationRules.validateProperty('fields.name', 'valueWithError(> 25 chars)')).toEqual('Cannot accept more than 25 characters.');
+
+        // Field scale
+        expect(validationRules.validateProperty('fields[type.name="Number"].scale', '2')).toBeNull();
+        expect(validationRules.validateProperty('fields[type.name="Number"].scale', '2.1')).toEqual('Must be a positive integer or zero');
+
+        // Field name
+        expect(validationRules.validateProperty('fields[type.name="Date"].name', 'valueWithoutError(> 25 chars)')).toBeNull();
+        expect(validationRules.validateProperty('fields[type.name="Date"].defaultValue', new Date().toString())).toBeNull();
+        expect(validationRules.validateProperty('fields[type.name="Date"].defaultValue', 'valueWithError(NotADate)')).toEqual('Must be a valid date');
+    });
+});
 describe('validateAll method', () => {
     it('returns the same object if no applicable rule is present', () => {
         const testObj = {
@@ -97,6 +143,92 @@ describe('validateAll method', () => {
         };
         const validation = new Validation();
         expect(validation.validateAll(testObj)).toBe(testObj);
+    });
+    it('validates using complex validation rules that include child validation [validation inside validation]', () => {
+        const rules = {
+            'label' : [
+                ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
+                ValidationRules.maximumCharactersLimit(255)
+            ],
+            'name'  : [
+                ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
+                ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
+                ValidationRules.maximumCharactersLimit(80)
+            ],
+            'helpText' : [
+                ValidationRules.maximumCharactersLimit(20)
+            ],
+            'fields' : {
+                'name' : [
+                    ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
+                    ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
+                    ValidationRules.maximumCharactersLimit(80)
+                ],
+                'type.name="Number"': {
+                    'scale' : [
+                        ValidationRules.shouldBeAPositiveIntegerOrZero
+                    ]
+                },
+                'type.name="Date"': {
+                    'defaultValue' : [
+                        ValidationRules.shouldBeADate
+                    ]
+                }
+            }
+        };
+
+        const objNoErrors = {
+            name: {value:'valueWithNoErrors', error:null},
+            label: {value:'valueWithNoErrors', error:null},
+            helpText: {value:'valueWithNoErrors', error:null},
+            fields: [
+                {
+                    type: {name: 'Number'},
+                    scale: {value:"2", error: null}
+                },
+                {
+                    type: {name: 'Date'},
+                    defaultValue: {value:new Date().toString(), error:null}
+                }
+            ]
+        };
+
+        const objWithErrors = {
+            name: {value:'valueWithError(trailingSpaces)_', error:null},
+            label: {value:'valueWithError(InvalidCharacter)~', error:null},
+            helpText: {value:'valueWithNoErrors(tooLong)', error:null},
+            fields: [
+                {
+                    type: {name: 'Number'},
+                    scale: {value:"2.1", error: null}
+                },
+                {
+                    type: {name: 'Date'},
+                    defaultValue: {value:'valueWithError(notADate)', error:null}
+
+                }
+            ]
+        };
+
+        const objWithValidationErrors =  {
+            name: {error: 'Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.', value: 'valueWithError(trailingSpaces)_'},
+            label: {error: 'Accepts only AlphaNumeric or Special Characters.', value: 'valueWithError(InvalidCharacter)~'},
+            helpText: {error: 'Cannot accept more than 20 characters.', value: 'valueWithNoErrors(tooLong)'},
+            fields: [
+                {
+                    scale: {error: 'Must be a positive integer or zero', value: '2.1'},
+                    type: {name: 'Number'}
+                },
+                {
+                    defaultValue: {error: 'Must be a valid date', value: 'valueWithError(notADate)'},
+                    type: {'name': 'Date'}
+                }
+            ]
+        };
+
+        const validationRules = new Validation(rules);
+        expect(validationRules.validateAll(objWithErrors)).toEqual(objWithValidationErrors);
+        expect(validationRules.validateAll(objNoErrors)).toEqual(objNoErrors);
     });
     it('returns the object with errors when rules fail at various level of properties', () => {
         // This function is to prove that we can validate RHS using the LHS value

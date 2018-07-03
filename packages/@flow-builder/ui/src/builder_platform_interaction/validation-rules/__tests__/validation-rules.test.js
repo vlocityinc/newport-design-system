@@ -56,7 +56,27 @@ describe('shouldAcceptOnlyAlphanumericCharacters method', () => {
         expect(rules.shouldAcceptOnlyAlphanumericCharacters('AlphanumericOnly1234')).toBeNull();
     });
     it('should return an error when the input contains non-alphanumeric characters', () => {
-        expect(rules.shouldAcceptOnlyAlphanumericCharacters('*^*^')).toBe('Cannot accept any Special Characters.');
+        expect(rules.shouldAcceptOnlyAlphanumericCharacters('aa*^*^')).toBe('Cannot accept any Special Characters.');
+    });
+});
+describe('shouldBeAPositiveIntegerOrZero method', () => {
+    it('should return null when the input contains a positive integer or 0', () => {
+        expect(rules.shouldBeAPositiveIntegerOrZero('1')).toBeNull();
+        expect(rules.shouldBeAPositiveIntegerOrZero('0')).toBeNull();
+    });
+    it('should return an error when the input contains a negative integer, a float or NaN', () => {
+        expect(rules.shouldBeAPositiveIntegerOrZero('-1')).toBe('Must be a positive integer or zero');
+        expect(rules.shouldBeAPositiveIntegerOrZero('1.01')).toBe('Must be a positive integer or zero');
+        expect(rules.shouldBeAPositiveIntegerOrZero('1AF')).toBe('Must be a positive integer or zero');
+    });
+});
+describe('shouldBeADate method', () => {
+    it('should return null when the input contains a valid date string', () => {
+        expect(rules.shouldBeADate(new Date().toString())).toBeNull();
+    });
+    it('should return an error when the input contains non-alphanumeric characters', () => {
+        expect(rules.shouldBeADate('aaa')).toBe('Must be a valid date');
+        expect(rules.shouldBeADate('13/13/13')).toBe('Must be a valid date');
     });
 });
 describe('maximumCharactersLimit method', () => {
