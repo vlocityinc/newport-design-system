@@ -140,7 +140,7 @@ export function getScreenFieldType(field) {
  * @returns {boolean} Indicates if specified field is an extension field type
  */
 export function isExtensionField(field) {
-    return field && field.fieldType === 'componentInstance';
+    return field && field.fieldType === 'ComponentInstance';
 }
 
 /**
