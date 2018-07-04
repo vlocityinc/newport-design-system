@@ -10,7 +10,8 @@ import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction-flow
 import { LABELS } from './outcome-labels';
 
 const SELECTORS = {
-    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
+    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
+    CUSTOM_LOGIC: '.customLogic'
 };
 
 /**
@@ -109,6 +110,31 @@ export default class Outcome extends Element {
             this.conditionLogicValue = CONDITION_LOGIC.CUSTOM_LOGIC;
             // And show the custom logic input
             this.showCustomLogicInput = true;
+        }
+    }
+
+    /** After rendering the condition logic component we are setting the error (if it exists)
+     * via setCustomValidity, except initial rendering.
+     */
+    renderedCallback() {
+        if (this.element.conditionLogic.error) {
+            const conditionLogicInput = this.template.querySelector(SELECTORS.CUSTOM_LOGIC);
+            this.setInputErrorMessage(conditionLogicInput, this.element.conditionLogic.error);
+        }
+    }
+
+    /** Sets the CustomValidity if there is a valid error message.
+     * @param {Object} element - the input component
+     * @param {Object} error - the error
+     */
+    setInputErrorMessage(element, error) {
+        if (element) {
+            if (error) {
+                element.setCustomValidity(error);
+            } else {
+                element.setCustomValidity('');
+            }
+            element.showHelpMessageIfInvalid();
         }
     }
 
