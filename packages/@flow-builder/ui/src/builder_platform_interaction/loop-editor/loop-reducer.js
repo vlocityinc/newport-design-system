@@ -1,11 +1,15 @@
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import {PropertyChangedEvent, ComboboxStateChangedEvent} from 'builder_platform_interaction-events';
+import {PropertyChangedEvent, ComboboxStateChangedEvent, LoopCollectionChangedEvent} from 'builder_platform_interaction-events';
 import {loopValidation} from './loop-validation';
 import {updateProperties} from 'builder_platform_interaction-data-mutation-lib';
 
-const LIGHTNING_RADIO_GROUP_CHANGED = 'change';
+const LOOP_PROPERTIES = {
+    COLLECTION_VARIABLE: 'collectionReference',
+    LOOP_VARIABLE: 'assignNextValueToReference'
+};
 
 const loopPropertyChanged = (state, event) => {
+    event.stopPropagation();
     event.detail.error = event.detail.error === null ?
         loopValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
     return updateProperties(state, {
@@ -28,11 +32,18 @@ const loopComboboxStateChanged = (state, event) => {
     });
 };
 
-const loopIterationOrderChanged = (state, event) => {
+const loopCollectionChangedEvent = (state, event) => {
+    event.stopPropagation();
+    const newCollectionValue = event.detail.collectionValue ? event.detail.collectionValue : null;
+    event.detail.collectionError = event.detail.collectionError === null ?
+        loopValidation.validateProperty(LOOP_PROPERTIES.COLLECTION_VARIABLE, newCollectionValue) : event.detail.collectionError;
     return updateProperties(state, {
-        iterationOrder: {
-            value: event.detail.value,
-            error: null
+        [LOOP_PROPERTIES.COLLECTION_VARIABLE]: {
+            value: newCollectionValue,
+            error: event.detail.collectionError
+        },
+        [LOOP_PROPERTIES.LOOP_VARIABLE]: {
+            error: event.detail.loopVariableErrorMessage ? event.detail.loopVariableErrorMessage : null
         }
     });
 };
@@ -53,8 +64,8 @@ export const loopReducer = (state, event) => {
             return loopPropertyChanged(state, event);
         case ComboboxStateChangedEvent.EVENT_NAME:
             return loopComboboxStateChanged(state, event);
-        case LIGHTNING_RADIO_GROUP_CHANGED:
-            return loopIterationOrderChanged(state, event);
+        case LoopCollectionChangedEvent.EVENT_NAME:
+            return loopCollectionChangedEvent(state, event);
         case VALIDATE_ALL: {
             return loopValidation.validateAll(state);
         }

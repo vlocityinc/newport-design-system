@@ -7,7 +7,7 @@ import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import {PropertyChangedEvent} from 'builder_platform_interaction-events';
+import {PropertyChangedEvent, LoopCollectionChangedEvent} from 'builder_platform_interaction-events';
 
 const LOOP_PROPERTIES = {
     COLLECTION_VARIABLE: 'collectionReference',
@@ -151,9 +151,9 @@ export default class LoopEditor extends Element {
     handleCollectionVariablePropertyChanged(event) {
         event.stopPropagation();
         // TODO: in W-5079245 replace this and get the data needed directly from the event
-        event.detail.propertyName = LOOP_PROPERTIES.COLLECTION_VARIABLE;
         this._collectionVariable = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
 
+        let loopVarErrorMessage = null;
         if (this.loopVariableState && this._collectionVariable) {
             // check if loop variable dataType or objectType changed
             const isDataTypeChanged = this.getLoopVariableDataType() !==  this.getCollectionVariableDataType();
@@ -161,21 +161,24 @@ export default class LoopEditor extends Element {
 
             // set datatype mismatch error message for loopVariable
             if (this.loopVariableState && (isDataTypeChanged || isSObjectTypeChanged)) {
-                this.loopElement.assignNextValueToReference.error = LOOPVAR_ERROR_MESSAGE;
+                loopVarErrorMessage = LOOPVAR_ERROR_MESSAGE;
             } else if (this.loopElement.assignNextValueToReference.value) {
-                this.loopElement.assignNextValueToReference.error = null;
+                loopVarErrorMessage = null;
             }
         }
         // If loopCollection has error then clear datatypemismatch error message for loopVariable
         if (event.detail.error !== null &&  this.loopElement.assignNextValueToReference.error === LOOPVAR_ERROR_MESSAGE) {
-            this.loopElement.assignNextValueToReference.error = null;
+            loopVarErrorMessage = null;
         }
 
         // enable or disable loop variable
         this.isLoopVariableDisabled = this._collectionVariable === null;
-        this.loopElement = loopReducer(this.loopElement, event);
-    }
 
+        // update collectionVariable and loopVariableErrorMessage
+        const loopCollectionValue = event.detail.item ? event.detail.item.value : null;
+        const loopCollectionChangedEvent = new LoopCollectionChangedEvent(loopCollectionValue, event.detail.error, loopVarErrorMessage);
+        this.loopElement = loopReducer(this.loopElement, loopCollectionChangedEvent);
+    }
 
     handleLoopVariablePropertyChanged(event) {
         event.stopPropagation();

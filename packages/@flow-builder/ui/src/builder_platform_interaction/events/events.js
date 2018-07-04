@@ -43,3 +43,4 @@ export { AddRecordLookupFieldEvent } from './addRecordLookupFieldEvent';
 export { UpdateRecordLookupFieldEvent } from './updateRecordLookupFieldEvent';
 export { DeleteRecordLookupFieldEvent } from './deleteRecordLookupFieldEvent';
 export { DeleteResourceEvent } from './deleteResourceEvent';
+export { LoopCollectionChangedEvent } from './loopCollectionChangedEvent';
