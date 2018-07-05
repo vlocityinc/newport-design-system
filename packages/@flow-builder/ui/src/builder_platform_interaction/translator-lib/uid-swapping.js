@@ -1,9 +1,5 @@
 import { isPlainObject } from 'builder_platform_interaction-store-lib';
-import { TEMPLATE_FIELDS, REFERENCE_FIELDS } from './translation-config';
-
-
-// re to match the {! expressions }
-const EXPRESSION_RE = /\{!([^}]+)\}/g;
+import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * Swaps a value that may contain 0 or more variables

@@ -104,3 +104,36 @@ export const GLOBAL_CONSTANT = {
     BOOLEAN_TRUE: globalConstantTrueLabel,
     BOOLEAN_FALSE: globalConstantFalseLabel
 };
+
+/**
+ * List of Flow metadata fields that can be references to other Flow elements
+ * i.e. fields whose values need to be converted from dev names to GUIDs when loading the flow into the UI client and vice versa.
+ */
+export const REFERENCE_FIELDS = new Set([
+    'elementReference',
+    'targetReference',
+    'assignToReference',
+    'assignNextValueToReference',
+    'collectionReference',
+    'inputReference',
+    'outputReference',
+    'assignRecordIdToReference',
+    'leftValueReference',
+    'outcomeReference',
+    'childReference'
+]);
+
+/**
+ * List of Flow metadata fields that can contain {!reference} tags referencing flow elements
+ * These would also need to be replaced
+ */
+export const TEMPLATE_FIELDS = new Set([
+    // TODO fill out more values and confirm that all FEROV stringValue fields allow this behaviour
+    'stringValue', // field of a ferov
+    'expression',  // represents body of a formula
+    'text',        // represents body of a text template
+    'fieldText',   // body of screen field of type Display Text
+    'helpText'     // help text for a screen or screen field
+]);
+
+export const EXPRESSION_RE = /\{!([^}]+)\}/g;
