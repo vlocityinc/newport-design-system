@@ -151,7 +151,7 @@ export default class LoopEditor extends Element {
     handleCollectionVariablePropertyChanged(event) {
         event.stopPropagation();
         // TODO: in W-5079245 replace this and get the data needed directly from the event
-        this._collectionVariable = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
+        this._collectionVariable = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
 
         let loopVarErrorMessage = null;
         if (this.loopVariableState && this._collectionVariable) {
@@ -184,7 +184,7 @@ export default class LoopEditor extends Element {
         event.stopPropagation();
         // TODO: in W-5079245 replace this and get the data needed directly from the event
         event.detail.propertyName = LOOP_PROPERTIES.LOOP_VARIABLE;
-        this.loopVariableState = event.detail.item ? getElementByGuid(event.detail.item.value) : null;
+        this.loopVariableState = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
         this.loopElement = loopReducer(this.loopElement, event);
     }
 
@@ -228,5 +228,19 @@ export default class LoopEditor extends Element {
      */
     getCollectionVariableSObjectType() {
         return this._collectionVariable ? this._collectionVariable.objectType : null;
+    }
+
+    /**
+     * Mutate the combobox menu item to shape needed for loop variable/collection variable.
+     * @param {Object} item Combobox menu item
+     * @return {Object} the object needed to populate loop variable/collection variable.
+     */
+    mutateComboboxItem(item) {
+        return {
+            name: item.text,
+            guid: item.value,
+            dataType: item.dataType,
+            objectType: item.objectType
+        };
     }
 }

@@ -11,7 +11,9 @@ const eventName = 'comboboxstatechanged';
  * @property {String} displayText   the value displayed in the input field when this menu item is selected
  * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
  * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
- * @property {String} id the id of the combobox TODO: this will be removed in another CL)
+ * @property {Object} parent the parent flow element of the second level item in combobox shape
+ * @property {String} dataType the data type for the menu item. eg: Date, Currency, SObject
+ * @property {String} objectType the object type when data type is SObject otherwise null. eg: Account
  */
 
 export class ComboboxStateChangedEvent {

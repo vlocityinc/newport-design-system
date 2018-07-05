@@ -48,6 +48,8 @@ function getSubText(dataType, objectType, label) {
  * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
  * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
  * @property {Object} parent in the case that this is a second level item, this is the parent flow element in combobox shape
+ * @property {String} dataType the data type for the menu item. eg: Date, Currency, SObject
+ * @property {String} objectType the object type when data type is SObject otherwise null. eg: Account
  */
 
 /**
@@ -71,9 +73,11 @@ function getSubText(dataType, objectType, label) {
  * @param {String} iconName the icon of the menu item
  * @param {String} value the value of the menu item
  * @param {Object} parent the parent flow element of the second level item in combobox shape
+ * @param {String} dataType the data type for the menu item. eg: Date, Currency, SObject
+ * @param {String} objectType the object type when data type is SObject otherwise null. eg: Account
  * @returns {MenuItem}  the generated menu item
  */
-export const createMenuItem = (type, text, subtext, displayText, iconName, value, parent) => {
+export const createMenuItem = (type, text, subtext, displayText, iconName, value, parent, dataType, objectType) => {
     return {
         type,
         text,
@@ -82,6 +86,8 @@ export const createMenuItem = (type, text, subtext, displayText, iconName, value
         iconName,
         value,
         parent,
+        dataType,
+        objectType
     };
 };
 
@@ -126,6 +132,9 @@ export function mutateFlowElementToComboboxShape(element) {
     newElement.category = getCategory(element.elementType, element.dataType, element.isCollection).toUpperCase();
     // TODO: fetch icon
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
+    newElement.dataType = element.dataType;
+    newElement.objectType = element.objectType ? element.objectType : null;
+
     return newElement;
 }
 
@@ -142,6 +151,9 @@ export const mutateEntitiesToComboboxShape = (entities) => {
             undefined,
             entity.entityLabel,
             undefined,
+            entity.apiName,
+            undefined,
+            SObjectType,
             entity.apiName,
         );
     });
