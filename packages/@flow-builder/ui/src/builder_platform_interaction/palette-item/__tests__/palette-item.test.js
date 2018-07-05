@@ -7,6 +7,7 @@ const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-palette-item', {
         is: PaletteItem
     });
+    el.detailsButton = true;
     document.body.appendChild(el);
     return el;
 };

@@ -75,8 +75,9 @@
 }
 
 .THIS builder_platform_interaction-resource-details .resource-detail-panel-body {
-    max-height: calc(100vh - 177px);
+    max-height: calc(100vh - 218px);
     -webkit-overflow-scrolling: touch;
+    min-height: calc(100vh - 218px);
 }
 
 .THIS builder_platform_interaction-left-panel .flow-resource-list .new-resource-button button {
@@ -101,12 +102,16 @@
     opacity: 1;
 }
 
-/*
- * Makes the panel item detail button appear on row hover for the panel deep
- * nesting design pattern. This type of override doesn't work in Raptor.
- */
-.THIS builder_platform_interaction-left-panel-resources .palette-item>td lightning-button-icon.detail-button {
-    visibility: visible !important;
+.THIS builder_platform_interaction-left-panel-resources table  {
+    table-layout: fixed;
+}
+
+.THIS builder_platform_interaction-left-panel-resources table tr:first-of-type td:last-of-type {
+    width: 30px;
+}
+
+.THIS builder_platform_interaction-resource-details .resource-detail-panel-body .description-container {
+    word-wrap: break-word;
 }
 
 /************* Canvas *****************/

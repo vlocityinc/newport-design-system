@@ -35,6 +35,16 @@ export default class Palette extends Element {
     }
 
     @api
+    get detailsButton() {
+        return this.showResourceDetails;
+    }
+
+    @api
+    set detailsButton(value) {
+        this.showResourceDetails = value === 'true';
+    }
+
+    @api
     filter(pattern) {
         const lPattern = (pattern && pattern.toLowerCase()) || '';
         let currentSection = null;
@@ -62,6 +72,7 @@ export default class Palette extends Element {
     @track rows = [];
     @track draggableItems = false;
     @track showItemCount = false;
+    @track showResourceDetails = false;
 
     original = [];
     collapsedSections = {};

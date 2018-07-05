@@ -23,6 +23,7 @@ export default class PaletteItem extends Element {
     @api iconName;
     @api label;
     @api iconSize;
+    @api detailsButton;
 
     get labels() {
         return LABELS;

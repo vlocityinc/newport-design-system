@@ -9,7 +9,7 @@
             <a title={description} onclick={handleLinkClick} tabindex="-1" draggable="false">{label}</a>
         </div>
     </th>
-    <td class="slds-cell-shrink" role="gridcell">
-        <lightning-button-icon  class="slds-hidden detail-button" icon-name="utility:chevronright" variant="bare" alternative-text={labels.RESOURCE_DETAILS_PANEL_DETAILS_ALT_TEXT} onclick={handleChevronClick}></lightning-button-icon>
+    <td role="gridcell">
+        <lightning-button-icon  if:true={detailsButton} icon-name="utility:chevronright" variant="bare" alternative-text={labels.RESOURCE_DETAILS_PANEL_DETAILS_ALT_TEXT} onclick={handleChevronClick}></lightning-button-icon>
     </td>
 </template>
