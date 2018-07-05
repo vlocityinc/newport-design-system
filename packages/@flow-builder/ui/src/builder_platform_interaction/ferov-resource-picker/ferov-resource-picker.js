@@ -60,6 +60,13 @@ export default class FerovResourcePicker extends Element {
     elementParam;
 
     /**
+     * If set to true, hasNext will be set to false for all menu items
+     * @type {Boolean}
+     */
+    @api
+    disableFieldDrilldown = false;
+
+    /**
      * The element config using which selector is determined for the element type while getting elements for menu data.
      * Eg: {element, shouldBeWritable} element is the element type this expression builder is inside,
      * shouldBeWritable is so property editors can specify the data they need.
@@ -125,9 +132,10 @@ export default class FerovResourcePicker extends Element {
             if (!this._elementConfig) {
                 this._rules = getRulesForContext({ elementType: this.propertyEditorElementType });
                 const paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
-                this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType }, paramTypes, this.showNewResource);
+                this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType },
+                    paramTypes, this.showNewResource, false, this.disableFieldDrilldown);
             } else {
-                this._menuData = getElementsForMenuData(this._elementConfig, null, this.showNewResource);
+                this._menuData = getElementsForMenuData(this._elementConfig, null, this.showNewResource, false, this.disableFieldDrilldown);
             }
             this._baseResourcePicker.setMenuData(this._menuData);
             this._isInitialized = true;

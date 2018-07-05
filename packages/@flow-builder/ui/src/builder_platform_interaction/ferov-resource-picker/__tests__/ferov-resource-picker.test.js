@@ -62,7 +62,22 @@ describe('ferov-resource-picker', () => {
     it('retrieves menu data on initial load', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes, false);
+            expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes,
+                false, false, false
+            );
+        });
+    });
+
+    describe('disableFieldDrilldown', () => {
+        it('retrieves menu data with disableHasNext = true when true', () => {
+            props.disableFieldDrilldown = true;
+            setupComponentUnderTest(props);
+
+            return Promise.resolve().then(() => {
+                expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes,
+                    false, false, true
+                );
+            });
         });
     });
 
@@ -74,7 +89,7 @@ describe('ferov-resource-picker', () => {
             expect(getRHSTypes).toHaveBeenCalledTimes(1);
             expect(getRHSTypes).toHaveBeenLastCalledWith(ELEMENT_TYPE.VARIABLE, props.elementParam, RULE_OPERATOR.ASSIGN, expect.any(Array));
             expect(getElementsForMenuData).toHaveBeenCalledTimes(1);
-            expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes, false);
+            expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes, false, false, false);
         });
     });
 
@@ -88,7 +103,7 @@ describe('ferov-resource-picker', () => {
             expect(getRulesForContext).not.toHaveBeenCalled();
             expect(getRHSTypes).not.toHaveBeenCalled();
             expect(getElementsForMenuData).toHaveBeenCalledTimes(1);
-            expect(getElementsForMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, null, false);
+            expect(getElementsForMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, null, false, false, false);
         });
     });
 

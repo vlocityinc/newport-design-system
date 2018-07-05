@@ -252,9 +252,11 @@ function getSelector({elementType, shouldBeWritable, isCollection, dataType, ent
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
  * @param {boolean} includeNewResource  if true, include new resource as first menu item
  * @param {boolean} allowSObjectForFields   true if sObjects should be included, to allow users to access sObject fields
+ * @param {boolean} disableHasNext if true, then all menu items will have hasNext set to false regardless of the real value
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
-export function getElementsForMenuData(elementConfig, allowedParamTypes, includeNewResource, allowSObjectForFields) {
+export function getElementsForMenuData(elementConfig, allowedParamTypes, includeNewResource,
+    allowSObjectForFields = false, disableHasNext = false) {
     const state = Store.getStore().getCurrentState();
 
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
@@ -262,7 +264,10 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     const menuData = getSelector(elementConfig)(state)
         .filter(element => isElementAllowed(allowedParamTypes, element, allowSObjectForFields))
         .map(element => {
-            return mutateFlowElementToComboboxShape(element);
+            const menuItem = mutateFlowElementToComboboxShape(element);
+            menuItem.hasNext = disableHasNext ? false : menuItem.hasNext;
+
+            return menuItem;
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
 

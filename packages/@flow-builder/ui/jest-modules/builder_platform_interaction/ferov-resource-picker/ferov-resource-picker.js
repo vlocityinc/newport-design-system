@@ -12,5 +12,7 @@ export default class FerovResourcePicker extends Element {
     @api elementParam;
 
     @api showNewResource;
+
+    @api disableFieldDrilldown;
 }
 
