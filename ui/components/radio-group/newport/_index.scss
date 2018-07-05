@@ -272,3 +272,13 @@ fieldset.nds-form-element + .nds-has-error div div.nds-has-error small:first-chi
 .nds-radio_vertical .nds-radio .nds-form-element__label {
   color: $color-blue-text-secondary;
 }
+
+.nds-form-element__control.nds-vertical_radio {
+  display: flex;
+  flex-direction: column;
+}
+
+.nds-form-element__control.nds-vertical_radio .nds-radio,
+.nds-form-element__control.nds-horizontal_radio .nds-radio {
+  margin: 0 1rem .5rem 0;
+}
