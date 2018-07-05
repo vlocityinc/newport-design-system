@@ -80,7 +80,8 @@ export default class FormulaEditor extends Element {
     handleFormulaExpressionChanged(event) {
         const propertyName = 'expression';
         const value = event.detail.value;
-        const error = null;
+        const errors = event.detail.error;
+        const error = errors ? errors[0].message : null;
         const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
         this.formulaResource = formulaReducer(this.formulaResource, action);
     }

@@ -1,6 +1,7 @@
 import { Element, api, track } from 'engine';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './formula-textarea-labels';
+import { validateTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
 
 const SELECTORS = {
     TEXTAREA: 'lightning-textarea',
@@ -12,7 +13,8 @@ export default class FormulaTextarea extends Element {
     @track
     state = {
         expression : '',
-        error : null
+        error : null,
+        spinnerActive : false
     }
 
     @api
@@ -35,12 +37,8 @@ export default class FormulaTextarea extends Element {
         this.state.error = value;
         const textarea = this.getTextArea();
         if (textarea) {
-            if (this.state.error) {
-                textarea.setCustomValidity(this.state.error);
-                textarea.showHelpMessageIfInvalid();
-            } else {
-                textarea.setCustomValidity('');
-            }
+            textarea.setCustomValidity(this.state.error ? this.state.error : '');
+            textarea.showHelpMessageIfInvalid();
         }
     }
 
@@ -51,7 +49,12 @@ export default class FormulaTextarea extends Element {
     handleTextareaFocusOut(event) {
         const value = event.target.value;
         this.state.expression = value;
-        const valueChangedEvent = new ValueChangedEvent(this.state.expression);
-        this.dispatchEvent(valueChangedEvent);
+        this.state.spinnerActive = true;
+        validateTextWithMergeFields(value).then(errors => {
+            this.state.spinnerActive = false;
+            this.state.expression = value;
+            const valueChangedEvent = errors.length === 0 ? new ValueChangedEvent(this.state.expression) : new ValueChangedEvent(this.state.expression, errors);
+            this.dispatchEvent(valueChangedEvent);
+        });
     }
 }

@@ -11,6 +11,9 @@ export const stringVariableGuid = 'guid10';
 export const currencyVariableGuid = 'guid11';
 export const assignmentElementGuid = 'guid12';
 export const accountSObjectCollectionVariableGuid = 'guid13';
+export const actionCallElementGuid = 'guid14';
+export const outcomeGuid = 'guid15';
+export const decisionGuid = 'guid16';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -22,6 +25,9 @@ export const stringCollectionVariable2DevName = 'collStrVar2';
 export const choiceDevName = 'numberChoice';
 const dateVariableDevName = 'dateVar1';
 export const accountSObjectCollectionVariableDevName = 'accCollectionVar1';
+export const actionCallElementDevName = "actionCall1";
+export const outcomeDevName = "outcome1";
+export const decisionDevName = "decision1";
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -36,6 +42,7 @@ export const account = 'Account';
 export const choiceLabel = 'Choice 1';
 export const variable = 'VARIABLE';
 export const assignment = 'ASSIGNMENT';
+export const actionCall = 'ACTION_CALL';
 
 export const elements = {
     [numberVariableGuid]: {
@@ -185,6 +192,72 @@ export const elements = {
         maxConnections: 1,
         name: assignmentElementName,
     },
+    [actionCallElementGuid]: {
+        actionName: "LogACall",
+        actionType: "quickAction",
+        inputParameters: [],
+        label: actionCallElementDevName,
+        locationX: 592,
+        locationY: 586,
+        name: actionCallElementDevName,
+        outputParameters: [],
+        processMetadataValues: [],
+        elementType: actionCall,
+        guid: actionCallElementGuid,
+        isCanvasElement: true,
+        config: {isSelected: false},
+        availableConnections: [],
+        connectorCount: 2,
+        maxConnections: 2
+    },
+    [outcomeGuid]: {
+        conditionLogic: "and",
+        conditions: [
+          {
+            leftValueReference: stringVariableDevName,
+            operator: "EqualTo",
+            processMetadataValues: [],
+            rightValue: {
+              stringValue: "text"
+            }
+          }
+        ],
+        label: outcomeDevName,
+        name: outcomeDevName,
+        processMetadataValues: [],
+        dataType: "Boolean",
+        elementType: "OUTCOME",
+        guid: outcomeGuid,
+        isCanvasElement: false
+      },
+      [decisionGuid]: {
+        defaultConnectorLabel: "[Default Outcome]",
+        label: decisionDevName,
+        locationX: 275,
+        locationY: 413,
+        name: decisionDevName,
+        processMetadataValues: [],
+        elementType: "DECISION",
+        guid: decisionGuid,
+        isCanvasElement: true,
+        config: {isSelected: false},
+        outcomeReferences: [
+          {
+            outcomeReference: outcomeGuid
+          }
+        ],
+        availableConnections: [
+          {
+            type: "REGULAR",
+            childReference: outcomeGuid
+          },
+          {
+            type: "DEFAULT"
+          }
+        ],
+        connectorCount: 0,
+        maxConnections: 2
+      }
 };
 
 export const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCollectionVariable1Guid,
@@ -286,6 +359,6 @@ export const mutatedVariables = {
             value: null,
             error: null,
         }
-    },
+    }
 };
 

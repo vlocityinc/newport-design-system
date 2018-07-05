@@ -1,0 +1,1 @@
+export { validateMergeField, validateTextWithMergeFields } from './mergeFieldValidation';

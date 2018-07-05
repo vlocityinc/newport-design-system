@@ -1,4 +1,5 @@
 <template>
+    <lightning-spinner if:true={state.spinnerActive} variant="brand" alternative-text={labels.formulaValidationSpinnerAlternativeText}></lightning-spinner>
     <lightning-textarea class="slds-form-element"
                         label={labels.formulaLabel}
                         max-length="3900"
