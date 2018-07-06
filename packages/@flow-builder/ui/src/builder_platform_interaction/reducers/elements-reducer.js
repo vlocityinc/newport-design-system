@@ -11,7 +11,8 @@ import {
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
     ADD_DECISION_WITH_OUTCOMES,
-    MODIFY_DECISION_WITH_OUTCOMES
+    MODIFY_DECISION_WITH_OUTCOMES,
+    UPDATE_RECORD_LOOKUP
 } from 'builder_platform_interaction-actions';
 import {deepCopy} from 'builder_platform_interaction-store-lib';
 import {updateProperties, omit, addItem} from 'builder_platform_interaction-data-mutation-lib';
@@ -34,6 +35,8 @@ export default function elementsReducer(state = {}, action) {
         case UPDATE_CANVAS_ELEMENT:
         case UPDATE_RESOURCE:
             return _addOrUpdateElement(state, action.payload.guid, action.payload);
+        case UPDATE_RECORD_LOOKUP:
+            return _updateRecordLookup(state, action.payload.guid, action.payload);
         case DELETE_ELEMENT:
             return _deleteAndUpdateElements(state, action.payload.selectedElementGUIDs, action.payload.connectorsToDelete);
         case ADD_CONNECTOR:
@@ -150,6 +153,27 @@ function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outc
 function _addOrUpdateElement(state, guid, element) {
     const newState = updateProperties(state);
     newState[guid] = updateProperties(newState[guid], element);
+    return newState;
+}
+
+/**
+ * Helper function update an element a record lookup.
+ * It should be deleted when W-5147341 is fixed
+ * @param {Object} state - current state of elements in the store
+ * @param {String} guid - GUID of element to be added or updated
+ * @param {Object} element - information about the element to be added or updated
+ * @return {Object} new state after reduction
+ * @private
+ */
+function _updateRecordLookup(state, guid, element) {
+    const newState = _addOrUpdateElement(state, guid, element);
+    // remove shortOrder and sortField if they are not in element
+    if (!element.hasOwnProperty('sortOrder')) {
+        delete newState[guid].sortOrder;
+    }
+    if (!element.hasOwnProperty('sortField')) {
+        delete newState[guid].sortField;
+    }
     return newState;
 }
 

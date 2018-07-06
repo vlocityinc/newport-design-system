@@ -24,6 +24,9 @@ export default class RecordFieldPickerRow extends Element {
     @api
     fieldIndex;
 
+    @api
+    errorMessage;
+
     /**
      * The inner base resource picker component, used to set the full menu data
      * @type {BaseResourcePicker}
@@ -67,11 +70,9 @@ export default class RecordFieldPickerRow extends Element {
      */
     @api
     set queriedFields(fields) {
-        if (fields) {
-            fields.forEach((queriedField, index) => {
-                this.state.queriedFields[index] = queriedField.field.value;
-            });
-        }
+        this.state.queriedFields = fields.map(field => {
+            return field.field.value;
+        });
         this.populateFieldMenuData();
     }
 
@@ -98,7 +99,7 @@ export default class RecordFieldPickerRow extends Element {
         return BaseResourcePicker.getComboboxConfig(
             this.labels.field,
             this.labels.getFieldPlaceholder,
-            undefined,
+            this.errorMessage,
             'false',
             false,
             false,

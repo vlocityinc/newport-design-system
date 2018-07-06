@@ -12,20 +12,22 @@ import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expressio
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import { recordLookupValidation } from './record-lookup-validation';
-import { SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
+import { recordLookupValidation, getRules } from './record-lookup-validation';
+import { RECORD_FILTER_CRITERIA, SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
 
-const emptyFilterItem = {
-    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
-    [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null},
-    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null},
-    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
-    rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM),
+const emptyFilterItem = () => {
+    return {
+        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
+        [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null},
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null},
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
+        rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM),
+    };
 };
 
 const addRecordLookupFilter = (state) => {
     const path = ['filters', state.filters.length];
-    return set(state, path, emptyFilterItem);
+    return set(state, path, emptyFilterItem());
 };
 
 const deleteRecordLookupFilter = (state, event) => {
@@ -53,13 +55,10 @@ const deleteQueriedField = (state, event) => {
 };
 
 const updateQueriedField = (state, event) => {
-    if (!event.detail.error) {
-        const newField = hydrateWithErrors({field: event.detail.value, rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FIELD)});
-        state = updateProperties(state, {
-            queriedFields: replaceItem(state.queriedFields, newField, event.detail.index)
-        });
-    }
-    // TODO: handle error
+    const newField = {field: {value: event.detail.value, error: event.detail.error}, rowIndex: state.queriedFields[event.detail.index].rowIndex};
+    state = updateProperties(state, {
+        queriedFields: replaceItem(state.queriedFields, newField, event.detail.index)
+    });
     return state;
 };
 
@@ -77,7 +76,7 @@ const updateOutputReferenceAndQueriedFields = (state, value, error) => {
 
 const resetRecordLookup = (state) => {
     // reset filters: create one empty filter item
-    state = set(state, 'filters', [emptyFilterItem]);
+    state = set(state, 'filters', [emptyFilterItem()]);
     // reset sortField
     state = updateProperties(state, hydrateWithErrors({sortField: ''}));
     // reset outputReference and queried fields
@@ -86,7 +85,11 @@ const resetRecordLookup = (state) => {
 
 const managePropertyChanged = (state, event) => {
     const propName = event.detail.propertyName;
-    state = updateProperties(state, {[propName]: {error: event.detail.error, value: event.detail.value}});
+    if (propName === 'assignNullValuesIfNoRecordsFound') {
+        state = updateProperties(state, {[propName]: event.detail.value});
+    } else {
+        state = updateProperties(state, {[propName]: {value: event.detail.value, error: event.detail.error}});
+    }
     if (!event.detail.error) {
         if (propName === 'object') {
             // reset all filterItems, outputReference, queriedFields
@@ -96,6 +99,9 @@ const managePropertyChanged = (state, event) => {
             state = resetQueriedFields(state);
         } else if (propName === 'sortOrder' && event.detail.value === SORT_ORDER.NOT_SORTED) {
             state = updateProperties(state, {sortField: {value: '', error: null}});
+        } else if (propName === 'filterType' && event.detail.value === RECORD_FILTER_CRITERIA.NONE) {
+            // reset filters: create one empty filter item
+            state = set(state, 'filters', [emptyFilterItem()]);
         }
     }
     return state;
@@ -124,7 +130,7 @@ export const recordLookupReducer = (state, event) => {
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event);
         case VALIDATE_ALL:
-            return recordLookupValidation.validateAll(state);
+            return recordLookupValidation.validateAll(state, getRules(state));
         default:
             return state;
     }

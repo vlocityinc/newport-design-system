@@ -22,13 +22,14 @@
     
     <div if:true={recordEntityName}>
         <!-- Find Records section -->
-        <builder_platform_interaction-record-filter element-type={elementType} filter-items={filterItems} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={filterType} onaddrecordlookupfilter={handlePropertyOrListItemChanged} onupdaterecordlookupfilter={handlePropertyOrListItemChanged} ondeleterecordlookupfilter={handlePropertyOrListItemChanged}></builder_platform_interaction-record-filter>
+        <builder_platform_interaction-record-filter element-type={elementType} filter-items={filterItems} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={filterType} onrecordlookupfiltertypechanged={handleFilterTypeChanged} onaddrecordlookupfilter={handlePropertyOrListItemChanged} onupdaterecordlookupfilter={handlePropertyOrListItemChanged} ondeleterecordlookupfilter={handlePropertyOrListItemChanged}></builder_platform_interaction-record-filter>
 
         <!-- Sort Records section -->
         <builder_platform_interaction-record-sort
                 resource-api-name={recordEntityName}
                 selected-field={sortField}
                 sort-order={sortOrder}
+                sort-field-error={sortFieldErrorMessage}
                 onchange={handleRecordSortChanged}></builder_platform_interaction-record-sort>
                 
         <!-- Record Store Fields Selection section -->
@@ -41,6 +42,6 @@
         </builder_platform_interaction-record-store-options>
         <!-- SObject or SObject collection section -->
         <builder_platform_interaction-record-query-fields is-collection={isCollection} record-entity-name={recordEntityName} element-type={elementType} queried-fields={queriedFields}
-                output-reference={outputReference} onsobjectreferencechanged={handleSObjectReferenceChanged} onaddrecordlookupfield={handlePropertyOrListItemChanged} onupdaterecordlookupfield={handlePropertyOrListItemChanged} ondeleterecordlookupfield={handlePropertyOrListItemChanged}></builder_platform_interaction-record-query-fields>
+                output-reference={outputReference} sobject-variable-error-message={outputReferenceErrorMessage} onsobjectreferencechanged={handleSObjectReferenceChanged} onaddrecordlookupfield={handlePropertyOrListItemChanged} onupdaterecordlookupfield={handlePropertyOrListItemChanged} ondeleterecordlookupfield={handlePropertyOrListItemChanged}></builder_platform_interaction-record-query-fields>
     </div>
 </template> 

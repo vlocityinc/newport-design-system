@@ -8,7 +8,8 @@
                     placeholder={sObjectVariablePickerPlaceholder}
                     record-entity-name={state.recordEntityName}
                     element-type={elementType}
-                    value={state.outputReference}>
+                    value={state.outputReference}
+                    error-message={sobjectVariableErrorMessage}>
             </builder_platform_interaction-sobject-or-sobject-collection-picker>
         </div>
     </div>
@@ -23,7 +24,7 @@
                 <div slot="listBody">
                     <template for:each={queriedFields} for:item="queriedField" for:index="fieldIndex">
                     <div class="slds-list__item slds-is-relative" key={queriedField.rowIndex}>
-                        <builder_platform_interaction-record-field-picker-row field-index={fieldIndex} record-entity-name={recordEntityName} value={queriedField.field.value} queried-fields={queriedFields}></builder_platform_interaction-record-field-picker-row>
+                        <builder_platform_interaction-record-field-picker-row field-index={fieldIndex} record-entity-name={recordEntityName} value={queriedField.field.value} queried-fields={queriedFields} error-message={queriedField.field.error}></builder_platform_interaction-record-field-picker-row>
                     </div>
                     </template>
                 </div>

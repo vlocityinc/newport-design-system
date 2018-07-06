@@ -17,6 +17,12 @@ export default class RecordQueryFields extends Element {
         isCollection: false,
     };
 
+    /**
+     * sObject variable error message if any
+     */
+    @api
+    sobjectVariableErrorMessage;
+
     @api
     elementType;
 

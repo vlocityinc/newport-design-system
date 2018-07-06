@@ -26,7 +26,8 @@ export default class RecordSort extends Element {
         showFieldSelector : false,
         selectedSortOrder : '',
         selectedField : '',
-        fieldsOptions : []
+        fieldsOptions : [],
+        sortFieldErrorMessage: ''
     };
 
     /**
@@ -79,6 +80,21 @@ export default class RecordSort extends Element {
     @api
     get sortOrderOptions() {
         return SORT_ORDER_OPTIONS;
+    }
+
+    @api
+    get sortFieldError() {
+        return this.state.sortFieldErrorMessage;
+    }
+
+    @api
+    set sortFieldError(errorMessage) {
+        this.state.sortFieldErrorMessage = errorMessage;
+        const lightningCombobox = this.template.querySelector('.sortField');
+        if (lightningCombobox) {
+            lightningCombobox.setCustomValidity(this.state.sortFieldErrorMessage);
+            lightningCombobox.showHelpMessageIfInvalid();
+        }
     }
 
     getFields(resourceApiName) {

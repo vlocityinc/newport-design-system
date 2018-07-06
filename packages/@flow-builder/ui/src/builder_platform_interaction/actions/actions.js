@@ -23,6 +23,8 @@ export const DESELECT_ON_CANVAS = 'DESELECT_ON_CANVAS';
 export const ADD_DECISION_WITH_OUTCOMES = 'ADD_DECISION_WITH_OUTCOMES';
 export const MODIFY_DECISION_WITH_OUTCOMES = 'MODIFY_DECISION_WITH_OUTCOMES';
 
+export const UPDATE_RECORD_LOOKUP = 'UPDATE_RECORD_LOOKUP';
+
 export const PROPERTY_EDITOR_ACTION = {
     UPDATE_ELEMENT_PROPERTY : 'UPDATE_ELEMENT_PROPERTY',
     ADD_ASSIGNMENT_ITEM: 'ADD_ASSIGNMENT_ITEM',
@@ -95,6 +97,8 @@ export const updateElement = (payload) => {
                 return createAction(UPDATE_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(MODIFY_DECISION_WITH_OUTCOMES, payload);
+            case ELEMENT_TYPE.RECORD_LOOKUP:
+                return createAction(UPDATE_RECORD_LOOKUP, payload);
             default:
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(UPDATE_CANVAS_ELEMENT, payload);

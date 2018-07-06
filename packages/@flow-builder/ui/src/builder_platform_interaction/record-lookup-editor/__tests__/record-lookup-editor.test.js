@@ -50,7 +50,25 @@ const filterElement = {
     rightHandSideGuid: {value: "FORMULA_8", error: null}
 };
 
-const recordCreateElementWithSObject = {
+const defaultRecordLookupElement = {
+    description : { value: '', error: null },
+    elementType : 'RECORD_LOOKUP',
+    guid : 'RECORDLOOKUP_1',
+    isCanvasElement : true,
+    label : { value: '', error: null },
+    name : { value: '', error: null },
+    outputReference : { value: '', error: null},
+    sortField : { value:'', error: null},
+    sortOrder : { value: SORT_ORDER.NOT_SORTED, error: null},
+    assignNullValuesIfNoRecordsFound : false,
+    outputAssignments : [],
+    queriedFields: [],
+    object: { value: '', error: null},
+    filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
+    filters: []
+};
+
+const recordLookupElementWithSObject = {
     description : { value: '', error: null },
     elementType : 'RECORD_LOOKUP',
     guid : 'RECORDLOOKUP_1',
@@ -68,7 +86,7 @@ const recordCreateElementWithSObject = {
     filters: []
 };
 
-const recordCreateElementWithSObjectAndFilters = {
+const recordLookupElementWithSObjectAndFilters = {
     description : { value: '', error: null },
     elementType : 'RECORD_LOOKUP',
     guid : 'RECORDLOOKUP_1',
@@ -122,7 +140,7 @@ describe('record-lookup-editor', () => {
     describe('with default values', () => {
         let recordLookupEditor;
         beforeEach(() => {
-            recordLookupEditor = createComponentForTest();
+            recordLookupEditor = createComponentForTest(defaultRecordLookupElement);
         });
         it('contains an entity resource picker for sobject', () => {
             const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
@@ -138,7 +156,7 @@ describe('record-lookup-editor', () => {
         beforeEach(() => {
             const sobjectVariableElement = store.elements[store.accountSObjectVariableGuid];
             storeUtilMock.getElementByGuid.mockReturnValue(sobjectVariableElement);
-            recordLookupEditor = createComponentForTest(recordCreateElementWithSObject);
+            recordLookupEditor = createComponentForTest(recordLookupElementWithSObject);
         });
         it('record filter should be visible', () => {
             const recordFilter = getRecordFilter(recordLookupEditor);
@@ -174,7 +192,7 @@ describe('record-lookup-editor', () => {
         beforeEach(() => {
             const sObjectVariableElement = store.elements[store.accountSObjectVariableGuid];
             storeUtilMock.getElementByGuid.mockReturnValue(sObjectVariableElement);
-            recordLookupEditor = createComponentForTest(recordCreateElementWithSObject);
+            recordLookupEditor = createComponentForTest(recordLookupElementWithSObject);
         });
         it('handles flow combobox value changed event', () => {
             let entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
@@ -237,7 +255,7 @@ describe('record-lookup-editor', () => {
         beforeEach(() => {
             const sObjectVariableElement = store.elements[store.accountSObjectVariableGuid];
             storeUtilMock.getElementByGuid.mockReturnValue(sObjectVariableElement);
-            recordLookupEditor = createComponentForTest(recordCreateElementWithSObjectAndFilters);
+            recordLookupEditor = createComponentForTest(recordLookupElementWithSObjectAndFilters);
         });
         it('record filter criteria should be all ', () => {
             const recordFilter = getRecordFilter(recordLookupEditor);

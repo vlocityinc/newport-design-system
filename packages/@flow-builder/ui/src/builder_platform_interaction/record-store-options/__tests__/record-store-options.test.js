@@ -49,6 +49,14 @@ const getChangeEvent = (eventValue) => {
     });
 };
 
+const getCheckedEvent = (eventValue) => {
+    return new CustomEvent('change', {
+        detail: {
+            checked : eventValue,
+        }
+    });
+};
+
 const getRecordStoreOptionChangedEventDetail = (assignNullToVariableNoRecordValue, numberRecordsToStoreValue, wayToStoreFieldsValue) => {
     return {assignNullToVariableNoRecord: assignNullToVariableNoRecordValue,
         numberRecordsToStore: numberRecordsToStoreValue,
@@ -84,7 +92,7 @@ describe('record-store-options default', () => {
     test('checkbox "Assign Null if no record found" changed', async () => {
         const eventCallback = jest.fn();
         recordStoreOptionComponent.addEventListener(RecordStoreOptionChangedEvent.EVENT_NAME, eventCallback);
-        getAssignNullIfNoRecordFoundCombobox(recordStoreOptionComponent).dispatchEvent(getChangeEvent(true));
+        getAssignNullIfNoRecordFoundCombobox(recordStoreOptionComponent).dispatchEvent(getCheckedEvent(true));
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
         expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(true, NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS_OPTIONS.togetherInsObjectVariable));

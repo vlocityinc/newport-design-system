@@ -126,7 +126,7 @@ export default class RecordStoreFieldsSelection extends Element {
 
     handleAssignNullValuesIfNoRecordsFoundChange(event) {
         event.stopPropagation();
-        this.state.assignNullValuesIfNoRecordsFound = event.detail.value;
+        this.state.assignNullValuesIfNoRecordsFound = event.detail.checked;
         this.dispatchEvent(new RecordStoreOptionChangedEvent(this.state.numberOfRecordsToStore,
             this.state.wayToStoreFields,
             this.state.assignNullValuesIfNoRecordsFound));

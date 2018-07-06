@@ -23,9 +23,6 @@ export default class RecordLookupEditor extends Element {
     @track
     recordEntityName = '';
 
-    @track
-    sobjectValueError;
-
     /**
      * The default value of number records to store.
      */
@@ -105,6 +102,13 @@ export default class RecordLookupEditor extends Element {
     }
 
     /**
+     * @returns {String} the sort field error message
+     */
+    get sortFieldErrorMessage() {
+        return this.recordLookupElement.sortField.error;
+    }
+
+    /**
      * @returns {String} number of records to store (see record-editor-lib.NUMBER_RECORDS_TO_STORE)
      */
     get numberRecordsToStore() {
@@ -143,6 +147,16 @@ export default class RecordLookupEditor extends Element {
     }
 
     /**
+     * @returns {String} the output reference error message
+     */
+    get outputReferenceErrorMessage() {
+        if (this.recordLookupElement.outputReference) {
+            return this.recordLookupElement.outputReference.error;
+        }
+        return '';
+    }
+
+    /**
      * @returns {String[]} fields of the selected sObject variable that you want to assign the records to reference them later
      */
     get queriedFields() {
@@ -156,7 +170,7 @@ export default class RecordLookupEditor extends Element {
         return BaseResourcePicker.getComboboxConfig(
             this.labels.object,
             this.labels.objectPlaceholder,
-            this.sobjectValueError,
+            this.recordLookupElement.object.error,
             false,
             true,
             false,
@@ -200,7 +214,6 @@ export default class RecordLookupEditor extends Element {
             this.recordEntityName = event.detail.item.value;
             this.updateFields();
         }
-        this.sobjectValueError = event.detail.error;
         this.updateProperty('object', event.detail.item ? event.detail.item.value : event.detail.displayText, this.sobjectValueError);
     }
 
@@ -212,8 +225,8 @@ export default class RecordLookupEditor extends Element {
         if (this.numberRecordsToStoreValue !== event.detail.numberRecordsToStore) {
             this.numberRecordsToStoreValue = event.detail.numberRecordsToStore;
             this.updateProperty('outputReference', '', null);
-        } else if (this.recordLookupElement.assignNullValuesIfNoRecordsFound !== event.detail.assignNullValuesIfNoRecordsFound) {
-            this.updateProperty('assignNullValuesIfNoRecordsFound', event.detail.assignNullValuesIfNoRecordsFound, null);
+        } else if (this.recordLookupElement.assignNullValuesIfNoRecordsFound !== event.detail.assignNullToVariableNoRecord) {
+            this.updateProperty('assignNullValuesIfNoRecordsFound', event.detail.assignNullToVariableNoRecord, null);
         }
     }
 
@@ -227,6 +240,11 @@ export default class RecordLookupEditor extends Element {
         } else {
             this.updateProperty('sortOrder', event.detail.sortOrder, event.detail.error);
         }
+    }
+
+    handleFilterTypeChanged(event) {
+        event.stopPropagation();
+        this.updateProperty('filterType', event.detail.filterType, event.detail.error);
     }
 
     updateProperty(propertyName, newValue, error) {

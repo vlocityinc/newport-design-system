@@ -13,7 +13,7 @@
             </lightning-formatted-rich-text>
         </div>
         <div class="slds-p-horizontal_small ">
-        <builder_platform_interaction-list items={filterItems} class={filterItemsClass} onaddlistitem={handleAddFilter} onupdatelistitem={handleUpdateFilter} ondeletelistitem={handleDeleteFilter} add-label={labels.addCriteria}>
+        <builder_platform_interaction-list if:true={showFilterList} items={filterItems} onaddlistitem={handleAddFilter} onupdatelistitem={handleUpdateFilter} ondeletelistitem={handleDeleteFilter} add-label={labels.addCriteria}>
             <div slot="listBody">
                 <template for:each={filterItems} for:item="filterItem" for:index="filterIndex">
                 <div class="slds-list__item slds-is-relative slds-p-left_large" key={filterItem.rowIndex}>

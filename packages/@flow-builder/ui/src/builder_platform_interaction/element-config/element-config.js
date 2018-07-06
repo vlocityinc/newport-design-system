@@ -367,12 +367,7 @@ export const elementTypeToConfigMap = {
             config: { isSelected: false },
             connectorCount: 0,
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-            filters: [
-                {
-                    field: '',
-                    operator: ''
-                }
-            ],
+            filters: [],
             object: '',
             guid: '',
             isCanvasElement: true,

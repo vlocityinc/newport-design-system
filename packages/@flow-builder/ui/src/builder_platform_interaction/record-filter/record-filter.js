@@ -102,8 +102,8 @@ export default class RecordFilter extends Element {
         return FILTER_TYPE_OPTIONS;
     }
 
-    get filterItemsClass() {
-        return (this.selectedFilter === RECORD_FILTER_CRITERIA.ALL) ? '' : 'slds-hide';
+    get showFilterList() {
+        return this.selectedFilter === RECORD_FILTER_CRITERIA.ALL;
     }
 
     get filterLabel() {

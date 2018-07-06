@@ -74,10 +74,6 @@ const getFilterList = (recordLookupFilterCmp) => {
     return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.filterList);
 };
 
-const getHiddenFilterList = (recordLookupFilterCmp) => {
-    return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.hiddenFilterList);
-};
-
 const getExpressionBuilders = (recordLookupFilterCmp) => {
     return getShadowRoot(recordLookupFilterCmp).querySelectorAll(selectors.expressionBuilder);
 };
@@ -106,7 +102,7 @@ describe('record-filter', () => {
             expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.NONE);
         });
         it('Do not display filter lists', () => {
-            expect(getHiddenFilterList(element)).not.toBeNull();
+            expect(getFilterList(element)).toBeNull();
         });
     });
 
@@ -158,7 +154,6 @@ describe('record-filter', () => {
         it('Display the filter list when selecting "Criteria are Met"', () => {
             getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
             return Promise.resolve().then(() => {
-                expect(getHiddenFilterList(element)).toBeNull();
                 expect(getFilterList(element)).not.toBeNull();
                 expect(getExpressionBuilders(element)).toHaveLength(1);
             });
@@ -167,7 +162,7 @@ describe('record-filter', () => {
             mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
             getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
             return Promise.resolve().then(() => {
-                expect(getHiddenFilterList(element)).not.toBeNull();
+                expect(getFilterList(element)).toBeNull();
             });
         });
     });
@@ -183,7 +178,6 @@ describe('record-filter', () => {
             expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);
         });
         it('Filter list should be displayed', () => {
-            expect(getHiddenFilterList(element)).toBeNull();
             expect(getFilterList(element)).not.toBeNull();
         });
         it('All filter items should be displayed', () => {
