@@ -113,11 +113,11 @@ export default class Outcome extends Element {
         }
     }
 
-    /** After rendering the condition logic component we are setting the error (if it exists)
+    /** After rendering the condition logic component we are setting the error
      * via setCustomValidity, except initial rendering.
      */
     renderedCallback() {
-        if (this.element.conditionLogic.error) {
+        if (this.element.conditionLogic) {
             const conditionLogicInput = this.template.querySelector(SELECTORS.CUSTOM_LOGIC);
             this.setInputErrorMessage(conditionLogicInput, this.element.conditionLogic.error);
         }
