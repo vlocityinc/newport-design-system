@@ -1,6 +1,6 @@
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { getRulesForContext, getRHSTypes, elementToParam } from 'builder_platform_interaction-rule-lib';
-import { EXPRESSION_PROPERTY_TYPE, isElementAllowed } from 'builder_platform_interaction-expression-utils';
+import { EXPRESSION_PROPERTY_TYPE, isElementAllowed, sanitizeGuid, getFieldParamRepresentation } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
 import { Store } from 'builder_platform_interaction-store-lib';
@@ -51,15 +51,24 @@ const regexConfig = {
     }
 };
 
-const validateRHS = (lhs, operator, contextConfig) => {
+const validateBlankRHS = (lhsIdentifier, operator, contextConfig) => {
     // TODO: clean up when NULL is handled by the rules W-4983639
     return () => {
+        let lhsParam = null;
         const blankRHSParam = {
             isCollection: null,
             elementType: ELEMENT_TYPE.VARIABLE,
             dataType: 'String',
         };
-        const rhsTypes = getRHSTypes(contextConfig.elementType, elementToParam(getElementByGuid(lhs)), operator, getRulesForContext(contextConfig));
+        const complexGuid = sanitizeGuid(lhsIdentifier);
+        const flowElement = getElementByGuid(complexGuid.guid);
+        if (complexGuid.fieldName) {
+            const sobject = (flowElement) ? flowElement.objectType : complexGuid.guid;
+            lhsParam = getFieldParamRepresentation(sobject, complexGuid.fieldName);
+        } else if (flowElement) {
+            lhsParam = elementToParam(flowElement);
+        }
+        const rhsTypes = getRHSTypes(contextConfig.elementType, lhsParam, operator, getRulesForContext(contextConfig));
         const rhsValid = isElementAllowed(rhsTypes, blankRHSParam);
         if (!rhsValid) {
             return cannotBeBlankError;
@@ -172,7 +181,7 @@ export const validateExpressionWith3Properties = (contextConfig) => {
             rules[EXPRESSION_PROPERTY_TYPE.OPERATOR] = [shouldNotBeBlank];
             if (expression[EXPRESSION_PROPERTY_TYPE.OPERATOR].value && !expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value) {
                 rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [
-                    validateRHS(expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value,
+                    validateBlankRHS(expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value,
                         expression[EXPRESSION_PROPERTY_TYPE.OPERATOR].value, contextConfig),
                 ];
             }

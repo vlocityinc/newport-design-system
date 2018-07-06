@@ -117,9 +117,22 @@ function getNewResourceItem() {
 }
 
 /**
+ * The 5 possible situations are:
+ * a) "guid" holds a literal the user entered
+ * b) "guid" references a flow element that is NOT an sobject variable, and "fieldName" is empty
+ * c) "guid" references an sobject variable, and "fieldName" is empty
+ * d) "guid" references an sobject variable, and "fieldName" is a field on that sobject
+ * e) "guid" holds an sobject api name, and fieldName is a field on that sobject
+ *
+ * @typedef {Object} complexGuid
+ * @param {String} guid                 a flow element's guid OR a literal
+ * @param {String|undefined} fieldName  if the flow element is an sobjectVar this may be a field on that sobject, or undefined
+ */
+
+/**
  * If a guid contains more than one level, separates it out to two parts
  * @param {String} potentialGuid The guid to sanitize. This can be the value in the case of literals.
- * @returns {Object} The complex object containing the guid and the field name. Returns an empty object in the literals case.
+ * @returns {complexGuid} The complex object containing the guid and the field name. Returns an empty object in the literals case.
  */
 export const sanitizeGuid = (potentialGuid) => {
     const complexGuid = {};
@@ -162,6 +175,27 @@ export const normalizeRHS = (rhsIdentifier, callback) => {
 };
 
 /**
+ * Builds the parameter representation of a field.
+ *
+ * @param {String} sobject           the sobject type this field belongs to
+ * @param {String} fieldName         API name of the field to be described
+ * @param {function} callback        to be executed after the field is retrieved
+ * @returns {Object}                 the parameter representation of this field, to be used with the rules service
+ */
+export const getFieldParamRepresentation = (sobject, fieldName, callback) => {
+    let fieldParam;
+    sobjectLib.getFieldsForEntity(sobject, (fields) => {
+        const field = fields[fieldName];
+        field.isCollection = false;
+        fieldParam = elementToParam(field);
+        if (callback) {
+            callback(field);
+        }
+    });
+    return fieldParam;
+};
+
+/**
  * The shape an expression builder needs to operator on any LHS.
  * @typedef {Object} normalizedLHS
  * @param {MenuItem} item     what the combobox needs to display this lhs
@@ -189,17 +223,10 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
     if (complexGuid.fieldName) {
         // TODO: W-4960448: the field will appear empty briefly when fetching the first time
         const sobject = (flowElement) ? flowElement.objectType : complexGuid.guid;
-        sobjectLib.getFieldsForEntity(sobject, (fields) => {
-            const field = fields[complexGuid.fieldName];
-            if (flowElement) {
-                lhs.item = mutateFieldToComboboxShape(field, mutateFlowElementToComboboxShape(flowElement), true, true);
-            } else {
-                // in case lhsIdentifier = sobjectApiName.fieldApiName
-                lhs.item = mutateFieldToComboboxShape(field, {value: field.sobjectName}, false, false);
-            }
-            // Can an SObject field be a collection?
-            field.isCollection = false;
-            lhs.parameter = elementToParam(field);
+        lhs.parameter = getFieldParamRepresentation(sobject, complexGuid.fieldName, (field) => {
+            const isFieldOnSobjectVar = !!flowElement;
+            const fieldParent = isFieldOnSobjectVar ? mutateFlowElementToComboboxShape(flowElement) : {value: field.sobjectName};
+            lhs.item = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
             if (callback) {
                 callback(lhsIdentifier);
             }
