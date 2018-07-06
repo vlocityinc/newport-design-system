@@ -300,3 +300,21 @@ export function find(element, childName, attributeName, attributeValue, operator
 
     return null;
 }
+
+/**
+ * Returns a drop event used for testing.
+ * @return {event} drop event.
+ */
+export function createDropEvent() {
+    const dropEvent = new CustomEvent('drop');
+    dropEvent.dataTransfer = {
+        data: {},
+        setData(type, val) {
+            this.data[type] = val;
+        },
+        getData(type) {
+            return this.data[type];
+        }
+    };
+    return dropEvent;
+}

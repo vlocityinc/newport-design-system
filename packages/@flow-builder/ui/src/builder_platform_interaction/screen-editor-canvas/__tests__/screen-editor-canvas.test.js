@@ -1,6 +1,6 @@
 import { createElement } from 'engine';
 import  ScreenEditorCanvas  from '../screen-editor-canvas';
-import { createTestScreen } from 'builder_platform_interaction-builder-test-utils';
+import { createTestScreen, createDropEvent } from 'builder_platform_interaction-builder-test-utils';
 import { getShadowRoot } from 'lwc-test-utils';
 import { createScreenElementSelectedEvent, SCREEN_EDITOR_EVENT_NAME, ReorderListEvent } from 'builder_platform_interaction-events';
 
@@ -21,20 +21,6 @@ const selectors = {
     canvasContainer: 'div.screen-editor-canvas-container',
     draggingRegion: '.screen-editor-canvas-dragging-region'
 };
-
-function createDropEvent() {
-    const dropEvent = new CustomEvent('drop');
-    dropEvent.dataTransfer = {
-        data: {},
-        setData(type, val) {
-            this.data[type] = val;
-        },
-        getData(type) {
-            return this.data[type];
-        }
-    };
-    return dropEvent;
-}
 
 describe('help icon', () => {
     it('displays the help icon when there is help text', () => {

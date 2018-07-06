@@ -30,8 +30,13 @@ export const demutateScreenField = field => {
 };
 
 export const mutateScreen = screen => {
-    for (const field of screen.fields) {
-        mutateScreenField(field);
+    if (screen.fields) {
+        for (const field of screen.fields) {
+            mutateScreenField(field);
+        }
+    } else {
+        // If there are no fields defined, add an empty place-holder.
+        screen.fields = [];
     }
 
     screen.getFieldIndex = function (field) {

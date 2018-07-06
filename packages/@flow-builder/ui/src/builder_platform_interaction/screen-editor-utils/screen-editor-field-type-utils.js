@@ -148,5 +148,5 @@ export function isExtensionField(field) {
  * @returns {boolean} Indicates if specified field is a DisplayText field (non-rich text)
  */
 export function isDisplayTextField(field) {
-    return field && field.name === 'DisplayText';
+    return field && field.fieldType === 'DisplayText';
 }
