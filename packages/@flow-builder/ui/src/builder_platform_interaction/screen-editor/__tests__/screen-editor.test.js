@@ -95,6 +95,7 @@ describe('Event handling on editor', () => {
             const editor = getShadowRoot(screenEditorElement).querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
             editor.dispatchEvent(new PropertyChangedEvent('pausedText', newPausedText, null, null, screenEditorElement.node.pausedText));
             expect(screenEditorElement.node.pausedText.value).toBe(newPausedText);
+            expect(screenEditorElement.getSelectedNode().guid).toBe(screenEditorElement.node.guid);
         });
     });
 
