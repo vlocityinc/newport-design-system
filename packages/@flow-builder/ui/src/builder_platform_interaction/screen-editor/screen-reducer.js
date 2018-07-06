@@ -69,21 +69,54 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
     // Only update the field if the given property value actually changed.
     let updatedNode = selectedNode;
     if (value !== (hydrated ? currentValue.value : currentValue)) {
+        const newValue = hydrated ? {error, value} : value;
         if (isScreen(selectedNode)) {
             error = error === null ? screenValidation.validateProperty(property, value) : error;
-            const newValue = hydrated ? {error, value} : value;
             updatedNode = updateProperties(screen, {[property]: newValue});
-        } else if (isExtensionField(selectedNode)) {
-            // TODO - W-4947239
-            updatedNode = selectedNode;
         } else { // Screen field
-            const type = selectedNode.type.name;
-            const fullPropName = 'fields[type.name="' + type + '"].' + property;
-            error = error === null ? screenValidation.validateProperty(fullPropName, value) : error;
-            const newValue = hydrated ? {error, value} : value;
-            const newField = updateProperties(selectedNode, {[property]: newValue});
+            let newField = null;
+            if (isExtensionField(selectedNode) && property !== 'name') {
+                // input/output param validation
+                let prefix;
+                let parametersPropName;
+                let paramPropertyName;
+                if (property.startsWith('input.')) {
+                    prefix = 'input.';
+                    parametersPropName = 'inputParameters';
+                    paramPropertyName = 'value';
+                } else if (property.startsWith('output.')) {
+                    prefix = 'output.';
+                    parametersPropName = 'outputParameters';
+                    paramPropertyName = 'assignToReference';
+                } else {
+                    throw new Error('Unknown parameter type: ' + property);
+                }
+
+                const paramName = property.substring(prefix.length);
+                const param = selectedNode[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
+                if (param) {
+                    // error = error === null ? screenValidation.validateProperty(fullPropName, value) : error; // TODO  W-4947239 validation??
+
+                    // Replace the property in the parameter
+                    const newParam = updateProperties(param, {[paramPropertyName]: newValue});
+                    // Replace the new parameter in the parameters array
+                    const index = selectedNode[parametersPropName].indexOf(param);
+                    const updatedParams = replaceItem(selectedNode[parametersPropName], newParam, index);
+                    // Replace the parameters in the field
+                    newField = set(selectedNode, parametersPropName, updatedParams);
+                }
+            } else {
+                const type = selectedNode.type.name;
+                const fullPropName = property !== 'name' ? 'fields[type.name="' + type + '"].' + property : 'name';
+                error = error === null ? screenValidation.validateProperty(fullPropName, value) : error;
+                newField = updateProperties(selectedNode, {[property]: newValue});
+            }
+
+            // Replace the field in the screen
             const fieldPosition = screen.getFieldIndexByGUID(selectedNode.guid);
             const updatedItems =  replaceItem(screen.fields, newField, fieldPosition);
+
+            // Replace the fields in the screen
             updatedNode = set(screen, 'fields', updatedItems);
         }
     }

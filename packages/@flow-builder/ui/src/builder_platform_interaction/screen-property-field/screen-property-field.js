@@ -8,7 +8,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { isObject } from 'builder_platform_interaction-common-utils';
 
 // QUILL supported formats
-const rteFormats = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
+const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
 
 /*
  * A property editor
@@ -24,15 +24,9 @@ export default class ScreenPropertyField extends Element {
     @api resourcePickerConfig;
 
     @track _value;
+
     labels = LABELS;
-
-    @api get formats() {
-        return rteFormats;
-    }
-
-    @api set formats(value) {
-        throw new Error('You cannot change rich text editor formats');
-    }
+    formats = RTE_FORMATS;
 
     @api set value(newValue) {
         this._value = newValue;
@@ -46,8 +40,20 @@ export default class ScreenPropertyField extends Element {
         return this._value;
     }
 
+    get resourceComboBoxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.label, // Label
+            '', // Placeholder
+            this.error, // errorMessage
+            this.resourcePickerConfig.allowLiterals, // literalsAllowed
+            this.required, // required
+            false, // disabled
+            this.normalizedType
+        );
+    }
+
     get error() {
-        return (this.value && this.value.error) || '';
+        return (this.value && this.value.error) || null;
     }
 
     get propertyValue() {
@@ -62,22 +68,10 @@ export default class ScreenPropertyField extends Element {
         return null;
     }
 
-    get resourceComboBoxConfig() {
-        return BaseResourcePicker.getComboboxConfig(
-            this.label, // Label
-            '', // Placeholder
-            null, // errorMessage
-            this.resourcePickerConfig.allowLiterals, // literalsAllowed
-            this.required, // required
-            false, // disabled
-            this.normalizedType
-        );
-    }
-
     get elementParam() {
         const param = {
             dataType: this.normalizedType,
-            collection: this.resourceComboBoxConfig.collection
+            collection: this.resourcePickerConfig.collection
         };
 
         if (this.resourcePickerConfig.objectType) {
@@ -188,7 +182,8 @@ export default class ScreenPropertyField extends Element {
     handleEvent = (event) => {
         const newValue = this.domValue;
         if (this.dehydratedValue !== newValue) {
-            this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, null, null, this.value));
+            const error = event.error || event.detail.error || null;
+            this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, null, this.value));
         }
         event.stopPropagation();
     }

@@ -94,6 +94,7 @@ function mergeParameters(fieldParameters, descParameters, valuePropName, isInput
             maxOccurs: fieldParam.maxOccurs,
             isCollection: fieldParam.maxOccurs > 1,
             guid: generateGuid(),
+            key: (isInput ? 'input$$.' : 'output$$.') + fieldParam.apiName,
             resourcePickerConfig: {
                 allowLiterals: isInput,
                 collection: fieldParam.maxOccurs > 1

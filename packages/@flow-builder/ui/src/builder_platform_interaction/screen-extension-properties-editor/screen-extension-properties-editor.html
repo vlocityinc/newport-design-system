@@ -1,5 +1,5 @@
 <template>
-    <div if:true={field} class='full-height'>        
+    <div if:true={field} class='full-height'>
         <div if:true={mergedField}>
             <section class='slds-p-horizontal_small slds-p-bottom_small'>
                 <builder_platform_interaction-screen-property-field name='name' label={labels.apiNameLabel} 
@@ -8,10 +8,11 @@
                 </builder_platform_interaction-screen-property-field>
         
                 <template for:each={mergedField.inputParameters} for:item='param'>
-                    <builder_platform_interaction-screen-property-field key={param.guid} name={param.apiName} data-param-type='input'
+                    <builder_platform_interaction-screen-property-field key={param.key} name={param.apiName} data-param-type='input'
                                                                         label={param.label} type={param.dataType}
                                                                         value={param.value} required={param.isRequired} 
-                                                                        allow-resources='true' resource-picker-config={param.resourcePickerConfig}>
+                                                                        allow-resources='true' resource-picker-config={param.resourcePickerConfig}
+                                                                        onpropertychanged={handleInputPropertyChanged}>
                     </builder_platform_interaction-screen-property-field>
                 </template>
             </section>
@@ -21,10 +22,11 @@
                     <div slot='accordion-header'>{labels.extensionOutputsHeader}</div>
                     <div slot='accordion-body'>
                         <template for:each={mergedField.outputParameters} for:item='param'>
-                            <builder_platform_interaction-screen-property-field key={param.guid} name={param.apiName} data-param-type='output'
+                            <builder_platform_interaction-screen-property-field key={param.key} name={param.apiName} data-param-type='output'
                                                                                 label={param.label} value={param.assignToReference}
                                                                                 type={param.dataType} required={param.isRequired}
-                                                                                allow-resources='true' resource-picker-config={param.resourcePickerConfig}>
+                                                                                allow-resources='true' resource-picker-config={param.resourcePickerConfig}
+                                                                                onpropertychanged={handleOutputPropertyChanged}>
                             </builder_platform_interaction-screen-property-field>
                         </template>               
                     </div>

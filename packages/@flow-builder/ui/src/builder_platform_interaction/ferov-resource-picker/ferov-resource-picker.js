@@ -46,6 +46,15 @@ export default class FerovResourcePicker extends Element {
     }
 
     /**
+     * Custom error message to display
+     * @param {string} message - The error message
+     */
+    @api
+    setCustomValidity(message) {
+        this.template.querySelector(SELECTORS.BASE_RESOURCE_PICKER).setCustomValidity(message);
+    }
+
+    /**
      * The element type of the property editor from element config.
      * @type {String}
      */

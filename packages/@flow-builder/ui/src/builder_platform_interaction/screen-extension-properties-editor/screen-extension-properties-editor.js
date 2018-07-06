@@ -1,12 +1,12 @@
 import { Element, api, track } from 'engine';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
-import { PropertyValueChangedEvent } from 'builder_platform_interaction-events';
 import { mergeExtensionInfo } from 'builder_platform_interaction-screen-editor-utils';
 
 /*
- * Dynamic property editor TODO: refactor to be used as the property editor for LCs - W-4947239
+ * Dynamic property editor for screen extensions.
  */
 export default class ScreenExtensionPropertiesEditor extends Element {
+    // TODO can't close this story until we are able to handle two outputs for the same attributes
     @track _field;
     @track _extensionDescription;
     @track mergedField;
@@ -32,7 +32,10 @@ export default class ScreenExtensionPropertiesEditor extends Element {
         return this._extensionDescription;
     }
 
-    checkState() {
+    /**
+     * Checks if both, the description and the value have been set, and, if so, merges both into mergedField
+     */
+    checkState = () => {
         const extName = this._extensionDescription ? this._extensionDescription.name : null;
         const fieldName = this._field ? this._field.name : null;
 
@@ -41,19 +44,19 @@ export default class ScreenExtensionPropertiesEditor extends Element {
         }
     }
 
-    handlePropertyChange = (/* event */) => {
-
+    /**
+     * Prepend input for the screen-reducer to know it is handling the input version of the attribute
+     * @param {Event} event - The property change event
+     */
+    handleInputPropertyChanged = (event) => {
+        event.detail.propertyName = 'input.' + event.detail.propertyName;
     }
 
-    handlePropertyBlur = (/* event */) => {
-    //    this.dispatchValueChangedEvent(field);
-    }
-
-    dispatchValueChangedEvent = (field) => {
-        const oldValue = field.property.value;
-        const newValue = field.getValue();
-        if (oldValue !== newValue) {
-            this.dispatchEvent(new PropertyValueChangedEvent(field, field.property, oldValue, newValue));
-        }
+    /**
+     * Prepend output for the screen-reducer to know it is handling with the output version of the attribute
+     * @param {Event} event - The property change event
+     */
+    handleOutputPropertyChanged = (event) => {
+        event.detail.propertyName = 'output.' + event.detail.propertyName;
     }
 }

@@ -13,6 +13,12 @@ const SELECTORS = {
  */
 export default class BaseResourcePicker extends Element {
     /**
+     * Custom error message from setCustomValidity
+     */
+    @track
+    _customValidity;
+
+    /**
      * The full menu data available for selection
      * @type {Object[]}
      */
@@ -58,6 +64,7 @@ export default class BaseResourcePicker extends Element {
      */
     @api
     set comboboxConfig(config) {
+        this.checkErrorMessages();
         this.state.config = config;
     }
 
@@ -97,6 +104,43 @@ export default class BaseResourcePicker extends Element {
     setMenuData(newMenuData) {
         this._fullMenuData = newMenuData;
         this.state.menuData = this._fullMenuData;
+    }
+
+    /**
+     * Custom error message to display
+     * @param {string} message - The error message
+     */
+    @api
+    setCustomValidity(message) {
+        this.checkErrorMessages();
+        this._customValidity = message;
+    }
+
+    /**
+     * Returns the current error message from customValidity or, if not present, the combobox config
+     * @returns {string} - The error message or null
+     */
+    get errorMessage() {
+        return this._customValidity ? this._customValidity : this.comboboxErrorMessage;
+    }
+
+    /**
+     * Returns the current error message from the combobox config
+     * @returns {string} - The error message or null
+     */
+    get comboboxErrorMessage() {
+        return (this.config && this.config.errorMessage) || null;
+    }
+
+    /**
+     * Checks that only one error message has been set (customValidity or comboboxConfig.errorMessage)
+     * @throws if both error messages are set and they are different
+     */
+    checkErrorMessages = () => {
+        if ((!!this._customValidity && !!this.comboboxErrorMessage) && this._customValidity !== this.comboboxErrorMessage) {
+            // Both are set and they are different
+            throw new Error(`You can't set two different errors with custom validity and comboboxConfig.errorMessage`);
+        }
     }
 
     /**

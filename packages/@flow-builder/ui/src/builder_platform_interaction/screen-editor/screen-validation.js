@@ -5,7 +5,7 @@ import { Validation } from 'builder_platform_interaction-validation';
  * @constant additionalRules - map of propertyName to validation rules
  * @type {Object}
  */
-const additionalRules = {
+const screenAdditionalRules = {
     'label' : [
         ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
         ValidationRules.maximumCharactersLimit(255)
@@ -15,9 +15,23 @@ const additionalRules = {
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
         ValidationRules.maximumCharactersLimit(80)
     ],
-    'helpText' : [
-        // ValidationRules.maximumCharactersLimit(8) // Testing validator
-    ]
+    'fields' : {
+        'name' : [
+            ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
+            ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
+            ValidationRules.maximumCharactersLimit(80)
+        ],
+        'type.name="Number"': {
+            'scale' : [
+                ValidationRules.shouldBeAPositiveIntegerOrZero
+            ]
+        },
+        'type.name="Date"': {
+            'defaultValue' : [
+                ValidationRules.shouldBeADate
+            ]
+        }
+    }
 };
 
-export const screenValidation = new Validation(additionalRules);
+export const screenValidation = new Validation(screenAdditionalRules);
