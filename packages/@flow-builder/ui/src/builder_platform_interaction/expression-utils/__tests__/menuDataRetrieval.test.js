@@ -3,6 +3,7 @@ import { numberParamCanBeField } from 'mock-rule-service';
 import * as store from 'mock-store-data';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import * as selectorsMock from 'builder_platform_interaction-selectors';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 const collectionVariable = 'COLLECTION ' + store.variable;
 const sobjectVariable = 'SOBJECT ' + store.variable;
@@ -156,6 +157,18 @@ describe('Menu data retrieval', () => {
         expect(menuData[0].items[0].value).toEqual(store.accountSObjectCollectionVariableGuid);
         expect(menuData[1].items).toHaveLength(1);
         expect(menuData[1].items[0].value).toEqual(store.accountSObjectVariableGuid);
+    });
+    it('should have dataType populated for number variable', () => {
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
+        const copiedElement = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
+        expect(copiedElement.dataType).toBe(store.numberDataType);
+        expect(copiedElement.objectType).toBeNull();
+    });
+    it('should have dataType and objectType populated for sObject var', () => {
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid]]);
+        const copiedElement = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
+        expect(copiedElement.dataType).toBe(FLOW_DATA_TYPE.SOBJECT.value);
+        expect(copiedElement.objectType).toBe('Account');
     });
 
     describe('disableHasNext', () => {
