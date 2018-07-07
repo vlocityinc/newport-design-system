@@ -1,21 +1,8 @@
 import { Element, api} from 'engine';
+import { LABELS } from './header-labels';
 
-/**
- * Header component for flow builder.
- *
- * @ScrumTeam Process UI
- * @author Avinash Kasipathy
- * @since 214
- */
+
 export default class Header extends Element {
-    // TODO: Import Localization Labels & getter for the component to use that.
-    // TODO: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004ftBbIAI/view
-    headerLabels = {
-        appName: 'Flow Builder',
-        backLabel: 'Back',
-        helpLabel: 'Help'
-    };
-
     @api
     flowName
 
@@ -28,11 +15,13 @@ export default class Header extends Element {
     @api
     helpUrl
 
-    // TODO: Import Localization Labels & getter for the -V.
-    // TODO: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004ftBbIAI/view
+    get labels() {
+        return LABELS;
+    }
+
     get fileNameAndVersion() {
         if (this.flowName && this.flowVersion) {
-            return this.flowName + " - V" + this.flowVersion;
+            return this.flowName + LABELS.versionLabelText + this.flowVersion;
         }
         return null;
     }

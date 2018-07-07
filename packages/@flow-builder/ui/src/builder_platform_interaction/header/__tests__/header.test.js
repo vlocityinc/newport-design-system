@@ -1,6 +1,7 @@
 import { createElement } from 'engine';
 import Header from '../header';
 import { getShadowRoot } from 'lwc-test-utils';
+import { LABELS } from '../header-labels';
 
 function createComponentForTest(name, version, backUrl, helpUrl) {
     const el = createElement('builder_platform_interaction-header', { is: Header });
@@ -37,14 +38,14 @@ describe('HEADER', () => {
     it('checks the rendering APP NAME label', () => {
         const headerComponent = createComponentForTest();
         return Promise.resolve().then(() => {
-            expect(getShadowRoot(headerComponent).querySelector(selectors.appName).textContent).toEqual("Flow Builder");
+            expect(getShadowRoot(headerComponent).querySelector(selectors.appName).textContent).toEqual(LABELS.appNameText);
         });
     });
 
     it('checks the rendering FLOW NAME', () => {
         const headerComponent = createComponentForTest('Flow Name', '1');
         return Promise.resolve().then(() => {
-            expect(getShadowRoot(headerComponent).querySelector(selectors.flowName).textContent).toEqual("Flow Name - V1");
+            expect(getShadowRoot(headerComponent).querySelector(selectors.flowName).textContent).toEqual(`Flow Name${LABELS.versionLabelText}1`);
         });
     });
 
@@ -72,7 +73,7 @@ describe('HEADER', () => {
     it('checks the rendering BACK label', () => {
         const headerComponent = createComponentForTest();
         return Promise.resolve().then(() => {
-            expect(getShadowRoot(headerComponent).querySelector(selectors.backLabel).textContent).toEqual("Back");
+            expect(getShadowRoot(headerComponent).querySelector(selectors.backLabel).textContent).toEqual(LABELS.backButtonText);
         });
     });
 
@@ -86,7 +87,7 @@ describe('HEADER', () => {
     it('checks the rendering HELP label', () => {
         const headerComponent = createComponentForTest();
         return Promise.resolve().then(() => {
-            expect(getShadowRoot(headerComponent).querySelector(selectors.helpLabel).textContent).toEqual("Help");
+            expect(getShadowRoot(headerComponent).querySelector(selectors.helpLabel).textContent).toEqual(LABELS.helpButtonText);
         });
     });
 
