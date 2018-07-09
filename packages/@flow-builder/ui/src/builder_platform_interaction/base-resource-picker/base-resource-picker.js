@@ -129,7 +129,7 @@ export default class BaseResourcePicker extends Element {
      * @returns {string} - The error message or null
      */
     get comboboxErrorMessage() {
-        return (this.config && this.config.errorMessage) || null;
+        return (this.state.config && this.state.config.errorMessage) || null;
     }
 
     /**
