@@ -57,7 +57,9 @@ export default class RecordCreateEditor extends Element {
     get numberRecordsToStore() {
         if (this.recordCreateElement.inputReference && this.recordCreateElement.inputReference.value) {
             const variable = getElementByGuid(this.recordCreateElement.inputReference.value);
-            return variable && variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+            if (variable) {
+                return variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+            }
         }
         // TODO : Modify it when implementing : W-4961821
         return this._numberRecordsToStore;
