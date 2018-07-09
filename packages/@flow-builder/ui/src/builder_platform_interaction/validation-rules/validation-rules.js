@@ -65,7 +65,7 @@ const validateBlankRHS = (lhsIdentifier, operator, contextConfig) => {
         if (complexGuid.fieldName) {
             const sobject = (flowElement) ? flowElement.objectType : complexGuid.guid;
             lhsParam = getFieldParamRepresentation(sobject, complexGuid.fieldName);
-        } else if (flowElement) {
+        } else {
             lhsParam = elementToParam(flowElement);
         }
         const rhsTypes = getRHSTypes(contextConfig.elementType, lhsParam, operator, getRulesForContext(contextConfig));
