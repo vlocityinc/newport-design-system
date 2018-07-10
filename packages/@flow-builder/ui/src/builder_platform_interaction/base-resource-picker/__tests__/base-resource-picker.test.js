@@ -60,17 +60,28 @@ describe('base-resource-picker', () => {
         });
     });
 
-    it('initialized the combobox with the values inside the combobox config object', () => {
-        const baseResourcePicker = setupComponentUnderTest({comboboxConfig, value: 'test display text'});
-        return Promise.resolve().then(() => {
-            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
-            expect(flowCombobox.label).toEqual(comboboxConfig.label);
-            expect(flowCombobox.placeholder).toEqual(comboboxConfig.placeholder);
-            expect(flowCombobox.errorMessage).toEqual(comboboxConfig.errorMessage);
-            expect(flowCombobox.literalsAllowed).toEqual(comboboxConfig.literalsAllowed);
-            expect(flowCombobox.required).toEqual(comboboxConfig.required);
-            expect(flowCombobox.disabled).toEqual(comboboxConfig.disabled);
-            expect(flowCombobox.type).toEqual(comboboxConfig.type);
+    describe('initialized the combobox with the values inside the combobox config object', () => {
+        it('config including all values except type', () => {
+            const comboboxConfigWithoutType = Object.assign({}, comboboxConfig);
+            delete comboboxConfigWithoutType.type;
+
+            const baseResourcePicker = setupComponentUnderTest({comboboxConfig: comboboxConfigWithoutType, value: 123});
+            return Promise.resolve().then(() => {
+                const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+                expect(flowCombobox.label).toEqual(comboboxConfig.label);
+                expect(flowCombobox.placeholder).toEqual(comboboxConfig.placeholder);
+                expect(flowCombobox.errorMessage).toEqual(comboboxConfig.errorMessage);
+                expect(flowCombobox.literalsAllowed).toEqual(comboboxConfig.literalsAllowed);
+                expect(flowCombobox.required).toEqual(comboboxConfig.required);
+                expect(flowCombobox.disabled).toEqual(comboboxConfig.disabled);
+            });
+        });
+        it('config including type', () => {
+            const baseResourcePicker = setupComponentUnderTest({comboboxConfig, value: 'test display text'});
+            return Promise.resolve().then(() => {
+                const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+                expect(flowCombobox.type).toEqual(comboboxConfig.type);
+            });
         });
     });
 
