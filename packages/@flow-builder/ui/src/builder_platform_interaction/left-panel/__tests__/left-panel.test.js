@@ -74,7 +74,6 @@ describe('left-panel', () => {
                 getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
                 return Promise.resolve().then(() => {
                     const header = getShadowRoot(element).querySelector(selectors.panelHeader);
-                    expect(header.classList).toContain('slds-m-bottom_medium');
                     expect(header.classList).not.toContain('slds-p-left_medium');
                 });
             });

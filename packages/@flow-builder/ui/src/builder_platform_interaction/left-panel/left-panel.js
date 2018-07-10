@@ -70,9 +70,9 @@ export default class LeftPanel extends Element {
         return classes;
     }
     get panelHeaderClasses() {
-        let classes = 'left-panel-header slds-panel__header slds-m-bottom_medium slds-truncate_container';
+        let classes = 'left-panel-header slds-panel__header slds-truncate_container';
         if (!this.showResourceDetailsPanel) {
-            classes = `${classes} slds-p-left_medium`;
+            classes = `${classes} slds-m-bottom_medium slds-p-left_medium`;
         }
         return classes;
     }

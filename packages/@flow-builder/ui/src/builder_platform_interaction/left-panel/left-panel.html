@@ -1,7 +1,7 @@
 <template>
     <div class={panelClasses}>
         <div class={panelHeaderClasses}>
-            <lightning-button-icon if:true={showResourceDetailsPanel} variant="bare" size="medium" icon-name="utility:back" class="back-button slds-panel__close" onclick={handleResourceDetailsBackLinkClicked} alternative-text={labels.RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT}></lightning-button-icon>
+            <lightning-button-icon if:true={showResourceDetailsPanel} variant="container" size="small" icon-name="utility:back" class="back-button slds-panel__back slds-shrink-none" onclick={handleResourceDetailsBackLinkClicked} alternative-text={labels.RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT}></lightning-button-icon>
             <h2 class="slds-text-heading_small slds-truncate" title={getPanelTitle}>{getPanelTitle}</h2>
         </div>
         <div class="slds-panel__body slds-p-around_none slds-grid">

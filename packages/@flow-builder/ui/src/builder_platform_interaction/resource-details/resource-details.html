@@ -1,16 +1,16 @@
 <template>
-    <ul class="resource-detail-panel-body slds-p-horizontal_medium slds-scrollable_y">
-        <li class="slds-text-title_caps slds-p-left_none slds-m-bottom_small">{labels.RESOURCE_DETAILS_PANEL_DETAILS_TEXT}</li>
-        <li class="slds-item slds-p-vertical_xxx-small slds-grid slds-truncate_container">
+    <ul class="resource-detail-panel-body slds-scrollable_y slds-p-around_small">
+        <li class="slds-text-title_caps slds-p-left_none slds-m-bottom_x_small">{labels.RESOURCE_DETAILS_PANEL_DETAILS_TEXT}</li>
+        <li class="slds-item slds-grid slds-truncate_container">
             <span class="slds-form-element__label slds-no-flex">{labels.RESOURCE_DETAILS_PANEL_TYPE_TEXT}</span>
             <lightning-icon if:true={hasIcon} class="slds-m-right_xx-small" icon-name={resourceDetails.ICON_NAME} size="xx-small" alternative-text={resourceDetails.LABEL}></lightning-icon>
             <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.TYPE}>{resourceDetails.TYPE}</span>
         </li>
-        <li if:true={hasUniqueName} class="slds-item slds-p-vertical_xxx-small slds-grid slds-truncate_container">
+        <li if:true={hasUniqueName} class="slds-item slds-grid slds-truncate_container">
             <span class="slds-form-element__label slds-no-flex">{labels.RESOURCE_DETAILS_PANEL_UNIQUE_NAME_TEXT}</span>
             <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.NAME}>{resourceDetails.NAME}</span>
         </li>
-        <li if:true={hasDescription} class="slds-item slds-p-vertical_xxx-small slds-hyphenate">
+        <li if:true={hasDescription} class="slds-item slds-hyphenate">
             <span class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_DESCRIPTION_TEXT}</span>
             <span class="slds-text-body_regular slds-align-middle" title={resourceDetails.DESCRIPTION}>{resourceDetails.DESCRIPTION}</span>
         </li>

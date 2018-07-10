@@ -77,7 +77,6 @@
 .THIS builder_platform_interaction-resource-details .resource-detail-panel-body {
     max-height: calc(100vh - 218px);
     -webkit-overflow-scrolling: touch;
-    min-height: calc(100vh - 218px);
 }
 
 .THIS builder_platform_interaction-left-panel .flow-resource-list .new-resource-button button {
