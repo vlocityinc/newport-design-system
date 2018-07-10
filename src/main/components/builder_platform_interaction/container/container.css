@@ -110,10 +110,6 @@
     width: 30px;
 }
 
-.THIS builder_platform_interaction-resource-details .resource-detail-panel-body .description-container {
-    word-wrap: break-word;
-}
-
 /************* Canvas *****************/
 .THIS builder_platform_interaction-canvas .canvas {
     background-color: t(colorForegroundPrimary);

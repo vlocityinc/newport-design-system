@@ -10,7 +10,7 @@
             <span class="slds-form-element__label slds-no-flex">{labels.RESOURCE_DETAILS_PANEL_UNIQUE_NAME_TEXT}</span>
             <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.NAME}>{resourceDetails.NAME}</span>
         </li>
-        <li if:true={hasDescription} class="slds-item slds-p-vertical_xxx-small description-container">
+        <li if:true={hasDescription} class="slds-item slds-p-vertical_xxx-small slds-hyphenate">
             <span class="slds-form-element__label">{labels.RESOURCE_DETAILS_PANEL_DESCRIPTION_TEXT}</span>
             <span class="slds-text-body_regular slds-align-middle" title={resourceDetails.DESCRIPTION}>{resourceDetails.DESCRIPTION}</span>
         </li>
