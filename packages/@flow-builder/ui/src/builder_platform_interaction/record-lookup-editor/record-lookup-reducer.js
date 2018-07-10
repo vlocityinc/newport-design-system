@@ -14,6 +14,11 @@ import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { recordLookupValidation, getRules } from './record-lookup-validation';
 import { RECORD_FILTER_CRITERIA, SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
+const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
+
+const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
+
+const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 
 const emptyFilterItem = () => {
     return {
@@ -83,6 +88,17 @@ const resetRecordLookup = (state) => {
     return updateOutputReferenceAndQueriedFields(state, '', null);
 };
 
+const resetFilterErrors = (state) => {
+    const oldFilters = state.filters;
+    state = set(state, "filters", oldFilters.map(filter => {
+        filter[LHS].error = null;
+        filter[OPERATOR].error = null;
+        filter[RHS].error = null;
+        return filter;
+    }));
+    return state;
+};
+
 const managePropertyChanged = (state, event) => {
     const propName = event.detail.propertyName;
     if (propName === 'assignNullValuesIfNoRecordsFound') {
@@ -98,10 +114,11 @@ const managePropertyChanged = (state, event) => {
             // reset queriedFields
             state = resetQueriedFields(state);
         } else if (propName === 'sortOrder' && event.detail.value === SORT_ORDER.NOT_SORTED) {
-            state = updateProperties(state, {sortField: {value: '', error: null}});
+            // reset error if any, and preserve value
+            state = updateProperties(state, {sortField: {value: state.sortField.value, error: null}});
         } else if (propName === 'filterType' && event.detail.value === RECORD_FILTER_CRITERIA.NONE) {
-            // reset filters: create one empty filter item
-            state = set(state, 'filters', [emptyFilterItem()]);
+            // reset errors in filters if any, and preserve values
+            state = resetFilterErrors(state);
         }
     }
     return state;

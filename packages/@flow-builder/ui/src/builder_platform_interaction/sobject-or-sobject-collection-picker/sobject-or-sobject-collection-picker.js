@@ -91,7 +91,7 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
                 value: this.state.value
             };
         }
-        return '';
+        return this.state.value;
     }
 
     /**

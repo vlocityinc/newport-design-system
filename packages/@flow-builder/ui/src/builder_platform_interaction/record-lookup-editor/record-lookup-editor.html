@@ -14,7 +14,7 @@
         <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
             <builder_platform_interaction-entity-resource-picker
                     combobox-config={entityComboboxConfig}
-                    value={recordEntityName}
+                    value={recordLookupElement.object.value}
                     oncomboboxstatechanged={handleResourceChanged}>
             </builder_platform_interaction-entity-resource-picker>
         </div>
@@ -22,26 +22,26 @@
     
     <div if:true={recordEntityName}>
         <!-- Find Records section -->
-        <builder_platform_interaction-record-filter element-type={elementType} filter-items={filterItems} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={filterType} onrecordlookupfiltertypechanged={handleFilterTypeChanged} onaddrecordlookupfilter={handlePropertyOrListItemChanged} onupdaterecordlookupfilter={handlePropertyOrListItemChanged} ondeleterecordlookupfilter={handlePropertyOrListItemChanged}></builder_platform_interaction-record-filter>
+        <builder_platform_interaction-record-filter element-type={recordLookupElement.elementType} filter-items={recordLookupElement.filters} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={recordLookupElement.filterType.value} onrecordlookupfiltertypechanged={handleFilterTypeChanged} onaddrecordlookupfilter={handlePropertyOrListItemChanged} onupdaterecordlookupfilter={handlePropertyOrListItemChanged} ondeleterecordlookupfilter={handlePropertyOrListItemChanged}></builder_platform_interaction-record-filter>
 
         <!-- Sort Records section -->
         <builder_platform_interaction-record-sort
                 resource-api-name={recordEntityName}
-                selected-field={sortField}
-                sort-order={sortOrder}
-                sort-field-error={sortFieldErrorMessage}
+                selected-field={recordLookupElement.sortField.value}
+                sort-order={recordLookupElement.sortOrder.value}
+                sort-field-error={recordLookupElement.sortOrder.error}
                 onchange={handleRecordSortChanged}></builder_platform_interaction-record-sort>
                 
         <!-- Record Store Fields Selection section -->
         <builder_platform_interaction-record-store-options
-                element-type={elementType}
+                element-type={recordLookupElement.elementType}
                 resource-api-name={recordEntityName}
                 number-of-records-to-store={numberRecordsToStore}
-                assign-null-values-if-no-records-found={assignNullValuesIfNoRecordsFound}
+                assign-null-values-if-no-records-found={recordLookupElement.assignNullValuesIfNoRecordsFound}
                 onrecordstoreoptionchanged={handleRecordStoreOptionsChanged}>
         </builder_platform_interaction-record-store-options>
         <!-- SObject or SObject collection section -->
-        <builder_platform_interaction-record-query-fields is-collection={isCollection} record-entity-name={recordEntityName} element-type={elementType} queried-fields={queriedFields}
+        <builder_platform_interaction-record-query-fields is-collection={isCollection} record-entity-name={recordEntityName} element-type={recordLookupElement.elementType} queried-fields={recordLookupElement.queriedFields}
                 output-reference={outputReference} sobject-variable-error-message={outputReferenceErrorMessage} onsobjectreferencechanged={handleSObjectReferenceChanged} onaddrecordlookupfield={handlePropertyOrListItemChanged} onupdaterecordlookupfield={handlePropertyOrListItemChanged} ondeleterecordlookupfield={handlePropertyOrListItemChanged}></builder_platform_interaction-record-query-fields>
     </div>
 </template> 

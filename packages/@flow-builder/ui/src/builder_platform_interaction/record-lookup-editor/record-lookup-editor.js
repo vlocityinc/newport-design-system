@@ -60,52 +60,10 @@ export default class RecordLookupEditor extends Element {
     }
 
     /**
-     * @returns {Object[]} list of filters
-     */
-    get filterItems() {
-        return this.recordLookupElement.filters;
-    }
-
-    /**
-     * @returns {String} type to filter (see record-editor-lib.RECORD_FILTER_CRITERIA)
-     */
-    get filterType() {
-        return this.recordLookupElement.filterType.value;
-    }
-
-    /**
      * @returns {Object} the entity fields
      */
     get recordFields() {
         return this.fields;
-    }
-
-    /**
-     * @returns {String} the type of node
-     */
-    get elementType() {
-        return this.recordLookupElement.elementType;
-    }
-
-    /**
-     * @returns {String} the order to sort (see record-editor-lib.SORT_ORDER)
-     */
-    get sortOrder() {
-        return this.recordLookupElement.sortOrder.value;
-    }
-
-    /**
-     * @returns {String} field to sort
-     */
-    get sortField() {
-        return this.recordLookupElement.sortField.value;
-    }
-
-    /**
-     * @returns {String} the sort field error message
-     */
-    get sortFieldErrorMessage() {
-        return this.recordLookupElement.sortField.error;
     }
 
     /**
@@ -115,7 +73,7 @@ export default class RecordLookupEditor extends Element {
         if (this.recordLookupElement.outputReference && this.recordLookupElement.outputReference.value) {
             const variable = getElementByGuid(this.recordLookupElement.outputReference.value);
             if (variable) {
-                return variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+                this.numberRecordsToStoreValue = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
             }
         }
         // TODO : Modify it when implementing : W-4961821
@@ -123,17 +81,10 @@ export default class RecordLookupEditor extends Element {
     }
 
     /**
-     * @returns {boolean} true if you want to assign null values if no records are found
-     */
-    get assignNullValuesIfNoRecordsFound() {
-        return this.recordLookupElement.assignNullValuesIfNoRecordsFound;
-    }
-
-    /**
      * @returns {boolean} true if you want to store all the records to an sObject collection variable
      */
     get isCollection() {
-        return this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
+        return this.numberRecordsToStore === NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     /**
@@ -154,13 +105,6 @@ export default class RecordLookupEditor extends Element {
             return this.recordLookupElement.outputReference.error;
         }
         return '';
-    }
-
-    /**
-     * @returns {String[]} fields of the selected sObject variable that you want to assign the records to reference them later
-     */
-    get queriedFields() {
-        return this.recordLookupElement.queriedFields;
     }
 
     /**
@@ -202,7 +146,9 @@ export default class RecordLookupEditor extends Element {
      */
     handleSObjectReferenceChanged(event) {
         event.stopPropagation();
-        this.updateProperty('outputReference', event.detail.value, event.detail.error);
+        if (this.outputReference !== event.detail.value) {
+            this.updateProperty('outputReference', event.detail.value, event.detail.error);
+        }
     }
 
     /**
@@ -214,7 +160,10 @@ export default class RecordLookupEditor extends Element {
             this.recordEntityName = event.detail.item.value;
             this.updateFields();
         }
-        this.updateProperty('object', event.detail.item ? event.detail.item.value : event.detail.displayText, this.sobjectValueError);
+        const value = event.detail.item ? event.detail.item.value : event.detail.displayText;
+        if (value !== this.recordLookupElement.object.value) {
+            this.updateProperty('object', value, event.detail.error);
+        }
     }
 
     /**
@@ -235,7 +184,7 @@ export default class RecordLookupEditor extends Element {
      */
     handleRecordSortChanged(event) {
         event.stopPropagation();
-        if (this.sortField !== event.detail.fieldApiName) {
+        if (this.recordLookupElement.sortField.value !== event.detail.fieldApiName) {
             this.updateProperty('sortField', event.detail.fieldApiName, event.detail.error);
         } else {
             this.updateProperty('sortOrder', event.detail.sortOrder, event.detail.error);

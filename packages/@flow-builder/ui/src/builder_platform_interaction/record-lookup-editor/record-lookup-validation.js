@@ -40,11 +40,13 @@ export const getRules = (nodeElement) => {
         'name': [
             ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
             ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
-            ValidationRules.maximumCharactersLimit(80)
+            ValidationRules.maximumCharactersLimit(80),
+            ValidationRules.shouldNotBeBlank,
         ],
         'label': [
             ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
-            ValidationRules.maximumCharactersLimit(255)
+            ValidationRules.maximumCharactersLimit(255),
+            ValidationRules.shouldNotBeBlank
         ],
         'object': [
             ValidationRules.shouldNotBeBlank

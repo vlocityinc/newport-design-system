@@ -223,14 +223,17 @@ describe('record-lookup-reducer', () => {
                         value: SORT_ORDER.NOT_SORTED,
                     }
                 };
+                originalState.sortField.value = 'invalidValue';
+                originalState.sortField.error = 'You have entered an invalid value';
                 newState = recordLookupReducer(originalState, event);
             });
             it('should update sortOrder', () => {
                 expect(newState.sortOrder.value).toBe(SORT_ORDER.NOT_SORTED);
                 expect(newState).not.toBe(originalState);
             });
-            it('should reset sortField', () => {
-                expect(newState.sortField.value).toBe('');
+            it('should reset sortField error', () => {
+                expect(newState.sortField.value).toBe('invalidValue');
+                expect(newState.sortField.error).toBeNull();
             });
         });
 
@@ -244,15 +247,18 @@ describe('record-lookup-reducer', () => {
                         value: RECORD_FILTER_CRITERIA.NONE,
                     }
                 };
+                originalState.filters[0].leftHandSide.value = 'invalidValue';
+                originalState.filters[0].leftHandSide.error = 'You have entered an invalid value';
                 newState = recordLookupReducer(originalState, event);
             });
             it('should update filterType', () => {
                 expect(newState.filterType.value).toBe(RECORD_FILTER_CRITERIA.NONE);
                 expect(newState).not.toBe(originalState);
             });
-            it('should reset filters', () => {
+            it('should reset filter errors', () => {
                 expect(newState.filters).toHaveLength(1);
-                expect(newState.filters[0].leftHandSide.value).toBe('');
+                expect(newState.filters[0].leftHandSide.value).toBe('invalidValue');
+                expect(newState.filters[0].leftHandSide.error).toBeNull();
             });
         });
     });
