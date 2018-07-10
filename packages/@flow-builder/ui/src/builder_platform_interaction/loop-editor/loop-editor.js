@@ -3,7 +3,7 @@ import { loopReducer } from './loop-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
-import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import { getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
@@ -46,8 +46,8 @@ export default class LoopEditor extends Element {
     @api
     set node(newValue) {
         this.loopElement = newValue || {};
-        this._collectionVariable = this.loopElement.collectionReference ? getElementByGuid(getValueFromHydratedItem(this.loopElement.collectionReference)) : null;
-        this.loopVariableState = this.loopElement.assignNextValueToReference ? getElementByGuid(getValueFromHydratedItem(this.loopElement.assignNextValueToReference)) : null;
+        this._collectionVariable = this.loopElement.collectionReference ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.collectionReference)) : null;
+        this.loopVariableState = this.loopElement.assignNextValueToReference ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.assignNextValueToReference)) : null;
         // disable loop variable until collection is chosen.
         this.isLoopVariableDisabled = !this._collectionVariable;
     }

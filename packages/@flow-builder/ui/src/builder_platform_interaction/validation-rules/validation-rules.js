@@ -1,6 +1,6 @@
-import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { getRulesForContext, getRHSTypes, elementToParam } from 'builder_platform_interaction-rule-lib';
-import { EXPRESSION_PROPERTY_TYPE, isElementAllowed, sanitizeGuid, getFieldParamRepresentation } from 'builder_platform_interaction-expression-utils';
+import { EXPRESSION_PROPERTY_TYPE, isElementAllowed, sanitizeGuid, getFieldParamRepresentation,
+    getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
 import { Store } from 'builder_platform_interaction-store-lib';
@@ -59,7 +59,7 @@ const validateBlankRHS = (lhsIdentifier, operator, contextConfig) => {
             dataType: 'String',
         };
         const complexGuid = sanitizeGuid(lhsIdentifier);
-        const flowElement = getElementByGuid(complexGuid.guid);
+        const flowElement = getResourceByUniqueIdentifier(complexGuid.guid);
         if (complexGuid.fieldName) {
             const sobject = (flowElement) ? flowElement.objectType : complexGuid.guid;
             lhsParam = getFieldParamRepresentation(sobject, complexGuid.fieldName);

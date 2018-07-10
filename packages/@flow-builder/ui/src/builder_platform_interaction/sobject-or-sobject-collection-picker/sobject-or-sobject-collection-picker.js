@@ -1,5 +1,5 @@
 import { Element, api, track } from "engine";
-import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import { getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
@@ -72,7 +72,7 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
     @api
     set value(value) {
         this.state.value = value;
-        this.element = getElementByGuid(this.state.value);
+        this.element = getResourceByUniqueIdentifier(this.state.value);
     }
 
     @api

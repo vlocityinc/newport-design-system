@@ -2,7 +2,7 @@ import { Element, api, track, unwrap } from 'engine';
 import { recordLookupReducer } from './record-lookup-reducer';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { LABELS } from './record-lookup-editor-labels';
-import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import { getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
@@ -71,7 +71,7 @@ export default class RecordLookupEditor extends Element {
      */
     get numberRecordsToStore() {
         if (this.recordLookupElement.outputReference && this.recordLookupElement.outputReference.value) {
-            const variable = getElementByGuid(this.recordLookupElement.outputReference.value);
+            const variable = getResourceByUniqueIdentifier(this.recordLookupElement.outputReference.value);
             if (variable) {
                 this.numberRecordsToStoreValue = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
             }

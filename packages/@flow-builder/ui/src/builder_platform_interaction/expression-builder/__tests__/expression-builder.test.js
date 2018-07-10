@@ -156,7 +156,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         normalizeLHS: require.requireActual('builder_platform_interaction-expression-utils').normalizeLHS,
         normalizeRHS: require.requireActual('builder_platform_interaction-expression-utils').normalizeRHS,
         retrieveRHSVal: require.requireActual('builder_platform_interaction-expression-utils').retrieveRHSVal,
-        getElementByGuid: require.requireActual('builder_platform_interaction-store-utils').getElementByGuid,
+        getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction-expression-utils').getResourceByUniqueIdentifier,
         isElementAllowed: require.requireActual('builder_platform_interaction-expression-utils').isElementAllowed,
         sanitizeGuid: require.requireActual('builder_platform_interaction-expression-utils').sanitizeGuid,
         filterFieldsForChosenElement: require.requireActual('builder_platform_interaction-expression-utils').filterFieldsForChosenElement,

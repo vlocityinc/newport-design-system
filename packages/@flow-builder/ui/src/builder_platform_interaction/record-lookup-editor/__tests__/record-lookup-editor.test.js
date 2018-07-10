@@ -1,7 +1,7 @@
 import { createElement } from 'engine';
 import RecordLookupEditor from '../record-lookup-editor';
 import { getShadowRoot } from 'lwc-test-utils';
-import * as storeUtilMock from 'builder_platform_interaction-store-utils';
+import * as expressionUtilsMock from 'builder_platform_interaction-expression-utils';
 import * as store from 'mock-store-data';
 import { SORT_ORDER, NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-record-editor-lib';
 import { RecordStoreOptionChangedEvent,
@@ -27,9 +27,11 @@ function getComboboxStateChangedEvent() {
     });
 }
 
-jest.mock('builder_platform_interaction-store-utils', () => {
+jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
-        getElementByGuid: jest.fn(),
+        getResourceByUniqueIdentifier: jest.fn(),
+        getEntitiesMenuData: require.requireActual('builder_platform_interaction-expression-utils').getEntitiesMenuData,
+        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction-expression-utils').EXPRESSION_PROPERTY_TYPE,
     };
 });
 
@@ -155,7 +157,7 @@ describe('record-lookup-editor', () => {
         let recordLookupEditor;
         beforeEach(() => {
             const sobjectVariableElement = store.elements[store.accountSObjectVariableGuid];
-            storeUtilMock.getElementByGuid.mockReturnValue(sobjectVariableElement);
+            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sobjectVariableElement);
             recordLookupEditor = createComponentForTest(recordLookupElementWithSObject);
         });
         it('record filter should be visible', () => {
@@ -191,7 +193,7 @@ describe('record-lookup-editor', () => {
         let recordLookupEditor;
         beforeEach(() => {
             const sObjectVariableElement = store.elements[store.accountSObjectVariableGuid];
-            storeUtilMock.getElementByGuid.mockReturnValue(sObjectVariableElement);
+            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sObjectVariableElement);
             recordLookupEditor = createComponentForTest(recordLookupElementWithSObject);
         });
         it('handles flow combobox value changed event', () => {
@@ -254,7 +256,7 @@ describe('record-lookup-editor', () => {
         let recordLookupEditor;
         beforeEach(() => {
             const sObjectVariableElement = store.elements[store.accountSObjectVariableGuid];
-            storeUtilMock.getElementByGuid.mockReturnValue(sObjectVariableElement);
+            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sObjectVariableElement);
             recordLookupEditor = createComponentForTest(recordLookupElementWithSObjectAndFilters);
         });
         it('record filter criteria should be all ', () => {

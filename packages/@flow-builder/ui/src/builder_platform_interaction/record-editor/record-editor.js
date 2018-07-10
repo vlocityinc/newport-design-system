@@ -1,9 +1,8 @@
 import { Element, api, track, unwrap } from 'engine';
 import { recordReducer } from './record-reducer';
 import { ENTITY_TYPE } from 'builder_platform_interaction-sobject-lib';
-import { RESOURCE_PICKER_MODE } from 'builder_platform_interaction-expression-utils';
+import { RESOURCE_PICKER_MODE, getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { LABELS } from './record-editor-labels';
-import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { RECORD_FILTER_CRITERIA, NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
 
@@ -41,7 +40,7 @@ export default class RecordEditor extends Element {
 
     get numberRecordsToStore() {
         if (this.recordNode.outputReference && this.recordNode.outputReference.value) {
-            const variable = getElementByGuid(this.recordNode.outputReference.value);
+            const variable = getResourceByUniqueIdentifier(this.recordNode.outputReference.value);
             return variable.dataType === "SObject" && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
         }
         // TODO : Modify it when implementing : W-4961821

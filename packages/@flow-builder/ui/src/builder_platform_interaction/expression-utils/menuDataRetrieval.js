@@ -42,6 +42,15 @@ export const RESOURCE_PICKER_MODE = {
     ENTITY_MODE: 'entity',
 };
 
+export const getResourceByUniqueIdentifier = (identifier) => {
+    let resource = null;
+    if (identifier && !identifier.startsWith('$')) {
+        resource = getElementByGuid(identifier);
+    }
+    // TODO: add a case for global constants
+    return resource;
+};
+
 /**
  * Eventually the elements need to be sorted alphabetically by category, as well as
  * alphabetically by devName within category. This method does that but backwards,
@@ -169,8 +178,7 @@ export const sanitizeGuid = (potentialGuid) => {
 export const normalizeRHS = (rhsIdentifier, normalizedLHS) => {
     const rhs = {};
     const complexGuid = sanitizeGuid(rhsIdentifier);
-    const flowElement = getElementByGuid(complexGuid.guid);
-
+    const flowElement = getResourceByUniqueIdentifier(complexGuid.guid);
     if (flowElement && complexGuid.fieldName) {
         // TODO: W-4960448: the field will appear empty briefly when fetching the first time
         sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
@@ -232,7 +240,7 @@ export const getFieldParamRepresentation = (sobject, fieldName, callback) => {
 export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
     const lhs = {};
     const complexGuid = sanitizeGuid(lhsIdentifier);
-    const flowElement = getElementByGuid(complexGuid.guid);
+    const flowElement = getResourceByUniqueIdentifier(complexGuid.guid);
     if (!flowElement) {
         // Pass in lhsIdentifier as string in the default case
         lhs.item = lhsIdentifier;

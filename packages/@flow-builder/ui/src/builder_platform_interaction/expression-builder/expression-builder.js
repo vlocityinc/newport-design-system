@@ -10,12 +10,12 @@ import {
     normalizeRHS,
     filterFieldsForChosenElement,
     sanitizeGuid,
-    OPERATOR_DISPLAY_OPTION
+    OPERATOR_DISPLAY_OPTION,
+    getResourceByUniqueIdentifier,
 } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox,
     elementToParam, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { isUndefinedOrNull, isObject } from 'builder_platform_interaction-common-utils';
@@ -268,7 +268,7 @@ export default class ExpressionBuilder extends Element {
 
     getElementOrField(value) {
         const complexGuid = sanitizeGuid(value);
-        const flowElement = getElementByGuid(complexGuid.guid);
+        const flowElement = getResourceByUniqueIdentifier(complexGuid.guid);
         let elementOrField;
         if (complexGuid.fieldName) {
             const objectType = (flowElement) ? flowElement.objectType : contextConfig.objectType;
@@ -359,7 +359,7 @@ export default class ExpressionBuilder extends Element {
         // if rhsItem in the event payload is an object then we know the user selected an item from the menu data
         if (isObject(rhsItem)) {
             // check if the selected item references a flow element (or field on a flow element)
-            const element = getElementByGuid(rhsItem.value);
+            const element = getResourceByUniqueIdentifier(rhsItem.value);
             if (element || rhsItem.parent) {
                 // the item references an element so we update the rhs with that element reference
                 this.updateRHSWithElement(rhsItem, element, errorMessage);

@@ -1,7 +1,7 @@
 import { createElement } from 'engine';
 import RecordCreateEditor from '../record-create-editor';
 import { getShadowRoot } from 'lwc-test-utils';
-import * as storeUtilMock from 'builder_platform_interaction-store-utils';
+import * as expressionUtilsMock from 'builder_platform_interaction-expression-utils';
 import * as store from 'mock-store-data';
 import { RecordStoreOptionChangedEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction-events';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
@@ -13,9 +13,9 @@ function createComponentForTest(node) {
     return el;
 }
 
-jest.mock('builder_platform_interaction-store-utils', () => {
+jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
-        getElementByGuid: jest.fn(),
+        getResourceByUniqueIdentifier: jest.fn(),
     };
 });
 
@@ -70,14 +70,14 @@ describe('record-create-editor', () => {
         let recordCreateEditor;
         it('Number of record to store should be firstRecord', () => {
             const sobjectVariableElement = store.elements[store.accountSObjectVariableGuid];
-            storeUtilMock.getElementByGuid.mockReturnValue(sobjectVariableElement);
+            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sobjectVariableElement);
             recordCreateEditor = createComponentForTest(recordCreateElementWithSObject);
             const recordStoreOption = getRecordStoreOption(recordCreateEditor);
             expect(recordStoreOption.numberOfRecordsToStore).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
         });
         it('Number of record to store should be allRecord', () => {
             const sobjectCollectionVariableElement = store.elements[store.accountSObjectCollectionVariableGuid];
-            storeUtilMock.getElementByGuid.mockReturnValue(sobjectCollectionVariableElement);
+            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sobjectCollectionVariableElement);
             recordCreateEditor = createComponentForTest(recordCreateElementWithSObject);
             const recordStoreOption = getRecordStoreOption(recordCreateEditor);
             expect(recordStoreOption.numberOfRecordsToStore).toBe(NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
@@ -103,7 +103,7 @@ describe('record-create-editor', () => {
         let recordCreateEditor;
         beforeEach(() => {
             const sObjectVariableElement = store.elements[store.accountSObjectVariableGuid];
-            storeUtilMock.getElementByGuid.mockReturnValue(sObjectVariableElement);
+            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sObjectVariableElement);
             recordCreateEditor = createComponentForTest(recordCreateElementWithSObject);
         });
         it('Number of record change should empty the sObject picker', () => {

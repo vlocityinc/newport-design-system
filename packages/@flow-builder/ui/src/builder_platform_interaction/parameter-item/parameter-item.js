@@ -1,7 +1,6 @@
 import { Element, track, api } from 'engine';
 import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction-data-type-lib';
-import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
-import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import { getElementsForMenuData, getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getRHSTypes, PARAM_PROPERTY, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { getParameterLabel, isInputParameter, isRequiredParameter, getParameterDataType } from 'builder_platform_interaction-parameter-item-utils';
 import { UpdateParameterItemEvent } from 'builder_platform_interaction-events';
@@ -162,7 +161,7 @@ export default class ParameterItem extends Element {
                 // const value = (varName) ? varName : varRef;
                 // // varRef can be a System's Constant, in that case, varName is undefined, then using this varRef as a comboboxValue
                 // return '{!' + value + '}';
-                const varElement = getElementByGuid(varRef);
+                const varElement = getResourceByUniqueIdentifier(varRef);
                 return this.createComboboxValue(varElement.guid, '{!' + (varElement ? varElement.name : varRef) + '}');
             }
             // TODO: value = literals + VARIABLE (My name is {!VARIRABLE_1}. Hello world!)
@@ -172,7 +171,7 @@ export default class ParameterItem extends Element {
         // return {!value} if this parameter is output parameter and has a reference value
         if (this.state.parameterItem.assignToReference) {
             // return '{!' + this.getVariableName(this.state.parameterItem.assignToReference.value) + '}';
-            const varElement = getElementByGuid(this.state.parameterItem.assignToReference.value);
+            const varElement = getResourceByUniqueIdentifier(this.state.parameterItem.assignToReference.value);
             return this.createComboboxValue(varElement.guid, '{!' + varElement.name + '}');
         }
         return null;
@@ -191,7 +190,7 @@ export default class ParameterItem extends Element {
      * @return {String} name of variable or undefined if not found
      */
     getVariableName(varRef) {
-        const varElement = getElementByGuid(varRef);
+        const varElement = getResourceByUniqueIdentifier(varRef);
         return (varElement) ? varElement.name : undefined;
     }
 

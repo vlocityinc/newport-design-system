@@ -70,7 +70,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         getElementsForMenuData: jest.fn().mockReturnValue(
             require.requireActual('mock-combobox-data').comboboxInitialConfig.menuData
         ),
-        getElementByGuid: require.requireActual('builder_platform_interaction-store-utils').getElementByGuid,
+        getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction-expression-utils').getResourceByUniqueIdentifier,
     };
 });
 

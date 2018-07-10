@@ -3,7 +3,7 @@ import { recordCreateReducer } from './record-create-reducer';
 import { LABELS } from './record-create-editor-labels';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
-import { getElementByGuid } from 'builder_platform_interaction-store-utils';
+import { getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
@@ -56,7 +56,7 @@ export default class RecordCreateEditor extends Element {
      */
     get numberRecordsToStore() {
         if (this.recordCreateElement.inputReference && this.recordCreateElement.inputReference.value) {
-            const variable = getElementByGuid(this.recordCreateElement.inputReference.value);
+            const variable = getResourceByUniqueIdentifier(this.recordCreateElement.inputReference.value);
             if (variable) {
                 this._numberRecordsToStore = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
             }
