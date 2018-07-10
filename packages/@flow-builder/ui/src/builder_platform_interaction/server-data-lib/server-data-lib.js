@@ -16,6 +16,8 @@ export const SERVER_ACTION_TYPE = {
     GET_RESOURCE_TYPES: 'getResourceTypes',
     GET_FLOW_EXTENSIONS: 'getFlowExtensions',
     GET_FLOW_EXTENSION_PARAMS: 'getFlowExtensionParams',
+    GET_USER_PREFERENCES: 'getUserPreferences',
+    SET_USER_PREFERENCES: 'setUserPreferences',
 };
 
 const actionConfig = {
@@ -36,6 +38,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_RESOURCE_TYPES]: 'c.getResourceTypes',
     [SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS]: 'c.getFlowExtensions',
     [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_PARAMS]: 'c.getFlowExtensionParams',
+    [SERVER_ACTION_TYPE.GET_USER_PREFERENCES]: 'c.getUserPreferences',
+    [SERVER_ACTION_TYPE.SET_USER_PREFERENCES]: 'c.setUserPreferences',
 };
 
 let auraFetch;
