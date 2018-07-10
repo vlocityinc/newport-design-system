@@ -10,18 +10,27 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import * as sobjectLib from 'builder_platform_interaction-sobject-lib';
-import newResourceLabel from '@label/FlowBuilderExpressionUtils.newResourceLabel';
 import { FLOW_DATA_TYPE, getResourceTypes } from 'builder_platform_interaction-data-type-lib';
 import {
     createMenuItem,
     mutateFieldToComboboxShape,
     mutateFlowElementToComboboxShape,
-    mutateEntitiesToComboboxShape
+    mutateEntitiesToComboboxShape,
+    mutatePicklistValue,
 } from './menuDataGenerator';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
 const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
+
+const isPicklistFieldAllowed = (allowedTypes) => {
+    // we need a param to represent picklist values so we can check if they are allowed based on the given param types
+    const picklistParam = {
+        dataType: FLOW_DATA_TYPE.STRING.value,
+        isCollection: false,
+    };
+    return isElementAllowed(allowedTypes, picklistParam);
+};
 
 export const COMBOBOX_ITEM_DISPLAY_TYPE = {
     OPTION_CARD: 'option-card',
@@ -103,18 +112,20 @@ export function isElementAllowed(allowedParamTypes, element, allowSObjectForFiel
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
 
-/**
- * Returns new resource menu item
- * @returns {Object} menu data group object with only new resource as item
- */
-function getNewResourceItem() {
-    return {
-        text : newResourceLabel,
-        type : COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
-        value : COMBOBOX_NEW_RESOURCE_VALUE,
-        iconName : 'utility:add'
-    };
-}
+
+// TODO Uncomment when we get to W-5164547
+// /**
+//  * Returns new resource menu item
+//  * @returns {Object} menu data group object with only new resource as item
+//  */
+// function getNewResourceItem() {
+//     return {
+//         text : newResourceLabel,
+//         type : COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
+//         value : COMBOBOX_NEW_RESOURCE_VALUE,
+//         iconName : 'utility:add'
+//     };
+// }
 
 /**
  * The 5 possible situations are:
@@ -151,25 +162,31 @@ export const sanitizeGuid = (potentialGuid) => {
 /**
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
- *
  * @param {String} rhsIdentifier    used to identify RHS, could be GUID or literal
- * @param {Function} callback       The callback
+ * @param {Object} normalizedLHS    the normalized LHS we receive from normalizeLHS call, represents the LHS of expression
  * @returns {String}                combobox display value
  */
-export const normalizeRHS = (rhsIdentifier, callback) => {
+export const normalizeRHS = (rhsIdentifier, normalizedLHS) => {
     const rhs = {};
     const complexGuid = sanitizeGuid(rhsIdentifier);
     const flowElement = getElementByGuid(complexGuid.guid);
+
     if (flowElement && complexGuid.fieldName) {
         // TODO: W-4960448: the field will appear empty briefly when fetching the first time
         sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
             rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[complexGuid.fieldName], mutateFlowElementToComboboxShape(flowElement), true, true);
+            rhs.fields = fields;
         });
-        callback(rhs.itemOrDisplayText);
     } else if (flowElement) {
         rhs.itemOrDisplayText = mutateFlowElementToComboboxShape(flowElement);
     } else {
-        rhs.itemOrDisplayText = rhsIdentifier;
+        // in the case that we have a literal string, we must also check for a picklist value when the LHS is a picklist field
+        let foundValue;
+        if (normalizedLHS.activePicklistValues) {
+            // if the lhs is a picklist field and the user did not select an element then match the picklist with the field
+            foundValue = normalizedLHS.activePicklistValues.find(item => item.value === rhsIdentifier);
+        }
+        rhs.itemOrDisplayText = foundValue ? mutatePicklistValue(foundValue) : rhsIdentifier;
     }
     return rhs;
 };
@@ -230,6 +247,7 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
             if (callback) {
                 callback(lhsIdentifier);
             }
+            lhs.activePicklistValues = field.activePicklistValues;
         });
     } else if (flowElement) {
         lhs.item = mutateFlowElementToComboboxShape(flowElement);
@@ -273,6 +291,25 @@ function getSelector({elementType, shouldBeWritable, isCollection, dataType, ent
 }
 
 /**
+ * Gets a GroupedMenuItem from the given picklist values
+ * @param {Object[]} picklist list of objects representing picklist values
+ * @returns {module:menuDataGenerator.GroupMenuItems} menu data that has picklist values
+ */
+export const getPicklistMenuData = (picklist) => {
+    if (!Array.isArray(picklist)) {
+        throw new Error(`Picklist field values must be an array but instead was: ${typeof picklist}`);
+    }
+    const picklistLabel = 'Picklist Values';
+    const picklistGroup = {
+        // TODO: use proper labels W-4813532
+        label: picklistLabel,
+        items: [],
+    };
+    picklistGroup.items = picklist.map(mutatePicklistValue);
+    return picklistGroup;
+};
+
+/**
  * Gets list of elements to display in combobox, in shape combobox expects
  *
  * @param {Object} elementConfig        {element, shouldBeWritable} element is the element type this expression builder is inside, shouldBeWritable is so property editors can specify the data they need
@@ -280,10 +317,11 @@ function getSelector({elementType, shouldBeWritable, isCollection, dataType, ent
  * @param {boolean} includeNewResource  if true, include new resource as first menu item
  * @param {boolean} allowSObjectForFields   true if sObjects should be included, to allow users to access sObject fields
  * @param {boolean} disableHasNext if true, then all menu items will have hasNext set to false regardless of the real value
+ * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function getElementsForMenuData(elementConfig, allowedParamTypes, includeNewResource,
-    allowSObjectForFields = false, disableHasNext = false) {
+    allowSObjectForFields = false, disableHasNext = false, activePicklistValues = []) {
     const state = Store.getStore().getCurrentState();
 
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
@@ -298,10 +336,16 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
 
+    if (activePicklistValues.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
+        // if the picklist is allowed we want to include those in the menu data
+        const picklistMenuData = getPicklistMenuData(activePicklistValues);
+        menuData.push(picklistMenuData);
+    }
     // TODO add Global/System Variables here as well
 
     if (includeNewResource) {
-        menuData.unshift(getNewResourceItem());
+        // TODO Uncomment when we get to W-5164547
+        // menuData.unshift(getNewResourceItem());
     }
     return menuData;
 }

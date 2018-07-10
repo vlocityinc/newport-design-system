@@ -43,7 +43,7 @@ function getSubText(dataType, objectType, label) {
  * @typedef {Object} MenuItem
  * @property {String} type  the type of menu data display type ex: option-inline
  * @property {String} text  the text that will be displayed by the combobox (can be highlighted)
- * @property {String} subtext the subtext that will displayed below the text
+ * @property {String} subText the subtext that will displayed below the text
  * @property {String} displayText   the value displayed in the input field when this menu item is selected
  * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
  * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
@@ -68,7 +68,7 @@ function getSubText(dataType, objectType, label) {
  * Create one menu item
  * @param {String} type the type of the menu item
  * @param {String} text the text of the menu item
- * @param {String} subtext  the subtext of the menu item
+ * @param {String} subText  the subtext of the menu item
  * @param {String} displayText the display text of the menu item
  * @param {String} iconName the icon of the menu item
  * @param {String} value the value of the menu item
@@ -77,11 +77,11 @@ function getSubText(dataType, objectType, label) {
  * @param {String} objectType the object type when data type is SObject otherwise null. eg: Account
  * @returns {MenuItem}  the generated menu item
  */
-export const createMenuItem = (type, text, subtext, displayText, iconName, value, parent, dataType, objectType) => {
+export const createMenuItem = (type, text, subText, displayText, iconName, value, parent, dataType, objectType) => {
     return {
         type,
         text,
-        subtext,
+        subText,
         displayText,
         iconName,
         value,
@@ -159,3 +159,18 @@ export const mutateEntitiesToComboboxShape = (entities) => {
     });
 };
 
+/**
+ * Mutates one picklist value into a combobox menu item
+ * @param {Object} picklistValue object that is a picklist value
+ * @returns {MenuItem} menu item representing the picklist value
+ */
+export const mutatePicklistValue = (picklistValue) => {
+    return createMenuItem(
+        COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+        picklistValue.label,
+        FLOW_DATA_TYPE.STRING.label,
+        picklistValue.label,
+        undefined,
+        picklistValue.value,
+    );
+};

@@ -1,15 +1,24 @@
 import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { updateProperties, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
-import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, filterMatches, normalizeLHS, isElementAllowed, normalizeRHS,
-    filterFieldsForChosenElement, sanitizeGuid, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
+import {
+    EXPRESSION_PROPERTY_TYPE,
+    getElementsForMenuData,
+    filterMatches,
+    normalizeLHS,
+    isElementAllowed,
+    normalizeRHS,
+    filterFieldsForChosenElement,
+    sanitizeGuid,
+    OPERATOR_DISPLAY_OPTION
+} from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox,
     elementToParam, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
+import { isUndefinedOrNull, isObject } from 'builder_platform_interaction-common-utils';
 import genericErrorMessage from '@label/FlowBuilderCombobox.genericErrorMessage';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
@@ -117,30 +126,22 @@ export default class ExpressionBuilder extends Element {
         const rhsGuid = getValueFromHydratedItem(expression[RHSG]);
         const rhsVal = rhsGuid ? rhsGuid : getValueFromHydratedItem(expression[RHS]);
         if (expression[RHS] && !isUndefinedOrNull(rhsVal)) {
-            this.state.normalizedRHS = normalizeRHS(rhsVal, (rhsItem) => {
-                if (!this._fetchedRHSInfo && rhsItem) {
-                    this._fetchedRHSInfo = true;
-                    const expressionUpdates = {
-                        [RHS]: {value: rhsItem.displayText, error: expression[RHS].error},
-                        [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: expression[RHSDT].error},
-                        [RHSG]: {value: rhsItem.value, error:expression[RHSG].error},
-                    };
-                    const newExpression = updateProperties(this.state.expression, expressionUpdates);
-                    this.firePropertyChangedEvent(newExpression);
-                }
-            });
+            this.state.normalizedRHS = normalizeRHS(rhsVal, this.state.normalizedLHS);
+            // when loading the expression for the first time, we do not have all the information when the RHS is a field. So we need to update the expression RHS
+            if (!this._fetchedRHSInfo && this.state.normalizedRHS && this.state.normalizedRHS.fields) {
+                this._fetchedRHSInfo = true;
+                const expressionUpdates = {
+                    [RHS]: {value: this.state.normalizedRHS.displayText, error: expression[RHS].error},
+                    [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: expression[RHSDT].error},
+                    [RHSG]: {value: this.state.normalizedRHS.value, error: expression[RHSG].error},
+                };
+                const newExpression = updateProperties(this.state.expression, expressionUpdates);
+                this.firePropertyChangedEvent(newExpression);
+            }
         }
 
         if (lhsVal && this.operatorForRules()) {
-            this.state.rhsTypes = getRHSTypes(elementType, this.state.normalizedLHS.parameter, this.operatorForRules(), rules);
-            // In the case that the existing RHS is a field on the second level, get the appropriate menu data
-            if (this.state.normalizedRHS.itemOrDisplayText && this.state.normalizedRHS.itemOrDisplayText.parent) {
-                getFieldsForEntity(this.state.normalizedRHS.itemOrDisplayText.parent.subText, (fields) => {
-                    this._fullRHSMenuData = this.state.rhsMenuData = filterFieldsForChosenElement(this.state.normalizedRHS.itemOrDisplayText.parent, this.state.rhsTypes, fields, true, true);
-                });
-            } else {
-                this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({elementType}, this.state.rhsTypes, true, true);
-            }
+            this.populateRHSMenuData();
         }
     }
 
@@ -298,32 +299,78 @@ export default class ExpressionBuilder extends Element {
         this.dispatchEvent(propertyChangedEvent);
     }
 
+    /**
+     * Sets the RHS in the state's expression to the given object containing rhs, rhs data type, and rhs guid. It also sets any error message passed in
+     * Also fires a row contents changed event after updating the state's expression
+     * @param {Object} rhsAndRHSDT normalized RHS that contains the rhs, rhs data type, and rhs guid values
+     * @param {String} error the existing error message we want to include in the rhs
+     */
+    setRHSAndFireRowContentsChanged(rhsAndRHSDT, error) {
+        const newExpression = updateProperties(this.state.expression, rhsAndRHSDT);
+        const propertyChangedEvent = new RowContentsChangedEvent(newExpression, error);
+        this.dispatchEvent(propertyChangedEvent);
+    }
+
+    updateRHSWithElement(rhsItem, element, errorMessage) {
+        let error = errorMessage;
+        // the item references an element, so we need to check if the element is allowed
+        // Checking if the element is allowed covers the edge case where an sobject is in RHS but an RHS field was needed (user did not end up selecting field)
+        if (!error && !rhsItem.parent && !isElementAllowed(this.state.rhsTypes, elementToParam(element))) {
+            error = genericErrorMessage;
+        }
+        const rhsAndRHSDT = {
+            [RHS]: {value: rhsItem.displayText, error},
+            [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: null},
+            [RHSG]: {value: rhsItem.value, error: null},
+        };
+        this.setRHSAndFireRowContentsChanged(rhsAndRHSDT, error);
+    }
+
+    updateRHSWithPicklistValue(rhsItem, errorMessage) {
+        let error = errorMessage;
+        // if an error does not already exist, we validate the picklist value
+        if (isUndefinedOrNull(errorMessage)) {
+            error = this.findPicklistValue(rhsItem.value) ? null : genericErrorMessage;
+        }
+        const rhsAndRHSDT = {
+            [RHS]: {value: rhsItem.value, error},
+            [RHSDT]: {value: FEROV_DATA_TYPE.STRING, error: null},
+            [RHSG]: this._clearedProperty,
+        };
+        this.setRHSAndFireRowContentsChanged(rhsAndRHSDT, error);
+    }
+
+    updateRHSWithLiteral(displayText, errorMessage) {
+        const rhsAndRHSDT = {
+            [RHS]: {value: displayText, error: errorMessage},
+            // Use LHS dataType to determine desired RHS dataType, because there's no way to tell what the user meant from the value they entered
+            // ex: '123' could be a string or a number
+            [RHSDT]: {value: this.lhsType, error: null},
+            [RHSG]: this._clearedProperty,
+        };
+        this.setRHSAndFireRowContentsChanged(rhsAndRHSDT, errorMessage);
+    }
+
     handleRHSValueChanged(event) {
         event.stopPropagation();
-        const newRHSItem = event.detail.item;
-        let errorMessage = event.detail.error;
+        const rhsItem = event.detail.item;
+        const errorMessage = event.detail.error;
 
-        let rhsAndRHSDT;
-        if (newRHSItem) {
-            if (!errorMessage && !newRHSItem.parent && !isElementAllowed(this.state.rhsTypes, elementToParam(getElementByGuid(newRHSItem.value)))) {
-                errorMessage = genericErrorMessage;
+        // if rhsItem in the event payload is an object then we know the user selected an item from the menu data
+        if (isObject(rhsItem)) {
+            // check if the selected item references a flow element (or field on a flow element)
+            const element = getElementByGuid(rhsItem.value);
+            if (element || rhsItem.parent) {
+                // the item references an element so we update the rhs with that element reference
+                this.updateRHSWithElement(rhsItem, element, errorMessage);
+            } else {
+                // if we did not get an element but we have an item then the user may have selected a picklist value
+                this.updateRHSWithPicklistValue(rhsItem, errorMessage);
             }
-            rhsAndRHSDT = {
-                [RHS]: {value: newRHSItem.displayText, error: errorMessage},
-                [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: null},
-                [RHSG]: {value: newRHSItem.value, error: null}
-            };
         } else {
-            rhsAndRHSDT = {
-                [RHS]: {value: event.detail.displayText, error: errorMessage},
-                // Set the dataType to LHS dataType
-                [RHSDT]: {value: this.lhsType, error: null},
-                [RHSG]: this._clearedProperty,
-            };
+            // if the item is not an object we know the user typed in a literal
+            this.updateRHSWithLiteral(event.detail.displayText, errorMessage);
         }
-        const newExpression = updateProperties(this.state.expression, rhsAndRHSDT);
-        const propertyChangedEvent = new RowContentsChangedEvent(newExpression, errorMessage);
-        this.dispatchEvent(propertyChangedEvent);
     }
 
     get lhsType() {
@@ -387,7 +434,7 @@ export default class ExpressionBuilder extends Element {
                 this._fullRHSMenuData = this.state.rhsMenuData = filterFieldsForChosenElement(selectedItem, this.state.rhsTypes, fields, true, true);
             });
         } else {
-            this._fullRHSMenuData = this.state.rhsMenuData = getElementsForMenuData({elementType}, this.state.rhsTypes, true);
+            this.populateRHSMenuData();
         }
     }
 
@@ -421,5 +468,37 @@ export default class ExpressionBuilder extends Element {
 
     getRHSCombobox() {
         return this.template.querySelector('.rhs');
+    }
+
+    populateRHSMenuData() {
+        // helper variables so code is not so verbose
+        const lhs = this.state.normalizedLHS;
+        const lhsItem = lhs.item;
+        const rhsItem = this.state.normalizedRHS.itemOrDisplayText;
+
+        // populate the rhs menu data based on the LHS and operator
+        this.state.rhsTypes = getRHSTypes(elementType, lhs.parameter, this.operatorForRules(), rules);
+        let menuData;
+
+        // In the case that the existing RHS is a field on the second level, get the field menu data
+        if (rhsItem && rhsItem.parent && rhsItem.fields) {
+            // NOTE: should there be a case where we get the fields if not in rhsItem? They should have been retreived in normalize RHS operation
+            menuData = filterFieldsForChosenElement(rhsItem.parent, this.state.rhsTypes, lhsItem.fields, true, true);
+        } else {
+            menuData = getElementsForMenuData({elementType}, this.state.rhsTypes, true, true, false, this.state.normalizedLHS.activePicklistValues);
+        }
+        this._fullRHSMenuData = this.state.rhsMenuData = menuData;
+    }
+
+    /**
+     * Finds the matching picklist value inside our list of active picklist values from the LHS field
+     * @param {String} picklistApiValue the picklist value we want to find in our list of active picklist values
+     * @returns {Object|undefined} the found picklist value, undefined if no value found
+     */
+    findPicklistValue(picklistApiValue) {
+        if (this.state.normalizedLHS.activePicklistValues) {
+            return this.state.normalizedLHS.activePicklistValues.find(item => item.value === picklistApiValue);
+        }
+        return undefined;
     }
 }
