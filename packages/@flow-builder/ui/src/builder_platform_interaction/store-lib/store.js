@@ -35,7 +35,9 @@ let currentListeners = [];
  */
 export class Store {
     constructor(reducer) {
-        if (!currentReducer) {
+        if (!reducer) {
+            throw new Error('Store must be initialized with reducer');
+        } else if (!currentReducer) {
             currentReducer = reducer;
         } else {
             throw new Error('Reducer already exists');

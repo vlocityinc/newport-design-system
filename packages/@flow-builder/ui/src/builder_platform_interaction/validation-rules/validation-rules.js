@@ -7,8 +7,6 @@ import { Store } from 'builder_platform_interaction-store-lib';
 
 // TODO i18n after W-4693112
 
-const storeInstance = Store.getStore();
-
 /**
  * @param {Object} rule - object containing regex pattern and message
  * @param {string} value - value to be evaluated
@@ -199,7 +197,7 @@ export const validateExpressionWith3Properties = (contextConfig) => {
  * @returns {string|null} errorString or null
  */
 export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
-    const currentState = storeInstance.getCurrentState();
+    const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
     const matches = Object.values(elements).filter(element => !listOfGuidsToSkip.includes(element.guid) && element.name === nameToBeTested);
     return matches.length > 0 ? "Field is not unique" : null; // Label in next CL while this is being reviewed (I will probably do it for all the strings in this file)
