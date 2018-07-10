@@ -344,7 +344,7 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
 
-    if (activePicklistValues.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
+    if (activePicklistValues && activePicklistValues.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
         // if the picklist is allowed we want to include those in the menu data
         const picklistMenuData = getPicklistMenuData(activePicklistValues);
         menuData.push(picklistMenuData);
