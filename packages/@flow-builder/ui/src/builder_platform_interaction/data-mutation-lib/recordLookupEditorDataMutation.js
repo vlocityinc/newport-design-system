@@ -83,6 +83,7 @@ export const deMutateRecordLookup = record => {
             return item;
         });
     }
+    delete record.filterType;
     record.queriedFields = record.queriedFields.filter((queriedField) => queriedField.field !== '');
     record.queriedFields = record.queriedFields.map(queriedField => {
         return queriedField.field;

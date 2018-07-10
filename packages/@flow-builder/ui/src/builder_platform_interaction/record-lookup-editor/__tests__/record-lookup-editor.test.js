@@ -99,7 +99,7 @@ const recordLookupElementWithSObjectAndFilters = {
     assignNullValuesIfNoRecordsFound : false,
     outputAssignments : [],
     queriedFields: [],
-    object: { value: 'Account', error: ''},
+    object: { value: 'Account', error: null},
     filterType: { error: null, value:'all'},
     filters: [{leftHandSide: {value: "Account.billingAddress", error: null},
         operator: {value: "EqualTo", error: null},
