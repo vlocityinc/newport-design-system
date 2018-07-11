@@ -1,0 +1,80 @@
+<template>
+    <div if:true={field}>
+        <div class='slds-p-horizontal_small slds-p-top_x-small'>
+        
+            <!--  TODO - W-4947221 - needs to be a rich text editor -->
+            <!--  field label -->
+            <builder_platform_interaction-screen-property-field name='fieldText' label={labels.fieldLabel} type='string' value={field.fieldText} onpropertychanged={handlePropertyChanged}>
+            </builder_platform_interaction-screen-property-field>
+            
+            <!--  unique name -->    
+            <builder_platform_interaction-screen-property-field name='name' label={labels.fieldName} required='required' type='string' value={field.name} onpropertychanged={handlePropertyChanged}>
+            </builder_platform_interaction-screen-property-field>
+
+
+            <!--  Set or display the subtype for the input field -->
+            <builder_platform_interaction-data-type-picker
+                available-data-types={dataTypeList}
+                type-and-collection-disabled={isSubTypeDisabled}
+                required
+                value={dataTypePickerValue}
+                onvaluechanged={handleDataTypeChanged}>
+            </builder_platform_interaction-data-type-picker>
+
+ 
+            <!--  Required checkbox -->
+            <builder_platform_interaction-screen-property-field name='isRequired' 
+                                                                label={labels.required}
+                                                                type='boolean'
+                                                                value={field.isRequired}
+                                                                onpropertychanged={handlePropertyChanged}>
+            </builder_platform_interaction-screen-property-field>
+            
+            
+            <!--  default value type: drop down resource list -->
+            <!--  TODO - W-4947221 - determine the menu data based on input type -->
+            <builder_platform_interaction-combobox label={labels.fieldDefaultValue} 
+                                                   menu-data={menuData}
+                                                   value={field.defaultValue}
+                                                   oncomboboxstatechanged={handleValueChanged}
+                                                   onfetchmenudata={handleFetchMenuData}>   
+             </builder_platform_interaction-combobox>
+
+            <!--  Scale, if input type is a number -->
+            <builder_platform_interaction-screen-property-field if:true={isScaleEnabled} 
+                                                                name='scale' 
+                                                                label={labels.fieldScale}
+                                                                type='number'
+                                                                value={field.isRequired}
+                                                                onpropertychanged={handlePropertyChanged}>
+            </builder_platform_interaction-screen-property-field>
+
+            <!--  validation text -->
+            <!--  TODO: W-4827695 - use lightning component version of accordion -->   
+            <builder_platform_interaction-accordion>
+                <builder_platform_interaction-accordion-section>
+                    <div slot="accordion-header">{labels.fieldValidation}</div>
+                    <div slot="accordion-body">
+                        <builder_platform_interaction-screen-property-field name='validation' label='Error Message' type='long_string' value={field.validation}>
+                        </builder_platform_interaction-screen-property-field>
+                        
+                        <!-- TODO - W-4947221 - change this to formula component -->
+                        <builder_platform_interaction-screen-property-field name='validation' label='{labels.validationFormula}' type='long_string' value={field.validation}>
+                        </builder_platform_interaction-screen-property-field>
+                    </div>
+                </builder_platform_interaction-accordion-section>
+            </builder_platform_interaction-accordion>
+            
+            <!--  help text -->
+            <builder_platform_interaction-accordion>
+                <builder_platform_interaction-accordion-section>
+                    <div slot="accordion-header">{labels.helpText}</div>
+                    <div slot="accordion-body">
+                        <builder_platform_interaction-screen-property-field name='helpText' label='{labels.helpText}' type='long_string' value={field.helpText}>
+                        </builder_platform_interaction-screen-property-field>
+                    </div>
+                </builder_platform_interaction-accordion-section>
+            </builder_platform_interaction-accordion>
+        </div>
+    </div>
+</template>

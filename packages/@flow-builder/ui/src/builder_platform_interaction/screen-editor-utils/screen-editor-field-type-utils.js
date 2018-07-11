@@ -150,3 +150,11 @@ export function isExtensionField(field) {
 export function isDisplayTextField(field) {
     return field && field.fieldType === 'DisplayText';
 }
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is an input field type
+ */
+export function isInputField(field) {
+    return field && field.fieldType === 'InputField';
+}

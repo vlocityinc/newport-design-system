@@ -182,7 +182,7 @@ export default class ScreenPropertyField extends Element {
     handleEvent = (event) => {
         const newValue = this.domValue;
         if (this.dehydratedValue !== newValue) {
-            const error = event.error || event.detail.error || null;
+            const error = event.detail && event.detail.error ? event.detail.error : null;
             this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, null, this.value));
         }
         event.stopPropagation();

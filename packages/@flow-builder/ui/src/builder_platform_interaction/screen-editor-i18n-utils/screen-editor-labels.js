@@ -14,7 +14,11 @@ import paletteSearchPlaceholder from '@label/FlowBuilderScreenEditor.paletteSear
 import fieldCategoryInput from '@label/FlowBuilderScreenEditor.fieldCategoryInput';
 import fieldCategoryDisplay from '@label/FlowBuilderScreenEditor.fieldCategoryDisplay';
 import fieldCategoryCustom from '@label/FlowBuilderScreenEditor.fieldCategoryCustom';
+import fieldDataType from '@label/FlowBuilderScreenEditor.dataType';
+import fieldDefaultValue from '@label/FlowBuilderScreenEditor.defaultValue';
+import fieldLabel from '@label/FlowBuilderScreenEditor.fieldLabel';
 import fieldName from '@label/FlowBuilderScreenEditor.fieldName';
+import fieldScale from '@label/FlowBuilderScreenEditor.scale';
 import fieldTypeLabelTextField from '@label/FlowBuilderScreenEditor.fieldTypeLabelTextField';
 import fieldTypeLabelLargeTextArea from '@label/FlowBuilderScreenEditor.fieldTypeLabelLargeTextArea';
 import fieldTypeLabelNumber from '@label/FlowBuilderScreenEditor.fieldTypeLabelNumber';
@@ -50,6 +54,8 @@ import togglePropertiesPanelTitle from '@label/FlowBuilderScreenEditor.togglePro
 import apiNameLabel from '@label/FlowBuilderScreenEditor.apiNameLabel';
 import spinnerAlternativeText from '@label/FlowBuilderEditor.spinnerAlternativeText';
 import extensionOutputsHeader from '@label/FlowBuilderScreenEditor.extensionOutputsHeader';
+import fieldValidation from '@label/FlowBuilderScreenEditor.fieldValidation';
+import validationFormula from '@label/FlowBuilderFormulaTextarea.formulaValidationSpinnerAlternativeText';
 
 export const LABELS = {
     errorRequired,
@@ -67,7 +73,11 @@ export const LABELS = {
     fieldCategoryInput,
     fieldCategoryDisplay,
     fieldCategoryCustom,
+    fieldDataType,
+    fieldDefaultValue,
+    fieldLabel,
     fieldName,
+    fieldScale,
     fieldTypeLabelTextField,
     fieldTypeLabelLargeTextArea,
     fieldTypeLabelNumber,
@@ -79,6 +89,7 @@ export const LABELS = {
     fieldTypeLabelRadioButtons,
     fieldTypeLabelDisplayText,
     fieldTypeLabelDisplayRichText,
+    fieldValidation,
     buttonHelpTextAltText,
     screenContainerOptions,
     screenContainerTooltip,
@@ -102,5 +113,6 @@ export const LABELS = {
     togglePropertiesPanelTitle,
     apiNameLabel,
     spinnerAlternativeText,
-    extensionOutputsHeader
+    extensionOutputsHeader,
+    validationFormula
 };

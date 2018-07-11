@@ -1,3 +1,5 @@
+import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+
 /**
  * Array of objects representing flow data types
  * Can be consumed by lightning-combobox
@@ -73,6 +75,36 @@ export const FEROV_DATA_TYPE = {
     DATETIME: 'datetime',
     BOOLEAN : 'boolean',
     REFERENCE: 'reference'
+};
+
+/**
+ * Subtypes for screen input field type
+ */
+export const INPUT_FIELD_DATA_TYPE = {
+    STRING: {
+        label: LABELS.fieldTypeLabelTextField,
+        value: 'TextBox',
+    },
+    NUMBER: {
+        label: LABELS.fieldTypeLabelNumber,
+        value: 'Number',
+    },
+    CURRENCY: {
+        label: LABELS.fieldTypeLabelCurrency,
+        value: 'Currency',
+    },
+    BOOLEAN: {
+        label: LABELS.fieldTypeLabelCheckbox,
+        value: 'Checkbox',
+    },
+    DATE: {
+        label: LABELS.fieldTypeLabelDate,
+        value: 'Date',
+    },
+    DATE_TIME: {
+        label: LABELS.fieldTypeLabelDateTime,
+        value: 'DateTime',
+    }
 };
 
 /**
