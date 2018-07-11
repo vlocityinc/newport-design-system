@@ -18,6 +18,7 @@ import {
     mutateEntitiesToComboboxShape,
     mutatePicklistValue,
 } from './menuDataGenerator';
+import { isNonElementResourceId, getNonElementResource } from 'builder_platform_interaction-system-lib';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
@@ -42,13 +43,14 @@ export const RESOURCE_PICKER_MODE = {
     ENTITY_MODE: 'entity',
 };
 
+/**
+ * Retrieves element or global constant
+ *
+ * @param {String} identifier    unique identifier that can be used to retrieve the flow resource
+ * @return {Object|undefined}    element or resource if the identifier is valid, otherwise undefined
+ */
 export const getResourceByUniqueIdentifier = (identifier) => {
-    let resource = null;
-    if (identifier && !identifier.startsWith('$')) {
-        resource = getElementByGuid(identifier);
-    }
-    // TODO: add a case for global constants
-    return resource;
+    return isNonElementResourceId(identifier) ? getNonElementResource(identifier) : getElementByGuid(identifier);
 };
 
 /**
