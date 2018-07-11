@@ -34,6 +34,7 @@ export const ELEMENT_TYPE = {
     SUBFLOW: 'SUBFLOW',
     START_ELEMENT: 'START_ELEMENT',
     WAIT: 'WAIT',
+    FLOW_PROPERTIES: 'FLOW_PROPERTIES',
     DEFAULT: 'defaultElement'
 };
 

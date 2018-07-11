@@ -2,7 +2,7 @@ import { Element, track, api } from 'engine';
 import { invokePanel, PROPERTY_EDITOR } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
-import { updateFlow, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
+import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 import { createFlowElement } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
@@ -15,6 +15,7 @@ import { setEntities } from 'builder_platform_interaction-sobject-lib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { LABELS } from './editor-labels';
 import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
+import { AddElementEvent } from 'builder_platform_interaction-events';
 
 let unsubscribeStore;
 let storeInstance;
@@ -239,27 +240,36 @@ export default class Editor extends Element {
     };
 
     /**
-     * Handle save event fired by a child component. Fires another event
-     * containing flow information, which is handled by container.cmp.
+     * Handles the save flow event fired by a toolbar. Saves the flow if the flow has already been created.
+     * Pops the flowProperties property editor if the flow is being saved for the first time.
      */
     handleSaveFlow = () => {
-        const flow = translateUIModelToFlow(storeInstance.getCurrentState());
-
-        let saveType;
         if (this.currentFlowId) {
-            saveType = UPDATE_SAVE_TYPE;
+            this.saveFlow();
         } else {
-            saveType = CREATE_SAVE_TYPE;
+            // Pop flow properties editor and do the following on callback
+            const mode = AddElementEvent.EVENT_NAME;
+
+            let node = deepCopy(storeInstance.getCurrentState().properties);
+            node = mutateEditorElement(node, storeInstance.getCurrentState());
+            node = hydrateWithErrors(node);
+
+            const nodeUpdate = this.flowPropertiesCallback;
+            // TODO: Add support for overriding the title and the labels on the buttons in the footer (W-4536979)
+            invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate });
         }
+    };
 
-        const params = {
-            flow,
-            saveType
-        };
-
-        fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
-        this.disableRunDebug = true;
-        this.disableSave = true;
+    /**
+     * Callback which gets executed after clicking done on the Flow Properties Editor
+     *
+     * @param {Object} flowProperties - An object containing all values for the various flow properties
+     * that the user specified on the Flow Properties Editor
+     */
+    flowPropertiesCallback = (flowProperties) => {
+        const flowPropertiesForStore = removeEditorElementMutation(dehydrate(deepCopy(flowProperties)), storeInstance.getCurrentState());
+        storeInstance.dispatch(updateProperties(flowPropertiesForStore));
+        this.saveFlow();
     };
 
     /**
@@ -580,6 +590,30 @@ export default class Editor extends Element {
         const nodeUpdate = this.deMutateAndAddNodeCollection;
         invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate });
     };
+
+    /**
+     * Translates the client side model to the format expected by the server and then invokes
+     * the save flow action with the correct save type: create or update.
+     */
+    saveFlow() {
+        const flow = translateUIModelToFlow(storeInstance.getCurrentState());
+
+        let saveType;
+        if (this.currentFlowId) {
+            saveType = UPDATE_SAVE_TYPE;
+        } else {
+            saveType = CREATE_SAVE_TYPE;
+        }
+
+        const params = {
+            flow,
+            saveType
+        };
+
+        fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
+        this.disableRunDebug = true;
+        this.disableSave = true;
+    }
 
     /**
      * Method for talking to validation library and store for updating the node collection/flow data.

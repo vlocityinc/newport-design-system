@@ -23,6 +23,10 @@ import {
     mutateFormula,
     demutateFormula
 } from './formulaEditorDataMutation';
+import {
+    mutateFlowProperties,
+    demutateFlowProperties
+} from './flowPropertiesEditorDataMutation';
 /**
  * Add property editor mutation for a given element
  *
@@ -44,6 +48,8 @@ export const mutateEditorElement = (element, state) => {
         return mutateScreen(element);
     } else if (element.elementType === ELEMENT_TYPE.FORMULA) {
         return mutateFormula(element);
+    } else if (element.elementType === ELEMENT_TYPE.FLOW_PROPERTIES) {
+        return mutateFlowProperties(element);
     }
 
     // TODO Add other element types
@@ -80,6 +86,8 @@ export const removeEditorElementMutation = (element, state) => {
         return demutateScreen(element);
     }  else if (element.elementType === ELEMENT_TYPE.FORMULA) {
         return demutateFormula(element);
+    } else if (element.elementType === ELEMENT_TYPE.FLOW_PROPERTIES) {
+        return demutateFlowProperties(element);
     }
     // TODO: Should we throw an exception if  the element type isn't recognized?
     return element;

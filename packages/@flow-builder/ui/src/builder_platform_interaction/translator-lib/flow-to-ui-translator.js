@@ -194,6 +194,7 @@ export function translateFlowToUIModel(flow) {
     // Construct flow properties object
     const properties = pick(flow.metadata, FLOW_PROPERTIES);
     properties.fullName = flow.fullName;
+    properties.elementType = ELEMENT_TYPE.FLOW_PROPERTIES;
     properties.versionNumber = flow.versionNumber;
 
     return {

@@ -18,6 +18,13 @@ export const MODAL_SIZE = {
  * @type {object}
  */
 export const elementTypeToConfigMap = {
+    [ELEMENT_TYPE.FLOW_PROPERTIES]: {
+        descriptor: 'builder_platform_interaction:flowPropertiesEditor',
+        labels: {
+            singular: 'Flow Properties'
+        },
+        canvasElement: false
+    },
     [ELEMENT_TYPE.START_ELEMENT]: {
         nodeConfig: {
             iconName: 'standard:flow',
