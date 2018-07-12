@@ -387,7 +387,7 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.RECORD_CREATE]: {
         descriptor: 'builder_platform_interaction:recordCreateEditor',
         nodeConfig: {
-            iconName: 'standard:record',
+            iconName: 'standard:record_create',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
