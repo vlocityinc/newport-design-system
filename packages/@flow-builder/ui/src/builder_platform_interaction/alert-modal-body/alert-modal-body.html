@@ -1,0 +1,15 @@
+<template>
+    <div if:true={bodyTextOne} class='slds-text-align_center'>{bodyTextOne}</div>
+    <div if:true={bodyTextTwo} class='slds-text-align_center slds-m-top_small'>{bodyTextTwo}</div>
+    <div if:true={listSectionHeader}>
+        <div class='slds-text-title_caps slds-text-color_inverse-weak slds-m-top_small'>{listSectionHeader}</div>
+        <ul if:true={listSectionItems} class='slds-has-block-links slds-m-top_small'>
+            <template for:each={listSectionItems} for:item='listItem'>
+                <div key={listItem.guid}>
+                    <lightning-icon icon-name={listItem.iconName} title={listItem.elementName} alternative-text={listItem.elementName} size='xx-small' class='slds-m-right_x-small'></lightning-icon>
+                    <li class='slds-show_inline-block'>{listItem.elementName}</li>
+                </div>
+            </template>
+        </ul>
+    </div>
+</template>

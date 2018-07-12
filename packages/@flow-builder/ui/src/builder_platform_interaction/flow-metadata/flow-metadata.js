@@ -38,6 +38,15 @@ export const ELEMENT_TYPE = {
     DEFAULT: 'defaultElement'
 };
 
+export const CONNECTOR_TYPE = {
+    REGULAR: 'REGULAR',
+    FAULT: 'FAULT',
+    DEFAULT: 'DEFAULT',
+    START: 'START',
+    LOOP_NEXT: 'LOOP_NEXT',
+    LOOP_END: 'LOOP_END'
+};
+
 export const SUB_ELEMENT_TYPE = {
     ASSIGNMENT_ITEM: 'ASSIGNMENT_ITEM',
     CONDITION: 'CONDITION',

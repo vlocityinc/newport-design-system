@@ -1,7 +1,7 @@
 import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { isPlainObject } from 'builder_platform_interaction-store-lib';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
-import { updateProperties, addItem} from 'builder_platform_interaction-data-mutation-lib';
+import { addItem} from 'builder_platform_interaction-data-mutation-lib';
 
 /**
  * This function return list of elements which are referencing elements in the elementGuids array.
@@ -124,17 +124,16 @@ function createUsedByElement({element, elementGuidsReferenced}) {
     const guid = element.guid;
     const label = element.label;
     const name = element.name;
-    const usedByElement = {
+    let iconName;
+    if (elementConfig && elementConfig.nodeConfig && elementConfig.nodeConfig.iconName) {
+        iconName = elementConfig.nodeConfig.iconName;
+    }
+
+    return {
         guid,
         label,
         name,
-        elementGuidsReferenced
+        elementGuidsReferenced,
+        iconName
     };
-    if (elementConfig && elementConfig.nodeConfig && elementConfig.nodeConfig.iconName) {
-        const iconName = elementConfig.nodeConfig.iconName;
-        updateProperties(usedByElement, {
-            iconName
-        });
-    }
-    return usedByElement;
 }

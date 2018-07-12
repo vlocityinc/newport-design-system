@@ -1,19 +1,10 @@
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import startElementLabel from '@label/FlowBuilderCanvas.startElementLabel';
 import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
 import loopNextConnectorLabel from '@label/FlowBuilderConnectorLabels.loopNextConnectorLabel';
 import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.loopEndConnectorLabel';
-
-export const CONNECTOR_TYPE = {
-    REGULAR: 'REGULAR',
-    FAULT: 'FAULT',
-    DEFAULT: 'DEFAULT',
-    START: 'START',
-    LOOP_NEXT: 'LOOP_NEXT',
-    LOOP_END: 'LOOP_END'
-};
 
 export const START_ELEMENT_X_Y = {
     x: 50,

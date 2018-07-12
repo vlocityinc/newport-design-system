@@ -10,7 +10,7 @@ import {
     DELETE_RESOURCE,
     MODIFY_DECISION_WITH_OUTCOMES
 } from 'builder_platform_interaction-actions';
-import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 const newElements = {
     guid2: {

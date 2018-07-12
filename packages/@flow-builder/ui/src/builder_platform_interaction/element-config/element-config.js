@@ -1,5 +1,5 @@
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
-import { ACTION_TYPE, CONDITION_LOGIC, METADATA_KEY, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ACTION_TYPE, CONDITION_LOGIC, METADATA_KEY, ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LABELS } from './element-config-labels';
 import { SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
 
@@ -48,6 +48,14 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.SUBFLOW,
             flowName: '',
@@ -80,6 +88,14 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.ACTION_CALL,
             actionName: '',
@@ -108,6 +124,14 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL,
             apexClass: '',
@@ -136,6 +160,14 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.APEX_CALL,
             actionName: '',
@@ -165,6 +197,14 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.LOCAL_ACTION_CALL,
             actionName: '',
@@ -194,6 +234,14 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.EMAIL_ALERT,
             actionName: '',
@@ -316,6 +364,14 @@ export const elementTypeToConfigMap = {
         canvasElement: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.LOOP_NEXT
+                },
+                {
+                    type: CONNECTOR_TYPE.LOOP_END
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.LOOP,
             assignNextValueToReference: null,
@@ -344,6 +400,14 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.RECORD_CREATE,
             guid: '',
@@ -372,6 +436,14 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
             filters: [],
@@ -407,6 +479,14 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.RECORD_DELETE,
             guid: '',
@@ -434,6 +514,14 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         template: {
             config: { isSelected: false },
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.RECORD_UPDATE,
             guid: '',

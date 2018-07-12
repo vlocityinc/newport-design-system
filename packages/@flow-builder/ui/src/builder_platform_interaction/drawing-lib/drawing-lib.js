@@ -1,4 +1,4 @@
-import { CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 const CONNECTOR_OVERLAY = {
     ARROW: ['PlainArrow', {

@@ -1,12 +1,12 @@
 import { Element, track, api } from 'engine';
-import { invokePanel, PROPERTY_EDITOR } from 'builder_platform_interaction-builder-utils';
+import { invokePanel, PROPERTY_EDITOR, invokeAlertModal } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 import { createFlowElement } from 'builder_platform_interaction-element-config';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { CONNECTOR_TYPE, createConnectorObject, createStartElement } from 'builder_platform_interaction-connector-utils';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { createConnectorObject, createStartElement } from 'builder_platform_interaction-connector-utils';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform_interaction-translator-lib";
 import { reducer } from "builder_platform_interaction-reducers";
@@ -16,6 +16,8 @@ import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-
 import { LABELS } from './editor-labels';
 import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
 import { AddElementEvent } from 'builder_platform_interaction-events';
+import { usedBy } from 'builder_platform_interaction-used-by-lib';
+import { format } from 'builder_platform_interaction-common-utils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -353,7 +355,8 @@ export default class Editor extends Element {
 
     /**
      * Helper method to determine if the connector is an associated connector or not
-     * @param {Array} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
+     *
+     * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
      * @param {Object} connector - A single connector object
      * @return {boolean} returns boolean based on if the connector is associated with any canvas element that is being deleted or not
      */
@@ -362,7 +365,107 @@ export default class Editor extends Element {
     };
 
     /**
-     * Handles the multi-element delete event and dispatches an action to delete all the selected nodes and connectors.
+     * Helper method to delete the selected elements
+     *
+     * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
+     * @param {String[]} connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
+     * @param {String} elementType - Type of the element being deleted
+     */
+    doDelete = (selectedElementGUIDs, connectorsToDelete, elementType) => {
+        const selectedElementsLength  = selectedElementGUIDs.length;
+        for (let i = 0; i < selectedElementsLength; i++) {
+            const selectedGUID = selectedElementGUIDs[i];
+            lib.removeNodeFromLib(selectedGUID);
+        }
+
+        const payload = {
+            selectedElementGUIDs,
+            connectorsToDelete,
+            elementType
+        };
+        storeInstance.dispatch(deleteElement(payload));
+    };
+
+    /**
+     * Helper method to invoke the alert modal
+     *
+     * @param {Object} storeElements - Current state of elements in the store
+     * @param {String[]} usedByElements - List of elements which are referencing elements in the selectedElementGUIDs array.
+     * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
+     * @param {String} elementType - Type of the element being deleted
+     */
+    doInvokeAlert = (storeElements, usedByElements, selectedElementGUIDs, elementType) => {
+        const selectedElementsLength  = selectedElementGUIDs.length;
+        const headerTitle = LABELS.deleteAlertHeaderTitle;
+        let bodyTextOne = LABELS.deleteAlertMultiDeleteBodyTextOne;
+        const listSectionHeader = LABELS.deleteAlertListSectionHeader;
+        const listSectionItems = [];
+        const buttonVariant = 'Brand';
+        const buttonLabel = LABELS.deleteAlertOkayButtonLabel;
+
+        if (selectedElementsLength === 1) {
+            // When only a single element is being deleted and either the element or it's children are being referenced in the flow
+            const selectedElement = storeElements[selectedElementGUIDs[0]];
+            if (!elementType && selectedElement) {
+                elementType = selectedElement.elementType;
+            }
+
+            bodyTextOne = format(LABELS.deleteAlertSingleDeleteBodyTextOne, elementType.toLowerCase());
+        }
+
+        // Creating listSectionItems in the shape required by the alert modal
+        usedByElements.map(element => {
+            listSectionItems.push({
+                guid: element.guid,
+                elementName: element.name,
+                iconName: element.iconName
+            });
+            return element;
+        });
+
+        // Invoking the alert modal
+        invokeAlertModal({
+            headerData: {
+                headerTitle
+            },
+            bodyData: {
+                bodyTextOne,
+                listSectionHeader,
+                listSectionItems
+            },
+            footerData: {
+                buttonOne: {
+                    buttonVariant,
+                    buttonLabel
+                }
+            }
+        });
+    };
+
+    /**
+     * Helper method to delete the selected elements or invoke delete alert modal
+     *
+     * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
+     * @param {String[]} connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
+     * @param {String} elementType - Type of the element being deleted
+     */
+    doDeleteOrInvokeAlert = (selectedElementGUIDs, connectorsToDelete, elementType) => {
+        const currentState = storeInstance.getCurrentState();
+        const storeElements = currentState.elements;
+
+        const usedByElements = usedBy(selectedElementGUIDs, storeElements);
+
+        if (!usedByElements || usedByElements.length === 0) {
+            // Deleting the elements that are not being referenced anywhere else
+            this.doDelete(selectedElementGUIDs, connectorsToDelete, elementType);
+        } else {
+            // Handling cases when the element/elements being deleted are being referenced somewhere in the flow
+            this.doInvokeAlert(storeElements, usedByElements, selectedElementGUIDs, elementType);
+        }
+    };
+
+    /**
+     * Handles the element delete event
      *
      * @param {object} event - multi delete event coming from canvas.js
      */
@@ -373,20 +476,18 @@ export default class Editor extends Element {
             let elementType;
 
             if (!event.detail.selectedElementGUID) {
+                // Adds all the selected nodes to the selectedElementGUIDs array
                 const nodesLength = this.appState.canvas.nodes.length;
                 for (let i = 0; i < nodesLength; i++) {
-                    // Removes all the selected nodes from jsPlumb and adds them to the selectedElementGUIDs array
                     const canvasElement = this.appState.canvas.nodes[i];
-
                     if (canvasElement.config.isSelected) {
-                        lib.removeNodeFromLib(canvasElement.guid);
                         selectedElementGUIDs.push(canvasElement.guid);
                     }
                 }
 
+                // Adds all the selected and associated connectors to the connectorsToDelete array
                 const connectorsLength = this.appState.canvas.connectors.length;
                 for (let i = 0; i < connectorsLength; i++) {
-                    // Adds all the selected and associated connectors to the connectorsToDelete array
                     const connector = this.appState.canvas.connectors[i];
                     if (connector.config.isSelected) {
                         connectorsToDelete.push(connector);
@@ -396,16 +497,12 @@ export default class Editor extends Element {
                 }
             } else {
                 const selectedGUID = event.detail.selectedElementGUID[0];
-
                 elementType = event.detail.selectedElementType;
-
-                lib.removeNodeFromLib(selectedGUID);
                 selectedElementGUIDs.push(selectedGUID);
 
+                // Adds all the associated connectors to the connectorsToDelete array
                 const connectorsLength = this.appState.canvas.connectors.length;
-
                 for (let i = 0; i < connectorsLength; i++) {
-                    // Adds all the associated connectors to the connectorsToDelete array
                     const connector = this.appState.canvas.connectors[i];
                     if (this.isAssociatedConnector(selectedElementGUIDs, connector)) {
                         connectorsToDelete.push(connector);
@@ -413,12 +510,7 @@ export default class Editor extends Element {
                 }
             }
 
-            const payload = {
-                selectedElementGUIDs,
-                connectorsToDelete,
-                elementType
-            };
-            storeInstance.dispatch(deleteElement(payload));
+            this.doDeleteOrInvokeAlert(selectedElementGUIDs, connectorsToDelete, elementType);
         }
     };
 

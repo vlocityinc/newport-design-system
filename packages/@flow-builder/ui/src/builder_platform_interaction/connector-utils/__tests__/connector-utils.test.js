@@ -5,9 +5,8 @@ import {
     createConnectorObjects,
     createConnectorsAndConnectionProperties,
     setConnectorsOnElements,
-    CONNECTOR_TYPE
 } from 'builder_platform_interaction-connector-utils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
 import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
 import loopNextConnectorLabel from '@label/FlowBuilderConnectorLabels.loopNextConnectorLabel';
 import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.loopEndConnectorLabel';

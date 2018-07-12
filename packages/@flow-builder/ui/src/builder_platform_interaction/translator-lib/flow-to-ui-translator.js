@@ -3,8 +3,8 @@ import { ELEMENT_INFOS, FLOW_PROPERTIES } from './translation-config';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { swapDevNamesToUids } from './uid-swapping';
 import { pick } from 'builder_platform_interaction-data-mutation-lib';
-import { ELEMENT_TYPE, RESOURCE_TYPES } from 'builder_platform_interaction-flow-metadata';
-import { createConnectorsAndConnectionProperties, createStartElement, CONNECTOR_TYPE } from 'builder_platform_interaction-connector-utils';
+import { ELEMENT_TYPE, CONNECTOR_TYPE, RESOURCE_TYPES } from 'builder_platform_interaction-flow-metadata';
+import { createConnectorsAndConnectionProperties, createStartElement } from 'builder_platform_interaction-connector-utils';
 
 /**
  * Decorate the element with ui specific data and data corresponding to it's element type
