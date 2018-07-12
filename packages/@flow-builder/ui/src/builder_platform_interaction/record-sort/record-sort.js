@@ -100,7 +100,7 @@ export default class RecordSort extends Element {
     getFields(resourceApiName) {
         getFieldsForEntity(resourceApiName, (fields) => {
             if (fields) {
-                this.state.fieldsOptions = Object.values(fields).map((field) => {
+                this.state.fieldsOptions = Object.values(fields).filter(field => field.sortable).map((field) => {
                     return { label: field.apiName, value: field.apiName };
                 });
             } else {

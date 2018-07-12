@@ -73,11 +73,15 @@ export default class RecordFilter extends Element {
         return this.entityName;
     }
     /**
-     * @param {Object} fields - Fields of the entity
+     * @param {Object} fields - Filterable fields of the entity
      */
     @api
     set recordFields(fields) {
-        this.entityFields = fields;
+        this.entityFields = {};
+        const filterableFields = Object.values(fields).filter(field => field.filterable);
+        filterableFields.forEach(filterableField => {
+            this.entityFields[filterableField.apiName] = filterableField;
+        });
     }
 
     @api
