@@ -1,12 +1,10 @@
 <template>
-    <builder_platform_interaction-accordion>
-        <builder_platform_interaction-accordion-section>
-            <div slot='accordion-header'>Details</div>
-            <div slot='accordion-body'>
-                <builder_platform_interaction-label-description label={recordLookupElement.label} dev-name={recordLookupElement.name} description={recordLookupElement.description} guid={recordLookupElement.guid} onpropertychanged={handlePropertyOrListItemChanged}> </builder_platform_interaction-label-description>
-            </div>
-        </builder_platform_interaction-accordion-section>
-    </builder_platform_interaction-accordion>
+    <div class="slds-p-horizontal_small slds-p-top_small">
+        {labels.recordLookupTitle}
+    </div>
+    <div class="slds-p-horizontal_small slds-p-top_small">
+        <builder_platform_interaction-label-description label={recordLookupElement.label} dev-name={recordLookupElement.name} description={recordLookupElement.description} guid={recordLookupElement.guid} onpropertychanged={handlePropertyOrListItemChanged}> </builder_platform_interaction-label-description>
+    </div>
     
     <!-- sobject picker -->
     <div class="slds-m-bottom_small slds-border_top">
