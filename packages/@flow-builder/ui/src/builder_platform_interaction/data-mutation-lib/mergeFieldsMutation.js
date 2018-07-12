@@ -1,4 +1,5 @@
 import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction-store-utils';
+import { isNonElementResourceId } from 'builder_platform_interaction-system-lib';
 
 /**
  * The 5 possible situations are:
@@ -21,7 +22,7 @@ export const sanitizeGuid = (potentialGuid) => {
     const complexGuid = {};
     if (typeof potentialGuid === 'string') {
         const periodIndex = potentialGuid.indexOf('.');
-        if (periodIndex !== -1) {
+        if (periodIndex !== -1 && !isNonElementResourceId(potentialGuid)) {
             complexGuid.guidOrLiteral = potentialGuid.substring(0, periodIndex);
             complexGuid.fieldName = potentialGuid.substring(periodIndex + 1);
         } else {

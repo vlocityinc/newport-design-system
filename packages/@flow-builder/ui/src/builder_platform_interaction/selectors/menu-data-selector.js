@@ -1,38 +1,44 @@
 import { createSelector } from 'builder_platform_interaction-store-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
+import globalConstantEmptyStringLabel from '@label/FlowBuilderGlobalConstants.globalConstantEmptyString';
+import globalConstantTrueLabel from '@label/FlowBuilderGlobalConstants.globalConstantTrue';
+import globalConstantFalseLabel from '@label/FlowBuilderGlobalConstants.globalConstantFalse';
 
 const elementsSelector = (state) => state.elements;
 const resourcesSelector = (state) => state.resources;
 const canvasElementsSelector = (state) => state.canvasElements;
 
-const getElements = (elements, guids) => guids.reduce((acc, guid) => {
+const getResources = (elements, guids) => guids.reduce((acc, guid) => {
     acc.push(elements[guid]);
     return acc;
 }, []);
 
 const getWritableElements = (elements, resources) => {
     const writableElementGuids = resources.filter(guid => elements[guid].elementType === ELEMENT_TYPE.VARIABLE);
-    return getElements(elements, writableElementGuids);
+    return getResources(elements, writableElementGuids);
 };
 
 const getReadableElements = (elements, resources, canvasElements) => {
     // the start element will never be needed for menu data
     const editableCanvasElements = canvasElements.filter(guid => elements[guid].elementType !== ELEMENT_TYPE.START_ELEMENT);
     const readableElementGuids = [...resources, ...editableCanvasElements];
-    return getElements(elements, readableElementGuids);
+    const readableElements = getResources(elements, readableElementGuids);
+    const globalConstants = getResources(GLOBAL_CONSTANTS, [globalConstantFalseLabel, globalConstantTrueLabel, globalConstantEmptyStringLabel]);
+    return [...readableElements, ...globalConstants];
 };
 
 const getCollectionElements = (elements, resources) => {
     const collectionElementGuids = resources.filter(guid => elements[guid].isCollection);
-    return getElements(elements, collectionElementGuids);
+    return getResources(elements, collectionElementGuids);
 };
 
 const getNonCollectionElementsByType = (elements, resources, dataType) => {
     const filteredElementGuids = resources.filter(guid =>
         (elements[guid].dataType === dataType) && (!elements[guid].isCollection)
     );
-    return getElements(elements, filteredElementGuids);
+    return getResources(elements, filteredElementGuids);
 };
 
 /**

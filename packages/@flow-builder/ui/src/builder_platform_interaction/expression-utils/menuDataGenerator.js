@@ -2,6 +2,8 @@ import {
     COMBOBOX_ITEM_DISPLAY_TYPE,
 } from './menuDataRetrieval';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { isNonElementResourceId } from 'builder_platform_interaction-system-lib';
+
 const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
 /**
  * Determines category for display. Eventually will use the label service
@@ -11,7 +13,7 @@ const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
  * @param {Boolean} isCollection whether or not that element is a collection
  * @returns {String} the full category label for this element
  */
-function getCategory(elementType, dataType, isCollection) {
+function getElementCategory(elementType, dataType, isCollection) {
     return (dataType === SObjectType ? 'SObject ' : '') +
         (isCollection ? 'Collection ' : '') +
         elementType;
@@ -117,23 +119,24 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
 /**
  * Makes copy of a Flow Element with fields as needed by combobox
  *
- * @param {Object} element   element from flow
+ * @param {Object} resource   element from flow
  * @returns {Object}         representation of flow element in shape combobox needs
  */
-export function mutateFlowElementToComboboxShape(element) {
+export function mutateFlowResourceToComboboxShape(resource) {
     const newElement = {};
 
-    newElement.text = element.name;
-    newElement.subText = getSubText(element.dataType, element.objectType, element.label);
-    newElement.value = element.guid;
-    newElement.displayText = '{!' + element.name + '}';
-    newElement.hasNext = element.dataType === SObjectType && !element.isCollection;
+    newElement.text = resource.name;
+    newElement.subText = getSubText(resource.dataType, resource.objectType, resource.label);
+    newElement.value = resource.guid;
+    newElement.displayText = '{!' + resource.name + '}';
+    newElement.hasNext = resource.dataType === SObjectType && !resource.isCollection;
     // TODO: remove upper case-ing once we're using labels for categories W-4813532
-    newElement.category = getCategory(element.elementType, element.dataType, element.isCollection).toUpperCase();
+    newElement.category = isNonElementResourceId(resource.guid) ?
+        resource.category : getElementCategory(resource.elementType, resource.dataType, resource.isCollection).toUpperCase();
     // TODO: fetch icon
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
-    newElement.dataType = element.dataType;
-    newElement.objectType = element.objectType ? element.objectType : null;
+    newElement.dataType = resource.dataType;
+    newElement.objectType = resource.objectType ? resource.objectType : null;
 
     return newElement;
 }

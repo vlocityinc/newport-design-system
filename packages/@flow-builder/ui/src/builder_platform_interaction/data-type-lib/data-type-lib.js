@@ -69,11 +69,11 @@ let resourceTypes = [];
 export { FLOW_DATA_TYPE };
 
 export const FEROV_DATA_TYPE = {
-    STRING : 'string',
-    NUMBER : 'number',
-    DATE : 'date',
-    DATETIME: 'datetime',
-    BOOLEAN : 'boolean',
+    STRING : FLOW_DATA_TYPE.STRING.value,
+    NUMBER : FLOW_DATA_TYPE.NUMBER.value,
+    DATE : FLOW_DATA_TYPE.DATE.value,
+    DATETIME: FLOW_DATA_TYPE.DATE_TIME.value,
+    BOOLEAN : FLOW_DATA_TYPE.BOOLEAN.value,
     REFERENCE: 'reference'
 };
 

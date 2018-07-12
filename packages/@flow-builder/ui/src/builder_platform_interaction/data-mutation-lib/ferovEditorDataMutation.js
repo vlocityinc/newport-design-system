@@ -185,7 +185,7 @@ function getFerovDataTypeValue(value) {
             dataType = value;
     }
 
-    return dataType.toLowerCase();
+    return dataType;
 }
 
 /**

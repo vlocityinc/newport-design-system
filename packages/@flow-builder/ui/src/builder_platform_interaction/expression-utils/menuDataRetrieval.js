@@ -14,7 +14,7 @@ import { FLOW_DATA_TYPE, getResourceTypes } from 'builder_platform_interaction-d
 import {
     createMenuItem,
     mutateFieldToComboboxShape,
-    mutateFlowElementToComboboxShape,
+    mutateFlowResourceToComboboxShape,
     mutateEntitiesToComboboxShape,
     mutatePicklistValue,
 } from './menuDataGenerator';
@@ -153,11 +153,11 @@ export const normalizeRHS = (rhsIdentifier, normalizedLHS) => {
     if (flowElement && complexGuid.fieldName) {
         // TODO: W-4960448: the field will appear empty briefly when fetching the first time
         sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
-            rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[complexGuid.fieldName], mutateFlowElementToComboboxShape(flowElement), true, true);
+            rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[complexGuid.fieldName], mutateFlowResourceToComboboxShape(flowElement), true, true);
             rhs.fields = fields;
         });
     } else if (flowElement) {
-        rhs.itemOrDisplayText = mutateFlowElementToComboboxShape(flowElement);
+        rhs.itemOrDisplayText = mutateFlowResourceToComboboxShape(flowElement);
     } else {
         // in the case that we have a literal string, we must also check for a picklist value when the LHS is a picklist field
         let foundValue;
@@ -221,7 +221,7 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
         const sobject = (flowElement) ? flowElement.objectType : complexGuid.guidOrLiteral;
         lhs.parameter = getFieldParamRepresentation(sobject, complexGuid.fieldName, (field) => {
             const isFieldOnSobjectVar = !!flowElement;
-            const fieldParent = isFieldOnSobjectVar ? mutateFlowElementToComboboxShape(flowElement) : {value: field.sobjectName};
+            const fieldParent = isFieldOnSobjectVar ? mutateFlowResourceToComboboxShape(flowElement) : {value: field.sobjectName};
             lhs.item = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
             if (callback) {
                 callback(lhsIdentifier);
@@ -229,7 +229,7 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
             lhs.activePicklistValues = field.activePicklistValues;
         });
     } else if (flowElement) {
-        lhs.item = mutateFlowElementToComboboxShape(flowElement);
+        lhs.item = mutateFlowResourceToComboboxShape(flowElement);
         lhs.parameter = elementToParam(flowElement);
     }
     return lhs;
@@ -308,7 +308,7 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     const menuData = getSelector(elementConfig)(state)
         .filter(element => isElementAllowed(allowedParamTypes, element, allowSObjectForFields))
         .map(element => {
-            const menuItem = mutateFlowElementToComboboxShape(element);
+            const menuItem = mutateFlowResourceToComboboxShape(element);
             menuItem.hasNext = disableHasNext ? false : menuItem.hasNext;
 
             return menuItem;
