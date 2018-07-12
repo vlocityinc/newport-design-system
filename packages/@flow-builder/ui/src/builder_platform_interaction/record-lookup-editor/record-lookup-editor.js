@@ -149,9 +149,7 @@ export default class RecordLookupEditor extends Element {
      */
     handleSObjectReferenceChanged(event) {
         event.stopPropagation();
-        if (this.outputReference !== event.detail.value) {
-            this.updateProperty('outputReference', event.detail.value, event.detail.error, this.sObjectName);
-        }
+        this.updateProperty('outputReference', event.detail.value, event.detail.error, this.sObjectName);
     }
 
     /**

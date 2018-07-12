@@ -107,6 +107,7 @@ const resetFilterErrors = (state) => {
 
 const managePropertyChanged = (state, event) => {
     const propName = event.detail.propertyName;
+    event.detail.error = event.detail.error === null ? recordLookupValidation.validateProperty(propName, event.detail.value) : event.detail.error;
     if (propName === 'assignNullValuesIfNoRecordsFound') {
         state = updateProperties(state, {[propName]: event.detail.value});
     } else {

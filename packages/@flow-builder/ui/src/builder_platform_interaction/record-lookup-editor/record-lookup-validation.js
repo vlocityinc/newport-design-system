@@ -34,29 +34,34 @@ const validateQueriedField = () => {
         return rules;
     };
 };
+const additionalRules = {
+    name: [
+        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
+        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
+        ValidationRules.maximumCharactersLimit(80),
+        ValidationRules.shouldNotBeBlank,
+    ],
+    label: [
+        ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
+        ValidationRules.maximumCharactersLimit(255),
+        ValidationRules.shouldNotBeBlank
+    ],
+    object: [
+        ValidationRules.shouldNotBeBlank
+    ],
+    // TODO: only validate outputReference if store fields in sObject variable
+    outputReference: [
+        ValidationRules.shouldNotBeNullOrUndefined,
+        ValidationRules.shouldNotBeBlank
+    ],
+};
 
+/**
+ * @param {Object} nodeElement the element that need to be validated
+ * @return {Object} the override rules
+ */
 export const getRules = (nodeElement) => {
-    const overrideRules = {
-        'name': [
-            ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
-            ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
-            ValidationRules.maximumCharactersLimit(80),
-            ValidationRules.shouldNotBeBlank,
-        ],
-        'label': [
-            ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
-            ValidationRules.maximumCharactersLimit(255),
-            ValidationRules.shouldNotBeBlank
-        ],
-        'object': [
-            ValidationRules.shouldNotBeBlank
-        ],
-        // TODO: only validate outputReference if store fields in sObject variable
-        'outputReference': [
-            ValidationRules.shouldNotBeNullOrUndefined,
-            ValidationRules.shouldNotBeBlank
-        ],
-    };
+    const overrideRules = additionalRules;
     // validate filters if filter type is ALL
     if (nodeElement.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
         overrideRules.filters = validateFilter();
@@ -72,4 +77,4 @@ export const getRules = (nodeElement) => {
     return overrideRules;
 };
 
-export const recordLookupValidation = new Validation();
+export const recordLookupValidation = new Validation(additionalRules);
