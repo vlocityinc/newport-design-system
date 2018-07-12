@@ -1,8 +1,42 @@
 import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction-store-utils';
 
+/**
+ * The 5 possible situations are:
+ * a) "guidOrLiteral" holds a literal the user entered
+ * b) "guidOrLiteral" references a flow element that is NOT an sobject variable, and "fieldName" is empty
+ * c) "guidOrLiteral" references an sobject variable, and "fieldName" is empty
+ * d) "guidOrLiteral" references an sobject variable, and "fieldName" is a field on that sobject
+ * e) "guidOrLiteral" holds an sobject api name, and fieldName is a field on that sobject
+ *
+ * @typedef {Object} complexGuid
+ * @param {String} guidOrLiteral                 a flow element's guid OR a literal
+ * @param {String|undefined} fieldName  if the flow element is an sobjectVar this may be a field on that sobject, or undefined
+ */
+/**
+ * If a guid contains more than one level, separates it out to two parts
+ * @param {String} potentialGuid The guid to sanitize. This can be the value in the case of literals.
+ * @returns {complexGuid} The complex object containing the guid and the field name. Returns an empty object in the literals case.
+ */
+export const sanitizeGuid = (potentialGuid) => {
+    const complexGuid = {};
+    if (typeof potentialGuid === 'string') {
+        const periodIndex = potentialGuid.indexOf('.');
+        if (periodIndex !== -1) {
+            complexGuid.guidOrLiteral = potentialGuid.substring(0, periodIndex);
+            complexGuid.fieldName = potentialGuid.substring(periodIndex + 1);
+        } else {
+            complexGuid.guidOrLiteral = potentialGuid;
+        }
+    }
+    return complexGuid;
+};
+
 const guidToDevName = (guid) => {
-    const flowElement = getElementByGuid(guid);
-    if (flowElement) {
+    const complexGuid = sanitizeGuid(guid);
+    const flowElement = getElementByGuid(complexGuid.guidOrLiteral);
+    if (flowElement && complexGuid.fieldName) {
+        return flowElement.name + '.' + complexGuid.fieldName;
+    } else if (flowElement) {
         return flowElement.name;
     }
     return undefined;
@@ -31,8 +65,11 @@ const MERGE_FIELD_END_CHARS = '}';
 const MERGEFIELD_REGEX = /\{!(\$\w+\.\w+|\w+\.\w+|\w+)\}/g;
 
 const replaceMergeFieldReferences = (template, mappingFunction) => {
-    return template.replace(MERGEFIELD_REGEX, (fullMatch, value) =>
-        MERGE_FIELD_START_CHARS + replaceMergeFieldReference(value, mappingFunction) + MERGE_FIELD_END_CHARS);
+    if (template) {
+        return template.replace(MERGEFIELD_REGEX, (fullMatch, value) =>
+            MERGE_FIELD_START_CHARS + replaceMergeFieldReference(value, mappingFunction) + MERGE_FIELD_END_CHARS);
+    }
+    return template;
 };
 
 /**

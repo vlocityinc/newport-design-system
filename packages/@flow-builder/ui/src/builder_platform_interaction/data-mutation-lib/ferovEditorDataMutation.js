@@ -1,5 +1,6 @@
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { omit, updateProperties } from './objectMutation';
+import { mutateTextWithMergeFields } from './mergeFieldsMutation';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { GLOBAL_CONSTANT } from 'builder_platform_interaction-flow-metadata';
@@ -151,6 +152,8 @@ function convertToProps(ferovObject, valueProperty, dataTypeProperty) {
                 props[valueProperty] = value.toString();
             } else if (isFerovString(metadataType) && value === '') {
                 props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANT.EMPTY_STRING);
+            } else if (isFerovString(metadataType)) {
+                props[valueProperty] = mutateTextWithMergeFields(value);
             } else {
                 props[valueProperty] = value;
             }

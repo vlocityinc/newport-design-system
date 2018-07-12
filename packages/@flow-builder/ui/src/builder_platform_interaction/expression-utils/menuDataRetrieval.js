@@ -19,6 +19,7 @@ import {
     mutatePicklistValue,
 } from './menuDataGenerator';
 import { isNonElementResourceId, getNonElementResource } from 'builder_platform_interaction-system-lib';
+import { sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
@@ -139,38 +140,6 @@ export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
 // }
 
 /**
- * The 5 possible situations are:
- * a) "guid" holds a literal the user entered
- * b) "guid" references a flow element that is NOT an sobject variable, and "fieldName" is empty
- * c) "guid" references an sobject variable, and "fieldName" is empty
- * d) "guid" references an sobject variable, and "fieldName" is a field on that sobject
- * e) "guid" holds an sobject api name, and fieldName is a field on that sobject
- *
- * @typedef {Object} complexGuid
- * @param {String} guid                 a flow element's guid OR a literal
- * @param {String|undefined} fieldName  if the flow element is an sobjectVar this may be a field on that sobject, or undefined
- */
-
-/**
- * If a guid contains more than one level, separates it out to two parts
- * @param {String} potentialGuid The guid to sanitize. This can be the value in the case of literals.
- * @returns {complexGuid} The complex object containing the guid and the field name. Returns an empty object in the literals case.
- */
-export const sanitizeGuid = (potentialGuid) => {
-    const complexGuid = {};
-    if (typeof potentialGuid === 'string') {
-        const periodIndex = potentialGuid.indexOf('.');
-        if (periodIndex !== -1) {
-            complexGuid.guid = potentialGuid.substring(0, periodIndex);
-            complexGuid.fieldName = potentialGuid.substring(periodIndex + 1);
-        } else {
-            complexGuid.guid = potentialGuid;
-        }
-    }
-    return complexGuid;
-};
-
-/**
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
  * @param {String} rhsIdentifier    used to identify RHS, could be GUID or literal
@@ -180,7 +149,7 @@ export const sanitizeGuid = (potentialGuid) => {
 export const normalizeRHS = (rhsIdentifier, normalizedLHS) => {
     const rhs = {};
     const complexGuid = sanitizeGuid(rhsIdentifier);
-    const flowElement = getResourceByUniqueIdentifier(complexGuid.guid);
+    const flowElement = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
     if (flowElement && complexGuid.fieldName) {
         // TODO: W-4960448: the field will appear empty briefly when fetching the first time
         sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
@@ -242,14 +211,14 @@ export const getFieldParamRepresentation = (sobject, fieldName, callback) => {
 export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
     const lhs = {};
     const complexGuid = sanitizeGuid(lhsIdentifier);
-    const flowElement = getResourceByUniqueIdentifier(complexGuid.guid);
+    const flowElement = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
     if (!flowElement) {
         // Pass in lhsIdentifier as string in the default case
         lhs.item = lhsIdentifier;
     }
     if (complexGuid.fieldName) {
         // TODO: W-4960448: the field will appear empty briefly when fetching the first time
-        const sobject = (flowElement) ? flowElement.objectType : complexGuid.guid;
+        const sobject = (flowElement) ? flowElement.objectType : complexGuid.guidOrLiteral;
         lhs.parameter = getFieldParamRepresentation(sobject, complexGuid.fieldName, (field) => {
             const isFieldOnSobjectVar = !!flowElement;
             const fieldParent = isFieldOnSobjectVar ? mutateFlowElementToComboboxShape(flowElement) : {value: field.sobjectName};

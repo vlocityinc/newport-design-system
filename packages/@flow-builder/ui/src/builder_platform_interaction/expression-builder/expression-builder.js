@@ -1,6 +1,6 @@
 import { Element, api, track } from 'engine';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
-import { updateProperties, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
+import { updateProperties, getValueFromHydratedItem, sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
 import {
     EXPRESSION_PROPERTY_TYPE,
     getElementsForMenuData,
@@ -9,7 +9,6 @@ import {
     isElementAllowed,
     normalizeRHS,
     filterFieldsForChosenElement,
-    sanitizeGuid,
     OPERATOR_DISPLAY_OPTION,
     getResourceByUniqueIdentifier,
 } from 'builder_platform_interaction-expression-utils';
@@ -268,7 +267,7 @@ export default class ExpressionBuilder extends Element {
 
     getElementOrField(value) {
         const complexGuid = sanitizeGuid(value);
-        const flowElement = getResourceByUniqueIdentifier(complexGuid.guid);
+        const flowElement = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
         let elementOrField;
         if (complexGuid.fieldName) {
             const objectType = (flowElement) ? flowElement.objectType : contextConfig.objectType;

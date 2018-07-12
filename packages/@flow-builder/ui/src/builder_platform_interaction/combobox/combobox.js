@@ -6,6 +6,7 @@ import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expres
 import { isUndefinedOrNull, formatDate, isObject } from 'builder_platform_interaction-common-utils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 import { LABELS } from './combobox-labels';
+import { validateTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
 
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
@@ -736,23 +737,38 @@ export default class Combobox extends Element {
     /**
      * Validates the literal value entered in the combobox against the _dataTypes
      * @param {String} value literal value
-     * @returns {Boolean} whether or not literal validation succeeded or failed
      */
     validateLiteralForDataType() {
         if (this._dataType) {
             switch (this._dataType) {
                 case FLOW_DATA_TYPE.NUMBER.value:
                 case FLOW_DATA_TYPE.CURRENCY.value:
-                    return this.validateNumber();
+                    this.validateNumber();
+                    break;
                 case FLOW_DATA_TYPE.DATE.value:
-                    return this.validateAndFormatDate();
+                    this.validateAndFormatDate();
+                    break;
                 case FLOW_DATA_TYPE.DATE_TIME.value:
-                    return this.validateAndFormatDate(true);
+                    this.validateAndFormatDate(true);
+                    break;
+                case FLOW_DATA_TYPE.STRING.value:
+                    this.validateInlineMergeFields();
+                    break;
                 default:
-                    return true;
+                    break;
             }
         }
-        return true;
+    }
+
+    validateInlineMergeFields() {
+        this.state.showActivityIndicator = true;
+        validateTextWithMergeFields(this.state.displayText).then(errors => {
+            this.state.showActivityIndicator = false;
+            if (errors.length > 0) {
+                this._errorMessage = errors[0].message;
+                this.fireComboboxStateChangedEvent();
+            }
+        });
     }
 
     /**

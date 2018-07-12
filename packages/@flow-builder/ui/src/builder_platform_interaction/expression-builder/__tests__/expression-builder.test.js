@@ -158,7 +158,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         retrieveRHSVal: require.requireActual('builder_platform_interaction-expression-utils').retrieveRHSVal,
         getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction-expression-utils').getResourceByUniqueIdentifier,
         isElementAllowed: require.requireActual('builder_platform_interaction-expression-utils').isElementAllowed,
-        sanitizeGuid: require.requireActual('builder_platform_interaction-expression-utils').sanitizeGuid,
+        sanitizeGuid: require.requireActual('builder_platform_interaction-data-mutation-lib').sanitizeGuid,
         filterFieldsForChosenElement: require.requireActual('builder_platform_interaction-expression-utils').filterFieldsForChosenElement,
         OPERATOR_DISPLAY_OPTION: require.requireActual('builder_platform_interaction-expression-utils').OPERATOR_DISPLAY_OPTION,
     };
