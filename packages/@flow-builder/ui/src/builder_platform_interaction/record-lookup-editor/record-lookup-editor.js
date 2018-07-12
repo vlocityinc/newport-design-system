@@ -23,6 +23,8 @@ export default class RecordLookupEditor extends Element {
     @track
     recordEntityName = '';
 
+    sObjectName = '';
+
     /**
      * The default value of number records to store.
      */
@@ -73,6 +75,7 @@ export default class RecordLookupEditor extends Element {
         if (this.recordLookupElement.outputReference && this.recordLookupElement.outputReference.value) {
             const variable = getResourceByUniqueIdentifier(this.recordLookupElement.outputReference.value);
             if (variable) {
+                this.sObjectName = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value ? variable.guid : '';
                 this.numberRecordsToStoreValue = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
             }
         }
@@ -147,7 +150,7 @@ export default class RecordLookupEditor extends Element {
     handleSObjectReferenceChanged(event) {
         event.stopPropagation();
         if (this.outputReference !== event.detail.value) {
-            this.updateProperty('outputReference', event.detail.value, event.detail.error);
+            this.updateProperty('outputReference', event.detail.value, event.detail.error, this.sObjectName);
         }
     }
 
@@ -156,13 +159,13 @@ export default class RecordLookupEditor extends Element {
      */
     handleResourceChanged(event) {
         event.stopPropagation();
-        if (event.detail.item) {
+        if (event.detail.item && !event.detail.error && this.recordEntityName !== event.detail.item.value) {
             this.recordEntityName = event.detail.item.value;
             this.updateFields();
         }
         const value = event.detail.item ? event.detail.item.value : event.detail.displayText;
         if (value !== this.recordLookupElement.object.value) {
-            this.updateProperty('object', value, event.detail.error);
+            this.updateProperty('object', value, event.detail.error, this.recordEntityName);
         }
     }
 
@@ -173,9 +176,9 @@ export default class RecordLookupEditor extends Element {
         event.stopPropagation();
         if (this.numberRecordsToStoreValue !== event.detail.numberRecordsToStore) {
             this.numberRecordsToStoreValue = event.detail.numberRecordsToStore;
-            this.updateProperty('outputReference', '', null);
+            this.updateProperty('outputReference', '', null, this.sObjectName);
         } else if (this.recordLookupElement.assignNullValuesIfNoRecordsFound !== event.detail.assignNullToVariableNoRecord) {
-            this.updateProperty('assignNullValuesIfNoRecordsFound', event.detail.assignNullToVariableNoRecord, null);
+            this.updateProperty('assignNullValuesIfNoRecordsFound', event.detail.assignNullToVariableNoRecord);
         }
     }
 
@@ -196,8 +199,8 @@ export default class RecordLookupEditor extends Element {
         this.updateProperty('filterType', event.detail.filterType, event.detail.error);
     }
 
-    updateProperty(propertyName, newValue, error) {
-        const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error);
+    updateProperty(propertyName, newValue, error, oldValue) {
+        const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         this.recordLookupElement = recordLookupReducer(this.recordLookupElement, propChangedEvent);
     }
 }

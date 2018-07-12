@@ -56,7 +56,13 @@ const addQueriedField = (state) => {
 
 const deleteQueriedField = (state, event) => {
     const updatedItems = deleteItem(state.queriedFields, event.detail.index);
-    return set(state, 'queriedFields', updatedItems);
+    state = set(state, 'queriedFields', updatedItems);
+    // reset last empty field's blank error if any
+    // 'Id' + one field
+    if (state.queriedFields.length === 2 && state.queriedFields[1].field.value === '' && state.queriedFields[1].field.error) {
+        state.queriedFields[1].field.error = null;
+    }
+    return state;
 };
 
 const updateQueriedField = (state, event) => {
@@ -107,10 +113,10 @@ const managePropertyChanged = (state, event) => {
         state = updateProperties(state, {[propName]: {value: event.detail.value, error: event.detail.error}});
     }
     if (!event.detail.error) {
-        if (propName === 'object') {
+        if (propName === 'object' && event.detail.value !== event.detail.oldValue) {
             // reset all filterItems, outputReference, queriedFields
             state = resetRecordLookup(state);
-        } else if (propName === 'outputReference') {
+        } else if (propName === 'outputReference' && event.detail.value !== event.detail.oldValue) {
             // reset queriedFields
             state = resetQueriedFields(state);
         } else if (propName === 'sortOrder' && event.detail.value === SORT_ORDER.NOT_SORTED) {

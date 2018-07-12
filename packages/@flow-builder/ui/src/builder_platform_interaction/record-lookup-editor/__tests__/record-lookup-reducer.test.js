@@ -156,6 +156,19 @@ describe('record-lookup-reducer', () => {
             expect(newState.queriedFields[1].field.value).toBe('Description');
             expect(newState).not.toBe(originalState);
         });
+        it('delete a field and reset the blank error of the last field', () => {
+            const event = {
+                type: DeleteRecordLookupFieldEvent.EVENT_NAME,
+                detail: {
+                    index: 1,
+                }
+            };
+            originalState.queriedFields.push({field: {value: '', error: 'Can not be blank'}, rowIndex: "RECORDLOOKUPFIELD_3"});
+            const newState = recordLookupReducer(originalState, event);
+            expect(newState.queriedFields).toHaveLength(2);
+            expect(newState.queriedFields[1].field.value).toBe('');
+            expect(newState.queriedFields[1].field.error).toBeNull();
+        });
     });
 
     describe('handle property changed event', () => {

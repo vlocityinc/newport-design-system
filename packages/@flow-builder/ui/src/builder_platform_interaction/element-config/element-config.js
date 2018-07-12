@@ -423,7 +423,7 @@ export const elementTypeToConfigMap = {
         // TODO: recordLookupEditor is only a place holder now.
         descriptor: 'builder_platform_interaction:recordLookupEditor',
         nodeConfig: {
-            iconName: 'standard:search',
+            iconName: 'standard:record_lookup',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
