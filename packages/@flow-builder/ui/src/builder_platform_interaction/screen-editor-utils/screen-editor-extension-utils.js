@@ -1,6 +1,7 @@
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import {LABELS} from 'builder_platform_interaction-screen-editor-i18n-utils';
 
 let extensionCache = [];
 let extensionDescriptionCache = {};
@@ -132,24 +133,34 @@ function mergeParameters(fieldParameters, descParameters, valuePropName, isInput
 export function listExtensions(refreshCache, callback) {
     if (!refreshCache && extensionCache.length) {
         callback(extensionCache.slice(0), null);
-    }
-
-    fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS, ({data, error}) => {
-        if (error) {
-            callback(null, error);
-        } else {
-            for (const extension of data) {
-                extensionCache.push(freeze({
-                    description: extension.description,
-                    label: extension.label,
-                    marker: extension.marker,
-                    qualifiedApiName: extension.qualifiedApiName,
-                    source: extension.source
-                }));
+    } else {
+        fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS, ({data, error}) => {
+            if (error) {
+                callback(null, error);
+            } else {
+                for (const extension of data) {
+                    extensionCache.push(freeze({
+                        name: extension.qualifiedApiName,
+                        fieldType: 'ComponentInstance',
+                        label: extension.label ? extension.label : extension.qualifiedApiName,
+                        icon: 'utility:connected_apps', // 'standard:custom_notification', //Removing this until we clarify how to change the size and the background of icons in the palette
+                        category: extension.source === 'Standard' ? LABELS.fieldCategoryInput : LABELS.fieldCategoryCustom,
+                        description: extension.description,
+                        marker: extension.marker,
+                    }));
+                }
+                callback(extensionCache.slice(0), null); // clone the array
             }
-            callback(extensionCache.slice(0), null); // clone the array
-        }
-    });
+        });
+    }
+}
+
+/**
+ * This does not go back to the server
+ * @returns {Array} A list of extension types from the cache
+ */
+export function getAllCachedExtensionTypes() {
+    return extensionCache;
 }
 
 /**

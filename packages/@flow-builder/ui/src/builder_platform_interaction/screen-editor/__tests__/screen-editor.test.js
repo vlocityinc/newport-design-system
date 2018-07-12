@@ -57,7 +57,7 @@ describe('Event handling on editor', () => {
         screen.elementType = "SCREEN";
         screenEditorElement = createComponentUnderTest({node:screen});
 
-        expect(screen.fields).toHaveLength(9);
+        expect(screen.fields).toHaveLength(8);
     });
 
     it('add screen field event adds a field to the end by default', () => { // handleAddScreenField (onaddscreenfield)

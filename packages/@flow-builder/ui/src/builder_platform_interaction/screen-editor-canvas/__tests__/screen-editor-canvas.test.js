@@ -46,7 +46,7 @@ describe('fields rendered', () => {
     it('Correct number of screen fields are rendered', () => {
         return Promise.resolve().then(() => {
             const highlightFields = getShadowRoot(screenEditorCanvasElement).querySelectorAll(selectors.highlightFields);
-            expect(highlightFields).toHaveLength(9);
+            expect(highlightFields).toHaveLength(8);
         });
     });
 });

@@ -18,6 +18,7 @@ import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
 import { AddElementEvent } from 'builder_platform_interaction-events';
 import { usedBy } from 'builder_platform_interaction-used-by-lib';
 import { format } from 'builder_platform_interaction-common-utils';
+import { listExtensions } from 'builder_platform_interaction-screen-editor-utils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -73,6 +74,7 @@ export default class Editor extends Element {
         fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' }, {background: true});
         fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
         fetch(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES, this.getResourceTypesCallback);
+        listExtensions(false, this.getExtensionsCallback);
     }
 
     @api
@@ -205,6 +207,17 @@ export default class Editor extends Element {
             // TODO: handle error case
         } else {
             setResourceTypes(data);
+        }
+    };
+
+    /**
+     * Callback which gets executed after fetching the extensions for Screen editor
+     * @param {Array} data doesn't get used here
+     * @param {String} error the error that gets returned
+     */
+    getExtensionsCallback = (data, error) => {
+        if (error) {
+            // TODO: handle error case
         }
     };
 

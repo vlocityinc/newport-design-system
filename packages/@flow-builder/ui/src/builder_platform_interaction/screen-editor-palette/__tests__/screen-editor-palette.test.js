@@ -35,6 +35,9 @@ jest.mock('builder_platform_interaction-screen-editor-utils', () => {
                     icon: 'utility:topic2',
                     category: 'Input'
                 }];
+        },
+        getAllCachedExtensionTypes: () => {
+            return [];
         }
     };
 });

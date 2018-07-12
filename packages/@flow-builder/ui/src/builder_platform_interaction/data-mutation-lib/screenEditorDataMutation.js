@@ -1,8 +1,11 @@
-import { getScreenFieldType, getValueFromFerov, getFerovFromValue } from 'builder_platform_interaction-screen-editor-utils';
+import { isExtensionField, getScreenFieldType, getScreenFieldTypeByName, getValueFromFerov, getFerovFromValue } from 'builder_platform_interaction-screen-editor-utils';
 
 export const mutateScreenField = field => {
-    field.type = getScreenFieldType(field);
-
+    if (isExtensionField(field)) {
+        field.type = getScreenFieldTypeByName(field.extensionName);
+    } else {
+        field.type = getScreenFieldType(field);
+    }
     if (field.hasOwnProperty('defaultValue')) {
         field._defaultValue = field.defaultValue;
         delete field.defaultValue;

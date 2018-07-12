@@ -1,5 +1,5 @@
 import { Element } from 'engine';
-import { getAllScreenFieldTypes } from 'builder_platform_interaction-screen-editor-utils';
+import { getAllScreenFieldTypes, getAllCachedExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { createAddScreenFieldEvent } from 'builder_platform_interaction-events';
@@ -15,7 +15,7 @@ export default class ScreenPalette extends Element {
         super();
         this.types = [];
         const sections = {};
-        for (const fieldType of getAllScreenFieldTypes()) {
+        for (const fieldType of [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes()]) {
             if (!sections.hasOwnProperty(fieldType.category)) {
                 const section = {
                     guid: generateGuid(),
@@ -26,7 +26,6 @@ export default class ScreenPalette extends Element {
                 sections[fieldType.category] = section;
                 this.types.push(section);
             }
-
             const fieldGuid = generateGuid();
             sections[fieldType.category]._children.push({
                 description: fieldType.description || '',
@@ -35,6 +34,11 @@ export default class ScreenPalette extends Element {
                 iconName: fieldType.icon,
                 label: fieldType.label,
                 fieldTypeName: fieldType.name
+            });
+        }
+        for (const section of this.types) {
+            section._children.sort((a, b) => {
+                return a.label.localeCompare(b.label);
             });
         }
     }

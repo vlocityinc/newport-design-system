@@ -59,8 +59,7 @@ const SCREEN_FIELD_TYPES_AND_VALUES = {
     Date: {dateValue:'2018-02-22T00:00:00.000+0000'},
     Password: {stringValue:'Default value for Password'},
     Checkbox: {booleanValue:true},
-    DisplayText: null,
-    Extension: null
+    DisplayText: null
 };
 
 const VALUE_TYPE_STATIC = 'static';

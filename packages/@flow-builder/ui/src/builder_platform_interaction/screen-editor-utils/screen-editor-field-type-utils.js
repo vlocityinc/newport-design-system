@@ -1,4 +1,5 @@
 import {LABELS} from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { getAllCachedExtensionTypes } from './screen-editor-extension-utils';
 
 /**
  * All screen field types
@@ -82,18 +83,11 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelDisplayRichText,
         icon: 'utility:type_tool',
         category: LABELS.fieldCategoryDisplay
-    }, {
-        name: 'Extension',
-        fieldType: 'ComponentInstance',
-        dataType: undefined,
-        label: 'Account Picker',
-        icon: 'utility:connected_apps', // 'standard:custom_notification', //Removing this until we clarify how to change the size and the background of icons in the palette
-        category: LABELS.fieldCategoryCustom
     }
 ];
 
 /**
- * Returns all scren field types, including name, fieldType, dataType, label (localized), icon and category (localized)
+ * Returns all screen field types (excluding extensions), including name, fieldType, dataType, label (localized), icon and category (localized)
  * @return {array} - The field types
  */
 export function getAllScreenFieldTypes() {
@@ -107,12 +101,11 @@ export function getAllScreenFieldTypes() {
  * @throws if type can't be found
  */
 export function getScreenFieldTypeByName(name) {
-    for (const type of screenFieldTypes) {
-        if (type.name.toLowerCase() === name.toLowerCase()) {
-            return type;
-        }
+    const fieldType = [...screenFieldTypes, ...getAllCachedExtensionTypes()]
+        .find(type => type.name.toLowerCase() === name.toLowerCase());
+    if (fieldType) {
+        return fieldType;
     }
-
     throw new Error('No such screen field type: ' + name);
 }
 
@@ -127,7 +120,7 @@ export function getScreenFieldType(field) {
     const dataType = field.dataType;
 
     for (const type of screenFieldTypes) {
-        if (fieldType ===  type.fieldType && dataType === type.dataType) {
+        if (fieldType === type.fieldType && dataType === type.dataType) {
             return type;
         }
     }
