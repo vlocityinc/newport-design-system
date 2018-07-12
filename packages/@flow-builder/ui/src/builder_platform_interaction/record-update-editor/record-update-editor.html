@@ -1,0 +1,38 @@
+<template>
+    <div class="slds-p-horizontal_small slds-p-top_small">
+        {labels.recordUpdateTitle}
+    </div>
+    <div class="slds-p-horizontal_small slds-p-top_small">
+      <builder_platform_interaction-label-description label={recordUpdateElement.label}
+        dev-name={recordUpdateElement.name}
+        description={recordUpdateElement.description}
+        guid={recordUpdateElement.guid}
+        onpropertychanged={handleEvent}>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div if:true={isSObjectMode}>
+        <div class="slds-m-bottom_small slds-border_top">
+            <h3 class="slds-text-heading_small slds-p-around_small">{labels.selectsObjectOrsObjectCollectionVariable}</h3>
+            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
+                <builder_platform_interaction-sobject-or-sobject-collection-picker 
+                    is-collection={isCollection}
+                    label={labels.variable}
+                    placeholder={labels.sObjectVariablePlaceholder}
+                    element-type={elementType}
+                    value={inputReference}
+                    error-message={recordUpdateElement.inputReference.error}
+                    onsobjectreferencechanged={handleInputReferenceChangedEvent}>
+                </builder_platform_interaction-sobject-or-sobject-collection-picker>
+            </div>
+        </div>
+        <div class="slds-p-horizontal_small slds-m-bottom_small">
+            <span>{labels.helpIdFieldPopulatedWithText}</span>
+            <lightning-helptext class="slds-p-left_xx-small" content={labels.helpSObjectRecordUpdateAltText}></lightning-helptext>
+        </div>
+    </div>
+    <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
+        <div class="slds-p-horizontal_small slds-form-element slds-m-bottom_small">
+            {labels.fieldAssignmentNotSupported}
+        </div>
+    </div>
+</template>

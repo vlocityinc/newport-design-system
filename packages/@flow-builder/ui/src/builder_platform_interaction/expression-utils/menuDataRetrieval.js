@@ -260,6 +260,8 @@ function getSelector({elementType, shouldBeWritable, isCollection, dataType, ent
         case ELEMENT_TYPE.SCREEN:
             return readableElementsSelector;
         case ELEMENT_TYPE.RECORD_CREATE:
+        case ELEMENT_TYPE.RECORD_UPDATE:
+            return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, entityName}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         case ELEMENT_TYPE.RECORD_LOOKUP:
             return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         case ELEMENT_TYPE.LOOP:

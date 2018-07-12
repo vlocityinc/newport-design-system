@@ -498,10 +498,9 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.RECORD_UPDATE]: {
-        // TODO: recordEditor is only a place holder now.
-        descriptor: 'builder_platform_interaction:recordEditor',
+        descriptor: 'builder_platform_interaction:recordUpdateEditor',
         nodeConfig: {
-            iconName: 'standard:recent',
+            iconName: 'standard:record_update',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -529,7 +528,8 @@ export const elementTypeToConfigMap = {
             label: '',
             locationX: 0,
             locationY: 0,
-            name: ''
+            name: '',
+            inputReference : ''
         }
     },
     [ELEMENT_TYPE.OUTCOME]: {
