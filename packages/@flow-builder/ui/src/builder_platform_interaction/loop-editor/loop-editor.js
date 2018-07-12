@@ -150,7 +150,6 @@ export default class LoopEditor extends Element {
 
     handleCollectionVariablePropertyChanged(event) {
         event.stopPropagation();
-        // TODO: in W-5079245 replace this and get the data needed directly from the event
         this._collectionVariable = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
 
         let loopVarErrorMessage = null;
@@ -182,7 +181,6 @@ export default class LoopEditor extends Element {
 
     handleLoopVariablePropertyChanged(event) {
         event.stopPropagation();
-        // TODO: in W-5079245 replace this and get the data needed directly from the event
         event.detail.propertyName = LOOP_PROPERTIES.LOOP_VARIABLE;
         this.loopVariableState = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
         this.loopElement = loopReducer(this.loopElement, event);
