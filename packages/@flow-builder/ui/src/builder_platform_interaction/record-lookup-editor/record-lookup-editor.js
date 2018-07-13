@@ -157,14 +157,13 @@ export default class RecordLookupEditor extends Element {
      */
     handleResourceChanged(event) {
         event.stopPropagation();
+        const oldRecordEntityName = this.recordEntityName;
         if (event.detail.item && !event.detail.error && this.recordEntityName !== event.detail.item.value) {
             this.recordEntityName = event.detail.item.value;
             this.updateFields();
         }
         const value = event.detail.item ? event.detail.item.value : event.detail.displayText;
-        if (value !== this.recordLookupElement.object.value) {
-            this.updateProperty('object', value, event.detail.error, this.recordEntityName);
-        }
+        this.updateProperty('object', value, event.detail.error, oldRecordEntityName);
     }
 
     /**
