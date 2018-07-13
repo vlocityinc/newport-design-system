@@ -29,6 +29,208 @@ export const mockEntities = [
     },
 ];
 
+export const mockAccountFieldWithPicklist = {
+    'AccountSource': {
+        "filteredLookupInfo":null,
+        "length":40,
+        "editable":true,
+        "nameField":false,
+        "sortable":true,
+        "filterable":true,
+        "sobjectName":"Account",
+        "picklistValues":[
+            {
+                "value":"Advertisement",
+                "label":"Advertisement",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Employee Referral",
+                "label":"Employee Referral",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"External Referral",
+                "label":"External Referral",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Partner",
+                "label":"Partner",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Public Relations",
+                "label":"Public Relations",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Seminar - Internal",
+                "label":"Seminar - Internal",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Seminar - Partner",
+                "label":"Seminar - Partner",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Trade Show",
+                "label":"Trade Show",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Web",
+                "label":"Web",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Word of mouth",
+                "label":"Word of mouth",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Other",
+                "label":"Other",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            }
+        ],
+        "creatable":true,
+        "compound":false,
+        "calculated":false,
+        "picklist":true,
+        "controllerName":null,
+        "relationshipName":null,
+        "referenceToNames":[
+
+        ],
+        "extraTypeInfo":null,
+        "activePicklistValues":[
+            {
+                "value":"Advertisement",
+                "label":"Advertisement",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Employee Referral",
+                "label":"Employee Referral",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"External Referral",
+                "label":"External Referral",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Partner",
+                "label":"Partner",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Public Relations",
+                "label":"Public Relations",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Seminar - Internal",
+                "label":"Seminar - Internal",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Seminar - Partner",
+                "label":"Seminar - Partner",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Trade Show",
+                "label":"Trade Show",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Web",
+                "label":"Web",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Word of mouth",
+                "label":"Word of mouth",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            },
+            {
+                "value":"Other",
+                "label":"Other",
+                "validFor":null,
+                "defaultValue":false,
+                "active":true
+            }
+        ],
+        "htmlformula":false,
+        "unique":false,
+        "externalId":false,
+        "autoNumber":false,
+        "createdBy":false,
+        "lastModifiedBy":false,
+        "defaultedOnCreate":false,
+        "currencyIsoCode":false,
+        "highScaleNumber":false,
+        "referenceTargetField":null,
+        "inlineHelpText":null,
+        "calculatedFormula":null,
+        "relationshipOrder":null,
+        "reference":false,
+        "label":"Account Source",
+        "required":false,
+        "compoundFieldName":null,
+        "scale":0,
+        "dataType":"PICKLIST",
+        "apiName":"AccountSource",
+        "precision":0,
+        "custom":false
+    },
+}
+
 export const mockAccountFields = [
     {
         "filteredLookupInfo":null,

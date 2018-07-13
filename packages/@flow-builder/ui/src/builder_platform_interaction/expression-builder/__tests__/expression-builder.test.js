@@ -113,19 +113,12 @@ function getOperatorIcon(expressionBuilder) {
     return getShadowRoot(expressionBuilder).querySelector("lightning-icon");
 }
 
-function checkOperatorAndRHSDisabled(expressionBuilder, expected) {
-    const operatorCombobox = getLightningCombobox(expressionBuilder);
-    expect(operatorCombobox.disabled).toBe(expected);
-    const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-    expect(rhsCombobox.disabled).toBe(expected);
-}
-
 const CBreturnItem = {
     value: elements[numberVariableGuid].guid,
     displayText: '{!' + elements[numberVariableGuid].name + '}'
 };
 
-const ourCBChangeEvent = new ComboboxStateChangedEvent(CBreturnItem);
+let ourCBChangeEvent;
 
 const newCBValue = numberVariableGuid;
 
@@ -165,6 +158,10 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
 });
 
 describe('expression-builder', () => {
+    beforeEach(() => {
+        ourCBChangeEvent = new ComboboxStateChangedEvent(CBreturnItem);
+    });
+
     const labels = ['lhsLabel', 'operatorLabel', 'rhsLabel'];
     const placeholders = ['lhsPlaceholder', 'operatorPlaceholder', 'rhsPlaceholder'];
 
@@ -436,34 +433,50 @@ describe('expression-builder', () => {
             expect(rhsCombobox.value).toEqual(RHS_VALUE);
         });
     });
-    describe('disabling the operator and RHS field', () => {
-        // TODO: tests for operator/RHS being enabled onItemSelected and onFilterMatches
-        it('should be disabled when the expression is initialized', () => {
+
+    describe('building expression for picklist values', () => {
+        const OPERATOR = 'EqualTo', LHS_VALUE = 'Account.AccountSource', RHS_VALUE = null, OBJECT_TYPE = 'Account';
+        const mockExpressionForEntityFields = {
+            [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: OPERATOR, error: null},
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: LHS_VALUE, error: null},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: RHS_VALUE, error: null},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: 'string', error: null},
+        };
+
+        const mockConfigurationForEntityFields = {
+            elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+            lhsFields: mockAccountFields,
+            objectType: OBJECT_TYPE
+        };
+        const picklistLabel = 'Picklist Values';
+        const picklistApiValue = 'AccountSource';
+        // for testing picklist menu data we will mock picklist menu items
+        getElementsForMenuData.mockReturnValue([{label: picklistLabel, items: [{value: picklistApiValue}]}]);
+
+        afterAll(() => {
+            getElementsForMenuData.mockClear();
+        });
+
+        it('should throw RowContentsChangedEvent with matchig picklist item when selecting picklist menu item', () => {
             const expressionBuilder = createComponentForTest({
-                expression: createBlankExpression(),
+                expression: mockExpressionForEntityFields,
+                configuration: mockConfigurationForEntityFields,
             });
-            checkOperatorAndRHSDisabled(expressionBuilder, true);
-        });
-        it('should be enabled when the expression is populated', () => {
-            const expressionBuilder = createDefaultComponentForTest();
-            checkOperatorAndRHSDisabled(expressionBuilder, false);
-        });
-        it('should be disabled if LHS is cleared', () => {
-            const expressionBuilder = createDefaultComponentForTest();
-            Promise.resolve().then(() => {
-                const lhsCombobox = getComboboxElements(expressionBuilder)[0];
-                const eventCallback = jest.fn();
-                expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
-                const CBreturn = {
-                    value: '',
-                    displayText: '',
-                };
-                lhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(CBreturn));
-                return Promise.resolve().then(() => {
-                    checkOperatorAndRHSDisabled(expressionBuilder, true);
-                    const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-                    expect(rhsCombobox.value.displayText).toEqual('{!' + numberVariableDevName + '}');
-                });
+            const item = {
+                value: 'Advertisement',
+                displayText: 'Advertisement',
+            };
+            const eventCallback = jest.fn();
+            expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+            ourCBChangeEvent = new ComboboxStateChangedEvent(item);
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            rhsCombobox.dispatchEvent(ourCBChangeEvent);
+            return Promise.resolve().then(() => {
+                const newExpression = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(eventCallback).toHaveBeenCalled();
+                expect(newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.value);
+                expect(newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE].value).toEqual(FLOW_DATA_TYPE.STRING.value);
+                expect(newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID].value).toBe('');
             });
         });
     });
@@ -546,21 +559,36 @@ describe('expression-builder', () => {
         });
     });
     describe('Expression should act like operator is Assign', () => {
-        for (let iconIndex = 0; iconIndex < 2; iconIndex++) {
-            it(`When rhs menudata is initialized if operator is replaced with ${icons[iconIndex]} `, () => {
-                createDefaultComponentForTest(icons[iconIndex]);
+        it(`When rhs menudata is initialized if operator is replaced with ${OPERATOR_DISPLAY_OPTION.LEFT_ARROW}`, () => {
+            createDefaultComponentForTest(OPERATOR_DISPLAY_OPTION.LEFT_ARROW);
+            expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
+        });
+
+        it(`To validate existing RHS when LHS changes if operator is replaced with ${OPERATOR_DISPLAY_OPTION.LEFT_ARROW}`, () => {
+            const expressionBuilder = createDefaultComponentForTest(OPERATOR_DISPLAY_OPTION.LEFT_ARROW);
+
+            return Promise.resolve().then(() => {
+                const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+                lhsCombobox.dispatchEvent(ourCBChangeEvent);
+
                 expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
             });
-            it(`To validate existing RHS when LHS changes if operator is replaced with ${icons[iconIndex]}`, () => {
-                const expressionBuilder = createDefaultComponentForTest(icons[iconIndex]);
+        });
 
-                return Promise.resolve().then(() => {
-                    const lhsCombobox = getComboboxElements(expressionBuilder)[0];
-                    lhsCombobox.dispatchEvent(ourCBChangeEvent);
+        it(`When rhs menudata is initialized if operator is replaced with ${OPERATOR_DISPLAY_OPTION.RIGHT_ARROW}`, () => {
+            createDefaultComponentForTest(OPERATOR_DISPLAY_OPTION.RIGHT_ARROW);
+            expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
+        });
 
-                    expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
-                });
+        it(`To validate existing RHS when LHS changes if operator is replaced with ${OPERATOR_DISPLAY_OPTION.RIGHT_ARROW}`, () => {
+            const expressionBuilder = createDefaultComponentForTest(OPERATOR_DISPLAY_OPTION.RIGHT_ARROW);
+
+            return Promise.resolve().then(() => {
+                const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+                lhsCombobox.dispatchEvent(ourCBChangeEvent);
+
+                expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
             });
-        }
+        });
     });
 });
