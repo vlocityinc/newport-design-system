@@ -1,6 +1,6 @@
 import { Element, api, track } from 'engine';
 import { EditElementEvent, DeleteElementEvent, NewResourceEvent } from 'builder_platform_interaction-events';
-import { resourceSectionsSelector } from 'builder_platform_interaction-selectors';
+import { canvasElementsSectionsSelector, nonCanvasElementsSectionsSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { isChildElement } from 'builder_platform_interaction-element-config';
 
@@ -29,9 +29,11 @@ export default class LeftPanel extends Element {
 
     @track showResourceDetailsPanel = false;
 
-    @track resources = [];
-
     @track resourceDetails;
+
+    @track canvasElements = [];
+
+    @track nonCanvasElements = [];
 
     constructor() {
         super();
@@ -41,7 +43,8 @@ export default class LeftPanel extends Element {
 
     mapAppStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
-        this.resources = resourceSectionsSelector(currentState);
+        this.canvasElements = canvasElementsSectionsSelector(currentState);
+        this.nonCanvasElements = nonCanvasElementsSectionsSelector(currentState);
         if (this.showResourceDetailsPanel) {
             const iconName = this.resourceDetails.ICON_NAME;
             const currentElementState = storeInstance.getCurrentState().elements[this.resourceDetails.GUID];

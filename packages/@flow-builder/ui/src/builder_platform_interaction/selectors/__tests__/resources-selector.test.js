@@ -1,4 +1,4 @@
-import { resourceSectionsSelector } from '../resources-selector';
+import { canvasElementsSectionsSelector, nonCanvasElementsSectionsSelector } from '../resources-selector';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 
 jest.mock('builder_platform_interaction-store-lib', () => {
@@ -231,24 +231,28 @@ function verifyResources(resources) {
 describe('resourcesSelector', () => {
     describe('When flow is empty', () => {
         it('should be handled gracefully', () => {
-            const resources = resourceSectionsSelector(STATE_EMPTY);
-            expect(resources).toHaveLength(0);
+            const canvasElements = canvasElementsSectionsSelector(STATE_EMPTY);
+            const nonCanvasElements = nonCanvasElementsSectionsSelector(STATE_EMPTY);
+            expect(canvasElements).toHaveLength(0);
+            expect(nonCanvasElements).toHaveLength(0);
         });
     });
 
     describe('When flow has resources', () => {
         it('should return resources excluding START_ELEMENT with expected values for the resource tab of the left-panel', () => {
-            const resources = resourceSectionsSelector(STATE_NON_EMPTY);
-            verifyResources(resources);
+            const canvasElements = canvasElementsSectionsSelector(STATE_NON_EMPTY);
+            const nonCanvasElements = nonCanvasElementsSectionsSelector(STATE_NON_EMPTY);
+            verifyResources(canvasElements);
+            verifyResources(nonCanvasElements);
         });
         it('should have a non-empty section for formulas', () => {
-            const resources = resourceSectionsSelector(STATE_NON_EMPTY);
-            const formulaSections = resources.filter(section => section.label === 'FlowBuilderElementConfig.formulaPluralLabel');
+            const nonCanvasElements = nonCanvasElementsSectionsSelector(STATE_NON_EMPTY);
+            const formulaSections = nonCanvasElements.filter(section => section.label === 'FlowBuilderElementConfig.formulaPluralLabel');
             expect(formulaSections).toHaveLength(1);
         });
         it('should return empty section for Start Elements', () => {
-            const resources = resourceSectionsSelector(STATE_NON_EMPTY);
-            const unCategorizedSections = resources.filter(section => section.label === 'Uncategorized');
+            const canvasElements = canvasElementsSectionsSelector(STATE_NON_EMPTY);
+            const unCategorizedSections = canvasElements.filter(section => section.label === 'Uncategorized');
             expect(unCategorizedSections).toHaveLength(0);
         });
     });

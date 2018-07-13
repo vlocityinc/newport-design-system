@@ -6,7 +6,7 @@ const SECTION_PREFIX = 'RESOURCES_PALETTE_SECTION';
 
 const elementsSelector = (state) => state.elements;
 const canvasElementsSelector = (state) => state.canvasElements;
-const resourcesSelector = (state) => state.resources;
+const nonCanvasElementsSelector = (state) => state.resources;
 
 /**
  * A case-insensitive comparison function used to sort arrays of palette items by label.
@@ -83,18 +83,29 @@ const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((a
     return acc;
 }, {});
 
-/**
- * Combines non-canvas elements into their respective groupings in a form that is usable by
- * lightning-tree-grid.
- * @param {Object} elements list of all the elements
- * @param {Array} resources list of resource guids
- * @param {Array} canvasElements list of canvasElement guids
- * @returns {Array} collection of lightning-tree-grid items
- */
-const getResourceSections = (elements, resources, canvasElements) => {
-    const resourceSections = [];
-    if (resources && resources.length > 0) {
-        const resourceElementMap = getResourceElements(elements, resources);
+const getCanvasElementsSections = (elements, canvasElements) => {
+    const canvasElementsSections = [];
+    // TODO: Incremented by 1 as we are not showing the Start Elements as part of Canvas Elements Group.
+    if (canvasElements && canvasElements.length > 1) {
+        const canvasElementMap = getCanvasElements(elements, canvasElements);
+        for (const elementType in canvasElementMap) {
+            if (canvasElementMap.hasOwnProperty(elementType)) {
+                const items = canvasElementMap[elementType];
+                if (items && items.length > 0) {
+                    const section = createSection(elementType, items.sort(compareItems));
+                    canvasElementsSections.push(section);
+                }
+            }
+        }
+    }
+
+    return canvasElementsSections;
+};
+
+const getNonCanvasElementsSections = (elements, nonCanvasElements) => {
+    const nonCanvasElementsSections = [];
+    if (nonCanvasElements && nonCanvasElements.length > 0) {
+        const resourceElementMap = getResourceElements(elements, nonCanvasElements);
         const elementTypes = RESOURCE_TYPES;
         const length = elementTypes.length;
         for (let i = 0; i < length; i++) {
@@ -102,24 +113,14 @@ const getResourceSections = (elements, resources, canvasElements) => {
             const items = resourceElementMap[elementType];
             if (items && items.length > 0) {
                 const section = createSection(elementType, items.sort(compareItems));
-                resourceSections.push(section);
-            }
-        }
-    }
-    if (canvasElements && canvasElements.length > 0) {
-        const canvasElementMap = getCanvasElements(elements, canvasElements);
-        for (const elementType in canvasElementMap) {
-            if (canvasElementMap.hasOwnProperty(elementType)) {
-                const items = canvasElementMap[elementType];
-                if (items && items.length > 0) {
-                    const section = createSection(elementType, items.sort(compareItems));
-                    resourceSections.push(section);
-                }
+                nonCanvasElementsSections.push(section);
             }
         }
     }
 
-    return resourceSections;
+    return nonCanvasElementsSections;
 };
 
-export const resourceSectionsSelector = createSelector([elementsSelector, resourcesSelector, canvasElementsSelector], getResourceSections);
+export const canvasElementsSectionsSelector = createSelector([elementsSelector, canvasElementsSelector], getCanvasElementsSections);
+
+export const nonCanvasElementsSectionsSelector = createSelector([elementsSelector, nonCanvasElementsSelector], getNonCanvasElementsSections);
