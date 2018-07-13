@@ -13,5 +13,6 @@ export const OPERATOR_DISPLAY_OPTION = {
     NONE: 'none',
 };
 
+export * from './resourceUtils';
 export * from './menuDataRetrieval';
 export { filterMatches } from './filterItems';
