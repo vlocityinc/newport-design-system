@@ -9,43 +9,13 @@ const updateableEntities = [];
 const cachedEntityFields = {};
 
 /**
- * Fields from SObjects have data types that need to be mapped to Flow
- * @param {Array} fields - Fields from SObject
- * @returns {Map} Modified fields
- */
-const mapToFlowDataType = (fields) => {
-    const fieldsMap = {};
-    fields.forEach((field) => {
-        field.dataType = field.dataType[0] + field.dataType.substring(1).toLowerCase();
-        // TODO: W-4917767 Need to use the service instead of this!
-        switch (field.dataType) {
-            case 'Textarea':
-            case 'Phone':
-            case 'Address':
-                field.dataType = 'String';
-                break;
-            case 'Double':
-            case 'Decimal':
-            case 'Integer':
-            case 'Long':
-                field.dataType = 'Number';
-                break;
-            default:
-                break;
-        }
-        fieldsMap[field.apiName] = field;
-    });
-    return fieldsMap;
-};
-
-/**
  * Callback once the fields have been fetched
  * @param {String} data The fields and their properties, in stringified format
  * @param {String} entityName The name of the parent object
  * @param {Function} callback The callback
  */
 const getFieldsForEntityCallback = (data, entityName, callback) => {
-    const fields = mapToFlowDataType(JSON.parse(data));
+    const fields = JSON.parse(data);
     cachedEntityFields[entityName] = fields;
     callback(fields);
 };
