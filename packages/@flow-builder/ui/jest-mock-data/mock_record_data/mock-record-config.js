@@ -2999,10 +2999,6 @@ export const mockAccountFields = JSON.stringify([
 
 export const mockAccountExpectedFields = [
     {
-        "label":"Description",
-        "value":"Description"
-        },
-        {
         "label":"Fax",
         "value":"Fax"
         },
@@ -3029,10 +3025,6 @@ export const mockAccountExpectedFields = [
         {
         "label":"AnnualRevenue",
         "value":"AnnualRevenue"
-        },
-        {
-        "label":"BillingAddress",
-        "value":"BillingAddress"
         },
         {
         "label":"BillingCity",
@@ -3129,10 +3121,6 @@ export const mockAccountExpectedFields = [
         {
         "label":"PhotoUrl",
         "value":"PhotoUrl"
-        },
-        {
-        "label":"ShippingAddress",
-        "value":"ShippingAddress"
         },
         {
         "label":"ShippingCity",

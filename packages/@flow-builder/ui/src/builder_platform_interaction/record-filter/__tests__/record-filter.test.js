@@ -27,8 +27,8 @@ const mockDefaultRecordFilter = {
 
 const mock3FilterItems = [{
     operator: {value: 'EqualTo', error: null},
-    leftHandSide: {value: 'Account.Description', error: null},
-    rightHandSide: {value: 'Account Description', error: null},
+    leftHandSide: {value: 'Account.Name', error: null},
+    rightHandSide: {value: 'Account Name', error: null},
     rightHandSideDataType: {value: 'string', error: null},
     rowIndex: 'RECORDLOOKUPFILTERITEM_1',
 },
@@ -237,6 +237,16 @@ describe('record-filter', () => {
                     }
                 });
             });
+        });
+    });
+
+    describe('filterable fields', () => {
+        it('should show only filterable fields', () => {
+            const element = createComponentUnderTest();
+            const filterableFields = Object.values(element.recordFields);
+            expect(filterableFields).toContainEqual(expect.objectContaining({
+                filterable: true
+            }));
         });
     });
 });

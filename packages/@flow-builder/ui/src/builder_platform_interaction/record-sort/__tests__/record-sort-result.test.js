@@ -177,4 +177,14 @@ describe('record-sort With values', () => {
             expect(eventCallback.mock.calls[0][0].detail).toMatchObject({fieldApiName: defaultFieldValue, sortOrder: sortValues.notSorted});
         });
     });
+    describe('sortable fields', () => {
+        it('should show only sortable fields', () => {
+            recordSortResultComponent = createComponentUnderTest('Account', sortValues.ascending);
+            const options = getFilterCombobox(recordSortResultComponent).options;
+            const mockAccFieldsArr = JSON.parse(mockAccountFields);
+            options.forEach(option => {
+                expect(mockAccFieldsArr.find(field => field.apiName === option.value).sortable).toBeTruthy();
+            });
+        });
+    });
 });
