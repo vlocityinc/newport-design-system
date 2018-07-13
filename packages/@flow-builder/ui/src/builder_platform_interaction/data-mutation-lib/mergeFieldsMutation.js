@@ -33,11 +33,8 @@ export const sanitizeGuid = (potentialGuid) => {
 };
 
 const guidToDevName = (guid) => {
-    const complexGuid = sanitizeGuid(guid);
-    const flowElement = getElementByGuid(complexGuid.guidOrLiteral);
-    if (flowElement && complexGuid.fieldName) {
-        return flowElement.name + '.' + complexGuid.fieldName;
-    } else if (flowElement) {
+    const flowElement = getElementByGuid(guid);
+    if (flowElement) {
         return flowElement.name;
     }
     return undefined;

@@ -1,9 +1,13 @@
 import { createElement } from 'engine';
 import { getShadowRoot } from 'lwc-test-utils';
 import Combobox from 'builder_platform_interaction-combobox';
-import { comboboxInitialConfig } from 'mock-combobox-data';
-import { ComboboxStateChangedEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
+import { comboboxInitialConfig, secondLevelMenuData } from 'mock-combobox-data';
+import { FilterMatchesEvent, FetchMenuDataEvent, ComboboxStateChangedEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { validateTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
+import { removeCurlyBraces } from 'builder_platform_interaction-common-utils';
+import unknownMergeField from '@label/FlowBuilderMergeFieldValidation.unknownMergeField';
 
 const SELECTORS = {
     COMBOBOX_PATH: 'builder_platform_interaction-combobox',
@@ -24,8 +28,14 @@ const VALIDATION_ERROR_MESSAGE = {
     NUMBER : 'FlowBuilderCombobox.numberErrorMessage',
     DATE : 'FlowBuilderCombobox.dateErrorMessage',
     DATE_TIME : 'FlowBuilderCombobox.datetimeErrorMessage',
-    GENERIC : 'FlowBuilderCombobox.genericErrorMessage'
+    GENERIC : 'FlowBuilderCombobox.genericErrorMessage',
 };
+
+jest.mock('builder_platform_interaction-merge-field-lib', () => {
+    return {
+        validateTextWithMergeFields: jest.fn().mockReturnValue(Promise.resolve([])),
+    };
+});
 
 describe('Combobox Tests', () => {
     let combobox, groupedCombobox;
@@ -224,15 +234,17 @@ describe('Combobox Tests', () => {
     });
 
     describe('Events Testing', () => {
-        let fetchMenuDataHandler, comboboxStateChangedHandler, selectHandler, itemSelectedHandler;
+        let filterMatchesHandler, fetchMenuDataHandler, comboboxStateChangedHandler, selectHandler, itemSelectedHandler;
         let textInputEvent, blurEvent, selectEvent;
         beforeEach(() => {
+            filterMatchesHandler = jest.fn();
             fetchMenuDataHandler = jest.fn();
             comboboxStateChangedHandler = jest.fn();
             selectHandler = jest.fn();
             itemSelectedHandler = jest.fn();
 
-            combobox.addEventListener('fetchmenudata', fetchMenuDataHandler);
+            combobox.addEventListener(FilterMatchesEvent.EVENT_NAME, filterMatchesHandler);
+            combobox.addEventListener(FetchMenuDataEvent.EVENT_NAME, fetchMenuDataHandler);
             combobox.addEventListener(ComboboxStateChangedEvent.EVENT_NAME, comboboxStateChangedHandler);
             combobox.addEventListener(NewResourceEvent.EVENT_NAME, selectHandler);
             combobox.addEventListener(ItemSelectedEvent.EVENT_NAME, itemSelectedHandler);
@@ -242,6 +254,41 @@ describe('Combobox Tests', () => {
                     combobox[attribute] = comboboxInitialConfig[attribute];
                 }
             }
+        });
+
+        it('FilterMatches is fired with entered text', () => {
+            const enteredText = 'foobar';
+            textInputEvent = getTextInputEvent(enteredText);
+            groupedCombobox.dispatchEvent(textInputEvent);
+            expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
+            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(enteredText);
+        });
+
+        it('FilterMatches is fired without curly braces for a merge field', () => {
+            const enteredText = '{!foobar}';
+            textInputEvent = getTextInputEvent(enteredText);
+            groupedCombobox.dispatchEvent(textInputEvent);
+            expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
+            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(removeCurlyBraces(enteredText));
+        });
+
+        it('FilterMatches is fired with only the field portion of entered text for a merge field on the second level', () => {
+            const value = secondLevelMenuData[0];
+            value.parent = comboboxInitialConfig.menuData[1].items[0];
+            combobox.value = value;
+
+            const filterText = 'foobar';
+            textInputEvent = getTextInputEvent('{!MyAccount.' + filterText + '}');
+            groupedCombobox.dispatchEvent(textInputEvent);
+            expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
+            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(filterText);
+        });
+
+        it('FilterMatches is not fired if more than two levels', () => {
+            const enteredText = '{!myAccount.foo.bar}';
+            textInputEvent = getTextInputEvent(enteredText);
+            groupedCombobox.dispatchEvent(textInputEvent);
+            expect(filterMatchesHandler).not.toHaveBeenCalled();
         });
 
         it('FetchMenuData is fired when a . is entered & item hasNext', () => {
@@ -358,7 +405,7 @@ describe('Combobox Tests', () => {
 
             // This second part tests matchTextWithItem as well
             blurValue = '{!MyAccount}';
-            combobox.displayText = initialValue;
+            combobox.value = initialValue;
             combobox.menuData = comboboxInitialConfig.menuData;
             textInputEvent = getTextInputEvent(blurValue);
             groupedCombobox.dispatchEvent(textInputEvent);
@@ -366,6 +413,20 @@ describe('Combobox Tests', () => {
             expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
             expect(comboboxStateChangedHandler.mock.calls[1][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
             expect(comboboxStateChangedHandler.mock.calls[1][0].detail.displayText).toEqual(blurValue);
+        });
+
+        it('ComboboxStateChanged does not have an item if value is empty string (tests matchTextWithItem)', () => {
+            combobox.menuData = [{
+                text: 'Empty Display Text Item',
+                subtext: 'Empty Display Text Item',
+                value: 'VAR1',
+                displayText: '',
+                type: 'option-card',
+            }];
+            combobox.value = '';
+            groupedCombobox.dispatchEvent(blurEvent);
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(null);
         });
 
         it('ComboboxStateChanged is not fired on blur if value has not changed', () => {
@@ -509,6 +570,19 @@ describe('Combobox Tests', () => {
                 expect(e.message).toEqual(`Data type must be a valid Flow Data Type but instead was ${dataType}`);
             }
             expect.assertions(2);
+        });
+
+        it('validateTextWithMergeFields sets the error message for strings with invalid merge fields', () => {
+            validateTextWithMergeFields.mockReturnValueOnce(Promise.resolve([{
+                message: unknownMergeField,
+            }]));
+            combobox.type = FLOW_DATA_TYPE.STRING.value;
+            combobox.value = 'Hey, my name is {!blah}';
+            groupedCombobox.dispatchEvent(blurEvent);
+            return Promise.resolve().then(() => {
+                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
+                expect(combobox.errorMessage).toEqual(unknownMergeField);
+            });
         });
     });
 });

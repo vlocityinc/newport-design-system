@@ -23,6 +23,12 @@ jest.mock('builder_platform_interaction-store-utils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction-data-mutation-lib', () => {
+    return {
+        mutateTextWithMergeFields: require.requireActual('builder_platform_interaction-data-mutation-lib').mutateTextWithMergeFields,
+    };
+});
+
 describe('mutateFerov function', () => {
     it('should mutate ferov with string value', () => {
         const item = {};
@@ -118,6 +124,24 @@ describe('mutateFerov function', () => {
         expect(mutatedItem.rightHandSide).toEqual('{!' + store.elements[store.numberVariableGuid].name + '}');
         expect(mutatedItem.rightHandSideGuid).toEqual(store.numberVariableGuid);
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.REFERENCE);
+    });
+
+    it('should mutate ferov with inline merge field', () => {
+        const stringValue = 'Hey this is a number: ';
+        const item = {};
+        item.ferov = { stringValue: stringValue + addCurlyBraces(store.numberVariableGuid) };
+        const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
+        const numberVariableElement = store.elements[store.numberVariableGuid];
+        expect(mutatedItem.rightHandSide).toEqual(stringValue + addCurlyBraces(numberVariableElement.name));
+    });
+
+    it('should mutate ferov with mulitple inline merge fields', () => {
+        const stringValue = 'Hey this is a number {1} and so is this {1}';
+        const item = {};
+        item.ferov = { stringValue: stringValue.replace('{1}', addCurlyBraces(store.numberVariableGuid)) };
+        const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
+        const numberVariableElement = store.elements[store.numberVariableGuid];
+        expect(mutatedItem.rightHandSide).toEqual(stringValue.replace('{1}', addCurlyBraces(numberVariableElement.name)));
     });
 });
 

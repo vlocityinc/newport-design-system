@@ -339,8 +339,12 @@ export default class Combobox extends Element {
             this.fireFetchMenuDataEvent();
         }
 
-        // Fire event to filter Menu Data
-        this.fireFilterMatchesEvent(this.getFilterText(sanitizedValue), this._isMergeField);
+        // Fire event to filter menu data only if within the max level, otherwise clear menu data
+        if (this.getLevel() <= MAX_LEVEL_MENU_DATA) {
+            this.fireFilterMatchesEvent(this.getFilterText(sanitizedValue), this._isMergeField);
+        } else {
+            this.state.menuData = [];
+        }
     }
 
     /**
@@ -495,7 +499,7 @@ export default class Combobox extends Element {
      * @param {String} text The text to match with an item's displayText
      */
     matchTextWithItem(text = this.state.displayText) {
-        if (!this._item) {
+        if (!this._item && text) {
             const matchedItems = [];
             const groupOrItemCount =  this.state.menuData.length;
             for (let i = 0; i < groupOrItemCount; i++) {
