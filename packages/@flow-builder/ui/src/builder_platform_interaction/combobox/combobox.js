@@ -1,9 +1,8 @@
 import { Element, api, track, unwrap } from 'engine';
-import { parseDateTime } from 'builder_platform_interaction-date-time-utils';
 import { FetchMenuDataEvent, ComboboxStateChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expression-utils';
-import { isUndefinedOrNull, formatDate, isObject } from 'builder_platform_interaction-common-utils';
+import { isUndefinedOrNull, formatDate, isObject, isValidNumber, isValidDateTime } from 'builder_platform_interaction-common-utils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 import { LABELS } from './combobox-labels';
 import { validateTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
@@ -28,13 +27,8 @@ const ERROR_MESSAGE = {
  * Regex for Dev Names
  */
 const oneLetterDevName = '(^[a-zA-Z]{1}$)';
-// Regex below covers both non-suffix and trailing periods.
-const withNonSuffixAndTrailingPeriod = '(^([a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+\\.?)+$)';
-const withNoTrailingPeriod = '(^[a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+$)';
-const withNonSuffixPeriods = '(^([a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+\\.{1}[a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+)+$)';
-
-const TYPING_DEV_NAME_REGEX = new RegExp(oneLetterDevName + '|' + withNonSuffixAndTrailingPeriod);
-const VALIDATION_DEV_NAME_REGEX = new RegExp(oneLetterDevName + '|' + withNoTrailingPeriod + '|' + withNonSuffixPeriods);
+const withNonSuffixAndTrailingPeriodOrChar = '(^([a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+\\.?[a-zA-Z]?)+$)';
+const DEV_NAME_REGEX_WITH_TRAILING_PERIOD = new RegExp(`${oneLetterDevName}|${withNonSuffixAndTrailingPeriodOrChar}`);
 
 /**
  * The max level of data the combobox supports to show the menu items and perform validation.
@@ -689,8 +683,6 @@ export default class Combobox extends Element {
     /*    Validation Helper methods     */
     /** *********************************/
 
-    // TODO: Use validation rules and move the generic methods to utils.
-
     /**
      * Runs the validation for this combobox
      * @param {Boolean} isBlur whether or not this validate is happening on blur
@@ -779,20 +771,9 @@ export default class Combobox extends Element {
      * Validate the input value is a valid number and set error
      */
     validateNumber() {
-        if (!this.isValidNumber(this.state.displayText)) {
+        if (!isValidNumber(this.state.displayText)) {
             this._errorMessage = ERROR_MESSAGE[this._dataType];
         }
-    }
-
-    /**
-     * Validates the value is a number with optional decimal.
-     * TODO: May not be needed with validation rules.
-     * @param {String} value - input number string
-     * @returns {*} false if not a number else regex result array
-     */
-    isValidNumber(value) {
-        const numRegex = new RegExp('^-?\\d*\\.?\\d+[\\.]?$');
-        return value ? numRegex.exec(value) : false;
     }
 
     /**
@@ -801,7 +782,7 @@ export default class Combobox extends Element {
      * @param {Boolean} isDateTime whether to validate for date time
      */
     validateAndFormatDate(isDateTime) {
-        const dateValue = this.isValidDateTime(this.state.displayText);
+        const dateValue = isValidDateTime(this.state.displayText);
         if (dateValue) {
             this.state.displayText = formatDate(dateValue, isDateTime);
         } else {
@@ -810,37 +791,33 @@ export default class Combobox extends Element {
     }
 
     /**
-     * Validates the date string is a validate date time
-     * @param {String} dateString input date string
-     * @returns {*} false if invalid date string otherwise parsed DateTime
-     */
-    isValidDateTime(dateString) {
-        return dateString ? parseDateTime(dateString, 'MM/DD/YYYY HH:mm:ss') : false;
-    }
-
-    /**
      * Validates if the expression literal identifier is a valid dev name.
      * Eg: {!testVar} - is a valid expression, returns false
      *     {^testVar} - is a valid expression literal, returns true
      * Dot at the end is allowed for SObject where dot signifies to fetch next level data
-     * TODO: May not be needed with validation rules.
      * @param {String} valueToCheck the value to check, defaults to displayText
      * @param {boolean} allowDotSuffix to allow dot at the end of the expression identifier
      * @returns {*} returns false if invalid dev name chars or regex result.
      */
     isExpressionIdentifierLiteral(valueToCheck = this.state.displayText, allowDotSuffix) {
         let value;
-        let devNameRegex;
+        let regexResult;
         if (valueToCheck.startsWith('{!') && valueToCheck.endsWith('}')) {
             value = valueToCheck.substring(2, valueToCheck.length - 1);
         }
 
-        if (allowDotSuffix) {
-            devNameRegex = TYPING_DEV_NAME_REGEX;
+        if (value) {
+            regexResult = DEV_NAME_REGEX_WITH_TRAILING_PERIOD.exec(value);
         } else {
-            devNameRegex = VALIDATION_DEV_NAME_REGEX;
+            return !allowDotSuffix; // {!} is valid string constant
         }
 
-        return value ? !devNameRegex.exec(value) : (allowDotSuffix ? false : true); // {!} is valid string constant
+        if (allowDotSuffix) {
+            return !regexResult;
+        }
+
+        // The regex is valid dev name regex with optional trailing period
+        // With allowDotSuffix = false we need to check trailing dot does not exists
+        return !value.endsWith('.') && !regexResult;
     }
 }

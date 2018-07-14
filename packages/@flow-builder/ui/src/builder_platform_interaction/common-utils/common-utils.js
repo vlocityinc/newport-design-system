@@ -1,3 +1,5 @@
+import { parseDateTime } from 'builder_platform_interaction-date-time-utils';
+
 /**
  * Checks whether the passed parameter is specifically undefined or null and not an empty string.
  * @param {String} value The string to check
@@ -43,7 +45,6 @@ export const addCurlyBraces = (value) => {
 
 /**
  * Remove curly braces and bang from the value if it exists.
- * TODO: move this method to generic utils
  * @param {string}      value to remove the curly braces
  * @return {string}     string without curly braces and bang
  */
@@ -70,4 +71,24 @@ export const format = (formatString, ...args) => {
         }
         return substitution + '';
     });
+};
+
+/**
+ * Validates the value is a number with optional decimal.
+ *
+ * @param {String} value input number string
+ * @returns {*} false if not a number else regex result array
+ */
+export const isValidNumber = (value) => {
+    return value ? !isNaN(value) : false;
+};
+
+/**
+ * Validates the date string is a validate date time
+ *
+ * @param {String} dateString input date string
+ * @returns {*} false if invalid date string otherwise parsed DateTime
+ */
+export const isValidDateTime = (dateString) => {
+    return dateString ? parseDateTime(dateString, 'MM/DD/YYYY HH:mm:ss') : false;
 };

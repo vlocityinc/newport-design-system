@@ -460,7 +460,8 @@ describe('Combobox Tests', () => {
                 { value: '{!_test_}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!_test_}', error: null },
                 { value: '{!textVarDoesNotExists}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
-                { value: '{!MyVar1.secondLevel.thirdLevel}', isLiteralsAllowed: false, error: null },
+                { value: '{!MyVar1.secondLevel.thirdLevel}', isLiteralsAllowed: false, error: null }, // no validation for more than 2 levels
+                { value: '{!MyVar1.}', isLiteralsAllowed: false, error: null }, // no error since last dot is removed before validation
             ],
             Number : [
                 { value: '-.9', error: null},
