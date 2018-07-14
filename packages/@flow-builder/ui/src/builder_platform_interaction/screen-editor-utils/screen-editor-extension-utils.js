@@ -6,6 +6,8 @@ import {LABELS} from 'builder_platform_interaction-screen-editor-i18n-utils';
 let extensionCache = [];
 let extensionDescriptionCache = {};
 
+export const COMPONENT_INSTANCE = 'ComponentInstance';
+
 // Makes the object read only
 function freeze(obj) {
     if (obj) {
@@ -141,7 +143,7 @@ export function listExtensions(refreshCache, callback) {
                 for (const extension of data) {
                     extensionCache.push(freeze({
                         name: extension.qualifiedApiName,
-                        fieldType: 'ComponentInstance',
+                        fieldType: COMPONENT_INSTANCE,
                         label: extension.label ? extension.label : extension.qualifiedApiName,
                         icon: 'utility:connected_apps', // 'standard:custom_notification', //Removing this until we clarify how to change the size and the background of icons in the palette
                         category: extension.source === 'Standard' ? LABELS.fieldCategoryInput : LABELS.fieldCategoryCustom,

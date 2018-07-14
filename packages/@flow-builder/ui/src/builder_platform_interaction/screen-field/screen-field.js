@@ -1,4 +1,6 @@
 import { Element, api } from 'engine';
+import { isExtensionField } from 'builder_platform_interaction-screen-editor-utils';
+
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
  */
@@ -6,7 +8,7 @@ export default class ScreenField extends Element {
     @api screenfield;
 
     get isExtension() {
-        return this.screenfield.type.fieldType === 'ComponentInstance';
+        return isExtensionField(this.screenfield.type);
     }
 
     get isInputFieldType() {

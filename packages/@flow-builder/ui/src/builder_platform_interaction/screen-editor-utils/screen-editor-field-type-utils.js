@@ -1,5 +1,5 @@
 import {LABELS} from 'builder_platform_interaction-screen-editor-i18n-utils';
-import { getAllCachedExtensionTypes } from './screen-editor-extension-utils';
+import { COMPONENT_INSTANCE, getAllCachedExtensionTypes } from './screen-editor-extension-utils';
 
 /**
  * All screen field types
@@ -133,7 +133,7 @@ export function getScreenFieldType(field) {
  * @returns {boolean} Indicates if specified field is an extension field type
  */
 export function isExtensionField(field) {
-    return field && field.fieldType === 'ComponentInstance';
+    return field && field.fieldType === COMPONENT_INSTANCE;
 }
 
 /**
