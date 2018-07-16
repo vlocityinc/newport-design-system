@@ -61,7 +61,7 @@ const additionalRules = {
  * @return {Object} the override rules
  */
 export const getRules = (nodeElement) => {
-    const overrideRules = additionalRules;
+    const overrideRules = Object.assign({}, additionalRules);
     // validate filters if filter type is ALL
     if (nodeElement.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
         overrideRules.filters = validateFilter();

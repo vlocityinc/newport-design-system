@@ -180,7 +180,7 @@ describe('Record Lookup Validation', () => {
             expect(errors[0].errorString).toBe('Cannot be blank.');
         });
     });
-    describe('queriedFiels contains empty field', () => {
+    describe('queriedFields contains empty field', () => {
         it('should return an error', () => {
             recordLookupEditorNode.queriedFields.push({field: {value: '', error: null}, rowIndex: "RECORDLOOKUPFIELD_3"});
             const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
@@ -188,6 +188,17 @@ describe('Record Lookup Validation', () => {
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('field');
             expect(errors[0].errorString).toBe('Cannot be blank.');
+        });
+        // W-5199678
+        it('should not return an error if there is only one empty field and ID field', () => {
+            recordLookupEditorNode.queriedFields = [{field: {value: 'ID', error: null}, rowIndex: "RECORDLOOKUPFIELD_1"}, {field: {value: '', error: null}, rowIndex: "RECORDLOOKUPFIELD_2"}, {field: {value: '', error: null}, rowIndex: "RECORDLOOKUPFIELD_3"}];
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
+            let errors = validate(recordLookupEditor.node);
+            expect(errors).toHaveLength(2);
+            // now delete one empty row -> there are 'Id' and one empty row
+            recordLookupEditorNode.queriedFields.splice(2, 1);
+            errors = validate(recordLookupEditor.node);
+            expect(errors).toHaveLength(0);
         });
     });
 });
