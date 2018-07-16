@@ -6,12 +6,11 @@ import notAValidMergeFieldLabel from '@label/FlowBuilderMergeFieldValidation.not
 import invalidGlobalConstant from '@label/FlowBuilderMergeFieldValidation.invalidGlobalConstant';
 import unknownMergeField from '@label/FlowBuilderMergeFieldValidation.unknownMergeField';
 import wrongDataType from '@label/FlowBuilderMergeFieldValidation.wrongDataType';
+import { GLOBAL_CONSTANT_PREFIX, getNonElementResource } from 'builder_platform_interaction-system-lib';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
 const MERGEFIELD_REGEX = /\{!(\$\w+\.\w+|\w+\.\w+|\w+)\}/g;
-
-const GLOBAL_CONSTANT_PREFIX = '$GlobalConstant.';
 
 const SYSTEM_VARIABLE_PREFIX = '$Flow.';
 
@@ -20,12 +19,6 @@ const VALIDATION_ERROR_TYPE = {
     INVALID_GLOBAL_CONSTANT : 'invalidGlobalConstant',
     UNKNOWN_MERGE_FIELD : 'unknownMergeField',
     WRONG_DATA_TYPE : 'wrongDataType'
-};
-
-const GLOBAL_CONSTANT = {
-    EMPTY_STRING: '$GlobalConstant.EmptyString',
-    BOOLEAN_TRUE: '$GlobalConstant.True',
-    BOOLEAN_FALSE: '$GlobalConstant.False'
 };
 
 /**
@@ -122,7 +115,7 @@ export class MergeFieldsValidation {
 
     _validateGlobalConstant(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
-        if (mergeFieldReferenceValue !== GLOBAL_CONSTANT.EMPTY_STRING) {
+        if (!getNonElementResource(mergeFieldReferenceValue)) {
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_CONSTANT, invalidGlobalConstant, index, endIndex);
             return Promise.resolve([validationError]);
         }

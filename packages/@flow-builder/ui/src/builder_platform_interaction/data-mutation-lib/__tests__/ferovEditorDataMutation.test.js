@@ -4,7 +4,7 @@ import * as store from 'mock-store-data';
 import * as storeUtilMock from 'builder_platform_interaction-store-utils';
 import { FLOW_DATA_TYPE } from '../../data-type-lib/data-type-lib';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
-import { GLOBAL_CONSTANT } from 'builder_platform_interaction-flow-metadata';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
 
 const stringFerovValue = 'abc';
 const variableFerovValue = 123;
@@ -42,7 +42,7 @@ describe('mutateFerov function', () => {
         const item = {};
         item.ferov = { stringValue: '' };
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toEqual(addCurlyBraces(GLOBAL_CONSTANT.EMPTY_STRING));
+        expect(mutatedItem.rightHandSide).toEqual(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING));
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.STRING);
     });
 
@@ -74,7 +74,7 @@ describe('mutateFerov function', () => {
         const item = {};
         item.ferov = { booleanValue: true };
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toEqual(addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_TRUE));
+        expect(mutatedItem.rightHandSide).toEqual(addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_TRUE));
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.BOOLEAN);
     });
 
@@ -82,7 +82,7 @@ describe('mutateFerov function', () => {
         const item = {};
         item.ferov = { booleanValue: false };
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toEqual(addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_FALSE));
+        expect(mutatedItem.rightHandSide).toEqual(addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE));
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.BOOLEAN);
     });
 
@@ -157,7 +157,7 @@ describe('deMutateFerov function', () => {
 
     it('should demutate ferov with global constant empty string value', () => {
         const item = {};
-        item.rightHandSide = addCurlyBraces(GLOBAL_CONSTANT.EMPTY_STRING);
+        item.rightHandSide = addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING);
         item.rightHandSideDataType = FLOW_DATA_TYPE.STRING.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
@@ -202,7 +202,7 @@ describe('deMutateFerov function', () => {
 
     it('should demutate ferov with boolean true value', () => {
         const item = {};
-        item.rightHandSide = addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_TRUE);
+        item.rightHandSide = addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
         item.rightHandSideDataType = FLOW_DATA_TYPE.BOOLEAN.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
@@ -211,7 +211,7 @@ describe('deMutateFerov function', () => {
 
     it('should demutate ferov with boolean false value', () => {
         const item = {};
-        item.rightHandSide = addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_FALSE);
+        item.rightHandSide = addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE);
         item.rightHandSideDataType = FLOW_DATA_TYPE.BOOLEAN.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);

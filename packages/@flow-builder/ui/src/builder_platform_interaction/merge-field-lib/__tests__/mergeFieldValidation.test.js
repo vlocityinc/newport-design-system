@@ -69,18 +69,6 @@ describe('Merge field validation', () => {
                 done();
             });
         });
-        it('Returns a validation error when it references {!$GlobalConstant.True} or {!$GlobalConstant.False}', (done) => {
-            validateMergeField('{!$GlobalConstant.True}').then(validationErrors => {
-                expect(validationErrors).toEqual([
-                    {
-                        "endIndex": 21,
-                        "errorType": "invalidGlobalConstant",
-                        "message": "FlowBuilderMergeFieldValidation.invalidGlobalConstant",
-                        "startIndex": 2
-                    }]);
-                done();
-            });
-        });
         it('Returns a validation error when it references a global constant that does not exist', (done) => {
             validateMergeField('{!$GlobalConstant.A}').then(validationErrors => {
                 expect(validationErrors).toEqual([

@@ -1,10 +1,7 @@
 import { createSelector } from 'builder_platform_interaction-store-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
-import globalConstantEmptyStringLabel from '@label/FlowBuilderGlobalConstants.globalConstantEmptyString';
-import globalConstantTrueLabel from '@label/FlowBuilderGlobalConstants.globalConstantTrue';
-import globalConstantFalseLabel from '@label/FlowBuilderGlobalConstants.globalConstantFalse';
+import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANTS as GC} from 'builder_platform_interaction-system-lib';
 
 const elementsSelector = (state) => state.elements;
 const resourcesSelector = (state) => state.resources;
@@ -25,7 +22,7 @@ const getReadableElements = (elements, resources, canvasElements) => {
     const editableCanvasElements = canvasElements.filter(guid => elements[guid].elementType !== ELEMENT_TYPE.START_ELEMENT);
     const readableElementGuids = [...resources, ...editableCanvasElements];
     const readableElements = getResources(elements, readableElementGuids);
-    const globalConstants = getResources(GLOBAL_CONSTANTS, [globalConstantFalseLabel, globalConstantTrueLabel, globalConstantEmptyStringLabel]);
+    const globalConstants = getResources(GLOBAL_CONSTANT_OBJECTS, [GC.BOOLEAN_FALSE, GC.BOOLEAN_TRUE, GC.EMPTY_STRING]);
     return [...readableElements, ...globalConstants];
 };
 

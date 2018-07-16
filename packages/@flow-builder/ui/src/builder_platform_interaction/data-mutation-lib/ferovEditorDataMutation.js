@@ -3,7 +3,7 @@ import { omit, updateProperties } from './objectMutation';
 import { mutateTextWithMergeFields } from './mergeFieldsMutation';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
-import { GLOBAL_CONSTANT } from 'builder_platform_interaction-flow-metadata';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
 
 // keys are the types we find in our ferov objects, values are flow builder ferov data types
 const META_DATA_TYPES_TO_FEROV_TYPES_MAP = {
@@ -144,14 +144,14 @@ function convertToProps(ferovObject, valueProperty, dataTypeProperty) {
             props[dataTypeProperty] = META_DATA_TYPES_TO_FEROV_TYPES_MAP[metadataType];
             if (isFerovBoolean(metadataType)) {
                 if (value === true) {
-                    props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_TRUE);
+                    props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
                 } else {
-                    props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_FALSE);
+                    props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE);
                 }
             } else if (isFerovNumber(metadataType)) {
                 props[valueProperty] = value.toString();
             } else if (isFerovString(metadataType) && value === '') {
-                props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANT.EMPTY_STRING);
+                props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING);
             } else if (isFerovString(metadataType)) {
                 props[valueProperty] = mutateTextWithMergeFields(value);
             } else {
@@ -273,12 +273,12 @@ export const deMutateFEROV = (element, ferovObjectName, { valueProperty, dataTyp
         // store the value stored in the element before deleting it
         if (isFerovReference(ferovDataTypeKey) && element.hasOwnProperty(valuePropertyGuid)) {
             ferovObject[ferovDataTypeKey] = element[valuePropertyGuid];
-        } else if (isFerovString(ferovDataTypeKey) && value === addCurlyBraces(GLOBAL_CONSTANT.EMPTY_STRING)) {
+        } else if (isFerovString(ferovDataTypeKey) && value === addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)) {
             ferovObject[ferovDataTypeKey] = '';
         } else if (isFerovBoolean(ferovDataTypeKey)) {
-            if (value === addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_TRUE)) {
+            if (value === addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_TRUE)) {
                 ferovObject[ferovDataTypeKey] = true;
-            } else if (value === addCurlyBraces(GLOBAL_CONSTANT.BOOLEAN_FALSE)) {
+            } else if (value === addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE)) {
                 ferovObject[ferovDataTypeKey] = false;
             }
         } else {
