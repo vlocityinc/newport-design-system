@@ -9,7 +9,6 @@ const LOOP_PROPERTIES = {
 };
 
 const loopPropertyChanged = (state, event) => {
-    event.stopPropagation();
     event.detail.error = event.detail.error === null ?
         loopValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
     return updateProperties(state, {
@@ -33,7 +32,6 @@ const loopComboboxStateChanged = (state, event) => {
 };
 
 const loopCollectionChangedEvent = (state, event) => {
-    event.stopPropagation();
     const newCollectionValue = event.detail.collectionValue ? event.detail.collectionValue : null;
     event.detail.collectionError = event.detail.collectionError === null ?
         loopValidation.validateProperty(LOOP_PROPERTIES.COLLECTION_VARIABLE, newCollectionValue) : event.detail.collectionError;

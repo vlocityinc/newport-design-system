@@ -17,13 +17,14 @@ const LOOP_PROPERTIES = {
 // TODO: use labels W-4960986
 const VARIABLE_LABEL = 'Variable';
 const COLLECTION_VARIABLE_PLACEHOLDER = 'Find a collection variable...';
+const COLLECTION_VARIABLE_ERRORMESSAGE = null;
 const LOOP_VARIABLE_PLACEHOLDER = 'Find a variable...';
 const ITERATION_ORDER_ASCENDING = 'Asc';
 const ITERATION_ORDER_DECENDING = 'Desc';
 const LOOPVAR_ERROR_MESSAGE = 'Datatype does not match collection variable';
 const LOOPVAR_LITERALS_ALLOWED = false;
 const LOOPVAR_REQUIRED = true;
-const LOOPCOLLECTION_DISABLED = false;
+const LOOPVARIABLE_DISABLED = false;
 
 const COLLECTION_VAR_ELEMENT_CONFIG = {
     elementType: ELEMENT_TYPE.LOOP,
@@ -46,8 +47,8 @@ export default class LoopEditor extends Element {
     @api
     set node(newValue) {
         this.loopElement = newValue || {};
-        this._collectionVariable = this.loopElement.collectionReference ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.collectionReference)) : null;
-        this.loopVariableState = this.loopElement.assignNextValueToReference ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.assignNextValueToReference)) : null;
+        this._collectionVariable = this.loopElement.collectionReference.value ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.collectionReference)) : null;
+        this.loopVariableState = this.loopElement.assignNextValueToReference.value ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.assignNextValueToReference)) : null;
         // disable loop variable until collection is chosen.
         this.isLoopVariableDisabled = !this._collectionVariable;
     }
@@ -116,10 +117,10 @@ export default class LoopEditor extends Element {
         return BaseResourcePicker.getComboboxConfig(
             VARIABLE_LABEL,
             COLLECTION_VARIABLE_PLACEHOLDER,
-            this.loopElement.collectionReference.error,
+            COLLECTION_VARIABLE_ERRORMESSAGE,
             LOOPVAR_LITERALS_ALLOWED,
             LOOPVAR_REQUIRED,
-            LOOPCOLLECTION_DISABLED
+            LOOPVARIABLE_DISABLED
         );
     }
 
