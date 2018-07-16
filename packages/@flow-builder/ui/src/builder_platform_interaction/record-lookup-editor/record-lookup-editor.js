@@ -1,6 +1,6 @@
 import { Element, api, track, unwrap } from 'engine';
 import { recordLookupReducer } from './record-lookup-reducer';
-import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
+import { ENTITY_TYPE, getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { LABELS } from './record-lookup-editor-labels';
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
@@ -29,6 +29,8 @@ export default class RecordLookupEditor extends Element {
      * The default value of number records to store.
      */
     numberRecordsToStoreValue = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+
+    crudFilterType = ENTITY_TYPE.QUERYABLE
 
     /**
      * public api function to return the unwrapped node
