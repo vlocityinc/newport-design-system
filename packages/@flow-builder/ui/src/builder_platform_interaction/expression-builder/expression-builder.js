@@ -125,22 +125,14 @@ export default class ExpressionBuilder extends Element {
         const rhsGuid = getValueFromHydratedItem(expression[RHSG]);
         const rhsVal = rhsGuid ? rhsGuid : getValueFromHydratedItem(expression[RHS]);
         if (expression[RHS] && !isUndefinedOrNull(rhsVal)) {
-            this.state.normalizedRHS = normalizeRHS(rhsVal, this.state.normalizedLHS);
-            // when loading the expression for the first time, we do not have all the information when the RHS is a field. So we need to update the expression RHS
-            if (!this._fetchedRHSInfo && this.state.normalizedRHS && this.state.normalizedRHS.fields) {
-                this._fetchedRHSInfo = true;
-                const expressionUpdates = {
-                    [RHS]: {value: this.state.normalizedRHS.displayText, error: expression[RHS].error},
-                    [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: expression[RHSDT].error},
-                    [RHSG]: {value: this.state.normalizedRHS.value, error: expression[RHSG].error},
-                };
-                const newExpression = updateProperties(this.state.expression, expressionUpdates);
-                this.firePropertyChangedEvent(newExpression);
-            }
-        }
-
-        if (lhsVal && this.operatorForRules()) {
-            this.populateRHSMenuData();
+            normalizeRHS(rhsVal, this.state.normalizedLHS)
+                .then((normalizedRHS) => {
+                    this.state.normalizedRHS = normalizedRHS;
+                    this.updateRHSWithFieldOnLoad(normalizedRHS.itemOrDisplayText);
+                    if (lhsVal && this.operatorForRules()) {
+                        this.populateRHSMenuData();
+                    }
+                });
         }
     }
 
@@ -472,17 +464,19 @@ export default class ExpressionBuilder extends Element {
     populateRHSMenuData() {
         // helper variables so code is not so verbose
         const lhs = this.state.normalizedLHS;
-        const lhsItem = lhs.item;
         const rhsItem = this.state.normalizedRHS.itemOrDisplayText;
+        const rhsFields = this.state.normalizedRHS.fields;
+        const showAsFieldReference =  true;
+        const showSubText = true;
 
         // populate the rhs menu data based on the LHS and operator
         this.state.rhsTypes = getRHSTypes(elementType, lhs.parameter, this.operatorForRules(), rules);
         let menuData;
 
         // In the case that the existing RHS is a field on the second level, get the field menu data
-        if (rhsItem && rhsItem.parent && rhsItem.fields) {
+        if (rhsItem && rhsItem.parent && rhsFields) {
             // NOTE: should there be a case where we get the fields if not in rhsItem? They should have been retreived in normalize RHS operation
-            menuData = filterFieldsForChosenElement(rhsItem.parent, this.state.rhsTypes, lhsItem.fields, true, true);
+            menuData = filterFieldsForChosenElement(rhsItem.parent, this.state.rhsTypes, rhsFields, showAsFieldReference, showSubText);
         } else {
             menuData = getElementsForMenuData({elementType}, this.state.rhsTypes, true, true, false, this.state.normalizedLHS.activePicklistValues);
         }
@@ -499,5 +493,22 @@ export default class ExpressionBuilder extends Element {
             return this.state.normalizedLHS.activePicklistValues.find(item => item.value === picklistApiValue);
         }
         return undefined;
+    }
+
+    /**
+     *  when loading the expression for the first time, we do not have all the information when the RHS is a field. So we need to update the expression RHS
+     * @param {module:MenuDataGenerator.MenuItem} rhsItem combobox menu item representing chosen RHS
+     */
+    updateRHSWithFieldOnLoad = (rhsItem) => {
+        if (!this._fetchedRHSInfo && rhsItem && rhsItem.parent) {
+            this._fetchedRHSInfo = true;
+            const expressionUpdates = {
+                [RHS]: {value: rhsItem.displayText, error: this.state.expression[RHS].error},
+                [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: this.state.expression[RHSDT].error},
+                [RHSG]: {value: rhsItem.value, error: this.state.expression[RHSG].error},
+            };
+            const newExpression = updateProperties(this.state.expression, expressionUpdates);
+            this.firePropertyChangedEvent(newExpression);
+        }
     }
 }

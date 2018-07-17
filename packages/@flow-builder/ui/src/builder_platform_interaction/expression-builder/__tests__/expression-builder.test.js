@@ -371,20 +371,26 @@ describe('expression-builder', () => {
 
         it('should populate rhs menu data', () => {
             const expressionBuilder = createDefaultComponentForTest();
-            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            expect(getRHSTypes).toHaveBeenCalled();
-            expect(rhsCombobox.menuData).toBeDefined();
+            return Promise.resolve().then(() => {
+                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                expect(getRHSTypes).toHaveBeenCalled();
+                expect(rhsCombobox.menuData).toBeDefined();
+            });
         });
 
         it('should populate the expression builder with values from the store', () => {
             const expressionBuilder = createDefaultComponentForTest();
-            const comboboxes = getComboboxElements(expressionBuilder);
-            const lhsCombobox = comboboxes[0];
-            const operatorCombobox = getLightningCombobox(expressionBuilder);
-            const rhsCombobox = comboboxes[1];
-            expect(lhsCombobox.value.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
-            expect(operatorCombobox.value).toEqual('Assign');
-            expect(rhsCombobox.value.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
+            return Promise.resolve().then(() => {
+                const comboboxes = getComboboxElements(expressionBuilder);
+                const lhsCombobox = comboboxes[0];
+                const operatorCombobox = getLightningCombobox(expressionBuilder);
+                expect(lhsCombobox.value.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
+                expect(operatorCombobox.value).toEqual('Assign');
+            })
+                .then(() => {
+                    const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                    expect(rhsCombobox.value.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
+                });
         });
     });
     describe('building expression for entity fields', () => {
@@ -561,7 +567,9 @@ describe('expression-builder', () => {
     describe('Expression should act like operator is Assign', () => {
         it(`When rhs menudata is initialized if operator is replaced with ${OPERATOR_DISPLAY_OPTION.LEFT_ARROW}`, () => {
             createDefaultComponentForTest(OPERATOR_DISPLAY_OPTION.LEFT_ARROW);
-            expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
+            return Promise.resolve().then(() => {
+                expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
+            });
         });
 
         it(`To validate existing RHS when LHS changes if operator is replaced with ${OPERATOR_DISPLAY_OPTION.LEFT_ARROW}`, () => {
@@ -577,7 +585,9 @@ describe('expression-builder', () => {
 
         it(`When rhs menudata is initialized if operator is replaced with ${OPERATOR_DISPLAY_OPTION.RIGHT_ARROW}`, () => {
             createDefaultComponentForTest(OPERATOR_DISPLAY_OPTION.RIGHT_ARROW);
-            expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
+            return Promise.resolve().then(() => {
+                expect(getRHSTypes.mock.calls[0][2]).toEqual(RULE_OPERATOR.ASSIGN);
+            });
         });
 
         it(`To validate existing RHS when LHS changes if operator is replaced with ${OPERATOR_DISPLAY_OPTION.RIGHT_ARROW}`, () => {

@@ -62,8 +62,10 @@ describe('RHS retrieval', () => {
         const complexGuid = store.accountSObjectVariableGuid + '.AccountSource';
         const lhs = normalizeLHS(complexGuid);
         const rhsApiValue = 'AccountSource';
-        const rhs = normalizeRHS(rhsApiValue, lhs);
-        expect(rhs.itemOrDisplayText).toBeDefined();
-        expect(rhs.itemOrDisplayText).toEqual(rhsApiValue);
+        normalizeRHS(rhsApiValue, lhs)
+            .then((rhs) => {
+                expect(rhs.itemOrDisplayText).toBeDefined();
+                expect(rhs.itemOrDisplayText).toEqual(rhsApiValue);
+            });
     });
 });

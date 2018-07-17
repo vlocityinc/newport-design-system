@@ -23,18 +23,21 @@ export const getResourceByUniqueIdentifier = (identifier) => {
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
  * @param {String} rhsIdentifier    used to identify RHS, could be GUID or literal
- * @param {Object} normalizedLHS    the normalized LHS we receive from normalizeLHS call, represents the LHS of expression
- * @returns {String}                combobox display value
+ * @param {Object} normalizedLHS    the normalized LHS we receive from normalizeLHS call, represents the LHS of expressionå
+ * @returns {Promise}               Promise that resolves with combobox display value
  */
 export const normalizeRHS = (rhsIdentifier, normalizedLHS) => {
     const rhs = {};
     const complexGuid = sanitizeGuid(rhsIdentifier);
     const flowElement = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
     if (flowElement && complexGuid.fieldName) {
-        // TODO: W-4960448: the field will appear empty briefly when fetching the first time
-        sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
-            rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[complexGuid.fieldName], mutateFlowResourceToComboboxShape(flowElement), true, true);
-            rhs.fields = fields;
+        return new Promise((resolve) => {
+            // TODO: W-4960448: the field will appear empty briefly when fetching the first time
+            sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
+                rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[complexGuid.fieldName], mutateFlowResourceToComboboxShape(flowElement), true, true);
+                rhs.fields = fields;
+                resolve(rhs);
+            });
         });
     } else if (flowElement) {
         rhs.itemOrDisplayText = mutateFlowResourceToComboboxShape(flowElement);
@@ -47,7 +50,7 @@ export const normalizeRHS = (rhsIdentifier, normalizedLHS) => {
         }
         rhs.itemOrDisplayText = foundValue ? mutatePicklistValue(foundValue) : rhsIdentifier;
     }
-    return rhs;
+    return Promise.resolve(rhs);
 };
 
 /**
