@@ -7,6 +7,7 @@ import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-ed
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { validateTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
 import { removeCurlyBraces } from 'builder_platform_interaction-common-utils';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
 import unknownMergeField from '@label/FlowBuilderMergeFieldValidation.unknownMergeField';
 
 const SELECTORS = {
@@ -462,6 +463,7 @@ describe('Combobox Tests', () => {
                 { value: '{!textVarDoesNotExists}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!MyVar1.secondLevel.thirdLevel}', isLiteralsAllowed: false, error: null }, // no validation for more than 2 levels
                 { value: '{!MyVar1.}', isLiteralsAllowed: false, error: null }, // no error since last dot is removed before validation
+                { value: '{!' + GLOBAL_CONSTANTS.EMPTY_STRING + '}', error: null },
             ],
             Number : [
                 { value: '-.9', error: null},
@@ -499,8 +501,8 @@ describe('Combobox Tests', () => {
                 { value: 'literal', error: VALIDATION_ERROR_MESSAGE.GENERIC },
             ],
             Boolean : [
-                // TODO: W-4967895
-                // { value: 'true', error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: 'true', error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: '{!' + GLOBAL_CONSTANTS.BOOLEAN_TRUE + '}', error: null },
                 { value: '{!MyBooleanVar}', error: null },
             ],
             Picklist : [

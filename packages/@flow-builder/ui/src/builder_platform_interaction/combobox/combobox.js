@@ -179,9 +179,7 @@ export default class Combobox extends Element {
             this.fireComboboxStateChangedEvent();
 
             // No literals allowed for SObject and Boolean data type
-            // if ([FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.BOOLEAN.value].includes(this._dataType)) {
-            // TODO: W-4967895. Make Boolean only allow Global Constant True/False
-            if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+            if ([FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.BOOLEAN.value].includes(this._dataType)) {
                 this._isLiteralAllowed = false;
             }
         } else {
