@@ -86,6 +86,16 @@ export const stageParam = {
     cannotBeElements: allElements,
 };
 
+export const booleanParam = {
+    paramType:'Data',
+    paramIndex:1,
+    dataType:'Boolean',
+    collection:false,
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    canBeElements:allElements,
+};
+
 // these params deal with hypothetical situations that we account for but don't exist right now
 export const dateParamMissingCollection = {
     paramType:'Data',
