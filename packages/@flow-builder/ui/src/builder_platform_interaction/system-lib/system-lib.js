@@ -19,9 +19,6 @@ export const isNonElementResourceId = (id) => {
  * @returns {Object|undefined}  if the id was valid, the object it references will be returned, otherwise undefined
  */
 export const getNonElementResource = (id) => {
-    if (!isNonElementResourceId(id)) {
-        throw new Error(`id didn't follow the rules for non-element resource labels, was ${id}`);
-    }
     // TODO system & global variables will be handled here W-5067879
     return GLOBAL_CONSTANT_OBJECTS[id];
 };

@@ -11,6 +11,7 @@ import {
     filterFieldsForChosenElement,
     OPERATOR_DISPLAY_OPTION,
     getResourceByUniqueIdentifier,
+    getResourceFerovDataType,
 } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox,
     elementToParam, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
@@ -309,9 +310,10 @@ export default class ExpressionBuilder extends Element {
         if (!error && !rhsItem.parent && !isElementAllowed(this.state.rhsTypes, elementToParam(element))) {
             error = genericErrorMessage;
         }
+        const dataType = getResourceFerovDataType(rhsItem.value);
         const rhsAndRHSDT = {
             [RHS]: {value: rhsItem.displayText, error},
-            [RHSDT]: {value: FEROV_DATA_TYPE.REFERENCE, error: null},
+            [RHSDT]: {value: dataType, error: null},
             [RHSG]: {value: rhsItem.value, error: null},
         };
         this.setRHSAndFireRowContentsChanged(rhsAndRHSDT, error);

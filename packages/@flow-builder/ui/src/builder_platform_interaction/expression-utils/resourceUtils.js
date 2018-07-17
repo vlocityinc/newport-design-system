@@ -8,6 +8,7 @@ import {
 import * as sobjectLib from 'builder_platform_interaction-sobject-lib';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { elementToParam } from 'builder_platform_interaction-rule-lib';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 /**
  * Retrieves element or global constant
@@ -16,7 +17,17 @@ import { elementToParam } from 'builder_platform_interaction-rule-lib';
  * @return {Object|undefined}    element or resource if the identifier is valid, otherwise undefined
  */
 export const getResourceByUniqueIdentifier = (identifier) => {
-    return isNonElementResourceId(identifier) ? getNonElementResource(identifier) : getElementByGuid(identifier);
+    return getElementByGuid(identifier) || getNonElementResource(identifier);
+};
+
+/**
+ * Gets the data type to determine how this value should be stored in a FEROV
+ *
+ * @param {String} identifier    unique identifier that can be used to retrieve the flow resource
+ * @returns {FEROV_DATA_TYPE}    the dataType category this value belongs to
+ */
+export const getResourceFerovDataType = (identifier) => {
+    return isNonElementResourceId(identifier) ? getNonElementResource(identifier).dataType : FEROV_DATA_TYPE.REFERENCE;
 };
 
 /**

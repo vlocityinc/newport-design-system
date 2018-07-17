@@ -3,12 +3,14 @@ import { getShadowRoot } from 'lwc-test-utils';
 // Importing using relative path here to ensure that we get the actual component and not the mocked version
 import ExpressionBuilder from '../expression-builder.js';
 import { RowContentsChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction-events';
-import { numberVariableGuid, numberVariableDevName, stringVariableGuid, stringVariableDevName, dateVariableGuid, currencyVariableGuid, assignmentElementGuid, elements } from 'mock-store-data';
+import { numberVariableGuid, numberVariableDevName, stringVariableGuid, stringVariableDevName,
+    dateVariableGuid, currencyVariableGuid, assignmentElementGuid, elements } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { mockAccountFields } from 'mock-server-entity-data';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
 import genericErrorMessage from '@label/FlowBuilderCombobox.genericErrorMessage';
 import numberErrorMessage from '@label/FlowBuilderCombobox.numberErrorMessage';
 
@@ -45,7 +47,7 @@ function createMockEmptyRHSExpression(lhsValue, wasVisited = false) {
             error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
-            value: wasVisited ? 'wasVisited' : 'Assign',
+            value: wasVisited ? 'wasVisited' : RULE_OPERATOR.ASSIGN,
             error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
@@ -70,7 +72,7 @@ function createMockPopulatedExpression() {
             error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
-            value: 'Assign',
+            value: RULE_OPERATOR.ASSIGN,
             error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
@@ -154,6 +156,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         sanitizeGuid: require.requireActual('builder_platform_interaction-data-mutation-lib').sanitizeGuid,
         filterFieldsForChosenElement: require.requireActual('builder_platform_interaction-expression-utils').filterFieldsForChosenElement,
         OPERATOR_DISPLAY_OPTION: require.requireActual('builder_platform_interaction-expression-utils').OPERATOR_DISPLAY_OPTION,
+        getResourceFerovDataType: require.requireActual('builder_platform_interaction-expression-utils').getResourceFerovDataType,
     };
 });
 
@@ -257,6 +260,7 @@ describe('expression-builder', () => {
             return Promise.resolve().then(() => {
                 const newExpression = createMockPopulatedExpression();
                 newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = {value: devNameToComboboxValue(numberVariableDevName), error: null};
+                newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE] = {value: FEROV_DATA_TYPE.REFERENCE, error: null};
                 newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID] = {value: numberVariableGuid, error: null};
                 const rhsCombobox = getComboboxElements(expressionBuilder)[1];
 
@@ -292,7 +296,7 @@ describe('expression-builder', () => {
                         error: null,
                     },
                     [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
-                        value: 'Assign',
+                        value: RULE_OPERATOR.ASSIGN,
                         error: null,
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
@@ -322,7 +326,7 @@ describe('expression-builder', () => {
                         error: null,
                     },
                     [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
-                        value: 'Assign',
+                        value: RULE_OPERATOR.ASSIGN,
                         error: null,
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
@@ -385,7 +389,7 @@ describe('expression-builder', () => {
                 const lhsCombobox = comboboxes[0];
                 const operatorCombobox = getLightningCombobox(expressionBuilder);
                 expect(lhsCombobox.value.displayText).toEqual(devNameToComboboxValue(numberVariableDevName));
-                expect(operatorCombobox.value).toEqual('Assign');
+                expect(operatorCombobox.value).toEqual(RULE_OPERATOR.ASSIGN);
             })
                 .then(() => {
                     const rhsCombobox = getComboboxElements(expressionBuilder)[1];
@@ -463,7 +467,7 @@ describe('expression-builder', () => {
             getElementsForMenuData.mockClear();
         });
 
-        it('should throw RowContentsChangedEvent with matchig picklist item when selecting picklist menu item', () => {
+        it('should throw RowContentsChangedEvent with matching picklist item when selecting picklist menu item', () => {
             const expressionBuilder = createComponentForTest({
                 expression: mockExpressionForEntityFields,
                 configuration: mockConfigurationForEntityFields,
@@ -483,6 +487,34 @@ describe('expression-builder', () => {
                 expect(newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.value);
                 expect(newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE].value).toEqual(FLOW_DATA_TYPE.STRING.value);
                 expect(newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID].value).toBe('');
+            });
+        });
+    });
+
+    describe('building expression for global constants', () => {
+        it('should throw RowContentsChangedEvent with correct dataType', () => {
+            const expressionBuilder = createComponentForTest({
+                expression: {
+                    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: stringVariableGuid, error: null},
+                    [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: RULE_OPERATOR.ASSIGN, error: null},
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
+                },
+            });
+            const item = {
+                displayText: '{!' + GLOBAL_CONSTANTS.BOOLEAN_TRUE + '}',
+                value: GLOBAL_CONSTANTS.BOOLEAN_TRUE,
+            };
+            const eventCallback = jest.fn();
+            expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+            ourCBChangeEvent = new ComboboxStateChangedEvent(item);
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            rhsCombobox.dispatchEvent(ourCBChangeEvent);
+            return Promise.resolve().then(() => {
+                const newExpression = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(eventCallback).toHaveBeenCalled();
+                expect(newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.displayText);
+                expect(newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE].value).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+                expect(newExpression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID].value).toBe(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
             });
         });
     });
