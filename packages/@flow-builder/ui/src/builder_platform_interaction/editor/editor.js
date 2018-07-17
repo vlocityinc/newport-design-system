@@ -19,6 +19,7 @@ import { AddElementEvent } from 'builder_platform_interaction-events';
 import { usedBy } from 'builder_platform_interaction-used-by-lib';
 import { format } from 'builder_platform_interaction-common-utils';
 import { listExtensions } from 'builder_platform_interaction-screen-editor-utils';
+import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction-logging-utils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -28,6 +29,7 @@ const DEBUG = 'debug';
 
 const UPDATE_SAVE_TYPE = 'saveDraft';
 const CREATE_SAVE_TYPE = 'createNewFlow';
+const EDITOR = 'EDITOR';
 
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -67,6 +69,7 @@ export default class Editor extends Element {
     constructor() {
         super();
         // Initialising store
+        logPerfTransactionStart(EDITOR);
         storeInstance = Store.getStore(reducer);
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
         // TODO: Move these server calls after getting the Flow
@@ -746,6 +749,11 @@ export default class Editor extends Element {
     renderedCallback() {
         if (!this.isFlowServerCallInProgress && this.showSpinner) {
             this.showSpinner = false;
+            logPerfTransactionEnd(EDITOR, {
+                numOfNodes: this.appState.canvas.nodes.length,
+                numOfConnectors: this.appState.canvas.connectors.length
+            });
+
             if (this.flowId) {
                 this.disableRunDebug = false;
             }

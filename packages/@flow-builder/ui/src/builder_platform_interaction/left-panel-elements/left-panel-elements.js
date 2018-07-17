@@ -1,6 +1,8 @@
 import { Element, track } from 'engine';
 import { transformLeftPanelElements } from './left-panel-elements-helper';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
+import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-logging-utils';
+const leftPanelElements = 'leftPanelElements';
 
 export default class LeftPanelElements extends Element {
     /**
@@ -10,6 +12,7 @@ export default class LeftPanelElements extends Element {
 
     constructor() {
         super();
+        logPerfMarkStart(leftPanelElements);
         fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, this.getElementsLeftPalette);
     }
 
@@ -25,5 +28,11 @@ export default class LeftPanelElements extends Element {
             this.leftPanelElementsList = transformLeftPanelElements(data);
         }
     };
+
+    renderedCallback() {
+        if (this.leftPanelElementsList && this.leftPanelElementsList.length > 0) {
+            logPerfMarkEnd(leftPanelElements);
+        }
+    }
 }
 

@@ -7,8 +7,9 @@
 
     <builder_platform_interaction:container flowId="{!v.flowId}"></builder_platform_interaction:container>
 
-
     <!-- panel manager component with custom css -->
     <builder_platform_interaction:panelManagerWrapper></builder_platform_interaction:panelManagerWrapper>
-    
+
+    <!-- Metrics Service beacon  -->
+    <instrumentation:beacon />    
 </aura:application>

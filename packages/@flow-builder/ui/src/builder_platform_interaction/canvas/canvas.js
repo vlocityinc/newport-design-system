@@ -4,6 +4,7 @@ import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pa
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
 import { AddElementEvent, DeleteElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-logging-utils';
 
 /**
  * Canvas component for flow builder.
@@ -21,6 +22,8 @@ const KEYS = {
     EQUAL: '=',
     SPACE: ' '
 };
+
+const canvas = 'canvas';
 
 export default class Canvas extends Element {
     @api nodes = [];
@@ -66,6 +69,7 @@ export default class Canvas extends Element {
 
     constructor() {
         super();
+        logPerfMarkStart(canvas);
         lib.setNewConnection(this.connectionAdded);
         lib.clickConnection(this.connectionClicked);
     }
@@ -476,5 +480,6 @@ export default class Canvas extends Element {
             }
         }
         lib.setSuspendDrawing(false, true);
+        logPerfMarkEnd(canvas, {numOfNodes: this.nodes && this.nodes.length});
     }
 }
