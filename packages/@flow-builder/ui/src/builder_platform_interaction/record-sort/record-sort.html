@@ -1,27 +1,29 @@
 <template>
     <div class="slds-m-bottom_small slds-border_top">
-        <h3 class="slds-text-heading_small slds-p-left_small slds-p-top_small">{labels.sortTabHeader}</h3>
+        <h3 class="slds-text-heading_small slds-p-left_small slds-p-top_small">{headerText}</h3>
         <div class="slds-card slds-no-flex">
             <div class="slds-grid slds-p-around_small">
                 <lightning-combobox label={labels.sortOrderLabel}
                 value={sortOrder}
                 options={sortOrderOptions}
                 onchange={handleSortOrderChanged}
-                class="slds-size_small types">
+                class="slds-size_x-small types">
             </lightning-combobox>
-            <template if:true={state.showFieldSelector}>
-                <lightning-combobox label={labels.sortByFieldLabel}
-                    options={state.fieldsOptions}
-                    value={selectedField}
-                    onchange={handleSelectedFieldChanged}
-                    placeholder={labels.selectFieldToSortResultLabel}
-                    class="sortField slds-m-left_small slds-size_small types"
-                    required>
-                </lightning-combobox>
-            </template>
-            <template if:false={state.showFieldSelector}>
-                <span id="helpText" class="slds-m-left_small slds-p-top_medium slds-text-body_small slds-text-color_weak">{labels.sortOrderNotSortedHelp}</span>
-            </template>
+            <lightning-combobox if:true={state.showFieldSelector}
+                label={labels.sortByFieldLabel}
+                options={state.fieldsOptions}
+                value={selectedField}
+                onchange={handleSelectedFieldChanged}
+                placeholder={labels.selectFieldToSortResultLabel}
+                class="sortField slds-m-left_small slds-size_small types"
+                required>
+            </lightning-combobox>
+            <div if:false={state.showFieldSelector} id="helpText" class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak">
+                <lightning-icon icon-name="utility:warning" title={labels.warning} alternative-text={labels.warning} variant="warning" size="x-small" 
+                class="slds-m-right_x-small">
+                </lightning-icon>
+                {labels.sortOrderNotSortedHelp}
+            </div>
             </div>
         </div>
     </div>

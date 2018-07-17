@@ -80,7 +80,7 @@ describe('record-sort-result default', () => {
         expect(getFilterCombobox(recordSortResultComponent)).not.toBeDefined();
     });
     test('Filter help text is displayed', () => {
-        expect(getFilterHelpText(recordSortResultComponent)).toBeDefined();
+        expect(getFilterHelpText(recordSortResultComponent)).not.toBeNull();
     });
     describe('When sort order changes', () => {
         it('fields combobox should be visible when Ascending is selected', async () => {
@@ -122,6 +122,9 @@ describe('record-sort With values', () => {
     test('"NotSorted" as value, filter combobox should not be displayed', () => {
         recordSortResultComponent = createComponentUnderTest(null, sortValues.notSorted);
         expect(getFilterCombobox(recordSortResultComponent)).not.toBeDefined();
+    });
+    test('Filter help text is not displayed', () => {
+        expect(getFilterHelpText(recordSortResultComponent)).toBeNull();
     });
     describe('field value change', () => {
         test('"Asc" - Should propagate a change event', () => {

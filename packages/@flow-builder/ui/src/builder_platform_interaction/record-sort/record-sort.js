@@ -97,6 +97,11 @@ export default class RecordSort extends Element {
         }
     }
 
+    @api
+    get headerText() {
+        return this.labels.sortTabHeader.replace('{0}', this._resourceApiName);
+    }
+
     getFields(resourceApiName) {
         getFieldsForEntity(resourceApiName, (fields) => {
             if (fields) {

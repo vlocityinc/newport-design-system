@@ -7,6 +7,7 @@ import sortOrderDescendingLabel from '@label/FlowBuilderRecordEditor.sortOrderDe
 import sortByFieldLabel from '@label/FlowBuilderRecordEditor.sortByFieldLabel';
 import selectFieldToSortResultLabel from '@label/FlowBuilderRecordEditor.selectFieldToSortResultLabel';
 import sortOrderNotSortedHelp from '@label/FlowBuilderRecordEditor.sortOrderNotSortedHelp';
+import warning from '@label/FlowBuilderRecordEditor.warning';
 
 export const LABELS = {
     sortTabHeader,
@@ -17,4 +18,5 @@ export const LABELS = {
     sortByFieldLabel,
     selectFieldToSortResultLabel,
     sortOrderNotSortedHelp,
+    warning,
 };
