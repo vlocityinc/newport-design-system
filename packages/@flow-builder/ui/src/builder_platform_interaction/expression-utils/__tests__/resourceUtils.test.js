@@ -1,9 +1,7 @@
-import { getElementsForMenuData } from '../menuDataRetrieval';
-import { normalizeLHS, normalizeRHS } from '../resourceUtils';
+import { normalizeLHS, normalizeRHS, getResourceByUniqueIdentifier } from '../resourceUtils';
 import { numberParamCanBeField } from 'mock-rule-service';
 import * as store from 'mock-store-data';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import * as selectorsMock from 'builder_platform_interaction-selectors';
+import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from 'builder_platform_interaction-system-lib';
 
 jest.mock('builder_platform_interaction-selectors', () => {
     return {
@@ -20,7 +18,7 @@ jest.mock('builder_platform_interaction-sobject-lib', () => {
     };
 });
 
-describe('LHS retrieval', () => {
+describe('LHS normalize', () => {
     it('should handle the case when LHS is guid', () => {
         const normalizedElement = normalizeLHS(store.numberVariableGuid);
         expect(normalizedElement.item.displayText).toBe('{!' + store.numberVariableDevName + '}');
@@ -37,27 +35,7 @@ describe('LHS retrieval', () => {
     });
 });
 
-describe('RHS retrieval', () => {
-    beforeEach(() => {
-        selectorsMock.writableElementsSelector.mockClear();
-    });
-    it('should have active picklist values in menu data when LHS is picklist field', () => {
-        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid]]);
-        const complexGuid = store.accountSObjectVariableGuid + '.AccountSource';
-        const lhs = normalizeLHS(complexGuid);
-        // configuration for menu data retrieval
-        const allowedParamTypes = null;
-        const includeNewResource = false;
-        const allowSObjectForFields = false;
-        const disableHasNext = false;
-        const activePicklistValues = lhs.activePicklistValues;
-
-        const menuData = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true}, allowedParamTypes, includeNewResource, allowSObjectForFields, disableHasNext, activePicklistValues);
-        const picklistLabel = 'Picklist Values';
-        expect(menuData).toContainEqual(expect.objectContaining({label:  picklistLabel}));
-        expect(menuData).toContainEqual(expect.objectContaining({items: expect.any(Array)}));
-    });
-
+describe('RHS normalize', () => {
     it('should match an rhs value with a picklist api name to a menu item', () => {
         const complexGuid = store.accountSObjectVariableGuid + '.AccountSource';
         const lhs = normalizeLHS(complexGuid);
@@ -68,4 +46,16 @@ describe('RHS retrieval', () => {
                 expect(rhs.itemOrDisplayText).toEqual(rhsApiValue);
             });
     });
+});
+
+describe('resource retrieval', () => {
+    it('getResourceByUniqueIdentifier should return element by guid', () => {
+        expect(getResourceByUniqueIdentifier(store.accountSObjectVariableGuid)).toEqual(store.elements[store.accountSObjectVariableGuid]);
+    });
+    const constants = [GLOBAL_CONSTANTS.EMPTY_STRING, GLOBAL_CONSTANTS.BOOLEAN_TRUE, GLOBAL_CONSTANTS.BOOLEAN_FALSE];
+    for (let i = 0; i < 3; i++) {
+        it(`should retrieve ${constants[i]} by label`, () => {
+            expect(getResourceByUniqueIdentifier(constants[i])).toEqual(GLOBAL_CONSTANT_OBJECTS[constants[i]]);
+        });
+    }
 });
