@@ -1,10 +1,7 @@
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
-import startElementLabel from '@label/FlowBuilderCanvas.startElementLabel';
-import faultConnectorLabel from '@label/FlowBuilderConnectorLabels.faultConnectorLabel';
-import loopNextConnectorLabel from '@label/FlowBuilderConnectorLabels.loopNextConnectorLabel';
-import loopEndConnectorLabel from '@label/FlowBuilderConnectorLabels.loopEndConnectorLabel';
+import { LABELS } from './connector-utils-labels';
 
 export const START_ELEMENT_X_Y = {
     x: 50,
@@ -95,7 +92,7 @@ export const createStartElement = () => {
     const startElement = {};
     startElement.guid = generateGuid(ELEMENT_TYPE.START_ELEMENT);
     startElement.elementType = ELEMENT_TYPE.START_ELEMENT;
-    startElement.label = startElementLabel;
+    startElement.label = LABELS.startElementLabel;
     startElement.locationX = START_ELEMENT_X_Y.x;
     startElement.locationY = START_ELEMENT_X_Y.y;
     startElement.config = { isSelected: false };
@@ -197,7 +194,7 @@ export const createConnectorObjects = (node, parentId) => {
             node.guid,
             null,
             node.nextValueConnector.targetReference,
-            loopNextConnectorLabel,
+            LABELS.loopNextConnectorLabel,
             CONNECTOR_TYPE.LOOP_NEXT
         );
         connectors.push(nextValueConnector);
@@ -210,7 +207,7 @@ export const createConnectorObjects = (node, parentId) => {
             node.guid,
             null,
             node.noMoreValuesConnector.targetReference,
-            loopEndConnectorLabel,
+            LABELS.loopEndConnectorLabel,
             CONNECTOR_TYPE.LOOP_END
         );
         connectors.push(noMoreValuesConnector);
@@ -223,7 +220,7 @@ export const createConnectorObjects = (node, parentId) => {
             node.guid,
             null,
             node.faultConnector.targetReference,
-            faultConnectorLabel,
+            LABELS.faultConnectorLabel,
             CONNECTOR_TYPE.FAULT
         );
         connectors.push(faultConnector);
@@ -363,4 +360,119 @@ export const setConnectorsOnElements = (connectors, elements) => {
     });
 
     return startElementId;
+};
+
+/**
+ * Helper method to sort the combobox options based on the source element. This method is only used when we need to
+ * open the connector-picker.
+ *
+ * @param {Object} sourceElement - Source element of the connector
+ * @param {Object[]} comboboxOptions - Available connections in the shape needed by the combobox
+ * @return {Object[]} sortedComboboxOptions - Combobox options sorted in the required order
+ */
+export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOptions) => {
+    const sortedComboboxOptions = [];
+    if (sourceElement.elementType === ELEMENT_TYPE.LOOP) {
+        // Connector-picker for loop pops up only when both LOOP_NEXT and LOOP_END are unused. Therefore, we simply
+        // push loopNextComboboxOption and loopEndComboboxOption in that order in sortedComboboxOptions
+        const loopNextComboboxOption = {
+            label: LABELS.loopNextComboBoxOption,
+            value: CONNECTOR_TYPE.LOOP_NEXT
+        };
+
+        const loopEndComboboxOption = {
+            label: LABELS.loopEndComboBoxOption,
+            value: CONNECTOR_TYPE.LOOP_END
+        };
+
+        sortedComboboxOptions.push(loopNextComboboxOption, loopEndComboboxOption);
+    } else if (sourceElement.elementType === ELEMENT_TYPE.DECISION) {
+        // Iterating over outcomeReferences and sorting the comboboxOptions in the same order. For default outcome we
+        // push it at the end if the option exists in comboboxOptions
+        const defaultOutcomeComboboxOption = {};
+        for (let i = 0; i < sourceElement.outcomeReferences.length; i++) {
+            comboboxOptions.map(option => {
+                if (option.value === sourceElement.outcomeReferences[i].outcomeReference) {
+                    sortedComboboxOptions.push(option);
+                } else if (option.value ===  CONNECTOR_TYPE.DEFAULT && Object.keys(defaultOutcomeComboboxOption).length === 0) {
+                    defaultOutcomeComboboxOption.label = option.label;
+                    defaultOutcomeComboboxOption.value = option.value;
+                }
+                return option;
+            });
+        }
+
+        if (Object.keys(defaultOutcomeComboboxOption).length === 2) {
+            sortedComboboxOptions.push(defaultOutcomeComboboxOption);
+        }
+    }
+    return sortedComboboxOptions;
+};
+
+/**
+ * Method to get the connector label and value used for building combobox options
+ *
+ * @param {object} elements - State of elements in the store
+ * @param {object} sourceElement - Source element of the connector
+ * @param {string} childReference - GUID of the child reference
+ * @param {string} availableConnectionType - Type of the available connection
+ * @return {object} - The connector label and value
+ */
+export const getLabelAndValueForConnectorPickerOptions = (elements, sourceElement, childReference, availableConnectionType) => {
+    let label,
+        value;
+
+    value = availableConnectionType;
+
+    if (childReference) {
+        label = elements[childReference].label;
+        value = childReference;
+    } else if (availableConnectionType === CONNECTOR_TYPE.DEFAULT) {
+        label = sourceElement.defaultConnectorLabel;
+    } else if (availableConnectionType === CONNECTOR_TYPE.FAULT) {
+        label = LABELS.faultConnectorLabel;
+    } else if (availableConnectionType === CONNECTOR_TYPE.LOOP_NEXT) {
+        label = LABELS.loopNextComboBoxOption;
+    } else if (availableConnectionType === CONNECTOR_TYPE.LOOP_END) {
+        label = LABELS.loopEndComboBoxOption;
+    }
+
+    return {
+        label,
+        value
+    };
+};
+
+/**
+ * // TODO: Refactor this code to make it more generic
+ * Creates the new connector object
+ *
+ * @param {object} elements - Current state of elements in the store
+ * @param {string} sourceGuid - Contains the source guid
+ * @param {string} targetGuid - Contains the target guid
+ * @param {string} valueFromCombobox - The selected value in the connector-picker
+ * @return {object} - New connector object
+ */
+export const createNewConnector = (elements, sourceGuid, targetGuid, valueFromCombobox) => {
+    let type = valueFromCombobox,
+        label,
+        childSource;
+
+    if (valueFromCombobox === CONNECTOR_TYPE.START || valueFromCombobox === CONNECTOR_TYPE.REGULAR) {
+        label = null;
+    } else if (valueFromCombobox === CONNECTOR_TYPE.DEFAULT) {
+        label = elements[sourceGuid].defaultConnectorLabel;
+    } else if (valueFromCombobox === CONNECTOR_TYPE.FAULT) {
+        label = LABELS.faultConnectorLabel;
+    } else if (valueFromCombobox === CONNECTOR_TYPE.LOOP_NEXT) {
+        label = LABELS.loopNextConnectorLabel;
+    } else if (valueFromCombobox === CONNECTOR_TYPE.LOOP_END) {
+        label = LABELS.loopEndConnectorLabel;
+    } else {
+        type = CONNECTOR_TYPE.REGULAR;
+        label = elements[valueFromCombobox].label;
+        childSource = valueFromCombobox;
+    }
+
+    return createConnectorObject(sourceGuid, childSource, targetGuid, label, type);
 };

@@ -6,7 +6,7 @@ import { updateFlow, updateProperties, addElement, updateElement, deleteElement,
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 import { createFlowElement } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { createConnectorObject, createStartElement } from 'builder_platform_interaction-connector-utils';
+import { createStartElement, sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from 'builder_platform_interaction-connector-utils';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform_interaction-translator-lib";
 import { reducer } from "builder_platform_interaction-reducers";
@@ -548,71 +548,15 @@ export default class Editor extends Element {
     };
 
     /**
-     * Method to get the connector label and value used for building combobox options
-     *
-     * @param {object} elements - State of elements in the store
-     * @param {object} sourceElement - Source element of the connector
-     * @param {string} childReference - GUID of the child reference
-     * @param {string} availableConnectionType - Type of the available connection
-     * @return {object} - The connector label and value
-     */
-    getConnectorLabelAndValue = (elements, sourceElement, childReference, availableConnectionType) => {
-        let label,
-            value;
-
-        value = availableConnectionType;
-
-        if (childReference) {
-            label = elements[childReference].label;
-            value = childReference;
-        } else if (availableConnectionType === CONNECTOR_TYPE.DEFAULT) {
-            label = sourceElement.defaultConnectorLabel;
-        } else if (availableConnectionType === CONNECTOR_TYPE.FAULT) {
-            label = LABELS.faultConnectorLabel;
-        } else if (availableConnectionType === CONNECTOR_TYPE.LOOP_NEXT) {
-            label = LABELS.loopNextComboBoxOption;
-        } else if (availableConnectionType === CONNECTOR_TYPE.LOOP_END) {
-            label = LABELS.loopEndComboBoxOption;
-        }
-
-        return {
-            label,
-            value
-        };
-    };
-
-    /**
      * Dispatches add connection action with the new connector
      *
-     * @param {string} source - Contains the source guid
-     * @param {string} target - Contains the target guid
+     * @param {object} elements - Current state of elements in the store
+     * @param {string} sourceGuid - Contains the source guid
+     * @param {string} targetGuid - Contains the target guid
      * @return {Function} - Creates the connector object based on the selected or remaining availableConnection value
      */
-    createAndAddConnector = (source, target) => (valueFromCombobox) => {
-        const currentState = storeInstance.getCurrentState();
-        const elements = currentState.elements;
-
-        let type = valueFromCombobox,
-            label,
-            childSource;
-
-        if (valueFromCombobox === CONNECTOR_TYPE.START || valueFromCombobox === CONNECTOR_TYPE.REGULAR) {
-            label = null;
-        } else if (valueFromCombobox === CONNECTOR_TYPE.DEFAULT) {
-            label = elements[source].defaultConnectorLabel;
-        } else if (valueFromCombobox === CONNECTOR_TYPE.FAULT) {
-            label = LABELS.faultConnectorLabel;
-        } else if (valueFromCombobox === CONNECTOR_TYPE.LOOP_NEXT) {
-            label = LABELS.loopNextConnectorLabel;
-        } else if (valueFromCombobox === CONNECTOR_TYPE.LOOP_END) {
-            label = LABELS.loopEndConnectorLabel;
-        } else {
-            type = CONNECTOR_TYPE.REGULAR;
-            label = elements[valueFromCombobox].label;
-            childSource = valueFromCombobox;
-        }
-
-        const connectorObject = createConnectorObject(source, childSource, target, label, type);
+    addConnection = (elements, sourceGuid, targetGuid) => (valueFromCombobox) => {
+        const connectorObject = createNewConnector(elements, sourceGuid, targetGuid, valueFromCombobox);
         storeInstance.dispatch(addConnector(connectorObject));
     };
 
@@ -635,9 +579,9 @@ export default class Editor extends Element {
                 if (!availableConnections) {
                     // Creates a regular connection. Would be needed for Start element, Assignment element, Screen element and Steps element
                     if (sourceElementType === ELEMENT_TYPE.START_ELEMENT) {
-                        this.createAndAddConnector(event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.START);
+                        this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.START);
                     } else {
-                        this.createAndAddConnector(event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.REGULAR);
+                        this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.REGULAR);
                     }
                 } else if (availableConnections.length === 1) {
                     // Creates the only connection remaining in availableConnections
@@ -649,16 +593,16 @@ export default class Editor extends Element {
                     } else {
                         remainingConnectionValue = availableConnectionType;
                     }
-                    this.createAndAddConnector(event.detail.sourceGuid, event.detail.targetGuid)(remainingConnectionValue);
+                    this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid)(remainingConnectionValue);
                 } else if (sourceElementType === ELEMENT_TYPE.DECISION || sourceElementType === ELEMENT_TYPE.WAIT || sourceElementType === ELEMENT_TYPE.LOOP) {
                     // Opens the connector-picker to select which connector to connect when there are multiple available connections
-                    const comboboxOptions = [];
+                    let comboboxOptions = [];
                     const availableConnectionsLength = availableConnections.length;
 
                     for (let i = 0; i < availableConnectionsLength; i++) {
                         const childReference = availableConnections[i].childReference;
                         const availableConnectionType = availableConnections[i].type;
-                        const {label, value} = this.getConnectorLabelAndValue(elements, sourceElement, childReference, availableConnectionType);
+                        const {label, value} = getLabelAndValueForConnectorPickerOptions(elements, sourceElement, childReference, availableConnectionType);
 
                         comboboxOptions.push({
                             label,
@@ -666,14 +610,17 @@ export default class Editor extends Element {
                         });
                     }
 
+                    // Sorting the options in the right order
+                    comboboxOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
+
                     // Invokes the connector-picker panel
                     const mode = event.type;
-                    const nodeUpdate = this.createAndAddConnector(event.detail.sourceGuid, event.detail.targetGuid);
+                    const nodeUpdate = this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid);
                     invokePanel(PROPERTY_EDITOR, {mode, nodeUpdate, comboboxOptions, sourceElementType, targetElementLabel});
                 } else {
                     // Creates the first regular connector for all element types (such as CRUD, Action etc.)
                     // that support 2 connectors namely regular and fault
-                    this.createAndAddConnector(event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.REGULAR);
+                    this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.REGULAR);
                 }
             }
         }

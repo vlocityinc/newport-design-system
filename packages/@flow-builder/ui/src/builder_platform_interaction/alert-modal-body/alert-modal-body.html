@@ -1,14 +1,16 @@
 <template>
-    <div if:true={bodyTextOne} class='slds-text-align_center'>{bodyTextOne}</div>
-    <div if:true={bodyTextTwo} class='slds-text-align_center slds-m-top_small'>{bodyTextTwo}</div>
+    <div class='slds-text-longform'>
+        <p if:true={bodyTextOne} class='slds-text-align_center'>{bodyTextOne}</p>
+        <p if:true={bodyTextTwo} class='slds-text-align_center slds-m-top_small'>{bodyTextTwo}</p>
+    </div>
     <div if:true={listSectionHeader}>
-        <div class='slds-text-title_caps slds-text-color_inverse-weak slds-m-top_small'>{listSectionHeader}</div>
-        <ul if:true={listSectionItems} class='slds-has-block-links slds-m-top_small'>
+        <div class='slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small'>{listSectionHeader}</div>
+        <ul if:true={listSectionItems} class='slds-has-block-links'>
             <template for:each={listSectionItems} for:item='listItem'>
-                <div key={listItem.guid}>
-                    <lightning-icon icon-name={listItem.iconName} title={listItem.elementName} alternative-text={listItem.elementName} size='xx-small' class='slds-m-right_x-small'></lightning-icon>
-                    <li class='slds-show_inline-block'>{listItem.elementName}</li>
-                </div>
+                <li key={listItem.guid} class='slds-p-vertical_x-small'>
+                    <lightning-icon icon-name={listItem.iconName} title={listItem.elementName} alternative-text={listItem.elementName} size='x-small' class='slds-m-right_x-small'></lightning-icon>
+                    <span>{listItem.elementName}</span>
+                </li>
             </template>
         </ul>
     </div>

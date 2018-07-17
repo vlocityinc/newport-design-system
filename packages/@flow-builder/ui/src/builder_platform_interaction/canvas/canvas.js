@@ -62,7 +62,6 @@ export default class Canvas extends Element {
     centerOffsetX = 0;
     centerOffsetY = 0;
 
-    // TODO: Move it to a library
     isMultiSelect(event) {
         return event.shiftKey || event.metaKey;
     }
@@ -340,7 +339,7 @@ export default class Canvas extends Element {
      */
     handleCanvasMouseUp = (event) => {
         event.preventDefault();
-        if ((event.target.id === 'canvas' || event.target.id === 'innerCanvas')) {
+        if (event.path[0].id === 'canvas' || event.path[0].id === 'innerCanvas') {
             const canvasMouseUpEvent = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
                 composed: true,

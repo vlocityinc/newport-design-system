@@ -2,7 +2,7 @@
     <div id={nodeGuid} class='element-container slds-is-absolute slds-text-align_center' style={nodeLocation} title={nodeTitle}>
         <div class={nodeClasses}>
             <!--Node icon -->
-            <lightning-icon icon-name={iconName} size='large'></lightning-icon>
+            <lightning-icon variant='inverse' icon-name={iconName} class='start-icon slds-icon__container_circle'></lightning-icon>
 
             <!--End Point-->
             <button if:true={hasAvailableConnections} tabindex='0' class='end-point slds-is-absolute'></button>

@@ -27,7 +27,7 @@ export const elementTypeToConfigMap = {
     },
     [ELEMENT_TYPE.START_ELEMENT]: {
         nodeConfig: {
-            iconName: 'standard:flow',
+            iconName: 'utility:right',
             maxConnections: 1
         },
         canvasElement: true
