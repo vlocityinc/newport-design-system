@@ -69,6 +69,27 @@ export const comboboxInitialConfig = {
                     type: 'option-card',
                 },
             ]
+        },
+        {
+            label: 'Global Constants',
+            items: [
+                {
+                    text: '$GlobalConstant.True',
+                    subText: 'True',
+                    value: '$GlobalConstant.True',
+                    displayText: '{!$GlobalConstant.True}',
+                    hasNext: false,
+                    type: 'option-card',
+                },
+                {
+                    text: '$GlobalConstant.EmptyString',
+                    subText: 'EmptyString',
+                    value: '$GlobalConstant.EmptyString',
+                    displayText: '{!$GlobalConstant.EmptyString}',
+                    hasNext: false,
+                    type: 'option-card',
+                },
+            ]
         }
     ],
     placeholder: 'placeholderText',
