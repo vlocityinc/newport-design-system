@@ -31,6 +31,8 @@ const screenAdditionalRules = {
                 ValidationRules.shouldBeADate
             ]
         }
+        // TODO: W-4947221 - add validation rules for default value based on type
+        // i.e. if input type is number, make sure default value is a number.
     }
 };
 

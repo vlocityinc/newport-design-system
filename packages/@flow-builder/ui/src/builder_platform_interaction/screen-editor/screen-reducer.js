@@ -2,7 +2,7 @@ import { screenValidation } from './screen-validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField } from 'builder_platform_interaction-data-mutation-lib';
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
-import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField } from 'builder_platform_interaction-screen-editor-utils';
+import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getDefaultValueType } from 'builder_platform_interaction-screen-editor-utils';
 
 /**
  * Adds screen fields to a screen.
@@ -106,10 +106,31 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                     newField = set(selectedNode, parametersPropName, updatedParams);
                 }
             } else {
+                // Non-extension screen field change
+
+                // Run validation
+                // TODO: W-4947221 - What do we do this with this error?
                 const type = selectedNode.type.name;
                 const fullPropName = property !== 'name' ? 'fields[type.name="' + type + '"].' + property : 'name';
                 error = error === null ? screenValidation.validateProperty(fullPropName, value) : error;
-                newField = updateProperties(selectedNode, {[property]: newValue});
+
+                // If the validation rule's error message was changed, it needs special handling because it's an object
+                // within the field.
+                if (property === 'validationRule.errorMessage') {
+                    const validationRuleProp = 'validationRule';
+                    const errorMessageProp = 'errorMessage';
+                    const newErrorMessage = updateProperties(selectedNode[validationRuleProp], {[errorMessageProp]: newValue});
+                    newField = updateProperties(selectedNode, {[validationRuleProp]: newErrorMessage});
+                } else if (property === 'defaultValue') {
+                    // Default value needs special handling because there are two properties that need to be updated.
+                    const internalDefaultValueField = '_defaultValue';
+                    const defaultValueType = getDefaultValueType(selectedNode);
+                    const firstUpdate = updateProperties(selectedNode[internalDefaultValueField], {[defaultValueType]: newValue});
+                    const secondUpdate = updateProperties(selectedNode, {[internalDefaultValueField]: firstUpdate});
+                    newField = updateProperties(secondUpdate, {[property]: newValue});
+                } else {
+                    newField = updateProperties(selectedNode, {[property]: newValue});
+                }
             }
 
             // Replace the field in the screen

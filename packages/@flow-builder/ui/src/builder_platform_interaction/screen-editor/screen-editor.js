@@ -13,6 +13,7 @@ export default class ScreenEditor extends Element {
     @track screen;
     @track selectedNode;
     @track selectedItemGuid;
+    isNewMode = false;  // TODO: W-4947221 - figure out how to apply this only to the newly added field.
 
     /**
      * Screen node getter
@@ -84,6 +85,7 @@ export default class ScreenEditor extends Element {
         // select the new field on the canvas.
         const position = Number.isInteger(event.position) ? event.position : this.screen.fields.length - 1;
         this.setSelectedNode(this.screen.fields[position]);
+        this.isNewMode = true;
     }
 
     /**

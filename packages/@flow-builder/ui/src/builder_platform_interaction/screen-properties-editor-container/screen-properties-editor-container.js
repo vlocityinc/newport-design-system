@@ -12,6 +12,7 @@ export default class ScreenEditorPropertiesEditorContainer extends Element {
     @track extendedInfo;
     @track toggleIconName = 'utility:expand_alt';
     @track displaySpinner;
+    @api isNewMode;
 
     labels = LABELS;
 

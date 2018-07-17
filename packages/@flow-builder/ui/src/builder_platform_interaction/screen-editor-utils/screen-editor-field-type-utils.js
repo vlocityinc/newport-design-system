@@ -11,7 +11,8 @@ const screenFieldTypes = [
         dataType: 'String',
         label: LABELS.fieldTypeLabelTextField,
         icon: 'utility:type_tool',
-        category: LABELS.fieldCategoryInput
+        category: LABELS.fieldCategoryInput,
+        defaultValueType: 'stringValue'
     }, {
         name: 'LargeTextArea',
         fieldType: 'LargeTextArea',
@@ -25,28 +26,32 @@ const screenFieldTypes = [
         dataType: 'Number',
         label: LABELS.fieldTypeLabelNumber,
         icon: 'utility:topic2',
-        category: LABELS.fieldCategoryInput
+        category: LABELS.fieldCategoryInput,
+        defaultValueType: 'numberValue'
     }, {
         name: 'Currency',
         fieldType: 'InputField',
         dataType: 'Currency',
         label: LABELS.fieldTypeLabelCurrency,
         icon: 'utility:moneybag',
-        category: LABELS.fieldCategoryInput
+        category: LABELS.fieldCategoryInput,
+        defaultValueType: 'numberValue'
     }, {
         name: 'Date',
         fieldType: 'InputField',
         dataType: 'Date',
         label: LABELS.fieldTypeLabelDate,
         icon: 'utility:event',
-        category: LABELS.fieldCategoryInput
+        category: LABELS.fieldCategoryInput,
+        defaultValueType: 'dateValue'
     }, {
         name: 'DateTime',
         fieldType: 'InputField',
         dataType: 'DateTime',
         label: LABELS.fieldTypeLabelDateTime,
         icon: 'utility:event',
-        category: LABELS.fieldCategoryInput
+        category: LABELS.fieldCategoryInput,
+        defaultValueType: 'dateTimeValue'
     }, {
         name: 'Password',
         fieldType: 'PasswordField',
@@ -60,7 +65,8 @@ const screenFieldTypes = [
         dataType: 'Boolean',
         label: LABELS.fieldTypeLabelCheckbox,
         icon: 'utility:check',
-        category: LABELS.fieldCategoryInput
+        category: LABELS.fieldCategoryInput,
+        defaultValueType: 'booleanValue'
     }, /* {
         name: 'Radio',
         fieldType: 'InputField',
@@ -126,6 +132,25 @@ export function getScreenFieldType(field) {
     }
 
     throw new Error('No type found for ' + fieldType + ', ' + dataType);
+}
+
+/**
+ * Returns the default value type for the specified field.
+ * @param {object} field - The screen field
+ * @returns {string} - The default type based on the field type (stringValue, numberValue, etc).
+ * @throws if field type can't be found
+ */
+export function getDefaultValueType(field) {
+    const fieldType = field.fieldType;
+    const dataType = field.dataType;
+
+    for (const type of screenFieldTypes) {
+        if (fieldType === type.fieldType && dataType === type.dataType) {
+            return type.defaultValueType;
+        }
+    }
+
+    throw new Error('No default type found for ' + fieldType + ', ' + dataType);
 }
 
 /**
