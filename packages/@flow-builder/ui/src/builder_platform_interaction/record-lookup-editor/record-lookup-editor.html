@@ -14,11 +14,12 @@
                     combobox-config={entityComboboxConfig}
                     value={recordLookupElement.object.value}
                     crud-filter-type={crudFilterType}
-                    oncomboboxstatechanged={handleResourceChanged}>
+                    oncomboboxstatechanged={handleResourceChanged}
+                    onitemselected={handleResourceChanged}>
             </builder_platform_interaction-entity-resource-picker>
         </div>
     </div>
-    
+
     <div if:true={recordEntityName}>
         <!-- Find Records section -->
         <builder_platform_interaction-record-filter element-type={recordLookupElement.elementType} filter-items={recordLookupElement.filters} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={recordLookupElement.filterType.value} onrecordlookupfiltertypechanged={handleFilterTypeChanged} onaddrecordlookupfilter={handlePropertyOrListItemChanged} onupdaterecordlookupfilter={handlePropertyOrListItemChanged} ondeleterecordlookupfilter={handlePropertyOrListItemChanged}></builder_platform_interaction-record-filter>

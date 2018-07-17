@@ -27,6 +27,12 @@ function getComboboxStateChangedEvent() {
     });
 }
 
+function getComboboxItemSelectedEvent() {
+    return new CustomEvent('itemselected', {
+        detail: defaultValueItem,
+    });
+}
+
 jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
         getResourceByUniqueIdentifier: jest.fn(),
@@ -114,10 +120,6 @@ const getRecordStoreOption = (recordLookupEditor) => {
     return getShadowRoot(recordLookupEditor).querySelector(selectors.recordStoreOption);
 };
 
-const getSObjectOrSObjectCollectionPicker = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(selectors.sObjectOrSObjectCollectionPicker);
-};
-
 const getEntityResourcePicker = (recordLookupEditor) => {
     return getShadowRoot(recordLookupEditor).querySelector(selectors.entityResourcePicker);
 };
@@ -148,9 +150,31 @@ describe('record-lookup-editor', () => {
             const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
             expect(entityResourcePicker).not.toBeNull();
         });
-        it('Other Element should not be visible', () => {
-            const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordLookupEditor);
-            expect(sObjectOrSObjectCollectionPicker).toBeNull();
+        it('Other elements should not be visible', () => {
+            expect(getRecordFilter(recordLookupEditor)).toBeNull();
+            expect(getRecordStoreOption(recordLookupEditor)).toBeNull();
+            expect(getRecordSort(recordLookupEditor)).toBeNull();
+            expect(getRecordQueryFields(recordLookupEditor)).toBeNull();
+        });
+        it('should show other elements when changing the resource', () => {
+            const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
+            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
+            return Promise.resolve().then(() => {
+                expect(getRecordFilter(recordLookupEditor)).not.toBeNull();
+                expect(getRecordStoreOption(recordLookupEditor)).not.toBeNull();
+                expect(getRecordSort(recordLookupEditor)).not.toBeNull();
+                expect(getRecordQueryFields(recordLookupEditor)).not.toBeNull();
+            });
+        });
+        it('should show other elements when selecting the resource', () => {
+            const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
+            entityResourcePicker.dispatchEvent(getComboboxItemSelectedEvent());
+            return Promise.resolve().then(() => {
+                expect(getRecordFilter(recordLookupEditor)).not.toBeNull();
+                expect(getRecordStoreOption(recordLookupEditor)).not.toBeNull();
+                expect(getRecordSort(recordLookupEditor)).not.toBeNull();
+                expect(getRecordQueryFields(recordLookupEditor)).not.toBeNull();
+            });
         });
     });
     describe('Edit existing record element using sObject', () => {
