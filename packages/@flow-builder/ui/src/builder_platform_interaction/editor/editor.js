@@ -153,6 +153,7 @@ export default class Editor extends Element {
             // TODO: handle error case
         } else if (data.isSuccess) {
             this.currentFlowId = data.flowId;
+            storeInstance.dispatch(updateProperties({versionNumber: data.versionNumber}));
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
             this.errors = [];
         } else {
