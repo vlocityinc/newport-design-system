@@ -2,9 +2,9 @@ import { Element, api, track, unwrap } from 'engine';
 import { loopReducer } from './loop-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
-import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
+import { getErrorsFromHydratedElement, getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
-import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
+import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import {PropertyChangedEvent, LoopCollectionChangedEvent} from 'builder_platform_interaction-events';
@@ -17,7 +17,6 @@ const LOOP_PROPERTIES = {
 // TODO: use labels W-4960986
 const VARIABLE_LABEL = 'Variable';
 const COLLECTION_VARIABLE_PLACEHOLDER = 'Find a collection variable...';
-const COLLECTION_VARIABLE_ERRORMESSAGE = null;
 const LOOP_VARIABLE_PLACEHOLDER = 'Find a variable...';
 const ITERATION_ORDER_ASCENDING = 'Asc';
 const ITERATION_ORDER_DECENDING = 'Desc';
@@ -117,7 +116,7 @@ export default class LoopEditor extends Element {
         return BaseResourcePicker.getComboboxConfig(
             VARIABLE_LABEL,
             COLLECTION_VARIABLE_PLACEHOLDER,
-            COLLECTION_VARIABLE_ERRORMESSAGE,
+            this.loopElement.collectionReference.error,
             LOOPVAR_LITERALS_ALLOWED,
             LOOPVAR_REQUIRED,
             LOOPVARIABLE_DISABLED
@@ -152,22 +151,16 @@ export default class LoopEditor extends Element {
     handleCollectionVariablePropertyChanged(event) {
         event.stopPropagation();
         this._collectionVariable = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
+        let loopVarErrorMessage = getErrorFromHydratedItem(this.loopElement.assignNextValueToReference);
 
-        let loopVarErrorMessage = null;
-        if (this.loopVariableState && this._collectionVariable) {
-            // check if loop variable dataType or objectType changed
-            const isDataTypeChanged = this.getLoopVariableDataType() !==  this.getCollectionVariableDataType();
-            const isSObjectTypeChanged = this.getLoopVariableSObjectType() !== this.getCollectionVariableSObjectType();
+        const isDataTypeChanged = this.getLoopVariableDataType() !==  this.getCollectionVariableDataType();
+        const isSObjectTypeChanged = this.getLoopVariableSObjectType() !== this.getCollectionVariableSObjectType();
 
+        if (this.loopVariableState && this._collectionVariable && (isDataTypeChanged || isSObjectTypeChanged)) {
             // set datatype mismatch error message for loopVariable
-            if (this.loopVariableState && (isDataTypeChanged || isSObjectTypeChanged)) {
-                loopVarErrorMessage = LOOPVAR_ERROR_MESSAGE;
-            } else if (this.loopElement.assignNextValueToReference.value) {
-                loopVarErrorMessage = null;
-            }
-        }
-        // If loopCollection has error then clear datatypemismatch error message for loopVariable
-        if (event.detail.error !== null &&  this.loopElement.assignNextValueToReference.error === LOOPVAR_ERROR_MESSAGE) {
+            loopVarErrorMessage = LOOPVAR_ERROR_MESSAGE;
+        } else if (event.detail.error !== null &&  this.loopElement.assignNextValueToReference.error === LOOPVAR_ERROR_MESSAGE) {
+            // If loopCollection has error then clear datatypemismatch error message for loopVariable
             loopVarErrorMessage = null;
         }
 
@@ -176,7 +169,8 @@ export default class LoopEditor extends Element {
 
         // update collectionVariable and loopVariableErrorMessage
         const loopCollectionValue = event.detail.item ? event.detail.item.value : null;
-        const loopCollectionChangedEvent = new LoopCollectionChangedEvent(loopCollectionValue, event.detail.error, loopVarErrorMessage);
+        const loopVariableValue =  getValueFromHydratedItem(this.loopElement.assignNextValueToReference);
+        const loopCollectionChangedEvent = new LoopCollectionChangedEvent(loopCollectionValue, event.detail.error, loopVariableValue, loopVarErrorMessage);
         this.loopElement = loopReducer(this.loopElement, loopCollectionChangedEvent);
     }
 
@@ -218,7 +212,7 @@ export default class LoopEditor extends Element {
      * @returns {String} The string value
      */
     getLoopVariableSObjectType() {
-        return this.loopVariableState ? this.loopVariableState.objectType : null;
+        return this.loopVariableState && this.loopVariableState.objectType ? this.loopVariableState.objectType : null;
     }
 
     /**
@@ -226,7 +220,7 @@ export default class LoopEditor extends Element {
      * @returns {String} The string value
      */
     getCollectionVariableSObjectType() {
-        return this._collectionVariable ? this._collectionVariable.objectType : null;
+        return this._collectionVariable && this._collectionVariable.objectType ? this._collectionVariable.objectType : null;
     }
 
     /**
@@ -236,10 +230,10 @@ export default class LoopEditor extends Element {
      */
     mutateComboboxItem(item) {
         return {
-            name: item.text,
+            name: removeCurlyBraces(item.displayText),
             guid: item.value,
             dataType: item.dataType,
-            objectType: item.objectType
+            objectType: item.objectType ? item.objectType : null
         };
     }
 }

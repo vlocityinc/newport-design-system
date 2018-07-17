@@ -5,7 +5,7 @@ const eventName = 'loopcollectionchanged';
 
 
 export class LoopCollectionChangedEvent {
-    constructor(collectionValue = null, collectionError = null, loopVariableErrorMessage = null) {
+    constructor(collectionValue = null, collectionError = null, loopVariableValue = null, loopVariableErrorMessage = null) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
@@ -13,6 +13,7 @@ export class LoopCollectionChangedEvent {
             detail: {
                 collectionValue,
                 collectionError,
+                loopVariableValue,
                 loopVariableErrorMessage
             }
         });

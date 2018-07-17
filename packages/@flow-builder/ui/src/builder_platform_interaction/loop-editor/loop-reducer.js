@@ -41,6 +41,7 @@ const loopCollectionChangedEvent = (state, event) => {
             error: event.detail.collectionError
         },
         [LOOP_PROPERTIES.LOOP_VARIABLE]: {
+            value: event.detail.loopVariableValue ? event.detail.loopVariableValue : null,
             error: event.detail.loopVariableErrorMessage ? event.detail.loopVariableErrorMessage : null
         }
     });
