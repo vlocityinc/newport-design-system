@@ -5,13 +5,16 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { isUndefinedOrNull, format } from 'builder_platform_interaction-common-utils';
 import { sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
 import { Store } from 'builder_platform_interaction-store-lib';
-import { LABELS } from './validation-rules-labels';
+import { LABELS as labels} from './validation-rules-labels';
 
 /**
  * @param {Object} rule - object containing regex pattern and message
  * @param {string} value - value to be evaluated
  * @returns {string|null} errorString or null
  */
+
+export const LABELS = labels;
+
 const evaluateRegex = (rule, value) => {
     const regex = new RegExp(rule.regexPattern);
     if (regex.test(value)) {
