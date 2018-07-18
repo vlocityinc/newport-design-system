@@ -152,7 +152,6 @@ export default class LoopEditor extends Element {
         event.stopPropagation();
         this._collectionVariable = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
         let loopVarErrorMessage = getErrorFromHydratedItem(this.loopElement.assignNextValueToReference);
-
         const isDataTypeChanged = this.getLoopVariableDataType() !==  this.getCollectionVariableDataType();
         const isSObjectTypeChanged = this.getLoopVariableSObjectType() !== this.getCollectionVariableSObjectType();
 
@@ -177,7 +176,11 @@ export default class LoopEditor extends Element {
     handleLoopVariablePropertyChanged(event) {
         event.stopPropagation();
         let loopVariableError = event.detail.error;
-        if (loopVariableError === null && getErrorFromHydratedItem(this.loopElement.assignNextValueToReference) === LOOPVAR_ERROR_MESSAGE) {
+        const loopVariableValue = event.detail.item ? event.detail.item.value : null;
+        const isDataTypeErrorMessageApplied = getErrorFromHydratedItem(this.loopElement.assignNextValueToReference) === LOOPVAR_ERROR_MESSAGE;
+        const isLoopVariableValueChanged = loopVariableValue === getValueFromHydratedItem(this.loopElement.assignNextValueToReference);
+
+        if (loopVariableError === null && isDataTypeErrorMessageApplied && isLoopVariableValueChanged) {
             // preserve data type mismatch error if it already exists, otherwise it will be removed.
             loopVariableError = LOOPVAR_ERROR_MESSAGE;
         }

@@ -1,7 +1,6 @@
 import {loopReducer} from '../loop-reducer';
-import {PropertyChangedEvent, ComboboxStateChangedEvent, LoopCollectionChangedEvent} from 'builder_platform_interaction-events';
+import {PropertyChangedEvent, LoopCollectionChangedEvent} from 'builder_platform_interaction-events';
 
-const LOOPVARIABLE = 'assignNextValueToReference';
 const IAMERRORED = 'IAMERRORED';
 const VARIABLE = 'VARIABLE_GUID';
 
@@ -92,56 +91,6 @@ describe('loop-reducer', () => {
             expect(resultObj.collectionReference.value).toEqual(VARIABLE);
             expect(resultObj.collectionReference.error).toEqual(IAMERRORED);
             expect(resultObj.assignNextValueToReference.error).toEqual(IAMERRORED);
-        });
-    });
-    describe('loopComboboxStateChanged event', () => {
-        it('updates the collection variable', () => {
-            const event = {
-                type: ComboboxStateChangedEvent.EVENT_NAME,
-                detail: {
-                    propertyName: LOOPVARIABLE,
-                    item: {
-                        value: VARIABLE,
-                    },
-                    error: null
-                }
-            };
-            const resultObj = loopReducer(originalState, event);
-            expect(resultObj.assignNextValueToReference.value).toEqual(VARIABLE);
-            expect(resultObj.assignNextValueToReference.error).toBe(null);
-            expect(resultObj).not.toBe(originalState);
-        });
-        it('updates error for collection variable', () => {
-            const event = {
-                type: ComboboxStateChangedEvent.EVENT_NAME,
-                detail: {
-                    propertyName: LOOPVARIABLE,
-                    item: {
-                        value: null,
-                    },
-                    error: IAMERRORED
-                }
-            };
-            const resultObj = loopReducer(originalState, event);
-            expect(resultObj.assignNextValueToReference.value).toEqual(null);
-            expect(resultObj.assignNextValueToReference.error).toBe(IAMERRORED);
-            expect(resultObj).not.toBe(originalState);
-        });
-        it('updates both value and error for collection variable', () => {
-            const event = {
-                type: ComboboxStateChangedEvent.EVENT_NAME,
-                detail: {
-                    propertyName: LOOPVARIABLE,
-                    item: {
-                        value: VARIABLE,
-                    },
-                    error: IAMERRORED
-                }
-            };
-            const resultObj = loopReducer(originalState, event);
-            expect(resultObj.assignNextValueToReference.value).toEqual(VARIABLE);
-            expect(resultObj.assignNextValueToReference.error).toBe(IAMERRORED);
-            expect(resultObj).not.toBe(originalState);
         });
     });
     describe('loopPropertyChanged event', () => {
