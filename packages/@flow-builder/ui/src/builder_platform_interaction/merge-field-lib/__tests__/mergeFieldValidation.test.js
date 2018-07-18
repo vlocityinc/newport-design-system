@@ -81,9 +81,21 @@ describe('Merge field validation', () => {
                 done();
             });
         });
+        it('Returns a validation error when it references {!$GlobalConstant.EmptyString} when global constants are not allowed', (done) => {
+            validateMergeField('{!$GlobalConstant.EmptyString}', { allowGlobalConstants : false }).then(validationErrors => {
+                expect(validationErrors).toEqual([
+                    {
+                        "endIndex": 28,
+                        "errorType": "notAValidMergeField",
+                        "message": "FlowBuilderMergeFieldValidation.notAValidMergeField",
+                        "startIndex": 2
+                    }]);
+                done();
+            });
+        });
     });
     describe('Elements', () => {
-        it('Returns no validation error when it references a canvas element that has a type (actionCall ...)', (done) => {
+        it('Returns no validation error when it references a canvas element that can have a fault connector (actionCall ...)', (done) => {
             validateMergeField('{!actionCall1}').then(validationErrors => {
                 expect(validationErrors).toEqual([]);
                 done();

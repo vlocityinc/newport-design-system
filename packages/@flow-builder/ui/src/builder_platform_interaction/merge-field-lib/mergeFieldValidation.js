@@ -7,9 +7,11 @@ import invalidGlobalConstant from '@label/FlowBuilderMergeFieldValidation.invali
 import unknownMergeField from '@label/FlowBuilderMergeFieldValidation.unknownMergeField';
 import wrongDataType from '@label/FlowBuilderMergeFieldValidation.wrongDataType';
 import { GLOBAL_CONSTANT_PREFIX, getNonElementResource } from 'builder_platform_interaction-system-lib';
+import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
+// This regex does not support Cross-Object field references
 const MERGEFIELD_REGEX = /\{!(\$\w+\.\w+|\w+\.\w+|\w+)\}/g;
 
 const SYSTEM_VARIABLE_PREFIX = '$Flow.';
@@ -23,8 +25,11 @@ const VALIDATION_ERROR_TYPE = {
 
 /**
  * Validate merge fields. Only support "String" data type for now.
+ * Cross-Object field references ({!sObjectVariable.objectName1.objectName2.fieldName}) are not supported.
  */
 export class MergeFieldsValidation {
+    allowGlobalConstants = true;
+
     /**
      * @typedef {Object} ValidationError
      *
@@ -115,6 +120,10 @@ export class MergeFieldsValidation {
 
     _validateGlobalConstant(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
+        if (!this.allowGlobalConstants) {
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, notAValidMergeFieldLabel, index, endIndex);
+            return Promise.resolve([validationError]);
+        }
         if (!getNonElementResource(mergeFieldReferenceValue)) {
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_CONSTANT, invalidGlobalConstant, index, endIndex);
             return Promise.resolve([validationError]);
@@ -151,7 +160,8 @@ export class MergeFieldsValidation {
         let dataType;
         let isCollection = false;
         let objectType;
-        switch (element.elementType) {
+        const elementType = element.elementType;
+        switch (elementType) {
             case ELEMENT_TYPE.VARIABLE:
                 dataType = element.dataType;
                 isCollection = element.isCollection;
@@ -164,15 +174,19 @@ export class MergeFieldsValidation {
                 // TODO : dynamicchoiceset
                 dataType = element.dataType;
                 break;
-            case ELEMENT_TYPE.ACTION_CALL:
-            case ELEMENT_TYPE.APEX_CALL:
-            case ELEMENT_TYPE.APEX_PLUGIN_CALL:
             case ELEMENT_TYPE.OUTCOME:
                 // TODO : waitevent
                 dataType = FLOW_DATA_TYPE.BOOLEAN.value;
                 break;
-            default:
-                dataType = null;
+            default: {
+                const elementConfig = getConfigForElementType(elementType);
+                if (elementConfig.canHaveFaultConnector) {
+                    // Any element that supports a fault connector is available as a Boolean resource.
+                    dataType = FLOW_DATA_TYPE.BOOLEAN.value;
+                } else {
+                    dataType = null;
+                }
+            }
         }
         return {
             dataType,
@@ -206,12 +220,14 @@ export class MergeFieldsValidation {
     }
 }
 
-export function validateTextWithMergeFields(textWithMergeFields) {
+export function validateTextWithMergeFields(textWithMergeFields, { allowGlobalConstants = true } = { }) {
     const validation = new MergeFieldsValidation();
+    validation.allowGlobalConstants = allowGlobalConstants;
     return validation.validateTextWithMergeFields(textWithMergeFields);
 }
 
-export function validateMergeField(mergeField) {
+export function validateMergeField(mergeField, { allowGlobalConstants = true } = { }) {
     const validation = new MergeFieldsValidation();
+    validation.allowGlobalConstants = allowGlobalConstants;
     return validation.validateMergeField(mergeField);
 }
