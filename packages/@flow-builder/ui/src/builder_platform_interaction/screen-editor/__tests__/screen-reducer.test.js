@@ -56,7 +56,7 @@ describe('screen reducer', () => {
             }
         };
         const screen = createTestScreen(SCREEN_NAME);
-        const newScreen = screenReducer(screen, event);
+        const newScreen = screenReducer(screen, event, screen);
         expect(newScreen).toBeDefined();
         expect(newScreen.label.error).toBe('errorFromChildComponent');
         expect(newScreen).not.toBe(screen);
