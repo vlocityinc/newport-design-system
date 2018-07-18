@@ -1,6 +1,6 @@
 import { Element, api, track, unwrap } from 'engine';
 import { recordLookupReducer } from './record-lookup-reducer';
-import { ENTITY_TYPE, getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
+import { ENTITY_TYPE, getFieldsForEntity, getAllEntities } from 'builder_platform_interaction-sobject-lib';
 import { LABELS } from './record-lookup-editor-labels';
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
@@ -125,6 +125,14 @@ export default class RecordLookupEditor extends Element {
             false,
             FLOW_DATA_TYPE.SOBJECT.value
         );
+    }
+
+    get resourceDisplayText() {
+        const entityToDisplay = getAllEntities().filter(entity => entity.apiName === this.recordEntityName);
+        if (entityToDisplay.length === 1) {
+            return entityToDisplay[0].entityLabel;
+        }
+        return '';
     }
 
     /**

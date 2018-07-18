@@ -27,6 +27,7 @@
         <!-- Sort Records section -->
         <builder_platform_interaction-record-sort
                 resource-api-name={recordEntityName}
+                resource-display-text={resourceDisplayText}
                 selected-field={recordLookupElement.sortField.value}
                 sort-order={recordLookupElement.sortOrder.value}
                 sort-field-error={recordLookupElement.sortField.error}
@@ -35,7 +36,7 @@
         <!-- Record Store Fields Selection section -->
         <builder_platform_interaction-record-store-options
                 element-type={recordLookupElement.elementType}
-                resource-api-name={recordEntityName}
+                resource-display-text={resourceDisplayText}
                 number-of-records-to-store={numberRecordsToStore}
                 assign-null-values-if-no-records-found={recordLookupElement.assignNullValuesIfNoRecordsFound}
                 onrecordstoreoptionchanged={handleRecordStoreOptionsChanged}>

@@ -17,20 +17,20 @@ export default class RecordStoreFieldsSelection extends Element {
         numberOfRecordsToStore : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
         wayToStoreFields : 'sObjectVariable',
         assignNullValuesIfNoRecordsFound : false,
-        resourceApiName : '',
+        resourceDisplayText : '',
     };
 
     @api
     elementType;
 
     @api
-    set resourceApiName(value) {
-        this.state.resourceApiName = value;
+    set resourceDisplayText(value) {
+        this.state.resourceDisplayText = value;
     }
 
     @api
-    get resourceApiName() {
-        return this.state.resourceApiName;
+    get resourceDisplayText() {
+        return this.state.resourceDisplayText;
     }
 
     /**
@@ -81,7 +81,7 @@ export default class RecordStoreFieldsSelection extends Element {
     }
 
     get title() {
-        return this.labels.storeFieldsSelectionLabel.replace('{0}', this.state.resourceApiName);
+        return this.labels.storeFieldsSelectionLabel.replace('{0}', this.state.resourceDisplayText);
     }
 
     /**
