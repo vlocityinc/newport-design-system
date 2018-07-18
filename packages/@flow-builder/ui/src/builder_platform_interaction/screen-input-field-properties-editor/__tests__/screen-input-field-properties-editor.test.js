@@ -1,6 +1,6 @@
 import { createElement } from 'engine';
 import ScreenInputFieldPropertiesEditor from '../screen-input-field-properties-editor';
-import { query, createTestScreenField } from 'builder_platform_interaction-builder-test-utils';
+import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction-builder-test-utils';
 import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';
 
@@ -33,7 +33,7 @@ describe('screen-input-field-properties-editor for TextBox', () => {
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'TextBox'),
+            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE),
         });
     });
     it('Unique Name field should be required', () => {
@@ -87,7 +87,7 @@ describe('screen-input-field-properties-editor for Number', () => {
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Number'),
+            field: createTestScreenField(fieldName, 'Number', SCREEN_NO_DEF_VALUE),
         });
     });
     it('Unique Name field should be required', () => {
