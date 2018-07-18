@@ -70,8 +70,9 @@ jest.mock('builder_platform_interaction-sobject-lib', () => {
     return {
         getFieldsForEntity: (entityName, callback) => {
             const accountFields = {};
-            mockAccountFields.forEach((field) => {
-                accountFields[field.apiName] = field;
+            const fields = Object.keys(mockAccountFields);
+            fields.forEach((field) => {
+                accountFields[field] = field;
             });
             callback(accountFields);
         }

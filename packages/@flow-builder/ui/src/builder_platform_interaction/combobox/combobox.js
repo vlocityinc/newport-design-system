@@ -721,7 +721,7 @@ export default class Combobox extends Element {
      * @param {Boolean} isBlur whether or not this validation is happening onblur
      */
     validateResource(isBlur = false) {
-        if (this.isExpressionIdentifierLiteral() && this._isLiteralAllowed) {
+        if (this._isLiteralAllowed && this.isExpressionIdentifierLiteral()) {
             this.validateLiteralForDataType();
         } else if (!this._item && isBlur) {
             this._errorMessage = ERROR_MESSAGE.GENERIC;

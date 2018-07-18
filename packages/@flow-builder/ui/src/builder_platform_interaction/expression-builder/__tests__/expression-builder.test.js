@@ -422,20 +422,19 @@ describe('expression-builder', () => {
         it('should populate the lhs menu data as a list of entity fields', () => {
             const lhsCombobox = getComboboxElements(expressionBuilder)[0];
             const lhsMenuData = lhsCombobox.menuData;
-            expect(lhsMenuData).toHaveLength(expressionBuilder.configuration.lhsFields.length);
-            expressionBuilder.configuration.lhsFields.forEach((field, index) => {
-                expect(lhsMenuData[index].displayText).toEqual(field.apiName);
-                expect(lhsMenuData[index].value).toEqual(OBJECT_TYPE + "." + field.apiName);
+            const lhsFields = Object.keys(expressionBuilder.configuration.lhsFields);
+            expect(lhsMenuData).toHaveLength(lhsFields.length);
+            lhsFields.forEach((field, index) => {
+                expect(lhsMenuData[index].displayText).toEqual(field);
+                expect(lhsMenuData[index].value).toEqual(OBJECT_TYPE + "." + field);
             });
         });
 
-        /*
         it('should populate operator menu and set to EqualTo', () => {
             const operatorCombobox = getLightningCombobox(expressionBuilder);
             expect(operatorCombobox.options).toBeDefined();
             expect(operatorCombobox.value).toEqual(OPERATOR);
         });
-        */
 
         it('should populate rhs menu data and have a value', () => {
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];

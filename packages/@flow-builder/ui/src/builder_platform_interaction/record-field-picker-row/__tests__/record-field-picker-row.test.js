@@ -33,8 +33,9 @@ jest.mock('builder_platform_interaction-sobject-lib', () => {
     return {
         getFieldsForEntity: (entityName, callback) => {
             const accountFields = {};
-            mockAccountFields.forEach((field) => {
-                accountFields[field.apiName] = field;
+            const fields = Object.keys(mockAccountFields);
+            fields.forEach((field) => {
+                accountFields[field] = field;
             });
             callback(accountFields);
         }
@@ -55,7 +56,7 @@ describe('record-field-picker-row', () => {
 
         it('retrieves fields menu data on initial load', () => {
             const fullMenuData = baseResourcePicker.fullMenuData;
-            expect(fullMenuData).toHaveLength(mockAccountFields.length - 1); // exclude 'Id'
+            expect(fullMenuData).toHaveLength(Object.keys(mockAccountFields).length - 1); // exclude 'Id'
             expect(fullMenuData).not.toContainEqual(expect.objectContaining({
                 text: 'Id'
             }));
@@ -86,7 +87,7 @@ describe('record-field-picker-row', () => {
 
         it('should not contain "Fax", "Name" and "Id"', () => {
             const fullMenuData = baseResourcePicker.fullMenuData;
-            expect(fullMenuData).toHaveLength(mockAccountFields.length - mockDefaultConfig.queriedFields.length);
+            expect(fullMenuData).toHaveLength(Object.keys(mockAccountFields).length - mockDefaultConfig.queriedFields.length);
             expect(baseResourcePicker.value).toEqual("Description");
             expect(fullMenuData.some(item => ["Fax", "Name", "Id"].indexOf(item.text) >= 0)).toBe(false);
         });

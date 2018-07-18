@@ -1,12 +1,28 @@
 import * as rules from 'builder_platform_interaction-validation-rules';
-import { numberVariableGuid } from 'mock-store-data';
+import { numberParamCanBeField, stringParam } from 'mock-rule-service';
+import { numberVariableGuid, accountSObjectVariableGuid } from 'mock-store-data';
+import { mockAccountFields } from 'mock-server-entity-data';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
+import { getRHSTypes } from 'builder_platform_interaction-rule-lib';
 
 jest.mock('builder_platform_interaction-rule-lib', () => {
     return {
         getRulesForContext: jest.fn().mockReturnValue([]),
         elementToParam: require.requireActual('builder_platform_interaction-rule-lib').elementToParam,
-        getRHSTypes: require.requireActual('builder_platform_interaction-rule-lib').getRHSTypes,
+        isMatch: require.requireActual('builder_platform_interaction-rule-lib').isMatch,
+        getRHSTypes: jest.fn(),
+    };
+});
+
+// Mocking out the fetch function to return Account fields
+jest.mock('builder_platform_interaction-server-data-lib', () => {
+    return {
+        fetch: jest.fn().mockImplementation((actionType, callback) => {
+            callback({
+                data: JSON.stringify(mockAccountFields),
+            });
+        }),
+        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction-server-data-lib').SERVER_ACTION_TYPE,
     };
 });
 
@@ -118,6 +134,13 @@ describe('validateExpressionWith3Properties', () => {
     });
 });
 describe('RHS validation', () => {
+    beforeAll(() => {
+        getRHSTypes.mockReturnValue({
+            String : [stringParam],
+            Number : [numberParamCanBeField],
+        });
+    });
+
     it('allows null when valid', () => {
         const rulesArray = rules.validateExpressionWith3Properties({elementType: 'ASSIGNMENT'})(
             {
@@ -126,6 +149,16 @@ describe('RHS validation', () => {
                 [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {}
             });
         const result = rulesArray.rightHandSide[0]();
-        expect(result).toBeTruthy();
+        expect(result).toBeNull();
+    });
+    it('allows null when valid with sobject field', () => {
+        const rulesArray = rules.validateExpressionWith3Properties({elementType: 'ASSIGNMENT'})(
+            {
+                [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: accountSObjectVariableGuid + '.Name'},
+                [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value:'ASSIGN'},
+                [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {}
+            });
+        const result = rulesArray.rightHandSide[0]();
+        expect(result).toBeNull();
     });
 });

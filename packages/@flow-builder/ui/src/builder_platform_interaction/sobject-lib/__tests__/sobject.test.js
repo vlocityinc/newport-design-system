@@ -1,14 +1,19 @@
 import { mockEntities, mockAccountFields } from 'mock-server-entity-data';
 import { setEntities, getAllEntities, getQueryableEntities, getCreateableEntities, getDeletableEntities, getUpdateableEntities, getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 
-describe('SObject Lib Tests', () => {
-    // Mocking out the fetch function to return Account fields
-    jest.mock('builder_platform_interaction-server-data-lib', () => {
-        return {
-            fetch: jest.fn().mockReturnValue({mockAccountFields})
-        };
-    });
+// Mocking out the fetch function to return Account fields
+jest.mock('builder_platform_interaction-server-data-lib', () => {
+    return {
+        fetch: jest.fn().mockImplementation((actionType, callback) => {
+            callback({
+                data: JSON.stringify(mockAccountFields),
+            });
+        }),
+        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction-server-data-lib').SERVER_ACTION_TYPE,
+    };
+});
 
+describe('SObject Lib Tests', () => {
     describe('Set Entities Tests', () => {
         it('Set Null Entities', () => {
             expect(() => {
@@ -54,20 +59,19 @@ describe('SObject Lib Tests', () => {
     describe('Get Entity Fields Callback Tests', () => {
         it('Verify Fields Returned', () => {
             getFieldsForEntity('Account', (fields) => {
-                expect(fields).toHaveLength(10);
+                expect(Object.keys(fields)).toHaveLength(45);
             });
         });
 
-        // TODO: W-4917767 Need to expand these once service is used
         it('Map to Flow String Data Type', () => {
             getFieldsForEntity('Account', (fields) => {
-                expect(fields[0].dataType).toEqual('String');
+                expect(fields.Description.dataType).toEqual('String');
             });
         });
 
-        it('Map to Flow Number Data Type', () => {
+        it('Maps Field Type to Flow Data Type', () => {
             getFieldsForEntity('Account', (fields) => {
-                expect(fields[7].dataType).toEqual('Number');
+                expect(fields.Phone.dataType).toEqual('String');
             });
         });
     });
