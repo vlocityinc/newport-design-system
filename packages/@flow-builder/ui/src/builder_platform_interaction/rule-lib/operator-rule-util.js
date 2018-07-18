@@ -9,7 +9,7 @@ const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE, CANNOT_BE_ELEMENTS,
 const { CAN_BE, CANNOT_BE, MUST_BE } = CONSTRAINT;
 
 const IS_SOBJECT_FIELD = 'isSObjectField';
-const OBJECT_TYPE = 'objectType';
+export const OBJECT_TYPE = 'objectType';
 
 /**
  * A map from an elementType or dataType to an array of params relating to that elementType or dataType.

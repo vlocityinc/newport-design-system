@@ -1,11 +1,11 @@
-import { isMatch } from "builder_platform_interaction-rule-lib";
+import { isMatch, PARAM_PROPERTY, OBJECT_TYPE } from 'builder_platform_interaction-rule-lib';
 import {
     writableElementsSelector,
     readableElementsSelector,
     collectionElementsSelector,
     byTypeElementsSelector,
     sObjectOrSObjectCollectionByEntitySelector
-} from "builder_platform_interaction-selectors";
+} from 'builder_platform_interaction-selectors';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { Store } from 'builder_platform_interaction-store-lib';
 import * as sobjectLib from 'builder_platform_interaction-sobject-lib';
@@ -17,6 +17,7 @@ import {
     mutateEntitiesToComboboxShape,
     mutatePicklistValue,
 } from './menuDataGenerator';
+import newResourceLabel from '@label/FlowBuilderExpressionUtils.newResourceLabel';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
@@ -103,28 +104,31 @@ function elementMatchesRule(allowedParamTypes, element) {
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
 export function isElementAllowed(allowedParamTypes, element, allowSObjectForFields) {
-    return !allowedParamTypes || (allowedParamTypes.hasOwnProperty(element.dataType) && elementMatchesRule(allowedParamTypes[element.dataType], element))
-        || (allowedParamTypes.hasOwnProperty(element.elementType) && elementMatchesRule(allowedParamTypes[element.elementType], element))
-        || (allowedParamTypes.hasOwnProperty(element.objectType) && elementMatchesRule(allowedParamTypes[element.objectType], element))
-        || (allowSObjectForFields && element.dataType === SObjectType);
+    const isElementMatchForProperty = (property) => {
+        return (allowedParamTypes.hasOwnProperty(element[property]) && elementMatchesRule(allowedParamTypes[element[property]], element));
+    };
+
+    return !allowedParamTypes
+        || isElementMatchForProperty(PARAM_PROPERTY.DATA_TYPE)
+        || isElementMatchForProperty(PARAM_PROPERTY.ELEMENT_TYPE)
+        || isElementMatchForProperty(OBJECT_TYPE)
+        || (allowSObjectForFields && element.dataType === SObjectType && !element.isCollection);
 }
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
 
-
-// TODO Uncomment when we get to W-5164547
-// /**
-//  * Returns new resource menu item
-//  * @returns {Object} menu data group object with only new resource as item
-//  */
-// function getNewResourceItem() {
-//     return {
-//         text : newResourceLabel,
-//         type : COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
-//         value : COMBOBOX_NEW_RESOURCE_VALUE,
-//         iconName : 'utility:add'
-//     };
-// }
+/**
+ * Returns new resource menu item
+ * @returns {Object} menu data group object with only new resource as item
+ */
+function getNewResourceItem() {
+    return {
+        text : newResourceLabel,
+        type : COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
+        value : COMBOBOX_NEW_RESOURCE_VALUE,
+        iconName : 'utility:add'
+    };
+}
 
 /**
  * This method returns the selector that should be used to find elements for the menuData
@@ -196,6 +200,9 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     allowSObjectForFields = false, disableHasNext = false, activePicklistValues = []) {
     const state = Store.getStore().getCurrentState();
 
+    // TODO Remove when we get to W-5164547
+    includeNewResource = false;
+
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
     // TODO: if this function ever deals with server calls, we need to memoize it, because it gets called everytime the component rerenders
     const menuData = getSelector(elementConfig)(state)
@@ -216,8 +223,7 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     // TODO add Global/System Variables here as well
 
     if (includeNewResource) {
-        // TODO Uncomment when we get to W-5164547
-        // menuData.unshift(getNewResourceItem());
+        menuData.unshift(getNewResourceItem());
     }
     return menuData;
 }

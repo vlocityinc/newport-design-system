@@ -149,9 +149,9 @@ export function mutateFlowResourceToComboboxShape(resource) {
 export const mutateEntitiesToComboboxShape = (entities) => {
     return entities.map(entity => {
         return createMenuItem(
-            COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
+            COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
             entity.entityLabel,
-            undefined,
+            entity.apiName,
             entity.entityLabel,
             undefined,
             entity.apiName,
