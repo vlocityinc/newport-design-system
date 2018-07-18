@@ -2,11 +2,10 @@ import { getRulesForContext, getRHSTypes, elementToParam } from 'builder_platfor
 import { EXPRESSION_PROPERTY_TYPE, isElementAllowed, getFieldParamRepresentation,
     getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
+import { isUndefinedOrNull, format } from 'builder_platform_interaction-common-utils';
 import { sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
 import { Store } from 'builder_platform_interaction-store-lib';
-
-// TODO i18n after W-4693112
+import { LABELS } from './validation-rules-labels';
 
 /**
  * @param {Object} rule - object containing regex pattern and message
@@ -21,7 +20,7 @@ const evaluateRegex = (rule, value) => {
     return null;
 };
 
-const cannotBeBlankError = 'Cannot be blank.';
+const cannotBeBlankError = LABELS.cannotBeBlank;
 
 const regexConfig = {
     shouldNotBeBlank: {
@@ -30,23 +29,23 @@ const regexConfig = {
     },
     shouldNotBeginOrEndWithUnderscores: {
         regexPattern: '^_{1,}|_{1,}$|_{2,}',
-        message: 'Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.',
+        message: LABELS.shouldNotBeginOrEndWithUnderscores,
     },
     shouldAcceptOnlyAlphanumericOrSpecialCharacters: {
         regexPattern: '[^a-zA-Z0-9!@#\\$%\\^\\&*\\)\\(+=.\\-_ ]+',
-        message: 'Accepts only AlphaNumeric or Special Characters.',
+        message: LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
     },
     shouldNotBeginWithNumericOrSpecialCharacters: {
         regexPattern: '^[^a-zA-Z]{1}',
-        message: 'Should always begin with Alphabetical Characters instead of Numeric or Special Characters.',
+        message: LABELS.shouldNotBeginWithNumericOrSpecialCharacters,
     },
     shouldAcceptOnlyAlphanumericCharacters: {
         regexPattern: '\\W+$',
-        message: 'Cannot accept any Special Characters.',
+        message: LABELS.shouldAcceptOnlyAlphanumericCharacters,
     },
     shouldBeAPositiveIntegerOrZero : {
         regexPattern: '[^0-9]+',
-        message: 'Must be a positive integer or zero'
+        message: LABELS.shouldBeAPositiveIntegerOrZero
     }
 };
 
@@ -130,7 +129,7 @@ export const shouldBeAPositiveIntegerOrZero = (value) => evaluateRegex(regexConf
 export const shouldBeADate = (value) => {
     const d = new Date(value);
     if (!(d instanceof Date && isFinite(d))) {
-        return 'Must be a valid date';
+        return LABELS.mustBeAValidDate;
     }
 
     return null;
@@ -157,7 +156,7 @@ export const shouldNotBeNullOrUndefined = (value) => {
 export const maximumCharactersLimit = (limit) => {
     return function (value) {
         if (value.length > limit) {
-            return 'Cannot accept more than ' + limit + ' characters.';
+            return format(LABELS.maximumCharactersLimit, limit);
         }
         return null;
     };
@@ -201,7 +200,7 @@ export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) =
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
     const matches = Object.values(elements).filter(element => !listOfGuidsToSkip.includes(element.guid) && element.name === nameToBeTested);
-    return matches.length > 0 ? "Field is not unique" : null; // Label in next CL while this is being reviewed (I will probably do it for all the strings in this file)
+    return matches.length > 0 ? LABELS.fieldNotUnique : null;
 };
 
     /** Exported Validation Rules End **/

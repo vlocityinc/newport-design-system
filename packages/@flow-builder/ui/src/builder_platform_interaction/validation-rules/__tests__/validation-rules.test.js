@@ -4,6 +4,7 @@ import { numberVariableGuid, accountSObjectVariableGuid } from 'mock-store-data'
 import { mockAccountFields } from 'mock-server-entity-data';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 import { getRHSTypes } from 'builder_platform_interaction-rule-lib';
+import { LABELS } from '../validation-rules-labels';
 
 jest.mock('builder_platform_interaction-rule-lib', () => {
     return {
@@ -31,7 +32,7 @@ describe('shouldNotBeBlank method', () => {
         expect(rules.shouldNotBeBlank('test value')).toBeNull();
     });
     it('should return an error message with a blank value', () => {
-        expect(rules.shouldNotBeBlank('')).toBe('Cannot be blank.');
+        expect(rules.shouldNotBeBlank('')).toBe(LABELS.cannotBeBlank);
     });
 });
 describe('shouldNotBeginOrEndWithUnderscores method', () => {
@@ -39,10 +40,10 @@ describe('shouldNotBeginOrEndWithUnderscores method', () => {
         expect(rules.shouldNotBeginOrEndWithUnderscores('test value')).toBeNull();
     });
     it('should return an error message when the value starts with an underscore', () => {
-        expect(rules.shouldNotBeginOrEndWithUnderscores('_test value')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
+        expect(rules.shouldNotBeginOrEndWithUnderscores('_test value')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
     });
     it('should return an error message when the value ends with an underscore', () => {
-        expect(rules.shouldNotBeginOrEndWithUnderscores('test value_')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
+        expect(rules.shouldNotBeginOrEndWithUnderscores('test value_')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
     });
     it('should return null when the value ends with _0', () => {
         expect(rules.shouldNotBeginOrEndWithUnderscores('Assignment_0')).toBeNull();
@@ -53,7 +54,7 @@ describe('shouldAcceptOnlyAlphanumericOrSpecialCharacters method', () => {
         expect(rules.shouldAcceptOnlyAlphanumericOrSpecialCharacters('Aa23$%&^*')).toBeNull();
     });
     it('should return an error message when the input has non alphanumeric or non-special characters', () => {
-        expect(rules.shouldAcceptOnlyAlphanumericOrSpecialCharacters('°°°°°°°°°°')).toBe('Accepts only AlphaNumeric or Special Characters.');
+        expect(rules.shouldAcceptOnlyAlphanumericOrSpecialCharacters('°°°°°°°°°°')).toBe(LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters);
     });
 });
 describe('shouldNotBeginWithNumericOrSpecialCharacters method', () => {
@@ -61,10 +62,10 @@ describe('shouldNotBeginWithNumericOrSpecialCharacters method', () => {
         expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('s123')).toBeNull();
     });
     it('should return an error message when the input begins with numeric characters', () => {
-        expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('123s')).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
+        expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('123s')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
     });
     it('should return an error message when the input begins with special characters', () => {
-        expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('#123s')).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
+        expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('#123s')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
     });
 });
 describe('shouldAcceptOnlyAlphanumericCharacters method', () => {
@@ -72,7 +73,7 @@ describe('shouldAcceptOnlyAlphanumericCharacters method', () => {
         expect(rules.shouldAcceptOnlyAlphanumericCharacters('AlphanumericOnly1234')).toBeNull();
     });
     it('should return an error when the input contains non-alphanumeric characters', () => {
-        expect(rules.shouldAcceptOnlyAlphanumericCharacters('aa*^*^')).toBe('Cannot accept any Special Characters.');
+        expect(rules.shouldAcceptOnlyAlphanumericCharacters('aa*^*^')).toBe(LABELS.shouldAcceptOnlyAlphanumericCharacters);
     });
 });
 describe('shouldBeAPositiveIntegerOrZero method', () => {
@@ -81,9 +82,9 @@ describe('shouldBeAPositiveIntegerOrZero method', () => {
         expect(rules.shouldBeAPositiveIntegerOrZero('0')).toBeNull();
     });
     it('should return an error when the input contains a negative integer, a float or NaN', () => {
-        expect(rules.shouldBeAPositiveIntegerOrZero('-1')).toBe('Must be a positive integer or zero');
-        expect(rules.shouldBeAPositiveIntegerOrZero('1.01')).toBe('Must be a positive integer or zero');
-        expect(rules.shouldBeAPositiveIntegerOrZero('1AF')).toBe('Must be a positive integer or zero');
+        expect(rules.shouldBeAPositiveIntegerOrZero('-1')).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
+        expect(rules.shouldBeAPositiveIntegerOrZero('1.01')).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
+        expect(rules.shouldBeAPositiveIntegerOrZero('1AF')).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
     });
 });
 describe('shouldBeADate method', () => {
@@ -91,8 +92,8 @@ describe('shouldBeADate method', () => {
         expect(rules.shouldBeADate(new Date().toString())).toBeNull();
     });
     it('should return an error when the input contains non-alphanumeric characters', () => {
-        expect(rules.shouldBeADate('aaa')).toBe('Must be a valid date');
-        expect(rules.shouldBeADate('13/13/13')).toBe('Must be a valid date');
+        expect(rules.shouldBeADate('aaa')).toBe(LABELS.mustBeAValidDate);
+        expect(rules.shouldBeADate('13/13/13')).toBe(LABELS.mustBeAValidDate);
     });
 });
 describe('maximumCharactersLimit method', () => {
@@ -101,7 +102,7 @@ describe('maximumCharactersLimit method', () => {
         expect(rules.maximumCharactersLimit(charLimit)('right input')).toBeNull();
     });
     it('should return an error message if the input exceeds the character limit', () => {
-        expect(rules.maximumCharactersLimit(charLimit)('wrong input which exceeds character limit')).toBe('Cannot accept more than 12 characters.');
+        expect(rules.maximumCharactersLimit(charLimit)('wrong input which exceeds character limit')).toBe(LABELS.maximumCharactersLimit);
     });
 });
 describe('validateExpressionWith3Properties', () => {
