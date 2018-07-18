@@ -92,3 +92,28 @@ export const isValidNumber = (value) => {
 export const isValidDateTime = (dateString) => {
     return dateString ? parseDateTime(dateString, 'MM/DD/YYYY HH:mm:ss') : false;
 };
+
+/**
+ * Sanitize a string so it is a valid dev name
+ * This includes:
+ * Prepending an 'X' if it begins with a number
+ * Stripping off preceding and trailing invalid characters
+ * Replacing any number of concurrent invalid characters with a single underscore
+ * Limiting to 80 characters
+ * Where invalid characters are anything non-alphanumeric
+ * @param {String} value - the value to be converted in to a valid dev name
+ * @returns {String} The sanitized, dev name safe version of the value passed in
+ */
+export const sanitizeDevName = (value) => {
+    value = value.replace(/[\W_]+/g, '_');
+    value = value.replace(/_+$/, '');
+    value = value.replace(/^_+/, '');
+
+    if (value.match(/^\d/)) {
+        value = 'X' + value;
+    }
+
+    value = value.substr(0, 80);
+
+    return value;
+};
