@@ -1,5 +1,5 @@
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import {PropertyChangedEvent, ComboboxStateChangedEvent, LoopCollectionChangedEvent} from 'builder_platform_interaction-events';
+import {PropertyChangedEvent, LoopCollectionChangedEvent} from 'builder_platform_interaction-events';
 import {loopValidation} from './loop-validation';
 import {updateProperties} from 'builder_platform_interaction-data-mutation-lib';
 
@@ -14,18 +14,6 @@ const loopPropertyChanged = (state, event) => {
     return updateProperties(state, {
         [event.detail.propertyName]: {
             value: event.detail.value,
-            error: event.detail.error
-        }
-    });
-};
-
-const loopComboboxStateChanged = (state, event) => {
-    const newValue = event.detail.item ? event.detail.item.value : null;
-    event.detail.error = event.detail.error === null ?
-        loopValidation.validateProperty(event.detail.propertyName, newValue) : event.detail.error;
-    return updateProperties(state, {
-        [event.detail.propertyName]: {
-            value: newValue,
             error: event.detail.error
         }
     });
@@ -61,8 +49,6 @@ export const loopReducer = (state, event) => {
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
             return loopPropertyChanged(state, event);
-        case ComboboxStateChangedEvent.EVENT_NAME:
-            return loopComboboxStateChanged(state, event);
         case LoopCollectionChangedEvent.EVENT_NAME:
             return loopCollectionChangedEvent(state, event);
         case VALIDATE_ALL: {

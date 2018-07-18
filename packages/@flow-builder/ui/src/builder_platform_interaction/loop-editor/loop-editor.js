@@ -176,9 +176,14 @@ export default class LoopEditor extends Element {
 
     handleLoopVariablePropertyChanged(event) {
         event.stopPropagation();
-        event.detail.propertyName = LOOP_PROPERTIES.LOOP_VARIABLE;
+        let loopVariableError = event.detail.error;
+        if (loopVariableError === null && getErrorFromHydratedItem(this.loopElement.assignNextValueToReference) === LOOPVAR_ERROR_MESSAGE) {
+            // preserve data type mismatch error if it already exists, otherwise it will be removed.
+            loopVariableError = LOOPVAR_ERROR_MESSAGE;
+        }
         this.loopVariableState = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
-        this.loopElement = loopReducer(this.loopElement, event);
+        const loopVariableChangedEvent = new PropertyChangedEvent(LOOP_PROPERTIES.LOOP_VARIABLE, event.detail.item, loopVariableError);
+        this.loopElement = loopReducer(this.loopElement, loopVariableChangedEvent);
     }
 
     handleLoopIterationOrderChanged(event) {
