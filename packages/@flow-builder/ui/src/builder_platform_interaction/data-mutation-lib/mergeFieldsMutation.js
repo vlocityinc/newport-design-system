@@ -1,5 +1,6 @@
 import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction-store-utils';
 import { isNonElementResourceId } from 'builder_platform_interaction-system-lib';
+import { EXPRESSION_RE } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * The 5 possible situations are:
@@ -60,11 +61,10 @@ const replaceMergeFieldReference = (mergeFieldValue, mappingFunction) => {
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
-const MERGEFIELD_REGEX = /\{!(\$\w+\.\w+|\w+\.\w+|\w+)\}/g;
 
 const replaceMergeFieldReferences = (template, mappingFunction) => {
     if (template) {
-        return template.replace(MERGEFIELD_REGEX, (fullMatch, value) =>
+        return template.replace(EXPRESSION_RE, (fullMatch, value) =>
             MERGE_FIELD_START_CHARS + replaceMergeFieldReference(value, mappingFunction) + MERGE_FIELD_END_CHARS);
     }
     return template;
