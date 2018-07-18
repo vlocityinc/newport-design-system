@@ -1,6 +1,9 @@
 // TODO here to replace the expected error message with a reference to the label file once we have that in place
 import {decisionValidation} from '../decision-validation';
-const CANNOT_BE_BLANK_ERROR = 'Cannot be blank.';
+
+import { LABELS } from '../../validation-rules/validation-rules-labels';
+const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
+
 
 describe('Default Decision Validations - from label-dev name-description', () => {
     describe('when props set to LABEL', () => {
@@ -19,10 +22,10 @@ describe('Default Decision Validations - from label-dev name-description', () =>
             expect(decisionValidation.validateProperty('name', '')).toBe(CANNOT_BE_BLANK_ERROR);
         });
         it('and when a string starting with _ is passed should return - Should always begin with Alphabetical Characters instead of Numeric or Special Characters.', () => {
-            expect(decisionValidation.validateProperty('name', '_someUniqueName')).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
+            expect(decisionValidation.validateProperty('name', '_someUniqueName')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
         });
         it('and when a string ending with _ is passed should return - Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.', () => {
-            expect(decisionValidation.validateProperty('name', 'someUniqueName_')).toBe('Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.');
+            expect(decisionValidation.validateProperty('name', 'someUniqueName_')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
         });
     });
 });
@@ -30,21 +33,21 @@ describe('Default Decision Validations - from label-dev name-description', () =>
 describe('Additional Decision Validations', () => {
     describe('when props set to LABEL', () => {
         it('and when invalid string is passed should return - {string} Accepts only AlphaNumeric or Special Characters.', () => {
-            expect(decisionValidation.validateProperty('label', '°°°°°°°°°°')).toBe('Accepts only AlphaNumeric or Special Characters.');
+            expect(decisionValidation.validateProperty('label', '°°°°°°°°°°')).toBe(LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters);
         });
         it('and when string length more than 255 characters should return - {string} Cannot accept more than 255 characters.', () => {
-            expect(decisionValidation.validateProperty('label', 'slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla')).toBe('Cannot accept more than 255 characters.');
+            expect(decisionValidation.validateProperty('label', 'slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla')).toBe(LABELS.maximumCharactersLimit);
         });
     });
     describe('when props set to NAME', () => {
         it('and when invalid string is passed should return - {string} Should begin with Alphabetical Characters instead of Numeric or Special Characters', () => {
-            expect(decisionValidation.validateProperty('name', '1111111')).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
+            expect(decisionValidation.validateProperty('name', '1111111')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
         });
         it('and when invalid string is passed should return - {string} Cannot accept any Special Characters.', () => {
-            expect(decisionValidation.validateProperty('name', 'Special Characters $#$@&^%!$()')).toBe('Cannot accept any Special Characters.');
+            expect(decisionValidation.validateProperty('name', 'Special Characters $#$@&^%!$()')).toBe(LABELS.shouldAcceptOnlyAlphanumericCharacters);
         });
         it('and when string length more than 80 characters should return - {string} Cannot accept more than 80 characters.', () => {
-            expect(decisionValidation.validateProperty('name', 'OJqlWSveOtulUjcyHgrDOOSPArDKdbftmvEKPBPDxLqrwtseblHPBcgctlMYmRsbPyngaEmZqCqMxksyv')).toBe('Cannot accept more than 80 characters.');
+            expect(decisionValidation.validateProperty('name', 'OJqlWSveOtulUjcyHgrDOOSPArDKdbftmvEKPBPDxLqrwtseblHPBcgctlMYmRsbPyngaEmZqCqMxksyv')).toBe(LABELS.maximumCharactersLimit);
         });
     });
     describe('when props set to conditionLogic', () => {
