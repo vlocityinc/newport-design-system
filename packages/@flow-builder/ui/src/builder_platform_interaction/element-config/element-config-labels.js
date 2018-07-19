@@ -39,6 +39,8 @@ import formulaSingularLabel from '@label/FlowBuilderElementConfig.formulaSingula
 import formulaPluralLabel from '@label/FlowBuilderElementConfig.formulaPluralLabel';
 import outcomeSingularLabel from '@label/FlowBuilderElementConfig.outcomeSingularLabel';
 import outcomePluralLabel from '@label/FlowBuilderElementConfig.outcomePluralLabel';
+import flowPropertiesSingularLabel from '@label/FlowBuilderElementConfig.flowPropertiesSingularLabel';
+import emptyDefaultOutcomeLabel from '@label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel';
 
 export const LABELS = {
     subflowSingularLabel,
@@ -80,5 +82,7 @@ export const LABELS = {
     formulaSingularLabel,
     formulaPluralLabel,
     outcomeSingularLabel,
-    outcomePluralLabel
+    outcomePluralLabel,
+    flowPropertiesSingularLabel,
+    emptyDefaultOutcomeLabel
 };

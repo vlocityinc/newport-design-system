@@ -3,6 +3,7 @@ import { Validation } from 'builder_platform_interaction-validation';
 import { getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
+import { LABELS } from "./variable-editor-labels";
 
 /**
  * @constant additionalRules - map of propertyName to validation rules
@@ -18,8 +19,6 @@ const additionalRules = {
     'dataType': [ValidationRules.shouldNotBeNullOrUndefined],
 };
 
-const sobjectCannotBeBlank = 'sObject type cannot be blank';
-
 /**
  * Test if the given value is from an sobject element, and if it is also check that it is not null or undefined
  * @param {Boolean} isSobject true if the value to be tested is an sobject, false otherwise
@@ -32,8 +31,7 @@ const validateVariableObjectType = (isSobject) => {
      */
     return (value) => {
         if (isSobject) {
-            // TODO: replace with label W-4954505
-            return isUndefinedOrNull(value) ? sobjectCannotBeBlank : null;
+            return isUndefinedOrNull(value) ? LABELS.sObjectCannotBeBlank : null;
         }
         return null;
     };

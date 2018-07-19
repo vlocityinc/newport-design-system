@@ -104,7 +104,7 @@ const getNewResourceConfig = (attributes) => {
     }
     const nodeUpdate = attributes.nodeUpdate;
     const descriptor = 'builder_platform_interaction:resourceEditor';
-    const titleForModal = 'New Resource';
+    const titleForModal = LABELS.newResourceEditorTitle;
 
     const attr = {
         nodeUpdate,

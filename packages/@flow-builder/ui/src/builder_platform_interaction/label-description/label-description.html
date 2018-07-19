@@ -2,7 +2,7 @@
     <span class="slds-hide">HACK TO FORCE RERENDER:{label.error}{devName.error}{description.error}</span>
     <div class="slds-form slds-form_compound">
         <div class={computedNameAndDevContainerClass}>
-            <lightning-input if:false={hideLabel} type="text" label="Name"
+            <lightning-input if:false={hideLabel} type="text" label={labels.nameLabel}
                              onfocusout={handleLabelFocusOut}
                              value={label.value}
                              required
@@ -17,7 +17,7 @@
         </div>
         <div if:false={hideDescription}
              class="slds-form-element__group slds-form-element__row">
-            <lightning-textarea label="Description"
+            <lightning-textarea label={labels.descriptionLabel}
                                 onfocusout={handleDescriptionFocusOut}
                                 value={description.value}
                                 class="slds-size_1-of-1 description"></lightning-textarea>

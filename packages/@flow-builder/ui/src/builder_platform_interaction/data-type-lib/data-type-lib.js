@@ -1,4 +1,5 @@
-import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { LABELS as SCREEN_LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { LABELS as DATA_TYPE_LABELS } from './data-type-lib-labels';
 
 /**
  * Array of objects representing flow data types
@@ -8,39 +9,39 @@ import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
  */
 const FLOW_DATA_TYPE = {
     STRING: {
-        label: 'Text',
+        label: DATA_TYPE_LABELS.textDataTypeLabel,
         value: 'String',
     },
     SOBJECT: {
-        label: 'sObject',
+        label: DATA_TYPE_LABELS.sObjectDataTypeLabel,
         value: 'SObject',
     },
     NUMBER: {
-        label: 'Number',
+        label: DATA_TYPE_LABELS.numberDataTypeLabel,
         value: 'Number',
     },
     CURRENCY: {
-        label: 'Currency',
+        label: DATA_TYPE_LABELS.currencyDataTypeLabel,
         value: 'Currency',
     },
     BOOLEAN: {
-        label: 'Boolean',
+        label: DATA_TYPE_LABELS.booleanDataTypeLabel,
         value: 'Boolean',
     },
     DATE: {
-        label: 'Date',
+        label: DATA_TYPE_LABELS.dateDataTypeLabel,
         value: 'Date',
     },
     DATE_TIME: {
-        label: 'Date Time',
+        label: DATA_TYPE_LABELS.dateTimeDataTypeLabel,
         value: 'DateTime',
     },
     PICKLIST: {
-        label: 'Picklist',
+        label: DATA_TYPE_LABELS.picklistDataTypeLabel,
         value: 'Picklist',
     },
     MULTI_PICKLIST: {
-        label: 'Picklist Multi-select',
+        label: DATA_TYPE_LABELS.multiPicklistDataTypeLabel,
         value: 'Multipicklist',
     },
 };
@@ -82,27 +83,27 @@ export const FEROV_DATA_TYPE = {
  */
 export const INPUT_FIELD_DATA_TYPE = {
     STRING: {
-        label: LABELS.fieldTypeLabelTextField,
+        label: SCREEN_LABELS.fieldTypeLabelTextField,
         value: 'TextBox',
     },
     NUMBER: {
-        label: LABELS.fieldTypeLabelNumber,
+        label: SCREEN_LABELS.fieldTypeLabelNumber,
         value: 'Number',
     },
     CURRENCY: {
-        label: LABELS.fieldTypeLabelCurrency,
+        label: SCREEN_LABELS.fieldTypeLabelCurrency,
         value: 'Currency',
     },
     BOOLEAN: {
-        label: LABELS.fieldTypeLabelCheckbox,
+        label: SCREEN_LABELS.fieldTypeLabelCheckbox,
         value: 'Checkbox',
     },
     DATE: {
-        label: LABELS.fieldTypeLabelDate,
+        label: SCREEN_LABELS.fieldTypeLabelDate,
         value: 'Date',
     },
     DATE_TIME: {
-        label: LABELS.fieldTypeLabelDateTime,
+        label: SCREEN_LABELS.fieldTypeLabelDateTime,
         value: 'DateTime',
     }
 };

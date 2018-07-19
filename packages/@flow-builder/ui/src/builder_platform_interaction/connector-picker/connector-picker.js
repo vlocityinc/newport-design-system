@@ -1,4 +1,5 @@
 import { Element, api } from 'engine';
+import { format } from 'builder_platform_interaction-common-utils';
 
 export default class ConnectorPicker extends Element {
     @api data;
@@ -18,7 +19,7 @@ export default class ConnectorPicker extends Element {
     }
 
     get connectorPickerTitle() {
-        return `${this.bodyText} "${this.targetElementLabel}".`;
+        return format(this.bodyText, this.targetElementLabel);
     }
 
     get defaultOptionAndValue() {

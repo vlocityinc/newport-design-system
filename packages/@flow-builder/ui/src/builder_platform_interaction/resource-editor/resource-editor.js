@@ -1,6 +1,7 @@
 import { Element, api, track } from 'engine';
 import { getResourceTypesMenuData } from 'builder_platform_interaction-expression-utils';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction-validation-rules';
+import { LABELS } from './resource-editor-labels';
 
 
 const CONTAINER_SELECTOR = 'builder_platform_interaction-resource-editor-container';
@@ -46,6 +47,10 @@ export default class ResourceEditor extends Element {
     @api
     get node() {
         return this.template.querySelector(CONTAINER_SELECTOR).getNode();
+    }
+
+    get labels() {
+        return LABELS;
     }
 
     /**

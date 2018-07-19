@@ -12,6 +12,7 @@ import {
 } from 'builder_platform_interaction-events';
 import {CONDITION_LOGIC} from 'builder_platform_interaction-flow-metadata';
 import { getShadowRoot } from 'lwc-test-utils';
+import { LABELS } from '../outcome-labels';
 
 const outcomeWithOneConditional = {
     label: {value: 'Test Name of the Outcome'},
@@ -427,8 +428,8 @@ describe('Outcome', () => {
             return Promise.resolve().then(() => {
                 const removeButton = getShadowRoot(element).querySelectorAll(selectors.removeButton)[0];
 
-                expect(removeButton.label).toBe('Remove');
-                expect(removeButton.title).toBe('Remove Outcome');
+                expect(removeButton.label).toBe(LABELS.deleteOutcomeLabel);
+                expect(removeButton.title).toBe(LABELS.deleteOutcomeTitle);
             });
         });
         it('has no Remove button if show delete is false', () => {

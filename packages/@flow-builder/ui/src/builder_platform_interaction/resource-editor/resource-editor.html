@@ -2,9 +2,9 @@
     <div class="resource_editor">
         <div class='slds-form slds-form_compound slds-p-around_small'>
             <lightning-combobox class="slds-col slds-grow"
-                                label="Resource Type"
+                                label={labels.resourceTypeLabel}
                                 options={resourceTypes}
-                                placeholder="Select Resource Type"
+                                placeholder={labels.resourceTypePlaceholderLabel}
                                 onchange={handleResourceChange}>
             </lightning-combobox>
         </div>

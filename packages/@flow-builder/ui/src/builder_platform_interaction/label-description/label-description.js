@@ -2,7 +2,7 @@ import {Element, api, track} from "engine";
 import {PropertyChangedEvent} from 'builder_platform_interaction-events';
 import {isUniqueDevNameInStore} from 'builder_platform_interaction-validation-rules';
 import { sanitizeDevName } from 'builder_platform_interaction-common-utils';
-
+import { LABELS } from './label-description-labels';
 
 const SELECTORS = {
     LABEL: '.label',
@@ -11,6 +11,8 @@ const SELECTORS = {
 };
 
 export default class LabelDescription extends Element {
+    labels = LABELS;
+
     /** @track decorators **/
     @track
     state = {
@@ -20,9 +22,7 @@ export default class LabelDescription extends Element {
     };
 
     @track
-    showErrorMessageIfBlank = "Cannot be Blank.";
-    // TODO: Import Localization Labels & getter for the component to use that.
-    // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004ftBbIAI/view
+    showErrorMessageIfBlank = LABELS.cannotBeBlank;
 
     /** @api decorators **/
     @api
@@ -42,7 +42,7 @@ export default class LabelDescription extends Element {
     hideDescription;
 
     @api
-    devNameLabel = 'Unique Name';
+    devNameLabel = LABELS.uniqueNameLabel;
 
     @api
     layoutMode = 'horizontal';

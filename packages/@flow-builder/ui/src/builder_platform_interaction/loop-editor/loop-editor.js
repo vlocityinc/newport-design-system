@@ -8,19 +8,16 @@ import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction-
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import {PropertyChangedEvent, LoopCollectionChangedEvent} from 'builder_platform_interaction-events';
+import { LABELS } from './loop-editor-labels';
 
 const LOOP_PROPERTIES = {
     COLLECTION_VARIABLE: 'collectionReference',
     LOOP_VARIABLE: 'assignNextValueToReference',
     ITERATION_ORDER: 'iterationOrder'
 };
-// TODO: use labels W-4960986
-const VARIABLE_LABEL = 'Variable';
-const COLLECTION_VARIABLE_PLACEHOLDER = 'Find a collection variable...';
-const LOOP_VARIABLE_PLACEHOLDER = 'Find a variable...';
+
 const ITERATION_ORDER_ASCENDING = 'Asc';
 const ITERATION_ORDER_DECENDING = 'Desc';
-const LOOPVAR_ERROR_MESSAGE = 'Datatype does not match collection variable';
 const LOOPVAR_LITERALS_ALLOWED = false;
 const LOOPVAR_REQUIRED = true;
 const LOOPVARIABLE_DISABLED = false;
@@ -31,6 +28,8 @@ const COLLECTION_VAR_ELEMENT_CONFIG = {
 };
 
 export default class LoopEditor extends Element {
+    labels = LABELS;
+
     /**
      * internal state for the loop editor
      */
@@ -111,11 +110,10 @@ export default class LoopEditor extends Element {
         };
     }
 
-    // TODO: use labels W-4960986
     get collectionVariableComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
-            VARIABLE_LABEL,
-            COLLECTION_VARIABLE_PLACEHOLDER,
+            LABELS.collectionVariableLabel,
+            LABELS.collectionVariablePlaceholder,
             this.loopElement.collectionReference.error,
             LOOPVAR_LITERALS_ALLOWED,
             LOOPVAR_REQUIRED,
@@ -123,11 +121,10 @@ export default class LoopEditor extends Element {
         );
     }
 
-    // TODO: use labels W-4960986
     get loopVariableComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
-            VARIABLE_LABEL,
-            LOOP_VARIABLE_PLACEHOLDER,
+            LABELS.loopVariableLabel,
+            LABELS.loopVariablePlaceholder,
             this.loopElement.assignNextValueToReference.error,
             LOOPVAR_LITERALS_ALLOWED,
             LOOPVAR_REQUIRED,
@@ -136,7 +133,7 @@ export default class LoopEditor extends Element {
     }
 
     get iterationOrderOptions() {
-        return [{ 'label': 'First to last', 'value': ITERATION_ORDER_ASCENDING }, { 'label': 'Last to first', 'value': ITERATION_ORDER_DECENDING }];
+        return [{ 'label': LABELS.iterationOrderAscendingLabel, 'value': ITERATION_ORDER_ASCENDING }, { 'label': LABELS.iterationOrderDescendingLabel, 'value': ITERATION_ORDER_DECENDING }];
     }
 
     get iterationOrderValue() {
@@ -157,8 +154,8 @@ export default class LoopEditor extends Element {
 
         if (this.loopVariableState && this._collectionVariable && (isDataTypeChanged || isSObjectTypeChanged)) {
             // set datatype mismatch error message for loopVariable
-            loopVarErrorMessage = LOOPVAR_ERROR_MESSAGE;
-        } else if (event.detail.error !== null &&  this.loopElement.assignNextValueToReference.error === LOOPVAR_ERROR_MESSAGE) {
+            loopVarErrorMessage = LABELS.loopVariableErrorMessage;
+        } else if (event.detail.error !== null &&  this.loopElement.assignNextValueToReference.error === LABELS.loopVariableErrorMessage) {
             // If loopCollection has error then clear datatypemismatch error message for loopVariable
             loopVarErrorMessage = null;
         }
@@ -177,12 +174,12 @@ export default class LoopEditor extends Element {
         event.stopPropagation();
         let loopVariableError = event.detail.error;
         const loopVariableValue = event.detail.item ? event.detail.item.value : null;
-        const isDataTypeErrorMessageApplied = getErrorFromHydratedItem(this.loopElement.assignNextValueToReference) === LOOPVAR_ERROR_MESSAGE;
+        const isDataTypeErrorMessageApplied = getErrorFromHydratedItem(this.loopElement.assignNextValueToReference) === LABELS.loopVariableErrorMessage;
         const isLoopVariableValueChanged = loopVariableValue === getValueFromHydratedItem(this.loopElement.assignNextValueToReference);
 
         if (loopVariableError === null && isDataTypeErrorMessageApplied && isLoopVariableValueChanged) {
             // preserve data type mismatch error if it already exists, otherwise it will be removed.
-            loopVariableError = LOOPVAR_ERROR_MESSAGE;
+            loopVariableError = LABELS.loopVariableErrorMessage;
         }
         this.loopVariableState = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
         const loopVariableChangedEvent = new PropertyChangedEvent(LOOP_PROPERTIES.LOOP_VARIABLE, event.detail.item, loopVariableError);

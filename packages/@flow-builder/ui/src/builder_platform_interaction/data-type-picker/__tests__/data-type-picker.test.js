@@ -25,7 +25,7 @@ describe('Data Type picker', () => {
     it('should only display given available data types', async () => {
         dataTypePickerComponent.availableDataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER];
         await Promise.resolve();
-        expect(getShadowRoot(dataTypePickerComponent).querySelector('lightning-combobox').options.map(option => option.label)).toEqual(['Text', 'Number']);
+        expect(getShadowRoot(dataTypePickerComponent).querySelector('lightning-combobox').options.map(option => option.label)).toEqual(['FlowBuilderDataTypes.textDataTypeLabel', 'FlowBuilderDataTypes.numberDataTypeLabel']);
     });
 
     it('should display the given error message', () => {

@@ -1,7 +1,7 @@
 <template>
     <div if:true={decisionElement}>
         <div class="slds-p-horizontal_small slds-p-top_small">
-            <builder_platform_interaction-label-description label={decisionElement.label} dev-name-label={labels.decisionApiNameLabel} dev-name={decisionElement.name} description={decisionElement.description} guid={decisionElement.guid} onpropertychanged={handleEvent}> </builder_platform_interaction-label-description>
+            <builder_platform_interaction-label-description label={decisionElement.label} dev-name={decisionElement.name} description={decisionElement.description} guid={decisionElement.guid} onpropertychanged={handleEvent}> </builder_platform_interaction-label-description>
         </div>
         <h3 class="slds-section__title slds-accordion__summary-heading -slds-theme_shade slds-p-horizontal_small slds-shrink-none">
             <span>{labels.outcomesSectionHeader}</span>

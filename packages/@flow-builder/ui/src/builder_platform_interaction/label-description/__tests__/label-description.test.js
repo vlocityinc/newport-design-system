@@ -228,7 +228,7 @@ describe('label-description', () => {
 
         it('default label is set', () => {
             const labelDescription = createComponentUnderTest();
-            const expectedDefaultLabel = 'Unique Name';
+            const expectedDefaultLabel = 'FlowBuilderLabelDescription.uniqueNameLabel';
 
             return Promise.resolve().then(() => {
                 const devName = getShadowRoot(labelDescription).querySelector(selectors.devName);

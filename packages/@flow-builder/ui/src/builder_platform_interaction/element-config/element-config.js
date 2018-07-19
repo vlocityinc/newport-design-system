@@ -1,5 +1,6 @@
 import { deepCopy, generateGuid } from 'builder_platform_interaction-store-lib';
 import { ACTION_TYPE, CONDITION_LOGIC, METADATA_KEY, ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { LABELS } from './element-config-labels';
 import { SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
 
@@ -21,7 +22,7 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.FLOW_PROPERTIES]: {
         descriptor: 'builder_platform_interaction:flowPropertiesEditor',
         labels: {
-            singular: 'Flow Properties'
+            singular: LABELS.flowPropertiesSingularLabel
         },
         canvasElement: false
     },
@@ -335,7 +336,7 @@ export const elementTypeToConfigMap = {
         template: {
             config: { isSelected: false },
             connectorCount: 0,
-            defaultConnectorLabel: '[Default Outcome]',
+            defaultConnectorLabel: LABELS.emptyDefaultOutcomeLabel,
             elementType: ELEMENT_TYPE.DECISION,
             guid: '',
             isCanvasElement: true,
@@ -547,7 +548,7 @@ export const elementTypeToConfigMap = {
             label: '',
             guid: '',
             elementType: ELEMENT_TYPE.OUTCOME,
-            dataType: 'Boolean',
+            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
             conditionLogic: CONDITION_LOGIC.AND,
             conditions: [
                 {

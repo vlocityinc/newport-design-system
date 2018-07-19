@@ -1,10 +1,8 @@
 import { createElement } from 'engine';
 import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction-events';
 import ResourceDetails from 'builder_platform_interaction-resource-details';
-
-import editButtonLabel from '@label/FlowBuilderResourceDetailsPanel.editButtonLabel';
-import deleteButtonLabel from '@label/FlowBuilderResourceDetailsPanel.deleteButtonLabel';
 import { getShadowRoot } from 'lwc-test-utils';
+import { LABELS } from '../resource-details-labels';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-resource-details', {
@@ -34,8 +32,8 @@ describe('Resource Details', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
             const footerButtons = getShadowRoot(element).querySelectorAll(`${selectors.footer} ${selectors.footerButtons}`);
-            expect(footerButtons[1].label).toBe(editButtonLabel);
-            expect(footerButtons[1].title).toBe(editButtonLabel);
+            expect(footerButtons[1].label).toBe(LABELS.editButtonLabel);
+            expect(footerButtons[1].title).toBe(LABELS.editButtonLabel);
         });
     });
 
@@ -63,8 +61,8 @@ describe('Resource Details', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
             const footerButtons = getShadowRoot(element).querySelectorAll(`${selectors.footer} ${selectors.footerButtons}`);
-            expect(footerButtons[0].label).toBe(deleteButtonLabel);
-            expect(footerButtons[0].title).toBe(deleteButtonLabel);
+            expect(footerButtons[0].label).toBe(LABELS.deleteButtonLabel);
+            expect(footerButtons[0].title).toBe(LABELS.deleteButtonLabel);
         });
     });
 

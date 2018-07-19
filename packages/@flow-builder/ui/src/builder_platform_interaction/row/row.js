@@ -1,5 +1,6 @@
 import {Element, api} from 'engine';
 import {DeleteListItemEvent, UpdateListItemEvent} from 'builder_platform_interaction-events';
+import deleteRowAlternativeText from '@label/FlowBuilderRows.deleteRowAlternativeText';
 
 /**
  * Assignment Item List Row component for flow builder.
@@ -16,6 +17,10 @@ export default class Row extends Element {
 
     get disableDelete() {
         return !this.showDelete;
+    }
+
+    get deleteAlternativeText() {
+        return deleteRowAlternativeText;
     }
 
     get rowContentsClass() {

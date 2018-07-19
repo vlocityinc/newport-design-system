@@ -1,34 +1,32 @@
 <template>
-    <!-- TODO: Localize labels after W-4693112 -->
     <div class="slds-grid slds-m-bottom_x-small">
         <h3 class="slds-text-title_caps">
-            <span class="slds-truncate">Outcome Details</span>
+            <span class="slds-truncate">{labels.outcomeDetailsHeader}</span>
         </h3>
-        <lightning-button if:true={showDelete} label="Remove" title="Remove Outcome"
+        <lightning-button if:true={showDelete} label={labels.deleteOutcomeLabel} title={labels.deleteOutcomeTitle}
                           class="slds-col_bump-left slds-shrink-none removeOutcome"
                           onclick={handleDelete}>
         </lightning-button>
     </div>
     <builder_platform_interaction-label-description
             label={outcome.label}
-            dev-name-label="Outcome API Name"
+            dev-name-label={labels.outcomeApiName}
             dev-name={outcome.name}
             guid={outcome.guid}
             onpropertychanged={handlePropertyChanged}
             hide-description=true>
     </builder_platform_interaction-label-description>
 
-    <!-- TODO: Localize labels after W-4693112 -->
     <div class="slds-form-element slds-size_1-of-3 slds-m-bottom_small">
         <lightning-combobox class="slds-col slds-grow conditionLogic"
-                            label="Criteria for Executing Outcome"
+                            label={labels.outcomeConditionsHeader}
                             value={conditionLogicValue}
                             options={conditionLogicOptions}
                             onchange={handleConditionLogicChange}></lightning-combobox>
     </div>
 
     <div class="slds-form-element slds-m-bottom_small">
-        <lightning-input if:true={showCustomLogicInput} type="text" label="Custom Logic"
+        <lightning-input if:true={showCustomLogicInput} type="text" label={labels.customLogicLabel}
                          onfocusout={handleCustomLogicFocusOut}
                          value={outcome.conditionLogic.value}
                          required
@@ -40,7 +38,7 @@
                                        onaddlistitem={handleAddCondition}
                                        onupdatelistitem={handleUpdateCondition}
                                        ondeletelistitem={handleDeleteCondition}
-                                       add-label="Add Condition">
+                                       add-label={labels.addConditionsLabel}>
         <div slot="listBody">
             <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
                 <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.rowIndex}>
@@ -48,12 +46,11 @@
                                                       item-index={conditionIndex} show-delete={showDeleteCondition}
                                                       key={conditionWithPrefix.condition.rowIndex}>
                         <div slot="rowBody">
-                            <!-- TODO: Localize labels after W-4693112 -->
                             <builder_platform_interaction-expression-builder
                                     configuration={expressionBuilderConfig}
                                     expression={conditionWithPrefix.condition}
-                                    lhs-label="Resource" operator-label="Operator"
-                                    rhs-label="Value"
+                                    lhs-label={labels.lhsLabel} operator-label={labels.operatorLabel}
+                                    rhs-label={labels.rhsLabel}
                                     lhs-placeholder={labels.lhsPlaceholder}
                                     operator-placeholder={labels.operatorPlaceholder}
                                     rhs-placeholder={labels.rhsPlaceholder}></builder_platform_interaction-expression-builder>

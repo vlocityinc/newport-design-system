@@ -7,6 +7,7 @@ import { PropertyEditorWarningEvent } from 'builder_platform_interaction-events'
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
+import { LABELS } from './variable-editor-labels';
 
 // the property names in a variable element (after mutation)
 const VARIABLE_FIELDS = {
@@ -23,16 +24,12 @@ const VARIABLE_FIELDS = {
 
 // TODO: use labels W-4954505
 const EXTERNAL_ACCESS_VALUES = [
-    { label: 'Use as Input', value: VARIABLE_FIELDS.IS_INPUT },
-    { label: 'Use as Output', value: VARIABLE_FIELDS.IS_OUTPUT }
+    { label: LABELS.externalAccessInput, value: VARIABLE_FIELDS.IS_INPUT },
+    { label: LABELS.externalAccessOutput, value: VARIABLE_FIELDS.IS_OUTPUT }
 ];
 
 // TODO: use labels W-4954505
-const sobjectPickerLabel = 'Salesforce Object';
 const collectionLabel = 'Collection';
-const externalAccessLabel = 'Allow External Access';
-
-const sobjectPickerPlaceholder = 'Find an object...';
 
 // fields on which warning can be set in variable editor
 const VARIABLE_WARNING_FIELDS = [VARIABLE_FIELDS.NAME, VARIABLE_FIELDS.IS_INPUT, VARIABLE_FIELDS.IS_OUTPUT];
@@ -42,12 +39,6 @@ const DATATYPES_WITH_NO_DEFAULT_VALUE = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DAT
 const flowDataTypeMenuItems = Object.values(FLOW_DATA_TYPE);
 
 // TODO: use labels W-4954505
-const dataTypeHelpText = 'Data type cannot be changed while this resource is being referenced in your flow';
-const collectionHelpText = 'Use collection variables to store valeus with the same data type together. Iterate through ' +
-    'your collection variable by using a loop';
-const externalAccessHelpText = 'Use as Input: Variables can be set at the start of flow via URL parameters, Visualforce ' +
-    'controllers, or subflow inputs. Use as output: Variables can be accessed from Visualforce controllers and master ' +
-    'flows when this flow finishes.';
 const warningMessage = 'Changing this field may result in runtime errors when this flow is called by another flow.';
 
 /**
@@ -105,6 +96,10 @@ export default class VariableEditor extends Element {
         return unwrap(this.variableResource);
     }
 
+    get apiNameLabel() {
+        return LABELS.apiNameLabel;
+    }
+
     get dataType() {
         return getValueFromHydratedItem(this.variableResource.dataType);
     }
@@ -128,12 +123,12 @@ export default class VariableEditor extends Element {
 
     get dataTypeHelpText() {
         // TODO: use labels W-4954505
-        return !this.isNewMode ? dataTypeHelpText : null;
+        return !this.isNewMode ? LABELS.dataTypeHelpText : null;
     }
 
     get collectionHelpText() {
         // TODO: use labels W-4954505
-        return collectionHelpText;
+        return LABELS.collectionHelpText;
     }
 
     /**
@@ -160,7 +155,7 @@ export default class VariableEditor extends Element {
      * @return {string} help text for external access.
      */
     get externalAccessHelpText() {
-        return externalAccessHelpText;
+        return LABELS.externalAccessHelpText;
     }
 
     /**
@@ -202,7 +197,7 @@ export default class VariableEditor extends Element {
     // TODO: use labels W-4954505
     get defaultValueComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
-            'Default Value',
+            LABELS.defaultValuePickerLabel,
             null,
             this.variableResource.defaultValue.error,
             true,
@@ -218,8 +213,8 @@ export default class VariableEditor extends Element {
 
     get entityComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
-            this.sobjectPickerLabel,
-            this.sobjectPickerPlaceholder,
+            LABELS.sObjectPickerLabel,
+            LABELS.sObjectPickerPlaceholder,
             this.variableResource.objectType.error,
             undefined,
             true,
@@ -229,11 +224,11 @@ export default class VariableEditor extends Element {
     }
 
     get sobjectPickerLabel() {
-        return sobjectPickerLabel;
+        return LABELS.sObjectPickerLabel;
     }
 
     get sobjectPickerPlaceholder() {
-        return sobjectPickerPlaceholder;
+        return LABELS.sObjectPickerPlaceholder;
     }
 
     get collectionLabel() {
@@ -241,7 +236,7 @@ export default class VariableEditor extends Element {
     }
 
     get externalAccessLabel() {
-        return externalAccessLabel;
+        return LABELS.externalAccessSectionLabel;
     }
 
     isDataTypeOrCollectionChange(dataType, isCollection) {

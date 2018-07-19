@@ -1,21 +1,6 @@
 import { Element, api } from 'engine';
 import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction-events';
-
-import typeText from '@label/FlowBuilderResourceDetailsPanel.typeText';
-import uniqueNameText from '@label/FlowBuilderResourceDetailsPanel.uniqueNameText';
-import descriptionText from '@label/FlowBuilderResourceDetailsPanel.descriptionText';
-import detailsText from '@label/FlowBuilderResourceDetailsPanel.detailsText';
-import editButtonLabel from '@label/FlowBuilderResourceDetailsPanel.editButtonLabel';
-import deleteButtonLabel from '@label/FlowBuilderResourceDetailsPanel.deleteButtonLabel';
-
-const LABELS = {
-    RESOURCE_DETAILS_PANEL_TYPE_TEXT: typeText,
-    RESOURCE_DETAILS_PANEL_UNIQUE_NAME_TEXT: uniqueNameText,
-    RESOURCE_DETAILS_PANEL_DESCRIPTION_TEXT: descriptionText,
-    RESOURCE_DETAILS_PANEL_DETAILS_TEXT: detailsText,
-    RESOURCE_DETAILS_PANEL_EDIT_BUTTON_TEXT: editButtonLabel,
-    RESOURCE_DETAILS_PANEL_DELETE_BUTTON_TEXT: deleteButtonLabel
-};
+import { LABELS } from './resource-details-labels';
 
 export default class ResourceDetails extends Element {
     @api resourceDetails;

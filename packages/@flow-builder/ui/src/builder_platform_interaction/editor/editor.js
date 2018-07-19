@@ -413,7 +413,7 @@ export default class Editor extends Element {
      */
     doInvokeAlert = (storeElements, usedByElements, selectedElementGUIDs, elementType) => {
         const selectedElementsLength  = selectedElementGUIDs.length;
-        const headerTitle = LABELS.deleteAlertHeaderTitle;
+        const headerTitle = format(LABELS.deleteAlertHeaderTitle, elementType.toLowerCase());
         let bodyTextOne = LABELS.deleteAlertMultiDeleteBodyTextOne;
         const listSectionHeader = LABELS.deleteAlertListSectionHeader;
         const listSectionItems = [];

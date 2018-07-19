@@ -24,19 +24,18 @@ export default class Outcome extends Element {
     @track conditionLogicValue;
     @track showCustomLogicInput = false;
 
-    // TODO: Localize labels after W-4693112
+    labels = LABELS;
+
     @track conditionLogicOptions = [
-        {value: CONDITION_LOGIC.AND, label: 'All conditions are met'},
-        {value: CONDITION_LOGIC.OR, label: 'Any condition is met'},
-        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: 'Custom logic'},
+        {value: CONDITION_LOGIC.AND, label: this.labels.andConditionLogicLabel},
+        {value: CONDITION_LOGIC.OR, label: this.labels.orConditionLogicLabel},
+        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: this.labels.customConditionLogicLabel},
     ];
 
     // TODO: Import Localization Labels & getter for the component to use that.
     // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004ftBbIAI/view
     @track
-    showErrorMessageIfBlank = "Cannot be Blank.";
-
-    labels = LABELS;
+    showErrorMessageIfBlank = this.labels.cannotBeBlankError;
 
     get expressionBuilderConfig() {
         return {elementType: ELEMENT_TYPE.DECISION};
