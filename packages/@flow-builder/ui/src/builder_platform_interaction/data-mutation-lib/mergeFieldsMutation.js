@@ -42,6 +42,7 @@ const guidToDevName = (guid) => {
 };
 
 const devNameToGuid = (devName) => {
+    // not case-sensitive
     const flowElement = getElementByDevName(devName);
     if (flowElement) {
         return flowElement.guid;

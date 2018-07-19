@@ -1,26 +1,21 @@
 import { mutateTextWithMergeFields, demutateTextWithMergeFields } from '../mergeFieldsMutation';
+import { Store } from 'builder_platform_interaction-store-lib';
 
-
-jest.mock('builder_platform_interaction-store-utils', () => {
-    const guidToDevNameMapping = { 'VARIABLE_1' : 'variable1', 'VARIABLE_2' : 'variable2' };
-    const devNameToGuidMapping = { 'variable1' : 'VARIABLE_1', 'variable2' : 'VARIABLE_2' };
-    return {
-        getElementByGuid: (guid) => {
-            return {
-                guid,
-                name : guidToDevNameMapping[guid]
-            };
-        },
-        getElementByDevName: (devName) => {
-            return {
-                guid : devNameToGuidMapping[devName],
-                name : devName
-            };
-        }
-    };
-});
+const ELEMENTS = {
+    VARIABLE_1 : {
+        guid : 'VARIABLE_1',
+        name : 'variable1'
+    },
+    VARIABLE_2 : {
+        guid : 'VARIABLE_2',
+        name : 'variable2'
+    }
+};
 
 describe('Text with merge fields mutation', () => {
+    beforeEach(() => {
+        Store.setMockState({elements : ELEMENTS});
+    });
     it('Replaces guid by devName for a merge field inside a template', () => {
         expect(mutateTextWithMergeFields('a template with {!VARIABLE_1}')).toEqual('a template with {!variable1}');
     });
@@ -45,8 +40,14 @@ describe('Text with merge fields mutation', () => {
 });
 
 describe('Text with merge fields demutation', () => {
+    beforeEach(() => {
+        Store.setMockState({elements : ELEMENTS});
+    });
     it('Replaces devName by guid for a merge field inside a template', () => {
         expect(demutateTextWithMergeFields('{!variable1}')).toEqual('{!VARIABLE_1}');
+    });
+    it('Replaces devName by guid, ignoring devName case', () => {
+        expect(demutateTextWithMergeFields('{!Variable1.first}')).toEqual('{!VARIABLE_1.first}');
     });
     it('Replaces devName by guid for a compound merge field inside a template', () => {
         expect(demutateTextWithMergeFields('{!variable1.first}')).toEqual('{!VARIABLE_1.first}');
