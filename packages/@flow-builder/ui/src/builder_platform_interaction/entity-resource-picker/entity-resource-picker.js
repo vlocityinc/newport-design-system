@@ -1,6 +1,6 @@
 import { Element, api, track } from 'engine';
 import { getEntitiesMenuData } from 'builder_platform_interaction-expression-utils';
-import { isObject, isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
+import { isObject } from 'builder_platform_interaction-common-utils';
 
 const resourcePickerSelector = 'builder_platform_interaction-base-resource-picker';
 /**
@@ -109,14 +109,15 @@ export default class EntityResourcePicker extends Element {
 
     matchDisplayTextWithMenuDataItem(displayText) {
         const foundValue = this._fullEntityMenuData.find((item => item.value === displayText));
-        if (isUndefinedOrNull(foundValue)) {
-            throw new Error(`Value does not match an item in entity menu data: ${displayText}`);
-        }
         return foundValue;
     }
 
     handleComboboxChange(event) {
-        this.state.itemOrDisplayText = event.detail.item;
+        this.state.itemOrDisplayText = event.detail.item || event.detail.displayText;
+    }
+
+    handleItemSelected(event) {
+        this.state.itemOrDisplayText = event.detail.item || event.detail.displayText;
     }
 
     renderedCallback() {
