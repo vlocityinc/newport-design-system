@@ -30,17 +30,17 @@ export function createEmptyScreenNode() {
 export function createEmptyNodeOfType(type) {
     return {
         guid:generateGuid(),
-        isRequired: false,
+        isRequired: type.dataType === 'Boolean' ? true : false,
         helpText: '',
-        defaultValue:null,
+        defaultValue: null,
         dataType: type.dataType,
-        name: '',
+        name: {value: null, error: null},
         extensionName: type.name,
         choiceReferences: [],
         defaultSelectedChoiceReference: '',
         fieldType: type.fieldType,
         inputParameters: [],
-        fieldText: '',
+        fieldText: {value: null, error: null},
         label: '',
         outputParameters: []
     };

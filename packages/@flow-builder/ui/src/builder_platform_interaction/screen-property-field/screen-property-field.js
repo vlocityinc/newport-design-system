@@ -22,6 +22,7 @@ export default class ScreenPropertyField extends Element {
     @api helpText;
     @api allowResources = false;
     @api resourcePickerConfig;
+    @api disabled = false;
 
     @track _value;
 
@@ -57,7 +58,9 @@ export default class ScreenPropertyField extends Element {
     }
 
     get propertyValue() {
-        if (this.value) {
+        // Check for value like this because just doing this.value results in "false" when value is a number
+        // set to 0, for example. Hence, perform the check like this.
+        if (this.value !== undefined && this.value !== null) {
             if (this.allowsResources && isObject(this.value) && !isItemHydratedWithErrors(this.value)) {
                 return getValueFromFerov(this.value);
             }

@@ -34,7 +34,8 @@
     <aura:dependency resource="markup://builder_platform_interaction:variableEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:resourceEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:formulaEditor" type="MODULE" />
-    
+    <aura:dependency resource="markup://builder_platform_interaction:screenEditor" type="MODULE" />
+     
    <!-- Events -->
    <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />
    

@@ -9,25 +9,36 @@
                                                                                       oncomboboxstatechanged={handleEvent}>
         </builder_platform_interaction-ferov-resource-picker>
         
-        <lightning-input if:true={isInput} id={name} class='property-input' 
-                                           name={name} label={label} 
-                                           value={propertyValue} checked={isChecked}
-                                           required={required} type={inputType} 
+        <lightning-input if:true={isInput} id={name}
+                                           class='property-input' 
+                                           name={name}
+                                           label={label} 
+                                           value={propertyValue}
+                                           checked={isChecked}
+                                           required={required}
+                                           type={inputType} 
                                            field-level-help={helpText} 
-                                           onchange={handleEvent} onblur={handleEvent}>
+                                           onblur={handleEvent}>
         </lightning-input>
         
-        <builder_platform_interaction-resourced-textarea if:true={isLongString} id={name} class='property-input' 
-                                                                                name={name} label={label}
+        <builder_platform_interaction-resourced-textarea if:true={isLongString} id={name} 
+                                                                                class='property-input' 
+                                                                                name={name}
+                                                                                label={label}
                                                                                 value={propertyValue} 
-                                                                                required={required} help-text={helpText}
-                                                                                onchange={handleEvent} onblur={handleEvent}>
+                                                                                required={required}
+                                                                                help-text={helpText}
+                                                                                onblur={handleEvent}>
         </builder_platform_interaction-resourced-textarea>
         
-        <lightning-input-rich-text if:true={isRichString} id={name} class='property-input' 
-                                                          name={name} label={label}
-                                                          value={propertyValue} formats={formats} 
-                                                          onchange={handleEvent} onblur={handleEvent}>
+        <lightning-input-rich-text if:true={isRichString} id={name}
+                                                          class='property-input' 
+                                                          name={name}
+                                                          label={label}
+                                                          value={propertyValue}
+                                                          formats={formats} 
+                                                          onchange={handleEvent}
+                                                          onblur={handleEvent}>
         </lightning-input-rich-text>
     </div>
 </template>

@@ -3,13 +3,15 @@ import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
+import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /*
  * Screen element property editor for input fields.
  */
 export default class ScreenInputFieldPropertiesEditor extends Element {
     @api field;
-    @api isNewMode = false;
 
     labels = LABELS;
 
@@ -33,7 +35,7 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
         event.stopPropagation();
     }
 
-    /* Handle change of Default Value combobox */
+    /* Handle change of Default Value resource picker */
     handleDefaultValueChanged(event) {
         event.detail.propertyName = 'defaultValue';
         event.detail.value = event.detail.displayText;
@@ -54,9 +56,21 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
         event.stopPropagation();
     }
 
-    handleFetchMenuData(event) {
-        event.stopPropagation();
-        // TODO: fetch menu data
+    elementConfig = {
+        elementType: ELEMENT_TYPE.SCREEN,
+        shouldBeWritable: true
+    };
+
+    get resourceComboBoxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            LABELS.fieldDefaultValue, // Label
+            LABELS.resourcePickerPlaceholder, // Placeholder
+            null, // errorMessage
+            true, // literalsAllowed
+            false, // required
+            false, // disabled
+            this.field.dataType, // type
+            LIGHTNING_INPUT_VARIANTS.STANDARD); // variant
     }
 
     get fieldLabel() {
@@ -73,6 +87,10 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
             scale : null,
             isCollection : false
         };
+    }
+
+    get isCheckbox() {
+        return getValueFromHydratedItem(this.field.type.name) === 'Checkbox';
     }
 
     get isScaleEnabled() {
@@ -92,6 +110,6 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
      * Indicates if the field's subtype property should be editable or not.
      */
     get isSubTypeDisabled() {
-        return !this.isNewMode;
+        return this.field.isNewMode ? false : true;
     }
 }

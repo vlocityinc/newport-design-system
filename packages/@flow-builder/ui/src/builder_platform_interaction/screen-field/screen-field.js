@@ -36,6 +36,6 @@ export default class ScreenField extends Element {
     }
 
     get fieldText() {
-        return this.screenfield && this.screenfield.fieldText ? this.screenfield.fieldText.value : ' ';
+        return this.screenfield && this.screenfield.fieldText && this.screenfield.fieldText.value ? this.screenfield.fieldText.value : ' ';
     }
 }

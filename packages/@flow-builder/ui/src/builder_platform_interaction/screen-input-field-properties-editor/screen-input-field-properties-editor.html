@@ -1,7 +1,6 @@
 <template>
     <div if:true={field}>
         <div class='slds-p-horizontal_small slds-p-top_x-small'>
-        
             <!--  field label -->
             <!--  TODO: W-4947221 - make sure the combobox pulls in only string supported resources -->
             <builder_platform_interaction-combobox label={labels.fieldLabel}
@@ -21,7 +20,6 @@
                                                                 onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-screen-property-field>
 
-
             <!--  Set or display the subtype for the input field -->
             <builder_platform_interaction-data-type-picker
                 available-data-types={dataTypeList}
@@ -30,30 +28,29 @@
                 value={dataTypePickerValue}
                 onvaluechanged={handleDataTypeChanged}>
             </builder_platform_interaction-data-type-picker>
-
  
             <!--  Required checkbox -->
-            <!--  TODO: W-4947221 - this should not be editable when the type is Checkbox -->
-            <builder_platform_interaction-screen-property-field name='isRequired' 
+            <!--  If the field type is checkbox, the 'Required' field is not present -->
+            <builder_platform_interaction-screen-property-field if:false={isCheckbox}
+                                                                name='isRequired' 
                                                                 label={labels.required}
                                                                 type='boolean'
                                                                 value={field.isRequired}
                                                                 onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-screen-property-field>
+
             
-            
-            <!--  default value type: drop down resource list -->
+            <!--  default value: drop down resource list -->
             <!--  TODO: W-4947221 - determine the menu data based on input type -->
             <!--  TODO: W-4947221- doesn't work yet for Date -->
             <!--  TODO: W-4947221- doesn't work yet for DateTime -->
             <!--  TODO: W-4947221- doesn't work yet for Checkbox -->
-            <builder_platform_interaction-combobox label={labels.fieldDefaultValue} 
-                                                   value={field.defaultValue}
-                                                   menu-data={menuData}
-                                                   oncomboboxstatechanged={handleDefaultValueChanged}
-                                                   onfetchmenudata={handleFetchMenuData}>   
-             </builder_platform_interaction-combobox>
-
+            <!--  TODO: W-4947221- Currency displays like a regular number -->
+            <builder_platform_interaction-ferov-resource-picker combobox-config={resourceComboBoxConfig}
+                                                                value={field.defaultValue}
+                                                                element-config={elementConfig}
+                                                                oncomboboxstatechanged={handleDefaultValueChanged}>
+            </builder_platform_interaction-ferov-resource-picker>
 
             <!--  Scale, if input type supports this field -->
             <builder_platform_interaction-screen-property-field if:true={isScaleEnabled} 
