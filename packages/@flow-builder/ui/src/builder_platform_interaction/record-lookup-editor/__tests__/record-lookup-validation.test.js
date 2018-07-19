@@ -3,6 +3,7 @@ import RecordLookupEditor from '../record-lookup-editor';
 import { recordLookupValidation, getRules } from '../record-lookup-validation.js';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { SORT_ORDER, RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-record-editor-lib';
+import { LABELS } from 'builder_platform_interaction-validation-rules';
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
@@ -64,14 +65,14 @@ describe('Record Lookup Validation', () => {
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('label');
-            expect(errors[0].errorString).toBe('Accepts only AlphaNumeric or Special Characters.');
+            expect(errors[0].errorString).toBe(LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters);
         });
         it('should return an error if label is too long', () => {
             const recordLookupEditor = createRecordLookupEditor('slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla');
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('label');
-            expect(errors[0].errorString).toBe('Cannot accept more than 255 characters.');
+            expect(errors[0].errorString).toBe(LABELS.maximumCharactersLimit);
         });
     });
     describe('name is not valid', () => {
@@ -84,21 +85,21 @@ describe('Record Lookup Validation', () => {
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('name');
-            expect(errors[0].errorString).toBe('Should always begin with Alphabetical Characters instead of Numeric or Special Characters.');
+            expect(errors[0].errorString).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
         });
         it('should return an error if name contains special characters', () => {
             const recordLookupEditor = createRecordLookupEditor('Special Characters $#$@&^%!$()');
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('name');
-            expect(errors[0].errorString).toBe('Cannot accept any Special Characters.');
+            expect(errors[0].errorString).toBe(LABELS.shouldAcceptOnlyAlphanumericCharacters);
         });
         it('should return an error if name is too long', () => {
             const recordLookupEditor = createRecordLookupEditor('OJqlWSveOtulUjcyHgrDOOSPArDKdbftmvEKPBPDxLqrwtseblHPBcgctlMYmRsbPyngaEmZqCqMxksyv');
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('name');
-            expect(errors[0].errorString).toBe('Cannot accept more than 80 characters.');
+            expect(errors[0].errorString).toBe(LABELS.maximumCharactersLimit);
         });
     });
     describe('outputReference is not valid', () => {
@@ -111,14 +112,14 @@ describe('Record Lookup Validation', () => {
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('outputReference');
-            expect(errors[0].errorString).toBe('Cannot be blank.');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
         it('should return an error if outputReference is null', () => {
             const recordLookupEditor = createRecordLookupEditor(null);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('outputReference');
-            expect(errors[0].errorString).toBe('Cannot be blank.');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
     describe('object is not valid', () => {
@@ -131,7 +132,7 @@ describe('Record Lookup Validation', () => {
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('object');
-            expect(errors[0].errorString).toBe('Cannot be blank.');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
     describe('filter item is empty', () => {
@@ -141,7 +142,7 @@ describe('Record Lookup Validation', () => {
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('leftHandSide');
-            expect(errors[0].errorString).toBe('Cannot be blank.');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
         it('should return an error if operator is empty', () => {
             recordLookupEditorNode.filters[0].leftHandSide.value = 'Account.BillingAddress';
@@ -150,7 +151,7 @@ describe('Record Lookup Validation', () => {
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('operator');
-            expect(errors[0].errorString).toBe('Cannot be blank.');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
         it('should return an error if rightHandSide is empty', () => {
             recordLookupEditorNode.filters[0].operator.value = 'EqualTo';
@@ -159,7 +160,7 @@ describe('Record Lookup Validation', () => {
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('rightHandSide');
-            expect(errors[0].errorString).toBe('Cannot be blank.');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
     describe('sortField is not valid', () => {
@@ -169,7 +170,7 @@ describe('Record Lookup Validation', () => {
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('sortField');
-            expect(errors[0].errorString).toBe('Cannot be blank.');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
         it('should return an error if sortField is null', () => {
             recordLookupEditorNode.sortField.value = '';
@@ -177,7 +178,7 @@ describe('Record Lookup Validation', () => {
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('sortField');
-            expect(errors[0].errorString).toBe('Cannot be blank.');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
     describe('queriedFields contains empty field', () => {
@@ -187,7 +188,7 @@ describe('Record Lookup Validation', () => {
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('field');
-            expect(errors[0].errorString).toBe('Cannot be blank.');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
         // W-5199678
         it('should not return an error if there is only one empty field and ID field', () => {

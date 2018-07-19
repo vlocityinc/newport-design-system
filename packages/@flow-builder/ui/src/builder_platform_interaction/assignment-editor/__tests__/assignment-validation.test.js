@@ -1,7 +1,5 @@
-// TODO here to replace the expected error message with a reference to the label file once we have that in place
 import { assignmentValidation } from '../assignment-validation';
-
-import { LABELS } from '../../validation-rules/validation-rules-labels';
+import { LABELS } from 'builder_platform_interaction-validation-rules';
 
 describe('Default Validations', () => {
     describe('when props set to LABEL', () => {

@@ -2,7 +2,7 @@
 import { Validation } from 'builder_platform_interaction-validation';
 import * as ValidationRules from 'builder_platform_interaction-validation-rules';
 
-const TRAILING_UNDERSCORE_ERROR = 'Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.';
+const TRAILING_UNDERSCORE_ERROR = ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores;
 
 
 describe('Default Validations', () => {
@@ -14,7 +14,7 @@ describe('Default Validations', () => {
         });
 
         it('and when a empty string is passed should return the error message - {string} Cannot be blank.', () => {
-            expect(validation.validateProperty('label', '')).toBe('Cannot be blank.');
+            expect(validation.validateProperty('label', '')).toBe(ValidationRules.LABELS.cannotBeBlank);
         });
     });
 
@@ -24,7 +24,7 @@ describe('Default Validations', () => {
         });
 
         it('and when a empty string is passed should return the error message - {string} Cannot be blank.', () => {
-            expect(validation.validateProperty('name', '')).toBe('Cannot be blank.');
+            expect(validation.validateProperty('name', '')).toBe(ValidationRules.LABELS.cannotBeBlank);
         });
 
         it('and when a string has trailing underscores at the end should return the error message- {string} Should not have trailing empty spaces at the beginning or ending.', () => {
@@ -111,35 +111,35 @@ describe('validateProperties function', () => {
 
         // Screen
         expect(validationRules.validateProperty('name', 'valueWithNoErrors')).toBeNull();
-        expect(validationRules.validateProperty('name', 'valueWithError(> 30 chars)-----')).toEqual('Cannot accept more than 30 characters.');
+        expect(validationRules.validateProperty('name', 'valueWithError(> 30 chars)-----')).toEqual(ValidationRules.LABELS.maximumCharactersLimit);
 
         // Field Name
         expect(validationRules.validateProperty('fields', 'valueWithNoErrors')).toBeNull();
-        expect(validationRules.validateProperty('fields.name', 'valueWithError(> 25 chars)')).toEqual('Cannot accept more than 25 characters.');
+        expect(validationRules.validateProperty('fields.name', 'valueWithError(> 25 chars)')).toEqual(ValidationRules.LABELS.maximumCharactersLimit);
 
         // Field scale
         expect(validationRules.validateProperty('fields[type.name="Number"].scale', '2')).toBeNull();
-        expect(validationRules.validateProperty('fields[type.name="Number"].scale', '2.1')).toEqual('Must be a positive integer or zero');
+        expect(validationRules.validateProperty('fields[type.name="Number"].scale', '2.1')).toEqual(ValidationRules.LABELS.shouldBeAPositiveIntegerOrZero);
 
         // Field name
         expect(validationRules.validateProperty('fields[type.name="Date"].name', 'valueWithoutError(> 25 chars)')).toBeNull();
         expect(validationRules.validateProperty('fields[type.name="Date"].defaultValue', new Date().toString())).toBeNull();
-        expect(validationRules.validateProperty('fields[type.name="Date"].defaultValue', 'valueWithError(NotADate)')).toEqual('Must be a valid date');
+        expect(validationRules.validateProperty('fields[type.name="Date"].defaultValue', 'valueWithError(NotADate)')).toEqual(ValidationRules.LABELS.mustBeAValidDate);
     });
 });
 describe('validateAll method', () => {
     it('returns the same object if no applicable rule is present', () => {
         const testObj = {
-            name1: {value:" testValue ", error:null},
-            label1: {value:"", error: null}
+            name1: {value:' testValue ', error:null},
+            label1: {value:'', error: null}
         };
         const validation = new Validation();
         expect(validation.validateAll(testObj)).toBe(testObj);
     });
     it('returns the same object if no rule is failed', () => {
         const testObj = {
-            name: {value:"testValueWithNoErrors", error:null},
-            label: {value:"testValueWithNoErrors", error: null}
+            name: {value:'testValueWithNoErrors', error:null},
+            label: {value:'testValueWithNoErrors', error: null}
         };
         const validation = new Validation();
         expect(validation.validateAll(testObj)).toBe(testObj);
@@ -184,7 +184,7 @@ describe('validateAll method', () => {
             fields: [
                 {
                     type: {name: 'Number'},
-                    scale: {value:"2", error: null}
+                    scale: {value:'2', error: null}
                 },
                 {
                     type: {name: 'Date'},
@@ -200,7 +200,7 @@ describe('validateAll method', () => {
             fields: [
                 {
                     type: {name: 'Number'},
-                    scale: {value:"2.1", error: null}
+                    scale: {value:'2.1', error: null}
                 },
                 {
                     type: {name: 'Date'},
@@ -211,16 +211,16 @@ describe('validateAll method', () => {
         };
 
         const objWithValidationErrors =  {
-            name: {error: 'Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.', value: 'valueWithError(trailingSpaces)_'},
-            label: {error: 'Accepts only AlphaNumeric or Special Characters.', value: 'valueWithError(InvalidCharacter)~'},
-            helpText: {error: 'Cannot accept more than 20 characters.', value: 'valueWithNoErrors(tooLong)'},
+            name: {error: ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores, value: 'valueWithError(trailingSpaces)_'},
+            label: {error: ValidationRules.LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters, value: 'valueWithError(InvalidCharacter)~'},
+            helpText: {error: ValidationRules.LABELS.maximumCharactersLimit, value: 'valueWithNoErrors(tooLong)'},
             fields: [
                 {
-                    scale: {error: 'Must be a positive integer or zero', value: '2.1'},
+                    scale: {error: ValidationRules.LABELS.shouldBeAPositiveIntegerOrZero, value: '2.1'},
                     type: {name: 'Number'}
                 },
                 {
-                    defaultValue: {error: 'Must be a valid date', value: 'valueWithError(notADate)'},
+                    defaultValue: {error: ValidationRules.LABELS.mustBeAValidDate, value: 'valueWithError(notADate)'},
                     type: {'name': 'Date'}
                 }
             ]
@@ -251,77 +251,77 @@ describe('validateAll method', () => {
             }
         };
         const testObj = {
-            name: {value: "valueWithError(trailingSpaces)_", error: null},
-            label: {value: "valueWithNoErrors", error: null},
+            name: {value: 'valueWithError(trailingSpaces)_', error: null},
+            label: {value: 'valueWithNoErrors', error: null},
             outcomes : [{
-                name: {value: "valueWithMaximumCharLimitExceeded", error: null},
-                devName: {value:"mockValue", error:null},
+                name: {value: 'valueWithMaximumCharLimitExceeded', error: null},
+                devName: {value:'mockValue', error:null},
                 conditions: [
                     {
-                        leftHandSide: {value: "", error:null}
+                        leftHandSide: {value: '', error:null}
                     },
                     {
-                        leftHandSide: {value: "valueWithNoErrors", error:null}
+                        leftHandSide: {value: 'valueWithNoErrors', error:null}
                     }
                 ]
             },
             {
-                name: {value: "RHSError", error: null},
-                devName: {value: "mockValue", error:null},
+                name: {value: 'RHSError', error: null},
+                devName: {value: 'mockValue', error:null},
                 conditions: [
                     {
-                        leftHandSide: {value: "valueWithNoErrors", error: null},
-                        rightHandSide: {value: "valueWithError", error: null},
+                        leftHandSide: {value: 'valueWithNoErrors', error: null},
+                        rightHandSide: {value: 'valueWithError', error: null},
                     }
                 ]
             },
             {
-                name: {value: "valueNoErr", error: null},
-                devName: {value:"mockValue", error:null},
+                name: {value: 'valueNoErr', error: null},
+                devName: {value:'mockValue', error:null},
                 conditions: [
                     {
-                        leftHandSide: {value: "valueWithNoErrors", error:null}
+                        leftHandSide: {value: 'valueWithNoErrors', error:null}
                     },
                     {
-                        leftHandSide: {value: "valueWithNoErrors", error:null}
+                        leftHandSide: {value: 'valueWithNoErrors', error:null}
                     }
                 ]
             }]
         };
         const expectedObjectAfterValidateAll = {
-            name: {value: "valueWithError(trailingSpaces)_", error: TRAILING_UNDERSCORE_ERROR},
-            label: {value: "valueWithNoErrors", error: null},
+            name: {value: 'valueWithError(trailingSpaces)_', error: TRAILING_UNDERSCORE_ERROR},
+            label: {value: 'valueWithNoErrors', error: null},
             outcomes : [{
-                name: {value: "valueWithMaximumCharLimitExceeded", error: "Cannot accept more than 10 characters."},
-                devName: {value:"mockValue", error:null},
+                name: {value: 'valueWithMaximumCharLimitExceeded', error: ValidationRules.LABELS.maximumCharactersLimit},
+                devName: {value:'mockValue', error:null},
                 conditions: [
                     {
-                        leftHandSide: {value: "", error:"Cannot be blank."}
+                        leftHandSide: {value: '', error: ValidationRules.LABELS.cannotBeBlank}
                     },
                     {
-                        leftHandSide: {value: "valueWithNoErrors", error:null}
+                        leftHandSide: {value: 'valueWithNoErrors', error:null}
                     }
                 ]
             },
             {
-                name: {value: "RHSError", error: null},
-                devName: {value: "mockValue", error:null},
+                name: {value: 'RHSError', error: null},
+                devName: {value: 'mockValue', error:null},
                 conditions: [
                     {
-                        leftHandSide: {value: "valueWithNoErrors", error: null},
-                        rightHandSide: {value: "valueWithError", error: "LHS is valueWithNoErrors"},
+                        leftHandSide: {value: 'valueWithNoErrors', error: null},
+                        rightHandSide: {value: 'valueWithError', error: 'LHS is valueWithNoErrors'},
                     }
                 ]
             },
             {
-                name: {value: "valueNoErr", error: null},
-                devName: {value:"mockValue", error:null},
+                name: {value: 'valueNoErr', error: null},
+                devName: {value:'mockValue', error:null},
                 conditions: [
                     {
-                        leftHandSide: {value: "valueWithNoErrors", error:null}
+                        leftHandSide: {value: 'valueWithNoErrors', error:null}
                     },
                     {
-                        leftHandSide: {value: "valueWithNoErrors", error:null}
+                        leftHandSide: {value: 'valueWithNoErrors', error:null}
                     }
                 ]
             }]
