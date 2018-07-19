@@ -1,12 +1,10 @@
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
-import { ELEMENT_TYPE, RESOURCE_TYPES } from 'builder_platform_interaction-flow-metadata';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { createSelector, generateGuid } from 'builder_platform_interaction-store-lib';
 
 const SECTION_PREFIX = 'RESOURCES_PALETTE_SECTION';
 
 const elementsSelector = (state) => state.elements;
-const canvasElementsSelector = (state) => state.canvasElements;
-const nonCanvasElementsSelector = (state) => state.resources;
 
 /**
  * A case-insensitive comparison function used to sort arrays of palette items by label.
@@ -37,16 +35,30 @@ function createSection(elementType, items) {
     return section;
 }
 
-const getResourceElements = (elements, resourceElements) => resourceElements.reduce((acc, guid) => {
-    const element = elements[guid];
+/**
+ * Transforms elements into a form that is usable by lightning-tree-grid. These are
+ * grouped by element type so that they can more easily be placed into sections.
+ * @param {Object} elements list of all the elements
+ * @returns {Object} a mapping of element type to a list of lightning-tree-grid-items
+ */
+const getElements = (elements) => Object.values(elements).reduce((acc, element) => {
+    // Ignore the Start Element
+    if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
+        return acc;
+    }
+
     const config = getConfigForElementType(element.elementType);
 
     const resourceElement = {
         elementType: element.elementType,
-        guid,
-        iconName: config.nodeConfig.iconName,
+        guid: element.guid,
         label: element.name
     };
+
+    if (!config.canvasElement) {
+        resourceElement.iconName = config.nodeConfig.iconName;
+    }
+
     if (!acc[element.elementType]) {
         acc[element.elementType] = [];
     }
@@ -56,71 +68,62 @@ const getResourceElements = (elements, resourceElements) => resourceElements.red
 }, {});
 
 /**
- * Transforms canvas element guids into a form that is usable by lightning-tree-grid. These are
- * grouped by element type so that they can more easily be placed into sections.
+ * Combines elements into their respective groupings in a form that is usable by
+ * lightning-tree-grid.
  * @param {Object} elements list of all the elements
- * @param {Array} canvasElements list of canvas element guids
- * @returns {Object} a mapping of element type to a list of lightning-tree-grid-items
+ * @param {Boolean} returnCanvasElements if true, return only canvas elements, else, return only non-canvas elements
+ * @returns {Array} collection of lightning-tree-grid items
  */
-const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((acc, guid) => {
-    const element = elements[guid];
+const getResourceSections = (elements, returnCanvasElements) => {
+    let resourceSections = [];
 
-    if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
-        return acc;
+    if (elements && Object.keys(elements).length > 0) {
+        const elementMap = getElements(elements);
+        resourceSections = Object.keys(elementMap)
+            .filter(elementType => {
+                const isCanvasElement = getConfigForElementType(elementType).canvasElement === true;
+                return (
+                    isCanvasElement === returnCanvasElements &&
+                    elementMap[elementType] &&
+                    elementMap[elementType].length > 0
+                );
+            })
+            .map(elementType => {
+                const section = createSection(
+                    elementType,
+                    elementMap[elementType].sort(compareItems)
+                );
+                return section;
+            });
     }
 
-    const canvasElement = {
-        elementType: element.elementType,
-        guid,
-        label: element.name
-    };
+    return resourceSections;
+};
 
-    if (!acc[element.elementType]) {
-        acc[element.elementType] = [];
-    }
-    acc[element.elementType].push(canvasElement);
-
-    return acc;
-}, {});
-
-const getCanvasElementsSections = (elements, canvasElements) => {
-    const canvasElementsSections = [];
-    // TODO: Incremented by 1 as we are not showing the Start Elements as part of Canvas Elements Group.
-    if (canvasElements && canvasElements.length > 1) {
-        const canvasElementMap = getCanvasElements(elements, canvasElements);
-        for (const elementType in canvasElementMap) {
-            if (canvasElementMap.hasOwnProperty(elementType)) {
-                const items = canvasElementMap[elementType];
-                if (items && items.length > 0) {
-                    const section = createSection(elementType, items.sort(compareItems));
-                    canvasElementsSections.push(section);
-                }
-            }
-        }
-    }
+/**
+ * Combines canvas elements into their respective groupings in a form that is usable by
+ * lightning-tree-grid.
+ * @param {Object} elements list of all the elements
+ * @returns {Array} collection of lightning-tree-grid items for canvas elements
+ */
+const getCanvasElementsSections = (elements) => {
+    const canvasElementsSections = getResourceSections(elements, true);
 
     return canvasElementsSections;
 };
 
-const getNonCanvasElementsSections = (elements, nonCanvasElements) => {
-    const nonCanvasElementsSections = [];
-    if (nonCanvasElements && nonCanvasElements.length > 0) {
-        const resourceElementMap = getResourceElements(elements, nonCanvasElements);
-        const elementTypes = RESOURCE_TYPES;
-        const length = elementTypes.length;
-        for (let i = 0; i < length; i++) {
-            const elementType = elementTypes[i];
-            const items = resourceElementMap[elementType];
-            if (items && items.length > 0) {
-                const section = createSection(elementType, items.sort(compareItems));
-                nonCanvasElementsSections.push(section);
-            }
-        }
-    }
+/**
+ * Combines non-canvas elements into their respective groupings in a form that is usable by
+ * lightning-tree-grid.
+ * @param {Object} elements list of all the elements
+ * @returns {Array} collection of lightning-tree-grid items for non-canvas elements
+ */
+const getNonCanvasElementsSections = (elements) => {
+    const nonCanvasElementsSections = getResourceSections(elements, false);
 
     return nonCanvasElementsSections;
 };
 
-export const canvasElementsSectionsSelector = createSelector([elementsSelector, canvasElementsSelector], getCanvasElementsSections);
+export const canvasElementsSectionsSelector = createSelector([elementsSelector], getCanvasElementsSections);
 
-export const nonCanvasElementsSectionsSelector = createSelector([elementsSelector, nonCanvasElementsSelector], getNonCanvasElementsSections);
+export const nonCanvasElementsSectionsSelector = createSelector([elementsSelector], getNonCanvasElementsSections);

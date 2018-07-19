@@ -74,8 +74,6 @@ export const METADATA_KEY = {
     SCREENS: 'screens'
 };
 
-export const RESOURCE_TYPES = [ELEMENT_TYPE.FORMULA, ELEMENT_TYPE.OUTCOME, ELEMENT_TYPE.VARIABLE];
-
 /**
  * AND and OR are flow values which are used by the backend as well as being as used
  * on the frontend (combobox values).  CUSTOM_LOGIC is used only by the frontend as a

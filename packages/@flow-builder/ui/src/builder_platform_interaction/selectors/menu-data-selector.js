@@ -5,38 +5,34 @@ import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANTS as GC} from 'builder_platform
 import { getQueryableEntities, getCreateableEntities, getDeletableEntities, getUpdateableEntities }  from 'builder_platform_interaction-sobject-lib';
 
 const elementsSelector = (state) => state.elements;
-const resourcesSelector = (state) => state.resources;
-const canvasElementsSelector = (state) => state.canvasElements;
 
 const getResources = (elements, guids) => guids.reduce((acc, guid) => {
     acc.push(elements[guid]);
     return acc;
 }, []);
 
-const getWritableElements = (elements, resources) => {
-    const writableElementGuids = resources.filter(guid => elements[guid].elementType === ELEMENT_TYPE.VARIABLE);
-    return getResources(elements, writableElementGuids);
+const getWritableElements = (elements) => {
+    const writableElements = Object.values(elements).filter(element => element.elementType === ELEMENT_TYPE.VARIABLE);
+    return writableElements;
 };
 
-const getReadableElements = (elements, resources, canvasElements) => {
+const getReadableElements = (elements) => {
     // the start element will never be needed for menu data
-    const editableCanvasElements = canvasElements.filter(guid => elements[guid].elementType !== ELEMENT_TYPE.START_ELEMENT);
-    const readableElementGuids = [...resources, ...editableCanvasElements];
-    const readableElements = getResources(elements, readableElementGuids);
+    const readableElements = Object.values(elements).filter(element => element.elementType !== ELEMENT_TYPE.START_ELEMENT);
     const globalConstants = getResources(GLOBAL_CONSTANT_OBJECTS, [GC.BOOLEAN_FALSE, GC.BOOLEAN_TRUE, GC.EMPTY_STRING]);
     return [...readableElements, ...globalConstants];
 };
 
-const getCollectionElements = (elements, resources) => {
-    const collectionElementGuids = resources.filter(guid => elements[guid].isCollection);
-    return getResources(elements, collectionElementGuids);
+const getCollectionElements = (elements) => {
+    const collectionElements = Object.values(elements).filter(element => element.isCollection);
+    return collectionElements;
 };
 
-const getNonCollectionElementsByType = (elements, resources, dataType) => {
-    const filteredElementGuids = resources.filter(guid =>
-        (elements[guid].dataType === dataType) && (!elements[guid].isCollection)
+const getNonCollectionElementsByType = (elements, dataType) => {
+    const filteredElements = Object.values(elements).filter(element =>
+        (element.dataType === dataType) && (!element.isCollection)
     );
-    return getResources(elements, filteredElementGuids);
+    return filteredElements;
 };
 
 const isQueryableSObject = (objectType) => {
@@ -58,21 +54,20 @@ const isDeleteableSObject = (objectType) => {
 /**
  * Filter the sobject or sobject collection variables by entity name.
  * @param {Object[]} elements elements from store
- * @param {String[]} resources resources from store
  * @param {RetrieveOptions} retrieveOptions way to retrieve the sObject or sObject collection variables
  * @returns {Object[]}  list of sobject/sobject collection variables
  */
-const getSObjectOrSObjectCollectionByEntityElements = (elements, resources, retrieveOptions) => {
+const getSObjectOrSObjectCollectionByEntityElements = (elements, retrieveOptions) => {
     let allElements = [];
     const dataType = FLOW_DATA_TYPE.SOBJECT.value;
     if (retrieveOptions) {
         if (retrieveOptions.allSObjectsAndSObjectCollections) {
-            allElements.push(...getCollectionElements(elements, resources).filter(element => element.dataType === dataType));
-            allElements.push(...getNonCollectionElementsByType(elements, resources, dataType));
+            allElements.push(...getCollectionElements(elements).filter(element => element.dataType === dataType));
+            allElements.push(...getNonCollectionElementsByType(elements, dataType));
         } else if (retrieveOptions.isCollection) {
-            allElements.push(...getCollectionElements(elements, resources).filter(element => element.dataType === dataType));
+            allElements.push(...getCollectionElements(elements).filter(element => element.dataType === dataType));
         } else {
-            allElements.push(...getNonCollectionElementsByType(elements, resources, dataType));
+            allElements.push(...getNonCollectionElementsByType(elements, dataType));
         }
         if (retrieveOptions.entityName) {
             allElements.filter(element => element.objectType === retrieveOptions.entityName);
@@ -112,13 +107,13 @@ const getSObjectOrSObjectCollectionByEntityElements = (elements, resources, retr
  */
 
 export const sObjectOrSObjectCollectionByEntitySelector = (retrieveOptions) => {
-    return createSelector([elementsSelector, resourcesSelector], (elements, resources) => getSObjectOrSObjectCollectionByEntityElements(elements, resources, retrieveOptions));
+    return createSelector([elementsSelector], (elements) => getSObjectOrSObjectCollectionByEntityElements(elements, retrieveOptions));
 };
 
 export const byTypeElementsSelector = (dataType) => {
-    return createSelector([elementsSelector, resourcesSelector], (elements, resources) => getNonCollectionElementsByType(elements, resources, dataType));
+    return createSelector([elementsSelector], (elements) => getNonCollectionElementsByType(elements, dataType));
 };
 
-export const writableElementsSelector = createSelector([elementsSelector, resourcesSelector], getWritableElements);
-export const readableElementsSelector = createSelector([elementsSelector, resourcesSelector, canvasElementsSelector], getReadableElements);
-export const collectionElementsSelector = createSelector([elementsSelector, resourcesSelector], getCollectionElements);
+export const writableElementsSelector = createSelector([elementsSelector], getWritableElements);
+export const readableElementsSelector = createSelector([elementsSelector], getReadableElements);
+export const collectionElementsSelector = createSelector([elementsSelector], getCollectionElements);
