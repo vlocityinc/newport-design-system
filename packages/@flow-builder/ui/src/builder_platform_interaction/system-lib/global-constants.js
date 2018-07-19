@@ -2,6 +2,9 @@ import globalConstantEmptyStringLabel from '@label/FlowBuilderGlobalConstants.gl
 import globalConstantTrueLabel from '@label/FlowBuilderGlobalConstants.globalConstantTrue';
 import globalConstantFalseLabel from '@label/FlowBuilderGlobalConstants.globalConstantFalse';
 import globalConstantCategory from '@label/FlowBuilderGlobalConstants.globalConstantCategory';
+import emptyStringMetaLine from '@label/FlowBuilderGlobalConstants.emptyStringMetaLine';
+import trueMetaLine from '@label/FlowBuilderGlobalConstants.trueMetaLine';
+import falseMetaLine from '@label/FlowBuilderGlobalConstants.falseMetaLine';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 export const GLOBAL_CONSTANT_PREFIX = '$GlobalConstant.';
@@ -14,7 +17,7 @@ export const GLOBAL_CONSTANTS = {
 
 /**
  * Descriptions of the GLOBAL_CONSTANTS variables in a shape that looks like
- * elements. name, guid, and category are only necessary so that these
+ * elements. name, guid, description and category are only necessary so that these
  * play nicely with being used in the combobox.
  *
  * NOTE: Any constants added here also need to be added to the menu data selectors.
@@ -27,6 +30,7 @@ export const GLOBAL_CONSTANT_OBJECTS = {
         isCollection: false,
         dataType: FEROV_DATA_TYPE.BOOLEAN,
         category: globalConstantCategory,
+        description: trueMetaLine,
     },
     [GLOBAL_CONSTANTS.BOOLEAN_FALSE] : {
         label: globalConstantFalseLabel,
@@ -35,6 +39,7 @@ export const GLOBAL_CONSTANT_OBJECTS = {
         isCollection: false,
         dataType: FEROV_DATA_TYPE.BOOLEAN,
         category: globalConstantCategory,
+        description: falseMetaLine,
     },
     [GLOBAL_CONSTANTS.EMPTY_STRING] : {
         label: globalConstantEmptyStringLabel,
@@ -43,5 +48,6 @@ export const GLOBAL_CONSTANT_OBJECTS = {
         isCollection: false,
         dataType: FEROV_DATA_TYPE.STRING,
         category: globalConstantCategory,
+        description: emptyStringMetaLine,
     },
 };

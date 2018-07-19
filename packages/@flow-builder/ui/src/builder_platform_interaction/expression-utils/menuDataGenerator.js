@@ -124,14 +124,15 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
  */
 export function mutateFlowResourceToComboboxShape(resource) {
     const newElement = {};
+    const isNonElement = isNonElementResourceId(resource.guid);
 
     newElement.text = resource.name;
-    newElement.subText = getSubText(resource.dataType, resource.objectType, resource.label);
+    newElement.subText = isNonElement ? resource.description : getSubText(resource.dataType, resource.objectType, resource.label);
     newElement.value = resource.guid;
     newElement.displayText = '{!' + resource.name + '}';
     newElement.hasNext = resource.dataType === SObjectType && !resource.isCollection;
     // TODO: remove upper case-ing once we're using labels for categories W-4813532
-    newElement.category = isNonElementResourceId(resource.guid) ?
+    newElement.category = isNonElement ?
         resource.category : getElementCategory(resource.elementType, resource.dataType, resource.isCollection).toUpperCase();
     // TODO: fetch icon
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
