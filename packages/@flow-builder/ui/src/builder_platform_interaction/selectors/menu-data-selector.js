@@ -2,6 +2,7 @@ import { createSelector } from 'builder_platform_interaction-store-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANTS as GC} from 'builder_platform_interaction-system-lib';
+import { getQueryableEntities, getCreateableEntities, getDeletableEntities, getUpdateableEntities }  from 'builder_platform_interaction-sobject-lib';
 
 const elementsSelector = (state) => state.elements;
 const resourcesSelector = (state) => state.resources;
@@ -38,6 +39,22 @@ const getNonCollectionElementsByType = (elements, resources, dataType) => {
     return getResources(elements, filteredElementGuids);
 };
 
+const isQueryableSObject = (objectType) => {
+    return getQueryableEntities().some(entity => entity.apiName === objectType);
+};
+
+const isCreateableSObject = (objectType) => {
+    return getCreateableEntities().some(entity => entity.apiName === objectType);
+};
+
+const isUpdateableSObject = (objectType) => {
+    return getUpdateableEntities().some(entity => entity.apiName === objectType);
+};
+
+const isDeleteableSObject = (objectType) => {
+    return getDeletableEntities().some(entity => entity.apiName === objectType);
+};
+
 /**
  * Filter the sobject or sobject collection variables by entity name.
  * @param {Object[]} elements elements from store
@@ -46,7 +63,7 @@ const getNonCollectionElementsByType = (elements, resources, dataType) => {
  * @returns {Object[]}  list of sobject/sobject collection variables
  */
 const getSObjectOrSObjectCollectionByEntityElements = (elements, resources, retrieveOptions) => {
-    const allElements = [];
+    let allElements = [];
     const dataType = FLOW_DATA_TYPE.SOBJECT.value;
     if (retrieveOptions) {
         if (retrieveOptions.allSObjectsAndSObjectCollections) {
@@ -57,9 +74,20 @@ const getSObjectOrSObjectCollectionByEntityElements = (elements, resources, retr
         } else {
             allElements.push(...getNonCollectionElementsByType(elements, resources, dataType));
         }
-        // filter entityName
         if (retrieveOptions.entityName) {
-            return allElements.filter(element => element.objectType === retrieveOptions.entityName);
+            allElements.filter(element => element.objectType === retrieveOptions.entityName);
+        }
+        if (retrieveOptions.queryable) {
+            allElements = allElements.filter(element => isQueryableSObject(element.objectType));
+        }
+        if (retrieveOptions.createable) {
+            allElements = allElements.filter(element => isCreateableSObject(element.objectType));
+        }
+        if (retrieveOptions.updateable) {
+            allElements = allElements.filter(element => isUpdateableSObject(element.objectType));
+        }
+        if (retrieveOptions.deleteable) {
+            allElements = allElements.filter(element => isDeleteableSObject(element.objectType));
         }
     }
     return allElements;
@@ -71,6 +99,10 @@ const getSObjectOrSObjectCollectionByEntityElements = (elements, resources, retr
  * @property {Boolean} allSObjectsAndSObjectCollections - true to retrieve both sObject and sObject collection variables.
  * @property {Boolean} isCollection - true to retrieve only sObject collection variables. It's ignored if there is allSObjectsAndSObjectCollections property.
  * @property {String} entityName - filter by entity name.
+ * @property {Boolean} queryable - true to retrieve only queryable sObject
+ * @property {Boolean} createable - true to retrieve only createable sObject
+ * @property {Boolean} updateable - true to retrieve only updateable sObject
+ * @property {Boolean} deleteable - true to retrieve only deleteable sObject
  */
 
 /**

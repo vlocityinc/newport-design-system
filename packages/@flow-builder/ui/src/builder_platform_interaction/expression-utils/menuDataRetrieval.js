@@ -155,10 +155,13 @@ function getSelector({elementType, shouldBeWritable, isCollection, dataType, ent
         case ELEMENT_TYPE.SCREEN:
             return readableElementsSelector;
         case ELEMENT_TYPE.RECORD_CREATE:
+            return sObjectOrSObjectCollectionByEntitySelector({isCollection, createable:true});
         case ELEMENT_TYPE.RECORD_UPDATE:
-            return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, entityName}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+            return sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, updateable: true});
+        case ELEMENT_TYPE.RECORD_DELETE:
+            return sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true});
         case ELEMENT_TYPE.RECORD_LOOKUP:
-            return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+            return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, queryable:true}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         case ELEMENT_TYPE.LOOP:
             return isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
         default:
