@@ -535,7 +535,7 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.OUTCOME]: {
         // OUTCOME is not a canvas element, but is a first class element
         nodeConfig: {
-            iconName: 'standard:feed'
+            iconName: 'utility:outcome'
         },
         labels: {
             singular: LABELS.outcomeSingularLabel,
@@ -560,7 +560,7 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.VARIABLE]: {
         descriptor: 'builder_platform_interaction:variableEditor',
         nodeConfig: {
-            iconName: 'utility:type_tool'
+            iconName: 'utility:variable'
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.VARIABLES,
@@ -585,7 +585,7 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.FORMULA]: {
         descriptor: 'builder_platform_interaction:formulaEditor',
         nodeConfig: {
-            iconName: 'utility:topic2'
+            iconName: 'utility:formula'
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.FORMULAS,
