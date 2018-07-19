@@ -6,8 +6,10 @@ import notAValidMergeFieldLabel from '@label/FlowBuilderMergeFieldValidation.not
 import invalidGlobalConstant from '@label/FlowBuilderMergeFieldValidation.invalidGlobalConstant';
 import unknownMergeField from '@label/FlowBuilderMergeFieldValidation.unknownMergeField';
 import wrongDataType from '@label/FlowBuilderMergeFieldValidation.wrongDataType';
+import unknownRecordField from '@label/FlowBuilderMergeFieldValidation.unknownRecordField';
 import { GLOBAL_CONSTANT_PREFIX, getNonElementResource } from 'builder_platform_interaction-system-lib';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { format } from 'builder_platform_interaction-common-utils';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -71,7 +73,8 @@ export class MergeFieldsValidation {
         const match = MERGEFIELD_REGEX.exec(mergeField);
         MERGEFIELD_REGEX.lastIndex = 0;
         if (match === null || match[0] !== mergeField) {
-            const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, notAValidMergeFieldLabel, 0, mergeField.length - 1);
+            const validationErrorLabel = format(notAValidMergeFieldLabel, mergeField);
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, validationErrorLabel, 0, mergeField.length - 1);
             return Promise.resolve([validationError]);
         }
         return this._validateMergeFieldReferenceValue(match[1], 2);
@@ -121,11 +124,13 @@ export class MergeFieldsValidation {
     _validateGlobalConstant(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         if (!this.allowGlobalConstants) {
-            const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, notAValidMergeFieldLabel, index, endIndex);
+            const validationErrorLabel = format(notAValidMergeFieldLabel, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
         if (!getNonElementResource(mergeFieldReferenceValue)) {
-            const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_CONSTANT, invalidGlobalConstant, index, endIndex);
+            const validationErrorLabel = format(invalidGlobalConstant, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_CONSTANT, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
         return Promise.resolve([]);
@@ -145,12 +150,14 @@ export class MergeFieldsValidation {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         const element = getElementByDevName(mergeFieldReferenceValue);
         if (!element) {
-            const validationError = this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, unknownMergeField, index, endIndex);
+            const validationErrorLabel = format(unknownMergeField, mergeFieldReferenceValue);
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
         const elementType = this._getElementType(element);
         if (elementType.dataType === null || elementType.isCollection) {
-            const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, wrongDataType, index, endIndex);
+            const validationErrorLabel = format(wrongDataType, mergeFieldReferenceValue);
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
         return Promise.resolve([]);
@@ -202,17 +209,20 @@ export class MergeFieldsValidation {
         const fieldName = parts[1];
         const element = getElementByDevName(variableName);
         if (!element) {
-            const validationError = this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, unknownMergeField, index, endIndex);
+            const validationErrorLabel = format(unknownMergeField, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
         if (element.elementType !== ELEMENT_TYPE.VARIABLE || element.dataType !== FLOW_DATA_TYPE.SOBJECT.value || element.isCollection) {
-            const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, wrongDataType, index, endIndex);
+            const validationErrorLabel = format(wrongDataType, mergeFieldReferenceValue);
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
         return new Promise((resolve) => {
             sobjectLib.getFieldsForEntity(element.objectType, (fields) => {
                 if (!fields[fieldName]) {
-                    resolve([this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, unknownMergeField, index, endIndex)]);
+                    const validationErrorLabel = format(unknownRecordField, fieldName, element.objectType);
+                    resolve([this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex)]);
                 }
                 resolve([]);
             });
