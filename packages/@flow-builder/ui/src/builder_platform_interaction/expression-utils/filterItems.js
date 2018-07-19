@@ -63,6 +63,10 @@ function highlightItem(filterText, item) {
  * @return {Array} The new array with highlighted text
  */
 function highlight(filterText, targetText) {
+    // covers small edge case where target text is not a string caused by empty menu item label
+    if (typeof targetText !== 'string') {
+        return '';
+    }
     // lookbehind works only in V8 engine
     // const regex = new RegExp('(?<=' + filterText + ')|(?=' + filterText + ')', 'i');
     const regex = new RegExp('(' + filterText + ')', 'i');
@@ -83,7 +87,7 @@ function highlight(filterText, targetText) {
  * @return {Number} The starting index
  */
 function getIndex(filterText, targetText) {
-    if (filterText && targetText) {
+    if (filterText && typeof targetText === 'string') {
         return targetText.toLowerCase().indexOf(filterText.toLowerCase());
     }
     return -1;

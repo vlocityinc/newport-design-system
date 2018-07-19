@@ -104,9 +104,9 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
  */
 export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSubText) {
     const formattedField = {};
-
+    const label = field.label || field.apiName;
     formattedField.text = field.apiName;
-    formattedField.subText = (showSubText) ? field.label : '';
+    formattedField.subText = (showSubText) ? label : '';
     formattedField.value = parent.value + '.' + field.apiName;
     formattedField.displayText = showAsFieldReference ? (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + field.apiName + '}') : field.apiName;
     formattedField.parent = parent;
@@ -151,9 +151,9 @@ export const mutateEntitiesToComboboxShape = (entities) => {
     return entities.map(entity => {
         return createMenuItem(
             COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
-            entity.entityLabel,
+            entity.entityLabel || entity.apiName,
             entity.apiName,
-            entity.entityLabel,
+            entity.entityLabel || entity.apiName,
             undefined,
             entity.apiName,
             undefined,
