@@ -167,11 +167,13 @@ function _addOrUpdateElement(state, guid, element) {
 function _updateRecordLookup(state, guid, element) {
     const newState = _addOrUpdateElement(state, guid, element);
     // remove shortOrder and sortField if they are not in element
-    if (!element.hasOwnProperty('sortOrder')) {
-        delete newState[guid].sortOrder;
-    }
-    if (!element.hasOwnProperty('sortField')) {
-        delete newState[guid].sortField;
+    if (element.hasOwnProperty('object')) {
+        if (!element.hasOwnProperty('sortOrder')) {
+            delete newState[guid].sortOrder;
+        }
+        if (!element.hasOwnProperty('sortField')) {
+            delete newState[guid].sortField;
+        }
     }
     return newState;
 }
