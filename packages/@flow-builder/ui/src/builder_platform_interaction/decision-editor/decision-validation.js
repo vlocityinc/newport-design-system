@@ -51,8 +51,8 @@ class DecisionValidation extends Validation {
      * @returns {string|null} errorString or null
      */
     validateOutcomeNameUniquenessLocally = (allOutcomes, devNameToBeValidated, currentOutcomeGuid) => {
-        const matches = allOutcomes.filter(outcome => outcome.guid !== currentOutcomeGuid && outcome.name.value === devNameToBeValidated);
-        return matches.length > 0 ? "Field is not unique" : null; // Label in next CL
+        const matches = allOutcomes.filter(outcome => outcome.guid !== currentOutcomeGuid && outcome.name.value.toLowerCase() === devNameToBeValidated.toLowerCase());
+        return matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
     };
 }
 

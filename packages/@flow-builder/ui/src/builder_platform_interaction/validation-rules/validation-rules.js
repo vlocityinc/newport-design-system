@@ -202,7 +202,9 @@ export const validateExpressionWith3Properties = (contextConfig) => {
 export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
-    const matches = Object.values(elements).filter(element => !listOfGuidsToSkip.includes(element.guid) && element.name === nameToBeTested);
+    const matches = Object.values(elements).filter(element =>
+        !listOfGuidsToSkip.includes(element.guid) &&
+        (element.name && element.name.toLowerCase()) === nameToBeTested.toLowerCase());
     return matches.length > 0 ? LABELS.fieldNotUnique : null;
 };
 

@@ -1,6 +1,6 @@
 import * as rules from 'builder_platform_interaction-validation-rules';
 import { numberParamCanBeField, stringParam } from 'mock-rule-service';
-import { numberVariableGuid, accountSObjectVariableGuid } from 'mock-store-data';
+import { numberVariableGuid, accountSObjectVariableGuid, assignmentElementGuid, assignmentElementName } from 'mock-store-data';
 import { mockAccountFields } from 'mock-server-entity-data';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 import { getRHSTypes } from 'builder_platform_interaction-rule-lib';
@@ -161,5 +161,18 @@ describe('RHS validation', () => {
             });
         const result = rulesArray.rightHandSide[0]();
         expect(result).toBeNull();
+    });
+});
+
+describe('isUniqueDevNameInStore method', () => {
+    it('returns null when a unique dev name is tested against store data', () => {
+        const uniqueName = 'idiosyncraticName';
+        expect(rules.isUniqueDevNameInStore(uniqueName)).toBeNull();
+    });
+    it('returns null when a unique dev name is tested against store data while using the listOfGuidsToSkip param', () => {
+        expect(rules.isUniqueDevNameInStore(assignmentElementName, [assignmentElementGuid])).toBeNull();
+    });
+    it('returns an error when the dev name is not unique (uniqueness is case insensitive)', () => {
+        expect(rules.isUniqueDevNameInStore(assignmentElementName.toUpperCase())).toBe(LABELS.fieldNotUnique);
     });
 });
