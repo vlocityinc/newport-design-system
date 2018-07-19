@@ -150,7 +150,8 @@ function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outc
  * @private
  */
 function _addOrUpdateElement(state, guid, element) {
-    const newState = updateProperties(state, { [guid] : element});
+    const newState = updateProperties(state);
+    newState[guid] = updateProperties(newState[guid], element);
     return newState;
 }
 

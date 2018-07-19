@@ -72,21 +72,16 @@ describe('elements-reducer', () => {
 
     it('with state set to defined & action type set to UPDATE_VARIABLE should return the new element state with the updated property', () => {
         const updatedElements = {
-            guid1: {
-                guid: 'guid1',
-                name: 'ass-3'
-            }
+            guid1: {  name: 'ass-3',
+                label: 'assignment 1',
+                description: 'desc 1',
+                guid: 'guid1' }
         };
-
-        const payload = {
-            guid: 'guid1',
-            name: 'ass-3'
-        };
-        const newElementState = elementReducer(oldElements, {type: UPDATE_RESOURCE, payload});
+        const newElementState = elementReducer(oldElements, {type: UPDATE_RESOURCE, payload: {guid: 'guid1', name: 'ass-3' }});
         expect(newElementState).toEqual(updatedElements);
     });
 
-    it('with state set to defined & action type is ADteD_CANVAS_ELEMENT should add the new element', () => {
+    it('with state set to defined & action type is ADD_CANVAS_ELEMENT should add the new element', () => {
         const newElementState = elementReducer(oldElements, {type: ADD_CANVAS_ELEMENT, payload: {guid: 'guid2', name: 'ass-3' }});
         expect(newElementState).toHaveProperty('guid2');
         expect(newElementState.guid2).toHaveProperty('name');
@@ -109,17 +104,12 @@ describe('elements-reducer', () => {
 
     it('with state set to undefined & action type is UPDATE_CANVAS_ELEMENT should update the elements', () => {
         const updatedElements = {
-            guid1: {
-                guid: 'guid1',
-                name: 'ass-3'
-            }
+            guid1: {  name: 'ass-3',
+                label: 'assignment 1',
+                description: 'desc 1',
+                guid: 'guid1' }
         };
-
-        const payload = {
-            guid: 'guid1',
-            name: 'ass-3'
-        };
-        const newElementState = elementReducer(oldElements, {type: UPDATE_CANVAS_ELEMENT, payload});
+        const newElementState = elementReducer(oldElements, {type: UPDATE_CANVAS_ELEMENT, payload: {guid: 'guid1', name: 'ass-3' }});
         expect(newElementState).toEqual(updatedElements);
     });
 
