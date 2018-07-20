@@ -23,18 +23,19 @@ const getModalHeaderBodyAndFooter = (data) => {
     alertModalBody.listSectionHeader = data.bodyData.listSectionHeader;
     alertModalBody.listSectionItems = data.bodyData.listSectionItems;
     alertModalFooter.buttons = data.footerData;
-
-    return { alertModalHeader, alertModalBody, alertModalFooter };
+    const alertModalCloseCallback = data.closeCallback;
+    return { alertModalHeader, alertModalBody, alertModalFooter, alertModalCloseCallback };
 };
 
 export const invokeAlertModal = (data) => {
-    const { alertModalHeader, alertModalBody, alertModalFooter } = getModalHeaderBodyAndFooter(data);
+    const { alertModalHeader, alertModalBody, alertModalFooter, alertModalCloseCallback } = getModalHeaderBodyAndFooter(data);
 
     showCustomOverlay({
         modal: 'modal',
         header: alertModalHeader,
         body: alertModalBody,
         footer: alertModalFooter,
+        closeCallback: alertModalCloseCallback
     }).then(modal => {
         alertModalFooter.closeModalCallback = () => {
             modal.close();
