@@ -70,7 +70,7 @@ const getSObjectOrSObjectCollectionByEntityElements = (elements, retrieveOptions
             allElements.push(...getNonCollectionElementsByType(elements, dataType));
         }
         if (retrieveOptions.entityName) {
-            allElements.filter(element => element.objectType === retrieveOptions.entityName);
+            allElements = allElements.filter(element => element.objectType === retrieveOptions.entityName);
         }
         if (retrieveOptions.queryable) {
             allElements = allElements.filter(element => isQueryableSObject(element.objectType));
