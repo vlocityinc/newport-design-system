@@ -9,7 +9,6 @@ import { LABELS } from "./variable-editor-labels";
  * @constant additionalRules - map of propertyName to validation rules
  * @type {Object}
  */
-// TODO here to replace the expected error message with a reference to the label file once we have that in place
 const additionalRules = {
     'name'  : [
         ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,

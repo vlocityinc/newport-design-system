@@ -28,9 +28,6 @@ const EXTERNAL_ACCESS_VALUES = [
     { label: LABELS.externalAccessOutput, value: VARIABLE_FIELDS.IS_OUTPUT }
 ];
 
-// TODO: use labels W-4954505
-const collectionLabel = 'Collection';
-
 // fields on which warning can be set in variable editor
 const VARIABLE_WARNING_FIELDS = [VARIABLE_FIELDS.NAME, VARIABLE_FIELDS.IS_INPUT, VARIABLE_FIELDS.IS_OUTPUT];
 // TODO: use FLOW_DATA_TYPE from service once availiable
@@ -38,7 +35,8 @@ const DATATYPES_WITH_NO_DEFAULT_VALUE = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DAT
 
 const flowDataTypeMenuItems = Object.values(FLOW_DATA_TYPE);
 
-// TODO: use labels W-4954505
+// TODO: This is being used by the assessWarning function, which is not being used at this time. I will leave
+// this here hard coded and we will move it to the labels file if and when we start using the assessWarning function.
 const warningMessage = 'Changing this field may result in runtime errors when this flow is called by another flow.';
 
 /**
@@ -122,12 +120,10 @@ export default class VariableEditor extends Element {
     }
 
     get dataTypeHelpText() {
-        // TODO: use labels W-4954505
         return !this.isNewMode ? LABELS.dataTypeHelpText : null;
     }
 
     get collectionHelpText() {
-        // TODO: use labels W-4954505
         return LABELS.collectionHelpText;
     }
 
@@ -194,7 +190,6 @@ export default class VariableEditor extends Element {
         return !this.variableResource.isCollection && this.dataType && !DATATYPES_WITH_NO_DEFAULT_VALUE.includes(this.dataType);
     }
 
-    // TODO: use labels W-4954505
     get defaultValueComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             LABELS.defaultValuePickerLabel,
@@ -229,10 +224,6 @@ export default class VariableEditor extends Element {
 
     get sobjectPickerPlaceholder() {
         return LABELS.sObjectPickerPlaceholder;
-    }
-
-    get collectionLabel() {
-        return collectionLabel;
     }
 
     get externalAccessLabel() {
