@@ -1,5 +1,6 @@
 import { canvasElementsSectionsSelector, nonCanvasElementsSectionsSelector } from '../resources-selector';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { getDataTypeIcons } from 'builder_platform_interaction-data-type-lib';
 
 jest.mock('builder_platform_interaction-store-lib', () => {
     return {
@@ -179,11 +180,9 @@ function verifyItem(item) {
     expect(item.guid).toMatch(new RegExp('^' + item.elementType + '_'));
     expect(item).toHaveProperty('label');
 
-    const config = getConfigForElementType(item.elementType);
-    if (config.canvasElement) {
-        expect(item).not.toHaveProperty('iconName');
-    } else {
-        expect(item.iconName).toMatch(config.nodeConfig.iconName);
+    if ((item.elementType === 'VARIABLE' || item.elementType === 'FORMULA') && item.dataType) {
+        const iconName = getDataTypeIcons(item.dataType, 'utility');
+        expect(item.iconName).toMatch(iconName);
     }
 }
 

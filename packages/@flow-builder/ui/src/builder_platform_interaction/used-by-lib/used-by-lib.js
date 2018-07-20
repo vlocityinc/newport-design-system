@@ -125,8 +125,8 @@ function createUsedByElement({element, elementGuidsReferenced}) {
     const label = element.label;
     const name = element.name;
     let iconName;
-    if (elementConfig && elementConfig.nodeConfig && elementConfig.nodeConfig.iconName) {
-        iconName = elementConfig.nodeConfig.iconName;
+    if (elementConfig && elementConfig.nodeConfig && elementConfig.nodeConfig.utilityIconName) {
+        iconName = elementConfig.nodeConfig.utilityIconName;
     }
 
     return {

@@ -37,6 +37,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {
             iconName: 'standard:flow',
+            utilityIconName: 'utility:flow',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -71,7 +72,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.ACTION_CALL]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {
-            iconName: 'standard:investment_account',
+            iconName: 'standard:custom_notification',
+            utilityIconName: 'utility:fallback',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -112,7 +114,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {
-            iconName: 'standard:product_item_transaction',
+            iconName: 'standard:apex_plugin',
+            utilityIconName: 'utility:apex_plugin',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -147,7 +150,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.APEX_CALL]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {
-            iconName: 'standard:macros',
+            iconName: 'standard:apex',
+            utilityIconName: 'utility:apex',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -185,6 +189,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {
             iconName: 'standard:marketing_actions',
+            utilityIconName: 'utility:touch_action',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -222,6 +227,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:actioncallEditor',
         nodeConfig: {
             iconName: 'standard:email',
+            utilityIconName: 'utility:email',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -258,7 +264,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.ASSIGNMENT]: {
         descriptor: 'builder_platform_interaction:assignmentEditor',
         nodeConfig: {
-            iconName: 'standard:lead_list',
+            iconName: 'standard:assignment',
+            utilityIconName: 'utility:assignment',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -291,7 +298,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.SCREEN]: {
         descriptor: 'builder_platform_interaction:screenEditor',
         nodeConfig: {
-            iconName: 'standard:template',
+            iconName: 'standard:screen',
+            utilityIconName: 'utility:screen',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.LARGE,
@@ -319,7 +327,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.DECISION]: {
         descriptor: 'builder_platform_interaction:decisionEditor',
         nodeConfig: {
-            iconName: 'standard:feed',
+            iconName: 'standard:decision',
+            utilityIconName: 'utility:signpost',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.LARGE,
@@ -350,7 +359,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.LOOP]: {
         descriptor: 'builder_platform_interaction:loopEditor',
         nodeConfig: {
-            iconName: 'standard:channel_program_history',
+            iconName: 'standard:loop',
+            utilityIconName: 'utility:loop',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -389,6 +399,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:recordCreateEditor',
         nodeConfig: {
             iconName: 'standard:record_create',
+            utilityIconName: 'utility:record_create',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -425,6 +436,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:recordLookupEditor',
         nodeConfig: {
             iconName: 'standard:record_lookup',
+            utilityIconName: 'utility:record_lookup',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -467,7 +479,8 @@ export const elementTypeToConfigMap = {
         // TODO: recordEditor is only a place holder now.
         descriptor: 'builder_platform_interaction:recordEditor',
         nodeConfig: {
-            iconName: 'standard:unmatched',
+            iconName: 'standard:record_delete',
+            utilityIconName: 'utility:record_delete',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -502,6 +515,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:recordUpdateEditor',
         nodeConfig: {
             iconName: 'standard:record_update',
+            utilityIconName: 'utility:record_update',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -536,7 +550,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.OUTCOME]: {
         // OUTCOME is not a canvas element, but is a first class element
         nodeConfig: {
-            iconName: 'utility:outcome'
+            iconName: 'standard:outcome',
+            utilityIconName: 'utility:outcome',
         },
         labels: {
             singular: LABELS.outcomeSingularLabel,
@@ -561,7 +576,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.VARIABLE]: {
         descriptor: 'builder_platform_interaction:variableEditor',
         nodeConfig: {
-            iconName: 'utility:variable'
+            iconName: 'standard:variable',
+            utilityIconName: 'utility:variable'
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.VARIABLES,
@@ -586,7 +602,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.FORMULA]: {
         descriptor: 'builder_platform_interaction:formulaEditor',
         nodeConfig: {
-            iconName: 'utility:formula'
+            iconName: 'standard:formula',
+            utilityIconName: 'utility:formula'
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.FORMULAS,

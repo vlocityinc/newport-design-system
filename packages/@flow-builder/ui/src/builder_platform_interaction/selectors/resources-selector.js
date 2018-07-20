@@ -1,6 +1,7 @@
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { createSelector, generateGuid } from 'builder_platform_interaction-store-lib';
+import { getDataTypeIcons } from 'builder_platform_interaction-data-type-lib';
 
 const SECTION_PREFIX = 'RESOURCES_PALETTE_SECTION';
 
@@ -47,16 +48,16 @@ const getElements = (elements) => Object.values(elements).reduce((acc, element) 
         return acc;
     }
 
-    const config = getConfigForElementType(element.elementType);
-
     const resourceElement = {
         elementType: element.elementType,
         guid: element.guid,
         label: element.name
     };
 
-    if (!config.canvasElement) {
-        resourceElement.iconName = config.nodeConfig.iconName;
+    // Adding utility icons for resource manager
+    // TODO: Figure out a better way to recognise elements that do need an icon based on the dataType
+    if ((element.elementType === ELEMENT_TYPE.VARIABLE || element.elementType === ELEMENT_TYPE.FORMULA) && element.dataType) {
+        resourceElement.iconName = getDataTypeIcons(element.dataType, 'utility');
     }
 
     if (!acc[element.elementType]) {

@@ -4,46 +4,75 @@ import { LABELS as DATA_TYPE_LABELS } from './data-type-lib-labels';
 /**
  * Array of objects representing flow data types
  * Can be consumed by lightning-combobox
- * TODO: Use labels: W-4813532
  * TODO: Update list to use proper icons per designs, this is a dependency TD-0051198
  */
 const FLOW_DATA_TYPE = {
     STRING: {
         label: DATA_TYPE_LABELS.textDataTypeLabel,
         value: 'String',
+        iconName: 'standard:text',
+        utilityIconName: 'utility:text'
     },
     SOBJECT: {
         label: DATA_TYPE_LABELS.sObjectDataTypeLabel,
         value: 'SObject',
+        iconName: 'standard:sobject',
+        utilityIconName: 'utility:sobject'
     },
     NUMBER: {
         label: DATA_TYPE_LABELS.numberDataTypeLabel,
         value: 'Number',
+        iconName: 'standard:topic2',
+        utilityIconName: 'utility:topic2'
     },
     CURRENCY: {
         label: DATA_TYPE_LABELS.currencyDataTypeLabel,
         value: 'Currency',
+        iconName: 'standard:currency',
+        utilityIconName: 'utility:currency'
     },
     BOOLEAN: {
         label: DATA_TYPE_LABELS.booleanDataTypeLabel,
         value: 'Boolean',
+        iconName: 'standard:cms',
+        utilityIconName: 'utility:crossfilter'
     },
     DATE: {
         label: DATA_TYPE_LABELS.dateDataTypeLabel,
         value: 'Date',
+        iconName: 'standard:event',
+        utilityIconName: 'utility:event'
     },
     DATE_TIME: {
         label: DATA_TYPE_LABELS.dateTimeDataTypeLabel,
         value: 'DateTime',
+        iconName: 'standard:date_time',
+        utilityIconName: 'utility:date_time'
     },
     PICKLIST: {
         label: DATA_TYPE_LABELS.picklistDataTypeLabel,
         value: 'Picklist',
+        iconName: 'standard:picklist_type',
+        utilityIconName: 'utility:picklist_type'
     },
     MULTI_PICKLIST: {
         label: DATA_TYPE_LABELS.multiPicklistDataTypeLabel,
         value: 'Multipicklist',
+        iconName: 'standard:multi_picklist',
+        utilityIconName: 'utility:multi_picklist'
     },
+};
+
+const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
+    [FLOW_DATA_TYPE.STRING.value]: 'STRING',
+    [FLOW_DATA_TYPE.SOBJECT.value]: 'SOBJECT',
+    [FLOW_DATA_TYPE.NUMBER.value]: 'NUMBER',
+    [FLOW_DATA_TYPE.CURRENCY.value]: 'CURRENCY',
+    [FLOW_DATA_TYPE.BOOLEAN.value]: 'BOOLEAN',
+    [FLOW_DATA_TYPE.DATE.value]: 'DATE',
+    [FLOW_DATA_TYPE.DATE_TIME.value]: 'DATE_TIME',
+    [FLOW_DATA_TYPE.PICKLIST.value]: 'PICKLIST',
+    [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: 'MULTI_PICKLIST'
 };
 
 export const SCALE_RANGE = {
@@ -107,6 +136,30 @@ export const INPUT_FIELD_DATA_TYPE = {
         value: 'DateTime',
     }
 };
+
+/**
+ * Gets standard or utility icons based on the dataType
+ *
+ * @param {String} dataType - dataType value of the element
+ * @param {String} iconType - Standard or Utility
+ * @return {String} Returns the name of the standard or utility icon
+ */
+export function getDataTypeIcons(dataType, iconType = 'standard') {
+    const dataTypeKey = FLOW_API_VALUE_TO_FLOW_DATA_TYPE[dataType];
+    let iconName;
+    if (dataTypeKey) {
+        const data = FLOW_DATA_TYPE[dataTypeKey];
+        if (data) {
+            if (iconType === 'utility') {
+                iconName = data.utilityIconName;
+            } else {
+                iconName = data.iconName;
+            }
+        }
+    }
+
+    return iconName;
+}
 
 /**
  * convert from parameter data type to flow data type
