@@ -89,7 +89,7 @@ export default class RecordCreateEditor extends Element {
     }
 
     get sObjectVariablePickerLabel() {
-        return !this.isCollection ? this.labels.sObjectVariable : this.labels.sObjectCollectionVariable;
+        return !this.isCollection ? this.labels.recordVariable : this.labels.recordCollectionVariable;
     }
 
     handleRecordStoreOptionChangedEvent(event) {

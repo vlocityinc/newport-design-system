@@ -21,11 +21,11 @@
         </builder_platform_interaction-record-store-options>
     
         <div class="slds-m-bottom_small slds-border_top">
-            <h3 class="slds-text-heading_small slds-p-around_small">{sObjectVariablePickerLabel}</h3>
+            <h3 class="slds-text-heading_small slds-p-around_small">{labels.sObjectVariable}</h3>
             <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
                 <builder_platform_interaction-sobject-or-sobject-collection-picker 
                     is-collection={isCollection}
-                    label={labels.variable}
+                    label={sObjectVariablePickerLabel}
                     placeholder={sObjectVariablePickerPlaceholder}
                     element-type={recordCreateElement.elementType}
                     value={inputReference}
@@ -34,10 +34,17 @@
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>
             </div>
         </div>
-        <div class="slds-p-horizontal_small slds-m-bottom_small">
+        <div class="slds-p-horizontal_small slds-m-bottom_small slds-grid">
+          <div class="slds-col slds-grow-none">
+            <lightning-icon icon-name="utility:warning" title={labels.warning} alternative-text={labels.warning} variant="warning" size="x-small" 
+                class="slds-m-right_x-small">
+            </lightning-icon>
+          </div>
+          <div class="slds-col">
             <span if:true={isCollection}>{labels.helpSObjectCollectionText}</span>
             <span if:false={isCollection}>{labels.helpSObjectText}</span>
-            <lightning-helptext class="slds-p-left_xx-small" content={labels.helpSObjectAltText}></lightning-helptext>
+            <lightning-helptext class="slds-p-left_xx-small slds-form-element__icon slds-align-center" content={labels.helpSObjectAltText}></lightning-helptext>
+          </div>
         </div>
     </div>
     <div if:false={isSObjectVersion} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
