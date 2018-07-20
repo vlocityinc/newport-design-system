@@ -1,22 +1,22 @@
 /* Labels */
-import outcomeDetailsHeader from '@label/FlowBuilderOutcome.outcomeDetailsHeader';
-import deleteOutcomeLabel from '@label/FlowBuilderOutcome.deleteOutcomeLabel';
-import deleteOutcomeTitle from '@label/FlowBuilderOutcome.deleteOutcomeTitle';
-import outcomeApiName from '@label/FlowBuilderOutcome.outcomeApiName';
-import outcomeConditionsHeader from '@label/FlowBuilderOutcome.outcomeConditionsHeader';
-import andConditionLogicLabel from '@label/FlowBuilderOutcome.andConditionLogicLabel';
-import orConditionLogicLabel from '@label/FlowBuilderOutcome.orConditionLogicLabel';
-import customConditionLogicLabel from '@label/FlowBuilderOutcome.customConditionLogicLabel';
-import customLogicLabel from '@label/FlowBuilderOutcome.customLogicLabel';
-import customLogicInfoBubble from '@label/FlowBuilderOutcome.customLogicInfoBubble';
-import addConditionsLabel from '@label/FlowBuilderOutcome.addConditionsLabel';
-import lhsLabel from '@label/FlowBuilderOutcome.lhsLabel';
-import lhsPlaceholder from '@label/FlowBuilderOutcome.lhsPlaceholder';
-import operatorLabel from '@label/FlowBuilderOutcome.operatorLabel';
-import operatorPlaceholder from '@label/FlowBuilderOutcome.operatorPlaceholder';
-import rhsLabel from '@label/FlowBuilderOutcome.rhsLabel';
-import rhsPlaceholder from '@label/FlowBuilderOutcome.rhsPlaceholder';
-import cannotBeBlankError from '@label/FlowBuilderValidation.cannotBeBlank';
+import outcomeDetailsHeader from '@salesforce/label/FlowBuilderOutcome.outcomeDetailsHeader';
+import deleteOutcomeLabel from '@salesforce/label/FlowBuilderOutcome.deleteOutcomeLabel';
+import deleteOutcomeTitle from '@salesforce/label/FlowBuilderOutcome.deleteOutcomeTitle';
+import outcomeApiName from '@salesforce/label/FlowBuilderOutcome.outcomeApiName';
+import outcomeConditionsHeader from '@salesforce/label/FlowBuilderOutcome.outcomeConditionsHeader';
+import andConditionLogicLabel from '@salesforce/label/FlowBuilderOutcome.andConditionLogicLabel';
+import orConditionLogicLabel from '@salesforce/label/FlowBuilderOutcome.orConditionLogicLabel';
+import customConditionLogicLabel from '@salesforce/label/FlowBuilderOutcome.customConditionLogicLabel';
+import customLogicLabel from '@salesforce/label/FlowBuilderOutcome.customLogicLabel';
+import customLogicInfoBubble from '@salesforce/label/FlowBuilderOutcome.customLogicInfoBubble';
+import addConditionsLabel from '@salesforce/label/FlowBuilderOutcome.addConditionsLabel';
+import lhsLabel from '@salesforce/label/FlowBuilderOutcome.lhsLabel';
+import lhsPlaceholder from '@salesforce/label/FlowBuilderOutcome.lhsPlaceholder';
+import operatorLabel from '@salesforce/label/FlowBuilderOutcome.operatorLabel';
+import operatorPlaceholder from '@salesforce/label/FlowBuilderOutcome.operatorPlaceholder';
+import rhsLabel from '@salesforce/label/FlowBuilderOutcome.rhsLabel';
+import rhsPlaceholder from '@salesforce/label/FlowBuilderOutcome.rhsPlaceholder';
+import cannotBeBlankError from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 
 export const LABELS = {
     outcomeDetailsHeader,

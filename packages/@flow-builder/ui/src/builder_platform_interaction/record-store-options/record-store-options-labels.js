@@ -1,22 +1,22 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
 /* Labels */
-import firstRecordLabel from '@label/FlowBuilderRecordEditor.firstRecord';
-import allRecordsLabel from '@label/FlowBuilderRecordEditor.allRecords';
-import togetherInsObjectVariable from '@label/FlowBuilderRecordEditor.togetherInsObjectVariable';
-import separateVariable from '@label/FlowBuilderRecordEditor.separateVariable';
-import storeFieldsSelectionLabel from '@label/FlowBuilderRecordEditor.storeFieldsSelectionLabel';
-import numberRecordsToStoreLabel from '@label/FlowBuilderRecordEditor.selectionHowManyRecordsToStoreLabel';
-import wayToStoreFieldsLabel from '@label/FlowBuilderRecordEditor.selectionWhereToStoreRecordsLabel';
-import assignNullValuesIfNoRecordsFoundLabel from '@label/FlowBuilderRecordEditor.selectionAssignNullIfNoRecordFoundLabel';
-import howManyRecordsToCreateLabel from '@label/FlowBuilderRecordEditor.howManyRecordsToCreateLabel';
-import oneRecordLabel from '@label/FlowBuilderRecordEditor.oneRecordLabel';
-import multipleRecordsLabel from '@label/FlowBuilderRecordEditor.multipleRecordsLabel';
-import howAreFieldValuesNewRecordStore from '@label/FlowBuilderRecordEditor.howAreFieldValuesNewRecordStore';
-import howAreSpecifyRecordsToUpdateLabel from '@label/FlowBuilderRecordEditor.howAreSpecifyRecordsToUpdateLabel';
-import usingCriteriaLabel from '@label/FlowBuilderRecordEditor.usingCriteriaLabel';
-import idsStoredSObjectOrSObjectCollectionLabel from '@label/FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel';
-import howAreSpecifyRecordsToDeleteLabel from '@label/FlowBuilderRecordEditor.howAreSpecifyRecordsToDeleteLabel';
+import firstRecordLabel from "@salesforce/label/FlowBuilderRecordEditor.firstRecord";
+import allRecordsLabel from "@salesforce/label/FlowBuilderRecordEditor.allRecords";
+import togetherInsObjectVariable from "@salesforce/label/FlowBuilderRecordEditor.togetherInsObjectVariable";
+import separateVariable from "@salesforce/label/FlowBuilderRecordEditor.separateVariable";
+import storeFieldsSelectionLabel from "@salesforce/label/FlowBuilderRecordEditor.storeFieldsSelectionLabel";
+import numberRecordsToStoreLabel from "@salesforce/label/FlowBuilderRecordEditor.selectionHowManyRecordsToStoreLabel";
+import wayToStoreFieldsLabel from "@salesforce/label/FlowBuilderRecordEditor.selectionWhereToStoreRecordsLabel";
+import assignNullValuesIfNoRecordsFoundLabel from "@salesforce/label/FlowBuilderRecordEditor.selectionAssignNullIfNoRecordFoundLabel";
+import howManyRecordsToCreateLabel from "@salesforce/label/FlowBuilderRecordEditor.howManyRecordsToCreateLabel";
+import oneRecordLabel from "@salesforce/label/FlowBuilderRecordEditor.oneRecordLabel";
+import multipleRecordsLabel from "@salesforce/label/FlowBuilderRecordEditor.multipleRecordsLabel";
+import howAreFieldValuesNewRecordStore from "@salesforce/label/FlowBuilderRecordEditor.howAreFieldValuesNewRecordStore";
+import howAreSpecifyRecordsToUpdateLabel from "@salesforce/label/FlowBuilderRecordEditor.howAreSpecifyRecordsToUpdateLabel";
+import usingCriteriaLabel from "@salesforce/label/FlowBuilderRecordEditor.usingCriteriaLabel";
+import idsStoredSObjectOrSObjectCollectionLabel from "@salesforce/label/FlowBuilderRecordEditor.idsStoredSObjectOrSObjectCollectionLabel";
+import howAreSpecifyRecordsToDeleteLabel from "@salesforce/label/FlowBuilderRecordEditor.howAreSpecifyRecordsToDeleteLabel";
 
 export const LABELS = {
     firstRecordLabel,

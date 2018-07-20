@@ -19,7 +19,7 @@ import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { isUndefinedOrNull, isObject } from 'builder_platform_interaction-common-utils';
-import genericErrorMessage from '@label/FlowBuilderCombobox.genericErrorMessage';
+import genericErrorMessage from "@salesforce/label/FlowBuilderCombobox.genericErrorMessage";
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 

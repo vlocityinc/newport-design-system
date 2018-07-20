@@ -1,5 +1,5 @@
-import popupErrorMessageSingular from '@label/FlowBuilderCommonPropertyEditor.popupErrorMessageSingular';
-import popupErrorMessagePlural from '@label/FlowBuilderCommonPropertyEditor.popupErrorMessagePlural';
+import popupErrorMessageSingular from "@salesforce/label/FlowBuilderCommonPropertyEditor.popupErrorMessageSingular";
+import popupErrorMessagePlural from "@salesforce/label/FlowBuilderCommonPropertyEditor.popupErrorMessagePlural";
 
 export const LABELS = {
     popupErrorMessageSingular,

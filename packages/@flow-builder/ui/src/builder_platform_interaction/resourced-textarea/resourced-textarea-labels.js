@@ -1,7 +1,7 @@
 /* Labels */
-import resourcePickerTitle from '@label/FlowBuilderResourcedTextArea.resourcePickerTitle';
-import resourcePickerPlaceholder from '@label/FlowBuilderResourcedTextArea.resourcePickerPlaceholder';
-import required from '@label/FlowBuilderResourcedTextArea.inputRequiredTitle';
+import resourcePickerTitle from "@salesforce/label/FlowBuilderResourcedTextArea.resourcePickerTitle";
+import resourcePickerPlaceholder from "@salesforce/label/FlowBuilderResourcedTextArea.resourcePickerPlaceholder";
+import required from "@salesforce/label/FlowBuilderResourcedTextArea.inputRequiredTitle";
 
 export const LABELS = {
     resourcePickerTitle,

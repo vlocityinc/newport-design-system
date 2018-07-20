@@ -1,8 +1,8 @@
 /* Labels */
-import selectObject from '@label/FlowBuilderRecordEditor.selectObject';
-import object from '@label/FlowBuilderRecordEditor.object';
-import objectPlaceholder from '@label/FlowBuilderRecordEditor.objectPlaceholder';
-import recordLookupTitle from '@label/FlowBuilderRecordEditor.recordLookupTitle';
+import selectObject from "@salesforce/label/FlowBuilderRecordEditor.selectObject";
+import object from "@salesforce/label/FlowBuilderRecordEditor.object";
+import objectPlaceholder from "@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder";
+import recordLookupTitle from '@salesforce/label/FlowBuilderRecordEditor.recordLookupTitle';
 
 export const LABELS = {
     selectObject,

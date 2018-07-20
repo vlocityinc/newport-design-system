@@ -1,17 +1,17 @@
 /* Labels */
-import findRecords from '@label/FlowBuilderRecordEditor.findRecords';
-import ruleFindingRecords from '@label/FlowBuilderRecordEditor.ruleFindingRecords';
-import addCriteria from '@label/FlowBuilderRecordEditor.addCriteria';
-import filterLhsLabel from '@label/FlowBuilderRecordEditor.filterLhsLabel';
-import filterOperatorLabel from '@label/FlowBuilderRecordEditor.filterOperatorLabel';
-import filterRhsLabel from '@label/FlowBuilderRecordEditor.filterRhsLabel';
-import filterNoCriteria from '@label/FlowBuilderRecordEditor.filterNoCriteria';
-import filterAllCriterias from '@label/FlowBuilderRecordEditor.filterAllCriterias';
-import filterPrefix from '@label/FlowBuilderRecordEditor.filterPrefix';
-import criteriaMatchingRecords from '@label/FlowBuilderRecordEditor.criteriaMatchingRecords';
-import deleteAllRecords from '@label/FlowBuilderRecordEditor.deleteAllRecords';
-import updateAllRecords from '@label/FlowBuilderRecordEditor.updateAllRecords';
-import warning from '@label/FlowBuilderRecordEditor.warning';
+import findRecords from "@salesforce/label/FlowBuilderRecordEditor.findRecords";
+import ruleFindingRecords from "@salesforce/label/FlowBuilderRecordEditor.ruleFindingRecords";
+import addCriteria from "@salesforce/label/FlowBuilderRecordEditor.addCriteria";
+import filterLhsLabel from "@salesforce/label/FlowBuilderRecordEditor.filterLhsLabel";
+import filterOperatorLabel from "@salesforce/label/FlowBuilderRecordEditor.filterOperatorLabel";
+import filterRhsLabel from "@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel";
+import filterNoCriteria from "@salesforce/label/FlowBuilderRecordEditor.filterNoCriteria";
+import filterAllCriterias from "@salesforce/label/FlowBuilderRecordEditor.filterAllCriterias";
+import filterPrefix from "@salesforce/label/FlowBuilderRecordEditor.filterPrefix";
+import criteriaMatchingRecords from "@salesforce/label/FlowBuilderRecordEditor.criteriaMatchingRecords";
+import deleteAllRecords from "@salesforce/label/FlowBuilderRecordEditor.deleteAllRecords";
+import updateAllRecords from "@salesforce/label/FlowBuilderRecordEditor.updateAllRecords";
+import warning from "@salesforce/label/FlowBuilderRecordEditor.warning";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 export const LABELS = {
     findRecords,

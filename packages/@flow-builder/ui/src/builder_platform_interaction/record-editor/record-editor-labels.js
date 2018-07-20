@@ -1,6 +1,6 @@
 /* Labels */
-import selectObject from '@label/FlowBuilderRecordEditor.selectObject';
-import object from '@label/FlowBuilderRecordEditor.object';
+import selectObject from "@salesforce/label/FlowBuilderRecordEditor.selectObject";
+import object from "@salesforce/label/FlowBuilderRecordEditor.object";
 
 export const LABELS = {
     selectObject,

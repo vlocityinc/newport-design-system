@@ -4,11 +4,11 @@ import { canvasElementsSectionsSelector, nonCanvasElementsSectionsSelector } fro
 import { Store } from 'builder_platform_interaction-store-lib';
 import { isChildElement } from 'builder_platform_interaction-element-config';
 
-import headerText from '@label/FlowBuilderLeftPanel.headerText';
-import elementTabText from '@label/FlowBuilderLeftPanel.elementTabText';
-import resourceTabText from '@label/FlowBuilderLeftPanel.resourceTabText';
-import backButtonAltText from '@label/FlowBuilderResourceDetailsPanel.backButtonAltText';
-import newResourceButtonText from '@label/FlowBuilderLeftPanel.newResourceButtonText';
+import headerText from "@salesforce/label/FlowBuilderLeftPanel.headerText";
+import elementTabText from "@salesforce/label/FlowBuilderLeftPanel.elementTabText";
+import resourceTabText from "@salesforce/label/FlowBuilderLeftPanel.resourceTabText";
+import backButtonAltText from "@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText";
+import newResourceButtonText from "@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText";
 
 const LABELS = {
     LEFT_PANEL_HEADER_TEXT: headerText,

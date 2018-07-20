@@ -11,8 +11,8 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { mockAccountFields } from 'mock-server-entity-data';
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
-import genericErrorMessage from '@label/FlowBuilderCombobox.genericErrorMessage';
-import numberErrorMessage from '@label/FlowBuilderCombobox.numberErrorMessage';
+import genericErrorMessage from "@salesforce/label/FlowBuilderCombobox.genericErrorMessage";
+import numberErrorMessage from "@salesforce/label/FlowBuilderCombobox.numberErrorMessage";
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-expression-builder', { is: ExpressionBuilder });

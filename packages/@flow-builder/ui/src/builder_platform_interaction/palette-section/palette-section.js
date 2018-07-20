@@ -1,8 +1,8 @@
 import { Element, api, track } from 'engine';
 import { PaletteSectionToggleEvent } from 'builder_platform_interaction-events';
 
-import palleteSectionToggleCollapseText from '@label/FlowBuilderLeftPanel.palleteSectionToggleCollapseText';
-import palleteSectionToggleExpandText from '@label/FlowBuilderLeftPanel.palleteSectionToggleExpandText';
+import palleteSectionToggleCollapseText from "@salesforce/label/FlowBuilderLeftPanel.palleteSectionToggleCollapseText";
+import palleteSectionToggleExpandText from "@salesforce/label/FlowBuilderLeftPanel.palleteSectionToggleExpandText";
 
 const LABELS = {
     COLLAPSE: palleteSectionToggleCollapseText,

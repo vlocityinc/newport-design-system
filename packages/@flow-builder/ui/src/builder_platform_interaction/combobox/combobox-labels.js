@@ -1,9 +1,9 @@
 /* Labels */
-import currencyErrorMessage from '@label/FlowBuilderCombobox.currencyErrorMessage';
-import numberErrorMessage from '@label/FlowBuilderCombobox.numberErrorMessage';
-import dateErrorMessage from '@label/FlowBuilderCombobox.dateErrorMessage';
-import datetimeErrorMessage from '@label/FlowBuilderCombobox.datetimeErrorMessage';
-import genericErrorMessage from '@label/FlowBuilderCombobox.genericErrorMessage';
+import currencyErrorMessage from "@salesforce/label/FlowBuilderCombobox.currencyErrorMessage";
+import numberErrorMessage from "@salesforce/label/FlowBuilderCombobox.numberErrorMessage";
+import dateErrorMessage from "@salesforce/label/FlowBuilderCombobox.dateErrorMessage";
+import datetimeErrorMessage from "@salesforce/label/FlowBuilderCombobox.datetimeErrorMessage";
+import genericErrorMessage from "@salesforce/label/FlowBuilderCombobox.genericErrorMessage";
 
 export const LABELS = {
     currencyErrorMessage,

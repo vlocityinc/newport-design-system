@@ -1,6 +1,6 @@
 /* Labels */
-import formulaLabel from '@label/FlowBuilderFormulaTextarea.formulaLabel';
-import formulaValidationSpinnerAlternativeText from '@label/FlowBuilderFormulaTextarea.formulaValidationSpinnerAlternativeText';
+import formulaLabel from "@salesforce/label/FlowBuilderFormulaTextarea.formulaLabel";
+import formulaValidationSpinnerAlternativeText from "@salesforce/label/FlowBuilderFormulaTextarea.formulaValidationSpinnerAlternativeText";
 
 export const LABELS = {
     formulaLabel,

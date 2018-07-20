@@ -1,13 +1,13 @@
 /* Labels */
-import assignmentsSectionHeader from '@label/FlowBuilderAssignmentEditor.assignmentsSectionHeader';
-import assignmentsSectionDescription from '@label/FlowBuilderAssignmentEditor.assignmentsSectionDescription';
-import lhsLabel from '@label/FlowBuilderAssignmentEditor.lhsLabel';
-import operatorLabel from '@label/FlowBuilderAssignmentEditor.operatorLabel';
-import rhsLabel from '@label/FlowBuilderAssignmentEditor.rhsLabel';
-import addButtonLabel from '@label/FlowBuilderAssignmentEditor.addButtonLabel';
-import lhsPlaceholder from '@label/FlowBuilderAssignmentEditor.lhsPlaceholder';
-import operatorPlaceholder from '@label/FlowBuilderAssignmentEditor.operatorPlaceholder';
-import rhsPlaceholder from '@label/FlowBuilderAssignmentEditor.rhsPlaceholder';
+import assignmentsSectionHeader from "@salesforce/label/FlowBuilderAssignmentEditor.assignmentsSectionHeader";
+import assignmentsSectionDescription from "@salesforce/label/FlowBuilderAssignmentEditor.assignmentsSectionDescription";
+import lhsLabel from "@salesforce/label/FlowBuilderAssignmentEditor.lhsLabel";
+import operatorLabel from "@salesforce/label/FlowBuilderAssignmentEditor.operatorLabel";
+import rhsLabel from "@salesforce/label/FlowBuilderAssignmentEditor.rhsLabel";
+import addButtonLabel from "@salesforce/label/FlowBuilderAssignmentEditor.addButtonLabel";
+import lhsPlaceholder from "@salesforce/label/FlowBuilderAssignmentEditor.lhsPlaceholder";
+import operatorPlaceholder from "@salesforce/label/FlowBuilderAssignmentEditor.operatorPlaceholder";
+import rhsPlaceholder from "@salesforce/label/FlowBuilderAssignmentEditor.rhsPlaceholder";
 
 export const LABELS = {
     assignmentsSectionHeader,

@@ -1,6 +1,6 @@
 /* Labels */
-import dataTypeCannotBeChangedHelpText from '@label/FlowBuilderFormulaEditor.dataTypeCannotBeChangedHelpText';
-import scaleMessageWhenOutOfRange from '@label/FlowBuilderDataTypePicker.scaleMessageWhenOutOfRange';
+import dataTypeCannotBeChangedHelpText from '@salesforce/label/FlowBuilderFormulaEditor.dataTypeCannotBeChangedHelpText';
+import scaleMessageWhenOutOfRange from '@salesforce/label/FlowBuilderDataTypePicker.scaleMessageWhenOutOfRange';
 
 export const LABELS = {
     dataTypeCannotBeChangedHelpText,

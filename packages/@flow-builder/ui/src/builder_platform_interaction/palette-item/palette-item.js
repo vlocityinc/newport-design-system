@@ -2,7 +2,7 @@ import { Element, api } from 'engine';
 import { PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 import { isChildElement } from 'builder_platform_interaction-element-config';
 
-import detailsText from '@label/FlowBuilderResourceDetailsPanel.detailsText';
+import detailsText from "@salesforce/label/FlowBuilderResourceDetailsPanel.detailsText";
 
 
 const LABELS = {

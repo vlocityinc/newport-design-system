@@ -2,8 +2,8 @@ import { createElement } from 'engine';
 import { EditElementEvent, DeleteElementEvent, DeleteResourceEvent, PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 import LeftPanel from 'builder_platform_interaction-left-panel';
 
-import backButtonAltText from '@label/FlowBuilderResourceDetailsPanel.backButtonAltText';
-import newResourceButtonText from '@label/FlowBuilderLeftPanel.newResourceButtonText';
+import backButtonAltText from "@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText";
+import newResourceButtonText from "@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText";
 
 import { getShadowRoot } from 'lwc-test-utils';
 
