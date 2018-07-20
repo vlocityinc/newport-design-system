@@ -18,5 +18,6 @@ export const FLOW_PROPERTIES = [
     'label',
     'description',
     'interviewLabel',
-    'processType'
+    'processType',
+    'status'
 ];

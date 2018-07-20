@@ -43,6 +43,11 @@
                     headerforsummary={headerTitleForSummary}>
                 </builder_platform_interaction-status-icon>
             </div>
+            <lightning-badge if:true={flowStatus}
+                             label={statusBadgeLabel}
+                             title={statusBadgeTitle}
+                             class={statusBadgeClasses}>
+            </lightning-badge>
             <div class="slds-button-group slds-m-left_xx-small" role="group">
                 <lightning-button
                     label={labels.runTitle}

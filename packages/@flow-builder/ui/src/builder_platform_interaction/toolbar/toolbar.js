@@ -3,6 +3,10 @@ import { RunFlowEvent, DebugFlowEvent } from 'builder_platform_interaction-event
 import { LABELS } from './toolbar-labels';
 
 const SAVE = 'save';
+const ACTIVE = 'Active';
+const OBSOLETE = 'Obsolete';
+const DRAFT = 'Draft';
+const INVALID_DRAFT = 'InvalidDraft';
 
 /**
  * Toolbar component for flow builder.
@@ -12,13 +16,49 @@ const SAVE = 'save';
  * @since 214
  */
 export default class Toolbar extends Element {
+    @api flowStatus;
     @api isRunDebugDisabled;
     @api isSaveDisabled;
     @api errors;
 
-    headerTitleForSummary = LABELS.errorPopOverHeader;
-
     labels = LABELS;
+
+    statusLabelAndTitle = {
+        [ACTIVE]: {
+            label: this.labels.activeLabel,
+            title: this.labels.activeTitle
+        },
+        [OBSOLETE]: {
+            label: this.labels.deactivatedLabel,
+            title: this.labels.deactivatedTitle
+        },
+        [DRAFT]: {
+            label: this.labels.draftLabel,
+            title: this.labels.draftTitle
+        },
+        [INVALID_DRAFT]: {
+            label: this.labels.draftLabel,
+            title: this.labels.draftTitle
+        }
+    };
+
+    get statusBadgeLabel() {
+        return this.statusLabelAndTitle[this.flowStatus].label;
+    }
+
+    get statusBadgeTitle() {
+        return this.statusLabelAndTitle[this.flowStatus].title;
+    }
+
+    get statusBadgeClasses() {
+        let classes = 'status-badge slds-align-middle slds-m-left_xx-small';
+        if (this.flowStatus === ACTIVE) {
+            classes = `${classes} slds-theme_success`;
+        }
+        return classes;
+    }
+
+    headerTitleForSummary = LABELS.errorPopOverHeader;
 
     handleRun(event) {
         event.preventDefault();
