@@ -7,6 +7,7 @@ import {
     ADD_RESOURCE,
     UPDATE_RESOURCE,
     DELETE_RESOURCE,
+    REPLACE_RESOURCE,
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
@@ -34,6 +35,8 @@ export default function elementsReducer(state = {}, action) {
         case UPDATE_CANVAS_ELEMENT:
         case UPDATE_RESOURCE:
             return _addOrUpdateElement(state, action.payload.guid, action.payload);
+        case REPLACE_RESOURCE:
+            return _replaceElement(state, action.payload.guid, action.payload);
         case UPDATE_RECORD_LOOKUP:
             return _updateRecordLookup(state, action.payload.guid, action.payload);
         case DELETE_ELEMENT:
@@ -153,6 +156,20 @@ function _addOrUpdateElement(state, guid, element) {
     const newState = updateProperties(state);
     newState[guid] = updateProperties(newState[guid], element);
     return newState;
+}
+
+/**
+ * Helper function to replace an element.  This will completely replace the element in the store with the provided
+ * object
+ *
+ * @param {Object} state - current state of elements in the store
+ * @param {String} guid - GUID of element to be replaced
+ * @param {Object} element - The element to inject
+ * @return {Object} new state after reduction
+ * @private
+ */
+function _replaceElement(state, guid, element) {
+    return updateProperties(state, { [guid] : element});
 }
 
 /**

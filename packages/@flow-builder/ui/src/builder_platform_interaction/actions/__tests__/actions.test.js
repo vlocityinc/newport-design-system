@@ -1,4 +1,10 @@
-import { addElement, updateElement, ADD_DECISION_WITH_OUTCOMES, MODIFY_DECISION_WITH_OUTCOMES } from '../actions';
+import {
+    addElement,
+    updateElement,
+    ADD_DECISION_WITH_OUTCOMES,
+    MODIFY_DECISION_WITH_OUTCOMES,
+    REPLACE_RESOURCE
+} from '../actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 describe('updateElement', () => {
@@ -13,6 +19,17 @@ describe('updateElement', () => {
         const action = updateElement(payload);
 
         expect(action.type).toEqual(MODIFY_DECISION_WITH_OUTCOMES);
+        expect(action.payload).toEqual(payload);
+    });
+    it('handles variables with a REPLACE_RESOURCE action', () => {
+        const payload = {
+            elementType: ELEMENT_TYPE.VARIABLE,
+            somePayload: {x: 6},
+        };
+
+        const action = updateElement(payload);
+
+        expect(action.type).toEqual(REPLACE_RESOURCE);
         expect(action.payload).toEqual(payload);
     });
 });
@@ -31,3 +48,4 @@ describe('addElement', () => {
         expect(action.payload).toEqual(payload);
     });
 });
+

@@ -8,6 +8,7 @@ import {
     ADD_RESOURCE,
     UPDATE_RESOURCE,
     DELETE_RESOURCE,
+    REPLACE_RESOURCE,
     MODIFY_DECISION_WITH_OUTCOMES
 } from 'builder_platform_interaction-actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
@@ -72,14 +73,29 @@ describe('elements-reducer', () => {
 
     it('with state set to defined & action type set to UPDATE_VARIABLE should return the new element state with the updated property', () => {
         const updatedElements = {
-            guid1: {  name: 'ass-3',
+            guid1: {
+                name: 'ass-3',
                 label: 'assignment 1',
                 description: 'desc 1',
-                guid: 'guid1' }
+                guid: 'guid1'
+            }
         };
         const newElementState = elementReducer(oldElements, {type: UPDATE_RESOURCE, payload: {guid: 'guid1', name: 'ass-3' }});
         expect(newElementState).toEqual(updatedElements);
     });
+
+    it('with state set to defined & action type set to REPLACE_RESOURCE should return the new element state with the new element', () => {
+        const updatedElements = {
+            guid1: {
+                name: 'other ass',
+                label: 'assignment 2',
+                guid: 'guid1'
+            }
+        };
+        const newElementState = elementReducer(oldElements, {type: REPLACE_RESOURCE, payload: updatedElements.guid1});
+        expect(newElementState).toEqual(updatedElements);
+    });
+
 
     it('with state set to defined & action type is ADD_CANVAS_ELEMENT should add the new element', () => {
         const newElementState = elementReducer(oldElements, {type: ADD_CANVAS_ELEMENT, payload: {guid: 'guid2', name: 'ass-3' }});
