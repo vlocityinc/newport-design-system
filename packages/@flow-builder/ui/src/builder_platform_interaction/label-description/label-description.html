@@ -9,6 +9,7 @@
                              message-when-value-missing={showErrorMessageIfBlank}
                              class={computedNameClass}></lightning-input>
             <lightning-input if:false={hideDevName} type="text" label={devNameLabel}
+                             disabled={disableDevName}
                              onfocusout={handleDevNameFocusOut}
                              value={devName.value}
                              required

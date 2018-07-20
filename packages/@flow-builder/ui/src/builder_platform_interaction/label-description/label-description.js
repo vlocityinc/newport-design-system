@@ -31,8 +31,18 @@ export default class LabelDescription extends Element {
     // See https://git.soma.salesforce.com/lwc/lwc/issues/241#issuecomment-326927
     // and https://www.polymer-project.org/2.0/docs/devguide/properties#configuring-boolean-properties
 
+    // TODO: There are potentially 4 configurations for the dev name field, we may want a
+    // configuration object instead. See W-5217399.
+
     @api
     hideDevName;
+
+    /**
+     * Used for cases where the dev name shouldn't be editable such as when we're saving a flow as
+     * a new version.
+     */
+    @api
+    disableDevName;
 
     // this is needed for checking uniqueness of devName from store
     @api
@@ -189,8 +199,8 @@ export default class LabelDescription extends Element {
 
         this.updateStateAndDispatch(newLabel, 'label');
 
-        // Update devName if it is present and blank
-        if (newLabel !== '' && !this.hideDevName && !this.state.devName.value) {
+        // Update devName if it is present, enabled, and blank
+        if (newLabel !== '' && !this.hideDevName && !this.disableDevName && !this.state.devName.value) {
             if (newLabel.match(/^\W+$/)) {
                 newLabel = 'UniqueName';
             }

@@ -210,6 +210,26 @@ describe('label-description', () => {
                     expect(eventCallback.mock.calls[0][0]).not.toMatchObject({detail: {propertyName: 'name'}});
                 });
             });
+
+            it('when DevName is disabled, the DevName field does not update', () => {
+                const newValue = ':)';
+
+                const labelDescription = createComponentUnderTest();
+                labelDescription.disableDevName = true;
+
+                return Promise.resolve().then(() => {
+                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+
+                    const eventCallback = jest.fn();
+                    labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.dispatchEvent(focusoutEvent);
+
+                    expect(eventCallback).toHaveBeenCalledTimes(1);
+                    expect(eventCallback.mock.calls[0][0]).not.toMatchObject({detail: {propertyName: 'name'}});
+                });
+            });
         });
     });
     describe('devName', () => {
