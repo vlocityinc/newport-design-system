@@ -1,5 +1,5 @@
 import { Element, track, api } from 'engine';
-import { getVariant, CURRENCY_FORMAT, LIGHTNING_INPUT_TYPES } from 'builder_platform_interaction-screen-editor-utils';
+import { getVariant, booleanValue, CURRENCY_FORMAT, LIGHTNING_INPUT_TYPES } from 'builder_platform_interaction-screen-editor-utils';
 
 
 /**
@@ -62,5 +62,9 @@ export default class ScreenInputField extends Element {
     @api
     get helpText() {
         return this._helptext ? this._helptext.value : null;
+    }
+
+    get checked() {
+        return this.type === LIGHTNING_INPUT_TYPES.CHECKBOX && booleanValue(this.value);
     }
 }

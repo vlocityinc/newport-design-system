@@ -1,5 +1,6 @@
 import {LABELS} from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { COMPONENT_INSTANCE, getAllCachedExtensionTypes } from './screen-editor-extension-utils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 /**
  * All screen field types
@@ -175,4 +176,26 @@ export function isDisplayTextField(field) {
  */
 export function isInputField(field) {
     return field && field.fieldType === 'InputField';
+}
+
+/**
+ * @param {string} dataType - The dataType to look up.
+ * @returns {string} The corresponding FLOW_DATA_TYPE. Returns null there is no match.
+ */
+export function getFlowDataTypeByName(dataType) {
+    if (dataType) {
+        // Lightning Component attributes support field types in various number flavors, which all map to number
+        // in Flow metadata.
+        let lcType = dataType.toUpperCase();
+        if (lcType === 'DECIMAL' || lcType === 'DOUBLE' || lcType === 'INTEGER' || lcType === 'LONG' || lcType === 'INT') {
+            lcType = 'NUMBER';
+        }
+
+        for (const typeName in FLOW_DATA_TYPE) {
+            if (FLOW_DATA_TYPE[typeName].value.toUpperCase() === lcType) {
+                return FLOW_DATA_TYPE[typeName].value;
+            }
+        }
+    }
+    return null;
 }

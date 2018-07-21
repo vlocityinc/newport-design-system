@@ -4,7 +4,7 @@ import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
-import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
+import { LIGHTNING_INPUT_VARIANTS, getFlowDataTypeByName } from 'builder_platform_interaction-screen-editor-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /*
@@ -43,6 +43,14 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
         event.stopPropagation();
     }
 
+    /* Handle change of Default Value resource picker */
+    handleDefaultValueOfCheckboxChanged(event) {
+        event.detail.propertyName = 'defaultValue';
+        event.detail.value = event.detail.displayText;
+        this.handlePropertyChanged(event);
+        event.stopPropagation();
+    }
+
     /* Figure out if the value really changed, and if it did refire the event including the old value */
     handleErrorMessageChanged = (event) => {
         const validationProp = 'validationRule';
@@ -56,10 +64,14 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
         event.stopPropagation();
     }
 
-    elementConfig = {
-        elementType: ELEMENT_TYPE.SCREEN,
-        shouldBeWritable: true
-    };
+    get elementParam() {
+        const param = {
+            dataType: getFlowDataTypeByName(this.field.dataType),
+            collection: false,
+            elementType: ELEMENT_TYPE.SCREEN
+        };
+        return param;
+    }
 
     get resourceComboBoxConfig() {
         return BaseResourcePicker.getComboboxConfig(

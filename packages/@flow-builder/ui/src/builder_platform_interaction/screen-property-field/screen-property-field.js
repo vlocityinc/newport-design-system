@@ -2,7 +2,7 @@ import { Element, api, track } from 'engine';
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { isItemHydratedWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
-import { booleanAttributeValue, getValueFromFerov } from 'builder_platform_interaction-screen-editor-utils';
+import { booleanAttributeValue, getValueFromFerov, getFlowDataTypeByName, booleanValue } from 'builder_platform_interaction-screen-editor-utils';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { isObject } from 'builder_platform_interaction-common-utils';
@@ -49,7 +49,7 @@ export default class ScreenPropertyField extends Element {
             this.resourcePickerConfig.allowLiterals, // literalsAllowed
             this.required, // required
             false, // disabled
-            this.normalizedType
+            this.getFlowDataTypeByName(this.type)
         );
     }
 
@@ -73,7 +73,7 @@ export default class ScreenPropertyField extends Element {
 
     get elementParam() {
         const param = {
-            dataType: this.normalizedType,
+            dataType: getFlowDataTypeByName(this.type),
             collection: this.resourcePickerConfig.collection
         };
 
@@ -88,25 +88,8 @@ export default class ScreenPropertyField extends Element {
         return param;
     }
 
-    get normalizedType() {
-        if (this.type && this.type.toUpperCase) {
-            let lcType = this.type.toUpperCase();
-            if (lcType === 'DECIMAL' || lcType === 'DOUBLE' || lcType === 'INTEGER' || lcType === 'LONG' || lcType === 'INT') {
-                lcType = 'NUMBER';
-            }
-
-            for (const typeName in FLOW_DATA_TYPE) {
-                if (FLOW_DATA_TYPE[typeName].value.toUpperCase() === lcType) {
-                    return FLOW_DATA_TYPE[typeName].value;
-                }
-            }
-        }
-
-        return null;
-    }
-
     get objectType() {
-        if (this.normalizedType === FLOW_DATA_TYPE.SOBJECT.value) {
+        if (getFlowDataTypeByName(this.type) === FLOW_DATA_TYPE.SOBJECT.value) {
             return this.objectType;
         }
 
@@ -121,8 +104,8 @@ export default class ScreenPropertyField extends Element {
         return booleanAttributeValue(this, 'required');
     }
 
-    get isChecked() {
-        return this.isBoolean && (this.value === 'true' || this.value ===  true);
+    get checked() {
+        return this.isBoolean && booleanValue(this.value);
     }
 
     get isString() {

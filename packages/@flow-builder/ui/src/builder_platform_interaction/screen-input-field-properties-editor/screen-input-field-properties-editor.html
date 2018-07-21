@@ -21,12 +21,12 @@
             </builder_platform_interaction-screen-property-field>
 
             <!--  Set or display the subtype for the input field -->
+            <!--  TODO: W-4947221 - changing data type doesn't work yet -->
             <builder_platform_interaction-data-type-picker
                 available-data-types={dataTypeList}
                 type-and-collection-disabled={isSubTypeDisabled}
                 required
-                value={dataTypePickerValue}
-                onvaluechanged={handleDataTypeChanged}>
+                value={dataTypePickerValue}>
             </builder_platform_interaction-data-type-picker>
  
             <!--  Required checkbox -->
@@ -41,14 +41,11 @@
 
             
             <!--  default value: drop down resource list -->
-            <!--  TODO: W-4947221 - determine the menu data based on input type -->
-            <!--  TODO: W-4947221- doesn't work yet for Date -->
-            <!--  TODO: W-4947221- doesn't work yet for DateTime -->
-            <!--  TODO: W-4947221- doesn't work yet for Checkbox -->
-            <!--  TODO: W-4947221- Currency displays like a regular number -->
-            <builder_platform_interaction-ferov-resource-picker combobox-config={resourceComboBoxConfig}
-                                                                value={field.defaultValue}
-                                                                element-config={elementConfig}
+            <!--  TODO: W-5220407 - date and dateTime picker isn't show up -->
+            <builder_platform_interaction-ferov-resource-picker value={field.defaultValue}
+                                                                combobox-config={resourceComboBoxConfig}
+                                                                element-param={elementParam}
+                                                                property-editor-element-type='SCREEN'
                                                                 oncomboboxstatechanged={handleDefaultValueChanged}>
             </builder_platform_interaction-ferov-resource-picker>
 
