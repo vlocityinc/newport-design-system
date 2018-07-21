@@ -65,7 +65,14 @@
                 </lightning-button>
             </div>
             <lightning-button
-                label={labels.saveTitle}
+                    label={labels.saveAsTitle}
+                    title={labels.saveAsTitle}
+                    onclick={handleSaveAs}
+                    disabled={isSaveAsDisabled}
+                    class="test-toolbar-saveas slds-m-left_xx-small">
+            </lightning-button>
+            <lightning-button
+                    label={labels.saveTitle}
                     variant="brand"
                     title={labels.saveTitle}
                     onclick={handleSave}

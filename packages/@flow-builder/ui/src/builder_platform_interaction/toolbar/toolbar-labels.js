@@ -9,6 +9,7 @@ import deactivatedTitle from '@salesforce/label/FlowBuilderToolbar.deactivatedTi
 import runTitle from '@salesforce/label/FlowBuilderToolbar.runTitle';
 import debugTitle from '@salesforce/label/FlowBuilderToolbar.debugTitle';
 import saveTitle from '@salesforce/label/FlowBuilderToolbar.saveTitle';
+import saveAsTitle from '@salesforce/label/FlowBuilderToolbar.saveAsTitle';
 import errorPopOverHeader from '@salesforce/label/FlowBuilderToolbar.errorPopOverHeader';
 
 export const LABELS = {
@@ -23,5 +24,6 @@ export const LABELS = {
     runTitle,
     debugTitle,
     saveTitle,
+    saveAsTitle,
     errorPopOverHeader
 };

@@ -24,6 +24,8 @@ export { TogglePanModeEvent } from './canvas-events/zoom-panel-event/pan-event';
 export { ClickToZoomEvent } from './canvas-events/zoom-panel-event/zoom-event';
 export { RunFlowEvent } from './toolbar-events/run-flow-event';
 export { DebugFlowEvent } from './toolbar-events/debug-flow-event';
+export { SaveFlowEvent } from './toolbar-events/save-flow-event';
+export { SaveFlowAsEvent } from './toolbar-events/save-flow-as-event';
 export { AddElementEvent } from './element-events/add-element-event';
 export { EditElementEvent } from './element-events/edit-element-event';
 export { DeleteElementEvent } from './element-events/delete-element-event';

@@ -1,8 +1,7 @@
 import { Element, api } from 'engine';
-import { RunFlowEvent, DebugFlowEvent } from 'builder_platform_interaction-events';
+import { RunFlowEvent, DebugFlowEvent, SaveFlowEvent, SaveFlowAsEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './toolbar-labels';
 
-const SAVE = 'save';
 const ACTIVE = 'Active';
 const OBSOLETE = 'Obsolete';
 const DRAFT = 'Draft';
@@ -19,6 +18,7 @@ export default class Toolbar extends Element {
     @api flowStatus;
     @api isRunDebugDisabled;
     @api isSaveDisabled;
+    @api isSaveAsDisabled;
     @api errors;
 
     labels = LABELS;
@@ -79,7 +79,13 @@ export default class Toolbar extends Element {
      */
     handleSave(event) {
         event.preventDefault();
-        const saveEvent = new CustomEvent(SAVE);
+        const saveEvent = new SaveFlowEvent();
         this.dispatchEvent(saveEvent);
+    }
+
+    handleSaveAs(event) {
+        event.preventDefault();
+        const saveAsEvent = new SaveFlowAsEvent();
+        this.dispatchEvent(saveAsEvent);
     }
 }

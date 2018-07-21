@@ -15,6 +15,7 @@ const selectors = {
     root: '.toolbar',
     run: '.test-toolbar-run',
     debug: '.test-toolbar-debug',
+    saveas: '.test-toolbar-saveas',
     save: '.test-toolbar-save'
 };
 
@@ -48,6 +49,17 @@ describe('toolbar', () => {
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener('save', eventCallback);
             getShadowRoot(toolbarComponent).querySelector(selectors.save).click();
+            expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+
+    it('fires saveas event when save as button is clicked', () => {
+        const toolbarComponent = createComponentUnderTest();
+
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn();
+            toolbarComponent.addEventListener('saveas', eventCallback);
+            getShadowRoot(toolbarComponent).querySelector(selectors.saveas).click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });
