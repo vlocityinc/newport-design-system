@@ -5,9 +5,6 @@ describe('Default Validations', () => {
         it('and when valid string is passed should return - null', () => {
             expect(screenValidation.validateProperty('label', "valid string")).toBeNull();
         });
-        it('and when valid string is passed should return characters allowed error', () => {
-            expect(screenValidation.validateProperty('label', '°°°°°°°°°°')).toBe(LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters);
-        });
         it('and when string length more than 255 characters should return max string length error', () => {
             expect(screenValidation.validateProperty('label', 'slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla')).toBe(LABELS.maximumCharactersLimit);
         });

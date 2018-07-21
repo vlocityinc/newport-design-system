@@ -7,9 +7,6 @@ describe('Check validations', () => {
         it('should return null if valid', () => {
             expect(recordUpdateValidation.validateProperty('label', 'valid string')).toBeNull();
         });
-        it('should return an error if contains alphanumerical or special characters', () => {
-            expect(recordUpdateValidation.validateProperty('label', '°°°°°°°°°°')).toBe(LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters);
-        });
         it('should return an error if the value is too long', () => {
             expect(recordUpdateValidation.validateProperty('label', 'slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla')).toBe(LABELS.maximumCharactersLimit);
         });

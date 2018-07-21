@@ -7,7 +7,6 @@ import { Validation } from 'builder_platform_interaction-validation';
  */
 const additionalRules = {
     label: [
-        ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
         ValidationRules.maximumCharactersLimit(255)
     ],
     name: [

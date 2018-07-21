@@ -32,9 +32,6 @@ describe('Default Decision Validations - from label-dev name-description', () =>
 
 describe('Additional Decision Validations', () => {
     describe('when props set to LABEL', () => {
-        it('and when invalid string is passed should return - {string} Accepts only AlphaNumeric or Special Characters.', () => {
-            expect(decisionValidation.validateProperty('label', '°°°°°°°°°°')).toBe(LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters);
-        });
         it('and when string length more than 255 characters should return - {string} Cannot accept more than 255 characters.', () => {
             expect(decisionValidation.validateProperty('label', 'slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla')).toBe(LABELS.maximumCharactersLimit);
         });

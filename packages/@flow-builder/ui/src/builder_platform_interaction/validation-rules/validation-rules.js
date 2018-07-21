@@ -34,10 +34,6 @@ const regexConfig = {
         regexPattern: '^_{1,}|_{1,}$|_{2,}',
         message: LABELS.shouldNotBeginOrEndWithUnderscores,
     },
-    shouldAcceptOnlyAlphanumericOrSpecialCharacters: {
-        regexPattern: '[^a-zA-Z0-9!@#\\$%\\^\\&*\\)\\(+=.\\-_ ]+',
-        message: LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
-    },
     shouldNotBeginWithNumericOrSpecialCharacters: {
         regexPattern: '^[^a-zA-Z]{1}',
         message: LABELS.shouldNotBeginWithNumericOrSpecialCharacters,

@@ -9,7 +9,6 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 // TODO here to replace the expected error message with a reference to the label file once we have that in place
 const additionalRules = {
     'label' : [
-        ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
         ValidationRules.maximumCharactersLimit(255)
     ],
     'name'  : [

@@ -49,14 +49,6 @@ describe('shouldNotBeginOrEndWithUnderscores method', () => {
         expect(rules.shouldNotBeginOrEndWithUnderscores('Assignment_0')).toBeNull();
     });
 });
-describe('shouldAcceptOnlyAlphanumericOrSpecialCharacters method', () => {
-    it('should return null when the input has only alphanumeric or special characters', () => {
-        expect(rules.shouldAcceptOnlyAlphanumericOrSpecialCharacters('Aa23$%&^*')).toBeNull();
-    });
-    it('should return an error message when the input has non alphanumeric or non-special characters', () => {
-        expect(rules.shouldAcceptOnlyAlphanumericOrSpecialCharacters('°°°°°°°°°°')).toBe(LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters);
-    });
-});
 describe('shouldNotBeginWithNumericOrSpecialCharacters method', () => {
     it('should return null when the input does not begin with numeric or special characters', () => {
         expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('s123')).toBeNull();

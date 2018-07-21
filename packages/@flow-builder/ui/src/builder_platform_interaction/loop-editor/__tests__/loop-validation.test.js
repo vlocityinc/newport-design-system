@@ -6,9 +6,6 @@ describe('Default Validations', () => {
         it('and when valid string is passed should return - null', () => {
             expect(loopValidation.validateProperty('label', "valid string")).toBeNull();
         });
-        it('and when valid string is passed should return - {string} Accepts only AlphaNumeric or Special Characters.', () => {
-            expect(loopValidation.validateProperty('label', '°°°°°°°°°°')).toBe(LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters);
-        });
         it('and when string length more than 255 characters should return - {string} Cannot accept more than 255 characters.', () => {
             expect(loopValidation.validateProperty('label', 'slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla')).toBe(LABELS.maximumCharactersLimit);
         });

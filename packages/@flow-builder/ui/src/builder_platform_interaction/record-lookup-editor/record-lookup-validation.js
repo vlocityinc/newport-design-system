@@ -42,7 +42,6 @@ const additionalRules = {
         ValidationRules.shouldNotBeBlank,
     ],
     label: [
-        ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
         ValidationRules.maximumCharactersLimit(255),
         ValidationRules.shouldNotBeBlank
     ],

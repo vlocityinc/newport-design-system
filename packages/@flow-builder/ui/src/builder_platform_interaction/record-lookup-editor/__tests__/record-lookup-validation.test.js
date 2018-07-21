@@ -60,13 +60,6 @@ describe('Record Lookup Validation', () => {
             recordLookupEditorNode.label.value = invalidLabel;
             return createComponentForTest(recordLookupEditorNode);
         };
-        it('should return error if label contains alphanumerical or special characters', () => {
-            const recordLookupEditor = createRecordLookupEditor('°°°°°°°°°°');
-            const errors = validate(recordLookupEditor.node);
-            expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('label');
-            expect(errors[0].errorString).toBe(LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters);
-        });
         it('should return an error if label is too long', () => {
             const recordLookupEditor = createRecordLookupEditor('slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla');
             const errors = validate(recordLookupEditor.node);

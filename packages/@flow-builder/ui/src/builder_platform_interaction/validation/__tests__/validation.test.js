@@ -147,7 +147,6 @@ describe('validateAll method', () => {
     it('validates using complex validation rules that include child validation [validation inside validation]', () => {
         const rules = {
             'label' : [
-                ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
                 ValidationRules.maximumCharactersLimit(255)
             ],
             'name'  : [
@@ -212,7 +211,7 @@ describe('validateAll method', () => {
 
         const objWithValidationErrors =  {
             name: {error: ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores, value: 'valueWithError(trailingSpaces)_'},
-            label: {error: ValidationRules.LABELS.shouldAcceptOnlyAlphanumericOrSpecialCharacters, value: 'valueWithError(InvalidCharacter)~'},
+            label: {error: null, value: 'valueWithError(InvalidCharacter)~'},
             helpText: {error: ValidationRules.LABELS.maximumCharactersLimit, value: 'valueWithNoErrors(tooLong)'},
             fields: [
                 {

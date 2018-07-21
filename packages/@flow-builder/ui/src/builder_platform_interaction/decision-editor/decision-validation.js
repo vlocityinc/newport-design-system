@@ -9,7 +9,6 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
  */
 const additionalRules = {
     label: [
-        ValidationRules.shouldAcceptOnlyAlphanumericOrSpecialCharacters,
         ValidationRules.maximumCharactersLimit(255)
     ],
     name: [
