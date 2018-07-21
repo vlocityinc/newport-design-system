@@ -1,6 +1,7 @@
 import { Element, api, track, unwrap } from 'engine';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { flowPropertiesEditorReducer } from './flow-properties-editor-reducer';
+import { SaveType } from 'builder_platform_interaction-save-type';
 
 /**
  * Flow Properties property editor for Flow Builder
@@ -10,12 +11,6 @@ import { flowPropertiesEditorReducer } from './flow-properties-editor-reducer';
  * @since 216
  */
 export default class FlowPropertiesEditor extends Element {
-    /**
-     * Internal state for the flow properties editor
-     */
-    @track
-    flowProperties;
-
     @api
     get node() {
         return this.flowProperties;
@@ -41,6 +36,19 @@ export default class FlowPropertiesEditor extends Element {
      */
     @api validate() {
         return getErrorsFromHydratedElement(this.flowProperties);
+    }
+
+    /**
+     * Internal state for the flow properties editor
+     */
+    @track
+    flowProperties;
+
+    /**
+     * The dev name field should be disabled when saving as a new version.
+     */
+    get disableDevName() {
+        return this.node.saveType === SaveType.NEW_VERSION;
     }
 
     /* ********************** */

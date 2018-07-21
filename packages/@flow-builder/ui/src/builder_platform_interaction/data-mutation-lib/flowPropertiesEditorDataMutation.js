@@ -21,5 +21,9 @@ export const demutateFlowProperties = (flowProperties) => {
         flowProperties.fullName = flowProperties.name;
         delete flowProperties.name;
     }
+    // TODO: We may not need to do this depending on how the save type selector is implemented.
+    if (flowProperties.hasOwnProperty('saveType')) {
+        delete flowProperties.saveType;
+    }
     return flowProperties;
 };

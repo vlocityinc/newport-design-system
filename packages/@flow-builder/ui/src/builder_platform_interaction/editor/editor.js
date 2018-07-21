@@ -15,11 +15,12 @@ import { setEntities } from 'builder_platform_interaction-sobject-lib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { LABELS } from './editor-labels';
 import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
-import { AddElementEvent } from 'builder_platform_interaction-events';
+import { SaveFlowEvent } from 'builder_platform_interaction-events';
 import { usedBy } from 'builder_platform_interaction-used-by-lib';
 import { format } from 'builder_platform_interaction-common-utils';
 import { listExtensions } from 'builder_platform_interaction-screen-editor-utils';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction-logging-utils';
+import { SaveType } from 'builder_platform_interaction-save-type';
 
 let unsubscribeStore;
 let storeInstance;
@@ -27,8 +28,6 @@ let storeInstance;
 const RUN = 'run';
 const DEBUG = 'debug';
 
-const UPDATE_SAVE_TYPE = 'saveDraft';
-const CREATE_SAVE_TYPE = 'createNewFlow';
 const EDITOR = 'EDITOR';
 
 /**
@@ -63,6 +62,7 @@ export default class Editor extends Element {
 
     @track disableRunDebug = true;
     @track disableSave = true;
+    @track disableSaveAs = true;
 
     @track errors;
 
@@ -100,6 +100,7 @@ export default class Editor extends Element {
             const startElement = createStartElement();
             storeInstance.dispatch(addElement(startElement));
             this.disableSave = false;
+            this.disableSaveAs = false;
         }
     }
 
@@ -164,6 +165,8 @@ export default class Editor extends Element {
             this.disableRunDebug = false;
         }
         this.disableSave = false;
+        // TODO: should only be enabled when we have a flow id
+        this.disableSaveAs = false;
     };
 
     /**
@@ -261,20 +264,27 @@ export default class Editor extends Element {
     /**
      * Handles the save flow event fired by a toolbar. Saves the flow if the flow has already been created.
      * Pops the flowProperties property editor if the flow is being saved for the first time.
+     * @param {object} event when save or save as buttons are clicked
      */
-    handleSaveFlow = () => {
-        if (this.currentFlowId) {
-            this.saveFlow();
-        } else {
-            // Pop flow properties editor and do the following on callback
-            const mode = AddElementEvent.EVENT_NAME;
+    handleSaveFlow = (event) => {
+        const mode = event.type;
 
+        if (mode === SaveFlowEvent.EVENT_NAME && this.currentFlowId) {
+            // We're updating a flow when the save button was pressed and we have a flow id.
+            this.saveFlow(SaveType.UPDATE);
+        } else {
+            // Pop flow properties editor and do the following on callback.
             let node = deepCopy(storeInstance.getCurrentState().properties);
             node = mutateEditorElement(node, storeInstance.getCurrentState());
             node = hydrateWithErrors(node);
 
+            // TODO: We won't need to set the save type here after we introduce the save type
+            // selector in the flow-properties-editor component. Temporarily adding the save type
+            // to the flow properties object so we know how we're supposed to save in the callback.
+            const saveType = (mode === SaveFlowEvent.EVENT_NAME) ? SaveType.CREATE : SaveType.NEW_VERSION;
+            node.saveType = saveType;
+
             const nodeUpdate = this.flowPropertiesCallback;
-            // TODO: Add support for overriding the title and the labels on the buttons in the footer (W-4536979)
             invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate });
         }
     };
@@ -286,9 +296,13 @@ export default class Editor extends Element {
      * that the user specified on the Flow Properties Editor
      */
     flowPropertiesCallback = (flowProperties) => {
-        const flowPropertiesForStore = removeEditorElementMutation(dehydrate(deepCopy(flowProperties)), storeInstance.getCurrentState());
-        storeInstance.dispatch(updateProperties(flowPropertiesForStore));
-        this.saveFlow();
+        // Get the save type  before it gets removed by the mutation below.
+        // TODO: We may not need to do this depending on how the save type selector is implemented.
+        const saveType = flowProperties.saveType;
+        const properties = removeEditorElementMutation(dehydrate(deepCopy(flowProperties)), storeInstance.getCurrentState());
+
+        storeInstance.dispatch(updateProperties(properties));
+        this.saveFlow(saveType);
     };
 
     /**
@@ -650,16 +664,10 @@ export default class Editor extends Element {
     /**
      * Translates the client side model to the format expected by the server and then invokes
      * the save flow action with the correct save type: create or update.
+     * @param {string} saveType the save type (saveDraft, createNewFlow, etc) to use when saving the flow
      */
-    saveFlow() {
+    saveFlow(saveType) {
         const flow = translateUIModelToFlow(storeInstance.getCurrentState());
-
-        let saveType;
-        if (this.currentFlowId) {
-            saveType = UPDATE_SAVE_TYPE;
-        } else {
-            saveType = CREATE_SAVE_TYPE;
-        }
 
         const params = {
             flow,
@@ -669,6 +677,7 @@ export default class Editor extends Element {
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
         this.disableRunDebug = true;
         this.disableSave = true;
+        this.disableSaveAs = true;
     }
 
     /**
@@ -706,6 +715,8 @@ export default class Editor extends Element {
                 this.disableRunDebug = false;
             }
             this.disableSave = false;
+            // TODO: should only be enabled when we have a flow id
+            this.disableSaveAs = false;
         }
     }
 
