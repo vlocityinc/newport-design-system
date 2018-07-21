@@ -3,7 +3,7 @@ import { showCustomOverlay } from 'lightning-overlay-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import StatusIconSummary from 'builder_platform_interaction-status-icon-summary';
 
-const dotPrefixForClass = ".";
+const dotPrefixForClass = '.';
 
 export default class StatusIcon extends Element {
     internalMessages = [];
@@ -30,15 +30,14 @@ export default class StatusIcon extends Element {
 
         if (this.internalMessages && this.internalMessages.length > 0) {
             this.isIconVisible = true;
-            if (this.panelInstance) {
-                this.showPanelFunction();
-            } else {
-                this.createPanel();
+            if (this.closePanelFunction) {
+                this.closePanelFunction();
             }
+            this.createPanel();
         } else {
             this.isIconVisible = false;
-            if (this.panelInstance) {
-                this.panelInstance.hide();
+            if (this.panelInstance && this.closePanelFunction) {
+                this.closePanelFunction();
             }
         }
     }
@@ -60,7 +59,7 @@ export default class StatusIcon extends Element {
             if (this.panelInstance) {
                 resolve(this.closePanelFunction && this.closePanelFunction());
             } else {
-                reject("Panel instance doesnt exist");
+                reject('Panel instance doesnt exist');
             }
         });
     }
@@ -89,9 +88,7 @@ export default class StatusIcon extends Element {
      */
     handleIconClick() {
         if (this.panelInstance && !this.panelHidden) {
-            this.hidePanelFunction();
-        } else if (this.panelInstance && this.panelHidden) {
-            this.showPanelFunction();
+            this.closePanelFunction();
         } else {
             this.createPanel();
         }
@@ -136,6 +133,9 @@ export default class StatusIcon extends Element {
             showPointer: true,
             padding: 2,
             referenceSelector: dotPrefixForClass + this.classForIcon,
+            closeCallback: () => {
+                this.panelHidden = true;
+            }
         }).then(panel => {
             this.panelInstance = panel;
             this.panelHidden = false;
