@@ -17,10 +17,10 @@
             </builder_platform_interaction:statusIcon>
         </div>
         <div class="slds-col slds-p-right_xx-small">
-            <lightning:button title="{#$Label.FlowBuilderCommonPropertyEditor.cancelButton}" onclick="{!c.handleCancel}">{#$Label.FlowBuilderCommonPropertyEditor.cancelButton}</lightning:button>
+            <lightning:button class="test-property-editor-footer-cancel-button" title="{#$Label.FlowBuilderCommonPropertyEditor.cancelButton}" onclick="{!c.handleCancel}">{#$Label.FlowBuilderCommonPropertyEditor.cancelButton}</lightning:button>
         </div>
         <div class="slds-col slds-p-right_xx-small">
-            <lightning:button variant="brand" disabled="{!v.isSaveDisabled}" title="{#$Label.FlowBuilderCommonPropertyEditor.okButton}"  onclick="{!c.handleOk}">{#$Label.FlowBuilderCommonPropertyEditor.okButton}</lightning:button>
+            <lightning:button class="test-property-editor-footer-ok-button" variant="brand" disabled="{!v.isSaveDisabled}" title="{#$Label.FlowBuilderCommonPropertyEditor.okButton}"  onclick="{!c.handleOk}">{#$Label.FlowBuilderCommonPropertyEditor.okButton}</lightning:button>
         </div>
     </div>
 </aura:component>
