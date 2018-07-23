@@ -256,7 +256,18 @@ describe('label-description', () => {
             });
         });
 
-        it('label is set when passed in as attribute', () => {
+        it('nameLabel is set when passed in as attribute', () => {
+            const nameLabel = 'Label';
+            const labelDescription = createComponentUnderTest();
+            labelDescription.nameLabel = nameLabel;
+
+            return Promise.resolve().then(() => {
+                const name = getShadowRoot(labelDescription).querySelector(selectors.label);
+                expect(name.label).toEqual(nameLabel);
+            });
+        });
+
+        it('devNameLabel is set when passed in as attribute', () => {
             const devNameLabel = 'API Name';
             const labelDescription = createComponentUnderTest();
             labelDescription.devNameLabel = devNameLabel;

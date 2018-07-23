@@ -1,4 +1,4 @@
-import {Element, api, track} from "engine";
+import {Element, api, track} from 'engine';
 import {PropertyChangedEvent} from 'builder_platform_interaction-events';
 import {isUniqueDevNameInStore} from 'builder_platform_interaction-validation-rules';
 import { sanitizeDevName } from 'builder_platform_interaction-common-utils';
@@ -52,6 +52,9 @@ export default class LabelDescription extends Element {
     hideDescription;
 
     @api
+    nameLabel = LABELS.nameLabel;
+
+    @api
     devNameLabel = LABELS.uniqueNameLabel;
 
     @api
@@ -73,7 +76,6 @@ export default class LabelDescription extends Element {
     }
 
     /** @param {Object} label - object with {value, error} **/
-    @api
     set label(label) {
         this.state.label = label;
         const labelInput = this.template.querySelector(SELECTORS.LABEL);
@@ -81,7 +83,6 @@ export default class LabelDescription extends Element {
     }
 
     /** @param {Object} devName - object with {value, error} **/
-    @api
     set devName(devName) {
         this.state.devName = devName;
         const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
@@ -89,7 +90,6 @@ export default class LabelDescription extends Element {
     }
 
     /** @param {Object} description - object with {value, error} **/
-    @api
     set description(description) {
         this.state.description = description;
         // TODO setting CustomValidity for Description: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
