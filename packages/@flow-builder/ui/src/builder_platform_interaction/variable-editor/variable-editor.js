@@ -8,6 +8,8 @@ import BaseResourcePicker from 'builder_platform_interaction-base-resource-picke
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { LABELS } from './variable-editor-labels';
+import { getResourceByUniqueIdentifier, getResourceFerovDataType } from 'builder_platform_interaction-expression-utils';
+import { isObject } from 'builder_platform_interaction-common-utils';
 
 // the property names in a variable element (after mutation)
 const VARIABLE_FIELDS = {
@@ -22,7 +24,6 @@ const VARIABLE_FIELDS = {
     DEFAULT_VALUE: 'defaultValue',
 };
 
-// TODO: use labels W-4954505
 const EXTERNAL_ACCESS_VALUES = [
     { label: LABELS.externalAccessInput, value: VARIABLE_FIELDS.IS_INPUT },
     { label: LABELS.externalAccessOutput, value: VARIABLE_FIELDS.IS_OUTPUT }
@@ -211,7 +212,7 @@ export default class VariableEditor extends Element {
             LABELS.sObjectPickerLabel,
             LABELS.sObjectPickerPlaceholder,
             this.variableResource.objectType.error,
-            undefined,
+            false,
             true,
             this.isFieldDisabled,
             this.dataType,
@@ -298,15 +299,19 @@ export default class VariableEditor extends Element {
     }
 
     /**
-     * Handles the value change event from default value combobox.
-     * @param {object} event - Value changed event from combobox.
-     */
+      * Handles the value change event from default value combobox.
+      * @param {Object} event the value changed event from combobox
+      */
     handleDefaultValuePropertyChanged(event) {
-        this.handleFlowComboboxChange(event, VARIABLE_FIELDS.DEFAULT_VALUE);
+        this.updateDefaultValue(event);
     }
 
     handleObjectTypeChange(event) {
-        this.handleFlowComboboxChange(event, VARIABLE_FIELDS.OBJECT_TYPE);
+        this.updateObjectType(event, event.detail.error);
+    }
+
+    handleObjectTypeSelect(event) {
+        this.updateObjectType(event, null);
     }
 
     /** *********************************/
@@ -327,44 +332,48 @@ export default class VariableEditor extends Element {
         this.updateProperty(propertyName, value, error);
     }
 
+    updateObjectType(event, error) {
+        event.stopPropagation();
+
+        const itemOrDisplayText = this.getItemOrDisplayText(event);
+        const value = itemOrDisplayText.value || itemOrDisplayText;
+
+        this.updateProperty(VARIABLE_FIELDS.OBJECT_TYPE, value, error);
+    }
+
     /**
      * Helper method to handle a flow combobox value changed event and update the given property name
      * @param {ComboboxStateChangedEvent} event flow combobobx value changed event to handle
-     * @param {String} propertyName proeprty name to update
      */
-    handleFlowComboboxChange(event, propertyName) {
+    updateDefaultValue(event) {
         event.stopPropagation();
-        const payload = this.getComboboxEventPayload(event);
+
+        const itemOrDisplayText = this.getItemOrDisplayText(event);
         const error = event.detail.error;
-        let valueToUpdate = payload;
 
-        // the value we want to dispatch is inside
-        if (propertyName === VARIABLE_FIELDS.OBJECT_TYPE) {
-            // the value of is the api name of the selected sobject
-            valueToUpdate = payload.value;
-        }
-        // for defaultValue extract out the guid and value from menu item
-        if (propertyName === VARIABLE_FIELDS.DEFAULT_VALUE) {
-            let defaultValueGuidValue;
-            // if we have a displayText then we have a select, otherwise we are dealing with a literal
-            if (payload.displayText) {
-                valueToUpdate = payload.displayText;
-                defaultValueGuidValue = payload.value;
-            } else {
-                defaultValueGuidValue = '';
-                // set the correct ferov data type based on the user selected data type
-                // in this case the ferov data type is not a reference so we can just use flow data type
-                this.updateProperty(FEROV_DATA_TYPE_PROPERTY, this.dataType, null);
+        if (isObject(itemOrDisplayText)) {
+            // set the correct ferov data type based on the user selected data type
+            const element = getResourceByUniqueIdentifier(itemOrDisplayText.value);
+            if (element || itemOrDisplayText.parent) {
+                this.updateDefaultValueWithElement(itemOrDisplayText, error);
             }
-            this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, defaultValueGuidValue, null);
+        } else {
+            this.updateDefaultValueWithLiteral(itemOrDisplayText, error);
+        }
+    }
 
-            // populate the ferovDataType for cases when the initial default value is empty
-            // or converting literal value to reference
-            if (defaultValueGuidValue && !this.hasFerovDataTypeRef()) {
-                this.updateProperty(FEROV_DATA_TYPE_PROPERTY, FEROV_DATA_TYPE.REFERENCE, null);
-            }
-        }
-        this.updateProperty(propertyName, valueToUpdate, error);
+    updateDefaultValueWithElement(item, error) {
+        const dataType = getResourceFerovDataType(item.value);
+
+        this.updateProperty(FEROV_DATA_TYPE_PROPERTY, dataType, null);
+        this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, item.value, null);
+        this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE, item.displayText, error);
+    }
+
+    updateDefaultValueWithLiteral(displayText, error) {
+        this.updateProperty(FEROV_DATA_TYPE_PROPERTY, this.dataType, null);
+        this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, '', null);
+        this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE, displayText, error);
     }
 
     /**
@@ -436,7 +445,7 @@ export default class VariableEditor extends Element {
      * @param {Object} event Event for the data type
      * @return {Object|String} value of the event payload
      */
-    getComboboxEventPayload(event) {
+    getItemOrDisplayText(event) {
         // if it is a combobox value changed event we have two cases: literals or item select
         return event.detail.item ? event.detail.item : event.detail.displayText;
     }
