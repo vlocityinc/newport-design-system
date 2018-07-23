@@ -11,7 +11,7 @@ export const UPDATE_CANVAS_ELEMENT = 'UPDATE_CANVAS_ELEMENT';
 export const DELETE_ELEMENT = 'DELETE_ELEMENT';
 
 export const ADD_RESOURCE = 'ADD_RESOURCE';
-export const REPLACE_RESOURCE = 'REPLACE_RESOURCE';
+export const UPDATE_VARIABLE = 'UPDATE_VARIABLE';
 export const UPDATE_RESOURCE = 'UPDATE_RESOURCE';
 export const DELETE_RESOURCE = 'DELETE_RESOURCE';
 
@@ -96,7 +96,7 @@ export const updateElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
             case ELEMENT_TYPE.VARIABLE:
-                return createAction(REPLACE_RESOURCE, payload);
+                return createAction(UPDATE_VARIABLE, payload);
             case ELEMENT_TYPE.FORMULA:
                 return createAction(UPDATE_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:

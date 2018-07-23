@@ -8,7 +8,7 @@ import {
     ADD_RESOURCE,
     UPDATE_RESOURCE,
     DELETE_RESOURCE,
-    REPLACE_RESOURCE,
+    UPDATE_VARIABLE,
     MODIFY_DECISION_WITH_OUTCOMES
 } from 'builder_platform_interaction-actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
@@ -84,7 +84,7 @@ describe('elements-reducer', () => {
         expect(newElementState).toEqual(updatedElements);
     });
 
-    it('with state set to defined & action type set to REPLACE_RESOURCE should return the new element state with the new element', () => {
+    it('with state set to defined & action type set to UPDATE_VARIABLE should return the new element state with the new element', () => {
         const updatedElements = {
             guid1: {
                 name: 'other ass',
@@ -92,7 +92,7 @@ describe('elements-reducer', () => {
                 guid: 'guid1'
             }
         };
-        const newElementState = elementReducer(oldElements, {type: REPLACE_RESOURCE, payload: updatedElements.guid1});
+        const newElementState = elementReducer(oldElements, {type: UPDATE_VARIABLE, payload: updatedElements.guid1});
         expect(newElementState).toEqual(updatedElements);
     });
 
