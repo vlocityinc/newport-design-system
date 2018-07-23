@@ -113,7 +113,7 @@ export default class Combobox extends Element {
 
     @api
     get literalsAllowed() {
-        return this._isLiteralAllowed;
+        return this._isLiteralAllowed && ![FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.BOOLEAN.value].includes(this._dataType);
     }
 
     /**
@@ -177,11 +177,6 @@ export default class Combobox extends Element {
 
             this.doValidation();
             this.fireComboboxStateChangedEvent();
-
-            // No literals allowed for SObject and Boolean data type
-            if ([FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.BOOLEAN.value].includes(this._dataType)) {
-                this._isLiteralAllowed = false;
-            }
         } else {
             this._dataType = null;
         }
@@ -709,7 +704,7 @@ export default class Combobox extends Element {
     validateLiteral() {
         // literals allowed in combobox, validates number, currency (number), date and date time.
         // date and date time converts the input date string to format 'MM/DD/YYYY HH:MM:ss TZD
-        if (this._isLiteralAllowed) {
+        if (this.literalsAllowed) {
             this.validateLiteralForDataType();
         } else if (!this._item) {
             this._errorMessage = ERROR_MESSAGE.GENERIC;
@@ -721,7 +716,7 @@ export default class Combobox extends Element {
      * @param {Boolean} isBlur whether or not this validation is happening onblur
      */
     validateResource(isBlur = false) {
-        if (this._isLiteralAllowed && this.isExpressionIdentifierLiteral()) {
+        if (this.literalsAllowed && this.isExpressionIdentifierLiteral()) {
             this.validateLiteralForDataType();
         } else if (!this._item && isBlur) {
             this._errorMessage = ERROR_MESSAGE.GENERIC;

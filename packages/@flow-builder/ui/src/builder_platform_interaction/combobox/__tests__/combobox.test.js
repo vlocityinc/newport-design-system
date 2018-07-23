@@ -499,9 +499,11 @@ describe('Combobox Tests', () => {
                 { value: '{!StartDateVar}', error: null },
                 { value: '{! test}', error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: 'literal', error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: 'literal', isLiteralsAllowed: true, error: VALIDATION_ERROR_MESSAGE.GENERIC },
             ],
             Boolean : [
                 { value: 'true', error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: 'true', isLiteralsAllowed: true, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!' + GLOBAL_CONSTANTS.BOOLEAN_TRUE + '}', error: null },
                 { value: '{!MyBooleanVar}', error: null },
             ],
