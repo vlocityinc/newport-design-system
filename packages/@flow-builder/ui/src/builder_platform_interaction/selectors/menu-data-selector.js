@@ -1,15 +1,9 @@
 import { createSelector } from 'builder_platform_interaction-store-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANTS as GC} from 'builder_platform_interaction-system-lib';
 import { getQueryableEntities, getCreateableEntities, getDeletableEntities, getUpdateableEntities }  from 'builder_platform_interaction-sobject-lib';
 
 const elementsSelector = (state) => state.elements;
-
-const getResources = (elements, guids) => guids.reduce((acc, guid) => {
-    acc.push(elements[guid]);
-    return acc;
-}, []);
 
 const getWritableElements = (elements) => {
     const writableElements = Object.values(elements).filter(element => element.elementType === ELEMENT_TYPE.VARIABLE);
@@ -19,8 +13,7 @@ const getWritableElements = (elements) => {
 const getReadableElements = (elements) => {
     // the start element will never be needed for menu data
     const readableElements = Object.values(elements).filter(element => element.elementType !== ELEMENT_TYPE.START_ELEMENT);
-    const globalConstants = getResources(GLOBAL_CONSTANT_OBJECTS, [GC.BOOLEAN_FALSE, GC.BOOLEAN_TRUE, GC.EMPTY_STRING]);
-    return [...readableElements, ...globalConstants];
+    return [...readableElements];
 };
 
 const getCollectionElements = (elements) => {

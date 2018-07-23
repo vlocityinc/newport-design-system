@@ -18,6 +18,7 @@ import {
     mutatePicklistValue,
 } from './menuDataGenerator';
 import newResourceLabel from '@label/FlowBuilderExpressionUtils.newResourceLabel';
+import { GLOBAL_CONSTANT_OBJECTS } from 'builder_platform_interaction-system-lib';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833
 
@@ -100,10 +101,10 @@ function elementMatchesRule(allowedParamTypes, element) {
  *
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes        map from dataTypes/elementTypes to rule params which specificy those data or element types
  * @param {Object} element                  object with the necessary specifications to be compared to rule params (usually flow element, but a "fake" one can be built for fields, etc)
- * @param {boolean} allowSObjectForFields   true if sObject's should be included, as a way for users to get to sObject fields
+ * @param {boolean} allowFerovs                 true if FEROVs are allowed here; certain things are true for all FEROV's e.g. sobjects should be shown so that users can drill down to fields
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
-export function isElementAllowed(allowedParamTypes, element, allowSObjectForFields) {
+export function isElementAllowed(allowedParamTypes, element, allowFerovs = false) {
     const isElementMatchForProperty = (property) => {
         return (allowedParamTypes.hasOwnProperty(element[property]) && elementMatchesRule(allowedParamTypes[element[property]], element));
     };
@@ -112,7 +113,7 @@ export function isElementAllowed(allowedParamTypes, element, allowSObjectForFiel
         || isElementMatchForProperty(PARAM_PROPERTY.DATA_TYPE)
         || isElementMatchForProperty(PARAM_PROPERTY.ELEMENT_TYPE)
         || isElementMatchForProperty(OBJECT_TYPE)
-        || (allowSObjectForFields && element.dataType === SObjectType && !element.isCollection);
+        || (allowFerovs && element.dataType === SObjectType && !element.isCollection);
 }
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
@@ -194,13 +195,13 @@ export const getPicklistMenuData = (picklist) => {
  * @param {Object} elementConfig        {element, shouldBeWritable} element is the element type this expression builder is inside, shouldBeWritable is so property editors can specify the data they need
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
  * @param {boolean} includeNewResource  if true, include new resource as first menu item
- * @param {boolean} allowSObjectForFields   true if sObjects should be included, to allow users to access sObject fields
+ * @param {boolean} allowFerovs             true if FEROVs are allowed here; certain things are true for all FEROV's e.g. global constants should be allowed, sobjects should be shown so that users can drill down to fields
  * @param {boolean} disableHasNext if true, then all menu items will have hasNext set to false regardless of the real value
  * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function getElementsForMenuData(elementConfig, allowedParamTypes, includeNewResource,
-    allowSObjectForFields = false, disableHasNext = false, activePicklistValues = []) {
+    allowFerovs = false, disableHasNext = false, activePicklistValues = []) {
     const state = Store.getStore().getCurrentState();
 
     // TODO Remove when we get to W-5164547
@@ -208,8 +209,12 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
 
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
     // TODO: if this function ever deals with server calls, we need to memoize it, because it gets called everytime the component rerenders
-    const menuData = getSelector(elementConfig)(state)
-        .filter(element => isElementAllowed(allowedParamTypes, element, allowSObjectForFields))
+    const menuDataElements = getSelector(elementConfig)(state);
+    if (allowFerovs) {
+        // global constants should be included in menuData for FEROVs
+        menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
+    }
+    const menuData = menuDataElements.filter(element => isElementAllowed(allowedParamTypes, element, allowFerovs))
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
             menuItem.hasNext = disableHasNext ? false : menuItem.hasNext;
