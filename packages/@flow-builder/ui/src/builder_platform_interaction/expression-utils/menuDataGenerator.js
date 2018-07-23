@@ -1,8 +1,8 @@
-import {
-    COMBOBOX_ITEM_DISPLAY_TYPE,
-} from './menuDataRetrieval';
+import { COMBOBOX_ITEM_DISPLAY_TYPE } from './menuDataRetrieval';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { isNonElementResourceId } from 'builder_platform_interaction-system-lib';
+import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { LABELS } from './expression-utils-labels';
 
 const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
 /**
@@ -14,9 +14,17 @@ const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
  * @returns {String} the full category label for this element
  */
 function getElementCategory(elementType, dataType, isCollection) {
-    return (dataType === SObjectType ? 'SObject ' : '') +
-        (isCollection ? 'Collection ' : '') +
-        elementType;
+    let categoryLabel;
+    if (dataType !== SObjectType && !isCollection) {
+        const config = getConfigForElementType(elementType);
+        if (config && config.labels && config.labels.plural) {
+            categoryLabel = config.labels.plural;
+        }
+    } else {
+        categoryLabel = (dataType === SObjectType) ? (isCollection ? LABELS.sObjectCollectionVariablePluralLabel : LABELS.sObjectVariablePluralLabel) : LABELS.collectionVariablePluralLabel;
+    }
+
+    return categoryLabel;
 }
 
 /**

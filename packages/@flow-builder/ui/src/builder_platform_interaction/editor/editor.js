@@ -427,32 +427,24 @@ export default class Editor extends Element {
      */
     doInvokeAlert = (storeElements, usedByElements, selectedElementGUIDs, elementType) => {
         const selectedElementsLength  = selectedElementGUIDs.length;
-        const headerTitle = format(LABELS.deleteAlertHeaderTitle, elementType.toLowerCase());
+        let headerTitle = LABELS.deleteAlertMultiDeleteHeaderTitle;
         let bodyTextOne = LABELS.deleteAlertMultiDeleteBodyTextOne;
         const listSectionHeader = LABELS.deleteAlertListSectionHeader;
-        const listSectionItems = [];
+        const listSectionItems = usedByElements;
         const buttonVariant = 'Brand';
         const buttonLabel = LABELS.deleteAlertOkayButtonLabel;
 
         if (selectedElementsLength === 1) {
             // When only a single element is being deleted and either the element or it's children are being referenced in the flow
-            const selectedElement = storeElements[selectedElementGUIDs[0]];
-            if (!elementType && selectedElement) {
-                elementType = selectedElement.elementType;
+            if (!elementType) {
+                const selectedElement = storeElements[selectedElementGUIDs[0]];
+                if (selectedElement) {
+                    elementType = selectedElement.elementType;
+                }
             }
-
+            headerTitle = format(LABELS.deleteAlertSingleDeleteHeaderTitle, elementType.toLowerCase());
             bodyTextOne = format(LABELS.deleteAlertSingleDeleteBodyTextOne, elementType.toLowerCase());
         }
-
-        // Creating listSectionItems in the shape required by the alert modal
-        usedByElements.map(element => {
-            listSectionItems.push({
-                guid: element.guid,
-                elementName: element.name,
-                iconName: element.iconName
-            });
-            return element;
-        });
 
         // Invoking the alert modal
         invokeAlertModal({

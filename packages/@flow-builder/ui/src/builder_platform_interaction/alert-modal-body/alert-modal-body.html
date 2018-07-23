@@ -8,8 +8,8 @@
         <ul if:true={listSectionItems} class='slds-has-block-links'>
             <template for:each={listSectionItems} for:item='listItem'>
                 <li key={listItem.guid} class='slds-p-vertical_x-small'>
-                    <lightning-icon icon-name={listItem.iconName} title={listItem.elementName} alternative-text={listItem.elementName} size='x-small' class='slds-m-right_x-small'></lightning-icon>
-                    <span>{listItem.elementName}</span>
+                    <lightning-icon icon-name={listItem.iconName} title={listItem.name} alternative-text={listItem.name} size='x-small' class='slds-m-right_x-small'></lightning-icon>
+                    <span>{listItem.name}</span>
                 </li>
             </template>
         </ul>

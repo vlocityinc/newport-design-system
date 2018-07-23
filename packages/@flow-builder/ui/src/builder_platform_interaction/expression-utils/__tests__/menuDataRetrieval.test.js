@@ -6,11 +6,12 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import * as selectorsMock from 'builder_platform_interaction-selectors';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { GLOBAL_CONSTANTS as gcLabels, GLOBAL_CONSTANT_OBJECTS as gcObjects } from 'builder_platform_interaction-system-lib';
-import globalConstantCategory from '@label/FlowBuilderGlobalConstants.globalConstantCategory';
+import { LABELS } from '../expression-utils-labels';
+import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
 
-const collectionVariable = 'COLLECTION ' + store.variable;
-const sobjectVariable = 'SOBJECT ' + store.variable;
-const sobjectCollectionVariable = 'SOBJECT ' + collectionVariable;
+const collectionVariable = LABELS.collectionVariablePluralLabel.toUpperCase();
+const sobjectVariable = LABELS.sObjectVariablePluralLabel.toUpperCase();
+const sobjectCollectionVariable = LABELS.sObjectCollectionVariablePluralLabel.toUpperCase();
 
 /*
     Desired format output from getElementsForMenuData
@@ -71,7 +72,7 @@ describe('Menu data retrieval', () => {
         const menuData = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true});
         expect(menuData[0].label).toBe(collectionVariable);
         expect(menuData[1].label).toBe(sobjectVariable);
-        expect(menuData[2].label).toBe(store.variable);
+        expect(menuData[2].label).toBe(variablePluralLabel.toUpperCase());
         selectorsMock.writableElementsSelector.mockClear();
     });
     it('should sort alphabetically within category', () => {
@@ -121,13 +122,13 @@ describe('Menu data retrieval', () => {
         selectorsMock.writableElementsSelector.mockClear();
     });
     it('should set subText to label if there is a label', () => {
-        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.choiceGuid]]);
+        selectorsMock.readableElementsSelector.mockReturnValue([store.elements[store.outcomeGuid]]);
         const copiedElement = getElementsForMenuData({
-            elementType: ELEMENT_TYPE.ASSIGNMENT,
+            elementType: ELEMENT_TYPE.DECISION,
             shouldBeWritable: true
         })[0].items[0];
-        expect(copiedElement.subText).toBe(store.choiceLabel);
-        selectorsMock.writableElementsSelector.mockClear();
+        expect(copiedElement.subText).toBe(store.outcomeDevName);
+        selectorsMock.readableElementsSelector.mockClear();
     });
     it('should set subText to dataType if no objectType or label', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
@@ -255,7 +256,7 @@ describe('Menu data retrieval', () => {
             const menuData = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT}, sampleStringParamTypes);
 
             // only the empty string global constant is added to the menu data
-            expect(menuData).toContainEqual(expect.objectContaining({label: globalConstantCategory}));
+            expect(menuData).toContainEqual(expect.objectContaining({label: LABELS.globalConstantCategory}));
             expect(menuData).toContainEqual(expect.objectContaining({items: expect.any(Array)}));
             expect(menuData[0].items).toHaveLength(1);
             selectorsMock.readableElementsSelector.mockClear();
@@ -268,7 +269,7 @@ describe('Menu data retrieval', () => {
             const menuData = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT}, sampleBooleanParamTypes);
 
             // only the boolean global constant is added to the menu data
-            expect(menuData).toContainEqual(expect.objectContaining({label: globalConstantCategory}));
+            expect(menuData).toContainEqual(expect.objectContaining({label: LABELS.globalConstantCategory}));
             expect(menuData).toContainEqual(expect.objectContaining({items: expect.any(Array)}));
             expect(menuData[0].items).toHaveLength(2);
             selectorsMock.readableElementsSelector.mockClear();
