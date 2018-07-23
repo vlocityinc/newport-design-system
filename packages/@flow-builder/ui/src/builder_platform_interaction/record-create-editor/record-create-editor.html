@@ -43,8 +43,8 @@
           <div class="slds-col">
             <span if:true={isCollection}>{labels.helpSObjectCollectionText}</span>
             <span if:false={isCollection}>{labels.helpSObjectText}</span>
-            <lightning-helptext class="slds-p-left_xx-small slds-form-element__icon slds-align-center" content={labels.helpSObjectAltText}></lightning-helptext>
           </div>
+          <lightning-helptext content={labels.helpSObjectAltText}></lightning-helptext>
         </div>
     </div>
     <div if:false={isSObjectVersion} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
