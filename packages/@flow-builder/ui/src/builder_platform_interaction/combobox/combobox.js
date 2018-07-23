@@ -104,7 +104,7 @@ export default class Combobox extends Element {
 
     /**
      * If true, only references are allowed in this combobox
-     * @param {Boolean} isAllowed value to set allow literals
+     * @param {String|Boolean} isAllowed value to set allow literals
      */
     @api
     set literalsAllowed(isAllowed) {
@@ -435,9 +435,10 @@ export default class Combobox extends Element {
     /**
      * Dispatches the FilterMatches Event & makes the spinner active
      * @param {String} value the value to filter on
+     * @param {Boolean} isMergeField true if the combobox value is a merge field, false otherwise
      */
-    fireFilterMatchesEvent(value) {
-        const filterMatchesEvent = new FilterMatchesEvent(value);
+    fireFilterMatchesEvent(value, isMergeField) {
+        const filterMatchesEvent = new FilterMatchesEvent(value, isMergeField);
         this.dispatchEvent(filterMatchesEvent);
         this.state.showActivityIndicator = true;
     }

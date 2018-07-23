@@ -55,7 +55,7 @@ export const normalizeRHS = (rhsIdentifier, normalizedLHS) => {
     } else {
         // in the case that we have a literal string, we must also check for a picklist value when the LHS is a picklist field
         let foundValue;
-        if (normalizedLHS.activePicklistValues) {
+        if (normalizedLHS && normalizedLHS.activePicklistValues) {
             // if the lhs is a picklist field and the user did not select an element then match the picklist with the field
             foundValue = normalizedLHS.activePicklistValues.find(item => item.value === rhsIdentifier);
         }

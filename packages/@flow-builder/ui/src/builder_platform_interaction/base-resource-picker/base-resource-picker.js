@@ -39,8 +39,6 @@ export default class BaseResourcePicker extends Element {
      * the state of the resource picker containing the current item, displayText, and the menu data
      * @typedef {Object} resourcePickerState
      * @property {Object[]} menuData    the current menu data held by the combobox, not necessarily the full menu data
-     * @property {item} item            the currently selected menu item
-     * @property {String} displayText   the display text shown in the combobox field
      * @property {ComboboxConfig}       the combobox config object
      */
     @track
@@ -148,7 +146,7 @@ export default class BaseResourcePicker extends Element {
      * @param {String} label the flow combobox label
      * @param {String} placeholder the flow combobox placeholder
      * @param {String} errorMessage the error message to be displayed on error
-     * @param {String} literalsAllowed Pass the string 'false' if literals are NOT allowed, defaults to 'true'
+     * @param {String|Boolean} literalsAllowed Pass a string or boolean value: true if literals are allowed false otherwise
      * @param {Boolean} required true if required field, false otherwise
      * @param {Boolean} disabled true if disabled field, false otherwise
      * @param {String} type the data type of the flow combobox, needed for validation
@@ -181,6 +179,6 @@ export default class BaseResourcePicker extends Element {
 
     handleFilterMatches(event) {
         event.stopPropagation();
-        this.state.menuData = filterMatches(event.detail.value, this._fullMenuData);
+        this.state.menuData = filterMatches(event.detail.value, this._fullMenuData, event.detail.isMergeField);
     }
 }
