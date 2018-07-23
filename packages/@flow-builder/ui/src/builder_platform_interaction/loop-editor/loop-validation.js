@@ -4,14 +4,26 @@ import { Validation } from 'builder_platform_interaction-validation';
  * @constant additionalRules - map of propertyName to validation rules
  * @type {Object}
  */
-const additionalRules = {
-    'label' : [
+export const additionalRules = {
+    label : [
+        ValidationRules.shouldNotBeNullOrUndefined,
+        ValidationRules.shouldNotBeBlank,
         ValidationRules.maximumCharactersLimit(255)
     ],
-    'name'  : [
+    name  : [
+        ValidationRules.shouldNotBeNullOrUndefined,
+        ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
         ValidationRules.maximumCharactersLimit(80)
+    ],
+    assignNextValueToReference : [
+        ValidationRules.shouldNotBeBlank,
+        ValidationRules.shouldNotBeNullOrUndefined
+    ],
+    collectionReference : [
+        ValidationRules.shouldNotBeBlank,
+        ValidationRules.shouldNotBeNullOrUndefined
     ]
 };
 

@@ -172,7 +172,7 @@ export default class LoopEditor extends Element {
 
     handleLoopVariablePropertyChanged(event) {
         event.stopPropagation();
-        let loopVariableError = event.detail.error;
+        let loopVariableError = event.detail.error ? event.detail.error : null;
         const loopVariableValue = event.detail.item ? event.detail.item.value : null;
         const isDataTypeErrorMessageApplied = getErrorFromHydratedItem(this.loopElement.assignNextValueToReference) === LABELS.loopVariableErrorMessage;
         const isLoopVariableValueChanged = loopVariableValue === getValueFromHydratedItem(this.loopElement.assignNextValueToReference);
@@ -182,7 +182,7 @@ export default class LoopEditor extends Element {
             loopVariableError = LABELS.loopVariableErrorMessage;
         }
         this.loopVariableState = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
-        const loopVariableChangedEvent = new PropertyChangedEvent(LOOP_PROPERTIES.LOOP_VARIABLE, event.detail.item, loopVariableError);
+        const loopVariableChangedEvent = new PropertyChangedEvent(LOOP_PROPERTIES.LOOP_VARIABLE, loopVariableValue, loopVariableError);
         this.loopElement = loopReducer(this.loopElement, loopVariableChangedEvent);
     }
 

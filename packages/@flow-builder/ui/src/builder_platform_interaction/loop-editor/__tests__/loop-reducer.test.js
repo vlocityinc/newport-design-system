@@ -2,9 +2,10 @@ import {loopReducer} from '../loop-reducer';
 import {PropertyChangedEvent, LoopCollectionChangedEvent} from 'builder_platform_interaction-events';
 
 const IAMERRORED = 'IAMERRORED';
+const CANNOTBEBLANKERROR = 'FlowBuilderValidation.cannotBeBlank';
 const VARIABLE = 'VARIABLE_GUID';
 
-describe('loop-reducer', () => {
+describe('Loop-reducer', () => {
     let originalState;
     beforeEach(() => {
         originalState = {
@@ -21,80 +22,106 @@ describe('loop-reducer', () => {
             locationY : 123,
         };
     });
-    describe('loopCollectionChangedEvent event', () => {
+    describe('handles loopCollectionChangedEvent event', () => {
         it('updates the loop collection value', () => {
             const event = {
                 type: LoopCollectionChangedEvent.EVENT_NAME,
                 detail: {
                     collectionValue: VARIABLE,
                     collectionError: null,
+                    loopVariableValue : null,
                     loopVariableErrorMessage: null
                 }
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.collectionReference.value).toEqual(VARIABLE);
             expect(resultObj.collectionReference.error).toEqual(null);
+            expect(resultObj.assignNextValueToReference.value).toEqual(null);
             expect(resultObj.assignNextValueToReference.error).toEqual(null);
         });
-        it('updates loop collection error', () => {
+        it('updates loop collection value, loop collection error', () => {
             const event = {
                 type: LoopCollectionChangedEvent.EVENT_NAME,
                 detail: {
-                    collectionValue: null,
+                    collectionValue: VARIABLE,
                     collectionError: IAMERRORED,
+                    loopVariableValue : null,
                     loopVariableErrorMessage: null
                 }
             };
             const resultObj = loopReducer(originalState, event);
-            expect(resultObj.collectionReference.value).toEqual(null);
+            expect(resultObj.collectionReference.value).toEqual(VARIABLE);
             expect(resultObj.collectionReference.error).toEqual(IAMERRORED);
+            expect(resultObj.assignNextValueToReference.value).toEqual(null);
             expect(resultObj.assignNextValueToReference.error).toEqual(null);
         });
-        it('updates loop variable error', () => {
+        it('updates loop variable value, loop variable error and adds cannot be blank error for loop collection error', () => {
             const event = {
                 type: LoopCollectionChangedEvent.EVENT_NAME,
                 detail: {
                     collectionValue: null,
                     collectionError: null,
+                    loopVariableValue : VARIABLE,
                     loopVariableErrorMessage: IAMERRORED
                 }
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.collectionReference.value).toEqual(null);
-            expect(resultObj.collectionReference.error).toEqual(null);
+            expect(resultObj.collectionReference.error).toEqual(CANNOTBEBLANKERROR);
+            expect(resultObj.assignNextValueToReference.value).toEqual(VARIABLE);
             expect(resultObj.assignNextValueToReference.error).toEqual(IAMERRORED);
         });
-        it('updates both loop collection value and loop collection error', () => {
+        it('updates both loop collection value, loop collection error', () => {
             const event = {
                 type: LoopCollectionChangedEvent.EVENT_NAME,
                 detail: {
                     collectionValue: VARIABLE,
                     collectionError: IAMERRORED,
+                    loopVariableValue : null,
                     loopVariableErrorMessage: null
                 }
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.collectionReference.value).toEqual(VARIABLE);
             expect(resultObj.collectionReference.error).toEqual(IAMERRORED);
+            expect(resultObj.assignNextValueToReference.value).toEqual(null);
             expect(resultObj.assignNextValueToReference.error).toEqual(null);
         });
-        it('updates loop collection value, loop collection error and loop variable error', () => {
+        it('updates loop collection value, loop collection error, loop variable value and loop variable error', () => {
             const event = {
                 type: LoopCollectionChangedEvent.EVENT_NAME,
                 detail: {
                     collectionValue: VARIABLE,
                     collectionError: IAMERRORED,
+                    loopVariableValue : VARIABLE,
                     loopVariableErrorMessage: IAMERRORED
                 }
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.collectionReference.value).toEqual(VARIABLE);
             expect(resultObj.collectionReference.error).toEqual(IAMERRORED);
+            expect(resultObj.assignNextValueToReference.value).toEqual(VARIABLE);
             expect(resultObj.assignNextValueToReference.error).toEqual(IAMERRORED);
+        });
+        it('updates cannot be blank error for only loop collection error', () => {
+            const event = {
+                type: LoopCollectionChangedEvent.EVENT_NAME,
+                detail: {
+                    collectionValue: null,
+                    collectionError: null,
+                    loopVariableValue : null,
+                    loopVariableErrorMessage: null
+                }
+            };
+            const resultObj = loopReducer(originalState, event);
+            expect(resultObj.collectionReference.value).toEqual(null);
+            expect(resultObj.collectionReference.error).toEqual(CANNOTBEBLANKERROR);
+            expect(resultObj.assignNextValueToReference.value).toEqual(null);
+            expect(resultObj.assignNextValueToReference.error).toEqual(null);
         });
     });
     describe('loopPropertyChanged event', () => {
-        it('updates the label', () => {
+        it('updates label value', () => {
             const event = {
                 type: PropertyChangedEvent.EVENT_NAME,
                 detail: {
@@ -150,7 +177,7 @@ describe('loop-reducer', () => {
             expect(resultObj.iterationOrder.error).toBe(IAMERRORED);
             expect(resultObj).not.toBe(originalState);
         });
-        it('ignored when unknown event fired', () => {
+        it('ignores unknown event which do not need to be handled', () => {
             const event = {
                 type: 'unknown event',
                 detail: {

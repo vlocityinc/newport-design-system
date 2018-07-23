@@ -50,7 +50,9 @@ describe('loop-editor', () => {
         const loopElement = createComponentForTest();
         loopElement.node = noErrorState;
         Promise.resolve().then(() => {
-            const event = new ComboboxStateChangedEvent(VARIABLE, VARIABLE, null);
+            const event = new ComboboxStateChangedEvent({
+                value : VARIABLE
+            }, VARIABLE, null);
             getShadowRoot(loopElement).querySelector(selectors.LOOP_VARIABLE_FEROV_RESOURCE_PICKER).dispatchEvent(event);
         });
         return Promise.resolve().then(() => {

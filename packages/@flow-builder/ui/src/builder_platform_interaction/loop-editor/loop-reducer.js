@@ -1,6 +1,6 @@
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import {PropertyChangedEvent, LoopCollectionChangedEvent} from 'builder_platform_interaction-events';
-import {loopValidation} from './loop-validation';
+import {loopValidation, additionalRules} from './loop-validation';
 import {updateProperties} from 'builder_platform_interaction-data-mutation-lib';
 
 const LOOP_PROPERTIES = {
@@ -21,16 +21,19 @@ const loopPropertyChanged = (state, event) => {
 
 const loopCollectionChangedEvent = (state, event) => {
     const newCollectionValue = event.detail.collectionValue ? event.detail.collectionValue : null;
-    event.detail.collectionError = event.detail.collectionError === null ?
+    const newLoopVariableValue = event.detail.loopVariableValue ? event.detail.loopVariableValue : null;
+    const newCollectionError = event.detail.collectionError === null ?
         loopValidation.validateProperty(LOOP_PROPERTIES.COLLECTION_VARIABLE, newCollectionValue) : event.detail.collectionError;
+    const newLoopVariableError = event.detail.loopVariableErrorMessage ? event.detail.loopVariableErrorMessage : null;
+
     return updateProperties(state, {
         [LOOP_PROPERTIES.COLLECTION_VARIABLE]: {
             value: newCollectionValue,
-            error: event.detail.collectionError
+            error: newCollectionError
         },
         [LOOP_PROPERTIES.LOOP_VARIABLE]: {
-            value: event.detail.loopVariableValue ? event.detail.loopVariableValue : null,
-            error: event.detail.loopVariableErrorMessage ? event.detail.loopVariableErrorMessage : null
+            value: newLoopVariableValue,
+            error: newLoopVariableError
         }
     });
 };
@@ -52,7 +55,7 @@ export const loopReducer = (state, event) => {
         case LoopCollectionChangedEvent.EVENT_NAME:
             return loopCollectionChangedEvent(state, event);
         case VALIDATE_ALL: {
-            return loopValidation.validateAll(state);
+            return loopValidation.validateAll(state, additionalRules);
         }
         default: return state;
     }
