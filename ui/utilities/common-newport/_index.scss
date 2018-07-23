@@ -683,3 +683,9 @@ button.nds-step__next-link[disabled] {
 .nds-range .nds-form-element__label span {
     font-size: 0.875rem;
 }
+
+form {
+  .ng-valid span.nds-required {
+    color: $color-valid-control;
+  }
+}

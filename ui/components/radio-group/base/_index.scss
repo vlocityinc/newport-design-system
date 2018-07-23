@@ -129,5 +129,5 @@
 .nds-form-element .nds-radio [type='radio'] ~ .nds-radio--faux,
 .nds-radio [type='radio'] + .nds-radio__label .nds-radio_faux,
 .nds-radio [type='radio'] + .nds-radio__label .nds-radio--faux {
-  margin-#{$right}: $spacing-medium;
+  margin-#{$right}: 0.25rem;
 }
