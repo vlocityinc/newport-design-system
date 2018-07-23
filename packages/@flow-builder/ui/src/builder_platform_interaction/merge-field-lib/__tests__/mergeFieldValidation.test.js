@@ -37,7 +37,7 @@ describe('Merge field validation', () => {
                     {
                         "endIndex": 22,
                         "errorType": "unknownMergeField",
-                        "message": "FlowBuilderMergeFieldValidation.unknownMergeField",
+                        "message": "FlowBuilderMergeFieldValidation.unknownResource",
                         "startIndex": 2
                     }]);
                 done();
@@ -49,13 +49,31 @@ describe('Merge field validation', () => {
                 done();
             });
         });
+        it('is not case-sensitive for field names', (done) => {
+            validateMergeField('{!accVar1.NAME}').then(validationErrors => {
+                expect(validationErrors).toEqual([]);
+                done();
+            });
+        });
         it('Returns a validation error when it does not reference an existing variable record field', (done) => {
             validateMergeField('{!accVar1.Unknown}').then(validationErrors => {
                 expect(validationErrors).toEqual([
                     {
                         "endIndex": 16,
                         "errorType": "unknownMergeField",
-                        "message": "FlowBuilderMergeFieldValidation.unknownMergeField",
+                        "message": "FlowBuilderMergeFieldValidation.unknownRecordField",
+                        "startIndex": 2
+                    }]);
+                done();
+            });
+        });
+        it('Returns a validation error for variable field merge field when variable does not exist', (done) => {
+            validateMergeField('{!unknownVariable.Unknown}').then(validationErrors => {
+                expect(validationErrors).toEqual([
+                    {
+                        "endIndex": 24,
+                        "errorType": "unknownMergeField",
+                        "message": "FlowBuilderMergeFieldValidation.unknownResource",
                         "startIndex": 2
                     }]);
                 done();
@@ -87,7 +105,7 @@ describe('Merge field validation', () => {
                     {
                         "endIndex": 28,
                         "errorType": "notAValidMergeField",
-                        "message": "FlowBuilderMergeFieldValidation.notAValidMergeField",
+                        "message": "FlowBuilderMergeFieldValidation.globalConstantsNotAllowed",
                         "startIndex": 2
                     }]);
                 done();
@@ -107,7 +125,19 @@ describe('Merge field validation', () => {
                     {
                         "endIndex": 12,
                         "errorType": "wrongDataType",
-                        "message": "FlowBuilderMergeFieldValidation.wrongDataType",
+                        "message": "FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField",
+                        "startIndex": 2
+                    }]);
+                done();
+            });
+        });
+        it('Returns a validation error when it references a property of a canvas element', (done) => {
+            validateMergeField('{!actionCall1.property}').then(validationErrors => {
+                expect(validationErrors).toEqual([
+                    {
+                        "endIndex": 21,
+                        "errorType": "notAValidMergeField",
+                        "message": "FlowBuilderMergeFieldValidation.notAValidMergeField",
                         "startIndex": 2
                     }]);
                 done();
