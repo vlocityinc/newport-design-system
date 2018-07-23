@@ -290,7 +290,7 @@ export function query(element, selector) {
  */
 export function find(element, childName, attributeName, attributeValue, operator) {
     for (const child of element.querySelectorAll(childName)) {
-        if (child.hasOwnProperty(attributeName)) {
+        if (child[attributeName]) {
             if (check(child[attributeName], attributeValue, ATT_SELECTOR_OPERATORS[operator])) {
                 return child;
             }
