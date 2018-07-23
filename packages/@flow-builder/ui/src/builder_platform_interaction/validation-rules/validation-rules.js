@@ -1,9 +1,5 @@
-import { getRulesForContext, getRHSTypes, elementToParam } from 'builder_platform_interaction-rule-lib';
-import { EXPRESSION_PROPERTY_TYPE, isElementAllowed, getFieldParamRepresentation,
-    getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 import { isUndefinedOrNull, format } from 'builder_platform_interaction-common-utils';
-import { sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { LABELS as labels} from './validation-rules-labels';
 
@@ -46,32 +42,6 @@ const regexConfig = {
         regexPattern: '[^0-9]+',
         message: LABELS.shouldBeAPositiveIntegerOrZero
     }
-};
-
-const validateBlankRHS = (lhsIdentifier, operator, contextConfig) => {
-    // TODO: clean up when NULL is handled by the rules W-4983639
-    return () => {
-        let lhsParam = null;
-        const blankRHSParam = {
-            isCollection: null,
-            elementType: ELEMENT_TYPE.VARIABLE,
-            dataType: 'String',
-        };
-        const complexGuid = sanitizeGuid(lhsIdentifier);
-        const flowElement = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
-        if (complexGuid.fieldName) {
-            const sobject = (flowElement) ? flowElement.objectType : complexGuid.guidOrLiteral;
-            lhsParam = getFieldParamRepresentation(sobject, complexGuid.fieldName);
-        } else {
-            lhsParam = elementToParam(flowElement);
-        }
-        const rhsTypes = getRHSTypes(contextConfig.elementType, lhsParam, operator, getRulesForContext(contextConfig));
-        const rhsValid = isElementAllowed(rhsTypes, blankRHSParam);
-        if (!rhsValid) {
-            return cannotBeBlankError;
-        }
-        return null;
-    };
 };
 
 export const VALIDATE_ALL = 'VALIDATE_ALL';
@@ -165,10 +135,9 @@ export const maximumCharactersLimit = (limit) => {
  * Validates 3 part expression builder to make sure LHS and operator are not blank,
  * and RHS is only null if it's valid.
  *
- * @param {Object} contextConfig   the same contextConfig that will be used to setup the expressionBuilder
  * @returns {string|null} errorString or null
  */
-export const validateExpressionWith3Properties = (contextConfig) => {
+export const validateExpressionWith3Properties = () => {
     return (expression) => {
         const rules = {
             [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank]
@@ -176,12 +145,6 @@ export const validateExpressionWith3Properties = (contextConfig) => {
 
         if (expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
             rules[EXPRESSION_PROPERTY_TYPE.OPERATOR] = [shouldNotBeBlank];
-            if (expression[EXPRESSION_PROPERTY_TYPE.OPERATOR].value && !expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value) {
-                rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [
-                    validateBlankRHS(expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value,
-                        expression[EXPRESSION_PROPERTY_TYPE.OPERATOR].value, contextConfig),
-                ];
-            }
         }
 
         return rules;

@@ -1,9 +1,7 @@
 import * as rules from 'builder_platform_interaction-validation-rules';
-import { numberParamCanBeField, stringParam } from 'mock-rule-service';
-import { numberVariableGuid, accountSObjectVariableGuid, assignmentElementGuid, assignmentElementName } from 'mock-store-data';
+import { assignmentElementGuid, assignmentElementName } from 'mock-store-data';
 import { mockAccountFields } from 'mock-server-entity-data';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
-import { getRHSTypes } from 'builder_platform_interaction-rule-lib';
 import { LABELS } from '../validation-rules-labels';
 
 jest.mock('builder_platform_interaction-rule-lib', () => {
@@ -126,6 +124,9 @@ describe('validateExpressionWith3Properties', () => {
         expect(rulesObject).toEqual({[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [rules.shouldNotBeBlank], [EXPRESSION_PROPERTY_TYPE.OPERATOR]: [rules.shouldNotBeBlank]});
     });
 });
+
+/*
+TODO: to be used when we being validating null on RHS W-4983953
 describe('RHS validation', () => {
     beforeAll(() => {
         getRHSTypes.mockReturnValue({
@@ -155,6 +156,7 @@ describe('RHS validation', () => {
         expect(result).toBeNull();
     });
 });
+*/
 
 describe('isUniqueDevNameInStore method', () => {
     it('returns null when a unique dev name is tested against store data', () => {
