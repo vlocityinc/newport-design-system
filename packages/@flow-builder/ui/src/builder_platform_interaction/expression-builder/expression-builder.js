@@ -61,7 +61,6 @@ export default class ExpressionBuilder extends Element {
     @track
     operatorAndRHSDisabled;
 
-    @api
     set rhsLiteralsAllowed(allowed) {
         this.allowRHSLiterals = allowed;
     }
@@ -86,7 +85,6 @@ export default class ExpressionBuilder extends Element {
      *
      * @param {Object} expression   The expression to be represented.
      */
-    @api
     set expression(expression) {
         // TODO error handling? W-4755917
         // TODO handle literals, "hi my name is {!firstName}" W-4817362
@@ -111,8 +109,7 @@ export default class ExpressionBuilder extends Element {
             this.operatorAndRHSDisabled = true;
         }
 
-        // In the case that the existing LHS is a field on the second level, get the appropriate menu data
-        if (this.state.normalizedLHS.item && this.state.normalizedLHS.item.parent) {
+        if (this.lhsIsFieldOnSobjectVariable()) {
             getFieldsForEntity(this.state.normalizedLHS.item.parent.subText, (fields) => {
                 this._fullLHSMenuData = this.state.lhsMenuData = filterFieldsForChosenElement(this.state.normalizedLHS.item.parent, getLHSTypes(elementType, rules), fields, true, true);
             });
@@ -165,7 +162,6 @@ export default class ExpressionBuilder extends Element {
      * @param {String[]} lhsFields    fields to be used for the LHS of this expression
      */
 
-    @api
     set configuration(config) {
         contextConfig = config;
         elementType = contextConfig.elementType;
@@ -434,9 +430,6 @@ export default class ExpressionBuilder extends Element {
     getLHSMenuData(config) {
         let menuData;
         switch (elementType) {
-            // TODO: this switch statement will be used when the expression-builder needs more than just
-            // elementType to determine the correct menuData. For example, for Record Lookup, the
-            // config could contain the selected SObject type so the correct set of fields will be provided
             case ELEMENT_TYPE.RECORD_LOOKUP:
                 menuData = filterFieldsForChosenElement({value: config.objectType}, getLHSTypes(elementType, rules), config.lhsFields, false, false);
                 break;
@@ -513,4 +506,12 @@ export default class ExpressionBuilder extends Element {
             this.firePropertyChangedEvent(newExpression);
         }
     }
+
+    /**
+     * lhsFields are in contextConfig when the top level of lhs menuData is fields.
+     * @returns {Boolean} true if the LHS is the shape {!sobjectVariable.field}
+     */
+    lhsIsFieldOnSobjectVariable = () => {
+        return this.state.normalizedLHS.item && this.state.normalizedLHS.item.parent && !contextConfig.lhsFields;
+    };
 }
