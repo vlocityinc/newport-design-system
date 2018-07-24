@@ -66,7 +66,7 @@ describe('Screen Editor Palette', () => {
     beforeEach(() => {
         element = createComponentForTest();
         eventCallback = jest.fn();
-        Promise.resolve().then(() => {
+        return Promise.resolve().then(() => {
             basePalette = getShadowRoot(element).querySelector('builder_platform_interaction-palette');
             guid = basePalette.data[3].key;
         });

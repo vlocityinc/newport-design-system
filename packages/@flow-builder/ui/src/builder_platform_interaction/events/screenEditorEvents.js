@@ -17,8 +17,9 @@ export const SCREEN_EDITOR_EVENT_NAME = {
  * @returns {event} The event
  */
 export function createScreenEditorEvent(type, detail = {}, cancelable = true, composed = true, bubbles = true) {
-    const event = new Event(type, {cancelable, composed, bubbles});
-    event.detail = detail;
+    const event = new CustomEvent(type, {detail, cancelable, composed, bubbles});
+
+    // TODO: Figure out if we still need this. Since moving to CustomEvent, this may no longer be required.
     for (const key in detail) {
         if (detail.hasOwnProperty(key)) {
             Object.defineProperty(event, key, {
@@ -31,7 +32,6 @@ export function createScreenEditorEvent(type, detail = {}, cancelable = true, co
             });
         }
     }
-
     return event;
 }
 
