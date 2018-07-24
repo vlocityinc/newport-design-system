@@ -12,8 +12,42 @@ const Spinner = props => (
       role="status"
     >
       <span className="nds-assistive-text">Loading</span>
-      <div className="nds-spinner__dot-a" />
-      <div className="nds-spinner__dot-b" />
+      <svg
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 100 100"
+      >
+        <circle cy="50">
+          <animateTransform
+            attributeName="transform"
+            dur="1s"
+            type="translate"
+            values="0 15 ; 0 -15; 0 15"
+            repeatCount="indefinite"
+            begin="0.1"
+          />
+        </circle>
+        <circle cy="50">
+          <animateTransform
+            attributeName="transform"
+            dur="1s"
+            type="translate"
+            values="0 10 ; 0 -10; 0 10"
+            repeatCount="indefinite"
+            begin="0.2"
+          />
+        </circle>
+        <circle cy="50">
+          <animateTransform
+            attributeName="transform"
+            dur="1s"
+            type="translate"
+            values="0 5 ; 0 -5; 0 5"
+            repeatCount="indefinite"
+            begin="0.3"
+          />
+        </circle>
+      </svg>
     </div>
     {props.children}
   </div>

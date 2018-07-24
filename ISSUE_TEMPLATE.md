@@ -1,6 +1,6 @@
 <!--
 Thank you for opening an issue!
-Before posting, please check that your issue hasn’t already been discussed (https://github.com/salesforce-ux/design-system/search).
+Before posting, please check that your issue hasn’t already been discussed (https://github.com/vlocityinc/newport-design-system/search).
 
 Note: GitHub issues are for Design System bugs and enhancements.
 If you’re looking for help or support with NDS, someone from the team will
