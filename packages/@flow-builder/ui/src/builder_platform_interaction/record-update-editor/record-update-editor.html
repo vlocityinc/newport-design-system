@@ -16,7 +16,7 @@
             <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
                 <builder_platform_interaction-sobject-or-sobject-collection-picker 
                     is-collection={isCollection}
-                    label={labels.variable}
+                    label={labels.recordVariableOrRecordCollectionVariable}
                     placeholder={labels.sObjectVariablePlaceholder}
                     element-type={elementType}
                     value={inputReference}
@@ -25,10 +25,17 @@
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>
             </div>
         </div>
-        <div class="slds-p-horizontal_small slds-m-bottom_small">
-            <span>{labels.helpIdFieldPopulatedWithText}</span>
-            <lightning-helptext class="slds-p-left_xx-small" content={labels.helpSObjectRecordUpdateAltText}></lightning-helptext>
-        </div>
+        <div class="slds-p-horizontal_small slds-m-bottom_small slds-grid">
+            <div class="slds-col slds-grow-none">
+            <lightning-icon icon-name="utility:warning" title={labels.warning} alternative-text={labels.warning} variant="warning" size="x-small" 
+                class="slds-m-right_x-small">
+            </lightning-icon>
+            </div>
+            <div class="slds-col">
+                <span>{labels.helpIdFieldPopulatedWithText}</span>
+            </div>
+            <lightning-helptext content={labels.helpSObjectRecordUpdateAltText}></lightning-helptext>
+        </div>        
     </div>
     <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
         <div class="slds-p-horizontal_small slds-form-element slds-m-bottom_small">
