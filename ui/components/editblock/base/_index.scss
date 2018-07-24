@@ -312,7 +312,7 @@
 
 .nds-editblock_inline {
     .nds-edit-block-edit__container {
-        border: 1px solid #dddbda;
+        border: 1px solid $color-border-input;
         border-radius: 0.25rem;
         padding: 2rem;
         position: relative; 
@@ -321,7 +321,7 @@
         background: white;
 
         svg.nds-editblock_close {
-            fill: #dddbda;
+            fill: $color-border-input;
             top: 0;
             right: 0;
             position: absolute;
@@ -332,7 +332,7 @@
             background: white;
             padding: 0.2rem 3.5rem;
             color: #0070d2;
-            border: 1px solid #dddbda;
+            border: 1px solid $color-border-input;
             font-weight: 500;
         }
     }
@@ -360,7 +360,7 @@
         }
 
         .nds-editblock_delete {
-            fill: #dddbda;
+            fill: $color-border-input;
             display: table-cell;
             vertical-align: middle;
             text-align: center;
@@ -377,7 +377,7 @@
         }
 
         form {
-            border: 1px solid #dddbda;
+            border: 1px solid $color-border-input;
             border-radius: 0.25rem;
         }
     }
@@ -405,7 +405,7 @@
 }
 
 .nds-edit-block_cards-add-card.nds-edit-block_longcards {
-    border: 1px solid #dddbda;
+    border: 1px solid $color-border-input;
 }
 
 .nds-editblock_inline__new-block {
