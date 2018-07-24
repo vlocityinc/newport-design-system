@@ -1,5 +1,5 @@
 import { Element, api } from 'engine';
-import { RunFlowEvent, DebugFlowEvent, SaveFlowEvent, SaveFlowAsEvent } from 'builder_platform_interaction-events';
+import { RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './toolbar-labels';
 
 const ACTIVE = 'Active';
@@ -79,13 +79,13 @@ export default class Toolbar extends Element {
      */
     handleSave(event) {
         event.preventDefault();
-        const saveEvent = new SaveFlowEvent();
+        const saveEvent = new SaveFlowEvent(SaveFlowEvent.Type.SAVE);
         this.dispatchEvent(saveEvent);
     }
 
     handleSaveAs(event) {
         event.preventDefault();
-        const saveAsEvent = new SaveFlowAsEvent();
+        const saveAsEvent = new SaveFlowEvent(SaveFlowEvent.Type.SAVE_AS);
         this.dispatchEvent(saveAsEvent);
     }
 }

@@ -4,13 +4,21 @@
 const eventName = 'save';
 
 export class SaveFlowEvent {
-    constructor() {
+    constructor(type = null) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
-            bubbles: true
+            bubbles: true,
+            detail: {
+                type
+            }
         });
     }
 
     static EVENT_NAME = eventName;
+
+    static Type = {
+        SAVE: 'save',
+        SAVE_AS: 'saveas'
+    };
 }

@@ -1,5 +1,6 @@
 import { Element, api, track, unwrap } from 'engine';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
+import { LABELS } from './flow-properties-editor-labels';
 import { flowPropertiesEditorReducer } from './flow-properties-editor-reducer';
 import { SaveType } from 'builder_platform_interaction-save-type';
 
@@ -44,11 +45,42 @@ export default class FlowPropertiesEditor extends Element {
     @track
     flowProperties;
 
+    labels = LABELS;
+
     /**
      * The dev name field should be disabled when saving as a new version.
      */
     get disableDevName() {
         return this.node.saveType === SaveType.NEW_VERSION;
+    }
+
+    get showSaveTypeDescription() {
+        let visible;
+        switch (this.node.saveType) {
+            case SaveType.CREATE:
+            case SaveType.NEW_VERSION:
+                visible = true;
+                break;
+            default:
+                visible = false;
+                break;
+        }
+        return visible;
+    }
+
+    get saveTypeDescription() {
+        let description;
+        switch (this.node.saveType) {
+            case SaveType.CREATE:
+                description = LABELS.createNewFlowDescription;
+                break;
+            case SaveType.NEW_VERSION:
+                description = LABELS.saveAsNewVersionDescription;
+                break;
+            default:
+                break;
+        }
+        return description;
     }
 
     /* ********************** */

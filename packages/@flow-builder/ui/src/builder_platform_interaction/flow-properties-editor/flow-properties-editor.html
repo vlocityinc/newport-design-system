@@ -1,10 +1,14 @@
 <template>
+    <div if:true={showSaveTypeDescription} class='slds-p-horizontal_small slds-p-top_small'>
+        {saveTypeDescription}
+    </div>
     <div class='slds-p-around_small'>
-        <!-- TODO: dev-name-label="API Name" -->
         <builder_platform_interaction-label-description dev-name={flowProperties.name}
+                                                        dev-name-label={labels.uniqueNameLabel}
                                                         disable-dev-name={disableDevName}
                                                         description={flowProperties.description}
                                                         label={flowProperties.label}
+                                                        name-label={labels.nameLabel}
                                                         onpropertychanged={handleEvent}>
         </builder_platform_interaction-label-description>
     </div>

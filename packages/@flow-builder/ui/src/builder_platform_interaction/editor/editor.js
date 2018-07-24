@@ -15,11 +15,11 @@ import { setEntities } from 'builder_platform_interaction-sobject-lib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { LABELS } from './editor-labels';
 import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
-import { SaveFlowEvent } from 'builder_platform_interaction-events';
 import { usedBy } from 'builder_platform_interaction-used-by-lib';
 import { format } from 'builder_platform_interaction-common-utils';
 import { listExtensions } from 'builder_platform_interaction-screen-editor-utils';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction-logging-utils';
+import { SaveFlowEvent } from 'builder_platform_interaction-events';
 import { SaveType } from 'builder_platform_interaction-save-type';
 
 let unsubscribeStore;
@@ -60,9 +60,8 @@ export default class Editor extends Element {
 
     @track showSpinner = false;
 
-    @track disableRunDebug = true;
+    @track hasNotBeenSaved = true;
     @track disableSave = true;
-    @track disableSaveAs = true;
 
     @track errors;
 
@@ -100,7 +99,6 @@ export default class Editor extends Element {
             const startElement = createStartElement();
             storeInstance.dispatch(addElement(startElement));
             this.disableSave = false;
-            this.disableSaveAs = false;
         }
     }
 
@@ -162,11 +160,9 @@ export default class Editor extends Element {
         }
 
         if (this.flowId) {
-            this.disableRunDebug = false;
+            this.hasNotBeenSaved = false;
         }
         this.disableSave = false;
-        // TODO: should only be enabled when we have a flow id
-        this.disableSaveAs = false;
     };
 
     /**
@@ -267,9 +263,9 @@ export default class Editor extends Element {
      * @param {object} event when save or save as buttons are clicked
      */
     handleSaveFlow = (event) => {
-        const mode = event.type;
+        const mode = event.detail.type;
 
-        if (mode === SaveFlowEvent.EVENT_NAME && this.currentFlowId) {
+        if (mode === SaveFlowEvent.Type.SAVE && this.currentFlowId) {
             // We're updating a flow when the save button was pressed and we have a flow id.
             this.saveFlow(SaveType.UPDATE);
         } else {
@@ -281,7 +277,7 @@ export default class Editor extends Element {
             // TODO: We won't need to set the save type here after we introduce the save type
             // selector in the flow-properties-editor component. Temporarily adding the save type
             // to the flow properties object so we know how we're supposed to save in the callback.
-            const saveType = (mode === SaveFlowEvent.EVENT_NAME) ? SaveType.CREATE : SaveType.NEW_VERSION;
+            const saveType = (mode === SaveFlowEvent.Type.SAVE) ? SaveType.CREATE : SaveType.NEW_VERSION;
             node.saveType = saveType;
 
             const nodeUpdate = this.flowPropertiesCallback;
@@ -667,9 +663,8 @@ export default class Editor extends Element {
         };
 
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
-        this.disableRunDebug = true;
+        this.hasNotBeenSaved = true;
         this.disableSave = true;
-        this.disableSaveAs = true;
     }
 
     /**
@@ -704,11 +699,9 @@ export default class Editor extends Element {
             });
 
             if (this.flowId) {
-                this.disableRunDebug = false;
+                this.hasNotBeenSaved = false;
             }
             this.disableSave = false;
-            // TODO: should only be enabled when we have a flow id
-            this.disableSaveAs = false;
         }
     }
 
