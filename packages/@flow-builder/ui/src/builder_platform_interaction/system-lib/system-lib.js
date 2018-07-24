@@ -1,4 +1,5 @@
 import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from './global-constants';
+import { removeCurlyBraces } from 'builder_platform_interaction-common-utils';
 
 /**
  * Checks if the id passed in might point to a non-element resource such as
@@ -9,7 +10,8 @@ import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from './global-consta
  */
 export const isNonElementResourceId = (id) => {
     // TODO system & global variables will be handled here W-5067879
-    return id && id.startsWith(GLOBAL_CONSTANT_PREFIX);
+    // also need to rethink if just removing curly braces allows this function to cover every case
+    return id && removeCurlyBraces(id).startsWith(GLOBAL_CONSTANT_PREFIX);
 };
 
 /**
@@ -20,7 +22,7 @@ export const isNonElementResourceId = (id) => {
  */
 export const getNonElementResource = (id) => {
     // TODO system & global variables will be handled here W-5067879
-    return GLOBAL_CONSTANT_OBJECTS[id];
+    return GLOBAL_CONSTANT_OBJECTS[removeCurlyBraces(id)];
 };
 
 export { GLOBAL_CONSTANT_PREFIX, GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from './global-constants';
