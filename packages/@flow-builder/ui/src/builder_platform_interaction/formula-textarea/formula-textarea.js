@@ -17,7 +17,6 @@ export default class FormulaTextarea extends Element {
         spinnerActive : false
     }
 
-    @api
     set expression(value) {
         this.state.expression = value;
     }
@@ -32,7 +31,6 @@ export default class FormulaTextarea extends Element {
         return this.state.error;
     }
 
-    @api
     set error(value) {
         this.state.error = value;
         const textarea = this.getTextArea();

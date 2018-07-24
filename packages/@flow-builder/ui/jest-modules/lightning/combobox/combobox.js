@@ -17,6 +17,7 @@ export default class LightningCombobox extends Element {
 @api placeholder;
 @api fieldLevelHelp;
 @api required;
+@api dropdownAlignment;
 @api setCustomValidity = jest.fn();
 @api showHelpMessageIfInvalid = jest.fn();
 @api checkValidity = jest.fn();

@@ -62,7 +62,6 @@ export default class DataTypePicker extends Element {
     /**
      * @param {SelectedDataType} newValue - the selected data type
      */
-    @api
     set value(newValue) {
         this.state = { ...newValue };
     }
@@ -71,7 +70,6 @@ export default class DataTypePicker extends Element {
         return this.allowScale && !this.state.isCollection && (this.state.dataType === FLOW_DATA_TYPE.NUMBER.value || this.state.dataType === FLOW_DATA_TYPE.CURRENCY.value);
     }
 
-    @api
     set comboboxErrorMessage(errorMessage) {
         this.comboboxError = errorMessage;
         this.validate();
