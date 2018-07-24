@@ -1,6 +1,7 @@
 import { createElement } from 'engine';
 import { getShadowRoot } from 'lwc-test-utils';
 import { getEntitiesMenuData } from 'builder_platform_interaction-expression-utils';
+import { ComboboxStateChangedEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
 import EntityResourcePicker from '../entity-resource-picker';
 
 const setupComponentUnderTest = (props) => {
@@ -88,6 +89,39 @@ describe('entity-resource-picker', () => {
         return Promise.resolve().then(() => {
             const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.value).toEqual(props.value);
+        });
+    });
+
+    it('handles onitemselected event and changes value to event payload', () => {
+        const entityResourcePicker = setupComponentUnderTest(props);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+
+        const itemPayload = { value: 'foo' };
+        baseResourcePicker.dispatchEvent(new ItemSelectedEvent(itemPayload));
+        return Promise.resolve().then(() => {
+            expect(entityResourcePicker.value).toEqual(itemPayload);
+        });
+    });
+
+    it('handles comboboxstatechanged event and changes value to event payload with item', () => {
+        const entityResourcePicker = setupComponentUnderTest(props);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+
+        const itemPayload = { value: 'foo' };
+        baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(itemPayload));
+        return Promise.resolve().then(() => {
+            expect(entityResourcePicker.value).toEqual(itemPayload);
+        });
+    });
+
+    it('handles comboboxstatechanged event and changes value to event payload with displayText', () => {
+        const entityResourcePicker = setupComponentUnderTest(props);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+
+        const displayText = 'foo';
+        baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(undefined, displayText));
+        return Promise.resolve().then(() => {
+            expect(entityResourcePicker.value).toEqual(displayText);
         });
     });
 });
