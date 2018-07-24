@@ -109,6 +109,14 @@
     width: 30px;
 }
 
+.THIS builder_platform_interaction-left-panel-elements .slds-icon-standard-decision {
+    transform: rotate(45deg);
+}
+
+.THIS builder_platform_interaction-left-panel-elements .slds-icon-standard-decision svg {
+    transform: rotate(-45deg);
+}
+
 /************* Canvas *****************/
 .THIS builder_platform_interaction-canvas .canvas {
     background-color: t(colorForegroundPrimary);
@@ -189,12 +197,38 @@
     box-shadow: 0 0 0 2px white, 0 0 0 3px t(colorBorderSelection), 0 0 6px 3px t(colorBorderSelection);
 }
 
+.THIS builder_platform_interaction-node .icon-section.selected .rotate-icon .icon {
+    transform: scale(1.0909);
+}
+
+.THIS builder_platform_interaction-node .icon-section.decision-icon-section {
+    width: 4rem;
+    height: 2.75rem;
+}
+
+.THIS builder_platform_interaction-node .icon-section .rotate-icon {
+    transform: rotate(45deg);
+}
+
+.THIS builder_platform_interaction-node .icon-section .rotate-icon svg {
+    transform: rotate(-45deg);
+}
+
+.THIS builder_platform_interaction-node .icon-section .rotate-icon .slds-icon_large {
+    width: 2.75rem;
+    height: 2.75rem;
+}
+
 .THIS builder_platform_interaction-node .icon {
     transition: transform 0.12s ease, box-shadow .1s ease-in;
     transform-origin: 50% 100%;
     padding: t(spacingNone);
     border: none;
     border-radius: t(borderRadiusMedium);
+}
+
+.THIS builder_platform_interaction-node .rotate-icon .icon {
+    transform-origin: 100% 100%;
 }
 
 .THIS builder_platform_interaction-node .end-point {
@@ -206,8 +240,12 @@
     background-color: t(colorBackgroundButtonDefault);
     transition: box-shadow 0.1s ease, background-color 0.25s ease-out;
     top: 38px;
-    left: 13px;
+    left: 14px;
     z-index: 300;
+}
+
+.THIS builder_platform_interaction-node .icon-section.decision-icon-section .end-point {
+    left: 22px;
 }
 
 .THIS builder_platform_interaction-node .end-point:hover {
@@ -245,7 +283,7 @@
     padding: 0 3px;
 }
 
-.THIS builder_platform_interaction-node .text-container .text-description {
+.THIS builder_platform_interaction-node .text-container .text-element-type {
     background-color: t(colorBackgroundBackdrop);
     padding: 0 3px;
 }

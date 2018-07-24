@@ -1,10 +1,12 @@
 <template>
-    <div id={nodeGuid} class='element-container node-container slds-is-absolute slds-text-align_center' style={nodeLocation} title={nodeTitle}>
+    <div id={nodeGuid} class='element-container node-container slds-is-absolute slds-text-align_center' style={nodeLocation}>
         <div class={nodeClasses}>
             <!--Node icon -->
-            <button title={nodeLabel} tabindex='0' class='icon' onfocus={handleNodeClick} onclick={handleNodeClick} ondblclick={handleDblClick}>
-                <lightning-icon icon-name={iconName} size='large'></lightning-icon>
-            </button>
+            <div class={rotateIconClass}>
+                <button title={nodeIconTitle} tabindex='0' class='icon' onfocus={handleNodeClick} onclick={handleNodeClick} ondblclick={handleDblClick}>
+                    <lightning-icon icon-name={iconName} size='large'></lightning-icon>
+                </button>
+            </div>
 
             <!--End Point-->
             <button if:true={hasAvailableConnections} title={endPointTitle} tabindex='0' class='end-point slds-is-absolute'></button>
@@ -16,7 +18,7 @@
         <!--Label and description-->
         <div class='text-container slds-is-absolute'>
             <div class='text-label slds-text-body_regular slds-truncate'>{nodeLabel}</div>
-            <div class='text-description slds-text-body_regular slds-truncate'>{nodeDescription}</div>
+            <div class='text-element-type slds-text-body_regular slds-truncate'>{nodeTypeLabel}</div>
         </div>
     </div>
 </template>

@@ -3,6 +3,7 @@ import { getConfigForElementType } from 'builder_platform_interaction-element-co
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './node-labels';
+import { format } from 'builder_platform_interaction-common-utils';
 import startElement from './start-element.html';
 import nodeElement from './node.html';
 
@@ -26,20 +27,25 @@ export default class Node extends Element {
         return `left: ${this.node.locationX}px; top: ${this.node.locationY}px`;
     }
 
-    get nodeTitle() {
-        let title = `${LABELS.labelAlternativeText}: ${this.node.label}`;
-        if (this.node.description) {
-            title = `${title}, ${LABELS.descriptionAlternativeText}: ${this.node.description}`;
-        }
-        return title;
-    }
-
     get nodeClasses() {
-        let classes = 'icon-section';
+        let classes = 'icon-section slds-align_absolute-center';
+
+        if (this.node.elementType === ELEMENT_TYPE.DECISION) {
+            classes = `${classes} decision-icon-section`;
+        }
+
         if (this.node.config.isSelected) {
             classes = `${classes} selected`;
         }
         return classes;
+    }
+
+    get rotateIconClass() {
+        let rotateIconClass = '';
+        if (this.node.elementType === ELEMENT_TYPE.DECISION) {
+            rotateIconClass = 'rotate-icon';
+        }
+        return rotateIconClass;
     }
 
     get iconName() {
@@ -54,23 +60,26 @@ export default class Node extends Element {
         return this.node.config.isSelected;
     }
 
-    get trashCanAlternativeText() {
-        return LABELS.trashCanAlternativeText + ' ' + this.node.label;
+    get nodeIconTitle() {
+        return format(LABELS.nodeIconTitle, getConfigForElementType(this.node.elementType).labels.singular, this.node.label);
     }
 
     get endPointTitle() {
         return LABELS.endPointTitle;
     }
 
+    get trashCanAlternativeText() {
+        return format(LABELS.trashCanAlternativeText, getConfigForElementType(this.node.elementType).labels.singular, this.node.label);
+    }
+
     get nodeLabel() {
         return this.node.label;
     }
 
-    get nodeDescription() {
-        return this.node.description;
+    get nodeTypeLabel() {
+        return getConfigForElementType(this.node.elementType).labels.singular;
     }
 
-    // TODO: Move it to a library
     isMultiSelect(event) {
         return event.shiftKey || event.metaKey;
     }
