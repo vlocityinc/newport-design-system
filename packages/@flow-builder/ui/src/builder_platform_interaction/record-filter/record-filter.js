@@ -2,6 +2,7 @@ import { Element, api, track } from "engine";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS } from './record-filter-labels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-record-editor-lib';
+import { format } from 'builder_platform_interaction-common-utils';
 import {
     AddRecordLookupFilterEvent,
     DeleteRecordLookupFilterEvent,
@@ -32,6 +33,8 @@ export default class RecordFilter extends Element {
     @api
     elementType;
 
+    @api
+    resourceDisplayText;
     /**
      * The filter type to pass as value of the rule for finding record drop down
      * @param {String} value - it's RECORD_FILTER_CRITERIA.NONE or RECORD_FILTER_CRITERIA.ALL
@@ -115,11 +118,28 @@ export default class RecordFilter extends Element {
     }
 
     get warningMessage() {
-        return WARNING_LABELS[this.elementType].replace('{0}', this.entityName);
+        return format(WARNING_LABELS[this.elementType], this.resourceDisplayText);
     }
 
     get showWarningMessage() {
         return (this.elementType === ELEMENT_TYPE.RECORD_UPDATE || this.elementType === ELEMENT_TYPE.RECORD_DELETE) && this.selectedFilter === RECORD_FILTER_CRITERIA.NONE;
+    }
+
+    get filterRecordsTitle() {
+        return format(this.labels.findRecords, this.resourceDisplayText);
+    }
+
+    get filterItemsWithPrefixes() {
+        return this.filterItems.map((filter, i) => {
+            return {
+                prefix: this.getPrefix(i),
+                filter
+            };
+        });
+    }
+
+    getPrefix(index) {
+        return index > 0 ? this.labels.conditionAnd : '';
     }
     /**
      * handle event when changing the filter type in the rule for finding record dropdown

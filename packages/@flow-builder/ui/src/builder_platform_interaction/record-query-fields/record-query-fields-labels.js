@@ -1,17 +1,19 @@
 /* Labels */
-import sObjectVariable from "@salesforce/label/FlowBuilderRecordEditor.sObjectVariable";
-import sObjectCollectionVariable from "@salesforce/label/FlowBuilderRecordEditor.sObjectCollectionVariable";
+import selectVariableToStore from "@salesforce/label/FlowBuilderRecordEditor.selectVariableToStore";
+import selectVariableToStoreRecords from "@salesforce/label/FlowBuilderRecordEditor.selectVariableToStoreRecords";
 import sObjectVariablePlaceholder from "@salesforce/label/FlowBuilderRecordEditor.sObjectVariablePlaceholder";
 import sObjectCollectionVariablePlaceholder from "@salesforce/label/FlowBuilderRecordEditor.sObjectCollectionVariablePlaceholder";
-import variable from "@salesforce/label/FlowBuilderRecordEditor.variable";
-import getFields from "@salesforce/label/FlowBuilderRecordEditor.getFields";
+import recordVariable from "@salesforce/label/FlowBuilderRecordEditor.recordVariable";
+import recordCollectionVariable from "@salesforce/label/FlowBuilderRecordEditor.recordCollectionVariable";
+import selectFields from "@salesforce/label/FlowBuilderRecordEditor.selectFields";
 import field from "@salesforce/label/FlowBuilderRecordEditor.field";
 export const LABELS = {
-    sObjectVariable,
-    sObjectCollectionVariable,
+    selectVariableToStore,
+    selectVariableToStoreRecords,
     sObjectVariablePlaceholder,
     sObjectCollectionVariablePlaceholder,
-    variable,
-    getFields,
+    recordVariable,
+    recordCollectionVariable,
+    selectFields,
     field,
 };

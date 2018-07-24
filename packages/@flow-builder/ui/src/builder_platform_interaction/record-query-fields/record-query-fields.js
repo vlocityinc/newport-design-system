@@ -5,6 +5,7 @@ import {
     DeleteRecordLookupFieldEvent,
     UpdateRecordLookupFieldEvent,
 } from 'builder_platform_interaction-events';
+import { format } from 'builder_platform_interaction-common-utils';
 
 export default class RecordQueryFields extends Element {
     labels = LABELS;
@@ -25,6 +26,9 @@ export default class RecordQueryFields extends Element {
 
     @api
     elementType;
+
+    @api
+    resourceDisplayText;
 
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
@@ -78,14 +82,21 @@ export default class RecordQueryFields extends Element {
         return this.state.queriedFields;
     }
 
+    get sObjectVariablePickerTitle() {
+        return !this.state.isCollection ? format(this.labels.selectVariableToStore, this.resourceDisplayText) : format(this.labels.selectVariableToStoreRecords, this.resourceDisplayText);
+    }
+
     get sObjectVariablePickerLabel() {
-        return !this.state.isCollection ? this.labels.sObjectVariable : this.labels.sObjectCollectionVariable;
+        return !this.isCollection ? this.labels.recordVariable : this.labels.recordCollectionVariable;
     }
 
     get sObjectVariablePickerPlaceholder() {
         return !this.state.isCollection ? this.labels.sObjectVariablePlaceholder : this.labels.sObjectCollectionVariablePlaceholder;
     }
 
+    get selectFieldsLabel() {
+        return format(this.labels.selectFields, this.resourceDisplayText);
+    }
     /**
      * menu data for disabled Id combobox
      */

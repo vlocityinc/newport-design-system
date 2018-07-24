@@ -8,7 +8,7 @@
     
     <!-- sobject picker -->
     <div class="slds-m-bottom_small slds-border_top">
-        <h3 class="slds-text-heading_small slds-p-around_small">{labels.selectObject}</h3>
+        <h3 class="slds-text-heading_small slds-p-around_small">{labels.getRecordsOfObjectType}</h3>
         <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
             <builder_platform_interaction-entity-resource-picker
                     combobox-config={entityComboboxConfig}
@@ -22,7 +22,7 @@
 
     <div if:true={recordEntityName}>
         <!-- Find Records section -->
-        <builder_platform_interaction-record-filter element-type={recordLookupElement.elementType} filter-items={recordLookupElement.filters} record-entity-name={recordEntityName} record-fields={recordFields} filter-type={recordLookupElement.filterType.value} onrecordlookupfiltertypechanged={handleFilterTypeChanged} onaddrecordlookupfilter={handlePropertyOrListItemChanged} onupdaterecordlookupfilter={handlePropertyOrListItemChanged} ondeleterecordlookupfilter={handlePropertyOrListItemChanged}></builder_platform_interaction-record-filter>
+        <builder_platform_interaction-record-filter element-type={recordLookupElement.elementType} filter-items={recordLookupElement.filters} record-entity-name={recordEntityName} resource-display-text={resourceDisplayText} record-fields={recordFields} filter-type={recordLookupElement.filterType.value} onrecordlookupfiltertypechanged={handleFilterTypeChanged} onaddrecordlookupfilter={handlePropertyOrListItemChanged} onupdaterecordlookupfilter={handlePropertyOrListItemChanged} ondeleterecordlookupfilter={handlePropertyOrListItemChanged}></builder_platform_interaction-record-filter>
 
         <!-- Sort Records section -->
         <builder_platform_interaction-record-sort
@@ -42,7 +42,7 @@
                 onrecordstoreoptionchanged={handleRecordStoreOptionsChanged}>
         </builder_platform_interaction-record-store-options>
         <!-- SObject or SObject collection section -->
-        <builder_platform_interaction-record-query-fields is-collection={isCollection} record-entity-name={recordEntityName} element-type={recordLookupElement.elementType} queried-fields={recordLookupElement.queriedFields}
+        <builder_platform_interaction-record-query-fields is-collection={isCollection} record-entity-name={recordEntityName} resource-display-text={resourceDisplayText} element-type={recordLookupElement.elementType} queried-fields={recordLookupElement.queriedFields}
                 output-reference={outputReference} sobject-variable-error-message={outputReferenceErrorMessage} onsobjectreferencechanged={handleSObjectReferenceChanged} onaddrecordlookupfield={handlePropertyOrListItemChanged} onupdaterecordlookupfield={handlePropertyOrListItemChanged} ondeleterecordlookupfield={handlePropertyOrListItemChanged}></builder_platform_interaction-record-query-fields>
     </div>
 </template> 

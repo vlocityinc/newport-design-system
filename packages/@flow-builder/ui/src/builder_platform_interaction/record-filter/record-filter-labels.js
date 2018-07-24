@@ -12,6 +12,7 @@ import criteriaMatchingRecords from "@salesforce/label/FlowBuilderRecordEditor.c
 import deleteAllRecords from "@salesforce/label/FlowBuilderRecordEditor.deleteAllRecords";
 import updateAllRecords from "@salesforce/label/FlowBuilderRecordEditor.updateAllRecords";
 import warning from "@salesforce/label/FlowBuilderRecordEditor.warning";
+import conditionAnd from "@salesforce/label/FlowBuilderRecordEditor.conditionAnd";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 export const LABELS = {
     findRecords,
@@ -27,6 +28,7 @@ export const LABELS = {
     deleteAllRecords,
     updateAllRecords,
     warning,
+    conditionAnd,
 };
 
 export const CRITERIA_RECORDS_LABELS = {
