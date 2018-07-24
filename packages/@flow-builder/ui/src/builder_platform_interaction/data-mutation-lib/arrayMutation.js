@@ -66,3 +66,18 @@ export function deleteItem(arr, itemAt) {
     }
     return [...arr.slice(0, itemAt), ...arr.slice(itemAt + 1)];
 }
+
+/**
+ * Returns an array with union (unique set) of all elements from multiple arrays supplied
+ * @param {...Object[]} arrays list of arrays
+ * @returns {Object[]} list of unique set of elements from all the arrays
+ */
+export function unionOfArrays(...arrays) {
+    const setFromArrays = arrays.reduce((acc, arr) => {
+        for (let i = 0, len = arr.length; i < len; i++) {
+            acc.add(arr[i]);
+        }
+        return acc;
+    }, new Set());
+    return [...setFromArrays];
+}

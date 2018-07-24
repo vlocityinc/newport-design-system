@@ -1,17 +1,21 @@
 import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { isPlainObject } from 'builder_platform_interaction-store-lib';
+import { Store, isPlainObject } from 'builder_platform_interaction-store-lib';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
-import { addItem} from 'builder_platform_interaction-data-mutation-lib';
+import { addItem, getValueFromHydratedItem, dehydrate } from 'builder_platform_interaction-data-mutation-lib';
+import { format } from 'builder_platform_interaction-common-utils';
+import { LABELS } from './used-by-lib-labels';
+import { invokeAlertModal } from 'builder_platform_interaction-builder-utils';
 
 /**
  * This function return list of elements which are referencing elements in the elementGuids array.
  * @param {String[]} elementGuids list of guids to be matched
- * @param {Object} elements list of elements in the store
+ * @param {Object} elements list of elements in the store by default or a custom list of elements passed in to the function
+ * @param {String[]} listOfGuidsToSkip while creating used by element list. Example Usage: In case of an outcome (or any secondary level element), it might need to pass the parent guid (decision) in this list.
  * @returns {Object[]} usedByElements list of elements which contains elementGuids
  */
-export function usedBy(elementGuids = [], elements = {}) {
+export function usedBy(elementGuids = [], elements = Store.getStore().getCurrentState().elements, listOfGuidsToSkip = []) {
     const updatedElementGuids = insertChildReferences(elementGuids, elements);
-    const usedByElements = Object.keys(elements).reduce((acc, key) => {
+    const usedByElements = Object.keys(elements).filter(element => !listOfGuidsToSkip.includes(element)).reduce((acc, key) => {
         if (!elementGuids.includes(key)) {
             const elementGuidsReferenced = findReference(updatedElementGuids, elements[key]);
             if (elementGuidsReferenced.size > 0) {
@@ -25,6 +29,52 @@ export function usedBy(elementGuids = [], elements = {}) {
         return acc;
     }, []);
     return usedByElements;
+}
+
+/**
+ * Helper method to invoke the alert modal
+ *
+ * @param {String[]} usedByElements - List of elements which are referencing elements in the elementGuidsToBeDeleted array.
+ * @param {String[]} elementGuidsToBeDeleted - Contains GUIDs of all the elements to be deleted
+ * @param {String} elementType - Type of the element being deleted
+ * @param {Object} storeElements - Current state of elements in the store
+ */
+export function invokeUsedByAlertModal(usedByElements, elementGuidsToBeDeleted, elementType, storeElements = {}) {
+    const elementGuidsToBeDeletedLength  = elementGuidsToBeDeleted.length;
+    let headerTitle = LABELS.deleteAlertMultiDeleteHeaderTitle;
+    let bodyTextOne = LABELS.deleteAlertMultiDeleteBodyTextOne;
+    const listSectionHeader = LABELS.deleteAlertListSectionHeader;
+    const listSectionItems = dehydrate(usedByElements);
+    const buttonVariant = 'Brand';
+    const buttonLabel = LABELS.deleteAlertOkayButtonLabel;
+
+    if (elementGuidsToBeDeletedLength === 1) {
+        // When only a single element is being deleted and either the element or it's children are being referenced in the flow
+        if (!elementType) {
+            const elementToBeDeleted = storeElements[elementGuidsToBeDeleted[0]];
+            elementType = elementToBeDeleted && elementToBeDeleted.elementType;
+        }
+        headerTitle = format(LABELS.deleteAlertSingleDeleteHeaderTitle, elementType.toLowerCase());
+        bodyTextOne = format(LABELS.deleteAlertSingleDeleteBodyTextOne, elementType.toLowerCase());
+    }
+
+    // Invoking the alert modal
+    invokeAlertModal({
+        headerData: {
+            headerTitle
+        },
+        bodyData: {
+            bodyTextOne,
+            listSectionHeader,
+            listSectionItems
+        },
+        footerData: {
+            buttonOne: {
+                buttonVariant,
+                buttonLabel
+            }
+        }
+    });
 }
 
 /**
@@ -68,7 +118,7 @@ function findReference(elementGuids, object, elementGuidsReferenced = new Set())
         const keysLength = keys.length;
         for (let index = 0; index < keysLength; index += 1) {
             const key = keys[index];
-            const value = object[key];
+            const value = getValueFromHydratedItem(object[key]);
             if (typeof (value) === 'string') {
                 const newElementGuidsReferenced = matchElement(elementGuids, key, value);
                 updateElementGuidsReferenced(elementGuidsReferenced, newElementGuidsReferenced);

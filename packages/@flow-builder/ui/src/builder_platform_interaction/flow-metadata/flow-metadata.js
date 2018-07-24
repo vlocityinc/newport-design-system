@@ -114,7 +114,9 @@ export const REFERENCE_FIELDS = new Set([
     'assignRecordIdToReference',
     'leftValueReference',
     'outcomeReference',
-    'childReference'
+    'childReference',
+    'leftHandSide',
+    'rightHandSideGuid'
 ]);
 
 /**

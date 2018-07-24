@@ -1,5 +1,5 @@
 import { Element, track, api } from 'engine';
-import { invokePanel, PROPERTY_EDITOR, invokeAlertModal } from 'builder_platform_interaction-builder-utils';
+import { invokePanel, PROPERTY_EDITOR } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
 import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
@@ -15,8 +15,7 @@ import { setEntities } from 'builder_platform_interaction-sobject-lib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { LABELS } from './editor-labels';
 import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
-import { usedBy } from 'builder_platform_interaction-used-by-lib';
-import { format } from 'builder_platform_interaction-common-utils';
+import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction-used-by-lib';
 import { listExtensions } from 'builder_platform_interaction-screen-editor-utils';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction-logging-utils';
 import { SaveFlowEvent } from 'builder_platform_interaction-events';
@@ -421,54 +420,6 @@ export default class Editor extends Element {
     };
 
     /**
-     * Helper method to invoke the alert modal
-     *
-     * @param {Object} storeElements - Current state of elements in the store
-     * @param {String[]} usedByElements - List of elements which are referencing elements in the selectedElementGUIDs array.
-     * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
-     * @param {String} elementType - Type of the element being deleted
-     */
-    doInvokeAlert = (storeElements, usedByElements, selectedElementGUIDs, elementType) => {
-        const selectedElementsLength  = selectedElementGUIDs.length;
-        let headerTitle = LABELS.deleteAlertMultiDeleteHeaderTitle;
-        let bodyTextOne = LABELS.deleteAlertMultiDeleteBodyTextOne;
-        const listSectionHeader = LABELS.deleteAlertListSectionHeader;
-        const listSectionItems = usedByElements;
-        const buttonVariant = 'Brand';
-        const buttonLabel = LABELS.deleteAlertOkayButtonLabel;
-
-        if (selectedElementsLength === 1) {
-            // When only a single element is being deleted and either the element or it's children are being referenced in the flow
-            if (!elementType) {
-                const selectedElement = storeElements[selectedElementGUIDs[0]];
-                if (selectedElement) {
-                    elementType = selectedElement.elementType;
-                }
-            }
-            headerTitle = format(LABELS.deleteAlertSingleDeleteHeaderTitle, elementType.toLowerCase());
-            bodyTextOne = format(LABELS.deleteAlertSingleDeleteBodyTextOne, elementType.toLowerCase());
-        }
-
-        // Invoking the alert modal
-        invokeAlertModal({
-            headerData: {
-                headerTitle
-            },
-            bodyData: {
-                bodyTextOne,
-                listSectionHeader,
-                listSectionItems
-            },
-            footerData: {
-                buttonOne: {
-                    buttonVariant,
-                    buttonLabel
-                }
-            }
-        });
-    };
-
-    /**
      * Helper method to delete the selected elements or invoke delete alert modal
      *
      * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
@@ -486,7 +437,7 @@ export default class Editor extends Element {
             this.doDelete(selectedElementGUIDs, connectorsToDelete, elementType);
         } else {
             // Handling cases when the element/elements being deleted are being referenced somewhere in the flow
-            this.doInvokeAlert(storeElements, usedByElements, selectedElementGUIDs, elementType);
+            invokeUsedByAlertModal(usedByElements, selectedElementGUIDs, elementType, storeElements);
         }
     };
 
