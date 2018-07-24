@@ -1,0 +1,25 @@
+
+<svg viewBox="0 0 27 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45 (43475) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Telecom---VISUAL" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="01---Nav" transform="translate(-263.000000, -600.000000)" stroke-width="1" stroke="#0070D2">
+            <g id="Group-25" transform="translate(237.000000, 543.000000)">
+                <g id="Group-16" transform="translate(0.000000, 39.000000)">
+                    <g id="Group-24">
+                        <g id="Group-21">
+                            <g id="Group" transform="translate(26.000000, 18.000000)">
+                                <rect id="Rectangle" x="1" y="1" width="25" height="32" rx="1.4"></rect>
+                                <path d="M6.03947368,7 L11.0131579,7" id="Line" stroke-linecap="square"></path>
+                                <path d="M6.03947368,14 L20.25,14" id="Line" stroke-linecap="square"></path>
+                                <path d="M6.03947368,19 L20.25,19" id="Line" stroke-linecap="square"></path>
+                                <path d="M6.03947368,23 L20.25,23" id="Line" stroke-linecap="square"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

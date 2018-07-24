@@ -1,0 +1,25 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+*
+* @name vpl
+* @selector .nds-table__custom
+* @restrict .nds-table
+* @variant
+*/
+.nds-table__custom {
+	td{
+		line-height: 2.8rem;
+		.nds-text-heading_small{
+			line-height:inherit;
+		}
+	}
+}
+.nds-text-heading_small{
+&.nds-lineheight__custom{
+			line-height:2.8rem;
+			}
+	}
+	
+

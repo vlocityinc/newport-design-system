@@ -1,0 +1,22 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+* The base card is used primarily on desktop within a &ldquo;wide&rdquo; column
+* or &ldquo;main content area&rdquo;, which uses two-thirds of the viewport.
+* In addition, the `.nds-card` class is used for layout purposes
+* when a card has an adjacent card, those proceeding the initial will provide margin
+* to give the cards spacing between each other.
+*
+* @summary Initializes card
+*
+* @name newport
+* @selector .nds-card_asset-detail
+* @restrict .nds-card
+* @variant
+*/
+.nds-card_asset-detail {
+   box-shadow: none;
+   border:none;
+   background:none;
+}

@@ -1,0 +1,395 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+
+.nds-font-size-x-large{
+    font-size:$font-size-x-large;
+}
+.nds-color-text-secondary{
+    color:$color-text-secondary;
+}
+.nds-font-size-large{
+    font-size:$font_size_heading_large;
+}
+.nds-policy__premium-summary{
+    .nds-tile__detail{
+        font-size:2rem;
+    }
+}
+.nds-list-scrollable__item{
+        margin: 0 auto;
+            .nds-list__scrollable-tile{
+                color: $color-blue-text-secondary;
+                border: none;
+                border-radius: 0px;
+                width: 20.9375rem;
+                height: 100%;
+                border: 0.0625rem solid $color_grey_shaded;
+                img{
+                pointer-events: none;
+                min-width: 67px;
+                max-width: 80px;
+                }
+                table{
+                td{
+                  vertical-align: top;
+                    width: 110px;
+                }
+                }
+                .nds-text-heading_medium{
+                 font-weight:500;
+                }
+            }
+ }
+.nds-list__scrollable{
+    border: none;
+    border-radius: 0px;
+    height: 100%;
+    width: 240px;
+    background:$color-background-selago;
+        img{
+        max-width:56px;
+    }
+     .np-list__icon{
+            position: absolute;
+            bottom: -0.375rem;
+            left: 28px;
+            width: 32px;
+            }
+}
+
+
+@mixin multiLineEllipsis($font-size: 20px, $lines-to-show: 1, $line-height: 10){
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-width: 400px;
+  height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+  margin: 0 auto;
+  font-size: $font-size;
+  line-height: $line-height;
+  -webkit-line-clamp: $lines-to-show;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nds-hero-resource__card{
+    .nds-notify__close{
+        top:0;
+        right:0.3125rem;
+    }
+    img{
+        min-width:100%;
+        height: 236px;
+    }
+    .nds-icon{
+    fill:$color-black-primary;
+    }
+ .nds-hero-resource-card__desc{
+        color: $color-border-tab-active;
+        // font-size: 43px;
+        position: absolute;
+        // top: 50px;
+        background: $color-border-icon-inverse-hint;
+        left: 1.25rem;
+        width: 85%;
+        padding: 0.625rem;
+        text-align: left;
+        top: 30px;
+        min-height: 113px;
+        line-height: 1.5;
+                a{
+                color:$color-black-primary;
+                font-size:12px;
+                text-decoration:none;
+                span{
+                  color:$color-black-primary;
+                  font-size: 18px;
+                  font-weight: 400;
+                    }
+                }
+     
+    }
+}
+@media  screen and (max-width:767px){
+    .nds-hero-resource__card{
+        .nds-resource__detail{
+            @include multiLineEllipsis($font-size:20px, $lines-to-show: 5, $line-height: 1.5);
+        }
+    }
+}
+@media  screen and (max-width:400px){
+    .nds-hero-resource__card{
+        .nds-resource__detail{
+            @include multiLineEllipsis($font-size:20px, $lines-to-show: 5, $line-height: 1.5);
+        }
+    }
+}
+
+
+.nds-Attributes__wrapper{
+    .nds-Attributes__title{
+        font-size:1.5rem;
+        line-height:1.8125rem;
+    }
+}
+.nds-billing__pmt{
+.nds-billing__amount{
+    font-size:4em;
+     color: $color-brand;
+    }
+ .nds-billing__action{
+     a{
+          &:first-child{
+              .nds-billing__action-button{
+                    text-align: center;
+                    vertical-align: middle;
+                    background-color: $color_background_brand_primary;
+                    border: 1px solid $color_background_brand_primary;
+                    color:$color_background_primary;
+                    width:100%;
+                    display:block;
+             }
+          }
+          .nds-billing__action-button{
+                width: 100%;
+                display: block;
+                color: $color_background_brand_primary;
+                margin: 0;
+                border: none;
+                background: none;
+                padding: 15px 0;
+          }
+     }
+      
+ }
+}
+
+.nds-get__quote{
+        background: $color-border-tab-active;
+        width: 425px;
+        height: 220px;
+        .nds-get__headline{
+           font-size:32px; 
+           text-align:center;
+        }
+        form{
+              border:1px solid $color_grey_shaded;
+           .nds-button{
+               border-radius:0;
+              label{
+                   color:$color-border-tab-active;
+                font-size:1rem;
+              }
+           }
+        }
+        .nds-col{
+             border-right:1px solid $color_grey_shaded;
+             
+                label{
+                    width:100%;
+                    span{
+                            position: absolute;
+                            right: 10%;
+                            top: 1.125rem;
+                            z-index: 1;
+                            svg{
+                                fill:$shadow-button-focus;
+                            }
+                        &.nds-get__quote-icon{
+                                top: -7px;
+                                left: 3px;
+                                svg{
+                                  fill:$color_svg_fill_red;  
+                                }
+                        }
+                    }
+                }
+                
+             select,input{
+                width:100%;
+                border:none;
+                background:none;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                position: relative;
+                z-index:2;
+                font-size:16px;
+             }
+             input{
+                 text-align:center;
+                    outline:0;
+                    height: 27px;
+                    font-size:1rem;
+                }
+        }
+    
+    }
+    .nds-intelligence__banner{
+        position:relative;
+        .nds-intelligence__image-container{
+            height: 525px;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .np-get-agent{
+            position: absolute;
+            left: 10%;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            max-height: 200px;
+        }
+        .nds-intelligence__card{
+            position:relative;
+            .nds-intelligence__card-buttons input {
+                display: none;
+            }
+    .nds-intelligence__card-buttons {
+        left:0;
+        right:0;
+        bottom:80px;
+        position:absolute;
+        text-align:center;
+        li{
+            padding:0 10px;
+            display: inline-block;
+        label {
+        background-color:$color_white_shaded;
+        bottom: 0;
+        border-radius: 100%;
+        cursor: pointer;
+        height: 8px;
+        transition: .25s;
+        width: 8px;
+        z-index: 10;
+        left: 50%;
+        }
+    }
+}
+    .nds-intelligence__card-buttons input:checked + label {
+        background-color: $color_brand;
+    }
+     @media screen and (min-width: 10em) and (max-width: 48em){
+         .np-get-agent{
+            width:100%;
+        } 
+    }
+
+}
+}
+
+
+
+    .nds-product__category-card {
+            background: $color-border-tab-active;
+            .nds-button{
+                .nds-icon{
+            fill:$color-black-primary;
+            }
+            }
+            .nds-icon{
+            fill:$color-black-primary;
+            }
+           .nds-notify__close{ 
+                position: absolute;
+                top: 10%;
+                right: 2%;
+            }
+            .nds-product__card{
+                position:relative;
+                background : $color-border-tab-active;
+                height: 444px;
+                background-repeat: no-repeat;
+                background-size: cover;
+                margin: 0 auto;
+                
+                .nds-product__title{
+                    min-height : 113px;
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    right:0;
+                }
+                .nds-product__icon{
+                        width: 23px;
+                        height: 23px;
+                }
+            }
+            .nds-product__action-link{
+                font-size:36px;
+                a{
+                    color:$color-blue-text-secondary;
+                    text-decoration:none;
+                }
+                i{
+                    color:$color-blue-text-primary;
+                }
+            }
+            color:$color-blue-text-secondary;
+            overflow:hidden;
+            &.nds-card
+            {
+                border:none;
+            }
+            .nds-product__title
+            {
+                position:absolute;
+                width:100%;
+                background: $color_white_shaded;
+            }
+            
+            
+        } 
+          
+        @media only screen and (max-width: 500px) {
+        .nds-product__category-card { 
+            background: $color-border-tab-active;
+                .nds-product__title
+                    {
+                        position:absolute;
+                        background: $color_white_shaded;
+                        margin-top:40px;
+                        width: inherit;
+                    }
+              }
+            }
+    .nds-offers{
+            h1{
+               font-size: 4rem;
+               line-height:4rem;
+            }
+             h2{
+               font-size:2.125rem; 
+               line-height:2.125rem;
+            }
+            .cards-container{
+                justify-content:center;
+            }
+         }
+         .nds-offers__header{
+             &:before{
+            content: "";
+            border: 0.125rem solid $color_grey_shaded;
+            position: absolute;
+            top: 30px;
+            width: 100%;
+            left: 0;
+            z-index: 0;
+             }
+             span{
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 0 0.3125rem;
+            background: $color-border-tab-active;
+             }
+         }
+
+
