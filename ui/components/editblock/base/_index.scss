@@ -331,7 +331,7 @@
         .nds-custom_button {
             background: white;
             padding: 0.2rem 3.5rem;
-            color: #0070d2;
+            color: $shadow-button-focus;
             border: 1px solid $color-border-input;
             font-weight: 500;
         }
@@ -390,7 +390,7 @@
         position: relative;
         z-index: 99;
         margin-top: -5.1rem;
-        background-color: white;
+        background-color: $color-border-tab-active;
     }
 
     .nds-cont-wrapper .nds-custom_button {
