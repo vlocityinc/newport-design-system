@@ -1,5 +1,5 @@
 import { createElement } from 'engine';
-import { RunFlowEvent, DebugFlowEvent } from 'builder_platform_interaction-events';
+import { RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
 import Toolbar from 'builder_platform_interaction-toolbar';
 import { getShadowRoot } from 'lwc-test-utils';
 
@@ -47,9 +47,10 @@ describe('toolbar', () => {
 
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
-            toolbarComponent.addEventListener('save', eventCallback);
+            toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
             getShadowRoot(toolbarComponent).querySelector(selectors.save).click();
             expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE);
         });
     });
 
@@ -58,9 +59,10 @@ describe('toolbar', () => {
 
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
-            toolbarComponent.addEventListener('saveas', eventCallback);
+            toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
             getShadowRoot(toolbarComponent).querySelector(selectors.saveas).click();
             expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE_AS);
         });
     });
 });
