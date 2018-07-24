@@ -1,5 +1,6 @@
 import { isPlainObject } from './isPlainObject';
 import { deepFreeze } from './deepFreeze';
+import { isDevMode } from 'builder_platform_interaction-context-lib';
 
 /**
  * Library for UI state management
@@ -79,7 +80,6 @@ export class Store {
 
     /**
      * To change the state of the store, call this method with appropriate action
-     * TODO: Remove deepFreeze before release. W-4916277
      * @param {Object} action object which contains a type property
      */
     dispatch(action) {
@@ -91,7 +91,11 @@ export class Store {
             throw new Error('Type of a action is not defined');
         }
 
-        currentState = deepFreeze(currentReducer(currentState, action));
+        // Using deepFreeze has a performance impact which is why we only use
+        // it in development mode.
+        if (isDevMode()) {
+            currentState = deepFreeze(currentReducer(currentState, action));
+        }
 
         // once state is changes, executing all the listeners
         currentListeners.forEach((listener) => {

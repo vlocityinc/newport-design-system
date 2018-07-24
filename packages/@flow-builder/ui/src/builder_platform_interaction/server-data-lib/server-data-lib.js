@@ -18,6 +18,7 @@ export const SERVER_ACTION_TYPE = {
     GET_FLOW_EXTENSION_PARAMS: 'getFlowExtensionParams',
     GET_USER_PREFERENCES: 'getUserPreferences',
     SET_USER_PREFERENCES: 'setUserPreferences',
+    GET_CONTEXT: 'getContext',
 };
 
 const actionConfig = {
@@ -40,6 +41,7 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_PARAMS]: 'c.getFlowExtensionParams',
     [SERVER_ACTION_TYPE.GET_USER_PREFERENCES]: 'c.getUserPreferences',
     [SERVER_ACTION_TYPE.SET_USER_PREFERENCES]: 'c.setUserPreferences',
+    [SERVER_ACTION_TYPE.GET_CONTEXT]: 'c.getContext',
 };
 
 let auraFetch;
