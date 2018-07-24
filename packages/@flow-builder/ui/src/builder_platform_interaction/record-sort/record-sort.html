@@ -7,6 +7,7 @@
                 value={sortOrder}
                 options={sortOrderOptions}
                 onchange={handleSortOrderChanged}
+                dropdown-alignment="auto"
                 class="slds-size_x-small types">
             </lightning-combobox>
             <lightning-combobox if:true={state.showFieldSelector}
@@ -15,6 +16,7 @@
                 value={selectedField}
                 onchange={handleSelectedFieldChanged}
                 placeholder={labels.selectFieldToSortResultLabel}
+                dropdown-alignment="auto"
                 class="sortField slds-m-left_small slds-size_small types"
                 required>
             </lightning-combobox>
