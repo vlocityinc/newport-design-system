@@ -1,0 +1,10 @@
+{
+  "moduleNameMapper": {
+    "^mock-store-data$": "<rootDir>/../../../jest-mock-data/mock_store_data/mock-store-data.js",
+    "^builder_platform_interaction-store-lib$": "<rootDir>/../../../jest-modules/builder_platform_interaction/store-lib/store-lib-mock.js",    
+    "^(builder_platform_interaction)-(.+)$": "<rootDir>/../../../modules/$1/$2/$2",
+    "^(lightning)-(.+)$": "<rootDir>/../../../jest-modules/$1/$2/$2"
+  },
+  "setupTestFrameworkScriptFile": "<rootDir>/../../../jestSetup.js",
+  "clearMocks": true
+}

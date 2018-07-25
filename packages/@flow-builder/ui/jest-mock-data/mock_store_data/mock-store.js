@@ -14,6 +14,7 @@ export const accountSObjectCollectionVariableGuid = 'guid13';
 export const actionCallElementGuid = 'guid14';
 export const outcomeGuid = 'guid15';
 export const decisionGuid = 'guid16';
+export const caseSObjectCollectionVariableGuid = 'guid17';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -28,6 +29,7 @@ export const accountSObjectCollectionVariableDevName = 'accCollectionVar1';
 export const actionCallElementDevName = "actionCall1";
 export const outcomeDevName = "outcome1";
 export const decisionDevName = "decision1";
+export const caseSObjectCollectionVariableDevName = 'caseCollectionVar1';
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -39,10 +41,13 @@ const choiceElementType = 'CHOICE';
 const stageElementType = 'STAGE';
 
 export const account = 'Account';
+export const caseObjectType = 'Case';
 export const choiceLabel = 'Choice 1';
 export const variable = 'VARIABLE';
 export const assignment = 'ASSIGNMENT';
 export const actionCall = 'ACTION_CALL';
+export const outcome = 'OUTCOME';
+export const formula = 'FORMULA';
 
 export const elements = {
     [numberVariableGuid]: {
@@ -109,6 +114,18 @@ export const elements = {
         name: accountSObjectCollectionVariableDevName,
         objectType: account,
     },
+    [caseSObjectCollectionVariableGuid]: {
+        dataType: sobjectDataType,
+        description: '',
+        elementType: variable,
+        guid: caseSObjectCollectionVariableGuid,
+        isCanvasElement: false,
+        isCollection: true,
+        isInput: false,
+        isOutput: false,
+        name: caseSObjectCollectionVariableDevName,
+        objectType: caseObjectType,
+    },
     [stringCollectionVariable1Guid]: {
         dataType: stringDataType,
         description: '',
@@ -156,7 +173,7 @@ export const elements = {
         dataType: dateDataType,
         description: '',
         elementType: variable,
-        guid: dateVariableGuid,
+        guid: dateCollectionVariableGuid,
         isCanvasElement: false,
         isCollection: true,
         name: dateVariableDevName,
@@ -226,7 +243,7 @@ export const elements = {
         name: outcomeDevName,
         processMetadataValues: [],
         dataType: "Boolean",
-        elementType: "OUTCOME",
+        elementType: outcome,
         guid: outcomeGuid,
         isCanvasElement: false
       },
@@ -361,4 +378,3 @@ export const mutatedVariables = {
         }
     }
 };
-
