@@ -132,8 +132,7 @@ export const maximumCharactersLimit = (limit) => {
 };
 
 /**
- * Validates 3 part expression builder to make sure LHS and operator are not blank,
- * and RHS is only null if it's valid.
+ * Validates 3 part expression builder to make sure LHS and operator are not blank
  *
  * @returns {string|null} errorString or null
  */
