@@ -444,16 +444,22 @@ export default class ExpressionBuilder extends Element {
         return this.showOperatorCombobox ? (this.state.expression[OPERATOR] ? this.state.expression[OPERATOR].value : undefined) : RULE_OPERATOR.ASSIGN;
     }
 
+    /** After rendering we are setting the operator error (if it exists)
+     *  via setCustomValidity
+     */
+    renderedCallback() {
+        const renderedOperator = this.state.expression[OPERATOR];
+        if (renderedOperator && renderedOperator.error) {
+            this.setOperatorErrorMessage(renderedOperator.error);
+        }
+    }
+
     setOperatorErrorMessage(errorMessage) {
         const lightningCombobox = this.template.querySelector('.operator');
         if (lightningCombobox) {
             lightningCombobox.setCustomValidity(errorMessage);
             lightningCombobox.showHelpMessageIfInvalid();
         }
-    }
-
-    getRHSCombobox() {
-        return this.template.querySelector('.rhs');
     }
 
     populateRHSMenuData() {
