@@ -43,6 +43,10 @@ export default class Toolbar extends Element {
         }
     };
 
+    get saveDisabled() {
+        return this.isSaveDisabled || this.flowStatus === ACTIVE || this.flowStatus === OBSOLETE;
+    }
+
     get statusBadgeLabel() {
         return this.statusLabelAndTitle[this.flowStatus].label;
     }
