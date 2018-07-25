@@ -109,10 +109,20 @@ describe('base-resource-picker', () => {
             const fullMenuData = ['full menu data'];
             baseResourcePicker.setMenuData(fullMenuData);
             const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
-            flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue'));
+            flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue', false));
             return Promise.resolve().then(() => {
-                expect(filterMatches).toHaveBeenCalledWith('someValue', fullMenuData);
+                expect(filterMatches).toHaveBeenCalledWith('someValue', fullMenuData, false);
                 expect(flowCombobox.menuData).toEqual(filteredMenuData);
+            });
+        });
+
+        it('passes the isMergeField property from filter matches event to filter matches util', () => {
+            const baseResourcePicker = setupComponentUnderTest({comboboxConfig, });
+            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+            const isMergeField = true;
+            flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue', isMergeField));
+            return Promise.resolve().then(() => {
+                expect(filterMatches).toHaveBeenCalledWith(expect.anything(), undefined, isMergeField);
             });
         });
     });

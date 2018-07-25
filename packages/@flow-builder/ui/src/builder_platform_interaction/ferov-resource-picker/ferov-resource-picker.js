@@ -3,9 +3,18 @@ import {
     getElementsForMenuData,
     filterFieldsForChosenElement,
     normalizeRHS,
+    isElementAllowed,
+    getResourceByUniqueIdentifier,
 } from 'builder_platform_interaction-expression-utils';
-import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
+import {
+    getRulesForContext,
+    getRHSTypes,
+    elementToParam,
+    RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import { isObject } from 'builder_platform_interaction-common-utils';
+import { ComboboxStateChangedEvent } from 'builder_platform_interaction-events';
 
 const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker'
@@ -146,6 +155,17 @@ export default class FerovResourcePicker extends Element {
      */
     _paramTypes;
 
+    handleComboboxChanged(event) {
+        event.stopPropagation();
+        const item = event.detail.item;
+        const errorMessage = event.detail.error;
+
+        const validationError = this.validateElement(item, errorMessage) || event.detail.error;
+        const comboChange = new ComboboxStateChangedEvent(event.detail.item, event.detail.displayText, validationError);
+
+        this.dispatchEvent(comboChange);
+    }
+
     handleFetchMenuData(event) {
         const selectedItem = event.detail.item;
         // if the event has combobox menu item that means they selected an sobject item from the dropdown
@@ -169,7 +189,7 @@ export default class FerovResourcePicker extends Element {
     /** HELPER METHODS */
 
     initializeMenuData = (normalizedValue) => {
-        if (this.isSobjectField(normalizedValue)) {
+        if (this.isSobjectField(normalizedValue.itemOrDisplayText)) {
             const item = normalizedValue.itemOrDisplayText;
             const fields = normalizedValue.fields;
             this.value = item;
@@ -189,6 +209,7 @@ export default class FerovResourcePicker extends Element {
         const showAsFieldReference = true;
         const showSubText = true;
 
+        this.populateRulesAndParamTypes();
         if (entityFields) {
             this._menuData = filterFieldsForChosenElement(item, this._paramTypes, entityFields, showAsFieldReference, showSubText);
             this.setFullMenuData(this._menuData);
@@ -209,8 +230,7 @@ export default class FerovResourcePicker extends Element {
     populateFerovMenuData() {
         if (this._baseResourcePicker) {
             if (!this._elementConfig) {
-                this._rules = getRulesForContext({ elementType: this.propertyEditorElementType });
-                this._paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
+                this.populateRulesAndParamTypes();
                 this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType },
                     this._paramTypes, this.showNewResource, this.allowSobjectForFields, this.disableFieldDrilldown);
             } else {
@@ -227,8 +247,22 @@ export default class FerovResourcePicker extends Element {
         }
     }
 
-    isSobjectField(normalizedValue) {
-        const item = normalizedValue.itemOrDisplayText;
+    isSobjectField(item) {
         return item && item.parent;
+    }
+
+    validateElement(item, errorMessage) {
+        let error = null;
+        const element = isObject(item) && getResourceByUniqueIdentifier(item.value);
+        // validate for case where user left an element merge field {!myAccontVar} and check that it is valid based on allowed param types
+        if (element && !errorMessage && !this.isSobjectField(item) && !isElementAllowed(this._paramTypes, elementToParam(element))) {
+            error = genericErrorMessage;
+        }
+        return error;
+    }
+
+    populateRulesAndParamTypes() {
+        this._rules = getRulesForContext({ elementType: this.propertyEditorElementType });
+        this._paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
     }
 }

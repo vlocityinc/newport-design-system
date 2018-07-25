@@ -1,9 +1,10 @@
 import { createElement } from 'engine';
 import { getShadowRoot } from 'lwc-test-utils';
 import FerovResourcePicker from '../ferov-resource-picker';
-import { getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
+import { getElementsForMenuData, normalizeRHS, filterFieldsForChosenElement} from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 
 const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker',
@@ -25,6 +26,12 @@ const paramTypes = {
     collection:false
 };
 
+jest.mock('builder_platform_interaction-sobject-lib', () => {
+    return {
+        getFieldsForEntity: jest.fn(),
+    };
+});
+
 jest.mock('builder_platform_interaction-rule-lib', () => {
     return {
         RULE_OPERATOR: require.requireActual('builder_platform_interaction-rule-lib').RULE_OPERATOR,
@@ -36,7 +43,9 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
 
 jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
-        getElementsForMenuData: jest.fn().mockReturnValue(['ferovMenuData']).mockName('getElementsForMenuData')
+        getElementsForMenuData: jest.fn().mockReturnValue(['ferovMenuData']).mockName('getElementsForMenuData'),
+        normalizeRHS: jest.fn().mockReturnValue(Promise.resolve()),
+        filterFieldsForChosenElement: jest.fn(),
     };
 });
 
@@ -59,29 +68,67 @@ describe('ferov-resource-picker', () => {
         });
     });
 
-    it('retrieves menu data on initial load', () => {
+    it('retrieves ferov menu data on initial load when value is ferov', () => {
+        props.value = 'foo';
+        const normalizedValue = {
+            itemOrDisplayText: {
+                value: props.value,
+            }
+        };
+        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes,
-                false, false, false
+                false, true, false
             );
         });
     });
 
-    describe('disableFieldDrilldown', () => {
-        it('retrieves menu data with disableHasNext = true when true', () => {
-            props.disableFieldDrilldown = true;
-            setupComponentUnderTest(props);
+    it('retrieves field menu data on initial load when value is sobject field', () => {
+        props.value = 'accVar.Name';
+        const normalizedValue = {
+            itemOrDisplayText: {
+                value: props.value,
+                parent: {
+                    objectType: 'Account',
+                },
+            },
+            fields: ['mockField'],
+        };
+        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        setupComponentUnderTest(props);
+        return Promise.resolve().then(() => {
+            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(normalizedValue.itemOrDisplayText.parent, paramTypes,
+                normalizedValue.fields, true, true
+            );
+        });
+    });
 
-            return Promise.resolve().then(() => {
-                expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes,
-                    false, false, true
-                );
-            });
+    it('fetches the fields when requesting field menu data without field data', () => {
+        props.value = 'accVar.Name';
+        const normalizedValue = {
+            itemOrDisplayText: {
+                value: props.value,
+                parent: {
+                    objectType: 'Account',
+                },
+            },
+            fields: undefined,
+        };
+        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        setupComponentUnderTest(props);
+        return Promise.resolve().then(() => {
+            expect(getFieldsForEntity).toHaveBeenCalledWith(normalizedValue.itemOrDisplayText.parent.objectType, expect.any(Function));
         });
     });
 
     it('uses rule service and expression utils to retrieve ferov data', () => {
+        const normalizedValue = {
+            itemOrDisplayText: {
+                value: props.value,
+            }
+        };
+        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getRulesForContext).toHaveBeenCalledTimes(1);
@@ -89,7 +136,7 @@ describe('ferov-resource-picker', () => {
             expect(getRHSTypes).toHaveBeenCalledTimes(1);
             expect(getRHSTypes).toHaveBeenLastCalledWith(ELEMENT_TYPE.VARIABLE, props.elementParam, RULE_OPERATOR.ASSIGN, expect.any(Array));
             expect(getElementsForMenuData).toHaveBeenCalledTimes(1);
-            expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes, false, false, false);
+            expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes, false, true, false);
         });
     });
 
@@ -98,12 +145,18 @@ describe('ferov-resource-picker', () => {
             propertyEditorElementType: ELEMENT_TYPE.VARIABLE,
             elementConfig: { element: ELEMENT_TYPE.VARIABLE, shouldBeWritable: false }
         };
+        const normalizedValue = {
+            itemOrDisplayText: {
+                value: props.value,
+            }
+        };
+        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(elementConfigProps);
         return Promise.resolve().then(() => {
             expect(getRulesForContext).not.toHaveBeenCalled();
             expect(getRHSTypes).not.toHaveBeenCalled();
             expect(getElementsForMenuData).toHaveBeenCalledTimes(1);
-            expect(getElementsForMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, null, false, false, false);
+            expect(getElementsForMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, null, false, true, false);
         });
     });
 

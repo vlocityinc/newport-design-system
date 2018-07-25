@@ -9,6 +9,10 @@ import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxStateChangedE
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
+import { getResourceByUniqueIdentifier, getResourceFerovDataType  } from 'builder_platform_interaction-expression-utils';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
+
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
@@ -61,6 +65,8 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
 jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
         filterMatches: jest.fn(),
+        getResourceByUniqueIdentifier: jest.fn(),
+        getResourceFerovDataType: jest.fn(),
         getElementsForMenuData: jest.fn(),
         getEntitiesMenuData: jest.fn().mockReturnValue(['full menu data']),
         RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction-expression-utils').RESOURCE_PICKER_MODE,
@@ -309,6 +315,8 @@ describe('variable-editor', () => {
         });
 
         it('has variable reducer called for defaultValue and defaultValueGuid', () => {
+            getResourceByUniqueIdentifier.mockReturnValueOnce({});
+            getResourceFerovDataType.mockReturnValueOnce(FEROV_DATA_TYPE.STRING.value);
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
                 const defaultValueCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
@@ -332,11 +340,30 @@ describe('variable-editor', () => {
                 value: 'reference',
                 error: null
             };
+            getResourceByUniqueIdentifier.mockReturnValueOnce({});
+            getResourceFerovDataType.mockReturnValue(FEROV_DATA_TYPE.REFERENCE);
             const valueChangedEvent = new ComboboxStateChangedEvent(selectedMenuItem, null, null);
             return Promise.resolve().then(() => {
                 const flowCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 flowCombobox.dispatchEvent(valueChangedEvent);
-                expect(createAction.mock.calls[1][1]).toEqual(expectedUpdatePropPayload);
+                expect(createAction.mock.calls[0][1]).toEqual(expectedUpdatePropPayload);
+            });
+        });
+
+        it('should allow global constants and treat them as elements', () => {
+            const variableEditor = setupComponentUnderTest(stringVariable);
+            const selectedMenuItem = {
+                value: GLOBAL_CONSTANTS.BOOLEAN_TRUE,
+                displayText: '{!' + GLOBAL_CONSTANTS.BOOLEAN_TRUE + '}',
+            };
+
+            getResourceByUniqueIdentifier.mockReturnValueOnce({});
+
+            const valueChangedEvent = new ComboboxStateChangedEvent(selectedMenuItem, null, null);
+            return Promise.resolve().then(() => {
+                const flowCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+                flowCombobox.dispatchEvent(valueChangedEvent);
+                expect(getResourceFerovDataType).toHaveBeenCalledWith(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
             });
         });
     });
