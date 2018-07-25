@@ -11,9 +11,12 @@
                 <slot name="rowBody"></slot>
             </div>
 
-            <div class="slds-col slds-grow-none slds-p-top_medium slds-m-top_x-small">
+            <div class="slds-col slds-grow-none">
+                <label class="slds-form-element__label slds-is-visually-empty">&nbsp;</label>
+                <div class="slds-form-element__control">
                 <lightning-button-icon icon-name="utility:delete" size="large" onclick={handleDelete} disabled={disableDelete} alternative-text={deleteAlternativeText}>
                 </lightning-button-icon>
+                </div>
             </div>
         </div>
     </fieldset>
