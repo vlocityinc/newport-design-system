@@ -5,7 +5,9 @@ import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 
 
 const propertyChanged = (state, action) => {
-    action.payload.error = action.payload.error === null ? recordCreateValidation.validateProperty(action.payload.propertyName, action.payload.value) : action.payload.error;
+    if (!action.payload.ignoreValidate) {
+        action.payload.error = action.payload.error === null ? recordCreateValidation.validateProperty(action.payload.propertyName, action.payload.value) : action.payload.error;
+    }
     return updateProperties(state, {[action.payload.propertyName]: {error: action.payload.error, value: action.payload.value}});
 };
 

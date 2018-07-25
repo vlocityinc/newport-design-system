@@ -159,7 +159,7 @@ export default class RecordLookupEditor extends Element {
      */
     handleSObjectReferenceChanged(event) {
         event.stopPropagation();
-        this.updateProperty('outputReference', event.detail.value, event.detail.error, this.sObjectName);
+        this.updateProperty('outputReference', event.detail.value, event.detail.error, false, this.sObjectName);
     }
 
     /**
@@ -173,7 +173,7 @@ export default class RecordLookupEditor extends Element {
             this.updateFields();
         }
         const value = event.detail.item ? event.detail.item.value : event.detail.displayText;
-        this.updateProperty('object', value, event.detail.error, oldRecordEntityName);
+        this.updateProperty('object', value, event.detail.error, false, oldRecordEntityName);
     }
 
     /**
@@ -183,9 +183,9 @@ export default class RecordLookupEditor extends Element {
         event.stopPropagation();
         if (this.numberRecordsToStoreValue !== event.detail.numberRecordsToStore) {
             this.numberRecordsToStoreValue = event.detail.numberRecordsToStore;
-            this.updateProperty('outputReference', '', null, this.sObjectName);
+            this.updateProperty('outputReference', '', null, true, this.sObjectName);
         } else if (this.recordLookupElement.assignNullValuesIfNoRecordsFound !== event.detail.assignNullToVariableNoRecord) {
-            this.updateProperty('assignNullValuesIfNoRecordsFound', event.detail.assignNullToVariableNoRecord);
+            this.updateProperty('assignNullValuesIfNoRecordsFound', event.detail.assignNullToVariableNoRecord, null, false);
         }
     }
 
@@ -195,19 +195,20 @@ export default class RecordLookupEditor extends Element {
     handleRecordSortChanged(event) {
         event.stopPropagation();
         if (this.recordLookupElement.sortField.value !== event.detail.fieldApiName) {
-            this.updateProperty('sortField', event.detail.fieldApiName, event.detail.error);
+            this.updateProperty('sortField', event.detail.fieldApiName, event.detail.error, false);
         } else {
-            this.updateProperty('sortOrder', event.detail.sortOrder, event.detail.error);
+            this.updateProperty('sortOrder', event.detail.sortOrder, event.detail.error, false);
         }
     }
 
     handleFilterTypeChanged(event) {
         event.stopPropagation();
-        this.updateProperty('filterType', event.detail.filterType, event.detail.error);
+        this.updateProperty('filterType', event.detail.filterType, event.detail.error, false);
     }
 
-    updateProperty(propertyName, newValue, error, oldValue) {
+    updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
         const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
+        propChangedEvent.detail.ignoreValidate = ignoreValidate;
         this.recordLookupElement = recordLookupReducer(this.recordLookupElement, propChangedEvent);
     }
 }

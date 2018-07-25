@@ -96,7 +96,7 @@ export default class RecordCreateEditor extends Element {
         event.stopPropagation();
         this._numberRecordsToStore = event.detail.numberRecordsToStore;
         // The inputReference value is cleared when the user change the record store option
-        this.updateProperty('inputReference', null, null);
+        this.updateProperty('inputReference', '', null, true);
     }
 
     /**
@@ -104,16 +104,16 @@ export default class RecordCreateEditor extends Element {
      */
     handlePropertyChangedEvent(event) {
         event.stopPropagation();
-        this.updateProperty(event.detail.propertyName, event.detail.value, event.detail.error);
+        this.updateProperty(event.detail.propertyName, event.detail.value, event.detail.error, false);
     }
 
     handleInputReferenceChangedEvent(event) {
         event.stopPropagation();
-        this.updateProperty('inputReference', event.detail.value, event.detail.error);
+        this.updateProperty('inputReference', event.detail.value, event.detail.error, false);
     }
 
-    updateProperty(propertyName, value, error) {
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
+    updateProperty(propertyName, value, error, ignoreValidate) {
+        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error, ignoreValidate });
         this.recordCreateElement = recordCreateReducer(this.recordCreateElement, action);
     }
 }
