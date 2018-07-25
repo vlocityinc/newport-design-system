@@ -1,5 +1,5 @@
 import { Element, api } from 'engine';
-import { RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
+import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './toolbar-labels';
 
 const ACTIVE = 'Active';
@@ -16,6 +16,7 @@ const INVALID_DRAFT = 'InvalidDraft';
  */
 export default class Toolbar extends Element {
     @api flowStatus;
+    @api isEditFlowPropertiesDisabled
     @api isRunDebugDisabled;
     @api isSaveDisabled;
     @api isSaveAsDisabled;
@@ -59,6 +60,12 @@ export default class Toolbar extends Element {
     }
 
     headerTitleForSummary = LABELS.errorPopOverHeader;
+
+    handleEditFlowProperties(event) {
+        event.preventDefault();
+        const editFlowPropertiesEvent = new EditFlowPropertiesEvent();
+        this.dispatchEvent(editFlowPropertiesEvent);
+    }
 
     handleRun(event) {
         event.preventDefault();

@@ -1,5 +1,5 @@
 import { createElement } from 'engine';
-import { RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
+import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
 import Toolbar from 'builder_platform_interaction-toolbar';
 import { getShadowRoot } from 'lwc-test-utils';
 
@@ -14,12 +14,24 @@ const createComponentUnderTest = () => {
 const selectors = {
     root: '.toolbar',
     run: '.test-toolbar-run',
+    editflowproperties: '.test-toolbar-editflowproperties',
     debug: '.test-toolbar-debug',
     saveas: '.test-toolbar-saveas',
     save: '.test-toolbar-save'
 };
 
 describe('toolbar', () => {
+    it('fires editflowproperties event when edit flow properties button is clicked', () => {
+        const toolbarComponent = createComponentUnderTest();
+
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn();
+            toolbarComponent.addEventListener(EditFlowPropertiesEvent.EVENT_NAME, eventCallback);
+            toolbarComponent.querySelector(selectors.editflowproperties).click();
+            expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+
     it('fires run event when run button is clicked', () => {
         const toolbarComponent = createComponentUnderTest();
 

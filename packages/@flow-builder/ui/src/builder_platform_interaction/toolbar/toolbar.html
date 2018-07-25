@@ -29,7 +29,12 @@
         <!--</div>-->
         <!--Flow Properties-->
         <div class="slds-builder-toolbar__item-group">
-            <lightning-button-icon variant="border-filled" icon-name="utility:settings" title={labels.flowPropertiesTitle} alternative-text={labels.flowPropertiesTitle}>
+            <lightning-button-icon variant="border-filled" 
+                icon-name="utility:settings"
+                alternative-text={labels.flowPropertiesTitle}
+                onclick={handleEditFlowProperties}
+                disabled={isEditFlowPropertiesDisabled}
+                class="test-toolbar-editflowproperties">
             </lightning-button-icon>
         </div>
 

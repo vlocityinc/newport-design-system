@@ -9,7 +9,7 @@ import { updateProperties } from 'builder_platform_interaction-data-mutation-lib
  */
 
 // TODO: Replace this with user selected process type in 218. Hard coded to AutoLaunchedFlow for 216
-const flowProperties = {processType: 'AutoLaunchedFlow', elementType: 'FLOW_PROPERTIES'};
+const flowProperties = {processType: 'AutoLaunchedFlow', elementType: 'FLOW_PROPERTIES', fullName: '', label: ''};
 
 export default function flowPropertiesReducer(state = flowProperties, action) {
     switch (action.type) {

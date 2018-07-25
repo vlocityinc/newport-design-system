@@ -22,6 +22,7 @@ export { NewResourceEvent } from './newResourceEvent';
 export { CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from './canvas-events/canvas-events.js';
 export { TogglePanModeEvent } from './canvas-events/zoom-panel-event/pan-event';
 export { ClickToZoomEvent } from './canvas-events/zoom-panel-event/zoom-event';
+export { EditFlowPropertiesEvent } from './toolbar-events/edit-flow-properties-event';
 export { RunFlowEvent } from './toolbar-events/run-flow-event';
 export { DebugFlowEvent } from './toolbar-events/debug-flow-event';
 export { SaveFlowEvent } from './toolbar-events/save-flow-event';

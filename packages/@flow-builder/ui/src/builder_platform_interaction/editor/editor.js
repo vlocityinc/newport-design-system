@@ -18,7 +18,7 @@ import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction-used-by-lib';
 import { listExtensions } from 'builder_platform_interaction-screen-editor-utils';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction-logging-utils';
-import { SaveFlowEvent } from 'builder_platform_interaction-events';
+import { SaveFlowEvent, EditElementEvent } from 'builder_platform_interaction-events';
 import { SaveType } from 'builder_platform_interaction-save-type';
 import { orgHasFlowBuilderPreview } from 'builder_platform_interaction-context-lib';
 
@@ -250,6 +250,24 @@ export default class Editor extends Element {
     };
 
     /**
+     * Handles the edit flow properies event fired by the toolbar. Opens the flow properties property editor with
+     * the current values for the flow properties.
+     */
+    handleEditFlowProperties = () => {
+        const mode = EditElementEvent.EVENT_NAME;
+
+        // Pop flow properties editor and do the following on callback.
+        let node = deepCopy(storeInstance.getCurrentState().properties);
+        node = mutateEditorElement(node, storeInstance.getCurrentState());
+        node = hydrateWithErrors(node);
+
+        node.saveType = SaveType.UPDATE;
+
+        const nodeUpdate = this.flowPropertiesCallback;
+        invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate });
+    };
+
+    /**
      * Handles the run flow event fired by the toolbar. Opens and runs the flow in a different tab.
      */
     handleRunFlow = () => {
@@ -304,7 +322,9 @@ export default class Editor extends Element {
         const properties = removeEditorElementMutation(dehydrate(deepCopy(flowProperties)), storeInstance.getCurrentState());
 
         storeInstance.dispatch(updateProperties(properties));
-        this.saveFlow(saveType);
+        if (saveType !== SaveType.UPDATE) {
+            this.saveFlow(saveType);
+        }
     };
 
     /**
