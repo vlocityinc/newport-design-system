@@ -8,8 +8,8 @@ import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
 
 const stringFerovValue = 'abc';
 const variableFerovValue = 123;
-const dateFerovValue = '05-24-1983';
-const dateTimeFerovValue = '05-24-1983 12:00';
+const dateFerovValue = '2008-08-09T00:00:00.000+0000';
+const dateTimeFerovValue = '2018-07-24T23:04:03+07:00';
 const elementReference = 'myVariable';
 
 const expectedParams = {
@@ -58,7 +58,7 @@ describe('mutateFerov function', () => {
         const item = {};
         item.ferov = { dateValue: dateFerovValue };
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toEqual(dateFerovValue);
+        expect(mutatedItem.rightHandSide).toEqual('2008-08-09');
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.DATE);
     });
 
@@ -66,7 +66,7 @@ describe('mutateFerov function', () => {
         const item = {};
         item.ferov = { dateTimeValue: dateTimeFerovValue };
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toEqual(dateTimeFerovValue);
+        expect(mutatedItem.rightHandSide).toEqual('07/24/2018 09:04:03 GMT-0700 (PDT)');
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.DATETIME);
     });
 
@@ -188,7 +188,7 @@ describe('deMutateFerov function', () => {
         item.rightHandSideDataType = FLOW_DATA_TYPE.DATE.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
-        expect(deMutatedItem.ferov.dateValue).toEqual(dateFerovValue);
+        expect(deMutatedItem.ferov.dateValue).toEqual('2008-08-09');
     });
 
     it('should demutate ferov with dateTime value', () => {
@@ -197,7 +197,7 @@ describe('deMutateFerov function', () => {
         item.rightHandSideDataType = FLOW_DATA_TYPE.DATE_TIME.value;
 
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
-        expect(deMutatedItem.ferov.dateTimeValue).toEqual(dateTimeFerovValue);
+        expect(deMutatedItem.ferov.dateTimeValue).toEqual('2018-07-24T16:04:03.000Z');
     });
 
     it('should demutate ferov with boolean true value', () => {

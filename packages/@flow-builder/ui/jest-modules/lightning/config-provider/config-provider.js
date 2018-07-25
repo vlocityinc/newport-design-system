@@ -10,10 +10,31 @@ const PROVIDED_IMPL = {
             isAter: jest.fn(() => { return true }),
             isSame: jest.fn(() => { return true }),
             formatDateTimeUTC: jest.fn(() => { return '' }),
-            formatDate: jest.fn(() => { return '' }),
-            formatTime: jest.fn(() => { return '' }) ,
-            parseDateTimeUTC: jest.fn(() => { return '' }),
-            parseDateTime: jest.fn((dateTimeString, format) => {
+            formatDateUTC: jest.fn((dateString, format) => {
+                if (format === 'yyyy-MM-dd') {
+                    return dateString.split('T')[0];
+                }
+                return dateString;
+            }),
+            formatDate: jest.fn((dateValue) => {
+                if (typeof dateValue === 'string' || dateValue instanceof String) {
+                    return dateValue;
+                }
+                return (dateValue.getMonth() + 1).toString().padStart(2, 0) + '/'
+                    + dateValue.getDate().toString().padStart(2, 0) + '/' + dateValue.getFullYear();
+            }),
+            formatTime: jest.fn(() => { return '' }),
+            formatDateTime: jest.fn((dateValue) => {
+                let dateObj = dateValue;
+                if (typeof dateValue === 'string' || dateValue instanceof String) {
+                    dateObj = new Date(dateValue);
+                }
+                const datePart = (dateObj.getMonth() + 1).toString().padStart(2, 0) + '/'
+                 + dateObj.getDate().toString().padStart(2, 0) + '/' + dateObj.getFullYear();
+                return datePart + ' ' + dateObj.toTimeString();
+            }),
+            parseDateTimeUTC: jest.fn((dateTimeString) => { return new Date(dateTimeString) }),
+            parseDateTime: jest.fn((dateTimeString) => {
                 const validDateTime = [
                     '12/31/2018',
                     '12-12-2009',
@@ -21,11 +42,8 @@ const PROVIDED_IMPL = {
                     '12122009',
                     '12-12-2009 11:32:59',
                     '1 1 2018 10:11'
-                ]
-
-                if (format && format === 'MM/DD/YYYY HH:mm:ss') {
-                    return validDateTime.includes(dateTimeString) ? new Date(dateTimeString) : null;
-                }
+                ];
+                return validDateTime.includes(dateTimeString) ? new Date(dateTimeString) : null;
             }),
         }
 

@@ -2,24 +2,23 @@ import { Element, api, track, unwrap } from 'engine';
 import { FetchMenuDataEvent, ComboboxStateChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expression-utils';
-import { isUndefinedOrNull, formatDate, isObject, isValidNumber, isValidDateTime } from 'builder_platform_interaction-common-utils';
+import { format, isUndefinedOrNull, isObject, isValidNumber } from 'builder_platform_interaction-common-utils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 import { LABELS } from './combobox-labels';
 import { validateTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
-
+import { DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE, DATE_DISPLAY_FORMAT, formatDateTime, getValidDateTime } from 'builder_platform_interaction-date-time-utils';
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
 };
 
 /**
  * Error message map for validation of literal value.
- * TODO: Use labels and doc review. W-4813532
  */
 const ERROR_MESSAGE = {
     [FLOW_DATA_TYPE.CURRENCY.value]: LABELS.currencyErrorMessage,
     [FLOW_DATA_TYPE.NUMBER.value]: LABELS.numberErrorMessage,
-    [FLOW_DATA_TYPE.DATE.value] : LABELS.dateErrorMessage,
-    [FLOW_DATA_TYPE.DATE_TIME.value] : LABELS.datetimeErrorMessage,
+    [FLOW_DATA_TYPE.DATE.value] : format(LABELS.dateErrorMessage, DATE_DISPLAY_FORMAT),
+    [FLOW_DATA_TYPE.DATE_TIME.value] : format(LABELS.datetimeErrorMessage, DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE),
     GENERIC: LABELS.genericErrorMessage
 };
 
@@ -123,8 +122,9 @@ export default class Combobox extends Element {
 
     /**
      * Input value for the combobox.
-     * Combobox expects and returns date time value in 'MM/DD/YYYY HH:mm:ss TZD' format.
-     * Note: Date time format is under discussion and might change.
+     * Combobox returns date time value in 'MM/dd/yyyy h:mm:ss a [GMT]ZZ' format,
+     * and can accept any the value in many formats that are valid for American locale.
+     * Note: Date time format might be localized in 218+ (W-5236170)
      * @param {menuDataRetrieval.MenuItem|String} itemOrDisplayText - The value of the combobox
      */
     @api
@@ -704,7 +704,8 @@ export default class Combobox extends Element {
      */
     validateLiteral() {
         // literals allowed in combobox, validates number, currency (number), date and date time.
-        // date and date time converts the input date string to format 'MM/DD/YYYY HH:MM:ss TZD
+        // date and date time converts the input date string to format 'MM/dd/yyyy'
+        // & date time string to 'MM/dd/yyyy h:mm:ss a [GMT]ZZ'
         if (this.literalsAllowed) {
             this.validateLiteralForDataType();
         } else if (!this._item) {
@@ -776,9 +777,9 @@ export default class Combobox extends Element {
      * @param {Boolean} isDateTime whether to validate for date time
      */
     validateAndFormatDate(isDateTime) {
-        const dateValue = isValidDateTime(this.state.displayText);
+        const dateValue = getValidDateTime(this.state.displayText);
         if (dateValue) {
-            this.state.displayText = formatDate(dateValue, isDateTime);
+            this.state.displayText = formatDateTime(dateValue, isDateTime);
         } else {
             this._errorMessage = ERROR_MESSAGE[this._dataType];
         }
