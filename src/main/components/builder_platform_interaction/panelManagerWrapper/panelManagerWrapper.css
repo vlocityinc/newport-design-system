@@ -1,3 +1,7 @@
 .THIS {
     z-index: t(zIndexPopup)
 }
+
+.THIS .uiPanelManager2 .restrictWidthToSldsMedium .panel .modal-container {
+    max-width: 75rem
+}

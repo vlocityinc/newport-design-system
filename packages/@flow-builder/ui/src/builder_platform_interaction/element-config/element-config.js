@@ -9,8 +9,9 @@ import { SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
  * @type {string} MODAL_SIZE large or medium (default)
  */
 export const MODAL_SIZE = {
-    LARGE: 'large', // To be used by screen and decision elementType
-    MEDIUM: 'medium'
+    LARGE: 'large restrictWidthToSldsMedium', // To be used by screen and decision elementType
+    MEDIUM: 'medium slds-modal_medium',
+    SMALL: 'small'
 };
 
 /**
@@ -21,6 +22,7 @@ export const MODAL_SIZE = {
 export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.FLOW_PROPERTIES]: {
         descriptor: 'builder_platform_interaction:flowPropertiesEditor',
+        modalSize: MODAL_SIZE.MEDIUM,
         labels: {
             singular: LABELS.flowPropertiesSingularLabel
         },

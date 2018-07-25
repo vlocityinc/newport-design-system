@@ -183,7 +183,7 @@ const getConnectorPickerConfig = (mode, attributes) => {
 
     const panelConfig = {
         titleForModal,
-        flavor: MODAL_SIZE.MEDIUM,
+        flavor: MODAL_SIZE.SMALL,
         bodyClass: 'slds-p-around_medium'
     };
 
