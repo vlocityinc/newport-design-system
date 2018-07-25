@@ -110,7 +110,7 @@
 }
 
 .THIS builder_platform_interaction-left-panel-elements .slds-icon-standard-decision {
-    transform: rotate(45deg);
+    transform: rotate(45deg) scale(0.91666);
 }
 
 .THIS builder_platform_interaction-left-panel-elements .slds-icon-standard-decision svg {
