@@ -93,8 +93,9 @@ export class Store {
 
         // Using deepFreeze has a performance impact which is why we only use
         // it in development mode.
+        currentState = currentReducer(currentState, action);
         if (isDevMode()) {
-            currentState = deepFreeze(currentReducer(currentState, action));
+            currentState = deepFreeze(currentState);
         }
 
         // once state is changes, executing all the listeners
