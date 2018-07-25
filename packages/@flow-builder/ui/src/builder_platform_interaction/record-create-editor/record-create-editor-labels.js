@@ -7,7 +7,7 @@ import helpSObjectAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSO
 import helpSObjectCollectionText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectCollectionText';
 import helpSObjectText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectText';
 import recordCreateTitle from '@salesforce/label/FlowBuilderRecordEditor.recordCreateTitle';
-import fieldAssignmentNotSupported from '@salesforce/label/FlowBuilderRecordEditor.fieldAssignmentNotSupported';
+import fieldAssignmentNotSupportedForCreate from '@salesforce/label/FlowBuilderRecordEditor.fieldAssignmentNotSupportedForCreate';
 import recordVariable from '@salesforce/label/FlowBuilderRecordEditor.recordVariable';
 import recordCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.recordCollectionVariable';
 import warning from '@salesforce/label/FlowBuilderRecordEditor.warning';
@@ -21,7 +21,7 @@ export const LABELS = {
     helpSObjectCollectionText,
     helpSObjectText,
     recordCreateTitle,
-    fieldAssignmentNotSupported,
+    fieldAssignmentNotSupportedForCreate,
     recordVariable,
     recordCollectionVariable,
     warning

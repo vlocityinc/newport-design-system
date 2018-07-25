@@ -1,10 +1,11 @@
 /* Labels */
-import recordVariableOrRecordCollectionVariable from '@label/FlowBuilderRecordEditor.recordVariableOrRecordCollectionVariable';
-import recordUpdateTitle from '@label/FlowBuilderRecordEditor.recordUpdateTitle';
-import helpIdFieldPopulatedWithText from '@label/FlowBuilderRecordEditor.helpIdFieldPopulatedWithText';
-import helpSObjectRecordUpdateAltText from '@label/FlowBuilderRecordEditor.helpSObjectRecordUpdateAltText';
-import selectsObjectOrsObjectCollectionVariable from '@label/FlowBuilderRecordEditor.selectsObjectOrsObjectCollectionVariable';
-import sObjectVariablePlaceholder from '@label/FlowBuilderRecordEditor.sObjectVariablePlaceholder';
+import recordVariableOrRecordCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.recordVariableOrRecordCollectionVariable';
+import recordUpdateTitle from '@salesforce/label/FlowBuilderRecordEditor.recordUpdateTitle';
+import helpIdFieldPopulatedWithText from '@salesforce/label/FlowBuilderRecordEditor.helpIdFieldPopulatedWithText';
+import helpSObjectRecordUpdateAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectRecordUpdateAltText';
+import selectsObjectOrsObjectCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.selectsObjectOrsObjectCollectionVariable';
+import sObjectVariablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.sObjectVariablePlaceholder';
+import fieldAssignmentNotSupportedForUpdate from '@salesforce/label/FlowBuilderRecordEditor.fieldAssignmentNotSupportedForUpdate';
 
 export const LABELS = {
     recordVariableOrRecordCollectionVariable,
@@ -13,4 +14,5 @@ export const LABELS = {
     helpSObjectRecordUpdateAltText,
     selectsObjectOrsObjectCollectionVariable,
     sObjectVariablePlaceholder,
+    fieldAssignmentNotSupportedForUpdate
 };
