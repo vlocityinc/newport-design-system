@@ -160,6 +160,18 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
     };
 });
 
+// Mocking out the fetch function to return Account fields
+jest.mock('builder_platform_interaction-server-data-lib', () => {
+    return {
+        fetch: jest.fn().mockImplementation((actionType, callback) => {
+            callback({
+                data: JSON.stringify(mockAccountFields),
+            });
+        }),
+        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction-server-data-lib').SERVER_ACTION_TYPE,
+    };
+});
+
 describe('expression-builder', () => {
     beforeEach(() => {
         ourCBChangeEvent = new ComboboxStateChangedEvent(CBreturnItem);
@@ -414,8 +426,8 @@ describe('expression-builder', () => {
         let expressionBuilder;
         beforeEach(() => {
             expressionBuilder = createComponentForTest({
-                expression: mockExpressionForEntityFields,
                 configuration: mockConfigurationForEntityFields,
+                expression: mockExpressionForEntityFields,
             });
         });
 
