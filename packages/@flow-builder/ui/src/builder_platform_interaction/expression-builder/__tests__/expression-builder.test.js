@@ -6,7 +6,7 @@ import { RowContentsChangedEvent, ComboboxStateChangedEvent } from 'builder_plat
 import { numberVariableGuid, numberVariableDevName, stringVariableGuid, stringVariableDevName,
     dateVariableGuid, currencyVariableGuid, assignmentElementGuid, elements } from 'mock-store-data';
 import { getLHSTypes, getOperators, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
-import { EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
+import { normalizeLHS, EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { mockAccountFields } from 'mock-server-entity-data';
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
@@ -148,7 +148,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
         getElementsForMenuData: jest.fn().mockReturnValue([]),
         EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction-expression-utils').EXPRESSION_PROPERTY_TYPE,
-        normalizeLHS: require.requireActual('builder_platform_interaction-expression-utils').normalizeLHS,
+        normalizeLHS: jest.fn().mockImplementation(require.requireActual('builder_platform_interaction-expression-utils').normalizeLHS),
         normalizeRHS: require.requireActual('builder_platform_interaction-expression-utils').normalizeRHS,
         retrieveRHSVal: require.requireActual('builder_platform_interaction-expression-utils').retrieveRHSVal,
         getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction-expression-utils').getResourceByUniqueIdentifier,
@@ -175,6 +175,7 @@ jest.mock('builder_platform_interaction-server-data-lib', () => {
 describe('expression-builder', () => {
     beforeEach(() => {
         ourCBChangeEvent = new ComboboxStateChangedEvent(CBreturnItem);
+        normalizeLHS.mockClear();
     });
 
     const labels = ['lhsLabel', 'operatorLabel', 'rhsLabel'];
@@ -287,6 +288,30 @@ describe('expression-builder', () => {
         });
 
         describe('Validation', () => {
+            const testExpressionCreationWithInvalidLHS = (lhs) => {
+                const error = genericErrorMessage;
+                const expression = createBlankExpression();
+                expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value = lhs;
+                expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].error = error;
+                createComponentForTest({
+                    expression,
+                });
+                return Promise.resolve().then(() => {
+                    expect(normalizeLHS).not.toHaveBeenCalled();
+                });
+            };
+            it('Invalid LHS literal should not be processed on component creation', () => {
+                testExpressionCreationWithInvalidLHS("test");
+            });
+            it('Invalid LHS that looks like field on sobject should not be processed on component creation', () => {
+                testExpressionCreationWithInvalidLHS("test.value");
+            });
+            it('Invalid LHS that looks merge field should not be processed on component creation', () => {
+                testExpressionCreationWithInvalidLHS("{!test}");
+            });
+            it('Invalid LHS that looks like field on sobject variable should not be processed on component creation', () => {
+                testExpressionCreationWithInvalidLHS("{!test.value}");
+            });
             it('Invalid LHS has value populated but with error message', () => {
                 const invalidValue = 'blah';
                 const expression = createBlankExpression();

@@ -92,7 +92,7 @@ export default class ExpressionBuilder extends Element {
         this.state.expression = expression;
 
         const lhsVal = getValueFromHydratedItem(expression[LHS]);
-        if (expression[LHS] && !isUndefinedOrNull(lhsVal)) {
+        if (expression[LHS] && !isUndefinedOrNull(lhsVal) && !expression[LHS].error) {
             this.state.normalizedLHS = normalizeLHS(lhsVal, elementType, (lhsIdentifier) => {
                 if (!this._fetchedLHSInfo) {
                     this._fetchedLHSInfo = true;
@@ -257,9 +257,10 @@ export default class ExpressionBuilder extends Element {
     getElementOrField(value) {
         const complexGuid = sanitizeGuid(value);
         const flowElement = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
+        const objectType = flowElement ? flowElement.objectType : contextConfig.objectType;
         let elementOrField;
-        if (complexGuid.fieldName) {
-            const objectType = (flowElement) ? flowElement.objectType : contextConfig.objectType;
+
+        if (complexGuid.fieldName && objectType) {
             getFieldsForEntity(objectType, (fields) => {
                 elementOrField = fields[complexGuid.fieldName];
             });
