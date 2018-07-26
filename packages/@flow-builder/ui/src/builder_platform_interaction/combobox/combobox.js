@@ -5,7 +5,7 @@ import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expres
 import { format, isUndefinedOrNull, isObject, isValidNumber } from 'builder_platform_interaction-common-utils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 import { LABELS } from './combobox-labels';
-import { validateTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
+import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
 import { DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE, DATE_DISPLAY_FORMAT, formatDateTime, getValidDateTime } from 'builder_platform_interaction-date-time-utils';
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
@@ -175,8 +175,15 @@ export default class Combobox extends Element {
             }
             this._dataType = dataType;
 
-            this.doValidation();
-            this.fireComboboxStateChangedEvent();
+            if (this._isValidationEnabled) {
+                this.doValidation();
+                this.fireComboboxStateChangedEvent();
+            } else {
+                this._isValidationEnabled = true;
+                if (this._errorMessage) {
+                    this._isInitialErrorMessageSet = false;
+                }
+            }
         } else {
             this._dataType = null;
         }
@@ -222,6 +229,12 @@ export default class Combobox extends Element {
      */
     @api required = false;
 
+    renderedCallback() {
+        if (!this._isInitialErrorMessageSet) {
+            this.setErrorMessage(this._errorMessage);
+        }
+    }
+
     /* ***************** */
     /* Private Variables */
     /* ***************** */
@@ -261,6 +274,16 @@ export default class Combobox extends Element {
      * Will be the value of the selected item.
      */
     _base;
+
+    /**
+     * This will be false only for the first time the component is rendered.
+     */
+    _isValidationEnabled = false;
+
+    /**
+     * Flag to set the initial error message on renderedCallback only once.
+     */
+    _isInitialErrorMessageSet = false;
 
     /* ********************** */
     /*     Event handlers     */
@@ -446,9 +469,6 @@ export default class Combobox extends Element {
     /**
      * Fire value change event with error message if provided
      * NOTE: This event is only fired if there have been changes
-     * @param {Object} item The item, if any, that was selected
-     * @param {String} displayText Only the display text string
-     * @param {String} errorMessage optional error message
      */
     fireComboboxStateChangedEvent() {
         if ((this.state.displayText !== this._lastRecordedDisplayText) ||
@@ -660,6 +680,7 @@ export default class Combobox extends Element {
         if (groupedCombobox) {
             groupedCombobox.setCustomValidity(customErrorMessage);
             groupedCombobox.showHelpMessageIfInvalid();
+            this._isInitialErrorMessageSet = true;
         }
         this._errorMessage = customErrorMessage;
         this._lastRecordedErrorMessage = customErrorMessage;
@@ -684,8 +705,44 @@ export default class Combobox extends Element {
     doValidation(isBlur = false) {
         this.clearErrorMessage();
 
-        // No validation for three or more level of data to let super user type in higher level values.
-        if (this.getLevel() > MAX_LEVEL_MENU_DATA || this.disabled) {
+        if (this.disabled) {
+            return;
+        }
+
+        if (isTextWithMergeFields(this.state.displayText)) {
+            this.validateMultipleMergeFieldsWithText();
+        } else {
+            this.validateMergeFieldOrLiteral(isBlur);
+        }
+    }
+
+    /**
+     * Validates text with merge field(s).
+     * ex: Hi {!myAccount.Name}!
+     */
+    validateMultipleMergeFieldsWithText() {
+        const mergeFieldsAllowedForDataTypes = [FLOW_DATA_TYPE.STRING.value,
+            FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value];
+
+        // merge fields are valid only with literals allowed
+        if (!this._isLiteralAllowed) {
+            this._errorMessage = ERROR_MESSAGE.GENERIC;
+            return;
+        }
+
+        if (!mergeFieldsAllowedForDataTypes.includes(this._dataType)) {
+            this._errorMessage = ERROR_MESSAGE[this._dataType];
+            return;
+        }
+
+        this.state.showActivityIndicator = true;
+
+        this.validateUsingMergeFieldLib(validateTextWithMergeFields);
+    }
+
+    validateMergeFieldOrLiteral(isBlur = false) {
+        // No validation for three or more level of data in merge field to let super user type in higher level values.
+        if (this.getLevel() > MAX_LEVEL_MENU_DATA) {
             return;
         }
 
@@ -720,14 +777,13 @@ export default class Combobox extends Element {
     validateResource(isBlur = false) {
         if (this.literalsAllowed && this.isExpressionIdentifierLiteral()) {
             this.validateLiteralForDataType();
-        } else if (!this._item && isBlur) {
-            this._errorMessage = ERROR_MESSAGE.GENERIC;
+        } else if (isBlur) {
+            this.validateUsingMergeFieldLib(validateMergeField);
         }
     }
 
     /**
      * Validates the literal value entered in the combobox against the _dataTypes
-     * @param {String} value literal value
      */
     validateLiteralForDataType() {
         if (this._dataType) {
@@ -742,24 +798,10 @@ export default class Combobox extends Element {
                 case FLOW_DATA_TYPE.DATE_TIME.value:
                     this.validateAndFormatDate(true);
                     break;
-                case FLOW_DATA_TYPE.STRING.value:
-                    this.validateInlineMergeFields();
-                    break;
                 default:
                     break;
             }
         }
-    }
-
-    validateInlineMergeFields() {
-        this.state.showActivityIndicator = true;
-        validateTextWithMergeFields(this.state.displayText).then(errors => {
-            this.state.showActivityIndicator = false;
-            if (errors.length > 0) {
-                this._errorMessage = errors[0].message;
-                this.fireComboboxStateChangedEvent();
-            }
-        });
     }
 
     /**
@@ -784,6 +826,26 @@ export default class Combobox extends Element {
             this._errorMessage = ERROR_MESSAGE[this._dataType];
         }
     }
+
+    /**
+     * Validate the merge field or merge fields with text using passed in merge field validation function reference.
+     * @param {function} validateFunctionRef a existing function reference from merge field lib that returns promise.
+     */
+    validateUsingMergeFieldLib(validateFunctionRef) {
+        validateFunctionRef.call(this, this.state.displayText, {allowGlobalConstants: true, allowCollectionVariables: true})
+            .then(this.resolveMergeFieldValidation)
+            .catch(() => {
+                this.state.showActivityIndicator = false;
+            });
+    }
+
+    resolveMergeFieldValidation = (errors) => {
+        this.state.showActivityIndicator = false;
+        if (errors.length > 0) {
+            this._errorMessage = errors[0].message;
+            this.fireComboboxStateChangedEvent();
+        }
+    };
 
     /**
      * Validates if the expression literal identifier is a valid dev name.

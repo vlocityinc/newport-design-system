@@ -1,1 +1,1 @@
-export { validateMergeField, validateTextWithMergeFields } from './mergeFieldValidation';
+export { validateMergeField, validateTextWithMergeFields, isTextWithMergeFields } from './mergeFieldValidation';

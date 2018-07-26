@@ -1,4 +1,4 @@
-import { validateTextWithMergeFields, validateMergeField } from '../mergeFieldValidation';
+import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
 
 jest.mock('builder_platform_interaction-sobject-lib', () => {
     const fields = {
@@ -151,11 +151,41 @@ describe('Merge field validation', () => {
         });
     });
 });
+
 describe('Text with merge fields validation', () => {
     it('Returns no validation error when it references existing variables', (done) => {
         validateTextWithMergeFields('{!accVar1.Name} == {!strVar1}').then(validationErrors => {
             expect(validationErrors).toEqual([]);
             done();
+        });
+    });
+});
+
+describe('Is text with merge fields validation', () => {
+    const validationTestData = [
+        {value: '{!MyVar1}', result: false},
+        {value: 'test name', result: false},
+        {value: '{test}', result: false},
+        {value: '{test.test}', result: false},
+        {value: '{$test}', result: false},
+        {value: '{!test test', result: false},
+        {value: '{!myAccount.Description}', result: false},
+        {value: '{!myAccount.Contact.Id}', result: false},
+        {value: { a:'1', b:'2' }, result: false},
+        {value: true, result: false},
+        {value: null, result: false},
+        {value: undefined, result: false},
+        {value: '', result: false},
+        {value: '{$test} {!var1}', result: true},
+        {value: '{!myAccount.Description} ', result: true},
+        {value: ' {!myAccount.Description}', result: true},
+        {value: '{!myAccount.Description} {!test}', result: true},
+        {value: 'My name is {!firstName}', result: true},
+    ];
+
+    validationTestData.forEach(testData => {
+        it(`returns ${testData.result} for '${testData.value}'`, () => {
+            expect(isTextWithMergeFields(testData.value)).toEqual(testData.result);
         });
     });
 });

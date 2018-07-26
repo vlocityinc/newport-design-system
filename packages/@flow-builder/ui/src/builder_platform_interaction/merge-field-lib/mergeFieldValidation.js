@@ -27,6 +27,7 @@ const VALIDATION_ERROR_TYPE = {
  */
 export class MergeFieldsValidation {
     allowGlobalConstants = true;
+    allowCollectionVariables = true;
 
     /**
      * @typedef {Object} ValidationError
@@ -66,14 +67,39 @@ export class MergeFieldsValidation {
      * @returns {Promise<ValidationError[]>} The validation errors
      */
     validateMergeField(mergeField) {
-        const match = MERGEFIELD_REGEX.exec(mergeField);
-        MERGEFIELD_REGEX.lastIndex = 0;
-        if (match === null || match[0] !== mergeField) {
-            const validationErrorLabel = format(LABELS.notAValidMergeField, mergeField);
-            const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, validationErrorLabel, 0, mergeField.length - 1);
-            return Promise.resolve([validationError]);
+        try {
+            const match = MERGEFIELD_REGEX.exec(mergeField);
+            if (match === null || match[0] !== mergeField) {
+                const validationErrorLabel = format(LABELS.notAValidMergeField, mergeField);
+                const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, validationErrorLabel, 0, mergeField.length - 1);
+                return Promise.resolve([validationError]);
+            }
+            return this._validateMergeFieldReferenceValue(match[1], 2);
+        } finally {
+            MERGEFIELD_REGEX.lastIndex = 0;
         }
-        return this._validateMergeFieldReferenceValue(match[1], 2);
+    }
+
+    /**
+     * Checks if input text is text with merge field(s).
+     * ex: {!variable1.Name} - false
+     *     test input - false
+     *     Hi {!variable1.Name} - true
+     * @param {string} text
+     *          input text
+     * @return {boolean} true if input is text with merge field
+     */
+    static isTextWithMergeFields(text) {
+        if (typeof text !== 'string') {
+            return false;
+        }
+
+        try {
+            const match = MERGEFIELD_REGEX.exec(text);
+            return match !== null && match[0] !== text;
+        } finally {
+            MERGEFIELD_REGEX.lastIndex = 0;
+        }
     }
 
     _validationError(errorType, message, startIndex, endIndex) {
@@ -150,7 +176,7 @@ export class MergeFieldsValidation {
             return Promise.resolve([validationError]);
         }
         const elementType = this._getElementType(element);
-        if (elementType.dataType === null || elementType.isCollection) {
+        if (elementType.dataType === null || (!this.allowCollectionVariables && elementType.isCollection)) {
             const validationErrorLabel = format(LABELS.resourceCannotBeUsedAsMergeField, mergeFieldReferenceValue);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
@@ -244,14 +270,20 @@ export class MergeFieldsValidation {
     }
 }
 
-export function validateTextWithMergeFields(textWithMergeFields, { allowGlobalConstants = true } = { }) {
+export function validateTextWithMergeFields(textWithMergeFields, { allowGlobalConstants = true, allowCollectionVariables = true } = { }) {
     const validation = new MergeFieldsValidation();
     validation.allowGlobalConstants = allowGlobalConstants;
+    validation.allowCollectionVariables = allowCollectionVariables;
     return validation.validateTextWithMergeFields(textWithMergeFields);
 }
 
-export function validateMergeField(mergeField, { allowGlobalConstants = true } = { }) {
+export function validateMergeField(mergeField, { allowGlobalConstants = true, allowCollectionVariables = true } = { }) {
     const validation = new MergeFieldsValidation();
     validation.allowGlobalConstants = allowGlobalConstants;
+    validation.allowCollectionVariables = allowCollectionVariables;
     return validation.validateMergeField(mergeField);
+}
+
+export function isTextWithMergeFields(text) {
+    return MergeFieldsValidation.isTextWithMergeFields(text);
 }

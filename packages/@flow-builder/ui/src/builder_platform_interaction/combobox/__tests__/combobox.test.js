@@ -5,10 +5,11 @@ import { comboboxInitialConfig, secondLevelMenuData } from 'mock-combobox-data';
 import { FilterMatchesEvent, FetchMenuDataEvent, ComboboxStateChangedEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { validateTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
+import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
 import { removeCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
 import unknownMergeField from '@label/FlowBuilderMergeFieldValidation.unknownMergeField';
+import unknownResource from '@label/FlowBuilderMergeFieldValidation.unknownResource';
 
 const SELECTORS = {
     COMBOBOX_PATH: 'builder_platform_interaction-combobox',
@@ -35,6 +36,8 @@ const VALIDATION_ERROR_MESSAGE = {
 jest.mock('builder_platform_interaction-merge-field-lib', () => {
     return {
         validateTextWithMergeFields: jest.fn().mockReturnValue(Promise.resolve([])),
+        validateMergeField: jest.fn().mockReturnValue(Promise.resolve([])),
+        isTextWithMergeFields: jest.fn().mockReturnValue(Promise.resolve([])),
     };
 });
 
@@ -460,7 +463,6 @@ describe('Combobox Tests', () => {
                 { value: '{!9var}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!_test_}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!_test_}', error: null },
-                { value: '{!textVarDoesNotExists}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!MyVar1.secondLevel.thirdLevel}', isLiteralsAllowed: false, error: null }, // no validation for more than 2 levels
                 { value: '{!MyVar1.}', isLiteralsAllowed: false, error: null }, // no error since last dot is removed before validation
                 { value: '{!' + GLOBAL_CONSTANTS.EMPTY_STRING + '}', error: null },
@@ -526,6 +528,8 @@ describe('Combobox Tests', () => {
 
             comboboxStateChangedHandler = jest.fn();
             combobox.addEventListener(ComboboxStateChangedEvent.EVENT_NAME, comboboxStateChangedHandler);
+
+            isTextWithMergeFields.mockReturnValue(false);
         });
 
         Object.keys(validationTestData).forEach(dataType => {
@@ -578,6 +582,7 @@ describe('Combobox Tests', () => {
         });
 
         it('validateTextWithMergeFields sets the error message for strings with invalid merge fields', () => {
+            isTextWithMergeFields.mockReturnValueOnce(true);
             validateTextWithMergeFields.mockReturnValueOnce(Promise.resolve([{
                 message: unknownMergeField,
             }]));
@@ -587,6 +592,20 @@ describe('Combobox Tests', () => {
             return Promise.resolve().then(() => {
                 expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
                 expect(combobox.errorMessage).toEqual(unknownMergeField);
+            });
+        });
+
+        it('for merge fields that does not exists.', () => {
+            isTextWithMergeFields.mockReturnValueOnce(false);
+            validateMergeField.mockReturnValueOnce(Promise.resolve([{
+                message: unknownResource,
+            }]));
+            combobox.type = FLOW_DATA_TYPE.STRING.value;
+            combobox.value = '{!vardoesnotexists}';
+            groupedCombobox.dispatchEvent(blurEvent);
+            return Promise.resolve().then(() => {
+                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
+                expect(combobox.errorMessage).toEqual(unknownResource);
             });
         });
     });
