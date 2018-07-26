@@ -14,9 +14,11 @@ import { invokeAlertModal } from 'builder_platform_interaction-builder-utils';
  * @returns {Object[]} usedByElements list of elements which contains elementGuids
  */
 export function usedBy(elementGuids = [], elements = Store.getStore().getCurrentState().elements, listOfGuidsToSkip = []) {
-    const updatedElementGuids = insertChildReferences(elementGuids, elements);
-    const usedByElements = Object.keys(elements).filter(element => !listOfGuidsToSkip.includes(element)).reduce((acc, key) => {
-        if (!elementGuids.includes(key)) {
+    const updatedElementGuids = insertChildReferences(elementGuids, elements) || [];
+    const elementsKeys = Object.keys(elements);
+
+    const usedByElements = elementsKeys && elementsKeys.filter(element => !listOfGuidsToSkip.includes(element)).reduce((acc, key) => {
+        if (!updatedElementGuids.includes(key)) {
             const elementGuidsReferenced = findReference(updatedElementGuids, elements[key]);
             if (elementGuidsReferenced.size > 0) {
                 const usedByElement = createUsedByElement({
@@ -40,7 +42,7 @@ export function usedBy(elementGuids = [], elements = Store.getStore().getCurrent
  * @param {Object} storeElements - Current state of elements in the store
  */
 export function invokeUsedByAlertModal(usedByElements, elementGuidsToBeDeleted, elementType, storeElements = {}) {
-    const elementGuidsToBeDeletedLength  = elementGuidsToBeDeleted.length;
+    const elementGuidsToBeDeletedLength = elementGuidsToBeDeleted && elementGuidsToBeDeleted.length;
     let headerTitle = LABELS.deleteAlertMultiDeleteHeaderTitle;
     let bodyTextOne = LABELS.deleteAlertMultiDeleteBodyTextOne;
     const listSectionHeader = LABELS.deleteAlertListSectionHeader;
@@ -86,6 +88,9 @@ export function invokeUsedByAlertModal(usedByElements, elementGuidsToBeDeleted, 
 function insertChildReferences(elementGuids, elements) {
     return elementGuids.reduce((acc, elementGuid) => {
         const element = elements[elementGuid];
+        if (!element) {
+            return acc;
+        }
         if (element.elementType === ELEMENT_TYPE.DECISION) {
             const outcomeReferences = element.outcomeReferences.map(({outcomeReference}) => {
                 return outcomeReference;
@@ -109,13 +114,13 @@ function insertChildReferences(elementGuids, elements) {
  */
 function findReference(elementGuids, object, elementGuidsReferenced = new Set()) {
     if (Array.isArray(object)) {
-        const objectLength = object.length;
+        const objectLength = object && object.length;
         for (let index = 0; index < objectLength; index += 1) {
             findReference(elementGuids, object[index], elementGuidsReferenced);
         }
     } else if (isPlainObject(object)) {
         const keys = Object.keys(object);
-        const keysLength = keys.length;
+        const keysLength = keys && keys.length;
         for (let index = 0; index < keysLength; index += 1) {
             const key = keys[index];
             const value = getValueFromHydratedItem(object[key]);
@@ -139,7 +144,7 @@ function findReference(elementGuids, object, elementGuidsReferenced = new Set())
  */
 function matchElement(elementGuids, key, value) {
     if (key && REFERENCE_FIELDS.has(key)) {
-        return elementGuids.filter((elementGuid) => (elementGuid === value));
+        return elementGuids && elementGuids.filter((elementGuid) => (elementGuid === value));
     } else if (key && TEMPLATE_FIELDS.has(key)) {
         const occurences = value.match(EXPRESSION_RE);
         if (occurences) {
@@ -156,7 +161,7 @@ function matchElement(elementGuids, key, value) {
  * @return {Set} elementGuidsReferenced updated set of unique elementGuids
  */
 function updateElementGuidsReferenced(elementGuidsReferenced, newElementGuidsReferenced) {
-    const newElementGuidsReferenceLength = newElementGuidsReferenced.length;
+    const newElementGuidsReferenceLength = newElementGuidsReferenced && newElementGuidsReferenced.length;
     for (let index = 0; index < newElementGuidsReferenceLength; index++) {
         elementGuidsReferenced.add(newElementGuidsReferenced[index]);
     }

@@ -24,7 +24,7 @@ import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expressio
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction-used-by-lib';
 
-const getListOfUsedByElementsForOutcome = (state) => {
+const getListOfUsedByElementsForOutcome = (state, event) => {
     let listOfGuidsToSkipWhenCheckingUsedByGlobally = [state.guid];
     const mapOfInternalOutcomes = state.outcomes.reduce((acc, outcome) => {
         listOfGuidsToSkipWhenCheckingUsedByGlobally = addItem(listOfGuidsToSkipWhenCheckingUsedByGlobally, outcome.guid);
@@ -47,7 +47,7 @@ const addOutcome = (state) => {
 };
 
 const deleteOutcome = (state, event) => {
-    const usedElements = getListOfUsedByElementsForOutcome(state);
+    const usedElements = getListOfUsedByElementsForOutcome(state, event);
     if (usedElements && usedElements.length > 0) {
         invokeUsedByAlertModal(usedElements, [event.detail.guid], ELEMENT_TYPE.OUTCOME);
     } else {

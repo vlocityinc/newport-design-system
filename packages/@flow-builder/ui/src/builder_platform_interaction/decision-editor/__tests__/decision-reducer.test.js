@@ -14,14 +14,31 @@ describe('decision-reducer', () => {
 
     beforeEach(() => {
         originalState = {
+            label: "decisionLabel",
+            name: "decisionDevName",
+            elementType: "DECISION",
+            guid: "decisionGuid",
+            isCanvasElement: true,
             outcomes: [
                 {
                     guid: '456',
-                    conditions: [{}]
+                    conditions: [{}],
+                    label: "outcomeLabel1",
+                    name: "outcomeName1",
+                    processMetadataValues: [],
+                    dataType: "Boolean",
+                    elementType: "OUTCOME",
+                    isCanvasElement: false
                 },
                 {
                     guid: '123',
-                    conditions: [{}]
+                    conditions: [{}],
+                    label: "outcomeLabel2",
+                    name: "outcomeName2",
+                    processMetadataValues: [],
+                    dataType: "Boolean",
+                    elementType: "OUTCOME",
+                    isCanvasElement: false
                 },
             ]
         };
@@ -45,8 +62,8 @@ describe('decision-reducer', () => {
 
                 expect(newState.label.value).toEqual('val');
                 expect(newState.label.error).toEqual('anError');
-                expect(newState.outcomes[0].label).toBeUndefined();
-                expect(newState.outcomes[1].label).toBeUndefined();
+                expect(newState.outcomes[0].label).toBe(originalState.outcomes[0].label);
+                expect(newState.outcomes[1].label).toBe(originalState.outcomes[1].label);
             });
         });
         describe('with guid (outcome)', () => {
@@ -65,9 +82,8 @@ describe('decision-reducer', () => {
 
             it('to update the specified property on only the specified outcome', () => {
                 const newState = decisionReducer(originalState, outcomePropertyChangedEvent);
-
-                expect(newState.label).toBeUndefined();
-                expect(newState.outcomes[0].label).toBeUndefined();
+                expect(newState.label).toBe(originalState.label);
+                expect(newState.outcomes[0].label).toBe(originalState.outcomes[0].label);
                 expect(newState.outcomes[1].label.value).toEqual('val');
                 expect(newState.outcomes[1].label.error).toEqual('anError');
             });
@@ -106,7 +122,6 @@ describe('decision-reducer', () => {
                     guid: originalState.outcomes[0].guid
                 }
             };
-
             const newState = decisionReducer(originalState, deleteOutcomeAction);
 
             expect(newState.outcomes).toHaveLength(1);
