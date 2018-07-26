@@ -217,8 +217,10 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     const menuData = menuDataElements.filter(element => isElementAllowed(allowedParamTypes, element, allowFerovs))
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
-            menuItem.hasNext = disableHasNext ? false : menuItem.hasNext;
-
+            if (disableHasNext) {
+                menuItem.hasNext = false;
+                menuItem.rightIconName = '';
+            }
             return menuItem;
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);

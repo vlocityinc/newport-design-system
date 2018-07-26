@@ -19,7 +19,8 @@ const ERROR_MESSAGE = {
     [FLOW_DATA_TYPE.NUMBER.value]: LABELS.numberErrorMessage,
     [FLOW_DATA_TYPE.DATE.value] : format(LABELS.dateErrorMessage, DATE_DISPLAY_FORMAT),
     [FLOW_DATA_TYPE.DATE_TIME.value] : format(LABELS.datetimeErrorMessage, DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE),
-    GENERIC: LABELS.genericErrorMessage
+    GENERIC: LABELS.genericErrorMessage,
+    REQUIRED: LABELS.requiredErrorMessage
 };
 
 /**
@@ -225,6 +226,11 @@ export default class Combobox extends Element {
      * @type {String}
      */
     @api required = false;
+
+    /**
+     * The error message to display when the combobox is required, but has no value
+     */
+    @api messageWhenValueMissing = ERROR_MESSAGE.REQUIRED;
 
     renderedCallback() {
         if (!this._isInitialErrorMessageSet && this._errorMessage) {
@@ -750,7 +756,7 @@ export default class Combobox extends Element {
                 this.validateLiteral();
             }
         } else if (this.required && isBlur) {
-            this._errorMessage = ERROR_MESSAGE.GENERIC;
+            this._errorMessage = this.messageWhenValueMissing;
         }
     }
     /**

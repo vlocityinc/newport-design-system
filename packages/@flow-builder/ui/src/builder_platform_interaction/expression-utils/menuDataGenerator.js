@@ -4,10 +4,10 @@ import { isNonElementResourceId } from 'builder_platform_interaction-system-lib'
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { LABELS } from './expression-utils-labels';
 
-const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
-const iconType = 'utility';
-const rightIconName = 'utility:chevronright';
-const iconSize = 'xx-small';
+const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
+const ICON_TYPE = 'utility';
+const RIGHT_ICON_NAME = 'utility:chevronright';
+const ICON_SIZE = 'xx-small';
 
 /**
  * Determines category for display. Eventually will use the label service
@@ -19,13 +19,13 @@ const iconSize = 'xx-small';
  */
 function getElementCategory(elementType, dataType, isCollection) {
     let categoryLabel;
-    if (dataType !== SObjectType && !isCollection) {
+    if (dataType !== SOBJECT_TYPE && !isCollection) {
         const config = getConfigForElementType(elementType);
         if (config && config.labels && config.labels.plural) {
             categoryLabel = config.labels.plural;
         }
     } else {
-        categoryLabel = (dataType === SObjectType) ? (isCollection ? LABELS.sObjectCollectionVariablePluralLabel : LABELS.sObjectVariablePluralLabel) : LABELS.collectionVariablePluralLabel;
+        categoryLabel = (dataType === SOBJECT_TYPE) ? (isCollection ? LABELS.sObjectCollectionVariablePluralLabel : LABELS.sObjectVariablePluralLabel) : LABELS.collectionVariablePluralLabel;
     }
 
     return categoryLabel;
@@ -42,7 +42,7 @@ function getElementCategory(elementType, dataType, isCollection) {
  */
 function getSubText(dataType, objectType, label) {
     let subText;
-    if (dataType === SObjectType) {
+    if (dataType === SOBJECT_TYPE) {
         subText = objectType;
     } else if (label) {
         subText = label;
@@ -98,7 +98,7 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
         subText,
         displayText,
         iconName,
-        iconSize,
+        ICON_SIZE,
         value,
         parent,
         dataType,
@@ -118,7 +118,7 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
 export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSubText) {
     const formattedField = {
         parent,
-        iconSize
+        ICON_SIZE
     };
     const label = field.label || field.apiName;
     formattedField.text = field.apiName;
@@ -126,7 +126,7 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
     formattedField.value = parent.value + '.' + field.apiName;
     formattedField.displayText = showAsFieldReference ? (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + field.apiName + '}') : field.apiName;
     formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
-    formattedField.iconName = getDataTypeIcons(field.dataType, iconType);
+    formattedField.iconName = getDataTypeIcons(field.dataType, ICON_TYPE);
 
     return formattedField;
 }
@@ -139,7 +139,7 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
  */
 export function mutateFlowResourceToComboboxShape(resource) {
     const newElement = {
-        iconSize
+        ICON_SIZE
     };
     const isNonElement = isNonElementResourceId(resource.guid);
 
@@ -147,17 +147,17 @@ export function mutateFlowResourceToComboboxShape(resource) {
     newElement.subText = isNonElement ? resource.description : getSubText(resource.dataType, resource.objectType, resource.label);
     newElement.value = resource.guid;
     newElement.displayText = '{!' + resource.name + '}';
-    newElement.hasNext = resource.dataType === SObjectType && !resource.isCollection;
+    newElement.hasNext = resource.dataType === SOBJECT_TYPE && !resource.isCollection;
     // TODO: remove upper case-ing once we're using labels for categories W-4813532
     newElement.category = isNonElement ?
         resource.category : getElementCategory(resource.elementType, resource.dataType, resource.isCollection).toUpperCase();
-    newElement.iconName = getDataTypeIcons(resource.dataType, iconType);
+    newElement.iconName = getDataTypeIcons(resource.dataType, ICON_TYPE);
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     newElement.dataType = resource.dataType;
     newElement.objectType = resource.objectType ? resource.objectType : null;
     if (newElement.hasNext) {
-        newElement.rightIconName = rightIconName;
-        newElement.rightIconSize = iconSize;
+        newElement.rightIconName = RIGHT_ICON_NAME;
+        newElement.rightIconSize = ICON_SIZE;
     }
     return newElement;
 }
@@ -177,7 +177,7 @@ export const mutateEntitiesToComboboxShape = (entities) => {
             undefined,
             entity.apiName,
             undefined,
-            SObjectType,
+            SOBJECT_TYPE,
             entity.apiName,
         );
     });
@@ -194,7 +194,7 @@ export const mutatePicklistValue = (picklistValue) => {
         picklistValue.label,
         FLOW_DATA_TYPE.STRING.label,
         picklistValue.label,
-        getDataTypeIcons(FLOW_DATA_TYPE.PICKLIST.value, iconType),
+        getDataTypeIcons(FLOW_DATA_TYPE.STRING.value, ICON_TYPE),
         picklistValue.value,
     );
 };

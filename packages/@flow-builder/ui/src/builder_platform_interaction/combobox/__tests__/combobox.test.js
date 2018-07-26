@@ -32,6 +32,7 @@ const VALIDATION_ERROR_MESSAGE = {
     DATE : 'FlowBuilderCombobox.dateErrorMessage',
     DATE_TIME : 'FlowBuilderCombobox.datetimeErrorMessage',
     GENERIC : 'FlowBuilderCombobox.genericErrorMessage',
+    REQUIRED : 'FlowBuilderValidation.cannotBeBlank',
 };
 
 jest.mock('builder_platform_interaction-merge-field-lib', () => {
@@ -560,7 +561,7 @@ describe('Combobox Tests', () => {
             combobox.required = true;
             combobox.displayText = '';
             groupedCombobox.dispatchEvent(blurEvent);
-            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.error).toEqual(VALIDATION_ERROR_MESSAGE.GENERIC);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.error).toEqual(VALIDATION_ERROR_MESSAGE.REQUIRED);
         });
 
         it('for invalid data type', () => {
