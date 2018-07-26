@@ -49,13 +49,13 @@
             alertModal = cmp.find('builderUtils').invokeAlertModal;
             buttonVariant = 'Brand';
             // TODO: update the labels: W-4962898
-            buttonLabel = $A.get('$Label.FlowBuilderDeleteAlertModal.okayButtonLabel');
+            buttonLabel = $A.get('$Label.FlowBuilderAlertModal.okayButtonLabel');
             if (status === 'ERROR') {
-                headerTitle = 'Something went wrong';
-                bodyTextOne = 'There is some error please contact the admin.';
+                headerTitle = $A.get('$Label.FlowBuilderAlertModal.errorTitle');;
+                bodyTextOne = $A.get('$Label.FlowBuilderAlertModal.errorMessage');;
             } else if (status === 'INCOMPLETE') {
-                headerTitle = 'You are offline';
-                bodyTextOne = 'You are currently offline. Please try to connect to internet and refresh the page.';
+                headerTitle = $A.get('$Label.FlowBuilderAlertModal.noNetworkConnectionTitle');;
+                bodyTextOne = $A.get('$Label.FlowBuilderAlertModal.noNetworkConnectionMessage');;
             }
             alertModal({
                 headerData: {
