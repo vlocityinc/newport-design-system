@@ -162,6 +162,7 @@ export function translateUIModelToFlow(uiModel) {
 
     return {
         metadata,
-        fullName: uiModel.properties.fullName
+        fullName: uiModel.properties.fullName,
+        versionNumber: uiModel.properties.versionNumber
     };
 }
