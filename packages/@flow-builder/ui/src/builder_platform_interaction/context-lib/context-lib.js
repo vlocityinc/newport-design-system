@@ -1,4 +1,6 @@
-let context;
+let context = {
+    access: {}
+};
 
 /**
  * Sets the application context. This should be done before the editor is
@@ -16,5 +18,5 @@ export function isDevMode() {
 }
 
 export function orgHasFlowBuilderPreview() {
-    return context.access.orgHasFlowBuilderPreview;
+    return context.access && context.access.orgHasFlowBuilderPreview;
 }
