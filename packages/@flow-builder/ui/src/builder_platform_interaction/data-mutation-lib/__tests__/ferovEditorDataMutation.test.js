@@ -5,6 +5,10 @@ import * as storeUtilMock from 'builder_platform_interaction-store-utils';
 import { FLOW_DATA_TYPE } from '../../data-type-lib/data-type-lib';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
+import { formatDateTime, METADATA_DATE_FORMAT} from 'builder_platform_interaction-date-time-utils';
+import { getLocalizationService } from 'lightning-config-provider';
+
+const localizationService = getLocalizationService();
 
 const stringFerovValue = 'abc';
 const variableFerovValue = 123;
@@ -16,6 +20,23 @@ const expectedParams = {
     valueProperty: 'rightHandSide',
     dataTypeProperty: 'rightHandSideDataType',
 };
+
+jest.mock('builder_platform_interaction-date-time-utils', () => {
+    return {
+        formatDateTime: jest.fn().mockName('builder_platform_interaction.formatDateTime'),
+        METADATA_DATE_FORMAT: require.requireActual('builder_platform_interaction-date-time-utils').METADATA_DATE_FORMAT,
+    };
+});
+
+jest.mock('lightning-config-provider', () => {
+    const mockGetLocalizationService = {
+        parseDateTimeUTC: jest.fn().mockName('localizationService.parseDateTimeUTC'),
+        formatDateUTC: jest.fn().mockName('localizationService.formatDateUTC'),
+    };
+    return {
+        getLocalizationService: jest.fn().mockImplementation(() => mockGetLocalizationService),
+    };
+});
 
 jest.mock('builder_platform_interaction-store-utils', () => {
     return {
@@ -55,18 +76,28 @@ describe('mutateFerov function', () => {
     });
 
     it('should mutate ferov with date value', () => {
+        const newDate = new Date(dateFerovValue);
+        formatDateTime.mockReturnValueOnce(newDate.toString());
+
         const item = {};
         item.ferov = { dateValue: dateFerovValue };
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toEqual('2008-08-09');
+
+        expect(formatDateTime).toHaveBeenCalledWith(dateFerovValue.split('T')[0], false);
+        expect(mutatedItem.rightHandSide).toEqual(newDate.toString());
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.DATE);
     });
 
     it('should mutate ferov with datetime value', () => {
+        const newDate = new Date(dateTimeFerovValue);
+        formatDateTime.mockReturnValueOnce(newDate.toString());
+
         const item = {};
         item.ferov = { dateTimeValue: dateTimeFerovValue };
         const mutatedItem = mutateFEROV(item, 'ferov', expectedParams);
-        expect(mutatedItem.rightHandSide).toEqual('07/24/2018 09:04:03 GMT-0700 (PDT)');
+
+        expect(formatDateTime).toHaveBeenCalledWith(dateTimeFerovValue, true);
+        expect(mutatedItem.rightHandSide).toEqual(newDate.toString());
         expect(mutatedItem.rightHandSideDataType).toEqual(FEROV_DATA_TYPE.DATETIME);
     });
 
@@ -187,8 +218,12 @@ describe('deMutateFerov function', () => {
         item.rightHandSide = dateFerovValue;
         item.rightHandSideDataType = FLOW_DATA_TYPE.DATE.value;
 
+        const newDate = new Date(dateFerovValue);
+        localizationService.formatDateUTC.mockReturnValueOnce(newDate.toUTCString());
+
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
-        expect(deMutatedItem.ferov.dateValue).toEqual('2008-08-09');
+        expect(localizationService.formatDateUTC).toHaveBeenCalledWith(newDate.toISOString(), METADATA_DATE_FORMAT);
+        expect(deMutatedItem.ferov.dateValue).toEqual(newDate.toUTCString());
     });
 
     it('should demutate ferov with dateTime value', () => {
@@ -196,8 +231,12 @@ describe('deMutateFerov function', () => {
         item.rightHandSide = dateTimeFerovValue;
         item.rightHandSideDataType = FLOW_DATA_TYPE.DATE_TIME.value;
 
+        const newDate = new Date(dateTimeFerovValue);
+        localizationService.parseDateTimeUTC.mockReturnValueOnce(newDate);
+
         const deMutatedItem = deMutateFEROV(item, 'ferov', expectedParams);
-        expect(deMutatedItem.ferov.dateTimeValue).toEqual('2018-07-24T16:04:03.000Z');
+        expect(localizationService.parseDateTimeUTC).toHaveBeenCalledWith(newDate.toISOString());
+        expect(deMutatedItem.ferov.dateTimeValue).toEqual(newDate.toISOString());
     });
 
     it('should demutate ferov with boolean true value', () => {

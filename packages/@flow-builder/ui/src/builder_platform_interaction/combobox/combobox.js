@@ -180,9 +180,6 @@ export default class Combobox extends Element {
                 this.fireComboboxStateChangedEvent();
             } else {
                 this._isValidationEnabled = true;
-                if (this._errorMessage) {
-                    this._isInitialErrorMessageSet = false;
-                }
             }
         } else {
             this._dataType = null;
@@ -230,7 +227,7 @@ export default class Combobox extends Element {
     @api required = false;
 
     renderedCallback() {
-        if (!this._isInitialErrorMessageSet) {
+        if (!this._isInitialErrorMessageSet && this._errorMessage) {
             this.setErrorMessage(this._errorMessage);
         }
     }
@@ -777,8 +774,14 @@ export default class Combobox extends Element {
     validateResource(isBlur = false) {
         if (this.literalsAllowed && this.isExpressionIdentifierLiteral()) {
             this.validateLiteralForDataType();
-        } else if (isBlur) {
-            this.validateUsingMergeFieldLib(validateMergeField);
+        } else if (!this._item && isBlur) {
+            // for merge fields {!myAccount.Description} validate using merge field
+            // otherwise the item should be present in the menu data
+            if (this.getLevel() > 1) {
+                this.validateUsingMergeFieldLib(validateMergeField);
+            } else {
+                this._errorMessage = ERROR_MESSAGE.GENERIC;
+            }
         }
     }
 

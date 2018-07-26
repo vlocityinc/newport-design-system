@@ -9,7 +9,8 @@ import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields 
 import { removeCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
 import unknownMergeField from '@label/FlowBuilderMergeFieldValidation.unknownMergeField';
-import unknownResource from '@label/FlowBuilderMergeFieldValidation.unknownResource';
+import { getValidDateTime, formatDateTime } from 'builder_platform_interaction-date-time-utils';
+import { LABELS } from '../combobox-labels';
 
 const SELECTORS = {
     COMBOBOX_PATH: 'builder_platform_interaction-combobox',
@@ -38,6 +39,13 @@ jest.mock('builder_platform_interaction-merge-field-lib', () => {
         validateTextWithMergeFields: jest.fn().mockReturnValue(Promise.resolve([])),
         validateMergeField: jest.fn().mockReturnValue(Promise.resolve([])),
         isTextWithMergeFields: jest.fn().mockReturnValue(Promise.resolve([])),
+    };
+});
+
+jest.mock('builder_platform_interaction-date-time-utils', () => {
+    return {
+        formatDateTime: jest.fn().mockName('builder_platform_interaction.formatDateTime'),
+        getValidDateTime: jest.fn().mockName('builder_platform_interaction.getValidDateTime'),
     };
 });
 
@@ -482,21 +490,6 @@ describe('Combobox Tests', () => {
                 { value: '-.', error: VALIDATION_ERROR_MESSAGE.CURRENCY },
                 { value: '$123.87', error: VALIDATION_ERROR_MESSAGE.CURRENCY },
             ],
-            Date : [
-                { value: '12/31/2018', error: null, expectedValue: '12/31/2018' },
-                { value: '12-12-2009', error: null, expectedValue: '12/12/2009' },
-                { value: '1 1 2018', error: null, expectedValue: '01/01/2018' },
-                { value: '31-12-2008', error: VALIDATION_ERROR_MESSAGE.DATE },
-                { value: '0187', error: VALIDATION_ERROR_MESSAGE.DATE },
-                { value: 'invalid date', error: VALIDATION_ERROR_MESSAGE.DATE },
-            ],
-            DateTime : [
-                { value: '12/31/2018', error: null, expectedValue: '12/31/2018 00:00:00 GMT-0800 (PST)' },
-                { value: '12-12-2009 11:32:59', error: null, expectedValue: '12/12/2009 11:32:59 GMT-0800 (PST)' },
-                { value: '1 1 2018 10:11', error: null, expectedValue: '01/01/2018 10:11:00 GMT-0800 (PST)' },
-                { value: '12/31/2018 60:60:60', error: VALIDATION_ERROR_MESSAGE.DATE_TIME },
-                { value: 'invalid date', error: VALIDATION_ERROR_MESSAGE.DATE_TIME },
-            ],
             SObject :   [
                 { value: '{!StartDateVar}', error: null },
                 { value: '{! test}', error: VALIDATION_ERROR_MESSAGE.GENERIC },
@@ -598,14 +591,70 @@ describe('Combobox Tests', () => {
         it('for merge fields that does not exists.', () => {
             isTextWithMergeFields.mockReturnValueOnce(false);
             validateMergeField.mockReturnValueOnce(Promise.resolve([{
-                message: unknownResource,
+                message: LABELS.genericErrorMessage,
             }]));
             combobox.type = FLOW_DATA_TYPE.STRING.value;
             combobox.value = '{!vardoesnotexists}';
             groupedCombobox.dispatchEvent(blurEvent);
             return Promise.resolve().then(() => {
                 expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
-                expect(combobox.errorMessage).toEqual(unknownResource);
+                expect(combobox.errorMessage).toEqual(LABELS.genericErrorMessage);
+            });
+        });
+    });
+
+    describe('datetime validation', () => {
+        let blurEvent;
+
+        beforeEach(() => {
+            blurEvent = new CustomEvent('blur');
+        });
+
+        it('calls getValidDateTime when validating date', () => {
+            combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
+            const string = '01/29/1995';
+            combobox.value = string;
+            groupedCombobox.dispatchEvent(blurEvent);
+
+            return Promise.resolve().then(() => {
+                expect(getValidDateTime).toHaveBeenCalledTimes(1);
+            });
+        });
+
+        it('calls getValidDateTime when validating date time', () => {
+            combobox.type = FLOW_DATA_TYPE.DATE.value;
+            const string = '01/29/1995';
+            combobox.value = string;
+            groupedCombobox.dispatchEvent(blurEvent);
+
+            return Promise.resolve().then(() => {
+                expect(getValidDateTime).toHaveBeenCalledTimes(1);
+            });
+        });
+
+        it('calls formatDateTime when given a date literal to validate', () => {
+            combobox.type = FLOW_DATA_TYPE.DATE.value;
+            const string = '01/29/1995';
+            combobox.value = string;
+            getValidDateTime.mockReturnValueOnce(new Date());
+            groupedCombobox.dispatchEvent(blurEvent);
+
+            return Promise.resolve().then(() => {
+                expect(formatDateTime).toHaveBeenCalledTimes(1);
+            });
+        });
+
+        it('sets the error message when given an invalid date or date time', () => {
+            combobox.type = FLOW_DATA_TYPE.DATE.value;
+            const string = '01/29/1995';
+            combobox.value = string;
+            getValidDateTime.mockReturnValueOnce(null);
+
+            groupedCombobox.dispatchEvent(blurEvent);
+            return Promise.resolve().then(() => {
+                expect(getValidDateTime).toHaveBeenCalledTimes(1);
+                expect(formatDateTime).not.toHaveBeenCalled();
+                expect(combobox.errorMessage).toEqual(LABELS.dateErrorMessage);
             });
         });
     });
