@@ -10,4 +10,5 @@ import { Element, api } from 'engine';
 export default class LightningFormattedRichText extends Element {
     @api title;
     @api value;
+    @api disableLinkify;
 }

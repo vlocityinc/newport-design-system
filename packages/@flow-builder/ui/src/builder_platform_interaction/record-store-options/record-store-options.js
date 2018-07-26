@@ -6,6 +6,7 @@ import { LABELS, NUMBER_RECORDS_OPTIONS,
     WAY_TO_STORE_FIELDS_OPTIONS } from './record-store-options-labels';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction-events';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
+import { format, escapeHtml } from 'builder_platform_interaction-common-utils';
 
 export default class RecordStoreFieldsSelection extends Element {
     wayToStoreFieldsOption = WAY_TO_STORE_FIELDS_OPTIONS;
@@ -81,7 +82,7 @@ export default class RecordStoreFieldsSelection extends Element {
     }
 
     get title() {
-        return this.labels.storeFieldsSelectionLabel.replace('{0}', this.state.resourceDisplayText);
+        return format(this.labels.storeFieldsSelectionLabel, escapeHtml(this.state.resourceDisplayText));
     }
 
     /**

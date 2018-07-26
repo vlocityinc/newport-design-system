@@ -2,7 +2,7 @@ import { Element, api, track } from "engine";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS } from './record-filter-labels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-record-editor-lib';
-import { format } from 'builder_platform_interaction-common-utils';
+import { format, escapeHtml } from 'builder_platform_interaction-common-utils';
 import {
     AddRecordLookupFilterEvent,
     DeleteRecordLookupFilterEvent,
@@ -34,7 +34,7 @@ export default class RecordFilter extends Element {
     elementType;
 
     @api
-    resourceDisplayText;
+    resourceDisplayText = '';
     /**
      * The filter type to pass as value of the rule for finding record drop down
      * @param {String} value - it's RECORD_FILTER_CRITERIA.NONE or RECORD_FILTER_CRITERIA.ALL
@@ -118,7 +118,7 @@ export default class RecordFilter extends Element {
     }
 
     get warningMessage() {
-        return format(WARNING_LABELS[this.elementType], this.resourceDisplayText);
+        return format(WARNING_LABELS[this.elementType], escapeHtml(this.resourceDisplayText));
     }
 
     get showWarningMessage() {

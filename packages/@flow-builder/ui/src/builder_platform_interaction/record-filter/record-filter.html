@@ -8,7 +8,8 @@
         <div class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center" if:true={showWarningMessage}>
             <lightning-icon icon-name="utility:warning" title={labels.warning} alternative-text={labels.warning} variant="warning" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
              <lightning-formatted-rich-text 
-                value={warningMessage} 
+                value={warningMessage}
+                disable-linkify
                 class="slds-m-left_xx-small slds-m-top_xx-small">
             </lightning-formatted-rich-text>
         </div>

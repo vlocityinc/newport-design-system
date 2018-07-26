@@ -2,6 +2,7 @@ import { Element, api, track } from 'engine';
 import { LABELS } from './record-sort-labels';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
+import { format } from 'builder_platform_interaction-common-utils';
 
 const NOT_SORTED_VALUE = SORT_ORDER.NOT_SORTED;
 
@@ -31,7 +32,7 @@ export default class RecordSort extends Element {
     };
 
     @api
-    resourceDisplayText;
+    resourceDisplayText = '';
 
     /**
      * Fields of the SObject
@@ -102,7 +103,7 @@ export default class RecordSort extends Element {
 
     @api
     get headerText() {
-        return this.labels.sortTabHeader.replace('{0}', this.resourceDisplayText);
+        return format(this.labels.sortTabHeader, this.resourceDisplayText);
     }
 
     getFields(resourceApiName) {
