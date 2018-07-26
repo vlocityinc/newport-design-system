@@ -1,10 +1,14 @@
 import { COMBOBOX_ITEM_DISPLAY_TYPE } from './menuDataRetrieval';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction-data-type-lib';
 import { isNonElementResourceId } from 'builder_platform_interaction-system-lib';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { LABELS } from './expression-utils-labels';
 
 const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
+const iconType = 'utility';
+const rightIconName = 'utility:chevronright';
+const iconSize = 'xx-small';
+
 /**
  * Determines category for display. Eventually will use the label service
  *
@@ -94,6 +98,7 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
         subText,
         displayText,
         iconName,
+        iconSize,
         value,
         parent,
         dataType,
@@ -111,15 +116,17 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
  * @returns {Object} Representation of flow element in shape combobox needs
  */
 export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSubText) {
-    const formattedField = {};
+    const formattedField = {
+        parent,
+        iconSize
+    };
     const label = field.label || field.apiName;
     formattedField.text = field.apiName;
     formattedField.subText = (showSubText) ? label : '';
     formattedField.value = parent.value + '.' + field.apiName;
     formattedField.displayText = showAsFieldReference ? (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + field.apiName + '}') : field.apiName;
-    formattedField.parent = parent;
     formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
-    // TODO: fetch icon
+    formattedField.iconName = getDataTypeIcons(field.dataType, iconType);
 
     return formattedField;
 }
@@ -131,7 +138,9 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
  * @returns {Object}         representation of flow element in shape combobox needs
  */
 export function mutateFlowResourceToComboboxShape(resource) {
-    const newElement = {};
+    const newElement = {
+        iconSize
+    };
     const isNonElement = isNonElementResourceId(resource.guid);
 
     newElement.text = resource.name;
@@ -142,11 +151,14 @@ export function mutateFlowResourceToComboboxShape(resource) {
     // TODO: remove upper case-ing once we're using labels for categories W-4813532
     newElement.category = isNonElement ?
         resource.category : getElementCategory(resource.elementType, resource.dataType, resource.isCollection).toUpperCase();
-    // TODO: fetch icon
+    newElement.iconName = getDataTypeIcons(resource.dataType, iconType);
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     newElement.dataType = resource.dataType;
     newElement.objectType = resource.objectType ? resource.objectType : null;
-
+    if (newElement.hasNext) {
+        newElement.rightIconName = rightIconName;
+        newElement.rightIconSize = iconSize;
+    }
     return newElement;
 }
 
@@ -182,7 +194,7 @@ export const mutatePicklistValue = (picklistValue) => {
         picklistValue.label,
         FLOW_DATA_TYPE.STRING.label,
         picklistValue.label,
-        undefined,
+        getDataTypeIcons(FLOW_DATA_TYPE.PICKLIST.value, iconType),
         picklistValue.value,
     );
 };
