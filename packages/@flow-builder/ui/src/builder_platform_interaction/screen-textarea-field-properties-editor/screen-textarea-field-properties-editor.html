@@ -20,17 +20,7 @@
                                                                 onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-screen-property-field>
 
-            <!--  Set or display the subtype for the input field -->
-            <!--  TODO: W-4947221 - changing data type doesn't work yet -->
-            <builder_platform_interaction-data-type-picker
-                available-data-types={dataTypeList}
-                type-and-collection-disabled={isSubTypeDisabled}
-                required
-                value={dataTypePickerValue}>
-            </builder_platform_interaction-data-type-picker>
- 
             <!--  Required checkbox -->
-            <!--  If the field type is checkbox, the 'Required' field is not present -->
             <builder_platform_interaction-screen-property-field if:false={isCheckbox}
                                                                 name='isRequired' 
                                                                 label={labels.required}
@@ -39,25 +29,14 @@
                                                                 onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-screen-property-field>
 
-            
-            <!--  default value: drop down resource list -->
-            <!--  TODO: W-5220407 - date and dateTime picker isn't show up -->
-            <builder_platform_interaction-ferov-resource-picker value={field.defaultValue}
-                                                                combobox-config={resourceComboBoxConfig}
-                                                                element-param={elementParam}
-                                                                property-editor-element-type='SCREEN'
-                                                                oncomboboxstatechanged={handleDefaultValueChanged}>
-            </builder_platform_interaction-ferov-resource-picker>
-
-            <!--  Scale, if input type supports this field -->
-            <builder_platform_interaction-screen-property-field if:true={isScaleEnabled} 
-                                                                name='scale' 
-                                                                label={labels.fieldScale}
-                                                                type='number'
-                                                                value={field.scale}
-                                                                onpropertychanged={handlePropertyChanged}>
+            <!--  default value with resource picker -->
+            <builder_platform_interaction-screen-property-field name={field.defaultValue}
+                                                                label={labels.fieldDefaultValue}
+                                                                type='long_string'
+                                                                value={field.defaultValue}
+                                                                onpropertychanged={handleDefaultValueChanged}>
             </builder_platform_interaction-screen-property-field>
-
+                        
             <!--  validation text -->
             <!--  TODO: W-4827695 - use lightning component version of accordion -->
             <builder_platform_interaction-accordion>
@@ -73,7 +52,7 @@
                         
                         <!-- TODO: W-5183123 - change this to formula-editor component -->
                         <builder_platform_interaction-screen-property-field name='validationRule.formulaExpression'
-                                                                            label='{labels.validationFormula}'
+                                                                            label={labels.validationFormula}
                                                                             type='long_string'
                                                                             value={validationRuleFormula}>
                         </builder_platform_interaction-screen-property-field>
@@ -86,7 +65,10 @@
                 <builder_platform_interaction-accordion-section>
                     <div slot="accordion-header">{labels.helpText}</div>
                     <div slot="accordion-body">
-                        <builder_platform_interaction-screen-property-field name='helpText' label={labels.helpText} type='long_string' value={field.helpText}>
+                        <builder_platform_interaction-screen-property-field name='helpText'
+                                                                            label={labels.helpText}
+                                                                            type='long_string'
+                                                                            value={field.helpText}>
                         </builder_platform_interaction-screen-property-field>
                     </div>
                 </builder_platform_interaction-accordion-section>

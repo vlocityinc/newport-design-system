@@ -1,4 +1,4 @@
-import { createTestScreen } from 'builder_platform_interaction-builder-test-utils';
+import { createTestScreen, createTestScreenField } from 'builder_platform_interaction-builder-test-utils';
 import { screenReducer } from '../screen-reducer';
 
 import {
@@ -45,6 +45,100 @@ describe('screen reducer', () => {
         expect(newScreen).toBeDefined();
         expect(newScreen.fields[0].fieldText.value).toBe(newDisplayText);
         expect(newScreen.fields[0].name.value).toBe(screen.fields[0].name.value);
+    });
+    it('change screen field validation error message when there is none before', () => {
+        const newErrorMessage = 'error1';
+        const screen = createTestScreen(SCREEN_NAME, ['displayText']);
+        const event = {
+            type: PropertyChangedEvent.EVENT_NAME,
+            detail: {
+                propertyName: 'validationRule.errorMessage',
+                value: newErrorMessage,
+                error: null,
+                guid: screen.fields[0].guid,
+                oldValue: undefined
+            }
+        };
+        const newScreen = screenReducer(screen, event, screen.fields[0]);
+
+        // The changed property should be updated and not hydrated since it wasn't set before.
+        expect(newScreen).toBeDefined();
+        expect(newScreen.fields[0].validationRule.errorMessage).toBe(newErrorMessage);
+    });
+    it('change screen field validation error message when field has one set already', () => {
+        // Field and screen setup
+        const oldErrorMessage = 'error1';
+        const newErrorMessage = 'error2';
+        const screen = createTestScreen(SCREEN_NAME, null);
+        screen.fields = [];
+        const field = createTestScreenField('Screenfield1', 'DisplayText', 'Display this');
+        field.validationRule = {
+            errorMessage: {value: oldErrorMessage, error: null},
+            formulaExpression: {value: '{Screenfield1} != null', error: null}};
+        screen.fields.push(field);
+
+        const event = {
+            type: PropertyChangedEvent.EVENT_NAME,
+            detail: {
+                propertyName: 'validationRule.errorMessage',
+                value: newErrorMessage,
+                error: null,
+                guid: screen.fields[0].guid,
+                oldValue: screen.fields[0].validationRule.errorMessage
+            }
+        };
+        const newScreen = screenReducer(screen, event, screen.fields[0]);
+
+        // The changed property should be updated and hydrated since it was hydrated before.
+        expect(newScreen).toBeDefined();
+        expect(newScreen.fields[0].validationRule.errorMessage.value).toBe(newErrorMessage);
+    });
+    it('change screen field validation rule formula exression when there is none before', () => {
+        const newFormula = '{Screenfield1} != null';
+        const screen = createTestScreen(SCREEN_NAME, ['displayText']);
+        const event = {
+            type: PropertyChangedEvent.EVENT_NAME,
+            detail: {
+                propertyName: 'validationRule.formulaExpression',
+                value: newFormula,
+                error: null,
+                guid: screen.fields[0].guid,
+                oldValue: undefined
+            }
+        };
+        const newScreen = screenReducer(screen, event, screen.fields[0]);
+
+        // The changed property should be updated and not hydrated since it wasn't set before.
+        expect(newScreen).toBeDefined();
+        expect(newScreen.fields[0].validationRule.formulaExpression).toBe(newFormula);
+    });
+    it('change screen field validation rule formula exression when field has one set already', () => {
+        // Field and screen setup
+        const oldFormula = '{Screenfield1} == null';
+        const newFormula = '{Screenfield1} != null';
+        const screen = createTestScreen(SCREEN_NAME, null);
+        screen.fields = [];
+        const field = createTestScreenField('Screenfield1', 'DisplayText', 'Display this');
+        field.validationRule = {
+            errorMessage: {value: 'some error', error: null},
+            formulaExpression: {value: oldFormula, error: null}};
+        screen.fields.push(field);
+
+        const event = {
+            type: PropertyChangedEvent.EVENT_NAME,
+            detail: {
+                propertyName: 'validationRule.formulaExpression',
+                value: newFormula,
+                error: null,
+                guid: screen.fields[0].guid,
+                oldValue: screen.fields[0].validationRule.formulaExpression
+            }
+        };
+        const newScreen = screenReducer(screen, event, screen.fields[0]);
+
+        // The changed property should be updated and hydrated since it was hydrated before.
+        expect(newScreen).toBeDefined();
+        expect(newScreen.fields[0].validationRule.formulaExpression.value).toBe(newFormula);
     });
     it('fetches the error from the property change event instead of rerunning validation', () => {
         const event = {

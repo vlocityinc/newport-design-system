@@ -42,6 +42,11 @@
                                                                    class='full-height properties-editor-panel slds-size_medium toggle-animated'
                                                                    field={node}>
             </builder_platform_interaction-screen-input-field-properties-editor>
+            
+            <builder_platform_interaction-screen-textarea-field-properties-editor if:true={isTextAreaField}
+                                                                   class='full-height properties-editor-panel slds-size_medium toggle-animated'
+                                                                   field={node}>
+            </builder_platform_interaction-screen-textarea-field-properties-editor>
 
             <div if:true={isOther} class='properties-editor-panel slds-size_medium'>Screen field property editor (TBI)</div>
         </div>

@@ -114,13 +114,18 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 const fullPropName = property !== 'name' ? 'fields[type.name="' + type + '"].' + property : 'name';
                 error = error === null ? screenValidation.validateProperty(fullPropName, value) : error;
 
-                // If the validation rule's error message was changed, it needs special handling because it's an object
-                // within the field.
+                // If the validation rule's error message or formula expression was changed, it needs special handling
+                // because it's an object within the field.
                 if (property === 'validationRule.errorMessage') {
                     const validationRuleProp = 'validationRule';
                     const errorMessageProp = 'errorMessage';
                     const newErrorMessage = updateProperties(selectedNode[validationRuleProp], {[errorMessageProp]: newValue});
                     newField = updateProperties(selectedNode, {[validationRuleProp]: newErrorMessage});
+                } else if (property === 'validationRule.formulaExpression') {
+                    const validationRuleProp = 'validationRule';
+                    const formulaProp = 'formulaExpression';
+                    const newFormula = updateProperties(selectedNode[validationRuleProp], {[formulaProp]: newValue});
+                    newField = updateProperties(selectedNode, {[validationRuleProp]: newFormula});
                 } else if (property === 'defaultValue') {
                     // Default value needs special handling because there are two properties that need to be updated.
                     const internalDefaultValueField = '_defaultValue';

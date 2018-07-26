@@ -68,7 +68,10 @@ const VALUE_TYPE_NULL = 'null';
 
 function booleanValue(obj, prop, defValue) {
     const val = obj[prop];
-    return val ? val : defValue;
+    // Can't do a simple check of val because if val is false and defValue is
+    // true, then we'll accidently return true. Perform this more specific check to
+    // make sure.
+    return val !== undefined && val != null ? val : defValue;
 }
 /**
  * Returns a string value based on the data provided
@@ -163,14 +166,20 @@ export function createTestScreenField(name, type, value, config = {}) {
         if (value === null) { // Generate value based in type
             field.defaultValue = getDefaultValue(type, config.defaultValueType || VALUE_TYPE_STATIC);
         } else if (typeof value !== 'object') {
+            // Set the string version of the default value, and the internal version, which
+            // specifies what type of field value this is.
             if (type === 'TextBox' ||  type === 'LargeTextArea' || type === 'Password') {
-                field.defaultValue = {stringValue:value};
+                field._defaultValue = {stringValue:value};
+                field.defaultValue = value;
             } else if (type === 'Number' || type === 'Currency') {
-                field.defaultValue = {numberValue:value};
+                field._defaultValue = {numberValue:value};
+                field.defaultValue = value;
             } else if (type === 'Date' || type === 'DateTime') {
-                field.defaultValue = {dateValue:value};
+                field._defaultValue = {dateValue:value};
+                field.defaultValue = value;
             } else if (type === 'Checkbox') {
-                field.defaultValue = {booleanValue:value};
+                field._defaultValue = {booleanValue:value};
+                field.defaultValue = value;
             }
         } else {
             // Hopefully the object is a well-formed ferov

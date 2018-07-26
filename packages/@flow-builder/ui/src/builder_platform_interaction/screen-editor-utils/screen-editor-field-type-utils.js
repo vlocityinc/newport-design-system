@@ -20,7 +20,8 @@ const screenFieldTypes = [
         dataType: undefined,
         label: LABELS.fieldTypeLabelLargeTextArea,
         icon: 'utility:type_tool',
-        category: LABELS.fieldCategoryInput
+        category: LABELS.fieldCategoryInput,
+        defaultValueType: 'stringValue'
     }, {
         name: 'Number',
         fieldType: 'InputField',
@@ -145,9 +146,18 @@ export function getDefaultValueType(field) {
     const fieldType = field.fieldType;
     const dataType = field.dataType;
 
-    for (const type of screenFieldTypes) {
-        if (fieldType === type.fieldType && dataType === type.dataType) {
-            return type.defaultValueType;
+    if (fieldType && dataType) {
+        for (const type of screenFieldTypes) {
+            if (fieldType === type.fieldType && dataType === type.dataType) {
+                return type.defaultValueType;
+            }
+        }
+    } else if (fieldType) {
+        // Not all field types have dataTypes associated with them.
+        for (const type of screenFieldTypes) {
+            if (fieldType === type.fieldType) {
+                return type.defaultValueType;
+            }
         }
     }
 
@@ -172,10 +182,18 @@ export function isDisplayTextField(field) {
 
 /**
  * @param {object} field - field to test
- * @returns {boolean} Indicates if specified field is an input field type
+ * @returns {boolean} Indicates if specified field is an input field
  */
 export function isInputField(field) {
     return field && field.fieldType === 'InputField';
+}
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a text area field
+ */
+export function isTextAreaField(field) {
+    return field && field.fieldType === 'LargeTextArea';
 }
 
 /**

@@ -45,6 +45,7 @@ import pauseConfirmationMessage from "@salesforce/label/FlowBuilderScreenEditor.
 import pauseConfirmationMessageTooltip from "@salesforce/label/FlowBuilderScreenEditor.pauseConfirmationMessageTooltip";
 import helpText from "@salesforce/label/FlowBuilderScreenEditor.helpText";
 import required from "@salesforce/label/FlowBuilderScreenEditor.required";
+import errorMessage from "@salesforce/label/FlowBuilderScreenEditor.errorMessage";
 import deleteAlternativeText from "@salesforce/label/FlowBuilderScreenEditor.deleteAlternativeText";
 import cancel from "@salesforce/label/FlowBuilderScreenEditor.cancel";
 import deleteConfirmation from "@salesforce/label/FlowBuilderScreenEditor.deleteConfirmation";
@@ -70,6 +71,7 @@ export const LABELS = {
     paletteTitle,
     paletteSearch,
     paletteSearchPlaceholder,
+    errorMessage,
     fieldCategoryInput,
     fieldCategoryDisplay,
     fieldCategoryCustom,
