@@ -245,7 +245,7 @@ export default class VariableEditor extends Element {
             this.updateProperty(VARIABLE_FIELDS.OBJECT_TYPE, null, null);
         } else if (this.isDataTypeOrCollectionChange(value.dataType, value.isCollection)) {
             // we want to clear the default value and scale when either switching data types or the collection status
-            this.updateProperty(VARIABLE_FIELDS.DEFAULT_VALUE, null, null);
+            this.updateDefaultValueWithLiteral(null, null);
             value.scale = null;
         }
         // we want to set the scale to null when changing to a data type that does not have scale

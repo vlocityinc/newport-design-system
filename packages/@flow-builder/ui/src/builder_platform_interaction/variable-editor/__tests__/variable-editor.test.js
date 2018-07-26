@@ -159,11 +159,16 @@ describe('variable-editor', () => {
         it('clears the default value when switching data type', () => {
             stringVariable.defaultValue.value = 'mock default value';
             const variableEditor = setupComponentUnderTest(stringVariable);
+            const oldDataType = 'String';
             const eventPayload = { dataType : 'Currency', isCollection: false, scale: null };
             dispatchValueChangedEvent(variableEditor, eventPayload);
             return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValue');
-                expect(createAction.mock.calls[0][1].value).toBeNull();
+                expect(createAction.mock.calls[0][1].propertyName).toEqual('ferovDataType');
+                expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
+                expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValueGuid');
+                expect(createAction.mock.calls[1][1].value).toEqual('');
+                expect(createAction.mock.calls[2][1].propertyName).toEqual('defaultValue');
+                expect(createAction.mock.calls[2][1].value).toEqual(null);
                 expect(variableReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
             });
         });
@@ -171,11 +176,16 @@ describe('variable-editor', () => {
         it('clears the default value when switching collection status', () => {
             stringVariable.defaultValue.value = 'mock default value';
             const variableEditor = setupComponentUnderTest(stringVariable);
+            const oldDataType = 'String';
             const eventPayload = { dataType : 'String', isCollection: true, scale: null };
             dispatchValueChangedEvent(variableEditor, eventPayload);
             return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValue');
-                expect(createAction.mock.calls[0][1].value).toBeNull();
+                expect(createAction.mock.calls[0][1].propertyName).toEqual('ferovDataType');
+                expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
+                expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValueGuid');
+                expect(createAction.mock.calls[1][1].value).toEqual('');
+                expect(createAction.mock.calls[2][1].propertyName).toEqual('defaultValue');
+                expect(createAction.mock.calls[2][1].value).toEqual(null);
                 expect(variableReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
             });
         });
