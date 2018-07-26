@@ -29,6 +29,16 @@ export const mockEntities = [
     },
 ];
 
+export const mockEntitiesWithNoLabel = [
+    {
+        "apiName":"AcceptedEventRelation",
+        "deletable":false,
+        "queryable":true,
+        "updateable":false,
+        "createable":false,
+    },
+];
+
 export const mockAccountFieldWithPicklist = {
     'AccountSource': {
         "filteredLookupInfo":null,

@@ -1,10 +1,11 @@
-import { getElementsForMenuData } from '../menuDataRetrieval';
+import { getElementsForMenuData, getEntitiesMenuData } from '../menuDataRetrieval';
 import { normalizeLHS } from '../resourceUtils';
 import { numberParamCanBeField, stringParam, booleanParam } from 'mock-rule-service';
 import * as store from 'mock-store-data';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import * as selectorsMock from 'builder_platform_interaction-selectors';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { getAllEntities } from 'builder_platform_interaction-sobject-lib';
 import { GLOBAL_CONSTANTS as gcLabels, GLOBAL_CONSTANT_OBJECTS as gcObjects } from 'builder_platform_interaction-system-lib';
 import { LABELS } from '../expression-utils-labels';
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
@@ -49,6 +50,10 @@ jest.mock('builder_platform_interaction-sobject-lib', () => {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
             callback(require.requireActual('mock-server-entity-data').mockAccountFieldWithPicklist);
         }),
+        getAllEntities: jest.fn().mockImplementation(() => {
+            return require.requireActual('mock-server-entity-data').mockEntities;
+        }),
+        ENTITY_TYPE: require.requireActual('builder_platform_interaction-sobject-lib').ENTITY_TYPE,
     };
 });
 
@@ -275,7 +280,19 @@ describe('Menu data retrieval', () => {
             selectorsMock.readableElementsSelector.mockClear();
         });
     });
-
+    describe('entities menu data', () => {
+        it('uses api name for null label', () => {
+            getAllEntities.mockImplementationOnce(() => {
+                return require.requireActual('mock-server-entity-data').mockEntitiesWithNoLabel;
+            });
+            const entityApiName = 'AcceptedEventRelation';
+            const entitiesMenuData = getEntitiesMenuData();
+            expect(entitiesMenuData).toBeDefined();
+            expect(entitiesMenuData[0].displayText).toEqual(entityApiName);
+            expect(entitiesMenuData[0].text).toEqual(entityApiName);
+            expect(entitiesMenuData[0].subText).toEqual(entityApiName);
+        });
+    });
     // TODO: write tests for gettings category once we switch to using labels
 });
 
