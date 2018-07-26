@@ -1,14 +1,14 @@
 import { Element, api } from 'engine';
 
 /**
- * Dummy lightning input component for use by Jest tests
+ * Dummy lightning textarea component for use by Jest tests
  * @param {string} textEntered - The value
- * 
+ *
  * @ScrumTeam Process UI
  * @author Aaron Liebling
  * @since 214
  */
-export default class LightningInput extends Element {
+export default class LightningTextArea extends Element {
     @api label;
     @api value;
     @api maxLength;
@@ -19,7 +19,10 @@ export default class LightningInput extends Element {
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {
-            value: textEntered
+            value: textEntered,
+            // required to be able to directly change the value input.value = 'desired'
+            // this is necessary to support overriding what a user has typed in some cases
+            writable: true
         });
     }
 }
