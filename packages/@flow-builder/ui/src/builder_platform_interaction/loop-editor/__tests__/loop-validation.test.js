@@ -12,7 +12,7 @@ describe('Default Validations', () => {
     });
     describe('when props set to NAME', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(loopValidation.validateProperty('name', "valid string")).toBeNull();
+            expect(loopValidation.validateProperty('name', "validstring")).toBeNull();
         });
         it('and when invalid string is passed should return - {string} Should begin with Alphabetical Characters instead of Numeric or Special Characters', () => {
             expect(loopValidation.validateProperty('name', '1111111')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);

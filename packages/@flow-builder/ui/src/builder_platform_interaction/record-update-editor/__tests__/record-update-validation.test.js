@@ -13,7 +13,7 @@ describe('Check validations', () => {
     });
     describe('when props set to name', () => {
         it('should return null if valid', () => {
-            expect(recordUpdateValidation.validateProperty('name', 'valid string')).toBeNull();
+            expect(recordUpdateValidation.validateProperty('name', 'validstring')).toBeNull();
         });
         it('should return an error if contains alphanumerical characters', () => {
             expect(recordUpdateValidation.validateProperty('name', '1111111')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);

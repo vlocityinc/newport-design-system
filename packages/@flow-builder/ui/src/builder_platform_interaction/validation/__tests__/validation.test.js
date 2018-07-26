@@ -193,7 +193,7 @@ describe('validateAll method', () => {
         };
 
         const objWithErrors = {
-            name: {value:'valueWithError(trailingSpaces)_', error:null},
+            name: {value:'valueWithErrortrailingSpaces_', error:null},
             label: {value:'valueWithError(InvalidCharacter)~', error:null},
             helpText: {value:'valueWithNoErrors(tooLong)', error:null},
             fields: [
@@ -210,7 +210,7 @@ describe('validateAll method', () => {
         };
 
         const objWithValidationErrors =  {
-            name: {error: ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores, value: 'valueWithError(trailingSpaces)_'},
+            name: {error: ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores, value: 'valueWithErrortrailingSpaces_'},
             label: {error: null, value: 'valueWithError(InvalidCharacter)~'},
             helpText: {error: ValidationRules.LABELS.maximumCharactersLimit, value: 'valueWithNoErrors(tooLong)'},
             fields: [

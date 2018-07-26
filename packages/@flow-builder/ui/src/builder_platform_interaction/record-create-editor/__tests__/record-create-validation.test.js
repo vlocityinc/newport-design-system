@@ -11,7 +11,7 @@ describe('Default Validations', () => {
     });
     describe('when props set to NAME', () => {
         it('should return null if valid', () => {
-            expect(recordCreateValidation.validateProperty('name', "valid string")).toBeNull();
+            expect(recordCreateValidation.validateProperty('name', "validstring")).toBeNull();
         });
         it('should return an error if contains alphanumerical characters', () => {
             expect(recordCreateValidation.validateProperty('name', '1111111')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);

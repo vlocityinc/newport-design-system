@@ -35,7 +35,7 @@ const regexConfig = {
         message: LABELS.shouldNotBeginWithNumericOrSpecialCharacters,
     },
     shouldAcceptOnlyAlphanumericCharacters: {
-        regexPattern: '\\W+$',
+        regexPattern: '\\W+',
         message: LABELS.shouldAcceptOnlyAlphanumericCharacters,
     },
     shouldBeAPositiveIntegerOrZero : {

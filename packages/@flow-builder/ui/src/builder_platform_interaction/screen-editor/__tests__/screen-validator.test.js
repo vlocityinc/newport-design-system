@@ -17,7 +17,7 @@ describe('Default Validations', () => {
     });
     describe('when props set to NAME', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(screenValidation.validateProperty('name', "valid string")).toBeNull();
+            expect(screenValidation.validateProperty('name', "validstring")).toBeNull();
         });
         it('and when invalid string is passed should return valid start characters error', () => {
             expect(screenValidation.validateProperty('name', '1111111')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);

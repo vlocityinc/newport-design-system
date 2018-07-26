@@ -16,7 +16,7 @@ describe('Default Decision Validations - from label-dev name-description', () =>
     });
     describe('when props set to NAME', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(decisionValidation.validateProperty('name', "valid string")).toBeNull();
+            expect(decisionValidation.validateProperty('name', "validstring")).toBeNull();
         });
         it('and when empty string is passed should return - Cannot be blank.', () => {
             expect(decisionValidation.validateProperty('name', '')).toBe(CANNOT_BE_BLANK_ERROR);

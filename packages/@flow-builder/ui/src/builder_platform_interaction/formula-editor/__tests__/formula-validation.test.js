@@ -4,7 +4,7 @@ import { LABELS } from 'builder_platform_interaction-validation-rules';
 describe('Default Validations', () => {
     describe('Name property validation', () => {
         it('should return null if valid', () => {
-            expect(formulaValidation.validateProperty('name', "valid string")).toBeNull();
+            expect(formulaValidation.validateProperty('name', "validstring")).toBeNull();
         });
         it('should return an error if empty', () => {
             expect(formulaValidation.validateProperty('name', '')).toBe(LABELS.cannotBeBlank);
