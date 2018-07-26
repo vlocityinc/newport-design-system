@@ -11,10 +11,13 @@ const localizationService = getLocalizationService();
 // the date format we want to pass on save to the metadata api
 export const METADATA_DATE_FORMAT = 'yyyy-MM-dd';
 
-export const DATE_TIME_DISPLAY_FORMAT = 'MM/dd/yyyy h:mm:ss a [GMT]ZZ';
+export const DATE_TIME_DISPLAY_FORMAT = 'MM/dd/yyyy h:mm a [GMT]ZZ';
 // Used for the validation error message as suggested date time format
-export const DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE = 'MM/dd/yyyy h:mm:ss a';
+export const DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE = 'MM/dd/yyyy h:mm a';
 export const DATE_DISPLAY_FORMAT = 'MM/dd/yyyy';
+
+// Metadata API doesn't support dates before 1000
+export const MIN_FULL_YEAR = 1000;
 
 /**
  * Parses a string to a JavaScript Date, using forgiving parsing rather
@@ -48,8 +51,7 @@ export function formatDateTime(value, isDateTime) {
 export function getValidDateTime(dateString) {
     if (dateString) {
         const date = parseDateTime(dateString);
-        // Metadata API doesn't support dates before 1000
-        if (date && date.getFullYear() < 1000) {
+        if (date && date.getFullYear() < MIN_FULL_YEAR) {
             return null;
         }
         return date;

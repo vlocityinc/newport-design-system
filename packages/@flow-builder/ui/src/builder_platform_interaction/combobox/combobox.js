@@ -122,7 +122,7 @@ export default class Combobox extends Element {
 
     /**
      * Input value for the combobox.
-     * Combobox returns date time value in 'MM/dd/yyyy h:mm:ss a [GMT]ZZ' format,
+     * Combobox returns date time value in 'MM/dd/yyyy h:mm a [GMT]ZZ' format,
      * and can accept any the value in many formats that are valid for American locale.
      * Note: Date time format might be localized in 218+ (W-5236170)
      * @param {menuDataRetrieval.MenuItem|String} itemOrDisplayText - The value of the combobox
@@ -705,7 +705,7 @@ export default class Combobox extends Element {
     validateLiteral() {
         // literals allowed in combobox, validates number, currency (number), date and date time.
         // date and date time converts the input date string to format 'MM/dd/yyyy'
-        // & date time string to 'MM/dd/yyyy h:mm:ss a [GMT]ZZ'
+        // & date time string to 'MM/dd/yyyy h:mm a [GMT]ZZ'
         if (this.literalsAllowed) {
             this.validateLiteralForDataType();
         } else if (!this._item) {
