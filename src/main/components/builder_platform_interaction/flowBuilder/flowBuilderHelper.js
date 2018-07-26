@@ -18,7 +18,8 @@
 
             // show welcome mat
             var userPreferencesLib = cmp.find('userPreferencesLib');
-            if(userPreferencesLib.getWelcomeMatPreference()) {
+            var flowId = cmp.get('v.flowId');
+            if(userPreferencesLib.getWelcomeMatPreference() && !flowId) {
                 cmp.get('c.createWelcomeMat').run();
             }
         }
@@ -32,7 +33,6 @@
             panelConfig: {
                 body: welcomeMat,
                 bodyClass: 'slds-p-around_none',
-                showCloseButton: false,
             }
         }).fire();
     },
