@@ -318,7 +318,7 @@
         position: relative; 
         width: 100%; 
         z-index: 8888; 
-        background: white;
+        background: $color-border-tab-active;
 
         svg.nds-editblock_close {
             fill: $color-border-input;
@@ -329,7 +329,7 @@
         }
 
         .nds-custom_button {
-            background: white;
+            background: $color-border-tab-active;
             padding: 0.2rem 3.5rem;
             color: $shadow-button-focus;
             border: 1px solid $color-border-input;
@@ -406,14 +406,6 @@
 
 .nds-edit-block_cards-add-card.nds-edit-block_longcards {
     border: 1px solid $color-border-input;
-}
-
-.nds-editblock_inline__new-block {
-    position: relative;
-    margin-top: -6.3rem;
-    z-index: 99;
-    background-color: white;
-    padding-top: 0;
 }
 
 .nds-inline_new-top {
