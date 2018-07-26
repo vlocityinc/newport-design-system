@@ -8,6 +8,7 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES
 } from 'builder_platform_interaction-actions';
 import { addItem, updateProperties, replaceItem} from 'builder_platform_interaction-data-mutation-lib';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * Reducer for connectors.
@@ -26,6 +27,8 @@ export default function connectorsReducer(state = [], action) {
         case DESELECT_ON_CANVAS: return _deselectConnectors(state);
         case MODIFY_DECISION_WITH_OUTCOMES: return _deleteAndUpdateConnectorsForChildElements(
             state,
+            action.payload.decision.guid,
+            action.payload.decision.defaultConnectorLabel,
             action.payload.outcomes,
             action.payload.deletedOutcomes
         );
@@ -56,6 +59,8 @@ function _deleteConnectors(connectors, connectorsToDelete) {
  * Update/delete connectors for all of the given child elements
  *
  * @param {Object[]} origConnectors   current state of connectors in the store
+ * @param {String} decisionGuid    Guid of the decision element
+ * @param {String} defaultConnectorLabel    Connector Label of the default connector
  * @param {Object[]} updatedElements     array of child elements (outcomes or wait events) whose connectors are to be
  * updated
  * @param {Object[]} deletedElements     array of child elements (outcomes or wait events) whose connectors are to be
@@ -64,7 +69,7 @@ function _deleteConnectors(connectors, connectorsToDelete) {
  * @return {Object[]} new state of connectors after reduction
  * @private
  */
-function _deleteAndUpdateConnectorsForChildElements(origConnectors, updatedElements, deletedElements) {
+function _deleteAndUpdateConnectorsForChildElements(origConnectors, decisionGuid, defaultConnectorLabel, updatedElements, deletedElements) {
     const deletedElementGuidMap = new Map();
     for (let i = 0; i < deletedElements.length; i++) {
         deletedElementGuidMap.set(deletedElements[i].guid, deletedElements[i]);
@@ -83,7 +88,13 @@ function _deleteAndUpdateConnectorsForChildElements(origConnectors, updatedEleme
         const updatedElement = updatedElementGuidMap.get(connector.childSource);
 
         if (!connector.childSource) {
-            connectors.push(connector);
+            let updatedConnector = connector;
+            if (connector.type === CONNECTOR_TYPE.DEFAULT && connector.source === decisionGuid) {
+                updatedConnector = updateProperties(connector, {
+                    label: defaultConnectorLabel
+                });
+            }
+            connectors.push(updatedConnector);
         } else if (updatedElement) {
             const updatedConnector = updateProperties(connector, {
                 label: updatedElement.label
