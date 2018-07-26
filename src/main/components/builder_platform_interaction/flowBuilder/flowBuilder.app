@@ -9,6 +9,7 @@
     <!--Temp fix: Till we can leverage wire to get data-->
     <builder_platform_interaction:serverDataLibInit aura:id="serverDataLibInit"></builder_platform_interaction:serverDataLibInit>
     <builder_platform_interaction:contextLib aura:id="contextLib"></builder_platform_interaction:contextLib>
+    <builder_platform_interaction:userPreferencesLib aura:id="userPreferencesLib"></builder_platform_interaction:userPreferencesLib>
 
     <aura:if isTrue="{!v.ready}">
         <builder_platform_interaction:container flowId="{!v.flowId}"></builder_platform_interaction:container>

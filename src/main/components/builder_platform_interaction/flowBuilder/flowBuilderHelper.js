@@ -15,6 +15,25 @@
             var contextLib = cmp.find('contextLib');
             contextLib.setContext(response.data);
             cmp.set('v.ready', true);
+
+            // show welcome mat
+            var userPreferencesLib = cmp.find('userPreferencesLib');
+            if(userPreferencesLib.getWelcomeMatPreference()) {
+                cmp.get('c.createWelcomeMat').run();
+            }
         }
-    }
+    },
+
+    createWelcomeMat : function() {
+        var welcomeMat = $A.newCmp({ componentDef: 'builder_platform_interaction:welcomeMat'});
+        $A.get('e.ui:createPanel').setParams({
+            panelType: 'welcomeMatModal',
+            visible: true,
+            panelConfig: {
+                body: welcomeMat,
+                bodyClass: 'slds-p-around_none',
+                showCloseButton: false,
+            }
+        }).fire();
+    },
 })

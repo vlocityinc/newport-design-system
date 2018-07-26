@@ -1,0 +1,8 @@
+<aura:component extends="ui:modal" description="A modal panel for welcome mat">
+    <aura:set attribute="closeButton">
+        <ui:button aura:id="closeModal" aura:flavor="modal-closeBtn" variant="slds-button slds-button--icon-inverse slds-modal__close" label="{!$Label.Buttons.closeWindow}" labelDisplay="false" buttonTitle="{!$Label.Buttons.closeWindow}">
+            <lightning:icon size="small" iconName="utility:close" variant="bare" />
+        </ui:button>
+    </aura:set>
+    {!v.body}
+</aura:component>

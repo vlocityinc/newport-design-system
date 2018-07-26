@@ -17,6 +17,10 @@ export function isDevMode() {
     return context.devMode;
 }
 
+export function getUserPreferences() {
+    return context.userPrefs;
+}
+
 export function orgHasFlowBuilderPreview() {
     return context.access && context.access.orgHasFlowBuilderPreview;
 }

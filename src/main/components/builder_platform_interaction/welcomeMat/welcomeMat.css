@@ -1,0 +1,44 @@
+/*
+ * Copyright 2018 salesforce.com, inc.
+ * All Rights Reserved
+ * Company Confidential
+ */
+
+.THIS .modal {
+    background-image: url('/flow/images/welcome_mat.png');
+    background-size: 100%;
+    background-position-y: bottom;
+    background-repeat-y: no-repeat;
+}
+
+.THIS .content {
+    text-align: center;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+    display: block;
+}
+
+.THIS .title {
+    font-size: t(fontSize11);
+    font-weight: t(pageHeaderTitleFontWeight);
+}
+
+.THIS .body {
+    font-size: t(fontSize3);
+    color: t(colorTextDefault);
+    margin-top: t(spacingLarge);
+}
+
+.THIS a {
+    font-size: t(fontSize3);
+    color: t(colorTextLink);
+    margin-top: t(spacingLarge);
+    display: block;
+}
+
+.THIS button {
+    margin-top: t(spacingXLarge);
+    margin-bottom: t(spacingSmall);
+}

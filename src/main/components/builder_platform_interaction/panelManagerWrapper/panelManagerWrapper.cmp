@@ -11,6 +11,7 @@
                 </ui:modal>
 				<force:hoverPanel alias="hoverPanel" aura:id="hoverPanel"></force:hoverPanel>
                 <ui:panel alias="panel" aura:id="panel"></ui:panel>
+                <builder_platform_interaction:welcomeMatModal alias="welcomeMatModal" aura:id="welcomeMatModal"></builder_platform_interaction:welcomeMatModal>
             </aura:set>
         </ui:panelManager2>
     </div>
