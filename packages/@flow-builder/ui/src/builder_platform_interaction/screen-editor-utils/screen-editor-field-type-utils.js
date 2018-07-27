@@ -60,7 +60,8 @@ const screenFieldTypes = [
         dataType: undefined,
         label: LABELS.fieldTypeLabelPassword,
         icon: 'utility:lock',
-        category: LABELS.fieldCategoryInput
+        category: LABELS.fieldCategoryInput,
+        defaultValueType: 'stringValue'
     }, {
         name: 'Checkbox',
         fieldType: 'InputField',
@@ -194,6 +195,14 @@ export function isInputField(field) {
  */
 export function isTextAreaField(field) {
     return field && field.fieldType === 'LargeTextArea';
+}
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a password field
+ */
+export function isPasswordField(field) {
+    return field && field.fieldType === 'PasswordField';
 }
 
 /**

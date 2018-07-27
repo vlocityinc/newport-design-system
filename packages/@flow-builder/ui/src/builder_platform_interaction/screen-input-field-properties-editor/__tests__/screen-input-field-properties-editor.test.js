@@ -578,11 +578,10 @@ describe('screen-input-field-properties-editor for TextBox with default value', 
 });
 
 describe('screen-input-field-properties-editor for TextBox that set to required', () => {
-    const defaultVal = 'Basic Answer';
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'TextBox', defaultVal, {required: true}),
+            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {required: true}),
         });
     });
     it('Required checkbox is present and not checked', () => {

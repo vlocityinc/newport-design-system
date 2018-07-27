@@ -145,6 +145,9 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
             // Replace the fields in the screen
             updatedNode = set(screen, 'fields', updatedItems);
         }
+    } else {
+        // If nothing changed, return the screen, unchanged.
+        return screen;
     }
     return updatedNode;
 };
