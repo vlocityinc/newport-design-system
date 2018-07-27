@@ -50,7 +50,7 @@ const isDeleteableSObject = (objectType) => {
  * @param {RetrieveOptions} retrieveOptions way to retrieve the sObject or sObject collection variables
  * @returns {Object[]}  list of sobject/sobject collection variables
  */
-const getSObjectOrSObjectCollectionByEntityElements = (elements, retrieveOptions) => {
+export const getSObjectOrSObjectCollectionByEntityElements = (elements, retrieveOptions) => {
     let allElements = [];
     const dataType = FLOW_DATA_TYPE.SOBJECT.value;
     if (retrieveOptions) {
