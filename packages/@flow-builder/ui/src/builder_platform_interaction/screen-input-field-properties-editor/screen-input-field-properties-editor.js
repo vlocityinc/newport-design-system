@@ -5,7 +5,6 @@ import { INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction-data-type-li
 import { getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { LIGHTNING_INPUT_VARIANTS, getFlowDataTypeByName } from 'builder_platform_interaction-screen-editor-utils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /*
  * Screen element property editor for input fields.
@@ -15,7 +14,6 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
 
     labels = LABELS;
 
-    /* Figure out if the value really changed, and if it did refire the event including the old value */
     handlePropertyChanged = (event) => {
         const property = event.detail.propertyName;
         const newValue = event.detail.value;
@@ -54,12 +52,10 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
     }
 
     get elementParam() {
-        const param = {
+        return {
             dataType: getFlowDataTypeByName(this.field.dataType),
-            collection: false,
-            elementType: ELEMENT_TYPE.SCREEN
+            collection: false
         };
-        return param;
     }
 
     get resourceComboBoxConfig() {
