@@ -2,7 +2,7 @@
     <div>
         <div class="slds-modal__content slds-p-around_large modal">
             <div class='content'>
-                <p class="title">{#$Label.FlowBuilderWelcomeMat.title}</p>
+                <p class="slds-welcome-mat__info-title">{#$Label.FlowBuilderWelcomeMat.title}</p>
                 <p class="body">{#$Label.FlowBuilderWelcomeMat.body_1}</p>
                 <p class="body">{#$Label.FlowBuilderWelcomeMat.body_2}</p>
                 <a href="{#$Label.InteractionListPage.DeprecationMessage_Link_Destination}">{#$Label.InteractionListPage.DeprecationMessage_Link}</a>

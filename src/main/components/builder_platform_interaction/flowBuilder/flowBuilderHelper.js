@@ -33,6 +33,7 @@
             panelConfig: {
                 body: welcomeMat,
                 bodyClass: 'slds-p-around_none',
+                autoFocus: false,
             }
         }).fire();
     },

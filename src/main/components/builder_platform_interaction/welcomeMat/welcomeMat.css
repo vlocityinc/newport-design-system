@@ -8,7 +8,7 @@
     background-image: url('/flow/images/welcome_mat.png');
     background-size: 100%;
     background-position-y: bottom;
-    background-repeat-y: no-repeat;
+    background-repeat: no-repeat;
 }
 
 .THIS .content {
@@ -18,16 +18,11 @@
     margin-top: 1rem;
     margin-bottom: 4rem;
     display: block;
-}
-
-.THIS .title {
-    font-size: t(fontSize11);
-    font-weight: t(pageHeaderTitleFontWeight);
+    color: #00396b;
 }
 
 .THIS .body {
     font-size: t(fontSize3);
-    color: t(colorTextDefault);
     margin-top: t(spacingLarge);
 }
 
@@ -41,4 +36,8 @@
 .THIS button {
     margin-top: t(spacingXLarge);
     margin-bottom: t(spacingSmall);
+}
+
+.THIS lightning-input .slds-form-element__label {
+    color: #00396b;
 }
