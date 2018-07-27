@@ -98,7 +98,7 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
         subText,
         displayText,
         iconName,
-        ICON_SIZE,
+        iconSize: ICON_SIZE,
         value,
         parent,
         dataType,
@@ -118,7 +118,7 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
 export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSubText) {
     const formattedField = {
         parent,
-        ICON_SIZE
+        iconSize: ICON_SIZE
     };
     const label = field.label || field.apiName;
     formattedField.text = field.apiName;
@@ -139,7 +139,7 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
  */
 export function mutateFlowResourceToComboboxShape(resource) {
     const newElement = {
-        ICON_SIZE
+        iconSize: ICON_SIZE
     };
     const isNonElement = isNonElementResourceId(resource.guid);
 
