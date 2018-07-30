@@ -331,7 +331,7 @@
         .nds-custom_button {
             background: $color-border-tab-active;
             padding: 0.2rem 3.5rem;
-            color: $shadow-button-focus;
+            color: $color-blue-text-primary;
             border: 1px solid $color-border-input;
             font-weight: 500;
         }
@@ -361,12 +361,7 @@
 
         .nds-editblock_delete {
             fill: $color-border-input;
-            display: table-cell;
-            vertical-align: middle;
-            text-align: center;
-            top: 1.6rem;
-            position: absolute;
-            right: 1.5rem;
+            display: inline-block;
         }
 
         & > div {
@@ -379,6 +374,12 @@
         form {
             border: 1px solid $color-border-input;
             border-radius: 0.25rem;
+        }
+
+        .nds-edit-block_inline-action-container {
+            position: absolute;
+            top: 1.6rem;
+            right: 1.5rem;
         }
     }
 
@@ -397,8 +398,8 @@
         left: calc(50% - 70px);
     }
 
-    .nds-cont-wrapper .nds-custom_button button:disabled,
-    .nds-cont-wrapper .nds-custom_button button[disabled] {
+    .nds-cont-wrapper button.nds-custom_button:disabled,
+    .nds-cont-wrapper button.nds-custom_button[disabled] {
             opacity: 0.5;
     }
 
