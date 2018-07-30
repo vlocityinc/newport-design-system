@@ -11,7 +11,6 @@ import { Store } from 'builder_platform_interaction-store-lib';
 import * as sobjectLib from 'builder_platform_interaction-sobject-lib';
 import { FLOW_DATA_TYPE, getResourceTypes } from 'builder_platform_interaction-data-type-lib';
 import {
-    createMenuItem,
     mutateFieldToComboboxShape,
     mutateFlowResourceToComboboxShape,
     mutateEntitiesToComboboxShape,
@@ -298,16 +297,16 @@ export function getElementByDevName(elements = {}, devName) {
  * Get the list of fields of the selected entity. This list should exclude some preselected fields to prevent selection the same field twice.
  * Then transform them to combobox menu data as a list of {type: 'option-inline', text: fieldApiName, displayText: fieldApiName, value: fieldApiName}
  *
- * @param {String} recordEntityName   name of the selected entity
+ * @param {String} resourceEntityName   resource entity name
  * @param {String[]} excludedFields   the excluded fields
  * @param {function} callback the callback function with menudata
  */
-export function getFieldsMenuData(recordEntityName, excludedFields, callback) {
-    sobjectLib.getFieldsForEntity(recordEntityName, fields => {
+export function getFieldsMenuData(resourceEntityName, excludedFields, callback) {
+    sobjectLib.getFieldsForEntity(resourceEntityName, fields => {
         const menuData = [];
         Object.keys(fields).forEach(field => {
             if (!excludedFields.includes(field)) {
-                menuData.push(createMenuItem(COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE, field, undefined, field, undefined, field));
+                menuData.push(mutateFieldToComboboxShape(fields[field], undefined, false, false));
             }
         });
         callback(menuData);

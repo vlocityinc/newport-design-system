@@ -110,21 +110,23 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
  * Makes copy of server data fields of parent objects(SObjects, Globa/System Variables) with fields as needed by combobox
  *
  * @param {Object} field Field to be copied
- * @param {Object} parent Parent object
+ * @param {Object} [parent] Parent object if field is a second level item
  * @param {boolean} showAsFieldReference true to show the display text as field reference, otherwise show the field's apiName
  * @param {boolean} showSubText true to show the sub text
- * @returns {Object} Representation of flow element in shape combobox needs
+ * @returns {MenuItem} Representation of flow element in shape combobox needs
  */
 export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSubText) {
     const formattedField = {
-        parent,
         iconSize: ICON_SIZE
     };
+    if (parent) {
+        formattedField.parent = parent;
+    }
     const label = field.label || field.apiName;
     formattedField.text = field.apiName;
     formattedField.subText = (showSubText) ? label : '';
-    formattedField.value = parent.value + '.' + field.apiName;
-    formattedField.displayText = showAsFieldReference ? (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + field.apiName + '}') : field.apiName;
+    formattedField.value = (parent) ? (parent.value + '.' + field.apiName) : field.apiName;
+    formattedField.displayText = (showAsFieldReference && parent) ? (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + field.apiName + '}') : field.apiName;
     formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     formattedField.iconName = getDataTypeIcons(field.dataType, ICON_TYPE);
 
