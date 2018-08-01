@@ -230,3 +230,13 @@ fieldset.nds-form-element + .nds-has-error.nds-grid div:first-child small {
       bottom: 0;
     }
   }
+
+.nds-form-element__control.nds-vertical_checkbox {
+  display: flex;
+  flex-direction: column;
+}
+
+.nds-form-element__control.nds-vertical_checkbox .nds-checkbox,
+.nds-form-element__control.nds-horizontal_checkbox .nds-checkbox {
+  margin: 0 1rem .5rem 0;
+}

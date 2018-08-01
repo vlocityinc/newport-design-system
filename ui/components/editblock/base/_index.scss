@@ -303,3 +303,116 @@
         height: 3rem;
     }
 }
+
+
+/**
+ * Inline Edit Block
+ */
+
+
+.nds-editblock_inline {
+    .nds-edit-block-edit__container {
+        border: 1px solid $color-border-input;
+        border-radius: 0.25rem;
+        padding: 2rem;
+        position: relative; 
+        width: 100%; 
+        z-index: 8888; 
+        background: $color-border-tab-active;
+
+        svg.nds-editblock_close {
+            fill: $color-border-input;
+            top: 0;
+            right: 0;
+            position: absolute;
+            cursor: pointer;
+        }
+
+        .nds-custom_button {
+            background: $color-border-tab-active;
+            padding: 0.2rem 3.5rem;
+            color: $color-blue-text-primary;
+            border: 1px solid $color-border-input;
+            font-weight: 500;
+        }
+    }
+
+    .nds-edit-block_longcards {
+        border: none;
+        height: auto;
+
+        .nds-edit-block_longcards-controls-container {
+            margin-left: 1rem;
+            line-height: 5rem;
+            width: 100%;
+            top: 0;
+            left: 0;
+            height: inherit;
+
+            div {
+                float: left;
+                margin-left: 1rem;
+
+                &:first-child {
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .nds-editblock_delete {
+            fill: $color-border-input;
+            display: inline-block;
+        }
+
+        & > div {
+            height: 5rem;
+            &:focus {
+                outline: none;
+            }
+        }
+
+        form {
+            border: 1px solid $color-border-input;
+            border-radius: 0.25rem;
+        }
+
+        .nds-edit-block_inline-action-container {
+            position: absolute;
+            top: 1.6rem;
+            right: 1.5rem;
+        }
+    }
+
+    .nds-edit-block_card-height {
+        height: auto;
+    }
+
+    .nds-editblock_inline__edit-block {
+        position: relative;
+        z-index: 99;
+        margin-top: -5.1rem;
+        background-color: $color-border-tab-active;
+    }
+
+    .nds-cont-wrapper .nds-custom_button {
+        left: calc(50% - 70px);
+    }
+
+    .nds-cont-wrapper button.nds-custom_button:disabled,
+    .nds-cont-wrapper button.nds-custom_button[disabled] {
+            opacity: 0.5;
+    }
+
+}
+
+.nds-edit-block_cards-add-card.nds-edit-block_longcards {
+    border: 1px solid $color-border-input;
+}
+
+.nds-inline_new-top {
+    margin-top: -10.6rem;
+}
+
+.nds-inline_edit-top {
+    margin-top: -5.15rem;
+}

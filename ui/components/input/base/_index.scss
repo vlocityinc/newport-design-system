@@ -288,3 +288,13 @@
   margin-#{$left}: 0;
 }
 
+
+@media all and (max-width: 480px) {
+    .nds-form--multi-input__container {
+      .nds-form-element__control-animated-label.nds-size_2-of-3 {
+          width: 50%;
+          max-width: 50%;
+      }
+    }      
+}
+
