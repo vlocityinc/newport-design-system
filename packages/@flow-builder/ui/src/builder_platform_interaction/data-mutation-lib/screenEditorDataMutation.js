@@ -28,6 +28,7 @@ export const demutateScreenField = field => {
     delete field.defaultValue;
     field.defaultValue = field._defaultValue;
     delete field._defaultValue;
+    delete field.isNewMode;
 
     return field;
 };

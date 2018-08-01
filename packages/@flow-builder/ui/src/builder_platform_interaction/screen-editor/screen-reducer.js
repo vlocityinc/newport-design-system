@@ -2,7 +2,7 @@ import { screenValidation } from './screen-validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField } from 'builder_platform_interaction-data-mutation-lib';
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
-import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getDefaultValueType } from 'builder_platform_interaction-screen-editor-utils';
+import { getScreenFieldTypeByName, getScreenFieldType, createEmptyNodeOfType, isScreen, isExtensionField, getDefaultValueType } from 'builder_platform_interaction-screen-editor-utils';
 
 /**
  * Adds screen fields to a screen.
@@ -133,6 +133,15 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                     const firstUpdate = updateProperties(selectedNode[internalDefaultValueField], {[defaultValueType]: newValue});
                     const secondUpdate = updateProperties(selectedNode, {[internalDefaultValueField]: firstUpdate});
                     newField = updateProperties(secondUpdate, {[property]: newValue});
+                }  else if (property === 'dataType') {
+                    const newFieldType = getScreenFieldTypeByName(newValue);
+                    if (newFieldType) {
+                        newField = updateProperties(selectedNode, {[property]: newFieldType.dataType});
+
+                        // This is setting is only used by the Screen Builder and will be removed when
+                        // the field is demutated.
+                        newField.type = getScreenFieldType(newField);
+                    }
                 } else {
                     newField = updateProperties(selectedNode, {[property]: newValue});
                 }

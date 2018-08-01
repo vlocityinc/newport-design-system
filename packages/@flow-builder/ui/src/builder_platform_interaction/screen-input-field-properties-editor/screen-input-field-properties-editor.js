@@ -51,6 +51,19 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
         event.stopPropagation();
     }
 
+    /**
+     * Handles reordering a list of the screen fields
+     * @param {efvent} event - reorderListEvent
+     */
+    handleDataTypeChanged(event) {
+        if (event.detail.value && event.detail.value.dataType) {
+            const newDataType = event.detail.value.dataType;
+            const error = event.detail.error;
+            this.dispatchEvent(new PropertyChangedEvent('dataType', newDataType, error, this.field.guid, this.field.dataType));
+        }
+        event.stopPropagation();
+    }
+
     get elementParam() {
         return {
             dataType: getFlowDataTypeByName(this.field.dataType),
@@ -87,12 +100,11 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
     }
 
     get isCheckbox() {
-        return getValueFromHydratedItem(this.field.type.name) === 'Checkbox';
+        return this.field.dataType === 'Boolean';
     }
 
     get isScaleEnabled() {
-        const fieldType = getValueFromHydratedItem(this.field.type.name);
-        return fieldType === 'Number' || fieldType === 'Currency';
+        return this.field.dataType === 'Number' || this.field.dataType === 'Currency';
     }
 
     get validationRuleError() {

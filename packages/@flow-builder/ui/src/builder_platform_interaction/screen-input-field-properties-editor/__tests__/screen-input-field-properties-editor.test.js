@@ -607,3 +607,21 @@ describe('screen-input-field-properties-editor for TextBox with help text', () =
         });
     });
 });
+
+describe('screen-input-field-properties-editor for new field', () => {
+    let screenInputFieldPropEditor;
+    beforeEach(() => {
+        const textField = createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE);
+        textField.isNewMode = true;
+        screenInputFieldPropEditor = createComponentUnderTest({
+            field: textField
+        });
+    });
+    it('Data type picker is enabled', () => {
+        return Promise.resolve().then(() => {
+            const renderedDataTypePicker = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DATA_TYPE_PICKER);
+            expect(renderedDataTypePicker).toBeDefined();
+            expect(renderedDataTypePicker.typeAndCollectionDisabled).toBeFalsy();
+        });
+    });
+});
