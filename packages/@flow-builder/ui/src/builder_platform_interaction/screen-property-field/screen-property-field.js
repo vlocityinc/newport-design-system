@@ -33,7 +33,7 @@ export default class ScreenPropertyField extends Element {
         this._value = newValue;
         const input = this.input;
         if (input && input.setCustomValidity) {
-            input.setCustomValidity(this.error);
+            input.setCustomValidity(this.error || '');
         }
     }
 
@@ -49,7 +49,7 @@ export default class ScreenPropertyField extends Element {
             this.resourcePickerConfig.allowLiterals, // literalsAllowed
             this.required, // required
             false, // disabled
-            this.getFlowDataTypeByName(this.type)
+            getFlowDataTypeByName(this.type)
         );
     }
 
