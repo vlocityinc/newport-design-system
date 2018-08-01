@@ -70,6 +70,19 @@
   &--height {
     min-height: calc(#{$height-input} + (#{$border-width-thin} * 2)); // For IE
   }
+
+
+  /**
+   * @summary Use on input container to hide placeholder when there's no focus in Microsoft Edge
+   *
+   * @selector :focus::-ms-input-placeholder
+   */
+  ::-ms-input-placeholder {
+    opacity:0;
+  }
+  :focus::-ms-input-placeholder {
+    opacity:100;
+  }
 }
 
 /**
