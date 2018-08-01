@@ -1,4 +1,5 @@
-import { Element } from 'engine';
+import { Element, track } from 'engine';
+import { applyFilter } from 'builder_platform_interaction-common-utils';
 import { getAllScreenFieldTypes, getAllCachedExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
@@ -7,44 +8,44 @@ import { createAddScreenFieldEvent } from 'builder_platform_interaction-events';
 const FILTER_INPUT_SELECTOR = '#filter-input';
 
 export default class ScreenPalette extends Element {
-    types;
+    @track types;
+
     labels = LABELS;
 
     // Create palette model
     constructor() {
         super();
         this.types = [];
-        const sections = {};
-        for (const fieldType of [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes()]) {
-            if (!sections.hasOwnProperty(fieldType.category)) {
-                const section = {
-                    guid: generateGuid(),
-                    label: fieldType.category,
-                    _children: []
-                };
+        this.init();
+    }
 
-                sections[fieldType.category] = section;
-                this.types.push(section);
+    init(filter) {
+        const sections = [];
+
+        const typeMap = getTypeMap(filter);
+        for (const type in typeMap) {
+            if (typeMap.hasOwnProperty(type)) {
+                const items = typeMap[type];
+                if (items && items.length > 0) {
+                    const section = createSection(type, items.sort(compareItems));
+                    sections.push(section);
+                }
             }
-            const fieldGuid = generateGuid();
-            sections[fieldType.category]._children.push({
-                description: fieldType.description || '',
-                elementType: fieldGuid,
-                guid: fieldGuid,
-                iconName: fieldType.icon,
-                label: fieldType.label,
-                fieldTypeName: fieldType.name
-            });
         }
-        for (const section of this.types) {
-            section._children.sort((a, b) => {
-                return a.label.localeCompare(b.label);
-            });
-        }
+
+        this.types = sections;
     }
 
     handleSearch() {
-        this.template.querySelector('builder_platform_interaction-palette').filter(this.template.querySelector(FILTER_INPUT_SELECTOR).value);
+        let filter = null;
+        const pattern = this.template.querySelector(FILTER_INPUT_SELECTOR).value;
+        if (pattern) {
+            filter = {
+                pattern,
+                fields: ['label']
+            };
+        }
+        this.init(filter);
     }
 
     handlePaletteItemClickedEvent = (event) => {
@@ -87,4 +88,50 @@ function getFieldTypeNameByGuid(types, guid) {
         }
     }
     throw new Error("Unable to find field type by guid");
+}
+
+/**
+ * A case-insensitive comparison function used to sort arrays of palette items by label.
+ * @param {Object} a first item to compare
+ * @param {Object} b second item to compare
+ * @returns {Number} negative if a comes before b, positive if a comes after b, 0 when equal
+ */
+function compareItems(a, b) {
+    return a.label.toUpperCase().localeCompare(b.label.toUpperCase());
+}
+
+function createSection(label, items) {
+    const section = {
+        guid: generateGuid(),
+        label,
+        _children: items
+    };
+    return section;
+}
+
+function getTypeMap(filter) {
+    const typeMap = [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes()].reduce((acc, type) => {
+        const filterResult = applyFilter(type, filter);
+        if (!filterResult.visible) {
+            return acc;
+        }
+
+        const guid = generateGuid();
+        const item = {
+            description: type.description || '',
+            elementType: guid,
+            guid,
+            iconName: type.icon,
+            label: type.label,
+            fieldTypeName: type.name
+        };
+        if (!acc[type.category]) {
+            acc[type.category] = [];
+        }
+        acc[type.category].push(item);
+
+        return acc;
+    }, {});
+
+    return typeMap;
 }

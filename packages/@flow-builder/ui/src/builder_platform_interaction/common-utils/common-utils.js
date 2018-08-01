@@ -90,6 +90,71 @@ export const sanitizeDevName = (value) => {
     return value;
 };
 
+/**
+ * Searches fields within the given object to see if there are any matches with the given filter
+ * pattern. A filter result is returned which contains a visible flag.
+ *
+ * Sample input object:
+ * <pre><code>
+ * {
+ *     name: 'Somefoothing'
+ * }
+ *
+ * Sample input filter:
+ * <pre><code>
+ * {
+ *     pattern: 'foo',
+ *     fields: [ 'name' ]
+ * }
+ * </code></pre>
+ *
+ * Sample filter result using the input given above:
+ * <pre><code>
+ * {
+ *     visible: true
+ * }
+ * </pre></code>
+ *
+ * @param {Object} obj the object to search for matches in
+ * @param {Object} filter specifies the filter pattern and list of object fields to search
+ * @returns {Object} the filter result
+ */
+export const applyFilter = (obj, filter)  => {
+    if (isUndefinedOrNull(filter)) {
+        return {
+            visible: true
+        };
+    }
+
+    if (!isObject(obj)) {
+        throw new TypeError('obj must be defined and non-null');
+    }
+
+    if (!isObject(filter)) {
+        throw new TypeError('filter must be an object');
+    }
+
+    if (typeof filter.pattern !== 'string' || filter.pattern.length === 0) {
+        throw new TypeError('filter must have a non-empty pattern string');
+    }
+
+    if (!Array.isArray(filter.fields) || filter.fields.length === 0) {
+        throw new TypeError('filter must have a non-empty fields array');
+    }
+
+    const regex = RegExp(filter.pattern, 'i');
+    let visible = false;
+    for (let i = 0; i < filter.fields.length; i++) {
+        const field = filter.fields[i];
+        const text = obj[field];
+        visible = regex.test(text);
+    }
+
+    return {
+        visible
+    };
+};
+
 // see https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
 // RULE#1
 const HTML_ESCAPES = {

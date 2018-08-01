@@ -44,31 +44,6 @@ export default class Palette extends Element {
         this.showResourceDetails = value === 'true';
     }
 
-    @api
-    filter(pattern) {
-        const lPattern = (pattern && pattern.toLowerCase()) || '';
-        let currentSection = null;
-
-        for (const row of this.rows) {
-            if (row.isSection) {
-                if (currentSection) {
-                    currentSection.visible = currentSection.visibleItems > 0;
-                }
-                currentSection = row;
-                currentSection.visibleItems = 0;
-            } else if (!pattern || row.label.toLowerCase().indexOf(lPattern) > -1) {
-                row.visible = true;
-                currentSection.visibleItems += 1;
-            } else {
-                row.visible = false;
-            }
-        }
-
-        if (currentSection) {
-            currentSection.visible = currentSection.visibleItems > 0;
-        }
-    }
-
     @track rows = [];
     @track draggableItems = false;
     @track showItemCount = false;
@@ -146,6 +121,7 @@ export default class Palette extends Element {
 
         const key = section.guid;
         const expanded = !this.collapsedSections[key];
+        const visibleItems = section._children.length;
         const row = {
             isSection: true,
             key,
@@ -154,14 +130,13 @@ export default class Palette extends Element {
             setsize,
             label: section.label,
             expanded,
-            visible: section._children && section._children.length > 0,
-            visibleItems: (section._children && section._children.length) || 0
+            visibleItems
         };
         rows.push(row);
 
         // Only include child items from expanded sections.
         if (expanded) {
-            rows = rows.concat(this.createLevel(section._children, level + 1, key));
+            rows = rows.concat(this.createLevel(section._children, level + 1));
         }
 
         return rows;
@@ -193,8 +168,7 @@ export default class Palette extends Element {
             label: item.label,
             description,
             elementType: item.elementType,
-            iconName: item.iconName,
-            visible: true
+            iconName: item.iconName
         };
         return row;
     }
