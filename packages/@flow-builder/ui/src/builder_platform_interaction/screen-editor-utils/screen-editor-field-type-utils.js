@@ -226,3 +226,12 @@ export function getFlowDataTypeByName(dataType) {
     }
     return null;
 }
+
+export function getPlaceHolderLabel(fieldName) {
+    for (const type of screenFieldTypes) {
+        if (fieldName === type.name) {
+            return '[' + type.label + ']';
+        }
+    }
+    throw new Error('No type found for ' + fieldName);
+}

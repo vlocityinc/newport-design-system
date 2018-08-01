@@ -19,7 +19,8 @@ export const SCREEN_EDITOR_EVENT_NAME = {
 export function createScreenEditorEvent(type, detail = {}, cancelable = true, composed = true, bubbles = true) {
     const event = new CustomEvent(type, {detail, cancelable, composed, bubbles});
 
-    // TODO: Figure out if we still need this. Since moving to CustomEvent, this may no longer be required.
+    // Adds shortcuts for keys inside event.detail, so they can be accessed as event.x instead
+    // of event.detail.x.
     for (const key in detail) {
         if (detail.hasOwnProperty(key)) {
             Object.defineProperty(event, key, {
