@@ -689,3 +689,13 @@ form {
     color: $color-valid-control;
   }
 }
+
+.via-nds .nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom,
+.via-nds .nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom,
+.via-nds .nds-typeahead>div.nds-grid .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
+  left: calc(0% - 30px);
+}
+
+.via-nds .nds-nonfocused_control .nds-is-absolute {
+  right: 0;
+}
