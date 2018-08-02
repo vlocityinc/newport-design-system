@@ -46,6 +46,7 @@ const SELECTORS = {
 const VALIDATION_ERROR_MESSAGES = {
     GENERIC : 'FlowBuilderCombobox.genericErrorMessage',
     DATATYPE_MISMATCH: 'FlowBuilderLoopEditor.loopVariableErrorMessage',
+    CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
 };
 
 const focusoutEvent = new FocusEvent('focusout', {
@@ -315,7 +316,7 @@ describe('Loop Editor', () => {
                     loopVariableLightningCombobox.dispatchEvent(blurEvent);
                     return Promise.resolve().then(() => {
                         expect(loopVariableLightningCombobox.inputText).toBe('');
-                        expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.GENERIC);
+                        expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
                     });
                 });
             });
@@ -423,7 +424,7 @@ describe('Loop Editor', () => {
                 colVariableLightningCombobox.dispatchEvent(blurEvent);
                 return Promise.resolve().then(() => {
                     expect(colVariableLightningCombobox.inputText).toBe('');
-                    expect(colVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.GENERIC);
+                    expect(colVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
                 });
             });
         });
