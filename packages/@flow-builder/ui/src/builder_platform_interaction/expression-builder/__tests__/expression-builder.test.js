@@ -572,15 +572,57 @@ describe('expression-builder', () => {
     });
 
     describe('RHS literal datatype depending on LHS/Operator', () => {
+        const multipleRHSTypes = {
+            String: [{
+                paramType: 'Data',
+                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                dataType: 'String',
+            }],
+            Number: [{
+                paramType: 'Data',
+                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                dataType: 'Number',
+            }],
+            Currency: [{
+                paramType: 'Data',
+                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                dataType: 'Currency',
+            }],
+            Date: [{
+                paramType: 'Data',
+                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                dataType: 'Date',
+            }],
+        };
+
+        const booleanRHSType = {
+            Boolean: [{
+                paramType: 'Data',
+                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                dataType: 'Boolean',
+            }],
+        };
+
+        beforeAll(() => {
+            getRHSTypes.mockReturnValue(multipleRHSTypes);
+        });
+
+        afterAll(() => {
+            getRHSTypes.mockReturnValue();
+        });
+
         it('String', () => {
             const expression = createMockEmptyRHSExpression(stringVariableGuid);
             const expressionBuilder = createComponentForTest({
                 expression,
             });
-            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, 'foobar'));
-            Promise.resolve().then(() => {
-                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.STRING.value);
+            // first promise needed to create the component
+            return Promise.resolve().then(() => {
+                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, 'foobar'));
+                return Promise.resolve().then(() => {
+                    expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.STRING.value);
+                });
             });
         });
 
@@ -589,10 +631,12 @@ describe('expression-builder', () => {
             const expressionBuilder = createComponentForTest({
                 expression,
             });
-            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '123'));
-            Promise.resolve().then(() => {
-                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.NUMBER.value);
+            return Promise.resolve().then(() => {
+                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '123'));
+                return Promise.resolve().then(() => {
+                    expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.NUMBER.value);
+                });
             });
         });
 
@@ -601,10 +645,12 @@ describe('expression-builder', () => {
             const expressionBuilder = createComponentForTest({
                 expression,
             });
-            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '123'));
-            Promise.resolve().then(() => {
-                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.NUMBER.value);
+            return Promise.resolve().then(() => {
+                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '123'));
+                return Promise.resolve().then(() => {
+                    expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.CURRENCY.value);
+                });
             });
         });
 
@@ -613,22 +659,27 @@ describe('expression-builder', () => {
             const expressionBuilder = createComponentForTest({
                 expression,
             });
-            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '1/1/2018'));
-            Promise.resolve().then(() => {
-                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.DATE.value);
+            return Promise.resolve().then(() => {
+                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, '1/1/2018'));
+                return Promise.resolve().then(() => {
+                    expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.DATE.value);
+                });
             });
         });
 
         it('Element', () => {
+            getRHSTypes.mockReturnValueOnce(booleanRHSType);
             const expression = createMockEmptyRHSExpression(assignmentElementGuid, true);
             const expressionBuilder = createComponentForTest({
                 expression,
             });
-            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-            rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, 'true'));
-            Promise.resolve().then(() => {
-                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+            return Promise.resolve().then(() => {
+                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent(null, 'true'));
+                return Promise.resolve().then(() => {
+                    expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+                });
             });
         });
     });
