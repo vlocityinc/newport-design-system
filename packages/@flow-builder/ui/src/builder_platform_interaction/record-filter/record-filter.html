@@ -7,11 +7,11 @@
         </div>
         <div class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center" if:true={showWarningMessage}>
             <lightning-icon icon-name="utility:warning" title={labels.warning} alternative-text={labels.warning} variant="warning" size="x-small" class="slds-m-right_xx-small"></lightning-icon>
-             <lightning-formatted-rich-text 
-                value={warningMessage}
-                disable-linkify
+            <builder_platform_interaction-rich-label
+                label={warningLabel}
+                args={resourceDisplayText}
                 class="slds-m-left_xx-small slds-m-top_xx-small">
-            </lightning-formatted-rich-text>
+            </builder_platform_interaction-rich-label>
         </div>
         <div class="slds-p-horizontal_small ">
         <builder_platform_interaction-list if:true={showFilterList} items={filterItems} onaddlistitem={handleAddFilter} onupdatelistitem={handleUpdateFilter} ondeletelistitem={handleDeleteFilter} add-label={labels.addCriteria}>

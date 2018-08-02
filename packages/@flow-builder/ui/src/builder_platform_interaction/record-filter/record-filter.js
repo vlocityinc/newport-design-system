@@ -2,7 +2,7 @@ import { Element, api, track } from "engine";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS } from './record-filter-labels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-record-editor-lib';
-import { format, escapeHtml } from 'builder_platform_interaction-common-utils';
+import { format } from 'builder_platform_interaction-common-utils';
 import {
     AddRecordLookupFilterEvent,
     DeleteRecordLookupFilterEvent,
@@ -117,8 +117,8 @@ export default class RecordFilter extends Element {
         return CRITERIA_RECORDS_LABELS[this.elementType];
     }
 
-    get warningMessage() {
-        return format(WARNING_LABELS[this.elementType], escapeHtml(this.resourceDisplayText));
+    get warningLabel() {
+        return WARNING_LABELS[this.elementType];
     }
 
     get showWarningMessage() {

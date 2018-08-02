@@ -1,12 +1,12 @@
 <template>
     <div class="slds-m-bottom_small slds-border_top ">
         <div class="slds-form slds-form_stacked slds-p-around_small slds-no-flex">
-            <lightning-formatted-rich-text 
+            <builder_platform_interaction-rich-label 
                 if:true={isLookupElement}
-                value={title} 
-                disable-linkify
+                label={labels.storeFieldsSelectionLabel}
+                args={state.resourceDisplayText} 
                 class="slds-text-body_regular">
-            </lightning-formatted-rich-text>
+            </builder_platform_interaction-rich-label>
             <lightning-radio-group label='{numberRecordsToStoreLabel}'
                 name="numberRecordsToStoreRadioGroup" 
                 options={recordStoreOptions}

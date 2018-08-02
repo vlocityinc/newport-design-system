@@ -154,26 +154,3 @@ export const applyFilter = (obj, filter)  => {
         visible
     };
 };
-
-// see https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
-// RULE#1
-const HTML_ESCAPES = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#x27;',
-    '/': '&#x2F;'
-};
-const HTML_ESCAPER_REGEX = /[&<>"'/]/g;
-
-/**
- * HTML Escape an untrusted string before inserting it into HTML element content
- *
- * To be used when you want to put untrusted data directly into the HTML body somewhere.
- * This includes inside normal tags like div, p, b, td, etc.
- * However, this is absolutely not sufficient for other HTML contexts
- * @param {String} string The string to escape for inserting into HTML
- * @returns {String} the escaped string
- */
-export const escapeHtml = (string) => string.replace(HTML_ESCAPER_REGEX, (match) => HTML_ESCAPES[match]);

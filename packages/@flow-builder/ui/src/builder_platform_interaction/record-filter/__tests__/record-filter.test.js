@@ -63,7 +63,7 @@ const selectors = {
     filterList: 'builder_platform_interaction-list',
     expressionBuilder: 'builder_platform_interaction-expression-builder',
     warningIcon: 'lightning-icon',
-    warningMessage: 'lightning-formatted-rich-text',
+    warningMessage: 'builder_platform_interaction-rich-label',
 };
 
 const getFilterRecordsCombobox = (recordLookupFilterCmp) => {
@@ -136,13 +136,13 @@ describe('record-filter', () => {
             mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_UPDATE;
             element = createComponentUnderTest();
             expect(getWarningIcon(element)).toBeDefined();
-            expect(getWarningMessage(element).value).toBe('FlowBuilderRecordEditor.updateAllRecords');
+            expect(getWarningMessage(element).label).toBe('FlowBuilderRecordEditor.updateAllRecords');
         });
         it('Should display warning icon and message for record delete', () => {
             mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_DELETE;
             element = createComponentUnderTest();
             expect(getWarningIcon(element)).toBeDefined();
-            expect(getWarningMessage(element).value).toBe('FlowBuilderRecordEditor.deleteAllRecords');
+            expect(getWarningMessage(element).label).toBe('FlowBuilderRecordEditor.deleteAllRecords');
         });
     });
 

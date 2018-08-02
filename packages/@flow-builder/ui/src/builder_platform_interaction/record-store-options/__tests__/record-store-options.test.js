@@ -68,10 +68,6 @@ describe('record-store-options default', () => {
     beforeEach(() => {
         recordStoreOptionComponent = createComponentUnderTest(ELEMENT_TYPE.RECORD_LOOKUP);
     });
-    test('Check Label', () => {
-        expect(recordStoreOptionComponent).toBeDefined();
-        expect(getTitle(recordStoreOptionComponent).value).toBe('FlowBuilderRecordEditor.storeFieldsSelectionLabel');
-    });
     test('Should have 2 options to store records', () => {
         expect(getNumberRecordsToStoreRadioGroup(recordStoreOptionComponent).options).toHaveLength(2);
     });
