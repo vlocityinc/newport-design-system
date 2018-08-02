@@ -134,8 +134,13 @@ export default class Combobox extends Element {
         if (isObject(itemOrDisplayText)) {
             if (itemOrDisplayText.value) {
                 const item = unwrap(itemOrDisplayText);
-                displayText = item.displayText = this.getStringValue(item.displayText);
-                this._item = this._lastRecordedItem = item;
+                displayText = this.getStringValue(item.displayText);
+                displayText = this.shouldAppendPeriod(item) ? displayText.substring(0, displayText.length - 1) + '.}' : displayText;
+
+                this._item = Object.assign({}, item);
+                this._item.displayText = displayText;
+                this._lastRecordedItem = this._item;
+
                 // set the base value to parent for fetching previous level
                 if (itemOrDisplayText.parent) {
                     this._base = itemOrDisplayText.parent.displayText;
@@ -152,6 +157,9 @@ export default class Combobox extends Element {
         this._lastRecordedDisplayText = displayText;
         this.updateInputIcon();
         this.setMergeFieldState();
+
+
+        this._isUserBlurred = false;
     }
 
     /**
@@ -238,6 +246,10 @@ export default class Combobox extends Element {
         }
     }
 
+    connectedCallback() {
+        this._isInitialized = true;
+    }
+
     /* ***************** */
     /* Private Variables */
     /* ***************** */
@@ -287,6 +299,19 @@ export default class Combobox extends Element {
      * Flag to set the initial error message on renderedCallback only once.
      */
     _isInitialErrorMessageSet = false;
+
+    /**
+     * Flag indicating whether all attributes have been set
+     */
+    _isInitialized = false;
+
+    /**
+     * Flag indicating that the current set value is due to the user blurring out
+     * in which case, the user explicitly desired an sobject and thus set value will not append a period.
+     *
+     * This will be used (and managed) in set value
+     */
+    _isUserBlurred = false;
 
     /* ********************** */
     /*     Event handlers     */
@@ -403,6 +428,8 @@ export default class Combobox extends Element {
         this.matchTextWithItem();
 
         this.doValidation(true);
+
+        this._isUserBlurred = true;
 
         this.fireComboboxStateChangedEvent();
     }
@@ -695,6 +722,17 @@ export default class Combobox extends Element {
      */
     getGroupedCombobox() {
         return this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
+    }
+
+    /**
+     * Returns true if this is not the initial setting of the value from the parent component and the current item
+     * hasNext and the user didn't just blur out (which would indicate that they were specifically trying to select the
+     * current item, even if it hasNext.
+     * @param {Object} item an item
+     * @return {boolean} whether a preiod should be appended
+     */
+    shouldAppendPeriod(item) {
+        return this._isInitialized && !this._isUserBlurred && item.hasNext;
     }
 
     /** *********************************/

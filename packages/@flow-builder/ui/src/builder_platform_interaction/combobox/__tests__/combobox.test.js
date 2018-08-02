@@ -50,16 +50,22 @@ jest.mock('builder_platform_interaction-date-time-utils', () => {
     };
 });
 
-describe('Combobox Tests', () => {
-    let combobox, groupedCombobox;
-    beforeEach(() => {
-        combobox = createElement(SELECTORS.COMBOBOX_PATH, {
-            is: Combobox,
-        });
-        document.body.appendChild(combobox);
-        groupedCombobox = getShadowRoot(combobox).querySelector(SELECTORS.GROUPED_COMBOBOX);
+let combobox, groupedCombobox;
+
+const createCombobox = (props) => {
+    combobox = createElement(SELECTORS.COMBOBOX_PATH, {
+        is: Combobox,
     });
 
+    if (props) {
+        Object.assign(combobox, props);
+    }
+
+    document.body.appendChild(combobox);
+    groupedCombobox = getShadowRoot(combobox).querySelector(SELECTORS.GROUPED_COMBOBOX);
+};
+
+describe('Combobox Tests', () => {
     const getTextInputEvent = function (inputValue) {
         return new CustomEvent('textinput', {
             detail: {text: inputValue},
@@ -74,6 +80,8 @@ describe('Combobox Tests', () => {
 
     describe('Property sanity checks', () => {
         beforeEach(() => {
+            createCombobox();
+
             for (const attribute in comboboxInitialConfig) {
                 if (comboboxInitialConfig.hasOwnProperty(attribute)) {
                     combobox[attribute] = comboboxInitialConfig[attribute];
@@ -126,12 +134,43 @@ describe('Combobox Tests', () => {
     describe('Value setter tests', () => {
         const resetText = 'reset';
         const testValues = [undefined, null, ''];
-        const validItem = {
-            value: 'validValue',
-            displayText: 'This should work!'
-        };
+        let validItem;
+
+        let validItemWithHasNext;
+
+        let validItemWithHasNext2;
+
+        let validItemWithHasNextFalse;
+
+        beforeEach(() => {
+            validItem = {
+                value: 'validValue',
+                displayText: 'This should work!',
+                hasNext: false
+            };
+
+            validItemWithHasNext = {
+                value: 'validValue',
+                displayText: 'This should work!',
+                hasNext: true
+            };
+
+            validItemWithHasNext2 = {
+                value: 'validValue2',
+                displayText: '{This should work2!}',
+                hasNext: true
+            };
+
+            validItemWithHasNextFalse = {
+                value: 'validValueFalse',
+                displayText: 'This should workFalse!',
+                hasNext: false
+            };
+        });
 
         it('Setting value with undefined/null/empty item value should result in error', () => {
+            createCombobox();
+
             const item = {
                 displayText: 'Should not work!'
             };
@@ -148,6 +187,8 @@ describe('Combobox Tests', () => {
         });
 
         it('Setting value with undefined/null item displayText should result in empty string value', () => {
+            createCombobox();
+
             const item = {
                 value: 'testValue'
             };
@@ -164,6 +205,8 @@ describe('Combobox Tests', () => {
         });
 
         it('Setting undefined/null value should result in empty string displayText', () => {
+            createCombobox();
+
             for (let i = 0; i < 2; i++) {
                 combobox.value = resetText;
                 combobox.value = testValues[i];
@@ -171,21 +214,87 @@ describe('Combobox Tests', () => {
             }
         });
 
-        it('Setting value with an item, then setting value with a string should result in the string', () => {
-            combobox.value = validItem;
-            combobox.value = 'Should work!';
-            expect(combobox.value).toEqual('Should work!');
-        });
+        describe('Setting value with an item', () => {
+            it('then setting value with a string should result in the string', () => {
+                createCombobox();
 
-        it('Setting value with a string, then setting value with an item should result in the item', () => {
-            combobox.value = 'Should get replaced';
-            combobox.value = validItem;
-            expect(combobox.value).toEqual(validItem);
+                combobox.value = validItem;
+                combobox.value = 'Should work!';
+                expect(combobox.value).toEqual('Should work!');
+            });
+
+            it('then setting value with an item should result in the item', () => {
+                createCombobox();
+
+                combobox.value = 'Should get replaced';
+                combobox.value = validItem;
+                expect(combobox.value).toEqual(validItem);
+            });
+
+            describe('hasNext = true', () => {
+                it('during initialization should not append a period', () => {
+                    createCombobox({
+                        value: validItemWithHasNext
+                    });
+
+                    return Promise.resolve().then(() => {
+                        expect(groupedCombobox.inputText).toEqual(validItemWithHasNext.displayText);
+                    });
+                });
+
+                it('after user blur should not append a period', () => {
+                    createCombobox();
+
+                    combobox.value = validItemWithHasNext;
+
+                    return Promise.resolve().then(() => {
+                        const blurEvent = new CustomEvent('blur');
+                        groupedCombobox.dispatchEvent(blurEvent);
+
+                        return Promise.resolve().then(() => {
+                            combobox.value = validItemWithHasNext2;
+
+                            return Promise.resolve().then(() => {
+                                expect(groupedCombobox.inputText).toEqual(validItemWithHasNext2.displayText);
+                            });
+                        });
+                    });
+                });
+
+                it('without blur should append a period', () => {
+                    createCombobox();
+
+                    const expectedDisplayText =
+                        validItemWithHasNext2.displayText.substring(0, validItemWithHasNext2.displayText.length - 1) + '.}';
+
+                    combobox.value = validItemWithHasNext;
+
+                    return Promise.resolve().then(() => {
+                        combobox._isUserBlurred = false;
+                        combobox.value = validItemWithHasNext2;
+
+                        return Promise.resolve().then(() => {
+                            expect(groupedCombobox.inputText).toEqual(expectedDisplayText);
+                        });
+                    });
+                });
+            });
+
+            it('hasNext = false should not append period', () => {
+                createCombobox();
+
+                combobox.value = validItemWithHasNextFalse;
+                return Promise.resolve().then(() => {
+                    expect(groupedCombobox.inputText).toEqual(validItemWithHasNextFalse.displayText);
+                });
+            });
         });
     });
 
     describe('Variant setter/getter tests', () => {
         it('Setting an invalid variant should result in an error', () => {
+            createCombobox();
+
             const setVariant = () => {
                 combobox.variant = 'standard-hidden';
             };
@@ -194,6 +303,8 @@ describe('Combobox Tests', () => {
             }).toThrow('Variant must either be \'standard\' or \'label-hidden\'!');
         });
         it('Setting a valid variant', () => {
+            createCombobox();
+
             combobox.variant = LIGHTNING_INPUT_VARIANTS.STANDARD;
             expect(combobox.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
@@ -201,6 +312,8 @@ describe('Combobox Tests', () => {
 
     describe('Typing Autocomplete Tests', () => {
         beforeEach(() => {
+            createCombobox();
+
             combobox.value = '{';
         });
 
@@ -223,6 +336,8 @@ describe('Combobox Tests', () => {
 
     describe('Icon Tests', () => {
         it('Search icon when empty', () => {
+            createCombobox();
+
             combobox.value = '';
             return Promise.resolve().then(() => {
                 expect(groupedCombobox.inputIconName).toEqual('utility:search');
@@ -230,6 +345,8 @@ describe('Combobox Tests', () => {
         });
 
         it('Activity Indicator when fetching and filtering menu data', () => {
+            createCombobox();
+
             combobox.value = '{!myAccount}';
             const textInputEvent = getTextInputEvent('{!myAccount.}');
             return Promise.resolve().then(() => {
@@ -250,6 +367,8 @@ describe('Combobox Tests', () => {
         let filterMatchesHandler, fetchMenuDataHandler, comboboxStateChangedHandler, selectHandler, itemSelectedHandler;
         let textInputEvent, blurEvent, selectEvent;
         beforeEach(() => {
+            createCombobox();
+
             filterMatchesHandler = jest.fn();
             fetchMenuDataHandler = jest.fn();
             comboboxStateChangedHandler = jest.fn();
@@ -305,32 +424,19 @@ describe('Combobox Tests', () => {
         });
 
         it('FetchMenuData is fired when a . is entered & item hasNext', () => {
-            combobox.value = {
-                text: 'MyAccount',
-                subText: 'Account',
-                value: 'GUID1',
-                displayText: '{!MyAccount}',
-                hasNext: true,
-                iconName: 'standard:account',
-                type: 'option-card',
-            };
+            combobox.value = '{!MyAccount}';
+
             return Promise.resolve().then(() => {
                 textInputEvent = getTextInputEvent('{!MyAccount.}');
+
                 groupedCombobox.dispatchEvent(textInputEvent);
                 expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
             });
         });
 
         it('FetchMenuData is fired when a . is deleted', () => {
-            combobox.value = {
-                text: 'MyAccount',
-                subText: 'Account',
-                value: 'GUID1',
-                displayText: '{!MyAccount}',
-                hasNext: true,
-                iconName: 'standard:account',
-                type: 'option-card',
-            };
+            combobox.value = '{!MyAccount}';
+
             return Promise.resolve().then(() => {
                 textInputEvent = getTextInputEvent('{!MyAccount.}');
                 groupedCombobox.dispatchEvent(textInputEvent);
@@ -341,15 +447,8 @@ describe('Combobox Tests', () => {
         });
 
         it('FetchMenuData is fired when the length of displayText is less than base length', () => {
-            combobox.value = {
-                text: 'MyAccount',
-                subText: 'Account',
-                value: 'GUID1',
-                displayText: '{!MyAccount}',
-                hasNext: true,
-                iconName: 'standard:account',
-                type: 'option-card',
-            };
+            combobox.value = '{!MyAccount}';
+
             return Promise.resolve().then(() => {
                 textInputEvent = getTextInputEvent('{!MyAccount.}');
                 groupedCombobox.dispatchEvent(textInputEvent);
@@ -517,6 +616,8 @@ describe('Combobox Tests', () => {
         const ignoreTZRegex = new RegExp('^.*?GMT');
 
         beforeEach(() => {
+            createCombobox();
+
             blurEvent = new CustomEvent('blur');
             combobox.menuData = comboboxInitialConfig.menuData;
 
@@ -608,6 +709,8 @@ describe('Combobox Tests', () => {
         let blurEvent;
 
         beforeEach(() => {
+            createCombobox();
+
             blurEvent = new CustomEvent('blur');
         });
 
