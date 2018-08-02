@@ -1,8 +1,13 @@
-import { isExtensionField, getScreenFieldType, getScreenFieldTypeByName, getValueFromFerov, getFerovFromValue } from 'builder_platform_interaction-screen-editor-utils';
+import { isExtensionField, getScreenFieldType, getLocalExtensionFieldType, getScreenFieldTypeByName, getValueFromFerov, getFerovFromValue } from 'builder_platform_interaction-screen-editor-utils';
 
 export const mutateScreenField = field => {
     if (isExtensionField(field)) {
-        field.type = getScreenFieldTypeByName(field.extensionName);
+        const type = getScreenFieldTypeByName(field.extensionName);
+        if (type) {
+            field.type = type;
+        } else { // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
+            field.type = getLocalExtensionFieldType(field.extensionName);
+        }
     } else {
         field.type = getScreenFieldType(field);
     }

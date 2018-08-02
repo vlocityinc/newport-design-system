@@ -1,5 +1,5 @@
-import {LABELS} from 'builder_platform_interaction-screen-editor-i18n-utils';
-import { COMPONENT_INSTANCE, getAllCachedExtensionTypes } from './screen-editor-extension-utils';
+import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { COMPONENT_INSTANCE, EXTENSION_TYPE_SOURCE, getAllCachedExtensionTypes, listExtensions } from './screen-editor-extension-utils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 /**
@@ -96,11 +96,48 @@ const screenFieldTypes = [
 ];
 
 /**
+ * Returns a Promise that will be resolved once the extension field types have been retrieved.
+ *
+ * @Returns {Promise} - The promise
+ */
+export function getExtensionFieldTypes() {
+    const cachedFields = getAllCachedExtensionTypes();
+    if (cachedFields && cachedFields.length) {
+        return Promise.resolve(cachedFields);
+    }
+
+    return new Promise((resolve, reject) => {
+        listExtensions(true, (data, error) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
+
+/**
  * Returns all screen field types (excluding extensions), including name, fieldType, dataType, label (localized), icon and category (localized)
  * @return {array} - The field types
  */
 export function getAllScreenFieldTypes() {
     return screenFieldTypes;
+}
+
+/**
+ * Returns a local representation of the field type for the given extension (that will eventually be replaced by the server version)
+ * @param {String} name - The FQN of the extension
+ * @returns {FieldType} - The type
+ */
+export function getLocalExtensionFieldType(name) {
+    return {
+        name,
+        fieldType: COMPONENT_INSTANCE,
+        label: name,
+        icon: 'utility:connected_apps', // 'standard:custom_notification', //Removing this until we clarify how to change the size and the background of icons in the palette
+        source: EXTENSION_TYPE_SOURCE.LOCAL
+    };
 }
 
 /**
@@ -110,12 +147,8 @@ export function getAllScreenFieldTypes() {
  * @throws if type can't be found
  */
 export function getScreenFieldTypeByName(name) {
-    const fieldType = [...screenFieldTypes, ...getAllCachedExtensionTypes()]
-        .find(type => type.name.toLowerCase() === name.toLowerCase());
-    if (fieldType) {
-        return fieldType;
-    }
-    throw new Error('No such screen field type: ' + name);
+    name = name && name.toLowerCase();
+    return [...screenFieldTypes, ...getAllCachedExtensionTypes()].find(type => type.name.toLowerCase() === name);
 }
 
 /**

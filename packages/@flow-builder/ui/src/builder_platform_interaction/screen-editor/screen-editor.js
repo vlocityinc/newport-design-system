@@ -1,6 +1,6 @@
 import { Element, api, track, unwrap } from 'engine';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
-import { isScreen } from 'builder_platform_interaction-screen-editor-utils';
+import { isScreen, getAllScreenFieldTypes, getExtensionFieldTypes, processScreenExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { screenReducer } from './screen-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { showConfirmationDialog } from 'builder_platform_interaction-builder-utils';
@@ -14,6 +14,21 @@ export default class ScreenEditor extends Element {
     @track selectedNode;
     @track selectedItemGuid;
 
+    @track screenFieldTypes;
+    @track extensionTypes;
+
+    constructor() {
+        super();
+
+        // Get all screen field types
+        this.screenFieldTypes = getAllScreenFieldTypes();
+        getExtensionFieldTypes().then(data => {
+            this.extensionTypes = data;
+            this.node = processScreenExtensionTypes(unwrap(this.screen));
+        }).catch(error => {
+            throw error;
+        });
+    }
     /**
      * Screen node getter
      * @returns {object} The screen

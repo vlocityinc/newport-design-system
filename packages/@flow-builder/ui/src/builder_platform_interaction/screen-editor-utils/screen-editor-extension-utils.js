@@ -1,11 +1,13 @@
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import {LABELS} from 'builder_platform_interaction-screen-editor-i18n-utils';
+import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 
 let extensionCache = [];
 let extensionDescriptionCache = {};
+let _retriever; // Retrieves extensions list and notifies all callbacks that registered while the operation was taking place
 
+export const EXTENSION_TYPE_SOURCE = {LOCAL:'local', SERVER: 'server'};
 export const COMPONENT_INSTANCE = 'ComponentInstance';
 
 // Makes the object read only
@@ -125,7 +127,8 @@ function mergeParameters(fieldParameters, descParameters, valuePropName, isInput
 }
 
 /**
- * Returns a list of all the available lightning components implementing a flow marker interface with the following shape
+ * Returns a list of all the available lightning components implementing a flow marker interface with the following shape.
+ * If there is already a request in process this function makes sure that the original request is used.
  *
  * {description, label, marker (the marker interface), qualifiedApiName, source (Managed | Unmanaged | Standard)}
  *
@@ -136,25 +139,57 @@ export function listExtensions(refreshCache, callback) {
     if (!refreshCache && extensionCache.length) {
         callback(extensionCache.slice(0), null);
     } else {
-        fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS, ({data, error}) => {
-            if (error) {
-                callback(null, error);
-            } else {
-                for (const extension of data) {
-                    extensionCache.push(freeze({
-                        name: extension.qualifiedApiName,
-                        fieldType: COMPONENT_INSTANCE,
-                        label: extension.label ? extension.label : extension.qualifiedApiName,
-                        icon: 'utility:connected_apps', // 'standard:custom_notification', //Removing this until we clarify how to change the size and the background of icons in the palette
-                        category: extension.source === 'Standard' ? LABELS.fieldCategoryInput : LABELS.fieldCategoryCustom,
-                        description: extension.description,
-                        marker: extension.marker,
-                    }));
-                }
-                callback(extensionCache.slice(0), null); // clone the array
-            }
-        });
+        const retriever = getListExtensionsRetriever();
+        retriever.callbacks.push(callback);
+        retriever.retrieve();
     }
+}
+
+/*
+ * Returns an object that will retrieve the extensions list and have an array of callbacks to be notified when the call returns from the server
+ */
+function getListExtensionsRetriever() {
+    if (!_retriever) {
+        let started = false;
+        _retriever = {
+            callbacks: [],
+            retrieve() {
+                if (!started) {
+                    started = true;
+                    const cbs = this.callbacks;
+                    fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS, ({data, error}) => {
+                        _retriever.callbacks = [];
+                        _retriever = null;
+
+                        if (error) {
+                            for (const callback of cbs) {
+                                callback(null, error);
+                            }
+                        } else {
+                            for (const extension of data) {
+                                extensionCache.push(freeze({
+                                    name: extension.qualifiedApiName,
+                                    fieldType: COMPONENT_INSTANCE,
+                                    label: extension.label ? extension.label : extension.qualifiedApiName,
+                                    icon: 'utility:connected_apps', // 'standard:custom_notification', //Removing this until we clarify how to change the size and the background of icons in the palette
+                                    category: extension.source === 'Standard' ? LABELS.fieldCategoryInput : LABELS.fieldCategoryCustom,
+                                    description: extension.description,
+                                    marker: extension.marker,
+                                    source: EXTENSION_TYPE_SOURCE.SERVER // The extension description was retrieved from the server
+                                }));
+                            }
+
+                            for (const callback of cbs) {
+                                callback(extensionCache.slice(0), null); // clone the array
+                            }
+                        }
+                    });
+                }
+            }
+        };
+    }
+
+    return _retriever;
 }
 
 /**
@@ -212,4 +247,24 @@ export function mergeExtensionInfo(fieldMetadata, extensionDescription) {
         inputParameters: mergeParameters(fieldMetadata.inputParameters, extensionDescription.inputParameters, 'value', true),
         outputParameters: mergeParameters(fieldMetadata.outputParameters, extensionDescription.outputParameters, 'assignToReference', false)
     };
+}
+
+/**
+ * Replaces all local (temporary) extension field types with their server versions (if available) in every field in the provided screen
+ * @param {object} screen - the screen
+ * @returns {object} the processed screen
+ */
+export function processScreenExtensionTypes(screen) {
+    for (const field of screen.fields) {
+        if (field.type.source === EXTENSION_TYPE_SOURCE.LOCAL) {
+            for (const type of extensionCache) {
+                if (type.name === field.type.name) {
+                    field.type = type;
+                    break;
+                }
+            }
+        }
+    }
+
+    return screen;
 }

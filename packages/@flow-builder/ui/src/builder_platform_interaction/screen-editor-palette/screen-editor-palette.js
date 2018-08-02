@@ -1,25 +1,41 @@
-import { Element, track } from 'engine';
+import { Element, track, api } from 'engine';
 import { applyFilter } from 'builder_platform_interaction-common-utils';
 import { getAllScreenFieldTypes, getAllCachedExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { createAddScreenFieldEvent } from 'builder_platform_interaction-events';
 
-const FILTER_INPUT_SELECTOR = '#filter-input';
+const SELECTORS = {
+    FILTER_INPUT: '#filter-input',
+};
 
 export default class ScreenPalette extends Element {
     @track types;
+    _fieldTypes;
+    _extensionTypes;
 
     labels = LABELS;
 
-    // Create palette model
-    constructor() {
-        super();
-        this.types = [];
-        this.init();
+    @api set screenFieldTypes(fieldTypes) {
+        this._fieldTypes = fieldTypes;
+        this.buildModel();
     }
 
-    init(filter) {
+    @api get screenFieldTypes() {
+        return this._fieldTypes;
+    }
+
+    @api set extensionTypes(extTypes) {
+        this._extensionTypes = extTypes;
+        this.buildModel();
+    }
+
+    @api get extensionTypes() {
+        return this._extensionTypes;
+    }
+
+    // Create palette model
+    buildModel(filter) {
         const sections = [];
 
         const typeMap = getTypeMap(filter);
@@ -38,14 +54,14 @@ export default class ScreenPalette extends Element {
 
     handleSearch() {
         let filter = null;
-        const pattern = this.template.querySelector(FILTER_INPUT_SELECTOR).value;
+        const pattern = this.template.querySelector(SELECTORS.FILTER_INPUT).value;
         if (pattern) {
             filter = {
                 pattern,
                 fields: ['label']
             };
         }
-        this.init(filter);
+        this.buildModel(filter);
     }
 
     handlePaletteItemClickedEvent = (event) => {

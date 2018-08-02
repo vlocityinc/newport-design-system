@@ -16,11 +16,9 @@ import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-
 import { LABELS } from './editor-labels';
 import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction-used-by-lib';
-import { listExtensions } from 'builder_platform_interaction-screen-editor-utils';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction-logging-utils';
 import { SaveFlowEvent, EditElementEvent } from 'builder_platform_interaction-events';
 import { SaveType } from 'builder_platform_interaction-save-type';
-import { orgHasFlowBuilderPreview } from 'builder_platform_interaction-context-lib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -76,13 +74,6 @@ export default class Editor extends Element {
         fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' }, {background: true});
         fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
         fetch(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES, this.getResourceTypesCallback);
-
-        // TODO: This is a screen-editor related request and should not be made
-        // in orgs that do not have the FlowBuilderPreview perm. We will remove
-        // this check in 218.
-        if (orgHasFlowBuilderPreview()) {
-            listExtensions(false, this.getExtensionsCallback);
-        }
     }
 
     @api
