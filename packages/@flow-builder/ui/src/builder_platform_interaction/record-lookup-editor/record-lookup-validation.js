@@ -35,16 +35,6 @@ const validateQueriedField = () => {
     };
 };
 const additionalRules = {
-    name: [
-        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
-        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
-        ValidationRules.maximumCharactersLimit(80),
-        ValidationRules.shouldNotBeBlank,
-    ],
-    label: [
-        ValidationRules.maximumCharactersLimit(255),
-        ValidationRules.shouldNotBeBlank
-    ],
     object: [
         ValidationRules.shouldNotBeBlank
     ],

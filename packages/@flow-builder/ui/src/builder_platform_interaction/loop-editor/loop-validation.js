@@ -6,16 +6,10 @@ import { Validation } from 'builder_platform_interaction-validation';
  */
 export const additionalRules = {
     label : [
-        ValidationRules.shouldNotBeNullOrUndefined,
-        ValidationRules.shouldNotBeBlank,
-        ValidationRules.maximumCharactersLimit(255)
+        ValidationRules.shouldNotBeNullOrUndefined
     ],
     name  : [
-        ValidationRules.shouldNotBeNullOrUndefined,
-        ValidationRules.shouldNotBeBlank,
-        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
-        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
-        ValidationRules.maximumCharactersLimit(80)
+        ValidationRules.shouldNotBeNullOrUndefined
     ],
     assignNextValueToReference : [
         ValidationRules.shouldNotBeBlank,

@@ -8,14 +8,6 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
  * @type {Object}
  */
 const additionalRules = {
-    label: [
-        ValidationRules.maximumCharactersLimit(255)
-    ],
-    name: [
-        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
-        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
-        ValidationRules.maximumCharactersLimit(80)
-    ],
     defaultConnectorLabel: [
         ValidationRules.shouldNotBeBlank
     ],

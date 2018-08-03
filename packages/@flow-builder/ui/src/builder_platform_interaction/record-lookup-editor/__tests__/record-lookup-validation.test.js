@@ -55,46 +55,6 @@ describe('Record Lookup Validation', () => {
             expect(errors).toHaveLength(0);
         });
     });
-    describe('label is not valid', () => {
-        const createRecordLookupEditor = (invalidLabel) => {
-            recordLookupEditorNode.label.value = invalidLabel;
-            return createComponentForTest(recordLookupEditorNode);
-        };
-        it('should return an error if label is too long', () => {
-            const recordLookupEditor = createRecordLookupEditor('slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla');
-            const errors = validate(recordLookupEditor.node);
-            expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('label');
-            expect(errors[0].errorString).toBe(LABELS.maximumCharactersLimit);
-        });
-    });
-    describe('name is not valid', () => {
-        const createRecordLookupEditor = (invalidName) => {
-            recordLookupEditorNode.name.value = invalidName;
-            return createComponentForTest(recordLookupEditorNode);
-        };
-        it('should return an error if name contains alphanumerical characters', () => {
-            const recordLookupEditor = createRecordLookupEditor('1111111');
-            const errors = validate(recordLookupEditor.node);
-            expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('name');
-            expect(errors[0].errorString).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
-        });
-        it('should return an error if name contains special characters', () => {
-            const recordLookupEditor = createRecordLookupEditor('Special Characters $#$@&^%!$()');
-            const errors = validate(recordLookupEditor.node);
-            expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('name');
-            expect(errors[0].errorString).toBe(LABELS.shouldAcceptOnlyAlphanumericCharacters);
-        });
-        it('should return an error if name is too long', () => {
-            const recordLookupEditor = createRecordLookupEditor('OJqlWSveOtulUjcyHgrDOOSPArDKdbftmvEKPBPDxLqrwtseblHPBcgctlMYmRsbPyngaEmZqCqMxksyv');
-            const errors = validate(recordLookupEditor.node);
-            expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('name');
-            expect(errors[0].errorString).toBe(LABELS.maximumCharactersLimit);
-        });
-    });
     describe('outputReference is not valid', () => {
         const createRecordLookupEditor = (invalidOutputReference) => {
             recordLookupEditorNode.outputReference.value = invalidOutputReference;

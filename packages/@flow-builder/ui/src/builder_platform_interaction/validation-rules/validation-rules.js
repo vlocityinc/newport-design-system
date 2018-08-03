@@ -63,13 +63,6 @@ export const shouldNotBeBlank = (value) => evaluateRegex(regexConfig.shouldNotBe
 export const shouldNotBeginOrEndWithUnderscores = (value) => evaluateRegex(regexConfig.shouldNotBeginOrEndWithUnderscores, value);
 
 /**
- * Function to test the value should accept only alphanumeric or special characters
- * @param {string} value - value to be tested
- * @returns {string|null} errorString or null
- */
-export const shouldAcceptOnlyAlphanumericOrSpecialCharacters = (value) => evaluateRegex(regexConfig.shouldAcceptOnlyAlphanumericOrSpecialCharacters, value);
-
-/**
  * Function to test the value should not begin with numeric or special characters
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null

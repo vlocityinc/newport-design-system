@@ -25,44 +25,59 @@ jest.mock('builder_platform_interaction-server-data-lib', () => {
 });
 
 describe('shouldNotBeBlank method', () => {
-    it('should return null with a non blank value', () => {
+    it('should return null when valid string ( with non blank value ) is passed.', () => {
         expect(rules.shouldNotBeBlank('test value')).toBeNull();
     });
-    it('should return an error message with a blank value', () => {
+    it('should return an error message when invalid string ( with a blank value) is passed.', () => {
         expect(rules.shouldNotBeBlank('')).toBe(LABELS.cannotBeBlank);
     });
 });
 describe('shouldNotBeginOrEndWithUnderscores method', () => {
-    it('should return null when the value does not start or end with an underscore', () => {
-        expect(rules.shouldNotBeginOrEndWithUnderscores('test value')).toBeNull();
+    it('should return null when valid string ( with single underscore in between ) is passed.', () => {
+        expect(rules.shouldNotBeginOrEndWithUnderscores('test_value')).toBeNull();
     });
-    it('should return an error message when the value starts with an underscore', () => {
-        expect(rules.shouldNotBeginOrEndWithUnderscores('_test value')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
+    it('should return an error message when invalid string ( starts with underscore ) is passed.', () => {
+        expect(rules.shouldNotBeginOrEndWithUnderscores('_test_value')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
     });
-    it('should return an error message when the value ends with an underscore', () => {
-        expect(rules.shouldNotBeginOrEndWithUnderscores('test value_')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
+    it('should return an error message when invalid string ( ends with underscore ) is passed.', () => {
+        expect(rules.shouldNotBeginOrEndWithUnderscores('test_value_')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
     });
-    it('should return null when the value ends with _0', () => {
-        expect(rules.shouldNotBeginOrEndWithUnderscores('Assignment_0')).toBeNull();
+    it('should return an error message when invalid string ( consecutive underscores in the middle ) is passed.', () => {
+        expect(rules.shouldNotBeginOrEndWithUnderscores('test__value')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
+    });
+    it('should return an error message when invalid string ( starts with consecutive underscores ) is passed.', () => {
+        expect(rules.shouldNotBeginOrEndWithUnderscores('__test_value')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
+    });
+    it('should return an error message when invalid string ( ends with consecutive underscores ) is passed.', () => {
+        expect(rules.shouldNotBeginOrEndWithUnderscores('test_value__')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
     });
 });
 describe('shouldNotBeginWithNumericOrSpecialCharacters method', () => {
-    it('should return null when the input does not begin with numeric or special characters', () => {
-        expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('s123')).toBeNull();
+    it('should return null when valid string ( does not begin with numeric or special characters) is passed.', () => {
+        expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('s123#')).toBeNull();
     });
-    it('should return an error message when the input begins with numeric characters', () => {
+    it('should return an error message when invalid string ( begins with numeric characters) is passed.', () => {
         expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('123s')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
     });
-    it('should return an error message when the input begins with special characters', () => {
+    it('should return an error message when invalid string ( begins with special characters) is passed. ', () => {
         expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('#123s')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
     });
 });
 describe('shouldAcceptOnlyAlphanumericCharacters method', () => {
-    it('should return null when the input contains only alphanumeric characters', () => {
+    it('should return null when valid string ( contains only alphanumeric characters ) is passed.', () => {
         expect(rules.shouldAcceptOnlyAlphanumericCharacters('AlphanumericOnly1234')).toBeNull();
     });
-    it('should return an error when the input contains non-alphanumeric characters', () => {
+    it('should return null when valid string ( contains underscores ) is passed.', () => {
+        expect(rules.shouldAcceptOnlyAlphanumericCharacters('_')).toBeNull();
+    });
+    it('should return an error when invalid string ( ends with non-alphanumeric characters ) is passed.', () => {
         expect(rules.shouldAcceptOnlyAlphanumericCharacters('aa*^*^')).toBe(LABELS.shouldAcceptOnlyAlphanumericCharacters);
+    });
+    it('should return an error when invalid string ( has non-alphanumeric characters in between ) is passed.', () => {
+        expect(rules.shouldAcceptOnlyAlphanumericCharacters('aa$#bbb')).toBe(LABELS.shouldAcceptOnlyAlphanumericCharacters);
+    });
+    it('should return an error when invalid string ( starts with non-alphanumeric characters ) is passed.', () => {
+        expect(rules.shouldAcceptOnlyAlphanumericCharacters('$abc')).toBe(LABELS.shouldAcceptOnlyAlphanumericCharacters);
     });
 });
 describe('shouldBeAPositiveIntegerOrZero method', () => {
@@ -123,6 +138,18 @@ describe('validateExpressionWith3Properties', () => {
         expect(rulesObject).toEqual({[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [rules.shouldNotBeBlank], [EXPRESSION_PROPERTY_TYPE.OPERATOR]: [rules.shouldNotBeBlank]});
     });
 });
+describe('isUniqueDevNameInStore method', () => {
+    it('returns null when a unique dev name is tested against store data', () => {
+        const uniqueName = 'idiosyncraticName';
+        expect(rules.isUniqueDevNameInStore(uniqueName)).toBeNull();
+    });
+    it('returns null when a unique dev name is tested against store data while using the listOfGuidsToSkip param', () => {
+        expect(rules.isUniqueDevNameInStore(assignmentElementName, [assignmentElementGuid])).toBeNull();
+    });
+    it('returns an error when the dev name is not unique (uniqueness is case insensitive)', () => {
+        expect(rules.isUniqueDevNameInStore(assignmentElementName.toUpperCase())).toBe(LABELS.fieldNotUnique);
+    });
+});
 
 /*
 TODO: to be used when we being validating null on RHS W-4983953
@@ -156,16 +183,3 @@ describe('RHS validation', () => {
     });
 });
 */
-
-describe('isUniqueDevNameInStore method', () => {
-    it('returns null when a unique dev name is tested against store data', () => {
-        const uniqueName = 'idiosyncraticName';
-        expect(rules.isUniqueDevNameInStore(uniqueName)).toBeNull();
-    });
-    it('returns null when a unique dev name is tested against store data while using the listOfGuidsToSkip param', () => {
-        expect(rules.isUniqueDevNameInStore(assignmentElementName, [assignmentElementGuid])).toBeNull();
-    });
-    it('returns an error when the dev name is not unique (uniqueness is case insensitive)', () => {
-        expect(rules.isUniqueDevNameInStore(assignmentElementName.toUpperCase())).toBe(LABELS.fieldNotUnique);
-    });
-});

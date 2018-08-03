@@ -6,14 +6,6 @@ import { Validation } from 'builder_platform_interaction-validation';
  * @type {Object}
  */
 const screenAdditionalRules = {
-    'label' : [
-        ValidationRules.maximumCharactersLimit(255)
-    ],
-    'name'  : [
-        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
-        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
-        ValidationRules.maximumCharactersLimit(80)
-    ],
     'fields' : {
         'name' : [
             ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,

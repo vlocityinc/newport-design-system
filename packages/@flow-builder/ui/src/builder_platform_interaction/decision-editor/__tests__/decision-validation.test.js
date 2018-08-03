@@ -4,49 +4,7 @@ import {decisionValidation} from '../decision-validation';
 import { LABELS } from '../../validation-rules/validation-rules-labels';
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 
-
-describe('Default Decision Validations - from label-dev name-description', () => {
-    describe('when props set to LABEL', () => {
-        it('and when valid string is passed should return - null', () => {
-            expect(decisionValidation.validateProperty('label', "valid string")).toBeNull();
-        });
-        it('and when empty string is passed should return - Cannot be blank.', () => {
-            expect(decisionValidation.validateProperty('label', '')).toBe(CANNOT_BE_BLANK_ERROR);
-        });
-    });
-    describe('when props set to NAME', () => {
-        it('and when valid string is passed should return - null', () => {
-            expect(decisionValidation.validateProperty('name', "validstring")).toBeNull();
-        });
-        it('and when empty string is passed should return - Cannot be blank.', () => {
-            expect(decisionValidation.validateProperty('name', '')).toBe(CANNOT_BE_BLANK_ERROR);
-        });
-        it('and when a string starting with _ is passed should return - Should always begin with Alphabetical Characters instead of Numeric or Special Characters.', () => {
-            expect(decisionValidation.validateProperty('name', '_someUniqueName')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
-        });
-        it('and when a string ending with _ is passed should return - Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.', () => {
-            expect(decisionValidation.validateProperty('name', 'someUniqueName_')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
-        });
-    });
-});
-
 describe('Additional Decision Validations', () => {
-    describe('when props set to LABEL', () => {
-        it('and when string length more than 255 characters should return - {string} Cannot accept more than 255 characters.', () => {
-            expect(decisionValidation.validateProperty('label', 'slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla')).toBe(LABELS.maximumCharactersLimit);
-        });
-    });
-    describe('when props set to NAME', () => {
-        it('and when invalid string is passed should return - {string} Should begin with Alphabetical Characters instead of Numeric or Special Characters', () => {
-            expect(decisionValidation.validateProperty('name', '1111111')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
-        });
-        it('and when invalid string is passed should return - {string} Cannot accept any Special Characters.', () => {
-            expect(decisionValidation.validateProperty('name', 'Special Characters $#$@&^%!$()')).toBe(LABELS.shouldAcceptOnlyAlphanumericCharacters);
-        });
-        it('and when string length more than 80 characters should return - {string} Cannot accept more than 80 characters.', () => {
-            expect(decisionValidation.validateProperty('name', 'OJqlWSveOtulUjcyHgrDOOSPArDKdbftmvEKPBPDxLqrwtseblHPBcgctlMYmRsbPyngaEmZqCqMxksyv')).toBe(LABELS.maximumCharactersLimit);
-        });
-    });
     describe('when props set to conditionLogic', () => {
         it('and when valid string is passed should return - null', () => {
             expect(decisionValidation.validateProperty('conditionLogic', "valid condition")).toBeNull();

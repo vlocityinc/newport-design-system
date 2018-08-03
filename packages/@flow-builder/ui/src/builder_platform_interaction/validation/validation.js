@@ -7,11 +7,15 @@ import { updateProperties, set, getValueFromHydratedItem } from 'builder_platfor
  */
 const defaultRules = {
     'label' : [
-        ValidationRules.shouldNotBeBlank
+        ValidationRules.shouldNotBeBlank,
+        ValidationRules.maximumCharactersLimit(255)
     ],
     'name' : [
         ValidationRules.shouldNotBeBlank,
-        ValidationRules.shouldNotBeginOrEndWithUnderscores
+        ValidationRules.shouldNotBeginOrEndWithUnderscores,
+        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
+        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
+        ValidationRules.maximumCharactersLimit(80)
     ]
 };
 

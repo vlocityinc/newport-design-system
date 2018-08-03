@@ -10,11 +10,6 @@ import { LABELS } from "./variable-editor-labels";
  * @type {Object}
  */
 const additionalRules = {
-    'name'  : [
-        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
-        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
-        ValidationRules.maximumCharactersLimit(80)
-    ],
     'dataType': [ValidationRules.shouldNotBeNullOrUndefined],
 };
 

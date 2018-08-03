@@ -16,11 +16,15 @@ describe('Default Validations', () => {
         it('and when a empty string is passed should return the error message - {string} Cannot be blank.', () => {
             expect(validation.validateProperty('label', '')).toBe(ValidationRules.LABELS.cannotBeBlank);
         });
+
+        it('and when string length more than 255 characters should return - {string} Cannot accept more than 255 characters.', () => {
+            expect(validation.validateProperty('label', 'slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla')).toBe(ValidationRules.LABELS.maximumCharactersLimit);
+        });
     });
 
     describe('when props set to NAME', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(validation.validateProperty('name', 'valid string')).toBeNull();
+            expect(validation.validateProperty('name', 'valid_devName')).toBeNull();
         });
 
         it('and when a empty string is passed should return the error message - {string} Cannot be blank.', () => {
@@ -33,6 +37,18 @@ describe('Default Validations', () => {
 
         it('and when a string has trailing underscores at the beginning should return the error message - {string} Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.', () => {
             expect(validation.validateProperty('name', '_valid_string')).toBe(TRAILING_UNDERSCORE_ERROR);
+        });
+
+        it('and when string has special or numeric characters at start, should return the error meessage - {string} no starting with numeric or special characters', () => {
+            expect(validation.validateProperty('name', '#$$%@adsf')).toBe(ValidationRules.LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
+        });
+
+        it('and when invalid string is passed should return - {string} Cannot accept any Special Characters.', () => {
+            expect(validation.validateProperty('name', 'Special Characters $#$@&^%!$()')).toBe(ValidationRules.LABELS.shouldAcceptOnlyAlphanumericCharacters);
+        });
+
+        it('should return an error if length is > 80 characters', () => {
+            expect(validation.validateProperty('name', 'OJqlWSveOtulUjcyHgrDOOSPArDKdbftmvEKPBPDxLqrwtseblHPBcgctlMYmRsbPyngaEmZqCqMxksyv')).toBe(ValidationRules.LABELS.maximumCharactersLimit);
         });
     });
 });
@@ -111,20 +127,20 @@ describe('validateProperties function', () => {
 
         // Screen
         expect(validationRules.validateProperty('name', 'valueWithNoErrors')).toBeNull();
-        expect(validationRules.validateProperty('name', 'valueWithError(> 30 chars)-----')).toEqual(ValidationRules.LABELS.maximumCharactersLimit);
+        expect(validationRules.validateProperty('name', 'valueWithErrorupto30charasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfacters')).toEqual(ValidationRules.LABELS.maximumCharactersLimit);
 
         // Field Name
         expect(validationRules.validateProperty('fields', 'valueWithNoErrors')).toBeNull();
-        expect(validationRules.validateProperty('fields.name', 'valueWithError(> 25 chars)')).toEqual(ValidationRules.LABELS.maximumCharactersLimit);
+        expect(validationRules.validateProperty('fields.name', 'valueWithErrorupto25characters')).toEqual(ValidationRules.LABELS.maximumCharactersLimit);
 
         // Field scale
         expect(validationRules.validateProperty('fields[type.name="Number"].scale', '2')).toBeNull();
         expect(validationRules.validateProperty('fields[type.name="Number"].scale', '2.1')).toEqual(ValidationRules.LABELS.shouldBeAPositiveIntegerOrZero);
 
         // Field name
-        expect(validationRules.validateProperty('fields[type.name="Date"].name', 'valueWithoutError(> 25 chars)')).toBeNull();
+        expect(validationRules.validateProperty('fields[type.name="Date"].name', 'valueWithoutError25characters')).toBeNull();
         expect(validationRules.validateProperty('fields[type.name="Date"].defaultValue', new Date().toString())).toBeNull();
-        expect(validationRules.validateProperty('fields[type.name="Date"].defaultValue', 'valueWithError(NotADate)')).toEqual(ValidationRules.LABELS.mustBeAValidDate);
+        expect(validationRules.validateProperty('fields[type.name="Date"].defaultValue', 'valueWithErrorNotADate')).toEqual(ValidationRules.LABELS.mustBeAValidDate);
     });
 });
 describe('validateAll method', () => {

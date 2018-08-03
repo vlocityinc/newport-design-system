@@ -3,28 +3,6 @@ import * as storeMockedData from 'mock-store-data';
 import { LABELS } from 'builder_platform_interaction-validation-rules';
 
 describe('Check validations', () => {
-    describe('when props set to label', () => {
-        it('should return null if valid', () => {
-            expect(recordUpdateValidation.validateProperty('label', 'valid string')).toBeNull();
-        });
-        it('should return an error if the value is too long', () => {
-            expect(recordUpdateValidation.validateProperty('label', 'slgtkIhgGmCxhghaqlSsvqzpoVTjXXXpiFkUnrbTffSmlaPBNHviXxZOsuzprwgbDqyRjbmpgfBsHqvuAteZQFpiZOZTMHwqXUhgVVXcazWHrTDtmjVEOkoOBnjnUFftAmcvKZZKaVUUrxnDHKivVwLwmUlgArcCfeXPdzAGWWAntNRCaBAVzlTLIGuiXwKdcjuHkwnhsNuodNQdoqAOetbMZvwzRICvRydEVqLnefBJTUMJkmZQhbCIwYhQGlla')).toBe(LABELS.maximumCharactersLimit);
-        });
-    });
-    describe('when props set to name', () => {
-        it('should return null if valid', () => {
-            expect(recordUpdateValidation.validateProperty('name', 'validstring')).toBeNull();
-        });
-        it('should return an error if contains alphanumerical characters', () => {
-            expect(recordUpdateValidation.validateProperty('name', '1111111')).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
-        });
-        it('should return an error if contains special characters', () => {
-            expect(recordUpdateValidation.validateProperty('name', 'Special Characters $#$@&^%!$()')).toBe(LABELS.shouldAcceptOnlyAlphanumericCharacters);
-        });
-        it('should return an error if the value is too long', () => {
-            expect(recordUpdateValidation.validateProperty('name', 'OJqlWSveOtulUjcyHgrDOOSPArDKdbftmvEKPBPDxLqrwtseblHPBcgctlMYmRsbPyngaEmZqCqMxksyv')).toBe(LABELS.maximumCharactersLimit);
-        });
-    });
     describe('when props set to inputReference', () => {
         let recordUpdateElementWithValidSObject;
         beforeEach(() => {
