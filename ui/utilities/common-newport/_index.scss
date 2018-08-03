@@ -613,33 +613,6 @@ button.nds-step__next-link[disabled] {
   fill: $color-input-icon-blue-hue;
 }
 
-.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom,
-.nds-typeahead>div.nds-grid .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom,
-.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
-  #{$left}: calc(-100% - 10px);
-  max-width: 30rem;
-  white-space: nowrap;
-  top: -1.6875rem;
-}
-
-.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
-.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after,
-.nds-typeahead>div.nds-grid .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
-.nds-typeahead>div.nds-grid .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after,
-.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
-.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after {
-  width: 1rem;
-  height: 1rem;
-  position: absolute;
-  transform: rotate(45deg);
-  content: '';
-  background-color: inherit;
-  #{$left}: 100%;
-  bottom: 0;
-  margin-#{$left}: -9px;
-  top: 25%;
-}
-
 @media only screen and (min-width: 64em) {
   .nds-table_bordered:not(.nds-no-row-hover) tbody tr:hover>td:not(.nds-is-selected),
   .nds-table_bordered:not(.nds-no-row-hover) tbody tr:hover>th:not(.nds-is-selected),
@@ -690,12 +663,7 @@ form {
   }
 }
 
-.via-nds .nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom,
-.via-nds .nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom,
-.via-nds .nds-typeahead>div.nds-grid .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
-  left: calc(0% - 30px);
-}
-
-.via-nds .nds-nonfocused_control .nds-is-absolute {
-  right: 0;
+.nds-inline-help-text .nds-is-absolute {
+  #{$right}: -0.8rem;
+  top: -3rem;
 }
