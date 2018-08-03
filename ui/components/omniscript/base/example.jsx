@@ -47,7 +47,7 @@ export default (
                         </button>
                         <div className="nds-is-absolute">
                           <div
-                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
+                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
                             role="tooltip"
                           >
                             <div className="nds-popover__body">Step7</div>
@@ -83,7 +83,7 @@ export default (
                         </button>
                         <div className="nds-is-absolute">
                           <div
-                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
+                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
                             role="tooltip"
                           >
                             <div className="nds-popover__body">
@@ -122,7 +122,7 @@ export default (
                         />
                         <div className="nds-is-absolute">
                           <div
-                            className="nds-popover nds-popover_tooltip-right"
+                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
                             role="tooltip"
                           >
                             <div className="nds-popover__body">
@@ -144,7 +144,7 @@ export default (
                         />
                         <div className="nds-is-absolute">
                           <div
-                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
+                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
                             role="tooltip"
                           >
                             <div className="nds-popover__body">
@@ -190,7 +190,7 @@ export default (
                         />
                         <div className="nds-is-absolute">
                           <div
-                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
+                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
                             role="tooltip"
                           >
                             <div className="nds-popover__body">
