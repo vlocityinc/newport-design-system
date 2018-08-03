@@ -37,8 +37,8 @@ const createComponentUnderTest = (props) => {
 
 jest.mock('builder_platform_interaction-builder-utils', () => {
     return {
-        showConfirmationDialog: jest.fn((attributes, cb) => {
-            cb();
+        invokeAlertModal: jest.fn(data => {
+            return data;
         })
     };
 });

@@ -3,7 +3,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-
 import { isScreen, getAllScreenFieldTypes, getExtensionFieldTypes, processScreenExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { screenReducer } from './screen-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import { showConfirmationDialog } from 'builder_platform_interaction-builder-utils';
+import { invokeAlertModal } from 'builder_platform_interaction-builder-utils';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 
 /**
@@ -107,28 +107,35 @@ export default class ScreenEditor extends Element {
     }
 
     /**
-     * Handler for the delete screen element event. Deletes a screen field or sets the showHeader/showFooter elements to false
+     * Handler for the delete screen element event. Invokes the delete confirmation modal.
      * @param {event} event - The event
      */
     handleDeleteScreenElement = (event) => {
-        const dialogAttributes = {
-            title: LABELS.deleteConfirmation,
-            bodyText: LABELS.deleteConsequence,
-            primaryButton: {
-                actionText: LABELS.cancel,
-                variant: "neutral"
-            },
-            secondaryButton: {
-                actionText: LABELS.deleteAlternativeText,
-                variant: "destructive"
-            }
-        };
-
-        showConfirmationDialog(dialogAttributes, () => {
+        const deleteCallBack = () => {
             this.screen = screenReducer(this.screen, event);
             this.handleDeselectScreenElement();
+        };
+
+        // Invoking the delete confirmation modal
+        invokeAlertModal({
+            headerData: {
+                headerTitle: LABELS.deleteConfirmation
+            },
+            bodyData: {
+                bodyTextOne: LABELS.deleteConsequence
+            },
+            footerData: {
+                buttonOne: {
+                    buttonLabel: LABELS.cancel
+                },
+                buttonTwo: {
+                    buttonVariant: "destructive",
+                    buttonLabel: LABELS.deleteAlternativeText,
+                    buttonCallback: deleteCallBack
+                }
+            }
         });
-    }
+    };
 
     /**
      * Handler for the property changed event

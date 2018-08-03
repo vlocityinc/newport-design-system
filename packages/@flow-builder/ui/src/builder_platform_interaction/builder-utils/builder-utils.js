@@ -5,7 +5,6 @@ import { AddElementEvent, EditElementEvent, NewResourceEvent, CANVAS_EVENT, Save
 import { LABELS } from './builder-utils-labels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
-export * from './alert-modal-utils.js';
 export * from './modal-utils.js';
 
 /**

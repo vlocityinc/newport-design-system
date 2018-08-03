@@ -1,49 +1,49 @@
-import { showCustomOverlay } from 'lightning-overlay-utils';
 import { createElement } from 'engine';
-import MessageDialog from 'builder_platform_interaction-message-dialog';
+import { showCustomOverlay } from 'lightning-overlay-utils';
+import AlertModalHeader from 'builder_platform_interaction-alert-modal-header';
+import AlertModalBody from 'builder_platform_interaction-alert-modal-body';
+import AlertModalFooter from 'builder_platform_interaction-alert-modal-footer';
 
-/**
- * Shows a modal
- * @param {object} body Component to be used in the body of the modal
- * @returns {Promise} which resolves with successful modal creation
- */
-export function showModal(body) {
-    return showCustomOverlay({
+const getModalHeaderBodyAndFooter = (data) => {
+    const alertModalHeader = createElement('builder_platform_interaction-alert-modal-header', {
+        is: AlertModalHeader
+    });
+
+    const alertModalBody = createElement('builder_platform_interaction-alert-modal-body', {
+        is: AlertModalBody
+    });
+
+    const alertModalFooter = createElement('builder_platform_interaction-alert-modal-footer', {
+        is: AlertModalFooter
+    });
+
+    alertModalHeader.headerTitle = data.headerData.headerTitle;
+    alertModalBody.bodyTextOne = data.bodyData.bodyTextOne;
+    alertModalBody.bodyTextTwo = data.bodyData.bodyTextTwo;
+    alertModalBody.listSectionHeader = data.bodyData.listSectionHeader;
+    alertModalBody.listSectionItems = data.bodyData.listSectionItems;
+    alertModalFooter.buttons = data.footerData;
+    const alertModalCloseCallback = data.closeCallback;
+    return { alertModalHeader, alertModalBody, alertModalFooter, alertModalCloseCallback };
+};
+
+// TODO: Rename this to something more generic since it's being used both for alert and confirmation modals.
+export const invokeAlertModal = (data) => {
+    const { alertModalHeader, alertModalBody, alertModalFooter, alertModalCloseCallback } = getModalHeaderBodyAndFooter(data);
+
+    showCustomOverlay({
         modal: 'modal',
-        body,
-        bodyClass: 'slds-p-around_none'
-    });
-}
-
-/**
- * Shows a confirmation dialog
- * @param {object} dialogAttributes Holds the attributes to set on MessageDialog
- * @param {function} callback function to be called upon confirmation (secondary button)
- * @returns {object} dialog
- */
-export function showConfirmationDialog(dialogAttributes, callback) {
-    const dialog = createElement('builder_platform_interaction-message-dialog', {
-        is: MessageDialog
-    });
-    dialog.title = dialogAttributes.title;
-    dialog.bodyText = dialogAttributes.bodyText;
-
-    dialog.primaryActionText = dialogAttributes.primaryButton.actionText;
-    dialog.primaryVariant = dialogAttributes.primaryButton.variant;
-
-    dialog.secondaryActionText = dialogAttributes.secondaryButton.actionText;
-    dialog.secondaryVariant = dialogAttributes.secondaryButton.variant;
-
-    showModal(dialog).then(panel => {
-        dialog.handlePrimaryCallback = () => {
-            panel.close();
+        header: alertModalHeader,
+        body: alertModalBody,
+        footer: alertModalFooter,
+        closeCallback: alertModalCloseCallback
+    }).then(modal => {
+        alertModalFooter.closeModalCallback = () => {
+            modal.close();
         };
-        dialog.handleSecondaryCallback = () => {
-            panel.close();
-            if (callback && callback.call) {
-                callback.call();
-            }
-        };
+    }).catch(errorMessages => {
+        throw new Error('Alert Modal creation failed : ' + errorMessages);
     });
-    return dialog;
-}
+
+    return { alertModalHeader, alertModalBody, alertModalFooter, alertModalCloseCallback };
+};
