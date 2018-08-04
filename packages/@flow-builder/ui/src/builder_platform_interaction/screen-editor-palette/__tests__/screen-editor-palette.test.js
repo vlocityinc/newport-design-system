@@ -5,6 +5,8 @@ import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
+    // Using the setter for screenFieldTypes triggers buildModel which populates the palette.
+    el.screenFieldTypes = [];
     document.body.appendChild(el);
     return el;
 }
