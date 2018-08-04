@@ -1,8 +1,9 @@
 import { Element, api, track } from 'engine';
-import { EditElementEvent, DeleteElementEvent, NewResourceEvent } from 'builder_platform_interaction-events';
+import { AddElementEvent, EditElementEvent, DeleteElementEvent, NewResourceEvent } from 'builder_platform_interaction-events';
 import { canvasElementsSectionsSelector, nonCanvasElementsSectionsSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { isChildElement } from 'builder_platform_interaction-element-config';
+import { orgHasFlowBuilderPreview } from 'builder_platform_interaction-context-lib';
 
 import headerText from "@salesforce/label/FlowBuilderLeftPanel.headerText";
 import elementTabText from "@salesforce/label/FlowBuilderLeftPanel.elementTabText";
@@ -82,6 +83,24 @@ export default class LeftPanel extends Element {
 
     handleTabChange(event) {
         this.activetabid = event.detail.tabId;
+    }
+
+    handleElementClicked(event) {
+        // TODO: Click to add is needed for selenium but we're not ready to ship the feature until
+        // we figure out how to position the new element. We can remove this check after completing
+        // W-4889436.
+        if (!orgHasFlowBuilderPreview()) {
+            return;
+        }
+
+        const elementType = event.detail.elementType;
+
+        // TODO: W-4889436: Better default location.
+        const locationX = 0;
+        const locationY = 0;
+
+        const addElementEvent = new AddElementEvent(elementType, locationX, locationY);
+        this.dispatchEvent(addElementEvent);
     }
 
     handleResourceClicked(event) {

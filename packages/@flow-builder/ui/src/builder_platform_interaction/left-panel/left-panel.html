@@ -12,7 +12,7 @@
                     <builder_platform_interaction-tabitem tabid="left-panel-tabitem-resources" label={labels.LEFT_PANEL_RESOURCE_TAB_TEXT} controls="left-panel-tabcontent-resources" activeid={activetabid}></builder_platform_interaction-tabitem>
                     <div slot="contents" class="slds-scrollable_y">
                         <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-elements" labelledby="left-panel-tabitem-elements" activeid={activetabid}>
-                            <builder_platform_interaction-left-panel-elements></builder_platform_interaction-left-panel-elements>
+                            <builder_platform_interaction-left-panel-elements onpaletteitemclicked={handleElementClicked}></builder_platform_interaction-left-panel-elements>
                         </builder_platform_interaction-tabcontent>
                         <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-resources" labelledby="left-panel-tabitem-resources" activeid={activetabid}>
                             <lightning-button variant="Neutral" label={labels.LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON} title={labels.LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON} onclick={handleAddNewResourceButtonClick} class="new-resource-button slds-grid slds-p-horizontal_small"></lightning-button>
