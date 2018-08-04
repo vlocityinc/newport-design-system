@@ -577,6 +577,7 @@ button.nds-step__next-link[disabled] {
   margin-#{$left}: 0.375rem;
 }
 
+<<<<<<< HEAD
 .nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom,
 .nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
   #{$left}: calc(-100% - 10px);
@@ -599,6 +600,10 @@ button.nds-step__next-link[disabled] {
   bottom: 0;
   margin-#{$left}: -9px;
   top: 25%;
+=======
+.nds-typeahead>div.nds-grid .nds-tooltip_container .nds-nonfocused_control svg {
+  fill: $color-input-icon-blue-hue;
+>>>>>>> 28c4284cebcff8d07d308a6e007d3022fb9dd6d1
 }
 
 @media only screen and (min-width: 64em) {
@@ -657,4 +662,9 @@ form {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.nds-inline-help-text .nds-is-absolute {
+  #{$right}: -0.8rem;
+  top: -3rem;
 }

@@ -581,7 +581,7 @@ export default (
                                     className="nds-tooltip_container ng-scope"
                                     ng-include="'vlcNewportTooltip.html'"
                                   >
-                                    <div className="nds-nonfocused_control ng-scope">
+                                    <div className="nds-nonfocused_control nds-inline-help-text ng-scope">
                                       <svg
                                         aria-hidden="true"
                                         className="slds-icon slds-icon--small nds-icon nds-icon_small "
@@ -602,7 +602,7 @@ export default (
 
                                       <div className="nds-is-absolute">
                                         <div
-                                          className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
+                                          className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
                                           role="tooltip"
                                         >
                                           <div className="nds-popover__body ng-binding">
@@ -818,7 +818,7 @@ export default (
                                   className="nds-tooltip_container ng-scope"
                                   ng-include="'vlcNewportTooltip.html'"
                                 >
-                                  <div className="nds-nonfocused_control ng-scope">
+                                  <div className="nds-nonfocused_control nds-inline-help-text ng-scope">
                                     <svg
                                       aria-hidden="true"
                                       className="slds-icon slds-icon--small nds-icon nds-icon_small "
@@ -839,7 +839,7 @@ export default (
 
                                     <div className="nds-is-absolute">
                                       <div
-                                        className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
+                                        className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
                                         role="tooltip"
                                       >
                                         <div className="nds-popover__body ng-binding">
@@ -916,7 +916,7 @@ export default (
                                       className="nds-tooltip_container ng-scope"
                                       ng-include="'vlcNewportTooltip.html'"
                                     >
-                                      <div className="nds-nonfocused_control ng-scope">
+                                      <div className="nds-nonfocused_control nds-inline-help-text ng-scope">
                                         <svg
                                           aria-hidden="true"
                                           className="slds-icon slds-icon--small nds-icon nds-icon_small "
@@ -937,7 +937,7 @@ export default (
 
                                         <div className="nds-is-absolute">
                                           <div
-                                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
+                                            className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
                                             role="tooltip"
                                           >
                                             <div className="nds-popover__body ng-binding">
@@ -1658,7 +1658,7 @@ export default (
                                   className="nds-tooltip_container ng-scope"
                                   ng-include="'vlcNewportTooltip.html'"
                                 >
-                                  <div className="nds-nonfocused_control ng-scope">
+                                  <div className="nds-nonfocused_control nds-inline-help-text ng-scope">
                                     <svg
                                       aria-hidden="true"
                                       className="slds-icon slds-icon--small nds-icon nds-icon_small "
@@ -1679,7 +1679,7 @@ export default (
 
                                     <div className="nds-is-absolute">
                                       <div
-                                        className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
+                                        className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
                                         role="tooltip"
                                       >
                                         <div className="nds-popover__body ng-binding">
@@ -1753,7 +1753,7 @@ export default (
                                   className="nds-tooltip_container ng-scope"
                                   ng-include="'vlcNewportTooltip.html'"
                                 >
-                                  <div className="nds-nonfocused_control ng-scope">
+                                  <div className="nds-nonfocused_control nds-inline-help-text ng-scope">
                                     <svg
                                       aria-hidden="true"
                                       className="slds-icon slds-icon--small nds-icon nds-icon_small "
@@ -1774,7 +1774,7 @@ export default (
 
                                     <div className="nds-is-absolute">
                                       <div
-                                        className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
+                                        className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
                                         role="tooltip"
                                       >
                                         <div className="nds-popover__body ng-binding">
@@ -1814,7 +1814,7 @@ export default (
                                     className="nds-tooltip_container ng-scope"
                                     ng-include="'vlcNewportTooltip.html'"
                                   >
-                                    <div className="nds-nonfocused_control ng-scope">
+                                    <div className="nds-nonfocused_control nds-inline-help-text ng-scope">
                                       <svg
                                         aria-hidden="true"
                                         className="slds-icon slds-icon--small nds-icon nds-icon_small "
@@ -1835,7 +1835,7 @@ export default (
 
                                       <div className="nds-is-absolute">
                                         <div
-                                          className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
+                                          className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
                                           role="tooltip"
                                         >
                                           <div className="nds-popover__body ng-binding">
@@ -2121,7 +2121,7 @@ export default (
                                     className="nds-tooltip_container ng-scope"
                                     ng-include="'vlcNewportTooltip.html'"
                                   >
-                                    <div className="nds-nonfocused_control ng-scope">
+                                    <div className="nds-nonfocused_control nds-inline-help-text ng-scope">
                                       <svg
                                         aria-hidden="true"
                                         className="slds-icon slds-icon--small nds-icon nds-icon_small "
@@ -2142,7 +2142,7 @@ export default (
 
                                       <div className="nds-is-absolute">
                                         <div
-                                          className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
+                                          className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
                                           role="tooltip"
                                         >
                                           <div className="nds-popover__body ng-binding">
@@ -2264,7 +2264,7 @@ export default (
                                     className="nds-tooltip_container ng-scope"
                                     ng-include="'vlcNewportTooltip.html'"
                                   >
-                                    <div className="nds-nonfocused_control ng-scope">
+                                    <div className="nds-nonfocused_control nds-inline-help-text ng-scope">
                                       <svg
                                         aria-hidden="true"
                                         className="slds-icon slds-icon--small nds-icon nds-icon_small "
@@ -2285,7 +2285,7 @@ export default (
 
                                       <div className="nds-is-absolute">
                                         <div
-                                          className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
+                                          className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
                                           role="tooltip"
                                         >
                                           <div className="nds-popover__body ng-binding">
@@ -2406,7 +2406,7 @@ export default (
                                     className="nds-tooltip_container ng-scope"
                                     ng-include="'vlcNewportTooltip.html'"
                                   >
-                                    <div className="nds-nonfocused_control ng-scope">
+                                    <div className="nds-nonfocused_control nds-inline-help-text ng-scope">
                                       <svg
                                         aria-hidden="true"
                                         className="slds-icon slds-icon--small nds-icon nds-icon_small "
@@ -2427,7 +2427,7 @@ export default (
 
                                       <div className="nds-is-absolute">
                                         <div
-                                          className="nds-popover nds-popover_tooltip nds-nubbin_bottom"
+                                          className="nds-popover nds-popover_tooltip nds-nubbin_bottom-right"
                                           role="tooltip"
                                         >
                                           <div className="nds-popover__body ng-binding">
