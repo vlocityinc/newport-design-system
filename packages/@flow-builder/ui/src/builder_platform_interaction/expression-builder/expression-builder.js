@@ -432,7 +432,7 @@ export default class ExpressionBuilder extends Element {
         let menuData;
         switch (elementType) {
             case ELEMENT_TYPE.RECORD_LOOKUP:
-                menuData = filterFieldsForChosenElement({value: config.objectType}, getLHSTypes(elementType, rules), config.lhsFields, false, false);
+                menuData = filterFieldsForChosenElement({value: config.objectType}, getLHSTypes(elementType, rules), config.lhsFields, false, true);
                 break;
             default:
                 menuData = getElementsForMenuData({elementType, shouldBeWritable: true}, getLHSTypes(elementType, rules), true);

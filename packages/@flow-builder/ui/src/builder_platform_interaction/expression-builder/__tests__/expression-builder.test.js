@@ -9,7 +9,7 @@ import { getLHSTypes, getOperators, getRHSTypes, RULE_OPERATOR } from 'builder_p
 import { normalizeLHS, EXPRESSION_PROPERTY_TYPE, getElementsForMenuData, OPERATOR_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { mockAccountFields } from 'mock-server-entity-data';
-import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
+import { FLOW_DATA_TYPE, FEROV_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction-data-type-lib';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
 import genericErrorMessage from "@salesforce/label/FlowBuilderCombobox.genericErrorMessage";
 import numberErrorMessage from "@salesforce/label/FlowBuilderCombobox.numberErrorMessage";
@@ -462,8 +462,14 @@ describe('expression-builder', () => {
             const lhsFields = Object.keys(expressionBuilder.configuration.lhsFields);
             expect(lhsMenuData).toHaveLength(lhsFields.length);
             lhsFields.forEach((field, index) => {
-                expect(lhsMenuData[index].displayText).toEqual(field);
-                expect(lhsMenuData[index].value).toEqual(OBJECT_TYPE + "." + field);
+                const expectedItem = {
+                    displayText: field,
+                    value: OBJECT_TYPE + "." + field,
+                    subText: expressionBuilder.configuration.lhsFields[field].label,
+                    iconName: getDataTypeIcons(expressionBuilder.configuration.lhsFields[field].dataType, 'utility'),
+                    iconSize: 'xx-small'
+                };
+                expect(lhsMenuData[index]).toMatchObject(expectedItem);
             });
         });
 

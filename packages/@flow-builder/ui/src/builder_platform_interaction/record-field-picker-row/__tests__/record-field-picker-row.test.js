@@ -6,6 +6,7 @@ import {
     UpdateRecordLookupFieldEvent,
 } from 'builder_platform_interaction-events';
 import RecordFieldPickerRow from 'builder_platform_interaction-record-field-picker-row';
+import { getDataTypeIcons } from 'builder_platform_interaction-data-type-lib';
 
 const mockDefaultConfig = {
     fieldIndex: 1,
@@ -32,12 +33,7 @@ const createComponentUnderTest = () => {
 jest.mock('builder_platform_interaction-sobject-lib', () => {
     return {
         getFieldsForEntity: (entityName, callback) => {
-            const accountFields = {};
-            const fields = Object.keys(mockAccountFields);
-            fields.forEach((field) => {
-                accountFields[field] = field;
-            });
-            callback(accountFields);
+            callback(mockAccountFields);
         }
     };
 });
@@ -74,6 +70,17 @@ describe('record-field-picker-row', () => {
             mockDefaultConfig.value = 'Description';
             const baseResourcePicker = getBaseResourcePicker(createComponentUnderTest());
             expect(baseResourcePicker.value).toEqual(mockDefaultConfig.value);
+        });
+        it('should have subtext and icon', () => {
+            const baseResourcePicker = getBaseResourcePicker(createComponentUnderTest());
+            baseResourcePicker.fullMenuData.forEach((field) => {
+                const expectedItem = {
+                    subText: mockAccountFields[field.value].label,
+                    iconName: getDataTypeIcons(mockAccountFields[field.value].dataType, 'utility'),
+                    iconSize: 'xx-small'
+                };
+                expect(field).toMatchObject(expectedItem);
+            });
         });
     });
 

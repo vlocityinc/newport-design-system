@@ -306,7 +306,7 @@ export function getFieldsMenuData(resourceEntityName, excludedFields, callback) 
         const menuData = [];
         Object.keys(fields).forEach(field => {
             if (!excludedFields.includes(field)) {
-                menuData.push(mutateFieldToComboboxShape(fields[field], undefined, false, false));
+                menuData.push(mutateFieldToComboboxShape(fields[field], undefined, false, true));
             }
         });
         callback(menuData);
