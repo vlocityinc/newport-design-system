@@ -176,7 +176,7 @@ export const getOperators = (elementType, lhsElement = {}, rules, ruleType) => {
         return [];
     }
     if (!Array.isArray(rules)) {
-        throw new Error(`Rule must be an Array but instead was ${typeof rules}`);
+        throw new Error(`Rules must be an Array but instead was ${typeof rules}`);
     }
     let allowedRules = rules;
     // if the rule type was specified then we want to filter by rule type
