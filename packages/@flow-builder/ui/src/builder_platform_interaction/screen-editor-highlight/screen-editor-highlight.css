@@ -42,6 +42,7 @@
     background-color: var(--lwc-colorBrandDark);
     border-radius: var(--lwc-borderRadiusMedium) var(--lwc-borderRadiusMedium) 0 0;
     color: var(--lwc-colorTextBrandPrimary);
+    max-width: 80%;
 }
 
 .highlight-frame {

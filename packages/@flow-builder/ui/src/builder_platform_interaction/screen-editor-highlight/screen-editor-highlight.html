@@ -2,7 +2,7 @@
     <div class={classList} onclick={handleSelected} tabindex={tabIndex} draggable={isDraggable} ondragstart={handleDragStart} ondragend={handleDragEnd}>
         <div class='highlight-header has-box-shadow slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center'>
             <lightning-icon icon-name='utility:connected_apps' size='x-small' variant='inverse'></lightning-icon>
-            <div class='slds-p-left_xx-small slds-text-body_small'>{title}</div>
+            <div class='slds-p-left_xx-small slds-text-body_small slds-truncate'>{title}</div>
         </div>
         
         <div if:false={shouldPreventEvents} class='highlight-frame has-box-shadow'>
