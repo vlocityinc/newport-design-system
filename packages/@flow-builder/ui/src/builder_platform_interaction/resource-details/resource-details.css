@@ -1,0 +1,4 @@
+.resource-detail-panel-body {
+    max-height: calc(100vh - 205px);
+    -webkit-overflow-scrolling: touch;
+}

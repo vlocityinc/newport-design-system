@@ -1,0 +1,5 @@
+.zoom-panel {
+    bottom: var(--lwc-spacingNone);
+    right: var(--lwc-spacingNone);
+    z-index: 405;
+}

@@ -31,6 +31,6 @@ export default class Tabset extends Element {
     }
 
     get ulcssclass() {
-        return this.isvertical  === "true" ? "slds-vertical-tabs__nav slds-m-left_medium slds-m-right_medium" : "slds-tabs_default__nav slds-m-left_medium slds-m-right_medium";
+        return this.isvertical  === "true" ? "slds-vertical-tabs__nav slds-m-horizontal_small" : "slds-tabs_default__nav slds-m-horizontal_small";
     }
 }

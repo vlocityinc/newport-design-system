@@ -1,7 +1,6 @@
 import { Element, api } from 'engine';
 
-const CLASS_ACTIVE = "slds-tabs_default__content slds-show";
-const CLASS_INACTIVE = "slds-tabs_default__content slds-hide";
+const TABCONTENT_CLASS = "slds-tabs_default__content slds-p-around_none";
 
 export default class Tabcontent extends Element {
     @api contentid;
@@ -9,6 +8,6 @@ export default class Tabcontent extends Element {
     @api activeid;
 
     get className() {
-        return (this.activeid === this.labelledby) ? CLASS_ACTIVE : CLASS_INACTIVE;
+        return (this.activeid === this.labelledby) ? `${TABCONTENT_CLASS} slds-show` : `${TABCONTENT_CLASS} slds-hide`;
     }
 }

@@ -1,0 +1,6 @@
+.left-panel-elements-scroll {
+    height: calc(100vh - 184px);
+    -webkit-overflow-scrolling: touch;
+    overflow:hidden;
+    overflow-y:auto;
+}

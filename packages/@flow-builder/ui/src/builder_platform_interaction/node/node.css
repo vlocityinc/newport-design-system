@@ -1,0 +1,113 @@
+.element-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.node-container {
+    cursor: pointer;
+}
+
+.node-container:active {
+    z-index: 400;
+}
+
+.targetHover .icon {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+}
+
+.icon:hover {
+    transform: scale(1.05);
+}
+
+.icon:focus {
+    outline: none;
+}
+
+.icon-section.selected .icon {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+}
+
+.decision-icon-section.selected .rotate-icon .icon {
+    transform: scale(1.0909);
+}
+
+.decision-icon-section {
+    width: 4rem;
+    height: 2.75rem;
+}
+
+.rotate-icon {
+    transform: rotate(45deg);
+}
+
+/*TODO: Move decision icon svg and slds-icon_large styling from container.css to here (W-5278403)*/
+
+.icon {
+    transition: transform 0.12s ease, box-shadow .1s ease-in;
+    transform-origin: 50% 100%;
+    padding: var(--lwc-spacingNone);
+    border: none;
+    border-radius: var(--lwc-borderRadiusMedium);
+}
+
+.rotate-icon .icon {
+    transform-origin: 100% 100%;
+}
+
+.end-point {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    border: var(--lwc-borderWidthThick) solid white;
+    box-shadow: inset 0px 0px 0px 2px var(--lwc-colorBackgroundToggleHover);
+    background-color: var(--lwc-colorBackgroundButtonDefault);
+    transition: box-shadow 0.1s ease, background-color 0.25s ease-out;
+    top: 38px;
+    left: 14px;
+    z-index: 300;
+}
+
+.decision-icon-section .end-point {
+    left: 22px;
+}
+
+.end-point:hover {
+    background-color: var(--lwc-colorBackgroundAlt2);
+    transform: scale(1.1);
+}
+
+.end-point:active,.end-point:focus {
+    box-shadow: inset 0px 0px 0px 2px var(--lwc-colorBrandDark), var(--lwc-shadowButtonFocus);
+    transform: scale(1.2);
+}
+
+.end-point:focus {
+    outline: none;
+}
+
+.trash-can {
+    top: -27px;
+    left: 50px;
+}
+
+/*TODO: Move trash-can button styling from container.css to here (W-5278403)*/
+
+.text-container {
+    top: 57px;
+    max-width: 132px;
+}
+
+.text-container .text-label {
+    font-weight: var(--lwc-fontWeightBold);
+    background-color: var(--lwc-colorBackgroundBackdrop);
+    padding: 0 3px;
+}
+
+.text-container .text-element-type {
+    background-color: var(--lwc-colorBackgroundBackdrop);
+    padding: 0 3px;
+}

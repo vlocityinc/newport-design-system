@@ -1,0 +1,4 @@
+.resource-manager-container {
+    height: calc(100vh - 228px);
+    -webkit-overflow-scrolling: touch;
+}

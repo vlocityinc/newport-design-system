@@ -1,292 +1,81 @@
-/************* Header *****************/
-.THIS builder_platform_interaction-header .flow-builder-header-label {
-    color: t(colorTextInverse);
-}
 /************* Toolbar *****************/
-/*TODO: Remove button-group css once lightning-button-group is available in raptor*/
-.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon .slds-button {
-    border-radius: 0;
-    margin-left: -1px;
-}
+/*TODO: Remove button-group css once lightning-button-group is available in raptor (W-5278403)*/
+/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon .slds-button {*/
+    /*border-radius: 0;*/
+    /*margin-left: -1px;*/
+/*}*/
 
-.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:first-child .slds-button {
-    border-radius: .25rem 0 0 .25rem;
-    margin-left: t(spacingNone);
-}
+/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:first-child .slds-button {*/
+    /*border-radius: .25rem 0 0 .25rem;*/
+    /*margin-left: t(spacingNone);*/
+/*}*/
 
-.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:last-child .slds-button {
-    border-radius: 0 .25rem .25rem 0;
-}
+/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:last-child .slds-button {*/
+    /*border-radius: 0 .25rem .25rem 0;*/
+/*}*/
 
-.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:only-child .slds-button {
-    border-radius: t(borderRadiusMedium);
-}
+/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:only-child .slds-button {*/
+    /*border-radius: t(borderRadiusMedium);*/
+/*}*/
 
-.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button .slds-button {
-    border-radius: 0;
-    margin-left: -1px;
-}
+/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button .slds-button {*/
+    /*border-radius: 0;*/
+    /*margin-left: -1px;*/
+/*}*/
 
-.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:first-child .slds-button {
-    border-radius: .25rem 0 0 .25rem;
-    margin-left: t(spacingNone);
-}
+/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:first-child .slds-button {*/
+    /*border-radius: .25rem 0 0 .25rem;*/
+    /*margin-left: t(spacingNone);*/
+/*}*/
 
-.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:last-child .slds-button {
-    border-radius: 0 .25rem .25rem 0;
-}
+/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:last-child .slds-button {*/
+    /*border-radius: 0 .25rem .25rem 0;*/
+/*}*/
 
-.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:only-child .slds-button {
-    border-radius: t(borderRadiusMedium);
-}
-
-.THIS builder_platform_interaction-toolbar .slds-builder-toolbar__actions .inline-display {
-    display: inline-flex;
-}
+/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:only-child .slds-button {*/
+    /*border-radius: t(borderRadiusMedium);*/
+/*}*/
 
 /************* Left Panel *****************/
-.THIS builder_platform_interaction-left-panel .left-panel {
-    z-index: 1;
-    overflow-x: hidden;
-}
+/*.THIS builder_platform_interaction-left-panel .flow-resource-list .new-resource-button button {*/
+    /*flex-grow: 1;*/
+/*}*/
 
-.THIS builder_platform_interaction-left-panel .left-panel-header {
-    transition: padding t(durationSlide) ease;
-}
-
-.THIS builder_platform_interaction-left-panel .left-panel .flow-resource-list {
-    width: 100%;
-    flex: none;
-    transition: margin t(durationSlide) ease-in-out, opacity t(durationPromptly) ease;
-}
-
-.THIS builder_platform_interaction-left-panel #left-panel-tabcontent-elements {
-    height: calc(100vh - 198px);
-    -webkit-overflow-scrolling: touch;
-    overflow:hidden;
-    overflow-y:auto;
-}
-
-.THIS builder_platform_interaction-left-panel .left-panel .flow-resource-details {
-    width: 100%;
-    flex: none;
-    transition: margin t(durationSlide) ease-in-out, opacity t(durationPromptly) ease;
-    opacity: 0;
-}
-
-.THIS builder_platform_interaction-resource-details .resource-detail-panel-body {
-    max-height: calc(100vh - 205px);
-    -webkit-overflow-scrolling: touch;
-}
-
-.THIS builder_platform_interaction-left-panel .flow-resource-list .new-resource-button button {
-    flex-grow: 1;
-}
-
-.THIS builder_platform_interaction-left-panel-resources .resource-manager-container {
-    height: calc(100vh - 248px);
-    -webkit-overflow-scrolling: touch;
-}
-
-.THIS builder_platform_interaction-left-panel .left-panel.show-details .left-panel-header .back-button {
-    transform: translateX(0px);
-}
-
-.THIS builder_platform_interaction-left-panel .left-panel.show-details .flow-resource-list {
-    opacity: 0;
-    margin-left: -320px;
-}
-
-.THIS builder_platform_interaction-left-panel .left-panel.show-details .flow-resource-details {
-    opacity: 1;
-}
-
-.THIS builder_platform_interaction-left-panel-resources table  {
-    table-layout: fixed;
-}
-
-.THIS builder_platform_interaction-left-panel-resources table tr:first-of-type td:last-of-type {
-    width: 30px;
-}
-
-.THIS builder_platform_interaction-left-panel-elements .slds-icon-standard-decision {
-    transform: rotate(45deg) scale(0.91666);
-}
-
-.THIS builder_platform_interaction-left-panel-elements .slds-icon-standard-decision svg {
-    transform: rotate(-45deg);
-}
-
-/************* Canvas *****************/
-.THIS builder_platform_interaction-canvas .canvas {
-    background-color: t(colorForegroundPrimary);
-    height: 100%;
-    overflow: hidden;
-    outline: none;
-    user-select: none;
-}
-
-.THIS builder_platform_interaction-canvas .canvas .overlay {
-    height: 100%;
-    width: 100%;
-    z-index: 404;
-}
-
-.THIS builder_platform_interaction-canvas .canvas .inner-canvas {
-    height: 100%;
-    width: 100%;
-}
+/*.THIS builder_platform_interaction-palette .slds-icon-standard-decision svg {*/
+    /*transform: rotate(-45deg);*/
+/*}*/
 
 /************* Zoom Panel *****************/
-/*TODO: Remove button-group css once lightning-button-group is available in raptor*/
-.THIS builder_platform_interaction-zoom-panel .zoom-panel {
-    bottom: t(spacingNone);
-    right: t(spacingNone);
-    z-index: 405;
-}
+/*TODO: Remove button-group css once lightning-button-group is available in raptor (W-5278403)*/
+/*.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon .slds-button {*/
+    /*border-radius: 0;*/
+    /*margin-left: -1px;*/
+/*}*/
 
-.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon .slds-button {
-    border-radius: 0;
-    margin-left: -1px;
-}
+/*.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:first-child .slds-button {*/
+    /*border-radius: .25rem 0 0 .25rem;*/
+    /*margin-left: t(spacingNone);;*/
+/*}*/
 
-.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:first-child .slds-button {
-    border-radius: .25rem 0 0 .25rem;
-    margin-left: t(spacingNone);;
-}
+/*.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:last-child .slds-button {*/
+    /*border-radius: 0 .25rem .25rem 0;*/
+/*}*/
 
-.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:last-child .slds-button {
-    border-radius: 0 .25rem .25rem 0;
-}
-
-.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:only-child .slds-button {
-    border-radius: t(borderRadiusMedium);
-}
+/*.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:only-child .slds-button {*/
+    /*border-radius: t(borderRadiusMedium);*/
+/*}*/
 
 /************* Node *****************/
-.THIS builder_platform_interaction-node .element-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 200;
-}
+/*.THIS builder_platform_interaction-node .rotate-icon svg.slds-icon_large {*/
+    /*transform: rotate(-45deg);*/
+    /*width: 2.75rem;*/
+    /*height: 2.75rem;*/
+/*}*/
 
-.THIS builder_platform_interaction-node .node-container {
-    cursor: pointer;
-}
-
-.THIS builder_platform_interaction-node .node-container:active {
-    z-index: 400;
-}
-
-.THIS builder_platform_interaction-node .targetHover .icon {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 2px white, 0 0 0 3px t(colorBorderSelection), 0 0 6px 3px t(colorBorderSelection);
-}
-
-.THIS builder_platform_interaction-node .icon:hover {
-    transform: scale(1.05);
-}
-
-.THIS builder_platform_interaction-node .icon:focus {
-    outline: none;
-}
-
-.THIS builder_platform_interaction-node .icon-section.selected .icon {
-    transform: scale(1.1);
-    box-shadow: 0 0 0 2px white, 0 0 0 3px t(colorBorderSelection), 0 0 6px 3px t(colorBorderSelection);
-}
-
-.THIS builder_platform_interaction-node .icon-section.selected .rotate-icon .icon {
-    transform: scale(1.0909);
-}
-
-.THIS builder_platform_interaction-node .icon-section.decision-icon-section {
-    width: 4rem;
-    height: 2.75rem;
-}
-
-.THIS builder_platform_interaction-node .icon-section .rotate-icon {
-    transform: rotate(45deg);
-}
-
-.THIS builder_platform_interaction-node .icon-section .rotate-icon svg {
-    transform: rotate(-45deg);
-}
-
-.THIS builder_platform_interaction-node .icon-section .rotate-icon .slds-icon_large {
-    width: 2.75rem;
-    height: 2.75rem;
-}
-
-.THIS builder_platform_interaction-node .icon {
-    transition: transform 0.12s ease, box-shadow .1s ease-in;
-    transform-origin: 50% 100%;
-    padding: t(spacingNone);
-    border: none;
-    border-radius: t(borderRadiusMedium);
-}
-
-.THIS builder_platform_interaction-node .rotate-icon .icon {
-    transform-origin: 100% 100%;
-}
-
-.THIS builder_platform_interaction-node .end-point {
-    width: 20px;
-    height: 20px;
-    border-radius: 100%;
-    border: t(borderWidthThick) solid white;
-    box-shadow: inset 0px 0px 0px 2px t(colorBackgroundToggleHover);
-    background-color: t(colorBackgroundButtonDefault);
-    transition: box-shadow 0.1s ease, background-color 0.25s ease-out;
-    top: 38px;
-    left: 14px;
-    z-index: 300;
-}
-
-.THIS builder_platform_interaction-node .icon-section.decision-icon-section .end-point {
-    left: 22px;
-}
-
-.THIS builder_platform_interaction-node .end-point:hover {
-    background-color: t(colorBackgroundAlt2);
-    transform: scale(1.1);
-}
-
-.THIS builder_platform_interaction-node .end-point:active,.THIS builder_platform_interaction-node .end-point:focus {
-    box-shadow: inset 0px 0px 0px 2px t(colorBrandDark), t(shadowButtonFocus);
-    transform: scale(1.2);
-}
-
-.THIS builder_platform_interaction-node .end-point:focus {
-    outline: none;
-}
-
-.THIS builder_platform_interaction-node .trash-can {
-    top: -27px;
-    left: 50px;
-}
-
-.THIS builder_platform_interaction-node .trash-can .slds-button.slds-button_icon-bare:active {
-    outline: none;
-    box-shadow: 0 0 3px #0070d2;
-}
-
-.THIS builder_platform_interaction-node .text-container {
-    top: 57px;
-    max-width: 132px;
-}
-
-.THIS builder_platform_interaction-node .text-container .text-label {
-    font-weight: t(fontWeightBold);
-    background-color: t(colorBackgroundBackdrop);
-    padding: 0 3px;
-}
-
-.THIS builder_platform_interaction-node .text-container .text-element-type {
-    background-color: t(colorBackgroundBackdrop);
-    padding: 0 3px;
-}
+/*.THIS builder_platform_interaction-node .trash-can .slds-button.slds-button_icon-bare:active {*/
+    /*outline: none;*/
+    /*box-shadow: 0 0 3px #0070d2;*/
+/*}*/
 
 /************* Connector *****************/
 .THIS builder_platform_interaction-canvas .canvas .jtk-connector {

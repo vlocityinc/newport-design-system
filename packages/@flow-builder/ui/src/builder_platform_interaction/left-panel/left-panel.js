@@ -76,7 +76,7 @@ export default class LeftPanel extends Element {
     get panelHeaderClasses() {
         let classes = 'left-panel-header slds-panel__header slds-truncate_container';
         if (!this.showResourceDetailsPanel) {
-            classes = `${classes} slds-m-bottom_medium slds-p-left_medium`;
+            classes = `${classes} slds-p-left_medium`;
         }
         return classes;
     }

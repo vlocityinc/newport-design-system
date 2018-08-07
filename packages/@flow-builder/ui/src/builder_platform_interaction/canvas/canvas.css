@@ -1,0 +1,18 @@
+.canvas {
+    background-color: var(--lwc-colorForegroundPrimary);
+    height: 100%;
+    overflow: hidden;
+    outline: none;
+    user-select: none;
+}
+
+.canvas .overlay {
+    height: 100%;
+    width: 100%;
+    z-index: 404;
+}
+
+.canvas .inner-canvas {
+    height: 100%;
+    width: 100%;
+}

@@ -1,0 +1,34 @@
+.left-panel {
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+.left-panel-header {
+    transition: padding 0.25s ease;
+}
+
+.left-panel .flow-resource-list {
+    width: 100%;
+    flex: none;
+    transition: margin 0.25s ease-in-out, opacity var(--lwc-durationPromptly) ease;
+}
+
+.left-panel .flow-resource-details {
+    width: 100%;
+    flex: none;
+    transition: margin 0.25s ease-in-out, opacity var(--lwc-durationPromptly) ease;
+    opacity: 0;
+}
+
+.left-panel.show-details .left-panel-header .back-button {
+    transform: translateX(0px);
+}
+
+.left-panel.show-details .flow-resource-list {
+    opacity: 0;
+    margin-left: -320px;
+}
+
+.left-panel.show-details .flow-resource-details {
+    opacity: 1;
+}

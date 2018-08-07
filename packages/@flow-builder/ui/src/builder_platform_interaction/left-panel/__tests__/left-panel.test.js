@@ -1,5 +1,5 @@
 import { createElement } from 'engine';
-import { EditElementEvent, DeleteElementEvent, DeleteResourceEvent, PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
+import { EditElementEvent, PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 import LeftPanel from 'builder_platform_interaction-left-panel';
 
 import backButtonAltText from "@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText";
@@ -62,7 +62,6 @@ describe('left-panel', () => {
                 const element = createComponentUnderTest();
                 return Promise.resolve().then(() => {
                     const header = getShadowRoot(element).querySelector(selectors.panelHeader);
-                    expect(header.classList).toContain('slds-m-bottom_medium');
                     expect(header.classList).toContain('slds-p-left_medium');
                 });
             });
@@ -159,30 +158,6 @@ describe('left-panel', () => {
                 });
             });
 
-            it('handle Pallete Item Chevron Click Event ', () => {
-                const leftPanelComponent = createComponentUnderTest();
-                const eventCallback = jest.fn();
-                leftPanelComponent.addEventListener(PaletteItemChevronClickedEvent.EVENT_NAME, eventCallback);
-                const type = "VARIABLE";
-                const guid = "guid1";
-                const name = "guid_1";
-                const desc = '';
-                const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(type, guid, name, name, desc);
-                getShadowRoot(leftPanelComponent).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
-                return Promise.resolve().then(() => {
-                    expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        detail: {
-                            elementType: type,
-                            elementGUID: guid,
-                            label: name,
-                            iconName: name,
-                            description: ''
-                        }
-                    });
-                });
-            });
-
             it('handle Pallete Item Click Event ', () => {
                 const leftPanelComponent = createComponentUnderTest();
                 const eventCallback = jest.fn();
@@ -197,30 +172,6 @@ describe('left-panel', () => {
                         detail: {
                             canvasElementGUID: guid
                         }
-                    });
-                });
-            });
-
-            it('handle delete resource action SHOULD fire DeleteElementEvent with outcome selectedElementGUID and selectedElementType', () => {
-                const eventCallback = jest.fn();
-                const guid = "guid1";
-                const element = createComponentUnderTest();
-                element.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
-
-                const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-                getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
-
-                return Promise.resolve().then(() => {
-                    const deleteResourceEvent = new DeleteResourceEvent([guid], 'VARIABLE');
-                    getShadowRoot(element).querySelector('builder_platform_interaction-resource-details').dispatchEvent(deleteResourceEvent);
-                    return Promise.resolve().then(() => {
-                        expect(eventCallback).toHaveBeenCalled();
-                        expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                            detail: {
-                                selectedElementGUID: [guid],
-                                selectedElementType: "VARIABLE"
-                            }
-                        });
                     });
                 });
             });
