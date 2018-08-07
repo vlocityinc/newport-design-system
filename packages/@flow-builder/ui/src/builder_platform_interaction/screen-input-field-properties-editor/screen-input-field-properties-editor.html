@@ -1,27 +1,19 @@
 <template>
     <div if:true={field}>
         <div class='slds-p-horizontal_small slds-p-top_x-small'>
-            <!--  field label -->
-            <!--  TODO: W-4947221 - make sure the combobox pulls in only string supported resources -->
-            <builder_platform_interaction-combobox label={labels.fieldLabel}
-                                                   literals-allowed
-                                                   type='String'
-                                                   value={fieldLabel}
-                                                   oncomboboxstatechanged={handleInputLabelChanged}
-                                                   onfetchmenudata={handleFetchMenuData}>
-            </builder_platform_interaction-combobox>                             
-            
-            <!--  unique name -->    
-            <builder_platform_interaction-screen-property-field name='name' 
-                                                                label={labels.fieldName}
-                                                                required='required'
-                                                                type='string'
-                                                                value={field.name}
-                                                                onpropertychanged={handlePropertyChanged}>
-            </builder_platform_interaction-screen-property-field>
+
+             <!--  field label and unique name -->
+             <builder_platform_interaction-label-description layout-mode='vertical'
+                                                             label={field.fieldText}
+                                                             label-optional=true
+                                                             dev-name={field.name}
+                                                             hide-description
+                                                             guid={field.guid}
+                                                             onpropertychanged={handlePropertyChanged}> 
+            </builder_platform_interaction-label-description>
+
 
             <!--  Set or display the subtype for the input field -->
-            <!--  TODO: W-4947221 - changing data type doesn't work yet -->
             <builder_platform_interaction-data-type-picker
                 available-data-types={dataTypeList}
                 type-and-collection-disabled={isSubTypeDisabled}

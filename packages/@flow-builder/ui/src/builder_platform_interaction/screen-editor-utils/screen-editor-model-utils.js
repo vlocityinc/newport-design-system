@@ -34,14 +34,13 @@ export function createEmptyNodeOfType(type) {
         helpText: '',
         defaultValue: null,
         dataType: type.dataType,
-        name: {value: null, error: null},
+        name: null,
         extensionName: type.name,
         choiceReferences: [],
         defaultSelectedChoiceReference: '',
         fieldType: type.fieldType,
         inputParameters: [],
-        fieldText: {value: null, error: null},
-        label: '',
+        fieldText: null,
         outputParameters: []
     };
 }

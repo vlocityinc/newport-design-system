@@ -22,14 +22,6 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
         event.stopPropagation();
     }
 
-    /* Handle change of Label combobox */
-    handleInputLabelChanged(event) {
-        // Set property name so the next handler knows which screen field property to update with new value.
-        const property = 'fieldText';
-        this.dispatchEvent(new PropertyChangedEvent(property, event.detail.displayText, event.detail.error, this.field.guid, this.field[property]));
-        event.stopPropagation();
-    }
-
     /* Handle change of Default Value resource picker */
     handleDefaultValueChanged(event) {
         // Set property name so the next handler knows which screen field property to update with new value.
@@ -81,10 +73,6 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
             false, // disabled
             this.field.dataType, // type
             LIGHTNING_INPUT_VARIANTS.STANDARD); // variant
-    }
-
-    get fieldLabel() {
-        return this.field.fieldText ? this.field.fieldText.value : null;
     }
 
     get dataTypeList() {

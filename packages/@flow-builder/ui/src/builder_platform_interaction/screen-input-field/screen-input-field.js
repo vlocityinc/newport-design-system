@@ -1,13 +1,11 @@
 import { Element, track, api } from 'engine';
-import { getVariant, booleanValue, CURRENCY_FORMAT, LIGHTNING_INPUT_TYPES } from 'builder_platform_interaction-screen-editor-utils';
-
+import { getVariant, booleanValue, getPlaceHolderLabel, CURRENCY_FORMAT, LIGHTNING_INPUT_TYPES } from 'builder_platform_interaction-screen-editor-utils';
 
 /**
  * Wrapper used to represent visual preview of screen fields which are are input fields.
  */
 export default class ScreenInputField extends Element {
     @api name;
-    @api label = ' '; // empty label is not allowed by the lightning component used to render this field type.
     @api value;
     @api required = false;
     @api disabled = false;
@@ -15,6 +13,7 @@ export default class ScreenInputField extends Element {
     @track type;
     @track _typeName;
     @track _helpText;
+    @track _label;
 
     @api
     get typeName() {
@@ -62,6 +61,18 @@ export default class ScreenInputField extends Element {
     @api
     get helpText() {
         return this._helptext ? this._helptext.value : null;
+    }
+
+    @api
+    get label() {
+        // Empty label is not allowed by the lightning component used to render this field type.
+        // Use a placeholder label if none was provided.
+        return this._label && this._label.value ? this._label.value : getPlaceHolderLabel(this.typeName);
+    }
+
+    @api
+    set label(value) {
+        this._label = value;
     }
 
     get checked() {

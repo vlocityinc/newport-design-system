@@ -66,6 +66,25 @@ describe('label-description', () => {
                 expect(labelLightningInput.value).toEqual(newValue);
             });
         });
+        it('label is required by default', () => {
+            const labelDescription = createComponentUnderTest();
+
+            return Promise.resolve().then(() => {
+                const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+
+                expect(labelLightningInput.required).toBeTruthy();
+            });
+        });
+        it('label can be made optional', () => {
+            const labelDescription = createComponentUnderTest();
+            labelDescription.labelOptional = true;
+
+            return Promise.resolve().then(() => {
+                const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+
+                expect(labelLightningInput.required).toBeFalsy();
+            });
+        });
 
         describe('on focus out', () => {
             it('fires propertyChanged event if changed', () => {

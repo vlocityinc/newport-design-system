@@ -1,7 +1,6 @@
 import { createElement } from 'engine';
 import ScreenInputFieldPropertiesEditor from '../screen-input-field-properties-editor';
 import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction-builder-test-utils';
-import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction-selectors', () => {
@@ -11,8 +10,7 @@ jest.mock('builder_platform_interaction-selectors', () => {
 });
 
 const SELECTORS = {
-    NAME_FIELD: 'builder_platform_interaction-screen-property-field[name="name"]',
-    LABEL_FIELD: 'builder_platform_interaction-combobox',
+    NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     SCALE_FIELD: 'builder_platform_interaction-screen-property-field[name="scale"]',
     REQUIRED_CHECKBOX: 'builder_platform_interaction-screen-property-field[name="isRequired"]',
     DEFAULT_VALUE_FIELD: 'builder_platform_interaction-ferov-resource-picker',
@@ -39,25 +37,19 @@ describe('screen-input-field-properties-editor for TextBox', () => {
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {helpText: false}),
+            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {helpText: false})
         });
     });
-    it('Unique Name field should be required', () => {
+    it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.required).toBeTruthy();
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
-    it('Unique Name field should be a string type input', () => {
+    it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.type).toBe('string');
-        });
-    });
-    it('Unique Name field should be filled in', () => {
-        return Promise.resolve().then(() => {
-            const renderedNameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(renderedNameField.value.value).toBe(fieldName);
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
     it('Default value is empty', () => {
@@ -83,15 +75,6 @@ describe('screen-input-field-properties-editor for TextBox', () => {
         return Promise.resolve().then(() => {
             const renderedDataTypePicker = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DATA_TYPE_PICKER);
             expect(renderedDataTypePicker.value.dataType).toBe('TextBox');
-        });
-    });
-    it('Property changed on name field', () => {
-        return Promise.resolve().then(() => {
-            const renderedNameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            const callback = jest.fn();
-            renderedNameField.addEventListener('propertychanged', callback);
-            renderedNameField.dispatchEvent(new PropertyChangedEvent('name', 'new name'));
-            expect(callback).toHaveBeenCalled();
         });
     });
     it('Scale field should not be present', () => {
@@ -122,15 +105,6 @@ describe('screen-input-field-properties-editor for TextBox', () => {
             expect(renderedHelpTextField.value).not.toBeDefined();
         });
     });
-    it('Property changed on label field', () => {
-        return Promise.resolve().then(() => {
-            const renderedLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.LABEL_FIELD);
-            const callback = jest.fn();
-            renderedLabelField.addEventListener('comboboxstatechanged', callback);
-            renderedLabelField.dispatchEvent(new ComboboxStateChangedEvent({ value: null, displayText: 'New Label' }));
-            expect(callback).toHaveBeenCalled();
-        });
-    });
 });
 
 describe('screen-input-field-properties-editor for Number', () => {
@@ -140,22 +114,16 @@ describe('screen-input-field-properties-editor for Number', () => {
             field: createTestScreenField(fieldName, 'Number', SCREEN_NO_DEF_VALUE, {helpText: false}),
         });
     });
-    it('Unique Name field should be required', () => {
+    it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.required).toBeTruthy();
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
-    it('Unique Name field should be a string type input', () => {
+    it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.type).toBe('string');
-        });
-    });
-    it('Unique Name is filled in', () => {
-        return Promise.resolve().then(() => {
-            const renderedNameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(renderedNameField.value.value).toBe(fieldName);
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
     it('Scale field is present', () => {
@@ -220,22 +188,16 @@ describe('screen-input-field-properties-editor for Date', () => {
             field: createTestScreenField(fieldName, 'Date', SCREEN_NO_DEF_VALUE, {helpText: false}),
         });
     });
-    it('Unique Name field should be required', () => {
+    it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.required).toBeTruthy();
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
-    it('Unique Name field should be a string type input', () => {
+    it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.type).toBe('string');
-        });
-    });
-    it('Unique Name is filled in', () => {
-        return Promise.resolve().then(() => {
-            const renderedNameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(renderedNameField.value.value).toBe(fieldName);
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
     it('Default value is empty', () => {
@@ -299,22 +261,16 @@ describe('screen-input-field-properties-editor for DateTime', () => {
             field: createTestScreenField(fieldName, 'DateTime', SCREEN_NO_DEF_VALUE, {helpText: false}),
         });
     });
-    it('Unique Name field should be required', () => {
+    it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.required).toBeTruthy();
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
-    it('Unique Name field should be a string type input', () => {
+    it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.type).toBe('string');
-        });
-    });
-    it('Unique Name is filled in', () => {
-        return Promise.resolve().then(() => {
-            const renderedNameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(renderedNameField.value.value).toBe(fieldName);
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
     it('Default value is empty', () => {
@@ -378,22 +334,16 @@ describe('screen-input-field-properties-editor for Checkbox', () => {
             field: createTestScreenField(fieldName, 'Checkbox', SCREEN_NO_DEF_VALUE, {helpText: false}),
         });
     });
-    it('Unique Name field should be required', () => {
+    it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.required).toBeTruthy();
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
-    it('Unique Name field should be a string type input', () => {
+    it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.type).toBe('string');
-        });
-    });
-    it('Unique Name is filled in', () => {
-        return Promise.resolve().then(() => {
-            const renderedNameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(renderedNameField.value.value).toBe(fieldName);
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
     it('Default value is empty', () => {
@@ -457,22 +407,16 @@ describe('screen-input-field-properties-editor for Currency', () => {
             field: createTestScreenField(fieldName, 'Currency', SCREEN_NO_DEF_VALUE, {helpText: false}),
         });
     });
-    it('Unique Name field should be required', () => {
+    it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.required).toBeTruthy();
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
-    it('Unique Name field should be a string type input', () => {
+    it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.type).toBe('string');
-        });
-    });
-    it('Unique Name is filled in', () => {
-        return Promise.resolve().then(() => {
-            const renderedNameField = query(screenInputFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(renderedNameField.value.value).toBe(fieldName);
+            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
     it('Default value is empty', () => {

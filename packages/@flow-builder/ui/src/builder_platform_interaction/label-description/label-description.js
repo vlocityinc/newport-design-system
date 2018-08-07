@@ -60,9 +60,17 @@ export default class LabelDescription extends Element {
     @api
     layoutMode = 'horizontal';
 
+    // The label input field is usually required. Set this to true, if you want to mark it 'not required'.
+    @api
+    labelOptional = false;
+
     @api
     get label() {
         return this.state.label;
+    }
+
+    get labelRequired() {
+        return !this.labelOptional;
     }
 
     @api

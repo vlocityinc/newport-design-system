@@ -5,7 +5,7 @@
             <lightning-input if:false={hideLabel} type="text" label={nameLabel}
                              onfocusout={handleLabelFocusOut}
                              value={label.value}
-                             required
+                             required={labelRequired}
                              message-when-value-missing={showErrorMessageIfBlank}
                              class={computedNameClass}></lightning-input>
             <lightning-input if:false={hideDevName} type="text" label={devNameLabel}

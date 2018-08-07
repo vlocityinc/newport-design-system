@@ -1,5 +1,6 @@
 import { Element, api } from 'engine';
 import { isExtensionField, getPlaceHolderLabel } from 'builder_platform_interaction-screen-editor-utils';
+import { hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
@@ -38,6 +39,9 @@ export default class ScreenField extends Element {
     get fieldText() {
         // The LWC components used to render these screen fields require a value for this property. however Flow doesn't require this.
         // If the user didn't provide a label, use a placeholder label for preview.
-        return this.screenfield && this.screenfield.fieldText && this.screenfield.fieldText.value ? this.screenfield.fieldText.value : getPlaceHolderLabel(this.screenfield.type.name);
+        if (this.screenfield && this.screenfield.fieldText && this.screenfield.fieldText.value !== null) {
+            return this.screenfield.fieldText;
+        }
+        return hydrateWithErrors(getPlaceHolderLabel(this.screenfield.type.name));
     }
 }

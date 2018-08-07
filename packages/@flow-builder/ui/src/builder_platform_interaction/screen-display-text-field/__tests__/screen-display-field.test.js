@@ -21,7 +21,7 @@ describe('Rich text display field', () => {
     const displayValue = 'Poshe Text';
     beforeEach(() => {
         displayWrapperCmp = createComponentForTest({
-            value: displayValue,
+            value: {value: displayValue, error: null},
             title: titleValue,
             typeName: 'DisplayRichText'
         });
@@ -39,7 +39,7 @@ describe('Text display field', () => {
     const displayValue = 'Happy Trails';
     beforeEach(() => {
         displayWrapperCmp = createComponentForTest({
-            value: displayValue,
+            value: {value: displayValue, error: null},
             title: titleValue,
             typeName: 'DisplayText'
         });

@@ -1,8 +1,10 @@
 import { screenValidation } from './screen-validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField } from 'builder_platform_interaction-data-mutation-lib';
+import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
 import { getScreenFieldTypeByName, getScreenFieldType, createEmptyNodeOfType, isScreen, isExtensionField, getDefaultValueType } from 'builder_platform_interaction-screen-editor-utils';
+import { elementTypeToConfigMap } from 'builder_platform_interaction-element-config';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /**
  * Adds screen fields to a screen.
@@ -15,7 +17,7 @@ const addScreenField = (screen, event) => {
     const position = Number.isInteger(event.position) ? event.position : screen.fields.length;
     const type = getScreenFieldTypeByName(event.typeName);
     const field = createEmptyNodeOfType(type);
-    mutateScreenField(field);
+    hydrateWithErrors(mutateScreenField(field), elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
     const updatedItems = insertItem(screen.fields, field, position);
     return set(screen, 'fields', updatedItems);
 };
@@ -60,7 +62,14 @@ const reorderFields = (screen, event) => {
  * @returns {object} - A new screen/node with the changes applied
  */
 const screenPropertyChanged = (screen, event, selectedNode) => {
-    const property = event.detail.propertyName;
+    let property = event.detail.propertyName;
+
+    // If the element being updated is not screen field and the property name
+    // is 'label', translate this to 'fieldText', which is how label is kept for screen fields.
+    if (!isScreen(selectedNode) && property === 'label') {
+        property = 'fieldText';
+    }
+
     let error = event.detail.error;
     const value = event.detail.value;
     const currentValue = event.detail.oldValue || selectedNode[property];
@@ -72,6 +81,9 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
         const newValue = hydrated ? {error, value} : value;
         if (isScreen(selectedNode)) {
             error = error === null ? screenValidation.validateProperty(property, value) : error;
+            if (hydrated) {
+                newValue.error = error;
+            }
             updatedNode = updateProperties(screen, {[property]: newValue});
         } else { // Screen field
             let newField = null;
@@ -109,10 +121,15 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 // Non-extension screen field change
 
                 // Run validation
-                // TODO: W-4947221 - What do we do this with this error?
                 const type = selectedNode.type.name;
                 const fullPropName = property !== 'name' ? 'fields[type.name="' + type + '"].' + property : 'name';
                 error = error === null ? screenValidation.validateProperty(fullPropName, value) : error;
+
+                // If the value is hydrated and we have an error, store the error.
+                // W-5297584: what do we do if we have an error and the value isn't hydrated? Do we lose the error?
+                if (error && hydrated) {
+                    newValue.error = error;
+                }
 
                 // If the validation rule's error message or formula expression was changed, it needs special handling
                 // because it's an object within the field.

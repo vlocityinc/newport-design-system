@@ -1,8 +1,8 @@
 import { createElement } from 'engine';
 import ScreenTextareaField from 'builder_platform_interaction-screen-textarea-field';
 import { getShadowRoot } from 'lwc-test-utils';
+import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 
-const hiddenLabelVariant = 'label-hidden';
 const standardLabelVariant = 'standard';
 
 const SELECTORS = {
@@ -74,7 +74,7 @@ describe('Textarea field not required', () => {
     });
 });
 
-describe('Screen input field with no label', () => {
+describe('Text area field with no label', () => {
     let textWrapperCmp;
     beforeEach(() => {
         textWrapperCmp = createComponentForTest({
@@ -83,15 +83,21 @@ describe('Screen input field with no label', () => {
             required: false
         });
     });
-    it('Label should be hidden when it is empty', () => {
+    it('Label should be shown even when it is empty', () => {
         return Promise.resolve().then(() => {
             const input = getShadowRoot(textWrapperCmp).querySelector(SELECTORS.AREA);
-            expect(input.variant).toEqual(hiddenLabelVariant);
+            expect(input.variant).toEqual(standardLabelVariant);
+        });
+    });
+    it('Label displayed should be a placeholder', () => {
+        return Promise.resolve().then(() => {
+            const input = getShadowRoot(textWrapperCmp).querySelector(SELECTORS.AREA);
+            expect(input.label).toEqual('[' + LABELS.fieldTypeLabelLargeTextArea + ']');
         });
     });
 });
 
-describe('Field with help text', () => {
+describe('Text area with help text', () => {
     let textWrapperCmp;
     const helpTextValue = 'Enter your name';
     beforeEach(() => {
@@ -108,21 +114,3 @@ describe('Field with help text', () => {
         });
     });
 });
-
-describe('Screen input field with empty space only should not be displayed', () => {
-    let textWrapperCmp;
-    beforeEach(() => {
-        textWrapperCmp = createComponentForTest({
-            value: '',
-            label: ' ',
-            required: false
-        });
-    });
-    it('Label should be hidden when it is empty', () => {
-        return Promise.resolve().then(() => {
-            const input = getShadowRoot(textWrapperCmp).querySelector(SELECTORS.AREA);
-            expect(input.variant).toEqual(hiddenLabelVariant);
-        });
-    });
-});
-

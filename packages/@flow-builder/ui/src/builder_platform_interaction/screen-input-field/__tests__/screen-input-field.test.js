@@ -1,5 +1,7 @@
 import { createElement } from 'engine';
 import ScreenInputField from 'builder_platform_interaction-screen-input-field';
+import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
+
 import {
     CURRENCY_FORMAT,
     LIGHTNING_INPUT_TYPES,
@@ -24,7 +26,7 @@ describe('Currency screen field', () => {
     beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
-            label: testLabel,
+            label: {value: testLabel, error: null},
             required: false,
             typeName: 'Currency'
         });
@@ -54,7 +56,7 @@ describe('Number screen field', () => {
     beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
-            label: testLabel,
+            label: {value: testLabel, error: null},
             required: false,
             typeName: 'Number'
         });
@@ -84,7 +86,7 @@ describe('Textbox screen field', () => {
     beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
-            label: testLabel,
+            label: {value: testLabel, error: null},
             required: false,
             typeName: 'TextBox'
         });
@@ -114,15 +116,21 @@ describe('Screen input field with no label', () => {
     beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
-            label: '',
+            label: {value: '', error: null},
             required: false,
             typeName: 'Number'
         });
     });
-    it('Label should be hidden when it is empty', () => {
+    it('Label should be shown even when empty because we display a placeholder label', () => {
         return Promise.resolve().then(() => {
             const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
-            expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN);
+            expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
+        });
+    });
+    it('Label displayed should be a placeholder', () => {
+        return Promise.resolve().then(() => {
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
+            expect(input.label).toEqual('[' + LABELS.fieldTypeLabelNumber + ']');
         });
     });
 });
@@ -132,7 +140,7 @@ describe('Screen input field with empty space only should not be displayed', () 
     beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
-            label: ' ',
+            label: {value: ' ', error: null},
             required: false,
             typeName: 'Number'
         });
@@ -150,7 +158,7 @@ describe('DateTime screen input field', () => {
     beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
-            label: testLabel,
+            label: {value: testLabel, error: null},
             typeName: 'DateTime'
         });
     });
@@ -168,7 +176,7 @@ describe('Field with help text', () => {
     beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
             value: '',
-            label: testLabel,
+            label: {value: testLabel, error: null},
             helpText: {value: helpTextValue, error: null},
             typeName: 'TextBox'
         });
@@ -186,7 +194,7 @@ describe('Invalid screen type', () => {
         const componentCreation = () => {
             createComponentForTest({
                 value: '',
-                label: testLabel,
+                label: {value: testLabel, error: null},
                 required: false,
                 typeName: 'foo'
             });
