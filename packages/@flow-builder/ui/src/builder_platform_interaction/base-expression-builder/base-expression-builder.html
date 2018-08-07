@@ -1,0 +1,27 @@
+<template>
+    <div class="slds-grid slds-gutters slds-grid_vertical-align-start slds-gutters_xx-small">
+        <builder_platform_interaction-combobox class="lhs slds-col slds-grow"
+                                               label={lhsLabel}
+                                               value={lhsValue}
+                                               placeholder={lhsPlaceholder}
+                                               error-message={lhsError}
+                                               literals-allowed=false
+        >
+        </builder_platform_interaction-combobox>
+        <lightning-combobox class="operator slds-col slds-grow slds-size_x-small"
+                            label={operatorLabel}
+                            value={operatorValue}
+                            placeholder={operatorPlaceholder}
+                            dropdown-alignment="auto"
+        >
+        </lightning-combobox>
+        <builder_platform_interaction-combobox class="rhs slds-col slds-grow"
+                                               label={rhsLabel}
+                                               value={rhsValue}
+                                               placeholder={rhsPlaceholder}
+                                               literals-allowed={rhsLiteralsAllowed}
+                                               error-message={rhsError}
+        >
+        </builder_platform_interaction-combobox>
+    </div>
+</template>

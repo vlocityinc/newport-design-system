@@ -1,0 +1,26 @@
+<template>
+    <builder_platform_interaction-base-expression-builder
+        container-element={containerElement}
+        lhs-label={lhsLabel}
+        lhs-value={state.lhsValue}
+        lhs-placeholder={lhsPlaceholder}
+        lhs-param={state.lhsParam}
+        lhs-active-picklist-values={state.lhsActivePicklistValues}
+        lhs-is-field={state.lhsIsField}
+        lhs-fields={state.lhsFields}
+        lhs-error={state.lhsError}
+        show-lhs-as-field-reference
+        operator-label={operatorLabel}
+        operator-value={state.expression.operator.value}
+        operator-placeholder={operatorPlaceholder}
+        rhs-label={rhsLabel}
+        rhs-value={state.rhsValue}
+        rhs-error={state.rhsError}
+        rhs-guid={state.rhsGuid}
+        rhs-placeholder={rhsPlaceholder}
+        rhs-literals-allowed={state.rhsLiteralsAllowed}
+        rhs-is-field={state.rhsIsField}
+        rhs-fields={state.rhsFields}
+    >
+    </builder_platform_interaction-base-expression-builder>
+</template>
