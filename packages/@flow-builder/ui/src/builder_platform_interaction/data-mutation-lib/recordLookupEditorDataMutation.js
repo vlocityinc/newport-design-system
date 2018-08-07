@@ -29,7 +29,6 @@ const mutateFilterItems = (filterItems, objectType) => {
  * @return {Object} The mutated record
  */
 export const mutateRecordLookup = record => {
-    // TODO: make this transform the record lookup in an immutable way.
     const filterItems = record.filters;
     record.filterType = (filterItems.length > 0 && filterItems[0].field) ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
     // create at least one empty filter

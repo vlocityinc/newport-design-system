@@ -25,7 +25,6 @@ export default class FormulaEditor extends Element {
 
     @api
     set node(newValue) {
-        // TODO: update when W-4889306 is closed
         this.formulaResource = unwrap(newValue) || {};
     }
 
@@ -36,7 +35,6 @@ export default class FormulaEditor extends Element {
      */
     @api
     getNode() {
-        // TODO: might have to update when W-4889306 is closed
         return unwrap(this.formulaResource);
     }
 

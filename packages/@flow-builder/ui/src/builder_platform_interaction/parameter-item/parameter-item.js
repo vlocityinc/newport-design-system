@@ -214,7 +214,6 @@ export default class ParameterItem extends Element {
      * icon for parameter
      */
     get iconName() {
-        // TODO: W-4632619
         let iconName = 'utility:type_tool';
         switch (this.type) {
             case FLOW_DATA_TYPE.DATE.value:

@@ -36,14 +36,12 @@ const addRecordLookupFilter = (state) => {
 };
 
 const deleteRecordLookupFilter = (state, event) => {
-    // TODO do validation for if we need at least one row
     const updatedItems = deleteItem(state.filters, event.detail.index);
     return set(state, 'filters', updatedItems);
 };
 
 const updateRecordLookupFilter = (state, event) => {
     const path = ['filters', event.detail.index];
-    // TODO check for errors and handle validation accordingly
     const item = updateProperties(event.detail.value);
     return set(state, path, item);
 };

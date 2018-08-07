@@ -434,7 +434,6 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.RECORD_LOOKUP]: {
-        // TODO: recordLookupEditor is only a place holder now.
         descriptor: 'builder_platform_interaction:recordLookupEditor',
         nodeConfig: {
             iconName: 'standard:record_lookup',
