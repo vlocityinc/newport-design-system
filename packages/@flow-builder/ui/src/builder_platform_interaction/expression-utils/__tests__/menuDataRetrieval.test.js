@@ -212,6 +212,12 @@ describe('Menu data retrieval', () => {
         expect(copiedElement.objectType).toBe('Account');
         selectorsMock.writableElementsSelector.mockClear();
     });
+    it('should have the iconName and iconSize populated', () => {
+        selectorsMock.writableElementsSelector.mockReturnValueOnce([store.elements[store.numberVariableGuid]]);
+        const copiedElement = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
+        expect(copiedElement.iconName).toBe(FLOW_DATA_TYPE.NUMBER.utilityIconName);
+        expect(copiedElement.iconSize).toBe('xx-small');
+    });
 
     describe('disableHasNext', () => {
         it('should set hasNext to false for all menu items when true', () => {
