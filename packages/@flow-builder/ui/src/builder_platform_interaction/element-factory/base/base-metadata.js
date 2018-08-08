@@ -15,8 +15,9 @@ export function baseResourceMetadataObject(resource = {}) {
 
 export function baseCanvasMetadataObject(canvasElement = {}) {
     const newCanvasElement = baseResourceMetadataObject(canvasElement);
-    const { locationX = 0, locationY = 0 } = canvasElement;
+    const { label = '', locationX = 0, locationY = 0 } = canvasElement;
     return Object.assign(newCanvasElement, {
+        label,
         locationX,
         locationY
     });

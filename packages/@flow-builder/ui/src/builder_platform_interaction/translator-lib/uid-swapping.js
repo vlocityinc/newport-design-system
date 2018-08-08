@@ -87,7 +87,7 @@ export const swapSingleExpression = (expression, mapping) => {
  * Handles both references and some "template" strings ex: "Hello {!userVar.name}"
  *
  * @param {Object} elementUidMap    map of Uids to elementIds
- * @param {Object} flow              the flow
+ * @param {Object} flow             the flow
  */
 export const swapUidsForDevNames = (elementUidMap, flow) => {
     const mapping = {};
@@ -128,4 +128,21 @@ export const swapDevNamesToUids = (nameToUid, flow) => {
         return swapValueFunction(swapSingleDevNameToUid, fieldname, value);
     };
     recursiveSwap(flow, swapDevNameToUid);
+};
+
+/**
+ * Traverse the flow tree and replace all devNames with Uids
+ * Handles references and some "template" strings ex: "Hello {!userVar.name}"
+ *
+ * @param {Object} elementUidMap    map of Uids to elementIds
+ * @param {Object} flow             the flow
+ */
+export const swapDevNamesToGuids = (elementUidMap, flow) => {
+    const elementGuids = Object.keys(elementUidMap);
+    const nameToUid = {};
+    for (let i = 0; i < elementGuids.length; i++) {
+        const element = elementUidMap[elementGuids[i]];
+        nameToUid[element.name] = element.guid;
+    }
+    swapDevNamesToUids(nameToUid, flow);
 };

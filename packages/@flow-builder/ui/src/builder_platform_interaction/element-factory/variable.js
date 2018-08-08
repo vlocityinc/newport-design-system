@@ -1,7 +1,7 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { baseResource } from './base/base-element';
+import { baseResource, baseElements } from './base/base-element';
 import { baseResourceMetadataObject } from './base/base-metadata';
-import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
+import { mutateFEROV, deMutateFEROV } from 'builder_platform_interaction-data-mutation-lib';
 
 const elementType = ELEMENT_TYPE.VARIABLE;
 const FEROV_OBJECT_NAME = 'value';
@@ -28,6 +28,12 @@ export function createVariable(variable = {}) {
         });
     }
     return newVariable;
+}
+
+export function createVariableForStore(variable = {}) {
+    const newVariable = createVariable(variable);
+
+    return baseElements([newVariable]);
 }
 
 export function createVariableMetadataObject(variable) {

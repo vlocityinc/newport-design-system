@@ -1,8 +1,9 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { baseCanvasElement } from './base/base-element';
+import { baseCanvasElement, baseElementsWithConnectors } from './base/base-element';
 import { createListRowItem } from './base/base-list';
 import { baseCanvasMetadataObject } from './base/base-metadata';
-import { mutateFEROV, deMutateFEROV } from 'builder_platform_interaction-data-mutation-lib';
+import { createFEROV, createFEROVMetadataObject } from './ferov';
+import { createConnectorObjects } from 'builder_platform_interaction-connector-utils';
 
 const elementType = ELEMENT_TYPE.ASSIGNMENT;
 
@@ -15,17 +16,27 @@ export function createAssignment(assignment = {}) {
         const newAssignmentItem = createAssignmentItem();
         assignmentItems = [newAssignmentItem];
     }
-    return Object.assign(newAssignment, {
+    const assignmentObject = Object.assign(newAssignment, {
         assignmentItems,
         elementType
     });
+
+    return assignmentObject;
+}
+
+export function createAssignmentWithConnectors(assignment = {}) {
+    const newAssignment = createAssignment(assignment);
+
+    const connectors = createConnectorObjects(assignment);
+
+    return baseElementsWithConnectors([newAssignment], connectors);
 }
 
 export function createAssignmentItem(assignmentItem = {}) {
     let newAssignmentItem;
 
-    if (assignmentItem.hasOwnProperty('value')) {
-        newAssignmentItem = mutateFEROV(assignmentItem, 'value', {
+    if (assignmentItem.hasOwnProperty('assignToReference')) {
+        newAssignmentItem = createFEROV(assignmentItem, 'value', {
             valueProperty: 'rightHandSide',
             dataTypeProperty: 'rightHandSideDataType',
         });
@@ -48,18 +59,22 @@ export function createAssignmentMetadataObject(assignment = {}) {
         const newAssignmentItem = createAssignmentItemMetadataObject();
         assignmentItems = [newAssignmentItem];
     }
+
     return Object.assign(newAssignment, {
         assignmentItems
     });
 }
 
 export function createAssignmentItemMetadataObject(assignmentItem = {}) {
-    const newAssignmentItem = deMutateFEROV(assignmentItem, 'value', {
+    const newAssignmentItem = createFEROVMetadataObject(assignmentItem, 'value', {
         valueProperty: 'rightHandSide',
         dataTypeProperty: 'rightHandSideDataType',
     });
-    newAssignmentItem.assignToReference = assignmentItem.leftHandSide;
-    newAssignmentItem.operator = assignmentItem.operator;
+    const assignToReference = assignmentItem.leftHandSide;
+    const operator = assignmentItem.operator;
 
-    return newAssignmentItem;
+    return Object.assign(newAssignmentItem, {
+        assignToReference,
+        operator
+    });
 }

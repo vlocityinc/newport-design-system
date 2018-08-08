@@ -18,16 +18,15 @@ export function baseResource(resource = {}) {
 
 export function baseCanvasElement(canvasElement = {}) {
     const newCanvasElement = baseResource(canvasElement);
-    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, isSelected = false } = canvasElement;
+    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, availableConnections, config = { isSelected: false} } = canvasElement;
     return Object.assign(newCanvasElement, {
         label,
         locationX,
         locationY,
         isCanvasElement: true,
         connectorCount,
-        config: {
-            isSelected
-        }
+        availableConnections,
+        config
     });
 }
 
@@ -37,4 +36,20 @@ export function baseChildElement(childElement = {}) {
     return Object.assign(newChildElement, {
         label
     });
+}
+
+export function baseElements(elementList) {
+    const elements = {};
+    for (let i = 0; i < elementList.length; i++) {
+        const element = elementList[i];
+        Object.assign(elements, {[element.guid]: element});
+    }
+
+    return { elements };
+}
+
+export function baseElementsWithConnectors(elementList, connectors) {
+    const elements = baseElements(elementList);
+
+    return Object.assign(elements, { connectors });
 }

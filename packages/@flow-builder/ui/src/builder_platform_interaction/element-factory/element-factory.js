@@ -1,20 +1,9 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { createAssignment } from './assignment.js';
+export * from './assignment.js';
+export * from './decision.js';
+export * from './variable.js';
+export * from './ferov.js';
 
-/**
- * Element factory to create new objects for each element type
- *
- * @param {Object} element Element to be used as the base for copying information
- * @return {Object} New element object with all relevant data
- */
-export const elementFactory = (element) => {
-    let updatedElement = {};
-
-    if (element.elementType === ELEMENT_TYPE.ASSIGNMENT) {
-        updatedElement = createAssignment(element);
-    }
-
-    // TODO Add other element types
-
-    return updatedElement;
+export const FACTORY_CONFIG = {
+    SWAP_GUID_TO_DEV_NAME: 'swapGuidToDevName',
+    SWAP_DEV_NAME_TO_GUID: 'swapDevNameToGuid'
 };
