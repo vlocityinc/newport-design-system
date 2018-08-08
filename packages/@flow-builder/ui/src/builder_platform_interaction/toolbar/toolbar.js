@@ -16,11 +16,13 @@ const INVALID_DRAFT = 'InvalidDraft';
  */
 export default class Toolbar extends Element {
     @api flowStatus;
-    @api isEditFlowPropertiesDisabled
+    @api isEditFlowPropertiesDisabled;
     @api isRunDebugDisabled;
     @api isSaveDisabled;
     @api isSaveAsDisabled;
     @api errors;
+    @api lastModifiedDate;
+    @api saveStatus;
 
     labels = LABELS;
 
@@ -42,6 +44,18 @@ export default class Toolbar extends Element {
             title: this.labels.draftTitle
         }
     };
+
+    get showLastSavedPill() {
+        return !!this.saveStatus;
+    }
+
+    get showDate() {
+        return (this.saveStatus === LABELS.savedStatus && this.lastModifiedDate);
+    }
+
+    get currentDate() {
+        return new Date(this.lastModifiedDate);
+    }
 
     get saveDisabled() {
         return this.isSaveDisabled || this.flowStatus === ACTIVE || this.flowStatus === OBSOLETE;

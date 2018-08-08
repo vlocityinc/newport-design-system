@@ -40,6 +40,10 @@
 
         <!--Right Hand Side-->
         <div class="slds-builder-toolbar__actions">
+            <button if:true={showLastSavedPill} title={saveStatus} class="slds-button test-toolbar-last-saved">
+                <span>{saveStatus}</span>
+                <span if:true={showDate}>&nbsp;<lightning-relative-date-time value={currentDate}></lightning-relative-date-time></span>
+            </button>
             <div class="inline-display">
                 <builder_platform_interaction-status-icon
                     messages={errors}

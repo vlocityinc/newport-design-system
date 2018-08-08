@@ -2,11 +2,16 @@ import { createElement } from 'engine';
 import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
 import Toolbar from 'builder_platform_interaction-toolbar';
 import { getShadowRoot } from 'lwc-test-utils';
+import { LABELS } from '../toolbar-labels';
 
-const createComponentUnderTest = () => {
+const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-toolbar', {
         is: Toolbar
     });
+
+    el.lastModifiedDate = props.lastModifiedDate;
+    el.saveStatus = props.saveStatus;
+
     document.body.appendChild(el);
     return el;
 };
@@ -17,7 +22,8 @@ const selectors = {
     editflowproperties: '.test-toolbar-editflowproperties',
     debug: '.test-toolbar-debug',
     saveas: '.test-toolbar-saveas',
-    save: '.test-toolbar-save'
+    save: '.test-toolbar-save',
+    lastSave: '.test-toolbar-last-saved'
 };
 
 describe('toolbar', () => {
@@ -75,6 +81,35 @@ describe('toolbar', () => {
             getShadowRoot(toolbarComponent).querySelector(selectors.saveas).click();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE_AS);
+        });
+    });
+
+    it('Displays "Saving..." in the toolbar when saveStatus is set to the same', () => {
+        const toolbarComponent = createComponentUnderTest({
+            saveStatus: LABELS.savingStatus
+        });
+
+        return Promise.resolve().then(() => {
+            const lastSavedButton = getShadowRoot(toolbarComponent).querySelector(selectors.lastSave);
+            const relativeDateTimeComponent = getShadowRoot(toolbarComponent).querySelector('lightning-relative-date-time');
+            expect(lastSavedButton.textContent).toBe(LABELS.savingStatus);
+            expect(relativeDateTimeComponent).toBeNull();
+        });
+    });
+
+    it('Displays "Saved {relative time}" in the toolbar when saveStatus is set to "Saved"', () => {
+        const currentDate = new Date();
+        const toolbarComponent = createComponentUnderTest({
+            lastModifiedDate: currentDate,
+            saveStatus: LABELS.savedStatus
+        });
+
+        return Promise.resolve().then(() => {
+            const lastSavedButton = getShadowRoot(toolbarComponent).querySelector(selectors.lastSave);
+            const relativeDateTimeComponent = getShadowRoot(toolbarComponent).querySelector('lightning-relative-date-time');
+            expect(lastSavedButton.textContent.trim()).toEqual(LABELS.savedStatus);
+            expect(relativeDateTimeComponent).not.toBeNull();
+            expect(relativeDateTimeComponent.value).toEqual(currentDate);
         });
     });
 });

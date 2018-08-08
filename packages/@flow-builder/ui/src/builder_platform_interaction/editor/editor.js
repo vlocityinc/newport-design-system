@@ -60,6 +60,7 @@ export default class Editor extends Element {
 
     @track hasNotBeenSaved = true;
     @track disableSave = true;
+    @track saveStatus;
 
     @track errors;
 
@@ -151,16 +152,19 @@ export default class Editor extends Element {
             this.currentFlowId = data.flowId;
             storeInstance.dispatch(updateProperties({
                 versionNumber: data.versionNumber,
-                status: data.status
+                status: data.status,
+                lastModifiedDate: data.lastModifiedDate
             }));
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
             this.errors = [];
         } else {
+            this.saveStatus = null;
             this.errors = data.errors;
         }
 
         if (this.flowId) {
             this.hasNotBeenSaved = false;
+            this.saveStatus = LABELS.savedStatus;
         }
         this.disableSave = false;
     };
@@ -635,6 +639,7 @@ export default class Editor extends Element {
         };
 
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
+        this.saveStatus = LABELS.savingStatus;
         this.hasNotBeenSaved = true;
         this.disableSave = true;
     }
@@ -671,6 +676,7 @@ export default class Editor extends Element {
             });
 
             if (this.flowId) {
+                this.saveStatus = LABELS.savedStatus;
                 this.hasNotBeenSaved = false;
             }
             this.disableSave = false;

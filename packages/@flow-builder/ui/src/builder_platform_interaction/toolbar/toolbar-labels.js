@@ -1,4 +1,6 @@
 import flowPropertiesTitle from '@salesforce/label/FlowBuilderToolbar.flowPropertiesTitle';
+import savingStatus from '@salesforce/label/FlowBuilderToolbar.savingStatus';
+import savedStatus from '@salesforce/label/FlowBuilderToolbar.savedStatus';
 import draftLabel from '@salesforce/label/FlowBuilderToolbar.draftLabel';
 import draftTitle from '@salesforce/label/FlowBuilderToolbar.draftTitle';
 import activeLabel from '@salesforce/label/FlowBuilderToolbar.activeLabel';
@@ -14,6 +16,8 @@ import errorPopOverHeader from '@salesforce/label/FlowBuilderToolbar.errorPopOve
 
 export const LABELS = {
     flowPropertiesTitle,
+    savingStatus,
+    savedStatus,
     draftLabel,
     draftTitle,
     activeLabel,

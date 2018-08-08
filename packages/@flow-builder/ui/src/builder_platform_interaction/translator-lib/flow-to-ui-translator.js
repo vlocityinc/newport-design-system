@@ -191,6 +191,7 @@ export function translateFlowToUIModel(flow) {
     properties.fullName = flow.fullName;
     properties.elementType = ELEMENT_TYPE.FLOW_PROPERTIES;
     properties.versionNumber = flow.versionNumber;
+    properties.lastModifiedDate = flow.lastModifiedDate;
 
     return {
         elements,
