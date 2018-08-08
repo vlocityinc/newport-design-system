@@ -281,3 +281,6 @@ props:
   COLOR_BACKGROUND_BUTTON_SUCCESS_ACTIVE:
     value: '{!SALEM}'
     comment: Active background color for success buttons
+  COLOR_BACKGROUND_SELAGO:
+    value: '{!SELAGO}'
+    comment: background color for cards

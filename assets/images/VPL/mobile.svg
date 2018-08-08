@@ -1,0 +1,29 @@
+
+<svg  viewBox="0 0 27 49" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45 (43475) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0"  rx="4"></rect>
+    </defs>
+    <g id="Telecom---VISUAL" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="01---Nav" transform="translate(-435.000000, -278.000000)">
+            <g id="Group-4" transform="translate(234.000000, 175.000000)">
+                <g id="Group-18">
+                    <g id="secondary-menu" transform="translate(0.000000, 64.000000)">
+                        <g id="Group-28" transform="translate(143.000000, 0.000000)">
+                            <g id="Group-3" transform="translate(58.000000, 39.000000)">
+                                <g id="Rectangle-3">
+                                    <use fill="#F8FBFE" fill-rule="evenodd" xlink:href="#path-1"></use>
+                                    <rect stroke="#0070D2" stroke-width="1.84" x="0.92" y="0.92" width="25.16" height="47.16" rx="4"></rect>
+                                </g>
+                                <path d="M1.5,39 L25.5,39" id="Line" stroke="#0070D2" stroke-width="2" stroke-linecap="square"></path>
+                                <path d="M1.5,7 L25.5,7" id="Line" stroke="#0070D2" stroke-width="2" stroke-linecap="square"></path>
+                                <path d="M10.5,43 L16.5,43" id="Line" stroke="#0070D2" stroke-width="2" stroke-linecap="square"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

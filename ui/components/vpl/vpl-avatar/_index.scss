@@ -1,0 +1,62 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/*
+*
+*
+*@name avatar
+* @selector .nds-avatar__custom
+* @restrict .nds-avatar
+* @variant
+*/
+
+.nds-avatar__profile {
+  .nds-avatar__action {
+    color: $color-blue-text-primary;
+    &:first-child {
+      border-left: 0 none;
+    }
+    border-left:2px solid rgba($color-black-primary, 0.10);
+  }
+  .nds-profile__image {
+    border: 0.3rem solid $color_background_primary;
+    border-radius: 100%;
+    box-sizing: content-box;
+    width: 8rem;
+    height: 8rem;
+    overflow: hidden;
+    .nds-avatar__custom {
+      &.nds-avatar_large {
+        width: 8rem;
+        height: 8rem;
+        .nds-icon {
+          width: 8rem;
+          height: 8rem;
+          fill: $color-blue-text-secondary;
+        }
+      }
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+
+/*
+* @summary Initializes title with orange border
+*
+* @name vpl-avatar
+* @selector .nds-canvas__title-centered
+* @restrict .nds-canvas__title
+* @variant
+*/
+
+.nds-canvas__title-centered {
+  &:after {
+    bottom: -0.62rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+}
