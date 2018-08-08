@@ -82,16 +82,11 @@
 
 @mixin multiLineEllipsis($font-size: 20px, $lines-to-show: 1, $line-height: 10) {
   display: block;
-  /* Fallback for non-webkit */
-  display: -webkit-box;
   max-width: 400px;
   height: $font-size*$line-height*$lines-to-show;
-  /* Fallback for non-webkit */
   margin: 0 auto;
   font-size: $font-size;
   line-height: $line-height;
-  -webkit-line-clamp: $lines-to-show;
-  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -213,11 +208,7 @@
       width: 100%;
       border: none;
       background: none;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
       box-sizing: border-box;
-      -webkit-appearance: none;
-      -moz-appearance: none;
       position: relative;
       z-index: 2;
       font-size: 16px;
