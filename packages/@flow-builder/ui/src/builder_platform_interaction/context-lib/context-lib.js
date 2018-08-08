@@ -17,6 +17,10 @@ export function isDevMode() {
     return context.devMode;
 }
 
+export function isTestMode() {
+    return context.testMode;
+}
+
 export function getUserPreferences() {
     return context.userPrefs;
 }

@@ -3,7 +3,7 @@ import { AddElementEvent, EditElementEvent, DeleteElementEvent, NewResourceEvent
 import { canvasElementsSectionsSelector, nonCanvasElementsSectionsSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { isChildElement } from 'builder_platform_interaction-element-config';
-import { orgHasFlowBuilderPreview } from 'builder_platform_interaction-context-lib';
+import { isTestMode } from 'builder_platform_interaction-context-lib';
 
 import headerText from "@salesforce/label/FlowBuilderLeftPanel.headerText";
 import elementTabText from "@salesforce/label/FlowBuilderLeftPanel.elementTabText";
@@ -89,7 +89,7 @@ export default class LeftPanel extends Element {
         // TODO: Click to add is needed for selenium but we're not ready to ship the feature until
         // we figure out how to position the new element. We can remove this check after completing
         // W-4889436.
-        if (!orgHasFlowBuilderPreview()) {
+        if (!isTestMode()) {
             return;
         }
 
