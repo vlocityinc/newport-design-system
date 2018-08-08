@@ -499,29 +499,6 @@ button.nds-step__next-link[disabled] {
   }
 }
 
-.nds-typeahead .nds-form-element__control-animated-label.nds-input-has-icon {
-  svg.nds-icon {
-    margin-top: .75rem;
-    position: absolute;
-    #{$right}: 0;
-    pointer-events: none;
-  }
-
-  svg.nds-icon[alt="edit"] {
-    pointer-events: initial;
-    cursor: pointer;
-  }
-}
-
-.nds-typeahead .nds-form-element__control-animated-label.nds-input-has-icon ul.typeahead.dropdown-menu {
-  overflow: auto;
-  max-height: 300px;
-  li a {
-    display: block;
-    overflow: hidden;
-  }
-}
-
 .vlc-slds-filter__item {
   display: flex;
   margin: auto 0;
@@ -595,22 +572,33 @@ button.nds-step__next-link[disabled] {
   cursor: pointer;
 }
 
-.nds-typeahead>div.nds-grid .nds-tooltip_container {
-  margin-top: 0.75rem;
-}
-
-.nds-typeahead>div.nds-grid .nds-tooltip_container .nds-nonfocused_control {
-  margin-top: 1.125rem;
-  margin-#{$left}: 0.375rem;
-}
-
 .nds-lookup .nds-tooltip_container .nds-nonfocused_control {
   margin-top: 0.25rem;
   margin-#{$left}: 0.375rem;
 }
 
-.nds-typeahead>div.nds-grid .nds-tooltip_container .nds-nonfocused_control svg {
-  fill: $color-input-icon-blue-hue;
+.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom,
+.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
+  #{$left}: calc(-100% - 10px);
+  max-width: 30rem;
+  white-space: nowrap;
+  top: -1.6875rem;
+}
+
+.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
+.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after,
+.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
+.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after {
+  width: 1rem;
+  height: 1rem;
+  position: absolute;
+  transform: rotate(45deg);
+  content: '';
+  background-color: inherit;
+  #{$left}: 100%;
+  bottom: 0;
+  margin-#{$left}: -9px;
+  top: 25%;
 }
 
 @media only screen and (min-width: 64em) {
@@ -661,6 +649,14 @@ form {
   .ng-valid span.nds-required {
     color: $color-valid-control;
   }
+}
+
+.nds-label-desc {
+  display: inline-block;
+  width: 95%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .nds-inline-help-text .nds-is-absolute {

@@ -403,6 +403,30 @@
             opacity: 0.5;
     }
 
+    .nds-edit-block_longcards-controls-container div {
+        max-width: 40%;
+    }
+
+    @media(max-width: (480/16)+em) {
+        .nds-edit-block_longcards-controls-container div {
+            max-width: 30%;
+        }
+    }
+
+    .nds-edit-block_longcards-controls-container div span.nds-edit-block_txt-disp {
+        width: 100%;
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        line-height: 1;
+
+        .nds-edit-block_currency-icon {
+            display: inline;
+            width: auto;
+        }
+    }
+
 }
 
 .nds-edit-block_cards-add-card.nds-edit-block_longcards {
