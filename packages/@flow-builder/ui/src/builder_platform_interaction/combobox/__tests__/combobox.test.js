@@ -261,20 +261,46 @@ describe('Combobox Tests', () => {
                     });
                 });
 
-                it('without blur should append a period', () => {
-                    createCombobox();
-
-                    const expectedDisplayText =
-                        validItemWithHasNext2.displayText.substring(0, validItemWithHasNext2.displayText.length - 1) + '.}';
-
-                    combobox.value = validItemWithHasNext;
+                it('not matching display text should not append a period', () => {
+                    createCombobox({
+                        value: {
+                            value: 'validValue',
+                            displayText: 'This should work!',
+                            hasNext: true
+                        }
+                    });
 
                     return Promise.resolve().then(() => {
-                        combobox._isUserBlurred = false;
                         combobox.value = validItemWithHasNext2;
 
                         return Promise.resolve().then(() => {
-                            expect(groupedCombobox.inputText).toEqual(expectedDisplayText);
+                            expect(groupedCombobox.inputText).toEqual(validItemWithHasNext2.displayText);
+                        });
+                    });
+                });
+
+                it('matching display text with period after select should retain period', () => {
+                    const textInputValue = comboboxInitialConfig.menuData[1].items[0].displayText;
+                    const textInputValueWithPeriod = textInputValue.substring(0, textInputValue.length - 1) + '.}';
+
+                    createCombobox({
+                        menuData: comboboxInitialConfig.menuData
+                    });
+
+                    return Promise.resolve().then(() => {
+                        groupedCombobox.dispatchEvent(getTextInputEvent(textInputValue));
+                        groupedCombobox.dispatchEvent(getTextInputEvent(textInputValueWithPeriod));
+
+                        return Promise.resolve().then(() => {
+                            combobox.value = {
+                                value: textInputValue,
+                                displayText: textInputValue,
+                                hasNext: true
+                            };
+
+                            return Promise.resolve().then(() => {
+                                expect(groupedCombobox.inputText).toEqual(textInputValueWithPeriod);
+                            });
                         });
                     });
                 });

@@ -31,6 +31,10 @@ const oneLetterDevName = '(^[a-zA-Z]{1}$)';
 const withNonSuffixAndTrailingPeriodOrChar = '(^([a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+\\.?[a-zA-Z]?)+$)';
 const DEV_NAME_REGEX_WITH_TRAILING_PERIOD = new RegExp(`${oneLetterDevName}|${withNonSuffixAndTrailingPeriodOrChar}`);
 
+const isMatchWithTrailingPeriod = (text, textWithPeriodAndBracket) => {
+    return text.substring(0, text.length - 1) + '.}' === textWithPeriodAndBracket;
+};
+
 /**
  * The max level of data the combobox supports to show the menu items and perform validation.
  * @type {number} max level of data the combobox supports.
@@ -136,8 +140,8 @@ export default class Combobox extends Element {
         if (isObject(itemOrDisplayText)) {
             if (itemOrDisplayText.value) {
                 const item = unwrap(itemOrDisplayText);
-                displayText = this.getStringValue(item.displayText);
-                displayText = this.shouldAppendPeriod(item) ? displayText.substring(0, displayText.length - 1) + '.}' : displayText;
+
+                displayText = this.syncValueAndDisplayText(item);
 
                 this._item = Object.assign({}, item);
                 this._item.displayText = displayText;
@@ -748,14 +752,26 @@ export default class Combobox extends Element {
     }
 
     /**
-     * Returns true if this is not the initial setting of the value from the parent component and the current item
-     * hasNext and the user didn't just blur out (which would indicate that they were specifically trying to select the
-     * current item, even if it hasNext.
+     * In most cases returns the item.displayText.  Returns the existing state.displayText only if:
+     * 1. This is not initialization
+     * 2. This is not being called as a reaction to the user blurring
+     * 3. The item has next
+     * 4. The item.displayText with a . inserted before the closing bracket matches state.displayText
+     * This catches the case where a  trailing period was stripped before firing ItemSelected and the parent component
+     * passes this new value (without the period) back down.  In which case, we still want the combobox display to
+     * include the period
      * @param {Object} item an item
-     * @return {boolean} whether a preiod should be appended
+     * @return {String} The display text to be used
      */
-    shouldAppendPeriod(item) {
-        return this._isInitialized && !this._isUserBlurred && item.hasNext;
+    syncValueAndDisplayText(item) {
+        let displayText = this.getStringValue(item.displayText);
+
+        if (this._isInitialized && !this._isUserBlurred && item.hasNext &&
+            isMatchWithTrailingPeriod(item.displayText, this.state.displayText)) {
+            displayText = this.state.displayText;
+        }
+
+        return displayText;
     }
 
     /** *********************************/
