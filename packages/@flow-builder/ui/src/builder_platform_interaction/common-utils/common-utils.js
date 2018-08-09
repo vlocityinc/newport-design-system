@@ -91,6 +91,21 @@ export const sanitizeDevName = (value) => {
 };
 
 /**
+ * Escapes a string for use in a RegExp. The source was taken from:
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+ * @param {String} value the string to escape
+ * @return {String} a RegExp escaped string
+ */
+export const escapeForRegExp = (value) => {
+    if (typeof value !== 'string') {
+        throw new TypeError('value must be a string');
+    }
+
+    // $& means the whole matched string
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
+/**
  * Searches fields within the given object to see if there are any matches with the given filter
  * pattern. A filter result is returned which contains a visible flag.
  *
@@ -142,7 +157,7 @@ export const applyFilter = (obj, filter)  => {
         throw new TypeError('filter must have a non-empty fields array');
     }
 
-    const regex = RegExp(filter.pattern, 'i');
+    const regex = RegExp(escapeForRegExp(filter.pattern), 'i');
     let visible = false;
     for (let i = 0; i < filter.fields.length; i++) {
         const field = filter.fields[i];
