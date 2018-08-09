@@ -19,6 +19,7 @@ const ERROR_MESSAGE = {
     [FLOW_DATA_TYPE.NUMBER.value]: LABELS.numberErrorMessage,
     [FLOW_DATA_TYPE.DATE.value] : format(LABELS.dateErrorMessage, DATE_DISPLAY_FORMAT),
     [FLOW_DATA_TYPE.DATE_TIME.value] : format(LABELS.datetimeErrorMessage, DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE),
+    [FLOW_DATA_TYPE.BOOLEAN.value]: LABELS.genericErrorMessage,
     GENERIC: LABELS.genericErrorMessage,
     REQUIRED: LABELS.requiredErrorMessage
 };
@@ -131,6 +132,7 @@ export default class Combobox extends Element {
     @api
     set value(itemOrDisplayText) {
         let displayText;
+        this._mergeFieldLevel = 1;
         if (isObject(itemOrDisplayText)) {
             if (itemOrDisplayText.value) {
                 const item = unwrap(itemOrDisplayText);
@@ -144,6 +146,7 @@ export default class Combobox extends Element {
                 // set the base value to parent for fetching previous level
                 if (itemOrDisplayText.parent) {
                     this._base = itemOrDisplayText.parent.displayText;
+                    this._mergeFieldLevel++;
                 }
             } else {
                 throw new Error('Setting an item on Flow Combobox without a value property!');
@@ -240,6 +243,12 @@ export default class Combobox extends Element {
      */
     @api messageWhenValueMissing = ERROR_MESSAGE.REQUIRED;
 
+    /**
+     * The allowed param types based on the rule service. Used for the merge field validation if present.
+     * @type {Object}
+     */
+    @api allowedParamTypes = null;
+
     renderedCallback() {
         if (!this._isInitialErrorMessageSet && this._errorMessage) {
             this.setErrorMessage(this._errorMessage);
@@ -313,6 +322,14 @@ export default class Combobox extends Element {
      */
     _isUserBlurred = false;
 
+    /**
+     * This will keep track of the merge field level for the combobox.
+     * The merge field level is incremented only when hasNext is true.
+     * {!myAccount.Name} - 2
+     * {!invalidVar.Name} - 1
+     */
+    _mergeFieldLevel = 1;
+
     /* ********************** */
     /*     Event handlers     */
     /* ********************** */
@@ -349,7 +366,7 @@ export default class Combobox extends Element {
         // If a . is typed or deleted when in resource state, fire an event to fetch new menu data
         // As of 216 and we support showing only 2 level of menu data
         // TODO: W-5064397. The following code doesn't account for highlighting and deleting and copy pasting
-        if (this._isMergeField && this.getLevel() <= MAX_LEVEL_MENU_DATA) {
+        if (this._isMergeField && !this.hasMergeFieldCrossedMaxLevel()) {
             if (this.wasPeriodEntered(previousValue)) {
                 // set base and fetch next level
                 this.matchTextWithItem(previousValue);
@@ -378,7 +395,7 @@ export default class Combobox extends Element {
         }
 
         // Fire event to filter menu data only if within the max level, otherwise clear menu data
-        if (this.getLevel() <= MAX_LEVEL_MENU_DATA) {
+        if (!this.hasMergeFieldCrossedMaxLevel()) {
             this.fireFilterMatchesEvent(this.getFilterText(sanitizedValue), this._isMergeField);
         } else {
             this.state.menuData = [];
@@ -477,10 +494,16 @@ export default class Combobox extends Element {
 
     /**
      * Dispatches the FetchMenuData Event & makes the spinner active
-     * @param {String} value - the value to fetch menu data on
+     * @param {Object} item - the selected item to fetch the next level of menu data.
+     *                        If undefined or null first level of menu data is fetched.
      */
-    fireFetchMenuDataEvent(value) {
-        const fetchMenuDataEvent = new FetchMenuDataEvent(value);
+    fireFetchMenuDataEvent(item) {
+        if (item) {
+            this._mergeFieldLevel++;
+        } else {
+            this._mergeFieldLevel--;
+        }
+        const fetchMenuDataEvent = new FetchMenuDataEvent(item);
         this.dispatchEvent(fetchMenuDataEvent);
         this.state.showActivityIndicator = true;
     }
@@ -597,12 +620,12 @@ export default class Combobox extends Element {
     }
 
     /**
-     * Determines what data level the current combobox is at based on the period '.' in the value.
-     * Eg: myAccount - 1, myAccount. - 2, myAccount.Name - 2, myAccount.Name. - 3
-     * @returns {Number} the combobox current data level
+     * Returns true if the max level for a merge field has been reached.
+     * NOTE: This function should be used only in context of merge field and not for merge field with text.
+     * @returns {Boolean} true when the level is greater than max level.
      */
-    getLevel() {
-        return this.state.displayText.split('.').length;
+    hasMergeFieldCrossedMaxLevel() {
+        return this.state.displayText.split('.').length > MAX_LEVEL_MENU_DATA;
     }
 
     /**
@@ -746,6 +769,7 @@ export default class Combobox extends Element {
     doValidation(isBlur = false) {
         this.clearErrorMessage();
 
+        // When combobox is disabled as per design the error message is cleared but the selected value is preserved
         if (this.disabled) {
             return;
         }
@@ -782,11 +806,6 @@ export default class Combobox extends Element {
     }
 
     validateMergeFieldOrLiteral(isBlur = false) {
-        // No validation for three or more level of data in merge field to let super user type in higher level values.
-        if (this.getLevel() > MAX_LEVEL_MENU_DATA) {
-            return;
-        }
-
         if (this.state.displayText) {
             if (this._isMergeField) {
                 this.validateResource(isBlur);
@@ -818,13 +837,14 @@ export default class Combobox extends Element {
     validateResource(isBlur = false) {
         if (this.literalsAllowed && this.isExpressionIdentifierLiteral()) {
             this.validateLiteralForDataType();
-        } else if (!this._item && isBlur) {
-            // for merge fields {!myAccount.Description} validate using merge field
-            // otherwise the item should be present in the menu data
-            if (this.getLevel() > 1) {
-                this.validateUsingMergeFieldLib(validateMergeField);
+        } else if (isBlur && !this.hasMergeFieldCrossedMaxLevel()) { // no validation for more than max level
+            // For single level merge field use menu data and for two levels use merge field lib
+            if (this._mergeFieldLevel === 1 && !this.allowedParamTypes) {
+                if (!this._item) {
+                    this._errorMessage = ERROR_MESSAGE.GENERIC;
+                }
             } else {
-                this._errorMessage = ERROR_MESSAGE.GENERIC;
+                this.validateUsingMergeFieldLib(validateMergeField, this.allowedParamTypes);
             }
         }
     }
@@ -879,7 +899,7 @@ export default class Combobox extends Element {
      * @param {function} validateFunctionRef a existing function reference from merge field lib that returns promise.
      */
     validateUsingMergeFieldLib(validateFunctionRef) {
-        validateFunctionRef.call(this, this.state.displayText, {allowGlobalConstants: true, allowCollectionVariables: true})
+        validateFunctionRef.call(this, this.state.displayText, {allowGlobalConstants: true, allowedParamTypes: this.allowedParamTypes})
             .then(this.resolveMergeFieldValidation)
             .catch(() => {
                 this.state.showActivityIndicator = false;

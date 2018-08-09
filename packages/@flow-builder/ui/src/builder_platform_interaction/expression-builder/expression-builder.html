@@ -8,6 +8,7 @@
                 onitemselected={handleLHSItemSelected}
                 onfiltermatches={handleFilterLHSMatches}
                 menu-data={lhsMenuData}
+                allowed-param-types={lhsTypes}
                 error-message={state.expression.leftHandSide.error}
                 literals-allowed=false
                 placeholder={lhsPlaceholder}
@@ -49,6 +50,7 @@
                 onfiltermatches={handleFilterRHSMatches}
                 menu-data={rhsMenuData}
                 type={lhsType}
+                allowed-param-types={state.rhsTypes}
                 error-message={state.expression.rightHandSide.error}
                 placeholder={rhsPlaceholder}
                 literals-allowed={rhsLiteralsAllowed}

@@ -17,6 +17,16 @@ export const dateParam = {
     canBeElements: allElements,
 };
 
+export const datetimeParam = {
+    paramType:'Data',
+    paramIndex:1,
+    dataType: 'DateTime',
+    collection:false,
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    canBeElements: allElements,
+};
+
 export const dateCollectionParam = {
     paramType:'Data',
     paramIndex:1,
@@ -94,6 +104,11 @@ export const booleanParam = {
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
     canBeElements:allElements,
+};
+
+export const datetimeParamTypes = {
+    Date: [dateParam],
+    DateTime: [datetimeParam],
 };
 
 // these params deal with hypothetical situations that we account for but don't exist right now

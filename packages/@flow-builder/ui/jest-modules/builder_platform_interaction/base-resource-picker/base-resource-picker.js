@@ -20,4 +20,7 @@ export default class BaseResourcePicker extends Element {
     static getComboboxConfig() {
         return {};
     }
+
+    @api
+    allowedParamTypes;
 }

@@ -6,6 +6,8 @@ import { LABELS } from './mergeFieldValidation-labels';
 import { GLOBAL_CONSTANT_PREFIX, getNonElementResource } from 'builder_platform_interaction-system-lib';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { format } from 'builder_platform_interaction-common-utils';
+import { isElementAllowed } from 'builder_platform_interaction-expression-utils';
+import { elementToParam } from 'builder_platform_interaction-rule-lib';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -27,7 +29,10 @@ const VALIDATION_ERROR_TYPE = {
  */
 export class MergeFieldsValidation {
     allowGlobalConstants = true;
-    allowCollectionVariables = true;
+
+    // The allowed param types for merge field based on rule service.
+    // If present, this is used to validate the element merge field.
+    allowedParamTypes = null;
 
     /**
      * @typedef {Object} ValidationError
@@ -167,6 +172,10 @@ export class MergeFieldsValidation {
         return Promise.resolve([]);
     }
 
+    _isElementValidForAllowedParamTypes(element) {
+        return isElementAllowed(this.allowedParamTypes, elementToParam(element));
+    }
+
     _validateElementMergeField(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         const element = getElementByDevName(mergeFieldReferenceValue);
@@ -175,11 +184,21 @@ export class MergeFieldsValidation {
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
-        const elementType = this._getElementType(element);
-        if (elementType.dataType === null || (!this.allowCollectionVariables && elementType.isCollection)) {
-            const validationErrorLabel = format(LABELS.resourceCannotBeUsedAsMergeField, mergeFieldReferenceValue);
-            const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
-            return Promise.resolve([validationError]);
+
+        // if allowed param types is defined use it for validation
+        if (this.allowedParamTypes) {
+            // Note: uses outer return Promise.resolve([]) for else
+            if (!this._isElementValidForAllowedParamTypes(element)) {
+                const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
+                return Promise.resolve([validationError]);
+            }
+        } else {
+            const elementType = this._getElementType(element);
+            if (elementType.dataType === null || elementType.isCollection) {
+                const validationErrorLabel = format(LABELS.resourceCannotBeUsedAsMergeField, mergeFieldReferenceValue);
+                const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
+                return Promise.resolve([validationError]);
+            }
         }
         return Promise.resolve([]);
     }
@@ -248,6 +267,10 @@ export class MergeFieldsValidation {
             if (!field) {
                 const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.objectType);
                 return [this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex)];
+            // validate field for the allowed param types
+            } else if (this.allowedParamTypes && !this._isElementValidForAllowedParamTypes(field)) {
+                const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
+                return [validationError];
             }
             return [];
         });
@@ -270,17 +293,16 @@ export class MergeFieldsValidation {
     }
 }
 
-export function validateTextWithMergeFields(textWithMergeFields, { allowGlobalConstants = true, allowCollectionVariables = true } = { }) {
+export function validateTextWithMergeFields(textWithMergeFields, { allowGlobalConstants = true } = { }) {
     const validation = new MergeFieldsValidation();
     validation.allowGlobalConstants = allowGlobalConstants;
-    validation.allowCollectionVariables = allowCollectionVariables;
     return validation.validateTextWithMergeFields(textWithMergeFields);
 }
 
-export function validateMergeField(mergeField, { allowGlobalConstants = true, allowCollectionVariables = true } = { }) {
+export function validateMergeField(mergeField, { allowGlobalConstants = true, allowedParamTypes = null } = { }) {
     const validation = new MergeFieldsValidation();
     validation.allowGlobalConstants = allowGlobalConstants;
-    validation.allowCollectionVariables = allowCollectionVariables;
+    validation.allowedParamTypes = allowedParamTypes;
     return validation.validateMergeField(mergeField);
 }
 

@@ -50,7 +50,7 @@ export default class FormulaTextarea extends Element {
         const value = event.target.value;
         this.state.expression = value;
         this.state.spinnerActive = true;
-        validateTextWithMergeFields(value, { allowGlobalConstants : false, allowCollectionVariables : false }).then(errors => {
+        validateTextWithMergeFields(value, { allowGlobalConstants : false }).then(errors => {
             this.state.spinnerActive = false;
             this.state.expression = value;
             const valueChangedEvent = errors.length === 0 ? new ValueChangedEvent(this.state.expression) : new ValueChangedEvent(this.state.expression, errors);

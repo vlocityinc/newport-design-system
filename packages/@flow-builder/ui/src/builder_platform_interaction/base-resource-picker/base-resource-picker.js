@@ -115,6 +115,13 @@ export default class BaseResourcePicker extends Element {
     }
 
     /**
+     * The allowed param types based on the rule service. Used for the merge field validation if present.
+     * @type {Object}
+     */
+    @api
+    allowedParamTypes = null;
+
+    /**
      * Returns the current error message from customValidity or, if not present, the combobox config
      * @returns {string} - The error message or null
      */

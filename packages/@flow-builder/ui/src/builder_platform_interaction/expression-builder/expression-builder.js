@@ -111,7 +111,7 @@ export default class ExpressionBuilder extends Element {
 
         if (this.lhsIsFieldOnSobjectVariable()) {
             getFieldsForEntity(this.state.normalizedLHS.item.parent.subText, (fields) => {
-                this._fullLHSMenuData = this.state.lhsMenuData = filterFieldsForChosenElement(this.state.normalizedLHS.item.parent, getLHSTypes(elementType, rules), fields, true, true);
+                this._fullLHSMenuData = this.state.lhsMenuData = filterFieldsForChosenElement(this.state.normalizedLHS.item.parent, this.lhsTypes, fields, true, true);
             });
         }
 
@@ -196,6 +196,13 @@ export default class ExpressionBuilder extends Element {
         return this.state.expression[OPERATOR] ? this.state.expression[OPERATOR].value : null;
     }
 
+    get lhsTypes() {
+        if (!this._lhsTypes) {
+            this._lhsTypes = getLHSTypes(elementType, rules);
+        }
+        return this._lhsTypes;
+    }
+
     /* ***************** */
     /* Private Variables */
     /* ***************** */
@@ -209,6 +216,8 @@ export default class ExpressionBuilder extends Element {
     _fetchedLHSInfo = false;
 
     _fetchedRHSInfo = false;
+
+    _lhsTypes = null;
 
     firePropertyChangedEvent(newExpression) {
         const propertyChangedEvent = new RowContentsChangedEvent(newExpression);
@@ -301,19 +310,13 @@ export default class ExpressionBuilder extends Element {
     }
 
     updateRHSWithElement(rhsItem, element, errorMessage) {
-        let error = errorMessage;
-        // the item references an element, so we need to check if the element is allowed
-        // Checking if the element is allowed covers the edge case where an sobject is in RHS but an RHS field was needed (user did not end up selecting field)
-        if (!error && !rhsItem.parent && !isElementAllowed(this.state.rhsTypes, elementToParam(element))) {
-            error = genericErrorMessage;
-        }
         const dataType = getResourceFerovDataType(rhsItem.value);
         const rhsAndRHSDT = {
-            [RHS]: {value: rhsItem.displayText, error},
+            [RHS]: {value: rhsItem.displayText, error: errorMessage},
             [RHSDT]: {value: dataType, error: null},
             [RHSG]: {value: rhsItem.value, error: null},
         };
-        this.setRHSAndFireRowContentsChanged(rhsAndRHSDT, error);
+        this.setRHSAndFireRowContentsChanged(rhsAndRHSDT, errorMessage);
     }
 
     updateRHSWithPicklistValue(rhsItem, errorMessage) {
@@ -410,10 +413,10 @@ export default class ExpressionBuilder extends Element {
         const selectedItem = event.detail.item;
         if (selectedItem) {
             getFieldsForEntity((selectedItem.subText instanceof Array) ? selectedItem.subTextNoHighlight : selectedItem.subText, (fields) => {
-                this._fullLHSMenuData = this.state.lhsMenuData = filterFieldsForChosenElement(selectedItem, getLHSTypes(elementType, rules), fields, true, true);
+                this._fullLHSMenuData = this.state.lhsMenuData = filterFieldsForChosenElement(selectedItem, this.lhsTypes, fields, true, true);
             });
         } else {
-            this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData({elementType, shouldBeWritable: true}, getLHSTypes(elementType, rules), true);
+            this._fullLHSMenuData = this.state.lhsMenuData = getElementsForMenuData({elementType, shouldBeWritable: true}, this.lhsTypes, true);
         }
     }
 
@@ -432,10 +435,10 @@ export default class ExpressionBuilder extends Element {
         let menuData;
         switch (elementType) {
             case ELEMENT_TYPE.RECORD_LOOKUP:
-                menuData = filterFieldsForChosenElement({value: config.objectType}, getLHSTypes(elementType, rules), config.lhsFields, false, true);
+                menuData = filterFieldsForChosenElement({value: config.objectType}, this.lhsTypes, config.lhsFields, false, true);
                 break;
             default:
-                menuData = getElementsForMenuData({elementType, shouldBeWritable: true}, getLHSTypes(elementType, rules), true);
+                menuData = getElementsForMenuData({elementType, shouldBeWritable: true}, this.lhsTypes, true);
         }
         this._fullLHSMenuData = this.state.lhsMenuData = menuData;
     }

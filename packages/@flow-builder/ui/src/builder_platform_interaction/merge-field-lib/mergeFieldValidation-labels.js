@@ -4,6 +4,7 @@ import unknownResource from "@salesforce/label/FlowBuilderMergeFieldValidation.u
 import resourceCannotBeUsedAsMergeField from "@salesforce/label/FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField";
 import unknownRecordField from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownRecordField';
 import globalConstantsNotAllowed from '@salesforce/label/FlowBuilderMergeFieldValidation.globalConstantsNotAllowed';
+import invalidDataType from '@salesforce/label/FlowBuilderMergeFieldValidation.invalidDataType';
 
 export const LABELS = {
     notAValidMergeField,
@@ -11,5 +12,6 @@ export const LABELS = {
     unknownResource,
     resourceCannotBeUsedAsMergeField,
     unknownRecordField,
-    globalConstantsNotAllowed
+    globalConstantsNotAllowed,
+    invalidDataType,
 };

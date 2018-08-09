@@ -3,18 +3,12 @@ import {
     getElementsForMenuData,
     filterFieldsForChosenElement,
     normalizeRHS,
-    isElementAllowed,
-    getResourceByUniqueIdentifier,
 } from 'builder_platform_interaction-expression-utils';
 import {
     getRulesForContext,
     getRHSTypes,
-    elementToParam,
     RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
-import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import { isObject } from 'builder_platform_interaction-common-utils';
-import { ComboboxStateChangedEvent } from 'builder_platform_interaction-events';
 
 const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker'
@@ -30,6 +24,13 @@ export default class FerovResourcePicker extends Element {
      */
     @track
     initialValue;
+
+    /**
+     * The allowed param types based on the rule service
+     * @type {Object}
+     */
+    @track
+    paramTypes = null;
 
     @api get value() {
         const picker = this.template.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
@@ -149,21 +150,9 @@ export default class FerovResourcePicker extends Element {
 
     _elementConfig;
 
-    /**
-     * The allowed param types based on the rule service
-     * @type {Object}
-     */
-    _paramTypes;
-
+    // Note: This method is retained for follow up refactor
     handleComboboxChanged(event) {
-        event.stopPropagation();
-        const item = event.detail.item;
-        const errorMessage = event.detail.error;
-
-        const validationError = this.validateElement(item, errorMessage) || event.detail.error;
-        const comboChange = new ComboboxStateChangedEvent(event.detail.item, event.detail.displayText, validationError);
-
-        this.dispatchEvent(comboChange);
+        event.toString();
     }
 
     handleFetchMenuData(event) {
@@ -198,7 +187,7 @@ export default class FerovResourcePicker extends Element {
         } else {
             this.populateFerovMenuData();
         }
-    }
+    };
 
     /**
      * Populate menu data with fields from the given record
@@ -211,13 +200,13 @@ export default class FerovResourcePicker extends Element {
 
         this.populateRulesAndParamTypes();
         if (entityFields) {
-            this._menuData = filterFieldsForChosenElement(item, this._paramTypes, entityFields, showAsFieldReference, showSubText);
+            this._menuData = filterFieldsForChosenElement(item, this.paramTypes, entityFields, showAsFieldReference, showSubText);
             this.setFullMenuData(this._menuData);
         } else {
             // when handling fetch menu data (user selects new sobject) we will not have the fields yet
             const entityName = item.objectType;
             getFieldsForEntity(entityName, (fields) => {
-                this._menuData = filterFieldsForChosenElement(item, this._paramTypes, fields, showAsFieldReference, showSubText);
+                this._menuData = filterFieldsForChosenElement(item, this.paramTypes, fields, showAsFieldReference, showSubText);
                 this.setFullMenuData(this._menuData);
             });
         }
@@ -232,7 +221,7 @@ export default class FerovResourcePicker extends Element {
             if (!this._elementConfig) {
                 this.populateRulesAndParamTypes();
                 this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType },
-                    this._paramTypes, this.showNewResource, this.allowSobjectForFields, this.disableFieldDrilldown);
+                    this.paramTypes, this.showNewResource, this.allowSobjectForFields, this.disableFieldDrilldown);
             } else {
                 this._menuData = getElementsForMenuData(this._elementConfig, null, this.showNewResource, this.allowSobjectForFields, this.disableFieldDrilldown);
             }
@@ -251,18 +240,8 @@ export default class FerovResourcePicker extends Element {
         return item && item.parent;
     }
 
-    validateElement(item, errorMessage) {
-        let error = null;
-        const element = isObject(item) && getResourceByUniqueIdentifier(item.value);
-        // validate for case where user left an element merge field {!myAccontVar} and check that it is valid based on allowed param types
-        if (element && !errorMessage && !this.isSobjectField(item) && !isElementAllowed(this._paramTypes, elementToParam(element))) {
-            error = genericErrorMessage;
-        }
-        return error;
-    }
-
     populateRulesAndParamTypes() {
         this._rules = getRulesForContext({ elementType: this.propertyEditorElementType });
-        this._paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
+        this.paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
     }
 }

@@ -1,13 +1,11 @@
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
+import { datetimeParamTypes } from 'mock-rule-service';
 
 jest.mock('builder_platform_interaction-sobject-lib', () => {
-    const fields = {
-        'Account' : {
-            Name : {}
-        }
-    };
     return {
-        getFieldsForEntity: (entityName, callback) => callback(fields[entityName])
+        getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
+            callback(require.requireActual('mock-server-entity-data').mockAccountFields);
+        }),
     };
 });
 
@@ -16,10 +14,10 @@ describe('Merge field validation', () => {
         validateMergeField('{!strVar1').then(validationErrors => {
             expect(validationErrors).toEqual([
                 {
-                    "endIndex": 8,
-                    "errorType": "notAValidMergeField",
-                    "message": "FlowBuilderMergeFieldValidation.notAValidMergeField",
-                    "startIndex": 0
+                    'endIndex': 8,
+                    'errorType': 'notAValidMergeField',
+                    'message': 'FlowBuilderMergeFieldValidation.notAValidMergeField',
+                    'startIndex': 0
                 }]);
             done();
         });
@@ -35,10 +33,10 @@ describe('Merge field validation', () => {
             validateMergeField('{!not_existing_variable}').then(validationErrors => {
                 expect(validationErrors).toEqual([
                     {
-                        "endIndex": 22,
-                        "errorType": "unknownMergeField",
-                        "message": "FlowBuilderMergeFieldValidation.unknownResource",
-                        "startIndex": 2
+                        'endIndex': 22,
+                        'errorType': 'unknownMergeField',
+                        'message': 'FlowBuilderMergeFieldValidation.unknownResource',
+                        'startIndex': 2
                     }]);
                 done();
             });
@@ -59,10 +57,10 @@ describe('Merge field validation', () => {
             validateMergeField('{!accVar1.Unknown}').then(validationErrors => {
                 expect(validationErrors).toEqual([
                     {
-                        "endIndex": 16,
-                        "errorType": "unknownMergeField",
-                        "message": "FlowBuilderMergeFieldValidation.unknownRecordField",
-                        "startIndex": 2
+                        'endIndex': 16,
+                        'errorType': 'unknownMergeField',
+                        'message': 'FlowBuilderMergeFieldValidation.unknownRecordField',
+                        'startIndex': 2
                     }]);
                 done();
             });
@@ -71,10 +69,46 @@ describe('Merge field validation', () => {
             validateMergeField('{!unknownVariable.Unknown}').then(validationErrors => {
                 expect(validationErrors).toEqual([
                     {
-                        "endIndex": 24,
-                        "errorType": "unknownMergeField",
-                        "message": "FlowBuilderMergeFieldValidation.unknownResource",
-                        "startIndex": 2
+                        'endIndex': 24,
+                        'errorType': 'unknownMergeField',
+                        'message': 'FlowBuilderMergeFieldValidation.unknownResource',
+                        'startIndex': 2
+                    }]);
+                done();
+            });
+        });
+        it('Returns no validation error for datetime param types and date var', (done) => {
+            validateMergeField('{!dateVar1}', { allowGlobalConstants: true, allowedParamTypes: datetimeParamTypes }).then(validationErrors => {
+                expect(validationErrors).toEqual([]);
+                done();
+            });
+        });
+        it('Returns validation error for datetime param types and number var', (done) => {
+            validateMergeField('{!numVar1}', { allowGlobalConstants: true, allowedParamTypes: datetimeParamTypes }).then(validationErrors => {
+                expect(validationErrors).toEqual([
+                    {
+                        'endIndex': 8,
+                        'errorType': 'wrongDataType',
+                        'message': 'FlowBuilderMergeFieldValidation.invalidDataType',
+                        'startIndex': 2
+                    }]);
+                done();
+            });
+        });
+        it('Returns no validation error for datetime param types and sobject date field', (done) => {
+            validateMergeField('{!accVar1.LastModifiedDate}', { allowGlobalConstants: true, allowedParamTypes: datetimeParamTypes }).then(validationErrors => {
+                expect(validationErrors).toEqual([]);
+                done();
+            });
+        });
+        it('Returns validation error for datetime param types and sobject string field', (done) => {
+            validateMergeField('{!accVar1.Name}', { allowGlobalConstants: true, allowedParamTypes: datetimeParamTypes }).then(validationErrors => {
+                expect(validationErrors).toEqual([
+                    {
+                        'endIndex': 13,
+                        'errorType': 'wrongDataType',
+                        'message': 'FlowBuilderMergeFieldValidation.invalidDataType',
+                        'startIndex': 2
                     }]);
                 done();
             });
@@ -91,10 +125,10 @@ describe('Merge field validation', () => {
             validateMergeField('{!$GlobalConstant.A}').then(validationErrors => {
                 expect(validationErrors).toEqual([
                     {
-                        "endIndex": 18,
-                        "errorType": "invalidGlobalConstant",
-                        "message": "FlowBuilderMergeFieldValidation.invalidGlobalConstant",
-                        "startIndex": 2
+                        'endIndex': 18,
+                        'errorType': 'invalidGlobalConstant',
+                        'message': 'FlowBuilderMergeFieldValidation.invalidGlobalConstant',
+                        'startIndex': 2
                     }]);
                 done();
             });
@@ -103,10 +137,10 @@ describe('Merge field validation', () => {
             validateMergeField('{!$GlobalConstant.EmptyString}', { allowGlobalConstants : false }).then(validationErrors => {
                 expect(validationErrors).toEqual([
                     {
-                        "endIndex": 28,
-                        "errorType": "notAValidMergeField",
-                        "message": "FlowBuilderMergeFieldValidation.globalConstantsNotAllowed",
-                        "startIndex": 2
+                        'endIndex': 28,
+                        'errorType': 'notAValidMergeField',
+                        'message': 'FlowBuilderMergeFieldValidation.globalConstantsNotAllowed',
+                        'startIndex': 2
                     }]);
                 done();
             });
@@ -123,10 +157,10 @@ describe('Merge field validation', () => {
             validateMergeField('{!assignment1}').then(validationErrors => {
                 expect(validationErrors).toEqual([
                     {
-                        "endIndex": 12,
-                        "errorType": "wrongDataType",
-                        "message": "FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField",
-                        "startIndex": 2
+                        'endIndex': 12,
+                        'errorType': 'wrongDataType',
+                        'message': 'FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField',
+                        'startIndex': 2
                     }]);
                 done();
             });
@@ -135,10 +169,10 @@ describe('Merge field validation', () => {
             validateMergeField('{!actionCall1.property}').then(validationErrors => {
                 expect(validationErrors).toEqual([
                     {
-                        "endIndex": 21,
-                        "errorType": "notAValidMergeField",
-                        "message": "FlowBuilderMergeFieldValidation.notAValidMergeField",
-                        "startIndex": 2
+                        'endIndex': 21,
+                        'errorType': 'notAValidMergeField',
+                        'message': 'FlowBuilderMergeFieldValidation.notAValidMergeField',
+                        'startIndex': 2
                     }]);
                 done();
             });

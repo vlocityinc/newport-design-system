@@ -562,7 +562,7 @@ describe('Combobox Tests', () => {
     describe('Validation Tests', () => {
         const validationTestData = {
             String : [
-                { value: '{!MyVar1}', isLiteralsAllowed: false, error: null },
+                { value: '{!MyVar1}', isLiteralsAllowed: false, allowedParamTypes: {}, error: null },
                 { value: '{!^textVar}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{! textVar}', error: null },
                 { value: '!@#$test', error: null },
@@ -581,6 +581,9 @@ describe('Combobox Tests', () => {
                 { value: '876.87', error: null },
                 { value: '.23', error: null },
                 { value: '{!123}', error: VALIDATION_ERROR_MESSAGE.NUMBER },
+                { value: '{!MyVar1}.{!MyVar1}. test', error: VALIDATION_ERROR_MESSAGE.NUMBER },
+                { value: '12.13.45', error: VALIDATION_ERROR_MESSAGE.NUMBER },
+                { value: 'a.b.c', error: VALIDATION_ERROR_MESSAGE.NUMBER },
             ],
             Currency : [
                 { value: '0.8', error: null },
@@ -701,6 +704,23 @@ describe('Combobox Tests', () => {
             return Promise.resolve().then(() => {
                 expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
                 expect(combobox.errorMessage).toEqual(LABELS.genericErrorMessage);
+            });
+        });
+
+        it('for merge fields and allowed param types populated.', () => {
+            const comboboxValue = '{!MyVar1}';
+            isTextWithMergeFields.mockReturnValueOnce(false);
+            validateMergeField.mockReset();
+            validateMergeField.mockReturnValueOnce(Promise.resolve([]));
+            combobox.type = FLOW_DATA_TYPE.STRING.value;
+            combobox.allowedParamTypes = {};
+            combobox.value = comboboxValue;
+            groupedCombobox.dispatchEvent(blurEvent);
+            return Promise.resolve().then(() => {
+                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
+                expect(comboboxStateChangedHandler.mock.calls[0][0].detail.displayText).toEqual(comboboxValue);
+                expect(validateMergeField).toHaveBeenCalledTimes(1);
+                expect(combobox.errorMessage).toBeNull();
             });
         });
     });
