@@ -137,7 +137,7 @@ export default class ActionCallEditor extends Element {
                 outputParams = parameters.filter(parameter => parameter.IsOutput === true);
                 break;
             case ELEMENT_TYPE.SUBFLOW:
-                // TODO
+                // TODO: filter for subFlow
                 break;
             default:
                 inputParams = parameters.filter(parameter => parameter.isInput === true);
