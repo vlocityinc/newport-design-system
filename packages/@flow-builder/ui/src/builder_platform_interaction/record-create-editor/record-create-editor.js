@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { recordCreateReducer } from './record-create-reducer';
 import { LABELS } from './record-create-editor-labels';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
@@ -20,12 +20,12 @@ export default class RecordCreateEditor extends Element {
     recordCreateElement = {};
 
     /**
-     * public api function to return the unwrapped node
+     * public api function to return the node
      *
-     * @returns {object} node - unwrapped node
+     * @returns {object} node - node
      */
     @api getNode() {
-        return unwrap(this.node);
+        return this.node;
     }
 
     @api

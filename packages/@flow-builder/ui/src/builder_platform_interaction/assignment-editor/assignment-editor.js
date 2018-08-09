@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { assignmentReducer } from './assignment-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
@@ -37,11 +37,11 @@ export default class AssignmentEditor extends Element {
     }
 
     /**
-     * public api function to return the unwrapped node
-     * @returns {object} node - unwrapped node
+     * public api function to return the node
+     * @returns {object} node - node
      */
     @api getNode() {
-        return unwrap(this.assignmentElement);
+        return this.assignmentElement;
     }
 
     /**

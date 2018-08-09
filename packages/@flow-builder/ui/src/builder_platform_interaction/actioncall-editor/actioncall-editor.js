@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { actionCallReducer } from './actioncall-reducer';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
@@ -40,11 +40,11 @@ export default class ActionCallEditor extends Element {
     }
 
     /**
-     * public api function to return the unwrapped node
-     * @returns {object} node - unwrapped node
+     * public api function to return the node
+     * @returns {object} node - node
      */
     @api getNode() {
-        return unwrap(this.node);
+        return this.node;
     }
 
     /**

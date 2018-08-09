@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { LABELS } from './flow-properties-editor-labels';
@@ -20,16 +20,16 @@ export default class FlowPropertiesEditor extends Element {
 
     @api
     set node(newValue) {
-        const data = unwrap(newValue);
+        const data = newValue;
         this.flowProperties = data;
     }
 
     /**
-     * public api function to return the unwrapped node
-     * @returns {object} node - unwrapped node
+     * public api function to return the node
+     * @returns {object} node - node
      */
     @api getNode() {
-        return unwrap(this.flowProperties);
+        return this.flowProperties;
     }
 
     /**

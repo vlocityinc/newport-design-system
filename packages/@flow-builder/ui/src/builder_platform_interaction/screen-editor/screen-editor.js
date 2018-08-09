@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { isScreen, getAllScreenFieldTypes, getExtensionFieldTypes, processScreenExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { screenReducer } from './screen-reducer';
@@ -24,7 +24,7 @@ export default class ScreenEditor extends Element {
         this.screenFieldTypes = getAllScreenFieldTypes();
         getExtensionFieldTypes().then(data => {
             this.extensionTypes = data;
-            this.node = processScreenExtensionTypes(unwrap(this.screen));
+            this.node = processScreenExtensionTypes(this.screen);
         }).catch(error => {
             throw error;
         });
@@ -47,11 +47,11 @@ export default class ScreenEditor extends Element {
     }
 
     /**
-     * public api function to return the unwrapped node
-     * @returns {object} node - unwrapped node
+     * public api function to return the node
+     * @returns {object} node - node
      */
     @api getNode() {
-        return unwrap(this.screen);
+        return this.screen;
     }
 
     /**
@@ -78,7 +78,7 @@ export default class ScreenEditor extends Element {
      * @param {string} property - The property to select in the canvas in case the selected node is the screen (this would be either the header or the footer)
      */
     setSelectedNode(value, property) {
-        this.selectedNode = unwrap(value); // Unwrapping to get rid of the double proxy warning message (Property "selectedNode" is set to a non-trackable object...)
+        this.selectedNode = value;
         if (value === this.screen) {
             this.selectedItemGuid = property;
         } else if (value) {

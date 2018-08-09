@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { recordLookupReducer } from './record-lookup-reducer';
 import { ENTITY_TYPE, getFieldsForEntity, getAllEntities } from 'builder_platform_interaction-sobject-lib';
 import { LABELS } from './record-lookup-editor-labels';
@@ -33,12 +33,12 @@ export default class RecordLookupEditor extends Element {
     crudFilterType = ENTITY_TYPE.QUERYABLE
 
     /**
-     * public api function to return the unwrapped node
+     * public api function to return the node
      *
-     * @returns {object} node - unwrapped node
+     * @returns {object} node - node
      */
     @api getNode() {
-        return unwrap(this.recordLookupElement);
+        return this.recordLookupElement;
     }
 
     @api

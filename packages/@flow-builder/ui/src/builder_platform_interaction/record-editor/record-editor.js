@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { recordReducer } from './record-reducer';
 import { ENTITY_TYPE } from 'builder_platform_interaction-sobject-lib';
 import { RESOURCE_PICKER_MODE, getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
@@ -20,12 +20,12 @@ export default class RecordEditor extends Element {
     @track recordNode = {};
 
     /**
-     * public api function to return the unwrapped node
+     * public api function to return the node
      *
-     * @returns {object} node - unwrapped node
+     * @returns {object} node - node
      */
     @api getNode() {
-        return unwrap(this.node);
+        return this.node;
     }
 
     @api

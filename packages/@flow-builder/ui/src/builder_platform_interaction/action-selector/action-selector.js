@@ -322,8 +322,7 @@ export default class ActionSelector extends Element {
 
     handleActionChanged(event) {
         event.stopPropagation();
-        // Will throw the 'piercing membrane' error without unwrap
-        this.state.selectedActionValue = unwrap(event.detail.item);
+        this.state.selectedActionValue = event.detail.item;
         const selectedAction = this.selectedAction;
         if (selectedAction) {
             const valueChangedEvent = new ValueChangedEvent(selectedAction);

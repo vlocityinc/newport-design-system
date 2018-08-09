@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { loopReducer } from './loop-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
@@ -52,11 +52,11 @@ export default class LoopEditor extends Element {
     }
 
     /**
-     * public api function to return the unwrapped node
-     * @returns {object} node - unwrapped node
+     * public api function to return the node
+     * @returns {object} node - node
      */
     @api getNode() {
-        return unwrap(this.loopElement);
+        return this.loopElement;
     }
 
     /**

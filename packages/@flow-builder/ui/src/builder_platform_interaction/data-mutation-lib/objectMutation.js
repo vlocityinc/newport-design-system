@@ -1,5 +1,4 @@
 import { replaceItem, shallowCopyArray } from './arrayMutation';
-import { unwrap } from 'engine';
 /** Used to match backslashes in property paths. Taken from lodash */
 const reEscapeChar = /\\(\\)?/g;
 /** Used to match property names within property paths. Taken from lodash */
@@ -56,7 +55,7 @@ const setValue = (obj, path, value) => {
  * @return {Object} new object with updated properties
  */
 export function updateProperties(obj = {}, props = {}) {
-    return Object.assign({}, unwrap(obj), unwrap(props));
+    return Object.assign({}, obj, props);
 }
 
 /**

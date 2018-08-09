@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { recordUpdateReducer } from './record-update-reducer';
 import { LABELS } from './record-update-editor-labels';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
@@ -15,12 +15,12 @@ export default class RecordUpdateEditor extends Element {
     recordUpdateElement = {};
 
     /**
-     * public api function to return the unwrapped node
+     * public api function to return the node
      *
-     * @returns {object} node - unwrapped node
+     * @returns {object} node - node
      */
     @api getNode() {
-        return unwrap(this.recordUpdateElement);
+        return this.recordUpdateElement;
     }
 
     @api

@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { formulaReducer } from './formula-reducer';
@@ -25,17 +25,17 @@ export default class FormulaEditor extends Element {
 
     @api
     set node(newValue) {
-        this.formulaResource = unwrap(newValue) || {};
+        this.formulaResource = newValue || {};
     }
 
     /**
-     * Public api function to return the unwrapped node
+     * Public api function to return the node
      * Called by the property editor controller on "OK"
-     * @returns {object} node - unwrapped node
+     * @returns {object} node - node
      */
     @api
     getNode() {
-        return unwrap(this.formulaResource);
+        return this.formulaResource;
     }
 
     get dataTypes() {

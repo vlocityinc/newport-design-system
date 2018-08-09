@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { Element, api, track } from 'engine';
 import {
     getElementsForMenuData,
     filterMatches,
@@ -204,8 +204,7 @@ export default class ResourcePicker extends Element {
 
     handleValueChange(event) {
         // if we are in ferov mode we allow items and literals
-        // TODO: W-5013881 remove unwrap when LWC team makes changes to wrapping event payloads in membranes
-        this.state.item = event.detail.item ? unwrap(event.detail.item) : event.detail.displayText;
+        this.state.item = event.detail.item ? event.detail.item : event.detail.displayText;
     }
 
 

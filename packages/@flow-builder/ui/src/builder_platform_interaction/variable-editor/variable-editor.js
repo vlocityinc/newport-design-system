@@ -85,14 +85,13 @@ export default class VariableEditor extends Element {
     isNewMode = false;
 
     /**
-     * Public api function to return the unwrapped node
+     * Public api function to return the node
      * Called by the property editor controller on "OK"
-     * @returns {object} node - unwrapped node
+     * @returns {object} node - node
      */
     @api
     getNode() {
-        // TODO: might have to update when W-4889306 is closed
-        return unwrap(this.variableResource);
+        return this.variableResource;
     }
 
     get apiNameLabel() {
