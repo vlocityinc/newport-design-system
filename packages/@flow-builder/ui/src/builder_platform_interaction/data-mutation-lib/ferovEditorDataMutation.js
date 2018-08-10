@@ -2,7 +2,7 @@ import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction-da
 import { omit, updateProperties } from './objectMutation';
 import { mutateTextWithMergeFields } from './mergeFieldsMutation';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
-import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
+import { addCurlyBraces, isUndefined } from 'builder_platform_interaction-common-utils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
 import { getLocalizationService } from 'lightning-config-provider';
 import { METADATA_DATE_FORMAT, formatDateTime } from 'builder_platform_interaction-date-time-utils';
@@ -136,16 +136,6 @@ function getMetaDataType(ferovObject) {
     return FEROV_DATA_TYPE_VALUES.find((type) => {
         return ferovObject.hasOwnProperty(type);
     });
-}
-
-/**
- * Returns true if the input value is undefined.
- * Note: This will be moved to utils lib once we have one.
- * @param {Object} value input
- * @return {boolean} true if undefined otherwise false.
- */
-function isUndefined(value) {
-    return value === undefined;
 }
 
 /**

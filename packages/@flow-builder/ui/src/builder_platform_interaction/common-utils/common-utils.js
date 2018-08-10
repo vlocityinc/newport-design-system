@@ -8,6 +8,15 @@ export const isUndefinedOrNull = (value) => {
 };
 
 /**
+ * Returns true if the input value is undefined.
+ * @param {Object} value input
+ * @return {boolean} true if undefined otherwise false.
+ */
+export const isUndefined = (value) => {
+    return value === undefined;
+};
+
+/**
  * Determines if item is an object
  * @param {*} item The item in question of being an object
  * @returns {Boolean} Whether item is an object or not

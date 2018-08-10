@@ -3,6 +3,7 @@
         <builder_platform_interaction-combobox class="lhs slds-col slds-grow"
                                                label={lhsLabel}
                                                value={lhsValue}
+                                               menu-data={state.lhsFilteredMenuData}
                                                placeholder={lhsPlaceholder}
                                                error-message={lhsError}
                                                literals-allowed=false
@@ -12,12 +13,14 @@
                             label={operatorLabel}
                             value={operatorValue}
                             placeholder={operatorPlaceholder}
+                            options={operatorMenuData}
                             dropdown-alignment="auto"
         >
         </lightning-combobox>
         <builder_platform_interaction-combobox class="rhs slds-col slds-grow"
                                                label={rhsLabel}
                                                value={rhsValue}
+                                               menu-data={state.rhsFilteredMenuData}
                                                placeholder={rhsPlaceholder}
                                                literals-allowed={rhsLiteralsAllowed}
                                                error-message={rhsError}

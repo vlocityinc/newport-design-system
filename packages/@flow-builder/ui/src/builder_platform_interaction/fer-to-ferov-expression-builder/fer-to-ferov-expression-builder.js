@@ -76,6 +76,7 @@ export default class FerToFerovExpressionBuilder extends Element {
 
         if (lhs.error) {
             this.state.lhsValue = lhs.value;
+            this.clearLhsAuxillaryAttributes();
         } else if (lhs.value) {
             const identifier = lhs.value;
             const complexGuid = sanitizeGuid(identifier);
@@ -91,11 +92,11 @@ export default class FerToFerovExpressionBuilder extends Element {
                     field.isCollection = false;
                     this.state.lhsParam = elementToParam(field);
                     this.state.lhsValue = mutateFieldToComboboxShape(field, lhsItem, true, true);
-                    this.state.lhsActivePicklistValues = field.activePicklistValues;
+                    this.state.lhsActivePicklistValues = field.activePicklistValues || false;
                     this.state.lhsFields = fields;
                 });
             } else {
-                this.state.lhsIsField = false;
+                this.clearLhsAuxillaryAttributes();
                 this.state.lhsValue = lhsItem;
                 this.state.lhsParam = elementToParam(fer);
             }
@@ -107,8 +108,9 @@ export default class FerToFerovExpressionBuilder extends Element {
 
         if (rhs.error || !guid) {
             this.state.rhsValue = rhs.value;
-            this.state.rhsGuid = this.state.rhsIsField = this.state.rhsFields = null;
-        } else if (guid) {
+            this.clearRhsAuxillaryAttributes();
+            this.state.rhsGuid = null;
+        } else {
             this.state.rhsGuid = guid;
             const complexGuid = sanitizeGuid(guid);
             const fer = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
@@ -124,11 +126,19 @@ export default class FerToFerovExpressionBuilder extends Element {
                     this.state.rhsFields = fields;
                 });
             } else {
-                this.state.rhsIsField = false;
-                this.state.rhsValue = rhsItem;
-                this.state.rhsFields = null;
+                this.clearRhsAuxillaryAttributes();
             }
         }
+    }
+
+    clearLhsAuxillaryAttributes() {
+        this.state.lhsParam = this.state.lhsIsField = false;
+        this.state.lhsActivePicklistValues = this.state.lhsFields = null;
+    }
+
+    clearRhsAuxillaryAttributes() {
+        this.state.rhsIsField = false;
+        this.state.rhsFields = null;
     }
 
     isIncompleteExpression(exp) {
