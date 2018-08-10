@@ -1,5 +1,5 @@
-import nonCanvasElementsText from '@label/FlowBuilderLeftPanel.nonCanvasElementsText';
-import canvasElementsText from '@label/FlowBuilderLeftPanel.canvasElementsText';
+import nonCanvasElementsText from '@salesforce/label/FlowBuilderLeftPanel.nonCanvasElementsText';
+import canvasElementsText from '@salesforce/label/FlowBuilderLeftPanel.canvasElementsText';
 
 export const LABELS = {
     nonCanvasElementsText,

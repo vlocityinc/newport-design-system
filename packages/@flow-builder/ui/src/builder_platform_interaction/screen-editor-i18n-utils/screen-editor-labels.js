@@ -14,11 +14,11 @@ import paletteSearchPlaceholder from "@salesforce/label/FlowBuilderScreenEditor.
 import fieldCategoryInput from "@salesforce/label/FlowBuilderScreenEditor.fieldCategoryInput";
 import fieldCategoryDisplay from "@salesforce/label/FlowBuilderScreenEditor.fieldCategoryDisplay";
 import fieldCategoryCustom from '@salesforce/label/FlowBuilderScreenEditor.fieldCategoryCustom';
-import fieldDataType from '@label/FlowBuilderScreenEditor.dataType';
-import fieldDefaultValue from '@label/FlowBuilderScreenEditor.defaultValue';
-import fieldLabel from '@label/FlowBuilderScreenEditor.fieldLabel';
+import fieldDataType from '@salesforce/label/FlowBuilderScreenEditor.dataType';
+import fieldDefaultValue from '@salesforce/label/FlowBuilderScreenEditor.defaultValue';
+import fieldLabel from '@salesforce/label/FlowBuilderScreenEditor.fieldLabel';
 import fieldName from "@salesforce/label/FlowBuilderScreenEditor.fieldName";
-import fieldScale from '@label/FlowBuilderScreenEditor.scale';
+import fieldScale from '@salesforce/label/FlowBuilderScreenEditor.scale';
 import fieldTypeLabelTextField from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelTextField";
 import fieldTypeLabelLargeTextArea from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelLargeTextArea";
 import fieldTypeLabelNumber from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelNumber";

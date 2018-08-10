@@ -1,13 +1,13 @@
-import dataTypeHelpText from '@label/FlowBuilderVariableEditor.dataTypeHelpText';
-import collectionHelpText from '@label/FlowBuilderVariableEditor.collectionHelpText';
-import defaultValuePickerLabel from '@label/FlowBuilderVariableEditor.defaultValuePickerLabel';
-import sObjectPickerLabel from '@label/FlowBuilderVariableEditor.sObjectPickerLabel';
-import sObjectPickerPlaceholder from '@label/FlowBuilderVariableEditor.sObjectPickerPlaceholder';
-import sObjectCannotBeBlank from '@label/FlowBuilderValidation.cannotBeBlank';
-import externalAccessSectionLabel from '@label/FlowBuilderVariableEditor.externalAccessSectionLabel';
-import externalAccessHelpText from '@label/FlowBuilderVariableEditor.externalAccessHelpText';
-import externalAccessInput from '@label/FlowBuilderVariableEditor.externalAccessInput';
-import externalAccessOutput from '@label/FlowBuilderVariableEditor.externalAccessOutput';
+import dataTypeHelpText from '@salesforce/label/FlowBuilderVariableEditor.dataTypeHelpText';
+import collectionHelpText from '@salesforce/label/FlowBuilderVariableEditor.collectionHelpText';
+import defaultValuePickerLabel from '@salesforce/label/FlowBuilderVariableEditor.defaultValuePickerLabel';
+import sObjectPickerLabel from '@salesforce/label/FlowBuilderVariableEditor.sObjectPickerLabel';
+import sObjectPickerPlaceholder from '@salesforce/label/FlowBuilderVariableEditor.sObjectPickerPlaceholder';
+import sObjectCannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
+import externalAccessSectionLabel from '@salesforce/label/FlowBuilderVariableEditor.externalAccessSectionLabel';
+import externalAccessHelpText from '@salesforce/label/FlowBuilderVariableEditor.externalAccessHelpText';
+import externalAccessInput from '@salesforce/label/FlowBuilderVariableEditor.externalAccessInput';
+import externalAccessOutput from '@salesforce/label/FlowBuilderVariableEditor.externalAccessOutput';
 
 export const LABELS = {
     dataTypeHelpText,

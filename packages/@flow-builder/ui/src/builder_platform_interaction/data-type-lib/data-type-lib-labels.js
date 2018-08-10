@@ -1,12 +1,12 @@
-import textDataTypeLabel from '@label/FlowBuilderDataTypes.textDataTypeLabel';
-import numberDataTypeLabel from '@label/FlowBuilderDataTypes.numberDataTypeLabel';
-import currencyDataTypeLabel from '@label/FlowBuilderDataTypes.currencyDataTypeLabel';
-import booleanDataTypeLabel from '@label/FlowBuilderDataTypes.booleanDataTypeLabel';
-import dateDataTypeLabel from '@label/FlowBuilderDataTypes.dateDataTypeLabel';
-import dateTimeDataTypeLabel from '@label/FlowBuilderDataTypes.dateTimeDataTypeLabel';
-import sObjectDataTypeLabel from '@label/FlowBuilderDataTypes.sObjectDataTypeLabel';
-import picklistDataTypeLabel from '@label/FlowBuilderDataTypes.picklistDataTypeLabel';
-import multiPicklistDataTypeLabel from '@label/FlowBuilderDataTypes.multiPicklistDataTypeLabel';
+import textDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.textDataTypeLabel';
+import numberDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.numberDataTypeLabel';
+import currencyDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.currencyDataTypeLabel';
+import booleanDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.booleanDataTypeLabel';
+import dateDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.dateDataTypeLabel';
+import dateTimeDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.dateTimeDataTypeLabel';
+import sObjectDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.sObjectDataTypeLabel';
+import picklistDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.picklistDataTypeLabel';
+import multiPicklistDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.multiPicklistDataTypeLabel';
 
 export const LABELS = {
     textDataTypeLabel,

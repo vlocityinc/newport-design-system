@@ -16,7 +16,7 @@ import {
     mutateEntitiesToComboboxShape,
     mutatePicklistValue,
 } from './menuDataGenerator';
-import newResourceLabel from '@label/FlowBuilderExpressionUtils.newResourceLabel';
+import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import { GLOBAL_CONSTANT_OBJECTS } from 'builder_platform_interaction-system-lib';
 
 // TODO: deal with loading non-flow data for comboboxes W-4664833

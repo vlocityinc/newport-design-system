@@ -8,7 +8,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
 import { removeCurlyBraces } from 'builder_platform_interaction-common-utils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
-import unknownMergeField from '@label/FlowBuilderMergeFieldValidation.unknownMergeField';
+import unknownMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownMergeField';
 import { getValidDateTime, formatDateTime } from 'builder_platform_interaction-date-time-utils';
 import { LABELS } from '../combobox-labels';
 

@@ -1,10 +1,10 @@
-import globalConstantEmptyStringLabel from '@label/FlowBuilderGlobalConstants.globalConstantEmptyString';
-import globalConstantTrueLabel from '@label/FlowBuilderGlobalConstants.globalConstantTrue';
-import globalConstantFalseLabel from '@label/FlowBuilderGlobalConstants.globalConstantFalse';
-import globalConstantCategory from '@label/FlowBuilderGlobalConstants.globalConstantCategory';
-import emptyStringMetaLine from '@label/FlowBuilderGlobalConstants.emptyStringMetaLine';
-import trueMetaLine from '@label/FlowBuilderGlobalConstants.trueMetaLine';
-import falseMetaLine from '@label/FlowBuilderGlobalConstants.falseMetaLine';
+import globalConstantEmptyStringLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantEmptyString';
+import globalConstantTrueLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantTrue';
+import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
+import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
+import emptyStringMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.emptyStringMetaLine';
+import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaLine';
+import falseMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.falseMetaLine';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
 export const GLOBAL_CONSTANT_PREFIX = '$GlobalConstant.';
