@@ -25,6 +25,12 @@ export const mutateScreenField = field => {
         });
     }
 
+    // Convert scale property to string, which is needed for validation purposes.
+    // Saving it as a string allows it be hydrated.
+    if (field.scale != null && typeof field.scale === 'number') {
+        field.scale = field.scale.toString();
+    }
+
     return field;
 };
 
@@ -34,6 +40,11 @@ export const demutateScreenField = field => {
     field.defaultValue = field._defaultValue;
     delete field._defaultValue;
     delete field.isNewMode;
+
+    // Convert scale back to number. MD expects this to be a number, but within FlowBuilder, we want it to be a string.
+    if (field.scale != null && typeof field.scale === 'string') {
+        field.scale = Number(field.scale);
+    }
 
     return field;
 };

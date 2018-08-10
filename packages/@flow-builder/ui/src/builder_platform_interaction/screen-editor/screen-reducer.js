@@ -124,9 +124,6 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 const type = selectedNode.type.name;
                 const fullPropName = property !== 'name' ? 'fields[type.name="' + type + '"].' + property : 'name';
                 error = error === null ? screenValidation.validateProperty(fullPropName, value) : error;
-
-                // If the value is hydrated and we have an error, store the error.
-                // W-5297584: what do we do if we have an error and the value isn't hydrated? Do we lose the error?
                 if (error && hydrated) {
                     newValue.error = error;
                 }

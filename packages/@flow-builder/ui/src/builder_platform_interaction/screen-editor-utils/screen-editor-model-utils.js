@@ -41,7 +41,8 @@ export function createEmptyNodeOfType(type) {
         fieldType: type.fieldType,
         inputParameters: [],
         fieldText: null,
-        outputParameters: []
+        outputParameters: [],
+        scale: "0" // Store as string for validation purposes.
     };
 }
 
