@@ -45,12 +45,14 @@ const additionalRules = {
     ],
 };
 
+export const recordLookupValidation = new Validation(additionalRules);
+
 /**
  * @param {Object} nodeElement the element that need to be validated
  * @return {Object} the override rules
  */
 export const getRules = (nodeElement) => {
-    const overrideRules = Object.assign({}, additionalRules);
+    const overrideRules = Object.assign({}, recordLookupValidation.finalizedRules);
     // validate filters if filter type is ALL
     if (nodeElement.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
         overrideRules.filters = validateFilter();
@@ -65,5 +67,3 @@ export const getRules = (nodeElement) => {
     }
     return overrideRules;
 };
-
-export const recordLookupValidation = new Validation(additionalRules);

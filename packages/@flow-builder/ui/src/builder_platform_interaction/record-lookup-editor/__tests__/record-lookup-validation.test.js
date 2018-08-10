@@ -55,6 +55,26 @@ describe('Record Lookup Validation', () => {
             expect(errors).toHaveLength(0);
         });
     });
+    describe('no label', () => {
+        it('should return an error', () => {
+            recordLookupEditorNode.label.value = '';
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
+            const errors = validate(recordLookupEditor.node);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('label');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+    });
+    describe('no apiName', () => {
+        it('should return an error', () => {
+            recordLookupEditorNode.name.value = '';
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
+            const errors = validate(recordLookupEditor.node);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('name');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+    });
     describe('outputReference is not valid', () => {
         const createRecordLookupEditor = (invalidOutputReference) => {
             recordLookupEditorNode.outputReference.value = invalidOutputReference;
