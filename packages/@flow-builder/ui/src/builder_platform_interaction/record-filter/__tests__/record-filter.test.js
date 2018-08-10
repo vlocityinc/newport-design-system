@@ -98,7 +98,7 @@ describe('record-filter', () => {
         beforeEach(() => {
             element = createComponentUnderTest();
         });
-        it('"All Records (No Criteria)" should be the default selected ', () => {
+        it('"No Conditions" should be the default selected ', () => {
             expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.NONE);
         });
         it('Do not display filter lists', () => {
@@ -151,14 +151,14 @@ describe('record-filter', () => {
         beforeEach(() => {
             element = createComponentUnderTest();
         });
-        it('Display the filter list when selecting "Criteria are Met"', () => {
+        it('Display the filter list when selecting "Conditions are Met"', () => {
             getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
             return Promise.resolve().then(() => {
                 expect(getFilterList(element)).not.toBeNull();
                 expect(getExpressionBuilders(element)).toHaveLength(1);
             });
         });
-        it('Hide the filter list when selecting "All Records ()"', () => {
+        it('Hide the filter list when selecting "No Conditions"', () => {
             mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
             getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
             return Promise.resolve().then(() => {
@@ -174,7 +174,7 @@ describe('record-filter', () => {
             mockDefaultRecordFilter.filterItems = mock3FilterItems;
             element = createComponentUnderTest();
         });
-        it('"Criteria are Met" should be the default selected ', () => {
+        it('"Conditions are Met" should be the default selected ', () => {
             expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);
         });
         it('Filter list should be displayed', () => {

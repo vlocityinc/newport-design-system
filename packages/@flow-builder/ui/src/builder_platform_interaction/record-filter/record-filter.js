@@ -129,18 +129,6 @@ export default class RecordFilter extends Element {
         return format(this.labels.findRecords, this.resourceDisplayText);
     }
 
-    get filterItemsWithPrefixes() {
-        return this.filterItems.map((filter, i) => {
-            return {
-                prefix: this.getPrefix(i),
-                filter
-            };
-        });
-    }
-
-    getPrefix(index) {
-        return index > 0 ? this.labels.conditionAnd : '';
-    }
     /**
      * handle event when changing the filter type in the rule for finding record dropdown
      * @param {Object} event the filter type changed event
