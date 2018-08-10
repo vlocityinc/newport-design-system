@@ -4,22 +4,17 @@
             <lightning-button-icon if:true={showResourceDetailsPanel} variant="container" size="small" icon-name="utility:back" class="back-button slds-panel__back slds-shrink-none" onclick={handleResourceDetailsBackLinkClicked} alternative-text={labels.RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT}></lightning-button-icon>
             <h2 class="slds-text-heading_small slds-truncate" title={getPanelTitle}>{getPanelTitle}</h2>
         </div>
-        <div class="slds-panel__body slds-p-around_none slds-grid">
+        <div class="slds-panel__body slds-p-around_none slds-grid ">
             <div class="flow-resource-list">
-                <builder_platform_interaction-tabset ontabchange={handleTabChange}>
-                    <!-- Tab items go into the unnamed slot. -->
-                    <builder_platform_interaction-tabitem tabid="left-panel-tabitem-elements" label={labels.LEFT_PANEL_ELEMENT_TAB_TEXT} controls="left-panel-tabcontent-elements" activeid={activetabid}></builder_platform_interaction-tabitem>
-                    <builder_platform_interaction-tabitem tabid="left-panel-tabitem-resources" label={labels.LEFT_PANEL_RESOURCE_TAB_TEXT} controls="left-panel-tabcontent-resources" activeid={activetabid}></builder_platform_interaction-tabitem>
-                    <div slot="contents" class="slds-scrollable_y">
-                        <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-elements" labelledby="left-panel-tabitem-elements" activeid={activetabid}>
-                            <builder_platform_interaction-left-panel-elements onpaletteitemclicked={handleElementClicked}></builder_platform_interaction-left-panel-elements>
-                        </builder_platform_interaction-tabcontent>
-                        <builder_platform_interaction-tabcontent contentid="left-panel-tabcontent-resources" labelledby="left-panel-tabitem-resources" activeid={activetabid}>
-                            <lightning-button variant="Neutral" label={labels.LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON} title={labels.LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON} onclick={handleAddNewResourceButtonClick} class="new-resource-button slds-grid slds-p-horizontal_small slds-p-top_small"></lightning-button>
-                            <builder_platform_interaction-left-panel-resources canvas-elements={canvasElements} non-canvas-elements={nonCanvasElements} onpaletteitemclicked={handleResourceClicked} onpaletteitemchevronclicked={handlePaletteItemChevronClicked}></builder_platform_interaction-left-panel-resources>
-                        </builder_platform_interaction-tabcontent>
-                    </div>
-                </builder_platform_interaction-tabset>
+                <lightning-tabset>
+                    <lightning-tab id="left-panel-tabitem-elements" label={labels.LEFT_PANEL_ELEMENT_TAB_TEXT} class="slds-p-around_none">
+                        <builder_platform_interaction-left-panel-elements onpaletteitemclicked={handleElementClicked}></builder_platform_interaction-left-panel-elements>
+                    </lightning-tab>
+                    <lightning-tab id="left-panel-tabitem-resources" label={labels.LEFT_PANEL_RESOURCE_TAB_TEXT} class="slds-p-around_none">
+                        <lightning-button variant="Neutral" label={labels.LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON} title={labels.LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON} onclick={handleAddNewResourceButtonClick} class="new-resource-button slds-grid slds-p-horizontal_small slds-p-top_small"></lightning-button>
+                        <builder_platform_interaction-left-panel-resources canvas-elements={canvasElements} non-canvas-elements={nonCanvasElements} onpaletteitemclicked={handleResourceClicked} onpaletteitemchevronclicked={handlePaletteItemChevronClicked}></builder_platform_interaction-left-panel-resources>
+                    </lightning-tab>
+                </lightning-tabset>
             </div>
             <div class="flow-resource-details">
                 <builder_platform_interaction-resource-details if:true={showResourceDetailsPanel} resource-details={resourceDetails} ondeleteresource={handleDeleteButtonClicked}></builder_platform_interaction-resource-details>

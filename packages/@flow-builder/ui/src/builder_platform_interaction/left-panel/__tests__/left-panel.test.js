@@ -8,9 +8,7 @@ import newResourceButtonText from "@salesforce/label/FlowBuilderLeftPanel.newRes
 import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = () => {
-    const el = createElement('builder_platform_interaction-left-panel', {
-        is: LeftPanel
-    });
+    const el = createElement('builder_platform_interaction-left-panel', { is: LeftPanel });
     document.body.appendChild(el);
     return el;
 };
@@ -21,15 +19,9 @@ const selectors = {
     panelHeaderBackButton: 'lightning-button-icon',
     panelBody: '.slds-panel__body',
     resourceDetailsBody: 'builder_platform_interaction-resource-details',
-    tabSetContentsBody: 'builder_platform_interaction-tabset',
-    tabItems: 'builder_platform_interaction-tabitem',
     footer: '.panel-footer',
     footerButtons: 'lightning-button',
     addnewresource: '.new-resource-button'
-};
-
-const constants = {
-    defaultActiveTabId: 'left-panel-tabitem-elements'
 };
 
 describe('left-panel', () => {
@@ -134,13 +126,6 @@ describe('left-panel', () => {
             });
         });
 
-        it('should set the active id to tab item-elements attributes by default.', () => {
-            const element = createComponentUnderTest();
-            const tabItemsContent = getShadowRoot(element).querySelectorAll(selectors.tabItems);
-            return Promise.resolve().then(() => {
-                expect(tabItemsContent[0].activeid).toEqual(constants.defaultActiveTabId);
-            });
-        });
         describe('resource manager tab', () => {
             describe('New Resource BUTTON', () => {
                 it('Label name should be New Resource ', () => {

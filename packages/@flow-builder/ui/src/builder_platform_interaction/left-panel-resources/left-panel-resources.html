@@ -1,6 +1,6 @@
 <template>
-    <div class="slds-grid slds-grid_vertical">
-        <div class="resource-manager-container slds-col slds-grow">
+    <div class="slds-grid slds-grid_vertical left-panel-resources-scroll">
+        <div class="slds-col slds-grow">
             <h4 if:true={showNonCanvasElementsLabel} class="slds-text-title_caps slds-p-vertical_small slds-p-left_small">{labels.nonCanvasElementsText}</h4>
             <builder_platform_interaction-palette data={nonCanvasElements} items-draggable="false" icon-size="x-small" show-section-item-count="true" details-button="true"></builder_platform_interaction-palette>
             <h4 if:true={showCanvasElementsLabel} class="slds-text-title_caps slds-p-vertical_small slds-p-left_small">{labels.canvasElementsText}</h4>

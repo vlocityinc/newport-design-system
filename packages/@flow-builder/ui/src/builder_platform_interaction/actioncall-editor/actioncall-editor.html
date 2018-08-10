@@ -23,35 +23,28 @@
         </builder_platform_interaction-accordion-section>
     </builder_platform_interaction-accordion>
 
-    <builder_platform_interaction-tabset ontabchange={handleTabChanged}>
-        <!-- Tab items go into the unnamed slot. -->
-        <builder_platform_interaction-tabitem tabid="tabitem-inputs" label={labels.inputTabHeader} controls="tabcontent-inputs" activeid={activetabid}></builder_platform_interaction-tabitem>
-        <builder_platform_interaction-tabitem tabid="tabitem-outputs" label={labels.outputTabHeader} controls="tabcontent-outputs" activeid={activetabid}></builder_platform_interaction-tabitem>
-        
-        <div slot="contents">
-            <builder_platform_interaction-tabcontent contentid="tabcontent-inputs" labelledby="tabitem-inputs" activeid={activetabid}>
-                <!-- This will be moved to parameter-list component -->
-                <div class="slds-p-horizontal_small"  onupdateparameteritem={handleUpdateParameterItem}>
-                    <ul>
+    <lightning-tabset>
+        <lightning-tab id="tabitem-inputs" label={labels.inputTabHeader}>
+            <!-- This will be moved to parameter-list component -->
+            <div class="slds-p-horizontal_small"  onupdateparameteritem={handleUpdateParameterItem}>
+                <ul>
                     <template for:each={inputs} for:item="item" for:index="index">
                         <!-- TODO: key should be guid, from common lib -->
                         <builder_platform_interaction-parameter-item item={item} key={item.Name} item-index={index} element-type={elementType} ></builder_platform_interaction-parameter-item>
                     </template>
-                    </ul>   
-                </div>  
-            </builder_platform_interaction-tabcontent>
-            <builder_platform_interaction-tabcontent contentid="tabcontent-outputs" labelledby="tabitem-outputs" activeid={activetabid}>
-                <!-- This will be moved to parameter-list component -->
-                <div class="slds-p-horizontal_small" onupdateparameteritem={handleUpdateParameterItem}>
-                    <ul>
+                </ul>
+            </div>
+        </lightning-tab>
+        <lightning-tab id="tabitem-outputs" label={labels.outputTabHeader}>
+            <!-- This will be moved to parameter-list component -->
+            <div class="slds-p-horizontal_small" onupdateparameteritem={handleUpdateParameterItem}>
+                <ul>
                     <template for:each={outputs} for:item="item" for:index="index">
                         <!-- TODO: key should be guid, from common lib-->
                         <builder_platform_interaction-parameter-item item={item} key={item.Name} item-index={index} element-type={elementType} ></builder_platform_interaction-parameter-item>
                     </template>
-                    </ul>   
-                </div>
-            </builder_platform_interaction-tabcontent>
-        </div>
-    </builder_platform_interaction-tabset>
-    
+                </ul>
+            </div>
+        </lightning-tab>
+    </lightning-tabset>
 </template>

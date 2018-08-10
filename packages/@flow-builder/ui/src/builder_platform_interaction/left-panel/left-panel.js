@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { Element, track } from 'engine';
 import { AddElementEvent, EditElementEvent, DeleteElementEvent, NewResourceEvent } from 'builder_platform_interaction-events';
 import { canvasElementsSectionsSelector, nonCanvasElementsSectionsSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
@@ -19,15 +19,11 @@ const LABELS = {
     LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON: newResourceButtonText
 };
 
-const ACTIVETABID_DEFAULT = 'left-panel-tabitem-elements';
-
 let storeInstance;
 let unsubscribeStore;
 
 
 export default class LeftPanel extends Element {
-    @track activetabid = ACTIVETABID_DEFAULT;
-
     @track showResourceDetailsPanel = false;
 
     @track resourceDetails;
@@ -53,11 +49,6 @@ export default class LeftPanel extends Element {
         }
     };
 
-    @api
-    get activeTabId() {
-        return this.activetabid;
-    }
-
     get labels() {
         return LABELS;
     }
@@ -79,10 +70,6 @@ export default class LeftPanel extends Element {
             classes = `${classes} slds-p-left_medium`;
         }
         return classes;
-    }
-
-    handleTabChange(event) {
-        this.activetabid = event.detail.tabId;
     }
 
     handleElementClicked(event) {
