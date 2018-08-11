@@ -1,6 +1,7 @@
 import {createElement} from 'engine';
 import Canvas from 'builder_platform_interaction-canvas';
-import { CANVAS_EVENT } from 'builder_platform_interaction-events';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { DeleteElementEvent } from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {
@@ -11,22 +12,25 @@ const SELECTORS = {
 describe('Canvas', () => {
     const defaultNodes = [
         {
+            elementType: ELEMENT_TYPE.ASSIGNMENT,
             config: {
                 isSelected: false
             },
             guid: 'node1'
         },
         {
+            elementType: ELEMENT_TYPE.ASSIGNMENT,
             config: {
                 isSelected: true
             },
             guid: 'node2'
         },
         {
+            elementType: ELEMENT_TYPE.ASSIGNMENT,
             config: {
                 isSelected: false
             },
-            guid: 'node1'
+            guid: 'node3'
         }
     ];
     const defaultConnectors = [
@@ -59,11 +63,11 @@ describe('Canvas', () => {
 
     describe('handleKeyDown', () => {
         describe('BACKSPACE', () => {
-            it('does nothing if canvas is empty', () => {
-                const canvas = createComponentForTest([], defaultConnectors);
+            it('DeleteElementEvent is fired on backspace with empty detail', () => {
+                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
 
                 const eventCallback = jest.fn();
-                canvas.addEventListener(CANVAS_EVENT.DELETE_ON_CANVAS, eventCallback);
+                canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
 
                 const backspaceEvent = new KeyboardEvent('keydown', {
                     key: 'Backspace'
@@ -72,10 +76,11 @@ describe('Canvas', () => {
                 const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
                 canvasDiv.dispatchEvent(backspaceEvent);
 
-                expect(eventCallback).not.toHaveBeenCalled();
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0].detail).toEqual({});
             });
 
-            it('does nothing if canvas is in pan mode', () => {
+            it('DeleteElementEvent is not fired if canvas is in pan mode', () => {
                 const canvas = createComponentForTest(defaultNodes, defaultConnectors);
                 const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
 
@@ -86,7 +91,7 @@ describe('Canvas', () => {
                 canvasDiv.dispatchEvent(spaceEvent);
 
                 const eventCallback = jest.fn();
-                canvas.addEventListener(CANVAS_EVENT.DELETE_ON_CANVAS, eventCallback);
+                canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
 
                 const backspaceEvent = new KeyboardEvent('keydown', {
                     key: 'Backspace'
@@ -95,26 +100,6 @@ describe('Canvas', () => {
                 canvasDiv.dispatchEvent(backspaceEvent);
 
                 expect(eventCallback).not.toHaveBeenCalled();
-            });
-
-            describe('DELETE_ON_CANVAS event', () => {
-                it('is fired with empty detail', () => {
-                    const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-
-                    const eventCallback = jest.fn();
-                    canvas.addEventListener(CANVAS_EVENT.DELETE_ON_CANVAS, eventCallback);
-
-                    const backspaceEvent = new KeyboardEvent('keydown', {
-                        key: 'Backspace'
-                    });
-
-                    const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
-
-                    canvasDiv.dispatchEvent(backspaceEvent);
-
-                    expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0].detail).toEqual({});
-                });
             });
         });
     });
