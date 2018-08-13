@@ -159,7 +159,9 @@ describe('Decision Editor', () => {
                     expect(menuItems[0].element).toEqual(decisionWithTwoOutcomes.outcomes[0]);
                     expect(menuItems[1].element).toEqual(decisionWithTwoOutcomes.outcomes[1]);
                     expect(menuItems[2]).toEqual({
-                        element: {},
+                        element: {
+                            guid: 'defaultOutcome'
+                        },
                         label: 'FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel',
                         isDraggable: false
                     });

@@ -74,7 +74,9 @@ export default class DecisionEditor extends Element {
         const defaultLabel = this.decisionElement.defaultConnectorLabel;
 
         outcomesWithDefaultOutcome.push({
-            element: {},
+            element: {
+                guid: 'defaultOutcome'
+            },
             label: defaultLabel && defaultLabel.value ? defaultLabel.value : EMPTY_DEFAULT_OUTCOME_LABEL,
             isDraggable: false,
             hasErrors: defaultLabel && defaultLabel.error

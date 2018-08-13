@@ -42,7 +42,7 @@
                                        add-label={labels.addConditionsLabel}>
         <div slot="listBody">
             <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
-                <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.rowIndex}>
+                <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.condition.rowIndex}>
                     <builder_platform_interaction-row item-prefix={conditionWithPrefix.prefix} show-prefix=true
                                                       item-index={conditionIndex} show-delete={showDeleteCondition}
                                                       key={conditionWithPrefix.condition.rowIndex}>
