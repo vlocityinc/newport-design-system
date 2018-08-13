@@ -1,8 +1,6 @@
 import { Element, api } from 'engine';
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
-import { INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { LIGHTNING_INPUT_VARIANTS, getFlowDataTypeByName } from 'builder_platform_interaction-screen-editor-utils';
 
@@ -11,7 +9,6 @@ import { LIGHTNING_INPUT_VARIANTS, getFlowDataTypeByName } from 'builder_platfor
  */
 export default class ScreenInputFieldPropertiesEditor extends Element {
     @api field;
-
     labels = LABELS;
 
     handlePropertyChanged = (event) => {
@@ -43,19 +40,6 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
         event.stopPropagation();
     }
 
-    /**
-     * Handles reordering a list of the screen fields
-     * @param {efvent} event - reorderListEvent
-     */
-    handleDataTypeChanged(event) {
-        if (event.detail.value && event.detail.value.dataType) {
-            const newDataType = event.detail.value.dataType;
-            const error = event.detail.error;
-            this.dispatchEvent(new PropertyChangedEvent('dataType', newDataType, error, this.field.guid, this.field.dataType));
-        }
-        event.stopPropagation();
-    }
-
     get elementParam() {
         return {
             dataType: getFlowDataTypeByName(this.field.dataType),
@@ -75,17 +59,6 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
             LIGHTNING_INPUT_VARIANTS.STANDARD); // variant
     }
 
-    get dataTypeList() {
-        return Object.values(INPUT_FIELD_DATA_TYPE);
-    }
-
-    get dataTypePickerValue() {
-        return  {
-            dataType : getValueFromHydratedItem(this.field.type.name),
-            scale : null,
-            isCollection : false
-        };
-    }
 
     get isCheckbox() {
         return this.field.dataType === 'Boolean';
@@ -101,12 +74,5 @@ export default class ScreenInputFieldPropertiesEditor extends Element {
 
     get validationRuleFormula() {
         return this.field.validationRule ? this.field.validationRule.formulaExpression : null;
-    }
-
-    /**
-     * Indicates if the field's subtype property should be editable or not.
-     */
-    get isSubTypeDisabled() {
-        return this.field.isNewMode ? false : true;
     }
 }

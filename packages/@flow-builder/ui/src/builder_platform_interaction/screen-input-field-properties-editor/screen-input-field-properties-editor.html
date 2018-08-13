@@ -11,16 +11,6 @@
                                                              guid={field.guid}
                                                              onpropertychanged={handlePropertyChanged}> 
             </builder_platform_interaction-label-description>
-
-
-            <!--  Set or display the subtype for the input field -->
-            <builder_platform_interaction-data-type-picker
-                available-data-types={dataTypeList}
-                type-and-collection-disabled={isSubTypeDisabled}
-                required
-                onvaluechanged={handleDataTypeChanged}
-                value={dataTypePickerValue}>
-            </builder_platform_interaction-data-type-picker>
  
             <!--  Required checkbox -->
             <!--  If the field type is checkbox, the 'Required' field is not present -->
