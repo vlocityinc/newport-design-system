@@ -9,6 +9,7 @@ import {
     getRHSTypes,
     RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
+import { isObject } from 'builder_platform_interaction-common-utils';
 
 const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker'
@@ -16,14 +17,13 @@ const SELECTORS = {
 
 export default class FerovResourcePicker extends Element {
     @track
-    comboboxConfigState;
+    _customValidity;
 
-    /**
-     * The value item to set on combobox.
-     * @type {module:expression-utils.MenuItem|String}
-     */
     @track
-    initialValue;
+    _value;
+
+    @track
+    _comboboxConfig = {};
 
     /**
      * The allowed param types based on the rule service
@@ -32,42 +32,80 @@ export default class FerovResourcePicker extends Element {
     @track
     paramTypes = null;
 
-    @api get value() {
-        const picker = this.template.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-        return picker ? picker.value : this.initialValue;
+    /**
+     * The current value of the picker
+     * @param {module:base-resource-picker.item|String} value the new value for the picker
+     */
+    @api
+    set value(value) {
+        this._value = value;
     }
 
-    @api set value(newValue) {
-        const picker = this.template.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-        if (picker) {
-            picker.value = newValue;
-        } else {
-            this.initialValue = newValue;
-        }
+    @api
+    get value() {
+        return this._value;
     }
 
     /**
-     * Flow combobox config
+     * The combobox config for the resource picker
      * @param {module:base-resource-picker.ComboboxConfig} newComboboxConfig the new combobox config object
      */
     @api
     set comboboxConfig(newComboboxConfig) {
-        this.comboboxConfigState = newComboboxConfig;
-        this._isInitialized = false;
+        this._comboboxConfig = newComboboxConfig;
+        if (this._isInitialized) {
+            this.populateMenuData(this.parentItem);
+        }
     }
 
     @api
     get comboboxConfig() {
-        return this.comboboxConfigState;
+        return this._comboboxConfig;
     }
 
     /**
      * Custom error message to display
-     * @param {string} message - The error message
+     * @param {String} message - The error message
      */
     @api
     setCustomValidity(message) {
-        this.template.querySelector(SELECTORS.BASE_RESOURCE_PICKER).setCustomValidity(message);
+        this._customValidity = message;
+        if (this._baseResourcePicker) {
+            this._baseResourcePicker.setCustomValidity(message);
+        }
+    }
+
+    /**
+     * Set the error message through props
+     * @param {String} error the new error message
+     */
+    @api
+    set errorMessage(error) {
+        this.setCustomValidity(error);
+    }
+
+    @api
+    get errorMessage() {
+        return this._customValidity;
+    }
+
+    /**
+     * The element config using which selector is determined for the element type while getting elements for menu data.
+     * Eg: {element, shouldBeWritable} element is the element type this expression builder is inside,
+     * shouldBeWritable is so property editors can specify the data they need.
+     * @param {module:ferov-resource-picker.ElementConfig} newElementConfig the new element config
+     */
+    @api
+    set elementConfig(newElementConfig) {
+        this._elementConfig = newElementConfig;
+        if (this._isInitialized) {
+            this.populateMenuData(this.parentItem);
+        }
+    }
+
+    @api
+    get elementConfig() {
+        return this._elementConfig;
     }
 
     /**
@@ -99,27 +137,6 @@ export default class FerovResourcePicker extends Element {
     disableSobjectForFields = false;
 
     /**
-     * The element config using which selector is determined for the element type while getting elements for menu data.
-     * Eg: {element, shouldBeWritable} element is the element type this expression builder is inside,
-     * shouldBeWritable is so property editors can specify the data they need.
-     * @param {module:ferov-resource-picker.ElementConfig} newElementConfig the new element config
-     */
-    @api
-    set elementConfig(newElementConfig) {
-        if (JSON.stringify(this._elementConfig) !== JSON.stringify(newElementConfig)) {
-            this._elementConfig = newElementConfig;
-            this._isInitialized = false;
-            // re-populate menu data if the element config change
-            this.populateFerovMenuData();
-        }
-    }
-
-    @api
-    get elementConfig() {
-        return this._elementConfig;
-    }
-
-    /**
      * Set it to true to show 'New Resource' as first item in combobox menu data.
      * @type {Boolean}
      */
@@ -128,6 +145,10 @@ export default class FerovResourcePicker extends Element {
 
     get allowSobjectForFields() {
         return !this.disableSobjectForFields;
+    }
+
+    get parentItem() {
+        return this.value && this.value.parent;
     }
 
     /**
@@ -150,40 +171,52 @@ export default class FerovResourcePicker extends Element {
 
     _elementConfig;
 
-    // Note: This method is retained for follow up refactor
+    /** Event handlers */
+
+    handleItemSelected(event) {
+        this.value = event.detail.item;
+    }
+
     handleComboboxChanged(event) {
-        event.toString();
+        const item = event.detail.item;
+        const displayText = event.detail.displayText;
+
+        this.value = item || displayText;
     }
 
     handleFetchMenuData(event) {
         const selectedItem = event.detail.item;
         // if the event has combobox menu item that means they selected an sobject item from the dropdown
-        if (selectedItem) {
-            this.populateFieldMenuData(selectedItem);
-        } else {
-            this.populateFerovMenuData();
-        }
+        this.populateMenuData(selectedItem);
     }
 
     renderedCallback() {
         if (!this._isInitialized) {
             this._baseResourcePicker = this.template.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
 
-            const identifier = this.value && (this.value.value || this.value.displayText);
+            const identifier = isObject(this.value) ? this.value.value : this.value;
             normalizeRHS(identifier)
-                .then(this.initializeMenuData);
+                .then(this.initializeResourcePicker);
         }
     }
 
     /** HELPER METHODS */
 
-    initializeMenuData = (normalizedValue) => {
-        if (this.isSobjectField(normalizedValue.itemOrDisplayText)) {
-            const item = normalizedValue.itemOrDisplayText;
-            const fields = normalizedValue.fields;
-            this.value = item;
+    initializeResourcePicker = (normalizedValue) => {
+        // on first render we want to replace the given value with the itemOrDisplayText from normalized value
+        this.value = normalizedValue.itemOrDisplayText;
 
-            this.populateFieldMenuData(item.parent, fields);
+        this.populateMenuData(this.parentItem, normalizedValue.fields);
+        this._isInitialized = true;
+    }
+
+    populateMenuData = (parentItem, fields) => {
+        if (!this._baseResourcePicker) {
+            return;
+        }
+
+        if (parentItem) {
+            this.populateFieldMenuData(parentItem, fields);
         } else {
             this.populateFerovMenuData();
         }
@@ -191,22 +224,22 @@ export default class FerovResourcePicker extends Element {
 
     /**
      * Populate menu data with fields from the given record
-     * @param {Object} item, representing the record that the fields belong to
-     * @param {Object} entityFields fields for @param item
+     * @param {Object} parentItem, representing the record that the fields belong to
+     * @param {Object} entityFields fields for @param parentItem
      */
-    populateFieldMenuData(item, entityFields) {
+    populateFieldMenuData(parentItem, entityFields) {
         const showAsFieldReference = true;
         const showSubText = true;
 
         this.populateRulesAndParamTypes();
         if (entityFields) {
-            this._menuData = filterFieldsForChosenElement(item, this.paramTypes, entityFields, showAsFieldReference, showSubText);
+            this._menuData = filterFieldsForChosenElement(parentItem, this.paramTypes, entityFields, showAsFieldReference, showSubText);
             this.setFullMenuData(this._menuData);
         } else {
             // when handling fetch menu data (user selects new sobject) we will not have the fields yet
-            const entityName = item.objectType;
+            const entityName = parentItem.objectType;
             getFieldsForEntity(entityName, (fields) => {
-                this._menuData = filterFieldsForChosenElement(item, this.paramTypes, fields, showAsFieldReference, showSubText);
+                this._menuData = filterFieldsForChosenElement(parentItem, this.paramTypes, fields, showAsFieldReference, showSubText);
                 this.setFullMenuData(this._menuData);
             });
         }
@@ -217,23 +250,19 @@ export default class FerovResourcePicker extends Element {
      * If elementConfig is set use that to fetch the menu data.
      */
     populateFerovMenuData() {
-        if (this._baseResourcePicker) {
-            if (!this._elementConfig) {
-                this.populateRulesAndParamTypes();
-                this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType },
-                    this.paramTypes, this.showNewResource, this.allowSobjectForFields, this.disableFieldDrilldown);
-            } else {
-                this._menuData = getElementsForMenuData(this._elementConfig, null, this.showNewResource, this.allowSobjectForFields, this.disableFieldDrilldown);
-            }
-            this.setFullMenuData(this._menuData);
+        if (!this._elementConfig) {
+            this.populateRulesAndParamTypes();
+            this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType },
+                this.paramTypes, this.showNewResource, this.allowSobjectForFields, this.disableFieldDrilldown);
+        } else {
+            this._menuData = getElementsForMenuData(this._elementConfig, null, this.showNewResource, this.allowSobjectForFields, this.disableFieldDrilldown);
         }
+        this.setFullMenuData(this._menuData);
     }
 
+    // set the menu data on the base resource picker component
     setFullMenuData(menuData) {
-        if (this._baseResourcePicker) {
-            this._baseResourcePicker.setMenuData(menuData);
-            this._isInitialized = true;
-        }
+        this._baseResourcePicker.setMenuData(menuData);
     }
 
     isSobjectField(item) {

@@ -16,5 +16,7 @@ export default class FerovResourcePicker extends Element {
     @api disableFieldDrilldown;
     
     @api disableSobjectForFields;
+
+    @api errorMessage;
 }
 

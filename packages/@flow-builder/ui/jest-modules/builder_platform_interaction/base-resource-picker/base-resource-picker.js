@@ -8,6 +8,9 @@ export default class BaseResourcePicker extends Element {
     value;
 
     @api
+    errorMessage;
+
+    @api
     setMenuData(newMenuData) {
         this._fullMenuData = newMenuData;
     }

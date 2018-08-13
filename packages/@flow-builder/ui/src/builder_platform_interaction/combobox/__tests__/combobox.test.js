@@ -567,13 +567,13 @@ describe('Combobox Tests', () => {
             expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(null);
         });
 
-        it('ComboboxStateChanged is not fired on blur if value has not changed', () => {
+        it('ComboboxStateChanged is fired even when value has not changed', () => {
             blurEvent = new CustomEvent('blur');
 
             groupedCombobox.dispatchEvent(blurEvent);
+            groupedCombobox.dispatchEvent(blurEvent);
 
-            // Called initially when set type is called
-            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
         });
 
         it('NewResource event is fired when New Resource is selected.', () => {

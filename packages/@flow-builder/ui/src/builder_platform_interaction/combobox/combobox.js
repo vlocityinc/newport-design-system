@@ -140,12 +140,17 @@ export default class Combobox extends Element {
         if (isObject(itemOrDisplayText)) {
             if (itemOrDisplayText.value) {
                 const item = unwrap(itemOrDisplayText);
-
                 displayText = this.syncValueAndDisplayText(item);
 
-                this._item = Object.assign({}, item);
+                const foundItem = this.findItem(itemOrDisplayText.value);
+                // TODO: W-5314359 remove once loop editor change is done
+                if (foundItem) {
+                    this._item = Object.assign({}, foundItem);
+                } else {
+                    this._item = Object.assign({}, item);
+                }
+
                 this._item.displayText = displayText;
-                this._lastRecordedItem = this._item;
 
                 // set the base value to parent for fetching previous level
                 if (itemOrDisplayText.parent) {
@@ -157,14 +162,11 @@ export default class Combobox extends Element {
             }
         } else {
             this._item = null;
-            this._lastRecordedItem = null;
             displayText = this.getStringValue(unwrap(itemOrDisplayText));
         }
         this.state.displayText = displayText;
-        this._lastRecordedDisplayText = displayText;
         this.updateInputIcon();
         this.setMergeFieldState();
-
 
         this._isUserBlurred = false;
     }
@@ -284,18 +286,12 @@ export default class Combobox extends Element {
 
     _isLiteralAllowed = true;
 
-    _lastRecordedDisplayText = '';
-
     _itemCache = {};
 
     _errorMessage = null;
 
-    _lastRecordedErrorMessage = null;
-
     // TODO: This will need to change once multiple merge fields can be in the same string
     _item;
-
-    _lastRecordedItem;
 
     /**
      * This is the base for when you get past the first-level of an item.
@@ -528,18 +524,8 @@ export default class Combobox extends Element {
      * NOTE: This event is only fired if there have been changes
      */
     fireComboboxStateChangedEvent() {
-        if ((this.state.displayText !== this._lastRecordedDisplayText) ||
-            (this._item !== this._lastRecordedItem) ||
-            (this._errorMessage !== this._lastRecordedErrorMessage)) {
-            // only fire event if displayText, item, or errorMessage have changed
-            const comboboxStateChangedEvent = new ComboboxStateChangedEvent(this._item, this.state.displayText, this._errorMessage);
-            this.dispatchEvent(comboboxStateChangedEvent);
-
-            // Update _lastRecordedItem && _lastRecordedDisplayText && _lastRecordedErrorMessage
-            this._lastRecordedDisplayText = this.state.displayText;
-            this._lastRecordedItem = this._item;
-            this._lastRecordedErrorMessage = this._errorMessage;
-        }
+        const comboboxStateChangedEvent = new ComboboxStateChangedEvent(this._item, this.state.displayText, this._errorMessage);
+        this.dispatchEvent(comboboxStateChangedEvent);
     }
 
     /**
@@ -740,7 +726,6 @@ export default class Combobox extends Element {
             this._isInitialErrorMessageSet = true;
         }
         this._errorMessage = customErrorMessage;
-        this._lastRecordedErrorMessage = customErrorMessage;
     }
 
     /**

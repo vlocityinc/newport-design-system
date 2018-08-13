@@ -14,6 +14,7 @@
                         <builder_platform_interaction-ferov-resource-picker
                             class = "test-loop-collection"
                             value={collectionVariable}
+                            error-message={loopElement.collectionReference.error}
                             combobox-config={collectionVariableComboboxConfig}
                             property-editor-element-type={loopElement.elementType}
                             element-config={collectionVariableElementConfig}
@@ -50,6 +51,7 @@
                     <builder_platform_interaction-ferov-resource-picker
                         class = "test-loop-variable"
                         value={loopVariable}
+                        error-message={loopElement.assignNextValueToReference.error}
                         combobox-config={loopVariableComboboxConfig}
                         property-editor-element-type={loopElement.elementType}
                         element-config={loopVariableElementConfig}

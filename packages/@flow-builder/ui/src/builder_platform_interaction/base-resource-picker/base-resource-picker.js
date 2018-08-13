@@ -2,10 +2,6 @@ import { Element, api, track } from 'engine';
 import { filterMatches } from 'builder_platform_interaction-expression-utils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 
-const SELECTORS = {
-    COMBOBOX: 'builder_platform_interaction-combobox'
-};
-
 /**
  * The base resource picker that contains one flow combobox
  * This class holds the full menu data, filtered menu data and handles the events combobox value changed & filter matches
@@ -17,12 +13,6 @@ export default class BaseResourcePicker extends Element {
      */
     @track
     _customValidity;
-
-    /**
-     * The full menu data available for selection
-     * @type {Object[]}
-     */
-    _fullMenuData;
 
     /**
      * the actual value of the combobox item (contains text, value, and id)
@@ -61,14 +51,25 @@ export default class BaseResourcePicker extends Element {
      * @param {ComboboxConfig} config the combobox config object used to initialize the resource picker's combobox
      */
     @api
-    set comboboxConfig(config) {
-        this.checkErrorMessages();
-        this.state.config = config;
+    comboboxConfig = {};
+
+    /**
+     * Custom error message to display
+     * @param {string} message - The error message
+     */
+    @api
+    setCustomValidity(message) {
+        this._customValidity = message;
     }
 
     @api
-    get comboboxConfig() {
-        return this.state.config;
+    set errorMessage(error) {
+        this.setCustomValidity(error);
+    }
+
+    @api
+    get errorMessage() {
+        return  this._customValidity;
     }
 
     /**
@@ -77,20 +78,14 @@ export default class BaseResourcePicker extends Element {
      * @param {menuDataRetrieval.MenuItem|String} itemOrDisplayText the menu item being set to the flow combobox
      */
     @api
-    set value(itemOrDisplayText) {
-        const combo = this.template.querySelector(SELECTORS.COMBOBOX);
-        if (combo) {
-            combo.value = itemOrDisplayText;
-        } else {
-            this.state.initialValue = itemOrDisplayText;
-        }
-    }
+    value;
 
+    /**
+     * The allowed param types based on the rule service. Used for the merge field validation if present.
+     * @type {Object}
+     */
     @api
-    get value() {
-        const combo = this.template.querySelector(SELECTORS.COMBOBOX);
-        return combo ? combo.value : this.state.initialValue;
-    }
+    allowedParamTypes = null;
 
     /**
      * Sets the full menu data for the resource picker
@@ -105,48 +100,10 @@ export default class BaseResourcePicker extends Element {
     }
 
     /**
-     * Custom error message to display
-     * @param {string} message - The error message
+     * The full menu data available for selection
+     * @type {Object[]}
      */
-    @api
-    setCustomValidity(message) {
-        this.checkErrorMessages();
-        this._customValidity = message;
-    }
-
-    /**
-     * The allowed param types based on the rule service. Used for the merge field validation if present.
-     * @type {Object}
-     */
-    @api
-    allowedParamTypes = null;
-
-    /**
-     * Returns the current error message from customValidity or, if not present, the combobox config
-     * @returns {string} - The error message or null
-     */
-    get errorMessage() {
-        return this._customValidity ? this._customValidity : this.comboboxErrorMessage;
-    }
-
-    /**
-     * Returns the current error message from the combobox config
-     * @returns {string} - The error message or null
-     */
-    get comboboxErrorMessage() {
-        return (this.state.config && this.state.config.errorMessage) || null;
-    }
-
-    /**
-     * Checks that only one error message has been set (customValidity or comboboxConfig.errorMessage)
-     * @throws if both error messages are set and they are different
-     */
-    checkErrorMessages = () => {
-        if ((!!this._customValidity && !!this.comboboxErrorMessage) && this._customValidity !== this.comboboxErrorMessage) {
-            // Both are set and they are different
-            throw new Error(`You can't set two different errors with custom validity and comboboxConfig.errorMessage`);
-        }
-    }
+    _fullMenuData;
 
     /**
      * Creates a ComboboxConfig object from the given params
