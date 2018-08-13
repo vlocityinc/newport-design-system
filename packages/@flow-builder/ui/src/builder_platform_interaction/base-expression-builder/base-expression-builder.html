@@ -7,6 +7,7 @@
                                                placeholder={lhsPlaceholder}
                                                error-message={lhsError}
                                                literals-allowed=false
+                                               oncomboboxstatechanged={handleLhsValueChanged}
         >
         </builder_platform_interaction-combobox>
         <lightning-combobox class="operator slds-col slds-grow slds-size_x-small"
@@ -14,16 +15,19 @@
                             value={operatorValue}
                             placeholder={operatorPlaceholder}
                             options={operatorMenuData}
+                            onchange={handleOperatorChanged}
                             dropdown-alignment="auto"
         >
         </lightning-combobox>
         <builder_platform_interaction-combobox class="rhs slds-col slds-grow"
                                                label={rhsLabel}
                                                value={rhsValue}
+                                               allowed-param-types={rhsParamTypes}
                                                menu-data={state.rhsFilteredMenuData}
                                                placeholder={rhsPlaceholder}
                                                literals-allowed={rhsLiteralsAllowed}
                                                error-message={rhsError}
+                                               oncomboboxstatechanged={handleRhsValueChanged}
         >
         </builder_platform_interaction-combobox>
     </div>
