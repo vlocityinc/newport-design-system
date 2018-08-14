@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { assignmentReducer } from './assignment-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
@@ -10,7 +10,7 @@ import { LABELS } from './assignment-editor-labels';
  * @type {string}
  */
 
-export default class AssignmentEditor extends Element {
+export default class AssignmentEditor extends LightningElement {
     /**
      * Internal state for the assignment editor
      */
@@ -31,7 +31,6 @@ export default class AssignmentEditor extends Element {
         return this.assignmentElement;
     }
 
-    @api
     set node(newValue) {
         this.assignmentElement = newValue || {};
     }

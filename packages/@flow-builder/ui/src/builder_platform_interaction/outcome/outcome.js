@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import {
     PropertyChangedEvent,
     DeleteOutcomeEvent,
@@ -17,7 +17,7 @@ const SELECTORS = {
 /**
  * Usage: <builder_platform_interaction-outcome></builder_platform_interaction-outcome>
  */
-export default class Outcome extends Element {
+export default class Outcome extends LightningElement {
     @track element = {};
     @track outcomeConditions = [];
 
@@ -47,7 +47,7 @@ export default class Outcome extends Element {
 
     @api showDelete;
 
-    @api set outcome(outcome) {
+    set outcome(outcome) {
         this.element = outcome;
         this.outcomeConditions = outcome.conditions;
 

@@ -1,2 +1,2 @@
-import { Element } from 'engine';
-export default class Accordion extends Element {}
+import { LightningElement } from "lwc";
+export default class Accordion extends LightningElement {}

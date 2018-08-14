@@ -1,6 +1,6 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 
-export default class AlertModalBody extends Element {
+export default class AlertModalBody extends LightningElement {
     @api bodyTextOne;
     @api bodyTextTwo;
     @api listSectionHeader;

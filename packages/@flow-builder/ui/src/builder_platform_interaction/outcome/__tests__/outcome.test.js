@@ -1,4 +1,4 @@
-import {createElement} from 'engine';
+import {createElement} from "lwc";
 import Outcome from 'builder_platform_interaction-outcome';
 import {
     DeleteOutcomeEvent,

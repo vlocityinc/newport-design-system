@@ -1,4 +1,4 @@
-import { Element, track } from 'engine';
+import { LightningElement, track } from "lwc";
 import { AddElementEvent, EditElementEvent, DeleteElementEvent, NewResourceEvent } from 'builder_platform_interaction-events';
 import { canvasElementsSectionsSelector, nonCanvasElementsSectionsSelector } from 'builder_platform_interaction-selectors';
 import { Store } from 'builder_platform_interaction-store-lib';
@@ -23,7 +23,7 @@ let storeInstance;
 let unsubscribeStore;
 
 
-export default class LeftPanel extends Element {
+export default class LeftPanel extends LightningElement {
     @track showResourceDetailsPanel = false;
 
     @track resourceDetails;

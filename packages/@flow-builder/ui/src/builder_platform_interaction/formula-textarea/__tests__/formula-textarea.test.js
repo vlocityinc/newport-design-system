@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import FormulaTextarea from '../formula-textarea';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';

@@ -1,11 +1,11 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { isExtensionField, getPlaceHolderLabel } from 'builder_platform_interaction-screen-editor-utils';
 import { hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
  */
-export default class ScreenField extends Element {
+export default class ScreenField extends LightningElement {
     @api screenfield;
 
     get isExtension() {

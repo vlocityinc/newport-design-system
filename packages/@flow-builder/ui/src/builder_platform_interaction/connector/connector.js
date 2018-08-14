@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 
 /**
@@ -7,7 +7,7 @@ import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-
  * @ScrumTeam Process UI
  * @since 214
  */
-export default class Connector extends Element {
+export default class Connector extends LightningElement {
     @api connector = {};
 
     /**

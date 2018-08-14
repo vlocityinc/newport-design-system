@@ -1,5 +1,5 @@
 import ScreenPalette from 'builder_platform_interaction-screen-editor-palette';
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';
 

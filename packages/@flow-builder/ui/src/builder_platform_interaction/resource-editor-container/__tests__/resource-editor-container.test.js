@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { getShadowRoot } from 'lwc-test-utils';
 import ResourceEditorContainer from '../resource-editor-container';
 import { createFlowElement } from 'builder_platform_interaction-element-config';

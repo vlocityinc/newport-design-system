@@ -1,4 +1,4 @@
-import {createElement} from 'engine';
+import {createElement} from "lwc";
 import { mockAccountFields, mockAccountExpectedFields } from 'mock-record-data';
 import RecordSortResult from 'builder_platform_interaction-record-sort';
 import { getShadowRoot } from 'lwc-test-utils';

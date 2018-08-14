@@ -1,4 +1,4 @@
-import {Element, api, track} from 'engine';
+import {LightningElement, api, track} from "lwc";
 import {PropertyChangedEvent} from 'builder_platform_interaction-events';
 import {isUniqueDevNameInStore} from 'builder_platform_interaction-validation-rules';
 import { sanitizeDevName } from 'builder_platform_interaction-common-utils';
@@ -10,7 +10,7 @@ const SELECTORS = {
     DESCRIPTION: '.description',
 };
 
-export default class LabelDescription extends Element {
+export default class LabelDescription extends LightningElement {
     labels = LABELS;
 
     /** @track decorators **/

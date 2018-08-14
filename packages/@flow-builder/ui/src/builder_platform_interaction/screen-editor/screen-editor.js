@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { isScreen, getAllScreenFieldTypes, getExtensionFieldTypes, processScreenExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { screenReducer } from './screen-reducer';
@@ -9,7 +9,7 @@ import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
  */
-export default class ScreenEditor extends Element {
+export default class ScreenEditor extends LightningElement {
     @track screen;
     @track selectedNode;
     @track selectedItemGuid;
@@ -41,7 +41,7 @@ export default class ScreenEditor extends Element {
      * Screen node setter, sets the value and initializes the selectedNode
      * @param {object} newValue - The new screen
      */
-    @api set node(newValue) {
+    set node(newValue) {
         this.screen = newValue || {};
         this.setSelectedNode(this.screen);
     }

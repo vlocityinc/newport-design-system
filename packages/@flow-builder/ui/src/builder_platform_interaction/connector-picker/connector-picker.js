@@ -1,7 +1,7 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { format } from 'builder_platform_interaction-common-utils';
 
-export default class ConnectorPicker extends Element {
+export default class ConnectorPicker extends LightningElement {
     @api data;
     @api comboboxOptions;
     @api bodyText;

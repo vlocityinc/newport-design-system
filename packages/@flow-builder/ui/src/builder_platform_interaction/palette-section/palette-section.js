@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { PaletteSectionToggleEvent } from 'builder_platform_interaction-events';
 
 import palleteSectionToggleCollapseText from "@salesforce/label/FlowBuilderLeftPanel.palleteSectionToggleCollapseText";
@@ -16,7 +16,7 @@ const LABELS = {
  * be removed in the future once lightning-tree-grid satisfies our requirements.
  */
 
-export default class PaletteSection extends Element {
+export default class PaletteSection extends LightningElement {
     @api sectionKey;
     @api label;
     @api expanded;
@@ -29,7 +29,6 @@ export default class PaletteSection extends Element {
         return this.showCount;
     }
 
-    @api
     set showItemCount(value) {
         this.showCount = value === 'true';
     }

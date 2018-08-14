@@ -1,4 +1,4 @@
-import {createElement} from 'engine';
+import {createElement} from "lwc";
 import { getShadowRoot } from 'lwc-test-utils';
 import RecordStoreOption from 'builder_platform_interaction-record-store-options';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction-events';

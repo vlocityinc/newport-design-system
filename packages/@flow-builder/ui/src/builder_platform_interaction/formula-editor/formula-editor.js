@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { formulaReducer } from './formula-reducer';
@@ -8,7 +8,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 
 const dataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY, FLOW_DATA_TYPE.BOOLEAN, FLOW_DATA_TYPE.DATE, FLOW_DATA_TYPE.DATE_TIME];
 
-export default class FormulaEditor extends Element {
+export default class FormulaEditor extends LightningElement {
     @track
     formulaResource;
 
@@ -23,7 +23,6 @@ export default class FormulaEditor extends Element {
         return this.formulaResource;
     }
 
-    @api
     set node(newValue) {
         this.formulaResource = newValue || {};
     }

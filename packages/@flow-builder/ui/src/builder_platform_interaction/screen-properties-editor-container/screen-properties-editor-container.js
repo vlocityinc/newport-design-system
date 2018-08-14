@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { isScreen, isDisplayTextField, isExtensionField, isInputField, isTextAreaField, isPasswordField, describeExtension } from 'builder_platform_interaction-screen-editor-utils';
 import { createScreenNodeSelectedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
@@ -7,7 +7,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-
 /*
  * Right hand side component, used to toggle between screen and field property editors.
  */
-export default class ScreenEditorPropertiesEditorContainer extends Element {
+export default class ScreenEditorPropertiesEditorContainer extends LightningElement {
     @track _node;
     @track extendedInfo;
     @track toggleIconName = 'utility:expand_alt';
@@ -15,7 +15,7 @@ export default class ScreenEditorPropertiesEditorContainer extends Element {
 
     labels = LABELS;
 
-    @api set node(value) {
+    set node(value) {
         this._node = value;
         if (this.isExtensionField) {
             this.fetchDescription();

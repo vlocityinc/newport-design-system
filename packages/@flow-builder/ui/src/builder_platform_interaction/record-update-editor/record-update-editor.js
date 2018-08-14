@@ -1,11 +1,11 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { recordUpdateReducer } from './record-update-reducer';
 import { LABELS } from './record-update-editor-labels';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 
-export default class RecordUpdateEditor extends Element {
+export default class RecordUpdateEditor extends LightningElement {
     labels = LABELS;
 
     /**
@@ -28,7 +28,6 @@ export default class RecordUpdateEditor extends Element {
         return this.recordUpdateElement;
     }
 
-    @api
     set node(newValue) {
         this.recordUpdateElement = newValue;
     }

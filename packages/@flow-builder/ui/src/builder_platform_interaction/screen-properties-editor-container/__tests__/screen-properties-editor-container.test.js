@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import ScreenEditorPropertiesEditorContainer from '../screen-properties-editor-container';
 import { getAllScreenFieldTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { query } from 'builder_platform_interaction-builder-test-utils';

@@ -1,10 +1,10 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { getVariant, getPlaceHolderLabel } from 'builder_platform_interaction-screen-editor-utils';
 
 /**
  * Wrapper used to represent visual preview of screen fields which are are text areas.
  */
-export default class ScreenTextareaField extends Element {
+export default class ScreenTextareaField extends LightningElement {
     @api value;
     @api required = false;
     @track _helpText;
@@ -15,7 +15,6 @@ export default class ScreenTextareaField extends Element {
         return getVariant(this.label);
     }
 
-    @api
     set helpText(newValue) {
         this._helptext = newValue;
     }
@@ -25,7 +24,6 @@ export default class ScreenTextareaField extends Element {
         return (this._helptext && this._helptext.value) || null;
     }
 
-    @api
     set label(value) {
         this._label = value;
     }

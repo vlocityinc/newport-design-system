@@ -1,8 +1,8 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './resource-details-labels';
 
-export default class ResourceDetails extends Element {
+export default class ResourceDetails extends LightningElement {
     @api resourceDetails;
 
     get hasIcon() {

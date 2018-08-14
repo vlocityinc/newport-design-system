@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './formula-textarea-labels';
 import { validateTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
@@ -7,7 +7,7 @@ const SELECTORS = {
     TEXTAREA: 'lightning-textarea',
 };
 
-export default class FormulaTextarea extends Element {
+export default class FormulaTextarea extends LightningElement {
     labels = LABELS;
 
     @track
@@ -17,7 +17,6 @@ export default class FormulaTextarea extends Element {
         spinnerActive : false
     }
 
-    @api
     set expression(value) {
         this.state.expression = value;
     }
@@ -32,7 +31,6 @@ export default class FormulaTextarea extends Element {
         return this.state.error;
     }
 
-    @api
     set error(value) {
         this.state.error = value;
         const textarea = this.getTextArea();

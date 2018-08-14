@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { recordCreateReducer } from './record-create-reducer';
 import { LABELS } from './record-create-editor-labels';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
@@ -8,7 +8,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
 
-export default class RecordCreateEditor extends Element {
+export default class RecordCreateEditor extends LightningElement {
     labels = LABELS;
 
     _numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
@@ -33,7 +33,6 @@ export default class RecordCreateEditor extends Element {
         return this.recordCreateElement;
     }
 
-    @api
     set node(newValue) {
         this.recordCreateElement = newValue;
     }

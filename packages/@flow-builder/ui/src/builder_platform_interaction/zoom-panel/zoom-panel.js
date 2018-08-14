@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { TogglePanModeEvent, ClickToZoomEvent, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
 import { LABELS } from './zoom-panel-labels';
 
@@ -9,7 +9,7 @@ import { LABELS } from './zoom-panel-labels';
  * @author Priya Mittal
  * @since 214
  */
-export default class ZoomPanel extends Element {
+export default class ZoomPanel extends LightningElement {
     @api isPanModeOn;
     @api isZoomOutDisabled;
     @api isZoomToView;

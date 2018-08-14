@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import RecordUpdateEditor from '../record-update-editor';
 import { getShadowRoot } from 'lwc-test-utils';
 import * as storeMockedData from 'mock-store-data';

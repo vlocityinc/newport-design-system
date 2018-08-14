@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { loopReducer } from './loop-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
@@ -27,7 +27,7 @@ const COLLECTION_VAR_ELEMENT_CONFIG = {
     isCollection: true
 };
 
-export default class LoopEditor extends Element {
+export default class LoopEditor extends LightningElement {
     labels = LABELS;
 
     /**
@@ -42,7 +42,6 @@ export default class LoopEditor extends Element {
         return this.loopElement;
     }
 
-    @api
     set node(newValue) {
         this.loopElement = newValue || {};
         this._collectionVariable = this.loopElement.collectionReference.value ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.collectionReference)) : null;

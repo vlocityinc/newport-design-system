@@ -1,4 +1,4 @@
-import { Element, api, track } from "engine";
+import { LightningElement, api, track } from "lwc";
 import { LABELS } from './record-query-fields-labels';
 import {
     AddRecordLookupFieldEvent,
@@ -7,7 +7,7 @@ import {
 } from 'builder_platform_interaction-events';
 import { format } from 'builder_platform_interaction-common-utils';
 
-export default class RecordQueryFields extends Element {
+export default class RecordQueryFields extends LightningElement {
     labels = LABELS;
 
     @track
@@ -33,7 +33,6 @@ export default class RecordQueryFields extends Element {
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
      */
-    @api
     set recordEntityName(entityName) {
         this.state.recordEntityName = entityName;
     }
@@ -46,7 +45,6 @@ export default class RecordQueryFields extends Element {
     /**
      * @param {String} value the output reference (the selected sObject or sObject collection variable)
      */
-    @api
     set outputReference(value) {
         this.state.outputReference = value;
     }
@@ -59,7 +57,6 @@ export default class RecordQueryFields extends Element {
     /**
      * @param {Boolean} isCollection true if select from sObject collection variables
      */
-    @api
     set isCollection(isCollection) {
         this.state.isCollection = isCollection;
     }
@@ -72,7 +69,6 @@ export default class RecordQueryFields extends Element {
     /**
      * @param {String[]} fields the selected fields
      */
-    @api
     set queriedFields(fields) {
         this.state.queriedFields = fields;
     }

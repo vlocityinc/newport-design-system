@@ -1,10 +1,10 @@
-import { Element, track } from 'engine';
+import { LightningElement, track } from "lwc";
 import { transformLeftPanelElements } from './left-panel-elements-helper';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-logging-utils';
 const leftPanelElements = 'leftPanelElements';
 
-export default class LeftPanelElements extends Element {
+export default class LeftPanelElements extends LightningElement {
     /**
      * The data format should be compatible with lightning-tree-grid.
      */

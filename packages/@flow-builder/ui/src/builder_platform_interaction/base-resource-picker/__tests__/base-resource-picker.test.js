@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { getShadowRoot } from 'lwc-test-utils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { FilterMatchesEvent } from 'builder_platform_interaction-events';

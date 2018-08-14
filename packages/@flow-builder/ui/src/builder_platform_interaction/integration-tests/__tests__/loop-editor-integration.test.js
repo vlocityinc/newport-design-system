@@ -1,4 +1,4 @@
-import {createElement} from 'engine';
+import {createElement} from "lwc";
 import LoopEditor from 'builder_platform_interaction-loop-editor';
 import { getShadowRoot } from 'lwc-test-utils';
 import {

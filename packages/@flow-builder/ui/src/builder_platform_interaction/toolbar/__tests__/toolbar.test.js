@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
 import Toolbar from 'builder_platform_interaction-toolbar';
 import { getShadowRoot } from 'lwc-test-utils';

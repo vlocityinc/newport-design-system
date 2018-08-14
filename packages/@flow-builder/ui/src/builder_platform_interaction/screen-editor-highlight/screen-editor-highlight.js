@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { createScreenElementSelectedEvent, createScreenElementDeletedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { SELECTED_CLASS, DRAGGING_CLASS, CONTAINER_DIV_SELECTOR, booleanAttributeValue} from 'builder_platform_interaction-screen-editor-utils';
@@ -6,7 +6,7 @@ import { SELECTED_CLASS, DRAGGING_CLASS, CONTAINER_DIV_SELECTOR, booleanAttribut
 /*
  * Selection frame with a header and support for deleting components
  */
-export default class ScreenEditorHighlight extends Element {
+export default class ScreenEditorHighlight extends LightningElement {
     @api screenElement;
     @api property;
     @api preventEvents = false;

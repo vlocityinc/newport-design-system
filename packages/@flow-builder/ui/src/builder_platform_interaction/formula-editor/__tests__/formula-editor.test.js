@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import FormulaEditor from '../formula-editor';
 import { getShadowRoot } from 'lwc-test-utils';
 import { createFlowElement } from 'builder_platform_interaction-element-config';

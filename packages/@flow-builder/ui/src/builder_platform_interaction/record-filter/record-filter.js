@@ -1,4 +1,4 @@
-import { Element, api, track } from "engine";
+import { LightningElement, api, track } from "lwc";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS } from './record-filter-labels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-record-editor-lib';
@@ -18,7 +18,7 @@ const FILTER_TYPE_OPTIONS = [{
     value : RECORD_FILTER_CRITERIA.ALL
 }];
 
-export default class RecordFilter extends Element {
+export default class RecordFilter extends LightningElement {
     labels = LABELS;
 
     @track
@@ -39,7 +39,6 @@ export default class RecordFilter extends Element {
      * The filter type to pass as value of the rule for finding record drop down
      * @param {String} value - it's RECORD_FILTER_CRITERIA.NONE or RECORD_FILTER_CRITERIA.ALL
      */
-    @api
     set filterType(value) {
         this.selectedFilter = value;
     }
@@ -53,7 +52,6 @@ export default class RecordFilter extends Element {
      * The filter items
      * @param {Object} value - it comes from the recordNode.filters
      */
-    @api
     set filterItems(value) {
         this.items = value;
     }
@@ -66,7 +64,6 @@ export default class RecordFilter extends Element {
     /**
      * @param {String} entityName the selected record object
      */
-    @api
     set recordEntityName(entityName) {
         this.entityName = entityName;
     }
@@ -78,7 +75,6 @@ export default class RecordFilter extends Element {
     /**
      * @param {Object} fields - Filterable fields of the entity
      */
-    @api
     set recordFields(fields) {
         this.entityFields = {};
         const filterableFields = Object.values(fields).filter(field => field.filterable);

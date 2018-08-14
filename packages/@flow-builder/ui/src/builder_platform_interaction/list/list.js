@@ -1,4 +1,4 @@
-import {Element, api} from "engine";
+import {LightningElement, api} from "lwc";
 import {AddListItemEvent} from 'builder_platform_interaction-events';
 
 
@@ -8,7 +8,7 @@ import {AddListItemEvent} from 'builder_platform_interaction-events';
  * @author hcockburn
  * @since 214
  */
-export default class List extends Element {
+export default class List extends LightningElement {
     @api items = [];
     @api showDelete;
     @api addLabel;

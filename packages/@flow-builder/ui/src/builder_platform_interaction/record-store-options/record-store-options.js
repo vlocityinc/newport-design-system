@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LABELS, NUMBER_RECORDS_OPTIONS,
     NUMBER_RECORDS_LABELS,
@@ -7,7 +7,7 @@ import { LABELS, NUMBER_RECORDS_OPTIONS,
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction-events';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
 
-export default class RecordStoreFieldsSelection extends Element {
+export default class RecordStoreFieldsSelection extends LightningElement {
     wayToStoreFieldsOption = WAY_TO_STORE_FIELDS_OPTIONS;
     labels = LABELS;
 
@@ -23,7 +23,6 @@ export default class RecordStoreFieldsSelection extends Element {
     @api
     elementType;
 
-    @api
     set resourceDisplayText(value) {
         this.state.resourceDisplayText = value;
     }
@@ -45,7 +44,6 @@ export default class RecordStoreFieldsSelection extends Element {
     /**
      * @param {String} value - This value can be 'firstRecord' or 'allRecords'
      */
-    @api
     set numberOfRecordsToStore(value) {
         this.state.numberOfRecordsToStore = value;
     }
@@ -62,7 +60,6 @@ export default class RecordStoreFieldsSelection extends Element {
     /**
      * @param {Boolean} value - true : assign null to value if no records are found
      */
-    @api
     set assignNullValuesIfNoRecordsFound(value) {
         this.state.assignNullValuesIfNoRecordsFound = value;
     }
@@ -75,7 +72,6 @@ export default class RecordStoreFieldsSelection extends Element {
     /**
      * @param {String} value - This value can be 'sObjectVariable' or 'separateVariables'
      */
-    @api
     set wayToStoreFields(value) {
         this.state.wayToStoreFields = value;
     }

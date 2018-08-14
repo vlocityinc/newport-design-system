@@ -1,8 +1,8 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { LABELS } from './status-icon-summary-labels';
 import { format } from 'builder_platform_interaction-common-utils';
 
-export default class StatusIconSummary extends Element {
+export default class StatusIconSummary extends LightningElement {
     @api header;
     @api messages = [];
     @api type = 'error';

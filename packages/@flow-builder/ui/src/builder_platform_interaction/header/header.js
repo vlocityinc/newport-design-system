@@ -1,8 +1,8 @@
-import { Element, api} from 'engine';
+import { LightningElement, api} from "lwc";
 import { LABELS } from './header-labels';
 
 
-export default class Header extends Element {
+export default class Header extends LightningElement {
     @api
     flowName
 

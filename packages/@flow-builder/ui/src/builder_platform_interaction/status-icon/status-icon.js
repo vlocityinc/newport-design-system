@@ -1,11 +1,11 @@
-import { Element, api, createElement, track } from 'engine';
+import { LightningElement, api, createElement, track } from "lwc";
 import { showCustomOverlay } from 'lightning-overlay-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import StatusIconSummary from 'builder_platform_interaction-status-icon-summary';
 
 const dotPrefixForClass = '.';
 
-export default class StatusIcon extends Element {
+export default class StatusIcon extends LightningElement {
     internalMessages = [];
     panelInstance = undefined;
     panelHidden = true;
@@ -20,7 +20,7 @@ export default class StatusIcon extends Element {
         return this.internalMessages;
     }
 
-    @api set messages(msgs = []) {
+    set messages(msgs = []) {
         this.internalMessages = msgs.map(error => {
             return {
                 message: error.messages,

@@ -1,4 +1,4 @@
-import {createElement} from 'engine';
+import {createElement} from "lwc";
 import LabelDescription from 'builder_platform_interaction-label-description';
 import {PropertyChangedEvent} from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';

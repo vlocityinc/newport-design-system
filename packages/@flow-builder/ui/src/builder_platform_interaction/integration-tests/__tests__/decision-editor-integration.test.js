@@ -1,4 +1,4 @@
-import {createElement} from 'engine';
+import {createElement} from "lwc";
 import DecisionEditor from 'builder_platform_interaction-decision-editor';
 import { getShadowRoot } from 'lwc-test-utils';
 

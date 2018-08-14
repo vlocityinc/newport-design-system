@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { isItemHydratedWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
@@ -13,7 +13,7 @@ const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'bi
 /*
  * A property editor
  */
-export default class ScreenPropertyField extends Element {
+export default class ScreenPropertyField extends LightningElement {
     @api name;
     @api label;
     @api type;
@@ -29,7 +29,7 @@ export default class ScreenPropertyField extends Element {
     labels = LABELS;
     formats = RTE_FORMATS;
 
-    @api set value(newValue) {
+    set value(newValue) {
         this._value = newValue;
         const input = this.input;
         if (input && input.setCustomValidity) {

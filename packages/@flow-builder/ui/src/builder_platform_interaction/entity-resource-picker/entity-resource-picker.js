@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { getEntitiesMenuData } from 'builder_platform_interaction-expression-utils';
 import { isObject } from 'builder_platform_interaction-common-utils';
 
@@ -12,7 +12,7 @@ const resourcePickerSelector = 'builder_platform_interaction-base-resource-picke
  * @class EntityResourcePicker
  * @extends {Element}
  */
-export default class EntityResourcePicker extends Element {
+export default class EntityResourcePicker extends LightningElement {
     /**
      * The entity type that will be displayed in the combobox
      * If not specified defaults to all entity types
@@ -64,7 +64,6 @@ export default class EntityResourcePicker extends Element {
      * Changing the crudFilter
      * @param {String} crudFilterType the new filter type
      */
-    @api
     set crudFilterType(crudFilterType) {
         this._crudFilterType = crudFilterType;
         if (this._isInitialized) {
@@ -88,7 +87,6 @@ export default class EntityResourcePicker extends Element {
      * The combobox item that represents the value selected
      * @param {module:base-resource-picker.item|String} itemOrDisplayText the new item
      */
-    @api
     set value(itemOrDisplayText) {
         // if the user passes down display text we check if we already have a stored item
         if (!isObject(itemOrDisplayText) && isObject(this.state.itemOrDisplayText) && this._isInitialized) {

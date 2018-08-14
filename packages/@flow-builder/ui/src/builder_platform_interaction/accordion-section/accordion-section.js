@@ -1,7 +1,7 @@
-import { Element, track } from 'engine';
+import { LightningElement, track } from "lwc";
 
 const SECTION = 'section';
-export default class AccordionSection extends Element {
+export default class AccordionSection extends LightningElement {
     @track
     isSectionOpen = true;
 

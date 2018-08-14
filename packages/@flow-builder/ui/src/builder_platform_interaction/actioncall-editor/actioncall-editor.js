@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { actionCallReducer } from './actioncall-reducer';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
@@ -7,7 +7,7 @@ import { LABELS } from './actioncall-editor-labels';
 
 const ACTIVETABID_DEFAULT = "tabitem-inputs";
 
-export default class ActionCallEditor extends Element {
+export default class ActionCallEditor extends LightningElement {
     /**
      * Internal state for the editor
      */
@@ -32,7 +32,6 @@ export default class ActionCallEditor extends Element {
         return this.actionCallNode;
     }
 
-    @api
     set node(newValue) {
         this.actionCallNode = newValue || {};
         // init inputs, outputs

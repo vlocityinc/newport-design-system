@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { getShadowRoot } from 'lwc-test-utils';
 import { getEntitiesMenuData } from 'builder_platform_interaction-expression-utils';
 import { ComboboxStateChangedEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';

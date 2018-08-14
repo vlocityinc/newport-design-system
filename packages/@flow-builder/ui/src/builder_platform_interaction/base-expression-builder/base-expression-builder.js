@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from 'lwc';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
 import {
@@ -40,7 +40,7 @@ const LHS_FILTERED_MENU_DATA = 'lhsFilteredMenuData';
 const RHS_FULL_MENU_DATA = 'rhsFullMenuData';
 const RHS_FILTERED_MENU_DATA = 'rhsFilteredMenuData';
 
-export default class BaseExpressionBuilder extends Element {
+export default class BaseExpressionBuilder extends LightningElement {
     @track
     state = {
         containerElement: undefined,

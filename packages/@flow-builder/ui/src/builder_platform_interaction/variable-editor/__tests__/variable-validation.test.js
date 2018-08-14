@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import VariableEditor from '../variable-editor';
 import { variableValidation } from '../variable-validation.js';
 import * as mockStoreData from 'mock-store-data';

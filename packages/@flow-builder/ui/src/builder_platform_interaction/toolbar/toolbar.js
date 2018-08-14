@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './toolbar-labels';
 
@@ -14,7 +14,7 @@ const INVALID_DRAFT = 'InvalidDraft';
  * @author Ankush Bansal
  * @since 214
  */
-export default class Toolbar extends Element {
+export default class Toolbar extends LightningElement {
     @api flowStatus;
     @api isEditFlowPropertiesDisabled;
     @api isRunDebugDisabled;

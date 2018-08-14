@@ -1,4 +1,4 @@
-import { Element, api, track }  from 'engine';
+import { LightningElement, api, track }  from "lwc";
 import {
     getElementsForMenuData,
     filterFieldsForChosenElement,
@@ -15,7 +15,7 @@ const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker'
 };
 
-export default class FerovResourcePicker extends Element {
+export default class FerovResourcePicker extends LightningElement {
     @track
     _customValidity;
 
@@ -36,7 +36,6 @@ export default class FerovResourcePicker extends Element {
      * The current value of the picker
      * @param {module:base-resource-picker.item|String} value the new value for the picker
      */
-    @api
     set value(value) {
         this._value = value;
     }
@@ -50,7 +49,6 @@ export default class FerovResourcePicker extends Element {
      * The combobox config for the resource picker
      * @param {module:base-resource-picker.ComboboxConfig} newComboboxConfig the new combobox config object
      */
-    @api
     set comboboxConfig(newComboboxConfig) {
         this._comboboxConfig = newComboboxConfig;
         if (this._isInitialized) {
@@ -79,7 +77,6 @@ export default class FerovResourcePicker extends Element {
      * Set the error message through props
      * @param {String} error the new error message
      */
-    @api
     set errorMessage(error) {
         this.setCustomValidity(error);
     }
@@ -95,7 +92,6 @@ export default class FerovResourcePicker extends Element {
      * shouldBeWritable is so property editors can specify the data they need.
      * @param {module:ferov-resource-picker.ElementConfig} newElementConfig the new element config
      */
-    @api
     set elementConfig(newElementConfig) {
         this._elementConfig = newElementConfig;
         if (this._isInitialized) {

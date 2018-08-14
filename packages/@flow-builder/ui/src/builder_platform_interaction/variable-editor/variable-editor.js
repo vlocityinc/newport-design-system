@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { LightningElement, api, track, unwrap } from "lwc";
 import { getErrorsFromHydratedElement, getValueFromHydratedItem, GUID_SUFFIX, FEROV_DATA_TYPE_PROPERTY } from 'builder_platform_interaction-data-mutation-lib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { variableReducer } from './variable-reducer';
@@ -47,7 +47,7 @@ const warningMessage = 'Changing this field may result in runtime errors when th
  * @author Alejandro Lopez
  * @since 216
  */
-export default class VariableEditor extends Element {
+export default class VariableEditor extends LightningElement {
     // previous value of external access input output checkbox. Used to assess warning.
     _externalAccessPreviousValues = new Set();
 
@@ -70,7 +70,6 @@ export default class VariableEditor extends Element {
         return this.variableResource;
     }
 
-    @api
     set node(newValue) {
         // TODO: update when W-4889306 is closed
         this.variableResource = unwrap(newValue);

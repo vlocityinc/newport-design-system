@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 
 const CLASS_ACTIVE = 'slds-vertical-tabs__nav-item slds-is-active';
 const CLASS_INACTIVE = 'slds-vertical-tabs__nav-item';
@@ -13,7 +13,7 @@ const CLASS_INACTIVE = 'slds-vertical-tabs__nav-item';
  *      label: "LabelString"
  * }
  */
-export default class ReorderableVerticalNavigation extends Element {
+export default class ReorderableVerticalNavigation extends LightningElement {
     @api defaultLabel = '';
     @api hideFooter = false;
 
@@ -45,7 +45,7 @@ export default class ReorderableVerticalNavigation extends Element {
         });
     }
 
-    @api set activeItemId(selectedItem) {
+    set activeItemId(selectedItem) {
         this._activeItemId = selectedItem;
     }
 

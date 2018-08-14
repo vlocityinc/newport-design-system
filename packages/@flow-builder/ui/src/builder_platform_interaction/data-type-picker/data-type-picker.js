@@ -1,9 +1,9 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { LABELS } from './data-type-picker-labels';
 import { FLOW_DATA_TYPE, SCALE_RANGE, SCALE_DEFAULT } from 'builder_platform_interaction-data-type-lib';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 
-export default class DataTypePicker extends Element {
+export default class DataTypePicker extends LightningElement {
     labels = LABELS;
     scaleRange = SCALE_RANGE;
 
@@ -62,7 +62,6 @@ export default class DataTypePicker extends Element {
     /**
      * @param {SelectedDataType} newValue - the selected data type
      */
-    @api
     set value(newValue) {
         this.state = { ...newValue };
     }
@@ -71,7 +70,6 @@ export default class DataTypePicker extends Element {
         return this.allowScale && !this.state.isCollection && (this.state.dataType === FLOW_DATA_TYPE.NUMBER.value || this.state.dataType === FLOW_DATA_TYPE.CURRENCY.value);
     }
 
-    @api
     set comboboxErrorMessage(errorMessage) {
         this.comboboxError = errorMessage;
         this.validate();

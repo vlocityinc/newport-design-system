@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { updateProperties, getValueFromHydratedItem, sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
 import {
@@ -43,7 +43,7 @@ let contextConfig;
  * @author Jesenia Garcia-Rovetta
  * @since 214
  */
-export default class ExpressionBuilder extends Element {
+export default class ExpressionBuilder extends LightningElement {
     @track
     state = {
         expression: undefined, // the expression to be displayed

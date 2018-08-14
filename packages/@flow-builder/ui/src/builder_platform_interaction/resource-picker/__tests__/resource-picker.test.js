@@ -1,5 +1,5 @@
 import ResourcePicker from '../resource-picker';
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { getRulesForContext, getRHSTypes, PARAM_PROPERTY } from 'builder_platform_interaction-rule-lib';
 import {
     getElementsForMenuData,

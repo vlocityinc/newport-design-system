@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { createFlowElement } from 'builder_platform_interaction-element-config';
 import { hydrateWithErrors, mutateEditorElement } from 'builder_platform_interaction-data-mutation-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
@@ -19,7 +19,7 @@ const EDITOR_SELECTOR = '.editor_template';
  * For more information about switching templates see this doc: https://salesforce.quip.com/nvdIAb8SaN5A
  * It also handles creation of flow elements, mutating the element, and hydrating the elements
  */
-export default class ResourceEditorContainer extends Element {
+export default class ResourceEditorContainer extends LightningElement {
     /**
      * The currently selected resource
      * @type {String}
@@ -43,7 +43,6 @@ export default class ResourceEditorContainer extends Element {
      * The new flow element is then mutated and hydrated
      * @param {String} resourceType the selected resource type
      */
-    @api
     set selectedResource(resourceType) {
         this._selectedResource = resourceType;
 

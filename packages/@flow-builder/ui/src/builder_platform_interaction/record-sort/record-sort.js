@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { LABELS } from './record-sort-labels';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
@@ -17,7 +17,7 @@ const SORT_ORDER_OPTIONS = [{
     value : NOT_SORTED_VALUE
 }];
 
-export default class RecordSort extends Element {
+export default class RecordSort extends LightningElement {
     labels = LABELS;
 
     _resourceApiName;
@@ -39,7 +39,6 @@ export default class RecordSort extends Element {
      * This object should come form sobject-lib#getFieldsForEntity
      * @param {Object} value fields
      */
-    @api
     set resourceApiName(value) {
         this._resourceApiName = value;
         if (value && value !== '') {
@@ -56,7 +55,6 @@ export default class RecordSort extends Element {
      * the value of the order sort dropdown.
      * @param {string} value    This value can be : "NotSorted", "Asc", "Desc"
      */
-    @api
     set sortOrder(value) {
         this.state.selectedSortOrder = value;
         this.state.showFieldSelector = value !== NOT_SORTED_VALUE;
@@ -71,7 +69,6 @@ export default class RecordSort extends Element {
      * the apiName of the selected field
      * @param {string} value    ex: Id
      */
-    @api
     set selectedField(value) {
         this.state.selectedField = value;
     }
@@ -91,7 +88,6 @@ export default class RecordSort extends Element {
         return this.state.sortFieldErrorMessage;
     }
 
-    @api
     set sortFieldError(errorMessage) {
         this.state.sortFieldErrorMessage = errorMessage;
         const lightningCombobox = this.template.querySelector('.sortField');

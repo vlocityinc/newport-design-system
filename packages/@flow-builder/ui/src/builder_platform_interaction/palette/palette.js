@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { LightningElement, api, track, unwrap } from "lwc";
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -6,7 +6,7 @@ import { Element, api, track, unwrap } from 'engine';
  * An interim component to give us lightning-tree-grid functionality. This will
  * be removed in the future once lightning-tree-grid satisfies our requirements.
  */
-export default class Palette extends Element {
+export default class Palette extends LightningElement {
     @api iconSize;
     @api showSectionItemCount;
 
@@ -15,7 +15,6 @@ export default class Palette extends Element {
         return this.rows;
     }
 
-    @api
     set data(value) {
         // TODO: If lightning-tree-grid doesn't satisfy our requirements and we end up getting
         // stuck with using palette, we should consider making resources-selector give us data in a
@@ -29,7 +28,6 @@ export default class Palette extends Element {
         return this.draggableItems;
     }
 
-    @api
     set itemsDraggable(value) {
         this.draggableItems = value === 'true';
     }
@@ -39,7 +37,6 @@ export default class Palette extends Element {
         return this.showResourceDetails;
     }
 
-    @api
     set detailsButton(value) {
         this.showResourceDetails = value === 'true';
     }

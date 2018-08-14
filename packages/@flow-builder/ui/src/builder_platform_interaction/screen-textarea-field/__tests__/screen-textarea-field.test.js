@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import ScreenTextareaField from 'builder_platform_interaction-screen-textarea-field';
 import { getShadowRoot } from 'lwc-test-utils';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';

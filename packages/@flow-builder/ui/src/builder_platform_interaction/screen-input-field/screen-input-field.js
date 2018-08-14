@@ -1,10 +1,10 @@
-import { Element, track, api } from 'engine';
+import { LightningElement, track, api } from "lwc";
 import { getVariant, booleanValue, getPlaceHolderLabel, CURRENCY_FORMAT, LIGHTNING_INPUT_TYPES } from 'builder_platform_interaction-screen-editor-utils';
 
 /**
  * Wrapper used to represent visual preview of screen fields which are are input fields.
  */
-export default class ScreenInputField extends Element {
+export default class ScreenInputField extends LightningElement {
     @api name;
     @api value;
     @api required = false;
@@ -20,7 +20,6 @@ export default class ScreenInputField extends Element {
         return this._typeName;
     }
 
-    @api
     set typeName(newValue) {
         this._typeName = newValue;
         if (newValue === 'Currency') {
@@ -53,7 +52,6 @@ export default class ScreenInputField extends Element {
         return getVariant(this.label);
     }
 
-    @api
     set helpText(newValue) {
         this._helptext = newValue;
     }
@@ -70,7 +68,6 @@ export default class ScreenInputField extends Element {
         return this._label && this._label.value ? this._label.value : getPlaceHolderLabel(this.typeName);
     }
 
-    @api
     set label(value) {
         this._label = value;
     }

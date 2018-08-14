@@ -1,11 +1,11 @@
-import { Element, track, api } from 'engine';
+import { LightningElement, track, api } from "lwc";
 import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction-data-type-lib';
 import { getElementsForMenuData, getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getRHSTypes, PARAM_PROPERTY, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { getParameterLabel, isInputParameter, isRequiredParameter, getParameterDataType } from 'builder_platform_interaction-parameter-item-utils';
 import { UpdateParameterItemEvent } from 'builder_platform_interaction-events';
 
-export default class ParameterItem extends Element {
+export default class ParameterItem extends LightningElement {
     @track state = {
         toggleStatus: null,
         parameterItem: {}
@@ -48,7 +48,6 @@ export default class ParameterItem extends Element {
     /**
      * @param {ParameterItem} parameter item
      */
-    @api
     set item(parameter) {
         this.state.parameterItem = parameter;
     }

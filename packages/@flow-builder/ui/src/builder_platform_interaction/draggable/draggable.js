@@ -1,9 +1,9 @@
-import { Element, api } from "engine";
+import { LightningElement, api } from "lwc";
 import {
     ReorderListEvent
 } from 'builder_platform_interaction-events';
 
-export default class Draggable extends Element {
+export default class Draggable extends LightningElement {
     @api index;
 
     handleDragStart(event) {

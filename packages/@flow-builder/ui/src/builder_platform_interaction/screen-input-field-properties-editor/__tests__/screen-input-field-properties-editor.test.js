@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import ScreenInputFieldPropertiesEditor from '../screen-input-field-properties-editor';
 import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction-builder-test-utils';
 import { getShadowRoot } from 'lwc-test-utils';

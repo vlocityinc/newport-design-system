@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 const LINK_ARIA_SELECTED_ACTIVE = 'true';
 const LINK_ARIA_SELECTED_INACTIVE = 'false';
 
@@ -6,7 +6,7 @@ const LINK_ARIA_SELECTED_INACTIVE = 'false';
  * Component that provides the items to be included in
  * a vertical navigation component like ReorderableVerticalNavigation
  */
-export default class ReorderableVerticalNavigationItem extends Element {
+export default class ReorderableVerticalNavigationItem extends LightningElement {
     @api label;
     @api navItemId;
     @api activeId;

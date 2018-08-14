@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 import { isChildElement } from 'builder_platform_interaction-element-config';
 
@@ -16,7 +16,7 @@ const LABELS = {
  * be removed in the future once lightning-tree-grid satisfies our requirements.
  */
 
-export default class PaletteItem extends Element {
+export default class PaletteItem extends LightningElement {
     @api description;
     @api elementType;
     @api guid;

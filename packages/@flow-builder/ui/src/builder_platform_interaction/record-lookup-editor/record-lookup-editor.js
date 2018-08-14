@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { recordLookupReducer } from './record-lookup-reducer';
 import { ENTITY_TYPE, getFieldsForEntity, getAllEntities } from 'builder_platform_interaction-sobject-lib';
 import { LABELS } from './record-lookup-editor-labels';
@@ -10,7 +10,7 @@ import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
 
-export default class RecordLookupEditor extends Element {
+export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
 
     @track
@@ -46,7 +46,6 @@ export default class RecordLookupEditor extends Element {
         return this.recordLookupElement;
     }
 
-    @api
     set node(newValue) {
         this.recordLookupElement = newValue;
         this.recordEntityName = this.recordLookupElement.object.value;

@@ -1,4 +1,4 @@
-import {Element, api} from 'engine';
+import {LightningElement, api} from "lwc";
 import {DeleteListItemEvent, UpdateListItemEvent} from 'builder_platform_interaction-events';
 import deleteRowAlternativeText from '@salesforce/label/FlowBuilderRows.deleteRowAlternativeText';
 
@@ -9,7 +9,7 @@ import deleteRowAlternativeText from '@salesforce/label/FlowBuilderRows.deleteRo
  * @author hcockburn
  * @since 214
  */
-export default class Row extends Element {
+export default class Row extends LightningElement {
     @api itemIndex;
     @api itemPrefix;
     @api showPrefix;

@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import {
     getElementsForMenuData,
     filterMatches,
@@ -16,7 +16,7 @@ const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = PARAM_PROPERTY;
  * It also makes use of expression-utils so you can configure which Flow Elements get displayed
  * TODO: W-4961822 add logic for dealing with fetch menu data event for going to next level in combobox (select fields)
  */
-export default class ResourcePicker extends Element {
+export default class ResourcePicker extends LightningElement {
     /**
      * holds the rules used for fetching full menu data, taken from the rule service. We should not need to modify this
      * @type {Object[]}
@@ -128,7 +128,6 @@ export default class ResourcePicker extends Element {
      * For example: In Record Create, the "variable" used to assign the record ID would have data type "text"
      * @param {String} dataType         the data type of the element being set by the resource picker
      */
-    @api
     set elementDataType(dataType) {
         /** @member {String} */
         this._elementDataType = dataType;
@@ -149,7 +148,6 @@ export default class ResourcePicker extends Element {
      * For example: In the variable editor, this would be true if the variable was a collection
      * @param {Boolean} elementIsCollection     the collection boolean value of the element being set by the resource picker
      */
-    @api
     set elementIsCollection(elementIsCollection) {
         /** @member {Boolean} */
         this._elementIsCollection = elementIsCollection;
@@ -170,7 +168,6 @@ export default class ResourcePicker extends Element {
      * For example: In record create, when choosing the variable to assign the record ID the element type is "VARIABLE"
      * @param {String} elementType      the element type of the element being set by the resource picker
      */
-    @api
     set elementType(elementType) {
         /** @member {String} */
         this._elementType = elementType;

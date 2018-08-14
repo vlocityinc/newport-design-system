@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent } from 'builder_platform_interaction-events';
@@ -14,7 +14,7 @@ import nodeElement from './node.html';
  * @since 214
  */
 
-export default class Node extends Element {
+export default class Node extends LightningElement {
     @api node = {
         config: {}
     };

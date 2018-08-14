@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 import PaletteItem from 'builder_platform_interaction-palette-item';
 import { getShadowRoot } from 'lwc-test-utils';

@@ -1,4 +1,4 @@
-import {createElement} from 'engine';
+import {createElement} from "lwc";
 import { getShadowRoot } from 'lwc-test-utils';
 import ReorderableVerticalNavigation from 'builder_platform_interaction-reorderable-vertical-navigation';
 

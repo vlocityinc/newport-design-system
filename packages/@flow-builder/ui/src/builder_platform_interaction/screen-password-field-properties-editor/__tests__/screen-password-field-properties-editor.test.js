@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import ScreenPasswordFieldPropertiesEditor from '../screen-password-field-properties-editor';
 import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction-builder-test-utils';
 import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction-events';

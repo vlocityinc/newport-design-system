@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import DataTypePicker from '../data-type-picker';
 import { FLOW_DATA_TYPE, SCALE_DEFAULT, SCALE_RANGE } from 'builder_platform_interaction-data-type-lib';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';

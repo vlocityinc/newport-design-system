@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { LABELS } from './flow-properties-editor-labels';
@@ -12,13 +12,12 @@ import { SaveType } from 'builder_platform_interaction-save-type';
  * @author Aniko van der Lee
  * @since 216
  */
-export default class FlowPropertiesEditor extends Element {
+export default class FlowPropertiesEditor extends LightningElement {
     @api
     get node() {
         return this.flowProperties;
     }
 
-    @api
     set node(newValue) {
         const data = newValue;
         this.flowProperties = data;

@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from "engine";
+import { LightningElement, api, track, unwrap } from "lwc";
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE} from 'builder_platform_interaction-flow-metadata';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
@@ -9,7 +9,7 @@ const SELECTORS = {
     TYPES: '.types',
 };
 
-export default class ActionSelector extends Element {
+export default class ActionSelector extends LightningElement {
     @track
     state = {
         selectedElementType : ELEMENT_TYPE.ACTION_CALL,
@@ -164,7 +164,6 @@ export default class ActionSelector extends Element {
      *
      * @param {SelectedAction} newValue the selected action
      */
-    @api
     set selectedAction(newValue) {
         newValue = unwrap(newValue);
         this.state.selectedElementType = newValue.elementType ? newValue.elementType : ELEMENT_TYPE.ACTION_CALL;

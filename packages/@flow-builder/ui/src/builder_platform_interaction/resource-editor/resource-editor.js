@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { getResourceTypesMenuData } from 'builder_platform_interaction-expression-utils';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction-validation-rules';
 import { LABELS } from './resource-editor-labels';
@@ -15,7 +15,7 @@ const COMBOBOX_SELECTOR = 'lightning-combobox';
  * Property Editor Validation: https://salesforce.quip.com/KH3OAdQI553X
  * Resource Editor architecture: https://salesforce.quip.com/NS8ZAxTzYsmp
  */
-export default class ResourceEditor extends Element {
+export default class ResourceEditor extends LightningElement {
     /**
      * Menu items representing allowed resource types
      * @type {module:builder_platform_interaction-expression-utils.MenuItem[]}
@@ -35,7 +35,6 @@ export default class ResourceEditor extends Element {
      * We need to have this to work with the existing property editor architecture
      * @param {Object} node the object initially passed in, we ignore this
      */
-    @api
     set node(node) {
         this.resourceNode = {};
     }

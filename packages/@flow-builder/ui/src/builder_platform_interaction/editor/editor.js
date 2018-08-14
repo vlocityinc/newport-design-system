@@ -1,4 +1,4 @@
-import { Element, track, api } from 'engine';
+import { LightningElement, track, api } from "lwc";
 import { invokePanel, PROPERTY_EDITOR } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
@@ -36,7 +36,7 @@ const EDITOR = 'EDITOR';
  * @ScrumTeam Process UI
  * @since 214
  */
-export default class Editor extends Element {
+export default class Editor extends LightningElement {
     currentFlowId;
 
     @track
@@ -82,7 +82,6 @@ export default class Editor extends Element {
         return this.currentFlowId;
     }
 
-    @api
     set flowId(newFlowId) {
         if (newFlowId) {
             this.currentFlowId = newFlowId;

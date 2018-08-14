@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LIGHTNING_INPUT_VARIANTS, booleanAttributeValue } from 'builder_platform_interaction-screen-editor-utils';
@@ -9,7 +9,7 @@ const SELECTORS = {
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker'
 };
 
-export default class ScreenTextAreaPropertyField extends Element {
+export default class ScreenTextAreaPropertyField extends LightningElement {
     elementConfig = {
         elementType: ELEMENT_TYPE.SCREEN,
         shouldBeWritable: true
@@ -43,7 +43,7 @@ export default class ScreenTextAreaPropertyField extends Element {
         return this._value;
     }
 
-    @api set value(val) {
+    set value(val) {
         this._value = val;
     }
 

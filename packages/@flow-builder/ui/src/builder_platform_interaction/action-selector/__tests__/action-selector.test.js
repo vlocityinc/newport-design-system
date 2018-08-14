@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { getShadowRoot } from 'lwc-test-utils';
 import ActionSelector from '../action-selector';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';

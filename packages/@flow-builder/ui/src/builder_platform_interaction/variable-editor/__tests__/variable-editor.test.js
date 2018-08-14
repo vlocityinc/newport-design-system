@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { getShadowRoot } from 'lwc-test-utils';
 import VariableEditor from '../variable-editor';
 import * as mockStoreData from 'mock-store-data';

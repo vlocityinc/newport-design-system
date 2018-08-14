@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
 import {
     EXPRESSION_PROPERTY_TYPE,
@@ -19,7 +19,7 @@ const RHSG = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID;
 
 const isFieldOnSobject = true;
 
-export default class FerToFerovExpressionBuilder extends Element {
+export default class FerToFerovExpressionBuilder extends LightningElement {
     @track
     state = {
         expression: undefined,

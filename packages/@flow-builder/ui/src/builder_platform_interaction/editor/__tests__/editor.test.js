@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import Editor from '../editor';
 import { CANVAS_EVENT } from 'builder_platform_interaction-events';

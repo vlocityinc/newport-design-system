@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { recordReducer } from './record-reducer';
 import { ENTITY_TYPE } from 'builder_platform_interaction-sobject-lib';
 import { RESOURCE_PICKER_MODE, getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
@@ -6,7 +6,7 @@ import { LABELS } from './record-editor-labels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { RECORD_FILTER_CRITERIA, NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
 
-export default class RecordEditor extends Element {
+export default class RecordEditor extends LightningElement {
     labels = LABELS;
 
     crudFilterType = ENTITY_TYPE.QUERYABLE
@@ -33,7 +33,6 @@ export default class RecordEditor extends Element {
         return this.recordNode;
     }
 
-    @api
     set node(newValue) {
         this.recordNode = newValue;
     }

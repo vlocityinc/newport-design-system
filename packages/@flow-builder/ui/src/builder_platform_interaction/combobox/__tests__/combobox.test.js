@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { getShadowRoot } from 'lwc-test-utils';
 import Combobox from 'builder_platform_interaction-combobox';
 import { comboboxInitialConfig, secondLevelMenuData } from 'mock-combobox-data';

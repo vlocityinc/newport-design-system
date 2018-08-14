@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { LightningElement, api, track, unwrap } from "lwc";
 import { drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
 import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pan-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
@@ -25,7 +25,7 @@ const KEYS = {
 
 const canvas = 'canvas';
 
-export default class Canvas extends Element {
+export default class Canvas extends LightningElement {
     @api nodes = [];
     @api connectors = [];
 

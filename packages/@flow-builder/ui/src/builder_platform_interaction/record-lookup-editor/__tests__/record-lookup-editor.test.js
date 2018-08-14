@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import RecordLookupEditor from '../record-lookup-editor';
 import { getShadowRoot } from 'lwc-test-utils';
 import * as expressionUtilsMock from 'builder_platform_interaction-expression-utils';

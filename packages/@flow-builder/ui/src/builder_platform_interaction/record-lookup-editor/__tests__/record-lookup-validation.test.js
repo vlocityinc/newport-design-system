@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import RecordLookupEditor from '../record-lookup-editor';
 import { recordLookupValidation, getRules } from '../record-lookup-validation.js';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';

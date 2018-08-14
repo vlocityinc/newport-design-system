@@ -1,11 +1,11 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 
 /*
  * Screen element property editor
  */
-export default class ScreenDisplayTextFieldPropertiesEditor extends Element {
+export default class ScreenDisplayTextFieldPropertiesEditor extends LightningElement {
     @api field;
     labels = LABELS;
 

@@ -1,4 +1,4 @@
-import { Element, api, track } from "engine";
+import { LightningElement, api, track } from "lwc";
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
@@ -10,7 +10,7 @@ import {
 /**
  * a combobox to retrieve a list of sobject and/or sobject collection variables of a specified entity or all if no entity
  */
-export default class SObjectOrSObjectCollectionPicker extends Element {
+export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     @track
     state = {
         recordEntityName: '',
@@ -24,7 +24,6 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
         return this.state.errorMessage;
     }
 
-    @api
     set errorMessage(value) {
         this.state.errorMessage = value;
     }
@@ -43,7 +42,6 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
      */
-    @api
     set recordEntityName(entityName) {
         this.state.recordEntityName = entityName;
     }
@@ -56,7 +54,6 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
     /**
      * @param {Boolean} isCollection true if select from sObject collection variables
      */
-    @api
     set isCollection(isCollection) {
         this.state.isCollection = isCollection;
     }
@@ -69,7 +66,6 @@ export default class SObjectOrSObjectCollectionPicker extends Element {
     /**
      * @param {String} value the selected sObject or sObject collection variable
      */
-    @api
     set value(value) {
         this.state.value = value;
         this.element = getResourceByUniqueIdentifier(this.state.value);

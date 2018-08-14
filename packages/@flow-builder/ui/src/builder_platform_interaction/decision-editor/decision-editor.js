@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { decisionReducer } from './decision-reducer';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
@@ -13,7 +13,7 @@ const SELECTORS = {
 const EMPTY_OUTCOME_LABEL = LABELS.emptyOutcomeLabel;
 const EMPTY_DEFAULT_OUTCOME_LABEL = LABELS.emptyDefaultOutcomeLabel;
 
-export default class DecisionEditor extends Element {
+export default class DecisionEditor extends LightningElement {
     @track activeOutcomeId;
     @track decisionElement;
 
@@ -48,7 +48,6 @@ export default class DecisionEditor extends Element {
         return this.decisionElement;
     }
 
-    @api
     set node(newValue) {
         this.decisionElement = newValue;
         this.activeOutcomeId = this.decisionElement.outcomes[0].guid;

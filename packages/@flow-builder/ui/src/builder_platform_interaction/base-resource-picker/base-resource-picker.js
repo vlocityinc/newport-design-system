@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { filterMatches } from 'builder_platform_interaction-expression-utils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 
@@ -7,7 +7,7 @@ import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-ed
  * This class holds the full menu data, filtered menu data and handles the events combobox value changed & filter matches
  * All wrapper classes will have to implement their own logic for retrieving full menu data
  */
-export default class BaseResourcePicker extends Element {
+export default class BaseResourcePicker extends LightningElement {
     /**
      * Custom error message from setCustomValidity
      */
@@ -62,7 +62,6 @@ export default class BaseResourcePicker extends Element {
         this._customValidity = message;
     }
 
-    @api
     set errorMessage(error) {
         this.setCustomValidity(error);
     }

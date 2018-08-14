@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
@@ -7,7 +7,7 @@ import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-ed
 /*
  * Screen element property editor for the password field.
  */
-export default class ScreenPasswordFieldPropertiesEditor extends Element {
+export default class ScreenPasswordFieldPropertiesEditor extends LightningElement {
     @api field;
 
     labels = LABELS;

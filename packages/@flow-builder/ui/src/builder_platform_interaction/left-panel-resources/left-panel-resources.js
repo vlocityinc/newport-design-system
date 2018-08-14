@@ -1,10 +1,10 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 import { LABELS } from './left-panel-resources-labels';
 import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-logging-utils';
 
 const leftPanelResources = 'leftPanelResources';
 
-export default class LeftPanelResources extends Element {
+export default class LeftPanelResources extends LightningElement {
     @api canvasElements = [];
     @api nonCanvasElements = [];
 

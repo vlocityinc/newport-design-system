@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction-events';
 import ResourceDetails from 'builder_platform_interaction-resource-details';
 import { getShadowRoot } from 'lwc-test-utils';

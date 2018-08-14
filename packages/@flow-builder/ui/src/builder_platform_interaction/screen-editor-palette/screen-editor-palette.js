@@ -1,4 +1,4 @@
-import { Element, track, api } from 'engine';
+import { LightningElement, track, api } from "lwc";
 import { applyFilter } from 'builder_platform_interaction-common-utils';
 import { getAllScreenFieldTypes, getAllCachedExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
@@ -9,14 +9,14 @@ const SELECTORS = {
     FILTER_INPUT: '#filter-input',
 };
 
-export default class ScreenPalette extends Element {
+export default class ScreenPalette extends LightningElement {
     @track types;
     _fieldTypes;
     _extensionTypes;
 
     labels = LABELS;
 
-    @api set screenFieldTypes(fieldTypes) {
+    set screenFieldTypes(fieldTypes) {
         this._fieldTypes = fieldTypes;
         this.buildModel();
     }
@@ -25,7 +25,7 @@ export default class ScreenPalette extends Element {
         return this._fieldTypes;
     }
 
-    @api set extensionTypes(extTypes) {
+    set extensionTypes(extTypes) {
         this._extensionTypes = extTypes;
         this.buildModel();
     }

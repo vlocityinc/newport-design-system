@@ -1,4 +1,4 @@
-import { createElement } from 'engine';
+import { createElement } from "lwc";
 import ExpressionBuilder from 'builder_platform_interaction-expression-builder';
 import { getShadowRoot } from 'lwc-test-utils';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';

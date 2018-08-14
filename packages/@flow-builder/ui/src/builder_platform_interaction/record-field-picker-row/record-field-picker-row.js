@@ -1,4 +1,4 @@
-import { Element, api, track } from "engine";
+import { LightningElement, api, track } from "lwc";
 import { LABELS } from './record-field-picker-row-labels';
 import { getFieldsMenuData } from 'builder_platform_interaction-expression-utils';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
@@ -12,7 +12,7 @@ const ID_FIELD = 'Id';
 /**
  * a combobox to retrieve a list of deduped fields to prevent selection of the same field twice.
  */
-export default class RecordFieldPickerRow extends Element {
+export default class RecordFieldPickerRow extends LightningElement {
     labels = LABELS;
     @track
     state = {
@@ -42,7 +42,6 @@ export default class RecordFieldPickerRow extends Element {
     /**
      * @param {String} value the record entity name
      */
-    @api
     set recordEntityName(value) {
         this.state.recordEntityName = value;
     }
@@ -55,7 +54,6 @@ export default class RecordFieldPickerRow extends Element {
     /**
      * @param {String} value the selected queried field
      */
-    @api
     set value(value) {
         this.state.value = value;
     }
@@ -68,7 +66,6 @@ export default class RecordFieldPickerRow extends Element {
     /**
      * @param {String[]} fields the queriedFields from recordNode.queriedFields
      */
-    @api
     set queriedFields(fields) {
         this.state.queriedFields = fields.map(field => {
             return field.field.value;

@@ -1,4 +1,4 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { format } from 'builder_platform_interaction-common-utils';
 
 /**
@@ -9,7 +9,7 @@ import { format } from 'builder_platform_interaction-common-utils';
  * This component should be used instead of lightning-formatted-rich-text if
  * label arguments need to be escaped.
  */
-export default class RichLabel extends Element {
+export default class RichLabel extends LightningElement {
     @track
     state = {
         label : "",
@@ -29,7 +29,6 @@ export default class RichLabel extends Element {
      *            value the label. Label can contain strong html tags and
      *            include placeholders. (ex : 'record {0}')
      */
-    @api
     set label(value) {
         this.state.label = value;
     }
@@ -41,7 +40,6 @@ export default class RichLabel extends Element {
      *            values the arguments. '{0}' in the label will be replaced by
      *            values[0].
      */
-    @api
     set args(values) {
         if (Array.isArray(values)) {
             this.state.args = values;

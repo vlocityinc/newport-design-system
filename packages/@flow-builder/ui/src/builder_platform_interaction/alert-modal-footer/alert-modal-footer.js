@@ -1,6 +1,6 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 
-export default class AlertModalFooter extends Element {
+export default class AlertModalFooter extends LightningElement {
     @api buttons;
     @api closeModalCallback;
 

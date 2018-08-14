@@ -1,4 +1,4 @@
-import { Element, api, track, unwrap } from 'engine';
+import { LightningElement, api, track, unwrap } from "lwc";
 import { FetchMenuDataEvent, ComboboxStateChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expression-utils';
@@ -41,7 +41,7 @@ const isMatchWithTrailingPeriod = (text, textWithPeriodAndBracket) => {
  */
 const MAX_LEVEL_MENU_DATA = 2;
 
-export default class Combobox extends Element {
+export default class Combobox extends LightningElement {
     @track
     state = {
         displayText: '',
@@ -55,7 +55,6 @@ export default class Combobox extends Element {
      * If empty no label.
      * @param {String} value The label value to set
      */
-    @api
     set label(value) {
         if (!value) {
             this._comboboxVariant = LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN;
@@ -74,7 +73,6 @@ export default class Combobox extends Element {
      * Must be from the LIGHTNING_INPUT_VARIANTS const
      * @param {String} value The variant type to set
      */
-    @api
     set variant(value) {
         for (const key in LIGHTNING_INPUT_VARIANTS) {
             if (LIGHTNING_INPUT_VARIANTS[key] === value) {
@@ -95,7 +93,6 @@ export default class Combobox extends Element {
      * Pass the error message on to lightning-grouped-combobox
      * @param {String} error the new error message
      */
-    @api
     set errorMessage(error) {
         if (error || error === null) {
             this.setErrorMessage(error);
@@ -111,7 +108,6 @@ export default class Combobox extends Element {
      * If true, only references are allowed in this combobox
      * @param {String|Boolean} isAllowed value to set allow literals
      */
-    @api
     set literalsAllowed(isAllowed) {
         this._isLiteralAllowed = isAllowed ? isAllowed !== 'false' : false;
     }
@@ -133,7 +129,6 @@ export default class Combobox extends Element {
      * Note: Date time format might be localized in 218+ (W-5236170)
      * @param {menuDataRetrieval.MenuItem|String} itemOrDisplayText - The value of the combobox
      */
-    @api
     set value(itemOrDisplayText) {
         let displayText;
         this._mergeFieldLevel = 1;
@@ -185,7 +180,6 @@ export default class Combobox extends Element {
      * Needed for validation for literal and showing date picker for date/datetime.
      * @param {String} dataType The FlowDataTypes that this combobox accepts.
      */
-    @api
     set type(dataType) {
         if (dataType && dataType.toUpperCase) {
             if (!Object.values(FLOW_DATA_TYPE).find(type => type.value === dataType)) {
@@ -214,7 +208,6 @@ export default class Combobox extends Element {
      * Expected in the exact format the lightning-grouped-combobox needs.
      * @param {Array} data - the menu data
      */
-    @api
     set menuData(data) {
         this.state.menuData = data;
         this.state.showActivityIndicator = false;

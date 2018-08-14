@@ -1,18 +1,18 @@
-import { Element, api, track } from 'engine';
+import { LightningElement, api, track } from "lwc";
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { mergeExtensionInfo } from 'builder_platform_interaction-screen-editor-utils';
 
 /*
  * Dynamic property editor for screen extensions.
  */
-export default class ScreenExtensionPropertiesEditor extends Element {
+export default class ScreenExtensionPropertiesEditor extends LightningElement {
     // TODO can't close this story until we are able to handle two outputs for the same attributes
     @track _field;
     @track _extensionDescription;
     @track mergedField;
     labels = LABELS;
 
-    @api set field(value) {
+    set field(value) {
         this._field = value;
         this.mergedField = null;
         this.checkState();
@@ -22,7 +22,7 @@ export default class ScreenExtensionPropertiesEditor extends Element {
         return this._field;
     }
 
-    @api set extensionDescription(value) {
+    set extensionDescription(value) {
         this._extensionDescription = value;
         this.mergedField = null;
         this.checkState();
