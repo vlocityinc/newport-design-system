@@ -21,6 +21,7 @@ export default class PaletteSection extends LightningElement {
     @api label;
     @api expanded;
     @api itemCount;
+    @api detailsButton;
 
     @track showCount = false;
 

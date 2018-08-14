@@ -15,7 +15,8 @@
                     show-item-count={showSectionItemCount}
                     item-count={row.visibleItems}
                     expanded={row.expanded}
-                    onpalettesectiontoggle={handleToggleSection}>
+                    onpalettesectiontoggle={handleToggleSection}
+                    details-button={showResourceDetails}>
                 </tr>
                 <!-- Item -->
                 <tr if:false={row.isSection} is="builder_platform_interaction-palette-item"
