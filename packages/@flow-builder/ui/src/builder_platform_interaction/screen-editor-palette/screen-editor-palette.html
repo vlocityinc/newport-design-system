@@ -3,8 +3,6 @@
         	<div class='slds-panel__header slds-shrink-none'>
         		<h2 class='slds-panel__header-title slds-text-heading_small'>{labels.paletteTitle}</h2>
         	</div>
-    
-        	<div class='slds-scrollable_y slds-grid slds-grid_vertical slds-grow'>
             <div class='slds-shrink-none slds-p-horizontal_small slds-grid slds-grid_vertical-align-end slds-p-top_small'>
                 <div class='slds-form-element slds-m-right_xx-small'>
                     <label class='slds-form-element__label slds-assistive-text' for='filter-input'>{labels.paletteSearch}</label>
@@ -15,13 +13,14 @@
                 </div>
                 <lightning-button-icon icon-name='utility:refresh' size='large' onclick={handleReload}></lightning-button-icon>
             </div>
-            <builder_platform_interaction-palette data={types}
-                                                  items-draggable='true'
-                                                  icon-size='x-small'
-                                                  onpaletteitemclicked={handlePaletteItemClickedEvent}
-                                                  ondragstart={handleDragStart}
-                                                  show-section-item-count='true'>
-            </builder_platform_interaction-palette>            
+        	<div class='slds-scrollable_y slds-grid slds-grid_vertical slds-grow'>
+                <builder_platform_interaction-palette data={types}
+                                                      items-draggable='true'
+                                                      icon-size='x-small'
+                                                      onpaletteitemclicked={handlePaletteItemClickedEvent}
+                                                      ondragstart={handleDragStart}
+                                                      show-section-item-count='true'>
+                </builder_platform_interaction-palette>
         	</div>
     </div>
 </template>
