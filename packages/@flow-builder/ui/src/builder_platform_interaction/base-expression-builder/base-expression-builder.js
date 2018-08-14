@@ -8,6 +8,7 @@ import {
     getResourceByUniqueIdentifier,
     getResourceFerovDataType,
     isElementAllowed,
+    filterMatches,
 } from 'builder_platform_interaction-expression-utils';
 import {
     getRulesForContext,
@@ -255,14 +256,32 @@ export default class BaseExpressionBuilder extends Element {
         return this._rhsParamTypes;
     }
 
-    populateLhsMenuData(getFields, parentMenuItem) {
+    handleFilterLHSMatches(event) {
+        event.stopPropagation();
+        this.state[LHS_FILTERED_MENU_DATA] = filterMatches(event.detail.value, this.state[LHS_FULL_MENU_DATA], event.detail.isMergeField);
+    }
+
+    handleFilterRHSMatches(event) {
+        event.stopPropagation();
+        this.state[RHS_FILTERED_MENU_DATA] = filterMatches(event.detail.value, this.state[RHS_FULL_MENU_DATA], event.detail.isMergeField);
+    }
+
+    handleFetchLHSMenuData(event) {
+        this.populateLhsMenuData(!!event.detail.item, event.detail.item);
+    }
+
+    handleFetchRHSMenuData(event) {
+        this.populateRhsMenuData(!!event.detail.item, event.detail.item);
+    }
+
+    populateLhsMenuData = (getFields, parentMenuItem) => {
         const shouldBeWritable = false;
 
         this.populateMenuData(getFields, parentMenuItem, LHS_FULL_MENU_DATA, LHS_FILTERED_MENU_DATA, this.lhsFields,
             this.lhsParamTypes, shouldBeWritable, this.showLhsAsFieldReference);
     }
 
-    populateRhsMenuData(getFields, parentMenuItem) {
+    populateRhsMenuData = (getFields, parentMenuItem) => {
         const isFerov = true;
         const showAsFieldReference = true;
         const shouldBeWritable = true;

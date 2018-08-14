@@ -8,6 +8,8 @@
                                                error-message={lhsError}
                                                literals-allowed=false
                                                oncomboboxstatechanged={handleLhsValueChanged}
+                                               onfiltermatches={handleFilterLHSMatches}
+                                               onfetchmenudata={handleFetchLHSMenuData}
         >
         </builder_platform_interaction-combobox>
         <lightning-combobox class="operator slds-col slds-grow slds-size_x-small"
@@ -28,6 +30,8 @@
                                                literals-allowed={rhsLiteralsAllowed}
                                                error-message={rhsError}
                                                oncomboboxstatechanged={handleRhsValueChanged}
+                                               onfiltermatches={handleFilterRHSMatches}
+                                               onfetchmenudata={handleFetchRHSMenuData}
         >
         </builder_platform_interaction-combobox>
     </div>
