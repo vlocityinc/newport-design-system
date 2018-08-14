@@ -89,7 +89,7 @@ describe('screen-input-field-properties-editor for TextBox', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
-            expect(renderedHelpTextField.value).not.toBeDefined();
+            expect(renderedHelpTextField.value).toBeNull();
         });
     });
 });
@@ -150,7 +150,7 @@ describe('screen-input-field-properties-editor for Number', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
-            expect(renderedHelpTextField.value).not.toBeDefined();
+            expect(renderedHelpTextField.value).toBeNull();
         });
     });
 });
@@ -211,7 +211,7 @@ describe('screen-input-field-properties-editor for Date', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
-            expect(renderedHelpTextField.value).not.toBeDefined();
+            expect(renderedHelpTextField.value).toBeNull();
         });
     });
 });
@@ -273,7 +273,7 @@ describe('screen-input-field-properties-editor for DateTime', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
-            expect(renderedHelpTextField.value).not.toBeDefined();
+            expect(renderedHelpTextField.value).toBeNull();
         });
     });
 });
@@ -334,7 +334,7 @@ describe('screen-input-field-properties-editor for Checkbox', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
-            expect(renderedHelpTextField.value).not.toBeDefined();
+            expect(renderedHelpTextField.value).toBeNull();
         });
     });
 });
@@ -395,7 +395,7 @@ describe('screen-input-field-properties-editor for Currency', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
-            expect(renderedHelpTextField.value).not.toBeDefined();
+            expect(renderedHelpTextField.value).toBeNull();
         });
     });
 });

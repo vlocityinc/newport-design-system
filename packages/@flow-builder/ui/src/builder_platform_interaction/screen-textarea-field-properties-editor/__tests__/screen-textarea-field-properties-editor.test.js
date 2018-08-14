@@ -13,7 +13,10 @@ jest.mock('builder_platform_interaction-selectors', () => {
 const SELECTORS = {
     NAME_FIELD: 'builder_platform_interaction-screen-property-field[name="name"]',
     LABEL_FIELD: 'builder_platform_interaction-combobox',
-    DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[type="long_string"]'
+    DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[type="long_string"]',
+    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-screen-property-field[name="validationRule.errorMessage"]',
+    VALIDATION_FORMULA: 'builder_platform_interaction-screen-property-field[name="validationRule.formulaExpression"]',
+    HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
 };
 
 const fieldName = 'input1';
@@ -33,7 +36,7 @@ describe('screen-textarea-field-properties-editor', () => {
     let screenTextAreaFieldPropEditor;
     beforeEach(() => {
         screenTextAreaFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE),
+            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE, {helpText: false}),
         });
     });
     it('Unique Name field should be required', () => {
@@ -78,6 +81,27 @@ describe('screen-textarea-field-properties-editor', () => {
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
     });
+    it('Validation rule error message is present but empty', () => {
+        return Promise.resolve().then(() => {
+            const renderedValidationError = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            expect(renderedValidationError).toBeDefined();
+            expect(renderedValidationError.value).toBeNull();
+        });
+    });
+    it('Validation rule formula is present but empty', () => {
+        return Promise.resolve().then(() => {
+            const renderedValidationFormula = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            expect(renderedValidationFormula).toBeDefined();
+            expect(renderedValidationFormula.value).toBeNull();
+        });
+    });
+    it('Help text is present but empty', () => {
+        return Promise.resolve().then(() => {
+            const renderedHelpTextField = query(screenTextAreaFieldPropEditor, SELECTORS.HELP_TEXT);
+            expect(renderedHelpTextField).toBeDefined();
+            expect(renderedHelpTextField.value).toBeNull();
+        });
+    });
 });
 
 describe('screen-textarea-field-properties-editor with default value', () => {
@@ -92,6 +116,22 @@ describe('screen-textarea-field-properties-editor with default value', () => {
         return Promise.resolve().then(() => {
             const renderedDefaultValueField = query(screenTextAreaFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
             expect(renderedDefaultValueField.value).toEqual(defaultVal);
+        });
+    });
+});
+
+describe('screen-textarea-field-properties-editor with help text', () => {
+    let screenTextAreaFieldPropEditor;
+    beforeEach(() => {
+        screenTextAreaFieldPropEditor = createComponentUnderTest({
+            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE),
+        });
+    });
+    it('Help text is displayed', () => {
+        return Promise.resolve().then(() => {
+            const renderedHelpTextField = query(screenTextAreaFieldPropEditor, SELECTORS.HELP_TEXT);
+            expect(renderedHelpTextField).toBeDefined();
+            expect(renderedHelpTextField.value.value).toBe('Screen field input1 help text');
         });
     });
 });

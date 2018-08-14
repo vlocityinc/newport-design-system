@@ -107,7 +107,7 @@ describe('screen-password-field-properties-editor', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenPasswordFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
-            expect(renderedHelpTextField.value).not.toBeDefined();
+            expect(renderedHelpTextField.value).toBeNull();
         });
     });
 });

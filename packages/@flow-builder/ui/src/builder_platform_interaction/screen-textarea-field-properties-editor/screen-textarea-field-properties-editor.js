@@ -70,4 +70,8 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
     get validationRuleFormula() {
         return this.field.validationRule ? this.field.validationRule.formulaExpression : null;
     }
+
+    get helpTextValue() {
+        return this.field.helpText && this.field.helpText.value ? this.field.helpText : null;
+    }
 }
