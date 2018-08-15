@@ -11,8 +11,7 @@ jest.mock('builder_platform_interaction-selectors', () => {
 });
 
 const SELECTORS = {
-    NAME_FIELD: 'builder_platform_interaction-screen-property-field[name="name"]',
-    LABEL_FIELD: 'builder_platform_interaction-combobox',
+    NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[type="long_string"]',
     VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-screen-property-field[name="validationRule.errorMessage"]',
     VALIDATION_FORMULA: 'builder_platform_interaction-screen-property-field[name="validationRule.formulaExpression"]',
@@ -39,22 +38,16 @@ describe('screen-textarea-field-properties-editor', () => {
             field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE, {helpText: false}),
         });
     });
-    it('Unique Name field should be required', () => {
+    it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenTextAreaFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.required).toBeTruthy();
+            const nameAndLabelField = getShadowRoot(screenTextAreaFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
-    it('Unique Name field should be a string type input', () => {
+    it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameField = query(screenTextAreaFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(nameField.type).toBe('string');
-        });
-    });
-    it('Unique Name field should be filled in', () => {
-        return Promise.resolve().then(() => {
-            const renderedNameField = query(screenTextAreaFieldPropEditor, SELECTORS.NAME_FIELD);
-            expect(renderedNameField.value.value).toBe(fieldName);
+            const nameAndLabelField = getShadowRoot(screenTextAreaFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
     it('Property changed on name field', () => {

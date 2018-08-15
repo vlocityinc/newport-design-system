@@ -34,7 +34,7 @@ export function createEmptyNodeOfType(type) {
         helpText: '',
         defaultValue: null,
         dataType: type.dataType,
-        name: null,
+        name: '',
         extensionName: type.name,
         choiceReferences: [],
         defaultSelectedChoiceReference: '',
