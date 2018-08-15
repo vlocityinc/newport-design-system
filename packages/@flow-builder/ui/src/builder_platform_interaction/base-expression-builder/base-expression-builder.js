@@ -44,6 +44,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     @track
     state = {
         containerElement: undefined,
+        operatorAndRhsDisabled: true,
         lhsParam: undefined,
         lhsIsField: undefined,
         lhsFields: undefined,
@@ -106,8 +107,16 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.state.lhsParam = param;
         this._operatorMenuData = undefined;
         this.setLhsMenuData();
-        this._rhsParamTypes = undefined;
-        this.setRhsMenuData();
+        if (param) {
+            this.state.operatorAndRhsDisabled = false;
+
+            this._rhsParamTypes = undefined;
+            this.setRhsMenuData();
+        } else {
+            this.state.operatorAndRhsDisabled = true;
+
+            this.state[RHS_FULL_MENU_DATA] = this.state[RHS_FILTERED_MENU_DATA] = undefined;
+        }
     }
 
     @api
@@ -239,8 +248,8 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     setRhsMenuData() {
-        if (!this.areAllDefined([this.containerElement, this.lhsParam, this.lhsActivePicklistValues, this.operatorValue,
-            this.rhsIsField, this.rhsFields])) {
+        if (!this.areAllDefined([this.containerElement, this.lhsActivePicklistValues,
+            this.rhsIsField, this.rhsFields]) || !this.lhsParam || !this.operatorValue) {
             return;
         }
 
@@ -256,32 +265,56 @@ export default class BaseExpressionBuilder extends LightningElement {
         return this._rhsParamTypes;
     }
 
-    handleFilterLHSMatches(event) {
+    /** After rendering we are setting the operator error (if it exists)
+     *  via setCustomValidity
+     */
+    renderedCallback() {
+        this.setOperatorErrorMessage(this.operatorError);
+    }
+
+    setOperatorErrorMessage(errorMessage) {
+        const lightningCombobox = this.template.querySelector('.operator');
+        lightningCombobox.setCustomValidity(errorMessage);
+        lightningCombobox.showHelpMessageIfInvalid();
+    }
+
+    handleLhsItemSelected(event) {
+        this.state.operatorAndRhsDisabled = false;
+
+        if (!this._operatorMenuData || !this._operatorMenuData.length) {
+            const selectedLhs = this.getElementOrField(event.detail.item.value, this.lhsFields);
+            this._operatorMenuData = transformOperatorsForCombobox(getOperators(this.containerElement, selectedLhs, this._rules));
+        }
+    }
+
+    handleFilterLhsMatches(event) {
         event.stopPropagation();
+        // TODO: W-5340967 add the full combobox value to filter matches so it can be used here
+        this.state.operatorAndRhsDisabled = !this.template.querySelector('.lhs').value;
         this.state[LHS_FILTERED_MENU_DATA] = filterMatches(event.detail.value, this.state[LHS_FULL_MENU_DATA], event.detail.isMergeField);
     }
 
-    handleFilterRHSMatches(event) {
+    handleFilterRhsMatches(event) {
         event.stopPropagation();
         this.state[RHS_FILTERED_MENU_DATA] = filterMatches(event.detail.value, this.state[RHS_FULL_MENU_DATA], event.detail.isMergeField);
     }
 
-    handleFetchLHSMenuData(event) {
+    handleFetchLhsMenuData(event) {
         this.populateLhsMenuData(!!event.detail.item, event.detail.item);
     }
 
-    handleFetchRHSMenuData(event) {
+    handleFetchRhsMenuData(event) {
         this.populateRhsMenuData(!!event.detail.item, event.detail.item);
     }
 
-    populateLhsMenuData = (getFields, parentMenuItem) => {
+    populateLhsMenuData(getFields, parentMenuItem) {
         const shouldBeWritable = false;
 
         this.populateMenuData(getFields, parentMenuItem, LHS_FULL_MENU_DATA, LHS_FILTERED_MENU_DATA, this.lhsFields,
             this.lhsParamTypes, shouldBeWritable, this.showLhsAsFieldReference);
     }
 
-    populateRhsMenuData = (getFields, parentMenuItem) => {
+    populateRhsMenuData(getFields, parentMenuItem) {
         const isFerov = true;
         const showAsFieldReference = true;
         const shouldBeWritable = true;

@@ -100,6 +100,8 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                 this.state.lhsValue = lhsItem;
                 this.state.lhsParam = elementToParam(fer);
             }
+        } else {
+            this.clearLhsAuxillaryAttributes();
         }
     }
 

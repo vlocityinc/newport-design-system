@@ -8,8 +8,9 @@
                                                error-message={lhsError}
                                                literals-allowed=false
                                                oncomboboxstatechanged={handleLhsValueChanged}
-                                               onfiltermatches={handleFilterLHSMatches}
-                                               onfetchmenudata={handleFetchLHSMenuData}
+                                               onfiltermatches={handleFilterLhsMatches}
+                                               onfetchmenudata={handleFetchLhsMenuData}
+                                               onitemselected={handleLhsItemSelected}
         >
         </builder_platform_interaction-combobox>
         <lightning-combobox class="operator slds-col slds-grow slds-size_x-small"
@@ -19,6 +20,7 @@
                             options={operatorMenuData}
                             onchange={handleOperatorChanged}
                             dropdown-alignment="auto"
+                            disabled={state.operatorAndRhsDisabled}
         >
         </lightning-combobox>
         <builder_platform_interaction-combobox class="rhs slds-col slds-grow"
@@ -30,8 +32,9 @@
                                                literals-allowed={rhsLiteralsAllowed}
                                                error-message={rhsError}
                                                oncomboboxstatechanged={handleRhsValueChanged}
-                                               onfiltermatches={handleFilterRHSMatches}
-                                               onfetchmenudata={handleFetchRHSMenuData}
+                                               onfiltermatches={handleFilterRhsMatches}
+                                               onfetchmenudata={handleFetchRhsMenuData}
+                                               disabled={state.operatorAndRhsDisabled}
         >
         </builder_platform_interaction-combobox>
     </div>
