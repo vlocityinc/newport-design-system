@@ -33,7 +33,16 @@
             panelConfig: {
                 body: welcomeMat,
                 bodyClass: 'slds-p-around_none',
-                autoFocus: false,
+            },
+            // set focus to the lightning:button
+            onAfterShow: function() {
+                var welcomeMatCmp = welcomeMat.get('v.body')[0];
+                if (welcomeMatCmp) {
+                    var button = welcomeMatCmp.find('button');
+                    if (button) {
+                        button.focus();
+                    }
+                }
             }
         }).fire();
     },
