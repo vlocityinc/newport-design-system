@@ -144,11 +144,16 @@ function findReference(elementGuids, object, elementGuidsReferenced = new Set())
  */
 function matchElement(elementGuids, key, value) {
     if (key && REFERENCE_FIELDS.has(key)) {
-        return elementGuids && elementGuids.filter((elementGuid) => (elementGuid === value));
+        const guid = value.split('.')[0];
+        return elementGuids && elementGuids.filter((elementGuid) => guid === elementGuid);
     } else if (key && TEMPLATE_FIELDS.has(key)) {
+        // For eg: value = 'Hello world, {!var_1.name}'
+        // After match, occurrences = ['{!var_1.name}']
+        // After slice and split, occurences = ['var_1']
         const occurences = value.match(EXPRESSION_RE);
         if (occurences) {
-            return occurences.map((occurence) => occurence.slice(2, occurence.length - 1)).filter((occurence) => elementGuids.includes(occurence));
+            return occurences.map((occurence) => occurence.slice(2, occurence.length - 1).split('.')[0])
+                .filter((guid) => elementGuids.includes(guid));
         }
     }
     return [];
