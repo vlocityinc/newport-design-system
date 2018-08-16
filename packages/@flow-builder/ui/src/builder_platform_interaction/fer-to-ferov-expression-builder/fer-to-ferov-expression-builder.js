@@ -128,6 +128,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                     this.state.rhsFields = fields;
                 });
             } else {
+                this.state.rhsValue = rhsItem;
                 this.clearRhsAuxillaryAttributes();
             }
         }
