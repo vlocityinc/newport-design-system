@@ -36,8 +36,7 @@ const deleteAssignmentItem = (state, event) => {
 const updateAssignmentItem = (state, event) => {
     const path = ['assignmentItems', event.detail.index];
 
-    // TODO check for errors and handle validation accordingly
-    const item = updateProperties(event.detail.value);
+    const item = updateProperties(state.assignmentItems[event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 
