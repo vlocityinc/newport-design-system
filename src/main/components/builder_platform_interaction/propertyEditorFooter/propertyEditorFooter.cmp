@@ -13,7 +13,7 @@
                 aura:id="statusIcon" messages="{!v.messages}"
                 direction="north" type="error"
                 showOnlyNumberOfErrors="true"
-                headerforsummary="Resolve errors">
+                headerforsummary="{#$Label.FlowBuilderValidation.errorPopOverHeader}">
             </builder_platform_interaction:statusIcon>
         </div>
         <div class="slds-col slds-p-right_xx-small">

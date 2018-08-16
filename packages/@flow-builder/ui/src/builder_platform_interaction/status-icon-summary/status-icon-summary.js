@@ -9,6 +9,7 @@ export default class StatusIconSummary extends LightningElement {
     @api handleClickCallback;
     @api showOnlyNumberOfErrors = false;
 
+    labels = LABELS;
     /**
      * event handler for close button click in the header.
      * Calls the handleClickCallback
@@ -23,7 +24,7 @@ export default class StatusIconSummary extends LightningElement {
      * @returns {string} sectionStyle: the section style css based on type
      */
     get sectionStyle() {
-        return 'slds-popover slds-popover_medium slds-popover_' + this.type;
+        return 'slds-popover slds-popover_medium slds-show slds-popover_' + this.type;
     }
 
     /**
