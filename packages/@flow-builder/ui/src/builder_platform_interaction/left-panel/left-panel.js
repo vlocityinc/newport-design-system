@@ -120,15 +120,19 @@ export default class LeftPanel extends LightningElement {
     }
 
     retrieveResourceDetailsFromStore(currentElementState, iconName) {
-        this.resourceDetails = {
-            TYPE: currentElementState.elementType,
-            GUID: currentElementState.guid,
-            LABEL: currentElementState.label,
-            ICON_NAME: iconName,
-            DESCRIPTION: currentElementState.description,
-            NAME: currentElementState.name,
-            IS_CHILD_ELEMENT: isChildElement(currentElementState.elementType)
-        };
+        if (currentElementState) {
+            this.resourceDetails = {
+                TYPE: currentElementState.elementType,
+                GUID: currentElementState.guid,
+                LABEL: currentElementState.label,
+                ICON_NAME: iconName,
+                DESCRIPTION: currentElementState.description,
+                NAME: currentElementState.name,
+                IS_CHILD_ELEMENT: isChildElement(currentElementState.elementType)
+            };
+        } else {
+            this.showResourceDetailsPanel = false;
+        }
     }
 
     disconnectedCallback() {
