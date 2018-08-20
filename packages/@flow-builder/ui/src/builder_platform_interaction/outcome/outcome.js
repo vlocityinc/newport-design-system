@@ -37,8 +37,8 @@ export default class Outcome extends LightningElement {
     @track
     showErrorMessageIfBlank = this.labels.cannotBeBlankError;
 
-    get expressionBuilderConfig() {
-        return {elementType: ELEMENT_TYPE.DECISION};
+    get elementTypeForExpressionBuilder() {
+        return ELEMENT_TYPE.DECISION;
     }
 
     @api get outcome() {

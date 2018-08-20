@@ -17,7 +17,7 @@ const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 
 const RHSG = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID;
 
-const isFieldOnSobject = true;
+const isFieldOnSobjectVar = true;
 
 export default class FerToFerovExpressionBuilder extends LightningElement {
     @track
@@ -71,75 +71,80 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     @api
     containerElement;
 
-    populateLhsState(lhs) {
-        this.state.lhsError = lhs.error;
+    // TODO: W-5239664 both the below can be mostly (if not entirely) reused by the other wrappers
+    // TODO: W-5222299 both the below won't need to be callbacks once we start front loading the field retrieval.
+    populateLhsStateForField(fields, parent, fieldName) {
+        // TODO: W-4960448: the field will appear empty briefly when fetching the first time
+        const field = fields[fieldName];
+        field.isCollection = false;
+        this.state.lhsIsField = true;
+        this.state.lhsParam = elementToParam(field);
+        this.state.lhsValue = mutateFieldToComboboxShape(field, parent, isFieldOnSobjectVar, isFieldOnSobjectVar);
+        this.state.lhsActivePicklistValues = field.activePicklistValues || false;
+        this.state.lhsFields = fields;
+    }
 
-        if (lhs.error) {
-            this.state.lhsValue = lhs.value;
-            this.clearLhsAuxillaryAttributes();
-        } else if (lhs.value) {
-            const identifier = lhs.value;
-            const complexGuid = sanitizeGuid(identifier);
+    populateRhsStateForField(fields, parent, fieldName) {
+        // TODO: W-4960448: the field will appear empty briefly when fetching the first time
+        this.state.rhsIsField = true;
+        this.state.rhsValue = mutateFieldToComboboxShape(fields[fieldName], parent, isFieldOnSobjectVar, isFieldOnSobjectVar);
+        this.state.rhsFields = fields;
+    }
+
+    populateLhsState(lhs) {
+        this.resetLhsAuxillaryAttributes();
+        this.state.lhsError = lhs.error;
+        this.state.lhsValue = lhs.value;
+
+        if (lhs.value && !lhs.error) {
+            const complexGuid = sanitizeGuid(lhs.value);
             const fer = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
-            if (!fer) {
-                throw new Error('invalid LHS value but no error');
+
+            // TODO: W-5222299 this check can be removed when merge field validation is no longer asynchronous
+            if (fer) {
+                const lhsItem = mutateFlowResourceToComboboxShape(fer);
+                if (complexGuid.fieldName) {
+                    getFieldsForEntity(lhsItem.objectType, (fields) => {
+                        this.populateLhsStateForField(fields, lhsItem, complexGuid.fieldName);
+                    });
+                } else {
+                    this.state.lhsValue = lhsItem;
+                    this.state.lhsParam = elementToParam(fer);
+                }
             }
-            const lhsItem = mutateFlowResourceToComboboxShape(fer);
-            if (complexGuid.fieldName) {
-                this.state.lhsIsField = true;
-                getFieldsForEntity(lhsItem.objectType, (fields) => {
-                    const field = fields[complexGuid.fieldName];
-                    field.isCollection = false;
-                    this.state.lhsParam = elementToParam(field);
-                    this.state.lhsValue = mutateFieldToComboboxShape(field, lhsItem, true, true);
-                    this.state.lhsActivePicklistValues = field.activePicklistValues || false;
-                    this.state.lhsFields = fields;
-                });
-            } else {
-                this.clearLhsAuxillaryAttributes();
-                this.state.lhsValue = lhsItem;
-                this.state.lhsParam = elementToParam(fer);
-            }
-        } else {
-            this.clearLhsAuxillaryAttributes();
         }
     }
 
     populateRhsState(rhs, guid) {
+        this.resetRhsAuxillaryAttributes();
         this.state.rhsError = rhs.error;
+        this.state.rhsGuid = guid || null;
+        this.state.rhsValue = rhs.value;
 
-        if (rhs.error || !guid) {
-            this.state.rhsValue = rhs.value;
-            this.clearRhsAuxillaryAttributes();
-            this.state.rhsGuid = null;
-        } else {
-            this.state.rhsGuid = guid;
+        if (!rhs.error && guid) {
             const complexGuid = sanitizeGuid(guid);
             const fer = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
-            if (!fer) {
-                throw new Error('invalid RHS value but no error');
-            }
-            const rhsItem = mutateFlowResourceToComboboxShape(fer);
-            if (complexGuid.fieldName) {
-                // TODO: W-4960448: the field will appear empty briefly when fetching the first time
-                getFieldsForEntity(fer.objectType, (fields) => {
-                    this.state.rhsIsField = true;
-                    this.state.rhsValue = mutateFieldToComboboxShape(fields[complexGuid.fieldName], rhsItem, isFieldOnSobject, isFieldOnSobject);
-                    this.state.rhsFields = fields;
-                });
-            } else {
-                this.state.rhsValue = rhsItem;
-                this.clearRhsAuxillaryAttributes();
+
+            // TODO: W-5222299 this check can be removed when merge field validation is no longer asynchronous
+            if (fer) {
+                const rhsItem = mutateFlowResourceToComboboxShape(fer);
+                if (complexGuid.fieldName) {
+                    getFieldsForEntity(fer.objectType, (fields) => {
+                        this.populateRhsStateForField(fields, rhsItem, complexGuid.fieldName);
+                    });
+                } else {
+                    this.state.rhsValue = rhsItem;
+                }
             }
         }
     }
 
-    clearLhsAuxillaryAttributes() {
+    resetLhsAuxillaryAttributes() {
         this.state.lhsParam = this.state.lhsIsField = false;
         this.state.lhsActivePicklistValues = this.state.lhsFields = null;
     }
 
-    clearRhsAuxillaryAttributes() {
+    resetRhsAuxillaryAttributes() {
         this.state.rhsIsField = false;
         this.state.rhsFields = null;
     }

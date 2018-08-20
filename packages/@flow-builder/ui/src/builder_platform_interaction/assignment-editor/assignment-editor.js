@@ -18,8 +18,8 @@ export default class AssignmentEditor extends LightningElement {
 
     labels = LABELS;
 
-    get expressionBuilderConfig() {
-        return { elementType: ELEMENT_TYPE.ASSIGNMENT };
+    get elementType() {
+        return ELEMENT_TYPE.ASSIGNMENT;
     }
 
     get showDelete() {

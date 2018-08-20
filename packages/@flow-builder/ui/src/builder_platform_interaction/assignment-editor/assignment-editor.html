@@ -23,15 +23,16 @@
             <div class="slds-list__item slds-is-relative" key={item.rowIndex}>
               <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
                 <div slot="rowBody">
-                  <builder_platform_interaction-expression-builder configuration={expressionBuilderConfig}
+                  <builder_platform_interaction-fer-to-ferov-expression-builder
                     expression={item}
+                    container-element={elementType}
                     lhs-label={labels.lhsLabel}
                     operator-label={labels.operatorLabel}
                     rhs-label={labels.rhsLabel}
                     lhs-placeholder={labels.lhsPlaceholder}
                     operator-placeholder={labels.operatorPlaceholder}
                     rhs-placeholder={labels.rhsPlaceholder}>
-                  </builder_platform_interaction-expression-builder>
+                  </builder_platform_interaction-fer-to-ferov-expression-builder>
                 </div>
               </builder_platform_interaction-row>
             </div>
