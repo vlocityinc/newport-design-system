@@ -1,8 +1,7 @@
 import { LightningElement, api } from "lwc";
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
-import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
-import { LIGHTNING_INPUT_VARIANTS, getFlowDataTypeByName } from 'builder_platform_interaction-screen-editor-utils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
 /*
  * Screen element property editor for input fields.
@@ -21,9 +20,8 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
 
     /* Handle change of Default Value resource picker */
     handleDefaultValueChanged(event) {
-        // Set property name so the next handler knows which screen field property to update with new value.
         const property = 'defaultValue';
-        this.dispatchEvent(new PropertyChangedEvent(property, event.detail.displayText, event.detail.error, this.field.guid, this.field[property]));
+        this.dispatchEvent(new PropertyChangedEvent(property, event.detail.value, event.detail.error, this.field.guid, this.field[property]));
         event.stopPropagation();
     }
 
@@ -40,23 +38,13 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
         event.stopPropagation();
     }
 
-    get elementParam() {
+    get defaultValueResourcePickerConfig() {
         return {
-            dataType: getFlowDataTypeByName(this.field.dataType),
-            collection: false
+            allowLiterals: true,
+            collection: false,
+            objectType: this.field.dataType,
+            elementType: ELEMENT_TYPE.SCREEN
         };
-    }
-
-    get resourceComboBoxConfig() {
-        return BaseResourcePicker.getComboboxConfig(
-            LABELS.fieldDefaultValue, // Label
-            LABELS.resourcePickerPlaceholder, // Placeholder
-            null, // errorMessage
-            true, // literalsAllowed
-            false, // required
-            false, // disabled
-            this.field.dataType, // type
-            LIGHTNING_INPUT_VARIANTS.STANDARD); // variant
     }
 
 

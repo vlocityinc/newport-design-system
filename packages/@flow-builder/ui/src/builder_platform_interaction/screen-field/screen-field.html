@@ -6,7 +6,7 @@
         <builder_platform_interaction-screen-input-field if:true={isInputFieldType} 
                                                          type-name={screenfield.type.name} 
                                                          label={fieldText}
-                                                         value={screenfield.defaultValue}
+                                                         value={defaultValue}
                                                          help-text={screenfield.helpText}
                                                          required={isRequired}>
         </builder_platform_interaction-screen-input-field>
@@ -17,7 +17,7 @@
         </builder_platform_interaction-screen-display-text-field>
         <builder_platform_interaction-screen-textarea-field if:true={isTextAreaType}
                                                             label={fieldText}
-                                                            value={screenfield.defaultValue}
+                                                            value={defaultValue}
                                                             help-text={screenfield.helpText}
                                                             required={screenfield.isRequired}>
         </builder_platform_interaction-screen-textarea-field>

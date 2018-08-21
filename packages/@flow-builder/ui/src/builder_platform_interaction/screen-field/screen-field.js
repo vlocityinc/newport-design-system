@@ -44,4 +44,8 @@ export default class ScreenField extends LightningElement {
         }
         return hydrateWithErrors(getPlaceHolderLabel(this.screenfield.type.name));
     }
+
+    get defaultValue() {
+        return this.screenfield.defaultValue && this.screenfield.defaultValue.value ? this.screenfield.defaultValue.value : this.screenfield.defaultValue;
+    }
 }

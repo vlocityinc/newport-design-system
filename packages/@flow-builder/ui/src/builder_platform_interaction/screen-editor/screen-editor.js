@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track, unwrap } from "lwc";
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { isScreen, getAllScreenFieldTypes, getExtensionFieldTypes, processScreenExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { screenReducer } from './screen-reducer';
@@ -24,7 +24,7 @@ export default class ScreenEditor extends LightningElement {
         this.screenFieldTypes = getAllScreenFieldTypes();
         getExtensionFieldTypes().then(data => {
             this.extensionTypes = data;
-            this.node = processScreenExtensionTypes(this.screen);
+            this.node = processScreenExtensionTypes(unwrap(this.screen));
         }).catch(error => {
             throw error;
         });
@@ -42,7 +42,7 @@ export default class ScreenEditor extends LightningElement {
      * @param {object} newValue - The new screen
      */
     set node(newValue) {
-        this.screen = newValue || {};
+        this.screen = unwrap(newValue) || {};
         this.setSelectedNode(this.screen);
     }
 

@@ -2,10 +2,9 @@ import { LightningElement, api, track } from "lwc";
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { isItemHydratedWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
-import { booleanAttributeValue, getValueFromFerov, getFlowDataTypeByName, booleanValue } from 'builder_platform_interaction-screen-editor-utils';
+import { booleanAttributeValue, getFlowDataTypeByName, booleanValue } from 'builder_platform_interaction-screen-editor-utils';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { isObject } from 'builder_platform_interaction-common-utils';
 
 // QUILL supported formats
 const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
@@ -61,10 +60,6 @@ export default class ScreenPropertyField extends LightningElement {
         // Check for value like this because just doing this.value results in "false" when value is a number
         // set to 0, for example. Hence, perform the check like this.
         if (this.value !== undefined && this.value !== null) {
-            if (this.allowsResources && isObject(this.value) && !isItemHydratedWithErrors(this.value)) {
-                return getValueFromFerov(this.value);
-            }
-
             return this.value.value ? this.value.value : this.value;
         }
 
@@ -166,11 +161,20 @@ export default class ScreenPropertyField extends LightningElement {
     }
 
     handleEvent = (event) => {
-        const newValue = this.domValue;
+        let newValue = null, newGuid = null;
+
+        if (this.allowResources && event.detail.item) { // And it contains a ferov
+            newValue = event.detail.item.displayText;
+            newGuid = event.detail.item.value;
+        } else {
+            newValue = this.domValue;
+        }
+
         if (this.dehydratedValue !== newValue) {
             const error = event.detail && event.detail.error ? event.detail.error : null;
-            this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, null, this.value));
+            this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, newGuid, this.value));
         }
+
         event.stopPropagation();
     }
 }

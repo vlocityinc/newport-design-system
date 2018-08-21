@@ -21,16 +21,19 @@
                                                                 value={field.isRequired}
                                                                 onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-screen-property-field>
-
             
             <!--  default value: drop down resource list -->
-            <!--  TODO: W-5220407 - date and dateTime picker isn't show up -->
-            <builder_platform_interaction-ferov-resource-picker value={field.defaultValue}
-                                                                combobox-config={resourceComboBoxConfig}
-                                                                element-param={elementParam}
-                                                                property-editor-element-type='SCREEN'
-                                                                oncomboboxstatechanged={handleDefaultValueChanged}>
-            </builder_platform_interaction-ferov-resource-picker>
+            <!--  TODO: W-5220407 - date and dateTime picker isn't show up -->            
+            <builder_platform_interaction-screen-property-field name='defaultValue'
+                                                                label={labels.fieldDefaultValue} 
+                                                                value={field.defaultValue}
+                                                                type={field.dataType}
+                                                                allow-resources='true' 
+                                                                resource-picker-config={defaultValueResourcePickerConfig}
+                                                                >
+            </builder_platform_interaction-screen-property-field>
+                                        
+            
 
             <!--  Scale, if input type supports this field -->
             <builder_platform_interaction-screen-property-field if:true={isScaleEnabled} 

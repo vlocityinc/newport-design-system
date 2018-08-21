@@ -1,4 +1,5 @@
-import { isExtensionField, getScreenFieldType, getLocalExtensionFieldType, getScreenFieldTypeByName, getValueFromFerov, getFerovFromValue } from 'builder_platform_interaction-screen-editor-utils';
+import { isExtensionField, getLocalExtensionFieldType, getScreenFieldTypeByName, getScreenFieldType } from 'builder_platform_interaction-screen-editor-utils';
+import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
 
 export const mutateScreenField = field => {
     if (isExtensionField(field)) {
@@ -8,20 +9,25 @@ export const mutateScreenField = field => {
         } else { // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
             field.type = getLocalExtensionFieldType(field.extensionName);
         }
+
+        // Mutate param ferovs
+        const inputs = [];
+        for (const param of field.inputParameters) {
+            inputs.push(mutateFEROV(param, 'value', {
+                valueProperty: 'value',
+                dataTypeProperty: 'valueDataType',
+            }));
+        }
+
+        field.inputParameters = inputs;
     } else {
         field.type = getScreenFieldType(field);
     }
+
     if (field.hasOwnProperty('defaultValue')) {
-        field._defaultValue = field.defaultValue;
-        delete field.defaultValue;
-        Object.defineProperty(field, 'defaultValue', {
-            configurable: true,
-            get() {
-                return getValueFromFerov(field._defaultValue, field.dataType);
-            },
-            set(value) {
-                field._defaultValue = getFerovFromValue(value, field.dataType);
-            }
+        field = mutateFEROV(field, 'defaultValue', {
+            valueProperty: 'defaultValue',
+            dataTypeProperty: 'defaultValueDataType',
         });
     }
 
@@ -36,9 +42,6 @@ export const mutateScreenField = field => {
 
 export const demutateScreenField = field => {
     delete field.type;
-    delete field.defaultValue;
-    field.defaultValue = field._defaultValue;
-    delete field._defaultValue;
     delete field.isNewMode;
 
     // Convert scale back to number. MD expects this to be a number, but within FlowBuilder, we want it to be a string.
@@ -46,18 +49,38 @@ export const demutateScreenField = field => {
         field.scale = Number(field.scale);
     }
 
+    if (field.hasOwnProperty('defaultValue')) {
+        field = deMutateFEROV(field, 'defaultValue', {
+            valueProperty: 'defaultValue',
+            dataTypeProperty: 'defaultValueDataType',
+        });
+    }
+
+    if (isExtensionField(field)) {
+        // Mutate param ferovs
+        const inputs = [];
+        for (const param of field.inputParameters) {
+            inputs.push(deMutateFEROV(param, 'value', {
+                valueProperty: 'value',
+                dataTypeProperty: 'valueDataType',
+            }));
+        }
+
+        field.inputParameters = inputs;
+    }
+
     return field;
 };
 
 export const mutateScreen = screen => {
+    const fields = [];
     if (screen.fields) {
         for (const field of screen.fields) {
-            mutateScreenField(field);
+            fields.push(mutateScreenField(field));
         }
-    } else {
-        // If there are no fields defined, add an empty place-holder.
-        screen.fields = [];
     }
+
+    screen.fields = fields;
 
     screen.getFieldIndex = function (field) {
         if (this.fields) {
@@ -93,9 +116,14 @@ export const mutateScreen = screen => {
 };
 
 export const demutateScreen = screen => {
-    for (const field of screen.fields) {
-        demutateScreenField(field);
+    const fields = [];
+    if (screen.fields) {
+        for (const field of screen.fields) {
+            fields.push(demutateScreenField(field));
+        }
     }
+
+    screen.fields = fields;
 
     delete screen.getFieldByGUID;
     delete screen.getFieldIndexByGUID;

@@ -2,7 +2,7 @@ import { screenValidation } from './screen-validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
-import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getDefaultValueType } from 'builder_platform_interaction-screen-editor-utils';
+import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField } from 'builder_platform_interaction-screen-editor-utils';
 import { elementTypeToConfigMap } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
@@ -54,6 +54,86 @@ const reorderFields = (screen, event) => {
     return updateProperties(screen, {fields});
 };
 
+const handleScreenFieldPropertyChange = (data) => {
+    // Non-extension screen field change
+
+    // Run validation
+    const type = data.field.type.name;
+    const fullPropName = data.property !== 'name' ? 'fields[type.name="' + type + '"].' + data.property : 'name';
+    const error = data.error === null ? screenValidation.validateProperty(fullPropName, data.currentValue) : data.error;
+    if (error && data.hydrated) {
+        data.newValue.error = error;
+    }
+
+    // If the validation rule's error message or formula expression was changed, it needs special handling
+    // because it's an object within the field.
+    if (data.property === 'validationRule.errorMessage') {
+        const validationRuleProp = 'validationRule';
+        const errorMessageProp = 'errorMessage';
+        const newErrorMessage = updateProperties(data.field[validationRuleProp], {[errorMessageProp]: data.newValue});
+        return updateProperties(data.field, {[validationRuleProp]: newErrorMessage});
+    } else if (data.property === 'validationRule.formulaExpression') {
+        const validationRuleProp = 'validationRule';
+        const formulaProp = 'formulaExpression';
+        const newFormula = updateProperties(data.field[validationRuleProp], {[formulaProp]: data.newValue});
+        return updateProperties(data.field, {[validationRuleProp]: newFormula});
+    } else if (data.property === 'defaultValue') {
+        // Default value needs special handling because defaultValueDataType may need to be updated
+
+        // First update the value
+        let updatedValueField = updateProperties(data.field, {'defaultValue': data.newValue});
+
+        // Figure out if we need to update defaultValueDataType
+        const currentDataType = data.field.defaultValueDataType;
+        const newValueGuid = data.newValueGuid;
+        if (currentDataType === 'reference' && !newValueGuid) { // Going from reference to literal?
+            updatedValueField = updateProperties(updatedValueField, {'defaultValueDataType': data.field.dataType});
+            delete updatedValueField.defaultValueGuid;
+        } else if (currentDataType !== 'reference' && !!newValueGuid) { // Going from literal to reference ?
+            updatedValueField = updateProperties(updatedValueField, {'defaultValueDataType': 'reference'});
+            updatedValueField.defaultValueGuid = newValueGuid;
+        }
+
+        return updatedValueField;
+    }
+
+    return updateProperties(data.field, {[data.property]: data.newValue});
+};
+
+const handleExtensionFieldPropertyChange = (data) => {
+    // input/output param validation
+    let prefix;
+    let parametersPropName;
+    let paramPropertyName;
+    if (data.property.startsWith('input.')) {
+        prefix = 'input.';
+        parametersPropName = 'inputParameters';
+        paramPropertyName = 'value';
+    } else if (data.property.startsWith('output.')) {
+        prefix = 'output.';
+        parametersPropName = 'outputParameters';
+        paramPropertyName = 'assignToReference';
+    } else {
+        throw new Error('Unknown parameter type: ' + data.property);
+    }
+
+    const paramName = data.property.substring(prefix.length);
+    const param = data.field[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
+    if (param) {
+        // const error = data.error === null ? screenValidation.validateProperty(fullPropName, data.currentValue) : data.error; // TODO  W-4947239 validation??
+
+        // Replace the property in the parameter
+        const newParam = updateProperties(param, {[paramPropertyName]: data.newValue});
+        // Replace the new parameter in the parameters array
+        const index = data.field[parametersPropName].indexOf(param);
+        const updatedParams = replaceItem(data.field[parametersPropName], newParam, index);
+        // Replace the parameters in the field
+        return set(data.field, parametersPropName, updatedParams);
+    }
+
+    return null;
+};
+
 /**
  * Handles changes in properties in the screen or node.
  * @param {object} screen - The screen or node
@@ -86,70 +166,12 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
             }
             updatedNode = updateProperties(screen, {[property]: newValue});
         } else { // Screen field
+            const data = {property, field: selectedNode, currentValue, newValue, hydrated, error, newValueGuid: event.detail.guid};
             let newField = null;
             if (isExtensionField(selectedNode) && property !== 'name') {
-                // input/output param validation
-                let prefix;
-                let parametersPropName;
-                let paramPropertyName;
-                if (property.startsWith('input.')) {
-                    prefix = 'input.';
-                    parametersPropName = 'inputParameters';
-                    paramPropertyName = 'value';
-                } else if (property.startsWith('output.')) {
-                    prefix = 'output.';
-                    parametersPropName = 'outputParameters';
-                    paramPropertyName = 'assignToReference';
-                } else {
-                    throw new Error('Unknown parameter type: ' + property);
-                }
-
-                const paramName = property.substring(prefix.length);
-                const param = selectedNode[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
-                if (param) {
-                    // error = error === null ? screenValidation.validateProperty(fullPropName, value) : error; // TODO  W-4947239 validation??
-
-                    // Replace the property in the parameter
-                    const newParam = updateProperties(param, {[paramPropertyName]: newValue});
-                    // Replace the new parameter in the parameters array
-                    const index = selectedNode[parametersPropName].indexOf(param);
-                    const updatedParams = replaceItem(selectedNode[parametersPropName], newParam, index);
-                    // Replace the parameters in the field
-                    newField = set(selectedNode, parametersPropName, updatedParams);
-                }
+                newField = handleExtensionFieldPropertyChange(data);
             } else {
-                // Non-extension screen field change
-
-                // Run validation
-                const type = selectedNode.type.name;
-                const fullPropName = property !== 'name' ? 'fields[type.name="' + type + '"].' + property : 'name';
-                error = error === null ? screenValidation.validateProperty(fullPropName, value) : error;
-                if (error && hydrated) {
-                    newValue.error = error;
-                }
-
-                // If the validation rule's error message or formula expression was changed, it needs special handling
-                // because it's an object within the field.
-                if (property === 'validationRule.errorMessage') {
-                    const validationRuleProp = 'validationRule';
-                    const errorMessageProp = 'errorMessage';
-                    const newErrorMessage = updateProperties(selectedNode[validationRuleProp], {[errorMessageProp]: newValue});
-                    newField = updateProperties(selectedNode, {[validationRuleProp]: newErrorMessage});
-                } else if (property === 'validationRule.formulaExpression') {
-                    const validationRuleProp = 'validationRule';
-                    const formulaProp = 'formulaExpression';
-                    const newFormula = updateProperties(selectedNode[validationRuleProp], {[formulaProp]: newValue});
-                    newField = updateProperties(selectedNode, {[validationRuleProp]: newFormula});
-                } else if (property === 'defaultValue') {
-                    // Default value needs special handling because there are two properties that need to be updated.
-                    const internalDefaultValueField = '_defaultValue';
-                    const defaultValueType = getDefaultValueType(selectedNode);
-                    const firstUpdate = updateProperties(selectedNode[internalDefaultValueField], {[defaultValueType]: newValue});
-                    const secondUpdate = updateProperties(selectedNode, {[internalDefaultValueField]: firstUpdate});
-                    newField = updateProperties(secondUpdate, {[property]: newValue});
-                } else {
-                    newField = updateProperties(selectedNode, {[property]: newValue});
-                }
+                newField = handleScreenFieldPropertyChange(data);
             }
 
             // Replace the field in the screen
