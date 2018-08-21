@@ -256,7 +256,7 @@ export function mergeExtensionInfo(fieldMetadata, extensionDescription) {
  */
 export function processScreenExtensionTypes(screen) {
     for (const field of screen.fields) {
-        if (field.type.source === EXTENSION_TYPE_SOURCE.LOCAL) {
+        if (field.fieldType === COMPONENT_INSTANCE && field.type.source === EXTENSION_TYPE_SOURCE.LOCAL) {
             for (const type of extensionCache) {
                 if (type.name === field.type.name) {
                     field.type = type;

@@ -1,5 +1,5 @@
 <template>
-    <div class='full-height slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-border_left slds-grid slds-grid_vertical slds-size_medium' aria-hidden='false' >
+    <div class='properties-container full-height slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-border_left slds-grid slds-grid_vertical slds-size_medium toggle-animated' aria-hidden='false' >
         <div class='slds-panel__header slds-shrink-none -slds-border_bottom-none slds-grid'>
             <div class='slds-grow'>
                 <h2 class='slds-panel__header-title slds-text-heading_small'>
@@ -23,37 +23,37 @@
         
         <div if:false={displaySpinner} class='slds-panel__body slds-scrollable_y slds-p-around_none slds-grid slds-grid_vertical slds-grow full-height'>
             <builder_platform_interaction-screen-properties-editor if:true={isScreen} 
-                                                                   class='properties-editor-panel slds-size_medium toggle-animated' 
+                                                                   class='properties-editor-panel' 
                                                                    screen={node}>
             </builder_platform_interaction-screen-properties-editor>
 
             <builder_platform_interaction-screen-extension-properties-editor if:true={isExtensionField}
-                                                                             class='full-height properties-editor-panel toggle-animated' 
+                                                                             class='full-height properties-editor-panel' 
                                                                              field={node}
                                                                              extension-description={extendedInfo}>
             </builder_platform_interaction-screen-extension-properties-editor>
 
             <builder_platform_interaction-screen-display-text-field-properties-editor if:true={isDisplayField}
-                                                                   class='full-height properties-editor-panel slds-size_medium toggle-animated' 
+                                                                   class='full-height properties-editor-panel' 
                                                                    field={node}>
             </builder_platform_interaction-screen-display-text-field-properties-editor>
 
             <builder_platform_interaction-screen-input-field-properties-editor if:true={isInputField}
-                                                                   class='full-height properties-editor-panel slds-size_medium toggle-animated'
+                                                                   class='full-height properties-editor-panel'
                                                                    field={node}>
             </builder_platform_interaction-screen-input-field-properties-editor>
             
             <builder_platform_interaction-screen-textarea-field-properties-editor if:true={isTextAreaField}
-                                                                   class='full-height properties-editor-panel slds-size_medium toggle-animated'
+                                                                   class='full-height properties-editor-panel'
                                                                    field={node}>
             </builder_platform_interaction-screen-textarea-field-properties-editor>
             
             <builder_platform_interaction-screen-password-field-properties-editor if:true={isPasswordField}
-                                                                   class='full-height properties-editor-panel slds-size_medium toggle-animated'
+                                                                   class='full-height properties-editor-panel'
                                                                    field={node}>
             </builder_platform_interaction-screen-password-field-properties-editor>
 
-            <div if:true={isOther} class='properties-editor-panel slds-size_medium'>Screen field property editor (TBI)</div>
+            <div if:true={isOther} class='properties-editor-panel'>Screen field property editor (TBI)</div>
         </div>
     </div>
 </template>

@@ -62,7 +62,7 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     }
 
     handleToggleExpand = (/* event */) => {
-        const container = this.template.querySelector('.properties-editor-panel');
+        const container = this.template.querySelector('.properties-container');
 
         container.classList.toggle('slds-size_medium');
         const expanded = container.classList.toggle('slds-size_x-large');

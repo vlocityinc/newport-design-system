@@ -13,7 +13,7 @@
                                                                     onitemselected={handleResourcePickerSelection}>
                 </builder_platform_interaction-ferov-resource-picker>
             </div>                
-            <textarea id={name} class='slds-textarea textarea-input' name={name} onblur={handleEvent} onchange={handleEvent}>{_value}</textarea>
+            <textarea class='slds-textarea textarea-input' name={name} onblur={handleEvent} onchange={handleEvent}>{_value}</textarea>
         </div>
         <div if:true={error} class='slds-has-error'>
             <div role='alert' class='slds-form-element__help'>{error}</div>
