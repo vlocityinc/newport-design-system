@@ -71,7 +71,7 @@
             color: $color-blue-text-secondary;
          }
          > td:first-child {
-            padding-left: 0.5rem;
+            padding-#{$left}: 0.5rem;
          }
     }
 
@@ -323,7 +323,7 @@
         svg.nds-editblock_close {
             fill: $color-border-input;
             top: 0;
-            right: 0;
+            #{$right}: 0;
             position: absolute;
             cursor: pointer;
         }
@@ -342,16 +342,16 @@
         height: auto;
 
         .nds-edit-block_longcards-controls-container {
-            margin-left: 1rem;
+            margin-#{$left}: 1rem;
             line-height: 5rem;
             width: 100%;
             top: 0;
-            left: 0;
+            #{$left}: 0;
             height: inherit;
 
             div {
-                float: left;
-                margin-left: 1rem;
+                float: $left;
+                margin-#{$left}: 1rem;
 
                 &:first-child {
                     font-weight: 600;
@@ -379,7 +379,7 @@
         .nds-edit-block_inline-action-container {
             position: absolute;
             top: 1.6rem;
-            right: 1.5rem;
+            #{$right}: 1.5rem;
         }
     }
 
@@ -395,7 +395,7 @@
     }
 
     .nds-cont-wrapper .nds-custom_button {
-        left: calc(50% - 70px);
+        #{$left}: calc(50% - 70px);
     }
 
     .nds-cont-wrapper button.nds-custom_button:disabled,
