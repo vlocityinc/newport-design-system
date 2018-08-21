@@ -5,7 +5,9 @@ import addCriteria from "@salesforce/label/FlowBuilderRecordEditor.addCriteria";
 import filterLhsLabel from "@salesforce/label/FlowBuilderRecordEditor.filterLhsLabel";
 import filterOperatorLabel from "@salesforce/label/FlowBuilderRecordEditor.filterOperatorLabel";
 import filterRhsLabel from "@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel";
-import filterNoCriteria from "@salesforce/label/FlowBuilderRecordEditor.filterNoCriteria";
+import filterNoCriteriaGet from "@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaGet";
+import filterNoCriteriaUpdate from "@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdate";
+import filterNoCriteriaDelete from "@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaDelete";
 import filterAllCriterias from "@salesforce/label/FlowBuilderRecordEditor.filterAllCriterias";
 import filterPrefix from "@salesforce/label/FlowBuilderRecordEditor.filterPrefix";
 import criteriaMatchingRecords from "@salesforce/label/FlowBuilderRecordEditor.criteriaMatchingRecords";
@@ -20,7 +22,9 @@ export const LABELS = {
     filterLhsLabel,
     filterOperatorLabel,
     filterRhsLabel,
-    filterNoCriteria,
+    filterNoCriteriaGet,
+    filterNoCriteriaUpdate,
+    filterNoCriteriaDelete,
     filterAllCriterias,
     filterPrefix,
     criteriaMatchingRecords,
@@ -38,4 +42,11 @@ export const CRITERIA_RECORDS_LABELS = {
 export const WARNING_LABELS = {
     [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.updateAllRecords,
     [ELEMENT_TYPE.RECORD_DELETE]: LABELS.deleteAllRecords,
+};
+
+
+export const NO_CRITERIA_LABELS = {
+    [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.filterNoCriteriaGet,
+    [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.filterNoCriteriaUpdate,
+    [ELEMENT_TYPE.RECORD_DELETE]: LABELS.filterNoCriteriaDelete,
 };

@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from "lwc";
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS } from './record-filter-labels';
+import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS, NO_CRITERIA_LABELS } from './record-filter-labels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-record-editor-lib';
 import { format } from 'builder_platform_interaction-common-utils';
 import {
@@ -9,14 +9,6 @@ import {
     UpdateRecordLookupFilterEvent,
     RecordLookupFilterTypeChangedEvent
 } from 'builder_platform_interaction-events';
-
-const FILTER_TYPE_OPTIONS = [{
-    label : LABELS.filterNoCriteria,
-    value : RECORD_FILTER_CRITERIA.NONE
-}, {
-    label : LABELS.filterAllCriterias,
-    value : RECORD_FILTER_CRITERIA.ALL
-}];
 
 export default class RecordFilter extends LightningElement {
     labels = LABELS;
@@ -102,6 +94,13 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterOptions() {
+        const FILTER_TYPE_OPTIONS = [{
+            label : format(NO_CRITERIA_LABELS[this.elementType], this.resourceDisplayText),
+            value : RECORD_FILTER_CRITERIA.NONE
+        }, {
+            label : LABELS.filterAllCriterias,
+            value : RECORD_FILTER_CRITERIA.ALL
+        }];
         return FILTER_TYPE_OPTIONS;
     }
 

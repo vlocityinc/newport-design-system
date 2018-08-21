@@ -107,20 +107,22 @@ describe('record-filter', () => {
     });
 
     describe('Labels', () => {
-        let element;
         it('Check filter records combobox label for record lookup', () => {
-            element = createComponentUnderTest();
-            expect(getFilterRecordsCombobox(element).label).toBe('FlowBuilderRecordEditor.ruleFindingRecords');
+            const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
+            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.ruleFindingRecords');
+            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaGet');
         });
         it('Check filter records combobox label for record update', () => {
             mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_UPDATE;
-            element = createComponentUnderTest();
-            expect(getFilterRecordsCombobox(element).label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+            const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
+            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaUpdate');
         });
         it('Check filter records combobox label for record delete', () => {
             mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_DELETE;
-            element = createComponentUnderTest();
-            expect(getFilterRecordsCombobox(element).label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+            const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
+            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaDelete');
         });
     });
 
