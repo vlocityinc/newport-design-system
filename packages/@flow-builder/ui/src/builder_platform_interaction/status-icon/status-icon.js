@@ -2,16 +2,17 @@ import { LightningElement, api, createElement, track } from "lwc";
 import { showCustomOverlay } from 'lightning-overlay-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import StatusIconSummary from 'builder_platform_interaction-status-icon-summary';
-
+import { LABELS } from './status-icon-labels';
 const dotPrefixForClass = '.';
 
 export default class StatusIcon extends LightningElement {
     internalMessages = [];
     panelInstance = undefined;
-    panelHidden = true;
+
+    @track isIconVisible = false;
+    @track panelHidden = true;
 
     @api type = 'error'; // Can only be error or warning as of now
-    @track isIconVisible = false;
     @api direction = 'south'; // other options : north, east & west
     @api headerforsummary; // header for summary / body of panel
     @api showOnlyNumberOfErrors = false;
@@ -81,6 +82,19 @@ export default class StatusIcon extends LightningElement {
      */
     get iconClassFromType() {
         return 'slds-icon-text-' + this.type;
+    }
+
+    /**
+     * @returns {string} iconTitle - dynamic title based on type of status icon and state of popover being open or close
+     */
+    get iconTitle() {
+        let title;
+        if (this.type === 'warning') {
+            title = this.panelHidden ? LABELS.statusIconShowWarningTitle : LABELS.statusIconHideWarningTitle;
+        } else {
+            title = this.panelHidden ? LABELS.statusIconShowErrorTitle : LABELS.statusIconHideErrorTitle;
+        }
+        return title;
     }
 
     /**

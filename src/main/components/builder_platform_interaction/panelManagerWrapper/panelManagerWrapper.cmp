@@ -4,7 +4,7 @@
             <aura:set attribute="registeredPanels">
                 <ui:modal alias="modal" aura:id="modal">
                     <aura:set attribute="closeButton">
-                        <ui:button aura:id="closeModal" aura:flavor="modal-closeBtn" variant="slds-button slds-button--icon-inverse slds-modal__close" label="{!$Label.Buttons.closeWindow}" labelDisplay="false" buttonTitle="{!$Label.Buttons.closeWindow}">
+                        <ui:button aura:id="closeModal" aura:flavor="modal-closeBtn" variant="slds-button slds-button--icon-inverse slds-modal__close" label="{#$Label.FlowBuilderCommonPropertyEditor.closePanelButtonTitle}" labelDisplay="false" buttonTitle="{#$Label.FlowBuilderCommonPropertyEditor.closePanelButtonTitle}">
                             <lightning:icon size="small" iconName="utility:close" variant="bare" />
                         </ui:button>
                     </aura:set>
