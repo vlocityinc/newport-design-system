@@ -1,7 +1,6 @@
 import { createElement } from "lwc";
 import ScreenPasswordFieldPropertiesEditor from '../screen-password-field-properties-editor';
 import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction-builder-test-utils';
-import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction-selectors', () => {
@@ -49,24 +48,6 @@ describe('screen-password-field-properties-editor', () => {
         return Promise.resolve().then(() => {
             const nameAndLabelField = getShadowRoot(screenPasswordFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.label.value).toBe(fieldName);
-        });
-    });
-    it('Property changed on name field', () => {
-        return Promise.resolve().then(() => {
-            const renderedNameField = query(screenPasswordFieldPropEditor, SELECTORS.NAME_FIELD);
-            const callback = jest.fn();
-            renderedNameField.addEventListener('propertychanged', callback);
-            renderedNameField.dispatchEvent(new PropertyChangedEvent('name', 'new name'));
-            expect(callback).toHaveBeenCalled();
-        });
-    });
-    it('Property changed on label field', () => {
-        return Promise.resolve().then(() => {
-            const renderedLabelField = getShadowRoot(screenPasswordFieldPropEditor).querySelector(SELECTORS.LABEL_FIELD);
-            const callback = jest.fn();
-            renderedLabelField.addEventListener('comboboxstatechanged', callback);
-            renderedLabelField.dispatchEvent(new ComboboxStateChangedEvent({ value: null, displayText: 'New Label' }));
-            expect(callback).toHaveBeenCalled();
         });
     });
     it('Default value is empty when there is no default value', () => {
