@@ -28,13 +28,13 @@
         <div class="slds-p-horizontal_small slds-m-bottom_small slds-grid">
             <div class="slds-col slds-grow-none">
             <lightning-icon icon-name="utility:warning" title={labels.warning} alternative-text={labels.warning} variant="warning" size="x-small" 
-                class="slds-m-right_x-small">
+                class="slds-m-top_xxx-small slds-m-right_x-small">
             </lightning-icon>
             </div>
-            <div class="slds-col">
+            <div class="slds-m-top_xx-small">
                 <span>{labels.helpIdFieldPopulatedWithText}</span>
             </div>
-            <lightning-helptext content={labels.helpSObjectRecordUpdateAltText}></lightning-helptext>
+            <lightning-helptext class="slds-m-left_xx-small" content={labels.helpSObjectRecordUpdateAltText}></lightning-helptext>
         </div>        
     </div>
     <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
