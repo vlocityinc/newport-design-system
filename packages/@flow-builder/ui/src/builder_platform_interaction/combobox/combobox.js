@@ -496,6 +496,7 @@ export default class Combobox extends LightningElement {
         } else {
             this._mergeFieldLevel--;
         }
+        this.state.menuData = [];
         const fetchMenuDataEvent = new FetchMenuDataEvent(item);
         this.dispatchEvent(fetchMenuDataEvent);
         this.state.showActivityIndicator = true;

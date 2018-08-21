@@ -460,6 +460,17 @@ describe('Combobox Tests', () => {
             });
         });
 
+        it('Menu data is cleared when FetchMenuData is fired', () => {
+            combobox.value = '{!MyAccount}';
+
+            return Promise.resolve().then(() => {
+                textInputEvent = getTextInputEvent('{!MyAccount.}');
+
+                groupedCombobox.dispatchEvent(textInputEvent);
+                expect(combobox.menuData).toHaveLength(0);
+            });
+        });
+
         it('FetchMenuData is fired when a . is deleted', () => {
             combobox.value = '{!MyAccount}';
 
