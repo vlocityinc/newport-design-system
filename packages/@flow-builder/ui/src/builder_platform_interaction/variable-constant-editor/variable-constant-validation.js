@@ -3,7 +3,7 @@ import { Validation } from 'builder_platform_interaction-validation';
 import { getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
-import { LABELS } from "./variable-editor-labels";
+import { LABELS } from "./variable-constant-editor-labels";
 
 /**
  * @constant additionalRules - map of propertyName to validation rules

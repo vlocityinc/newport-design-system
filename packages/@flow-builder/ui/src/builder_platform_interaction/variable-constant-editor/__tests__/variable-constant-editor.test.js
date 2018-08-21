@@ -1,10 +1,10 @@
 import { createElement } from "lwc";
 import { getShadowRoot } from 'lwc-test-utils';
-import VariableEditor from '../variable-editor';
+import VariableEditor from '../variable-constant-editor';
 import * as mockStoreData from 'mock-store-data';
 import * as selectorsMock from 'builder_platform_interaction-selectors';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
-import { variableReducer } from '../variable-reducer';
+import { variableReducer } from '../variable-constant-reducer';
 import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxStateChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
@@ -22,7 +22,7 @@ const SELECTORS = {
 };
 
 const setupComponentUnderTest = (props) => {
-    const element = createElement('builder_platform_interaction-variable-editor', {
+    const element = createElement('builder_platform_interaction-variable-constant-editor', {
         is: VariableEditor,
     });
     element.node = props;
@@ -47,7 +47,7 @@ jest.mock('builder_platform_interaction-actions', () => {
 });
 
 // helps remove dependency of the editor tests on the reducer functionality
-jest.mock('../variable-reducer', () => {
+jest.mock('../variable-constant-reducer', () => {
     return {
         variableReducer: jest.fn().mockImplementation(((obj) => Object.assign({}, obj))),
     };
@@ -81,7 +81,7 @@ function getComboboxStateChangedEvent() {
     });
 }
 
-describe('variable-editor', () => {
+describe('variable-constant-editor', () => {
     selectorsMock.readableElementsSelector.mockReturnValue([mockStoreData.elements[mockStoreData.numberVariableGuid], mockStoreData.elements[mockStoreData.accountSObjectVariableGuid],
         mockStoreData.elements[mockStoreData.stringCollectionVariable1Guid], mockStoreData.elements[mockStoreData.dateVariableGuid]]);
 

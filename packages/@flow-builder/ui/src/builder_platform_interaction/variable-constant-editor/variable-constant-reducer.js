@@ -1,7 +1,7 @@
 import { updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import { variableValidation } from './variable-validation';
+import { variableValidation } from './variable-constant-validation';
 
 const dataTypeChanged = (state, action) => {
     if (typeof action.payload.value.scale !== 'number') {

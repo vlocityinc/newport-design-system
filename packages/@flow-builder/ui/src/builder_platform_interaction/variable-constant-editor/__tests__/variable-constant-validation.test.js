@@ -1,12 +1,12 @@
 import { createElement } from "lwc";
-import VariableEditor from '../variable-editor';
-import { variableValidation } from '../variable-validation.js';
+import VariableEditor from '../variable-constant-editor';
+import { variableValidation } from '../variable-constant-validation.js';
 import * as mockStoreData from 'mock-store-data';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 
 const setupComponentUnderTest = (props) => {
-    const element = createElement('builder_platform_interaction-variable-editor', {
+    const element = createElement('builder_platform_interaction-variable-constant-editor', {
         is: VariableEditor,
     });
     element.node = props;

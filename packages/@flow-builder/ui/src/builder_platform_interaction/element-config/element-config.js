@@ -575,7 +575,7 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.VARIABLE]: {
-        descriptor: 'builder_platform_interaction:variableEditor',
+        descriptor: 'builder_platform_interaction:variableConstantEditor',
         nodeConfig: {
             iconName: 'standard:variable',
             utilityIconName: 'utility:variable'

@@ -1,13 +1,13 @@
 import { LightningElement, api, track, unwrap } from "lwc";
 import { getErrorsFromHydratedElement, getValueFromHydratedItem, GUID_SUFFIX, FEROV_DATA_TYPE_PROPERTY } from 'builder_platform_interaction-data-mutation-lib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
-import { variableReducer } from './variable-reducer';
+import { variableReducer } from './variable-constant-reducer';
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { PropertyEditorWarningEvent } from 'builder_platform_interaction-events';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
-import { LABELS } from './variable-editor-labels';
+import { LABELS } from './variable-constant-editor-labels';
 import { getResourceByUniqueIdentifier, getResourceFerovDataType } from 'builder_platform_interaction-expression-utils';
 import { isObject } from 'builder_platform_interaction-common-utils';
 
