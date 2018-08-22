@@ -3,8 +3,13 @@
         <div class='slds-panel__header slds-shrink-none -slds-border_bottom-none slds-grid'>
             <div class='slds-grow'>
                 <h2 class='slds-panel__header-title slds-text-heading_small'>
-                    <span if:true={isScreen}>{labels.screen}</span>
-                    <span if:false={isScreen}><a onclick={handleScreenSelection}>{labels.screen}</a> > {node.type.label}</span>
+                    <span if:true={isScreen}>{labels.screenProperties}</span>
+                    <span if:false={isScreen}>
+                        <lightning-button-icon icon-name='utility:back' size='medium' variant='bare' class='slds-list_inline'
+                                   title={labels.screenProperties} onclick={handleScreenSelection}>
+                        </lightning-button-icon>
+                        <span class='slds-p-left_small'>{node.type.label}</span>
+                    </span>
                 </h2>
             </div>
 

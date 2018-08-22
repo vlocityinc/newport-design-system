@@ -2,6 +2,7 @@
 import errorRequired from "@salesforce/label/FlowBuilderScreenEditor.errorRequired";
 // import reviewErrors from '@salesforce/label/FlowBuilderScreenEditor.reviewErrors';
 import screen from "@salesforce/label/FlowBuilderScreenEditor.screen";
+import screenProperties from "@salesforce/label/FlowBuilderScreenEditor.screenProperties";
 import finish from "@salesforce/label/FlowBuilderScreenEditor.finish";
 import previous from "@salesforce/label/FlowBuilderScreenEditor.previous";
 import pause from "@salesforce/label/FlowBuilderScreenEditor.pause";
@@ -62,6 +63,7 @@ export const LABELS = {
     errorRequired,
     // reviewErrors, -- Not used as of 5/23/18, not removing it as it may be needed before GA, revisit in 218-220
     screen,
+    screenProperties,
     finish,
     previous,
     pause,

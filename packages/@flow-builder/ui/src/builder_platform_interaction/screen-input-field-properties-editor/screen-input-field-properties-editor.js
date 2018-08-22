@@ -3,12 +3,18 @@ import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
+const ALL_SECTION_NAMES = ['validationOptions', 'helpText'];
+
 /*
  * Screen element property editor for input fields.
  */
 export default class ScreenInputFieldPropertiesEditor extends LightningElement {
     @api field;
     labels = LABELS;
+
+    get allSectionNames() {
+        return ALL_SECTION_NAMES;
+    }
 
     handlePropertyChanged = (event) => {
         const property = event.detail.propertyName;

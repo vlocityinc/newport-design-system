@@ -2,12 +2,18 @@ import { LightningElement, api } from "lwc";
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 
+const ALL_SECTION_NAMES = ['containerOptions', 'navigationOptions', 'helpText'];
+
 /*
  * Screen element property editor
  */
 export default class ScreenPropertiesEditor extends LightningElement {
     @api screen;
     labels = LABELS;
+
+    get allSectionNames() {
+        return ALL_SECTION_NAMES;
+    }
 
     /* Figure out if the value really changed, and if it did refire the event including the old value */
     handlePropertyChanged = (event) => {

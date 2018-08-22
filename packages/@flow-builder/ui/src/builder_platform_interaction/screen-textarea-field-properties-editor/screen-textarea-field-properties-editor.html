@@ -27,43 +27,37 @@
                                                                 value={field.defaultValue}
                                                                 onpropertychanged={handleDefaultValueChanged}>
             </builder_platform_interaction-screen-property-field>
-                        
-            <!--  validation text -->
-            <!--  TODO: W-4827695 - use lightning component version of accordion -->
-            <builder_platform_interaction-accordion>
-                <builder_platform_interaction-accordion-section>
-                    <div slot="accordion-header">{labels.fieldValidation}</div>
-                    <div slot="accordion-body">
-                        <builder_platform_interaction-screen-property-field name='validationRule.errorMessage'
-                                                                            label={labels.errorMessage}
-                                                                            type='long_string'
-                                                                            value={validationRuleError}
-                                                                            onpropertychanged={handleErrorMessageChanged}>
-                        </builder_platform_interaction-screen-property-field>
-                        
-                        <!-- TODO: W-5183123 - change this to formula-editor component -->
-                        <builder_platform_interaction-screen-property-field name='validationRule.formulaExpression'
-                                                                            label={labels.validationFormula}
-                                                                            type='long_string'
-                                                                            value={validationRuleFormula}>
-                        </builder_platform_interaction-screen-property-field>
-                    </div>
-                </builder_platform_interaction-accordion-section>
-            </builder_platform_interaction-accordion>
-            
-            <!--  help text -->
-            <builder_platform_interaction-accordion>
-                <builder_platform_interaction-accordion-section>
-                    <div slot="accordion-header">{labels.helpText}</div>
-                    <div slot="accordion-body">
-                        <builder_platform_interaction-screen-property-field name='helpText'
-                                                                            label={labels.helpText}
-                                                                            type='long_string'
-                                                                            value={helpTextValue}>
-                        </builder_platform_interaction-screen-property-field>
-                    </div>
-                </builder_platform_interaction-accordion-section>
-            </builder_platform_interaction-accordion>
+        </div>
+        <div>
+            <lightning-accordion allow-multiple-sections-open active-section-name={allSectionNames} class='slds-has-divider slds-p-top_none'>
+                <!--  validation text -->
+                <lightning-accordion-section name='validationOptions' label={labels.fieldValidation}>
+                    <builder_platform_interaction-screen-property-field name='validationRule.errorMessage'
+                                                                        label={labels.errorMessage}
+                                                                        type='long_string'
+                                                                        value={validationRuleError}
+                                                                        hide-top-padding
+                                                                        onpropertychanged={handleErrorMessageChanged}>
+                    </builder_platform_interaction-screen-property-field>
+                    
+                    <!-- TODO: W-5183123 - change this to formula-editor component -->
+                    <builder_platform_interaction-screen-property-field name='validationRule.formulaExpression'
+                                                                        label={labels.validationFormula}
+                                                                        type='long_string'
+                                                                        value={validationRuleFormula}>
+                    </builder_platform_interaction-screen-property-field>
+                </lightning-accordion-section>
+                
+                <!--  help text -->
+                <lightning-accordion-section name='helpText' label={labels.helpText}>
+                    <builder_platform_interaction-screen-property-field name='helpText'
+                                                                        label={labels.helpText}
+                                                                        type='long_string'
+                                                                        value={helpTextValue}
+                                                                        hide-top-padding>
+                    </builder_platform_interaction-screen-property-field>
+                </lightning-accordion-section>
+            </lightning-accordion>
         </div>
     </div>
 </template>

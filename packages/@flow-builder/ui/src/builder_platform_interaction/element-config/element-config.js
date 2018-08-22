@@ -314,15 +314,25 @@ export const elementTypeToConfigMap = {
         nonHydratableProperties: ['fieldType', 'dataType', 'type', 'defaultValueDataType', 'defaultValueGuid'],
         bodyCssClass: 'slds-scrollable_none',
         template: {
+            guid: '',
             config: { isSelected: false },
             connectorCount: 0,
             elementType: ELEMENT_TYPE.SCREEN,
-            guid: '',
             isCanvasElement: true,
             label: '',
             locationX: 0,
             locationY: 0,
-            name: ''
+            name: '',
+            allowBack: true,
+            allowFinish: true,
+            allowPause: true,
+            description: '',
+            helpText: '',
+            pausedText: '',
+            showFooter: true,
+            showHeader: true,
+            rules: [],
+            fields: []
         }
     },
 

@@ -4,6 +4,8 @@ import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
 
+const ALL_SECTION_NAMES = ['validationOptions', 'helpText'];
+
 /*
  * Screen element property editor for the password field.
  */
@@ -11,6 +13,10 @@ export default class ScreenPasswordFieldPropertiesEditor extends LightningElemen
     @api field;
 
     labels = LABELS;
+
+    get allSectionNames() {
+        return ALL_SECTION_NAMES;
+    }
 
     handlePropertyChanged = (event) => {
         const property = event.detail.propertyName;

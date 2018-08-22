@@ -23,10 +23,21 @@ export default class ScreenPropertyField extends LightningElement {
     @api resourcePickerConfig;
     @api disabled = false;
 
+    @api hideTopPadding = false;
+
     @track _value;
 
     labels = LABELS;
     formats = RTE_FORMATS;
+
+    constructor() {
+        super();
+        this.topPadding = true;
+    }
+
+    get computedClass() {
+        return booleanAttributeValue(this, 'hideTopPadding') ? 'slds-form-element' : 'slds-form-element slds-p-top_x-small';
+    }
 
     set value(newValue) {
         this._value = newValue;

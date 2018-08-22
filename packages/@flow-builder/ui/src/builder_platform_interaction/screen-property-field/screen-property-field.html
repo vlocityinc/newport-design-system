@@ -1,5 +1,5 @@
 <template>
-    <div class='slds-form-element slds-p-top_x-small'>
+    <div class={computedClass}>
         <builder_platform_interaction-ferov-resource-picker if:true={allowsResources} class='property-input' 
                                                                                       combobox-config={resourceComboBoxConfig} 
                                                                                       value={propertyValue}

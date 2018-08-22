@@ -32,6 +32,10 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         return this._extensionDescription;
     }
 
+    get hasOutputs() {
+        return this.mergedField && this.mergedField.outputParameters && this.mergedField.outputParameters.length > 0;
+    }
+
     /**
      * Checks if both, the description and the value have been set, and, if so, merges both into mergedField
      */
@@ -41,6 +45,9 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
 
         if (this._extensionDescription && extName !== fieldName) {
             this.mergedField = mergeExtensionInfo(this._field, this._extensionDescription);
+            if (this.mergedField.outputParameters && this.mergedField.outputParameters.length > 0) {
+                this.mergedField.outputParameters[0].isFirst = true;
+            }
         }
     }
 
