@@ -85,6 +85,7 @@ export const CONSTRAINT = {
 // operators in rule, will be added as needed
 export const RULE_OPERATOR = {
     ASSIGN: 'Assign',
+    EQUAL_TO: 'EqualTo',
 };
 
 /**
