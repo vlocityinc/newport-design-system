@@ -61,7 +61,7 @@ describe('base-resource-picker', () => {
     });
 
     describe('initialized the combobox with the values inside the combobox config object', () => {
-        it('config including all values except type', () => {
+        it('config including all values except type and errorMessage', () => {
             const comboboxConfigWithoutType = Object.assign({}, comboboxConfig);
             delete comboboxConfigWithoutType.type;
 
@@ -70,7 +70,6 @@ describe('base-resource-picker', () => {
                 const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
                 expect(flowCombobox.label).toEqual(comboboxConfig.label);
                 expect(flowCombobox.placeholder).toEqual(comboboxConfig.placeholder);
-                expect(flowCombobox.errorMessage).toEqual(comboboxConfig.errorMessage);
                 expect(flowCombobox.literalsAllowed).toEqual(comboboxConfig.literalsAllowed);
                 expect(flowCombobox.required).toEqual(comboboxConfig.required);
                 expect(flowCombobox.disabled).toEqual(comboboxConfig.disabled);
@@ -100,6 +99,15 @@ describe('base-resource-picker', () => {
         return Promise.resolve().then(() => {
             const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
             expect(flowCombobox.value).toEqual(defaultDisplayText);
+        });
+    });
+
+    it('can set the errorMessage of the flow combobox', () => {
+        const errorMessage = 'wrong';
+        const baseResourcePicker = setupComponentUnderTest({comboboxConfig, errorMessage});
+        return Promise.resolve().then(() => {
+            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+            expect(flowCombobox.errorMessage).toEqual(errorMessage);
         });
     });
 
