@@ -63,7 +63,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         operatorValue: undefined,
         [RHS_FIELDS]: undefined,
         rhsIsField: undefined,
-        rhsLiteralsAllowedForContext: undefined,
+        rhsLiteralsAllowedForContext: false,
         [LHS_FULL_MENU_DATA]: undefined,
         [LHS_FILTERED_MENU_DATA]: undefined,
         [RHS_FULL_MENU_DATA]: undefined,
@@ -172,6 +172,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     set operatorValue(value) {
         this.state.operatorValue = value;
         this._rhsParamTypes = undefined;
+        this.state[RHS_FULL_MENU_DATA] = this.state[RHS_FILTERED_MENU_DATA] = undefined;
         this.setRhsMenuData();
         this.setRhsDataType();
     }
@@ -243,7 +244,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     _rhsCollectionRequiredByRules;
 
     setLhsMenuData() {
-        if (!this.areAllDefined([this.containerElement, this.lhsParam, this.lhsFields,
+        if (!this.areAllDefined([this.containerElement, this.lhsFields,
             this.lhsIsField, this.showLhsAsFieldReference])) {
             return;
         }
@@ -519,13 +520,13 @@ export default class BaseExpressionBuilder extends LightningElement {
         const propertyCurrentValues = {
             [LHS]: [LHS, this.lhsValue, this.lhsError],
             [OPERATOR]: [OPERATOR, this.operatorValue, this.operatorError],
-            [RHS]: [RHS, this.rhsValue, this.rhsError],
+            [RHS]: [RHS, this.rhsValue, this.rhsError, 'displayText'],
             [RHSG]: [RHSG, this.rhsGuid, null],
         };
 
-        const addPropertyToExpression = (property, itemOrLiteral, error) => {
+        const addPropertyToExpression = (property, itemOrLiteral, error, valueProp = 'value') => {
             expressionUpdates[property] = {};
-            expressionUpdates[property].value = itemOrLiteral ? itemOrLiteral.value || itemOrLiteral : CLEAR_VALUE;
+            expressionUpdates[property].value = itemOrLiteral ? itemOrLiteral[valueProp] || itemOrLiteral : CLEAR_VALUE;
             expressionUpdates[property].error = error || CLEAR_ERROR;
         };
 
