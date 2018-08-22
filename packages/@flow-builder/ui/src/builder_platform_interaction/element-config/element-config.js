@@ -654,6 +654,12 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: false
     },
+    [ELEMENT_TYPE.STAGE]: {
+        labels: {
+            singular: LABELS.stageSingularLabel,
+            plural: LABELS.stagePluralLabel
+        }
+    },
     [ELEMENT_TYPE.DEFAULT]: {
         // defaultEditor doesn't exist but should lead here making it easier to debug the issue
         descriptor: 'builder_platform_interaction:defaultEditor',

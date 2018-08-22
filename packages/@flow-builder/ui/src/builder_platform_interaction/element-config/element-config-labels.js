@@ -42,6 +42,8 @@ import formulaPluralLabel from "@salesforce/label/FlowBuilderElementConfig.formu
 import outcomeSingularLabel from "@salesforce/label/FlowBuilderElementConfig.outcomeSingularLabel";
 import outcomePluralLabel from "@salesforce/label/FlowBuilderElementConfig.outcomePluralLabel";
 import flowPropertiesSingularLabel from '@salesforce/label/FlowBuilderElementConfig.flowPropertiesSingularLabel';
+import stageSingularLabel from '@salesforce/label/FlowBuilderElementConfig.stagesSingularLabel';
+import stagePluralLabel from '@salesforce/label/FlowBuilderElementConfig.stagesPluralLabel';
 import emptyDefaultOutcomeLabel from '@salesforce/label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel';
 
 export const LABELS = {
@@ -88,5 +90,7 @@ export const LABELS = {
     outcomeSingularLabel,
     outcomePluralLabel,
     flowPropertiesSingularLabel,
+    stageSingularLabel,
+    stagePluralLabel,
     emptyDefaultOutcomeLabel
 };
