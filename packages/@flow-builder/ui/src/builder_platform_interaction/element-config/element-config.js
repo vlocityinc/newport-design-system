@@ -600,6 +600,27 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: false
     },
+    [ELEMENT_TYPE.CONSTANT]: {
+        descriptor: 'builder_platform_interaction:variableConstantEditor',
+        nodeConfig: {
+            iconName: 'standard:constant',
+            utilityIconName: 'utility:constant'
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.CONSTANTS,
+        labels: {
+            singular: LABELS.constantSingularLabel,
+            plural: LABELS.constantPluralLabel
+        },
+        template: {
+            name: '',
+            label: undefined,
+            guid: '',
+            elementType: ELEMENT_TYPE.CONSTANT,
+            dataType: null
+        },
+        canvasElement: false
+    },
     [ELEMENT_TYPE.FORMULA]: {
         descriptor: 'builder_platform_interaction:formulaEditor',
         nodeConfig: {

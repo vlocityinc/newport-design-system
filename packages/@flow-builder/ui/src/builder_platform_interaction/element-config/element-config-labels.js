@@ -35,6 +35,8 @@ import recordUpdateSingularLabel from "@salesforce/label/FlowBuilderElementConfi
 import recordUpdatePluralLabel from "@salesforce/label/FlowBuilderElementConfig.recordUpdatePluralLabel";
 import variableSingularLabel from "@salesforce/label/FlowBuilderElementConfig.variableSingularLabel";
 import variablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.variablePluralLabel";
+import constantSingularLabel from "@salesforce/label/FlowBuilderElementConfig.constantSingularLabel";
+import constantPluralLabel from "@salesforce/label/FlowBuilderElementConfig.constantPluralLabel";
 import formulaSingularLabel from "@salesforce/label/FlowBuilderElementConfig.formulaSingularLabel";
 import formulaPluralLabel from "@salesforce/label/FlowBuilderElementConfig.formulaPluralLabel";
 import outcomeSingularLabel from "@salesforce/label/FlowBuilderElementConfig.outcomeSingularLabel";
@@ -79,6 +81,8 @@ export const LABELS = {
     recordUpdatePluralLabel,
     variableSingularLabel,
     variablePluralLabel,
+    constantSingularLabel,
+    constantPluralLabel,
     formulaSingularLabel,
     formulaPluralLabel,
     outcomeSingularLabel,

@@ -56,7 +56,8 @@ const getElements = (elements) => Object.values(elements).reduce((acc, element) 
 
     // Adding utility icons for resource manager
     // TODO: Figure out a better way to recognise elements that do need an icon based on the dataType
-    if ((element.elementType === ELEMENT_TYPE.VARIABLE || element.elementType === ELEMENT_TYPE.FORMULA) && element.dataType) {
+    const dataTypeIconElements = [ELEMENT_TYPE.VARIABLE, ELEMENT_TYPE.CONSTANT, ELEMENT_TYPE.FORMULA];
+    if (element.dataType && dataTypeIconElements.includes(element.elementType)) {
         resourceElement.iconName = getDataTypeIcons(element.dataType, 'utility');
     }
 

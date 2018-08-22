@@ -217,6 +217,7 @@ export const getRulesForContext = (config) => {
         case ELEMENT_TYPE.SUBFLOW:
         case ELEMENT_TYPE.LOCAL_ACTION_CALL:
         case ELEMENT_TYPE.VARIABLE:
+        case ELEMENT_TYPE.CONSTANT:
         case ELEMENT_TYPE.FORMULA:
         case ELEMENT_TYPE.SCREEN:
             rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, config.elementType);

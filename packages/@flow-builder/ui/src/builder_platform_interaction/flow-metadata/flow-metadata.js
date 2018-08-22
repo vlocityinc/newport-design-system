@@ -65,6 +65,7 @@ export const METADATA_KEY = {
     DECISIONS: 'decisions',
     FORMULAS: 'formulas',
     VARIABLES: 'variables',
+    CONSTANTS: 'constants',
     SUBFLOWS: 'subflows',
     RECORD_CREATE: 'recordCreates',
     RECORD_LOOKUP: 'recordLookups',
