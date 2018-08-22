@@ -7,7 +7,8 @@ import {
 import {
     getRulesForContext,
     getRHSTypes,
-    RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
+    RULE_OPERATOR,
+} from 'builder_platform_interaction-rule-lib';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { isObject } from 'builder_platform_interaction-common-utils';
 
@@ -24,6 +25,9 @@ export default class FerovResourcePicker extends LightningElement {
 
     @track
     _comboboxConfig = {};
+
+    @track
+    _elementConfig;
 
     /**
      * The allowed param types based on the rule service
@@ -51,9 +55,7 @@ export default class FerovResourcePicker extends LightningElement {
      */
     set comboboxConfig(newComboboxConfig) {
         this._comboboxConfig = newComboboxConfig;
-        if (this._isInitialized) {
-            this.populateMenuData(this.parentItem);
-        }
+        this._isInitialized = false;
     }
 
     @api
@@ -94,9 +96,7 @@ export default class FerovResourcePicker extends LightningElement {
      */
     set elementConfig(newElementConfig) {
         this._elementConfig = newElementConfig;
-        if (this._isInitialized) {
-            this.populateMenuData(this.parentItem);
-        }
+        this._isInitialized = false;
     }
 
     @api
@@ -164,8 +164,6 @@ export default class FerovResourcePicker extends LightningElement {
      * @type {Object[]}
      */
     _menuData;
-
-    _elementConfig;
 
     /** Event handlers */
 

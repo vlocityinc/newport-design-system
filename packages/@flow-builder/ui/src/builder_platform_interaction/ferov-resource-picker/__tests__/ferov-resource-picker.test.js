@@ -5,6 +5,7 @@ import { getElementsForMenuData, normalizeRHS, filterFieldsForChosenElement} fro
 import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
+import { FLOW_DATA_TYPE } from "../../data-type-lib/data-type-lib";
 
 const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker',
@@ -186,6 +187,32 @@ describe('ferov-resource-picker', () => {
         return Promise.resolve().then(() => {
             const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.value).toEqual(props.value);
+        });
+    });
+
+    it('normalizes value when changing element config', () => {
+        const ferovResourcePicker = setupComponentUnderTest(props);
+
+        props.elementConfig = { elementType: 'foo' };
+        props.value = 'foobar';
+
+        ferovResourcePicker.comboboxConfig = props.elementConfig;
+        ferovResourcePicker.value = props.value;
+        return Promise.resolve().then(() => {
+            expect(normalizeRHS).toHaveBeenCalledWith(props.value);
+        });
+    });
+
+    it('normalizes value when changing combobox config', () => {
+        const ferovResourcePicker = setupComponentUnderTest(props);
+
+        props.comboboxConfig.type = FLOW_DATA_TYPE.STRING;
+        props.value = 'foobar';
+
+        ferovResourcePicker.comboboxConfig = props.comboboxConfig;
+        ferovResourcePicker.value = props.value;
+        return Promise.resolve().then(() => {
+            expect(normalizeRHS).toHaveBeenCalledWith(props.value);
         });
     });
 });
