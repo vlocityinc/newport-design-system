@@ -7,7 +7,6 @@ import rhsLabel from "@salesforce/label/FlowBuilderAssignmentEditor.rhsLabel";
 import addButtonLabel from "@salesforce/label/FlowBuilderAssignmentEditor.addButtonLabel";
 import lhsPlaceholder from "@salesforce/label/FlowBuilderAssignmentEditor.lhsPlaceholder";
 import operatorPlaceholder from "@salesforce/label/FlowBuilderAssignmentEditor.operatorPlaceholder";
-import rhsPlaceholder from "@salesforce/label/FlowBuilderAssignmentEditor.rhsPlaceholder";
 
 export const LABELS = {
     assignmentsSectionHeader,
@@ -18,5 +17,4 @@ export const LABELS = {
     addButtonLabel,
     lhsPlaceholder,
     operatorPlaceholder,
-    rhsPlaceholder,
 };

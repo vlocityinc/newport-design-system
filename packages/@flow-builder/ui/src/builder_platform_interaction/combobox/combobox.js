@@ -228,7 +228,7 @@ export default class Combobox extends LightningElement {
      * Placeholder text for the combobox input field.
      * @type {String}
      */
-    @api placeholder = '';
+    @api placeholder = LABELS.defaultPlaceholder;
 
     /**
      * Boolean to mark combobox input as required field.

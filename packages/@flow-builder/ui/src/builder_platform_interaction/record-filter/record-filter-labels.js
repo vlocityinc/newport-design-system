@@ -8,6 +8,8 @@ import filterRhsLabel from "@salesforce/label/FlowBuilderRecordEditor.filterRhsL
 import filterNoCriteriaGet from "@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaGet";
 import filterNoCriteriaUpdate from "@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdate";
 import filterNoCriteriaDelete from "@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaDelete";
+import filterLhsPlaceholder from "@salesforce/label/FlowBuilderRecordEditor.filterLhsPlaceholder";
+import filterOperatorPlaceholder from "@salesforce/label/FlowBuilderRecordEditor.filterOperatorPlaceholder";
 import filterAllCriterias from "@salesforce/label/FlowBuilderRecordEditor.filterAllCriterias";
 import filterPrefix from "@salesforce/label/FlowBuilderRecordEditor.filterPrefix";
 import criteriaMatchingRecords from "@salesforce/label/FlowBuilderRecordEditor.criteriaMatchingRecords";
@@ -25,6 +27,8 @@ export const LABELS = {
     filterNoCriteriaGet,
     filterNoCriteriaUpdate,
     filterNoCriteriaDelete,
+    filterLhsPlaceholder,
+    filterOperatorPlaceholder,
     filterAllCriterias,
     filterPrefix,
     criteriaMatchingRecords,

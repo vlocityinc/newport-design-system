@@ -15,7 +15,6 @@ import lhsPlaceholder from '@salesforce/label/FlowBuilderOutcome.lhsPlaceholder'
 import operatorLabel from '@salesforce/label/FlowBuilderOutcome.operatorLabel';
 import operatorPlaceholder from '@salesforce/label/FlowBuilderOutcome.operatorPlaceholder';
 import rhsLabel from '@salesforce/label/FlowBuilderOutcome.rhsLabel';
-import rhsPlaceholder from '@salesforce/label/FlowBuilderOutcome.rhsPlaceholder';
 import cannotBeBlankError from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 
 export const LABELS = {
@@ -35,6 +34,5 @@ export const LABELS = {
     operatorLabel,
     operatorPlaceholder,
     rhsLabel,
-    rhsPlaceholder,
     cannotBeBlankError
 };

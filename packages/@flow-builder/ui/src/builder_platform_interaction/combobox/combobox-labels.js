@@ -4,6 +4,7 @@ import numberErrorMessage from "@salesforce/label/FlowBuilderCombobox.numberErro
 import dateErrorMessage from "@salesforce/label/FlowBuilderCombobox.dateErrorMessage";
 import datetimeErrorMessage from "@salesforce/label/FlowBuilderCombobox.datetimeErrorMessage";
 import genericErrorMessage from "@salesforce/label/FlowBuilderCombobox.genericErrorMessage";
+import defaultPlaceholder from "@salesforce/label/FlowBuilderCombobox.defaultPlaceholder";
 import requiredErrorMessage from "@salesforce/label/FlowBuilderValidation.cannotBeBlank";
 
 export const LABELS = {
@@ -12,5 +13,6 @@ export const LABELS = {
     dateErrorMessage,
     datetimeErrorMessage,
     genericErrorMessage,
-    requiredErrorMessage
+    requiredErrorMessage,
+    defaultPlaceholder,
 };
