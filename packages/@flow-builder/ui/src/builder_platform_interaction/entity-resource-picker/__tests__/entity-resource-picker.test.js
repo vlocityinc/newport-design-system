@@ -32,6 +32,7 @@ describe('entity-resource-picker', () => {
     beforeEach(() => {
         props = {
             crudFilterType: 'TEST_FILTER',
+            comboboxConfig: {},
         };
     });
 
@@ -71,6 +72,15 @@ describe('entity-resource-picker', () => {
         return Promise.resolve().then(() => {
             const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
+        });
+    });
+
+    it('sets the error through the combobox config', () => {
+        props.comboboxConfig = { errorMessage: 'fooError' };
+        const entityResourcePicker = setupComponentUnderTest(props);
+        return Promise.resolve().then(() => {
+            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+            expect(baseResourcePicker.errorMessage).toEqual(props.comboboxConfig.errorMessage);
         });
     });
 
