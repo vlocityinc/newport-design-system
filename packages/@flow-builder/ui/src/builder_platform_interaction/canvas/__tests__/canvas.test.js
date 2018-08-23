@@ -1,11 +1,14 @@
-import {createElement} from "lwc";
+import { createElement } from 'lwc';
 import Canvas from 'builder_platform_interaction-canvas';
+import { KEYS } from '../canvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { DeleteElementEvent } from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {
     CANVAS_DIV: '.canvas',
+    OVERLAY: '.overlay',
+    INNER_CANVAS_DIV: '.inner-canvas',
     NODE: 'builder_platform_interaction-node'
 };
 
@@ -62,7 +65,23 @@ describe('Canvas', () => {
     };
 
     describe('handleKeyDown', () => {
-        describe('BACKSPACE', () => {
+        describe('BACKSPACE KEY', () => {
+            it('DeleteElementEvent is fired on backspace', () => {
+                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
+
+                const eventCallback = jest.fn();
+                canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
+
+                const backspaceEvent = new KeyboardEvent('keydown', {
+                    key: KEYS.BACKSPACE
+                });
+
+                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                canvasDiv.dispatchEvent(backspaceEvent);
+
+                expect(eventCallback).toHaveBeenCalled();
+            });
+
             it('DeleteElementEvent is fired on backspace with empty detail', () => {
                 const canvas = createComponentForTest(defaultNodes, defaultConnectors);
 
@@ -70,13 +89,12 @@ describe('Canvas', () => {
                 canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
 
                 const backspaceEvent = new KeyboardEvent('keydown', {
-                    key: 'Backspace'
+                    key: KEYS.BACKSPACE
                 });
 
                 const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
                 canvasDiv.dispatchEvent(backspaceEvent);
 
-                expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0].detail).toEqual({});
             });
 
@@ -86,7 +104,7 @@ describe('Canvas', () => {
 
                 // Space key to toggle pan mode on
                 const spaceEvent = new KeyboardEvent('keydown', {
-                    key: ' '
+                    key: KEYS.SPACE
                 });
                 canvasDiv.dispatchEvent(spaceEvent);
 
@@ -94,12 +112,117 @@ describe('Canvas', () => {
                 canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
 
                 const backspaceEvent = new KeyboardEvent('keydown', {
-                    key: 'Backspace'
+                    key: KEYS.BACKSPACE
                 });
 
                 canvasDiv.dispatchEvent(backspaceEvent);
 
                 expect(eventCallback).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('DELETE KEY', () => {
+            it('DeleteElementEvent is fired on delete', () => {
+                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
+
+                const eventCallback = jest.fn();
+                canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
+
+                const backspaceEvent = new KeyboardEvent('keydown', {
+                    key: KEYS.DELETE
+                });
+
+                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                canvasDiv.dispatchEvent(backspaceEvent);
+
+                expect(eventCallback).toHaveBeenCalled();
+            });
+
+            it('DeleteElementEvent is fired on delete with empty detail', () => {
+                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
+
+                const eventCallback = jest.fn();
+                canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
+
+                const backspaceEvent = new KeyboardEvent('keydown', {
+                    key: KEYS.DELETE
+                });
+
+                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                canvasDiv.dispatchEvent(backspaceEvent);
+
+                expect(eventCallback.mock.calls[0][0].detail).toEqual({});
+            });
+
+            it('DeleteElementEvent is not fired if canvas is in pan mode', () => {
+                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
+                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+
+                // Space key to toggle pan mode on
+                const spaceEvent = new KeyboardEvent('keydown', {
+                    key: KEYS.SPACE
+                });
+                canvasDiv.dispatchEvent(spaceEvent);
+
+                const eventCallback = jest.fn();
+                canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
+
+                const backspaceEvent = new KeyboardEvent('keydown', {
+                    key: KEYS.DELETE
+                });
+
+                canvasDiv.dispatchEvent(backspaceEvent);
+
+                expect(eventCallback).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('META KEY', () => {
+            it('Canvas zooms out when meta key is pressed down along with "-" key', () => {
+                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
+                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                const innerCanvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.INNER_CANVAS_DIV);
+
+                const negativeKeyEvent = new KeyboardEvent('keydown', {
+                    metaKey: true,
+                    key: KEYS.NEGATIVE
+                });
+
+                canvasDiv.dispatchEvent(negativeKeyEvent);
+                expect(innerCanvasDiv.style.transform).toEqual('scale(0.8)');
+            });
+        });
+
+        describe('SPACE KEY', () => {
+            it('Toggles the pan mode on', () => {
+                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
+                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+
+                const spaceEvent = new KeyboardEvent('keydown', {
+                    key: KEYS.SPACE
+                });
+                canvasDiv.dispatchEvent(spaceEvent);
+                expect(canvasDiv.style.cursor).toEqual('-webkit-grab');
+            });
+        });
+    });
+
+    describe('handleKeyUp', () => {
+        describe('SPACE KEY', () => {
+            it('Toggles the pan mode off', () => {
+                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
+                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+
+                const spaceKeyDownEvent = new KeyboardEvent('keydown', {
+                    key: KEYS.SPACE
+                });
+                canvasDiv.dispatchEvent(spaceKeyDownEvent);
+
+                const spaceKeyUpEvent = new KeyboardEvent('keyup', {
+                    key: KEYS.SPACE
+                });
+                canvasDiv.dispatchEvent(spaceKeyUpEvent);
+                expect(canvasDiv.style.cursor).toEqual('default');
             });
         });
     });

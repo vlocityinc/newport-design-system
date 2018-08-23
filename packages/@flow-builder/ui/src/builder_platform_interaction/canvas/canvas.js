@@ -1,4 +1,4 @@
-import { LightningElement, api, track, unwrap } from "lwc";
+import { LightningElement, api, track, unwrap } from 'lwc';
 import { drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
 import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pan-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
@@ -13,7 +13,7 @@ import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-l
  * @since 214
  */
 
-const KEYS = {
+export const KEYS = {
     BACKSPACE: 'Backspace',
     DELETE: 'Delete',
     NEGATIVE: '-',

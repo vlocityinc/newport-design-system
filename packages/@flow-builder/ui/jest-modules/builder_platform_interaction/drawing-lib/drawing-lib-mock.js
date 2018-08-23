@@ -7,7 +7,8 @@ let mock = {
         getContainer : () => {
             return null;
         },
-        setSuspendDrawing : jest.fn(),
+        setSuspendDrawing: jest.fn(),
+        setZoom: jest.fn(),
         setDraggable: jest.fn(),
         isSource: jest.fn(),
         makeSource: jest.fn(),
@@ -25,4 +26,4 @@ let mock = {
         removeConnectorFromLib : jest.fn(),
     };
 
-export { mock as drawingLibInstance};
+export { mock as drawingLibInstance };
