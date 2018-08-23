@@ -2,6 +2,7 @@ import { COMBOBOX_ITEM_DISPLAY_TYPE } from './menuDataRetrieval';
 import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction-data-type-lib';
 import { isNonElementResourceId } from 'builder_platform_interaction-system-lib';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
+import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
 import { LABELS } from './expression-utils-labels';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
@@ -28,6 +29,9 @@ function getElementCategory(elementType, dataType, isCollection) {
         categoryLabel = (dataType === SOBJECT_TYPE) ? (isCollection ? LABELS.sObjectCollectionVariablePluralLabel : LABELS.sObjectVariablePluralLabel) : LABELS.collectionVariablePluralLabel;
     }
 
+    if (isUndefinedOrNull(categoryLabel)) {
+        throw new Error('The element category cannot be undefined!');
+    }
     return categoryLabel;
 }
 
