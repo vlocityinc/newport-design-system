@@ -12,6 +12,7 @@ const SELECTORS = {
 
 const EMPTY_OUTCOME_LABEL = LABELS.emptyOutcomeLabel;
 const EMPTY_DEFAULT_OUTCOME_LABEL = LABELS.emptyDefaultOutcomeLabel;
+const DEFAULT_OUTCOME_ID = 'defaultOutcome';
 
 export default class DecisionEditor extends LightningElement {
     @track activeOutcomeId;
@@ -74,7 +75,7 @@ export default class DecisionEditor extends LightningElement {
 
         outcomesWithDefaultOutcome.push({
             element: {
-                guid: 'defaultOutcome'
+                guid: DEFAULT_OUTCOME_ID
             },
             label: defaultLabel && defaultLabel.value ? defaultLabel.value : EMPTY_DEFAULT_OUTCOME_LABEL,
             isDraggable: false,
@@ -82,6 +83,10 @@ export default class DecisionEditor extends LightningElement {
         });
 
         return outcomesWithDefaultOutcome;
+    }
+
+    get isDefaultOutcome() {
+        return this.activeOutcomeId === DEFAULT_OUTCOME_ID;
     }
 
     handleAddOutcome(event) {

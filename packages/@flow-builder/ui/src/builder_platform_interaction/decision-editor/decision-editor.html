@@ -23,7 +23,7 @@
                 </div>
             </builder_platform_interaction-reorderable-vertical-navigation>
             <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
-                <builder_platform_interaction-outcome if:true={activeOutcomeId}
+                <builder_platform_interaction-outcome if:false={isDefaultOutcome}
                                                       outcome={activeOutcome}
                                                       show-delete={showDeleteOutcome}
                                                       ondeleteoutcome={handleDeleteOutcome}
@@ -31,7 +31,7 @@
                                                       ondeletecondition={handleEvent}
                                                       onupdatecondition={handleEvent}
                                                       onpropertychanged={handleEvent}></builder_platform_interaction-outcome>
-                <div if:false={activeOutcomeId}>
+                <div if:true={isDefaultOutcome}>
                     <div class="slds-grid slds-m-bottom_x-small">
                         <h3 class="slds-text-title_caps">
                             <span class="slds-truncate">{labels.outcomeDetailsHeader}</span>
