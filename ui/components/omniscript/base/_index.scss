@@ -62,3 +62,11 @@
     }
   }
 }
+
+@media (min-width:48em) and (max-width:64em) and (orientation: portrait) {
+    .via-nds .nds-medium-size_6-of-12 {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
