@@ -25,4 +25,12 @@ export default class ScreenPropertiesEditor extends LightningElement {
             this.dispatchEvent(new PropertyChangedEvent(property, newValue, error, null, this.screen[property]));
         }
     }
+
+    get pausedText() {
+        return this.screen.pausedText ? this.screen.pausedText.value : null;
+    }
+
+    get helpTextValue() {
+        return this.screen.helpText && this.screen.helpText.value ? this.screen.helpText : null;
+    }
 }
