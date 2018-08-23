@@ -8,9 +8,9 @@ import {
     deMutateDecision
 } from './decisionEditorDataMutation';
 import {
-    mutateVariable,
-    deMutateVariable,
-} from './variableEditorDataMutation';
+    mutateVariableOrConstant,
+    deMutateVariableOrConstant,
+} from './variableConstantEditorDataMutation';
 import {
     mutateRecordLookup,
     deMutateRecordLookup
@@ -40,8 +40,8 @@ export const mutateEditorElement = (element, state) => {
         mutateAssignment(element);
     } else if (element.elementType === ELEMENT_TYPE.DECISION) {
         mutateDecision(element, state);
-    } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
-        return mutateVariable(element);
+    } else if (element.elementType === ELEMENT_TYPE.VARIABLE || element.elementType === ELEMENT_TYPE.CONSTANT) {
+        return mutateVariableOrConstant(element);
     } else if (element.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
         return mutateRecordLookup(element);
     } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
@@ -78,8 +78,8 @@ export const removeEditorElementMutation = (element, state) => {
         const decisionWithModifiedAndDeletedOutcomes = deMutateDecision(element, state);
 
         return decisionWithModifiedAndDeletedOutcomes;
-    } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
-        return deMutateVariable(element);
+    } else if (element.elementType === ELEMENT_TYPE.VARIABLE || element.elementType === ELEMENT_TYPE.CONSTANT) {
+        return deMutateVariableOrConstant(element);
     } else if (element.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
         return deMutateRecordLookup(element);
     } else if (element.elementType === ELEMENT_TYPE.SCREEN) {

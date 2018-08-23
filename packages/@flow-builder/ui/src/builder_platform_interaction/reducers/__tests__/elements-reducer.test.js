@@ -8,7 +8,7 @@ import {
     ADD_RESOURCE,
     UPDATE_RESOURCE,
     DELETE_RESOURCE,
-    UPDATE_VARIABLE,
+    UPDATE_VARIABLE_CONSTANT,
     MODIFY_DECISION_WITH_OUTCOMES
 } from 'builder_platform_interaction-actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
@@ -71,7 +71,7 @@ describe('elements-reducer', () => {
         expect(newElementState).toHaveProperty('guid2');
     });
 
-    it('with state set to defined & action type set to UPDATE_VARIABLE should return the new element state with the updated property', () => {
+    it('with state set to defined & action type set to UPDATE_VARIABLE_CONSTANT should return the new element state with the updated property', () => {
         const updatedElements = {
             guid1: {
                 name: 'ass-3',
@@ -84,7 +84,7 @@ describe('elements-reducer', () => {
         expect(newElementState).toEqual(updatedElements);
     });
 
-    it('with state set to defined & action type set to UPDATE_VARIABLE should return the new element state with the new element', () => {
+    it('with state set to defined & action type set to UPDATE_VARIABLE_CONSTANT should return the new element state with the new element', () => {
         const updatedElements = {
             guid1: {
                 name: 'other ass',
@@ -92,7 +92,7 @@ describe('elements-reducer', () => {
                 guid: 'guid1'
             }
         };
-        const newElementState = elementReducer(oldElements, {type: UPDATE_VARIABLE, payload: updatedElements.guid1});
+        const newElementState = elementReducer(oldElements, {type: UPDATE_VARIABLE_CONSTANT, payload: updatedElements.guid1});
         expect(newElementState).toEqual(updatedElements);
     });
 

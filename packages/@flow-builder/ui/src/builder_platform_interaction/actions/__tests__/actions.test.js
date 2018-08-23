@@ -3,7 +3,7 @@ import {
     updateElement,
     ADD_DECISION_WITH_OUTCOMES,
     MODIFY_DECISION_WITH_OUTCOMES,
-    UPDATE_VARIABLE
+    UPDATE_VARIABLE_CONSTANT
 } from '../actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
@@ -21,7 +21,7 @@ describe('updateElement', () => {
         expect(action.type).toEqual(MODIFY_DECISION_WITH_OUTCOMES);
         expect(action.payload).toEqual(payload);
     });
-    it('handles variables with a UPDATE_VARIABLE action', () => {
+    it('handles variables with a UPDATE_VARIABLE_CONSTANT action', () => {
         const payload = {
             elementType: ELEMENT_TYPE.VARIABLE,
             somePayload: {x: 6},
@@ -29,7 +29,7 @@ describe('updateElement', () => {
 
         const action = updateElement(payload);
 
-        expect(action.type).toEqual(UPDATE_VARIABLE);
+        expect(action.type).toEqual(UPDATE_VARIABLE_CONSTANT);
         expect(action.payload).toEqual(payload);
     });
 });

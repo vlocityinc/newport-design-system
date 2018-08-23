@@ -1,7 +1,7 @@
 import {
-    mutateVariable,
-    deMutateVariable,
-} from '../variableEditorDataMutation';
+    mutateVariableOrConstant,
+    deMutateVariableOrConstant,
+} from '../variableConstantEditorDataMutation';
 import { mutateFEROV, deMutateFEROV } from '../ferovEditorDataMutation';
 import { elements, stringVariableGuid } from 'mock-store-data';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
@@ -24,20 +24,20 @@ const expectedParams = {
     dataTypeProperty: 'ferovDataType',
 };
 
-describe('mutateVariable function', () => {
+describe('mutateVariableOrConstant function', () => {
     it('mutates the FEROV', () => {
         const stringVariable = deepCopy(elements[stringVariableGuid]);
-        mutateVariable(stringVariable);
+        mutateVariableOrConstant(stringVariable);
         expect(mutateFEROV).toHaveBeenCalledTimes(1);
         expect(mutateFEROV).toHaveBeenCalledWith(stringVariable, 'value', expectedParams);
     });
 });
 
 
-describe('deMutateVariable function', () => {
+describe('deMutateVariableOrConstant function', () => {
     it('deMutates the FEROV', () => {
         const stringVariable = deepCopy(elements[stringVariableGuid]);
-        deMutateVariable(stringVariable);
+        deMutateVariableOrConstant(stringVariable);
         expect(deMutateFEROV).toHaveBeenCalledTimes(1);
         expect(deMutateFEROV).toHaveBeenCalledWith(stringVariable, 'value', expectedParams);
     });

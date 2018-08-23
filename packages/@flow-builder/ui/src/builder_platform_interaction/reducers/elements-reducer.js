@@ -7,7 +7,7 @@ import {
     ADD_RESOURCE,
     UPDATE_RESOURCE,
     DELETE_RESOURCE,
-    UPDATE_VARIABLE,
+    UPDATE_VARIABLE_CONSTANT,
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
@@ -35,8 +35,8 @@ export default function elementsReducer(state = {}, action) {
         case UPDATE_CANVAS_ELEMENT:
         case UPDATE_RESOURCE:
             return _addOrUpdateElement(state, action.payload.guid, action.payload);
-        case UPDATE_VARIABLE:
-            return _updateVariable(state, action.payload.guid, action.payload);
+        case UPDATE_VARIABLE_CONSTANT:
+            return _updateVariableOrConstant(state, action.payload.guid, action.payload);
         case UPDATE_RECORD_LOOKUP:
             return _updateRecordLookup(state, action.payload.guid, action.payload);
         case DELETE_ELEMENT:
@@ -160,8 +160,7 @@ function _addOrUpdateElement(state, guid, element) {
 
 /**
  * Helper function to replace an element.  This will completely replace the element in the store with the provided.
- * Curretnly used only by variable
- * object
+ * Currently used only by variable and constant
  *
  * @param {Object} state - current state of elements in the store
  * @param {String} guid - GUID of element to be replaced
@@ -169,7 +168,7 @@ function _addOrUpdateElement(state, guid, element) {
  * @return {Object} new state after reduction
  * @private
  */
-function _updateVariable(state, guid, element) {
+function _updateVariableOrConstant(state, guid, element) {
     return updateProperties(state, { [guid] : element});
 }
 

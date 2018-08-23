@@ -12,9 +12,9 @@ import {
 } from '../decisionEditorDataMutation';
 
 import {
-    mutateVariable,
-    deMutateVariable,
-} from '../variableEditorDataMutation';
+    mutateVariableOrConstant,
+    deMutateVariableOrConstant,
+} from '../variableConstantEditorDataMutation';
 
 jest.mock('../assignmentEditorDataMutation', () => {
     return {
@@ -54,12 +54,12 @@ jest.mock('../decisionEditorDataMutation', () => {
     };
 });
 
-jest.mock('../variableEditorDataMutation', () => {
+jest.mock('../variableConstantEditorDataMutation', () => {
     return {
-        mutateVariable: jest.fn().mockImplementation(() => {
+        mutateVariableOrConstant: jest.fn().mockImplementation(() => {
             return { name: 'mutated' };
         }),
-        deMutateVariable: jest.fn().mockImplementation(() => {
+        deMutateVariableOrConstant: jest.fn().mockImplementation(() => {
             return { name:'demutated' };
         }),
     };
@@ -108,8 +108,8 @@ describe('mutateEditorElement function', () => {
         };
         const result = mutateEditorElement(element);
 
-        expect(mutateVariable).toHaveBeenCalledTimes(1);
-        expect(mutateVariable).toHaveBeenCalledWith(element);
+        expect(mutateVariableOrConstant).toHaveBeenCalledTimes(1);
+        expect(mutateVariableOrConstant).toHaveBeenCalledWith(element);
 
         expect(result).not.toBe(element);
 
@@ -165,8 +165,8 @@ describe('deMutateEditorElement function', () => {
 
         const result = removeEditorElementMutation(element);
 
-        expect(deMutateVariable).toHaveBeenCalledTimes(1);
-        expect(deMutateVariable).toHaveBeenCalledWith(element);
+        expect(deMutateVariableOrConstant).toHaveBeenCalledTimes(1);
+        expect(deMutateVariableOrConstant).toHaveBeenCalledWith(element);
 
         expect(result).not.toBe(element);
 

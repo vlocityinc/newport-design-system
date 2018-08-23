@@ -11,7 +11,7 @@ export const UPDATE_CANVAS_ELEMENT = 'UPDATE_CANVAS_ELEMENT';
 export const DELETE_ELEMENT = 'DELETE_ELEMENT';
 
 export const ADD_RESOURCE = 'ADD_RESOURCE';
-export const UPDATE_VARIABLE = 'UPDATE_VARIABLE';
+export const UPDATE_VARIABLE_CONSTANT = 'UPDATE_VARIABLE_CONSTANT';
 export const UPDATE_RESOURCE = 'UPDATE_RESOURCE';
 export const DELETE_RESOURCE = 'DELETE_RESOURCE';
 
@@ -72,6 +72,7 @@ export const addElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
             case ELEMENT_TYPE.VARIABLE:
+            case ELEMENT_TYPE.CONSTANT:
             case ELEMENT_TYPE.FORMULA: return createAction(ADD_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(ADD_DECISION_WITH_OUTCOMES, payload);
@@ -87,7 +88,7 @@ export const addElement = (payload) => {
 /**
  * Action for updating an element in the store.
  *
- * For variables, all existing data for the element in the store will be overwritten
+ * For variables & constants, all existing data for the element in the store will be overwritten
  *
  * @param {Object} payload - contains GUID of the element to be updated and new values
  * @returns {Object} action new action based on type and payload
@@ -96,7 +97,8 @@ export const updateElement = (payload) => {
     if (payload) {
         switch (payload.elementType) {
             case ELEMENT_TYPE.VARIABLE:
-                return createAction(UPDATE_VARIABLE, payload);
+            case ELEMENT_TYPE.CONSTANT:
+                return createAction(UPDATE_VARIABLE_CONSTANT, payload);
             case ELEMENT_TYPE.FORMULA:
                 return createAction(UPDATE_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
@@ -126,6 +128,7 @@ export const deleteElement = (payload) => {
     let action = createAction(DELETE_ELEMENT, payload);
     switch (payload.elementType) {
         case ELEMENT_TYPE.VARIABLE:
+        case ELEMENT_TYPE.CONSTANT:
         case ELEMENT_TYPE.FORMULA: {
             action = createAction(DELETE_RESOURCE, payload);
             break;

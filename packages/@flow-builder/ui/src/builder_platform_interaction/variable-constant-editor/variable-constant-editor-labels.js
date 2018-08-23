@@ -1,6 +1,7 @@
 import dataTypeHelpText from '@salesforce/label/FlowBuilderVariableEditor.dataTypeHelpText';
 import collectionHelpText from '@salesforce/label/FlowBuilderVariableEditor.collectionHelpText';
 import defaultValuePickerLabel from '@salesforce/label/FlowBuilderVariableEditor.defaultValuePickerLabel';
+import valuePickerLabel from '@salesforce/label/FlowBuilderVariableEditor.valuePickerLabel';
 import sObjectPickerLabel from '@salesforce/label/FlowBuilderVariableEditor.sObjectPickerLabel';
 import sObjectPickerPlaceholder from '@salesforce/label/FlowBuilderVariableEditor.sObjectPickerPlaceholder';
 import sObjectCannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
@@ -13,6 +14,7 @@ export const LABELS = {
     dataTypeHelpText,
     collectionHelpText,
     defaultValuePickerLabel,
+    valuePickerLabel,
     sObjectPickerLabel,
     sObjectPickerPlaceholder,
     sObjectCannotBeBlank,
