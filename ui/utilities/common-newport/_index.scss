@@ -98,52 +98,6 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
 }
 
 .step-step {
-
-  @media (min-width:80em) and (max-width:100em) {
-    .via-nds .nds-medium-size--10-of-12, 
-    .via-nds .nds-medium-size_10-of-12 {
-      width: 80%;
-      flex: 0 0 80%;
-      max-width: 80%;
-    }
-  }
-
-  @media (min-width:64.0625em) and (max-width:80em) {
-    .via-nds .nds-medium-size--10-of-12, 
-    .via-nds .nds-medium-size_10-of-12 {
-      width: 82%;
-      flex: 0 0 82%;
-      max-width: 82%;
-    }
-  }
-
-  @media (min-width:48em) and (max-width:64em) {
-    .via-nds .nds-medium-size--10-of-12, 
-    .via-nds .nds-medium-size_10-of-12 {
-      width: 85%;
-      flex: 0 0 85%;
-      max-width: 85%;
-    }
-  }
-
-  @media (min-width:34.4375em) and (max-width:48em) {
-    .via-nds .nds-medium-size--10-of-12, 
-    .via-nds .nds-medium-size_10-of-12 {
-      width: 87%;
-      max-width: 87%;
-      flex: 0 0 87%;
-    }
-  }
-
-  @media (min-width:30.0625em) and (max-width:34.375em) {
-    .via-nds .nds-medium-size--10-of-12, 
-    .via-nds .nds-medium-size_10-of-12 {
-      width: 90%;
-      max-width: 90%;
-      flex: 0 0 90%;
-    }
-  }
-
   .nds-align--absolute-center h1.nds-truncate {
     font-size: 25px;
     font-weight: 600;
