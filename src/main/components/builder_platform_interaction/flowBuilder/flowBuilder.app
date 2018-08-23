@@ -1,4 +1,4 @@
-<aura:application extends="force:sldsCurrent" description="Lightning Flow Builder" access="accessCheck://Interaction.userCanEditFlowBuilder" services="lightning:configProvider" template="builder_platform_interaction:flowBuilderTemplate">
+<aura:application extends="force:sldsDynamic" description="Lightning Flow Builder" access="accessCheck://Interaction.userCanEditFlowBuilder" services="lightning:configProvider" template="builder_platform_interaction:flowBuilderTemplate">
     <!--Attributes -->
     <aura:attribute name="flowId" type="String" default="" description="The id of the flow to load" />
 
