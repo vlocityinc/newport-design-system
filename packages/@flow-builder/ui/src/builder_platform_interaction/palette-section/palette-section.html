@@ -4,6 +4,6 @@
         <lightning-button-icon  icon-name="utility:chevronright" variant="bare" size="small" alternative-text={toggleAlternativeText} class="slds-m-right_x-small"></lightning-button-icon>
         <div class="slds-truncate" title={fullLabel}>{fullLabel}</div>
     </th>
-    <td role="gridcell" onclick={handleToggleClick} if:true={detailsButton} >
+    <td if:true={detailsButton} role="gridcell" onclick={handleToggleClick}>
     </td>
 </template>

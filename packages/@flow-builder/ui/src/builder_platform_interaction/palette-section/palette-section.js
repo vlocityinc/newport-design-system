@@ -1,13 +1,6 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { PaletteSectionToggleEvent } from 'builder_platform_interaction-events';
-
-import palleteSectionToggleCollapseText from "@salesforce/label/FlowBuilderLeftPanel.palleteSectionToggleCollapseText";
-import palleteSectionToggleExpandText from "@salesforce/label/FlowBuilderLeftPanel.palleteSectionToggleExpandText";
-
-const LABELS = {
-    COLLAPSE: palleteSectionToggleCollapseText,
-    EXPAND: palleteSectionToggleExpandText
-};
+import { LABELS } from './palette-section-labels';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -35,12 +28,13 @@ export default class PaletteSection extends LightningElement {
     }
 
     get fullLabel() {
+        // TODO: Might not be good for i18n.
         return (this.showCount) ? this.label + ' (' + this.itemCount + ')' : this.label;
     }
 
     get toggleAlternativeText() {
         // TODO: Might not be good for i18n.
-        const prefix = this.expanded ? LABELS.COLLAPSE : LABELS.EXPAND;
+        const prefix = this.expanded ? LABELS.palleteSectionToggleCollapseText : LABELS.palleteSectionToggleExpandText;
         return prefix + ' ' + this.label;
     }
 
