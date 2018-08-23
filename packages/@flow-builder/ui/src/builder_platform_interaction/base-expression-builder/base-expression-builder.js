@@ -447,6 +447,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         const selectedItem = event.detail.item;
         const newValue = selectedItem ? selectedItem.value : event.detail.displayText;
         const expressionUpdates = {[LHS]: {value: newValue || CLEAR_VALUE, error: event.detail.error || CLEAR_ERROR}};
+        this.state.operatorAndRhsDisabled = !!event.detail.error;
 
         if (selectedItem) {
             const lhsElementOrField = this.getElementOrField(newValue, this.lhsFields);

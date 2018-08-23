@@ -234,7 +234,7 @@ export const mockAccountFieldWithPicklist = {
         "required":false,
         "compoundFieldName":null,
         "scale":0,
-        "dataType":"PICKLIST",
+        "dataType":"Picklist",
         "apiName":"AccountSource",
         "precision":0,
         "custom":false
