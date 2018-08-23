@@ -161,17 +161,29 @@ label[vlc-slds-toggle] {
   }
 }
 
-.nds-block_container .nds-form-element__label {
-  width: 100%;
-  display: -webkit-flex;
-  display: flex;
-  outline: none;
-  color: $color-background-brand-primary;
+.nds-block_container {
+  .nds-form-element__label {
+    width: 100%;
+    display: flex;
+    outline: none;
+    color: $color-background-brand-primary;
 
-  .nds-icon.nds-icon--small,
-  .nds-icon.nds-icon_small {
-    margin-top: 0.125rem;
-    width: 1.2rem;
-    height: 1.2rem;
+    .nds-icon.nds-icon--small,
+    .nds-icon.nds-icon_small {
+      margin-top: 0.125rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
+
+  .nds-radio_block .nds-form-element__label {
+    .nds-icon.nds-icon--small,
+    .nds-icon.nds-icon_small {
+      margin-top: -0.375rem;
+    }
+  }
+
+  .nds-typeahead .nds-form-element__control.nds-form-element__control-animated-label .nds-form-element__label .nds-required {
+    top: 0;
   }
 }

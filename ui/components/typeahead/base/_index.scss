@@ -1,0 +1,81 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * An image is the preferred format for an avatar
+ *
+ * @summary Creates a Typeahead control
+ * @name base
+ * @selector .nds-typeahead
+ * @restrict div
+ * @variant
+ */
+
+.nds-typeahead {
+	.nds-form-element__control-animated-label.nds-input-has-icon {
+		svg.nds-icon {
+			margin-top: .75rem;
+			position: absolute;
+			#{$right}: 0;
+			pointer-events: none;
+		}
+
+		svg.nds-icon[alt="edit"] {
+			pointer-events: initial;
+			cursor: pointer;
+		}
+	}
+
+	.nds-form-element__control-animated-label.nds-input-has-icon ul.typeahead.dropdown-menu {
+		overflow: auto;
+		max-height: 300px;
+
+		li a {
+			display: block;
+			overflow: hidden;
+		}
+	}
+
+	&>div.nds-grid .nds-tooltip_container {
+		margin-top: 0.75rem;
+
+		.nds-nonfocused_control {
+			margin-top: 1.125rem;
+			margin-#{$left}: 0.375rem;
+
+			svg {
+				fill: $color-input-icon-blue-hue;
+			}
+
+			.nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
+				#{$left}: calc(-100% - 10px);
+				max-width: 30rem;
+				white-space: nowrap;
+				top: -1.6875rem;
+
+				&::before,
+				&::after {
+					width: 1rem;
+					height: 1rem;
+					position: absolute;
+					transform: rotate(45deg);
+					content: '';
+					background-color: inherit;
+					#{$left}: 100%;
+					bottom: 0;
+					margin-#{$left}: -9px;
+					top: 25%;
+				}
+			}
+		}
+	}
+
+	.nds-form-element__control.nds-form-element__control-animated-label .nds-form-element__label {
+		width: calc(100% - 2rem);
+
+		.nds-required {
+			top: -6px;
+			position: relative;
+		}
+	}
+}

@@ -61,7 +61,7 @@
         position: absolute;
         top: 50%;
         #{$left}: 50%;
-        transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(if-ltr(-50%, 50%), -50%, 0);
         border-radius: $border-radius-circle;
         background: $color-brand;
       }
@@ -129,5 +129,5 @@
 .nds-form-element .nds-radio [type='radio'] ~ .nds-radio--faux,
 .nds-radio [type='radio'] + .nds-radio__label .nds-radio_faux,
 .nds-radio [type='radio'] + .nds-radio__label .nds-radio--faux {
-  margin-#{$right}: $spacing-medium;
+  margin-#{$right}: 0.25rem;
 }

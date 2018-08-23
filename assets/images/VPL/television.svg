@@ -1,0 +1,30 @@
+
+<svg  viewBox="0 0 58 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45 (43475) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="58" height="36" rx="2"></rect>
+    </defs>
+    <g id="Telecom---VISUAL" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="01---Nav" transform="translate(-704.000000, -1029.000000)">
+            <g id="Group-43" transform="translate(234.000000, 929.000000)">
+                <g id="Group-53">
+                    <g id="Group-5">
+                        <g id="Group-10" transform="translate(0.000000, 59.000000)">
+                            <g id="Group-51" transform="translate(470.000000, 41.000000)">
+                                <g id="Group-50" transform="translate(7.000000, 29.000000)" stroke="#0070D2" stroke-width="2">
+                                    <rect id="Rectangle-19" x="1" y="1" width="4" height="9" rx="2"></rect>
+                                    <rect id="Rectangle-19" x="40" y="1" width="4" height="9" rx="2"></rect>
+                                </g>
+                                <g id="Rectangle-12">
+                                    <use fill="#F8FBFE" fill-rule="evenodd" xlink:href="#path-1"></use>
+                                    <rect stroke="#0070D2" stroke-width="1.84" x="0.92" y="0.92" width="56.16" height="34.16" rx="2"></rect>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
