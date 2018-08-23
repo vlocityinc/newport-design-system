@@ -24,13 +24,6 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
         event.stopPropagation();
     }
 
-    /* Handle change of Default Value resource picker */
-    handleDefaultValueChanged(event) {
-        const property = 'defaultValue';
-        this.dispatchEvent(new PropertyChangedEvent(property, event.detail.value, event.detail.error, this.field.guid, this.field[property]));
-        event.stopPropagation();
-    }
-
     /* Figure out if the value really changed, and if it did refire the event including the old value */
     handleErrorMessageChanged = (event) => {
         const validationProp = 'validationRule';
@@ -52,7 +45,6 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
             elementType: ELEMENT_TYPE.SCREEN
         };
     }
-
 
     get isCheckbox() {
         return this.field.dataType === 'Boolean';

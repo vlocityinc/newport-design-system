@@ -84,3 +84,12 @@ export const mutateTextWithMergeFields = template => replaceMergeFieldReferences
  * @return {string} The mutated template with merge fields containing guids
  */
 export const demutateTextWithMergeFields = template => replaceMergeFieldReferences(template, devNameToGuid);
+
+/**
+ * Checks to see if the specified field is a merge field.
+ * @param {string} field to check.
+ * @return {boolean} if field is a merge field.
+ */
+export function isMergeField(field) {
+    return field && field.startsWith(MERGE_FIELD_START_CHARS);
+}

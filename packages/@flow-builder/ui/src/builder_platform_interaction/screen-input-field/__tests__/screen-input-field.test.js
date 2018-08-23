@@ -155,17 +155,82 @@ describe('Screen input field with empty space only should not be displayed', () 
 
 describe('DateTime screen input field', () => {
     let inputWrapperCmp;
+    const dateTimeValue = '02/23/2001 12:20';
     beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
-            value: '',
+            value: dateTimeValue,
             label: {value: testLabel, error: null},
             typeName: 'DateTime'
         });
     });
-    it('Lightning input type should be number', () => {
+    it('Lightning input type should be dateTime', () => {
         return Promise.resolve().then(() => {
             const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.DATE_TIME);
+        });
+    });
+    it('Value should be converted to ISO string format', () => {
+        return Promise.resolve().then(() => {
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
+            expect(input.value).toEqual(new Date(dateTimeValue).toISOString());
+        });
+    });
+});
+
+describe('DateTime screen input field with variable default vlaue', () => {
+    let inputWrapperCmp;
+    beforeEach(() => {
+        inputWrapperCmp = createComponentForTest({
+            value: '{!myVar}',
+            label: {value: testLabel, error: null},
+            typeName: 'DateTime'
+        });
+    });
+    it('Value should display empty string because it is a merge field', () => {
+        return Promise.resolve().then(() => {
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
+            expect(input.value).toEqual('');
+        });
+    });
+});
+
+describe('Date screen input field', () => {
+    let inputWrapperCmp;
+    const dateValue = '02/23/2001';
+    beforeEach(() => {
+        inputWrapperCmp = createComponentForTest({
+            value: dateValue,
+            label: {value: testLabel, error: null},
+            typeName: 'Date'
+        });
+    });
+    it('Lightning input type should be date', () => {
+        return Promise.resolve().then(() => {
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
+            expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.DATE);
+        });
+    });
+    it('Value should be converted to ISO string format', () => {
+        return Promise.resolve().then(() => {
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
+            expect(input.value).toEqual(new Date(dateValue).toISOString());
+        });
+    });
+});
+
+describe('Date screen input field with variable default vlaue', () => {
+    let inputWrapperCmp;
+    beforeEach(() => {
+        inputWrapperCmp = createComponentForTest({
+            value: '{!myVar}',
+            label: {value: testLabel, error: null},
+            typeName: 'Date'
+        });
+    });
+    it('Value should display empty string because it is a merge field', () => {
+        return Promise.resolve().then(() => {
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
+            expect(input.value).toEqual('');
         });
     });
 });

@@ -60,7 +60,8 @@ const handleScreenFieldPropertyChange = (data) => {
     // Run validation
     const type = data.field.type.name;
     const fullPropName = data.property !== 'name' ? 'fields[type.name="' + type + '"].' + data.property : 'name';
-    const error = data.error === null ? screenValidation.validateProperty(fullPropName, data.currentValue) : data.error;
+    const newValue = data.hydrated ? data.newValue.value : data.newValue;
+    const error = data.error === null ? screenValidation.validateProperty(fullPropName, newValue) : data.error;
     if (error && data.hydrated) {
         data.newValue.error = error;
     }

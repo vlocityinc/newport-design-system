@@ -10,7 +10,7 @@ export function createEmptyNodeOfType(type) {
         guid:generateGuid(),
         isRequired: type.dataType === 'Boolean' ? true : false,
         helpText: '',
-        defaultValue: null,
+        defaultValue: '',
         dataType: type.dataType,
         name: '',
         extensionName: type.name,
@@ -18,7 +18,7 @@ export function createEmptyNodeOfType(type) {
         defaultSelectedChoiceReference: '',
         fieldType: type.fieldType,
         inputParameters: [],
-        fieldText: null,
+        fieldText: '',
         outputParameters: [],
         scale: "0" // Store as string for validation purposes.
     };
