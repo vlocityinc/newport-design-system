@@ -172,6 +172,7 @@ export function createTestScreenField(name, type, value, config = {}) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
     const fieldType = getScreenFieldTypeByName(type);
     const field = {
+        guid: generateGuid(), // Guids are generated during translation, so they need to be added here for testing
         choiceReferences: [],
         dataType: fieldType.dataType,
         fieldType:fieldType.fieldType,

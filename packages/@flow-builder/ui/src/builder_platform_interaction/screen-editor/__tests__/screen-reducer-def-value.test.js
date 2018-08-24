@@ -1,9 +1,6 @@
 import { createTestScreenField, createTestScreenWithFields, SCREEN_NULL_DEF_VALUE } from 'builder_platform_interaction-builder-test-utils';
 import { screenReducer } from '../screen-reducer';
-
-import {
-    PropertyChangedEvent,
-} from 'builder_platform_interaction-events';
+import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 
 export const REFERENCE_VALUES = {
     STRING_1: {value:'{!String1}', valueGuid: 'GUID_String_1', isReference: true},
@@ -30,7 +27,6 @@ jest.mock('builder_platform_interaction-store-utils', () => {
         }
     };
 });
-
 
 function testDefaultValue(valueBefore, valueAfter) {
     // Determine defaultValue to use (reference, stringValue or null)
