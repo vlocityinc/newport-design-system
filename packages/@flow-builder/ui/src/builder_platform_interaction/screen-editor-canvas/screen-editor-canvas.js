@@ -71,6 +71,7 @@ export default class ScreenEditorCanvas extends LightningElement {
     handleDragEnter(event) {
         this.template.querySelector(DRAGGING_REGION_SELECTOR).classList.remove('slds-hide');
         event.preventDefault();
+        event.stopPropagation();
     }
 
     handleDragEnd(/* event */) {
@@ -87,7 +88,9 @@ export default class ScreenEditorCanvas extends LightningElement {
 
             this.template.querySelector(INSERTION_LINE_SELECTOR).style.top = (range.top - this.top) + 'px';
         }
+
         event.preventDefault();
+        event.stopPropagation();
     }
 
     getDraggingRange(event) {
