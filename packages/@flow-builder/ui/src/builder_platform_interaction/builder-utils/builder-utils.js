@@ -104,18 +104,16 @@ const getNewResourceConfig = (attributes) => {
         return newResourceConfig;
     }
     const nodeUpdate = attributes.nodeUpdate;
-    const descriptor = 'builder_platform_interaction:resourceEditor';
+    const desc = 'builder_platform_interaction:resourceEditor';
     const titleForModal = LABELS.newResourceEditorTitle;
 
     const attr = {
         nodeUpdate,
-        override: {
-            body: {
-                descriptor,
-                attr: {
-                    node: {},
-                },
-            }
+        bodyComponent: {
+            desc,
+            attr: {
+                node: {},
+            },
         },
     };
 
@@ -167,15 +165,13 @@ const getConnectorPickerConfig = (mode, attributes) => {
 
     const attr = {
         nodeUpdate,
-        override: {
-            body: {
-                descriptor: "builder_platform_interaction:connectorPicker",
-                attr: {
-                    comboboxOptions,
-                    bodyText,
-                    comboBoxLabel,
-                    targetElementLabel
-                }
+        bodyComponent: {
+            desc: "builder_platform_interaction:connectorPicker",
+            attr: {
+                comboboxOptions,
+                bodyText,
+                comboBoxLabel,
+                targetElementLabel
             }
         }
     };
@@ -204,20 +200,20 @@ const getPropertyEditorConfig = (mode, attributes) => {
     }
 
     const nodeUpdate = attributes.nodeUpdate,
+        newResourceCallback = attributes.newResourceCallback,
         node = attributes.node,
         elementType = attributes.node.elementType,
         elementConfig = getConfigForElementType(elementType),
         titleForModal = getTitleForModalHeader(mode, elementType),
-        descriptor = elementConfig.descriptor;
+        desc = elementConfig.descriptor;
 
     const attr = {
         nodeUpdate,
-        override: {
-            body: {
-                descriptor,
-                attr: {
-                    node
-                }
+        newResourceCallback,
+        bodyComponent: {
+            desc,
+            attr: {
+                node
             }
         }
     };

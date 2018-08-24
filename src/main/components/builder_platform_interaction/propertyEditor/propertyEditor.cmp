@@ -1,12 +1,13 @@
 <aura:component>
-    <aura:attribute name="node" type="Object"/>
     <!-- callback to update-->
-    <aura:attribute name="nodeUpdate" type="Object"/>
-    <!-- factory override -->
-    <aura:attribute name="override" type="Object" />
-      
+    <aura:attribute name="nodeUpdate" type="Object" description="callback function run on node update"/>
+    <aura:attribute name="newResourceCallback" type="Object" description="new resource callback for inline resource creation"/>
+    <aura:attribute name="bodyComponent" type="Object" description="contains descriptor and attributes for inner component"/>
     <!-- Handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <!-- Body -->
-    <div id="modal-content-id">{!v.body}</div>
+    
+    <div id="modal-content-id" aura:id="body-content" onaddnewresource="{!c.handleAddNewResource}">
+        {!v.body}
+    </div>
 </aura:component>

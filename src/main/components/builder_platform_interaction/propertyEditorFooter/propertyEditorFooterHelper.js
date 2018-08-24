@@ -4,11 +4,12 @@
         var panelInstance = cmp.get('v.panelInstance');
         var propertyEditor = panelInstance.get('v.body')[0];
         if (propertyEditor && propertyEditor.isValid()) {
-            var validationErrors = propertyEditor.get("v.body")[0].validate();
+            var propertyEditorInnerCmp = propertyEditor.find('body-content').get('v.body')[0];
+            var validationErrors = propertyEditorInnerCmp.validate();
             if (validationErrors) {
                 if (validationErrors.length === 0) {
                     var nodeUpdate = propertyEditor.get("v.nodeUpdate");
-                    var node = propertyEditor.get("v.body")[0].getNode();
+                    var node = propertyEditorInnerCmp.getNode();
                     if (node && nodeUpdate) {
                         nodeUpdate(node);
                         this.closePanel(cmp);
@@ -45,6 +46,5 @@
             typeOf: 'ui:closePanel',
             callback: closeActionCallback(panelInstance)
         }).fire();
-    },
-   
+    }
 })

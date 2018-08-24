@@ -123,6 +123,7 @@ export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
  */
 function getNewResourceItem() {
     return {
+        displayText: newResourceLabel,
         text : newResourceLabel,
         type : COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
         value : COMBOBOX_NEW_RESOURCE_VALUE,
@@ -204,7 +205,7 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     const state = Store.getStore().getCurrentState();
 
     // TODO Remove when we get to W-5164547
-    includeNewResource = false;
+    // includeNewResource = true;
 
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
     // TODO: if this function ever deals with server calls, we need to memoize it, because it gets called everytime the component rerenders

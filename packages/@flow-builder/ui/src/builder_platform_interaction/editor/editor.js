@@ -17,7 +17,7 @@ import { LABELS } from './editor-labels';
 import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction-used-by-lib';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction-logging-utils';
-import { SaveFlowEvent, EditElementEvent } from 'builder_platform_interaction-events';
+import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from 'builder_platform_interaction-events';
 import { SaveType } from 'builder_platform_interaction-save-type';
 
 let unsubscribeStore;
@@ -331,7 +331,6 @@ export default class Editor extends LightningElement {
      */
     handleAddResourceClick = (event) => {
         const mode = event.type;
-
         const nodeUpdate = this.deMutateAndAddNodeCollection;
         invokePanel(PROPERTY_EDITOR, { mode, nodeUpdate });
     };
@@ -350,7 +349,8 @@ export default class Editor extends LightningElement {
             const mode = event.type;
             const node = elementPropertyEditorSelector(storeInstance.getCurrentState(), event.detail.canvasElementGUID);
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
-            invokePanel(PROPERTY_EDITOR, { mode, nodeUpdate, node });
+            const newResourceCallback = this.newResourceCallback;
+            invokePanel(PROPERTY_EDITOR, { mode, nodeUpdate, node, newResourceCallback });
         }
     };
 
@@ -621,7 +621,8 @@ export default class Editor extends LightningElement {
         node = hydrateWithErrors(node);
 
         const nodeUpdate = this.deMutateAndAddNodeCollection;
-        invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate });
+        const newResourceCallback = this.newResourceCallback;
+        invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
     };
 
     /**
@@ -645,26 +646,29 @@ export default class Editor extends LightningElement {
 
     /**
      * Method for talking to validation library and store for updating the node collection/flow data.
-     *
      * @param {object} node - node object for the particular property editor update
      */
     deMutateAndUpdateNodeCollection(node) {
-        // TODO: add validations if needed
         // This deepCopy is needed as a temporary workaround because the unwrap() function that the property editor
         // calls on OK doesn't actually work and keeps the proxy wrappers.
         const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)), storeInstance.getCurrentState());
-
         storeInstance.dispatch(updateElement(nodeForStore));
     }
 
     deMutateAndAddNodeCollection(node) {
-        // TODO: add validations if needed
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
         const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)), storeInstance.getCurrentState());
         storeInstance.dispatch(addElement(nodeForStore));
     }
+
+    /**
+     * Callback passed to variour property editors which support inline creation
+     */
+    newResourceCallback = () => {
+        invokePanel(PROPERTY_EDITOR, { mode: NewResourceEvent.EVENT_NAME, nodeUpdate: this.deMutateAndAddNodeCollection});
+    };
 
     renderedCallback() {
         if (!this.isFlowServerCallInProgress && this.showSpinner) {
