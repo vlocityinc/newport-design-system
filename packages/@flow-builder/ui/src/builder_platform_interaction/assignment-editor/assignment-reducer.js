@@ -28,7 +28,6 @@ const addAssignmentItem = (state) => {
 };
 
 const deleteAssignmentItem = (state, event) => {
-    // TODO do validation for if we need at least one row
     const updatedItems = deleteItem(state.assignmentItems, event.detail.index);
     return set(state, 'assignmentItems', updatedItems);
 };

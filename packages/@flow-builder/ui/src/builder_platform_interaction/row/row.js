@@ -34,7 +34,6 @@ export default class Row extends LightningElement {
     handleRowContentsChanged(event) {
         const index = this.itemIndex;
         const value = event.detail.newValue;
-        // TODO plz change the error from null to appropriate value coming from lower level component
         const itemUpdatedEvent = new UpdateListItemEvent(index, value);
         this.dispatchEvent(itemUpdatedEvent);
     }

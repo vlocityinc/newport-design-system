@@ -86,9 +86,6 @@ export default class ExpressionBuilder extends LightningElement {
      * @param {Object} expression   The expression to be represented.
      */
     set expression(expression) {
-        // TODO error handling? W-4755917
-        // TODO handle literals, "hi my name is {!firstName}" W-4817362
-        // TODO handle multi-level merge fields W-4723095
         this.state.expression = expression;
 
         const lhsVal = getValueFromHydratedItem(expression[LHS]);

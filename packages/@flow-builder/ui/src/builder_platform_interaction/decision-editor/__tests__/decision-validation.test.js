@@ -1,4 +1,3 @@
-// TODO here to replace the expected error message with a reference to the label file once we have that in place
 import {decisionValidation} from '../decision-validation';
 
 import { LABELS } from '../../validation-rules/validation-rules-labels';

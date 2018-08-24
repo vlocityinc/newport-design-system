@@ -71,7 +71,6 @@ export default class VariableEditor extends LightningElement {
     }
 
     set node(newValue) {
-        // TODO: update when W-4889306 is closed
         this.variableResource = unwrap(newValue);
         this._devNamePreviousValue = this.variableResource.name;
         this._lastRecordedDataType = getValueFromHydratedItem(this.variableResource.dataType);

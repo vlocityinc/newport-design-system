@@ -205,7 +205,7 @@ describe('variable-constant-editor', () => {
         });
 
         it('fires warning event on blur when previously selected input output is unselected', () => {
-            // TODO: use labels W-4954505
+            // TODO: see const warningMessage in variable-constant-editor.js
             const expectedEventData = expectedWarningClearEventsData.slice();
             expectedEventData.push({propertyName: 'isOutput', warning: 'Changing this field may result in runtime errors when this flow is called by another flow.'});
             return testBlurEventForInputOutput({
@@ -224,7 +224,7 @@ describe('variable-constant-editor', () => {
         });
 
         it('fires warning event for name change with previously selected input or output', () => {
-            // TODO: use labels W-4954505
+            // TODO: see const warningMessage in variable-constant-editor.js
             const expectedEventData = expectedWarningClearEventsData.slice();
             expectedEventData.push({propertyName: 'name', warning: 'Changing this field may result in runtime errors when this flow is called by another flow.'});
             return testWarningEventForInputOutput({

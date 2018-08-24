@@ -283,7 +283,6 @@ export default class Combobox extends LightningElement {
 
     _errorMessage = null;
 
-    // TODO: This will need to change once multiple merge fields can be in the same string
     _item;
 
     /**

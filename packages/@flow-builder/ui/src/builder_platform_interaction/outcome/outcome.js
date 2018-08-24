@@ -32,8 +32,6 @@ export default class Outcome extends LightningElement {
         {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: this.labels.customConditionLogicLabel},
     ];
 
-    // TODO: Import Localization Labels & getter for the component to use that.
-    // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004ftBbIAI/view
     @track
     showErrorMessageIfBlank = this.labels.cannotBeBlankError;
 
@@ -67,7 +65,6 @@ export default class Outcome extends LightningElement {
     get conditionsWithPrefixes() {
         return this.outcomeConditions.map((condition, i) => {
             return {
-                // TODO: This should come from a label - https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000004rhg0IAA/view
                 prefix: this.getPrefix(i).toUpperCase(),
                 condition
             };

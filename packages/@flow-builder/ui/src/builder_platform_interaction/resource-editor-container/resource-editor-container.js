@@ -2,12 +2,10 @@ import { LightningElement, api, track } from "lwc";
 import { createFlowElement } from 'builder_platform_interaction-element-config';
 import { hydrateWithErrors, mutateEditorElement } from 'builder_platform_interaction-data-mutation-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import constantEditorTemplate from './constant-editor-template.html';
 import variableEditorTemplate from './variable-editor-template.html';
 import formulaEditorTemplate from './formula-editor-template.html';
 
 const resourceTypeElementTypeMap = {
-    constant: ELEMENT_TYPE.CONSTANT,
     variable: ELEMENT_TYPE.VARIABLE,
     formula: ELEMENT_TYPE.FORMULA
 };
@@ -87,7 +85,6 @@ export default class ResourceEditorContainer extends LightningElement {
         if (editor) {
             return this.template.querySelector(EDITOR_SELECTOR).validate();
         }
-        // TODO: do validation for resource editor
         return undefined;
     }
 
@@ -96,8 +93,6 @@ export default class ResourceEditorContainer extends LightningElement {
         switch (elementType) {
             case ELEMENT_TYPE.VARIABLE:
                 return variableEditorTemplate;
-            case ELEMENT_TYPE.CONSTANT:
-                return constantEditorTemplate;
             case ELEMENT_TYPE.FORMULA:
                 return formulaEditorTemplate;
             default:

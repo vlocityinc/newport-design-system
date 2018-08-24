@@ -163,7 +163,6 @@ export default class ParameterItem extends LightningElement {
                 const varElement = getResourceByUniqueIdentifier(varRef);
                 return this.createComboboxValue(varElement.guid, '{!' + (varElement ? varElement.name : varRef) + '}');
             }
-            // TODO: value = literals + VARIABLE (My name is {!VARIRABLE_1}. Hello world!)
             const value = this.state.parameterItem.value[Object.keys(this.item.value)[0]].value;
             return value;
         }

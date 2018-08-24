@@ -19,8 +19,6 @@ import {
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import { GLOBAL_CONSTANT_OBJECTS } from 'builder_platform_interaction-system-lib';
 
-// TODO: deal with loading non-flow data for comboboxes W-4664833
-
 const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
 
 const isPicklistFieldAllowed = (allowedTypes) => {
@@ -71,7 +69,6 @@ function sortIntoCategories(menuData, element) {
     if (!(menuData[0] && menuData[0].label === element.category)) {
         // Create the new category object, with label
         const newCategory = {
-            // TODO: use proper labels W-4813532
             label: element.category,
             items: []
         };
@@ -181,7 +178,6 @@ export const getPicklistMenuData = (picklist) => {
     }
     const picklistLabel = 'Picklist Values';
     const picklistGroup = {
-        // TODO: use proper labels W-4813532
         label: picklistLabel,
         items: [],
     };
@@ -208,7 +204,6 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     // includeNewResource = true;
 
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
-    // TODO: if this function ever deals with server calls, we need to memoize it, because it gets called everytime the component rerenders
     const menuDataElements = getSelector(elementConfig)(state);
     if (allowFerovs) {
         // global constants should be included in menuData for FEROVs

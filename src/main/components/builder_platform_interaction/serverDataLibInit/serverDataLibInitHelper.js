@@ -48,7 +48,6 @@
             var headerTitle, bodyTextOne, buttonVariant, buttonLabel, alertModal;
             alertModal = cmp.find('builderUtils').invokeAlertModal;
             buttonVariant = 'Brand';
-            // TODO: update the labels: W-4962898
             buttonLabel = $A.get('$Label.FlowBuilderAlertModal.okayButtonLabel');
             if (status === 'ERROR') {
                 headerTitle = $A.get('$Label.FlowBuilderAlertModal.errorTitle');;

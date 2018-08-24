@@ -78,7 +78,7 @@ export default class LoopEditor extends LightningElement {
             return {
                 text: addCurlyBraces(this._collectionVariable.name),
                 displayText: addCurlyBraces(this._collectionVariable.name),
-                value: getValueFromHydratedItem(this.loopElement.collectionReference) // TODO: W-5349049 write automation to make sure value cannot be an object
+                value: getValueFromHydratedItem(this.loopElement.collectionReference)
             };
         }
         return '';

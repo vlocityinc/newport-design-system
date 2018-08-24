@@ -204,7 +204,7 @@ export const getOperators = (elementType, lhsElement = {}, rules, ruleType) => {
  * @returns {Array}               operators in the shape the combobox expects
  */
 export const transformOperatorsForCombobox = (operators) => {
-    // TODO: labels! W-4813532
+    // TODO: labels! W-4953944
     const operatorsForCombobox = [];
     operators.forEach((operator) => {
         operatorsForCombobox.push({
@@ -264,7 +264,6 @@ export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) 
             type = lhsElement.objectType;
         }
         // to remain consistent with getLHSTypes we place the rhsParam in an array
-        // TODO: find out if we only get either scalar or a collection of a type ex: number vs number collection. If so, we can remove this check and simply assign an array with rhsParam
         if (!paramTypeMap.hasOwnProperty(type)) {
             paramTypeMap[type] = [];
         }

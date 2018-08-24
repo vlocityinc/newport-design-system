@@ -2,7 +2,6 @@ import { hydrateWithErrors, dehydrate, getErrorsFromHydratedElement, getValueFro
 import {deepCopy} from 'builder_platform_interaction-store-lib';
 
 /** Mock data objects - Start **/
-// TODO: think about moving all these move objects to a mock util that can be used by all the tests
 const testObj = {
     assignmentItems : [{
         operator: 'Assign',

@@ -154,7 +154,6 @@ export function mutateFlowResourceToComboboxShape(resource) {
     newElement.value = resource.guid;
     newElement.displayText = '{!' + resource.name + '}';
     newElement.hasNext = resource.dataType === SOBJECT_TYPE && !resource.isCollection;
-    // TODO: remove upper case-ing once we're using labels for categories W-4813532
     newElement.category = isNonElement ?
         resource.category : getElementCategory(resource.elementType, resource.dataType, resource.isCollection).toUpperCase();
     newElement.iconName = getDataTypeIcons(resource.dataType, ICON_TYPE);

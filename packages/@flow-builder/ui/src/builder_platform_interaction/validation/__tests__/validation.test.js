@@ -1,4 +1,3 @@
-// TODO here to replace the expected error message with a reference to the label file once we have that in place
 import { Validation } from 'builder_platform_interaction-validation';
 import * as ValidationRules from 'builder_platform_interaction-validation-rules';
 
