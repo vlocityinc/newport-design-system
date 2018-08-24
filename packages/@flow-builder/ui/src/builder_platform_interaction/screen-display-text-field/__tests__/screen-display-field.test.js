@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import ScreenDisplayField from 'builder_platform_interaction-screen-display-text-field';
 import { getShadowRoot } from 'lwc-test-utils';
 

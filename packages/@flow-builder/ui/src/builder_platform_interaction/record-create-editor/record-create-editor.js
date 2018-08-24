@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { recordCreateReducer } from './record-create-reducer';
 import { LABELS } from './record-create-editor-labels';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';

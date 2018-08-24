@@ -1,4 +1,4 @@
-import { LightningElement, track } from "lwc";
+import { LightningElement, track } from 'lwc';
 import { transformLeftPanelElements } from './left-panel-elements-helper';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-logging-utils';

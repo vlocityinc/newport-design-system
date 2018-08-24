@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { decisionReducer } from './decision-reducer';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';

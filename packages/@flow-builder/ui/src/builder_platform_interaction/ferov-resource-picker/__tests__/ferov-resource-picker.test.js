@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import FerovResourcePicker from '../ferov-resource-picker';
 import { getElementsForMenuData, normalizeRHS, filterFieldsForChosenElement} from 'builder_platform_interaction-expression-utils';

@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import { EditElementEvent, PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 import LeftPanel from 'builder_platform_interaction-left-panel';
 

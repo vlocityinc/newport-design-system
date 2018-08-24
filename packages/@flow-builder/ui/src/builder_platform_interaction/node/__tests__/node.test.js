@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import { EditElementEvent, DeleteElementEvent, CANVAS_EVENT } from 'builder_platform_interaction-events';
 import Node from 'builder_platform_interaction-node';
 import { getShadowRoot } from 'lwc-test-utils';

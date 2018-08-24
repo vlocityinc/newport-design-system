@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { isScreen, isDisplayTextField, isExtensionField, isInputField, isTextAreaField, isPasswordField, describeExtension } from 'builder_platform_interaction-screen-editor-utils';
 import { createScreenNodeSelectedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';

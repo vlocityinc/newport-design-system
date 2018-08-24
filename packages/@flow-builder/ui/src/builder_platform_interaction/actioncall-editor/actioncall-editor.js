@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { actionCallReducer } from './actioncall-reducer';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';

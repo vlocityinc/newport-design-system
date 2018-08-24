@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 import { LABELS } from './status-icon-summary-labels';
 import { format } from 'builder_platform_interaction-common-utils';
 

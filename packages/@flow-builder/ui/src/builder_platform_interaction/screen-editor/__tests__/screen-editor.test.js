@@ -8,7 +8,7 @@
  *      handleReorder
  */
 import ScreenEditor from '../screen-editor';
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import { createTestScreen, createTestScreenField } from 'builder_platform_interaction-builder-test-utils';
 import {
     PropertyChangedEvent,

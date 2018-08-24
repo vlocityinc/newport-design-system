@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { recordLookupReducer } from './record-lookup-reducer';
 import { ENTITY_TYPE, getFieldsForEntity, getAllEntities } from 'builder_platform_interaction-sobject-lib';
 import { LABELS } from './record-lookup-editor-labels';

@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { recordReducer } from './record-reducer';
 import { ENTITY_TYPE } from 'builder_platform_interaction-sobject-lib';
 import { RESOURCE_PICKER_MODE, getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';

@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import ScreenDisplayTextFieldPropertiesEditor from '../screen-display-text-field-properties-editor';
 import { query, createTestScreenField } from 'builder_platform_interaction-builder-test-utils';
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';

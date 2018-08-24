@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import AssignmentEditor from '../assignment-editor';
 import { PropertyChangedEvent, AddListItemEvent, DeleteListItemEvent, UpdateListItemEvent} from 'builder_platform_interaction-events';
 import {deepCopy} from 'builder_platform_interaction-store-lib';

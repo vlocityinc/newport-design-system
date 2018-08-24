@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { getResourceTypesMenuData } from 'builder_platform_interaction-expression-utils';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction-validation-rules';
 import { LABELS } from './resource-editor-labels';

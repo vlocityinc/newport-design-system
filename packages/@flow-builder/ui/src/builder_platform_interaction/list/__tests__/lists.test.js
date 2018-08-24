@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import List from '../list';
 import {deepCopy} from 'builder_platform_interaction-store-lib';
 import { getShadowRoot } from 'lwc-test-utils';

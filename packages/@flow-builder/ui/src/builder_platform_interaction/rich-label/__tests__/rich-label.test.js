@@ -1,4 +1,4 @@
-import {createElement} from "lwc";
+import {createElement} from 'lwc';
 import RichLabel from '../rich-label';
 
 const createComponentUnderTest = (props) => {

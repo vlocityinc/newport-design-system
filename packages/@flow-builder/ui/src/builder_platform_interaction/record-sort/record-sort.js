@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './record-sort-labels';
 import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';

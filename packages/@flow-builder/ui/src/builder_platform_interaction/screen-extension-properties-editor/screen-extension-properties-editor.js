@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { mergeExtensionInfo } from 'builder_platform_interaction-screen-editor-utils';
 

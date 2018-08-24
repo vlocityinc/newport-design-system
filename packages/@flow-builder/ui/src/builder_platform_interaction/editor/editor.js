@@ -1,4 +1,4 @@
-import { LightningElement, track, api } from "lwc";
+import { LightningElement, track, api } from 'lwc';
 import { invokePanel, PROPERTY_EDITOR } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
 import { canvasSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';

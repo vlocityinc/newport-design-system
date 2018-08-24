@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import RecordCreateEditor from '../record-create-editor';
 import { getShadowRoot } from 'lwc-test-utils';
 import * as expressionUtilsMock from 'builder_platform_interaction-expression-utils';

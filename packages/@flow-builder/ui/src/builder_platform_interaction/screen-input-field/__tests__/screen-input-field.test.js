@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import ScreenInputField from 'builder_platform_interaction-screen-input-field';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 

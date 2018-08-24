@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 import { format } from 'builder_platform_interaction-common-utils';
 
 export default class ConnectorPicker extends LightningElement {

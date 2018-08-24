@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import ActionSelector from '../action-selector';
 import { mockError } from 'mock-action-selector-data';
 import { getShadowRoot } from 'lwc-test-utils';

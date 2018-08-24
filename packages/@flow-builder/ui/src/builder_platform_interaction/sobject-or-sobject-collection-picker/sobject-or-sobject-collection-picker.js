@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';

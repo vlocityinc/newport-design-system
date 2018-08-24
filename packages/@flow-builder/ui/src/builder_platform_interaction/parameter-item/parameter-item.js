@@ -1,4 +1,4 @@
-import { LightningElement, track, api } from "lwc";
+import { LightningElement, track, api } from 'lwc';
 import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction-data-type-lib';
 import { getElementsForMenuData, getResourceByUniqueIdentifier } from 'builder_platform_interaction-expression-utils';
 import { getRulesForContext, getRHSTypes, PARAM_PROPERTY, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';

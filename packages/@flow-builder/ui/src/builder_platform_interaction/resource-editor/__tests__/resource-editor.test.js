@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import ResourceEditor  from '../resource-editor';
 import { getShadowRoot } from 'lwc-test-utils';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction-validation-rules';

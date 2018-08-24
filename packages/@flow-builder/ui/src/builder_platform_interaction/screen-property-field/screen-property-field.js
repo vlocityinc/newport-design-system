@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { PropertyChangedEvent } from 'builder_platform_interaction-events';
 import { isItemHydratedWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';

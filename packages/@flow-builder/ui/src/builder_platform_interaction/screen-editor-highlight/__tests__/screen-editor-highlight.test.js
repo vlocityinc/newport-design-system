@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import ScreenEditorHighlight from 'builder_platform_interaction-screen-editor-highlight';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
 import { DRAGGING_CLASS, CONTAINER_DIV_SELECTOR} from 'builder_platform_interaction-screen-editor-utils';

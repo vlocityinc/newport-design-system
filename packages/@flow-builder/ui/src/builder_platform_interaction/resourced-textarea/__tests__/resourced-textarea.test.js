@@ -1,4 +1,4 @@
-import {createElement} from "lwc";
+import {createElement} from 'lwc';
 import ScreenTextAreaPropertyField from '../resourced-textarea';
 import { getShadowRoot } from 'lwc-test-utils';
 

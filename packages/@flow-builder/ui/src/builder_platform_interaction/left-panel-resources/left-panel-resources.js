@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 import { LABELS } from './left-panel-resources-labels';
 import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-logging-utils';
 

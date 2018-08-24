@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { assignmentReducer } from './assignment-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';

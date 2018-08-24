@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { format } from 'builder_platform_interaction-common-utils';
 
 /**

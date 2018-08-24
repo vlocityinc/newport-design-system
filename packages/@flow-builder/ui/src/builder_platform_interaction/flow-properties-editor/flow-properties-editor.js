@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { LABELS } from './flow-properties-editor-labels';

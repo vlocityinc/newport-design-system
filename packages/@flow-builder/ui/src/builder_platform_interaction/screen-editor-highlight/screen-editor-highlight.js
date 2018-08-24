@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 import { createScreenElementSelectedEvent, createScreenElementDeletedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { SELECTED_CLASS, DRAGGING_CLASS, CONTAINER_DIV_SELECTOR, booleanAttributeValue} from 'builder_platform_interaction-screen-editor-utils';

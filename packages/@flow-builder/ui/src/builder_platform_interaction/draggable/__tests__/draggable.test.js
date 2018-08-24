@@ -1,4 +1,4 @@
-import {createElement} from "lwc";
+import {createElement} from 'lwc';
 import Draggable from 'builder_platform_interaction-draggable';
 import { getShadowRoot } from 'lwc-test-utils';
 

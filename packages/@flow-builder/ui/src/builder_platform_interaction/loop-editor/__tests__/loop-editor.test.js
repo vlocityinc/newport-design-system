@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import LoopEditor from '../loop-editor';
 import {PropertyChangedEvent, ComboboxStateChangedEvent} from 'builder_platform_interaction-events';
 import { getShadowRoot } from 'lwc-test-utils';

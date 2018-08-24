@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './record-field-picker-row-labels';
 import { getFieldsMenuData } from 'builder_platform_interaction-expression-utils';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';

@@ -1,4 +1,4 @@
-import {LightningElement, api} from "lwc";
+import {LightningElement, api} from 'lwc';
 import {DeleteListItemEvent, UpdateListItemEvent} from 'builder_platform_interaction-events';
 import deleteRowAlternativeText from '@salesforce/label/FlowBuilderRows.deleteRowAlternativeText';
 

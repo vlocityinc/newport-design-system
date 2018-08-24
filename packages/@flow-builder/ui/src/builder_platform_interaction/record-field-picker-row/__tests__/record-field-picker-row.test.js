@@ -1,4 +1,4 @@
-import {createElement} from "lwc";
+import {createElement} from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import { mockAccountFields } from 'mock-server-entity-data';
 import {

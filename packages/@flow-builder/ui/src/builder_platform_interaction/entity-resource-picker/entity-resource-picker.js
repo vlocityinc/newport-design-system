@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { getEntitiesMenuData } from 'builder_platform_interaction-expression-utils';
 import { isObject } from 'builder_platform_interaction-common-utils';
 

@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { getPlaceHolderLabel } from 'builder_platform_interaction-screen-editor-utils';
 
 /**

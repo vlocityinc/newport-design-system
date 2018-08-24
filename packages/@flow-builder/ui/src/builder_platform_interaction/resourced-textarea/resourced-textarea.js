@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction-base-resource-picker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LIGHTNING_INPUT_VARIANTS, booleanAttributeValue } from 'builder_platform_interaction-screen-editor-utils';

@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS, NO_CRITERIA_LABELS } from './record-filter-labels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction-record-editor-lib';

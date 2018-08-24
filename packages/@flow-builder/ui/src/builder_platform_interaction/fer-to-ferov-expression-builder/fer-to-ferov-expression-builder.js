@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
 import {
     EXPRESSION_PROPERTY_TYPE,

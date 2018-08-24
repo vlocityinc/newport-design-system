@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 
 const CLASS_ACTIVE = 'slds-vertical-tabs__nav-item slds-is-active';
 const CLASS_INACTIVE = 'slds-vertical-tabs__nav-item';

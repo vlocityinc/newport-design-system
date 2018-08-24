@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 const LINK_ARIA_SELECTED_ACTIVE = 'true';
 const LINK_ARIA_SELECTED_INACTIVE = 'false';
 

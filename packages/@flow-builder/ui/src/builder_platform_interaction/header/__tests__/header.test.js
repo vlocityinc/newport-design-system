@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import Header from '../header';
 import { getShadowRoot } from 'lwc-test-utils';
 import { LABELS } from '../header-labels';

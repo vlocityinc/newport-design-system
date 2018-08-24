@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 import { isExtensionField, getPlaceHolderLabel } from 'builder_platform_interaction-screen-editor-utils';
 import { hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 

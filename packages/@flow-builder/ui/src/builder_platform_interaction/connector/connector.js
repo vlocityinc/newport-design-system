@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 
 /**

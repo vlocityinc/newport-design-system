@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import  ScreenEditorCanvas  from '../screen-editor-canvas';
 import { createTestScreen, createDropEvent } from 'builder_platform_interaction-builder-test-utils';
 import { getShadowRoot } from 'lwc-test-utils';

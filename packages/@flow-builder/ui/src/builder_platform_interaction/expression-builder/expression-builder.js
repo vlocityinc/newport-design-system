@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { RowContentsChangedEvent } from 'builder_platform_interaction-events';
 import { updateProperties, getValueFromHydratedItem, sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
 import {

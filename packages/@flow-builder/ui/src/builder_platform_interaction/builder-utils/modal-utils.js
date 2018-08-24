@@ -1,4 +1,4 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import { showCustomOverlay } from 'lightning-overlay-utils';
 import AlertModalHeader from 'builder_platform_interaction-alert-modal-header';
 import AlertModalBody from 'builder_platform_interaction-alert-modal-body';

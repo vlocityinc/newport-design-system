@@ -1,4 +1,4 @@
-import { LightningElement, track } from "lwc";
+import { LightningElement, track } from 'lwc';
 
 const SECTION = 'section';
 export default class AccordionSection extends LightningElement {

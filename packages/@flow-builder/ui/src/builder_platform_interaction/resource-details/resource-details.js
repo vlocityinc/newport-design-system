@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './resource-details-labels';
 

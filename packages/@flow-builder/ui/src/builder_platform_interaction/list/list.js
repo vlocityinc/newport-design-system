@@ -1,4 +1,4 @@
-import {LightningElement, api} from "lwc";
+import {LightningElement, api} from 'lwc';
 import {AddListItemEvent} from 'builder_platform_interaction-events';
 
 

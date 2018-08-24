@@ -1,4 +1,4 @@
-import {createElement} from "lwc";
+import {createElement} from 'lwc';
 import DecisionEditor from 'builder_platform_interaction-decision-editor';
 import { decisionReducer } from '../decision-reducer';
 import {

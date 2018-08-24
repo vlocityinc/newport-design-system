@@ -1,4 +1,4 @@
-import {LightningElement, api, track} from "lwc";
+import {LightningElement, api, track} from 'lwc';
 import {PropertyChangedEvent} from 'builder_platform_interaction-events';
 import {isUniqueDevNameInStore} from 'builder_platform_interaction-validation-rules';
 import { sanitizeDevName } from 'builder_platform_interaction-common-utils';

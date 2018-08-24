@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 import { CANVAS_SCREEN_GUIDS } from 'builder_platform_interaction-screen-editor-utils';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { ReorderListEvent, createScreenElementDeselectedEvent, createAddScreenFieldEvent } from 'builder_platform_interaction-events';

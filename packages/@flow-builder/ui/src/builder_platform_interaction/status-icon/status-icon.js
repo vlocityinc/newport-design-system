@@ -1,4 +1,4 @@
-import { LightningElement, api, createElement, track } from "lwc";
+import { LightningElement, api, createElement, track } from 'lwc';
 import { showCustomOverlay } from 'lightning-overlay-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import StatusIconSummary from 'builder_platform_interaction-status-icon-summary';

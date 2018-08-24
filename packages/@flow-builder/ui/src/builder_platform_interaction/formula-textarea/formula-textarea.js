@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { LABELS } from './formula-textarea-labels';
 import { validateTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
