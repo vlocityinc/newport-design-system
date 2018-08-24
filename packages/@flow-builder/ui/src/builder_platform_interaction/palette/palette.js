@@ -1,4 +1,5 @@
-import { LightningElement, api, track, unwrap } from "lwc";
+import { LightningElement, api, track, unwrap } from 'lwc';
+import { flatten } from './palette-lib';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -16,11 +17,8 @@ export default class Palette extends LightningElement {
     }
 
     set data(value) {
-        // TODO: If lightning-tree-grid doesn't satisfy our requirements and we end up getting
-        // stuck with using palette, we should consider making resources-selector give us data in a
-        // format that works without needing to flatten it here.
         this.original = value;
-        this.init(value);
+        this.init();
     }
 
     @api
@@ -52,133 +50,15 @@ export default class Palette extends LightningElement {
 
     /**
      * Sets up the internal state used to render the tree.
-     *
-     * @param {Array}
-     *            data The lightning-tree-grid data
      */
-    init(data) {
-        const rows = this.flatten(data);
+    init() {
+        // TODO: If lightning-tree-grid doesn't satisfy our requirements and we
+        // end up getting stuck with using palette, we should consider making
+        // resources-lib give us data in a format that works without needing to
+        // flatten it here.
+        const rows = flatten(this.original, this.collapsedSections);
         this.rows = rows;
         this.itemMap = this.createItemMap(rows);
-    }
-
-    /**
-     * This takes an array in the shape of lightning-tree-grid data and flattens
-     * all sections and their children into a one dimensional array. This is
-     * useful for generating the markup for a table including the aria level,
-     * posinset, and setsize attributes.
-     *
-     * @param {Array}
-     *            data The lightning-tree-grid data
-     * @returns {Array} List of tree rows
-     */
-    flatten(data) {
-        return this.createLevel(data, 1);
-    }
-
-    /**
-     * Creates siblings at the given level of the tree.
-     *
-     * @param {Array}
-     *            data The lightning-tree-grid-data
-     * @param {number}
-     *            level The tree depth of the given data
-     * @returns {Array} List of tree rows
-     */
-    createLevel(data, level) {
-        let rows = [];
-
-        for (let i = 0; i < data.length; i++) {
-            if (this.isSection(data[i])) {
-                rows = rows.concat(this.createSection(data[i], level, i + 1, data.length));
-            } else {
-                rows.push(this.createItem(data[i], level, i + 1, data.length));
-            }
-        }
-
-        return rows;
-    }
-
-    /**
-     * Creates an expandable/collapsible palette section. Collapsed sections
-     * will not show their children.
-     *
-     * @param {Object}
-     *            section The lightning-tree-grid data
-     * @param {number}
-     *            level The tree depth of the given data
-     * @param {number}
-     *            posinset The position in the current level
-     * @param {number}
-     *            setsize The size of the current level
-     * @returns {Array} List of tree rows
-     */
-    createSection(section, level, posinset, setsize) {
-        let rows = [];
-
-        const key = section.guid;
-        const expanded = !this.collapsedSections[key];
-        const visibleItems = section._children.length;
-        const row = {
-            isSection: true,
-            key,
-            level,
-            posinset,
-            setsize,
-            label: section.label,
-            expanded,
-            visibleItems
-        };
-        rows.push(row);
-
-        // Only include child items from expanded sections.
-        if (expanded) {
-            rows = rows.concat(this.createLevel(section._children, level + 1));
-        }
-
-        return rows;
-    }
-
-    /**
-     * Creates a palette item. These are the elements that have click actions,
-     * hovers, drag & drop, etc.
-     *
-     * @param {Object}
-     *            item The lightning-tree-grid data
-     * @param {number}
-     *            level The tree depth of the given data
-     * @param {number}
-     *            posinset The position in the current level
-     * @param {number}
-     *            setsize The size of the current level
-     * @returns {Object} A tree row representing a palette item
-     */
-    createItem(item, level, posinset, setsize) {
-        const key = item.guid;
-        const description = item.description ? item.description : '';
-        const row = {
-            isSection: false,
-            key,
-            level,
-            posinset,
-            setsize,
-            label: item.label,
-            description,
-            elementType: item.elementType,
-            iconName: item.iconName
-        };
-        return row;
-    }
-
-    /**
-     * A section always has a non-empty _children array.
-     *
-     * @param {Object}
-     *            data The lightning-tree-grid data
-     * @returns {boolean} true if data._children is non-empty
-     */
-    isSection(data) {
-        return Array.isArray(data._children) && data._children.length;
     }
 
     /**
@@ -207,13 +87,14 @@ export default class Palette extends LightningElement {
     handleToggleSection(event) {
         const collapsed = !event.detail.expanded;
         this.collapsedSections[event.detail.sectionKey] = collapsed;
-        this.init(this.original);
+        this.init();
     }
 
     /**
      * Handler for when an element is dragged.
      *
-     * @param {Object} event drag start event
+     * @param {Object}
+     *            event drag start event
      */
     handleDragStart(event) {
         const referenceElement = event.currentTarget;
@@ -226,8 +107,9 @@ export default class Palette extends LightningElement {
         }
 
         // TODO: The drag image should be a large version of the element icon.
-        // TODO: The setDragImage function is not supported in IE11, we'll need to create our own
-        // polyfill since the Raptor team doesn't plan on creating one in the near future.
+        // TODO: The setDragImage function is not supported in IE11, we'll need
+        // to create our own polyfill since the Raptor team doesn't plan on
+        // creating one in the near future.
         const dragElement = referenceElement.iconElement;
         event.dataTransfer.setData('text', item.elementType);
         if (event.dataTransfer.setDragImage && dragElement) {
