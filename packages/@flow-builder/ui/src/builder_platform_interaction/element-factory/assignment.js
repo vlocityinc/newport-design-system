@@ -1,9 +1,9 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { baseCanvasElement, baseElementsWithConnectors } from './base/base-element';
-import { createListRowItem } from './base/base-list';
+import { createListRowItem, rhsProperty, rhsDataTypeProperty } from './base/base-list';
 import { baseCanvasMetadataObject } from './base/base-metadata';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
-import { createConnectorObjects } from 'builder_platform_interaction-connector-utils';
+import { createConnectorObjects } from './connector';
 
 const elementType = ELEMENT_TYPE.ASSIGNMENT;
 
@@ -27,7 +27,7 @@ export function createAssignment(assignment = {}) {
 export function createAssignmentWithConnectors(assignment = {}) {
     const newAssignment = createAssignment(assignment);
 
-    const connectors = createConnectorObjects(assignment);
+    const connectors = createConnectorObjects(assignment, newAssignment.guid);
 
     return baseElementsWithConnectors([newAssignment], connectors);
 }
@@ -36,12 +36,10 @@ export function createAssignmentItem(assignmentItem = {}) {
     let newAssignmentItem;
 
     if (assignmentItem.hasOwnProperty('assignToReference')) {
-        newAssignmentItem = createFEROV(assignmentItem, 'value', {
-            valueProperty: 'rightHandSide',
-            dataTypeProperty: 'rightHandSideDataType',
-        });
-        newAssignmentItem.leftHandSide = assignmentItem.assignToReference;
-        newAssignmentItem.operator = assignmentItem.operator;
+        const leftHandSide = assignmentItem.assignToReference;
+        const operator = assignmentItem.operator;
+        const rhsFerovObject = createFEROV(assignmentItem.value, rhsProperty, rhsDataTypeProperty);
+        newAssignmentItem = Object.assign({}, {leftHandSide, operator}, rhsFerovObject);
         newAssignmentItem = createListRowItem(newAssignmentItem);
     } else {
         newAssignmentItem = createListRowItem(assignmentItem);
@@ -50,8 +48,8 @@ export function createAssignmentItem(assignmentItem = {}) {
     return newAssignmentItem;
 }
 
-export function createAssignmentMetadataObject(assignment = {}) {
-    const newAssignment = baseCanvasMetadataObject(assignment);
+export function createAssignmentMetadataObject(assignment = {}, config) {
+    const newAssignment = baseCanvasMetadataObject(assignment, config);
     let { assignmentItems } = assignment;
     if (assignmentItems && assignmentItems.length > 0) {
         assignmentItems = assignmentItems.map(assignmentItem => createAssignmentItemMetadataObject(assignmentItem));
@@ -66,15 +64,11 @@ export function createAssignmentMetadataObject(assignment = {}) {
 }
 
 export function createAssignmentItemMetadataObject(assignmentItem = {}) {
-    const newAssignmentItem = createFEROVMetadataObject(assignmentItem, 'value', {
-        valueProperty: 'rightHandSide',
-        dataTypeProperty: 'rightHandSideDataType',
-    });
     const assignToReference = assignmentItem.leftHandSide;
     const operator = assignmentItem.operator;
+    const value = createFEROVMetadataObject(assignmentItem, rhsProperty, rhsDataTypeProperty);
 
-    return Object.assign(newAssignmentItem, {
-        assignToReference,
-        operator
-    });
+    const newAssignmentItem = Object.assign({}, {assignToReference, operator, value});
+
+    return newAssignmentItem;
 }

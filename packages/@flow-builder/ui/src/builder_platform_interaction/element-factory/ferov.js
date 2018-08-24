@@ -1,5 +1,4 @@
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { omit, updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 // import { mutateTextWithMergeFields } from './mergeFieldsMutation';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
 import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
@@ -149,13 +148,54 @@ function isUndefined(value) {
 }
 
 /**
- * Convert the FEROV object to the value and dataType properties object with valueProperty guids converted to devNames
- * @param {Object}      ferovObject input
- * @param {string}      valueProperty value property name
- * @param {string}      dataTypeProperty data type property name
- * @returns {Object}    returns object with above properties
+ * Converts Flow datatypes to FEROV compatible datatype
+ * @param {String} value The string representation of the Flow datatype
+ * @returns {String} The FEROF compatible datatype
  */
-function convertToProps(ferovObject, valueProperty, dataTypeProperty) {
+function getFerovDataTypeValue(value) {
+    let dataType;
+    switch (value) {
+        case FLOW_DATA_TYPE.CURRENCY.value:
+            dataType = FLOW_DATA_TYPE.NUMBER.value;
+            break;
+        case FLOW_DATA_TYPE.PICKLIST.value:
+        case FLOW_DATA_TYPE.MULTI_PICKLIST.value:
+            dataType = FLOW_DATA_TYPE.STRING.value;
+            break;
+        default:
+            dataType = value;
+    }
+
+    return dataType;
+}
+
+/**
+ * Sanity checks on the mutate and deMutate params
+ * @param {String} valueProperty        The name of scalar we want to set in our element. This is the property that replaces the ferov object
+ * @param {String} dataTypeProperty     The name of the data type property we want to set in our element
+ */
+function validateParams(valueProperty, dataTypeProperty) {
+    if (!valueProperty) {
+        throw new Error('value property cannot be undefined or null');
+    }
+
+    // if the data type property is not specified the deMutation will fail
+    if (!dataTypeProperty) {
+        throw new Error('data type property cannot be undefined or null');
+    }
+}
+
+/**
+ * Creates a ferov object in the shape that the store expects
+ *
+ * @param {Object} ferovObject        The name of the flow metadata Ferov object inside the element (eg. 'value' which is the RHS of a condition). This object will be changed into a scalar and placed inside @param valueProperty
+ * @param {String} valueProperty      The name of scalar we want to set in our element. This is the property that replaces the ferov object
+ * @param {String} dataTypeProperty   The name of the data type property we want to set in our element
+ * @returns {Object}                  The element with ferov object and props based on @param valueProperty & @param dataTypeProperty
+ */
+export const createFEROV = (ferovObject, valueProperty, dataTypeProperty) => {
+    validateParams(valueProperty, dataTypeProperty);
+
     const props = {[valueProperty]: ''};
 
     if (ferovObject) {
@@ -190,153 +230,65 @@ function convertToProps(ferovObject, valueProperty, dataTypeProperty) {
     }
 
     return props;
-}
-
-/**
- * Converts Flow datatypes to FEROV compatible datatype
- * @param {String} value The string representation of the Flow datatype
- * @returns {String} The FEROF compatible datatype
- */
-function getFerovDataTypeValue(value) {
-    let dataType;
-    switch (value) {
-        case FLOW_DATA_TYPE.CURRENCY.value:
-            dataType = FLOW_DATA_TYPE.NUMBER.value;
-            break;
-        case FLOW_DATA_TYPE.PICKLIST.value:
-        case FLOW_DATA_TYPE.MULTI_PICKLIST.value:
-            dataType = FLOW_DATA_TYPE.STRING.value;
-            break;
-        default:
-            dataType = value;
-    }
-
-    return dataType;
-}
-
-/**
- * Sanity checks on the mutate and deMutate params
- * @param {Object} element              Property editor element with ferov (eg. condition or variable)
- * @param {Object} ferovObjectName      Name of Ferov object inside the element. This object will be chagned into a scalar and placed in side valueProperty
- * @param {String} valueProperty        The name of scalar we want to set in our element. This is the property that replaces the ferov object
- * @param {String} dataTypeProperty     The name of the data type property we want to set in our element
- */
-function validateParams(element, ferovObjectName, valueProperty, dataTypeProperty) {
-    if (!element) {
-        throw new Error('The element you want to mutate cannot be undefined or null');
-    }
-
-    if (!ferovObjectName) {
-        throw new Error('The ferov object name cannot be undefined or null');
-    }
-
-    if (!valueProperty) {
-        throw new Error('value property cannot be undefined or null');
-    }
-
-    // if the data type property is not specified the deMutation will fail
-    if (!dataTypeProperty) {
-        throw new Error('data type property cannot be undefined or null');
-    }
-}
-
-/**
- * Add property editor mutation for FEROVs. Mutates the given element in an immutable way
- * The element is not mutated in place
- *
- * @param {Object} element              Property editor element with ferov object (eg. condition or variable)
- * @param {Object} ferovObjectName      The name of the flow metadata Ferov object inside the element (eg. 'value' which is the RHS of a condition). This object will be changed into a scalar and placed inside @param valueProperty
- * @param {String} valueProperty        The name of scalar we want to set in our element. This is the property that replaces the ferov object
- * @param {String} dataTypeProperty     The name of the data type property we want to set in our element
- * @returns {Object}                    The element with ferov object and props based on @param valueProperty & @param dataTypeProperty
- */
-export const createFEROV = (element, ferovObjectName, { valueProperty, dataTypeProperty }) => {
-    validateParams(element, ferovObjectName, valueProperty, dataTypeProperty);
-
-    const props = convertToProps(element[ferovObjectName], valueProperty, dataTypeProperty);
-
-    // omit the ferov object property
-    const elementNoFerov = omit(element, [ferovObjectName]);
-
-    // Note: this only works for top level properties, if we ever need to mutate inner props change this implementation to use set instead of updateProperties
-    return updateProperties(elementNoFerov, props);
 };
 
 /**
- * Remove property editor mutation for FEROVs. This essentially places the FEROV object we
- * removed in the mutate method back into the element. Mutates the element in an immutable way
- * The element is not mutated in place
+ * Creates a ferov object in the shape that the flow metadata expects
  *
- * @param {Object} element              Property editor element with ferov (eg. condition or variable)
- * @param {Object} ferovObjectName      The name of Ferov object we want to place inside the element. We will transform the scalar @param valueProperty into this object.
- * @param {String} valueProperty        The name of the value property we want to delete in our element. This scalar will be transformed into an object called @param ferovObjectName
- * @param {String} dataTypeProperty     The name of the data type property we want to delete in our element
- * @returns {Object} deMutatedElement   The demuated property editor element with a ferovObject
+ * @param {Object} element              Store element with ferov (eg. condition or variable)
+ * @param {String} valueProperty        The name of the value property of the ferov
+ * @param {String} dataTypeProperty     The name of the data type property of the ferov
+ * @returns {Object} ferovObject        The ferov object in the shape that the flow metadata expects
  */
-export const createFEROVMetadataObject = (element, ferovObjectName, { valueProperty, dataTypeProperty }) => {
-    validateParams(element, ferovObjectName, valueProperty, dataTypeProperty);
+export const createFEROVMetadataObject = (element, valueProperty, dataTypeProperty) => {
+    validateParams(valueProperty, dataTypeProperty);
 
-    if (!element.hasOwnProperty(valueProperty)) {
-        // some elements of the same element type may not have the given ferovObject (ex: variables may or may not have default value)
-        return updateProperties(element);
-    }
-
-    const value = element[valueProperty];
-    const dataType = element[dataTypeProperty];
-    const valuePropertyGuid = valueProperty + GUID_SUFFIX;
     let ferovObject;
+    if (element.hasOwnProperty(valueProperty)) {
+        const value = element[valueProperty];
+        const dataType = element[dataTypeProperty];
+        const valuePropertyGuid = valueProperty + GUID_SUFFIX;
 
-    if (dataType && value !== '' && value !== undefined && value !== null) {
-        // find the data type key of the element object
-        const ferovDataTypeValue = getFerovDataTypeValue(dataType);
-        const ferovDataTypeKey = FEROV_DATA_TYPE_VALUES.find((type) => {
-            return ferovDataTypeValue === META_DATA_TYPES_TO_FEROV_TYPES_MAP[type];
-        });
+        if (dataType && value !== '' && value !== undefined && value !== null) {
+            // find the data type key of the element object
+            const ferovDataTypeValue = getFerovDataTypeValue(dataType);
+            const ferovDataTypeKey = FEROV_DATA_TYPE_VALUES.find((type) => {
+                return ferovDataTypeValue === META_DATA_TYPES_TO_FEROV_TYPES_MAP[type];
+            });
 
-        ferovObject = {};
-
-        // set the value of the ferov to the given property or its guid on the element
-        // store the value stored in the element before deleting it
-        if (isFerovReference(ferovDataTypeKey) && element.hasOwnProperty(valuePropertyGuid)) {
-            ferovObject[ferovDataTypeKey] = element[valuePropertyGuid];
-        } else if (isFerovString(ferovDataTypeKey) && value === addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)) {
-            ferovObject[ferovDataTypeKey] = '';
-        } else if (isFerovBoolean(ferovDataTypeKey)) {
-            if (value === addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_TRUE)) {
-                ferovObject[ferovDataTypeKey] = true;
-            } else if (value === addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE)) {
-                ferovObject[ferovDataTypeKey] = false;
+            // set the value of the ferov to the given property or its guid on the element
+            let ferovValue;
+            if (isFerovReference(ferovDataTypeKey) && element.hasOwnProperty(valuePropertyGuid)) {
+                ferovValue = element[valuePropertyGuid];
+            } else if (isFerovString(ferovDataTypeKey) && value === addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)) {
+                ferovValue = '';
+            } else if (isFerovBoolean(ferovDataTypeKey)) {
+                if (value === addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_TRUE)) {
+                    ferovValue = true;
+                } else if (value === addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE)) {
+                    ferovValue = false;
+                }
+            } else if (isFerovDateTime(ferovDataTypeKey)) {
+                // the date time we get from the property editor (user)
+                const dateTime = new Date(element[valueProperty]);
+                // transform date to ISO string in UTC format
+                const utcDateTime = localizationService.parseDateTimeUTC(dateTime.toISOString());
+                // what we store on save, an ISO8601 formatted string in UTC
+                ferovValue = utcDateTime.toISOString();
+            } else if (isFerovDate(ferovDataTypeKey)) {
+                // the date we get from the property editor (user)
+                const date = new Date(element[valueProperty]);
+                // transform date to just date format (no time)
+                const utcDateString = localizationService.formatDateUTC(date.toISOString(), METADATA_DATE_FORMAT);
+                // what we store on save in yyyy-MM-dd
+                ferovValue = utcDateString;
+            } else {
+                ferovValue = element[valueProperty];
             }
-        } else if (isFerovDateTime(ferovDataTypeKey)) {
-            // the date time we get from the property editor (user)
-            const dateTime = new Date(element[valueProperty]);
-            // transform date to ISO string in UTC format
-            const utcDateTime = localizationService.parseDateTimeUTC(dateTime.toISOString());
-            // what we store on save, an ISO8601 formatted string in UTC
-            ferovObject[ferovDataTypeKey] = utcDateTime.toISOString();
-        } else if (isFerovDate(ferovDataTypeKey)) {
-            // the date we get from the property editor (user)
-            const date = new Date(element[valueProperty]);
-            // transform date to just date format (no time)
-            const utcDateString = localizationService.formatDateUTC(date.toISOString(), METADATA_DATE_FORMAT);
-            // what we store on save in yyyy-MM-dd
-            ferovObject[ferovDataTypeKey] = utcDateString;
-        } else {
-            ferovObject[ferovDataTypeKey] = element[valueProperty];
+
+            ferovObject = Object.assign({}, { [ferovDataTypeKey]: ferovValue });
         }
     }
 
-    // now omit the value property and the dataTypeProperty
-    const elementNoValueProp = omit(element, [valueProperty, valuePropertyGuid, dataTypeProperty]);
-
-    let deMutatedElement;
-    if (ferovObject) {
-        // set the ferov object to the element
-        // Note: this only works if we want ferovObject to be a top level property. If we ever need to set it as an inner prop use set and pass a path instead of ferovObjectName
-        deMutatedElement = updateProperties(elementNoValueProp, { [ferovObjectName]: ferovObject });
-    } else {
-        deMutatedElement = omit(elementNoValueProp, [ferovObjectName]);
-    }
-
-    return deMutatedElement;
+    return ferovObject;
 };

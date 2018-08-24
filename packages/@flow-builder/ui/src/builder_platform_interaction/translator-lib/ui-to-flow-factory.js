@@ -7,15 +7,15 @@ import { createAssignmentMetadataObject, createDecisionMetadataObject, createVar
  * @param {Object} config        Config for element creation
  * @return {Object}              New element object in the shape that the store expects
  */
-export const uiToFlowFactory = (element) => {
+export const uiToFlowFactory = (element, config) => {
     let metadataObject = {};
 
     if (element.elementType === ELEMENT_TYPE.ASSIGNMENT) {
-        metadataObject = createAssignmentMetadataObject(element);
+        metadataObject = createAssignmentMetadataObject(element, config);
     } else if (element.elementType === ELEMENT_TYPE.DECISION) {
-        metadataObject = createDecisionMetadataObject(element);
+        metadataObject = createDecisionMetadataObject(element, config);
     } else if (element.elementType === ELEMENT_TYPE.VARIABLE) {
-        metadataObject = createVariableMetadataObject(element);
+        metadataObject = createVariableMetadataObject(element, config);
     }
 
     // TODO Add other element types

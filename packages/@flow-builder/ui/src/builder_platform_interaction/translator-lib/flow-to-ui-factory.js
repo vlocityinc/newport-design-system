@@ -6,20 +6,20 @@ import { createAssignmentWithConnectors, createDecisionWithOutcomeReferences, cr
  *
  * @param {String}  elementType     Element type
  * @param {Object}  element         Metadata element to be used as the base for copying information
- * @return {Object} storeElement    New element object in the shape that the store expects
+ * @return {Object} storeObjects    Element and connector objects in the shape that the store expects for the given metadata element
  */
 export const flowToUIFactory = (elementType, element) => {
-    let storeElement = {};
+    let storeObjects = {};
 
     if (elementType === ELEMENT_TYPE.ASSIGNMENT) {
-        storeElement = createAssignmentWithConnectors(element);
+        storeObjects = createAssignmentWithConnectors(element);
     } else if (elementType === ELEMENT_TYPE.DECISION) {
-        storeElement = createDecisionWithOutcomeReferences(element);
+        storeObjects = createDecisionWithOutcomeReferences(element);
     } else if (elementType === ELEMENT_TYPE.VARIABLE) {
-        storeElement = createVariableForStore(element);
+        storeObjects = createVariableForStore(element);
     }
 
     // TODO Add other element types
 
-    return storeElement;
+    return storeObjects;
 };

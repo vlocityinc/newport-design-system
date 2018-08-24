@@ -1,8 +1,10 @@
+import { createConnectorMetadataObjects } from '../connector';
+
 export function baseElementMetadataObject(element = {}) {
     const { name = '' } = element;
-    return ({
+    return {
         name
-    });
+    };
 }
 
 export function baseResourceMetadataObject(resource = {}) {
@@ -13,14 +15,32 @@ export function baseResourceMetadataObject(resource = {}) {
     });
 }
 
-export function baseCanvasMetadataObject(canvasElement = {}) {
+export function baseCanvasMetadataObject(canvasElement = {}, config = {}) {
     const newCanvasElement = baseResourceMetadataObject(canvasElement);
-    const { label = '', locationX = 0, locationY = 0 } = canvasElement;
-    return Object.assign(newCanvasElement, {
-        label,
-        locationX,
-        locationY
-    });
+    const { xyTranslate, connectorMap = {}, hasMultipleRegularConnectors = false } = config;
+    const { label = '' } = canvasElement;
+    let { locationX = 0, locationY = 0 } = canvasElement;
+
+    if (xyTranslate) {
+        locationX += xyTranslate.translateX;
+        locationY += xyTranslate.translateY;
+    }
+
+    let connectorMetadata = {};
+    const connectors = connectorMap[canvasElement.guid];
+    if (connectors) {
+        connectorMetadata = createConnectorMetadataObjects(connectors, hasMultipleRegularConnectors);
+    }
+
+    return Object.assign(
+        newCanvasElement,
+        {
+            label,
+            locationX,
+            locationY
+        },
+        connectorMetadata
+    );
 }
 
 export function baseChildElementMetadataObject(childElement = {}) {
