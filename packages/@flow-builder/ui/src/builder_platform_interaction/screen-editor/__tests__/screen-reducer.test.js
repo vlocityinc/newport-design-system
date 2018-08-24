@@ -26,6 +26,7 @@ describe('screen reducer', () => {
         expect(newScreen.label.value).toEqual('newlabel');
         expect(newScreen).not.toBe(screen);
     });
+
     it('change screen field property', () => {
         const newDisplayText = 'new display text';
         const screen = createTestScreen(SCREEN_NAME, ['displayText']);
@@ -46,6 +47,7 @@ describe('screen reducer', () => {
         expect(newScreen.fields[0].fieldText.value).toBe(newDisplayText);
         expect(newScreen.fields[0].name.value).toBe(screen.fields[0].name.value);
     });
+
     it('change screen field validation error message when there is none before', () => {
         const newErrorMessage = 'error1';
         const screen = createTestScreen(SCREEN_NAME, ['displayText']);
@@ -65,6 +67,7 @@ describe('screen reducer', () => {
         expect(newScreen).toBeDefined();
         expect(newScreen.fields[0].validationRule.errorMessage).toBe(newErrorMessage);
     });
+
     it('change screen field validation error message when field has one set already', () => {
         // Field and screen setup
         const oldErrorMessage = 'error1';
@@ -93,7 +96,8 @@ describe('screen reducer', () => {
         expect(newScreen).toBeDefined();
         expect(newScreen.fields[0].validationRule.errorMessage.value).toBe(newErrorMessage);
     });
-    it('change screen field validation rule formula exression when there is none before', () => {
+
+    it('change screen field validation rule formula expression when there is none before', () => {
         const newFormula = '{Screenfield1} != null';
         const screen = createTestScreen(SCREEN_NAME, ['displayText']);
         const event = {
@@ -112,7 +116,8 @@ describe('screen reducer', () => {
         expect(newScreen).toBeDefined();
         expect(newScreen.fields[0].validationRule.formulaExpression).toBe(newFormula);
     });
-    it('change screen field validation rule formula exression when field has one set already', () => {
+
+    it('change screen field validation rule formula expression when field has one set already', () => {
         // Field and screen setup
         const oldFormula = '{Screenfield1} == null';
         const newFormula = '{Screenfield1} != null';
@@ -140,6 +145,7 @@ describe('screen reducer', () => {
         expect(newScreen).toBeDefined();
         expect(newScreen.fields[0].validationRule.formulaExpression.value).toBe(newFormula);
     });
+
     it('fetches the error from the property change event instead of rerunning validation', () => {
         const event = {
             type: PropertyChangedEvent.EVENT_NAME,
@@ -206,6 +212,7 @@ describe('screen reducer', () => {
         expect(screen.fields[2]).toBe(newScreen.fields[1]);
         expect(newScreen.fields).toHaveLength(screen.fields.length);
     });
+
     it('reorders fields when dest and source are the same results in no change', () => {
         const screen = createTestScreen(SCREEN_NAME, null);
         const event = {
@@ -219,6 +226,7 @@ describe('screen reducer', () => {
         const newScreen = screenReducer(screen, event);
         expect(newScreen.fields).toEqual(screen.fields);
     });
+
     it('invalid guid for destination field results in no change', () => {
         const screen = createTestScreen(SCREEN_NAME, null);
         const event = {
@@ -232,6 +240,7 @@ describe('screen reducer', () => {
         const newScreen = screenReducer(screen, event);
         expect(newScreen.fields).toEqual(screen.fields);
     });
+
     it('invalid guid for source field results in no change', () => {
         const screen = createTestScreen(SCREEN_NAME, null);
         const event = {

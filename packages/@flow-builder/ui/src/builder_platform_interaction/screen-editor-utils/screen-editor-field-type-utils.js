@@ -2,6 +2,14 @@ import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { COMPONENT_INSTANCE, EXTENSION_TYPE_SOURCE, getAllCachedExtensionTypes, listExtensions } from './screen-editor-extension-utils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 
+const FEROV_TYPES = {
+    string: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
+    number: ['CURRENCY', 'NUMBER', 'DECIMAL', 'FLOAT', 'DOUBLE', 'LONG', 'INT', 'INTEGER', 'SHORT', 'BYTE'],
+    date: ['DATE'],
+    dateTime: ['DATETIME', 'DATE-TIME'],
+    boolean: ['BOOLEAN']
+};
+
 /**
  * All screen field types
  */
@@ -13,7 +21,6 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelTextField,
         icon: 'utility:type_tool',
         category: LABELS.fieldCategoryInput,
-        defaultValueType: 'stringValue'
     }, {
         name: 'LargeTextArea',
         fieldType: 'LargeTextArea',
@@ -21,7 +28,6 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelLargeTextArea,
         icon: 'utility:type_tool',
         category: LABELS.fieldCategoryInput,
-        defaultValueType: 'stringValue'
     }, {
         name: 'Number',
         fieldType: 'InputField',
@@ -29,7 +35,6 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelNumber,
         icon: 'utility:topic2',
         category: LABELS.fieldCategoryInput,
-        defaultValueType: 'numberValue'
     }, {
         name: 'Currency',
         fieldType: 'InputField',
@@ -37,7 +42,6 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelCurrency,
         icon: 'utility:moneybag',
         category: LABELS.fieldCategoryInput,
-        defaultValueType: 'numberValue'
     }, {
         name: 'Date',
         fieldType: 'InputField',
@@ -45,7 +49,6 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelDate,
         icon: 'utility:event',
         category: LABELS.fieldCategoryInput,
-        defaultValueType: 'dateValue'
     }, {
         name: 'DateTime',
         fieldType: 'InputField',
@@ -53,7 +56,6 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelDateTime,
         icon: 'utility:event',
         category: LABELS.fieldCategoryInput,
-        defaultValueType: 'dateTimeValue'
     }, {
         name: 'Password',
         fieldType: 'PasswordField',
@@ -61,7 +63,6 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelPassword,
         icon: 'utility:lock',
         category: LABELS.fieldCategoryInput,
-        defaultValueType: 'stringValue'
     }, {
         name: 'Checkbox',
         fieldType: 'InputField',
@@ -69,7 +70,6 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelCheckbox,
         icon: 'utility:check',
         category: LABELS.fieldCategoryInput,
-        defaultValueType: 'booleanValue'
     }, /* {
         name: 'Radio',
         fieldType: 'InputField',
@@ -171,34 +171,6 @@ export function getScreenFieldType(field) {
 }
 
 /**
- * Returns the default value type for the specified field.
- * @param {object} field - The screen field
- * @returns {string} - The default type based on the field type (stringValue, numberValue, etc).
- * @throws if field type can't be found
- */
-export function getDefaultValueType(field) {
-    const fieldType = field.fieldType;
-    const dataType = field.dataType;
-
-    if (fieldType && dataType) {
-        for (const type of screenFieldTypes) {
-            if (fieldType === type.fieldType && dataType === type.dataType) {
-                return type.defaultValueType;
-            }
-        }
-    } else if (fieldType) {
-        // Not all field types have dataTypes associated with them.
-        for (const type of screenFieldTypes) {
-            if (fieldType === type.fieldType) {
-                return type.defaultValueType;
-            }
-        }
-    }
-
-    throw new Error('No default type found for ' + fieldType + ', ' + dataType);
-}
-
-/**
  * @param {object} field - field to test
  * @returns {boolean} Indicates if specified field is an extension field type
  */
@@ -257,6 +229,35 @@ export function getFlowDataTypeByName(dataType) {
             }
         }
     }
+    return null;
+}
+
+export function getFerovTypeFromFieldType(fieldType) {
+    if (fieldType) {
+        return getFerovTypeFromTypeName(fieldType.dataType || fieldType.fieldType);
+    }
+
+    return null;
+}
+
+export function getFerovTypeFromTypeName(type) {
+    if (type) {
+        const ucType = type.toUpperCase();
+        // try flow data type conversion
+        let flowType = getFlowDataTypeByName(ucType);
+        if (!flowType) {
+            flowType = ucType;
+        } else {
+            flowType = flowType.toUpperCase();
+        }
+
+        for (const ferovType in FEROV_TYPES) {
+            if (FEROV_TYPES[ferovType].find(t => t === flowType)) {
+                return ferovType;
+            }
+        }
+    }
+
     return null;
 }
 

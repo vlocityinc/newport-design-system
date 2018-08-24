@@ -71,7 +71,7 @@ export default class ScreenPropertyField extends LightningElement {
         // Check for value like this because just doing this.value results in "false" when value is a number
         // set to 0, for example. Hence, perform the check like this.
         if (this.value !== undefined && this.value !== null) {
-            return this.value.value ? this.value.value : this.value;
+            return this.value.hasOwnProperty('value') ? this.value.value : this.value;
         }
 
         return null;

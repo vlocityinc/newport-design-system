@@ -13,10 +13,12 @@ export const mutateScreenField = field => {
         // Mutate param ferovs
         const inputs = [];
         for (const param of field.inputParameters) {
-            inputs.push(mutateFEROV(param, 'value', {
-                valueProperty: 'value',
-                dataTypeProperty: 'valueDataType',
-            }));
+            if (param.value) {
+                inputs.push(mutateFEROV(param, 'value', {
+                    valueProperty: 'value',
+                    dataTypeProperty: 'valueDataType',
+                }));
+            }
         }
 
         field.inputParameters = inputs;
@@ -24,7 +26,7 @@ export const mutateScreenField = field => {
         field.type = getScreenFieldType(field);
     }
 
-    if (field.hasOwnProperty('defaultValue')) {
+    if (field.defaultValue) {
         field = mutateFEROV(field, 'defaultValue', {
             valueProperty: 'defaultValue',
             dataTypeProperty: 'defaultValueDataType',

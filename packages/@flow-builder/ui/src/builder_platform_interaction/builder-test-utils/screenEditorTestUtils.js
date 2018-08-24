@@ -1,6 +1,8 @@
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { getScreenFieldTypeByName } from 'builder_platform_interaction-screen-editor-utils';
-import { mutateScreen, demutateScreen } from 'builder_platform_interaction-data-mutation-lib';
+import { mutateScreen, demutateScreen, hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { getConfigForElementType } from 'builder_platform_interaction-element-config';
 
 const SELECTOR_REGEX = /(.*)\[([^$*^|~]*)(.*)?=["'](.*)["']\]/g;
 
@@ -8,6 +10,11 @@ const SELECTOR_REGEX = /(.*)\[([^$*^|~]*)(.*)?=["'](.*)["']\]/g;
  * Used as an argument to createScreenField when no defaultValue should be added (don't use null as it creates a random default value)
  */
 export const SCREEN_NO_DEF_VALUE = 'noDefValue$';
+
+/**
+ * Used as an argument to createScreenField when defaultValue should be defined but set to null (don't use null as it creates a random default value)
+ */
+export const SCREEN_NULL_DEF_VALUE = 'nullDefValue$';
 
 export const ATT_SELECTOR_OPERATORS = {
     CONTAINS: '*',
@@ -106,6 +113,54 @@ function getDefaultValue(type, valueType) {
 }
 
 /**
+ * Creates a screen to be used for testing
+ * @param {string} name - The name of the screen field
+ * @param {function} fieldsProducer - A function to produce an array of screen fields to be used as the fields of the screen
+ * @param {object} config - {allowBack = true, allowFinish = true, allowPause = true, showFooter = true, showHeader = true, hydrateValues = true, includeNonMDValues = true, mutateScreen = true}
+ * @returns {object} - The screen
+ */
+function createScreen(name, fieldsProducer, config = {}) {
+    const hydrateValues = booleanValue(config, 'hydrateValues', true);
+    const includeNonMDValues = booleanValue(config, 'includeNonMDValues', true);
+    const screen = {
+        allowBack:booleanValue(config, 'allowBack', true),
+        allowFinish:booleanValue(config, 'allowFinish', true),
+        allowPause:booleanValue(config, 'allowPause', true),
+        label: getStringValue(name, 'Screen 1 Label', false),
+        name: getStringValue(name, 'Screen1', false),
+        helpText: getStringValue(null, 'Screen 1 Help Text', false),
+        showFooter:booleanValue(config, 'showFooter', true),
+        showHeader:booleanValue(config, 'showHeader', true),
+        pausedText: getStringValue(null, 'Screen 1 Paused Text', false),
+        guid:generateGuid(),
+        processMetadataValues:[],
+        rules:[],
+        fields: fieldsProducer()
+    };
+
+    if (includeNonMDValues) {
+        screen.locationX = 450;
+        screen.locationY = 450;
+        screen.elementType = 'SCREEN';
+        screen.isCanvasElement = true;
+        screen.config = {isSelected:true};
+        screen.connectorCount = 0;
+        screen.maxConnections = 1;
+    }
+
+    if (booleanValue(config, 'mutateScreen', true)) {
+        mutateScreen(screen);
+    }
+
+    if (hydrateValues) {
+        const blacklistedProperties = getConfigForElementType(ELEMENT_TYPE.SCREEN).nonHydratableProperties;
+        hydrateWithErrors(screen, blacklistedProperties);
+    }
+
+    return screen;
+}
+
+/**
  * Creates a screen field to be used for testing
  * @param {string} name - The name of the screen field
  * @param {string} type - The type of the screen field (see screen field types in screen-editor-utils)
@@ -163,7 +218,9 @@ export function createTestScreenField(name, type, value, config = {}) {
             processMetadataValues:[]
         }];
     } else if (value !== SCREEN_NO_DEF_VALUE) {
-        if (value === null) { // Generate value based in type
+        if (value === SCREEN_NULL_DEF_VALUE) {
+            field.defaultValue = null;
+        } else if (value === null) { // Generate value based in type
             field.defaultValue = getDefaultValue(type, config.defaultValueType || VALUE_TYPE_STATIC);
         } else if (typeof value !== 'object') {
             // Set the string version of the default value, and the internal version, which
@@ -198,54 +255,43 @@ export function createTestScreenField(name, type, value, config = {}) {
  * @returns {object} - The screen
  */
 export function createTestScreen(name, screenFieldTypeNames = [], config = {}) {
-    const hydrateValues = booleanValue(config, 'hydrateValues', true);
-    const includeNonMDValues = booleanValue(config, 'includeNonMDValues', true);
-    const screen = {
-        allowBack:booleanValue(config, 'allowBack', true),
-        allowFinish:booleanValue(config, 'allowFinish', true),
-        allowPause:booleanValue(config, 'allowPause', true),
-        label: getStringValue(name, 'Screen 1 Label', hydrateValues),
-        name: getStringValue(name, 'Screen1', hydrateValues),
-        helpText: getStringValue(null, 'Screen 1 Help Text', hydrateValues),
-        showFooter:booleanValue(config, 'showFooter', true),
-        showHeader:booleanValue(config, 'showHeader', true),
-        pausedText: getStringValue(null, 'Screen 1 Paused Text', hydrateValues),
-        guid:generateGuid(),
-        processMetadataValues:[],
-        rules:[],
-        fields: []
-    };
+    const fieldsProducer = () => {
+        const includeNonMDValues = booleanValue(config, 'includeNonMDValues', true);
+        const fields = [];
+        const types = screenFieldTypeNames ? screenFieldTypeNames : Object.keys(SCREEN_FIELD_TYPES_AND_VALUES);
+        for (let i = 0; i < types.length; i++) {
+            let defaultValueType = VALUE_TYPE_STATIC;
+            if (i % 3 === 1) {
+                defaultValueType = VALUE_TYPE_REF;
+            } else if (i % 3 === 2) {
+                defaultValueType = VALUE_TYPE_NULL;
+            }
 
-    if (includeNonMDValues) {
-        screen.locationX = 450;
-        screen.locationY = 450;
-        screen.elementType = 'SCREEN';
-        screen.isCanvasElement = true;
-        screen.config = {isSelected:true};
-        screen.connectorCount = 0;
-        screen.maxConnections = 1;
-    }
-
-    const types = screenFieldTypeNames ? screenFieldTypeNames : Object.keys(SCREEN_FIELD_TYPES_AND_VALUES);
-    for (let i = 0; i < types.length; i++) {
-        let defaultValueType = VALUE_TYPE_STATIC;
-        if (i % 3 === 1) {
-            defaultValueType = VALUE_TYPE_REF;
-        } else if (i % 3 === 2) {
-            defaultValueType = VALUE_TYPE_NULL;
+            const fieldConfig = {required: (i % 2 === 0), helpText: (i % 3 === 0), validation: (i % 4 === 0), hydrateValues: false, includeNonMDValues, defaultValueType};
+            const val = types[i] === 'Extension' ? 'c:cmpAvailableForFlowScreens' : null;
+            const field = createTestScreenField('screenField ' + i, types[i], val, fieldConfig);
+            fields.push(field);
         }
 
-        const fieldConfig = {required: (i % 2 === 0), helpText: (i % 3 === 0), validation: (i % 4 === 0), hydrateValues, includeNonMDValues, defaultValueType};
-        const val = types[i] === 'Extension' ? 'c:cmpAvailableForFlowScreens' : null;
-        const field = createTestScreenField('screenField ' + i, types[i], val, fieldConfig);
-        screen.fields.push(field);
-    }
+        return fields;
+    };
 
-    if (booleanValue(config, 'mutateScreen', true)) {
-        mutateScreen(screen);
-    }
+    return createScreen(name, fieldsProducer, config);
+}
 
-    return screen;
+/**
+ * Creates a screen to be used for testing
+ * @param {string} name - The name of the screen field
+ * @param {screenfield[]} screenFields - The screenfields of the screen
+ * @param {object} config - {allowBack = true, allowFinish = true, allowPause = true, showFooter = true, showHeader = true, hydrateValues = true, includeNonMDValues = true, mutateScreen = true}
+ * @returns {object} - The screen
+ */
+export function createTestScreenWithFields(name, screenFields = [], config = {}) {
+    const fieldsProducer = () => {
+        return screenFields;
+    };
+
+    return createScreen(name, fieldsProducer, config);
 }
 
 /**

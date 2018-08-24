@@ -2,7 +2,7 @@ import { screenValidation } from './screen-validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
-import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField } from 'builder_platform_interaction-screen-editor-utils';
+import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getFerovTypeFromFieldType } from 'builder_platform_interaction-screen-editor-utils';
 import { elementTypeToConfigMap } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
@@ -84,15 +84,25 @@ const handleScreenFieldPropertyChange = (data) => {
         // First update the value
         let updatedValueField = updateProperties(data.field, {'defaultValue': data.newValue});
 
-        // Figure out if we need to update defaultValueDataType
-        const currentDataType = data.field.defaultValueDataType;
+        // Figure out if we need to update defaultValueDataType (defaultValueDataType can be null if value is null)
+        const currentDataType = data.field.defaultValueDataType || getFerovTypeFromFieldType(data.field.type);
         const newValueGuid = data.newValueGuid;
-        if (currentDataType === 'reference' && !newValueGuid) { // Going from reference to literal?
-            updatedValueField = updateProperties(updatedValueField, {'defaultValueDataType': data.field.dataType});
-            delete updatedValueField.defaultValueGuid;
+        if (currentDataType === 'reference') {
+            if (!newValueGuid) { // Going from reference to literal?
+                updatedValueField = updateProperties(updatedValueField, {'defaultValueDataType': data.field.dataType});
+                delete updatedValueField.defaultValueGuid;
+            } else { // Going from reference to reference
+                updatedValueField.defaultValueGuid = newValueGuid;
+            }
         } else if (currentDataType !== 'reference' && !!newValueGuid) { // Going from literal to reference ?
             updatedValueField = updateProperties(updatedValueField, {'defaultValueDataType': 'reference'});
             updatedValueField.defaultValueGuid = newValueGuid;
+        }
+
+        if (!newValue) { // New value is null, remove data type
+            delete updatedValueField.defaultValueDataType;
+        } else if (!updatedValueField.defaultValueDataType) { // Coming from null value to non-null, add data type
+            updatedValueField.defaultValueDataType = newValueGuid ? 'reference' : data.field.dataType;
         }
 
         return updatedValueField;
@@ -102,6 +112,7 @@ const handleScreenFieldPropertyChange = (data) => {
 };
 
 const handleExtensionFieldPropertyChange = (data) => {
+    // TODO Handle case when param goes from null to have a value, as we need to retrieve and set dataValueType (utils, getFerovTypeFromTypeName)
     // input/output param validation
     let prefix;
     let parametersPropName;
