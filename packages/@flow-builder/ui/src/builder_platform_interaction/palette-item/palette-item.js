@@ -1,13 +1,7 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 import { PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 import { isChildElement } from 'builder_platform_interaction-element-config';
-
-import detailsText from "@salesforce/label/FlowBuilderResourceDetailsPanel.detailsText";
-
-
-const LABELS = {
-    RESOURCE_DETAILS_PANEL_DETAILS_ALT_TEXT: detailsText
-};
+import { LABELS } from './palette-item-labels';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
