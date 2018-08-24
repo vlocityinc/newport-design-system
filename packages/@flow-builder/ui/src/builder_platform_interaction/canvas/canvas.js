@@ -3,6 +3,7 @@ import { drawingLibInstance as lib} from 'builder_platform_interaction-drawing-l
 import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pan-utils';
 import { isCanvasElement } from 'builder_platform_interaction-element-config';
 import { AddElementEvent, DeleteElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
+import { KEYS } from './key-constants';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-logging-utils';
 
@@ -12,16 +13,6 @@ import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-l
  * @ScrumTeam Process UI
  * @since 214
  */
-
-export const KEYS = {
-    BACKSPACE: 'Backspace',
-    DELETE: 'Delete',
-    NEGATIVE: '-',
-    ZERO: '0',
-    ONE: '1',
-    EQUAL: '=',
-    SPACE: ' '
-};
 
 const canvas = 'canvas';
 
