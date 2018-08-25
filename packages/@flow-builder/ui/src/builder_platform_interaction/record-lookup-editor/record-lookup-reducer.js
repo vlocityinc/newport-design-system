@@ -53,12 +53,18 @@ const addQueriedField = (state) => {
 };
 
 const deleteQueriedField = (state, event) => {
+    const oldFieldValue = state.queriedFields[event.detail.index].field.value;
     const updatedItems = deleteItem(state.queriedFields, event.detail.index);
     state = set(state, 'queriedFields', updatedItems);
     // reset last empty field's blank error if any
     // 'Id' + one field
     if (state.queriedFields.length === 2 && state.queriedFields[1].field.value === '' && state.queriedFields[1].field.error) {
         state.queriedFields[1].field.error = null;
+    }
+    // reset error if the fields was duplicate and only one left.
+    const duplicates = state.queriedFields.filter(queriedField => queriedField.field.value === oldFieldValue);
+    if (duplicates.length === 1) {
+        duplicates[0].field.error = null;
     }
     return state;
 };

@@ -276,3 +276,43 @@ describe('record-lookup-reducer', () => {
         });
     });
 });
+
+describe('record-lookup-reducer - State with errors', () => {
+    let originalState;
+    beforeEach(() => {
+        originalState = {
+            description : { value: '', error: null },
+            elementType : 'RECORD_LOOKUP',
+            guid : 'RECORDLOOKUP_1',
+            isCanvasElement : true,
+            label : { value: 'testRecord', error: null },
+            name : { value: 'testRecord', error: null },
+            outputReference : { value: store.accountSObjectVariableGuid, error: null},
+            sortField : { value:'Name', error:null},
+            sortOrder : { value: SORT_ORDER.ASC, error: null},
+            assignNullValuesIfNoRecordsFound : false,
+            outputAssignments : [],
+            queriedFields: [
+                {field: {value: 'Id', error: null}, rowIndex: "RECORDLOOKUPFIELD_1"},
+                {field: {value: 'BillingAddress', error: null}, rowIndex: "RECORDLOOKUPFIELD_2"},
+                {field: {value: 'BillingAddress', error: "DuplicateValue"}, rowIndex: "RECORDLOOKUPFIELD_2"}],
+            object: { value: 'Account', error: ''},
+            filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
+            filters: [{ }],
+        };
+    });
+    describe('handle list item events', () => {
+        it('delete a duplicate field', () => {
+            const event = {
+                type: DeleteRecordLookupFieldEvent.EVENT_NAME,
+                detail: {
+                    index: 1,
+                }
+            };
+            const newState = recordLookupReducer(originalState, event);
+            expect(newState.queriedFields).toHaveLength(2);
+            expect(newState).not.toBe(originalState);
+            expect(newState.queriedFields[1].field.error).toBeNull();
+        });
+    });
+});

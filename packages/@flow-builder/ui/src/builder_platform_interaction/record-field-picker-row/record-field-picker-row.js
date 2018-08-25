@@ -96,7 +96,7 @@ export default class RecordFieldPickerRow extends LightningElement {
         return BaseResourcePicker.getComboboxConfig(
             this.labels.field,
             this.labels.getFieldPlaceholder,
-            this.errorMessage,
+            null, // Error message in the config is not used anymore by the base-resource-picker
             'false',
             false,
             false,
