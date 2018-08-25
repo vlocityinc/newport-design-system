@@ -1,9 +1,9 @@
 <template>
-    <div if:true={variableResource}>
+    <div if:true={variableConstantResource}>
         <div class="slds-form slds-form_compound slds-p-around_small">
-            <builder_platform_interaction-label-description dev-name={variableResource.name}
-                                                            guid={variableResource.guid}
-                                                            description={variableResource.description}
+            <builder_platform_interaction-label-description dev-name={variableConstantResource.name}
+                                                            guid={variableConstantResource.guid}
+                                                            description={variableConstantResource.description}
                                                             hide-label=true
                                                             onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-label-description>
@@ -11,12 +11,12 @@
             <builder_platform_interaction-data-type-picker
                 available-data-types={dataTypeList}
                 type-and-collection-disabled={isFieldDisabled}
-                allow-scale
-                allow-collection
+                allow-scale={isVariable}
+                allow-collection={isVariable}
                 required
                 help-text={dataTypeHelpText}
                 collection-help-text={collectionHelpText}
-                combobox-error-message={variableResource.dataType.error}
+                combobox-error-message={variableConstantResource.dataType.error}
                 value={dataTypePickerValue}
                 onvaluechanged={handleDataTypeChanged}>
             </builder_platform_interaction-data-type-picker>
@@ -25,10 +25,10 @@
                 <builder_platform_interaction-ferov-resource-picker
                     class="slds-size_1-of-1"
                     value={defaultValue}
-                    error-message={variableResource.defaultValue.error}
+                    error-message={variableConstantResource.defaultValue.error}
                     combobox-config={defaultValueComboboxConfig}
-                    property-editor-element-type={variableResource.elementType}
-                    element-param={variableResource}
+                    property-editor-element-type={variableConstantResource.elementType}
+                    element-param={variableConstantResource}
                     oncomboboxstatechanged={handleDefaultValuePropertyChanged}>
                 </builder_platform_interaction-ferov-resource-picker>
             </div>
@@ -44,7 +44,7 @@
                 </builder_platform_interaction-entity-resource-picker>
             </div>
             
-            <div class="slds-form-element__row">
+            <div if:true={isVariable} class="slds-form-element__row">
                 <!-- TODO: Add field-level-help={externalAccessHelpText} once W-4972926 is fixed. Tracking bug W-4981924 -->
                 <lightning-checkbox-group 
                     class="slds-form-element"

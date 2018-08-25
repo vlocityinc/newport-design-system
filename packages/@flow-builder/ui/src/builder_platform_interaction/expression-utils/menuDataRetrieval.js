@@ -139,6 +139,7 @@ function getNewResourceItem() {
  * @returns {function}                  retrieves elements from store
  */
 function getSelector({elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector}) {
+    let selector;
     switch (elementType) {
         case ELEMENT_TYPE.ACTION_CALL:
         case ELEMENT_TYPE.APEX_CALL:
@@ -148,23 +149,34 @@ function getSelector({elementType, shouldBeWritable, isCollection, dataType, ent
         case ELEMENT_TYPE.SUBFLOW:
         case ELEMENT_TYPE.LOCAL_ACTION_CALL:
         case ELEMENT_TYPE.VARIABLE:
-            return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+        // TODO W-4962830: Populate menu data with the global constants, temporary workaround
+        // since it will go into an infinite loop otherwise
+        // falls through
+        case ELEMENT_TYPE.CONSTANT:
+            selector = shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+            break;
         case ELEMENT_TYPE.DECISION:
         case ELEMENT_TYPE.SCREEN:
-            return readableElementsSelector;
+            selector = readableElementsSelector;
+            break;
         case ELEMENT_TYPE.RECORD_CREATE:
-            return sObjectOrSObjectCollectionByEntitySelector({isCollection, createable:true});
+            selector = sObjectOrSObjectCollectionByEntitySelector({isCollection, createable:true});
+            break;
         case ELEMENT_TYPE.RECORD_UPDATE:
-            return sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, updateable: true});
+            selector = sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, updateable: true});
+            break;
         case ELEMENT_TYPE.RECORD_DELETE:
-            return sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true});
+            selector = sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true});
+            break;
         case ELEMENT_TYPE.RECORD_LOOKUP:
-            return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, queryable:true}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+            selector = sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, queryable:true}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+            break;
         case ELEMENT_TYPE.LOOP:
-            return isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
+            selector = isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
+            break;
         default:
-            return undefined;
     }
+    return selector;
 }
 
 /**

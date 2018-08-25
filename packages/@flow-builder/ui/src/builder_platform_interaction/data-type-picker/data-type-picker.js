@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from "lwc";
+import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './data-type-picker-labels';
 import { FLOW_DATA_TYPE, SCALE_RANGE, SCALE_DEFAULT } from 'builder_platform_interaction-data-type-lib';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
@@ -99,7 +99,9 @@ export default class DataTypePicker extends LightningElement {
     handleDataTypeChanged(event) {
         event.stopPropagation();
         this.state.dataType = event.detail.value;
-        this.state.scale = SCALE_DEFAULT;
+        if (this.allowScale) {
+            this.state.scale = SCALE_DEFAULT;
+        }
         this.dispatchValueChangedEvent();
     }
 

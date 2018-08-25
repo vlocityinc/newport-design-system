@@ -1,10 +1,10 @@
-import { createElement } from "lwc";
+import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
-import VariableEditor from '../variable-constant-editor';
+import VariableConstantEditor from '../variable-constant-editor';
 import * as mockStoreData from 'mock-store-data';
 import * as selectorsMock from 'builder_platform_interaction-selectors';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction-actions';
-import { variableReducer } from '../variable-constant-reducer';
+import { variableConstantReducer } from '../variable-constant-reducer';
 import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxStateChangedEvent, ValueChangedEvent } from 'builder_platform_interaction-events';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
@@ -23,7 +23,7 @@ const SELECTORS = {
 
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-variable-constant-editor', {
-        is: VariableEditor,
+        is: VariableConstantEditor,
     });
     element.node = props;
     document.body.appendChild(element);
@@ -49,7 +49,7 @@ jest.mock('builder_platform_interaction-actions', () => {
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../variable-constant-reducer', () => {
     return {
-        variableReducer: jest.fn().mockImplementation(((obj) => Object.assign({}, obj))),
+        variableConstantReducer: jest.fn().mockImplementation(((obj) => Object.assign({}, obj))),
     };
 });
 
@@ -117,7 +117,7 @@ describe('variable-constant-editor', () => {
             const event = new PropertyChangedEvent('description', 'new desc', null);
             getShadowRoot(variableEditor).querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
             expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
-            expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
+            expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
         });
     });
 
@@ -152,7 +152,7 @@ describe('variable-constant-editor', () => {
                 const eventPayload = { dataType : 'Currency', isCollection:false, scale:3 };
                 dispatchValueChangedEvent(variableEditor, eventPayload);
                 expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value: eventPayload});
-                expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
+                expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
             });
         });
 
@@ -169,7 +169,7 @@ describe('variable-constant-editor', () => {
                 expect(createAction.mock.calls[1][1].value).toEqual('');
                 expect(createAction.mock.calls[2][1].propertyName).toEqual('defaultValue');
                 expect(createAction.mock.calls[2][1].value).toEqual(null);
-                expect(variableReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
+                expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
             });
         });
 
@@ -186,7 +186,7 @@ describe('variable-constant-editor', () => {
                 expect(createAction.mock.calls[1][1].value).toEqual('');
                 expect(createAction.mock.calls[2][1].propertyName).toEqual('defaultValue');
                 expect(createAction.mock.calls[2][1].value).toEqual(null);
-                expect(variableReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
+                expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
             });
         });
     });
@@ -331,10 +331,10 @@ describe('variable-constant-editor', () => {
             return Promise.resolve().then(() => {
                 const defaultValueCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 defaultValueCombobox.dispatchEvent(getComboboxStateChangedEvent());
-                expect(variableReducer).toHaveBeenCalledTimes(3);
-                expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
-                expect(variableReducer.mock.calls[1][0]).toEqual(variableEditor.node);
-                expect(variableReducer.mock.calls[2][0]).toEqual(variableEditor.node);
+                expect(variableConstantReducer).toHaveBeenCalledTimes(3);
+                expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
+                expect(variableConstantReducer.mock.calls[1][0]).toEqual(variableEditor.node);
+                expect(variableConstantReducer.mock.calls[2][0]).toEqual(variableEditor.node);
             });
         });
 
@@ -406,7 +406,7 @@ describe('variable-constant-editor', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
             return Promise.resolve().then(() => {
                 expect(createAction.mock.calls[0][1].propertyName).toEqual('objectType');
-                expect(variableReducer.mock.calls[0][0]).toEqual(variableEditor.node);
+                expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
             });
         });
     });
@@ -416,8 +416,8 @@ describe('variable-constant-editor', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             const node = variableEditor.node;
             variableEditor.validate();
-            expect(variableReducer.mock.calls[0][0]).toEqual(node);
-            expect(variableReducer.mock.calls[0][1]).toEqual({type: VALIDATE_ALL});
+            expect(variableConstantReducer.mock.calls[0][0]).toEqual(node);
+            expect(variableConstantReducer.mock.calls[0][1]).toEqual({type: VALIDATE_ALL});
         });
 
         it('gets the errors after validating', () => {

@@ -31,17 +31,17 @@ const validateVariableObjectType = (isSobject) => {
     };
 };
 
-class VariableValidation extends Validation {
+class VariableConstantValidation extends Validation {
     /**
-     * @param {Object} variableResource - node element data passed as an object.
+     * @param {Object} variableConstantResource - node element data passed as an object.
      * @param {Object} overrideRules - if passed, will override the default rules.
      * @returns {Object} nodeElement - updated Node element after all the rules are run on respective data values.
      */
-    validateAll(variableResource, overrideRules) {
-        const isSobject = getValueFromHydratedItem(variableResource.dataType) === FLOW_DATA_TYPE.SOBJECT.value;
+    validateAll(variableConstantResource, overrideRules) {
+        const isSobject = getValueFromHydratedItem(variableConstantResource.dataType) === FLOW_DATA_TYPE.SOBJECT.value;
         this.finalizedRules.objectType = [validateVariableObjectType(isSobject)];
-        return super.validateAll(variableResource, overrideRules);
+        return super.validateAll(variableConstantResource, overrideRules);
     }
 }
 
-export const variableValidation = new VariableValidation(additionalRules);
+export const variableConstantValidation = new VariableConstantValidation(additionalRules);

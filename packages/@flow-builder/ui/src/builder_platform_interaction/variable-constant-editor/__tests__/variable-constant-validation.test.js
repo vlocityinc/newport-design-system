@@ -1,13 +1,13 @@
-import { createElement } from "lwc";
-import VariableEditor from '../variable-constant-editor';
-import { variableValidation } from '../variable-constant-validation.js';
+import { createElement } from 'lwc';
+import VariableConstantEditor from '../variable-constant-editor';
+import { variableConstantValidation } from '../variable-constant-validation.js';
 import * as mockStoreData from 'mock-store-data';
 import { deepCopy } from 'builder_platform_interaction-store-lib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-variable-constant-editor', {
-        is: VariableEditor,
+        is: VariableConstantEditor,
     });
     element.node = props;
     document.body.appendChild(element);
@@ -18,7 +18,7 @@ describe('Variable Validation', () => {
     let stringVar;
 
     const validate = (node) => {
-        return getErrorsFromHydratedElement(variableValidation.validateAll(node));
+        return getErrorsFromHydratedElement(variableConstantValidation.validateAll(node));
     };
 
     it('returns error for variable with no dataType', () => {
