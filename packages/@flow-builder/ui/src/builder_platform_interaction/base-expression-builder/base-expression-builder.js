@@ -81,7 +81,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setLhsMenuData();
     }
 
-    @api
     get containerElement() {
         return this.state.containerElement;
     }
@@ -104,7 +103,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setLhsMenuData();
     }
 
-    @api
     get lhsFields() {
         return this.state[LHS_FIELDS];
     }
@@ -127,7 +125,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         }
     }
 
-    @api
     get lhsParam() {
         return this.state.lhsParam;
     }
@@ -138,7 +135,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setRhsMenuData();
     }
 
-    @api
     get lhsActivePicklistValues() {
         return this.state.lhsActivePicklistValues;
     }
@@ -149,7 +145,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setLhsMenuData();
     }
 
-    @api
     get lhsIsField() {
         return this.state.lhsIsField;
     }
@@ -160,7 +155,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setLhsMenuData();
     }
 
-    @api
     get showLhsAsFieldReference() {
         return this.state.showLhsAsFieldReference;
     }
@@ -177,7 +171,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setRhsDataType();
     }
 
-    @api
     get operatorValue() {
         return this.state.operatorValue;
     }
@@ -206,7 +199,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setRhsMenuData();
     }
 
-    @api
     get rhsIsField() {
         return this.state.rhsIsField;
     }
@@ -217,7 +209,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setRhsMenuData();
     }
 
-    @api
     get rhsFields() {
         return this.state.rhsFields;
     }
@@ -231,7 +222,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setRhsDataType();
     }
 
-    @api
     get rhsLiteralsAllowed() {
         this.setRHSCollectionRequired();
         return this.state.rhsLiteralsAllowedForContext && !this._rhsCollectionRequiredByRules;
