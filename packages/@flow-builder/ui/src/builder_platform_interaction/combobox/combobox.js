@@ -25,11 +25,11 @@ const ERROR_MESSAGE = {
 };
 
 /**
- * Regex for Dev Names
+ * Regex for merge fields
  */
-const oneLetterDevName = '(^[a-zA-Z]{1}$)';
-const withNonSuffixAndTrailingPeriodOrChar = '(^([a-zA-Z]{1}[a-zA-Z0-9]*_?[a-zA-Z0-9]+\\.?[a-zA-Z]?)+$)';
-const DEV_NAME_REGEX_WITH_TRAILING_PERIOD = new RegExp(`${oneLetterDevName}|${withNonSuffixAndTrailingPeriodOrChar}`);
+const CONSECUTIVE_PERIODS_REGEX = new RegExp('\\.{2,}');
+// This regex looks for potential merge fields. Not everything this regex catches is necessarily a valid dev name
+const MERGE_FIELD_REGEX = new RegExp('^[a-zA-Z][a-zA-Z0-9_]*$');
 
 const isMatchWithTrailingPeriod = (text, textWithPeriodAndBracket) => {
     return text.substring(0, text.length - 1) + '.}' === textWithPeriodAndBracket;
@@ -919,13 +919,26 @@ export default class Combobox extends LightningElement {
      */
     isExpressionIdentifierLiteral(valueToCheck = this.state.displayText, allowDotSuffix) {
         let value;
-        let regexResult;
+        let regexResult = true;
         if (valueToCheck.startsWith('{!') && valueToCheck.endsWith('}')) {
             value = valueToCheck.substring(2, valueToCheck.length - 1);
         }
 
         if (value) {
-            regexResult = DEV_NAME_REGEX_WITH_TRAILING_PERIOD.exec(value);
+            // check that there aren't consecutive periods anywhere and doesn't start with a period
+            if (CONSECUTIVE_PERIODS_REGEX.exec(value) || value.startsWith('.')) {
+                return true;
+            }
+            // split the merge field by period
+            const mergeFieldArray = value.split('.');
+            let i = 0;
+            while (regexResult && i < mergeFieldArray.length) {
+                // don't execute regex on empty strings
+                if (mergeFieldArray[i]) {
+                    regexResult = MERGE_FIELD_REGEX.exec(mergeFieldArray[i]);
+                }
+                i++;
+            }
         } else {
             return !allowDotSuffix; // {!} is valid string constant
         }

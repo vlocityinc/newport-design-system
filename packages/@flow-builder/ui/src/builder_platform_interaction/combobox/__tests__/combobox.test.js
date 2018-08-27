@@ -760,6 +760,38 @@ describe('Combobox Tests', () => {
                 expect(combobox.errorMessage).toBeNull();
             });
         });
+
+        it('custom fields get treated as merge fields', () => {
+            const message = 'This merge field does not exist.';
+            validateMergeField.mockReset();
+            validateMergeField.mockReturnValueOnce(Promise.resolve([{
+                message
+            }]));
+            const comboboxValue = {
+                displayText: '{!MyAccount.customField__c}',
+                value: '{!MyAccount.customField__c}',
+                parent: {
+                    displayText: '{!MyAccount}'
+                }
+            };
+            combobox.value = comboboxValue;
+            groupedCombobox.dispatchEvent(blurEvent);
+            return Promise.resolve().then(() => {
+                expect(combobox.errorMessage).toBe(message);
+            });
+        });
+
+        it('dev name with multiple underscores get treated as merge field', () => {
+            const comboboxValue = {
+                displayText: '{!MyAccount__c}',
+                value: '{!MyAccount__c}',
+            };
+            combobox.value = comboboxValue;
+            groupedCombobox.dispatchEvent(blurEvent);
+            return Promise.resolve().then(() => {
+                expect(combobox.errorMessage).toBeNull();
+            });
+        });
     });
 
     describe('datetime validation', () => {
