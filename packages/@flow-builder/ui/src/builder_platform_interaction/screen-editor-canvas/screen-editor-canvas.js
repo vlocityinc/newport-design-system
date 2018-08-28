@@ -15,6 +15,10 @@ export default class ScreenEditorCanvas extends LightningElement {
 
     labels = LABELS;
 
+    get screenTitle() {
+        return this.screen && this.screen.label.value ? this.screen.label.value : '[' + LABELS.screenTitlePlaceHolder + ']';
+    }
+
     get hasHelpText() {
         return this.screen.helpText && this.screen.helpText.value;
     }
@@ -60,8 +64,10 @@ export default class ScreenEditorCanvas extends LightningElement {
         } else {
             // Existing field is being moved around.
             const sourceGuid = event.dataTransfer.getData('text');
-            const destGuid = range.index === 0 ? this.screen.fields[range.index].guid : this.screen.fields[range.index - 1].guid;
-            if (sourceGuid) {
+            const sourceIndex = this.screen.getFieldIndexByGUID(sourceGuid);
+            const destIndex = range.index > sourceIndex ? range.index - 1 : range.index;
+            const destGuid = this.screen.fields[destIndex].guid;
+            if (sourceGuid && destIndex !== sourceIndex) {
                 this.fireReorder(sourceGuid, destGuid);
                 this.clearDraggingState();
             }
