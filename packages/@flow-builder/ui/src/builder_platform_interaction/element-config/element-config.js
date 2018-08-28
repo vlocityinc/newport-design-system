@@ -311,7 +311,8 @@ export const elementTypeToConfigMap = {
             plural: LABELS.screenPluralLabel
         },
         canvasElement: true,
-        nonHydratableProperties: ['fieldType', 'dataType', 'type', 'defaultValueDataType', 'defaultValueGuid'],
+        nonHydratableProperties: ['fieldType', 'dataType', 'type', 'defaultValueDataType', 'defaultValueGuid',
+            'valueDataType', 'valueGuid', 'assignToReferenceDataType', 'assignToReferenceGuid'],
         bodyCssClass: 'slds-scrollable_none',
         template: {
             guid: '',

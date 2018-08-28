@@ -18,10 +18,26 @@ export const mutateScreenField = field => {
                     valueProperty: 'value',
                     dataTypeProperty: 'valueDataType',
                 }));
+            } else {
+                inputs.push(param);
             }
         }
 
         field.inputParameters = inputs;
+
+        const outputs = [];
+        for (const param of field.outputParameters) {
+            if (param.value) {
+                outputs.push(mutateFEROV(param, 'assignToReference', {
+                    valueProperty: 'assignToReference',
+                    dataTypeProperty: 'assignToReferenceDataType',
+                }));
+            } else {
+                outputs.push(param);
+            }
+        }
+
+        field.outputParameters = outputs;
     } else {
         field.type = getScreenFieldType(field);
     }
@@ -69,6 +85,17 @@ export const demutateScreenField = field => {
         }
 
         field.inputParameters = inputs;
+
+        // Mutate param ferovs
+        const outputs = [];
+        for (const param of field.outputParameters) {
+            outputs.push(deMutateFEROV(param, 'assignToReference', {
+                valueProperty: 'assignToReference',
+                dataTypeProperty: 'assignToReferenceDataType',
+            }));
+        }
+
+        field.outputParameters = outputs;
     }
 
     return field;

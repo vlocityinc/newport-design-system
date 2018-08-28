@@ -1,5 +1,5 @@
 import { generateGuid } from 'builder_platform_interaction-store-lib';
-import { getScreenFieldTypeByName } from 'builder_platform_interaction-screen-editor-utils';
+import { getScreenFieldTypeByName, getLocalExtensionFieldType } from 'builder_platform_interaction-screen-editor-utils';
 import { mutateScreen, demutateScreen, hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { getConfigForElementType } from 'builder_platform_interaction-element-config';
@@ -170,7 +170,7 @@ function createScreen(name, fieldsProducer, config = {}) {
  */
 export function createTestScreenField(name, type, value, config = {}) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
-    const fieldType = getScreenFieldTypeByName(type);
+    const fieldType = type === 'Extension' ? getLocalExtensionFieldType(value) : getScreenFieldTypeByName(type);
     const field = {
         guid: generateGuid(), // Guids are generated during translation, so they need to be added here for testing
         choiceReferences: [],
@@ -208,12 +208,12 @@ export function createTestScreenField(name, type, value, config = {}) {
     } else if (type === 'Extension') {
         field.extensionName = value;
         // Params made up
-        screen.outputParameters = [{
+        field.outputParameters = [{
             assignToReference: getStringValue('VARIABLE_5', null, hydrateValues),
             name: getStringValue('attribute1', null, hydrateValues),
             processMetadataValues:[]
         }];
-        screen.inputParameters = [{
+        field.inputParameters = [{
             value: getStringValue('Attribute value', null, hydrateValues),
             name: getStringValue('attribute1', null, hydrateValues),
             processMetadataValues:[]

@@ -54,6 +54,48 @@ const reorderFields = (screen, event) => {
     return updateProperties(screen, {fields});
 };
 
+/**
+ * Processes a Ferov change and makes sure the three properties used to describe the ferov value are in sync (dataType, dataGuid and the property itself)
+ *
+ * @param {object} valueField - The field to be processed (containing a ferov value)
+ * @param {string} currentFieldDataType - The data type of the current value
+ * @param {string} defaultValueDataType - The default data type of the ferov (the data type when it is not a reference)
+ * @param {any} newValue - The new value of the ferov field
+ * @param {string} newValueGuid - The guid of the new value (or null if it is not a reference)
+ * @param {string} typePropertyName - The name of the data type property (assigned in ferov mutation)
+ * @param {string} guidPropertyName  - The name of the data guid property (assigned in ferov mutation)
+ * @return {object} - The processed field
+ */
+const processFerovValueChange = (valueField, currentFieldDataType, defaultValueDataType, newValue, newValueGuid, typePropertyName, guidPropertyName) => {
+    // Figure out if we need to update typePropertyName (typePropertyName can be null if value is null)
+    const currentDataType =  currentFieldDataType || getFerovTypeFromFieldType(defaultValueDataType);
+    if (currentDataType === 'reference') {
+        if (!newValueGuid) { // Going from reference to literal
+            valueField = updateProperties(valueField, {[typePropertyName]: defaultValueDataType});
+            delete valueField[guidPropertyName];
+        } else { // Going from reference to reference
+            valueField[guidPropertyName] = newValueGuid;
+        }
+    } else if (currentDataType !== 'reference' && !!newValueGuid) { // Going from literal to reference
+        valueField = updateProperties(valueField, {[typePropertyName]: 'reference'});
+        valueField[guidPropertyName] = newValueGuid;
+    }
+
+    if (!newValue) { // New value is null, remove data type
+        delete valueField[typePropertyName];
+    } else if (!valueField[typePropertyName]) { // Coming from null value to non-null, add data type
+        valueField[typePropertyName] = newValueGuid ? 'reference' : defaultValueDataType;
+    }
+
+    return valueField;
+};
+
+/**
+ * Applies changes to a screen field
+ *
+ * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType}
+ * @returns {screenfield} - The new screenfield after the change
+ */
 const handleScreenFieldPropertyChange = (data) => {
     // Non-extension screen field change
 
@@ -82,60 +124,54 @@ const handleScreenFieldPropertyChange = (data) => {
         // Default value needs special handling because defaultValueDataType may need to be updated
 
         // First update the value
-        let updatedValueField = updateProperties(data.field, {'defaultValue': data.newValue});
-
-        // Figure out if we need to update defaultValueDataType (defaultValueDataType can be null if value is null)
-        const currentDataType = data.field.defaultValueDataType || getFerovTypeFromFieldType(data.field.type);
-        const newValueGuid = data.newValueGuid;
-        if (currentDataType === 'reference') {
-            if (!newValueGuid) { // Going from reference to literal?
-                updatedValueField = updateProperties(updatedValueField, {'defaultValueDataType': data.field.dataType});
-                delete updatedValueField.defaultValueGuid;
-            } else { // Going from reference to reference
-                updatedValueField.defaultValueGuid = newValueGuid;
-            }
-        } else if (currentDataType !== 'reference' && !!newValueGuid) { // Going from literal to reference ?
-            updatedValueField = updateProperties(updatedValueField, {'defaultValueDataType': 'reference'});
-            updatedValueField.defaultValueGuid = newValueGuid;
-        }
-
-        if (!newValue) { // New value is null, remove data type
-            delete updatedValueField.defaultValueDataType;
-        } else if (!updatedValueField.defaultValueDataType) { // Coming from null value to non-null, add data type
-            updatedValueField.defaultValueDataType = newValueGuid ? 'reference' : data.field.dataType;
-        }
-
-        return updatedValueField;
+        const updatedValueField = updateProperties(data.field, {'defaultValue': data.newValue});
+        return processFerovValueChange(updatedValueField, data.field.defaultValueDataType, data.dataType,
+            newValue, data.newValueGuid, 'defaultValueDataType', 'defaultValueGuid');
     }
 
     return updateProperties(data.field, {[data.property]: data.newValue});
 };
 
+/**
+ * Applies changes to the input/output parameters of an extension screen field
+ *
+ * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType}
+ * @returns {screenfield} - The new screenfield after the change
+ */
 const handleExtensionFieldPropertyChange = (data) => {
-    // TODO Handle case when param goes from null to have a value, as we need to retrieve and set dataValueType (utils, getFerovTypeFromTypeName)
-    // input/output param validation
     let prefix;
     let parametersPropName;
     let paramPropertyName;
     if (data.property.startsWith('input.')) {
-        prefix = 'input.';
+        prefix = 'input';
         parametersPropName = 'inputParameters';
         paramPropertyName = 'value';
     } else if (data.property.startsWith('output.')) {
-        prefix = 'output.';
+        prefix = 'output';
         parametersPropName = 'outputParameters';
         paramPropertyName = 'assignToReference';
     } else {
         throw new Error('Unknown parameter type: ' + data.property);
     }
 
-    const paramName = data.property.substring(prefix.length);
+    const paramName = data.property.substring(prefix.length + 1); // + 1 to remove the dot
     const param = data.field[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
     if (param) {
-        // const error = data.error === null ? screenValidation.validateProperty(fullPropName, data.currentValue) : data.error; // TODO  W-4947239 validation??
+        const newValue = data.hydrated ? data.newValue.value : data.newValue;
+        // TODO how do we validate dynamic property names?
+        const error = data.error === null ? screenValidation.validateProperty(data.property, newValue) : data.error;
+        if (error && data.hydrated) {
+            data.newValue.error = error;
+        }
 
         // Replace the property in the parameter
-        const newParam = updateProperties(param, {[paramPropertyName]: data.newValue});
+        let newParam = updateProperties(param, {[paramPropertyName]: data.newValue});
+        const dataTypePropName = prefix === 'input' ? 'valueDataType' : 'assignToReferenceDataType';
+        const dataGuidPropName = prefix === 'input' ? 'valueGuid' : 'assignToReferenceGuid';
+
+        newParam = processFerovValueChange(newParam, newParam[dataTypePropName], data.dataType,
+            newValue, data.newValueGuid, dataTypePropName, dataGuidPropName);
+
         // Replace the new parameter in the parameters array
         const index = data.field[parametersPropName].indexOf(param);
         const updatedParams = replaceItem(data.field[parametersPropName], newParam, index);
@@ -178,7 +214,16 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
             }
             updatedNode = updateProperties(screen, {[property]: newValue});
         } else { // Screen field
-            const data = {property, field: selectedNode, currentValue, newValue, hydrated, error, newValueGuid: event.detail.guid};
+            const data = {
+                field: selectedNode,
+                property,
+                currentValue,
+                newValue,
+                hydrated,
+                error,
+                newValueGuid: event.detail.guid,
+                dataType: selectedNode.dataType || event.detail.valueDataType
+            };
             let newField = null;
             if (isExtensionField(selectedNode) && property !== 'name') {
                 newField = handleExtensionFieldPropertyChange(data);

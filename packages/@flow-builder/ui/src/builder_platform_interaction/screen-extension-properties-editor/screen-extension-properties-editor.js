@@ -56,7 +56,9 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
      * @param {Event} event - The property change event
      */
     handleInputPropertyChanged = (event) => {
+        const param = this.mergedField.inputParameters.find(p => p.name === event.detail.propertyName);
         event.detail.propertyName = 'input.' + event.detail.propertyName;
+        event.detail.valueDataType = param.dataType;
     }
 
     /**
@@ -64,6 +66,8 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
      * @param {Event} event - The property change event
      */
     handleOutputPropertyChanged = (event) => {
+        const param = this.mergedField.inputParameters.find(p => p.name === event.detail.propertyName);
         event.detail.propertyName = 'output.' + event.detail.propertyName;
+        event.detail.valueDataType = param.dataType;
     }
 }
