@@ -1,4 +1,4 @@
-import { flatten, isSection } from '../palette-lib';
+import { createItem, createLevel, createSection, flatten, isSection } from '../palette-lib';
 
 const ELEMENT_DATA = [
     // Example of a section with deeply nested items.
@@ -164,6 +164,105 @@ describe('palette-lib', () => {
                 _children: [{}]
             };
             expect(isSection(row)).toBe(true);
+        });
+    });
+
+    describe('createItem', () => {
+        it('converts a resource item with a description to a palette item', () => {
+            const input = ELEMENT_DATA[0]._children[0]._children[0];
+            const expected = ELEMENT_DATA_FLATTENED[2];
+            expect(createItem(input, 3, 1, 2)).toEqual(expected);
+        });
+
+        it('converts a resource item without a description to a palette item', () => {
+            const input = ELEMENT_DATA[0]._children[0]._children[1];
+            const expected = ELEMENT_DATA_FLATTENED[3];
+            expect(createItem(input, 3, 2, 2)).toEqual(expected);
+        });
+    });
+
+    describe('createSection', () => {
+        it('converts a resource section to a collapsed palette section', () => {
+            const input = ELEMENT_DATA[1];
+            const collapsedSections = { myGuid5: true };
+            const expected = ELEMENT_DATA_FLATTENED.slice(4, 5);
+            expect(createSection(input, collapsedSections, 1, 2, 3)).toEqual(expected);
+        });
+
+        it('converts a resource section to an expanded palette section', () => {
+            const input = ELEMENT_DATA[0]._children[0];
+            const collapsedSections = {};
+            const expected = ELEMENT_DATA_FLATTENED.slice(1, 4);
+            expect(createSection(input, collapsedSections, 2, 1, 1)).toEqual(expected);
+        });
+    });
+
+    describe('createLevel', () => {
+        it('creates a level using the given resource section', () => {
+            const input = [
+                {
+                    "guid": "myGuid5",
+                    "label": "myLabel",
+                    "_children": [
+                        {
+                            "elementType": "Variable",
+                            "guid": "myGuid6",
+                            "label": "myLabel",
+                            "description": "myDescription",
+                            "iconName": "myIconName"
+                        }
+                    ]
+                }
+            ];
+            const expected = [
+                {
+                    "isSection": true,
+                    "key": "myGuid5",
+                    "level": 3,
+                    "posinset": 1,
+                    "setsize": 1,
+                    "label": "myLabel",
+                    "expanded": true,
+                    "visibleItems": 1
+                },
+                {
+                    "isSection": false,
+                    "key": "myGuid6",
+                    "level": 4,
+                    "posinset": 1,
+                    "setsize": 1,
+                    "label": "myLabel",
+                    "description": "myDescription",
+                    "elementType": "Variable",
+                    "iconName": "myIconName"
+                }
+            ];
+            expect(createLevel(input, {}, 3)).toEqual(expected);
+        });
+
+        it('creates a level using the given resource item', () => {
+            const input = [
+                {
+                    "elementType": "Variable",
+                    "guid": "leaf",
+                    "label": "myLabel",
+                    "iconName": "myIconName"
+                }
+            ];
+            const expected = [
+                {
+                    "isSection": false,
+                    "key": "leaf",
+                    "level": 2,
+                    "posinset": 1,
+                    "setsize": 1,
+                    "label": "myLabel",
+                    "description": "",
+                    "elementType": "Variable",
+                    "iconName": "myIconName"
+                }
+            ];
+            expect(createLevel(input, {}, 2)).toEqual(expected);
         });
     });
 
