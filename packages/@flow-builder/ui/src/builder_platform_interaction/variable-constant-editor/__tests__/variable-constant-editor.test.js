@@ -98,7 +98,7 @@ describe('variable-constant-editor', () => {
     it('contains a variable element', () => {
         const variableEditor = setupComponentUnderTest(stringVariable);
         return Promise.resolve().then(() => {
-            expect(variableEditor.node.elementType.value).toEqual(mockStoreData.variable);
+            expect(variableEditor.node.elementType).toEqual(mockStoreData.variable);
             expect(variableEditor.getNode()).toEqual(stringVariable);
         });
     });

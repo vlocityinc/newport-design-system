@@ -302,7 +302,7 @@ export const mutatedVariables = {
     [stringVariableGuid]: {
         dataType: { value: stringDataType, error: null },
         description: 'random description',
-        elementType: { value: variable, error: null},
+        elementType: variable,
         guid: numberVariableGuid,
         isCanvasElement: false,
         isCollection: false,

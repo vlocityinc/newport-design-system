@@ -124,7 +124,10 @@ export default class VariableConstantEditor extends LightningElement {
     }
 
     get dataTypeHelpText() {
-        return !this.isNewMode ? LABELS.dataTypeHelpText : null;
+        if (!this.isNewMode) {
+            return this.isVariable ? LABELS.variableDataTypeHelpText : LABELS.constantDataTypeHelpText;
+        }
+        return null;
     }
 
     get collectionHelpText() {

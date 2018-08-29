@@ -1,17 +1,19 @@
-import dataTypeHelpText from '@salesforce/label/FlowBuilderVariableEditor.dataTypeHelpText';
-import collectionHelpText from '@salesforce/label/FlowBuilderVariableEditor.collectionHelpText';
-import defaultValuePickerLabel from '@salesforce/label/FlowBuilderVariableEditor.defaultValuePickerLabel';
-import valuePickerLabel from '@salesforce/label/FlowBuilderVariableEditor.valuePickerLabel';
-import sObjectPickerLabel from '@salesforce/label/FlowBuilderVariableEditor.sObjectPickerLabel';
-import sObjectPickerPlaceholder from '@salesforce/label/FlowBuilderVariableEditor.sObjectPickerPlaceholder';
+import variableDataTypeHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.variableDataTypeHelpText';
+import constantDataTypeHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.constantDataTypeHelpText';
+import collectionHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.collectionHelpText';
+import defaultValuePickerLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.defaultValuePickerLabel';
+import valuePickerLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.valuePickerLabel';
+import sObjectPickerLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.sObjectPickerLabel';
+import sObjectPickerPlaceholder from '@salesforce/label/FlowBuilderVariableConstantEditor.sObjectPickerPlaceholder';
 import sObjectCannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
-import externalAccessSectionLabel from '@salesforce/label/FlowBuilderVariableEditor.externalAccessSectionLabel';
-import externalAccessHelpText from '@salesforce/label/FlowBuilderVariableEditor.externalAccessHelpText';
-import externalAccessInput from '@salesforce/label/FlowBuilderVariableEditor.externalAccessInput';
-import externalAccessOutput from '@salesforce/label/FlowBuilderVariableEditor.externalAccessOutput';
+import externalAccessSectionLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.externalAccessSectionLabel';
+import externalAccessHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.externalAccessHelpText';
+import externalAccessInput from '@salesforce/label/FlowBuilderVariableConstantEditor.externalAccessInput';
+import externalAccessOutput from '@salesforce/label/FlowBuilderVariableConstantEditor.externalAccessOutput';
 
 export const LABELS = {
-    dataTypeHelpText,
+    variableDataTypeHelpText,
+    constantDataTypeHelpText,
     collectionHelpText,
     defaultValuePickerLabel,
     valuePickerLabel,
