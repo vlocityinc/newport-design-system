@@ -1,39 +1,12 @@
 import { COMBOBOX_ITEM_DISPLAY_TYPE } from './menuDataRetrieval';
 import { FLOW_DATA_TYPE, getDataTypeIcons } from 'builder_platform_interaction-data-type-lib';
 import { isNonElementResourceId } from 'builder_platform_interaction-system-lib';
-import { getConfigForElementType } from 'builder_platform_interaction-element-config';
-import { isUndefinedOrNull } from 'builder_platform_interaction-common-utils';
-import { LABELS } from './expression-utils-labels';
+import { getElementCategory } from 'builder_platform_interaction-element-config';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const ICON_TYPE = 'utility';
 const RIGHT_ICON_NAME = 'utility:chevronright';
 const ICON_SIZE = 'xx-small';
-
-/**
- * Determines category for display. Eventually will use the label service
- *
- * @param {String} elementType the element type of an element
- * @param {String} dataType the datatype of an element
- * @param {Boolean} isCollection whether or not that element is a collection
- * @returns {String} the full category label for this element
- */
-function getElementCategory(elementType, dataType, isCollection) {
-    let categoryLabel;
-    if (dataType !== SOBJECT_TYPE && !isCollection) {
-        const config = getConfigForElementType(elementType);
-        if (config && config.labels && config.labels.plural) {
-            categoryLabel = config.labels.plural;
-        }
-    } else {
-        categoryLabel = (dataType === SOBJECT_TYPE) ? (isCollection ? LABELS.sObjectCollectionVariablePluralLabel : LABELS.sObjectVariablePluralLabel) : LABELS.collectionVariablePluralLabel;
-    }
-
-    if (isUndefinedOrNull(categoryLabel)) {
-        throw new Error('The element category cannot be undefined!');
-    }
-    return categoryLabel;
-}
 
 /**
  * The subtext of a row varies a bit. This function captures those rules.
