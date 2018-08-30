@@ -1,9 +1,10 @@
 import { LightningElement, track, api } from 'lwc';
-import { applyFilter } from 'builder_platform_interaction-common-utils';
+import { labelFilter } from 'builder_platform_interaction-filter-lib';
 import { getAllScreenFieldTypes, getAllCachedExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 import { LABELS } from 'builder_platform_interaction-screen-editor-i18n-utils';
 import { createAddScreenFieldEvent } from 'builder_platform_interaction-events';
+import { labelComparator } from 'builder_platform_interaction-sort-lib';
 
 const SELECTORS = {
     FILTER_INPUT: '#filter-input',
@@ -35,15 +36,18 @@ export default class ScreenPalette extends LightningElement {
     }
 
     // Create palette model
-    buildModel(filter) {
+    buildModel() {
         const sections = [];
 
-        const typeMap = getTypeMap(filter);
+        const filterInput = this.template.querySelector(SELECTORS.FILTER_INPUT);
+        const pattern = filterInput ? filterInput.value : undefined;
+
+        const typeMap = getTypeMap(pattern);
         for (const type in typeMap) {
             if (typeMap.hasOwnProperty(type)) {
                 const items = typeMap[type];
                 if (items && items.length > 0) {
-                    const section = createSection(type, items.sort(compareItems));
+                    const section = createSection(type, items.sort(labelComparator));
                     sections.push(section);
                 }
             }
@@ -53,15 +57,7 @@ export default class ScreenPalette extends LightningElement {
     }
 
     handleSearch() {
-        let filter = null;
-        const pattern = this.template.querySelector(SELECTORS.FILTER_INPUT).value;
-        if (pattern) {
-            filter = {
-                pattern,
-                fields: ['label']
-            };
-        }
-        this.buildModel(filter);
+        this.buildModel();
     }
 
     handlePaletteItemClickedEvent = (event) => {
@@ -76,7 +72,7 @@ export default class ScreenPalette extends LightningElement {
 
     handleDragStart(event) {
         // Dragging an element could mean user wants to add the corresponding
-        // field type to the canvas. Figureo out which field type user wants
+        // field type to the canvas. Figure out which field type user wants
         // to add.
         const fieldGuid = event.dataTransfer.getData('text');
         const fieldTypeName = getFieldTypeNameByGuid(this.types, fieldGuid);
@@ -106,16 +102,6 @@ function getFieldTypeNameByGuid(types, guid) {
     throw new Error("Unable to find field type by guid");
 }
 
-/**
- * A case-insensitive comparison function used to sort arrays of palette items by label.
- * @param {Object} a first item to compare
- * @param {Object} b second item to compare
- * @returns {Number} negative if a comes before b, positive if a comes after b, 0 when equal
- */
-function compareItems(a, b) {
-    return a.label.toUpperCase().localeCompare(b.label.toUpperCase());
-}
-
 function createSection(label, items) {
     const section = {
         guid: generateGuid(),
@@ -125,13 +111,9 @@ function createSection(label, items) {
     return section;
 }
 
-function getTypeMap(filter) {
-    const typeMap = [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes()].reduce((acc, type) => {
-        const filterResult = applyFilter(type, filter);
-        if (!filterResult.visible) {
-            return acc;
-        }
-
+function getTypeMap(pattern) {
+    const types = [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes()].filter(labelFilter(pattern));
+    const typeMap = types.reduce((acc, type) => {
         const guid = generateGuid();
         const item = {
             description: type.description || '',
@@ -141,6 +123,7 @@ function getTypeMap(filter) {
             label: type.label,
             fieldTypeName: type.name
         };
+
         if (!acc[type.category]) {
             acc[type.category] = [];
         }

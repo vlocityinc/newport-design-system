@@ -4,6 +4,8 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { LABELS } from './element-config-labels';
 import { SORT_ORDER } from 'builder_platform_interaction-record-editor-lib';
 
+const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
+
 /**
  * @constant
  * @type {string} MODAL_SIZE large or medium (default)
@@ -737,4 +739,31 @@ export function createFlowElement(elementType, hasConnections = true) {
     }
 
     return template;
+}
+
+/**
+ * Determines category for display.
+ *
+ * @param {String}
+ *            elementType the element type of an element
+ * @param {String}
+ *            dataType the datatype of an element
+ * @param {Boolean}
+ *            isCollection whether or not that element is a collection
+ * @returns {String} the full category label for this element
+ */
+export function getElementCategory(elementType, dataType, isCollection) {
+    let categoryLabel;
+    if (dataType !== SOBJECT_TYPE && !isCollection) {
+        const config = getConfigForElementType(elementType);
+        if (config && config.labels && config.labels.plural) {
+            categoryLabel = config.labels.plural;
+        }
+    } else {
+        categoryLabel = (dataType === SOBJECT_TYPE) ? (isCollection ? LABELS.sObjectCollectionVariablePluralLabel
+            : LABELS.sObjectVariablePluralLabel)
+            : LABELS.collectionVariablePluralLabel;
+    }
+
+    return categoryLabel;
 }

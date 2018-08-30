@@ -45,6 +45,9 @@ import flowPropertiesSingularLabel from '@salesforce/label/FlowBuilderElementCon
 import stageSingularLabel from '@salesforce/label/FlowBuilderElementConfig.stagesSingularLabel';
 import stagePluralLabel from '@salesforce/label/FlowBuilderElementConfig.stagesPluralLabel';
 import emptyDefaultOutcomeLabel from '@salesforce/label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel';
+import sObjectVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectVariablePluralLabel';
+import sObjectCollectionVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectCollectionVariablePluralLabel';
+import collectionVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.collectionVariablePluralLabel';
 
 export const LABELS = {
     subflowSingularLabel,
@@ -92,5 +95,8 @@ export const LABELS = {
     flowPropertiesSingularLabel,
     stageSingularLabel,
     stagePluralLabel,
-    emptyDefaultOutcomeLabel
+    emptyDefaultOutcomeLabel,
+    sObjectVariablePluralLabel,
+    sObjectCollectionVariablePluralLabel,
+    collectionVariablePluralLabel
 };

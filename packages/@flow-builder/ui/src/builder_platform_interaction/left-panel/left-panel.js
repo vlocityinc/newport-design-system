@@ -1,27 +1,15 @@
 import { LightningElement, track } from 'lwc';
 import { AddElementEvent, EditElementEvent, DeleteElementEvent, NewResourceEvent } from 'builder_platform_interaction-events';
-import { canvasElementsSectionsSelector, nonCanvasElementsSectionsSelector } from 'builder_platform_interaction-selectors';
+import { resourceFilter } from 'builder_platform_interaction-filter-lib';
 import { Store } from 'builder_platform_interaction-store-lib';
 import { isChildElement } from 'builder_platform_interaction-element-config';
 import { isTestMode } from 'builder_platform_interaction-context-lib';
-
-import headerText from "@salesforce/label/FlowBuilderLeftPanel.headerText";
-import elementTabText from "@salesforce/label/FlowBuilderLeftPanel.elementTabText";
-import resourceTabText from "@salesforce/label/FlowBuilderLeftPanel.resourceTabText";
-import backButtonAltText from "@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText";
-import newResourceButtonText from "@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText";
-
-const LABELS = {
-    LEFT_PANEL_HEADER_TEXT: headerText,
-    LEFT_PANEL_ELEMENT_TAB_TEXT: elementTabText,
-    LEFT_PANEL_RESOURCE_TAB_TEXT: resourceTabText,
-    RESOURCE_DETAILS_BACK_BUTTON_ATL_TEXT: backButtonAltText,
-    LEFT_PANEL_RESOURCE_TAB_NEUTRAL_BUTTON: newResourceButtonText
-};
+import { nameComparator } from 'builder_platform_interaction-sort-lib';
+import { LABELS } from './left-panel-labels';
+import { getResourceSections } from './resource-lib';
 
 let storeInstance;
 let unsubscribeStore;
-
 
 export default class LeftPanel extends LightningElement {
     @track showResourceDetailsPanel = false;
@@ -32,6 +20,9 @@ export default class LeftPanel extends LightningElement {
 
     @track nonCanvasElements = [];
 
+    labels = LABELS;
+    searchString;
+
     constructor() {
         super();
         storeInstance = Store.getStore();
@@ -40,21 +31,17 @@ export default class LeftPanel extends LightningElement {
 
     mapAppStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
-        this.canvasElements = canvasElementsSectionsSelector(currentState);
-        this.nonCanvasElements = nonCanvasElementsSectionsSelector(currentState);
+        this.canvasElements = getResourceSections(currentState.elements, resourceFilter(true, this.searchString), nameComparator);
+        this.nonCanvasElements = getResourceSections(currentState.elements, resourceFilter(false, this.searchString), nameComparator);
         if (this.showResourceDetailsPanel) {
             const iconName = this.resourceDetails.ICON_NAME;
-            const currentElementState = storeInstance.getCurrentState().elements[this.resourceDetails.GUID];
+            const currentElementState = currentState.elements[this.resourceDetails.GUID];
             this.retrieveResourceDetailsFromStore(currentElementState, iconName);
         }
     };
 
-    get labels() {
-        return LABELS;
-    }
-
     get getPanelTitle() {
-        return this.showResourceDetailsPanel ? this.resourceDetails.NAME : LABELS.LEFT_PANEL_HEADER_TEXT;
+        return this.showResourceDetailsPanel ? this.resourceDetails.NAME : LABELS.headerText;
     }
 
     get panelClasses() {
@@ -117,6 +104,13 @@ export default class LeftPanel extends LightningElement {
         this.showResourceDetailsPanel = false;
         const deleteEvent = new DeleteElementEvent([this.resourceDetails.GUID], this.resourceDetails.TYPE);
         this.dispatchEvent(deleteEvent);
+    }
+
+    handleResourceSearch(event) {
+        this.searchString = event.detail.value;
+        const currentState = storeInstance.getCurrentState();
+        this.canvasElements = getResourceSections(currentState.elements, resourceFilter(true, this.searchString), nameComparator);
+        this.nonCanvasElements = getResourceSections(currentState.elements, resourceFilter(false, this.searchString), nameComparator);
     }
 
     retrieveResourceDetailsFromStore(currentElementState, iconName) {

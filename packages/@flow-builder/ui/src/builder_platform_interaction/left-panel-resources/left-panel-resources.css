@@ -1,5 +1,5 @@
 .left-panel-resources-scroll {
-    height: calc(100vh - 228px);
+    height: calc(100vh - 273px);
     -webkit-overflow-scrolling: touch;
     overflow-y:auto;
 }
