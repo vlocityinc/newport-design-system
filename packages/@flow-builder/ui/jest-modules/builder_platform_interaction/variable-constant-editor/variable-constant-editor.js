@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 
-export default class VariableConstantEditor extends Element {
+export default class VariableConstantEditor extends LightningElement {
     @api node;
     @api isNewMode = false;
     @api getNode = jest.fn();

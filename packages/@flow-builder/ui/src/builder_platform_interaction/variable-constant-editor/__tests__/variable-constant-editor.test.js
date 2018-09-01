@@ -88,11 +88,13 @@ describe('variable-constant-editor', () => {
     let stringVariable;
     let numberVariable;
     let dateVariable;
+    let stringConstant;
 
     beforeEach(() => {
-        stringVariable = deepCopy(mockStoreData.mutatedVariables[mockStoreData.stringVariableGuid]);
-        numberVariable = deepCopy(mockStoreData.mutatedVariables[mockStoreData.numberVariableGuid]);
-        dateVariable = deepCopy(mockStoreData.mutatedVariables[mockStoreData.dateVariableGuid]);
+        stringVariable = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.stringVariableGuid]);
+        numberVariable = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.numberVariableGuid]);
+        dateVariable = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.dateVariableGuid]);
+        stringConstant = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.stringConstantGuid]);
     });
 
     it('contains a variable element', () => {
@@ -121,7 +123,7 @@ describe('variable-constant-editor', () => {
         });
     });
 
-    describe('data type picker', () => {
+    describe('variable data type picker', () => {
         const dispatchValueChangedEvent = (variableEditor, payload) => {
             const dataTypePicker = getShadowRoot(variableEditor).querySelector('builder_platform_interaction-data-type-picker');
             const mockChangeEvent = new ValueChangedEvent(payload);
@@ -191,16 +193,60 @@ describe('variable-constant-editor', () => {
         });
     });
 
+    describe('constant data type picker', () => {
+        let constantEditor;
+        beforeEach(() => {
+            constantEditor = setupComponentUnderTest(stringConstant);
+        });
+        it('has a data type picker', () => {
+            return Promise.resolve().then(() => {
+                const dataTypePicker = getShadowRoot(constantEditor).querySelector('lightning-combobox');
+                expect(dataTypePicker).toBeDefined();
+            });
+        });
+
+        it('gives flow data type menu items to the data type combobox', () => {
+            return Promise.resolve().then(() => {
+                const dataTypePicker = getShadowRoot(
+                    getShadowRoot(constantEditor).querySelector('builder_platform_interaction-data-type-picker')
+                ).querySelector('lightning-combobox');
+                expect(dataTypePicker.options).toHaveLength(5);
+            });
+        });
+
+        it('does not allow scale', () => {
+            return Promise.resolve().then(() => {
+                const dataTypePicker = getShadowRoot(constantEditor).querySelector('builder_platform_interaction-data-type-picker');
+                expect(dataTypePicker.allowScale).toBe(false);
+            });
+        });
+
+        it('does not allow collection', () => {
+            return Promise.resolve().then(() => {
+                const dataTypePicker = getShadowRoot(constantEditor).querySelector('builder_platform_interaction-data-type-picker');
+                expect(dataTypePicker.allowCollection).toBe(false);
+            });
+        });
+    });
+
     describe('external access input output', () => {
         const expectedWarningClearEventsData = [{propertyName: 'name', warning: null},
             {propertyName: 'isInput', warning: null},
             {propertyName: 'isOutput', warning: null}];
 
-        it('has external access checkboxes', () => {
+        it('variable editor has external access checkboxes', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
                 const externalAccessCheckboxGroup = getShadowRoot(variableEditor).querySelector(SELECTORS.EXTERNAL_ACCESS_CHECKBOX_GROUP);
                 expect(externalAccessCheckboxGroup).toBeDefined();
+            });
+        });
+
+        it('constant editor does not have external access checkboxes', () => {
+            const constantEditor = setupComponentUnderTest(stringConstant);
+            return Promise.resolve().then(() => {
+                const externalAccessCheckboxGroup = getShadowRoot(constantEditor).querySelector(SELECTORS.EXTERNAL_ACCESS_CHECKBOX_GROUP);
+                expect(externalAccessCheckboxGroup).toBeNull();
             });
         });
 
@@ -308,6 +354,10 @@ describe('variable-constant-editor', () => {
             return testDefaultValueExists(dateVariable);
         });
 
+        it('exists for constant editor as Value', () => {
+            return testDefaultValueExists(stringConstant);
+        });
+
         it('should not exist for sobject data type', () => {
             const variableEditor = setupComponentUnderTest(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
             return Promise.resolve().then(() => {
@@ -316,7 +366,7 @@ describe('variable-constant-editor', () => {
             });
         });
 
-        it('should not exists for collection variables', () => {
+        it('should not exist for collection variables', () => {
             const variableEditor = setupComponentUnderTest(mockStoreData.elements[mockStoreData.stringCollectionVariable1Guid]);
             return Promise.resolve().then(() => {
                 const defaultValueCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);

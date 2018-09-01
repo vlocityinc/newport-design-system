@@ -22,7 +22,7 @@ describe('Variable Validation', () => {
     };
 
     it('returns error for variable with no dataType', () => {
-        stringVar = deepCopy(mockStoreData.mutatedVariables[mockStoreData.stringVariableGuid]);
+        stringVar = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.stringVariableGuid]);
         stringVar.dataType.value = undefined;
         const variable = setupComponentUnderTest(stringVar);
         const node = variable.node;
@@ -32,7 +32,7 @@ describe('Variable Validation', () => {
     });
 
     it('returns error for sobject variable with no sobject type', () => {
-        const sobjectVar = deepCopy(mockStoreData.mutatedVariables[mockStoreData.accountSObjectVariableGuid]);
+        const sobjectVar = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.accountSObjectVariableGuid]);
         sobjectVar.objectType.value = undefined;
         const variable = setupComponentUnderTest(sobjectVar);
         const errors = validate(variable.node);

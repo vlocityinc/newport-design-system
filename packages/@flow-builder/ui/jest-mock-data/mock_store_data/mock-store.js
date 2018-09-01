@@ -15,6 +15,7 @@ export const actionCallElementGuid = 'guid14';
 export const outcomeGuid = 'guid15';
 export const decisionGuid = 'guid16';
 export const caseSObjectCollectionVariableGuid = 'guid17';
+export const stringConstantGuid = 'guid18';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -23,6 +24,7 @@ export const stringVariableDevName = 'strVar1';
 export const accountSObjectVariableDevName = 'accVar1';
 export const stringCollectionVariable1DevName = 'collStrVar1';
 export const stringCollectionVariable2DevName = 'collStrVar2';
+export const stringConstantDevName = 'conVar1';
 export const choiceDevName = 'numberChoice';
 const dateVariableDevName = 'dateVar1';
 export const accountSObjectCollectionVariableDevName = 'accCollectionVar1';
@@ -44,6 +46,7 @@ export const account = 'Account';
 export const caseObjectType = 'Case';
 export const choiceLabel = 'Choice 1';
 export const variable = 'VARIABLE';
+export const constant = 'CONSTANT';
 export const assignment = 'ASSIGNMENT';
 export const actionCall = 'ACTION_CALL';
 export const outcome = 'OUTCOME';
@@ -298,17 +301,17 @@ export const hydratedElements = {
     }
 };
 
-export const mutatedVariables = {
+export const mutatedVariablesAndConstants = {
     [stringVariableGuid]: {
         dataType: { value: stringDataType, error: null },
         description: 'random description',
         elementType: variable,
-        guid: numberVariableGuid,
+        guid: stringVariableGuid,
         isCanvasElement: false,
         isCollection: false,
         isInput: false,
         isOutput: false,
-        name: { value: numberVariableDevName, error: null },
+        name: { value: stringVariableDevName, error: null },
         objectType: { value: null, error: null },
         defaultValue: {
             value: 'fooDefault',
@@ -375,6 +378,18 @@ export const mutatedVariables = {
         defaultValue: {
             value: null,
             error: null,
+        }
+    },
+    [stringConstantGuid]: {
+        dataType: { value: stringDataType, error: null },
+        description: 'random description',
+        elementType: constant,
+        guid: stringConstantGuid,
+        isCanvasElement: false,
+        name: { value: stringConstantDevName, error: null },
+        defaultValue: {
+            value: 'fooDefault',
+            error: null
         }
     }
 };
