@@ -1,4 +1,5 @@
 import typeText from '@salesforce/label/FlowBuilderResourceDetailsPanel.typeText';
+import usageText from '@salesforce/label/FlowBuilderResourceDetailsPanel.usageText';
 import uniqueNameText from '@salesforce/label/FlowBuilderResourceDetailsPanel.uniqueNameText';
 import descriptionText from '@salesforce/label/FlowBuilderResourceDetailsPanel.descriptionText';
 import detailsText from '@salesforce/label/FlowBuilderResourceDetailsPanel.detailsText';
@@ -7,6 +8,7 @@ import deleteButtonLabel from '@salesforce/label/FlowBuilderResourceDetailsPanel
 
 export const LABELS = {
     typeText,
+    usageText,
     uniqueNameText,
     descriptionText,
     detailsText,

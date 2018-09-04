@@ -1,0 +1,17 @@
+<template>
+    <div if:true={listSectionHeader} class="test-list-section-header">
+        <div class='slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small test-list-header-title'>{listSectionHeader}</div>
+        <ul if:true={listSectionItems} class='slds-has-block-links test-list-section-items'>
+            <template for:each={listSectionItems} for:item='listItem'>
+                <li key={listItem.guid} class='slds-p-vertical_x-small test-list-section-item'>
+                    <lightning-icon if:true={listItem.iconName}
+                                    icon-name={listItem.iconName} 
+                                    title={listItem.name} alternative-text={listItem.name} 
+                                    size='small' class='slds-m-right_x-small test-use-standard-icon'>
+                    </lightning-icon>
+                    <span class="test-list-item-name">{listItem.name}</span>
+                </li>
+            </template>
+        </ul>
+    </div>
+</template>

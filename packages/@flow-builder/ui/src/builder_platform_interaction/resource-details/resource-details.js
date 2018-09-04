@@ -17,6 +17,10 @@ export default class ResourceDetails extends LightningElement {
         return this.resourceDetails.DESCRIPTION !== undefined && this.resourceDetails.DESCRIPTION !== null && this.resourceDetails.DESCRIPTION.length > 0;
     }
 
+    get hasUsedByElements() {
+        return Array.isArray(this.resourceDetails.USED_BY_ELEMENTS) && this.resourceDetails.USED_BY_ELEMENTS.length > 0;
+    }
+
     get panelFooterClasses() {
         let classes = 'panel-footer slds-grid slds-grid_align-end slds-p-around_small slds-border_top slds-border_bottom';
         if (this.resourceDetails.IS_CHILD_ELEMENT) {

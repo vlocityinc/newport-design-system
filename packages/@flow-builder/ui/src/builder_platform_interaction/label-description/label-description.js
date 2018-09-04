@@ -162,6 +162,7 @@ export default class LabelDescription extends LightningElement {
             } else {
                 element.setCustomValidity('');
             }
+            element.showHelpMessageIfInvalid();
         }
     }
 

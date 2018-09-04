@@ -15,6 +15,11 @@
             <span class="slds-text-body_regular slds-align-middle" title={resourceDetails.DESCRIPTION}>{resourceDetails.DESCRIPTION}</span>
         </li>
     </ul>
+    <div if:true={hasUsedByElements} class="slds-p-horizontal_small">
+        <builder_platform_interaction-used-by-content list-section-items={resourceDetails.USED_BY_ELEMENTS} 
+                                                      list-section-header={labels.usageText}>
+        </builder_platform_interaction-used-by-content>
+    </div>
     <div class={panelFooterClasses}>
         <div class="slds-col slds-p-horizontal_x-small">
             <lightning-button variant="Neutral" label={labels.deleteButtonLabel}  title={labels.deleteButtonLabel} onclick={handleDeleteButtonClicked}></lightning-button>

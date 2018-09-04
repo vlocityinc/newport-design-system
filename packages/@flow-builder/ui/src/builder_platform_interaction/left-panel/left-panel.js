@@ -7,6 +7,7 @@ import { isTestMode } from 'builder_platform_interaction-context-lib';
 import { nameComparator } from 'builder_platform_interaction-sort-lib';
 import { LABELS } from './left-panel-labels';
 import { getResourceSections } from './resource-lib';
+import { usedBy } from 'builder_platform_interaction-used-by-lib';
 
 let storeInstance;
 let unsubscribeStore;
@@ -115,6 +116,8 @@ export default class LeftPanel extends LightningElement {
 
     retrieveResourceDetailsFromStore(currentElementState, iconName) {
         if (currentElementState) {
+            const state = storeInstance.getCurrentState();
+            const storeElements = state.elements;
             this.resourceDetails = {
                 TYPE: currentElementState.elementType,
                 GUID: currentElementState.guid,
@@ -122,7 +125,8 @@ export default class LeftPanel extends LightningElement {
                 ICON_NAME: iconName,
                 DESCRIPTION: currentElementState.description,
                 NAME: currentElementState.name,
-                IS_CHILD_ELEMENT: isChildElement(currentElementState.elementType)
+                IS_CHILD_ELEMENT: isChildElement(currentElementState.elementType),
+                USED_BY_ELEMENTS: usedBy([currentElementState.guid], storeElements)
             };
         } else {
             this.showResourceDetailsPanel = false;

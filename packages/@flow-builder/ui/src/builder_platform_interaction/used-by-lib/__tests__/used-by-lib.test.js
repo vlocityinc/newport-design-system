@@ -126,7 +126,8 @@ describe('Used by library', () => {
             'name': 'Formula_1',
             'elementGuidsReferenced': [
                 'VARIABLE_1'
-            ]
+            ],
+            iconName: 'standard:formula'
         }];
         const actualResult = usedBy(elementGuids, elements);
         expect(actualResult).toMatchObject(expectedResult);
@@ -168,7 +169,8 @@ describe('Used by library', () => {
             'name': 'Formula_1',
             'elementGuidsReferenced': [
                 'VARIABLE_1'
-            ]
+            ],
+            iconName: 'standard:formula'
         }];
         const actualResult = usedBy(elementGuids, elements);
         expect(actualResult).toMatchObject(expectedResult);
@@ -180,7 +182,8 @@ describe('Used by library', () => {
             'name': 'Formula_1',
             'elementGuidsReferenced': [
                 'OUTCOME_3'
-            ]
+            ],
+            iconName: 'standard:formula'
         }];
         const actualResult = usedBy(elementGuids, elements);
         expect(actualResult).toMatchObject(expectedResult);
@@ -194,7 +197,8 @@ describe('Used by library', () => {
             'elementGuidsReferenced': [
                 'OUTCOME_1',
                 'OUTCOME_2'
-            ]
+            ],
+            "iconName": "standard:custom"
         }];
         const actualResult = usedBy(elementGuids, elements);
         expect(actualResult).toMatchObject(expectedResult);
