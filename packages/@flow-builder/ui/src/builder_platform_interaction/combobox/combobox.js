@@ -576,7 +576,11 @@ export default class Combobox extends LightningElement {
      */
     findItem(value) {
         let foundItem;
-        const groupCount = this.state.menuData.length;
+        let groupCount;
+
+        if (this.state.menuData) {
+            groupCount = this.state.menuData.length;
+        }
         // check if the item has already been cached to avoid running through the nested arrays
         if (this._itemCache[value]) {
             return this._itemCache[value];

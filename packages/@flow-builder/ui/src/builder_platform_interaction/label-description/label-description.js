@@ -99,7 +99,9 @@ export default class LabelDescription extends LightningElement {
 
     /** @param {Object} description - object with {value, error} **/
     set description(description) {
-        this.state.description = description;
+        if (description) {
+            this.state.description = description;
+        }
         // TODO setting CustomValidity for Description: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
     }
 
