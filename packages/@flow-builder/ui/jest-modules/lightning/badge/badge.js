@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning badge component for use by Jest tests
@@ -7,7 +7,7 @@ import { Element, api } from 'engine';
  * @author Priya Mittal
  * @since 216
  */
-export default class LightningBadge extends Element {
+export default class LightningBadge extends LightningElement {
     @api title;
     @api label;
 }

@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning radio-group component for use by Jest tests
@@ -6,7 +6,7 @@ import { Element, api } from 'engine';
  * @ScrumTeam Process UI
  * @since 216
  */
-export default class LightningRadioGroup extends Element {
+export default class LightningRadioGroup extends LightningElement {
     @api value;
     @api label;
     @api options;

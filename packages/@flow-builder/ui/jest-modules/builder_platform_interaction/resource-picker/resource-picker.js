@@ -1,7 +1,7 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 import { elementPropertyEditorSelector } from '../../../modules/builder_platform_interaction/selectors/selectors';
 
-export default class ResourcePicker extends Element {
+export default class ResourcePicker extends LightningElement {
     @api
     label;
 

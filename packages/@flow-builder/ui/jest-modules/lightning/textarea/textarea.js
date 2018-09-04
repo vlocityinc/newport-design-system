@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning textarea component for use by Jest tests
@@ -8,7 +8,7 @@ import { Element, api } from 'engine';
  * @author Aaron Liebling
  * @since 214
  */
-export default class LightningTextArea extends Element {
+export default class LightningTextArea extends LightningElement {
     @api label;
     @api value;
     @api maxLength;

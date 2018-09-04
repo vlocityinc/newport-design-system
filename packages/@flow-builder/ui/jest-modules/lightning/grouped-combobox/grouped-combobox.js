@@ -1,6 +1,6 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
-export default class GroupedCombobox extends Element {
+export default class GroupedCombobox extends LightningElement {
     @api label;
     @api items;
     @api value;

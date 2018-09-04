@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning relative-date-time component for use by Jest tests
@@ -6,6 +6,6 @@ import { Element, api } from 'engine';
  * @ScrumTeam Process UI
  * @since 218
  */
-export default class LightningRelativeDateTime extends Element {
+export default class LightningRelativeDateTime extends LightningElement {
     @api value;
 }

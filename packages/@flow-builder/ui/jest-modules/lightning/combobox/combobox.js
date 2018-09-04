@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning button component for use by Jest tests
@@ -7,7 +7,7 @@ import { Element, api } from 'engine';
  * @author Jesenia Garcia-Rovetta
  * @since 214
  */
-export default class LightningCombobox extends Element {
+export default class LightningCombobox extends LightningElement {
 @api name;
 @api value;
 @api label;

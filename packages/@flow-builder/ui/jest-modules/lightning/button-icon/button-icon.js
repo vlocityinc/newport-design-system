@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning button component for use by Jest tests
@@ -7,7 +7,7 @@ import { Element, api } from 'engine';
  * @author Priya Mittal
  * @since 214
  */
-export default class LightningButtonIcon extends Element {
+export default class LightningButtonIcon extends LightningElement {
     @api alternativeText;
     @api iconName;
     @api size = 'small';

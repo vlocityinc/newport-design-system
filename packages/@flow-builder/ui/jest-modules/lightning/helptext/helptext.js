@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning helptext component for use by Jest tests
@@ -7,6 +7,6 @@ import { Element, api } from 'engine';
  * @author Aaron Liebling
  * @since 216
  */
-export default class LightningHelpText extends Element {
+export default class LightningHelpText extends LightningElement {
     @api content;
 }

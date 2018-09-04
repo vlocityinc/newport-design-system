@@ -1,6 +1,6 @@
-import { api, Element } from 'engine';
+import { api, LightningElement } from 'lwc';
 
-export default class FerovResourcePicker extends Element {
+export default class FerovResourcePicker extends LightningElement {
     @api elementConfig;
 
     @api propertyEditorElementType;

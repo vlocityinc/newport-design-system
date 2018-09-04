@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning input rich text component for use by Jest tests
@@ -8,7 +8,7 @@ import { Element, api } from 'engine';
  * @author Raji Srikantan
  * @since 216
  */
-export default class LightningInputRichText extends Element {
+export default class LightningInputRichText extends LightningElement {
     @api name;
     @api label;
     @api formats;

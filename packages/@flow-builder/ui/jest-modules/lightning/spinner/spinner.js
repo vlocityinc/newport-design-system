@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning spinner component for use by Jest tests
@@ -6,7 +6,7 @@ import { Element, api } from 'engine';
  * @ScrumTeam Process UI
  * @since 216
  */
-export default class LightningSpinner extends Element {
+export default class LightningSpinner extends LightningElement {
     @api alternativeText;
     @api size = 'medium';
     @api variant;

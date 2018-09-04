@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  *
@@ -9,7 +9,7 @@ import { Element, api } from 'engine';
  * @author Aaron Liebling
  * @since 214
  */
-export default class LightningInput extends Element {
+export default class LightningInput extends LightningElement {
     @api type;
     @api label;
     @api value;

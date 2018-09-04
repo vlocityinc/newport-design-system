@@ -1,6 +1,6 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
-export default class FormulaEditor extends Element {
+export default class FormulaEditor extends LightningElement {
     @api isNewMode = false;
     @api node;
     @api getNode = jest.fn();

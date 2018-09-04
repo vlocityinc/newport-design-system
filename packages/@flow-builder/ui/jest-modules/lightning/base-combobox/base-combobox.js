@@ -1,6 +1,6 @@
-import { Element,api } from 'engine';
+import { LightningElement,api } from 'lwc';
 
-export default class BaseCombobox extends Element {
+export default class BaseCombobox extends LightningElement {
     @api
     inputText;
 

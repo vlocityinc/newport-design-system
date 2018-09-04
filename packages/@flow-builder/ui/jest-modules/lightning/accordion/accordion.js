@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning accordion component for use by Jest tests
@@ -7,7 +7,7 @@ import { Element, api } from 'engine';
  * @author Lovi Yu
  * @since 218
  */
-export default class LightningAccordion extends Element {
+export default class LightningAccordion extends LightningElement {
     @api allowMultipleSectionsOpen;
     @api activeSectionName;
 }

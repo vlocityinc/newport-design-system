@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning tree component for use by Jest tests
@@ -7,6 +7,6 @@ import { Element, api } from 'engine';
  * @author Ankush Bansal
  * @since 214
  */
-export default class LightningTree extends Element {
+export default class LightningTree extends LightningElement {
     @api items;
 }

@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning formatted rich text component for use by Jest tests
@@ -7,7 +7,7 @@ import { Element, api } from 'engine';
  * @author Raji Srikantan
  * @since 216
  */
-export default class LightningFormattedRichText extends Element {
+export default class LightningFormattedRichText extends LightningElement {
     @api title;
     @api value;
     @api disableLinkify;

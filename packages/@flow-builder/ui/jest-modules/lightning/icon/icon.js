@@ -1,4 +1,4 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from 'lwc';
 
 /**
  * Dummy lightning icon component for use by Jest tests
@@ -7,7 +7,7 @@ import { Element, api } from 'engine';
  * @author Ankush Bansal
  * @since 214
  */
-export default class LightningIcon extends Element {
+export default class LightningIcon extends LightningElement {
     @api alternativeText;
     @api iconName;
     @api size = 'medium';
