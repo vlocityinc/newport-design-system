@@ -17,7 +17,8 @@
                          class="slds-col customLogic"></lightning-input>
     </div>
 
-    <builder_platform_interaction-list items={state.conditions}
+    <builder_platform_interaction-list if:false={isConditionListVisible}
+                                       items={state.conditions}
                                        onaddlistitem={handleAddCondition}
                                        onupdatelistitem={handleUpdateCondition}
                                        ondeletelistitem={handleDeleteCondition}
@@ -30,6 +31,7 @@
                                                       key={conditionWithPrefix.condition.rowIndex}>
                         <div slot="rowBody">
                             <builder_platform_interaction-fer-to-ferov-expression-builder
+                                    if:false={isLhsTypeField}
                                     container-element={containerElementType}
                                     expression={conditionWithPrefix.condition}
                                     lhs-label={labels.lhsLabel} operator-label={labels.operatorLabel}
@@ -37,6 +39,16 @@
                                     lhs-placeholder={labels.lhsPlaceholder}
                                     operator-placeholder={labels.operatorPlaceholder}>
                             </builder_platform_interaction-fer-to-ferov-expression-builder>
+                            <builder_platform_interaction-field-to-ferov-expression-builder
+                                    if:true={isLhsTypeField}
+                                    fields={fields}
+                                    container-element={containerElementType}
+                                    expression={conditionWithPrefix.condition}
+                                    lhs-label={labels.lhsLabel} operator-label={labels.operatorLabel}
+                                    rhs-label={labels.rhsLabel}
+                                    lhs-placeholder={labels.lhsPlaceholder}
+                                    operator-placeholder={labels.operatorPlaceholder}>
+                            </builder_platform_interaction-field-to-ferov-expression-builder>
                         </div>
                     </builder_platform_interaction-row>
                 </div>

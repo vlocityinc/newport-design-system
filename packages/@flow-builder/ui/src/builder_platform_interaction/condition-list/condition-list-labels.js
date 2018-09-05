@@ -1,7 +1,4 @@
 /* Labels */
-import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.andConditionLogicLabel';
-import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.orConditionLogicLabel';
-import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.customConditionLogicLabel';
 import customLogicLabel from '@salesforce/label/FlowBuilderConditionList.customLogicLabel';
 import customLogicInfoBubble from '@salesforce/label/FlowBuilderConditionList.customLogicInfoBubble';
 import addConditionsLabel from '@salesforce/label/FlowBuilderConditionList.addConditionsLabel';
@@ -13,9 +10,6 @@ import rhsLabel from '@salesforce/label/FlowBuilderConditionList.rhsLabel';
 import cannotBeBlankError from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 
 export const LABELS = {
-    andConditionLogicLabel,
-    orConditionLogicLabel,
-    customConditionLogicLabel,
     customLogicLabel,
     customLogicInfoBubble,
     addConditionsLabel,

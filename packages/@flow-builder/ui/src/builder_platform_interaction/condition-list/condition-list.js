@@ -5,7 +5,7 @@ import {
     DeleteConditionEvent,
     UpdateConditionEvent
 } from 'builder_platform_interaction-events';
-import { CONDITION_LOGIC} from 'builder_platform_interaction-flow-metadata';
+import { CONDITION_LOGIC } from 'builder_platform_interaction-flow-metadata';
 import { LABELS } from './condition-list-labels';
 
 const SELECTORS = {
@@ -26,14 +26,19 @@ export default class ConditionList extends LightningElement {
 
     labels = LABELS;
 
-    @track conditionLogicOptions = [
-        {value: CONDITION_LOGIC.AND, label: this.labels.andConditionLogicLabel},
-        {value: CONDITION_LOGIC.OR, label: this.labels.orConditionLogicLabel},
-        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: this.labels.customConditionLogicLabel},
-    ];
-
     @track
     showErrorMessageIfBlank = this.labels.cannotBeBlankError;
+
+    /**
+    * @typedef {Object} conditionLogicOption
+    * @property {module:flow-metadata.CONDITION_LOGIC} value
+    * @property {string} label
+    */
+
+    /**
+     * @type conditionLogicOption[]
+     */
+    @api conditionLogicOptions;
 
     @api get conditions() {
         return this.state.conditions;
@@ -62,11 +67,19 @@ export default class ConditionList extends LightningElement {
     @api
     containerElementType;
 
+    /**
+     * @type {module:MenuDataGenerator.MenuData}
+     */
+    @api
+    fields;
+
     processConditionLogic(value) {
         this.state.conditionLogicComboBoxValue = value;
         this.state.showCustomLogicInput = false;
 
-        if (value !== CONDITION_LOGIC.AND && value !== CONDITION_LOGIC.OR) {
+        if (!Object.values(CONDITION_LOGIC).find((logicValue) => {
+            return value === logicValue;
+        })) {
             // Select the custom logic option in the dropdown
             this.state.conditionLogicComboBoxValue = CONDITION_LOGIC.CUSTOM_LOGIC;
             // And show the custom logic input
@@ -94,6 +107,18 @@ export default class ConditionList extends LightningElement {
                 condition
             };
         });
+    }
+
+    /**
+     * Whether the conditions list will be rendered
+     * @return {null|boolean} whether the condition list will be displayed
+     */
+    get isConditionListVisible() {
+        return this.state.conditionLogic && this.state.conditionLogic.value === CONDITION_LOGIC.NO_CONDITIONS;
+    }
+
+    get isLhsTypeField() {
+        return this.fields;
     }
 
     /** Sets the CustomValidity if there is a valid error message.

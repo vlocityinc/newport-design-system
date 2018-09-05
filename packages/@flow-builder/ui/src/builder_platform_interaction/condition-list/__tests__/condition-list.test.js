@@ -10,22 +10,51 @@ import {
     PropertyChangedEvent
 } from 'builder_platform_interaction-events';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { LABELS } from '../condition-list-labels';
 import { getShadowRoot } from 'lwc-test-utils';
 
 const listWithOneConditional = {
+    containerElementType: ELEMENT_TYPE.DECISION,
     parentGuid: {value: '123'},
+    conditionLogicOptions: [
+        {value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel},
+        {value: CONDITION_LOGIC.OR, label: LABELS.orConditionLogicLabel},
+        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: LABELS.customConditionLogicLabel}
+    ],
     conditionLogic: {value: '1'},
     conditions: [
         {name: 'condition1', rowIndex: 0}
     ]
 };
+
 const listWithThreeConditionals = {
+    containerElementType: ELEMENT_TYPE.DECISION,
     parentGuid: {value: '123'},
+    conditionLogicOptions: [
+        {value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel},
+        {value: CONDITION_LOGIC.OR, label: LABELS.orConditionLogicLabel},
+        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: LABELS.customConditionLogicLabel}
+    ],
     conditionLogic: {value: '1 and 2'},
     conditions: [
         {name: 'condition1', rowIndex: 0},
         {name: 'condition2', rowIndex: 1},
         {name: 'condition3', rowIndex: 2},
+    ]
+};
+
+const listForWaitWithNoConditions = {
+    containerElementType: ELEMENT_TYPE.WAIT,
+    parentGuid: {value: '123'},
+    fields: {fakeFieldData: true},
+    conditionLogicOptions: [
+        {value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel},
+        {value: CONDITION_LOGIC.OR, label: LABELS.orConditionLogicLabel},
+        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: LABELS.customConditionLogicLabel}
+    ],
+    conditionLogic: {value: CONDITION_LOGIC.NO_CONDITIONS},
+    conditions: [
+        {name: 'condition1', rowIndex: 0}
     ]
 };
 
@@ -37,6 +66,8 @@ const selectors = {
     conditionLogicComboBox: '.conditionLogic',
     customLogicInput: '.customLogic',
     removeButton: 'lightning-button.removeOutcome',
+    ferToFerov: 'builder_platform_interaction-fer-to-ferov-expression-builder',
+    fieldToFerov: 'builder_platform_interaction-field-to-ferov-expression-builder',
 };
 
 const createComponentUnderTest = (conditionList) => {
@@ -45,7 +76,9 @@ const createComponentUnderTest = (conditionList) => {
     });
     document.body.appendChild(el);
 
+    el.containerElementType = conditionList.containerElementType;
     el.conditions = conditionList.conditions;
+    el.conditionLogicOptions = conditionList.conditionLogicOptions;
     el.conditionLogic = conditionList.conditionLogic;
     el.parentGuid = conditionList.parentGuid;
     el.containerElementType = ELEMENT_TYPE.DECISION;
@@ -54,6 +87,28 @@ const createComponentUnderTest = (conditionList) => {
 };
 
 describe('Condition List', () => {
+    // TODO: Determine how to test 'grandchildren' which are passed in to slots.  This is not currently
+    // supported by jsdom. See outstanding PR: https://github.com/jsdom/jsdom/pull/2347/files
+    //
+    // describe('expression builder type', () => {
+    //     it('should be fer-to-ferov if no fields present', () => {
+    //         const element = createComponentUnderTest(listWithThreeConditionals);
+    //
+    //         return Promise.resolve().then(() => {
+    //             const ebs = getShadowRoot(element).querySelectorAll(selectors.ferToFerov);
+    //             expect(ebs).toHaveLength(3);
+    //         });
+    //     });
+    //     it('should be field-to-ferov if fields present', () => {
+    //         const element = createComponentUnderTest(listForWait);
+    //
+    //         return Promise.resolve().then(() => {
+    //             const ebs = getShadowRoot(element).querySelectorAll(selectors.fieldToFerov);
+    //             expect(ebs).toHaveLength(1);
+    //         });
+    //     });
+    // });
+
     describe('advanced logic component', () => {
         it('has one conditional row per conditional', () => {
             const element = createComponentUnderTest(listWithThreeConditionals);
@@ -248,6 +303,30 @@ describe('Condition List', () => {
         });
 
         describe('condition logic', () => {
+            describe('NO_CONDITIONS', () => {
+                it('should hide the custom logic input', () => {
+                    const list = Object.assign({}, listForWaitWithNoConditions);
+                    const element = createComponentUnderTest(list);
+
+                    return Promise.resolve().then(() => {
+                        const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
+                        expect(customLogicInput).toBeNull();
+                    });
+                });
+            });
+            it('should hide the list of conditions', () => {
+                const list = Object.assign({}, listWithThreeConditionals);
+                list.conditionLogic = {
+                    value: CONDITION_LOGIC.NO_CONDITIONS
+                };
+                const element = createComponentUnderTest(list);
+
+                return Promise.resolve().then(() => {
+                    const customLogicInput = getShadowRoot(element).querySelector(selectors.conditionList);
+                    expect(customLogicInput).toBeNull();
+                });
+            });
+
             describe('AND', () => {
                 it('sets the logic combobox to \'and\'', () => {
                     const list = Object.assign({}, listWithThreeConditionals);

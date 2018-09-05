@@ -7,15 +7,6 @@ import outcomeConditionsHeader from '@salesforce/label/FlowBuilderOutcome.outcom
 import andConditionLogicLabel from '@salesforce/label/FlowBuilderOutcome.andConditionLogicLabel';
 import orConditionLogicLabel from '@salesforce/label/FlowBuilderOutcome.orConditionLogicLabel';
 import customConditionLogicLabel from '@salesforce/label/FlowBuilderOutcome.customConditionLogicLabel';
-import customLogicLabel from '@salesforce/label/FlowBuilderOutcome.customLogicLabel';
-import customLogicInfoBubble from '@salesforce/label/FlowBuilderOutcome.customLogicInfoBubble';
-import addConditionsLabel from '@salesforce/label/FlowBuilderOutcome.addConditionsLabel';
-import lhsLabel from '@salesforce/label/FlowBuilderOutcome.lhsLabel';
-import lhsPlaceholder from '@salesforce/label/FlowBuilderOutcome.lhsPlaceholder';
-import operatorLabel from '@salesforce/label/FlowBuilderOutcome.operatorLabel';
-import operatorPlaceholder from '@salesforce/label/FlowBuilderOutcome.operatorPlaceholder';
-import rhsLabel from '@salesforce/label/FlowBuilderOutcome.rhsLabel';
-import cannotBeBlankError from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 
 export const LABELS = {
     outcomeDetailsHeader,
@@ -25,14 +16,5 @@ export const LABELS = {
     outcomeConditionsHeader,
     andConditionLogicLabel,
     orConditionLogicLabel,
-    customConditionLogicLabel,
-    customLogicLabel,
-    customLogicInfoBubble,
-    addConditionsLabel,
-    lhsLabel,
-    lhsPlaceholder,
-    operatorLabel,
-    operatorPlaceholder,
-    rhsLabel,
-    cannotBeBlankError
+    customConditionLogicLabel
 };

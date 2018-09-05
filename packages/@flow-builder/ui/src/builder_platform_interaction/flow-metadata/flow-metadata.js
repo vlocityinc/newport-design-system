@@ -80,12 +80,13 @@ export const METADATA_KEY = {
  * AND and OR are flow values which are used by the backend as well as being as used
  * on the frontend (combobox values).  CUSTOM_LOGIC is used only by the frontend as a
  * combobox value
- * @type {{AND: string, OR: string, CUSTOM_LOGIC: string}}
+ * @type {{AND: string, OR: string, ALWAYS: string, CUSTOM_LOGIC: string}}
  */
 export const CONDITION_LOGIC = {
     AND: 'and',
     OR: 'or',
-    CUSTOM_LOGIC: 'custom_logic'
+    CUSTOM_LOGIC: 'custom_logic',
+    NO_CONDITIONS: 'no_conditions'
 };
 
 /**

@@ -2,7 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import {
     DeleteOutcomeEvent
 } from 'builder_platform_interaction-events';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { LABELS } from './outcome-labels';
 
 const SELECTORS = {
@@ -17,10 +17,6 @@ export default class Outcome extends LightningElement {
     @track element = {};
 
     labels = LABELS;
-
-    get elementTypeForExpressionBuilder() {
-        return ELEMENT_TYPE.DECISION;
-    }
 
     @api get outcome() {
         return this.element;
@@ -37,6 +33,14 @@ export default class Outcome extends LightningElement {
         const labelDescription = this.template.querySelector(SELECTORS.LABEL_DESCRIPTION);
         labelDescription.focus();
     }
+
+    conditionLogicOptions = [
+        {value: CONDITION_LOGIC.AND, label: this.labels.andConditionLogicLabel},
+        {value: CONDITION_LOGIC.OR, label: this.labels.orConditionLogicLabel},
+        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: this.labels.customConditionLogicLabel},
+    ];
+
+    elementTypeForExpressionBuilder = ELEMENT_TYPE.DECISION;
 
     /**
      * @param {object} event - Click Event to delete the outcome
