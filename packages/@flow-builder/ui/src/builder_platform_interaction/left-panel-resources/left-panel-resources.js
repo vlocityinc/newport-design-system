@@ -1,8 +1,8 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './left-panel-resources-labels';
-import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-logging-utils';
+import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction-logging-utils';
 
-const leftPanelResources = 'leftPanelResources';
+const leftPanelResources = 'LEFT_PANEL_RESOURCES';
 
 export default class LeftPanelResources extends LightningElement {
     @api canvasElements = [];
@@ -10,7 +10,7 @@ export default class LeftPanelResources extends LightningElement {
 
     constructor() {
         super();
-        logPerfMarkStart(leftPanelResources);
+        logPerfTransactionStart(leftPanelResources);
     }
     get labels() {
         return LABELS;
@@ -26,7 +26,7 @@ export default class LeftPanelResources extends LightningElement {
 
     renderedCallback() {
         if (this.canvasElements && this.nonCanvasElements && (this.canvasElements.length > 0 || this.nonCanvasElements.length > 0)) {
-            logPerfMarkEnd(leftPanelResources, {
+            logPerfTransactionEnd(leftPanelResources, {
                 canvasElementsCount: this.canvasElements.length,
                 nonCanvasElementsCount: this.nonCanvasElements.length
             });

@@ -1,7 +1,8 @@
 import { LightningElement, track } from 'lwc';
-import { transformLeftPanelElements } from './left-panel-elements-helper';
-import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-logging-utils';
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
+import { getElementSections } from './element-lib';
+
 const leftPanelElements = 'leftPanelElements';
 
 export default class LeftPanelElements extends LightningElement {
@@ -12,20 +13,23 @@ export default class LeftPanelElements extends LightningElement {
 
     constructor() {
         super();
-        logPerfMarkStart(leftPanelElements);
         fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, this.getElementsLeftPalette);
     }
 
     /**
-     * Callback which gets executed after getting elements for left panel palette
+     * Callback which gets executed after getting elements for left panel
+     * palette
      *
-     * @param {Object} has error property if there is error fetching the data else has data property
+     * @param {Object}
+     *            has error property if there is error fetching the data else
+     *            has data property
      */
     getElementsLeftPalette = ({data, error}) => {
         if (error) {
             // TODO: handle error case
         } else {
-            this.leftPanelElementsList = transformLeftPanelElements(data);
+            logPerfMarkStart(leftPanelElements);
+            this.leftPanelElementsList = getElementSections(data);
         }
     };
 
