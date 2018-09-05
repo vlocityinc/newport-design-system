@@ -371,6 +371,40 @@ export const elementTypeToConfigMap = {
             outcomeReferences: []
         }
     },
+
+    [ELEMENT_TYPE.WAIT]: {
+        descriptor: 'builder_platform_interaction:waitEditor',
+        nodeConfig: {
+            iconName: 'standard:waits',
+            utilityIconName: 'utility:waits',
+            maxConnections: 1
+        },
+        modalSize: MODAL_SIZE.LARGE,
+        metadataKey: METADATA_KEY.WAITS,
+        labels: {
+            singular: LABELS.waitSingularLabel,
+            plural: LABELS.waitPluralLabel,
+            connectorPickerHeaderSuffix: LABELS.waitConnectorPickerHeaderSuffix,
+            connectorPickerBodyText: LABELS.waitConnectorPickerBodyText,
+            comboBoxLabel: LABELS.waitConnectorPickerComboBoxLabel
+        },
+        canvasElement: true,
+        canHaveDefaultConnector: true,
+        template: {
+            config: { isSelected: false },
+            connectorCount: 0,
+            defaultConnectorLabel: LABELS.emptyDefaultWaitPathLabel,
+            elementType: ELEMENT_TYPE.WAIT,
+            guid: '',
+            isCanvasElement: true,
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            name: '',
+            waitEventReferences: []
+        }
+    },
+
     [ELEMENT_TYPE.LOOP]: {
         descriptor: 'builder_platform_interaction:loopEditor',
         nodeConfig: {

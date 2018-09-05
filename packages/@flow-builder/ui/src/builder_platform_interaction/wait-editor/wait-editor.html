@@ -1,0 +1,13 @@
+<template>
+    <div if:true={waitElement}>
+        <div class="slds-border_top slds-p-around_small">
+            <builder_platform_interaction-label-description 
+                label={waitElement.label} 
+                dev-name={waitElement.name} 
+                description={waitElement.description}
+                guid={waitElement.guid} 
+                onpropertychanged={handleEvent}>
+            </builder_platform_interaction-label-description>
+        </div>
+    </div>
+</template>

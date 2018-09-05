@@ -63,6 +63,7 @@ export const METADATA_KEY = {
     APEX_PLUGIN_CALLS: 'apexPluginCalls',
     ASSIGNMENTS: 'assignments',
     DECISIONS: 'decisions',
+    WAITS: 'waits',
     FORMULAS: 'formulas',
     VARIABLES: 'variables',
     CONSTANTS: 'constants',

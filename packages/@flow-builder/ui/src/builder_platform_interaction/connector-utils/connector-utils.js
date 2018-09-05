@@ -70,6 +70,7 @@ export const getMaxConnections = node => {
         maxConnections = node.outcomeReferences
             ? node.outcomeReferences.length + 1
             : 1;
+    // TODO: W-5395924 - handled with wait connector story
     } else if (node.elementType === ELEMENT_TYPE.WAIT) {
         // Wait element max connections depend on the number of wait events
         maxConnections = node.waitEventReferences
@@ -273,10 +274,11 @@ export const createConnectorsAndConnectionProperties = (nodeId, elements, startN
         childReferences = node.outcomeReferences.map(outcomeReference => {
             return outcomeReference.outcomeReference;
         });
-    } else if (elementType === ELEMENT_TYPE.WAIT) {
-        childReferences = node.waitEventReferences.map(waitEventReference => {
-            return waitEventReference.waitEventReference;
-        });
+    // TODO: W-5395924 - handled with wait connector story
+    // } else if (elementType === ELEMENT_TYPE.WAIT) {
+    //     childReferences = node.waitEventReferences.map(waitEventReference => {
+    //         return waitEventReference.waitEventReference;
+    //     });
     }
 
     childReferences.forEach(childReference => {

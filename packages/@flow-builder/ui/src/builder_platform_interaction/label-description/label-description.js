@@ -92,9 +92,11 @@ export default class LabelDescription extends LightningElement {
 
     /** @param {Object} devName - object with {value, error} **/
     set devName(devName) {
-        this.state.devName = devName;
-        const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
-        this.setInputErrorMessage(devNameInput, this.state.devName.error);
+        if (devName) {
+            this.state.devName = devName;
+            const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
+            this.setInputErrorMessage(devNameInput, this.state.devName.error);
+        }
     }
 
     /** @param {Object} description - object with {value, error} **/

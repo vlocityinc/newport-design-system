@@ -20,6 +20,11 @@ import decisionPluralLabel from "@salesforce/label/FlowBuilderElementConfig.deci
 import decisionConnectorPickerHeaderSuffix from "@salesforce/label/FlowBuilderConnectorPicker.decisionConnectorPickerHeaderSuffix";
 import decisionConnectorPickerBodyText from "@salesforce/label/FlowBuilderConnectorPicker.decisionConnectorPickerBodyText";
 import decisionConnectorPickerComboBoxLabel from "@salesforce/label/FlowBuilderConnectorPicker.decisionConnectorPickerComboBoxLabel";
+import waitSingularLabel from "@salesforce/label/FlowBuilderElementConfig.waitSingularLabel";
+import waitPluralLabel from "@salesforce/label/FlowBuilderElementConfig.waitPluralLabel";
+import waitConnectorPickerHeaderSuffix from "@salesforce/label/FlowBuilderConnectorPicker.waitConnectorPickerHeaderSuffix";
+import waitConnectorPickerBodyText from "@salesforce/label/FlowBuilderConnectorPicker.waitConnectorPickerBodyText";
+import waitConnectorPickerComboBoxLabel from "@salesforce/label/FlowBuilderConnectorPicker.waitConnectorPickerComboBoxLabel";
 import loopSingularLabel from "@salesforce/label/FlowBuilderElementConfig.loopSingularLabel";
 import loopPluralLabel from "@salesforce/label/FlowBuilderElementConfig.loopPluralLabel";
 import loopConnectorPickerHeaderSuffix from "@salesforce/label/FlowBuilderConnectorPicker.loopConnectorPickerHeaderSuffix";
@@ -41,13 +46,14 @@ import formulaSingularLabel from "@salesforce/label/FlowBuilderElementConfig.for
 import formulaPluralLabel from "@salesforce/label/FlowBuilderElementConfig.formulaPluralLabel";
 import outcomeSingularLabel from "@salesforce/label/FlowBuilderElementConfig.outcomeSingularLabel";
 import outcomePluralLabel from "@salesforce/label/FlowBuilderElementConfig.outcomePluralLabel";
-import flowPropertiesSingularLabel from '@salesforce/label/FlowBuilderElementConfig.flowPropertiesSingularLabel';
-import stageSingularLabel from '@salesforce/label/FlowBuilderElementConfig.stagesSingularLabel';
-import stagePluralLabel from '@salesforce/label/FlowBuilderElementConfig.stagesPluralLabel';
-import emptyDefaultOutcomeLabel from '@salesforce/label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel';
-import sObjectVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectVariablePluralLabel';
-import sObjectCollectionVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectCollectionVariablePluralLabel';
-import collectionVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.collectionVariablePluralLabel';
+import flowPropertiesSingularLabel from "@salesforce/label/FlowBuilderElementConfig.flowPropertiesSingularLabel";
+import stageSingularLabel from "@salesforce/label/FlowBuilderElementConfig.stagesSingularLabel";
+import stagePluralLabel from "@salesforce/label/FlowBuilderElementConfig.stagesPluralLabel";
+import emptyDefaultOutcomeLabel from "@salesforce/label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel";
+import emptyDefaultWaitPathLabel from '@salesforce/label/FlowBuilderWaitEditor.emptyDefaultWaitPathLabel';
+import sObjectVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectVariablePluralLabel";
+import sObjectCollectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectCollectionVariablePluralLabel";
+import collectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.collectionVariablePluralLabel";
 
 export const LABELS = {
     subflowSingularLabel,
@@ -71,6 +77,11 @@ export const LABELS = {
     decisionConnectorPickerHeaderSuffix,
     decisionConnectorPickerBodyText,
     decisionConnectorPickerComboBoxLabel,
+    waitSingularLabel,
+    waitPluralLabel,
+    waitConnectorPickerHeaderSuffix,
+    waitConnectorPickerBodyText,
+    waitConnectorPickerComboBoxLabel,
     loopSingularLabel,
     loopPluralLabel,
     loopConnectorPickerHeaderSuffix,
@@ -96,6 +107,7 @@ export const LABELS = {
     stageSingularLabel,
     stagePluralLabel,
     emptyDefaultOutcomeLabel,
+    emptyDefaultWaitPathLabel,
     sObjectVariablePluralLabel,
     sObjectCollectionVariablePluralLabel,
     collectionVariablePluralLabel
