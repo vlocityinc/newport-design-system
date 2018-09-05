@@ -21,6 +21,8 @@ const mockNewState = {
     }]
 };
 
+const DEFAULT_OUTCOME_ID = 'defaultOutcome';
+
 jest.mock('../decision-reducer', () => {
     return {
         decisionReducer: jest.fn(() => {
@@ -160,7 +162,7 @@ describe('Decision Editor', () => {
                     expect(menuItems[1].element).toEqual(decisionWithTwoOutcomes.outcomes[1]);
                     expect(menuItems[2]).toEqual({
                         element: {
-                            guid: 'defaultOutcome'
+                            guid: DEFAULT_OUTCOME_ID
                         },
                         label: 'FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel',
                         isDraggable: false
@@ -211,7 +213,7 @@ describe('Decision Editor', () => {
             // trigger showing of default outcome
             const reorderableOutcomeNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
             reorderableOutcomeNav.dispatchEvent(new CustomEvent('itemselected', {
-                detail: { itemId: null }
+                detail: { itemId: DEFAULT_OUTCOME_ID }
             }));
 
             return Promise.resolve().then(() => {
