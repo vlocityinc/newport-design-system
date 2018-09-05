@@ -102,7 +102,6 @@ export default class LeftPanel extends LightningElement {
     }
 
     handleDeleteButtonClicked() {
-        this.showResourceDetailsPanel = false;
         const deleteEvent = new DeleteElementEvent([this.resourceDetails.GUID], this.resourceDetails.TYPE);
         this.dispatchEvent(deleteEvent);
     }
