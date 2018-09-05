@@ -13,7 +13,7 @@ const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     SCALE_FIELD: 'builder_platform_interaction-screen-property-field[name="scale"]',
     REQUIRED_CHECKBOX: 'builder_platform_interaction-screen-property-field[name="isRequired"]',
-    DEFAULT_VALUE_FIELD: 'builder_platform_interaction-ferov-resource-picker',
+    DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[name="defaultValue"]',
     VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-screen-property-field[name="validationRule.errorMessage"]',
     VALIDATION_FORMULA: 'builder_platform_interaction-screen-property-field[name="validationRule.formulaExpression"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
@@ -53,7 +53,8 @@ describe('screen-input-field-properties-editor for TextBox', () => {
     });
     it('Default value is empty', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
     });
@@ -121,7 +122,8 @@ describe('screen-input-field-properties-editor for Number', () => {
     });
     it('Default value is empty', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
     });
@@ -176,7 +178,8 @@ describe('screen-input-field-properties-editor for Date', () => {
     });
     it('Default value is empty', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
     });
@@ -237,7 +240,8 @@ describe('screen-input-field-properties-editor for DateTime', () => {
     });
     it('Default value is empty', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
     });
@@ -299,7 +303,7 @@ describe('screen-input-field-properties-editor for Checkbox', () => {
     });
     it('Default value is empty', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
@@ -360,7 +364,8 @@ describe('screen-input-field-properties-editor for Currency', () => {
     });
     it('Default value is empty', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
     });
@@ -410,7 +415,8 @@ describe('screen-input-field-properties-editor for Number with default value', (
     });
     it('Default value is displayed', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toEqual(defaultVal);
         });
     });
@@ -426,7 +432,8 @@ describe('screen-input-field-properties-editor for Currency with default value',
     });
     it('Default value is displayed', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toEqual(defaultVal);
         });
     });
@@ -442,7 +449,8 @@ describe('screen-input-field-properties-editor for TextBox with default value', 
     });
     it('Default value is displayed', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toEqual(defaultVal);
         });
     });
