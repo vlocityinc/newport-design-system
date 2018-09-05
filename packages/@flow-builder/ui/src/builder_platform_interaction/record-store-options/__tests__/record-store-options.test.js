@@ -3,7 +3,7 @@ import { getShadowRoot } from 'lwc-test-utils';
 import RecordStoreOption from 'builder_platform_interaction-record-store-options';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction-events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction-record-editor-lib';
 
 const createComponentUnderTest = (elementType, props) => {
     const el = createElement('builder_platform_interaction-record-store-options', {
@@ -15,11 +15,6 @@ const createComponentUnderTest = (elementType, props) => {
     return el;
 };
 
-const WAY_TO_STORE_FIELDS_OPTIONS = {
-    togetherInsObjectVariable: 'sObjectVariable',
-    separateVariable: 'separateVariables'
-};
-
 const selectors = {
     lightningRadioGroup: 'lightning-radio-group',
     lightningFormattedRichText : 'lightning-formatted-rich-text',
@@ -29,6 +24,11 @@ const selectors = {
 const getNumberRecordsToStoreRadioGroup = (recordStoreOptionComponent) => {
     const numberRecordsToStoreRadioGroup = getShadowRoot(recordStoreOptionComponent).querySelectorAll(selectors.lightningRadioGroup);
     return numberRecordsToStoreRadioGroup[0];
+};
+
+const getWayToStoreFieldsRadioGroup = (recordStoreOptionComponent) => {
+    const numberRecordsToStoreRadioGroup = getShadowRoot(recordStoreOptionComponent).querySelectorAll(selectors.lightningRadioGroup);
+    return numberRecordsToStoreRadioGroup[1];
 };
 
 const getTitle = (recordStoreOptionComponent) => {
@@ -71,8 +71,14 @@ describe('record-store-options default', () => {
     test('Should have 2 options to store records', () => {
         expect(getNumberRecordsToStoreRadioGroup(recordStoreOptionComponent).options).toHaveLength(2);
     });
+    test('Should have 2 options to way to store fields', () => {
+        expect(getWayToStoreFieldsRadioGroup(recordStoreOptionComponent).options).toHaveLength(2);
+    });
     test('Check Radio Button default is firstRecord', () => {
         expect(getNumberRecordsToStoreRadioGroup(recordStoreOptionComponent).value).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
+    });
+    test('Check Radio Button default is SObject Variable', () => {
+        expect(getWayToStoreFieldsRadioGroup(recordStoreOptionComponent).value).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
     });
     test('checkbox "Assign Null if no record found" is not checked', () => {
         expect(getAssignNullIfNoRecordFoundCombobox(recordStoreOptionComponent).checked).toBe(false);
@@ -83,7 +89,7 @@ describe('record-store-options default', () => {
         getNumberRecordsToStoreRadioGroup(recordStoreOptionComponent).dispatchEvent(getChangeEvent(NUMBER_RECORDS_TO_STORE.ALL_RECORDS));
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(false, NUMBER_RECORDS_TO_STORE.ALL_RECORDS, WAY_TO_STORE_FIELDS_OPTIONS.togetherInsObjectVariable));
+        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(false, NUMBER_RECORDS_TO_STORE.ALL_RECORDS, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
     });
     test('checkbox "Assign Null if no record found" changed', async () => {
         const eventCallback = jest.fn();
@@ -91,7 +97,23 @@ describe('record-store-options default', () => {
         getAssignNullIfNoRecordFoundCombobox(recordStoreOptionComponent).dispatchEvent(getCheckedEvent(true));
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(true, NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS_OPTIONS.togetherInsObjectVariable));
+        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(true, NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
+    });
+    test('Event RecordStoreOptionChangedEvent is dispatched after selected way to store fields radio button changed to SObject Variable', async () => {
+        const eventCallback = jest.fn();
+        recordStoreOptionComponent.addEventListener(RecordStoreOptionChangedEvent.EVENT_NAME, eventCallback);
+        getWayToStoreFieldsRadioGroup(recordStoreOptionComponent).dispatchEvent(getChangeEvent(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
+        await Promise.resolve();
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(false, NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
+    });
+    test('Event RecordStoreOptionChangedEvent is dispatched after selected way to store fields radio button changed to Separate Variables', async () => {
+        const eventCallback = jest.fn();
+        recordStoreOptionComponent.addEventListener(RecordStoreOptionChangedEvent.EVENT_NAME, eventCallback);
+        getWayToStoreFieldsRadioGroup(recordStoreOptionComponent).dispatchEvent(getChangeEvent(WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES));
+        await Promise.resolve();
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(false, NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES));
     });
 });
 
@@ -104,6 +126,14 @@ describe('record-store-options with values', () => {
     test('Check Radio Button is allRecords if outputReference refers to sObject collection variable', () => {
         recordStoreOptionComponent = createComponentUnderTest(ELEMENT_TYPE.RECORD_LOOKUP, {numberOfRecordsToStore: NUMBER_RECORDS_TO_STORE.ALL_RECORDS});
         expect(getNumberRecordsToStoreRadioGroup(recordStoreOptionComponent).value).toBe(NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
+    });
+    test('Check Radio Button is SObject Variable if passed as parameter', () => {
+        recordStoreOptionComponent = createComponentUnderTest(ELEMENT_TYPE.RECORD_LOOKUP, {wayToStoreFields: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE});
+        expect(getWayToStoreFieldsRadioGroup(recordStoreOptionComponent).value).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
+    });
+    test('Check Radio Button is Separate Variable if passed as parameter', () => {
+        recordStoreOptionComponent = createComponentUnderTest(ELEMENT_TYPE.RECORD_LOOKUP, {wayToStoreFields: WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES});
+        expect(getWayToStoreFieldsRadioGroup(recordStoreOptionComponent).value).toBe(WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
     });
     test('checkbox "Assign Null if no record found" is checked', () => {
         recordStoreOptionComponent = createComponentUnderTest(ELEMENT_TYPE.RECORD_LOOKUP, {assignNullValuesIfNoRecordsFound: true});

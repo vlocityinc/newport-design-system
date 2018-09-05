@@ -17,6 +17,15 @@ export const NUMBER_RECORDS_TO_STORE = {
 };
 
 /**
+ * The way the user want to store fields.
+ * @type {{SOBJECT_VARIABLE: string, SEPARATE_VARIABLES: string}}
+ */
+export const WAY_TO_STORE_FIELDS = {
+    SOBJECT_VARIABLE : 'sObjectVariable',
+    SEPARATE_VARIABLES : 'separateVariables'
+};
+
+/**
  * The sort order.
  * @type {{ASC: string, DESC: string, NOT_SORTED_VALUE: string}}
  */

@@ -15,10 +15,10 @@
                 class="slds-m-top_x-small">
             </lightning-radio-group>
             <lightning-radio-group 
-                if:true={state.showWayToStoreFieldSelector}
+                if:true={showWayToStoreFieldSelector}
                 name="wayToStoreFieldsRadioGroup"
-                label={WayToStoreRecordLabel} 
-                options={wayToStoreFieldsOption}
+                label={wayToStoreRecordLabel} 
+                options={wayToStoreFieldsOptions}
                 value={state.wayToStoreFields}
                 onchange={handleWayToStoreFieldsChange}
                 class="slds-m-top_x-small">

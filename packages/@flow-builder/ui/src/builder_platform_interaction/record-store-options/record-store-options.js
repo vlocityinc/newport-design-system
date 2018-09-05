@@ -5,17 +5,15 @@ import { LABELS, NUMBER_RECORDS_OPTIONS,
     WAY_TO_STORE_FIELDS_LABELS,
     WAY_TO_STORE_FIELDS_OPTIONS } from './record-store-options-labels';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction-events';
-import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction-record-editor-lib';
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction-record-editor-lib';
 
 export default class RecordStoreFieldsSelection extends LightningElement {
-    wayToStoreFieldsOption = WAY_TO_STORE_FIELDS_OPTIONS;
     labels = LABELS;
 
     @track
     state = {
-        showWayToStoreFieldSelector : false, // TODO : should be true when implementing : W-4961821
         numberOfRecordsToStore : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
-        wayToStoreFields : 'sObjectVariable',
+        wayToStoreFields : WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
         assignNullValuesIfNoRecordsFound : false,
         resourceDisplayText : '',
     };
@@ -87,6 +85,10 @@ export default class RecordStoreFieldsSelection extends LightningElement {
         return NUMBER_RECORDS_OPTIONS[this.elementType];
     }
 
+    get wayToStoreFieldsOptions() {
+        return WAY_TO_STORE_FIELDS_OPTIONS[this.elementType];
+    }
+
     get numberRecordsToStoreLabel() {
         return NUMBER_RECORDS_LABELS[this.elementType];
     }
@@ -95,14 +97,19 @@ export default class RecordStoreFieldsSelection extends LightningElement {
         return WAY_TO_STORE_FIELDS_LABELS[this.elementType];
     }
 
+    /**
+     * @return {boolean} true if the element type is Record lookup or Record create
+     * and the user has selected "First Record" in the first radio button group
+     */
+    get showWayToStoreFieldSelector() {
+        return (this.elementType === ELEMENT_TYPE.RECORD_LOOKUP
+                || this.elementType === ELEMENT_TYPE.RECORD_CREATE)
+                && this.state.numberOfRecordsToStore === NUMBER_RECORDS_OPTIONS[this.elementType][0].value;
+    }
+
     handleNumberRecordsToStoreChange(event) {
         event.stopPropagation();
         this.state.numberOfRecordsToStore = event.detail.value;
-        // The second radio button group is displayed only if the 2 radio button is selected.
-        // TODO : Uncomment when implementing : W-4961821
-        /* this.state.showWayToStoreFieldSelector = (this.elementType === ELEMENT_TYPE.RECORD_LOOKUP
-                                                || this.elementType === ELEMENT_TYPE.RECORD_CREATE)
-                                                && this.state.numberOfRecordsToStore === NUMBER_RECORDS_OPTIONS.get(this.elementType)[0].value; */
         this.dispatchEvent(new RecordStoreOptionChangedEvent(this.state.numberOfRecordsToStore,
             this.state.wayToStoreFields,
             this.state.assignNullValuesIfNoRecordsFound));
