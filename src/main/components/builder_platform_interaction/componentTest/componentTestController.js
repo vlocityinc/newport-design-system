@@ -18,9 +18,9 @@
         // Configuration passed to the propertyEditor
         cmp.set('v.node', node);
         cmp.set('v.override', {
-            body:{
-                descriptor:config.descriptor,
-                attr:{node:node}
+            desc: config.descriptor,
+            attr: {
+                node: node
             }
         });
 

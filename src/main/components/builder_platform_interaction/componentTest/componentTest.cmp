@@ -39,8 +39,7 @@
     <aura:if isTrue="{!v.initialized}">
         <builder_platform_interaction:propertyEditor 
             aura:id="propertyEditor"
-            node="{!v.node}"
             nodeUpdate="{!v.nodeUpdate}"
-            override="{!v.override}"/>
+            bodyComponent="{!v.override}"/>
     </aura:if>
 </aura:component>
