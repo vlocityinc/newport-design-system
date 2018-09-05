@@ -12,7 +12,7 @@ jest.mock('builder_platform_interaction-selectors', () => {
 const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     REQUIRED_CHECKBOX: 'builder_platform_interaction-screen-property-field[name="isRequired"]',
-    DEFAULT_VALUE_FIELD: 'builder_platform_interaction-ferov-resource-picker',
+    DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[name="defaultValue"]',
     VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-screen-property-field[name="validationRule.errorMessage"]',
     VALIDATION_FORMULA: 'builder_platform_interaction-screen-property-field[name="validationRule.formulaExpression"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
@@ -47,12 +47,14 @@ describe('screen-password-field-properties-editor', () => {
     it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
             const nameAndLabelField = getShadowRoot(screenPasswordFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            expect(nameAndLabelField).toBeDefined();
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
     it('Default value is empty when there is no default value', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenPasswordFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenPasswordFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
     });
@@ -96,7 +98,8 @@ describe('screen-password-field-properties-editor with default value', () => {
     });
     it('Default value is rendered', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = getShadowRoot(screenPasswordFieldPropEditor).querySelector(SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenPasswordFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toEqual(defaultVal);
         });
     });
@@ -112,6 +115,7 @@ describe('screen-password-field-properties-editor for field that is set to requi
     it('Required checkbox is present and not checked', () => {
         return Promise.resolve().then(() => {
             const renderedRequiredCheckbox = query(screenInputFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
+            expect(renderedRequiredCheckbox).toBeDefined();
             expect(renderedRequiredCheckbox.value).toBeTruthy();
         });
     });

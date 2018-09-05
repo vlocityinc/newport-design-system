@@ -2,7 +2,7 @@ import { screenValidation } from './screen-validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
-import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getFerovTypeFromFieldType } from 'builder_platform_interaction-screen-editor-utils';
+import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getFerovTypeFromTypeName } from 'builder_platform_interaction-screen-editor-utils';
 import { elementTypeToConfigMap } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 
@@ -68,7 +68,7 @@ const reorderFields = (screen, event) => {
  */
 const processFerovValueChange = (valueField, currentFieldDataType, defaultValueDataType, newValue, newValueGuid, typePropertyName, guidPropertyName) => {
     // Figure out if we need to update typePropertyName (typePropertyName can be null if value is null)
-    const currentDataType =  currentFieldDataType || getFerovTypeFromFieldType(defaultValueDataType);
+    const currentDataType =  currentFieldDataType || getFerovTypeFromTypeName(defaultValueDataType);
     if (currentDataType === 'reference') {
         if (!newValueGuid) { // Going from reference to literal
             valueField = updateProperties(valueField, {[typePropertyName]: defaultValueDataType});
@@ -84,7 +84,7 @@ const processFerovValueChange = (valueField, currentFieldDataType, defaultValueD
     if (!newValue) { // New value is null, remove data type
         delete valueField[typePropertyName];
     } else if (!valueField[typePropertyName]) { // Coming from null value to non-null, add data type
-        valueField[typePropertyName] = newValueGuid ? 'reference' : defaultValueDataType;
+        valueField[typePropertyName] = newValueGuid ? 'reference' : currentDataType;
     }
 
     return valueField;
@@ -125,7 +125,7 @@ const handleScreenFieldPropertyChange = (data) => {
 
         // First update the value
         const updatedValueField = updateProperties(data.field, {'defaultValue': data.newValue});
-        return processFerovValueChange(updatedValueField, data.field.defaultValueDataType, data.dataType,
+        return processFerovValueChange(updatedValueField, data.field.defaultValueDataType, data.dataType || event.detail.defaultValueDataType,
             newValue, data.newValueGuid, 'defaultValueDataType', 'defaultValueGuid');
     }
 
