@@ -330,7 +330,8 @@ export default class Canvas extends LightningElement {
      */
     handleCanvasMouseUp = (event) => {
         event.preventDefault();
-        if (event.path[0].id === 'canvas' || event.path[0].id === 'innerCanvas') {
+        const path = event.composedPath();
+        if (Array.isArray(path) && (path.length > 0) && (path[0].id === 'canvas' || path[0].id === 'innerCanvas')) {
             const canvasMouseUpEvent = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
                 composed: true,
