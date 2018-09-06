@@ -17,7 +17,9 @@ const cachedEntityFields = {};
 const getFieldsForEntityCallback = (data, entityName, callback) => {
     const fields = JSON.parse(data);
     cachedEntityFields[entityName] = fields;
-    callback(fields);
+    if (callback) {
+        callback(fields);
+    }
 };
 
 export const ENTITY_TYPE = {
@@ -102,7 +104,9 @@ export const getUpdateableEntities = () => {
  */
 export const getFieldsForEntity = (entityName, callback) => {
     if (cachedEntityFields[entityName]) {
-        callback(cachedEntityFields[entityName]);
+        if (callback) {
+            callback(cachedEntityFields[entityName]);
+        }
     } else {
         const params = {
             entityApiName: entityName

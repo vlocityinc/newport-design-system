@@ -10,6 +10,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { LABELS } from './variable-constant-editor-labels';
 import { getResourceByUniqueIdentifier, getResourceFerovDataType } from 'builder_platform_interaction-expression-utils';
 import { isObject } from 'builder_platform_interaction-common-utils';
+import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 
 // the property names in a variable element (after mutation), a subset of these are also constant properties
 const VARIABLE_CONSTANT_FIELDS = {
@@ -486,6 +487,12 @@ export default class VariableConstantEditor extends LightningElement {
         // we might have to go through reducer to stuff the errors and call get errors method
         const event = { type: VALIDATE_ALL };
         this.variableConstantResource = variableConstantReducer(this.variableConstantResource, event);
-        return getErrorsFromHydratedElement(this.variableConstantResource);
+        const errors = getErrorsFromHydratedElement(this.variableConstantResource);
+        const objectType = getValueFromHydratedItem(this.variableConstantResource.objectType);
+        // if there are no errors & the chosen variable is an sobject, fetch the fields
+        if (Array.isArray(errors) && !errors.length && objectType) {
+            getFieldsForEntity(objectType);
+        }
+        return errors;
     }
 }

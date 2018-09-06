@@ -1,7 +1,7 @@
 import { LightningElement, track, api } from 'lwc';
 import { invokePanel, PROPERTY_EDITOR } from 'builder_platform_interaction-builder-utils';
 import { Store, deepCopy } from 'builder_platform_interaction-store-lib';
-import { canvasSelector, elementPropertyEditorSelector } from 'builder_platform_interaction-selectors';
+import { canvasSelector, elementPropertyEditorSelector, getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction-selectors';
 import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction-actions';
 import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from 'builder_platform_interaction-data-mutation-lib';
 import { createFlowElement } from 'builder_platform_interaction-element-config';
@@ -11,7 +11,7 @@ import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-d
 import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform_interaction-translator-lib";
 import { reducer } from "builder_platform_interaction-reducers";
 import { setRules } from "builder_platform_interaction-rule-lib";
-import { setEntities } from 'builder_platform_interaction-sobject-lib';
+import { setEntities, getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { LABELS } from './editor-labels';
 import { setResourceTypes } from 'builder_platform_interaction-data-type-lib';
@@ -135,9 +135,20 @@ export default class Editor extends LightningElement {
             // TODO: handle error case
         } else {
             storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
+            this.loadFieldsForSobjectsInFlow();
         }
         this.isFlowServerCallInProgress = false;
     };
+
+    /**
+     * This is called once the flow has been loaded, so that sobjects in the flow have their fields loaded and cached
+     */
+    loadFieldsForSobjectsInFlow() {
+        const sobjectVariables = getSObjectOrSObjectCollectionByEntityElements(storeInstance.getCurrentState().elements);
+        for (let i = 0; i < sobjectVariables.length; i++) {
+            getFieldsForEntity(sobjectVariables[i].objectType);
+        }
+    }
 
     /**
      * Callback which gets executed after saving a flow

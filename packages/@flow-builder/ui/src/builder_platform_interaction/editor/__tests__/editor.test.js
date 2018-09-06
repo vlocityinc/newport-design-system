@@ -290,6 +290,8 @@ describeSkip('editor', () => {
                 expect(fetch.mock.calls[2][0]).toEqual(SERVER_ACTION_TYPE.GET_HEADER_URLS);
             });
         });
+
+        // TODO: W-5403092 Add test case for fetching of sObject variable fields
     });
 
     describe('Canvas', () => {

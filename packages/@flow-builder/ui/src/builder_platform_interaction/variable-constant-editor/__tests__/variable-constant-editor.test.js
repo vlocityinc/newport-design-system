@@ -12,6 +12,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-
 import { getResourceByUniqueIdentifier, getResourceFerovDataType  } from 'builder_platform_interaction-expression-utils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
+import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 
 
 const SELECTORS = {
@@ -29,6 +30,13 @@ const setupComponentUnderTest = (props) => {
     document.body.appendChild(element);
     return element;
 };
+
+jest.mock('builder_platform_interaction-sobject-lib', () => {
+    const sobjectLib = require.requireActual('builder_platform_interaction-sobject-lib');
+    const mockSobjectLib = Object.assign({}, sobjectLib);
+    mockSobjectLib.getFieldsForEntity = jest.fn();
+    return mockSobjectLib;
+});
 
 jest.mock('builder_platform_interaction-data-mutation-lib', () => {
     return {
@@ -74,6 +82,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
 });
 
 const defaultValueItem = {item: {value: 'guid1', displayText: 'var 1'}};
+const mockHydratedElementWithErrors = [{key: 'mockKey', errorString: 'mockErrorString'}];
 
 function getComboboxStateChangedEvent() {
     return new CustomEvent('comboboxstatechanged', {
@@ -472,11 +481,27 @@ describe('variable-constant-editor', () => {
 
         it('gets the errors after validating', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
-            const mockHydratedElementWithErrors = {key: 'mockKey', errorString: 'mockErrorString'};
             getErrorsFromHydratedElement.mockReturnValueOnce(mockHydratedElementWithErrors);
             const result = variableEditor.validate();
             expect(getErrorsFromHydratedElement).toHaveBeenCalledWith(variableEditor.node);
             expect(result).toEqual(mockHydratedElementWithErrors);
+        });
+
+        it('fetches and caches the fields for a valid sobject variable', () => {
+            const accountVariable = deepCopy(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
+            const objectType = 'Account';
+            const variableEditor = setupComponentUnderTest(accountVariable);
+            getErrorsFromHydratedElement.mockReturnValueOnce([]);
+            variableEditor.validate();
+            expect(getFieldsForEntity).toHaveBeenCalledWith(objectType);
+        });
+
+        it('does not fetch fields for an sobject if there are errors', () => {
+            const accountVariable = deepCopy(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
+            const variableEditor = setupComponentUnderTest(accountVariable);
+            getErrorsFromHydratedElement.mockReturnValueOnce(mockHydratedElementWithErrors);
+            variableEditor.validate();
+            expect(getFieldsForEntity).not.toHaveBeenCalled();
         });
     });
 });
