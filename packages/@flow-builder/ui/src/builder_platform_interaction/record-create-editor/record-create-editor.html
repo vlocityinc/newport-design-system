@@ -35,11 +35,6 @@
             </div>
         </div>
         <div class="slds-p-horizontal_small slds-m-bottom_small slds-grid">
-          <div class="slds-col slds-grow-none">
-            <lightning-icon icon-name="utility:warning" title={labels.warning} alternative-text={labels.warning} variant="warning" size="x-small" 
-                class="slds-m-top_xxx-small slds-m-right_x-small">
-            </lightning-icon>
-          </div>
           <div class="slds-m-top_xx-small">
             <span if:true={isCollection}>{labels.helpSObjectCollectionText}</span>
             <span if:false={isCollection}>{labels.helpSObjectText}</span>
