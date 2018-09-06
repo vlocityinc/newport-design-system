@@ -203,4 +203,10 @@ describe('Used by library', () => {
         const actualResult = usedBy(elementGuids, elements);
         expect(actualResult).toMatchObject(expectedResult);
     });
+
+    it('returns an empty array in case the references are cyclic', () => {
+        const elementGuids = ['DECISION_1', 'OUTCOME_3', 'FORMULA_1'];
+        const actualResult = usedBy(elementGuids, elements);
+        expect(actualResult).toHaveLength(0);
+    });
 });
