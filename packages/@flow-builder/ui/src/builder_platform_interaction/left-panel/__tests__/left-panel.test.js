@@ -2,8 +2,8 @@ import { createElement } from 'lwc';
 import { EditElementEvent, PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction-events';
 import LeftPanel from 'builder_platform_interaction-left-panel';
 
-import backButtonAltText from "@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText";
-import newResourceButtonText from "@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText";
+import backButtonAltText from '@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText';
+import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText';
 
 import { getShadowRoot } from 'lwc-test-utils';
 
@@ -37,7 +37,7 @@ describe('left-panel', () => {
 
         it('when in Flow Resource Details view - the panel header should match the transition layout classes.', () => {
             const element = createComponentUnderTest();
-            const guid = "guid1";
+            const guid = 'guid1';
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
             getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
@@ -60,7 +60,7 @@ describe('left-panel', () => {
 
             it('when in Flow Resource Details view - the panel header should match the layout classes.', () => {
                 const element = createComponentUnderTest();
-                const guid = "guid1";
+                const guid = 'guid1';
                 const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
                 getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
                 return Promise.resolve().then(() => {
@@ -80,7 +80,7 @@ describe('left-panel', () => {
 
         it('when in Flow Resource Details view - should have Back Button Utility Icon.', () => {
             const element = createComponentUnderTest();
-            const guid = "guid1";
+            const guid = 'guid1';
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
             getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
@@ -92,7 +92,7 @@ describe('left-panel', () => {
 
         it('when in Flow Resource Details view - should handle back-button click.', () => {
             const element = createComponentUnderTest();
-            const guid = "guid1";
+            const guid = 'guid1';
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
             getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
@@ -117,7 +117,7 @@ describe('left-panel', () => {
 
         it('when in Flow Resource Details view - should add show-details class.', () => {
             const element = createComponentUnderTest();
-            const guid = "guid1";
+            const guid = 'guid1';
             const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
             getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
             return Promise.resolve().then(() => {
@@ -147,8 +147,8 @@ describe('left-panel', () => {
                 const leftPanelComponent = createComponentUnderTest();
                 const eventCallback = jest.fn();
                 leftPanelComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
-                const type = "VARIABLE";
-                const guid = "guid1";
+                const type = 'VARIABLE';
+                const guid = 'guid1';
                 const paletteItemClickedEvent = new PaletteItemClickedEvent(type, guid);
                 getShadowRoot(leftPanelComponent).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
                 return Promise.resolve().then(() => {

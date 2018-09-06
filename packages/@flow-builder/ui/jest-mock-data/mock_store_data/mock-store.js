@@ -27,6 +27,8 @@ export const stringCollectionVariable2DevName = 'collStrVar2';
 export const stringConstantDevName = 'conVar1';
 export const choiceDevName = 'numberChoice';
 const dateVariableDevName = 'dateVar1';
+const stageDevName = 'stage1';
+const stageCollectionDevName = 'stageCollectionVar1';
 export const accountSObjectCollectionVariableDevName = 'accCollectionVar1';
 export const actionCallElementDevName = "actionCall1";
 export const outcomeDevName = "outcome1";
@@ -186,13 +188,17 @@ export const elements = {
         // haven't filled in more of this because we don't have this in our store yet- add as needed except for dataType
         // dataType is weird, if we find ourselves needing it we need to raise it and handle it properly
         elementType: stageElementType,
+        guid: stageCollectionGuid,
         isCollection: true,
+        name: stageCollectionDevName
     },
     [stageGuid]: {
         // haven't filled in more of this because we don't have this in our store yet- add as needed except for dataType
         // dataType is weird, if we find ourselves needing it we need to raise it and handle it properly
         elementType: stageElementType,
+        guid: stageGuid,
         isCollection: false,
+        name: stageDevName
     },
     [assignmentElementGuid]: {
         assignmentItems: [{
