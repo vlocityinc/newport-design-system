@@ -543,7 +543,7 @@ export default class Combobox extends LightningElement {
      * @param {String} text The text to match with an item's displayText
      */
     matchTextWithItem(text = this.state.displayText) {
-        if (!this._item && text) {
+        if (!this._item && text && this.state.menuData) {
             const matchedItems = [];
             const groupOrItemCount =  this.state.menuData.length;
             for (let i = 0; i < groupOrItemCount; i++) {
