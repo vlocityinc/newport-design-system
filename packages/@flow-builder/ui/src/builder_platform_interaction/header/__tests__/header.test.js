@@ -66,7 +66,7 @@ describe('HEADER', () => {
     it('checks the rendering BACK URL when ProcessUIFlow value is provided should return /300', () => {
         const headerComponent = createComponentForTest('Flow Name', '1', '/300');
         return Promise.resolve().then(() => {
-            expect(getShadowRoot(headerComponent).querySelector(selectors.backUrl).href).toEqual("/300");
+            expect(getShadowRoot(headerComponent).querySelector(selectors.backUrl).pathname).toEqual("/300");
         });
     });
 
@@ -101,7 +101,7 @@ describe('HEADER', () => {
     it('checks the rendering HELP URL when ProcessUIFlow value is provided should return /HELP', () => {
         const headerComponent = createComponentForTest('Flow Name', '1', '/300', '/HELP');
         return Promise.resolve().then(() => {
-            expect(getShadowRoot(headerComponent).querySelector(selectors.helpUrl).href).toEqual("/HELP");
+            expect(getShadowRoot(headerComponent).querySelector(selectors.helpUrl).pathname).toEqual("/HELP");
         });
     });
 });
