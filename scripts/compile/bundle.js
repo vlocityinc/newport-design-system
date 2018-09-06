@@ -3,6 +3,7 @@
 
 const Task = require('data.task');
 const I = require('immutable-ext');
+const _ = require('lodash');
 const webpack = require('webpack');
 const fs = require('fs');
 const path = require('path');
@@ -29,7 +30,10 @@ const chunked = prefix =>
     .setIn(['output', 'filename'], '[name]') // [name] will already have ".js" appended
     .setIn(
       ['output', 'jsonpFunction'],
-      `webpackJsonpNDS_${prefix.replace(new RegExp(path.sep, 'g'), '_')}`
+      `webpackJsonpNDS_${prefix.replace(
+        new RegExp(_.escapeRegExp(path.sep), 'g'),
+        '_'
+      )}`
     )
     .set(
       'plugins',
