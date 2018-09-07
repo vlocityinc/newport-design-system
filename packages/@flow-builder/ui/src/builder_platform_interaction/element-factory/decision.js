@@ -1,7 +1,7 @@
 import { ELEMENT_TYPE, SUB_ELEMENT_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction-flow-metadata';
-import { baseCanvasElement, baseChildElement, baseElementsWithConnectors } from './base/base-element';
+import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from './base/base-element';
 import { createListRowItem } from './base/base-list';
-import { baseCanvasMetadataObject } from './base/base-metadata';
+import { baseCanvasElementMetadataObject } from './base/base-metadata';
 import { mutateFEROV, deMutateFEROV } from 'builder_platform_interaction-data-mutation-lib';
 import { LABELS } from './element-factory-labels';
 import { getElementByGuid } from 'builder_platform_interaction-store-utils';
@@ -60,7 +60,7 @@ export function createDecisionWithOutcomeReferences(decision = {}) {
 
     // TODO Create connector objects
 
-    return baseElementsWithConnectors([newDecision, ...outcomes], connectors);
+    return baseCanvasElementsArrayToMap([newDecision, ...outcomes], connectors);
 }
 
 export function createOutcome(outcome = {}) {
@@ -103,7 +103,7 @@ export function createCondition(condition = {}) {
 }
 
 export function createDecisionMetadataObject(decision = {}) {
-    const newDecision = baseCanvasMetadataObject(decision);
+    const newDecision = baseCanvasElementMetadataObject(decision);
     let { outcomes } = decision;
     if (outcomes && outcomes.length > 0) {
         outcomes = outcomes.map(outcome => createOutcomeMetadataObject(outcome));
@@ -117,7 +117,7 @@ export function createDecisionMetadataObject(decision = {}) {
 }
 
 export function createOutcomeMetadataObject(outcome = {}) {
-    const newOutcome = baseCanvasMetadataObject(outcome);
+    const newOutcome = baseCanvasElementMetadataObject(outcome);
     let { conditions } = outcome;
     if (conditions && conditions.length > 0) {
         conditions = conditions.map(condition => createConditionMetadataObject(condition));

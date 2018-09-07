@@ -1,13 +1,5 @@
 import { generateGuid } from 'builder_platform_interaction-store-lib';
 
-export function baseElement(element = {}) {
-    const { guid = generateGuid(), name = '' } = element;
-    return ({
-        guid,
-        name
-    });
-}
-
 export function baseResource(resource = {}) {
     const newResource = baseElement(resource);
     const { description = '' } = resource;
@@ -38,18 +30,24 @@ export function baseChildElement(childElement = {}) {
     });
 }
 
-export function baseElements(elementList) {
-    const elements = {};
-    for (let i = 0; i < elementList.length; i++) {
-        const element = elementList[i];
-        Object.assign(elements, {[element.guid]: element});
-    }
-
-    return { elements };
+export function baseCanvasElementsArrayToMap(elementList = [], connectors = []) {
+    const elements = baseElementsArrayToMap(elementList);
+    return {
+        elements,
+        connectors
+    };
 }
 
-export function baseElementsWithConnectors(elementList, connectors) {
-    const elements = baseElements(elementList);
+export function baseElementsArrayToMap(elementList = []) {
+    return elementList.reduce((acc, element) => {
+        return Object.assign(acc, {[element.guid]: element});
+    }, {});
+}
 
-    return Object.assign(elements, { connectors });
+function baseElement(element = {}) {
+    const { guid = generateGuid(), name = '' } = element;
+    return ({
+        guid,
+        name
+    });
 }

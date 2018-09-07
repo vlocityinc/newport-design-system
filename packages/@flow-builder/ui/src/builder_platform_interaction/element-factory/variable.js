@@ -1,5 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { baseResource, baseElements } from './base/base-element';
+import { baseResource, baseElementsArrayToMap } from './base/base-element';
 import { baseResourceMetadataObject } from './base/base-metadata';
 import { mutateFEROV, deMutateFEROV } from 'builder_platform_interaction-data-mutation-lib';
 
@@ -33,7 +33,7 @@ export function createVariable(variable = {}) {
 export function createVariableForStore(variable = {}) {
     const newVariable = createVariable(variable);
 
-    return baseElements([newVariable]);
+    return baseElementsArrayToMap([newVariable]);
 }
 
 export function createVariableMetadataObject(variable) {

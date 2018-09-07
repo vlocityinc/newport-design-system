@@ -1,6 +1,6 @@
 import { createConnectorMetadataObjects } from '../connector';
 
-export function baseElementMetadataObject(element = {}) {
+function baseElementMetadataObject(element = {}) {
     const { name = '' } = element;
     return {
         name
@@ -15,7 +15,7 @@ export function baseResourceMetadataObject(resource = {}) {
     });
 }
 
-export function baseCanvasMetadataObject(canvasElement = {}, config = {}) {
+export function baseCanvasElementMetadataObject(canvasElement = {}, config = {}) {
     const newCanvasElement = baseResourceMetadataObject(canvasElement);
     const { xyTranslate, connectorMap = {}, hasMultipleRegularConnectors = false } = config;
     const { label = '' } = canvasElement;
@@ -26,7 +26,7 @@ export function baseCanvasMetadataObject(canvasElement = {}, config = {}) {
         locationY += xyTranslate.translateY;
     }
 
-    let connectorMetadata = {};
+    let connectorMetadata;
     const connectors = connectorMap[canvasElement.guid];
     if (connectors) {
         connectorMetadata = createConnectorMetadataObjects(connectors, hasMultipleRegularConnectors);
