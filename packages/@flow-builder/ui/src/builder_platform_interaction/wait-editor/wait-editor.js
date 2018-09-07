@@ -1,5 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { waitReducer } from './wait-reducer';
+import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
 
 export default class WaitEditor extends LightningElement {
     /**
@@ -22,6 +24,16 @@ export default class WaitEditor extends LightningElement {
      */
     @api getNode() {
         return this.waitElement;
+    }
+
+    /**
+     * public api function to run the rules from wait validation library
+     * @returns {object} list of errors
+     */
+    @api validate() {
+        const event = { type: VALIDATE_ALL };
+        this.waitElement = waitReducer(this.waitElement, event);
+        return getErrorsFromHydratedElement(this.waitElement);
     }
 
     handleEvent(event) {
