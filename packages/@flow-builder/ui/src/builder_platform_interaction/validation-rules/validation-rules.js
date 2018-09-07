@@ -98,6 +98,22 @@ export const shouldBeADate = (value) => {
 };
 
 /**
+ * Function to test the value is under the max integer value allowed.
+ * @param {string} maxLimit - max value allowed
+ * @returns {string|null} errorString or null
+ */
+export const shouldBeUnderMaxValue = (maxLimit) => {
+    return function (value) {
+        if (isNaN(value)) {
+            return LABELS.shouldBeAPositiveIntegerOrZero;
+        } else if (value > maxLimit) {
+            return format(LABELS.overMaxIntegerValue, maxLimit);
+        }
+        return null;
+    };
+};
+
+/**
  * Test if the value is null or undefined
  * @param {String} value the value to be tested
  * @returns {String|null} errorString or null
@@ -117,7 +133,7 @@ export const shouldNotBeNullOrUndefined = (value) => {
  */
 export const maximumCharactersLimit = (limit) => {
     return function (value) {
-        if (value.length > limit) {
+        if (value && value.length > limit) {
             return format(LABELS.maximumCharactersLimit, limit);
         }
         return null;

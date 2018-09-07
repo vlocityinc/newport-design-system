@@ -13,8 +13,8 @@ const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     REQUIRED_CHECKBOX: 'builder_platform_interaction-screen-property-field[name="isRequired"]',
     DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[name="defaultValue"]',
-    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-screen-property-field[name="validationRule.errorMessage"]',
-    VALIDATION_FORMULA: 'builder_platform_interaction-screen-property-field[name="validationRule.formulaExpression"]',
+    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-screen-property-field[name="errorMessage"]',
+    VALIDATION_FORMULA: 'builder_platform_interaction-screen-property-field[name="formulaExpression"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
 };
 

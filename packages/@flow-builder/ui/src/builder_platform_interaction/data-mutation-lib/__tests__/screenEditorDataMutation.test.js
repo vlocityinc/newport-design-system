@@ -1,5 +1,5 @@
-import { mutateScreen, demutateScreen } from '../screenEditorDataMutation';
-import { createTestScreen } from 'builder_platform_interaction-builder-test-utils';
+import { mutateScreen, demutateScreen, mutateScreenField, demutateScreenField } from '../screenEditorDataMutation';
+import { createTestScreen, createTestScreenField } from 'builder_platform_interaction-builder-test-utils';
 import { getScreenFieldType } from 'builder_platform_interaction-screen-editor-utils';
 
 jest.mock('builder_platform_interaction-store-utils', () => {
@@ -76,5 +76,25 @@ describe('mutateScreen function', () => {
         checkMutated(screen);
         demutateScreen(screen);
         checkNotMutated(screen);
+    });
+});
+
+describe('mutateScreenField function', () => {
+    it('mutateScreenField function handles validationRule correctly', () => {
+        const screenField = createTestScreenField('field1', 'Number', null, {validation: true, hydrateValues: false});
+        expect(screenField.validationRule).toBeDefined();
+        expect(screenField.validationRule.errorMessage).toBeDefined();
+        expect(screenField.validationRule.formulaExpression).toBeDefined();
+        mutateScreenField(screenField);
+        expect(screenField.validationRule).not.toBeDefined();
+        expect(screenField.errorMessage).toBeDefined();
+        expect(screenField.formulaExpression).toBeDefined();
+
+        demutateScreenField(screenField);
+        expect(screenField.validationRule).toBeDefined();
+        expect(screenField.validationRule.errorMessage).toBeDefined();
+        expect(screenField.validationRule.formulaExpression).toBeDefined();
+        expect(screenField.errorMessage).not.toBeDefined();
+        expect(screenField.formulaExpression).not.toBeDefined();
     });
 });

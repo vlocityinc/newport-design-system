@@ -42,6 +42,17 @@ export const mutateScreenField = field => {
         field.type = getScreenFieldType(field);
     }
 
+    // Flatten out these properties which makes validation easier.
+    if (field.validationRule) {
+        if (field.validationRule.errorMessage) {
+            field.errorMessage = field.validationRule.errorMessage;
+        }
+        if (field.validationRule.formulaExpression) {
+            field.formulaExpression = field.validationRule.formulaExpression;
+        }
+        delete field.validationRule;
+    }
+
     if (field.defaultValue) {
         field = mutateFEROV(field, 'defaultValue', {
             valueProperty: 'defaultValue',
@@ -61,6 +72,22 @@ export const mutateScreenField = field => {
 export const demutateScreenField = field => {
     delete field.type;
     delete field.isNewMode;
+
+    // Unflatten these properties.
+    if (field.errorMessage) {
+        field.validationRule = {};
+        field.validationRule.errorMessage = field.errorMessage;
+        delete field.errorMessage;
+    }
+    if (field.formulaExpression) {
+        if (field.validationRule) {
+            field.validationRule.formulaExpression = field.formulaExpression;
+        } else {
+            field.validationRule = {};
+            field.validationRule.formulaExpression = field.formulaExpression;
+        }
+        delete field.formulaExpression;
+    }
 
     // Convert scale back to number. MD expects this to be a number, but within FlowBuilder, we want it to be a string.
     if (field.scale != null && typeof field.scale === 'string') {

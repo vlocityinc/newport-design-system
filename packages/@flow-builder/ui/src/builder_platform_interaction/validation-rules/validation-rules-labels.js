@@ -6,6 +6,7 @@ import shouldBeAPositiveIntegerOrZero from '@salesforce/label/FlowBuilderValidat
 import mustBeAValidDate from '@salesforce/label/FlowBuilderValidation.mustBeAValidDate';
 import maximumCharactersLimit from '@salesforce/label/FlowBuilderValidation.maximumCharactersLimit';
 import fieldNotUnique from '@salesforce/label/FlowBuilderValidation.fieldNotUnique';
+import overMaxIntegerValue from '@salesforce/label/FlowBuilderValidation.overMaxIntegerValue';
 
 export const LABELS = {
     cannotBeBlank,
@@ -15,5 +16,6 @@ export const LABELS = {
     shouldBeAPositiveIntegerOrZero,
     mustBeAValidDate,
     maximumCharactersLimit,
-    fieldNotUnique
+    fieldNotUnique,
+    overMaxIntegerValue
 };

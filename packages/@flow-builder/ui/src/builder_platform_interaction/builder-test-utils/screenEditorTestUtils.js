@@ -78,7 +78,7 @@ function booleanValue(obj, prop, defValue) {
     // Can't do a simple check of val because if val is false and defValue is
     // true, then we'll accidently return true. Perform this more specific check to
     // make sure.
-    return val !== undefined && val != null ? val : defValue;
+    return val !== undefined && val !== null ? val : defValue;
 }
 /**
  * Returns a string value based on the data provided
@@ -191,7 +191,7 @@ export function createTestScreenField(name, type, value, config = {}) {
     }
 
     if (booleanValue(config, 'validation', true)) {
-        screen.validationRule = {
+        field.validationRule = {
             errorMessage: getStringValue('The value you entered doesn\'t meet the validation criteria for this input field.', null, hydrateValues),
             formulaExpression: getStringValue('{!Var1} == \'text\'', null, hydrateValues)
         };

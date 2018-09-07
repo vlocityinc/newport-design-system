@@ -32,7 +32,7 @@
             <lightning-accordion allow-multiple-sections-open active-section-name={allSectionNames} class='slds-has-divider slds-p-top_none'>
                 <!--  validation text -->
                 <lightning-accordion-section name='validationOptions' label={labels.fieldValidation}>
-                    <builder_platform_interaction-screen-property-field name='validationRule.errorMessage'
+                    <builder_platform_interaction-screen-property-field name='errorMessage'
                                                                         label={labels.errorMessage}
                                                                         type='long_string'
                                                                         value={validationRuleError}
@@ -41,7 +41,7 @@
                     </builder_platform_interaction-screen-property-field>
                     
                     <!-- TODO: W-5183123 - change this to formula-editor component -->
-                    <builder_platform_interaction-screen-property-field name='validationRule.formulaExpression'
+                    <builder_platform_interaction-screen-property-field name='formulaExpression'
                                                                         label={labels.validationFormula}
                                                                         type='long_string'
                                                                         value={validationRuleFormula}>

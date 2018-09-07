@@ -3,6 +3,7 @@ import { assignmentElementGuid, assignmentElementName } from 'mock-store-data';
 import { mockAccountFields } from 'mock-server-entity-data';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction-expression-utils';
 import { LABELS } from '../validation-rules-labels';
+import { format } from 'builder_platform_interaction-common-utils';
 
 jest.mock('builder_platform_interaction-rule-lib', () => {
     return {
@@ -148,6 +149,18 @@ describe('isUniqueDevNameInStore method', () => {
     });
     it('returns an error when the dev name is not unique (uniqueness is case insensitive)', () => {
         expect(rules.isUniqueDevNameInStore(assignmentElementName.toUpperCase())).toBe(LABELS.fieldNotUnique);
+    });
+});
+
+describe('shouldBeUnderMaxValue method', () => {
+    it('should return null when valid number is passed', () => {
+        expect(rules.shouldBeUnderMaxValue(100)(100)).toBeNull();
+    });
+    it('should return an error message when a number over the limit is passed in', () => {
+        expect(rules.shouldBeUnderMaxValue(100)(101)).toBe(format(LABELS.overMaxIntegerValue, 100));
+    });
+    it('should return an error message when non-number value is passed in', () => {
+        expect(rules.shouldBeUnderMaxValue(100)('a')).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
     });
 });
 

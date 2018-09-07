@@ -108,23 +108,12 @@ const handleScreenFieldPropertyChange = (data) => {
         data.newValue.error = error;
     }
 
-    // If the validation rule's error message or formula expression was changed, it needs special handling
-    // because it's an object within the field.
-    if (data.property === 'validationRule.errorMessage') {
-        const validationRuleProp = 'validationRule';
-        const errorMessageProp = 'errorMessage';
-        const newErrorMessage = updateProperties(data.field[validationRuleProp], {[errorMessageProp]: data.newValue});
-        return updateProperties(data.field, {[validationRuleProp]: newErrorMessage});
-    } else if (data.property === 'validationRule.formulaExpression') {
-        const validationRuleProp = 'validationRule';
-        const formulaProp = 'formulaExpression';
-        const newFormula = updateProperties(data.field[validationRuleProp], {[formulaProp]: data.newValue});
-        return updateProperties(data.field, {[validationRuleProp]: newFormula});
-    } else if (data.property === 'defaultValue') {
-        // Default value needs special handling because defaultValueDataType may need to be updated
-
-        // First update the value
+    // Default value needs special handling because defaultValueDataType may need to be updated
+    if (data.property === 'defaultValue') {
+        // First update the value.
         const updatedValueField = updateProperties(data.field, {'defaultValue': data.newValue});
+
+        // Now the defaultValue object.
         return processFerovValueChange(updatedValueField, data.field.defaultValueDataType, data.dataType || event.detail.defaultValueDataType,
             newValue, data.newValueGuid, 'defaultValueDataType', 'defaultValueGuid');
     }
