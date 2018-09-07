@@ -2,6 +2,7 @@ import variableDataTypeHelpText from '@salesforce/label/FlowBuilderVariableConst
 import constantDataTypeHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.constantDataTypeHelpText';
 import collectionHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.collectionHelpText';
 import defaultValuePickerLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.defaultValuePickerLabel';
+import defaultValuePlaceholder from '@salesforce/label/FlowBuilderCombobox.defaultPlaceholder';
 import valuePickerLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.valuePickerLabel';
 import sObjectPickerLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.sObjectPickerLabel';
 import sObjectPickerPlaceholder from '@salesforce/label/FlowBuilderVariableConstantEditor.sObjectPickerPlaceholder';
@@ -23,5 +24,6 @@ export const LABELS = {
     externalAccessSectionLabel,
     externalAccessHelpText,
     externalAccessInput,
-    externalAccessOutput
+    externalAccessOutput,
+    defaultValuePlaceholder
 };

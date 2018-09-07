@@ -59,6 +59,12 @@ describe('resource-editor', () => {
         expect(combobox.options).toContain(mockResource);
     });
 
+    it('has a required resource types picker', () => {
+        const resourceEditor = setupComponentUnderTest();
+        const combobox = getShadowRoot(resourceEditor).querySelector(selectors.COMBOBOX);
+        expect(combobox.required).toBeTruthy();
+    });
+
     it('calls the inner container validate method on validate', () => {
         const resourceEditor = setupComponentUnderTest();
         const combobox = getShadowRoot(resourceEditor).querySelector('lightning-combobox');
@@ -89,7 +95,7 @@ describe('resource-editor', () => {
             const errors = resourceEditor.validate();
             expect(errors).toHaveLength(1);
             expect(errors).toContain(mockError);
-            expect(shouldNotBeNullOrUndefined).toHaveBeenCalledWith(undefined);
+            expect(shouldNotBeNullOrUndefined).toHaveBeenCalledWith(null);
         });
 
         it('returns no error when resource is selected', () => {

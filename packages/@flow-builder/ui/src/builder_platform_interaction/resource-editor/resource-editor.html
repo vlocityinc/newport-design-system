@@ -4,7 +4,10 @@
             <lightning-combobox class="slds-col slds-grow"
                                 label={labels.resourceTypeLabel}
                                 options={resourceTypes}
+                                value={selectedResource}
+                                required
                                 placeholder={labels.resourceTypePlaceholderLabel}
+                                message-when-value-missing={labels.resourceTypeRequiredLabel}
                                 dropdown-alignment="auto"
                                 onchange={handleResourceChange}>
             </lightning-combobox>

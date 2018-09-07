@@ -26,7 +26,7 @@ export default class ResourceEditorContainer extends LightningElement {
      * The currently selected resource
      * @type {String}
      */
-    _selectedResource;
+    _selectedResource = null;
 
     /**
      * The node that represents initial state of the currently selected editor
@@ -46,6 +46,10 @@ export default class ResourceEditorContainer extends LightningElement {
      * @param {String} resourceType the selected resource type
      */
     set selectedResource(resourceType) {
+        if (!resourceType) {
+            return;
+        }
+
         this._selectedResource = resourceType;
 
         // go through the needed steps to create a flow element and get it ready to be used by property editor

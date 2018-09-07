@@ -27,7 +27,7 @@ export default class ResourceEditor extends LightningElement {
      * @type{String}
      */
     @track
-    selectedResource;
+    selectedResource = null;
 
     /**
      * Setter for the node passed in on modal creation

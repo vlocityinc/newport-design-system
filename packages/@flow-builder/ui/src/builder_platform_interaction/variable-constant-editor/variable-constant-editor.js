@@ -201,7 +201,7 @@ export default class VariableConstantEditor extends LightningElement {
     get defaultValueComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             this.isVariable ? LABELS.defaultValuePickerLabel : LABELS.valuePickerLabel,
-            null,
+            LABELS.defaultValuePlaceholder,
             this.variableConstantResource.defaultValue.error,
             true,
             false,
