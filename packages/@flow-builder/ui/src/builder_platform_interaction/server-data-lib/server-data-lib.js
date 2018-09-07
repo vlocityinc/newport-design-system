@@ -1,3 +1,5 @@
+import { readonly } from 'lwc';
+
 export const SERVER_ACTION_TYPE = {
     GET_FLOW: 'getFlow',
     SAVE_FLOW: 'saveFlow',
@@ -81,4 +83,56 @@ export function fetch(serverActionType, callback, params, { background = false, 
         auraFetch(actionConfig[serverActionType], shouldExecuteCallback, callback, params, background, storable);
     }
     return stopCallbackExecution;
+}
+
+const fetchOnceCache = { };
+
+/**
+ * Makes the call to get server data. Ensure call is only made once if successful.
+ *
+ * @param {String}
+ *            serverActionType type of action to be executed
+ * @param {Object}
+ *            params any parameters to make server call
+ * @param {{keyProvider: (Function|undefined), background: (boolean|undefined)}} optionalParams
+ *            keyProvider provides a unique key from the parameters.
+ *            background need to be set to true if request needs to be run as a background
+ *            action
+ * @return {Promise} Promise object represents the return value from the server
+ *         side action
+ */
+export function fetchOnce(serverActionType, params, { keyProvider = () => 'default', background = false } = {}) {
+    const key = keyProvider(params);
+    let serverActionTypeCache = fetchOnceCache[serverActionType];
+    if (serverActionTypeCache) {
+        // we retry fetching if rejected
+        if (serverActionTypeCache[key] && !serverActionTypeCache[key].isRejected()) {
+            return serverActionTypeCache[key];
+        }
+    } else {
+        serverActionTypeCache = {};
+        fetchOnceCache[serverActionType] = serverActionTypeCache;
+    }
+    // we can use a promise because we don't use a storable action
+    let rejected = false;
+    serverActionTypeCache[key] = new Promise((resolve, reject) => {
+        fetch(serverActionType, ({data, error}) => {
+            if (error) {
+                rejected = true;
+                reject(new Error(error));
+            } else {
+                resolve(readonly(data));
+            }
+        }, params, { background, storable : false });
+    });
+    serverActionTypeCache[key].isRejected = () => rejected;
+    return serverActionTypeCache[key];
+}
+
+export function resetFetchOnceCache() {
+    for (const prop in fetchOnceCache) {
+        if (fetchOnceCache.hasOwnProperty(prop)) {
+            delete fetchOnceCache[prop];
+        }
+    }
 }

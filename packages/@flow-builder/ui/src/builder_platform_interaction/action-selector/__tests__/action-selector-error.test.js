@@ -18,18 +18,16 @@ jest.mock('builder_platform_interaction-server-data-lib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetch : (serverActionType, callback) => {
+        fetchOnce : (serverActionType) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS:
-                    callback({ error: mockError});
-                    break;
+                    return Promise.reject(mockError);
                 case SERVER_ACTION_TYPE.GET_APEX_PLUGINS:
-                    callback({ error: mockError});
-                    break;
+                    return Promise.reject(mockError);
                 case SERVER_ACTION_TYPE.GET_SUBFLOWS:
-                    callback({ error: mockError});
-                    break;
+                    return Promise.reject(mockError);
                 default:
+                    return Promise.reject();
             }
         }
     };

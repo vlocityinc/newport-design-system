@@ -8,13 +8,14 @@
                                 dropdown-alignment="auto"
                                 class="slds-col slds-size_1-of-3 types">
             </lightning-combobox>
-            <builder_platform_interaction-combobox label={state.actionComboLabel} 
-                                                   menu-data={state.actionMenuData} 
+            <builder_platform_interaction-combobox label={actionComboLabel} 
+                                                   menu-data={state.filteredActionMenuData} 
                                                    oncomboboxstatechanged={handleActionChanged}
                                                    onfiltermatches={handleFilterMatches}
-                                                   value={state.selectedActionValue}
-                                                   placeholder={state.actionPlaceholder}
+                                                   value={actionComboValue}
+                                                   placeholder={actionComboPlaceholder}
                                                    class="slds-col slds-size_2-of-3"
+                                                   disabled={actionComboDisabled}
                                                    required>
              </builder_platform_interaction-combobox>
          </div>

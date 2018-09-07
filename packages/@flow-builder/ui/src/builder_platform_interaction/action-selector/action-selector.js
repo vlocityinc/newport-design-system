@@ -1,7 +1,7 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
 import { ValueChangedEvent } from 'builder_platform_interaction-events';
 import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE} from 'builder_platform_interaction-flow-metadata';
-import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
 import { filterMatches } from 'builder_platform_interaction-expression-utils';
 import { LABELS } from './action-selector-labels';
 
@@ -14,7 +14,7 @@ export default class ActionSelector extends LightningElement {
     state = {
         selectedElementType : ELEMENT_TYPE.ACTION_CALL,
         selectedActionValue : null,
-        actionMenuData : [],
+        filteredActionMenuData : [],
         spinnerActive : true,
         actionComboLabel : '',
         actionPlaceholder : '',
@@ -24,24 +24,59 @@ export default class ActionSelector extends LightningElement {
     flowProcessType = FLOW_PROCESS_TYPE.FLOW;
 
     invocableActions = [];
-    invocableActionsLoaded = false;
-    stopCallbackExecutionInvocableActions = null;
+    invocableActionsFetched = false;
     apexPlugins = [];
-    apexPluginsLoaded = false;
-    stopCallbackExecutionApexPlugins = null;
+    apexPluginsFetched = false;
     subflows = [];
-    subflowsLoaded = false;
-    stopCallbackExecutionSubflows = null;
+    subflowsFetched = false;
+    connected = false;
 
-    _fullMenuData = [];
+    fullActionMenuData = [];
 
     connectedCallback() {
-        this.stopCallbackExecutionApexPlugins = fetch(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, this.getApexPluginsCallback);
-        this.stopCallbackExecutionSubflows = fetch(SERVER_ACTION_TYPE.GET_SUBFLOWS, this.getSubflowsCallback, {
-            flowProcessType : this.flowProcessType
+        this.connected = true;
+        fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGINS).then((apexPlugins) => {
+            if (this.connected) {
+                this.apexPlugins = apexPlugins;
+                this.apexPluginsFetched = true;
+                this.updateComboboxes();
+            }
+        }).catch(() => {
+            if (this.connected) {
+                this.apexPluginsFetched = true;
+                this.state.errorMessage = LABELS.CANNOT_GET_APEX_PLUGINS;
+                this.updateComboboxes();
+            }
         });
-        this.stopCallbackExecutionInvocableActions = fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, this.getInvocableActionsCallback, {
+        fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
             flowProcessType : this.flowProcessType
+        }).then((subflows) => {
+            if (this.connected) {
+                this.subflowsFetched = true;
+                this.subflows = subflows;
+                this.updateComboboxes();
+            }
+        }).catch(() => {
+            if (this.connected) {
+                this.subflowsFetched = true;
+                this.state.errorMessage = LABELS.CANNOT_GET_SUBFLOWS;
+                this.updateComboboxes();
+            }
+        });
+        fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
+            flowProcessType : this.flowProcessType
+        }).then((invocableActions) => {
+            if (this.connected) {
+                this.invocableActionsFetched = true;
+                this.invocableActions = invocableActions;
+                this.updateComboboxes();
+            }
+        }).catch(() => {
+            if (this.connected) {
+                this.invocableActionsFetched = true;
+                this.state.errorMessage = LABELS.CANNOT_GET_INVOCABLE_ACTIONS;
+                this.updateComboboxes();
+            }
         });
         this.updateTypeCombo();
         this.updateActionCombo();
@@ -56,15 +91,7 @@ export default class ActionSelector extends LightningElement {
     }
 
     disconnectedCallback() {
-        if (!this.apexPluginsLoaded) {
-            this.stopCallbackExecutionApexPlugins();
-        }
-        if (!this.subflowsLoaded) {
-            this.stopCallbackExecutionSubflows();
-        }
-        if (!this.apexPluginsLoaded) {
-            this.stopCallbackExecutionInvocableActions();
-        }
+        this.connected = false;
     }
 
     /**
@@ -79,24 +106,6 @@ export default class ActionSelector extends LightningElement {
      */
 
     /**
-     * Callback which gets executed after getting invocable actions
-     *
-     * @param {Object} response the response
-     * @param {Object} [response.error] if there is error fetching the data
-     * @param {InvocableAction[]} [response.data] The invocable actions
-     */
-    getInvocableActionsCallback = ({data, error}) => {
-        if (error) {
-            this.state.errorMessage = LABELS.CANNOT_GET_INVOCABLE_ACTIONS;
-        } else {
-            this.invocableActions = data;
-        }
-        this.invocableActionsLoaded = true;
-        this.stopCallbackExecutionInvocableActions = null;
-        this.updateComboboxes();
-    };
-
-    /**
      * @typedef {Object} ApexPlugin
      *
      * @property {String} apexClass
@@ -106,24 +115,6 @@ export default class ActionSelector extends LightningElement {
      */
 
     /**
-     * Callback which gets executed after getting apex plugins
-     *
-     * @param {Object} response the response
-     * @param {Object} [response.error] if there is error fetching the data
-     * @param {ApexPlugin[]} [response.data] The apex plugins
-     */
-    getApexPluginsCallback = ({data, error}) => {
-        if (error) {
-            this.state.errorMessage = LABELS.CANNOT_GET_APEX_PLUGINS;
-        } else {
-            this.apexPlugins = data;
-        }
-        this.apexPluginsLoaded = true;
-        this.stopCallbackExecutionApexPlugins = null;
-        this.updateComboboxes();
-    };
-
-    /**
      * @typedef {Object} Subflow
      *
      * @property {String} masterLabel
@@ -131,24 +122,6 @@ export default class ActionSelector extends LightningElement {
      * @property {String} developerName
      * @property {String} namespacePrefix
      */
-
-    /**
-     * Callback which gets executed after getting subflows
-     *
-     * @param {Object} response the response
-     * @param {Object} [response.error] if there is error fetching the data
-     * @param {Subflow[]} [response.data] The subflows
-     */
-    getSubflowsCallback = ({data, error}) => {
-        if (error) {
-            this.state.errorMessage = LABELS.CANNOT_GET_SUBFLOWS;
-        } else {
-            this.subflows = data;
-        }
-        this.subflowsLoaded = true;
-        this.stopCallbackExecutionSubflows = null;
-        this.updateComboboxes();
-    };
 
     /**
      * @typedef {Object} SelectedAction
@@ -168,14 +141,11 @@ export default class ActionSelector extends LightningElement {
         newValue = unwrap(newValue);
         this.state.selectedElementType = newValue.elementType ? newValue.elementType : ELEMENT_TYPE.ACTION_CALL;
         if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-            this.state.selectedActionValue = newValue.apexClass ? this.getComboItemFromApexPlugin(newValue) : null;
+            this.state.selectedActionValue = newValue.apexClass ? newValue.apexClass : null;
         } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
-            this.state.selectedActionValue = newValue.flowName ? this.getComboItemFromSubflow(newValue) : null;
+            this.state.selectedActionValue = newValue.flowName ? newValue.flowName : null;
         } else {
-            if (newValue.actionType && newValue.actionName) {
-                newValue.durableId = newValue.actionType + '-' + newValue.actionName;
-            }
-            this.state.selectedActionValue = newValue.durableId ? this.getComboItemFromInvocableAction(newValue) : null;
+            this.state.selectedActionValue = newValue.actionType && newValue.actionName ? newValue.actionType + '-' + newValue.actionName : null;
         }
     }
 
@@ -218,8 +188,29 @@ export default class ActionSelector extends LightningElement {
         return selectedAction;
     }
 
+    get actionComboDisabled() {
+        return this.fullActionMenuData.length === 0;
+    }
+
+    get actionComboLabel() {
+        return LABELS[this.state.selectedElementType].ACTION_COMBO_LABEL;
+    }
+
+    get actionComboPlaceholder() {
+        return LABELS[this.state.selectedElementType].ACTION_COMBO_PLACEHOLDER;
+    }
+
+    get actionComboValue() {
+        // value for combobox is {menuDataRetrieval.MenuItem|String|null|undefined}
+        const menuItem = this.fullActionMenuData.find(element => element.value === this.state.selectedActionValue);
+        if (menuItem) {
+            return menuItem;
+        }
+        return this.state.selectedActionValue;
+    }
+
     updateComboboxes() {
-        if (this.apexPluginsLoaded && this.invocableActionsLoaded && this.subflowsLoaded) {
+        if (this.apexPluginsFetched && this.invocableActionsFetched && this.subflowsFetched) {
             this.updateTypeCombo();
             this.updateActionCombo();
             this.state.spinnerActive = false;
@@ -253,7 +244,7 @@ export default class ActionSelector extends LightningElement {
         }
         this.state.actionComboLabel = LABELS[selectedElementType].ACTION_COMBO_LABEL;
         this.state.actionPlaceholder = LABELS[selectedElementType].ACTION_COMBO_PLACEHOLDER;
-        this._fullMenuData = this.state.actionMenuData = items;
+        this.fullActionMenuData = this.state.filteredActionMenuData = items;
     }
 
     updateTypeCombo() {
@@ -264,21 +255,11 @@ export default class ActionSelector extends LightningElement {
             };
         };
         const typeOptions = [getTypeOption(ELEMENT_TYPE.ACTION_CALL)];
-        if (this.invocableActions.find(action => action.type === ACTION_TYPE.APEX)) {
-            typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
-        }
-        if (this.apexPlugins.length > 0) {
-            typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
-        }
-        if (this.invocableActions.find(action => action.type === ACTION_TYPE.EMAIL_ALERT)) {
-            typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
-        }
-        if (this.invocableActions.find(action => action.type === ACTION_TYPE.COMPONENT)) {
-            typeOptions.push(getTypeOption(ELEMENT_TYPE.LOCAL_ACTION_CALL));
-        }
-        if (this.subflows.length > 0) {
-            typeOptions.push(getTypeOption(ELEMENT_TYPE.SUBFLOW));
-        }
+        typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
+        typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
+        typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
+        typeOptions.push(getTypeOption(ELEMENT_TYPE.LOCAL_ACTION_CALL));
+        typeOptions.push(getTypeOption(ELEMENT_TYPE.SUBFLOW));
         this.state.typeOptions = typeOptions;
     }
 
@@ -330,6 +311,6 @@ export default class ActionSelector extends LightningElement {
     }
 
     handleFilterMatches(event) {
-        this.state.actionMenuData = filterMatches(event.detail.value, this._fullMenuData, event.detail.isMergeField);
+        this.state.filteredActionMenuData = filterMatches(event.detail.value, this.fullActionMenuData, event.detail.isMergeField);
     }
 }

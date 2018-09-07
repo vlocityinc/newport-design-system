@@ -22,18 +22,16 @@ jest.mock('builder_platform_interaction-server-data-lib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetch : (serverActionType, callback) => {
+        fetchOnce : (serverActionType) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS:
-                    callback({ data : mockActions });
-                    break;
+                    return Promise.resolve(mockActions);
                 case SERVER_ACTION_TYPE.GET_APEX_PLUGINS:
-                    callback({ data : mockApexPlugins });
-                    break;
+                    return Promise.resolve(mockApexPlugins);
                 case SERVER_ACTION_TYPE.GET_SUBFLOWS:
-                    callback({ data : mockSubflows });
-                    break;
+                    return Promise.resolve(mockSubflows);
                 default:
+                    return Promise.reject();
             }
         }
     };
@@ -50,11 +48,11 @@ describe('Action selector', () => {
         interactionCombobox = getShadowRoot(actionSelectorComponent).querySelector(selectors.lightningInteractionCombobox);
         groupedCombobox = getShadowRoot(interactionCombobox).querySelector(selectors.lightningGroupedCombobox);
     });
-    it('does not display action types without action instances', () => {
-        // No elements for "Email Alert"
-        expect(lightningCombobox.options.map(option => option.label)).toEqual(['FlowBuilderActionCallEditor.actionTypeOption',
-            'FlowBuilderActionCallEditor.apexTypeOption', 'FlowBuilderActionCallEditor.apexPluginTypeOption',
-            'FlowBuilderActionCallEditor.subflowTypeOption']);
+    it('displays all action types', () => {
+        expect(lightningCombobox.options.map(option => option.label)).toEqual(
+            ['FlowBuilderActionCallEditor.actionTypeOption', 'FlowBuilderActionCallEditor.apexTypeOption',
+                'FlowBuilderActionCallEditor.apexPluginTypeOption', 'FlowBuilderActionCallEditor.emailAlertTypeOption',
+                'FlowBuilderActionCallEditor.localActionTypeOption', 'FlowBuilderActionCallEditor.subflowTypeOption']);
     });
     describe('By default', () => {
         test('"Action" should be the selected Action type', () => {
