@@ -1,41 +1,34 @@
 import { LightningElement, api, track } from 'lwc';
-import { sanitizeGuid } from 'builder_platform_interaction-data-mutation-lib';
+import { sanitizeGuid, updateProperties } from 'builder_platform_interaction-data-mutation-lib';
 import {
     EXPRESSION_PROPERTY_TYPE,
-    getResourceByUniqueIdentifier,
-    mutateFlowResourceToComboboxShape,
-    mutateFieldToComboboxShape,
+    LHS_DISPLAY_OPTION,
+    validateExpressionShape,
+    populateLhsStateForField,
+    populateRhsState,
 } from 'builder_platform_interaction-expression-utils';
-import { elementToParam } from 'builder_platform_interaction-rule-lib';
-import { getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
-
-const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
 
 const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 
 const RHSG = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID;
 
-const isFieldOnSobjectVar = true;
-
-// TODO - W-5239664: This is currently a placeholder for field-to-ferov.  It is currently identical to fer-to-ferov and will need
-// to be replaced by a correct implementation
 export default class FieldToFerovExpressionBuilder extends LightningElement {
     @track
     state = {
+        objectType: undefined,
         expression: undefined,
         lhsValue: undefined,
         lhsParam: undefined,
         lhsError: undefined,
+        lhsDisplayOption: LHS_DISPLAY_OPTION.SOBJECT_FIELD,
         lhsActivePicklistValues: undefined,
-        lhsIsField: undefined,
         rhsValue: undefined,
         rhsGuid: undefined,
         rhsError: undefined,
         rhsFields: undefined,
-        rhsLiteralsAllowed: true,
-        rhsIsField: false,
+        rhsIsField: undefined
     };
 
     @api
@@ -57,101 +50,77 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
     rhsPlaceholder;
 
     @api
+    get objectType() {
+        return this.state.objectType;
+    }
+
+    /**
+     * Object type of the fields that should be on the LHS
+     * @param {Object} object   the api name of the sobject type
+     */
+    set objectType(object) {
+        this.state.objectType = object;
+        this.populateLhsState();
+    }
+
+    @api
     get expression() {
         return this.state.expression;
     }
 
     set expression(expression) {
-        if (this.isIncompleteExpression(expression)) {
-            throw new Error('expression is not properly formed');
-        }
+        validateExpressionShape(expression);
         this.state.expression = expression;
-        this.populateLhsState(expression[LHS]);
-        this.populateRhsState(expression[RHS], expression[RHSG] ? expression[RHSG].value : null);
+        this.populateLhsState();
+        populateRhsState(expression[RHS], expression[RHSG] ? expression[RHSG].value : null,
+            (values) => {
+                this.state = updateProperties(this.state, values);
+            });
     }
 
     @api
     containerElement;
 
-    // TODO: W-5239664 both the below can be mostly (if not entirely) reused by the other wrappers
-    // TODO: W-5222299 both the below won't need to be callbacks once we start front loading the field retrieval.
-    populateLhsStateForField(fields, parent, fieldName) {
-        // TODO: W-4960448: the field will appear empty briefly when fetching the first time
-        const field = fields[fieldName];
-        field.isCollection = false;
-        this.state.lhsIsField = true;
-        this.state.lhsParam = elementToParam(field);
-        this.state.lhsValue = mutateFieldToComboboxShape(field, parent, isFieldOnSobjectVar, isFieldOnSobjectVar);
-        this.state.lhsActivePicklistValues = field.activePicklistValues || false;
-        this.state.lhsFields = fields;
+    @api
+    get lhsFields() {
+        return this._lhsFields;
     }
 
-    populateRhsStateForField(fields, parent, fieldName) {
-        // TODO: W-4960448: the field will appear empty briefly when fetching the first time
-        this.state.rhsIsField = true;
-        this.state.rhsValue = mutateFieldToComboboxShape(fields[fieldName], parent, isFieldOnSobjectVar, isFieldOnSobjectVar);
-        this.state.rhsFields = fields;
-    }
-
-    populateLhsState(lhs) {
-        this.resetLhsAuxillaryAttributes();
-        this.state.lhsError = lhs.error;
-        this.state.lhsValue = lhs.value;
-
-        if (lhs.value && !lhs.error) {
-            const complexGuid = sanitizeGuid(lhs.value);
-            const fer = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
-
-            // TODO: W-5222299 this check can be removed when merge field validation is no longer asynchronous
-            if (fer) {
-                const lhsItem = mutateFlowResourceToComboboxShape(fer);
-                if (complexGuid.fieldName) {
-                    getFieldsForEntity(lhsItem.objectType, (fields) => {
-                        this.populateLhsStateForField(fields, lhsItem, complexGuid.fieldName);
-                    });
-                } else {
-                    this.state.lhsValue = lhsItem;
-                    this.state.lhsParam = elementToParam(fer);
-                }
-            }
+    set lhsFields(fields) {
+        if (fields && Object.keys(fields).length) {
+            this._lhsFields = fields;
+            this.populateLhsState();
         }
     }
 
-    populateRhsState(rhs, guid) {
-        this.resetRhsAuxillaryAttributes();
-        this.state.rhsError = rhs.error;
-        this.state.rhsGuid = guid || null;
-        this.state.rhsValue = rhs.value;
+    _lhsFields;
 
-        if (!rhs.error && guid) {
-            const complexGuid = sanitizeGuid(guid);
-            const fer = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
+    /**
+     * Populates the state values for the LHS of the expression such as the display value
+     * and what fields should show up in the menudata.
+     */
+    populateLhsState() {
+        if (!this.state.expression || !this.state.objectType || !this.lhsFields) {
+            return;
+        }
+        const lhs = this.state.expression[LHS];
 
-            // TODO: W-5222299 this check can be removed when merge field validation is no longer asynchronous
-            if (fer) {
-                const rhsItem = mutateFlowResourceToComboboxShape(fer);
-                if (complexGuid.fieldName) {
-                    getFieldsForEntity(fer.objectType, (fields) => {
-                        this.populateRhsStateForField(fields, rhsItem, complexGuid.fieldName);
-                    });
-                } else {
-                    this.state.rhsValue = rhsItem;
-                }
-            }
+        this.resetLhsAuxillaryAttributes();
+
+        this.state.lhsError = lhs.error;
+
+        if (lhs.value && !lhs.error) {
+            const complexGuid = sanitizeGuid(lhs.value);
+            const fieldParent = {value: this.state.objectType};
+            const isFieldOnSobjectVar = false;
+            this.state = updateProperties(this.state,
+                populateLhsStateForField(this.lhsFields, complexGuid.fieldName, fieldParent, isFieldOnSobjectVar));
+        } else {
+            this.state.lhsValue = lhs.value;
         }
     }
 
     resetLhsAuxillaryAttributes() {
-        this.state.lhsParam = this.state.lhsIsField = false;
-        this.state.lhsActivePicklistValues = this.state.lhsFields = null;
-    }
-
-    resetRhsAuxillaryAttributes() {
-        this.state.rhsIsField = false;
-        this.state.rhsFields = null;
-    }
-
-    isIncompleteExpression(exp) {
-        return !exp[LHS] || !exp[OPERATOR] || !exp[RHS];
+        this.state.lhsParam = this.state.lhsActivePicklistValues = this.state.lhsFields = null;
     }
 }

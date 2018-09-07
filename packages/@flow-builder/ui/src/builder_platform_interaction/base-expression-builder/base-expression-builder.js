@@ -9,6 +9,7 @@ import {
     getResourceFerovDataType,
     isElementAllowed,
     filterMatches,
+    LHS_DISPLAY_OPTION,
 } from 'builder_platform_interaction-expression-utils';
 import {
     getRulesForContext,
@@ -50,29 +51,20 @@ const RHS_FILTERED_MENU_DATA = 'rhsFilteredMenuData';
 export default class BaseExpressionBuilder extends LightningElement {
     @track
     state = {
-        containerElement: undefined,
         operatorAndRhsDisabled: true,
         lhsParam: undefined,
-        lhsIsField: undefined,
         [LHS_FIELDS]: undefined,
         lhsParamTypes: undefined,
-        showLhsAsFieldReference: undefined,
         lhsActivePicklistValues: undefined,
-        lhsFullMenuData: undefined,
-        lhsFilteredMenuData: undefined,
-        operatorValue: undefined,
         [RHS_FIELDS]: undefined,
-        rhsIsField: undefined,
-        rhsLiteralsAllowedForContext: false,
         [LHS_FULL_MENU_DATA]: undefined,
         [LHS_FILTERED_MENU_DATA]: undefined,
         [RHS_FULL_MENU_DATA]: undefined,
         [RHS_FILTERED_MENU_DATA]: undefined,
     };
 
-    @api
     set containerElement(elementType) {
-        this.state.containerElement = elementType;
+        this._containerElement = elementType;
         this._rules = getRulesForContext({elementType});
         if (!this._rules) {
             throw new Error('Something went wrong fetching the rules');
@@ -81,8 +73,19 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setLhsMenuData();
     }
 
+    @api
     get containerElement() {
-        return this.state.containerElement;
+        return this._containerElement;
+    }
+
+    set objectType(object) {
+        this._objectType = object;
+        this.setLhsMenuData();
+    }
+
+    @api
+    get objectType() {
+        return this._objectType;
     }
 
     @api
@@ -97,17 +100,16 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     lhsError;
 
-    @api
     set lhsFields(fields) {
-        this.state.lhsFields = fields;
+        this.state[LHS_FIELDS] = fields;
         this.setLhsMenuData();
     }
 
+    @api
     get lhsFields() {
         return this.state[LHS_FIELDS];
     }
 
-    @api
     set lhsParam(param) {
         this.state.lhsParam = param;
         this._operatorMenuData = undefined;
@@ -125,54 +127,48 @@ export default class BaseExpressionBuilder extends LightningElement {
         }
     }
 
+    @api
     get lhsParam() {
         return this.state.lhsParam;
     }
 
-    @api
     set lhsActivePicklistValues(values) {
         this.state.lhsActivePicklistValues = values;
         this.setRhsMenuData();
     }
 
+    @api
     get lhsActivePicklistValues() {
         return this.state.lhsActivePicklistValues;
     }
 
-    @api
-    set lhsIsField(isField) {
-        this.state.lhsIsField = isField;
+    set lhsDisplayOption(display) {
+        if (!Object.values(LHS_DISPLAY_OPTION).find(option => option === display)) {
+            throw new Error(`Display option must be one of the predefined options but instead was ${display}`);
+        }
+        this._lhsDisplayOption = display;
         this.setLhsMenuData();
     }
 
-    get lhsIsField() {
-        return this.state.lhsIsField;
-    }
-
     @api
-    set showLhsAsFieldReference(show) {
-        this.state.showLhsAsFieldReference = show;
-        this.setLhsMenuData();
-    }
-
-    get showLhsAsFieldReference() {
-        return this.state.showLhsAsFieldReference;
+    get lhsDisplayOption() {
+        return this._lhsDisplayOption;
     }
 
     @api
     operatorLabel;
 
-    @api
     set operatorValue(value) {
-        this.state.operatorValue = value;
+        this._operatorValue = value;
         this._rhsParamTypes = undefined;
         this.state[RHS_FULL_MENU_DATA] = this.state[RHS_FILTERED_MENU_DATA] = undefined;
         this.setRhsMenuData();
         this.setRhsDataType();
     }
 
+    @api
     get operatorValue() {
-        return this.state.operatorValue;
+        return this._operatorValue;
     }
 
     @api
@@ -193,54 +189,60 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     rhsGuid;
 
-    @api
     set rhsIsField(isField) {
-        this.state.rhsIsField = isField;
+        this._rhsIsField = isField;
         this.setRhsMenuData();
     }
 
+    @api
     get rhsIsField() {
-        return this.state.rhsIsField;
+        return this._rhsIsField;
     }
 
-    @api
     set rhsFields(fields) {
         this.state[RHS_FIELDS] = fields;
         this.setRhsMenuData();
     }
 
+    @api
     get rhsFields() {
-        return this.state.rhsFields;
+        return this.state[RHS_FIELDS];
     }
 
     @api
     rhsPlaceholder;
 
-    @api
     set rhsLiteralsAllowed(allowed) {
-        this.state.rhsLiteralsAllowedForContext = allowed;
+        this._rhsLiteralsAllowedForContext = allowed;
         this.setRhsDataType();
     }
 
+    @api
     get rhsLiteralsAllowed() {
         this.setRHSCollectionRequired();
-        return this.state.rhsLiteralsAllowedForContext && !this._rhsCollectionRequiredByRules;
+        return this._rhsLiteralsAllowedForContext && !this._rhsCollectionRequiredByRules;
     }
 
+    _containerElement;
+    _objectType;
     _rules;
+    _lhsDisplayOption;
+    _operatorValue;
     _operatorMenuData;
     _rhsDataType;
+    _rhsIsField;
     _rhsParamTypes;
     _rhsCollectionRequiredByRules;
+    _rhsLiteralsAllowedForContext = false;
 
     setLhsMenuData() {
         if (!this.areAllDefined([this.containerElement, this.lhsFields,
-            this.lhsIsField, this.showLhsAsFieldReference])) {
+            this.lhsDisplayOption])) {
             return;
         }
 
-        const isFieldMenuData = this.lhsIsField && this.lhsFields && this.lhsValue;
-        const parentMenuItem = isFieldMenuData ? this.lhsValue.parent : null;
+        const isFieldMenuData = this.lhsFields && (this.lhsDisplayOption !== LHS_DISPLAY_OPTION.NOT_FIELD);
+        const parentMenuItem = isFieldMenuData ? this.getLhsParent() : null;
         this.populateLhsMenuData(isFieldMenuData, parentMenuItem);
     }
 
@@ -270,7 +272,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     setRhsDataType() {
-        if (!this.state.rhsLiteralsAllowedForContext || !this.rhsParamTypes) {
+        if (!this._rhsLiteralsAllowedForContext || !this.rhsParamTypes) {
             this._rhsDataType = null;
         } else {
             const allowedDataTypes = this.getPossibleRHSDataTypes();
@@ -340,12 +342,16 @@ export default class BaseExpressionBuilder extends LightningElement {
         event.stopPropagation();
         // TODO: W-5340967 add the full combobox value to filter matches so it can be used here
         this.state.operatorAndRhsDisabled = !this.template.querySelector('.lhs').value;
-        this.state[LHS_FILTERED_MENU_DATA] = filterMatches(event.detail.value, this.state[LHS_FULL_MENU_DATA], event.detail.isMergeField);
+        if (this.state[LHS_FULL_MENU_DATA]) {
+            this.state[LHS_FILTERED_MENU_DATA] = filterMatches(event.detail.value, this.state[LHS_FULL_MENU_DATA], event.detail.isMergeField);
+        }
     }
 
     handleFilterRhsMatches(event) {
         event.stopPropagation();
-        this.state[RHS_FILTERED_MENU_DATA] = filterMatches(event.detail.value, this.state[RHS_FULL_MENU_DATA], event.detail.isMergeField);
+        if (this.state[RHS_FULL_MENU_DATA]) {
+            this.state[RHS_FILTERED_MENU_DATA] = filterMatches(event.detail.value, this.state[RHS_FULL_MENU_DATA], event.detail.isMergeField);
+        }
     }
 
     handleFetchLhsMenuData(event) {
@@ -357,23 +363,24 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     populateLhsMenuData(getFields, parentMenuItem) {
-        const shouldBeWritable = false;
+        const shouldBeWritable = true;
+        const isDisplayedAsFieldReference = this.lhsDisplayOption !== LHS_DISPLAY_OPTION.SOBJECT_FIELD;
 
         this.populateMenuData(getFields, parentMenuItem, LHS_FULL_MENU_DATA, LHS_FILTERED_MENU_DATA, LHS_FIELDS,
-            this.lhsParamTypes, shouldBeWritable, this.showLhsAsFieldReference);
+            this.lhsParamTypes, shouldBeWritable, isDisplayedAsFieldReference);
     }
 
     populateRhsMenuData(getFields, parentMenuItem) {
         const isFerov = true;
-        const showAsFieldReference = true;
-        const shouldBeWritable = true;
+        const isDisplayedAsFieldReference = true;
+        const shouldBeWritable = false;
 
         this.populateMenuData(getFields, parentMenuItem, RHS_FULL_MENU_DATA, RHS_FILTERED_MENU_DATA, RHS_FIELDS,
-            this.rhsParamTypes, shouldBeWritable, showAsFieldReference, isFerov, this.lhsActivePicklistValues);
+            this.rhsParamTypes, shouldBeWritable, isDisplayedAsFieldReference, isFerov, this.lhsActivePicklistValues);
     }
 
     populateMenuData(getFields, parentMenuItem, fullMenuData, filteredMenuData, preFetchedFields, paramTypes,
-        shouldBeWritable, showAsFieldReference, isFerov, picklistValues) {
+        shouldBeWritable, isDisplayedAsFieldReference, isFerov, picklistValues) {
         const config = {
             elementType: this.containerElement,
             shouldBeWritable,
@@ -381,11 +388,11 @@ export default class BaseExpressionBuilder extends LightningElement {
 
         const setFieldMenuData = (fields = this.state[preFetchedFields]) => {
             this.state[preFetchedFields] = fields;
-            this.state[fullMenuData] = this.state[filteredMenuData] = filterFieldsForChosenElement(parentMenuItem, paramTypes, fields, showAsFieldReference, SHOW_SUBTEXT);
+            this.state[fullMenuData] = this.state[filteredMenuData] = filterFieldsForChosenElement(parentMenuItem, paramTypes, fields, isDisplayedAsFieldReference, SHOW_SUBTEXT);
         };
 
         if (getFields) {
-            if (parentMenuItem) {
+            if (parentMenuItem && !this.state[preFetchedFields]) {
                 getFieldsForEntity(parentMenuItem.objectType, setFieldMenuData);
             } else {
                 setFieldMenuData();
@@ -533,5 +540,11 @@ export default class BaseExpressionBuilder extends LightningElement {
         }
 
         return expressionUpdates;
+    }
+
+    getLhsParent() {
+        return this.objectType && this._lhsDisplayOption === LHS_DISPLAY_OPTION.SOBJECT_FIELD ?
+            {value: this.objectType}
+            : this.lhsValue.parent;
     }
 }

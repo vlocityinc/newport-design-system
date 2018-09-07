@@ -6,7 +6,8 @@ import { RowContentsChangedEvent, ComboboxStateChangedEvent } from 'builder_plat
 import { numberVariableGuid, numberVariableDevName, stringVariableGuid,
     dateVariableGuid, currencyVariableGuid, assignmentElementGuid, accountSObjectVariableGuid, elements } from 'mock-store-data';
 import { elementToParam, getRulesForContext, getLHSTypes, getOperators, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
-import { mutateFlowResourceToComboboxShape, mutateFieldToComboboxShape, EXPRESSION_PROPERTY_TYPE, getElementsForMenuData } from 'builder_platform_interaction-expression-utils';
+import { mutateFlowResourceToComboboxShape, mutateFieldToComboboxShape, EXPRESSION_PROPERTY_TYPE, getElementsForMenuData,
+    LHS_DISPLAY_OPTION } from 'builder_platform_interaction-expression-utils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { mockAccountFields, mockAccountFieldWithPicklist } from 'mock-server-entity-data';
 import { dateCollectionParam, dateParam } from 'mock-rule-service';
@@ -138,6 +139,7 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         getResourceFerovDataType: require.requireActual('builder_platform_interaction-expression-utils').getResourceFerovDataType,
         mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction-expression-utils').mutateFlowResourceToComboboxShape,
         mutateFieldToComboboxShape: require.requireActual('builder_platform_interaction-expression-utils').mutateFieldToComboboxShape,
+        LHS_DISPLAY_OPTION: require.requireActual('builder_platform_interaction-expression-utils').LHS_DISPLAY_OPTION,
     };
 });
 
@@ -185,7 +187,7 @@ describe('base expression builder', () => {
             const expressionBuilder = createComponentForTest({
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 lhsFields: null,
-                lhsIsField: false,
+                lhsDisplayOption: LHS_DISPLAY_OPTION.NOT_FIELD,
                 showLhsAsFieldReference: true,
             });
             const lhsCombobox = getComboboxElements(expressionBuilder)[0];
@@ -366,7 +368,7 @@ describe('base expression builder', () => {
             const expressionBuilder = createComponentForTest({
                 lhsValue: null,
                 lhsParam: null,
-                lhsIsField: false,
+                lhsDisplayOption: LHS_DISPLAY_OPTION.NOT_FIELD,
                 lhsFields: null,
                 lhsActivePicklistValues: null,
                 showLhsAsFieldReference: true,

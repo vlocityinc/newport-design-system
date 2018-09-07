@@ -20,10 +20,10 @@
                 <div class="slds-list__item slds-is-relative" key={filterItem.rowIndex}>
                     <builder_platform_interaction-row item-index={filterIndex} show-delete={showDeleteFilter}>
                     <div slot="rowBody">
-                        <builder_platform_interaction-expression-builder configuration={expressionBuilderConfig}
-                            expression={filterItem} lhs-label={labels.filterLhsLabel} operator-label={labels.filterOperatorLabel}
+                        <builder_platform_interaction-field-to-ferov-expression-builder object-type={recordEntityName} container-element={elementType}
+                            lhs-fields={recordFields} expression={filterItem} lhs-label={labels.filterLhsLabel} operator-label={labels.filterOperatorLabel}
                             rhs-label={labels.filterRhsLabel} lhs-placeholder={labels.filterLhsPlaceholder}
-                            operator-placeholder={labels.filterOperatorPlaceholder}></builder_platform_interaction-expression-builder>
+                            operator-placeholder={labels.filterOperatorPlaceholder}></builder_platform_interaction-field-to-ferov-expression-builder>
                     </div>
                     </builder_platform_interaction-row>
                 </div>

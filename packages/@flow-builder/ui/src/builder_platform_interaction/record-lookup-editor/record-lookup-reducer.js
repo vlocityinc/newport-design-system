@@ -42,7 +42,7 @@ const deleteRecordLookupFilter = (state, event) => {
 
 const updateRecordLookupFilter = (state, event) => {
     const path = ['filters', event.detail.index];
-    const item = updateProperties(event.detail.value);
+    const item = updateProperties(state.filters[event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 

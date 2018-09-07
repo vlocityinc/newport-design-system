@@ -5,7 +5,7 @@ import FerToFerovExpressionBuilder from '../fer-to-ferov-expression-builder.js';
 import { numberVariableGuid, numberVariableDevName,
     accountSObjectVariableGuid, accountSObjectVariableDevName, elements } from 'mock-store-data';
 import { elementToParam, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
-import { mutateFlowResourceToComboboxShape, mutateFieldToComboboxShape, EXPRESSION_PROPERTY_TYPE, } from 'builder_platform_interaction-expression-utils';
+import { mutateFlowResourceToComboboxShape, mutateFieldToComboboxShape, EXPRESSION_PROPERTY_TYPE, LHS_DISPLAY_OPTION, } from 'builder_platform_interaction-expression-utils';
 import { mockAccountFields, mockAccountFieldWithPicklist } from 'mock-server-entity-data';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
@@ -107,6 +107,10 @@ jest.mock('builder_platform_interaction-expression-utils', () => {
         getResourceFerovDataType: require.requireActual('builder_platform_interaction-expression-utils').getResourceFerovDataType,
         mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction-expression-utils').mutateFlowResourceToComboboxShape,
         mutateFieldToComboboxShape: require.requireActual('builder_platform_interaction-expression-utils').mutateFieldToComboboxShape,
+        validateExpressionShape: require.requireActual('builder_platform_interaction-expression-utils').validateExpressionShape,
+        LHS_DISPLAY_OPTION: require.requireActual('builder_platform_interaction-expression-utils').LHS_DISPLAY_OPTION,
+        populateLhsStateForField: require.requireActual('builder_platform_interaction-expression-utils').populateLhsStateForField,
+        populateRhsState: require.requireActual('builder_platform_interaction-expression-utils').populateRhsState,
     };
 });
 
@@ -164,8 +168,7 @@ describe('fer-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.lhsParam).toMatchObject(elementToParam(numberVariable));
             expect(baseExpressionBuilder.lhsActivePicklistValues).toBeDefined();
             expect(baseExpressionBuilder.lhsActivePicklistValues).toBeFalsy();
-            expect(baseExpressionBuilder.lhsIsField).toBeDefined();
-            expect(baseExpressionBuilder.lhsIsField).toBeFalsy();
+            expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.NOT_FIELD);
             expect(baseExpressionBuilder.lhsFields).toBeDefined();
             expect(baseExpressionBuilder.lhsFields).toBeFalsy();
         });
@@ -178,7 +181,7 @@ describe('fer-to-ferov-expression-builder', () => {
                 expect(baseExpressionBuilder.lhsValue).toMatchObject(mutateFieldToComboboxShape(accountField, accountVariableComboboxShape, true, true));
                 expect(baseExpressionBuilder.lhsParam).toMatchObject(elementToParam(accountField));
                 expect(baseExpressionBuilder.lhsActivePicklistValues).toMatchObject(accountField.picklistValues);
-                expect(baseExpressionBuilder.lhsIsField).toBeTruthy();
+                expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE);
                 expect(baseExpressionBuilder.lhsFields).toBeTruthy();
             });
         });
@@ -205,8 +208,7 @@ describe('fer-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.lhsParam).toBeFalsy();
             expect(baseExpressionBuilder.lhsActivePicklistValues).toBeDefined();
             expect(baseExpressionBuilder.lhsActivePicklistValues).toBeFalsy();
-            expect(baseExpressionBuilder.lhsIsField).toBeDefined();
-            expect(baseExpressionBuilder.lhsIsField).toBeFalsy();
+            expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.NOT_FIELD);
             expect(baseExpressionBuilder.lhsFields).toBeDefined();
             expect(baseExpressionBuilder.lhsFields).toBeFalsy();
         });
@@ -233,8 +235,7 @@ describe('fer-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.lhsParam).toBeFalsy();
             expect(baseExpressionBuilder.lhsActivePicklistValues).toBeDefined();
             expect(baseExpressionBuilder.lhsActivePicklistValues).toBeFalsy();
-            expect(baseExpressionBuilder.lhsIsField).toBeDefined();
-            expect(baseExpressionBuilder.lhsIsField).toBeFalsy();
+            expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.NOT_FIELD);
             expect(baseExpressionBuilder.lhsFields).toBeDefined();
             expect(baseExpressionBuilder.lhsFields).toBeFalsy();
         });

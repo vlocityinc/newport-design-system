@@ -68,25 +68,18 @@ export default class RecordFilter extends LightningElement {
      * @param {Object} fields - Filterable fields of the entity
      */
     set recordFields(fields) {
-        this.entityFields = {};
-        const filterableFields = Object.values(fields).filter(field => field.filterable);
-        filterableFields.forEach(filterableField => {
-            this.entityFields[filterableField.apiName] = filterableField;
-        });
+        if (fields) {
+            this.entityFields = {};
+            const filterableFields = Object.values(fields).filter(field => field.filterable);
+            filterableFields.forEach(filterableField => {
+                this.entityFields[filterableField.apiName] = filterableField;
+            });
+        }
     }
 
     @api
     get recordFields() {
         return this.entityFields;
-    }
-
-    /**
-     * expression builder config to pass to expression-builder component
-     */
-    get expressionBuilderConfig() {
-        return {elementType: this.elementType,
-            lhsFields: this.entityFields,
-            objectType: this.entityName};
     }
 
     get showDeleteFilter() {
