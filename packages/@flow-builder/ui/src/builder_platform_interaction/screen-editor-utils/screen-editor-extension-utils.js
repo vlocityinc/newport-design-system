@@ -94,7 +94,7 @@ function mergeParameters(fieldParameters, descParameters, valuePropName, isInput
             dataType: fieldParam.dataType,
             description: fieldParam.description,
             hasDefaultValue: fieldParam.hasDefaultValue,
-            isRequired: fieldParam.isRequired,
+            isRequired: isInput ? fieldParam.isRequired : false,
             label: fieldParam.label,
             maxOccurs: fieldParam.maxOccurs,
             isCollection: fieldParam.maxOccurs > 1,
@@ -227,6 +227,61 @@ export function describeExtension(name, refreshCache, callback) {
 }
 
 /**
+ * Returns the description of all the provided extensions form the cache or null if any of the can't be found
+ * @param {string} names - The extension names
+ * @returns {ExtensionDescriptor[]} - The description of the extensions
+ */
+export function getCachedExtensions(names) {
+    const descriptions = [];
+    for (const name of names) {
+        const description = extensionDescriptionCache[name];
+        if (description) {
+            descriptions.push(cloneDescription(description));
+        } else {
+            return null;
+        }
+    }
+
+    return descriptions;
+}
+
+/**
+ * Describes a list of components, with the following shape:
+ *      {name, inputParameters:[params], outputParameters:[params]}
+ *
+ * Parameters have the following shape:
+ *      {apiName, dataType, description, hasDefaultValue, isRequired, label, maxOccurs}
+ *
+ * @param {String[]} names - The FQN of the components
+ * @param {Boolean} refreshCache - Refresh the cache for the specified component (data will be retrieved form the server)
+ * @param {Function} callback - The callback to execute to notify, fn(descriptors[], error)
+ */
+export function describeExtensions(names, refreshCache, callback) {
+    // Check if all descriptions are cached
+    if (!refreshCache) {
+        const cachedDescs = getCachedExtensions(names);
+        if (cachedDescs) {
+            callback(cachedDescs, null);
+            return;
+        }
+    }
+
+    fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_LIST_PARAMS, ({data, error}) => {
+        if (error) {
+            callback(null, error);
+        } else {
+            const descs = [];
+            for (const name of names) {
+                extensionDescriptionCache[name] = createDescription(name, data[name]);
+                descs.push(cloneDescription(extensionDescriptionCache[name]));
+            }
+
+            callback(descs, null);
+        }
+    }, {names});
+}
+
+/**
  * Clears the list and description cached data
  */
 export function clearExtensionsCache() {
@@ -267,4 +322,75 @@ export function processScreenExtensionTypes(screen) {
     }
 
     return screen;
+}
+
+/**
+ * Adds all required and not present input parameters to all extension fields in the screen. If a callback is provided it will
+ * go to the server to retrieve the descriptions in case they are not in the cache
+ *
+ * @param {Screen} screen - The screen
+ * @param {Function} callback - The callback to execute when done (can be null)
+ */
+export function processRequiredParamsForExtensionsInScreen(screen, callback) {
+    // Get all extension fields
+    const extensionFields = screen.fields.filter(f => f.fieldType === COMPONENT_INSTANCE);
+
+    // Get the extension names
+    const extensions = extensionFields.map(f => f.extensionName.value);
+
+    const processFn = (descriptions) => {
+        // Create a map field.name = field
+        const fieldsMap = extensionFields.reduce((map, field) => {
+            map[field.extensionName.value] = field;
+            return map;
+        }, {});
+
+        // For each descriptor add all required attributes not present to the field
+        for (const description of descriptions) {
+            // Add all required attributes not present in input params
+            const field = fieldsMap[description.name];
+            addRequiredInputParameters(field, description);
+        }
+    };
+
+
+    if (callback) { // Async, go to server if necessary
+        // Get the descriptions
+        describeExtensions(extensions, false, (descs, error) => {
+            if (error) {
+                callback({error});
+            } else {
+                processFn(descs);
+                callback({error, screen});
+            }
+        });
+    } else {
+        // Use cached descriptors
+        const descs = getCachedExtensions(extensions);
+        if (descs.length !== extensions.length) {
+            throw new Error('Can not find all required extension descriptions in the cache');
+        } else {
+            processFn(descs);
+        }
+    }
+}
+
+/**
+ * Injects all required input parameters that are not present in the field.
+ *
+ * @param {screenfield} field - The extension screen field
+ * @param {ExtensionDescription} description - The descriptor of the extension
+ */
+export function addRequiredInputParameters(field, description) {
+    for (const param of description.inputParameters) {
+        if (param.isRequired) {
+            if (field.inputParameters.filter(p => p.name.value === param.apiName).length === 0) { // Param is not present
+                field.inputParameters.push({
+                    name: {value: param.apiName, error: null},
+                    value: {value: null, error: null},
+                    processMetadataValues: {}
+                });
+            }
+        }
+    }
 }

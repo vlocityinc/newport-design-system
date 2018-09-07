@@ -4,6 +4,7 @@ import shouldNotBeginWithNumericOrSpecialCharacters from '@salesforce/label/Flow
 import shouldAcceptOnlyAlphanumericCharacters from '@salesforce/label/FlowBuilderValidation.shouldAcceptOnlyAlphanumericCharacters';
 import shouldBeAPositiveIntegerOrZero from '@salesforce/label/FlowBuilderValidation.shouldBeAPositiveIntegerOrZero';
 import mustBeAValidDate from '@salesforce/label/FlowBuilderValidation.mustBeAValidDate';
+import mustBeAValidNumber from '@salesforce/label/FlowBuilderValidation.mustBeAValidNumber';
 import maximumCharactersLimit from '@salesforce/label/FlowBuilderValidation.maximumCharactersLimit';
 import fieldNotUnique from '@salesforce/label/FlowBuilderValidation.fieldNotUnique';
 import overMaxIntegerValue from '@salesforce/label/FlowBuilderValidation.overMaxIntegerValue';
@@ -15,6 +16,7 @@ export const LABELS = {
     shouldAcceptOnlyAlphanumericCharacters,
     shouldBeAPositiveIntegerOrZero,
     mustBeAValidDate,
+    mustBeAValidNumber,
     maximumCharactersLimit,
     fieldNotUnique,
     overMaxIntegerValue

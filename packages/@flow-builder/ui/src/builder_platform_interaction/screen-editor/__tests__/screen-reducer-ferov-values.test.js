@@ -103,6 +103,7 @@ function testInputParamValue(valueBefore, valueAfter) {
         const config = {hydrateValues: false, helpText: false, validation: false, includeNonMDValues: false};
         const field = createTestScreenField('lcfield1', 'Extension', 'c:fakeCmpName', config);
         field.inputParameters[0].value = value !== SCREEN_NULL_DEF_VALUE ? value : null;
+        field.outputParameters[0].assignToReference = 'GUID_String_1';
         return field;
     };
 

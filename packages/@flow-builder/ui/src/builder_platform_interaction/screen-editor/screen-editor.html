@@ -1,5 +1,9 @@
 <template>
-    <div class='slds-grid screen-editor-container'>
+    <div if:false={screen} class='slds-spinner_container'>
+        <lightning-spinner variant='brand' alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
+    </div>
+
+    <div if:true={screen} class='slds-grid screen-editor-container'>
         <div class='slds-size_small slds-grow-none slds-shrink-none'>        
             <builder_platform_interaction-screen-editor-palette screen-field-types={screenFieldTypes} extension-types={extensionTypes} onaddscreenfield={handleAddScreenField}> 
             </builder_platform_interaction-screen-editor-palette>
@@ -21,5 +25,5 @@
                                                                              onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-screen-properties-editor-container>
         </div>
-    </div>   
+    </div>
 </template>

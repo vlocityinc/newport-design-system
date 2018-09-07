@@ -80,7 +80,10 @@ export default class ScreenPalette extends LightningElement {
         event.dataTransfer.effectAllowed = 'copy';
     }
 
-    handleReload() {}
+    handleReload() {
+        // This function has to reload the list of extensions in the org (names and categories) and, also,
+        // refresh the definition of all the extensions in the cache (used during screen validation)
+    }
 }
 
 /**

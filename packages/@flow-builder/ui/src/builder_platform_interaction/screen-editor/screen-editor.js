@@ -1,6 +1,6 @@
 import { LightningElement, api, track, unwrap } from "lwc";
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction-data-mutation-lib';
-import { isScreen, getAllScreenFieldTypes, getExtensionFieldTypes, processScreenExtensionTypes } from 'builder_platform_interaction-screen-editor-utils';
+import { isScreen, getAllScreenFieldTypes, getExtensionFieldTypes, processScreenExtensionTypes, processRequiredParamsForExtensionsInScreen } from 'builder_platform_interaction-screen-editor-utils';
 import { screenReducer } from './screen-reducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { invokeAlertModal } from 'builder_platform_interaction-builder-utils';
@@ -17,18 +17,8 @@ export default class ScreenEditor extends LightningElement {
     @track screenFieldTypes;
     @track extensionTypes;
 
-    constructor() {
-        super();
+    labels = LABELS;
 
-        // Get all screen field types
-        this.screenFieldTypes = getAllScreenFieldTypes();
-        getExtensionFieldTypes().then(data => {
-            this.extensionTypes = data;
-            this.node = processScreenExtensionTypes(unwrap(this.screen));
-        }).catch(error => {
-            throw error;
-        });
-    }
     /**
      * Screen node getter
      * @returns {object} The screen
@@ -42,8 +32,7 @@ export default class ScreenEditor extends LightningElement {
      * @param {object} newValue - The new screen
      */
     set node(newValue) {
-        this.screen = unwrap(newValue) || {};
-        this.setSelectedNode(this.screen);
+        this.processScreenExtensions(unwrap(newValue) || {});
     }
 
     /**
@@ -60,8 +49,10 @@ export default class ScreenEditor extends LightningElement {
      */
     @api validate() {
         const event = { type: VALIDATE_ALL };
+        processRequiredParamsForExtensionsInScreen(unwrap(this.screen));
         this.screen = screenReducer(this.screen, event);
-        return getErrorsFromHydratedElement(this.screen);
+        const errors = getErrorsFromHydratedElement(this.screen);
+        return errors;
     }
 
     /**
@@ -70,6 +61,38 @@ export default class ScreenEditor extends LightningElement {
      */
     @api getSelectedNode() {
         return this.selectedNode;
+    }
+
+    /**
+     * Retrieves the description for all extension screen fields and adds all required input parameters that are not present to those fields
+     * (this should never happen as this would mean the flow is invalid, but it is a good check)
+     * Triggers processPaletteExtensions
+     * @param {Screen} newScreen - The screen to process
+     */
+    processScreenExtensions(newScreen) {
+        processRequiredParamsForExtensionsInScreen(newScreen, (data) => {
+            if (data.error) {
+                throw data.error;
+            } else {
+                this.screen = data.screen;
+                this.setSelectedNode(this.screen);
+                this.processPaletteExtensions();
+            }
+        });
+    }
+
+    /**
+     * Retrieves a list of available extensions (LCs) to add to the palette
+     */
+    processPaletteExtensions() {
+        // Get all screen field types
+        this.screenFieldTypes = getAllScreenFieldTypes();
+        getExtensionFieldTypes().then(data => {
+            this.extensionTypes = data;
+            this.screen = processScreenExtensionTypes(unwrap(this.screen));
+        }).catch(error => {
+            throw error;
+        });
     }
 
     /**
@@ -148,7 +171,7 @@ export default class ScreenEditor extends LightningElement {
         } else {
             this.setSelectedNode(this.screen.getFieldByGUID(this.selectedNode.guid));
         }
-    }
+    };
 
     /**
      * Handler for the select screen element event
@@ -161,7 +184,7 @@ export default class ScreenEditor extends LightningElement {
         } else {
             this.setSelectedNode(this.screen, event.property);
         }
-    }
+    };
 
     /**
      * Handler for the deselect screen element event, sets the selected node to the screen and clears the selection in the canvas
@@ -169,14 +192,14 @@ export default class ScreenEditor extends LightningElement {
     handleDeselectScreenElement = (/* event */) => {
         this.setSelectedNode(this.screen);
         this.selectedItemGuid = null;
-    }
+    };
 
     /**
      * Handles reordering a list of the screen fields
      * @param {efvent} event - reorderListEvent
      */
-    handleReorder(event) {
+    handleReorder = (event) => {
         this.screen = screenReducer(this.screen, event);
         event.stopPropagation();
-    }
+    };
 }

@@ -1,5 +1,7 @@
 import { isExtensionField, getLocalExtensionFieldType, getScreenFieldTypeByName, getScreenFieldType } from 'builder_platform_interaction-screen-editor-utils';
 import { mutateFEROV, deMutateFEROV } from './ferovEditorDataMutation';
+import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction-store-utils';
+import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction-common-utils';
 
 export const mutateScreenField = field => {
     if (isExtensionField(field)) {
@@ -27,14 +29,11 @@ export const mutateScreenField = field => {
 
         const outputs = [];
         for (const param of field.outputParameters) {
-            if (param.value) {
-                outputs.push(mutateFEROV(param, 'assignToReference', {
-                    valueProperty: 'assignToReference',
-                    dataTypeProperty: 'assignToReferenceDataType',
-                }));
-            } else {
-                outputs.push(param);
+            if (param.assignToReference) {
+                param.assignToReference = addCurlyBraces(getElementByGuid(param.assignToReference).name);
             }
+
+            outputs.push(param);
         }
 
         field.outputParameters = outputs;
@@ -116,10 +115,16 @@ export const demutateScreenField = field => {
         // Mutate param ferovs
         const outputs = [];
         for (const param of field.outputParameters) {
-            outputs.push(deMutateFEROV(param, 'assignToReference', {
-                valueProperty: 'assignToReference',
-                dataTypeProperty: 'assignToReferenceDataType',
-            }));
+            if (param.assignToReference) {
+                const refName = removeCurlyBraces(param.assignToReference);
+                const refGuid = getElementByDevName(refName).guid;
+
+                outputs.push({
+                    name: param.name,
+                    assignToReference: refGuid,
+                    processMetadataValues: []
+                });
+            }
         }
 
         field.outputParameters = outputs;
@@ -186,4 +191,3 @@ export const demutateScreen = screen => {
     delete screen.getFieldIndex;
     return screen;
 };
-

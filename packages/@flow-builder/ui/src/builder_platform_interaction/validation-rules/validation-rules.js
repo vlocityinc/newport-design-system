@@ -114,6 +114,19 @@ export const shouldBeUnderMaxValue = (maxLimit) => {
 };
 
 /**
+ * Function to test the value is a valid number
+ * @param {string} value - value to be tested
+ * @returns {string|null} errorString or null
+ */
+export const shouldBeANumber = (value) => {
+    if (isNaN(Number(value))) {
+        return LABELS.mustBeAValidNumber;
+    }
+
+    return null;
+};
+
+/**
  * Test if the value is null or undefined
  * @param {String} value the value to be tested
  * @returns {String|null} errorString or null

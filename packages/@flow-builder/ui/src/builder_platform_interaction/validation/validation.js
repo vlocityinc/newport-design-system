@@ -218,9 +218,11 @@ export class Validation {
     /**
      * @param {Object} nodeElement - element data passed as an object.
      * @param {Object} overrideRules - if passed, will override the default rules.
+     * @param {Array} path - The path from the root element to the element being validated
      * @returns {Object} nodeElement - updated Node element after all the rules are run on respective data values.
      */
-    validateAll(nodeElement, overrideRules) {
+    validateAll(nodeElement, overrideRules, path = []) {
+        path.push(nodeElement);
         const rulesForTheNodeElement = overrideRules || this.finalizedRules || [];
         const flattenedRulesForNodeElement = Object.entries(rulesForTheNodeElement);
         for (let i = 0, ln = flattenedRulesForNodeElement.length; i < ln; i++) { // Go through each rule (eg: key: label, rules: [rule1, rule2])
@@ -241,20 +243,24 @@ export class Validation {
                 // if you have a function, and the value object is an array, calling that function with each object of the array should return you the array of rules for that object
                 } else if (rules instanceof Function && Array.isArray(nodeElementValueObject)) {
                     for (let j = 0, len = nodeElementValueObject.length; j < len; j++) {
-                        nodeElement = set(nodeElement, [key, j], this.validateAll(updateProperties(nodeElementValueObject[j]), rules(nodeElementValueObject[j])));
+                        const currentElement = updateProperties(nodeElementValueObject[j]);
+                        const currentRules = rules(nodeElementValueObject[j], path);
+                        nodeElement = set(nodeElement, [key, j], this.validateAll(currentElement, currentRules, path));
                     }
                 } else if (ruleConfig.type === 'validation') { // A full set of validation rules for the property
                     if (Array.isArray(nodeElementValueObject)) {
                         for (let j = 0, len = nodeElementValueObject.length; j < len; j++) {
-                            nodeElement = set(nodeElement, [key, j], ruleConfig.rules.validateAll(nodeElementValueObject[j]));
+                            nodeElement = set(nodeElement, [key, j], ruleConfig.rules.validateAll(nodeElementValueObject[j], null, path));
                         }
                     } else {
-                        nodeElement = ruleConfig.rules.validateAll(nodeElementValueObject);
+                        nodeElement = ruleConfig.rules.validateAll(nodeElementValueObject, null, path);
                     }
                 }
+
                 // we may need a fourth case here, for non-array objects within objects
             }
         }
+        path.pop();
         return nodeElement;
     }
 }

@@ -1,4 +1,4 @@
-import { screenValidation } from './screen-validation';
+import { screenValidation, getExtensionParameterValidation } from './screen-validation';
 import { VALIDATE_ALL } from 'builder_platform_interaction-validation-rules';
 import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from 'builder_platform_interaction-data-mutation-lib';
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction-events';
@@ -124,7 +124,7 @@ const handleScreenFieldPropertyChange = (data) => {
 /**
  * Applies changes to the input/output parameters of an extension screen field
  *
- * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType}
+ * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType, required}
  * @returns {screenfield} - The new screenfield after the change
  */
 const handleExtensionFieldPropertyChange = (data) => {
@@ -143,32 +143,54 @@ const handleExtensionFieldPropertyChange = (data) => {
         throw new Error('Unknown parameter type: ' + data.property);
     }
 
+    let field = data.field;
     const paramName = data.property.substring(prefix.length + 1); // + 1 to remove the dot
-    const param = data.field[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
-    if (param) {
-        const newValue = data.hydrated ? data.newValue.value : data.newValue;
-        // TODO how do we validate dynamic property names?
-        const error = data.error === null ? screenValidation.validateProperty(data.property, newValue) : data.error;
-        if (error && data.hydrated) {
-            data.newValue.error = error;
-        }
+    let param = field[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
+    if (!param) {
+        // Parameters that were never assigned a value are not present in the flow MD, let's create the param and add it
+        param = {
+            name: paramName,
+            processMetadataValues:[],
+            [paramPropertyName]: null
+        };
 
-        // Replace the property in the parameter
-        let newParam = updateProperties(param, {[paramPropertyName]: data.newValue});
-        const dataTypePropName = prefix === 'input' ? 'valueDataType' : 'assignToReferenceDataType';
-        const dataGuidPropName = prefix === 'input' ? 'valueGuid' : 'assignToReferenceGuid';
-
-        newParam = processFerovValueChange(newParam, newParam[dataTypePropName], data.dataType,
-            newValue, data.newValueGuid, dataTypePropName, dataGuidPropName);
-
-        // Replace the new parameter in the parameters array
-        const index = data.field[parametersPropName].indexOf(param);
-        const updatedParams = replaceItem(data.field[parametersPropName], newParam, index);
-        // Replace the parameters in the field
-        return set(data.field, parametersPropName, updatedParams);
+        hydrateWithErrors(param, elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
+        const updatedParams = insertItem(field[parametersPropName], param, field[parametersPropName].length);
+        field = set(field, parametersPropName, updatedParams);
     }
 
-    return null;
+    const newValue = data.hydrated ? data.newValue.value : data.newValue;
+    let error = data.error;
+    if (!error) {
+        const paramValidation = getExtensionParameterValidation('parameterValue', data.dataType, data.required);
+        error = paramValidation.validateProperty('parameterValue', newValue);
+    }
+
+    if (error && data.hydrated) {
+        data.newValue.error = error;
+    }
+
+    // Replace the property in the parameter
+    let newParam = updateProperties(param, {[paramPropertyName]: data.newValue});
+    const dataTypePropName = prefix === 'input' ? 'valueDataType' : 'assignToReferenceDataType';
+    const dataGuidPropName = prefix === 'input' ? 'valueGuid' : 'assignToReferenceGuid';
+
+    newParam = processFerovValueChange(newParam, newParam[dataTypePropName], data.dataType,
+        newValue, data.newValueGuid, dataTypePropName, dataGuidPropName);
+
+    // Replace the new parameter in the parameters array
+    const index = field[parametersPropName].indexOf(param);
+    const updatedParams = replaceItem(field[parametersPropName], newParam, index);
+    // Replace the parameters in the field
+    return set(field, parametersPropName, updatedParams);
+};
+
+const valueChanged = (value1, value2) => {
+    const val1 = isItemHydratedWithErrors(value1) ? value1.value : value1;
+    const val2 = isItemHydratedWithErrors(value2) ? value2.value : value2;
+    const normValue1 = !val1 || val1 === '' ? null : val1;
+    const normValue2 = !val2 || val2 === '' ? null : val2;
+    return normValue1 !== normValue2;
 };
 
 /**
@@ -194,7 +216,7 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
 
     // Only update the field if the given property value actually changed.
     let updatedNode = selectedNode;
-    if (value !== (hydrated ? currentValue.value : currentValue)) {
+    if (valueChanged(currentValue, value)) {
         const newValue = hydrated ? {error, value} : value;
         if (isScreen(selectedNode)) {
             error = error === null ? screenValidation.validateProperty(property, value) : error;
@@ -211,8 +233,10 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 hydrated,
                 error,
                 newValueGuid: event.detail.guid,
-                dataType: selectedNode.dataType || event.detail.valueDataType
+                dataType: selectedNode.dataType || event.detail.valueDataType,
+                required: event.detail.required
             };
+
             let newField = null;
             if (isExtensionField(selectedNode) && property !== 'name') {
                 newField = handleExtensionFieldPropertyChange(data);
