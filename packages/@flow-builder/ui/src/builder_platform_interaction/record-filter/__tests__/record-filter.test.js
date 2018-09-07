@@ -61,7 +61,7 @@ const selectors = {
     filterRecordsCombobox: 'lightning-combobox',
     hiddenFilterList: 'builder_platform_interaction-list.slds-hide',
     filterList: 'builder_platform_interaction-list',
-    expressionBuilder: 'builder_platform_interaction-expression-builder',
+    expressionBuilder: 'builder_platform_interaction-field-to-ferov-expression-builder',
     warningIcon: 'lightning-icon',
     warningMessage: 'builder_platform_interaction-rich-label',
 };

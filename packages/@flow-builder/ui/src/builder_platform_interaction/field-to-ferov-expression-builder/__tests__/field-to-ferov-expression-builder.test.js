@@ -5,7 +5,12 @@ import FieldToFerovExpressionBuilder from '../field-to-ferov-expression-builder.
 import { numberVariableGuid, numberVariableDevName,
     accountSObjectVariableGuid, accountSObjectVariableDevName, elements } from 'mock-store-data';
 import { elementToParam, RULE_OPERATOR } from 'builder_platform_interaction-rule-lib';
-import { mutateFlowResourceToComboboxShape, mutateFieldToComboboxShape, EXPRESSION_PROPERTY_TYPE, } from 'builder_platform_interaction-expression-utils';
+import {
+    mutateFlowResourceToComboboxShape,
+    mutateFieldToComboboxShape,
+    EXPRESSION_PROPERTY_TYPE,
+    LHS_DISPLAY_OPTION,
+} from 'builder_platform_interaction-expression-utils';
 import { mockAccountFields, mockAccountFieldWithPicklist } from 'mock-server-entity-data';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
@@ -20,41 +25,16 @@ function createComponentForTest(props) {
     return el;
 }
 
-function createMockPopulatedExpression() {
-    return {
-        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-            value: numberVariableGuid,
-            error: null,
-        },
-        [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
-            value: RULE_OPERATOR.ASSIGN,
-            error: null,
-        },
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-            value: addCurlyBraces(numberVariableDevName),
-            error: null,
-        },
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
-            value: FEROV_DATA_TYPE.REFERENCE,
-            error: null,
-        },
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {
-            value: numberVariableGuid,
-            error: null,
-        }
-    };
-}
-
+const sobject = 'Account';
 const numberVariable = elements[numberVariableGuid];
 const picklistField = 'AccountSource';
 const accountField = mockAccountFieldWithPicklist.AccountSource;
-accountField.isCollection = false;
 const accountVariableComboboxShape = mutateFlowResourceToComboboxShape(elements[accountSObjectVariableGuid]);
 
 function createMockPopulatedFieldExpression() {
     return {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-            value: accountSObjectVariableGuid + '.' + picklistField,
+            value: sobject + '.' + picklistField,
             error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -76,20 +56,14 @@ function createMockPopulatedFieldExpression() {
     };
 }
 
-function getBaseExpressionBuilder(ferToFerovWrapper) {
-    return getShadowRoot(ferToFerovWrapper).querySelector("builder_platform_interaction-base-expression-builder");
+function getBaseExpressionBuilder(fieldToFerovWrapper) {
+    return getShadowRoot(fieldToFerovWrapper).querySelector("builder_platform_interaction-base-expression-builder");
 }
 
 jest.mock('builder_platform_interaction-rule-lib', () => {
     return {
-        getLHSTypes: jest.fn(),
-        getOperators: jest.fn().mockImplementation(() => {
-            return ['Assign', 'Add'];
-        }),
-        getRHSTypes: jest.fn(),
-        transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
-        getRulesForContext: jest.fn().mockReturnValue([]),
         elementToParam: require.requireActual('builder_platform_interaction-rule-lib').elementToParam,
+        getRHSTypes: jest.fn(),
         RULE_OPERATOR: require.requireActual('builder_platform_interaction-rule-lib').RULE_OPERATOR,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction-rule-lib').PARAM_PROPERTY,
     };
@@ -97,14 +71,11 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
 
 jest.mock('builder_platform_interaction-expression-utils', () => {
     return {
-        getElementsForMenuData: jest.fn().mockReturnValue([]),
         EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction-expression-utils').EXPRESSION_PROPERTY_TYPE,
-        getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction-expression-utils').getResourceByUniqueIdentifier,
-        isElementAllowed: require.requireActual('builder_platform_interaction-expression-utils').isElementAllowed,
-        sanitizeGuid: require.requireActual('builder_platform_interaction-data-mutation-lib').sanitizeGuid,
-        filterFieldsForChosenElement: require.requireActual('builder_platform_interaction-expression-utils').filterFieldsForChosenElement,
-        OPERATOR_DISPLAY_OPTION: require.requireActual('builder_platform_interaction-expression-utils').OPERATOR_DISPLAY_OPTION,
-        getResourceFerovDataType: require.requireActual('builder_platform_interaction-expression-utils').getResourceFerovDataType,
+        validateExpressionShape: require.requireActual('builder_platform_interaction-expression-utils').validateExpressionShape,
+        LHS_DISPLAY_OPTION: require.requireActual('builder_platform_interaction-expression-utils').LHS_DISPLAY_OPTION,
+        populateLhsStateForField: require.requireActual('builder_platform_interaction-expression-utils').populateLhsStateForField,
+        populateRhsState: require.requireActual('builder_platform_interaction-expression-utils').populateRhsState,
         mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction-expression-utils').mutateFlowResourceToComboboxShape,
         mutateFieldToComboboxShape: require.requireActual('builder_platform_interaction-expression-utils').mutateFieldToComboboxShape,
     };
@@ -127,7 +98,7 @@ const INVALID_VALUE = 'invalidValue';
 const labels = ['lhsLabel', 'operatorLabel', 'rhsLabel'];
 const placeholders = ['lhsPlaceholder', 'operatorPlaceholder', 'rhsPlaceholder'];
 
-describe('fer-to-ferov-expression-builder', () => {
+describe('field-to-ferov-expression-builder', () => {
     describe('label sanity checks', () => {
         for (let i = 0; i < 3; i++) {
             it(`has the ${labels[i]} defined`, () => {
@@ -135,7 +106,7 @@ describe('fer-to-ferov-expression-builder', () => {
                     lhsLabel: "LHS",
                     operatorLabel: "operator",
                     rhsLabel: "RHS",
-                    expression: createMockPopulatedExpression(),
+                    expression: createMockPopulatedFieldExpression(),
                 });
                 expect(expressionBuilder[labels[i]]).toBeDefined();
             });
@@ -148,39 +119,25 @@ describe('fer-to-ferov-expression-builder', () => {
                     lhsPlaceholder: "LHS",
                     operatorPlaceholder: "operator",
                     rhsPlaceholder: "RHS",
-                    expression: createMockPopulatedExpression(),
+                    expression: createMockPopulatedFieldExpression(),
                 });
                 expect(expressionBuilder[placeholders[i]]).toBeDefined();
             });
         }
     });
     describe('parsing LHS', () => {
-        it('should handle FER on LHS', () => {
-            const expressionBuilder = createComponentForTest({
-                expression: createMockPopulatedExpression(),
-            });
-            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
-            expect(baseExpressionBuilder.lhsValue).toMatchObject(mutateFlowResourceToComboboxShape(numberVariable));
-            expect(baseExpressionBuilder.lhsParam).toMatchObject(elementToParam(numberVariable));
-            expect(baseExpressionBuilder.lhsActivePicklistValues).toBeDefined();
-            expect(baseExpressionBuilder.lhsActivePicklistValues).toBeFalsy();
-            expect(baseExpressionBuilder.lhsIsField).toBeDefined();
-            expect(baseExpressionBuilder.lhsIsField).toBeFalsy();
-            expect(baseExpressionBuilder.lhsFields).toBeDefined();
-            expect(baseExpressionBuilder.lhsFields).toBeFalsy();
-        });
-        it('should handle field on sobject var on LHS', () => {
+        it('should handle field on LHS', () => {
             const expressionBuilder = createComponentForTest({
                 expression: createMockPopulatedFieldExpression(),
+                objectType: sobject,
+                lhsFields: mockAccountFields,
             });
-            return Promise.resolve().then(() => {
-                const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
-                expect(baseExpressionBuilder.lhsValue).toMatchObject(mutateFieldToComboboxShape(accountField, accountVariableComboboxShape, true, true));
-                expect(baseExpressionBuilder.lhsParam).toMatchObject(elementToParam(accountField));
-                expect(baseExpressionBuilder.lhsActivePicklistValues).toMatchObject(accountField.picklistValues);
-                expect(baseExpressionBuilder.lhsIsField).toBeTruthy();
-                expect(baseExpressionBuilder.lhsFields).toBeTruthy();
-            });
+            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+            expect(baseExpressionBuilder.lhsValue).toMatchObject(mutateFieldToComboboxShape(accountField, {value: sobject}, false, false));
+            expect(baseExpressionBuilder.lhsParam).toMatchObject(elementToParam(accountField));
+            expect(baseExpressionBuilder.lhsActivePicklistValues).toEqual(accountField.activePicklistValues);
+            expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.SOBJECT_FIELD);
+            expect(baseExpressionBuilder.lhsFields).toEqual(mockAccountFields);
         });
         it('should pass plain lhs value if there is an error', () => {
             const expressionBuilder = createComponentForTest({
@@ -198,6 +155,8 @@ describe('fer-to-ferov-expression-builder', () => {
                         error: null,
                     },
                 },
+                objectType: sobject,
+                lhsFields: mockAccountFields,
             });
             const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
             expect(baseExpressionBuilder.lhsValue).toEqual(INVALID_VALUE);
@@ -205,10 +164,8 @@ describe('fer-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.lhsParam).toBeFalsy();
             expect(baseExpressionBuilder.lhsActivePicklistValues).toBeDefined();
             expect(baseExpressionBuilder.lhsActivePicklistValues).toBeFalsy();
-            expect(baseExpressionBuilder.lhsIsField).toBeDefined();
-            expect(baseExpressionBuilder.lhsIsField).toBeFalsy();
-            expect(baseExpressionBuilder.lhsFields).toBeDefined();
-            expect(baseExpressionBuilder.lhsFields).toBeFalsy();
+            expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.SOBJECT_FIELD);
+            expect(baseExpressionBuilder.lhsFields).toEqual(mockAccountFields);
         });
         it('should pass plain lhs value if invalid but there is no error', () => {
             const expressionBuilder = createComponentForTest({
@@ -226,6 +183,8 @@ describe('fer-to-ferov-expression-builder', () => {
                         error: null,
                     },
                 },
+                objectType: sobject,
+                lhsFields: mockAccountFields,
             });
             const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
             expect(baseExpressionBuilder.lhsValue).toEqual(INVALID_VALUE);
@@ -233,16 +192,35 @@ describe('fer-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.lhsParam).toBeFalsy();
             expect(baseExpressionBuilder.lhsActivePicklistValues).toBeDefined();
             expect(baseExpressionBuilder.lhsActivePicklistValues).toBeFalsy();
-            expect(baseExpressionBuilder.lhsIsField).toBeDefined();
-            expect(baseExpressionBuilder.lhsIsField).toBeFalsy();
-            expect(baseExpressionBuilder.lhsFields).toBeDefined();
-            expect(baseExpressionBuilder.lhsFields).toBeFalsy();
+            expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.SOBJECT_FIELD);
+            expect(baseExpressionBuilder.lhsFields).toEqual(mockAccountFields);
         });
     });
     describe('parsing RHS', () => {
         it('should handle FER on RHS', () => {
             const expressionBuilder = createComponentForTest({
-                expression: createMockPopulatedExpression(),
+                expression: {
+                    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+                        value: numberVariableGuid,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
+                        value: RULE_OPERATOR.ASSIGN,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
+                        value: addCurlyBraces(numberVariableDevName),
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+                        value: FEROV_DATA_TYPE.REFERENCE,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {
+                        value: numberVariableGuid,
+                        error: null,
+                    }
+                },
             });
             const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
             expect(baseExpressionBuilder.rhsValue).toMatchObject(mutateFlowResourceToComboboxShape(numberVariable));
@@ -295,7 +273,7 @@ describe('fer-to-ferov-expression-builder', () => {
             const expressionBuilder = createComponentForTest({
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-                        value: accountSObjectVariableGuid + '.' + picklistField,
+                        value: sobject + '.' + picklistField,
                         error: null,
                     },
                     [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
