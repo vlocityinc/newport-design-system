@@ -102,4 +102,21 @@ describe('fetchOnce function', () => {
         expect(errorAuraFetch).toHaveBeenCalledTimes(2);
         expect(mockIdentityAuraFetch).toHaveBeenCalledTimes(1);
     });
+    it('returns readonly objects', async () => {
+        setAuraFetch(mockIdentityAuraFetch);
+        const parameters = { prop1 : { prop2 : 'value'} };
+        const callPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
+        const result = await callPromise;
+        expect(result.prop1.prop2).toEqual('value');
+        expect(() => {
+            result.prop1.prop2 = 'new value';
+        }).toThrow('Invalid mutation: Cannot set "prop2" on "[object Object]". "[object Object]" is read-only.');
+    });
+    it('correctly returns primitive values', async () => {
+        setAuraFetch(mockIdentityAuraFetch);
+        const parameters = 1;
+        const callPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
+        const result = await callPromise;
+        expect(result).toEqual(1);
+    });
 });
