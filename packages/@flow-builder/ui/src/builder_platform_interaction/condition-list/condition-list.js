@@ -87,38 +87,12 @@ export default class ConditionList extends LightningElement {
         }
     }
 
-    get showDeleteCondition() {
-        return this.state.conditions.length > 1;
-    }
-
-    getPrefix(index) {
-        // conditionLogic.value is either 'and' or 'or' or a custom logic string (e.g. '1 AND (2 or 3)'
-        if (this.state.conditionLogic.value === CONDITION_LOGIC.AND || this.state.conditionLogic.value === CONDITION_LOGIC.OR) {
-            return index > 0 ? this.state.conditionLogic.value : '';
-        }
-        // Convert to 1 based indexes
-        return (index + 1).toString();
-    }
-
-    get conditionsWithPrefixes() {
-        return this.state.conditions.map((condition, i) => {
-            return {
-                prefix: this.getPrefix(i).toUpperCase(),
-                condition
-            };
-        });
-    }
-
     /**
-     * Whether the conditions list will be rendered
+     * Whether the conditions list will be rendered - true unless no conditions are needed
      * @return {null|boolean} whether the condition list will be displayed
      */
     get isConditionListVisible() {
         return this.state.conditionLogic && this.state.conditionLogic.value === CONDITION_LOGIC.NO_CONDITIONS;
-    }
-
-    get isLhsTypeField() {
-        return this.fields;
     }
 
     /** Sets the CustomValidity if there is a valid error message.

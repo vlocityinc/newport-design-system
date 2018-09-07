@@ -25,5 +25,25 @@
             condition-logic={outcome.conditionLogic}
             logic-combobox-label={labels.outcomeConditionsHeader}
             container-element-type={elementTypeForExpressionBuilder}>
+        <div slot="conditions">
+            <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
+                <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.condition.rowIndex}>
+                    <builder_platform_interaction-row item-prefix={conditionWithPrefix.prefix} show-prefix=true
+                                                      item-index={conditionIndex} show-delete={showDeleteCondition}
+                                                      key={conditionWithPrefix.condition.rowIndex}>
+                        <div slot="rowBody">
+                            <builder_platform_interaction-fer-to-ferov-expression-builder
+                                    container-element={elementTypeForExpressionBuilder}
+                                    expression={conditionWithPrefix.condition}
+                                    lhs-label={labels.lhsLabel} operator-label={labels.operatorLabel}
+                                    rhs-label={labels.rhsLabel}
+                                    lhs-placeholder={labels.lhsPlaceholder}
+                                    operator-placeholder={labels.operatorPlaceholder}>
+                            </builder_platform_interaction-fer-to-ferov-expression-builder>
+                        </div>
+                    </builder_platform_interaction-row>
+                </div>
+            </template>
+        </div>
     </builder_platform_interaction-condition-list>
 </template>

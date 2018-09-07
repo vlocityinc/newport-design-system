@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction-condition-list-utils';
 import {
     DeleteOutcomeEvent
 } from 'builder_platform_interaction-events';
@@ -40,7 +41,24 @@ export default class Outcome extends LightningElement {
         {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: this.labels.customConditionLogicLabel},
     ];
 
+    @track
     elementTypeForExpressionBuilder = ELEMENT_TYPE.DECISION;
+
+    /**
+     * Helper method needed for conditions list
+     * @return {boolean} if delete should be shown for each condition
+     */
+    get showDeleteCondition() {
+        return this.element.conditions && showDeleteCondition(this.element.conditions);
+    }
+
+    /**
+     * Return the conditions to be rendered edcorated with the correct prefixes
+     * @return {Object[]} Array of all conditions decorated with prefix
+     */
+    get conditionsWithPrefixes() {
+        return this.element.conditions ? getConditionsWithPrefixes(this.element.conditionLogic, this.element.conditions) : [];
+    }
 
     /**
      * @param {object} event - Click Event to delete the outcome

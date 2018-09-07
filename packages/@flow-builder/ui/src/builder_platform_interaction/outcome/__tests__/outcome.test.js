@@ -103,4 +103,50 @@ describe('Outcome', () => {
             });
         });
     });
+
+    // TODO: Determine how to test 'grandchildren' which are passed in to slots.  This is not currently
+    // supported by jsdom. See outstanding PR: https://github.com/jsdom/jsdom/pull/2347/files
+    //
+    // it('expression builder type should be fer-to-ferov if no fields present', () => {
+    //     const element = createComponentUnderTest(listWithThreeConditionals);
+    //
+    //     return Promise.resolve().then(() => {
+    //         const ebs = getShadowRoot(element).querySelectorAll(selectors.ferToFerov);
+    //         expect(ebs).toHaveLength(3);
+    //     });
+    // });
+    // describe('condition list', () => {
+    //     it('has one conditional row per conditional', () => {
+    //         const element = createComponentUnderTest(listWithThreeConditionals);
+    //
+    //         return Promise.resolve().then(() => {
+    //             const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
+    //
+    //             expect(rowsArray).toHaveLength(3);
+    //         });
+    //     });
+    // describe('prefix', () => {
+    // it('show-prefix is always true', () => {
+    //     const element = createComponentUnderTest(listWithThreeConditionals);
+    //
+    //     return Promise.resolve().then(() => {
+    //         const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
+    //
+    //         expect(rowsArray[0].showPrefix).toBeTruthy();
+    //         expect(rowsArray[1].showPrefix).toBeTruthy();
+    //         expect(rowsArray[2].showPrefix).toBeTruthy();
+    //     });
+    // });
+    //     it('show-prefix is always true', () => {
+    //         const element = createComponentUnderTest(listWithThreeConditionals);
+    //
+    //         return Promise.resolve().then(() => {
+    //             const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
+    //
+    //             expect(rowsArray[0].showPrefix).toBeTruthy();
+    //             expect(rowsArray[1].showPrefix).toBeTruthy();
+    //             expect(rowsArray[2].showPrefix).toBeTruthy();
+    //         });
+    //     });
+    // });
 });

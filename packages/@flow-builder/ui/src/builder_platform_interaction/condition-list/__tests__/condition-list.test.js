@@ -13,20 +13,6 @@ import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction-flow
 import { LABELS } from '../condition-list-labels';
 import { getShadowRoot } from 'lwc-test-utils';
 
-const listWithOneConditional = {
-    containerElementType: ELEMENT_TYPE.DECISION,
-    parentGuid: {value: '123'},
-    conditionLogicOptions: [
-        {value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel},
-        {value: CONDITION_LOGIC.OR, label: LABELS.orConditionLogicLabel},
-        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: LABELS.customConditionLogicLabel}
-    ],
-    conditionLogic: {value: '1'},
-    conditions: [
-        {name: 'condition1', rowIndex: 0}
-    ]
-};
-
 const listWithThreeConditionals = {
     containerElementType: ELEMENT_TYPE.DECISION,
     parentGuid: {value: '123'},
@@ -87,383 +73,243 @@ const createComponentUnderTest = (conditionList) => {
 };
 
 describe('Condition List', () => {
-    // TODO: Determine how to test 'grandchildren' which are passed in to slots.  This is not currently
-    // supported by jsdom. See outstanding PR: https://github.com/jsdom/jsdom/pull/2347/files
-    //
-    // describe('expression builder type', () => {
-    //     it('should be fer-to-ferov if no fields present', () => {
-    //         const element = createComponentUnderTest(listWithThreeConditionals);
-    //
-    //         return Promise.resolve().then(() => {
-    //             const ebs = getShadowRoot(element).querySelectorAll(selectors.ferToFerov);
-    //             expect(ebs).toHaveLength(3);
-    //         });
-    //     });
-    //     it('should be field-to-ferov if fields present', () => {
-    //         const element = createComponentUnderTest(listForWait);
-    //
-    //         return Promise.resolve().then(() => {
-    //             const ebs = getShadowRoot(element).querySelectorAll(selectors.fieldToFerov);
-    //             expect(ebs).toHaveLength(1);
-    //         });
-    //     });
-    // });
-
-    describe('advanced logic component', () => {
-        it('has one conditional row per conditional', () => {
+    describe('handleAddCondition', () => {
+        it('fires addConditionEvent with current outcome GUID', () => {
             const element = createComponentUnderTest(listWithThreeConditionals);
 
             return Promise.resolve().then(() => {
-                const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
+                const eventCallback = jest.fn();
+                element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
 
-                expect(rowsArray).toHaveLength(3);
-            });
-        });
-        describe('delete button', () => {
-            it('is inactive if there is only one conditional', () => {
-                const element = createComponentUnderTest(listWithOneConditional);
+                const conditionList = getShadowRoot(element).querySelector(selectors.conditionList);
+                conditionList.dispatchEvent(new AddListItemEvent());
 
-                return Promise.resolve().then(() => {
-                    const row = getShadowRoot(element).querySelector(selectors.row);
-
-                    expect(row.showDelete).toBeFalsy();
-                });
-            });
-            it('is active if there are multiple conditionals', () => {
-                const element = createComponentUnderTest(listWithThreeConditionals);
-
-                return Promise.resolve().then(() => {
-                    const rows = getShadowRoot(element).querySelectorAll(selectors.row);
-
-                    expect(rows[0].showDelete).toBeTruthy();
-                    expect(rows[1].showDelete).toBeTruthy();
-                    expect(rows[2].showDelete).toBeTruthy();
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    detail: {
+                        parentGUID: element.parentGuid
+                    }
                 });
             });
         });
-        describe('prefix', () => {
-            it('show-prefix is always true', () => {
-                const element = createComponentUnderTest(listWithThreeConditionals);
+    });
 
-                return Promise.resolve().then(() => {
-                    const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
+    describe('handleDeleteCondition', () => {
+        it('fires deleteConditionEvent with outcome GUID and condition index', () => {
+            const indexToDelete = 300;
 
-                    expect(rowsArray[0].showPrefix).toBeTruthy();
-                    expect(rowsArray[1].showPrefix).toBeTruthy();
-                    expect(rowsArray[2].showPrefix).toBeTruthy();
-                });
-            });
-            describe('AND', () => {
-                it('displays no prefix for the first row', () => {
-                    const list = Object.assign({}, listWithThreeConditionals);
-                    list.conditionLogic = {
-                        value: 'and'
-                    };
-                    const element = createComponentUnderTest(list);
+            const element = createComponentUnderTest(listWithThreeConditionals);
 
-                    return Promise.resolve().then(() => {
-                        const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
+            return Promise.resolve().then(() => {
+                const eventCallback = jest.fn();
+                element.addEventListener(DeleteConditionEvent.EVENT_NAME, eventCallback);
 
-                        expect(rowsArray[0].itemPrefix).toEqual('');
-                    });
-                });
-                it('displays the prefix "AND" for all other rows', () => {
-                    const list = Object.assign({}, listWithThreeConditionals);
-                    list.conditionLogic = {
-                        value: 'and'
-                    };
-                    const element = createComponentUnderTest(list);
+                const conditionList = getShadowRoot(element).querySelector(selectors.conditionList);
+                conditionList.dispatchEvent(new DeleteListItemEvent(indexToDelete));
 
-                    return Promise.resolve().then(() => {
-                        const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
-
-                        expect(rowsArray[1].itemPrefix).toEqual('AND');
-                        expect(rowsArray[2].itemPrefix).toEqual('AND');
-                    });
-                });
-            });
-            describe('OR', () => {
-                it('displays no prefix for the first row', () => {
-                    const list = Object.assign({}, listWithThreeConditionals);
-                    list.conditionLogic = {
-                        value: 'or'
-                    };
-                    const element = createComponentUnderTest(list);
-
-                    return Promise.resolve().then(() => {
-                        const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
-
-                        expect(rowsArray[0].itemPrefix).toEqual('');
-                    });
-                });
-                it('displays the prefix "OR" for all other rows', () => {
-                    const list = Object.assign({}, listWithThreeConditionals);
-                    list.conditionLogic = {
-                        value: 'or'
-                    };
-                    const element = createComponentUnderTest(list);
-
-                    return Promise.resolve().then(() => {
-                        const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
-
-                        expect(rowsArray[1].itemPrefix).toEqual('OR');
-                        expect(rowsArray[2].itemPrefix).toEqual('OR');
-                    });
-                });
-            });
-            describe('advanced', () => {
-                it('displays 1-based numerical prefix for all rows', () => {
-                    const element = createComponentUnderTest(listWithThreeConditionals);
-
-                    return Promise.resolve().then(() => {
-                        const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
-
-                        expect(rowsArray[0].itemPrefix).toEqual('1');
-                        expect(rowsArray[1].itemPrefix).toEqual('2');
-                        expect(rowsArray[2].itemPrefix).toEqual('3');
-                    });
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    detail: {
+                        parentGUID: element.parentGuid,
+                        index: indexToDelete
+                    }
                 });
             });
         });
+    });
 
-        describe('handleAddCondition', () => {
-            it('fires addConditionEvent with current outcome GUID', () => {
-                const element = createComponentUnderTest(listWithThreeConditionals);
+    describe('handleUpdateCondition', () => {
+        it('fires updateConditionEvent with parent GUID, condition index, a property name, value and error', () => {
+            const updateData = {
+                index: 300,
+                value: 'newVal',
+            };
 
-                return Promise.resolve().then(() => {
-                    const eventCallback = jest.fn();
-                    element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
+            const element = createComponentUnderTest(listWithThreeConditionals);
 
-                    const conditionList = getShadowRoot(element).querySelector(selectors.conditionList);
-                    conditionList.dispatchEvent(new AddListItemEvent());
+            return Promise.resolve().then(() => {
+                const eventCallback = jest.fn();
+                element.addEventListener(UpdateConditionEvent.EVENT_NAME, eventCallback);
 
-                    expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        detail: {
-                            parentGUID: element.parentGuid
-                        }
-                    });
+                const conditionList = getShadowRoot(element).querySelector(selectors.conditionList);
+                conditionList.dispatchEvent(new UpdateListItemEvent(
+                    updateData.index,
+                    updateData.value,
+                    updateData.error
+                ));
+
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    detail: {
+                        parentGUID: element.parentGuid,
+                        index: updateData.index,
+                        value: updateData.value,
+                    }
                 });
             });
         });
+    });
 
-        describe('handleDeleteCondition', () => {
-            it('fires deleteConditionEvent with outcome GUID and condition index', () => {
-                const indexToDelete = 300;
-
-                const element = createComponentUnderTest(listWithThreeConditionals);
+    describe('condition logic', () => {
+        describe('NO_CONDITIONS', () => {
+            it('should hide the custom logic input', () => {
+                const list = Object.assign({}, listForWaitWithNoConditions);
+                const element = createComponentUnderTest(list);
 
                 return Promise.resolve().then(() => {
-                    const eventCallback = jest.fn();
-                    element.addEventListener(DeleteConditionEvent.EVENT_NAME, eventCallback);
-
-                    const conditionList = getShadowRoot(element).querySelector(selectors.conditionList);
-                    conditionList.dispatchEvent(new DeleteListItemEvent(indexToDelete));
-
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        detail: {
-                            parentGUID: element.parentGuid,
-                            index: indexToDelete
-                        }
-                    });
+                    const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
+                    expect(customLogicInput).toBeNull();
                 });
             });
         });
+        it('should hide the list of conditions', () => {
+            const list = Object.assign({}, listWithThreeConditionals);
+            list.conditionLogic = {
+                value: CONDITION_LOGIC.NO_CONDITIONS
+            };
+            const element = createComponentUnderTest(list);
 
-        describe('handleUpdateCondition', () => {
-            it('fires updateConditionEvent with parent GUID, condition index, a property name, value and error', () => {
-                const updateData = {
-                    index: 300,
-                    value: 'newVal',
-                };
-
-                const element = createComponentUnderTest(listWithThreeConditionals);
-
-                return Promise.resolve().then(() => {
-                    const eventCallback = jest.fn();
-                    element.addEventListener(UpdateConditionEvent.EVENT_NAME, eventCallback);
-
-                    const conditionList = getShadowRoot(element).querySelector(selectors.conditionList);
-                    conditionList.dispatchEvent(new UpdateListItemEvent(
-                        updateData.index,
-                        updateData.value,
-                        updateData.error
-                    ));
-
-                    expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        detail: {
-                            parentGUID: element.parentGuid,
-                            index: updateData.index,
-                            value: updateData.value,
-                        }
-                    });
-                });
+            return Promise.resolve().then(() => {
+                const customLogicInput = getShadowRoot(element).querySelector(selectors.conditionList);
+                expect(customLogicInput).toBeNull();
             });
         });
 
-        describe('condition logic', () => {
-            describe('NO_CONDITIONS', () => {
-                it('should hide the custom logic input', () => {
-                    const list = Object.assign({}, listForWaitWithNoConditions);
-                    const element = createComponentUnderTest(list);
-
-                    return Promise.resolve().then(() => {
-                        const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
-                        expect(customLogicInput).toBeNull();
-                    });
-                });
-            });
-            it('should hide the list of conditions', () => {
+        describe('AND', () => {
+            it('sets the logic combobox to \'and\'', () => {
                 const list = Object.assign({}, listWithThreeConditionals);
                 list.conditionLogic = {
-                    value: CONDITION_LOGIC.NO_CONDITIONS
+                    value: 'and'
                 };
                 const element = createComponentUnderTest(list);
 
                 return Promise.resolve().then(() => {
-                    const customLogicInput = getShadowRoot(element).querySelector(selectors.conditionList);
+                    const conditionLogicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
+
+                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.AND);
+                });
+            });
+            it('should hide the custom logic input', () => {
+                const list = Object.assign({}, listWithThreeConditionals);
+                list.conditionLogic = {
+                    value: 'and'
+                };
+                const element = createComponentUnderTest(list);
+
+                return Promise.resolve().then(() => {
+                    const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
                     expect(customLogicInput).toBeNull();
                 });
             });
+        });
 
-            describe('AND', () => {
-                it('sets the logic combobox to \'and\'', () => {
+        describe('OR', () => {
+            it('sets the logic combobox to \'or\'', () => {
+                const list = Object.assign({}, listWithThreeConditionals);
+                list.conditionLogic = {
+                    value: 'or'
+                };
+                const element = createComponentUnderTest(list);
+
+                return Promise.resolve().then(() => {
+                    const conditionLogicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
+
+                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.OR);
+                });
+            });
+            it('should hide the custom logic input', () => {
+                const list = Object.assign({}, listWithThreeConditionals);
+                list.conditionLogic = {
+                    value: 'or'
+                };
+
+                const element = createComponentUnderTest(list);
+
+                return Promise.resolve().then(() => {
+                    const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
+                    expect(customLogicInput).toBeNull();
+                });
+            });
+        });
+
+        describe('custom logic', () => {
+            it('sets the logic combobox to custom logic', () => {
+                const element = createComponentUnderTest(listWithThreeConditionals);
+
+                return Promise.resolve().then(() => {
+                    const conditionLogicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
+
+                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.CUSTOM_LOGIC);
+                });
+            });
+            it('shows the custom logic with the value from conditionLogic', () => {
+                const element = createComponentUnderTest(listWithThreeConditionals);
+
+                return Promise.resolve().then(() => {
+                    const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
+
+                    expect(customLogicInput.value).toEqual(listWithThreeConditionals.conditionLogic.value);
+                });
+            });
+
+            describe('default value', () => {
+                it('from AND all conditions should be separated by ANDs', () => {
                     const list = Object.assign({}, listWithThreeConditionals);
                     list.conditionLogic = {
                         value: 'and'
                     };
-                    const element = createComponentUnderTest(list);
-
-                    return Promise.resolve().then(() => {
-                        const conditionLogicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
-
-                        expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.AND);
-                    });
-                });
-                it('should hide the custom logic input', () => {
-                    const list = Object.assign({}, listWithThreeConditionals);
-                    list.conditionLogic = {
-                        value: 'and'
-                    };
-                    const element = createComponentUnderTest(list);
-
-                    return Promise.resolve().then(() => {
-                        const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
-                        expect(customLogicInput).toBeNull();
-                    });
-                });
-            });
-
-            describe('OR', () => {
-                it('sets the logic combobox to \'or\'', () => {
-                    const list = Object.assign({}, listWithThreeConditionals);
-                    list.conditionLogic = {
-                        value: 'or'
-                    };
-                    const element = createComponentUnderTest(list);
-
-                    return Promise.resolve().then(() => {
-                        const conditionLogicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
-
-                        expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.OR);
-                    });
-                });
-                it('should hide the custom logic input', () => {
-                    const list = Object.assign({}, listWithThreeConditionals);
-                    list.conditionLogic = {
-                        value: 'or'
-                    };
 
                     const element = createComponentUnderTest(list);
 
                     return Promise.resolve().then(() => {
-                        const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
-                        expect(customLogicInput).toBeNull();
-                    });
-                });
-            });
+                        const eventCallback = jest.fn();
+                        element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
 
-            describe('custom logic', () => {
-                it('sets the logic combobox to custom logic', () => {
-                    const element = createComponentUnderTest(listWithThreeConditionals);
+                        const logicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
+                        logicComboBox.dispatchEvent(new CustomEvent('change', {
+                            detail: {
+                                value: CONDITION_LOGIC.CUSTOM_LOGIC
+                            }
+                        }));
 
-                    return Promise.resolve().then(() => {
-                        const conditionLogicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
-
-                        expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.CUSTOM_LOGIC);
-                    });
-                });
-                it('shows the custom logic with the value from conditionLogic', () => {
-                    const element = createComponentUnderTest(listWithThreeConditionals);
-
-                    return Promise.resolve().then(() => {
-                        const customLogicInput = getShadowRoot(element).querySelector(selectors.customLogicInput);
-
-                        expect(customLogicInput.value).toEqual(listWithThreeConditionals.conditionLogic.value);
-                    });
-                });
-
-                describe('default value', () => {
-                    it('from AND all conditions should be separated by ANDs', () => {
-                        const list = Object.assign({}, listWithThreeConditionals);
-                        list.conditionLogic = {
-                            value: 'and'
-                        };
-
-                        const element = createComponentUnderTest(list);
-
-                        return Promise.resolve().then(() => {
-                            const eventCallback = jest.fn();
-                            element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
-
-                            const logicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
-                            logicComboBox.dispatchEvent(new CustomEvent('change', {
-                                detail: {
-                                    value: CONDITION_LOGIC.CUSTOM_LOGIC
-                                }
-                            }));
-
-                            expect(eventCallback).toHaveBeenCalled();
-                            expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                                detail: {
-                                    guid: element.parentGuid,
-                                    propertyName: 'conditionLogic',
-                                    value: '1 AND 2 AND 3',
-                                    error: null
-                                }
-                            });
+                        expect(eventCallback).toHaveBeenCalled();
+                        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                            detail: {
+                                guid: element.parentGuid,
+                                propertyName: 'conditionLogic',
+                                value: '1 AND 2 AND 3',
+                                error: null
+                            }
                         });
                     });
+                });
 
-                    it('from OR all conditions should be separated by ORs', () => {
-                        const list = Object.assign({}, listWithThreeConditionals);
-                        list.conditionLogic = {
-                            value: 'or'
-                        };
+                it('from OR all conditions should be separated by ORs', () => {
+                    const list = Object.assign({}, listWithThreeConditionals);
+                    list.conditionLogic = {
+                        value: 'or'
+                    };
 
-                        const element = createComponentUnderTest(list);
+                    const element = createComponentUnderTest(list);
 
-                        return Promise.resolve().then(() => {
-                            const eventCallback = jest.fn();
-                            element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+                    return Promise.resolve().then(() => {
+                        const eventCallback = jest.fn();
+                        element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
 
-                            const logicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
-                            logicComboBox.dispatchEvent(new CustomEvent('change', {
-                                detail: {
-                                    value: CONDITION_LOGIC.CUSTOM_LOGIC
-                                }
-                            }));
+                        const logicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
+                        logicComboBox.dispatchEvent(new CustomEvent('change', {
+                            detail: {
+                                value: CONDITION_LOGIC.CUSTOM_LOGIC
+                            }
+                        }));
 
-                            expect(eventCallback).toHaveBeenCalled();
-                            expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                                detail: {
-                                    guid: element.parentGuid,
-                                    propertyName: 'conditionLogic',
-                                    value: '1 OR 2 OR 3',
-                                    error: null
-                                }
-                            });
+                        expect(eventCallback).toHaveBeenCalled();
+                        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                            detail: {
+                                guid: element.parentGuid,
+                                propertyName: 'conditionLogic',
+                                value: '1 OR 2 OR 3',
+                                error: null
+                            }
                         });
                     });
                 });

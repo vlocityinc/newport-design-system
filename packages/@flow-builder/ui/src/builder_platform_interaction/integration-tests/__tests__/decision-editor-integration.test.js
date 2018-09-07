@@ -32,6 +32,7 @@ const SELECTORS = {
     LIGHTNING_COMBOBOX: 'lightning-grouped-combobox',
     CONDITION_COMBOBOX: 'lightning-combobox.conditionLogic',
     LABEL_DESCRIPTION_COMPONENT: 'builder_platform_interaction-label-description',
+    CONDITION_LIST: 'builder_platform_interaction-condition-list',
     LIST: 'builder_platform_interaction-list',
     ROW: 'builder_platform_interaction-row',
     EXPRESSION_BUILDER: 'builder_platform_interaction-expression-builder',
@@ -281,9 +282,11 @@ describe('Decision Editor', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
                 return Promise.resolve().then(() => {
                     const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const list = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LIST);
+                    const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
+                    const list = getShadowRoot(conditionList).querySelector(SELECTORS.LIST);
                     // Should only have 1 condition in the list
                     expect(decisionEditor.getNode().outcomes[0].conditions).toHaveLength(1);
+
                     const button = getShadowRoot(list).querySelector(SELECTORS.LIGHTNING_BUTTON);
                     button.click();
                     // Should have 2 conditions
@@ -295,9 +298,10 @@ describe('Decision Editor', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
                 return Promise.resolve().then(() => {
                     const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const list = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LIST);
+                    const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
                     expect(decisionEditor.getNode().outcomes[0].conditions).toHaveLength(1);
-                    const row = list.querySelector(SELECTORS.ROW);
+
+                    const row = conditionList.querySelector(SELECTORS.ROW);
                     const button = getShadowRoot(row).querySelector(SELECTORS.LIGHTNING_BUTTON_ICON);
                     expect(button.disabled).toBeTruthy();
                 });
@@ -306,12 +310,13 @@ describe('Decision Editor', () => {
             it('delete is clickable and works for 2 or more conditions', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
                 return Promise.resolve().then(() => {
-                    const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const list = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LIST);
+                    const outcomeDetailPage = decisionEditor.querySelector(SELECTORS.OUTCOME);
+                    const list = outcomeDetailPage.querySelector(SELECTORS.LIST);
+                    const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
                     const addConditionButton = getShadowRoot(list).querySelector(SELECTORS.LIGHTNING_BUTTON);
                     addConditionButton.click();
                     expect(decisionEditor.getNode().outcomes[0].conditions).toHaveLength(2);
-                    const row = list.querySelector(SELECTORS.ROW);
+                    const row = conditionList.querySelector(SELECTORS.ROW);
                     const deleteButton = getShadowRoot(row).querySelector(SELECTORS.LIGHTNING_BUTTON_ICON);
                     return Promise.resolve().then(() => {
                         expect(deleteButton.disabled).toBeFalsy();
@@ -331,8 +336,8 @@ describe('Decision Editor', () => {
                     expect(decisionEditor.node.outcomes[0].conditionLogic.value).toBe(CONDITION_LOGIC.AND);
 
                     const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const list = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LIST);
-                    const row = list.querySelectorAll(SELECTORS.ROW);
+                    const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
+                    const row = conditionList.querySelectorAll(SELECTORS.ROW);
                     const legendText = getShadowRoot(row[1]).querySelector(SELECTORS.LEGEND_TEXT).textContent;
                     expect(legendText).toBe('AND');
                 });
@@ -341,14 +346,15 @@ describe('Decision Editor', () => {
             it('any condition is met has OR for more than one row', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcomeWithTwoConditions);
                 return Promise.resolve().then(() => {
-                    const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const conditionCombobox = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_COMBOBOX);
+                    const outcomeDetailPage = decisionEditor.querySelector(SELECTORS.OUTCOME);
+                    const conditionCombobox = outcomeDetailPage.querySelector(SELECTORS.CONDITION_COMBOBOX);
+
                     const cbChangeEvent = changeEvent(CONDITION_LOGIC.OR);
                     conditionCombobox.dispatchEvent(cbChangeEvent);
                     return Promise.resolve().then(() => {
                         expect(decisionEditor.node.outcomes[0].conditionLogic.value).toBe(CONDITION_LOGIC.OR);
-                        const list = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LIST);
-                        const row = list.querySelectorAll(SELECTORS.ROW);
+                        const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
+                        const row = conditionList.querySelectorAll(SELECTORS.ROW);
                         const legendText = getShadowRoot(row[1]).querySelector(SELECTORS.LEGEND_TEXT).textContent;
                         expect(legendText).toBe('OR');
                     });
@@ -358,14 +364,15 @@ describe('Decision Editor', () => {
             it('custom condition logic input and shows number for rows', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcomeWithTwoConditions);
                 return Promise.resolve().then(() => {
-                    const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const conditionCombobox = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_COMBOBOX);
+                    const outcomeDetailPage = decisionEditor.querySelector(SELECTORS.OUTCOME);
+                    const conditionCombobox = outcomeDetailPage.querySelector(SELECTORS.CONDITION_COMBOBOX);
+
                     const cbChangeEvent = changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC);
                     conditionCombobox.dispatchEvent(cbChangeEvent);
                     return Promise.resolve().then(() => {
                         expect(decisionEditor.node.outcomes[0].conditionLogic.value).toBe('1 AND 2');
-                        const list = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LIST);
-                        const row = list.querySelectorAll(SELECTORS.ROW);
+                        const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
+                        const row = conditionList.querySelectorAll(SELECTORS.ROW);
                         let legendText = getShadowRoot(row[0]).querySelector(SELECTORS.LEGEND_TEXT).textContent;
                         expect(legendText).toBe('1');
                         legendText = getShadowRoot(row[1]).querySelector(SELECTORS.LEGEND_TEXT).textContent;
