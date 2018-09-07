@@ -1,4 +1,4 @@
-import { isMatch, getLHSTypes, getOperators, getRHSTypes } from 'builder_platform_interaction-rule-lib';
+import { isMatch, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox } from 'builder_platform_interaction-rule-lib';
 import { mockRules, dateParam, stageParam, stringParam, numberParamMustBeField, numberParamCannotBeField, numberParamCanBeField,
     dateCollectionParam, dateParamMissingCollection, dateParamMustBeElements, dateParamCannotBeElements,
     dateParamNoElementsList } from 'mock-rule-service';
@@ -6,6 +6,7 @@ import { elements, dateVariableGuid, dateCollectionVariableGuid, stageGuid, stri
     hydratedElements } from 'mock-store-data';
 import { RULE_TYPES, RULE_PROPERTY } from '../rules';
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { setOperators } from '../operator-rule-util';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const ASSIGNMENT_OPERATOR = 'Assign';
@@ -192,6 +193,28 @@ describe('Operator Rule Util', () => {
             expect(() => {
                 getOperators(ELEMENT_TYPE.ASSIGNMENT, elements[dateVariableGuid], mockRules, 'invalidRuleType');
             }).toThrow();
+        });
+    });
+
+    describe('transformOperatorsForCombobox', () => {
+        const mockOperators = ['fancyOperator'];
+        const mockMap = {
+            fancyOperator: 'Fancy Operator',
+        };
+
+        beforeEach(() => {
+            setOperators(mockMap);
+        });
+
+        it('returns a menu item with label from operator label map', () => {
+            const result = transformOperatorsForCombobox(mockOperators);
+            expect(result).toEqual(expect.any(Array));
+            expect(result).toEqual([{ value: mockOperators[0], label: mockMap[mockOperators[0]]}]);
+        });
+
+        it('returns an array of objects with value and label properties', () => {
+            const result = transformOperatorsForCombobox(mockOperators);
+            expect(result).toEqual([{value: expect.anything(), label: expect.anything() }]);
         });
     });
 

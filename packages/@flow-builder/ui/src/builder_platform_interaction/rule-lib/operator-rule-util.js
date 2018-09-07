@@ -9,6 +9,9 @@ const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE, CANNOT_BE_ELEMENTS,
 const { CAN_BE, CANNOT_BE, MUST_BE } = CONSTRAINT;
 
 const IS_SOBJECT_FIELD = 'isSObjectField';
+
+let operatorsInstance = {};
+
 export const OBJECT_TYPE = 'objectType';
 
 /**
@@ -41,6 +44,14 @@ const filterByRuleType = (rules, ruleType) => {
     return rules.filter((rule) => {
         return rule[RULE_TYPE] === ruleType;
     });
+};
+
+/**
+ * Sets all the possible operators available in the builder
+ * @param {Object} allOperators map of operator value to label
+ */
+export const setOperators = (allOperators = {}) => {
+    operatorsInstance = allOperators;
 };
 
 /**
@@ -204,15 +215,13 @@ export const getOperators = (elementType, lhsElement = {}, rules, ruleType) => {
  * @returns {Array}               operators in the shape the combobox expects
  */
 export const transformOperatorsForCombobox = (operators) => {
-    // TODO: labels! W-4953944
-    const operatorsForCombobox = [];
-    operators.forEach((operator) => {
-        operatorsForCombobox.push({
+    const mapOperatorToMenuItem = (operator) => {
+        return {
             value: operator,
-            label: operator
-        });
-    });
-    return operatorsForCombobox;
+            label: operatorsInstance[operator],
+        };
+    };
+    return operators.map(mapOperatorToMenuItem);
 };
 
 /**

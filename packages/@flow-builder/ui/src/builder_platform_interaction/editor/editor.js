@@ -8,9 +8,9 @@ import { createFlowElement } from 'builder_platform_interaction-element-config';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { createStartElement, sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from 'builder_platform_interaction-connector-utils';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
-import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform_interaction-translator-lib";
-import { reducer } from "builder_platform_interaction-reducers";
-import { setRules } from "builder_platform_interaction-rule-lib";
+import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction-translator-lib';
+import { reducer } from 'builder_platform_interaction-reducers';
+import { setRules, setOperators } from "builder_platform_interaction-rule-lib";
 import { setEntities, getFieldsForEntity } from 'builder_platform_interaction-sobject-lib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
 import { LABELS } from './editor-labels';
@@ -72,6 +72,7 @@ export default class Editor extends LightningElement {
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
         // TODO: Move these server calls after getting the Flow
         fetch(SERVER_ACTION_TYPE.GET_RULES, this.getRulesCallback);
+        fetch(SERVER_ACTION_TYPE.GET_OPERATORS, this.getOperatorsCallback);
         fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' }, {background: true});
         fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
         fetch(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES, this.getResourceTypesCallback);
@@ -191,6 +192,14 @@ export default class Editor extends LightningElement {
             setRules(data);
         }
     };
+
+    getOperatorsCallback = ({data, error}) => {
+        if (error) {
+            // TODO: handle error case
+        } else {
+            setOperators(data);
+        }
+    }
 
     getEntitiesCallback = ({data, error}) => {
         if (error) {

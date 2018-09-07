@@ -20,6 +20,7 @@ export const SERVER_ACTION_TYPE = {
     GET_USER_PREFERENCES: 'getUserPreferences',
     SET_USER_PREFERENCES: 'setUserPreferences',
     GET_CONTEXT: 'getContext',
+    GET_OPERATORS: 'getOperators',
 };
 
 const actionConfig = {
@@ -44,6 +45,7 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_USER_PREFERENCES]: 'c.getUserPreferences',
     [SERVER_ACTION_TYPE.SET_USER_PREFERENCES]: 'c.setUserPreferences',
     [SERVER_ACTION_TYPE.GET_CONTEXT]: 'c.getContext',
+    [SERVER_ACTION_TYPE.GET_OPERATORS]: 'c.getOperators',
 };
 
 let auraFetch;
