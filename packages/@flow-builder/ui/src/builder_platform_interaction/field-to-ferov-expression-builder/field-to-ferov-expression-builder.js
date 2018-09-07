@@ -107,6 +107,7 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
 
         this.resetLhsAuxillaryAttributes();
 
+        this.state.lhsValue = lhs.value;
         this.state.lhsError = lhs.error;
 
         if (lhs.value && !lhs.error) {
@@ -115,8 +116,6 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
             const isFieldOnSobjectVar = false;
             this.state = updateProperties(this.state,
                 populateLhsStateForField(this.lhsFields, complexGuid.fieldName, fieldParent, isFieldOnSobjectVar));
-        } else {
-            this.state.lhsValue = lhs.value;
         }
     }
 

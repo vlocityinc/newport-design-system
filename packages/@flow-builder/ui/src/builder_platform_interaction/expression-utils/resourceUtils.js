@@ -179,9 +179,11 @@ export const validateExpressionShape = (exp) => {
 export const populateLhsStateForField =  (fields, fieldName, fieldParent, isFieldOnSobjectVar) => {
     const values = {};
     const field = fields[fieldName];
-    values.lhsValue = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
-    values.lhsActivePicklistValues = field.activePicklistValues || false;
-    values.lhsParam = elementToParam(field);
+    if (field) {
+        values.lhsValue = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
+        values.lhsActivePicklistValues = field.activePicklistValues || false;
+        values.lhsParam = elementToParam(field);
+    }
     return values;
 };
 
