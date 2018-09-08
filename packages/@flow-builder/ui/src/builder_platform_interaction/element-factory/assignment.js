@@ -6,6 +6,7 @@ import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createConnectorObjects } from './connector';
 
 const elementType = ELEMENT_TYPE.ASSIGNMENT;
+const maxConnections = 1;
 
 export function createAssignment(assignment = {}) {
     const newAssignment = baseCanvasElement(assignment);
@@ -16,8 +17,10 @@ export function createAssignment(assignment = {}) {
         const newAssignmentItem = createAssignmentItem();
         assignmentItems = [newAssignmentItem];
     }
+
     const assignmentObject = Object.assign(newAssignment, {
         assignmentItems,
+        maxConnections,
         elementType
     });
 
@@ -26,10 +29,12 @@ export function createAssignment(assignment = {}) {
 
 export function createAssignmentWithConnectors(assignment = {}) {
     const newAssignment = createAssignment(assignment);
-
     const connectors = createConnectorObjects(assignment, newAssignment.guid);
+    const connectorCount = connectors ? connectors.length : 0;
 
-    return baseCanvasElementsArrayToMap([newAssignment], connectors);
+    const assignmentObject = Object.assign(newAssignment, { connectorCount });
+
+    return baseCanvasElementsArrayToMap([assignmentObject], connectors);
 }
 
 export function createAssignmentItem(assignmentItem = {}) {
@@ -48,7 +53,11 @@ export function createAssignmentItem(assignmentItem = {}) {
     return newAssignmentItem;
 }
 
-export function createAssignmentMetadataObject(assignment = {}, config) {
+export function createAssignmentMetadataObject(assignment, config = {}) {
+    if (!assignment) {
+        throw new Error('assignment is not defined');
+    }
+
     const newAssignment = baseCanvasElementMetadataObject(assignment, config);
     let { assignmentItems } = assignment;
     if (assignmentItems && assignmentItems.length > 0) {
@@ -63,7 +72,11 @@ export function createAssignmentMetadataObject(assignment = {}, config) {
     });
 }
 
-export function createAssignmentItemMetadataObject(assignmentItem = {}) {
+export function createAssignmentItemMetadataObject(assignmentItem) {
+    if (!assignmentItem) {
+        throw new Error('assignmentItem is not defined');
+    }
+
     const assignToReference = assignmentItem.leftHandSide;
     const operator = assignmentItem.operator;
     const value = createFEROVMetadataObject(assignmentItem, rhsPropertyName, rhsDataTypePropertyName);
