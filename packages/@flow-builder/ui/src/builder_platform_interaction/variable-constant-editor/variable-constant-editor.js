@@ -488,11 +488,20 @@ export default class VariableConstantEditor extends LightningElement {
         const event = { type: VALIDATE_ALL };
         this.variableConstantResource = variableConstantReducer(this.variableConstantResource, event);
         const errors = getErrorsFromHydratedElement(this.variableConstantResource);
+        // fetch fields for valid sobject variables
+        this.fetchSobjectFields(errors);
+        return errors;
+    }
+
+    /**
+     * For valid sobject variables, fetch the fields for future use
+     * @param {Array} errors list of errors
+     */
+    fetchSobjectFields(errors) {
         const objectType = getValueFromHydratedItem(this.variableConstantResource.objectType);
         // if there are no errors & the chosen variable is an sobject, fetch the fields
-        if (Array.isArray(errors) && !errors.length && objectType) {
+        if (!errors.length && objectType && !this.variableConstantResource.isCollection) {
             getFieldsForEntity(objectType);
         }
-        return errors;
     }
 }

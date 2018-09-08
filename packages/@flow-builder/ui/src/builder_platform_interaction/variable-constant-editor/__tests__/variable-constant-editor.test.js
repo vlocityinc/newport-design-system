@@ -474,6 +474,7 @@ describe('variable-constant-editor', () => {
         it('calls reducer with validate all event', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             const node = variableEditor.node;
+            getErrorsFromHydratedElement.mockReturnValueOnce([]);
             variableEditor.validate();
             expect(variableConstantReducer.mock.calls[0][0]).toEqual(node);
             expect(variableConstantReducer.mock.calls[0][1]).toEqual({type: VALIDATE_ALL});
@@ -500,6 +501,15 @@ describe('variable-constant-editor', () => {
             const accountVariable = deepCopy(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
             const variableEditor = setupComponentUnderTest(accountVariable);
             getErrorsFromHydratedElement.mockReturnValueOnce(mockHydratedElementWithErrors);
+            variableEditor.validate();
+            expect(getFieldsForEntity).not.toHaveBeenCalled();
+        });
+
+        it('does not fetch fields for an sobject collection variable', () => {
+            const accountVariable = deepCopy(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
+            accountVariable.isCollection = true;
+            const variableEditor = setupComponentUnderTest(accountVariable);
+            getErrorsFromHydratedElement.mockReturnValueOnce([]);
             variableEditor.validate();
             expect(getFieldsForEntity).not.toHaveBeenCalled();
         });
