@@ -23,7 +23,7 @@ export const propertyEditorFactory = (element, config = {}) => {
 
     if (config[FACTORY_CONFIG.SWAP_GUID_TO_DEV_NAME]) {
         const elements = Store.getStore().getCurrentState().elements;
-        swapUidsForDevNames(elements, { [newElement.guid]: newElement });
+        swapUidsForDevNames(elements, { [newElement.guid]: newElement }, {enableGuidToDevnameSwappingForReferenceFields: false});
     } else if (config[FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]) {
         const elements = Store.getStore().getCurrentState().elements;
         swapDevNamesToGuids(elements, { [newElement.guid]: newElement });

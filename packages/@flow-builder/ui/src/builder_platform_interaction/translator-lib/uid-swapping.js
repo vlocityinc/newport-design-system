@@ -1,6 +1,9 @@
 import { isPlainObject } from 'builder_platform_interaction-store-lib';
 import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE } from 'builder_platform_interaction-flow-metadata';
 
+// check to enable guid to devname swapping for referencefields. While opening property editor, only template fields guids need to be swapped with dev name.
+let checkReferenceFields = true;
+
 /**
  * Swaps a value that may contain 0 or more variables
  *
@@ -21,7 +24,7 @@ export const swapValueFunction = (swapFunction, fieldName, value) => {
             };
             value = value.replace(EXPRESSION_RE, replacer);
         }
-    } else if (REFERENCE_FIELDS.has(fieldName)) {
+    } else if (checkReferenceFields && REFERENCE_FIELDS.has(fieldName)) {
         value = swapFunction(value);
     }
 
@@ -88,8 +91,11 @@ export const swapSingleExpression = (expression, mapping) => {
  *
  * @param {Object} elementUidMap    map of Uids to elementIds
  * @param {Object} flow             the flow
+ * @param {Object} config   configuration to enable GUID to Devname swapping for reference fields
  */
-export const swapUidsForDevNames = (elementUidMap, flow) => {
+export const swapUidsForDevNames = (elementUidMap, flow, config = {}) => {
+    const {enableGuidToDevnameSwappingForReferenceFields = true} = config;
+    checkReferenceFields = enableGuidToDevnameSwappingForReferenceFields;
     const mapping = {};
     Object.keys(elementUidMap).forEach(uid => {
         mapping[uid] = elementUidMap[uid].name;
@@ -115,8 +121,11 @@ export const swapUidsForDevNames = (elementUidMap, flow) => {
  *
  * @param {Object} nameToUid        map of dev names to Uids
  * @param {Object} flow             flow
+ * @param {Object} config configuration to enable Devname to guid swapping for reference fields
  */
-export const swapDevNamesToUids = (nameToUid, flow) => {
+export const swapDevNamesToUids = (nameToUid, flow, config = {}) => {
+    const {enableDevnameToGuidSwappingForReferenceFields = true} = config;
+    checkReferenceFields = enableDevnameToGuidSwappingForReferenceFields;
     // swap the uid with it's dev name if the uid is in the element map
     // leave it unchanged if it's not
     const swapSingleDevNameToUid = (devName) => {

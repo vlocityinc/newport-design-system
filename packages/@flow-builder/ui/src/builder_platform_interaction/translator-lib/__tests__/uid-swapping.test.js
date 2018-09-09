@@ -52,6 +52,12 @@ describe('UID Swapper', () => {
             const object = {items:[{first:{stringValue:null, targetReference:null}}]};
             swapUidsForDevNames(elementUidMap, object);
         });
+
+        it('Does not swap uids to devname for reference fields when disabled', () => {
+            const object = {items:[{first:{elementReference:'pre.abc'}}]};
+            swapUidsForDevNames(elementUidMap, object, {enableGuidToDevnameSwappingForReferenceFields: false});
+            expect(object.items[0].first.elementReference).toEqual('pre.abc');
+        });
     });
 
     describe('swapDevNamesToUids', () => {
@@ -65,6 +71,12 @@ describe('UID Swapper', () => {
         it('Does not crash with null data', () => {
             const object = {items:[{first:{stringValue:null, targetReference:null}}]};
             swapDevNamesToUids(nameToUidMapping, object);
+        });
+
+        it('Does not swap devname to guid for reference fields when disabled', () => {
+            const object = {items:[{first:{elementReference:'post.abc'}}]};
+            swapDevNamesToUids(nameToUidMapping, object, {enableDevnameToGuidSwappingForReferenceFields: false});
+            expect(object.items[0].first.elementReference).toEqual('post.abc');
         });
     });
 });
