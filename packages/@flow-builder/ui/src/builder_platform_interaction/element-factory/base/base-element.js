@@ -32,16 +32,18 @@ export function baseChildElement(childElement = {}) {
 
 export function baseCanvasElementsArrayToMap(elementList = [], connectors = []) {
     const elements = baseElementsArrayToMap(elementList);
-    return {
-        elements,
+    return Object.assign(elements, {
         connectors
-    };
+    });
 }
 
 export function baseElementsArrayToMap(elementList = []) {
-    return elementList.reduce((acc, element) => {
+    const elements = elementList.reduce((acc, element) => {
         return Object.assign(acc, {[element.guid]: element});
     }, {});
+    return {
+        elements
+    };
 }
 
 function baseElement(element = {}) {

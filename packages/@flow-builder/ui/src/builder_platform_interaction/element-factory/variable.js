@@ -1,16 +1,20 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
 import { baseResource, baseElementsArrayToMap } from './base/base-element';
 import { baseResourceMetadataObject } from './base/base-metadata';
-import { mutateFEROV, deMutateFEROV } from 'builder_platform_interaction-data-mutation-lib';
+import { createFEROV, createFEROVMetadataObject } from './ferov';
 
 const elementType = ELEMENT_TYPE.VARIABLE;
-const FEROV_OBJECT_NAME = 'value';
 const DEFAULT_VALUE_PROPERTY = 'defaultValue';
 const FEROV_DATA_TYPE_PROPERTY = 'ferovDataType';
 
 export function createVariable(variable = {}) {
-    let newVariable = baseResource(variable);
-    const { dataType, isCollection = false, isInput = false, isOutput = false, objectType, scale = 0, value } = variable;
+    const newVariable = baseResource(variable);
+    const { dataType = null, isCollection = false, isInput = false, isOutput = false, objectType = null, scale = 0, value} = variable;
+    let valueFerov;
+    if (value) {
+        valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, FEROV_DATA_TYPE_PROPERTY);
+    }
+    const { defaultValue = null, ferovDataType = null, defaultValueGuid = null } = valueFerov || variable;
     Object.assign(newVariable, {
         elementType,
         isCollection,
@@ -19,14 +23,10 @@ export function createVariable(variable = {}) {
         dataType,
         objectType,
         scale,
-        value
+        defaultValue,
+        ferovDataType,
+        defaultValueGuid
     });
-    if (value) {
-        newVariable = mutateFEROV(newVariable, FEROV_OBJECT_NAME, {
-            valueProperty: DEFAULT_VALUE_PROPERTY,
-            dataTypeProperty: FEROV_DATA_TYPE_PROPERTY,
-        });
-    }
     return newVariable;
 }
 
@@ -40,21 +40,21 @@ export function createVariableMetadataObject(variable) {
     if (!variable) {
         throw new Error('variable is not defined');
     }
-    let newVariable = baseResourceMetadataObject(variable);
-    const { isCollection = false, isInput = false, isOutput = false, scale = 0, defaultValue, dataType, objectType } = variable;
+    const newVariable = baseResourceMetadataObject(variable);
+    const { isCollection = false, isInput = false, isOutput = false, scale = 0, dataType, objectType } = variable;
+    const valueFerov = createFEROVMetadataObject(
+        variable,
+        DEFAULT_VALUE_PROPERTY,
+        FEROV_DATA_TYPE_PROPERTY
+    );
     Object.assign(newVariable, {
         dataType,
         isCollection,
         isInput,
         isOutput,
         objectType,
-        scale
+        scale,
+        value: valueFerov
     });
-    if (defaultValue) {
-        newVariable = deMutateFEROV(variable, FEROV_OBJECT_NAME, {
-            valueProperty: DEFAULT_VALUE_PROPERTY,
-            dataTypeProperty: FEROV_DATA_TYPE_PROPERTY
-        });
-    }
     return newVariable;
 }
