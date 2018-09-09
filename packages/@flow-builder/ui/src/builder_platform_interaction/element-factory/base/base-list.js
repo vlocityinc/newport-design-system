@@ -2,6 +2,7 @@ import { generateGuid } from 'builder_platform_interaction-store-lib';
 
 export const rhsPropertyName = 'rightHandSide';
 export const rhsDataTypePropertyName = 'rightHandSideDataType';
+export const rhsGuidPropertyName = 'rightHandSideGuid';
 
 /**
  * This function creates a new list row item object.
@@ -9,13 +10,14 @@ export const rhsDataTypePropertyName = 'rightHandSideDataType';
  * @returns {Object} new list row item object
  */
 export function createListRowItem(listRowItem = {}) {
-    const { leftHandSide = '', operator = '', rightHandSide = '', rightHandSideDataType = 'string', rowIndex = generateGuid() } = listRowItem;
+    const { leftHandSide = '', operator = '', rightHandSide = '', rightHandSideGuid = '', rightHandSideDataType = 'string', rowIndex = generateGuid() } = listRowItem;
 
     return ({
         rowIndex,
         leftHandSide,
         operator,
         rightHandSide,
+        rightHandSideGuid,
         rightHandSideDataType
     });
 }

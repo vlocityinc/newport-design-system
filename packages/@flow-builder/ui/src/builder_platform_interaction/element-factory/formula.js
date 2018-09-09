@@ -6,7 +6,7 @@ const elementType = ELEMENT_TYPE.FORMULA;
 
 export function createFormula(formula = {}) {
     const newFormula = baseResource(formula);
-    const { expression, dataType, scale } = formula;
+    const { expression = '', dataType = null, scale = 2 } = formula;
     return Object.assign(newFormula, {
         expression,
         dataType,

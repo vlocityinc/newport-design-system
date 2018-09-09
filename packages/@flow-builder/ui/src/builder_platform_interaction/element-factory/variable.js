@@ -9,7 +9,7 @@ const FEROV_DATA_TYPE_PROPERTY = 'ferovDataType';
 
 export function createVariable(variable = {}) {
     const newVariable = baseResource(variable);
-    const { dataType = null, isCollection = false, isInput = false, isOutput = false, objectType = null, scale = 0, value} = variable;
+    const { dataType = null, isCollection = false, isInput = false, isOutput = false, objectType = null, scale = 2, value} = variable;
     let valueFerov;
     if (value) {
         valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, FEROV_DATA_TYPE_PROPERTY);
@@ -41,12 +41,17 @@ export function createVariableMetadataObject(variable) {
         throw new Error('variable is not defined');
     }
     const newVariable = baseResourceMetadataObject(variable);
-    const { isCollection = false, isInput = false, isOutput = false, scale = 0, dataType, objectType } = variable;
+    const { isCollection = false, isInput = false, isOutput = false, scale, dataType, objectType } = variable;
+    let valueFerovObject;
     const valueFerov = createFEROVMetadataObject(
         variable,
         DEFAULT_VALUE_PROPERTY,
         FEROV_DATA_TYPE_PROPERTY
     );
+    if (valueFerov) {
+        valueFerovObject = { value : valueFerov };
+    }
+
     Object.assign(newVariable, {
         dataType,
         isCollection,
@@ -54,7 +59,7 @@ export function createVariableMetadataObject(variable) {
         isOutput,
         objectType,
         scale,
-        value: valueFerov
-    });
+    }, valueFerovObject);
+
     return newVariable;
 }

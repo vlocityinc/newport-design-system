@@ -41,14 +41,17 @@ export function createConstantMetadataObject(constant) {
     }
     const newConstant = baseResourceMetadataObject(constant);
     const { dataType } = constant;
+    let valueFerovObject;
     const valueFerov = createFEROVMetadataObject(
         constant,
         DEFAULT_VALUE_PROPERTY,
         FEROV_DATA_TYPE_PROPERTY
     );
+    if (valueFerov) {
+        valueFerovObject = { value : valueFerov };
+    }
 
     return Object.assign(newConstant, {
-        dataType,
-        value: valueFerov
-    });
+        dataType
+    }, valueFerovObject);
 }
