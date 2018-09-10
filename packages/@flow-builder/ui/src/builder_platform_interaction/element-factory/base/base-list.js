@@ -10,7 +10,11 @@ export const rhsGuidPropertyName = 'rightHandSideGuid';
  * @returns {Object} new list row item object
  */
 export function createListRowItem(listRowItem = {}) {
-    const { leftHandSide = '', operator = '', rightHandSide = '', rightHandSideGuid = '', rightHandSideDataType = 'string', rowIndex = generateGuid() } = listRowItem;
+    const { leftHandSide = '', operator = '', rightHandSide = '', rightHandSideDataType = 'string', rowIndex = generateGuid() } = listRowItem;
+
+    // HACK : Follow up with Process UI Runtime, RHS in expression builder does not seem to get the reference({!foo}) and instead gets just the value (foo)
+    let { rightHandSideGuid } = listRowItem;
+    rightHandSideGuid = rightHandSideGuid || rightHandSide;
 
     return ({
         rowIndex,
