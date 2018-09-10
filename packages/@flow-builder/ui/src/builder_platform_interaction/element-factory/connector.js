@@ -173,3 +173,8 @@ export const createConnectorMetadataObjects = (connectors, hasMultipleRegularCon
 
     return connectorMetadata;
 };
+
+export const createStartElementConnector = (startNodeGuid, target) => {
+    const startElementConnector = createConnector(startNodeGuid, null, target, null, CONNECTOR_TYPE.START);
+    return startElementConnector;
+};

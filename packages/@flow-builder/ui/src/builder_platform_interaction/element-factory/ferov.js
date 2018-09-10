@@ -214,8 +214,6 @@ export const createFEROV = (ferovObject, valueProperty, dataTypeProperty) => {
                 props[valueProperty] = value.toString();
             } else if (isFerovString(metadataType) && value === '') {
                 props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING);
-            // } else if (isFerovString(metadataType)) {
-                // props[valueProperty] = mutateTextWithMergeFields(value);
             } else if (isFerovDate(metadataType)) {
                 props[valueProperty] = formatDateTime(value.split('T')[0], false);
             } else if (isFerovDateTime(metadataType)) {
