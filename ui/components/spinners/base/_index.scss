@@ -263,8 +263,8 @@
  * This is the loading message, specifically for the large spinner
  */
 
-.nds-spinner_large + .vlc-loading-message,
-.nds-spinner--large + .vlc-loading-message,
+.nds-spinner + .vlc-loading-message,
+.nds-spinner + .vlc-loading-message,
 {
   position:absolute;
   top:50%;
