@@ -157,7 +157,7 @@
     "build-prod": "gulp build",
     "build-server": "babel-node scripts/npm/build-server.js",
     "build-travis": "babel-node scripts/npm/build-travis.js",
-    "postinstall": "node scripts/nds/fix-preview.js; node scripts/nds/fix-markup.js",
+    "postinstall": "node scripts/nds/fix-preview.js && node scripts/nds/fix-markup.js",
     "dist": "babel-node scripts/dist.js",
     "gulp": "gulp",
     "lint": "gulp lint",
