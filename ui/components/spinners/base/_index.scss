@@ -39,24 +39,25 @@
  */
 
 .nds-spinner {
-    width: 7rem;
-    #{$left}: 48%;
-    top: 43%;
+    width: 4.5rem;
+    #{$left}: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
     position: absolute;
     svg circle {
       fill: $color-background-spinner-dot;
-      r: 0.5rem;
+      r: 12.5%;
 
       &:nth-child(1) {
-        cx: 0.5rem * 1;
+        cx: 12.5%;
       }
 
       &:nth-child(2) {
-        cx: 0.5rem * 4;
+        cx: 50%;
       }
 
       &:nth-child(3) {
-        cx: 0.5rem * 7;
+        cx: 87.5%;
       }
     }
 }
@@ -117,23 +118,7 @@
 
 .nds-spinner_xx-small,
 .nds-spinner--xx-small {
-  width: 4rem;
-
-  svg circle {
-    r: 0.125rem;
-
-    &:nth-child(1) {
-      cx: 0.125rem * 1;
-    }
-
-    &:nth-child(2) {
-      cx: 0.125rem * 4;
-    }
-
-    &:nth-child(3) {
-      cx: 0.125rem * 7;
-    }
-  }
+  width: 1rem;
 }
 
 
@@ -148,24 +133,7 @@
 
 .nds-spinner_x-small,
 .nds-spinner--x-small {
-  width: 4.5rem;
-
-  svg circle {
-    r: 0.25rem;
-
-    &:nth-child(1) {
-      cx: 0.25rem * 1;
-    }
-
-    &:nth-child(2) {
-      cx: 0.25rem * 4;
-    }
-
-    &:nth-child(3) {
-      cx: 0.25rem * 7;
-    }
-  }
-
+  width: 1.5rem;
 }
 
 /**
@@ -179,23 +147,7 @@
 
 .nds-spinner_small,
 .nds-spinner--small {
-  width: 4.5rem;
-
-  svg circle {
-    r: 0.25rem;
-
-    &:nth-child(1) {
-      cx: 0.25rem * 1;
-    }
-
-    &:nth-child(2) {
-      cx: 0.25rem * 4;
-    }
-
-    &:nth-child(3) {
-      cx: 0.25rem * 7;
-    }
-  }
+  width: 2.5rem;
 }
 
 /**
@@ -209,23 +161,7 @@
 
 .nds-spinner_medium,
 .nds-spinner--medium {
-  width: 6rem;
-
-  svg circle {
-    r: 0.5rem;
-
-    &:nth-child(1) {
-      cx: 0.5rem * 1;
-    }
-
-    &:nth-child(2) {
-      cx: 0.5rem * 4;
-    }
-
-    &:nth-child(3) {
-      cx: 0.5rem * 7;
-    }
-  }
+  width: 4rem;
 }
 
 /**
@@ -239,22 +175,18 @@
 
 .nds-spinner_large,
 .nds-spinner--large {
-  width: 7rem;
+  width: 6rem;
+}
 
-  svg circle {
-    r: 0.625rem;
+/**
+ * This is the loading message, specifically for the large spinner
+ */
 
-    &:nth-child(1) {
-      cx: 0.625rem * 1;
-    }
-
-    &:nth-child(2) {
-      cx: 0.625rem * 4;
-    }
-
-    &:nth-child(3) {
-      cx: 0.625rem * 7;
-    }
-  }
-
+.nds-spinner + .vlc-loading-message,
+.nds-spinner + .vlc-loading-message,
+{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,calc(-50% + 2.75rem));
 }
