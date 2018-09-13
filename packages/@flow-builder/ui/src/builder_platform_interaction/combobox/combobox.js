@@ -1,12 +1,12 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { FetchMenuDataEvent, ComboboxStateChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction-expression-utils';
-import { format, isUndefinedOrNull, isObject, isValidNumber } from 'builder_platform_interaction-common-utils';
-import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
-import { LABELS } from './combobox-labels';
-import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
-import { DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE, DATE_DISPLAY_FORMAT, formatDateTime, getValidDateTime } from 'builder_platform_interaction-date-time-utils';
+import { FetchMenuDataEvent, ComboboxStateChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from "builder_platform_interaction/events";
+import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { COMBOBOX_NEW_RESOURCE_VALUE } from "builder_platform_interaction/expressionUtils";
+import { format, isUndefinedOrNull, isObject, isValidNumber } from "builder_platform_interaction/commonUtils";
+import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
+import { LABELS } from "./comboboxLabels";
+import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from "builder_platform_interaction/mergeFieldLib";
+import { DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE, DATE_DISPLAY_FORMAT, formatDateTime, getValidDateTime } from "builder_platform_interaction/dateTimeUtils";
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
 };

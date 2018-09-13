@@ -5,7 +5,7 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES,
     UPDATE_VARIABLE_CONSTANT
 } from '../actions';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 describe('updateElement', () => {
     it('handles modify decision with outcomes', () => {

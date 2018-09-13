@@ -1,6 +1,6 @@
 import {createElement} from 'lwc';
-import Row from 'builder_platform_interaction-row';
-import {DeleteListItemEvent} from 'builder_platform_interaction-events';
+import Row from "builder_platform_interaction/row";
+import {DeleteListItemEvent} from "builder_platform_interaction/events";
 import { getShadowRoot } from 'lwc-test-utils';
 
 const prefix = "myAwesomePrefix";

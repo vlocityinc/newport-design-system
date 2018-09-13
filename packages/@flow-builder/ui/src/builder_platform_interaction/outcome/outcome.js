@@ -1,10 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
-import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction-condition-list-utils';
+import { getConditionsWithPrefixes, showDeleteCondition } from "builder_platform_interaction/conditionListUtils";
 import {
     DeleteOutcomeEvent
-} from 'builder_platform_interaction-events';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { LABELS } from './outcome-labels';
+} from "builder_platform_interaction/events";
+import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { LABELS } from "./outcomeLabels";
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',

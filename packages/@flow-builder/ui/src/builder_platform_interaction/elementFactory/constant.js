@@ -1,0 +1,57 @@
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { baseResource, baseElementsArrayToMap } from "./base/baseElement";
+import { baseResourceMetadataObject } from "./base/baseMetadata";
+import { createFEROV, createFEROVMetadataObject } from './ferov';
+
+const elementType = ELEMENT_TYPE.CONSTANT;
+const DEFAULT_VALUE_PROPERTY = 'defaultValue';
+const FEROV_DATA_TYPE_PROPERTY = 'ferovDataType';
+
+export function createConstant(constant = {}) {
+    const newConstant = baseResource(constant);
+    const { dataType = null, value } = constant;
+    let valueFerov;
+    if (value) {
+        valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, FEROV_DATA_TYPE_PROPERTY);
+    }
+    const { defaultValue = null, ferovDataType = null, defaultValueGuid = null } = valueFerov || constant;
+    const constantObject = Object.assign(
+        newConstant,
+        {
+            elementType,
+            dataType,
+            defaultValue,
+            defaultValueGuid,
+            ferovDataType
+        }
+    );
+
+    return constantObject;
+}
+
+export function createConstantForStore(constant = {}) {
+    const newConstant = createConstant(constant);
+
+    return baseElementsArrayToMap([newConstant]);
+}
+
+export function createConstantMetadataObject(constant) {
+    if (!constant) {
+        throw new Error('constant is not defined');
+    }
+    const newConstant = baseResourceMetadataObject(constant);
+    const { dataType } = constant;
+    let valueFerovObject;
+    const valueFerov = createFEROVMetadataObject(
+        constant,
+        DEFAULT_VALUE_PROPERTY,
+        FEROV_DATA_TYPE_PROPERTY
+    );
+    if (valueFerov) {
+        valueFerovObject = { value : valueFerov };
+    }
+
+    return Object.assign(newConstant, {
+        dataType
+    }, valueFerovObject);
+}

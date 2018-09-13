@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { drawingLibInstance as lib } from 'builder_platform_interaction-drawing-lib';
+import { drawingLibInstance as lib } from "builder_platform_interaction/drawingLib";
 
 /**
  * Connector component for flow builder.

@@ -1,5 +1,5 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { flatten } from './palette-lib';
+import { flatten } from "./paletteLib";
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!

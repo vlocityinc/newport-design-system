@@ -1,5 +1,5 @@
-import * as ValidationRules from 'builder_platform_interaction-validation-rules';
-import { updateProperties, set, getValueFromHydratedItem } from 'builder_platform_interaction-data-mutation-lib';
+import * as ValidationRules from "builder_platform_interaction/validationRules";
+import { updateProperties, set, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 
 /**
  * @constant defaultRules - map of propertyName to validation rules

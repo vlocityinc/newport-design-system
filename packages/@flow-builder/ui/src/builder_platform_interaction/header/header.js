@@ -1,5 +1,5 @@
 import { LightningElement, api} from 'lwc';
-import { LABELS } from './header-labels';
+import { LABELS } from "./headerLabels";
 
 
 export default class Header extends LightningElement {

@@ -1,10 +1,10 @@
 import { createElement } from 'lwc';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import Editor from '../editor';
-import { CANVAS_EVENT } from 'builder_platform_interaction-events';
-import { Store } from 'builder_platform_interaction-store-lib';
-import { translateUIModelToFlow } from 'builder_platform_interaction-translator-lib';
-import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction-server-data-lib';
+import { CANVAS_EVENT } from "builder_platform_interaction/events";
+import { Store } from "builder_platform_interaction/storeLib";
+import { translateUIModelToFlow } from "builder_platform_interaction/translatorLib";
+import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction-translator-lib', () => {

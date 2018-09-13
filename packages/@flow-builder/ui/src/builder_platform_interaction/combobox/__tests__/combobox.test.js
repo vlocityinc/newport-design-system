@@ -1,16 +1,16 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
-import Combobox from 'builder_platform_interaction-combobox';
-import { comboboxInitialConfig, secondLevelMenuData } from 'mock-combobox-data';
-import { FilterMatchesEvent, FetchMenuDataEvent, ComboboxStateChangedEvent, NewResourceEvent, ItemSelectedEvent } from 'builder_platform_interaction-events';
-import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction-screen-editor-utils';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction-data-type-lib';
-import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from 'builder_platform_interaction-merge-field-lib';
-import { removeCurlyBraces } from 'builder_platform_interaction-common-utils';
-import { GLOBAL_CONSTANTS } from 'builder_platform_interaction-system-lib';
+import Combobox from "builder_platform_interaction/combobox";
+import { comboboxInitialConfig, secondLevelMenuData } from "mock/comboboxData";
+import { FilterMatchesEvent, FetchMenuDataEvent, ComboboxStateChangedEvent, NewResourceEvent, ItemSelectedEvent } from "builder_platform_interaction/events";
+import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
+import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from "builder_platform_interaction/mergeFieldLib";
+import { removeCurlyBraces } from "builder_platform_interaction/commonUtils";
+import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import unknownMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownMergeField';
-import { getValidDateTime, formatDateTime } from 'builder_platform_interaction-date-time-utils';
-import { LABELS } from '../combobox-labels';
+import { getValidDateTime, formatDateTime } from "builder_platform_interaction/dateTimeUtils";
+import { LABELS } from "../comboboxLabels";
 
 const SELECTORS = {
     COMBOBOX_PATH: 'builder_platform_interaction-combobox',

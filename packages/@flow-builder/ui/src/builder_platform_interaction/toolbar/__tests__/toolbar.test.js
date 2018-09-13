@@ -1,8 +1,8 @@
 import { createElement } from 'lwc';
-import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
-import Toolbar from 'builder_platform_interaction-toolbar';
+import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from "builder_platform_interaction/events";
+import Toolbar from "builder_platform_interaction/toolbar";
 import { getShadowRoot } from 'lwc-test-utils';
-import { LABELS } from '../toolbar-labels';
+import { LABELS } from "../toolbarLabels";
 
 const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-toolbar', {

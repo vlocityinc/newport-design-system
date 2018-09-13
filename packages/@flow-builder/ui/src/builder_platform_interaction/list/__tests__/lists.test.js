@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import List from '../list';
-import {deepCopy} from 'builder_platform_interaction-store-lib';
+import {deepCopy} from "builder_platform_interaction/storeLib";
 import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest() {

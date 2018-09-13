@@ -1,3 +1,3 @@
-export { canvasSelector } from './canvas-selector';
-export { elementPropertyEditorSelector } from './element-property-editor-selector';
-export { readableElementsSelector, writableElementsSelector, collectionElementsSelector, byTypeElementsSelector, sObjectOrSObjectCollectionByEntitySelector, getSObjectOrSObjectCollectionByEntityElements } from './menu-data-selector';
+export { canvasSelector } from "./canvasSelector";
+export { elementPropertyEditorSelector } from "./elementPropertyEditorSelector";
+export { readableElementsSelector, writableElementsSelector, collectionElementsSelector, byTypeElementsSelector, sObjectOrSObjectCollectionByEntitySelector, getSObjectOrSObjectCollectionByEntityElements } from "./menuDataSelector";

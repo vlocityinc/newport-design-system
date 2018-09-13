@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
-import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction-events';
-import { LABELS } from './toolbar-labels';
+import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from "builder_platform_interaction/events";
+import { LABELS } from "./toolbarLabels";
 
 const ACTIVE = 'Active';
 const OBSOLETE = 'Obsolete';

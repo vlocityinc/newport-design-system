@@ -1,8 +1,8 @@
-import { combinedReducer } from 'builder_platform_interaction-store-lib';
-import flowPropertiesReducer from './flow-properties-reducer';
-import elementsReducer from './elements-reducer';
-import canvasElementsReducer from './canvas-elements-reducer';
-import connectorsReducer from './connectors-reducer';
+import { combinedReducer } from "builder_platform_interaction/storeLib";
+import flowPropertiesReducer from "./flowPropertiesReducer";
+import elementsReducer from "./elementsReducer";
+import canvasElementsReducer from "./canvasElementsReducer";
+import connectorsReducer from "./connectorsReducer";
 
 export const reducer =  combinedReducer({
     elements: elementsReducer,

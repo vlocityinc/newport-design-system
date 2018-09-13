@@ -1,10 +1,10 @@
 import {createElement} from 'lwc';
-import Outcome from 'builder_platform_interaction-outcome';
+import Outcome from "builder_platform_interaction/outcome";
 import {
     DeleteOutcomeEvent
-} from 'builder_platform_interaction-events';
+} from "builder_platform_interaction/events";
 import { getShadowRoot } from 'lwc-test-utils';
-import { LABELS } from '../outcome-labels';
+import { LABELS } from "../outcomeLabels";
 
 const outcomeWithOneConditional = {
     label: {value: 'Test Name of the Outcome'},

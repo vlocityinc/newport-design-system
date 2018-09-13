@@ -1,11 +1,11 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { drawingLibInstance as lib} from 'builder_platform_interaction-drawing-lib';
-import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from './zoom-pan-utils';
-import { isCanvasElement } from 'builder_platform_interaction-element-config';
-import { AddElementEvent, DeleteElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from 'builder_platform_interaction-events';
-import { KEYS } from './key-constants';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction-logging-utils';
+import { drawingLibInstance as lib} from "builder_platform_interaction/drawingLib";
+import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from "./zoomPanUtils";
+import { isCanvasElement } from "builder_platform_interaction/elementConfig";
+import { AddElementEvent, DeleteElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from "builder_platform_interaction/events";
+import { KEYS } from "./keyConstants";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { logPerfMarkStart, logPerfMarkEnd } from "builder_platform_interaction/loggingUtils";
 
 /**
  * Canvas component for flow builder.

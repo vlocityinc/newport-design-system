@@ -1,10 +1,10 @@
 import { LightningElement, api } from 'lwc';
-import { getConfigForElementType } from 'builder_platform_interaction-element-config';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent } from 'builder_platform_interaction-events';
-import { LABELS } from './node-labels';
-import { format } from 'builder_platform_interaction-common-utils';
-import startElement from './start-element.html';
+import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent } from "builder_platform_interaction/events";
+import { LABELS } from "./nodeLabels";
+import { format } from "builder_platform_interaction/commonUtils";
+import startElement from "./startElement.html";
 import nodeElement from './node.html';
 
 /**

@@ -1,5 +1,5 @@
 import {createElement} from 'lwc';
-import Draggable from 'builder_platform_interaction-draggable';
+import Draggable from "builder_platform_interaction/draggable";
 import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {

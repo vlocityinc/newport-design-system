@@ -1,4 +1,4 @@
-import { createScreenNodeSelectedEvent } from 'builder_platform_interaction-events';
+import { createScreenNodeSelectedEvent } from "builder_platform_interaction/events";
 
 describe('Screen Editor Event', () => {
     describe('Constructor', () => {

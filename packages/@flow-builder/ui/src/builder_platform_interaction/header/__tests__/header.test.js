@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import Header from '../header';
 import { getShadowRoot } from 'lwc-test-utils';
-import { LABELS } from '../header-labels';
+import { LABELS } from "../headerLabels";
 
 function createComponentForTest(name, version, backUrl, helpUrl) {
     const el = createElement('builder_platform_interaction-header', { is: Header });

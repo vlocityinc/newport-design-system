@@ -1,8 +1,8 @@
 import { createElement } from 'lwc';
-import Canvas from 'builder_platform_interaction-canvas';
-import { KEYS } from '../key-constants';
-import { ELEMENT_TYPE } from 'builder_platform_interaction-flow-metadata';
-import { DeleteElementEvent } from 'builder_platform_interaction-events';
+import Canvas from "builder_platform_interaction/canvas";
+import { KEYS } from "../keyConstants";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { DeleteElementEvent } from "builder_platform_interaction/events";
 import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {
