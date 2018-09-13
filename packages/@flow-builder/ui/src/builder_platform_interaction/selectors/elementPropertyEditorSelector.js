@@ -2,9 +2,10 @@ import { deepCopy } from "builder_platform_interaction/storeLib";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 
 import {
-    mutateEditorElement,
     hydrateWithErrors
 } from "builder_platform_interaction/dataMutationLib";
+import { FACTORY_CONFIG } from "builder_platform_interaction/elementFactory";
+import { propertyEditorFactory } from "builder_platform_interaction/propertyEditorFactory";
 
 /**
  * Get element data for property editor for a given guid
@@ -18,7 +19,7 @@ export const elementPropertyEditorSelector = (state, guid) => {
         const elementType = getConfigForElementType(selectedElement.elementType);
         const blacklistedProperties = elementType.nonHydratableProperties;
         selectedElement = hydrateWithErrors(
-            mutateEditorElement(selectedElement, state),
+            propertyEditorFactory(selectedElement, { [FACTORY_CONFIG.SWAP_GUID_TO_DEV_NAME]: true }),
             blacklistedProperties
         );
     }

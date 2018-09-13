@@ -1,38 +1,14 @@
-import { ELEMENT_INFOS, FLOW_PROPERTIES } from "./translationConfig";
+import { ELEMENT_INFOS } from "./translationConfig";
 import { ELEMENT_TYPE, PROCESS_METADATA_VALUES } from "builder_platform_interaction/flowMetadata";
 import { swapUidsForDevNames } from "./uidSwapping";
-import { omit, pick, updateProperties } from "builder_platform_interaction/dataMutationLib";
-import { deepCopy } from "builder_platform_interaction/storeLib";
-import { getFlowBounds, setConnectorsOnElements } from "builder_platform_interaction/connectorUtils";
+import { updateProperties } from "builder_platform_interaction/dataMutationLib";
+import { getFlowBounds } from "builder_platform_interaction/connectorUtils";
+import { uiToFlowFactory } from "./uiToFlowFactory";
 
-/**
- * Helper method to get array of all canvas element objects
- * @param {Array} canvasElements All canvas elements
- * @param {Object} elements All elements in the flow
- * @return {Array} nodes Containing all canvas element objects
- */
-const getCanvasElements = (canvasElements, elements) => {
-    const nodes = [];
-    canvasElements.map(key => {
-        if (elements[key]) {
-            nodes.push(elements[key]);
-        }
-        return key;
-    });
-    return nodes;
-};
-
-/**
- * With zooming and panning enabled, the user would be able to add/drop
- * elements with negative coordinates. Therefore, updating all elements to have positive coordinates on save.
- *
- * @param {Array} canvasElements All canvas elements
- * @param {Object} elements All elements in the flow
- */
-const updateElementLocation = (canvasElements, elements) => {
+const getXYTranslate = (canvasElements) => {
     const EXTRA_SPACING = 180;
 
-    const flowBounds = getFlowBounds(getCanvasElements(canvasElements, elements));
+    const flowBounds = getFlowBounds(canvasElements);
 
     let translateX = 0;
     let translateY = 0;
@@ -47,51 +23,7 @@ const updateElementLocation = (canvasElements, elements) => {
         translateY = EXTRA_SPACING - flowBounds.minY;
     }
 
-    if (translateX !== 0 || translateY !== 0) {
-        canvasElements.forEach(key => {
-            if (translateX !== 0) {
-                elements[key].locationX += translateX;
-            }
-
-            if (translateY !== 0) {
-                elements[key].locationY += translateY;
-            }
-        });
-    }
-};
-
-const omitTransientFields = (element) => {
-    return omit(element, ['guid', 'elementType', 'isCanvasElement', 'config', 'connectorCount', 'maxConnections', 'availableConnections']);
-};
-
-const translateElementHashToHaveDevNameKeys = (elements) => {
-    Object.keys(elements).forEach(key => {
-        const element = elements[key];
-        elements[element.name] = element;
-
-        delete elements[key];
-    });
-    return elements;
-};
-
-
-/**
- * Rehydrate all of a decision's outcomeReferences in to rules
- *
- * @param {Object} decision The decision element
- * @param {Object} elements All elements in the flow (including outcomes)
- */
-const includeOutcomesInDecision = (decision, elements) => {
-    // We use the non-translated decision element, since it still has guids (instead of devNames)
-    // which are what we need as keys in the elements hash
-    decision.rules = decision.outcomeReferences.map((outcomeReference) => {
-        let rule = elements[outcomeReference.outcomeReference];
-        rule = omitTransientFields(rule);
-        rule = omit(rule, ['dataType']);
-        return rule;
-    });
-
-    delete decision.outcomeReferences;
+    return { translateX, translateY };
 };
 
 /**
@@ -101,68 +33,73 @@ const includeOutcomesInDecision = (decision, elements) => {
  * @returns {Object} Flow object that can be deserialized into the Flow tooling object
  */
 export function translateUIModelToFlow(uiModel) {
-    let elements = deepCopy(uiModel.elements);
+    const elements = uiModel.elements;
+    const connectors = uiModel.connectors;
+    const { name, versionNumber } = uiModel.properties;
 
-    // Update element location
-    updateElementLocation(uiModel.canvasElements, elements);
+    // Get map of source element guids to connectors
+    const connectorMap = {};
+    for (let i = 0; i < connectors.length; i++) {
+        const connector = connectors[i];
+        const sourceGuid = connector.childSource || connector.source;
+        const sourceConnectorList = connectorMap[sourceGuid] || [];
+        sourceConnectorList.push(connector);
+        Object.assign(connectorMap, {[sourceGuid] : sourceConnectorList});
+    }
 
-    // Set connector properties on all elements
-    const startElementId = setConnectorsOnElements(uiModel.connectors, elements);
+    // Get x, y coordinate translate numbers
+    const canvasElements = uiModel.canvasElements.map(guid => elements[guid]);
+    const xyTranslate = getXYTranslate(canvasElements);
 
-    // Swap out guids for dev names in all element references
-    swapUidsForDevNames(uiModel.elements, elements);
-
-    elements = translateElementHashToHaveDevNameKeys(elements);
+    const config = { xyTranslate, connectorMap };
 
     // Construct Flow metadata object
-    let metadata = {
-    };
+    let metadata = {};
+    let startElementId;
 
-    Object.keys(elements).forEach(key => {
-        let element = elements[key];
+    const elementKeys = Object.keys(elements);
+    for (let i = 0; i < elementKeys.length; i++) {
+        const key = elementKeys[i];
+        const element = elements[key];
         const elementInfo = ELEMENT_INFOS[element.elementType];
 
         if (!elementInfo) {
             throw new Error('Unknown element type ' + element.elementType);
         }
 
-        if (!elementInfo.metadataKey) {
-            // outcomes are ignored, instead being included in the metadata via their
-            // parent decisions
-            return;
-        }
-
-        // Hydrate decsions with their outcomes (rules)
-        if (element.elementType === ELEMENT_TYPE.DECISION) {
-            includeOutcomesInDecision(element, elements);
-        } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
-            for (const field of element.fields) {
-                delete field.guid;
+        if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
+            const startConnectors = connectorMap[element.guid];
+            if (startConnectors && startConnectors.length > 0) {
+                startElementId = startConnectors[0].target;
             }
+        } else if (elementInfo.metadataKey) {
+            if (!metadata[elementInfo.metadataKey]) {
+                metadata[elementInfo.metadataKey] = [];
+            }
+
+            const metadataElement = uiToFlowFactory(element, config);
+
+            metadata[elementInfo.metadataKey].push(metadataElement);
         }
-
-        // remove transient fields to avoid breaking deserialization
-        element = omitTransientFields(element);
-
-        if (!metadata[elementInfo.metadataKey]) {
-            metadata[elementInfo.metadataKey] = [];
-        }
-
-        metadata[elementInfo.metadataKey].push(element);
-    });
-
-    metadata = updateProperties(metadata, pick(uiModel.properties, FLOW_PROPERTIES));
-
-    if (startElementId &&
-         uiModel.elements[startElementId]) {
-        metadata.startElementReference = uiModel.elements[startElementId].name;
     }
 
-    metadata.processMetadataValues = PROCESS_METADATA_VALUES;
+    const flowProperties = uiToFlowFactory(uiModel.properties);
+    metadata = updateProperties(metadata, flowProperties);
+
+    // Swap out guids for dev names in all element references
+    swapUidsForDevNames(elements, metadata);
+
+    if (startElementId && elements[startElementId]) {
+        const startElementReference = elements[startElementId].name;
+        Object.assign(metadata, { startElementReference });
+    }
+
+    const processMetadataValues = PROCESS_METADATA_VALUES;
+    Object.assign(metadata, { processMetadataValues });
 
     return {
         metadata,
-        fullName: uiModel.properties.fullName,
-        versionNumber: uiModel.properties.versionNumber
+        fullName: name,
+        versionNumber
     };
 }

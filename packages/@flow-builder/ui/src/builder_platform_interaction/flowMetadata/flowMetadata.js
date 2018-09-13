@@ -119,6 +119,9 @@ export const REFERENCE_FIELDS = new Set([
     'outcomeReference',
     'childReference',
     'leftHandSide',
+    'defaultValue',
+    'source',
+    'target',
     'rightHandSideGuid'
 ]);
 
@@ -129,10 +132,12 @@ export const REFERENCE_FIELDS = new Set([
 export const TEMPLATE_FIELDS = new Set([
     // TODO fill out more values and confirm that all FEROV stringValue fields allow this behaviour
     'stringValue', // field of a ferov
+    'rightHandSide', // field of a ferov
     'expression',  // represents body of a formula
     'text',        // represents body of a text template
     'fieldText',   // body of screen field of type Display Text
-    'helpText'     // help text for a screen or screen field
+    'helpText',     // help text for a screen or screen field
+    'interviewLabel' // interview label for the flow properties
 ]);
 
 export const EXPRESSION_RE = /\{!([^}]+)\}/g;

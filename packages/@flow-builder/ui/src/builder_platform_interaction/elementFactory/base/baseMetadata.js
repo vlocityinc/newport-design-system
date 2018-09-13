@@ -43,10 +43,20 @@ export function baseCanvasElementMetadataObject(canvasElement = {}, config = {})
     );
 }
 
-export function baseChildElementMetadataObject(childElement = {}) {
+export function baseChildElementMetadataObject(childElement = {}, config = {}) {
     const newChildElement = baseElementMetadataObject(childElement);
     const { label = '' } = childElement;
-    return Object.assign(newChildElement, {
-        label
-    });
+    const {connectorMap = {}} = config;
+    const connectors = connectorMap[childElement.guid];
+    let connectorMetadata;
+    if (connectors) {
+        connectorMetadata = createConnectorMetadataObjects(connectors, false);
+    }
+
+    return Object.assign(newChildElement,
+        {
+            label
+        },
+        connectorMetadata
+    );
 }

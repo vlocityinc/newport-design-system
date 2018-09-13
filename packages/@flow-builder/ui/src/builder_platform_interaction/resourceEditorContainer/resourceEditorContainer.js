@@ -1,10 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
-import { createFlowElement } from "builder_platform_interaction/elementConfig";
-import { hydrateWithErrors, mutateEditorElement } from "builder_platform_interaction/dataMutationLib";
+import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import variableEditorTemplate from "./variableEditorTemplate.html";
 import constantEditorTemplate from "./constantEditorTemplate.html";
 import formulaEditorTemplate from "./formulaEditorTemplate.html";
+import { propertyEditorFactory } from 'builder_platform_interaction/propertyEditorFactory';
 
 const resourceTypeElementTypeMap = {
     variable: ELEMENT_TYPE.VARIABLE,
@@ -54,9 +54,8 @@ export default class ResourceEditorContainer extends LightningElement {
 
         // go through the needed steps to create a flow element and get it ready to be used by property editor
         const elementType = resourceTypeElementTypeMap[resourceType];
-        let node = createFlowElement(elementType, false);
+        let node = propertyEditorFactory({elementType});
         // NOTE: if we ever need to pass the store state (the second allowed param) then we need to add that here
-        node = mutateEditorElement(node);
         node = hydrateWithErrors(node);
 
         // set this to our member variable so that we can pass to the selected property editor template

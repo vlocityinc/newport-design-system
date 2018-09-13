@@ -20,7 +20,8 @@ import {
     createRecordDelete,
     createScreen,
     createSubflow,
-    FACTORY_CONFIG
+    FACTORY_CONFIG,
+    createDecisionWithOutcomeReferencesWhenClosingPropertyEditor
 } from "builder_platform_interaction/elementFactory";
 
 /**
@@ -62,7 +63,11 @@ export const propertyEditorFactory = (element, config = {}) => {
             newElement = createLoop(element);
             break;
         case ELEMENT_TYPE.DECISION:
-            newElement = createDecisionWithOutcomes(element);
+            if (config[FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]) {
+                newElement = createDecisionWithOutcomeReferencesWhenClosingPropertyEditor(element);
+            } else {
+                newElement = createDecisionWithOutcomes(element);
+            }
             break;
         case ELEMENT_TYPE.RECORD_CREATE:
             newElement = createRecordCreate(element);

@@ -46,7 +46,7 @@ export function baseElementsArrayToMap(elementList = []) {
     };
 }
 
-function baseElement(element = {}) {
+export function baseElement(element = {}) {
     const { guid = generateGuid(), name = '' } = element;
     return ({
         guid,

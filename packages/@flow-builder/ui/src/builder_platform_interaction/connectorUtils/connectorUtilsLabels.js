@@ -1,4 +1,3 @@
-import startElementLabel from '@salesforce/label/FlowBuilderCanvas.startElementLabel';
 import faultConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.faultConnectorLabel';
 import loopNextConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.loopNextConnectorLabel';
 import loopEndConnectorLabel from '@salesforce/label/FlowBuilderConnectorLabels.loopEndConnectorLabel';
@@ -6,7 +5,6 @@ import loopNextComboBoxOption from '@salesforce/label/FlowBuilderConnectorPicker
 import loopEndComboBoxOption from '@salesforce/label/FlowBuilderConnectorPicker.loopEndComboBoxOption';
 
 export const LABELS = {
-    startElementLabel,
     faultConnectorLabel,
     loopNextConnectorLabel,
     loopEndConnectorLabel,

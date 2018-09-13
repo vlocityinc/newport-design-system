@@ -59,12 +59,12 @@ export function createLoopWithConnectors(loop) {
     return baseCanvasElementsArrayToMap([loopObject], connectors);
 }
 
-export function createLoopMetadataObject(loop) {
+export function createLoopMetadataObject(loop, config = {}) {
     if (!loop) {
         throw new Error('loop is not defined');
     }
 
-    const newLoop = baseCanvasElementMetadataObject(loop);
+    const newLoop = baseCanvasElementMetadataObject(loop, config);
     const {
         assignNextValueToReference,
         collectionReference,

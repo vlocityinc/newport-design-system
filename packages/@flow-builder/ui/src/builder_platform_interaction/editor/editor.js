@@ -3,10 +3,9 @@ import { invokePanel, PROPERTY_EDITOR } from "builder_platform_interaction/build
 import { Store, deepCopy } from "builder_platform_interaction/storeLib";
 import { canvasSelector, elementPropertyEditorSelector, getSObjectOrSObjectCollectionByEntityElements } from "builder_platform_interaction/selectors";
 import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from "builder_platform_interaction/actions";
-import { dehydrate, hydrateWithErrors, mutateEditorElement, removeEditorElementMutation } from "builder_platform_interaction/dataMutationLib";
-import { createFlowElement } from "builder_platform_interaction/elementConfig";
+import { dehydrate, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
-import { createStartElement, sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from "builder_platform_interaction/connectorUtils";
+import { sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from "builder_platform_interaction/connectorUtils";
 import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform_interaction/translatorLib";
 import { reducer } from "builder_platform_interaction/reducers";
@@ -19,6 +18,8 @@ import { usedBy, invokeUsedByAlertModal } from "builder_platform_interaction/use
 import { logPerfTransactionStart, logPerfTransactionEnd } from "builder_platform_interaction/loggingUtils";
 import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from "builder_platform_interaction/events";
 import { SaveType } from "builder_platform_interaction/saveType";
+import { propertyEditorFactory } from 'builder_platform_interaction/propertyEditorFactory';
+import { FACTORY_CONFIG, createStartElement } from 'builder_platform_interaction/elementFactory';
 
 let unsubscribeStore;
 let storeInstance;
@@ -256,7 +257,7 @@ export default class Editor extends LightningElement {
         let flowDevName;
         let url;
         if (currentState && currentState.properties) {
-            flowDevName = currentState.properties.fullName;
+            flowDevName = currentState.properties.name;
             url = `${this.runDebugUrl}${flowDevName}/${this.flowId}`;
             if (runOrDebug === DEBUG) {
                 url = `${url}?flow__debug=true`;
@@ -274,8 +275,7 @@ export default class Editor extends LightningElement {
         const mode = EditElementEvent.EVENT_NAME;
 
         // Pop flow properties editor and do the following on callback.
-        let node = deepCopy(storeInstance.getCurrentState().properties);
-        node = mutateEditorElement(node, storeInstance.getCurrentState());
+        let node = propertyEditorFactory(storeInstance.getCurrentState().properties, { [FACTORY_CONFIG.SWAP_GUID_TO_DEV_NAME]: true });
         node = hydrateWithErrors(node);
 
         node.saveType = SaveType.UPDATE;
@@ -311,8 +311,7 @@ export default class Editor extends LightningElement {
             this.saveFlow(SaveType.UPDATE);
         } else {
             // Pop flow properties editor and do the following on callback.
-            let node = deepCopy(storeInstance.getCurrentState().properties);
-            node = mutateEditorElement(node, storeInstance.getCurrentState());
+            let node = propertyEditorFactory(storeInstance.getCurrentState().properties, { [FACTORY_CONFIG.SWAP_GUID_TO_DEV_NAME]: true });
             node = hydrateWithErrors(node);
 
             // TODO: We won't need to set the save type here after we introduce the save type
@@ -336,7 +335,7 @@ export default class Editor extends LightningElement {
         // Get the save type  before it gets removed by the mutation below.
         // TODO: We may not need to do this depending on how the save type selector is implemented.
         const saveType = flowProperties.saveType;
-        const properties = removeEditorElementMutation(dehydrate(deepCopy(flowProperties)), storeInstance.getCurrentState());
+        const properties = propertyEditorFactory(dehydrate(deepCopy(flowProperties)), { [FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]: true });
 
         storeInstance.dispatch(updateProperties(properties));
         if (saveType !== SaveType.UPDATE) {
@@ -632,12 +631,14 @@ export default class Editor extends LightningElement {
      */
     handleAddElement = (event) => {
         const mode = event.type;
+        const locationX = event.detail.locationX;
+        const locationY = event.detail.locationY;
+        const elementType = event.detail.elementType;
 
-        let node = createFlowElement(event.detail.elementType);
+        let node = propertyEditorFactory({ locationX, locationY, elementType });
         node.locationX = event.detail.locationX;
         node.locationY = event.detail.locationY;
 
-        node = mutateEditorElement(node, storeInstance.getCurrentState());
         node = hydrateWithErrors(node);
 
         const nodeUpdate = this.deMutateAndAddNodeCollection;
@@ -671,7 +672,7 @@ export default class Editor extends LightningElement {
     deMutateAndUpdateNodeCollection(node) {
         // This deepCopy is needed as a temporary workaround because the unwrap() function that the property editor
         // calls on OK doesn't actually work and keeps the proxy wrappers.
-        const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)), storeInstance.getCurrentState());
+        const nodeForStore = propertyEditorFactory(dehydrate(deepCopy(node)), { [FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]: true });
         storeInstance.dispatch(updateElement(nodeForStore));
     }
 
@@ -679,7 +680,7 @@ export default class Editor extends LightningElement {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
-        const nodeForStore = removeEditorElementMutation(dehydrate(deepCopy(node)), storeInstance.getCurrentState());
+        const nodeForStore = propertyEditorFactory(dehydrate(deepCopy(node)), { [FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]: true });
         storeInstance.dispatch(addElement(nodeForStore));
     }
 

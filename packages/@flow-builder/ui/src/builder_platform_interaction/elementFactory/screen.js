@@ -24,7 +24,7 @@ export function createScreen(screen = {}) {
     } = screen;
 
     let { fields = [] } = screen;
-    fields = fields.filter(field => createScreenField(field));
+    fields = fields.map(field => createScreenField(field));
 
     const getFieldIndex = function (field) {
         if (this.fields) {
@@ -99,11 +99,11 @@ export function createScreenMetadataObject(screen, config) {
         helpText,
         pausedText,
         showFooter,
-        showHeader,
+        showHeader
     } = screen;
 
     let { fields = [] } = screen;
-    fields = fields.filter(field => createScreenFieldMetadataObject(field));
+    fields = fields.map(field => createScreenFieldMetadataObject(field));
 
     return Object.assign(newScreen, {
         fields,

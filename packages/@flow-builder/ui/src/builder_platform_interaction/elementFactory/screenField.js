@@ -7,9 +7,12 @@ import {
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
+import { baseElement } from "./base/baseElement";
 
 export function createScreenField(screenField = {}) {
-    let type;
+    const newScreenField = baseElement(screenField);
+    const { fieldText = '', extensionName = null, fieldType, isRequired = false, isVisible = false, dataType, choiceReferences = [] } = screenField;
+    let { type } = screenField;
     let { scale, inputParameters, outputParameters } = screenField;
     const { defaultValue, validationRule } = screenField;
     if (isExtensionField(screenField)) {
@@ -25,7 +28,7 @@ export function createScreenField(screenField = {}) {
     }
 
     // Flatten out these properties which makes validation easier.
-    let errorMessage, formulaExpression;
+    let errorMessage = null, formulaExpression = null;
     if (validationRule) {
         if (validationRule.errorMessage) {
             errorMessage = validationRule.errorMessage;
@@ -49,16 +52,22 @@ export function createScreenField(screenField = {}) {
     if (scale != null && typeof scale === 'number') {
         scale = scale.toString();
     }
-
     return Object.assign(
-        {},
+        newScreenField,
         {
             errorMessage,
             formulaExpression,
             scale,
             type,
             inputParameters,
-            outputParameters
+            outputParameters,
+            fieldType,
+            fieldText,
+            isRequired,
+            isVisible,
+            dataType,
+            choiceReferences,
+            extensionName
         },
         defaultValueFerovObject
     );
@@ -70,7 +79,7 @@ export function createScreenFieldMetadataObject(screenField) {
     }
 
     // Unflatten these properties.
-    const { errorMessage, formulaExpression, defaultValue } = screenField;
+    const { errorMessage, formulaExpression, extensionName, defaultValue, dataType, isRequired, fieldText, fieldType, name } = screenField;
     let { scale, inputParameters, outputParameters } = screenField;
 
     let validationRule;
@@ -96,13 +105,18 @@ export function createScreenFieldMetadataObject(screenField) {
         outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
     }
 
-    return Object.assign(
-        {},
+    return Object.assign({},
         {
             validationRule,
             scale,
             inputParameters,
-            outputParameters
+            outputParameters,
+            fieldText,
+            fieldType,
+            dataType,
+            isRequired,
+            name,
+            extensionName,
         },
         defaultValueMetadataObject
     );

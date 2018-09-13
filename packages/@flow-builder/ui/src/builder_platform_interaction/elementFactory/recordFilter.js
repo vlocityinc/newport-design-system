@@ -41,12 +41,12 @@ export function createFilterMetadataObject(filter) {
         filter.leftHandSide.indexOf('.') + 1
     );
     const operator = filter.operator;
-    const rhsFerovObject = createFEROVMetadataObject(
+    const value = createFEROVMetadataObject(
         filter,
         rhsPropertyName,
         rhsDataTypePropertyName
     );
-    const newFilter = Object.assign({}, { field, operator }, rhsFerovObject);
+    const newFilter = Object.assign({}, { field, operator, value });
 
     return newFilter;
 }

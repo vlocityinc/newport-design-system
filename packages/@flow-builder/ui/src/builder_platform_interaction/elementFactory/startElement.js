@@ -1,12 +1,14 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LABELS } from "./elementFactoryLabels";
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import { baseCanvasElement, baseCanvasElementsArrayToMap } from "./base/baseElement";
+import { createStartElementConnector } from "./connector";
 
 export const START_ELEMENT_LOCATION = {
     x: 50,
     y: 50
 };
 const maxConnections = 1;
+const elementType = ELEMENT_TYPE.START_ELEMENT;
 
 /**
  * Method to create the start element object
@@ -14,27 +16,29 @@ const maxConnections = 1;
  * @returns {Object} startElement   the start element object
  */
 export function createStartElement() {
-    const guid = generateGuid(ELEMENT_TYPE.START_ELEMENT);
-    const elementType = ELEMENT_TYPE.START_ELEMENT;
-    const label = LABELS.startElementLabel;
-    const locationX = START_ELEMENT_LOCATION.x;
-    const locationY = START_ELEMENT_LOCATION.y;
-    const config = { isSelected: false };
-    const connectorCount = 0;
+    const newStartElement = baseCanvasElement({
+        label: LABELS.startElementLabel,
+        locationX: START_ELEMENT_LOCATION.x,
+        locationY: START_ELEMENT_LOCATION.y,
+        config: { isSelected: false }
+    });
 
-    const startElement = Object.assign(
-        {},
+    Object.assign(newStartElement,
         {
-            guid,
             elementType,
-            label,
-            locationX,
-            locationY,
-            config,
-            maxConnections,
-            connectorCount
+            maxConnections
         }
     );
+    return newStartElement;
+}
 
-    return startElement;
+export function createStartElementWithConnectors(startElementReference) {
+    const newStartElement = createStartElement();
+    let connectors = [];
+    if (startElementReference) {
+        connectors = createStartElementConnector(newStartElement.guid, startElementReference);
+    }
+    const connectorCount = connectors.length;
+    Object.assign(newStartElement, { connectorCount });
+    return baseCanvasElementsArrayToMap([newStartElement], connectors);
 }

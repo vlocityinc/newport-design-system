@@ -122,11 +122,16 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
     const {
         object,
         outputReference,
-        assignNullValuesIfNoRecordsFound = false
+        assignNullValuesIfNoRecordsFound = false,
+        filterType
     } = recordLookup;
 
     let { sortOrder, sortField, filters = [], queriedFields = [] } = recordLookup;
-    filters = filters.map(filter => createFilterMetadataObject(filter));
+    if (filterType === RECORD_FILTER_CRITERIA.NONE) {
+        filters = [];
+    } else {
+        filters = filters.map(filter => createFilterMetadataObject(filter));
+    }
     queriedFields = queriedFields
         .filter(queriedField => queriedField.field !== '')
         .map(queriedField => {

@@ -1,12 +1,6 @@
-import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { LABELS } from "./connectorUtilsLabels";
-
-export const START_ELEMENT_X_Y = {
-    x: 50,
-    y: 50
-};
 
 /**
  * Helper method to get the minimum and maximum x and y coordinates of the flow
@@ -57,53 +51,6 @@ export const getFlowBounds = (canvasElements) => {
 };
 
 /**
- * Method to get the maximum number of possible connections for a given canvas element
- *
- * @param {String} node                 canvas element object
- * @returns {Integer} maxConnections    maximum possible connections for the given canvas element
- */
-export const getMaxConnections = node => {
-    let maxConnections;
-
-    if (node.elementType === ELEMENT_TYPE.DECISION) {
-        // Decision element max connections depend on the number of outcomes
-        maxConnections = node.outcomeReferences
-            ? node.outcomeReferences.length + 1
-            : 1;
-    // TODO: W-5395924 - handled with wait connector story
-    } else if (node.elementType === ELEMENT_TYPE.WAIT) {
-        // Wait element max connections depend on the number of wait events
-        maxConnections = node.waitEventReferences
-            ? node.waitEventReferences.length + 2
-            : 2;
-    } else {
-        maxConnections = getConfigForElementType(node.elementType).nodeConfig
-            .maxConnections;
-    }
-
-    return maxConnections;
-};
-
-/**
- * Method to create the start element object
- *
- * @returns {Object} startElement   the start element object
- */
-export const createStartElement = () => {
-    const startElement = {};
-    startElement.guid = generateGuid(ELEMENT_TYPE.START_ELEMENT);
-    startElement.elementType = ELEMENT_TYPE.START_ELEMENT;
-    startElement.label = LABELS.startElementLabel;
-    startElement.locationX = START_ELEMENT_X_Y.x;
-    startElement.locationY = START_ELEMENT_X_Y.y;
-    startElement.config = { isSelected: false };
-    startElement.maxConnections = 1;
-    startElement.connectorCount = 0;
-
-    return startElement;
-};
-
-/**
  * Method to create a connector object in the shape required by the store
  *
  * @param {String} source           guid of the source canvas element
@@ -131,237 +78,28 @@ export const createConnectorObject = (source, childSource, target, label, type) 
 };
 
 /**
- * Method to remove connector from list of available connections on a given node
+ * Method to remove connectors from list of available connections
  *
- * @param {String} node           canvas element object
- * @param {String} connector      connector to remove from list of available connections on node
+ * @param {Array} availableConnections      available connections
+ * @param {String} connectors               connectors to remove from list of available connections
+ *
+ * @returns {Array} availableConnections    updated list of available connections
  */
-export const removeFromAvailableConnections = (node, connector) => {
-    if (node.availableConnections) {
-        node.availableConnections = node.availableConnections.filter(connection => {
-            // Keep in the list of available connections if the connection type does not match the connector type,
-            // OR if the connection is for a child reference (example, outcomes) and the child reference does not match the connector child source
-            return connection.type !== connector.type || (connection.childReference && connection.childReference !== connector.childSource);
-        });
-    }
-};
-
-/**
- * Method to create connector objects for a given element
- *
- * @param {String} node           element object
- * @param {String} parentId       (optional) guid of parent element if one exists (ex. decision id for an outcome element)
- *
- * @returns {Array} connectors    array of connector objects for the given canvas element
- */
-export const createConnectorObjects = (node, parentId) => {
-    const connectors = [];
-
-    // Create regular connectors if they exist on the element
-    if (node.connector && node.connector.targetReference) {
-        const source = parentId ? parentId : node.guid;
-        const childSource = parentId ? node.guid : null;
-        const label = parentId ? node.label : null;
-
-        const connector = createConnectorObject(
-            source,
-            childSource,
-            node.connector.targetReference,
-            label,
-            CONNECTOR_TYPE.REGULAR
-        );
-        connectors.push(connector);
-        delete node.connector;
-    } else if (node.connectors) {
-        // Step elements have an array of connectors
-        node.connectors.forEach(nodeconnector => {
-            if (nodeconnector.targetReference) {
-                const connector = createConnectorObject(
-                    node.guid,
-                    null,
-                    nodeconnector.targetReference,
-                    null,
-                    CONNECTOR_TYPE.REGULAR
-                );
-                connectors.push(connector);
+export const removeFromAvailableConnections = (availableConnections, connectors = []) => {
+    availableConnections = availableConnections.filter(connection => {
+        let removeConnection = false;
+        for (let i = 0; i < connectors.length; i++) {
+            // Remove from the list of available connections if the connection type matches the connector type,
+            // OR if the connection is for a child reference (example, outcomes) and the child reference matches the connector child source
+            if (connection.type === connectors[i].type && (!connection.childReference || connection.childReference === connectors[i].childSource)) {
+                removeConnection = true;
+                break;
             }
-        });
-        delete node.connectors;
-    }
-
-    // Create next value connector (if the current node is of type loop)
-    if (node.nextValueConnector && node.nextValueConnector.targetReference) {
-        const nextValueConnector = createConnectorObject(
-            node.guid,
-            null,
-            node.nextValueConnector.targetReference,
-            LABELS.loopNextConnectorLabel,
-            CONNECTOR_TYPE.LOOP_NEXT
-        );
-        connectors.push(nextValueConnector);
-        delete node.nextValueConnector;
-    }
-
-    // Create no more values aka end of loop connector (if the current node is of type loop)
-    if (node.noMoreValuesConnector && node.noMoreValuesConnector.targetReference) {
-        const noMoreValuesConnector = createConnectorObject(
-            node.guid,
-            null,
-            node.noMoreValuesConnector.targetReference,
-            LABELS.loopEndConnectorLabel,
-            CONNECTOR_TYPE.LOOP_END
-        );
-        connectors.push(noMoreValuesConnector);
-        delete node.noMoreValuesConnector;
-    }
-
-    // Create fault connector if one exists
-    if (node.faultConnector && node.faultConnector.targetReference) {
-        const faultConnector = createConnectorObject(
-            node.guid,
-            null,
-            node.faultConnector.targetReference,
-            LABELS.faultConnectorLabel,
-            CONNECTOR_TYPE.FAULT
-        );
-        connectors.push(faultConnector);
-        delete node.faultConnector;
-    }
-
-    // Create default connector if one exists
-    if (node.defaultConnector && node.defaultConnector.targetReference) {
-        const defaultConnector = createConnectorObject(
-            node.guid,
-            null,
-            node.defaultConnector.targetReference,
-            node.defaultConnectorLabel,
-            CONNECTOR_TYPE.DEFAULT
-        );
-        connectors.push(defaultConnector);
-        delete node.defaultConnector;
-    }
-
-    return connectors;
-};
-
-/**
- * Method to create connector objects for a given canvas element and set the connection properties on the element
- *
- * @param {String} nodeId         guid of the canvas element
- * @param {Objects} elements      collection of all elements in the store mapped by guid
- * @param {String} startNodeId    guid of the element that the start element connects to
- *
- * @returns {Array} connectors    array of connector objects for the given canvas element
- */
-export const createConnectorsAndConnectionProperties = (nodeId, elements, startNodeId) => {
-    const node = elements[nodeId];
-    const connectors = [];
-    const elementType = node.elementType;
-
-    // Create connector objects for the canvas element
-    if (elementType === ELEMENT_TYPE.START_ELEMENT) {
-        if (startNodeId) {
-            const startElementConnector = createConnectorObject(node.guid, null, startNodeId, null, CONNECTOR_TYPE.START);
-            connectors.push(startElementConnector);
         }
-    } else {
-        connectors.push(...createConnectorObjects(node));
-    }
-
-    // Create connector objects for any child elements of the canvas element (ex. outcomes on a decision)
-    let childReferences = [];
-    if (elementType === ELEMENT_TYPE.DECISION) {
-        childReferences = node.outcomeReferences.map(outcomeReference => {
-            return outcomeReference.outcomeReference;
-        });
-    // TODO: W-5395924 - handled with wait connector story
-    // } else if (elementType === ELEMENT_TYPE.WAIT) {
-    //     childReferences = node.waitEventReferences.map(waitEventReference => {
-    //         return waitEventReference.waitEventReference;
-    //     });
-    }
-
-    childReferences.forEach(childReference => {
-        const childElement = elements[childReference];
-        connectors.push(...createConnectorObjects(childElement, node.guid));
+        return !removeConnection;
     });
 
-
-    for (let i = 0; i < connectors.length; i++) {
-        removeFromAvailableConnections(node, connectors[i]);
-    }
-
-    // Set connection properties on the canvas element
-    node.connectorCount = connectors.length;
-    node.maxConnections = getMaxConnections(node);
-
-    return connectors;
-};
-
-/**
- * Method to set connector properties on all the elements in the store in the flow metadata shape (when translating before save)
- * This method will also return the guid of the canvas element marked as the start element if one exists.
- *
- * @param {String} connectors           collection of connector objects to set
- * @param {Objects} elements            collection of all elements in the store mapped by guid
- *
- * @return {String} startElementId      guid of the canvas element marked as the start element
- */
-export const setConnectorsOnElements = (connectors, elements) => {
-    let startElementId;
-
-    connectors.forEach(connector => {
-        const element = connector.childSource
-            ? elements[connector.childSource]
-            : elements[connector.source];
-
-        switch (connector.type) {
-            case CONNECTOR_TYPE.REGULAR: {
-                const elementConnector = { targetReference: connector.target };
-                if (element.elementType === ELEMENT_TYPE.STEP) {
-                    // Step elements have an array of regular connectors
-                    element.connectors = element.connectors || [];
-                    element.connectors.push(elementConnector);
-                } else {
-                    element.connector = elementConnector;
-                }
-                break;
-            }
-
-            case CONNECTOR_TYPE.LOOP_NEXT: {
-                element.nextValueConnector = { targetReference: connector.target };
-                break;
-            }
-
-            case CONNECTOR_TYPE.LOOP_END: {
-                element.noMoreValuesConnector = { targetReference: connector.target };
-                break;
-            }
-
-            case CONNECTOR_TYPE.FAULT: {
-                element.faultConnector = { targetReference: connector.target };
-                break;
-            }
-
-            case CONNECTOR_TYPE.DEFAULT: {
-                element.defaultConnector = {
-                    targetReference: connector.target
-                };
-                element.defaultConnectorLabel = connector.label;
-                break;
-            }
-
-            case CONNECTOR_TYPE.START: {
-                startElementId = connector.target;
-                break;
-            }
-
-            default:
-                break;
-        }
-    });
-
-    return startElementId;
+    return availableConnections;
 };
 
 /**
