@@ -1,15 +1,17 @@
 <template>
-    <th class="slds-tree__item" scope="row">
-        <lightning-icon if:true={hasIcon} icon-name={iconName} size={iconSize} alternative-text={label} class="slds-m-right_x-small drag-element"></lightning-icon>
-        <div class="slds-truncate" title={label}>
+    <td role="gridcell">
+        <div class="slds-grid slds-grid_vertical-align-center">
+            <lightning-icon if:true={hasIcon} icon-name={iconName} size={iconSize} alternative-text={label} class="slds-m-right_x-small drag-element"></lightning-icon>
             <!--
-            NOTE: Links are draggable by default. We avoid some undesirable behavior such as
-            dragging "javascript:void(0);" when we set draggable to false.
-             -->
-            <a title={description} onclick={handleLinkClick} tabindex="-1" draggable="false">{label}</a>
+            NOTE: Technically the palette item name should be a button because it is more of an
+            action than a destination. However lightning-button will never support truncation of
+            long text (SLDS directive) and we may run into issues when applying slds to a vanilla
+            button once the shadow dom is introduced.
+            -->
+            <a role="button" class="slds-truncate" title={description} onclick={handleLinkClick} onkeypress={handleKeyPress} tabindex="0">{label}</a>
         </div>
-    </th>
-    <td role="gridcell" if:true={detailsButton} >
+    </td>
+    <td if:true={detailsButton} role="gridcell">
         <lightning-button-icon icon-name="utility:chevronright" variant="bare" alternative-text={labels.detailsText} onclick={handleChevronClick}></lightning-button-icon>
     </td>
 </template>

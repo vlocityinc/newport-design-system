@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
-import { PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from "builder_platform_interaction/events";
-import { isChildElement } from "builder_platform_interaction/elementConfig";
-import { LABELS } from "./paletteItemLabels";
+import { PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
+import { isChildElement } from 'builder_platform_interaction/elementConfig';
+import { LABELS } from './paletteItemLabels';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -18,6 +18,11 @@ export default class PaletteItem extends LightningElement {
     @api label;
     @api iconSize;
     @api detailsButton;
+
+    @api
+    get iconElement() {
+        return this.template.querySelector('lightning-icon.drag-element');
+    }
 
     get labels() {
         return LABELS;
@@ -37,6 +42,22 @@ export default class PaletteItem extends LightningElement {
         }
     }
 
+    handleKeyPress(event) {
+        switch (event.key) {
+            case ' ':
+                // The space bar sometimes scrolls the parent container so we
+                // need to prevent the default.
+                event.preventDefault();
+                // fall through
+            case 'Enter':
+                this.handleLinkClick(event);
+                break;
+            default:
+                // No special handling for any other keys.
+                break;
+        }
+    }
+
     handleChevronClick(event) {
         event.stopPropagation();
         const elementType = this.elementType;
@@ -46,10 +67,5 @@ export default class PaletteItem extends LightningElement {
         const description = this.description;
         const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(elementType, guid, label, iconName, description);
         this.dispatchEvent(paletteItemChevronClickedEvent);
-    }
-
-    @api
-    get iconElement() {
-        return this.template.querySelector('lightning-icon.drag-element');
     }
 }

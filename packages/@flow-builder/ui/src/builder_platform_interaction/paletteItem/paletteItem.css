@@ -4,6 +4,6 @@
 
 /*TODO: Move decision icon svg styling from container.css to here (W-5278403)*/
 
-th {
+td:first-of-type {
     padding-left: 1.5rem !important;
 }
