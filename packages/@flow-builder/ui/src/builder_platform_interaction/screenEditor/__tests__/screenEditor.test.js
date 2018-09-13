@@ -7,9 +7,9 @@
  *      handleDeselectScreenElement
  *      handleReorder
  */
-import ScreenEditor from "../screenEditor";
+import ScreenEditor from '../screenEditor';
 import { createElement } from 'lwc';
-import { createTestScreen, createTestScreenField } from "builder_platform_interaction/builderTestUtils";
+import { createTestScreen, createTestScreenField } from 'builder_platform_interaction/builderTestUtils';
 import {
     PropertyChangedEvent,
     ReorderListEvent,
@@ -18,7 +18,7 @@ import {
     createScreenElementSelectedEvent,
     createScreenNodeSelectedEvent,
     createScreenElementDeselectedEvent
-} from "builder_platform_interaction/events";
+} from 'builder_platform_interaction/events';
 import { getShadowRoot } from 'lwc-test-utils';
 
 const CANVAS_ELEMENT_NAME = 'builder_platform_interaction-screen-editor-canvas';
@@ -37,7 +37,7 @@ const createComponentUnderTest = (props) => {
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
     return {
-        invokeAlertModal: jest.fn(data => {
+        invokeModal: jest.fn(data => {
             return data;
         })
     };

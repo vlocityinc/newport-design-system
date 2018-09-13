@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
 
-export default class AlertModalHeader extends LightningElement {
+export default class ModalHeader extends LightningElement {
     @api headerTitle;
 }

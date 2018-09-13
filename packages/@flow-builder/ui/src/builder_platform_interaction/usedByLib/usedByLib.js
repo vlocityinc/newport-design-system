@@ -1,10 +1,10 @@
-import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { Store, isPlainObject } from "builder_platform_interaction/storeLib";
-import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { addItem, getValueFromHydratedItem, dehydrate } from "builder_platform_interaction/dataMutationLib";
-import { format } from "builder_platform_interaction/commonUtils";
-import { LABELS } from "./usedByLibLabels";
-import { invokeAlertModal } from "builder_platform_interaction/builderUtils";
+import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store, isPlainObject } from 'builder_platform_interaction/storeLib';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { addItem, getValueFromHydratedItem, dehydrate } from 'builder_platform_interaction/dataMutationLib';
+import { format } from 'builder_platform_interaction/commonUtils';
+import { LABELS } from './usedByLibLabels';
+import { invokeModal } from 'builder_platform_interaction/builderUtils';
 
 /**
  * This function return list of elements which are referencing elements in the elementGuids array.
@@ -61,7 +61,7 @@ export function invokeUsedByAlertModal(usedByElements, elementGuidsToBeDeleted, 
     }
 
     // Invoking the alert modal
-    invokeAlertModal({
+    invokeModal({
         headerData: {
             headerTitle
         },

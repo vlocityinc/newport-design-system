@@ -1,23 +1,23 @@
 import { LightningElement, track, api } from 'lwc';
-import { invokePanel, PROPERTY_EDITOR } from "builder_platform_interaction/builderUtils";
-import { Store, deepCopy } from "builder_platform_interaction/storeLib";
-import { canvasSelector, elementPropertyEditorSelector, getSObjectOrSObjectCollectionByEntityElements } from "builder_platform_interaction/selectors";
-import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from "builder_platform_interaction/actions";
-import { dehydrate, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
-import { sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from "builder_platform_interaction/connectorUtils";
-import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
-import { translateFlowToUIModel, translateUIModelToFlow } from "builder_platform_interaction/translatorLib";
-import { reducer } from "builder_platform_interaction/reducers";
-import { setRules, setOperators } from "builder_platform_interaction/ruleLib";
-import { setEntities, getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
-import { drawingLibInstance as lib } from "builder_platform_interaction/drawingLib";
-import { LABELS } from "./editorLabels";
-import { setResourceTypes } from "builder_platform_interaction/dataTypeLib";
-import { usedBy, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
-import { logPerfTransactionStart, logPerfTransactionEnd } from "builder_platform_interaction/loggingUtils";
-import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from "builder_platform_interaction/events";
-import { SaveType } from "builder_platform_interaction/saveType";
+import { invokePropertyEditor, PROPERTY_EDITOR } from 'builder_platform_interaction/builderUtils';
+import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
+import { canvasSelector, elementPropertyEditorSelector, getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
+import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction/actions';
+import { dehydrate, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from 'builder_platform_interaction/connectorUtils';
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
+import { reducer } from 'builder_platform_interaction/reducers';
+import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
+import { setEntities, getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
+import { LABELS } from './editorLabels';
+import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
+import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
+import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
+import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
+import { SaveType } from 'builder_platform_interaction/saveType';
 import { propertyEditorFactory } from 'builder_platform_interaction/propertyEditorFactory';
 import { FACTORY_CONFIG, createStartElement } from 'builder_platform_interaction/elementFactory';
 
@@ -281,7 +281,7 @@ export default class Editor extends LightningElement {
         node.saveType = SaveType.UPDATE;
 
         const nodeUpdate = this.flowPropertiesCallback;
-        invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate });
+        invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate });
     };
 
     /**
@@ -321,7 +321,7 @@ export default class Editor extends LightningElement {
             node.saveType = saveType;
 
             const nodeUpdate = this.flowPropertiesCallback;
-            invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate });
+            invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate });
         }
     };
 
@@ -351,7 +351,7 @@ export default class Editor extends LightningElement {
     handleAddResourceClick = (event) => {
         const mode = event.type;
         const nodeUpdate = this.deMutateAndAddNodeCollection;
-        invokePanel(PROPERTY_EDITOR, { mode, nodeUpdate });
+        invokePropertyEditor(PROPERTY_EDITOR, { mode, nodeUpdate });
     };
 
     /** *********** Canvas and Node Event Handling *************** **/
@@ -369,7 +369,7 @@ export default class Editor extends LightningElement {
             const node = elementPropertyEditorSelector(storeInstance.getCurrentState(), event.detail.canvasElementGUID);
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             const newResourceCallback = this.newResourceCallback;
-            invokePanel(PROPERTY_EDITOR, { mode, nodeUpdate, node, newResourceCallback });
+            invokePropertyEditor(PROPERTY_EDITOR, { mode, nodeUpdate, node, newResourceCallback });
         }
     };
 
@@ -613,7 +613,7 @@ export default class Editor extends LightningElement {
                     // Invokes the connector-picker panel
                     const mode = event.type;
                     const nodeUpdate = this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid);
-                    invokePanel(PROPERTY_EDITOR, {mode, nodeUpdate, comboboxOptions, sourceElementType, targetElementLabel});
+                    invokePropertyEditor(PROPERTY_EDITOR, {mode, nodeUpdate, comboboxOptions, sourceElementType, targetElementLabel});
                 } else {
                     // Creates the first regular connector for all element types (such as CRUD, Action etc.)
                     // that support 2 connectors namely regular and fault
@@ -643,7 +643,7 @@ export default class Editor extends LightningElement {
 
         const nodeUpdate = this.deMutateAndAddNodeCollection;
         const newResourceCallback = this.newResourceCallback;
-        invokePanel(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
+        invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
     };
 
     /**
@@ -688,7 +688,7 @@ export default class Editor extends LightningElement {
      * Callback passed to variour property editors which support inline creation
      */
     newResourceCallback = () => {
-        invokePanel(PROPERTY_EDITOR, { mode: NewResourceEvent.EVENT_NAME, nodeUpdate: this.deMutateAndAddNodeCollection});
+        invokePropertyEditor(PROPERTY_EDITOR, { mode: NewResourceEvent.EVENT_NAME, nodeUpdate: this.deMutateAndAddNodeCollection});
     };
 
     renderedCallback() {

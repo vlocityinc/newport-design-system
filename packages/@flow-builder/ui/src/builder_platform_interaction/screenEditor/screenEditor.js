@@ -1,10 +1,10 @@
-import { LightningElement, api, track, unwrap } from "lwc";
-import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { isScreen, getAllScreenFieldTypes, getExtensionFieldTypes, processScreenExtensionTypes, processRequiredParamsForExtensionsInScreen } from "builder_platform_interaction/screenEditorUtils";
-import { screenReducer } from "./screenReducer";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { invokeAlertModal } from "builder_platform_interaction/builderUtils";
-import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
+import { LightningElement, api, track, unwrap } from 'lwc';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { isScreen, getAllScreenFieldTypes, getExtensionFieldTypes, processScreenExtensionTypes, processRequiredParamsForExtensionsInScreen } from 'builder_platform_interaction/screenEditorUtils';
+import { screenReducer } from './screenReducer';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -140,7 +140,7 @@ export default class ScreenEditor extends LightningElement {
         };
 
         // Invoking the delete confirmation modal
-        invokeAlertModal({
+        invokeModal({
             headerData: {
                 headerTitle: LABELS.deleteConfirmation
             },

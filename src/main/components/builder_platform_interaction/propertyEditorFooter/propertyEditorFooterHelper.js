@@ -20,19 +20,10 @@
                         errors.push({
                             // TODO : talk about key(devName) to actual label in error messages, will be finalized as part of this work item 
                             messages:validationErrors[i].key + ": " + validationErrors[i].errorString
-                            });
+                        });
                     }
                     cmp.set('v.isSaveDisabled', false);
-                    var statusIconCmp = cmp.find('statusIcon');
-                    
-                    // If status icon cmp and panel is there close the existing one and create a new one with a new set of errors
-                    if (statusIconCmp && statusIconCmp.getPanelInstance()) {
-                        statusIconCmp.closePanelInstance().then(function(){
-                            cmp.set('v.messages', errors);
-                        });
-                    } else { // just set the errors and wait for the panel to show up
-                        cmp.set('v.messages', errors);
-                    }
+                    cmp.set('v.messages', errors);
                 }
             }
         } 

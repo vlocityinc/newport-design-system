@@ -40,9 +40,10 @@
     <aura:dependency resource="markup://builder_platform_interaction:resourceEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:formulaEditor" type="MODULE" />    
     <aura:dependency resource="markup://builder_platform_interaction:screenEditor" type="MODULE" />     
-    <aura:dependency resource="markup://builder_platform_interaction:alertModalHeader" type="MODULE" />
-    <aura:dependency resource="markup://builder_platform_interaction:alertModalBody" type="MODULE" />
-    <aura:dependency resource="markup://builder_platform_interaction:alertModalFooter" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:modalHeader" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:modalBody" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:modalFooter" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:statusIconSummary" type="MODULE" />
 
    <!-- Events -->
    <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />

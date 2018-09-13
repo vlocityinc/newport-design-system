@@ -1,11 +1,9 @@
 // eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
-import { getConfigForElementType, MODAL_SIZE } from "builder_platform_interaction/elementConfig";
-import { AddElementEvent, EditElementEvent, NewResourceEvent, CANVAS_EVENT, SaveFlowEvent } from "builder_platform_interaction/events";
-import { LABELS } from "./builderUtilsLabels";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-
-export * from "./modalUtils.js";
+import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction/elementConfig';
+import { AddElementEvent, EditElementEvent, NewResourceEvent, CANVAS_EVENT, SaveFlowEvent } from 'builder_platform_interaction/events';
+import { LABELS } from './builderUtilsLabels';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * @constant state of callback result
@@ -21,6 +19,7 @@ const STATE = {
  * @type {string}
  */
 const MODAL = 'modal';
+const PANEL = 'panel';
 
 /**
  * @constant Panel type used for popovers.
@@ -40,7 +39,7 @@ const UI_CREATE_PANEL = 'ui:createPanel';
  */
 const hoverPanels = {};
 
-// component name used when calling invokePanel
+// component name used when calling invokePropertyEditor
 export const PROPERTY_EDITOR = 'builder_platform_interaction:propertyEditor';
 
 /**
@@ -288,7 +287,7 @@ const doInvoke = (cmpName, attr, panelConfig) => {
  * @param {string} cmpName - Name of the component to be created
  * @param {object} attributes - contains a callback and actual data
  */
-export function invokePanel(cmpName, attributes) {
+export function invokePropertyEditor(cmpName, attributes) {
     if (!attributes || !attributes.mode) {
         throw new Error("Attributes passed to invoke connector selection panel method are incorrect. Must contain a mode");
     }
@@ -299,6 +298,94 @@ export function invokePanel(cmpName, attributes) {
 
     doInvoke(cmpName, attr, panelConfig);
 }
+
+/**
+ * Object containing component properties
+ * @typedef {object} cmpAttributes - Contains component attributes
+ * @property {string} header - Header for summary
+ * @property {object[]} messages - error/warning messages
+ * @property {string} type - Type of popover (error or warning)
+ * @property {boolean} showOnlyNumberOfErrors - Boolean value to just show the number of errors
+ */
+
+/**
+ * Object containing panel properties
+ * @typedef {object} panelAttributes - Contains panel attributes
+ * @property {string} direction - Direction for the popover
+ * @property {string} referenceSelector - Reference point for the popover
+ * @property {function} createPanel - Method to create the panel
+ * @property {function} destroyPanel - Method to destroy the panel
+ */
+
+/**
+ * Invokes the popover and creates status-icon-summary inside it
+ * @param {string} cmpName - Name of the component to be created
+ * @param {object} cmpAttributes - Contains component attributes
+ * @param {object} panelAttributes - Contains panel attributes
+ */
+export function invokePopover(cmpName, cmpAttributes, panelAttributes) {
+    if (!cmpName || !cmpAttributes || !panelAttributes) {
+        throw new Error("Component Name or Attributes can't be undefined");
+    }
+
+    const statusIconSummaryPromise = createComponentPromise(cmpName, cmpAttributes);
+    Promise.resolve(statusIconSummaryPromise).then((newComponent) => {
+        const createPanelEventAttributes = {
+            panelType: PANEL,
+            visible: true,
+            panelConfig : {
+                body: newComponent,
+                direction: panelAttributes.direction,
+                showPointer: true,
+                referenceElementSelector: panelAttributes.referenceSelector,
+                closeAction: () => {
+                    panelAttributes.destroyPanel();
+                }
+            },
+            onCreate: (panel) => {
+                panelAttributes.createPanel(panel, newComponent.elements[0]);
+            }
+        };
+        dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
+    }).catch(errorMessage => {
+        throw new Error('Status Icon Panel creation failed : ' + errorMessage);
+    });
+}
+
+/**
+ * Invokes the modal and creates the alert/confirmation modal inside it
+ * @param {object} data - contains data for modal header/body/footer
+ */
+export const invokeModal = (data) => {
+    const modalHeaderPromise = createComponentPromise("builder_platform_interaction:modalHeader", { headerTitle: data.headerData.headerTitle });
+    const modalBodyPromise = createComponentPromise("builder_platform_interaction:modalBody", { bodyTextOne: data.bodyData.bodyTextOne, bodyTextTwo: data.bodyData.bodyTextTwo, listSectionHeader: data.bodyData.listSectionHeader, listSectionItems: data.bodyData.listSectionItems });
+    const modalFooterPromise = createComponentPromise("builder_platform_interaction:modalFooter", { buttons: data.footerData });
+
+    Promise.all([modalHeaderPromise, modalBodyPromise, modalFooterPromise]).then((newComponents) => {
+        const createPanelEventAttributes = {
+            panelType: MODAL,
+            visible: true,
+            panelConfig : {
+                header: newComponents[0],
+                body: newComponents[1],
+                footer: newComponents[2],
+                closeAction: (modal) => {
+                    if (data.closeCallback) {
+                        data.closeCallback();
+                    }
+                    modal.close();
+                }
+            },
+            onCreate: (modal) => {
+                const modalFooter = modal.get('v.footer')[0];
+                modalFooter.set('v.closeModalCallback', modal.close);
+            }
+        };
+        dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
+    }).catch(errorMessage => {
+        throw new Error('Modal creation failed : ' + errorMessage);
+    });
+};
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!

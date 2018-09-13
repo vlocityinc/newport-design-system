@@ -1,8 +1,7 @@
-import { LightningElement, api, createElement, track } from 'lwc';
-import { showCustomOverlay } from "lightning/overlayUtils";
-import { generateGuid } from "builder_platform_interaction/storeLib";
-import StatusIconSummary from "builder_platform_interaction/statusIconSummary";
-import { LABELS } from "./statusIconLabels";
+import { LightningElement, api, track } from 'lwc';
+import { invokePopover } from 'builder_platform_interaction/builderUtils';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { LABELS } from './statusIconLabels';
 const dotPrefixForClass = '.';
 
 export default class StatusIcon extends LightningElement {
@@ -29,17 +28,16 @@ export default class StatusIcon extends LightningElement {
             };
         });
 
+        // Closing the panel if it was previously open and errors got updated
+        if (this.panelInstance && this.closePanelFunction) {
+            this.closePanelFunction();
+        }
+
         if (this.internalMessages && this.internalMessages.length > 0) {
             this.isIconVisible = true;
-            if (this.closePanelFunction) {
-                this.closePanelFunction();
-            }
             this.createPanel();
         } else {
             this.isIconVisible = false;
-            if (this.panelInstance && this.closePanelFunction) {
-                this.closePanelFunction();
-            }
         }
     }
 
@@ -53,7 +51,7 @@ export default class StatusIcon extends LightningElement {
 
     /**
      * Public method to close the panel instance
-     * @returns {Promise} resolves to close the panel instance, rejects if the instnace doesn't exist
+     * @returns {Promise} resolves to close the panel instance, rejects if the instance doesn't exist
      */
     @api closePanelInstance() {
         return new Promise((resolve, reject) => {
@@ -109,54 +107,46 @@ export default class StatusIcon extends LightningElement {
     }
 
     /**
-     * Binds the internal show / hide / close functions for panel
-     * @param {Object} panel : panel instance
+     * Helper method to handle closing of the panel on esc key or when clicking 'X'
      */
-    bindInternalFunctions = (panel) => {
-        this.showPanelFunction = () => {
-            panel.show().then(() => {
-                this.panelHidden = false;
-            });
-        };
-        this.hidePanelFunction = () => {
-            panel.hide().then(() => {
-                this.panelHidden = true;
-            });
-        };
-        this.closePanelFunction = () => {
+    closePanelFunction = () => {
+        if (this.panelInstance) {
+            this.panelInstance.close();
             this.panelInstance = null; // Get rid of the access to the older instance
-            panel.close().then(() => {
-                this.panelHidden = true;
-            });
-        };
-    }
+            this.panelHidden = true;
+        }
+    };
+
+    /**
+     * Used to create the status-icon-summary component
+     * @param {Object} panel - Invoked panel
+     * @param {Object} statusIconSummaryComponent - status-icon-summary component created inside the panel
+     */
+    onCreatePanel = (panel, statusIconSummaryComponent) => {
+        this.panelInstance = panel;
+        this.panelHidden = false;
+        statusIconSummaryComponent.handleClickCallback = this.closePanelFunction;
+    };
+
+    /**
+     * Used to destroy the panel on esc key
+     */
+    onDestroyPanel = () => {
+        this.closePanelFunction();
+    };
 
     /**
      * creates a ui panel of type panel with the given params and sets statusIconSummary in the body of the panel
      */
     createPanel() {
-        const statusIconSummaryComponent = createElement('builder_platform_interaction-status-icon-summary', {is: StatusIconSummary});
-        statusIconSummaryComponent.header = this.headerforsummary;
-        statusIconSummaryComponent.messages = this.internalMessages;
-        statusIconSummaryComponent.type = this.type;
-        statusIconSummaryComponent.showOnlyNumberOfErrors = this.showOnlyNumberOfErrors;
-        showCustomOverlay({
-            panelType: 'panel',
-            body: statusIconSummaryComponent,
-            direction: this.direction,
-            showPointer: true,
-            padding: 2,
-            referenceSelector: dotPrefixForClass + this.classForIcon,
-            closeCallback: () => {
-                this.panelHidden = true;
-            }
-        }).then(panel => {
-            this.panelInstance = panel;
-            this.panelHidden = false;
-            this.bindInternalFunctions(panel);
-            statusIconSummaryComponent.handleClickCallback = this.hidePanelFunction;
-        }).catch(errorMessages => {
-            throw new Error('Status Icon Panel creation failed : ' + errorMessages);
-        });
+        const header = this.headerforsummary;
+        const messages = this.internalMessages;
+        const type = this.type;
+        const showOnlyNumberOfErrors = this.showOnlyNumberOfErrors;
+        const direction = this.direction;
+        const referenceSelector = dotPrefixForClass + this.classForIcon + ' lightning-button-icon';
+        const createPanel = this.onCreatePanel;
+        const destroyPanel = this.onDestroyPanel;
+        invokePopover('builder_platform_interaction:statusIconSummary', { header, messages, type, showOnlyNumberOfErrors }, { direction, referenceSelector, createPanel, destroyPanel });
     }
 }

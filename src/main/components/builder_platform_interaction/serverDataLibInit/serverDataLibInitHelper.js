@@ -46,15 +46,15 @@
 
         var openAlertModal = function(status) {
             var headerTitle, bodyTextOne, buttonVariant, buttonLabel, alertModal;
-            alertModal = cmp.find('builderUtils').invokeAlertModal;
+            alertModal = cmp.find('builderUtils').invokeModal;
             buttonVariant = 'Brand';
             buttonLabel = $A.get('$Label.FlowBuilderAlertModal.okayButtonLabel');
             if (status === 'ERROR') {
-                headerTitle = $A.get('$Label.FlowBuilderAlertModal.errorTitle');;
-                bodyTextOne = $A.get('$Label.FlowBuilderAlertModal.errorMessage');;
+                headerTitle = $A.get('$Label.FlowBuilderAlertModal.errorTitle');
+                bodyTextOne = $A.get('$Label.FlowBuilderAlertModal.errorMessage');
             } else if (status === 'INCOMPLETE') {
-                headerTitle = $A.get('$Label.FlowBuilderAlertModal.noNetworkConnectionTitle');;
-                bodyTextOne = $A.get('$Label.FlowBuilderAlertModal.noNetworkConnectionMessage');;
+                headerTitle = $A.get('$Label.FlowBuilderAlertModal.noNetworkConnectionTitle');
+                bodyTextOne = $A.get('$Label.FlowBuilderAlertModal.noNetworkConnectionMessage');
             }
             alertModal({
                 headerData: {
@@ -66,7 +66,10 @@
                 footerData: {
                     buttonOne: {
                         buttonVariant: buttonVariant,
-                        buttonLabel: buttonLabel
+                        buttonLabel: buttonLabel,
+                        buttonCallback: function() {
+                            showAlertModal = true;
+                        }
                     }
                 },
                 closeCallback: function() {
