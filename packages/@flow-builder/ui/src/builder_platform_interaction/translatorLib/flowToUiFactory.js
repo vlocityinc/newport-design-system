@@ -8,6 +8,7 @@ import {
     createFormulaForStore,
     createFlowProperties,
     createLoopWithConnectors,
+    createWaitWithConnectors,
     createRecordCreateWithConnectors,
     createRecordUpdateWithConnectors,
     createRecordLookupWithConnectors,
@@ -38,6 +39,8 @@ export const flowToUIFactory = (elementType, element) => {
             return createConstantForStore(element);
         case ELEMENT_TYPE.DECISION:
             return createDecisionWithOutcomeReferences(element);
+        case ELEMENT_TYPE.WAIT:
+            return createWaitWithConnectors(element);
         case ELEMENT_TYPE.EMAIL_ALERT:
             return createActionCallWithConnectors(element, ELEMENT_TYPE.EMAIL_ALERT);
         case ELEMENT_TYPE.FLOW_PROPERTIES:

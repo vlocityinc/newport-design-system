@@ -13,6 +13,7 @@ import {
     createFormula,
     createLoop,
     createDecisionWithOutcomes,
+    createWait,
     createVariable,
     createRecordCreate,
     createRecordUpdate,
@@ -68,6 +69,9 @@ export const propertyEditorFactory = (element, config = {}) => {
             } else {
                 newElement = createDecisionWithOutcomes(element);
             }
+            break;
+        case ELEMENT_TYPE.WAIT:
+            newElement = createWait(element);
             break;
         case ELEMENT_TYPE.RECORD_CREATE:
             newElement = createRecordCreate(element);

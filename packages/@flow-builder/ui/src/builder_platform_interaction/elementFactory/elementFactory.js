@@ -6,6 +6,7 @@ export * from './decision.js';
 export * from './flowProperties.js';
 export * from './formula.js';
 export * from './loop.js';
+export * from './wait.js';
 export * from './recordCreate.js';
 export * from './recordLookup.js';
 export * from './recordUpdate.js';
