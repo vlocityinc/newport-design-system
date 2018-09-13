@@ -85,16 +85,31 @@ describe('mutateScreenField function', () => {
         expect(screenField.validationRule).toBeDefined();
         expect(screenField.validationRule.errorMessage).toBeDefined();
         expect(screenField.validationRule.formulaExpression).toBeDefined();
-        mutateScreenField(screenField);
-        expect(screenField.validationRule).not.toBeDefined();
-        expect(screenField.errorMessage).toBeDefined();
-        expect(screenField.formulaExpression).toBeDefined();
 
-        demutateScreenField(screenField);
-        expect(screenField.validationRule).toBeDefined();
-        expect(screenField.validationRule.errorMessage).toBeDefined();
-        expect(screenField.validationRule.formulaExpression).toBeDefined();
-        expect(screenField.errorMessage).not.toBeDefined();
-        expect(screenField.formulaExpression).not.toBeDefined();
+        const mutatedScreenField = mutateScreenField(screenField);
+        expect(mutatedScreenField.validationRule).not.toBeDefined();
+        expect(mutatedScreenField.errorMessage).toBeDefined();
+        expect(mutatedScreenField.formulaExpression).toBeDefined();
+
+        const demutatedScreenField = demutateScreenField(screenField);
+        expect(demutatedScreenField.validationRule).toBeDefined();
+        expect(demutatedScreenField.validationRule.errorMessage).toBeDefined();
+        expect(demutatedScreenField.validationRule.formulaExpression).toBeDefined();
+        expect(demutatedScreenField.errorMessage).not.toBeDefined();
+        expect(demutatedScreenField.formulaExpression).not.toBeDefined();
+    });
+
+    it('mutateScreenField function scalar property correctly', () => {
+        const screenField = createTestScreenField('field1', 'Number', null, {validation: false, hydrateValues: false});
+        screenField.scale = 2;
+
+        const mutatedScreenField = mutateScreenField(screenField);
+        expect(mutatedScreenField.scale).toBeDefined();
+        expect(mutatedScreenField.scale).toBe('2');
+
+        const demutatedScreenField = demutateScreenField(screenField);
+        expect(demutatedScreenField.scale).toBeDefined();
+        expect(demutatedScreenField.scale).toBe(2);
     });
 });
+

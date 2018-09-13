@@ -113,3 +113,12 @@ export const escapeForRegExp = (value) => {
     // $& means the whole matched string
     return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
+
+/**
+ * Checks to see if the specified value is a reference, such as {!myVar}
+ * @param {string} value to check.
+ * @return {boolean} if value is a reference.
+ */
+export function isReference(value) {
+    return typeof value === 'string' && value.startsWith('{!') && value.endsWith('}');
+}
