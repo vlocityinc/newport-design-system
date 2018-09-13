@@ -3,35 +3,50 @@
         <li class={itemClass}>
             <div class="slds-grid">
                 <!-- right: toggle -->
-                <div class="slds-order_2" if:true={showToggle}>
-                    <div class="slds-form-element -slds-size_xx-small">
-                        <!-- toggle checkbox here -->
-                        <lightning-input type="toggle" variant="label-hidden" label={label} message-toggle-active="Set" message-toggle-inactive="Not Set" checked={checked} onchange={handleToggleChanged}>   
+                <div class="slds-col slds-order_2 slds-size_1-of-2">
+                    <div class="slds-grid slds-grid_align-end">
+                    <div class='slds-col'>
+                        <lightning-badge if:true={warningBadge} label={warningBadge} title={warningBadge} class={badgeClasses}>
+                        </lightning-badge>
+                    </div>
+                    <div class='slds-col'>
+                        <lightning-button-icon if:true={warningMessage} icon-name='utility:warning' class='slds-icon-text-warning' size='medium' title={warningMessage}>
+                        </lightning-button-icon>
+                     <!-- TODO: will replace icon by status-icon when W-5422703 is fixed
+                        <builder_platform_interaction-status-icon if:true={warningMessage} type='warning' direction='north' headerforsummary={labels.warningHeaderForSummary} messages={warningMessages}>
+                        </builder_platform_interaction-status-icon>
+                      -->
+                    </div>
+                    <div class='slds-col' if:true={showDelete}>
+                        <lightning-button-icon icon-name="utility:delete" size="large" onclick={handleDelete}>
+                        </lightning-button-icon>
+                    </div>
+                    <!-- toggle checkbox here -->
+                    <div class='slds-col' if:true={showToggle}>
+                        <lightning-input type="toggle" variant="label-hidden" label={state.parameterItem.label} message-toggle-active={labels.toggleActive} message-toggle-inactive={labels.toggleInactive} checked={checked} onchange={handleToggleChanged}>   
                         </lightning-input>
+                    </div>
                     </div>
                 </div>                      
                 <!-- left: param name + combobox -->
-                <div class="slds-col slds-order_1 slds-p-right_medium">
+                <div class="slds-col slds-order_1 slds-p-right_medium slds-size_1-of-2 slds-col_bump-right">
                     <div class="slds-grid">
                         <!-- parameterType.icon -->
-                        <div class="slds-m-right_x-small">
+                        <div class="slds-m-right_x-small" if:false={hideParameterIcon}>
                             <lightning-icon icon-name={iconName} size="xx-small" alternative-text={alternativeText}></lightning-icon>
                         </div>
                         <div class="slds-col">
                             <div class="slds-form-element slds-m-top_xxx-small slds-size_medium" aria-hidden={comboboxAriaHidden}>
                                 <!-- Parameter name is here -->
-                                <label class="slds-form-element__label" if:false={showCombobox}>
-                                    {label}
+                                <label class="slds-form-element__label" if:false={state.toggleStatus}>
+                                    {state.parameterItem.label}
                                 </label>
                                 <!-- Combobox is here -->
-
-                                    <builder_platform_interaction-combobox class={comboboxClass} required={isRequired} label={label} literals-allowed={isInput}
-                                        type={type}
-                                        menu-data={menuData}
-                                        value={comboboxValue} 
-                                        oncomboboxstatechanged={handleValueChanged} onfetchmenudata={handleFetchMenuData}>   
-                                    </builder_platform_interaction-combobox>
-                                    <!-- TODO: Handle onfiltermatches for combobox-->
+                                <builder_platform_interaction-ferov-resource-picker class={comboboxClass}
+                                    show-new-resource value={parameterValue} combobox-config={parameterComboboxConfig}
+                                    element-param={elementParam} property-editor-element-type= {elementType}
+                                    onitemselected={handleUpdateParameter} oncomboboxstatechanged={handleUpdateParameter}>                                                                         
+                                </builder_platform_interaction-ferov-resource-picker>
                             </div>
                         </div>
                     </div>

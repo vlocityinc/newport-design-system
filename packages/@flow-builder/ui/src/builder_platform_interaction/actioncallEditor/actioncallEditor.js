@@ -17,6 +17,8 @@ export default class ActionCallEditor extends LightningElement {
     @track inputs = [];
     @track outputs = [];
 
+    @track displaySpinner;
+
     labels = LABELS;
 
     stopCallbackExecutionGetParameters = null;
@@ -103,6 +105,7 @@ export default class ActionCallEditor extends LightningElement {
     }
 
     fetchAndUpdateParameters() {
+        this.displaySpinner = true;
         switch (this.elementType) {
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
                 // TODO : fetch apex plugin parameters
@@ -111,20 +114,23 @@ export default class ActionCallEditor extends LightningElement {
                 // TODO : fetch subflow parameters
                 break;
             default:
-                if (this.stopCallbackExecutionGetParameters) {
-                    this.stopCallbackExecutionGetParameters();
-                }
-                // TODO we shouldn't fetch data if node.actionName isn't set
-                this.stopCallbackExecutionGetParameters = fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, ({data}) => {
-                    // TODO handle error
-                    this.stopCallbackExecutionGetParameters = null;
-                    if (data) {
-                        this.updateInputOutputParameters(data);
+                if (this.node.actionName.value) {
+                    if (this.stopCallbackExecutionGetParameters) {
+                        this.stopCallbackExecutionGetParameters();
                     }
-                }, {
-                    actionName: this.node.actionName.value,
-                    actionType: this.node.actionType.value
-                });
+                    // TODO we shouldn't fetch data if node.actionName isn't set
+                    this.stopCallbackExecutionGetParameters = fetch(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, ({data}) => {
+                        this.displaySpinner = false;
+                        // TODO handle error
+                        this.stopCallbackExecutionGetParameters = null;
+                        if (data) {
+                            this.updateInputOutputParameters(data);
+                        }
+                    }, {
+                        actionName: this.node.actionName.value,
+                        actionType: this.node.actionType.value
+                    });
+                }
         }
     }
 
@@ -144,10 +150,10 @@ export default class ActionCallEditor extends LightningElement {
         }
         // merge with actionCallNode to get value
         if (this.node.inputParameters) {
-            inputParams = this.mergeParameters(inputParams, this.node.inputParameters, 'value');
+            inputParams = this.mergeParameters(inputParams, this.node.inputParameters);
         }
         if (this.node.outputParameters) {
-            outputParams = this.mergeParameters(outputParams, this.node.outputParameters, 'assignToReference');
+            outputParams = this.mergeParameters(outputParams, this.node.outputParameters);
         }
         // if there are any input parameters, assign to inputs
         if (inputParams) {
@@ -176,52 +182,28 @@ export default class ActionCallEditor extends LightningElement {
     /**
      * @param {object} parameterInfos - array of ParameterItem (without values)
      * @param {object} nodeParameters - array of NodeParameter
-     * @param {String} mergedKey - 'value' for input parameter, 'assignToReference' for output parameter
      * @return {object} an array of ParameterItem with values
      */
-    mergeParameters(parameterInfos, nodeParameters, mergedKey) {
+    mergeParameters(parameterInfos, nodeParameters) {
         const finalArray = [];
         parameterInfos.forEach(paramInfo => {
             // find paramInfo that has the same name as nodeParam
-            const nodeParamsFound = nodeParameters.filter(nodeParam => nodeParam.name.value === paramInfo.Name);
+            const nodeParamsFound = nodeParameters.filter(nodeParam => nodeParam.name.value === paramInfo.name);
             if (nodeParamsFound.length > 0) {
                 nodeParamsFound.forEach(nodeParamFound => {
-                    finalArray.push(Object.assign({}, paramInfo, {[mergedKey]: nodeParamFound[mergedKey]}));
+                    finalArray.push(Object.assign({}, nodeParamFound, paramInfo));
                 });
             } else {
-                finalArray.push(Object.assign({}, paramInfo, {}));
+                finalArray.push(Object.assign({}, paramInfo));
             }
         });
         return finalArray;
     }
-
     /**
      * @param {object} event - update parameter item event coming from parameter-item component
      */
     handleUpdateParameterItem(event) {
         event.stopPropagation();
-        if (!event.detail.error) {
-            const value = event.detail.value;
-            // TODO: should use reducer to update node
-            if (event.detail.isInput) {
-                this.updateParameter(this.inputs[event.detail.index], 'value', value);
-            } else {
-                this.updateParameter(this.outputs[event.detail.index], 'assignToReference', value);
-            }
-        }
-        // TODO: show or hide error icon on tab
-    }
-
-    /**
-     * @param {ParameterItem} param - the parameter item
-     * @param {String} property - the property need to be updated
-     * @param {object} value - the updated value
-     */
-    updateParameter(param, property, value) {
-        if (!value) {
-            delete param[property];
-        } else {
-            param[property] = value;
-        }
+        // TODO
     }
 }

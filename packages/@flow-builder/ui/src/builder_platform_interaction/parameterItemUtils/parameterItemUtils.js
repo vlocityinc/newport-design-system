@@ -1,1 +1,0 @@
-export { getParameterLabel, isInputParameter, isRequiredParameter, getParameterDataType } from './propertyRetrieval';

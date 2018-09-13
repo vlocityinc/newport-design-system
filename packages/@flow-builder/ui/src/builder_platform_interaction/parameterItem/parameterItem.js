@@ -1,25 +1,23 @@
 import { LightningElement, track, api } from 'lwc';
-import { FLOW_DATA_TYPE, getFlowDataType } from "builder_platform_interaction/dataTypeLib";
-import { getElementsForMenuData, getResourceByUniqueIdentifier } from "builder_platform_interaction/expressionUtils";
-import { getRulesForContext, getRHSTypes, PARAM_PROPERTY, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
-import { getParameterLabel, isInputParameter, isRequiredParameter, getParameterDataType } from "builder_platform_interaction/parameterItemUtils";
-import { UpdateParameterItemEvent } from "builder_platform_interaction/events";
+import { getFlowDataType, getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
+import { getResourceFerovDataType } from "builder_platform_interaction/expressionUtils";
+import { isObject } from 'builder_platform_interaction/commonUtils';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { PARAM_PROPERTY } from "builder_platform_interaction/ruleLib";
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { PropertyChangedEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
+import { LABELS } from './parameterItemLabels';
 
 export default class ParameterItem extends LightningElement {
+    labels = LABELS;
+
     @track state = {
         toggleStatus: null,
-        parameterItem: {}
+        parameterItem: {},
     }
 
     @api
     itemIndex = 0;
-
-    /**
-     * preserve the combobox's value before switching the toggle to OFF
-     */
-    preservedValue;
-
-    flowDataType;
 
     /**
      * element type: ActionCall or ApexPlugin or Subflow (ELEMENT_TYPE.ACTION_CALL, ELEMENT_TYPE.APEX_PLUGIN_CALL, ELEMENT_TYPE.SUBFLOW)
@@ -27,22 +25,51 @@ export default class ParameterItem extends LightningElement {
     @api
     elementType;
 
+    @api
+    hideParameterIcon = false;
+
+    @api
+    disabled = false;
+
+    @api
+    showDelete = false;
+
+    @api
+    warningBadge;
+
+    @api
+    warningMessage;
+
     /**
-     * @typedef {Object} InputParameterValue
-     * @property {ValueErrorObject} elementReference or flowTypeValue (example: stringValue, numberValue...)
+     * preserve the combobox's value before switching the toggle to OFF
      */
+    preservedValue = {value: null, valueGuid: null, valueDataType: null};;
 
     /**
      * @typedef {Object} ParameterItem
-     * @property {String} id parameter Id
      * @property {boolean} isInput  true if the parameter is input parameter
-     * @property {boolean} isOutput true if the parameter is output parameter
      * @property {boolean} isRequired   true if the parameter is required input parameter
      * @property {String} label   parameter label
-     * @property {String} description     parameter description
      * @property {String} dataType     data type of the parameter
-     * @property {InputParameterValue} value    if it's an input parameter and has a value
-     * @property {ValueErrorObject} assignToReference    if it's an output parameter and assign to a reference
+     * @property {String|Object} value    parameter's value (normally, value is hydrated with error)
+     * @property {String|Object} valueGuid    parameter's value guid (normally, valueGuid is hydrated with error)
+     * @property {String|Object} valueDataType   parameter's value data type (normally, valueDataType is hydrated with error)
+     * example for input parameter: {
+     * name: 'subjectOrTargetId',
+     * isInput: true,
+     * label: 'Subject or Target Id',
+     * dataType: 'string',
+     * value: {value: '{!textVar}', error: null},
+     * valueGuid: {value: 'VARIABLE_1', error: null},
+     * valueDataType: {value: 'reference', error: null}
+     * }
+     * example for output parameter: {
+     * name: 'feedId',
+     * isInput: false,
+     * label: 'Feed Id',
+     * dataType: 'reference',
+     * value: {value: 'VARIABLE_11.Id', error: null},
+     * }
      */
 
     /**
@@ -50,6 +77,7 @@ export default class ParameterItem extends LightningElement {
      */
     set item(parameter) {
         this.state.parameterItem = parameter;
+        this.state.toggleStatus = !this.state.parameterItem.isInput || this.state.parameterItem.isRequired || this.checked;
     }
 
     @api
@@ -57,50 +85,15 @@ export default class ParameterItem extends LightningElement {
         return this.state.parameterItem;
     }
 
-    /**
-     * the label of parameter
-     */
-    get label() {
-        return getParameterLabel(this.state.parameterItem, this.elementType);
-    }
-
-    /**
-     * true if this parameter is input
-     */
-    get isInput() {
-        return isInputParameter(this.state.parameterItem, this.elementType);
-    }
-
-    /**
-     * true if this parameter is required input parameter
-     */
-    get isRequired() {
-        return isRequiredParameter(this.state.parameterItem, this.elementType);
-    }
-
-    /**
-     * true if this parameter is optional input parameter
-     */
     get showToggle() {
-        return this.isOptionalInput();
+        return this.isOptionalInput() && !this.showDelete;
     }
 
     /**
      * true if this parameter is optional input parameter and it has a value
      */
     get checked() {
-        return (this.isOptionalInput() && this.state.parameterItem.hasOwnProperty('value') && this.state.parameterItem.value[Object.keys(this.item.value)[0]] !== null);
-    }
-
-    /**
-     * true if this parameter is output parameter or it is optional input parameter and has a value
-     * toggle ON/OFF will show/hide the combobox
-     */
-    get showCombobox() {
-        if (this.state.toggleStatus !== null) {
-            return this.state.toggleStatus;
-        }
-        return !this.isInput || this.isRequired || this.checked;
+        return (this.isOptionalInput() && !!getValueFromHydratedItem(this.state.parameterItem.value));
     }
 
     /**
@@ -111,21 +104,10 @@ export default class ParameterItem extends LightningElement {
     }
 
     /**
-     * get the flow data type to pass in the combobox.
-     */
-    get type() {
-        if (!this.flowDataType) {
-            const paramType = getParameterDataType(this.state.parameterItem, this.elementType);
-            this.flowDataType = getFlowDataType(paramType);
-        }
-        return this.flowDataType;
-    }
-
-    /**
      * @returns {boolean} true if this parameter is optional input parameter
      */
     isOptionalInput() {
-        return this.isInput && !this.isRequired;
+        return this.state.parameterItem.isInput && !this.state.parameterItem.isRequired;
     }
 
     /**
@@ -141,102 +123,89 @@ export default class ParameterItem extends LightningElement {
     }
 
     get comboboxClass() {
-        return (this.showCombobox) ? '' : 'slds-hide';
+        return (this.state.toggleStatus) ? '' : 'slds-hide';
     }
 
     /**
-     * combobox's value from item's value
+     * @return {String|Object} returns the default value for the combobox or null
      */
-    get comboboxValue() {
-        if (this.isInput) {
-            // return  '' if this parameter is input parameter and no value
-            if (!this.state.parameterItem.value) {
-                return null;
-            }
-            // return  {!value} if this parameter is input parameter and has a reference value
-            if (this.state.parameterItem.value.elementReference) {
-                const varRef = this.state.parameterItem.value.elementReference.value;
-                // const varName = this.getVariableName(varRef);
-                // const value = (varName) ? varName : varRef;
-                // // varRef can be a System's Constant, in that case, varName is undefined, then using this varRef as a comboboxValue
-                // return '{!' + value + '}';
-                const varElement = getResourceByUniqueIdentifier(varRef);
-                return this.createComboboxValue(varElement.guid, '{!' + (varElement ? varElement.name : varRef) + '}');
-            }
-            const value = this.state.parameterItem.value[Object.keys(this.item.value)[0]].value;
-            return value;
+    get parameterValue() {
+        const value = getValueFromHydratedItem(this.state.parameterItem.value);
+        const valueGuid = getValueFromHydratedItem(this.state.parameterItem.valueGuid);
+        if (valueGuid) {
+            return {
+                text: value,
+                displayText: value,
+                value: valueGuid
+            };
         }
-        // return {!value} if this parameter is output parameter and has a reference value
-        if (this.state.parameterItem.assignToReference) {
-            // return '{!' + this.getVariableName(this.state.parameterItem.assignToReference.value) + '}';
-            const varElement = getResourceByUniqueIdentifier(this.state.parameterItem.assignToReference.value);
-            return this.createComboboxValue(varElement.guid, '{!' + varElement.name + '}');
-        }
-        return null;
+        return value ? value : null;
     }
 
-    createComboboxValue(value, displayText) {
+    /**
+     * @return {Object} config to pass in ferov-resource-picker component
+     **/
+    get parameterComboboxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.state.parameterItem.label,
+            this.labels.parameterPlaceholder, // placeholder
+            this.getErrorMessage, // errorMessage
+            this.state.parameterItem.isInput, // literalsAllowed
+            this.state.parameterItem.isRequired, // required
+            this.disabled, // disabled
+            this.getDataType()
+        );
+    }
+
+    get elementParam() {
         return {
-            value,
-            displayText
-        };
-    }
-
-    /**
-     * map from var ref to variable name
-     * @param {String} varRef the variable reference
-     * @return {String} name of variable or undefined if not found
-     */
-    getVariableName(varRef) {
-        const varElement = getResourceByUniqueIdentifier(varRef);
-        return (varElement) ? varElement.name : undefined;
-    }
-
-    /**
-     * get combobox menu data, depends on the dataType & elementType
-     * TODO: menuData is different for input and output parameter
-     */
-    get menuData() {
-        const leftElement = {
-            [PARAM_PROPERTY.DATA_TYPE]: this.type,
+            [PARAM_PROPERTY.DATA_TYPE]: this.getDataType(),
             [PARAM_PROPERTY.IS_COLLECTION]: this.isCollection,
+            [PARAM_PROPERTY.ELEMENT_TYPE]: this.elementType,
         };
-        const rules = getRulesForContext({elementType: this.elementType});
-        const rhsTypes = getRHSTypes(this.elementType, leftElement, RULE_OPERATOR.ASSIGN, rules);
-        const shouldBeWritable = this.isInput;
-        const menuD = getElementsForMenuData({elementType: this.elementType, shouldBeWritable}, rhsTypes, true);
-        return menuD;
+    }
+
+    getErrorMessage() {
+        return getErrorsFromHydratedElement(this.state.parameterItem.value);
+    }
+
+    getDataType() {
+        return getFlowDataType(this.state.parameterItem.dataType);
     }
 
     /**
      * icon for parameter
      */
     get iconName() {
-        let iconName = 'utility:type_tool';
-        switch (this.type) {
-            case FLOW_DATA_TYPE.DATE.value:
-            case FLOW_DATA_TYPE.DATE_TIME.value:
-                iconName = 'utility:event';
-                break;
-            case FLOW_DATA_TYPE.SOBJECT.value:
-                iconName = 'utility:standard_objects';
-                break;
-            case FLOW_DATA_TYPE.PICKLIST.value:
-            case FLOW_DATA_TYPE.MULTI_PICKLIST.value:
-                iconName = 'utility:picklist';
-                break;
-            default:
-                break;
-        }
-        return iconName;
+        return getDataTypeIcons(this.getDataType(), 'utility');
     }
 
     /**
      * alternative text
      */
     get alternativeText() {
-        return this.type;
+        return this.getDataType();
     }
+
+    /**
+     * @return {String} the css class for badge
+     */
+    get badgeClasses() {
+        let classes = 'slds-align-middle slds-m-left_xx-small';
+        if (this.state.parameterItem.isOutput || this.checked) {
+            classes = `${classes} slds-theme_warning`;
+        }
+        return classes;
+    }
+
+    /**
+     * TODO: will remove comment when W-5422703 is fixed
+     */
+    /*
+    get warningMessages() {
+        return [{messages: this.warningMessage}];
+    }
+    */
 
     /**
      * handle the toggle changed event
@@ -245,71 +214,54 @@ export default class ParameterItem extends LightningElement {
     handleToggleChanged(event) {
         event.stopPropagation();
         this.state.toggleStatus = event.detail.checked;
-        let value = null;
-        if (!this.state.toggleStatus) {
+        const newValue = {value: null, valueGuid: null, valueDataType: null};
+        if (!this.state.toggleStatus) { // from ON to OFF
             if (this.state.parameterItem.hasOwnProperty('value')) {
-                this.preservedValue = this.state.parameterItem.value;
+                this.preservedValue = {value: this.state.parameterItem.value, valueGuid: this.state.parameterItem.valueGuid, valueDataType: this.state.parameterItem.valueDataType};
             }
-        } else if (this.preservedValue) {
-            value = this.preservedValue;
-            this.preservedValue = null;
+        } else if (this.preservedValue.value) {
+            newValue.value = getValueFromHydratedItem(this.preservedValue.value);
+            newValue.valueGuid = getValueFromHydratedItem(this.preservedValue.valueGuid);
+            newValue.valueDataType = getValueFromHydratedItem(this.preservedValue.valueDataType);
+            this.preservedValue = {value: null, valueGuid: null, valueDataType: null};
         }
-        // dispatch event to update this item in list: UpdateParameterItemEvent
-        const itemUpdatedEvent = new UpdateParameterItemEvent(this.isInput, this.itemIndex, value, event.detail.error);
-        this.dispatchEvent(itemUpdatedEvent);
+        this.dispatchParameterEvent(newValue, null);
     }
 
     /**
-     * handle the value changed event
+     * handle update parameter's value
      * @param {Object} event event fired from the combobox
      */
-    handleValueChanged(event) {
+    handleUpdateParameter(event) {
         event.stopPropagation();
-        let value;
-        if (this.isInput) {
-            value = event.detail.item ? this.convertComboxValueToInputParameterValue(event.detail.item) : this.convertComboxValueToInputParameterValue(event.detail.displayText);
+        const itemOrDisplayText = event.detail.item ? event.detail.item : event.detail.displayText;
+        const newValue = {value: null, valueGuid: null, valueDataType: null};
+        if (isObject(itemOrDisplayText)) {
+            newValue.value = itemOrDisplayText.displayText;
+            newValue.valueGuid = itemOrDisplayText.value;
+            newValue.valueDataType = getResourceFerovDataType(itemOrDisplayText.value);
         } else {
-            value = {value: event.detail.displayText};
+            newValue.value = itemOrDisplayText;
+            newValue.valueDataType = this.getDataType();
         }
-        // dispatch event to update this item in list: UpdateParameterItemEvent
-        const itemUpdatedEvent = new UpdateParameterItemEvent(this.isInput, this.itemIndex, value, event.detail.error);
+        this.dispatchParameterEvent(newValue, event.detail.error);
+    }
+
+    dispatchParameterEvent(newValue, error) {
+        const parameterName = (this.state.parameterItem.isInput ? 'inputParameters.' : 'outputParameters.') + this.state.parameterItem.name;
+        const itemUpdatedEvent = new PropertyChangedEvent(parameterName, newValue.value, error, newValue.valueGuid);
+        itemUpdatedEvent.detail.valueDataType = newValue.valueDataType;
         this.dispatchEvent(itemUpdatedEvent);
     }
 
-    handleFetchMenuData(event) {
+    /**
+     * handle delete parameter
+     * @param {Object} event event fired from the delete icon
+     */
+    handleDelete(event) {
         event.stopPropagation();
-        // TODO: fetch menu data
-    }
-
-    /**
-     * convert to input parameter's value from the combobox's value
-     * @param {String} comboboxItem the combobox's value
-     * @return {InputParameterValue} the parameter's value
-     */
-    convertComboxValueToInputParameterValue(comboboxItem) {
-        const varName = this.getVariableName(comboboxItem.value);
-        if (varName) {
-            return {elementReference: {value: comboboxItem.value}};
-        }
-        const key = this.getParameterValueKey();
-        return {[key]: {value: (comboboxItem.value ? comboboxItem.value : comboboxItem)}};
-    }
-
-    /**
-     * @return {String} the key, depends on the parameter flow data type
-     */
-    getParameterValueKey() {
-        switch (this.type) {
-            case FLOW_DATA_TYPE.DATE.value:
-                return 'dateValue';
-            case FLOW_DATA_TYPE.DATE_TIME.value:
-                return 'dateTimeValue';
-            case FLOW_DATA_TYPE.NUMBER.value:
-                return 'numberValue';
-            case FLOW_DATA_TYPE.BOOLEAN.value:
-                return 'booleanValue';
-            default:
-                return 'stringValue';
-        }
+        const parameterName = (this.state.parameterItem.isInput ? 'inputParameters.' : 'outputParameters.') + this.state.parameterItem.name;
+        const itemDeleteEvent = new DeleteParameterItemEvent(parameterName);
+        this.dispatchEvent(itemDeleteEvent);
     }
 }
