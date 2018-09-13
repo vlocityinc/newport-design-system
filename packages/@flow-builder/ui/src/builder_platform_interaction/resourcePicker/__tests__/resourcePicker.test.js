@@ -30,17 +30,17 @@ const filteredMenuData = ['filteredMenuData'];
 
 const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE } = PARAM_PROPERTY;
 
-jest.mock('builder_platform_interaction-rule-lib', () => {
+jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction-rule-lib').PARAM_PROPERTY,
+        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
         getRulesForContext: jest.fn().mockReturnValue([]).mockName('getRulesForContext'),
         getRHSTypes: jest.fn().mockReturnValue({}).mockName('getRHSTypes')
     };
 });
 
-jest.mock('builder_platform_interaction-expression-utils', () => {
+jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction-expression-utils').RESOURCE_PICKER_MODE,
+        RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction/expressionUtils').RESOURCE_PICKER_MODE,
         getElementsForMenuData: jest.fn().mockReturnValue(['ferovMenuData']).mockName('getElementsForMenuData'),
         getEntitiesMenuData: jest.fn().mockReturnValue([{items: [{value:'entityMenuData', displayText: 'entity menu data'}]}]).mockName('getEntitiesMenuData'),
         filterMatches: jest.fn().mockReturnValue(['filteredMenuData']).mockName('filterMatches'),

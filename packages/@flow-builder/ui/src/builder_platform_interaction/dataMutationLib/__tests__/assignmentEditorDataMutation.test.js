@@ -4,7 +4,7 @@ import {
 } from '../assignmentEditorDataMutation';
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 
-jest.mock('builder_platform_interaction-store-lib', () => {
+jest.mock('builder_platform_interaction/storeLib', () => {
     return {
         generateGuid: () => {
             return 'GUID';

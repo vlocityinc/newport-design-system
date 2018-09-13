@@ -1,10 +1,10 @@
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
 import { datetimeParamTypes } from "mock/ruleService";
 
-jest.mock('builder_platform_interaction-sobject-lib', () => {
+jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
-            callback(require.requireActual('mock-server-entity-data').mockAccountFields);
+            callback(require.requireActual('mock/serverEntityData').mockAccountFields);
         }),
     };
 });

@@ -3,14 +3,14 @@ import { numberParamCanBeField } from "mock/ruleService";
 import * as store from "mock/storeData";
 import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
 
-jest.mock('builder_platform_interaction-selectors', () => {
+jest.mock('builder_platform_interaction/selectors', () => {
     return {
         writableElementsSelector: jest.fn(),
         sObjectOrSObjectCollectionByEntitySelector: jest.fn(),
     };
 });
 
-jest.mock('builder_platform_interaction-sobject-lib', () => {
+jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
             callback(require.requireActual('mock-server-entity-data').mockAccountFieldWithPicklist);

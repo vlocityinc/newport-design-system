@@ -12,8 +12,8 @@ const sortValues = {
 const defaultFieldValue = '';
 
 // Mocking out the fetch function to return Account fields
-jest.mock('builder_platform_interaction-server-data-lib', () => {
-    const actual = require.requireActual('builder_platform_interaction-server-data-lib');
+jest.mock('builder_platform_interaction/serverDataLib', () => {
+    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,

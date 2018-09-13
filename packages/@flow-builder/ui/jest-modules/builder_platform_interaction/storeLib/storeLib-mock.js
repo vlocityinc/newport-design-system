@@ -1,4 +1,4 @@
-import * as storeLib from '../../../modules/builder_platform_interaction/store-lib/store-lib.js';
+import * as storeLib from '../../../modules/builder_platform_interaction/storeLib/storeLib.js';
 
 /**
  * Mock object for the store library.  If a test needs specific values returned by any function in the library

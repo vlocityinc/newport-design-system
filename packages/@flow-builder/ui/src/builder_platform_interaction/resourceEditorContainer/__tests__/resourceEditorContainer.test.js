@@ -20,13 +20,13 @@ const EDITOR_SELECTOR = '.editor_template';
 
 const mockNode = { elementType: ELEMENT_TYPE.VARIABLE };
 
-jest.mock('builder_platform_interaction-element-config', () => {
+jest.mock('builder_platform_interaction/elementConfig', () => {
     return {
         createFlowElement: jest.fn().mockImplementation(elementType => ({ elementType })),
     };
 });
 
-jest.mock('builder_platform_interaction-data-mutation-lib', () => {
+jest.mock('builder_platform_interaction/dataMutationLib', () => {
     return {
         hydrateWithErrors: jest.fn().mockImplementation((node) => node),
         mutateEditorElement: jest.fn().mockImplementation((node) => node),

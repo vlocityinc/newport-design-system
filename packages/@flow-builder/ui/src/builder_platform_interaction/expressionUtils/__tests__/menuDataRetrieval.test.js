@@ -45,20 +45,20 @@ const sampleBooleanParamTypes = {
     Boolean : [booleanParam],
 };
 
-jest.mock('builder_platform_interaction-sobject-lib', () => {
+jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
-            callback(require.requireActual('mock-server-entity-data').mockAccountFieldWithPicklist);
+            callback(require.requireActual('mock/serverEntityData').mockAccountFieldWithPicklist);
         }),
         getAllEntities: jest.fn().mockImplementation(() => {
-            return require.requireActual('mock-server-entity-data').mockEntities;
+            return require.requireActual('mock/serverEntityData').mockEntities;
         }),
-        ENTITY_TYPE: require.requireActual('builder_platform_interaction-sobject-lib').ENTITY_TYPE,
+        ENTITY_TYPE: require.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE,
     };
 });
 
 
-jest.mock('builder_platform_interaction-selectors', () => {
+jest.mock('builder_platform_interaction/selectors', () => {
     return {
         writableElementsSelector: jest.fn(),
         sObjectOrSObjectCollectionByEntitySelector: jest.fn(),
@@ -92,7 +92,7 @@ describe('Menu data retrieval', () => {
         selectorsMock.writableElementsSelector.mockClear();
     });
     it('should filter by allowed types', () => {
-        jest.mock('builder_platform_interaction-rule-lib', () => {
+        jest.mock('builder_platform_interaction/ruleLib', () => {
             return {
                 isMatch: jest.fn().mockImplementationOnce(() => true).mockImplementationOnce(() => false),
             };

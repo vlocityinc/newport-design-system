@@ -11,7 +11,7 @@ function createComponentForTest() {
     return el;
 }
 
-jest.mock('builder_platform_interaction-screen-editor-utils', () => {
+jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     return {
         getAllScreenFieldTypes: () => {
             return [

@@ -7,20 +7,20 @@ import { translateUIModelToFlow } from "builder_platform_interaction/translatorL
 import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { getShadowRoot } from 'lwc-test-utils';
 
-jest.mock('builder_platform_interaction-translator-lib', () => {
+jest.mock('builder_platform_interaction/translatorLib', () => {
     return {
         translateUIModelToFlow: jest.fn()
     };
 });
 
-jest.mock('builder_platform_interaction-server-data-lib', () => {
+jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn(),
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction-server-data-lib').SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
     };
 });
 
-jest.unmock('builder_platform_interaction-store-lib');
+jest.unmock('builder_platform_interaction/storeLib');
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-editor', {
@@ -39,7 +39,7 @@ const selectors = {
     addnewresource: '.test-left-panel-add-resource'
 };
 
-jest.mock('builder_platform_interaction-store-lib', () => {
+jest.mock('builder_platform_interaction/storeLib', () => {
     const storeState = {
         elements : {
             '1' : {

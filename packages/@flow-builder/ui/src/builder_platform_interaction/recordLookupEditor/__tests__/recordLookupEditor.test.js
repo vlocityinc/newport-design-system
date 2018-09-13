@@ -33,11 +33,11 @@ function getComboboxItemSelectedEvent() {
     });
 }
 
-jest.mock('builder_platform_interaction-expression-utils', () => {
+jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getResourceByUniqueIdentifier: jest.fn(),
-        getEntitiesMenuData: require.requireActual('builder_platform_interaction-expression-utils').getEntitiesMenuData,
-        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction-expression-utils').EXPRESSION_PROPERTY_TYPE,
+        getEntitiesMenuData: require.requireActual('builder_platform_interaction/expressionUtils').getEntitiesMenuData,
+        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
     };
 });
 

@@ -5,23 +5,23 @@ import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressio
 import { LABELS } from "../validationRulesLabels";
 import { format } from "builder_platform_interaction/commonUtils";
 
-jest.mock('builder_platform_interaction-rule-lib', () => {
+jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         getRulesForContext: jest.fn().mockReturnValue([]),
-        elementToParam: require.requireActual('builder_platform_interaction-rule-lib').elementToParam,
-        isMatch: require.requireActual('builder_platform_interaction-rule-lib').isMatch,
+        elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
+        isMatch: require.requireActual('builder_platform_interaction/ruleLib').isMatch,
     };
 });
 
 // Mocking out the fetch function to return Account fields
-jest.mock('builder_platform_interaction-server-data-lib', () => {
+jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn().mockImplementation((actionType, callback) => {
             callback({
                 data: JSON.stringify(mockAccountFields),
             });
         }),
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction-server-data-lib').SERVER_ACTION_TYPE,
+        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
     };
 });
 

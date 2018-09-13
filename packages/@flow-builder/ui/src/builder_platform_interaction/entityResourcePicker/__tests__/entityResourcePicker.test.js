@@ -16,7 +16,7 @@ const setupComponentUnderTest = (props) => {
 
 const entityMenuData = [{value:'entityMenuData', displayText: 'entity menu data'}, {value: 'testValue', displayText: 'test display text'}];
 
-jest.mock('builder_platform_interaction-expression-utils', () => {
+jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getEntitiesMenuData: jest.fn().mockReturnValue([{value:'entityMenuData', displayText: 'entity menu data'}, {value: 'testValue', displayText: 'test display text'}]).mockName('getEntitiesMenuData'),
     };

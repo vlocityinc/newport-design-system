@@ -13,10 +13,10 @@ import {
     caseSObjectCollectionVariableDevName,
 } from "mock/storeData";
 
-jest.mock('builder_platform_interaction-store-lib', () => {
-    const mockStoreLib = require.requireActual('../../../../jest-modules/builder_platform_interaction/store-lib/store-lib-mock.js');
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const mockStoreLib = require.requireActual('../../../../jest-modules/builder_platform_interaction/storeLib/storeLib-mock.js');
 
-    const originalCreateSelector = require.requireActual('../../store-lib/store-lib.js').createSelector;
+    const originalCreateSelector = require.requireActual('../../storeLib/storeLib.js').createSelector;
     const partialStoreLibMock = Object.assign({}, mockStoreLib);
     partialStoreLibMock.createSelector = originalCreateSelector;
 

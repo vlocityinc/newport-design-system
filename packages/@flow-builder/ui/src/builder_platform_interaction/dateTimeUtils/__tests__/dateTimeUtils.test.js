@@ -8,7 +8,7 @@ import {
 } from "../dateTimeUtils";
 import { getLocalizationService } from "lightning/configProvider";
 
-jest.mock('lightning-config-provider', () => {
+jest.mock('lightning/configProvider', () => {
     const mockGetLocalizationService = {
         parseDateTime: jest.fn().mockName('localizationService.parseDateTime'),
         formatDateTime: jest.fn().mockName('localizationService.formatDateTime'),

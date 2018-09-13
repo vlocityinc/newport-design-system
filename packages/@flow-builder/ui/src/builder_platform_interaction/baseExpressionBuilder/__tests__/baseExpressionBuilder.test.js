@@ -86,7 +86,7 @@ function getLightningCombobox(expressionBuilder) {
     return getShadowRoot(expressionBuilder).querySelector("lightning-combobox");
 }
 
-jest.mock('builder_platform_interaction-rule-lib', () => {
+jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         getLHSTypes: jest.fn(),
         getOperators: jest.fn().mockImplementation(() => {
@@ -95,25 +95,25 @@ jest.mock('builder_platform_interaction-rule-lib', () => {
         getRHSTypes: jest.fn(),
         transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
         getRulesForContext: jest.fn().mockReturnValue([]),
-        elementToParam: require.requireActual('builder_platform_interaction-rule-lib').elementToParam,
-        RULE_OPERATOR: require.requireActual('builder_platform_interaction-rule-lib').RULE_OPERATOR,
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction-rule-lib').PARAM_PROPERTY,
+        elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
+        RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
+        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
     };
 });
 
-jest.mock('builder_platform_interaction-expression-utils', () => {
+jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getElementsForMenuData: jest.fn().mockReturnValue([]),
-        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction-expression-utils').EXPRESSION_PROPERTY_TYPE,
-        getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction-expression-utils').getResourceByUniqueIdentifier,
+        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
+        getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction/expressionUtils').getResourceByUniqueIdentifier,
         isElementAllowed: jest.fn().mockImplementation(() => false),
-        sanitizeGuid: require.requireActual('builder_platform_interaction-data-mutation-lib').sanitizeGuid,
-        filterFieldsForChosenElement: require.requireActual('builder_platform_interaction-expression-utils').filterFieldsForChosenElement,
-        OPERATOR_DISPLAY_OPTION: require.requireActual('builder_platform_interaction-expression-utils').OPERATOR_DISPLAY_OPTION,
-        getResourceFerovDataType: require.requireActual('builder_platform_interaction-expression-utils').getResourceFerovDataType,
-        mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction-expression-utils').mutateFlowResourceToComboboxShape,
-        mutateFieldToComboboxShape: require.requireActual('builder_platform_interaction-expression-utils').mutateFieldToComboboxShape,
-        LHS_DISPLAY_OPTION: require.requireActual('builder_platform_interaction-expression-utils').LHS_DISPLAY_OPTION,
+        sanitizeGuid: require.requireActual('builder_platform_interaction/dataMutationLib').sanitizeGuid,
+        filterFieldsForChosenElement: require.requireActual('builder_platform_interaction/expressionUtils').filterFieldsForChosenElement,
+        OPERATOR_DISPLAY_OPTION: require.requireActual('builder_platform_interaction/expressionUtils').OPERATOR_DISPLAY_OPTION,
+        getResourceFerovDataType: require.requireActual('builder_platform_interaction/expressionUtils').getResourceFerovDataType,
+        mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
+        mutateFieldToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFieldToComboboxShape,
+        LHS_DISPLAY_OPTION: require.requireActual('builder_platform_interaction/expressionUtils').LHS_DISPLAY_OPTION,
     };
 });
 

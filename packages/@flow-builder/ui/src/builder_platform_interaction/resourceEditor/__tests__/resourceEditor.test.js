@@ -11,13 +11,13 @@ const setupComponentUnderTest = () => {
     return element;
 };
 
-jest.mock('builder_platform_interaction-expression-utils', () => {
+jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getResourceTypesMenuData: jest.fn().mockReturnValue(['mockResource']),
     };
 });
 
-jest.mock('builder_platform_interaction-validation-rules', () => {
+jest.mock('builder_platform_interaction/validationRules', () => {
     return {
         shouldNotBeNullOrUndefined: jest.fn(),
     };

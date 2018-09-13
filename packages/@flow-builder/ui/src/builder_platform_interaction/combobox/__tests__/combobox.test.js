@@ -35,7 +35,7 @@ const VALIDATION_ERROR_MESSAGE = {
     REQUIRED : 'FlowBuilderValidation.cannotBeBlank',
 };
 
-jest.mock('builder_platform_interaction-merge-field-lib', () => {
+jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
         validateTextWithMergeFields: jest.fn().mockReturnValue(Promise.resolve([])),
         validateMergeField: jest.fn().mockReturnValue(Promise.resolve([])),
@@ -43,7 +43,7 @@ jest.mock('builder_platform_interaction-merge-field-lib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction-date-time-utils', () => {
+jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
         formatDateTime: jest.fn().mockName('builder_platform_interaction.formatDateTime'),
         getValidDateTime: jest.fn().mockName('builder_platform_interaction.getValidDateTime'),

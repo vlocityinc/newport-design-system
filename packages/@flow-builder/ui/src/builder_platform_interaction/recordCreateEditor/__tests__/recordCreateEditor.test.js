@@ -13,7 +13,7 @@ function createComponentForTest(node) {
     return el;
 }
 
-jest.mock('builder_platform_interaction-expression-utils', () => {
+jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getResourceByUniqueIdentifier: jest.fn(),
     };

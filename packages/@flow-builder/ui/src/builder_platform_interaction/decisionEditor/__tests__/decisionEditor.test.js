@@ -23,7 +23,7 @@ const mockNewState = {
 
 const DEFAULT_OUTCOME_ID = 'defaultOutcome';
 
-jest.mock('../decision-reducer', () => {
+jest.mock('../decisionReducer', () => {
     return {
         decisionReducer: jest.fn(() => {
             return mockNewState;
@@ -31,7 +31,7 @@ jest.mock('../decision-reducer', () => {
     };
 });
 
-jest.mock('builder_platform_interaction-data-mutation-lib', () => {
+jest.mock('builder_platform_interaction/dataMutationLib', () => {
     return {
         getErrorsFromHydratedElement: jest.fn(() => {
             return ['some error'];

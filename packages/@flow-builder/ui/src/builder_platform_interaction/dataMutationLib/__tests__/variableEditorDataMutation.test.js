@@ -6,9 +6,9 @@ import { mutateFEROV, deMutateFEROV } from '../ferovEditorDataMutation';
 import { elements, stringVariableGuid } from "mock/storeData";
 import { deepCopy } from "builder_platform_interaction/storeLib";
 
-jest.mock('builder_platform_interaction-store-lib', () => {
+jest.mock('builder_platform_interaction/storeLib', () => {
     return {
-        'deepCopy': require.requireActual('builder_platform_interaction-store-lib').deepCopy,
+        'deepCopy': require.requireActual('builder_platform_interaction/storeLib').deepCopy,
     };
 });
 

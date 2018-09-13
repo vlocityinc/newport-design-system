@@ -21,14 +21,14 @@ const expectedParams = {
     dataTypeProperty: 'rightHandSideDataType',
 };
 
-jest.mock('builder_platform_interaction-date-time-utils', () => {
+jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
         formatDateTime: jest.fn().mockName('builder_platform_interaction.formatDateTime'),
-        METADATA_DATE_FORMAT: require.requireActual('builder_platform_interaction-date-time-utils').METADATA_DATE_FORMAT,
+        METADATA_DATE_FORMAT: require.requireActual('builder_platform_interaction/dateTimeUtils').METADATA_DATE_FORMAT,
     };
 });
 
-jest.mock('lightning-config-provider', () => {
+jest.mock('lightning/configProvider', () => {
     const mockGetLocalizationService = {
         parseDateTimeUTC: jest.fn().mockName('localizationService.parseDateTimeUTC'),
         formatDateUTC: jest.fn().mockName('localizationService.formatDateUTC'),
@@ -38,15 +38,15 @@ jest.mock('lightning-config-provider', () => {
     };
 });
 
-jest.mock('builder_platform_interaction-store-utils', () => {
+jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid: jest.fn(),
     };
 });
 
-jest.mock('builder_platform_interaction-data-mutation-lib', () => {
+jest.mock('builder_platform_interaction/dataMutationLib', () => {
     return {
-        mutateTextWithMergeFields: require.requireActual('builder_platform_interaction-data-mutation-lib').mutateTextWithMergeFields,
+        mutateTextWithMergeFields: require.requireActual('builder_platform_interaction/dataMutationLib').mutateTextWithMergeFields,
     };
 });
 

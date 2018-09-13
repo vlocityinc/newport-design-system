@@ -31,53 +31,53 @@ const setupComponentUnderTest = (props) => {
     return element;
 };
 
-jest.mock('builder_platform_interaction-sobject-lib', () => {
-    const sobjectLib = require.requireActual('builder_platform_interaction-sobject-lib');
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
     mockSobjectLib.getFieldsForEntity = jest.fn();
     return mockSobjectLib;
 });
 
-jest.mock('builder_platform_interaction-data-mutation-lib', () => {
+jest.mock('builder_platform_interaction/dataMutationLib', () => {
     return {
         getErrorsFromHydratedElement: jest.fn(),
-        getValueFromHydratedItem: require.requireActual('builder_platform_interaction-data-mutation-lib').getValueFromHydratedItem,
-        GUID_SUFFIX: require.requireActual('builder_platform_interaction-data-mutation-lib').GUID_SUFFIX,
-        FEROV_DATA_TYPE_PROPERTY: require.requireActual('builder_platform_interaction-data-mutation-lib').FEROV_DATA_TYPE_PROPERTY
+        getValueFromHydratedItem: require.requireActual('builder_platform_interaction/dataMutationLib').getValueFromHydratedItem,
+        GUID_SUFFIX: require.requireActual('builder_platform_interaction/dataMutationLib').GUID_SUFFIX,
+        FEROV_DATA_TYPE_PROPERTY: require.requireActual('builder_platform_interaction/dataMutationLib').FEROV_DATA_TYPE_PROPERTY
     };
 });
 
-jest.mock('builder_platform_interaction-actions', () => {
+jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction-actions').PROPERTY_EDITOR_ACTION,
+        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION,
     };
 });
 
 // helps remove dependency of the editor tests on the reducer functionality
-jest.mock('../variable-constant-reducer', () => {
+jest.mock('../variableConstantReducer', () => {
     return {
         variableConstantReducer: jest.fn().mockImplementation(((obj) => Object.assign({}, obj))),
     };
 });
 
-jest.mock('builder_platform_interaction-rule-lib', () => {
+jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         getRHSTypes: jest.fn(),
         getRulesForContext: jest.fn().mockReturnValue([]),
-        RULE_OPERATOR: require.requireActual('builder_platform_interaction-rule-lib').RULE_OPERATOR,
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction-rule-lib').PARAM_PROPERTY,
+        RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
+        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
     };
 });
 
-jest.mock('builder_platform_interaction-expression-utils', () => {
+jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         filterMatches: jest.fn(),
         getResourceByUniqueIdentifier: jest.fn(),
         getResourceFerovDataType: jest.fn(),
         getElementsForMenuData: jest.fn(),
         getEntitiesMenuData: jest.fn().mockReturnValue(['full menu data']),
-        RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction-expression-utils').RESOURCE_PICKER_MODE,
+        RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction/expressionUtils').RESOURCE_PICKER_MODE,
     };
 });
 

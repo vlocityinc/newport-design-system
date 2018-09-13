@@ -18,7 +18,7 @@ const COMBOBOX_SELECTOR = 'lightning-combobox';
 export default class ResourceEditor extends LightningElement {
     /**
      * Menu items representing allowed resource types
-     * @type {module:builder_platform_interaction-expression-utils.MenuItem[]}
+     * @type {module:builder_platform_interaction/expressionUtils.MenuItem[]}
      */
     _resourceTypes;
 
@@ -86,7 +86,7 @@ export default class ResourceEditor extends LightningElement {
     /**
      * Returns the resource types
      * If the resource menu data is not populated we call the expression utils to create the menu data
-     * @returns {module:builder_platform_interaction-expression-utils.MenuItem[]} Menu items representing allowed resource types
+     * @returns {module:builder_platform_interaction/expressionUtils.MenuItem[]} Menu items representing allowed resource types
      */
     get resourceTypes() {
         if (!this._resourceTypes) {

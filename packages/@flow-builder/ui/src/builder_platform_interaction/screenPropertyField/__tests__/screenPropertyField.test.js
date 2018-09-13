@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import  ScreenPropertyField  from "../screenPropertyField";
 import { getShadowRoot } from 'lwc-test-utils';
 
-jest.mock('builder_platform_interaction-selectors', () => {
+jest.mock('builder_platform_interaction/selectors', () => {
     return {
         readableElementsSelector: jest.fn(data => Object.values(data.elements)),
     };

@@ -10,7 +10,7 @@ const createComponentUnderTest = () => {
     return el;
 };
 
-jest.mock('builder_platform_interaction-merge-field-lib', () => {
+jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
         validateTextWithMergeFields: jest.fn().mockResolvedValue([]),
     };

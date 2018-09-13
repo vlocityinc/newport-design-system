@@ -56,21 +56,21 @@ class ToggleOffChangeEvent extends CustomEvent {
     }
 }
 
-jest.mock('builder_platform_interaction-rule-lib', () => {
+jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         getRHSTypes: jest.fn(),
         getRulesForContext: jest.fn().mockReturnValue([]),
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction-rule-lib').PARAM_PROPERTY,
-        RULE_OPERATOR: require.requireActual('builder_platform_interaction-rule-lib').PARAM_PROPERTY,
+        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
+        RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
     };
 });
 
-jest.mock('builder_platform_interaction-expression-utils', () => {
+jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getElementsForMenuData: jest.fn().mockReturnValue(
-            require.requireActual('mock-combobox-data').comboboxInitialConfig.menuData
+            require.requireActual('mock/comboboxData').comboboxInitialConfig.menuData
         ),
-        getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction-expression-utils').getResourceByUniqueIdentifier,
+        getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction/expressionUtils').getResourceByUniqueIdentifier,
     };
 });
 

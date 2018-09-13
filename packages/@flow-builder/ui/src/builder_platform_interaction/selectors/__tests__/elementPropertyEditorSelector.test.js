@@ -1,6 +1,6 @@
 import { elementPropertyEditorSelector } from "../elementPropertyEditorSelector";
 
-jest.mock('builder_platform_interaction-store-lib', () => {
+jest.mock('builder_platform_interaction/storeLib', () => {
     return {
         deepCopy: element => {
             return element;
@@ -8,7 +8,7 @@ jest.mock('builder_platform_interaction-store-lib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction-data-mutation-lib', () => {
+jest.mock('builder_platform_interaction/dataMutationLib', () => {
     return {
         mutateEditorElement: element => {
             element.name += '_mutated';

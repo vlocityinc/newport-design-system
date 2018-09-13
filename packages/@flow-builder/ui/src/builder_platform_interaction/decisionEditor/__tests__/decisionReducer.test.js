@@ -92,7 +92,7 @@ describe('decision-reducer', () => {
 
     describe('Add Outcome', () => {
         it('adds outcomes', () => {
-            const storeLib = require.requireActual('builder_platform_interaction-store-lib');
+            const storeLib = require.requireActual('builder_platform_interaction/storeLib');
 
             const mockGuid1 = 'ABC';
             storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid1);
@@ -146,7 +146,7 @@ describe('decision-reducer', () => {
         it('adds valid condition with rowIndex', () => {
             const mockGuid = 'ABC';
 
-            const storeLib = require.requireActual('builder_platform_interaction-store-lib');
+            const storeLib = require.requireActual('builder_platform_interaction/storeLib');
             storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
 
             const outcome = originalState.outcomes[1];

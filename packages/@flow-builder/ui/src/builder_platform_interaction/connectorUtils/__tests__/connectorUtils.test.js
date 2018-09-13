@@ -7,7 +7,7 @@ import {
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LABELS } from "../connectorUtilsLabels";
 
-jest.mock('builder_platform_interaction-store-lib', () => {
+jest.mock('builder_platform_interaction/storeLib', () => {
     return {
         generateGuid: () => {
             return 'CONNECTOR_1';

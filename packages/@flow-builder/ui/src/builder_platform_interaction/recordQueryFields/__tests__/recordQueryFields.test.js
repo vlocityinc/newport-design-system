@@ -60,13 +60,13 @@ const createComponentUnderTest = (props) => {
     return el;
 };
 
-jest.mock('builder_platform_interaction-selectors', () => {
+jest.mock('builder_platform_interaction/selectors', () => {
     return {
         sObjectOrSObjectCollectionByEntitySelector: jest.fn(),
     };
 });
 
-jest.mock('builder_platform_interaction-sobject-lib', () => {
+jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: (entityName, callback) => {
             const accountFields = {};

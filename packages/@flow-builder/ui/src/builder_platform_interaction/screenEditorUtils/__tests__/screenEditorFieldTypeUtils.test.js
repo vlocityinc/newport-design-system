@@ -2,8 +2,8 @@ import {
     getScreenFieldTypeByName, getAllScreenFieldTypes
 } from "builder_platform_interaction/screenEditorUtils";
 
-jest.mock('../screen-editor-extension-utils', () => {
-    const componentInstanceFieldType = require.requireActual('../screen-editor-extension-utils').COMPONENT_INSTANCE;
+jest.mock('../screenEditorExtensionUtils', () => {
+    const componentInstanceFieldType = require.requireActual('../screenEditorExtensionUtils').COMPONENT_INSTANCE;
     return {
         getAllCachedExtensionTypes: () => {
             return [
@@ -36,6 +36,6 @@ describe('getScreenFieldTypeByName function', () => {
     it('Returns extension field type by name', () => {
         const fieldType = getScreenFieldTypeByName('orgns:customComp');
         expect(fieldType.name).toBe('orgns:customComp');
-        expect(fieldType.fieldType).toBe(require.requireActual('../screen-editor-extension-utils').COMPONENT_INSTANCE);
+        expect(fieldType.fieldType).toBe(require.requireActual('../screenEditorExtensionUtils').COMPONENT_INSTANCE);
     });
 });

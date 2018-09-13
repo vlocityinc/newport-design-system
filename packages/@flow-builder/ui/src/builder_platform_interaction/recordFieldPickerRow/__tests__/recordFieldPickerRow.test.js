@@ -30,7 +30,7 @@ const createComponentUnderTest = () => {
     return el;
 };
 
-jest.mock('builder_platform_interaction-sobject-lib', () => {
+jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: (entityName, callback) => {
             callback(mockAccountFields);

@@ -2,14 +2,14 @@ import { mockEntities, mockAccountFields } from "mock/serverEntityData";
 import { setEntities, getAllEntities, getQueryableEntities, getCreateableEntities, getDeletableEntities, getUpdateableEntities, getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 
 // Mocking out the fetch function to return Account fields
-jest.mock('builder_platform_interaction-server-data-lib', () => {
+jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn().mockImplementation((actionType, callback) => {
             callback({
                 data: JSON.stringify(mockAccountFields),
             });
         }),
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction-server-data-lib').SERVER_ACTION_TYPE,
+        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
     };
 });
 

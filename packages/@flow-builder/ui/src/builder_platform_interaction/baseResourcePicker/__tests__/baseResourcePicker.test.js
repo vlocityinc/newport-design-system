@@ -20,7 +20,7 @@ const selectors = {
 
 const filteredMenuData = ['filteredMenuData'];
 
-jest.mock('builder_platform_interaction-expression-utils', () => {
+jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         filterMatches: jest.fn().mockReturnValue(['filteredMenuData']).mockName('filterMatches'),
     };

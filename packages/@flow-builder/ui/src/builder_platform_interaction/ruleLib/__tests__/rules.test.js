@@ -196,7 +196,7 @@ describe('Set Flow Operator Rules', () => {
         jest.resetModules();
     });
     it('Create the rules variable with 1 assignment and 1 comparison ', () => {
-        const rulesLib = require.requireActual('builder_platform_interaction-rule-lib');
+        const rulesLib = require.requireActual('builder_platform_interaction/ruleLib');
         rulesLib.setRules(mockRulesFromServiceAssignmentAndComparison);
         const storedRules = rulesLib.getRules();
         expect(Object.keys(storedRules)).toHaveLength(2);
@@ -206,7 +206,7 @@ describe('Set Flow Operator Rules', () => {
     });
 
     it('Creates the rules variable with rules with includedElems', () => {
-        const rulesLib = require.requireActual('builder_platform_interaction-rule-lib');
+        const rulesLib = require.requireActual('builder_platform_interaction/ruleLib');
         rulesLib.setRules(mockRulesFromServiceAssignmentComparisonAndIncludedElems);
         const storedRules = rulesLib.getRules();
         expect(Object.keys(storedRules)).toHaveLength(3);
@@ -218,7 +218,7 @@ describe('Set Flow Operator Rules', () => {
     });
 
     it('Create the rules variable with 2 assignments ', () => {
-        const rulesLib = require.requireActual('builder_platform_interaction-rule-lib');
+        const rulesLib = require.requireActual('builder_platform_interaction/ruleLib');
         rulesLib.setRules(mockRulesFromServiceOnlyAssignment);
         const storedRules = rulesLib.getRules();
         verifyProperties(storedRules);
@@ -227,7 +227,7 @@ describe('Set Flow Operator Rules', () => {
     });
 
     it('Creates the rules variable when the service returns null ', () => {
-        const rulesLib = require.requireActual('builder_platform_interaction-rule-lib');
+        const rulesLib = require.requireActual('builder_platform_interaction/ruleLib');
         rulesLib.setRules(null);
         const storedRules = rulesLib.getRules();
         verifyProperties(storedRules);
@@ -236,7 +236,7 @@ describe('Set Flow Operator Rules', () => {
     });
 
     it('Creates the rules variable when the function is called with no rules ', () => {
-        const rulesLib = require.requireActual('builder_platform_interaction-rule-lib');
+        const rulesLib = require.requireActual('builder_platform_interaction/ruleLib');
         rulesLib.setRules();
         const storedRules = rulesLib.getRules();
         verifyProperties(storedRules);
@@ -245,7 +245,7 @@ describe('Set Flow Operator Rules', () => {
     });
 
     it('Rules variable is a singleton ', () => {
-        const rulesLib = require.requireActual('builder_platform_interaction-rule-lib');
+        const rulesLib = require.requireActual('builder_platform_interaction/ruleLib');
         rulesLib.setRules();
         const storedRules1 = rulesLib.getRules();
         expect(storedRules1[RULE_TYPES.ASSIGNMENT]).toHaveLength(0);
@@ -259,7 +259,7 @@ describe('Set Flow Operator Rules', () => {
         const initialLHS = initialRule[RULE_PROPERTY.LEFT];
         const initialRHSParams = initialRule[RULE_PROPERTY.RHS_PARAMS];
 
-        const rulesLib = require.requireActual('builder_platform_interaction-rule-lib');
+        const rulesLib = require.requireActual('builder_platform_interaction/ruleLib');
         rulesLib.setRules(mockSingleAssignmentRule);
         const outputRules = rulesLib.getOutputRules();
 
@@ -282,7 +282,7 @@ describe('get rules for element type', () => {
         jest.resetModules();
     });
     it('decision returns comparison rules', () => {
-        const rulesLib = require.requireActual('builder_platform_interaction-rule-lib');
+        const rulesLib = require.requireActual('builder_platform_interaction/ruleLib');
         rulesLib.setRules(mockRulesFromServiceAssignmentComparisonAndIncludedElems);
 
         const allRules = rulesLib.getRules();

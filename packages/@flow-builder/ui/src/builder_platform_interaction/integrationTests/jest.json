@@ -1,11 +1,11 @@
 {
   "moduleNameMapper": {
-    "^mock-rule-service$": "<rootDir>/../../../jest-mock-data/mock_rule_service/mock-rule-service.js",
-    "^mock-store-data$": "<rootDir>/../../../jest-mock-data/mock_store_data/mock-store-data.js",
-    "^mock-server-entity-data$": "<rootDir>/../../../jest-mock-data/mock_server_entity_data/mock-server-entity-data.js",
-    "^builder_platform_interaction-store-lib$": "<rootDir>/../../../jest-modules/builder_platform_interaction/store-lib/store-lib-mock.js",    
-    "^(builder_platform_interaction)-(.+)$": "<rootDir>/../../../modules/$1/$2/$2",
-    "^(lightning)-(.+)$": "<rootDir>/../../../jest-modules/$1/$2/$2"
+    "^mock/ruleService$": "<rootDir>/../../../jest-mock-data/mock_rule_service/mock-rule-service.js",
+    "^mock/storeData$": "<rootDir>/../../../jest-mock-data/mock_store_data/mock-store-data.js",
+    "^mock/serverEntityData$": "<rootDir>/../../../jest-mock-data/mock_server_entity_data/mock-server-entity-data.js",
+    "^builder_platform_interaction/storeLib$": "<rootDir>/../../../jest-modules/builder_platform_interaction/storeLib/storeLib-mock.js",    
+    "^(builder_platform_interaction)/(.+)$": "<rootDir>/../../../modules/$1/$2/$2",
+    "^(lightning)/(.+)$": "<rootDir>/../../../jest-modules/$1/$2/$2"
   },
   "setupTestFrameworkScriptFile": "<rootDir>/../../../jestSetup.js",
   "clearMocks": true

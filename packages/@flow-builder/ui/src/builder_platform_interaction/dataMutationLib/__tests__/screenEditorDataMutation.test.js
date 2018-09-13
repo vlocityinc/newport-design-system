@@ -2,7 +2,7 @@ import { mutateScreen, demutateScreen, mutateScreenField, demutateScreenField } 
 import { createTestScreen, createTestScreenField } from "builder_platform_interaction/builderTestUtils";
 import { getScreenFieldType } from "builder_platform_interaction/screenEditorUtils";
 
-jest.mock('builder_platform_interaction-store-utils', () => {
+jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid(guid) {
             if (guid === 'VARIABLE_1') {

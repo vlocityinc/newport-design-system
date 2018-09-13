@@ -6,17 +6,17 @@ import { mockRules } from "mock/ruleService";
 import { ReorderListEvent } from "builder_platform_interaction/events";
 import { CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
 
-jest.mock('builder_platform_interaction-store-lib', () => {
-    const mockStoreLib = require.requireActual('../../../../jest-modules/builder_platform_interaction/store-lib/store-lib-mock.js');
-    const originalCreateSelector = require.requireActual('../../store-lib/store-lib.js').createSelector;
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const mockStoreLib = require.requireActual('../../../../jest-modules/builder_platform_interaction/storeLib/storeLib-mock.js');
+    const originalCreateSelector = require.requireActual('../../storeLib/storeLib.js').createSelector;
     const partialStoreLibMock = Object.assign({}, mockStoreLib);
     partialStoreLibMock.createSelector = originalCreateSelector;
 
     return partialStoreLibMock;
 });
 
-jest.mock('builder_platform_interaction-rule-lib', () => {
-    const ruleLib = require.requireActual('builder_platform_interaction-rule-lib');
+jest.mock('builder_platform_interaction/ruleLib', () => {
+    const ruleLib = require.requireActual('builder_platform_interaction/ruleLib');
     const mockRuleLib = Object.assign({}, ruleLib);
     mockRuleLib.getRulesForContext = jest.fn();
     return mockRuleLib;

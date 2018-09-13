@@ -3,7 +3,7 @@ import ScreenDisplayTextFieldPropertiesEditor from "../screenDisplayTextFieldPro
 import { query, createTestScreenField } from "builder_platform_interaction/builderTestUtils";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
 
-jest.mock('builder_platform_interaction-selectors', () => {
+jest.mock('builder_platform_interaction/selectors', () => {
     return {
         readableElementsSelector: jest.fn(data => Object.values(data.elements)),
     };

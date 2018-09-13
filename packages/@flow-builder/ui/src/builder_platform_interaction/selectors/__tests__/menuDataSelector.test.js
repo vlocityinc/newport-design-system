@@ -91,7 +91,7 @@ const mockDeleteableEntities = [
     }
 ];
 
-jest.mock('builder_platform_interaction-sobject-lib', () => {
+jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getQueryableEntities: () => {
             return mockQueryableEntities;

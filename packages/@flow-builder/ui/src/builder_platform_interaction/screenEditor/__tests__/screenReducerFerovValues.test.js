@@ -8,7 +8,7 @@ export const REFERENCE_VALUES = {
     NUMBER_3: {value:'{!Number3}', valueGuid: 'GUID_Number_3', isReference: true},
 };
 
-jest.mock('builder_platform_interaction-store-utils', () => {
+jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid(guid) {
             if (guid.startsWith('GUID_')) {
