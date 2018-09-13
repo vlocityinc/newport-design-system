@@ -1,0 +1,28 @@
+<template>
+    <div class="slds-grid slds-m-bottom_x-small">
+        <h3 class="slds-text-title_caps">
+            <span class="slds-truncate slds-text-title--caps">{labels.waitEventsDetailsHeader}</span>
+        </h3>
+        <lightning-button if:true={showDelete} label={labels.deleteWaitEventLabel} title={labels.deleteWaitEventLabel}
+                        class="slds-col_bump-left slds-shrink-none removeOutcome"
+                        onclick={handleDelete}>
+        </lightning-button>
+    </div>
+    <builder_platform_interaction-label-description
+            label={waitEvent.label}
+            dev-name-label={labels.waitEventApiName}
+            dev-name={waitEvent.name}
+            guid={waitEvent.guid}
+            onpropertychanged={handlePropertyChanged}
+            hide-description>
+    </builder_platform_interaction-label-description>
+    <lightning-tabset>
+        <lightning-tab id="wait-conditions" label={upperCaseWaitConditionsTabText} class="slds-p-around_none">
+            <h1>WAIT CONDITIONS</h1>
+        </lightning-tab>
+        <lightning-tab id="resume-conditions" label={upperCaseResumeConditionsTabText} class="slds-p-around_none">
+            <builder_platform_interaction-wait-resume-conditions></builder_platform_interaction-wait-resume-conditions>
+        </lightning-tab>
+    </lightning-tabset>
+</template>
+    

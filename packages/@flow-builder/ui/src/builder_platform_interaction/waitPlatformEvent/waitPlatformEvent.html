@@ -1,0 +1,13 @@
+<template>
+    <div class="slds-size_medium">
+        <builder_platform_interaction-entity-resource-picker
+            class="slds-form-element slds-size_1-of-2"
+            combobox-config={entityComboboxConfig}
+            value=""
+            oncomboboxstatechanged={handleResourceChanged}
+            onitemselected={handleResourceChanged}>
+        </builder_platform_interaction-entity-resource-picker>    
+    </div>
+    <h3 class="slds-p-top_small slds-text-heading_small slds-p-bottom_small">{labels.filterEventLabel}</h3>
+    <h3 class="slds-p-top_small slds-text-heading_small slds-p-bottom_small">{labels.assignOutputsToVariablesLabel}</h3>
+</template>

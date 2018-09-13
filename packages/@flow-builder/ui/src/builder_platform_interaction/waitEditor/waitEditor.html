@@ -1,13 +1,37 @@
 <template>
     <div if:true={waitElement}>
         <div class="slds-border_top slds-p-around_small">
-            <builder_platform_interaction-label-description 
-                label={waitElement.label} 
-                dev-name={waitElement.name} 
+            <builder_platform_interaction-label-description
+                label={waitElement.label}
+                dev-name={waitElement.name}
                 description={waitElement.description}
-                guid={waitElement.guid} 
+                guid={waitElement.guid}
                 onpropertychanged={handleEvent}>
             </builder_platform_interaction-label-description>
         </div>
+        <h3 class="slds-section__title slds-accordion__summary-heading slds-p-horizontal_small slds-shrink-none">
+            <span>{labels.waitEventsSectionHeader}</span>
+            <div class="slds-text-color_weak slds-text-body_small slds-p-left_small slds-truncate">{labels.waitEventsSectionDescription}</div>
+        </h3>
+        <div class="slds-vertical-tabs slds-is-relative slds-grow">
+            <builder_platform_interaction-reorderable-vertical-navigation
+                    class="slds-theme_shade"
+                    menu-items={waitEventsWithDefaultPath}
+                    active-item-id={activeWaitEventId}
+                    onitemselected={handleWaitEventSelected}
+                    onreorderlist={handleReorderWaitEvents}
+                    hide-footer>
+                <div slot="header">
+                    {labels.waitEventListHeader}
+                    <lightning-helptext class="slds-p-left_xx-small" content={labels.waitEventListHelptext}></lightning-helptext>
+                    <lightning-button-icon icon-name="utility:add" variant="border-filled" class="slds-p-left_xx-small"  onclick={handleAddWaitEvent} title={labels.addWaitEventButtonLabel} alternative-text={labels.addWaitEventButtonLabel}></lightning-button-icon>
+                </div>
+            </builder_platform_interaction-reorderable-vertical-navigation>
+            <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
+                <builder_platform_interaction-wait-event wait-event={activeWaitEvent}>
+                </builder_platform_interaction-wait-event>
+            </div>
+        </div>
     </div>
 </template>
+    
