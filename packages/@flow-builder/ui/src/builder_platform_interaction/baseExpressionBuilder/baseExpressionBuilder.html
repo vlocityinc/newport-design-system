@@ -13,16 +13,16 @@
                                                onitemselected={handleLhsItemSelected}
         >
         </builder_platform_interaction-combobox>
-        <lightning-combobox class="operator slds-col slds-grow slds-size_x-small"
-                            label={operatorLabel}
-                            value={operatorValue}
-                            placeholder={operatorPlaceholder}
-                            options={operatorMenuData}
-                            onchange={handleOperatorChanged}
-                            dropdown-alignment="auto"
-                            disabled={state.operatorAndRhsDisabled}
-        >
-        </lightning-combobox>
+            <lightning-combobox if:false={hideOperator} class="operator slds-col slds-grow slds-size_x-small"
+                                label={operatorLabel}
+                                value={operatorValue}
+                                placeholder={operatorPlaceholder}
+                                options={operatorMenuData}
+                                onchange={handleOperatorChanged}
+                                dropdown-alignment="auto"
+                                disabled={state.operatorAndRhsDisabled}
+        	>
+        	</lightning-combobox>
         <builder_platform_interaction-combobox class="rhs slds-col slds-grow"
                                                label={rhsLabel}
                                                value={rhsValue}

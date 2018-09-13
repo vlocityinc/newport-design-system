@@ -14,22 +14,22 @@
             </builder_platform_interaction-rich-label>
         </div>
         <div class="slds-p-horizontal_small ">
-        <builder_platform_interaction-list if:true={showFilterList} items={filterItems} onaddlistitem={handleAddFilter} onupdatelistitem={handleUpdateFilter} ondeletelistitem={handleDeleteFilter} add-label={labels.addCriteria}>
-            <div slot="listBody">
-                <template for:each={filterItems} for:item="filterItem" for:index="filterIndex">
-                <div class="slds-list__item slds-is-relative" key={filterItem.rowIndex}>
-                    <builder_platform_interaction-row item-index={filterIndex} show-delete={showDeleteFilter}>
-                    <div slot="rowBody">
-                        <builder_platform_interaction-field-to-ferov-expression-builder object-type={recordEntityName} container-element={elementType}
-                            lhs-fields={recordFields} expression={filterItem} lhs-label={labels.filterLhsLabel} operator-label={labels.filterOperatorLabel}
-                            rhs-label={labels.filterRhsLabel} lhs-placeholder={labels.filterLhsPlaceholder}
-                            operator-placeholder={labels.filterOperatorPlaceholder}></builder_platform_interaction-field-to-ferov-expression-builder>
-                    </div>
-                    </builder_platform_interaction-row>
+            <builder_platform_interaction-list if:true={showFilterList} items={filterItems} onaddlistitem={handleAddFilter} onupdatelistitem={handleUpdateFilter} ondeletelistitem={handleDeleteFilter} add-label={labels.addCriteria}>
+                <div slot="listBody">
+                    <template for:each={filterItems} for:item="filterItem" for:index="filterIndex">
+                        <div class="slds-list__item slds-is-relative" key={filterItem.rowIndex}>
+                            <builder_platform_interaction-row item-index={filterIndex} show-delete={showDeleteFilter}>
+                                <div slot="rowBody">
+                                    <builder_platform_interaction-field-to-ferov-expression-builder object-type={recordEntityName} rules={rules} container-element={elementType}
+                                    	lhs-fields={recordFields} expression={filterItem} lhs-label={labels.filterLhsLabel} operator-label={labels.filterOperatorLabel}
+                                        rhs-label={labels.filterRhsLabel} lhs-placeholder={labels.filterLhsPlaceholder}
+                                        operator-placeholder={labels.filterOperatorPlaceholder}></builder_platform_interaction-field-to-ferov-expression-builder>
+                                </div>
+                            </builder_platform_interaction-row>
+                        </div>
+                    </template>
                 </div>
-                </template>
-            </div>
-        </builder_platform_interaction-list>
+            </builder_platform_interaction-list>
         </div>
     </div>
 </template>

@@ -190,7 +190,7 @@ export const getOutputRules = () => {
  * @property {String} elementType    the property editor for which the rules are being retrieved
  */
 
-const getRulesForElementType = (ruleType, elementType) => {
+export const getRulesForElementType = (ruleType, elementType) => {
     let rules = rulesInstance[ruleType];
     if (rulesInstance[elementType] && rulesInstance[elementType][ruleType]) {
         rules = rules.concat(rulesInstance[elementType][ruleType]);

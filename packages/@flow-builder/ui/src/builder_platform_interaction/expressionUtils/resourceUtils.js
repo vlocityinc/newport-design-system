@@ -36,7 +36,6 @@ export const LHS_DISPLAY_OPTION = {
     SOBJECT_FIELD: 'sobjectField',
 };
 
-
 /**
  * Retrieves element or global constant
  *
@@ -157,15 +156,22 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
 };
 
 /**
- * Validates an expression to make sure it has the minimum necessary fields.
- *
- * @param {Object} exp    The expression to be validated
+ * @typedef lhsDescribe                    the needed values to represent a field value for the LHS of an expression
+ * @param {Object} value                   the combobox item to represent the LHS
+ * @param {String[]} activePicklistValues  if the LHS is a picklist field, these are the possible values
+ * @param {rules/param} param              the parameterized version of the LHS, to be used with the rules
+ * @param {Object[]} fields                fields that should be shown in the menuData
+ * @param {String} displayOption           from LHS_DISPLAY_OPTION
  */
-export const validateExpressionShape = (exp) => {
-    if (!exp[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE] || !exp[EXPRESSION_PROPERTY_TYPE.OPERATOR] || !exp[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]) {
-        throw new Error('expression is not properly formed');
-    }
-};
+
+/**
+ * @typedef rhsDescribe      the needed values to represent a value on the RHS of an expression
+ * @param {Object} value     the combobox item to represent the RHS
+ * @param {String} guid      the GUID of the RHS
+ * @param {String} error     the validation error to show the user
+ * @param {Boolean} isField  true if this value is a field
+ * @param {Object[]} fields  if the menudata shown should be fields, this is the list of fields
+ */
 
 /**
  * Populates the state values on an expression builder wrapper to represent the LHS, when the LHS is a field.
@@ -174,17 +180,19 @@ export const validateExpressionShape = (exp) => {
  * @param {String|undefined} fieldName    the api name of the currently selected field, if a field is already selected
  * @param {Object|undefined} fieldParent  the object representing the parent of the currectly selected field, if a field is already selected
  * @param {Boolean} isFieldOnSobjectVar   true if this field should be displayed in a mergefield relative to an sobject variable, false if it should be displayed alone
- * @returns {Object}                      describes the attributes needed for the expression builder
+ * @returns {lhsDescribe}                      describes the attributes needed for the expression builder
  */
 export const populateLhsStateForField =  (fields, fieldName, fieldParent, isFieldOnSobjectVar) => {
-    const values = {};
+    const lhsState = {
+        fields,
+    };
     const field = fields[fieldName];
     if (field) {
-        values.lhsValue = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
-        values.lhsActivePicklistValues = field.activePicklistValues || false;
-        values.lhsParam = elementToParam(field);
+        lhsState.value = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
+        lhsState.activePicklistValues = field.activePicklistValues || false;
+        lhsState.param = elementToParam(field);
     }
-    return values;
+    return lhsState;
 };
 
 /**
@@ -192,15 +200,15 @@ export const populateLhsStateForField =  (fields, fieldName, fieldParent, isFiel
  *
  * @param {String} rhs          the display value of the rhs
  * @param {String} guid         the guid of the rhs
- * @param {Function} callback   function to be called with the initialized state values
+ * @param {rhsDescribe} callback   function to be called with the initialized state values
  */
 export const populateRhsState = (rhs, guid, callback) => {
-    const values = {
-        rhsIsField: false,
-        rhsFields: null,
-        rhsError: rhs.error,
-        rhsGuid: guid || null,
-        rhsValue: rhs.value,
+    const rhsState = {
+        isField: false,
+        fields: null,
+        error: rhs.error,
+        guid: guid || null,
+        value: rhs.value,
     };
 
     if (!rhs.error && guid) {
@@ -209,18 +217,18 @@ export const populateRhsState = (rhs, guid, callback) => {
 
         if (fer) {
             const rhsItem = mutateFlowResourceToComboboxShape(fer);
-            values.rhsValue = rhsItem;
+            rhsState.value = rhsItem;
             if (complexGuid.fieldName) {
                 const isFieldOnSobjectVar = true;
                 sobjectLib.getFieldsForEntity(fer.objectType, (fields) => {
-                    values.rhsIsField = true;
-                    values.rhsValue = mutateFieldToComboboxShape(fields[complexGuid.fieldName], rhsItem, isFieldOnSobjectVar, isFieldOnSobjectVar);
-                    values.rhsFields = fields;
-                    callback(values);
+                    rhsState.isField = true;
+                    rhsState.value = mutateFieldToComboboxShape(fields[complexGuid.fieldName], rhsItem, isFieldOnSobjectVar, isFieldOnSobjectVar);
+                    rhsState.fields = fields;
+                    callback(rhsState);
                 });
                 return;
             }
         }
     }
-    callback(values);
+    callback(rhsState);
 };

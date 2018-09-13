@@ -5,7 +5,6 @@ import {
     getResourceByUniqueIdentifier,
     mutateFlowResourceToComboboxShape,
     LHS_DISPLAY_OPTION,
-    validateExpressionShape,
     populateLhsStateForField,
     populateRhsState,
 } from "builder_platform_interaction/expressionUtils";
@@ -27,11 +26,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
         lhsError: undefined,
         lhsActivePicklistValues: undefined,
         lhsDisplayOption: undefined,
-        rhsValue: undefined,
-        rhsGuid: undefined,
-        rhsError: undefined,
-        rhsFields: undefined,
-        rhsIsField: undefined,
+        rhsDescribe: undefined,
     };
 
     @api
@@ -58,22 +53,31 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     }
 
     set expression(expression) {
-        validateExpressionShape(expression);
         this.state.expression = expression;
         this.populateLhsState(expression[LHS]);
         populateRhsState(expression[RHS], expression[RHSG] ? expression[RHSG].value : null,
             (values) => {
-                this.state = updateProperties(this.state, values);
-            });
+                this.state.rhsDescribe = values;
+            }
+        );
     }
 
     @api
     containerElement;
 
+    @api
+    rules;
+
     populateLhsState(lhs) {
-        this.resetLhsAuxillaryAttributes();
-        this.state.lhsError = lhs.error;
-        this.state.lhsValue = lhs.value;
+        this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.NOT_FIELD;
+
+        this.state.lhsDescribe = {
+            value: lhs.value,
+            error: lhs.error,
+            param: null,
+            activePicklistValues: null,
+            fields: null,
+        };
 
         if (lhs.value && !lhs.error) {
             const complexGuid = sanitizeGuid(lhs.value);
@@ -84,21 +88,15 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                 if (complexGuid.fieldName) {
                     getFieldsForEntity(lhsItem.objectType, (fields) => {
                         const isFieldOnSobjectVar = true;
-                        this.state.lhsFields = fields;
-                        this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
-                        this.state = updateProperties(this.state,
+                        this.state.lhsDescribe = updateProperties(this.state.lhsDescribe,
                             populateLhsStateForField(fields, complexGuid.fieldName, lhsItem, isFieldOnSobjectVar));
+                        this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
                     });
                 } else {
-                    this.state.lhsValue = lhsItem;
-                    this.state.lhsParam = elementToParam(fer);
+                    this.state.lhsDescribe.value = lhsItem;
+                    this.state.lhsDescribe.param = elementToParam(fer);
                 }
             }
         }
-    }
-
-    resetLhsAuxillaryAttributes() {
-        this.state.lhsParam = this.state.lhsActivePicklistValues = this.state.lhsFields = null;
-        this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.NOT_FIELD;
     }
 }

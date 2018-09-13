@@ -4,6 +4,7 @@ import {
     DeleteOutcomeEvent
 } from "builder_platform_interaction/events";
 import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { LABELS } from "./outcomeLabels";
 
 const SELECTORS = {
@@ -43,6 +44,9 @@ export default class Outcome extends LightningElement {
 
     @track
     elementTypeForExpressionBuilder = ELEMENT_TYPE.DECISION;
+
+    @track
+    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.COMPARISON, this.elementTypeForExpressionBuilder);
 
     /**
      * Helper method needed for conditions list

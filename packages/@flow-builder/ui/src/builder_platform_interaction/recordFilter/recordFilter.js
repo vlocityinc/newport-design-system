@@ -3,6 +3,7 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS, NO_CRITERIA_LABELS } from "./recordFilterLabels";
 import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { format } from "builder_platform_interaction/commonUtils";
+import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
 import {
     AddRecordLookupFilterEvent,
     DeleteRecordLookupFilterEvent,
@@ -24,6 +25,9 @@ export default class RecordFilter extends LightningElement {
 
     @api
     elementType;
+
+    @track
+    rules = getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType);
 
     @api
     resourceDisplayText = '';
