@@ -24,6 +24,11 @@ describe('wait-editor', () => {
             isCanvasElement : true,
             locationX : 789,
             locationY : 123,
+            waitEvents: [
+                {
+                    guid: 'waitEvent1'
+                }
+            ]
         };
     });
     it('handles the property changed event and updates the property', () => {

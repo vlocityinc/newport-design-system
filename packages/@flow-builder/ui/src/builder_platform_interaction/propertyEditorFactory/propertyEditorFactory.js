@@ -13,7 +13,7 @@ import {
     createFormula,
     createLoop,
     createDecisionWithOutcomes,
-    createWait,
+    createWaitWithWaitEvents,
     createVariable,
     createRecordCreate,
     createRecordUpdate,
@@ -71,7 +71,12 @@ export const propertyEditorFactory = (element, config = {}) => {
             }
             break;
         case ELEMENT_TYPE.WAIT:
-            newElement = createWait(element);
+            if (config[FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]) {
+                // TODO: https://gus.my.salesforce.com/a07B0000005YnL5IAK (W-5395893)
+                // newElement = createDecisionWithOutcomeReferencesWhenClosingPropertyEditor(element);
+            } else {
+                newElement = createWaitWithWaitEvents(element);
+            }
             break;
         case ELEMENT_TYPE.RECORD_CREATE:
             newElement = createRecordCreate(element);

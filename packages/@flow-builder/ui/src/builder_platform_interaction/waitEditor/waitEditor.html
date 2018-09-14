@@ -28,7 +28,11 @@
                 </div>
             </builder_platform_interaction-reorderable-vertical-navigation>
             <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
-                <builder_platform_interaction-wait-event wait-event={activeWaitEvent}>
+                <builder_platform_interaction-wait-event
+                        wait-event={activeWaitEvent}
+                        show-delete={showDeleteWaitEvent}
+                        ondeletewaitevent={handleDeleteWaitEvent}
+                >
                 </builder_platform_interaction-wait-event>
             </div>
         </div>

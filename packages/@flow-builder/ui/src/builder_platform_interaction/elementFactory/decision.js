@@ -113,6 +113,8 @@ export function createOutcome(outcome = {}) {
     });
 }
 
+// TODO: Refactor for commonalities with wait
+// https://gus.my.salesforce.com/a07B0000005YnL5IAK (W-5395893)
 export function createCondition(condition = {}) {
     let newCondition = {};
 
@@ -166,7 +168,7 @@ export function createOutcomeMetadataObject(outcome, config = {}) {
 
 export function createConditionMetadataObject(condition) {
     if (!condition) {
-        throw new Error('Outcome is not defined');
+        throw new Error('Condition is not defined');
     }
     const { leftHandSide, operator } = condition;
     const rightValue = createFEROVMetadataObject(condition, rhsPropertyName, rhsDataTypePropertyName);

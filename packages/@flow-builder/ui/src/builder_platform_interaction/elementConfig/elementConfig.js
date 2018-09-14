@@ -366,6 +366,33 @@ export const elementTypeToConfigMap = {
         }
     },
 
+    [ELEMENT_TYPE.WAIT_EVENT]: {
+        // WAIT_EVENT is not a canvas element, but is a first class element
+        nodeConfig: {
+            iconName: 'standard:waitEvent',
+            utilityIconName: 'utility:waitEvent',
+        },
+        labels: {
+            singular: LABELS.waitEventSingularLabel,
+            plural: LABELS.waitEventPluralLabel
+        },
+        isChildElement: true,
+        template: {
+            name: '',
+            label: '',
+            guid: '',
+            elementType: ELEMENT_TYPE.WAIT_EVENT,
+            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+            conditionLogic: CONDITION_LOGIC.AND,
+            conditions: [
+                {
+                    leftValueReference: '',
+                    operator: ''
+                }
+            ]
+        }
+    },
+
     [ELEMENT_TYPE.LOOP]: {
         descriptor: 'builder_platform_interaction:loopEditor',
         nodeConfig: {

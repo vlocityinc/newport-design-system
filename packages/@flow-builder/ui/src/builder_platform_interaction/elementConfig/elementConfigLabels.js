@@ -20,6 +20,8 @@ import decisionConnectorPickerBodyText from "@salesforce/label/FlowBuilderConnec
 import decisionConnectorPickerComboBoxLabel from "@salesforce/label/FlowBuilderConnectorPicker.decisionConnectorPickerComboBoxLabel";
 import waitSingularLabel from "@salesforce/label/FlowBuilderElementConfig.waitSingularLabel";
 import waitPluralLabel from "@salesforce/label/FlowBuilderElementConfig.waitPluralLabel";
+import waitEventSingularLabel from "@salesforce/label/FlowBuilderElementConfig.waitEventSingularLabel";
+import waitEventPluralLabel from "@salesforce/label/FlowBuilderElementConfig.waitEventPluralLabel";
 import waitConnectorPickerHeaderSuffix from "@salesforce/label/FlowBuilderConnectorPicker.waitConnectorPickerHeaderSuffix";
 import waitConnectorPickerBodyText from "@salesforce/label/FlowBuilderConnectorPicker.waitConnectorPickerBodyText";
 import waitConnectorPickerComboBoxLabel from "@salesforce/label/FlowBuilderConnectorPicker.waitConnectorPickerComboBoxLabel";
@@ -75,6 +77,8 @@ export const LABELS = {
     decisionConnectorPickerComboBoxLabel,
     waitSingularLabel,
     waitPluralLabel,
+    waitEventSingularLabel,
+    waitEventPluralLabel,
     waitConnectorPickerHeaderSuffix,
     waitConnectorPickerBodyText,
     waitConnectorPickerComboBoxLabel,

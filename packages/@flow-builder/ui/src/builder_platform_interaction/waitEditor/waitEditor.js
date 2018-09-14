@@ -2,7 +2,16 @@ import { LightningElement, api, track } from 'lwc';
 import { waitReducer } from "./waitReducer";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { LABELS } from "./waitEditorLabels";
+
+const SELECTORS = {
+    WAIT_EVENT: 'builder_platform_interaction-wait-event'
+};
+
+const EMPTY_WAIT_EVENT_LABEL = LABELS.emptyWaitEventsLabel;
+const DEFAULT_PATH_LABEL = LABELS.defaultPathLabel;
+const DEFAULT_WAIT_EVENT_ID = 'defaultWaitEvent';
 
 export default class WaitEditor extends LightningElement {
     labels = LABELS;
@@ -21,8 +30,7 @@ export default class WaitEditor extends LightningElement {
     set node(newValue) {
         this.waitElement = newValue || {};
 
-        // TODO: W-5395888 Replace with first wait event ID
-        this.activeWaitEventId = "WaitEvent1";
+        this.activeWaitEventId = this.waitElement.waitEvents[0].guid;
     }
 
     /**
@@ -43,45 +51,40 @@ export default class WaitEditor extends LightningElement {
         return getErrorsFromHydratedElement(this.waitElement);
     }
 
+    get showDeleteWaitEvent() {
+        return this.waitElement.waitEvents.length > 1;
+    }
+
     handleEvent(event) {
         event.stopPropagation();
         this.waitElement = waitReducer(this.waitElement, event);
     }
 
     get activeWaitEvent() {
-        // TODO: W-5395888 Replace with actual active wait event
-        return {   element: { guid: "WaitEvent1"},
-            label: { value: "WaitEvent 1", error: null },
-            name: { value : "event_name", error: null },
-            isDraggable: true,
-            hasErrors: false,
-        };
+        return this.waitElement.waitEvents.find(waitEvent => waitEvent.guid === this.activeWaitEventId);
     }
 
     get waitEventsWithDefaultPath() {
-        // TODO: W-5395888 Replace with actual wait events
-        const waitEventsWithDefaultPath = [];
+        const waitEventsWithDefaultPath = this.waitElement.waitEvents.map(waitEvent => {
+            return {
+                element: waitEvent,
+                label: waitEvent.label && waitEvent.label.value ? waitEvent.label.value : EMPTY_WAIT_EVENT_LABEL,
+                isDraggable: true,
+                hasErrors: getErrorsFromHydratedElement(waitEvent).length > 0
+            };
+        });
 
-        const waitEvent1 = {   element: { guid: "WaitEvent1"},
-            label: "WaitEvent 1",
-            isDraggable: true,
-            hasErrors: false
+        const defaultLabel = this.waitElement.defaultConnectorLabel;
+        const defaultPath = {
+            element: {
+                guid: DEFAULT_WAIT_EVENT_ID
+            },
+            label: defaultLabel && defaultLabel.value ? defaultLabel.value : DEFAULT_PATH_LABEL,
+            isDraggable: false,
+            hasErrors: defaultLabel && defaultLabel.error
         };
-
-        const waitEvent2 = {   element: { guid: "WaitEvent2"},
-            label: "WaitEvent2",
-            isDraggable: true,
-            hasErrors: false
-        };
-
-        const defaultPath = {   element: { guid: "DefaultPath"},
-            label: "DefaultPath",
-            isDraggable: true,
-            hasErrors: false
-        };
-        waitEventsWithDefaultPath.push(waitEvent1);
-        waitEventsWithDefaultPath.push(waitEvent2);
         waitEventsWithDefaultPath.push(defaultPath);
+
         return waitEventsWithDefaultPath;
     }
 
@@ -90,13 +93,43 @@ export default class WaitEditor extends LightningElement {
         this.activeWaitEventId = event.detail.itemId;
     }
 
+    /**
+     * Handles deletion and sets focus to the first wait event
+     * @param {object} event - deleteWaitEventEvent
+     */
+    handleDeleteWaitEvent(event) {
+        event.stopPropagation();
+        this.waitElement = waitReducer(this.waitElement, event);
+
+        this.activeWaitEventId = this.waitElement.waitEvents[0].guid;
+    }
+
+    /**
+     * Handles reordering in the list of the outcomes
+     * @param {object} event - reorderListEvent
+     */
     handleReorderWaitEvents(event) {
         event.stopPropagation();
-        // do nothing for now
+        this.waitElement = waitReducer(this.waitElement, event);
     }
 
     handleAddWaitEvent(event) {
         event.stopPropagation();
-        // do nothing for now
+        this.addWaitEvent();
+
+        // Select the newly added outcome
+        const waitEvents = this.waitElement.waitEvents;
+        this.activeWaitEventId = waitEvents[waitEvents.length - 1].guid;
+
+        // Focus on the newly selected wait event( focused the name/label field )
+        const waitEvent = this.template.querySelector(SELECTORS.WAIT_EVENT);
+        if (waitEvent) {
+            waitEvent.focus();
+        }
+    }
+
+    addWaitEvent() {
+        const event = { type: PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT };
+        this.waitElement = waitReducer(this.waitElement, event);
     }
 }
