@@ -211,6 +211,11 @@ export default class Combobox extends LightningElement {
     set menuData(data) {
         this.state.menuData = data;
         this.state.showActivityIndicator = false;
+        if (this._waitingForMenuDataDropDown) {
+            const combobox = this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
+            combobox.focusAndOpenDropdownIfNotEmpty();
+            this._waitingForMenuDataDropDown = false;
+        }
     }
 
     @api
@@ -322,6 +327,8 @@ export default class Combobox extends LightningElement {
      */
     _mergeFieldLevel = 1;
 
+    _waitingForMenuDataDropdown = false;
+
     /* ********************** */
     /*     Event handlers     */
     /* ********************** */
@@ -413,6 +420,7 @@ export default class Combobox extends LightningElement {
         if (itemHasNextLevel) {
             this._base = item.displayText;
             this.fireFetchMenuDataEvent(item);
+            this._waitingForMenuDataDropDown = true;
         }
 
         this.setMergeFieldState(item.displayText);
@@ -439,6 +447,9 @@ export default class Combobox extends LightningElement {
         this.doValidation(true);
 
         this._isUserBlurred = true;
+
+        // Do not show the menu data dropdown after blur
+        this._waitingForMenuDataDropDown = false;
 
         this.fireComboboxStateChangedEvent();
     }
