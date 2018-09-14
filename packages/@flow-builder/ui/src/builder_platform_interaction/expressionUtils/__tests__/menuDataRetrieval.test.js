@@ -289,7 +289,7 @@ describe('Menu data retrieval', () => {
     describe('entities menu data', () => {
         it('uses api name for null label', () => {
             getAllEntities.mockImplementationOnce(() => {
-                return require.requireActual('mock-server-entity-data').mockEntitiesWithNoLabel;
+                return require.requireActual('mock/serverEntityData').mockEntitiesWithNoLabel;
             });
             const entityApiName = 'AcceptedEventRelation';
             const entitiesMenuData = getEntitiesMenuData();

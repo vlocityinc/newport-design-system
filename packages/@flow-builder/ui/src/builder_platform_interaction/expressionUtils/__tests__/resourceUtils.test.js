@@ -13,7 +13,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
-            callback(require.requireActual('mock-server-entity-data').mockAccountFieldWithPicklist);
+            callback(require.requireActual('mock/serverEntityData').mockAccountFieldWithPicklist);
         }),
     };
 });
