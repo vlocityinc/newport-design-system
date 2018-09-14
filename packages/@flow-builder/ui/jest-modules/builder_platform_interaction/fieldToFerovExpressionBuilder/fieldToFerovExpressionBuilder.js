@@ -30,4 +30,7 @@ export default class FerToFerovExpressionBuilder extends Element {
 
     @api
     lhsFields;
+
+    @api
+    rules;
 }
