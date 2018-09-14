@@ -11,9 +11,9 @@ import { baseElement } from "./base/baseElement";
 
 export function createScreenField(screenField = {}) {
     const newScreenField = baseElement(screenField);
-    const { fieldText = '', extensionName = null, fieldType, isRequired = false, isVisible = false, dataType, helpText, choiceReferences = [] } = screenField;
+    const { fieldText = '', extensionName = null, fieldType, isRequired = false, isVisible = false, dataType, helpText = '', choiceReferences = [] } = screenField;
     let { type } = screenField;
-    let { scale, inputParameters, outputParameters, errorMessage, formulaExpression } = screenField;
+    let { scale, inputParameters, outputParameters, errorMessage = '', formulaExpression = '' } = screenField;
     const { defaultValue, validationRule } = screenField;
     if (isExtensionField(screenField)) {
         inputParameters = [];
