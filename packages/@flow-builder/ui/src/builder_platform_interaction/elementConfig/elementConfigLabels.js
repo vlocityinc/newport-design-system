@@ -7,8 +7,6 @@ import apexPluginSingularLabel from "@salesforce/label/FlowBuilderElementConfig.
 import apexPluginPluralLabel from "@salesforce/label/FlowBuilderElementConfig.apexPluginPluralLabel";
 import apexSingularLabel from "@salesforce/label/FlowBuilderElementConfig.apexSingularLabel";
 import apexPluralLabel from "@salesforce/label/FlowBuilderElementConfig.apexPluralLabel";
-import localActionSingularLabel from "@salesforce/label/FlowBuilderElementConfig.localActionSingularLabel";
-import localActionPluralLabel from "@salesforce/label/FlowBuilderElementConfig.localActionPluralLabel";
 import emailAlertSingularLabel from "@salesforce/label/FlowBuilderElementConfig.emailAlertSingularLabel";
 import emailAlertPluralLabel from "@salesforce/label/FlowBuilderElementConfig.emailAlertPluralLabel";
 import assignmentSingularLabel from "@salesforce/label/FlowBuilderElementConfig.assignmentSingularLabel";
@@ -64,8 +62,6 @@ export const LABELS = {
     apexPluginPluralLabel,
     apexSingularLabel,
     apexPluralLabel,
-    localActionSingularLabel,
-    localActionPluralLabel,
     emailAlertSingularLabel,
     emailAlertPluralLabel,
     assignmentSingularLabel,

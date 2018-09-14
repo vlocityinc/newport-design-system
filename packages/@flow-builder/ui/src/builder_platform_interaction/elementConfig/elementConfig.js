@@ -85,8 +85,7 @@ export const elementTypeToConfigMap = {
         // action call : standard actions and quickactions
         metadataFilter : element => element.actionType !== ACTION_TYPE.EMAIL_ALERT &&
                                     element.actionType !== ACTION_TYPE.APEX &&
-                                    element.actionType !== ACTION_TYPE.FLOW &&
-                                    element.actionType !== ACTION_TYPE.LOCAL_ACTION,
+                                    element.actionType !== ACTION_TYPE.FLOW,
         labels: {
             singular: LABELS.actionSingularLabel,
             plural: LABELS.actionPluralLabel
@@ -179,44 +178,6 @@ export const elementTypeToConfigMap = {
             ],
             connectorCount: 0,
             elementType: ELEMENT_TYPE.APEX_CALL,
-            actionName: '',
-            actionType: '',
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: ''
-        }
-    },
-    [ELEMENT_TYPE.LOCAL_ACTION_CALL]: {
-        descriptor: 'builder_platform_interaction:actioncallEditor',
-        nodeConfig: {
-            iconName: 'standard:marketing_actions',
-            utilityIconName: 'utility:touch_action',
-            maxConnections: 1
-        },
-        modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: METADATA_KEY.ACTION_CALLS,
-        metadataFilter : element => element.actionType === ACTION_TYPE.COMPONENT,
-        labels: {
-            singular: LABELS.localActionSingularLabel,
-            plural: LABELS.localActionPluralLabel
-        },
-        canvasElement: true,
-        canHaveFaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.REGULAR
-                },
-                {
-                    type: CONNECTOR_TYPE.FAULT
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.LOCAL_ACTION_CALL,
             actionName: '',
             actionType: '',
             guid: '',

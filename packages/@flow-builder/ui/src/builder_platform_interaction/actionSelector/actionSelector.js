@@ -214,9 +214,6 @@ export default class ActionSelector extends LightningElement {
             case ELEMENT_TYPE.EMAIL_ALERT:
                 items = this.invocableActions.filter(action => action.type === ACTION_TYPE.EMAIL_ALERT).map(action => this.getComboItemFromInvocableAction(action));
                 break;
-            case ELEMENT_TYPE.LOCAL_ACTION_CALL:
-                items = this.invocableActions.filter(action => action.type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));
-                break;
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
                 items = this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
                 break;
@@ -242,7 +239,6 @@ export default class ActionSelector extends LightningElement {
         typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
         typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
         typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
-        typeOptions.push(getTypeOption(ELEMENT_TYPE.LOCAL_ACTION_CALL));
         typeOptions.push(getTypeOption(ELEMENT_TYPE.SUBFLOW));
         this.state.typeOptions = typeOptions;
     }
