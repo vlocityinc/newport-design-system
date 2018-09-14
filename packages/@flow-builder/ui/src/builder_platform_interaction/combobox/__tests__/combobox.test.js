@@ -564,6 +564,16 @@ describe('Combobox Tests', () => {
             expect(comboboxStateChangedHandler.mock.calls[1][0].detail.displayText).toEqual(blurValue);
         });
 
+        it('ComboboxStateChanged is fired after literalsAllowed property has changed', () => {
+            const previousValueForLiteralsAllowed = combobox.literalsAllowed;
+
+            combobox.literalsAllowed = previousValueForLiteralsAllowed;
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(0);
+
+            combobox.literalsAllowed = !previousValueForLiteralsAllowed;
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
+        });
+
         it('ComboboxStateChanged does not have an item if value is empty string (tests matchTextWithItem)', () => {
             combobox.menuData = [{
                 text: 'Empty Display Text Item',
@@ -725,7 +735,7 @@ describe('Combobox Tests', () => {
             combobox.value = 'Hey, my name is {!blah}';
             groupedCombobox.dispatchEvent(blurEvent);
             return Promise.resolve().then(() => {
-                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
+                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
                 expect(combobox.errorMessage).toEqual(unknownMergeField);
             });
         });

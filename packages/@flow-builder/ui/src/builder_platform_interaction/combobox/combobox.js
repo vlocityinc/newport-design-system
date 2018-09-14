@@ -109,7 +109,12 @@ export default class Combobox extends LightningElement {
      * @param {String|Boolean} isAllowed value to set allow literals
      */
     set literalsAllowed(isAllowed) {
+        const previousIsLiteralAllowed = this._isLiteralAllowed;
         this._isLiteralAllowed = isAllowed ? isAllowed !== 'false' : false;
+        if (this._isValidationEnabled && (previousIsLiteralAllowed !== this._isLiteralAllowed)) {
+            this.doValidation(true);
+            this.fireComboboxStateChangedEvent();
+        }
     }
 
     @api
@@ -188,7 +193,7 @@ export default class Combobox extends LightningElement {
             this._dataType = dataType;
 
             if (this._isValidationEnabled) {
-                this.doValidation();
+                this.doValidation(true);
                 this.fireComboboxStateChangedEvent();
             } else {
                 this._isValidationEnabled = true;
