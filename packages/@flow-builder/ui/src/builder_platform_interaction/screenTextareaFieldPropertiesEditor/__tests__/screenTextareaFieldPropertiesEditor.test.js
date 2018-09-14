@@ -12,8 +12,6 @@ jest.mock('builder_platform_interaction/selectors', () => {
 const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[type="long_string"]',
-    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-screen-property-field[name="errorMessage"]',
-    VALIDATION_FORMULA: 'builder_platform_interaction-screen-property-field[name="formulaExpression"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
 };
 
@@ -53,20 +51,6 @@ describe('screen-textarea-field-properties-editor', () => {
         return Promise.resolve().then(() => {
             const renderedDefaultValueField = query(screenTextAreaFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
             expect(renderedDefaultValueField.value).toBeUndefined();
-        });
-    });
-    it('Validation rule error message is present but empty', () => {
-        return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
-            expect(renderedValidationError).toBeDefined();
-            expect(renderedValidationError.value).toBeNull();
-        });
-    });
-    it('Validation rule formula is present but empty', () => {
-        return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
-            expect(renderedValidationFormula).toBeDefined();
-            expect(renderedValidationFormula.value).toBeNull();
         });
     });
     it('Help text is present but empty', () => {

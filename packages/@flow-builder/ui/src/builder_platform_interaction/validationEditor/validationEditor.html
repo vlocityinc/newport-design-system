@@ -1,0 +1,22 @@
+<template>
+    <div class='slds-form-element'>
+        <builder_platform_interaction-resourced-textarea class='property-input'
+                                                         name='errorMessage'
+                                                         label={labels.errorMessage}
+                                                         value={validationRuleErrorValue}
+                                                         required={required}
+                                                         onchange={handleValueChanged}
+                                                         onblur={handleValueChanged}>
+        </builder_platform_interaction-resourced-textarea>
+    
+        <!-- TODO: W-5183123 - change this to formula-editor component -->
+        <builder_platform_interaction-resourced-textarea class='property-input' 
+                                                         name='formulaExpression'
+                                                         label={labels.validationFormula}
+                                                         value={validationRuleFormulaValue}
+                                                         required={required}
+                                                         onchange={handleValueChanged}
+                                                         onblur={handleValueChanged}>
+        </builder_platform_interaction-resourced-textarea>
+    </div>
+</template>

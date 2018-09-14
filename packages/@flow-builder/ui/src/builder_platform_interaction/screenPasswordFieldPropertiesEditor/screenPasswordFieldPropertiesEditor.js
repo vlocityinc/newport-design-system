@@ -25,13 +25,11 @@ export default class ScreenPasswordFieldPropertiesEditor extends LightningElemen
         event.stopPropagation();
     }
 
-    /* Figure out if the value really changed, and if it did refire the event including the old value */
-    handleErrorMessageChanged = (event) => {
-        const error = event.detail.error;
-        const currentValue = this.field.errorMessage ? this.field.errorMessage : null;
+    handleHelpTextChanged = (event) => {
+        const currentValue = this.helpTextValue;
         if (currentValue !== event.detail.value) {
-            // Hydrate the current value before sending in to ensure the new value is hydrated too.
-            this.dispatchEvent(new PropertyChangedEvent(event.detail.propertyName, event.detail.value, error, this.field.guid, {value: currentValue, error: null}));
+            // Hydrate the current value before sending in to ensure the new value is hydrated also.
+            this.dispatchEvent(new PropertyChangedEvent(event.detail.propertyName, event.detail.value, event.detail.error, this.field.guid, {value: currentValue, error: null}));
         }
         event.stopPropagation();
     }
@@ -50,14 +48,6 @@ export default class ScreenPasswordFieldPropertiesEditor extends LightningElemen
             objectType: 'String',
             elementType: ELEMENT_TYPE.SCREEN
         };
-    }
-
-    get validationRuleError() {
-        return this.field.errorMessage ? this.field.errorMessage.value : null;
-    }
-
-    get validationRuleFormula() {
-        return this.field.formulaExpression ? this.field.formulaExpression.value : null;
     }
 
     get helpTextValue() {

@@ -14,8 +14,6 @@ const SELECTORS = {
     SCALE_FIELD: 'builder_platform_interaction-screen-property-field[name="scale"]',
     REQUIRED_CHECKBOX: 'builder_platform_interaction-screen-property-field[name="isRequired"]',
     DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[name="defaultValue"]',
-    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-screen-property-field[name="errorMessage"]',
-    VALIDATION_FORMULA: 'builder_platform_interaction-screen-property-field[name="formulaExpression"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
 };
 
@@ -72,20 +70,6 @@ describe('screen-input-field-properties-editor for TextBox', () => {
             expect(renderedScaleField).toBeNull();
         });
     });
-    it('Validation rule error message is present but empty', () => {
-        return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
-            expect(renderedValidationError).toBeDefined();
-            expect(renderedValidationError.value).toBeNull();
-        });
-    });
-    it('Validation rule formula is present but empty', () => {
-        return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
-            expect(renderedValidationFormula).toBeDefined();
-            expect(renderedValidationFormula.value).toBeNull();
-        });
-    });
     it('Help text is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
@@ -132,20 +116,6 @@ describe('screen-input-field-properties-editor for Number', () => {
             const renderedRequiredCheckbox = query(screenInputFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
             expect(renderedRequiredCheckbox).toBeDefined();
             expect(renderedRequiredCheckbox.value).toBeFalsy();
-        });
-    });
-    it('Validation rule error message is present but empty', () => {
-        return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
-            expect(renderedValidationError).toBeDefined();
-            expect(renderedValidationError.value).toBeNull();
-        });
-    });
-    it('Validation rule formula is present but empty', () => {
-        return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
-            expect(renderedValidationFormula).toBeDefined();
-            expect(renderedValidationFormula.value).toBeNull();
         });
     });
     it('Help text is present but empty', () => {

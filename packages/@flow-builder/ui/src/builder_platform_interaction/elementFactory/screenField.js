@@ -11,9 +11,9 @@ import { baseElement } from "./base/baseElement";
 
 export function createScreenField(screenField = {}) {
     const newScreenField = baseElement(screenField);
-    const { fieldText = '', extensionName = null, fieldType, isRequired = false, isVisible = false, dataType, choiceReferences = [] } = screenField;
+    const { fieldText = '', extensionName = null, fieldType, isRequired = false, isVisible = false, dataType, helpText, choiceReferences = [] } = screenField;
     let { type } = screenField;
-    let { scale, inputParameters, outputParameters } = screenField;
+    let { scale, inputParameters, outputParameters, errorMessage, formulaExpression } = screenField;
     const { defaultValue, validationRule } = screenField;
     if (isExtensionField(screenField)) {
         inputParameters = [];
@@ -28,7 +28,7 @@ export function createScreenField(screenField = {}) {
     }
 
     // Flatten out these properties which makes validation easier.
-    let errorMessage = null, formulaExpression = null;
+
     if (validationRule) {
         if (validationRule.errorMessage) {
             errorMessage = validationRule.errorMessage;
@@ -57,6 +57,7 @@ export function createScreenField(screenField = {}) {
         {
             errorMessage,
             formulaExpression,
+            helpText,
             scale,
             type,
             inputParameters,
@@ -79,7 +80,7 @@ export function createScreenFieldMetadataObject(screenField) {
     }
 
     // Unflatten these properties.
-    const { errorMessage, formulaExpression, extensionName, defaultValue, dataType, isRequired, fieldText, fieldType, name } = screenField;
+    const { errorMessage, formulaExpression, extensionName, defaultValue, dataType, helpText, isRequired, fieldText, fieldType, name } = screenField;
     let { scale, inputParameters, outputParameters } = screenField;
 
     let validationRule;
@@ -114,6 +115,7 @@ export function createScreenFieldMetadataObject(screenField) {
             fieldText,
             fieldType,
             dataType,
+            helpText,
             isRequired,
             name,
             extensionName,
