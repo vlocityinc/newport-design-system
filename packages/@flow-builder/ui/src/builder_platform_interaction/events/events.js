@@ -26,6 +26,7 @@ export { RunFlowEvent } from "./toolbarEvents/runFlowEvent";
 export { DebugFlowEvent } from "./toolbarEvents/debugFlowEvent";
 export { SaveFlowEvent } from "./toolbarEvents/saveFlowEvent";
 export { AddElementEvent } from "./elementEvents/addElementEvent";
+export { AddNonCanvasElementEvent } from './elementEvents/addNonCanvasElementEvent';
 export { EditElementEvent } from "./elementEvents/editElementEvent";
 export { DeleteElementEvent } from "./elementEvents/deleteElementEvent";
 export { PaletteItemClickedEvent } from "./paletteEvents/paletteItemClickedEvent";

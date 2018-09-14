@@ -11,7 +11,7 @@
             <a role="button" class="slds-truncate" title={description} onclick={handleLinkClick} onkeypress={handleKeyPress} tabindex="0">{label}</a>
         </div>
     </td>
-    <td if:true={detailsButton} role="gridcell">
+    <td if:true={detailsButton} role="gridcell" class="square-icon-medium">
         <lightning-button-icon icon-name="utility:chevronright" variant="bare" alternative-text={labels.detailsText} onclick={handleChevronClick}></lightning-button-icon>
     </td>
 </template>

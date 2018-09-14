@@ -7,3 +7,8 @@
 td:first-of-type {
     padding-left: 1.5rem !important;
 }
+
+/* This was necessary to get the strategy builder chevron to take up the correct amount of space */
+td.square-icon-medium {
+    width: 30px
+}
