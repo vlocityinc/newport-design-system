@@ -25,22 +25,27 @@ function createComponentForTest(props) {
 
 const numberVariable = elements[numberVariableGuid];
 
-function createDefaultFerToFerovComponentForTest() {
+function createDefaultFerToFerovComponentForTest(hideOperator) {
     const expressionBuilder = createComponentForTest({
         containerElement: ELEMENT_TYPE.ASSIGNMENT,
+        rules: [],
         lhsValue: expressionUtilsMock.mutateFlowResourceToComboboxShape(numberVariable),
         lhsParam: rulesMock.elementToParam(numberVariable),
         lhsIsField: false,
         lhsFields: null,
         lhsActivePicklistValues: null,
         showLhsAsFieldReference: true,
-        operatorValue: rulesMock.RULE_OPERATOR.ADD,
         rhsValue: expressionUtilsMock.mutateFlowResourceToComboboxShape(numberVariable),
         rhsGuid: numberVariableGuid,
         rhsIsField: false,
         rhsFields: null,
         rhsLiteralsAllowed: true,
     });
+    if (hideOperator) {
+        expressionBuilder.hideOperator = true;
+    } else {
+        expressionBuilder.operatorValue = rulesMock.RULE_OPERATOR.ADD;
+    }
     return expressionBuilder;
 }
 
@@ -94,7 +99,6 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         }),
         getRHSTypes: jest.fn(),
         transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
-        getRulesForContext: jest.fn().mockReturnValue([]),
         elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
         RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
@@ -151,14 +155,9 @@ describe('base expression builder', () => {
     });
 
     describe('basic set up', () => {
-        it('should set rules based on container element', () => {
-            createComponentForTest({
-                containerElement: ELEMENT_TYPE.ASSIGNMENT,
-            });
-            expect(rulesMock.getRulesForContext).toHaveBeenCalled();
-        });
         it('should set lhs menu data based on container element', () => {
             const expressionBuilder = createComponentForTest({
+                rules: [],
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 lhsFields: null,
                 lhsDisplayOption: expressionUtilsMock.LHS_DISPLAY_OPTION.NOT_FIELD,
@@ -268,6 +267,31 @@ describe('base expression builder', () => {
 
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {newValue: expressionUpdates}});
+            });
+        });
+        describe('when there is no operator', () => {
+            it('should throw RowContentsChangedEvent with new values when there is no operator and LHS change invalidates RHS', () => {
+                const expressionBuilder = createDefaultFerToFerovComponentForTest(true);
+
+                rulesMock.getOperators.mockReturnValueOnce([rulesMock.RULE_OPERATOR.ASSIGN]);
+
+                return Promise.resolve().then(() => {
+                    const expressionUpdates = {
+                        [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: numberVariableGuid, error: null},
+                        [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
+                        [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: '', error: null},
+                        [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {value: '', error: null},
+                    };
+                    const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+
+                    const eventCallback = jest.fn();
+                    expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+
+                    lhsCombobox.dispatchEvent(ourCBChangeEvent);
+
+                    expect(eventCallback).toHaveBeenCalled();
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {newValue: expressionUpdates}});
+                });
             });
         });
     });

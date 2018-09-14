@@ -107,6 +107,8 @@ describe('field-to-ferov-expression-builder', () => {
                     operatorLabel: "operator",
                     rhsLabel: "RHS",
                     expression: createMockPopulatedFieldExpression(),
+                    objectType: sobject,
+                    lhsFields: mockAccountFields,
                 });
                 expect(expressionBuilder[labels[i]]).toBeDefined();
             });
@@ -120,6 +122,8 @@ describe('field-to-ferov-expression-builder', () => {
                     operatorPlaceholder: "operator",
                     rhsPlaceholder: "RHS",
                     expression: createMockPopulatedFieldExpression(),
+                    objectType: sobject,
+                    lhsFields: mockAccountFields,
                 });
                 expect(expressionBuilder[placeholders[i]]).toBeDefined();
             });
@@ -199,6 +203,8 @@ describe('field-to-ferov-expression-builder', () => {
     describe('parsing RHS', () => {
         it('should handle FER on RHS', () => {
             const expressionBuilder = createComponentForTest({
+                objectType: sobject,
+                lhsFields: mockAccountFields,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
                         value: numberVariableGuid,
@@ -232,6 +238,8 @@ describe('field-to-ferov-expression-builder', () => {
         it('should handle field on sobject var on RHS', () => {
             const expressionBuilder = createComponentForTest({
                 expression: createMockPopulatedFieldExpression(),
+                objectType: sobject,
+                lhsFields: mockAccountFields,
             });
             return Promise.resolve().then(() => {
                 const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
@@ -242,6 +250,8 @@ describe('field-to-ferov-expression-builder', () => {
         });
         it('should handle Global Constant on RHS', () => {
             const expressionBuilder = createComponentForTest({
+                objectType: sobject,
+                lhsFields: mockAccountFields,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
                         value: accountSObjectVariableGuid + '.' + picklistField,
@@ -259,6 +269,10 @@ describe('field-to-ferov-expression-builder', () => {
                         value: FEROV_DATA_TYPE.BOOLEAN,
                         error: null,
                     },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {
+                        value: '',
+                        error: '',
+                    }
                 },
             });
             const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
@@ -271,6 +285,8 @@ describe('field-to-ferov-expression-builder', () => {
         it('should handle literal on RHS', () => {
             const literal = 'abc';
             const expressionBuilder = createComponentForTest({
+                objectType: sobject,
+                lhsFields: mockAccountFields,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
                         value: sobject + '.' + picklistField,
@@ -296,6 +312,30 @@ describe('field-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.rhsIsField).toBeFalsy();
             expect(baseExpressionBuilder.rhsFields).toBeDefined();
             expect(baseExpressionBuilder.rhsFields).toBeFalsy();
+        });
+    });
+    describe('operator display', () => {
+        it('should hide operator if no operator is passed', () => {
+            const expressionBuilder = createComponentForTest({
+                objectType: sobject,
+                lhsFields: mockAccountFields,
+                expression: {
+                    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+                        value: accountSObjectVariableGuid + '.' + picklistField,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
+                        value: addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE),
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+                        value: FEROV_DATA_TYPE.BOOLEAN,
+                        error: null,
+                    },
+                },
+            });
+            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+            expect(baseExpressionBuilder.hideOperator).toBe(true);
         });
     });
 });
