@@ -1,9 +1,6 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 /* Labels */
-import retrieveInvocableActionsError from "@salesforce/label/FlowBuilderActionCallEditor.retrieveInvocableActionsError";
-import retrieveApexPluginsError from "@salesforce/label/FlowBuilderActionCallEditor.retrievApexPluginsError";
-import retrieveSubflowsError from "@salesforce/label/FlowBuilderActionCallEditor.retrieveSubflowsError";
 import actionTypeOption from "@salesforce/label/FlowBuilderActionCallEditor.actionTypeOption";
 import actionComboboxLabel from "@salesforce/label/FlowBuilderActionCallEditor.actionComboboxLabel";
 import actionComboboxPlaceholder from "@salesforce/label/FlowBuilderActionCallEditor.actionComboboxPlaceholder";
@@ -24,9 +21,6 @@ import subflowComboboxLabel from "@salesforce/label/FlowBuilderActionCallEditor.
 import subflowComboboxPlaceholder from "@salesforce/label/FlowBuilderActionCallEditor.subflowComboboxPlaceholder";
 
 export const LABELS = {
-    CANNOT_GET_INVOCABLE_ACTIONS: retrieveInvocableActionsError,
-    CANNOT_GET_APEX_PLUGINS: retrieveApexPluginsError,
-    CANNOT_GET_SUBFLOWS: retrieveSubflowsError,
     [ELEMENT_TYPE.ACTION_CALL] : {
         TYPE_OPTION_LABEL : actionTypeOption,
         ACTION_COMBO_LABEL : actionComboboxLabel,

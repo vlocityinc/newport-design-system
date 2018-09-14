@@ -5,10 +5,6 @@ import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serv
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
 import { LABELS } from "./actionSelectorLabels";
 
-const SELECTORS = {
-    TYPES: '.types',
-};
-
 export default class ActionSelector extends LightningElement {
     @track
     state = {
@@ -17,8 +13,7 @@ export default class ActionSelector extends LightningElement {
         filteredActionMenuData : [],
         spinnerActive : true,
         actionComboLabel : '',
-        actionPlaceholder : '',
-        errorMessage : ''
+        actionPlaceholder : ''
     };
     @api
     flowProcessType = FLOW_PROCESS_TYPE.FLOW;
@@ -44,7 +39,6 @@ export default class ActionSelector extends LightningElement {
         }).catch(() => {
             if (this.connected) {
                 this.apexPluginsFetched = true;
-                this.state.errorMessage = LABELS.CANNOT_GET_APEX_PLUGINS;
                 this.updateComboboxes();
             }
         });
@@ -59,7 +53,6 @@ export default class ActionSelector extends LightningElement {
         }).catch(() => {
             if (this.connected) {
                 this.subflowsFetched = true;
-                this.state.errorMessage = LABELS.CANNOT_GET_SUBFLOWS;
                 this.updateComboboxes();
             }
         });
@@ -74,20 +67,11 @@ export default class ActionSelector extends LightningElement {
         }).catch(() => {
             if (this.connected) {
                 this.invocableActionsFetched = true;
-                this.state.errorMessage = LABELS.CANNOT_GET_INVOCABLE_ACTIONS;
                 this.updateComboboxes();
             }
         });
         this.updateTypeCombo();
         this.updateActionCombo();
-    }
-
-    renderedCallback() {
-        if (this.state.errorMessage) {
-            const typeCombo = this.template.querySelector(SELECTORS.TYPES);
-            typeCombo.setCustomValidity(this.state.errorMessage);
-            typeCombo.showHelpMessageIfInvalid();
-        }
     }
 
     disconnectedCallback() {

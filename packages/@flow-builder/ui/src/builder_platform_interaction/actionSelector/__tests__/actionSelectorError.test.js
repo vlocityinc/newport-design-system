@@ -10,7 +10,8 @@ const createComponentUnderTest = () => {
 };
 
 const selectors = {
-    lightningCombobox: 'lightning-combobox'
+    lightningCombobox: 'lightning-combobox',
+    lightningInteractionCombobox: 'builder_platform_interaction-combobox'
 };
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
@@ -35,13 +36,12 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 describe('When error occurs when retrieving data from server', () => {
     let actionSelectorComponent;
-    let lightningCombobox;
+    let interactionCombobox;
     beforeEach(() => {
         actionSelectorComponent = createComponentUnderTest();
-        lightningCombobox = getShadowRoot(actionSelectorComponent).querySelector(selectors.lightningCombobox);
+        interactionCombobox = getShadowRoot(actionSelectorComponent).querySelector(selectors.lightningInteractionCombobox);
     });
-    test('Error should be displayed', () => {
-        expect(lightningCombobox.setCustomValidity).toHaveBeenCalledWith('FlowBuilderActionCallEditor.retrieveInvocableActionsError');
-        expect(lightningCombobox.showHelpMessageIfInvalid).toHaveBeenCalled();
+    test('Second combobox should be disabled', () => {
+        expect(interactionCombobox.disabled).toBe(true);
     });
 });
