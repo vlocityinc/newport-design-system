@@ -29,6 +29,12 @@ export default class RecordInputOutputAssignments extends LightningElement {
     rhsLabel = '';
 
     /**
+     * @param {Object[]} rules  Rules to use when fetching menudata
+     */
+    @api
+    rules;
+
+    /**
      * The assignment items
      * @param {Object} value - it comes from the recordNode.inputAssignments or recordNode.outputAssignments
      */
