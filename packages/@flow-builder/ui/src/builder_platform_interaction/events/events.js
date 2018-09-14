@@ -46,3 +46,6 @@ export { DeleteRecordLookupFieldEvent } from './deleteRecordLookupFieldEvent';
 export { DeleteResourceEvent } from './deleteResourceEvent';
 export { LoopCollectionChangedEvent } from './loopCollectionChangedEvent';
 export { DeleteParameterItemEvent } from './deleteParameterItemEvent';
+export { AddRecordFieldAssignmentEvent } from './addRecordFieldAssignmentEvent';
+export { UpdateRecordFieldAssignmentEvent } from './updateRecordFieldAssignmentEvent';
+export { DeleteRecordFieldAssignmentEvent } from './deleteRecordFieldAssignmentEvent';
