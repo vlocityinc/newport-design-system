@@ -2,6 +2,7 @@ export * from "./screenEditorModelUtils.js";
 export * from "./screenEditorFieldTypeUtils.js";
 export * from "./screenEditorExtensionUtils.js";
 
+import { PropertyChangedEvent } from "builder_platform_interaction/events";
 
 // export {translateCFDtoQuill} from './rich-text-utils.js'; TODO - W-4947234
 
@@ -50,4 +51,23 @@ export function booleanAttributeValue(element, property) {
 
 export function booleanValue(value, name) {
     return value && (value === 'true' || value === true || value === name);
+}
+
+
+export function addGuidAndCurrentValueToEvent(event, field) {
+    return new PropertyChangedEvent(
+        event.detail.propertyName,
+        event.detail.value,
+        event.detail.error,
+        field.guid,
+        field[event.detail.propertyName]);
+}
+
+export function addHydratedCurrentValueToEvent(event, field, currentValue) {
+    return new PropertyChangedEvent(
+        event.detail.propertyName,
+        event.detail.value,
+        event.detail.error,
+        field.guid,
+        {value: currentValue, error: null});
 }

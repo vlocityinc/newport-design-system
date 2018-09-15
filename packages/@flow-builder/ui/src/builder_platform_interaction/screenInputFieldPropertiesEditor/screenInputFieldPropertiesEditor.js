@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { addGuidAndCurrentValueToEvent, addHydratedCurrentValueToEvent } from "builder_platform_interaction/screenEditorUtils";
 
 const ALL_SECTION_NAMES = ['validationOptions', 'helpText'];
 
@@ -17,19 +17,12 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
     }
 
     handlePropertyChanged = (event) => {
-        const property = event.detail.propertyName;
-        const newValue = event.detail.value;
-        const error = event.detail.error;
-        this.dispatchEvent(new PropertyChangedEvent(property, newValue, error, this.field.guid, this.field[property]));
+        this.dispatchEvent(addGuidAndCurrentValueToEvent(event, this.field));
         event.stopPropagation();
     }
 
     handleHelpTextChanged = (event) => {
-        const currentValue = this.helpTextValue;
-        if (currentValue !== event.detail.value) {
-            // Hydrate the current value before sending in to ensure the new value is hydrated also.
-            this.dispatchEvent(new PropertyChangedEvent(event.detail.propertyName, event.detail.value, event.detail.error, this.field.guid, {value: currentValue, error: null}));
-        }
+        this.dispatchEvent(addHydratedCurrentValueToEvent(event, this.field, this.helpTextValue));
         event.stopPropagation();
     }
 

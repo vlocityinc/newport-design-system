@@ -3,6 +3,7 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LIGHTNING_INPUT_VARIANTS, booleanAttributeValue } from "builder_platform_interaction/screenEditorUtils";
 import { LABELS } from "./resourcedTextareaLabels";
+import { PropertyChangedEvent } from "builder_platform_interaction/events";
 
 const SELECTORS = {
     TEXTAREA: 'textarea',
@@ -72,7 +73,7 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
             textarea.setSelectionRange(cursorPosition, cursorPosition);
             Promise.resolve().then(() => {
                 this.template.querySelector(SELECTORS.FEROV_RESOURCE_PICKER).value = null;
-                this.dispatchEvent(new Event('change'));
+                this.dispatchEvent(new PropertyChangedEvent(this.name, this.value, event.error, null, val));
             });
         }
     }
@@ -82,7 +83,9 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
         const val = this.template.querySelector(SELECTORS.TEXTAREA).value;
         if (val !== this.value) {
             this.value = val;
-            this.dispatchEvent(new Event(event.type));
+            this.dispatchEvent(new PropertyChangedEvent(this.name, val, event.error, null, this.value));
         }
+
+        event.stopPropagation();
     }
 }

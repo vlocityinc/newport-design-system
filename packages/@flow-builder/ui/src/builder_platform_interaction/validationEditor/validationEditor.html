@@ -5,8 +5,9 @@
                                                          label={labels.errorMessage}
                                                          value={validationRuleErrorValue}
                                                          required={required}
+                                                         onblur={handleValueChanged}
                                                          onchange={handleValueChanged}
-                                                         onblur={handleValueChanged}>
+                                                         onpropertychanged={handleValueChanged}>
         </builder_platform_interaction-resourced-textarea>
     
         <!-- TODO: W-5183123 - change this to formula-editor component -->
@@ -15,8 +16,9 @@
                                                          label={labels.validationFormula}
                                                          value={validationRuleFormulaValue}
                                                          required={required}
+                                                         onblur={handleValueChanged}
                                                          onchange={handleValueChanged}
-                                                         onblur={handleValueChanged}>
+                                                         onpropertychanged={handleValueChanged}>
         </builder_platform_interaction-resourced-textarea>
     </div>
 </template>
