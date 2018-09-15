@@ -47,6 +47,9 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     @api
     rhsPlaceholder;
 
+    @track
+    rhsIsFer = false;
+
     @api
     get expression() {
         return this.state.expression;

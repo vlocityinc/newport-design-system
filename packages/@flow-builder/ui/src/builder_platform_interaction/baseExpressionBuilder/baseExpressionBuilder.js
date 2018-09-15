@@ -222,6 +222,19 @@ export default class BaseExpressionBuilder extends LightningElement {
     rhsGuid;
 
     /**
+     * @param {Boolean} isFer   true if RHS is a FER, false if RHS is a FEROV
+     */
+    set rhsIsFer(isFer) {
+        this._rhsIsFer = isFer;
+        this.setRhsMenuData();
+    }
+
+    @api
+    get rhsIsFer() {
+        return this._rhsIsFer;
+    }
+
+    /**
      * @param {Boolean} isField  true if the RHS is a field on an sobject var
      */
     set rhsIsField(isField) {
@@ -272,6 +285,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     _operatorMenuData;
     _rhsDataType;
     _rhsIsField;
+    _rhsIsFer;
     _rhsParamTypes;
     _rhsCollectionRequiredByRules;
     _rhsLiteralsAllowedForContext = false;
@@ -306,7 +320,7 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     setRhsMenuData() {
         if (!this.areAllDefined([this.containerElement, this.lhsActivePicklistValues,
-            this.rhsIsField, this.rhsFields]) || !this.lhsParam || !this.operatorForRules()) {
+            this.rhsIsField, this.rhsFields, this.rhsIsFer]) || !this.lhsParam || !this.operatorForRules()) {
             return;
         }
 
@@ -480,12 +494,16 @@ export default class BaseExpressionBuilder extends LightningElement {
      * @param {Object} parentMenuItem   object representing the parent object of the fields, if getFields is true
      */
     populateRhsMenuData(getFields, parentMenuItem) {
-        const isFerov = true;
         const isDisplayedAsFieldReference = true;
-        const shouldBeWritable = false;
+
+        // if only FERs are allowed, RHS must be writable
+        const shouldBeWritable = this.rhsIsFer;
+
+        // the picklist values of the field are shown as helpers when RHS can be FEROV - if RHS must be a FER they aren't applicable
+        const picklistValues = this.rhsIsFer ? null : this.lhsActivePicklistValues;
 
         this.populateMenuData(getFields, parentMenuItem, RHS_FULL_MENU_DATA, RHS_FILTERED_MENU_DATA, RHS_FIELDS,
-            this.rhsParamTypes, shouldBeWritable, isDisplayedAsFieldReference, isFerov, this.lhsActivePicklistValues);
+            this.rhsParamTypes, shouldBeWritable, isDisplayedAsFieldReference, !this.rhsIsFer, picklistValues);
     }
 
     /**
@@ -554,8 +572,10 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     clearRhs(newExpression) {
         newExpression[RHS] = CLEARED_PROPERTY;
-        newExpression[RHSG] = CLEARED_PROPERTY;
-        newExpression[RHSDT] = CLEARED_PROPERTY;
+        if (!this.rhsIsFer) {
+            newExpression[RHSG] = CLEARED_PROPERTY;
+            newExpression[RHSDT] = CLEARED_PROPERTY;
+        }
     }
 
     /**
@@ -637,9 +657,11 @@ export default class BaseExpressionBuilder extends LightningElement {
 
         // if rhsItem in the event payload is an object then we know the user selected an item from the menu data
         if (isObject(rhsItem)) {
-            // check if the selected item references a flow element or field on a flow element
-            if (getResourceByUniqueIdentifier(rhsItem.value) || rhsItem.parent) {
-                // the item references an element so we update the rhs with that element reference
+            // if the rhs is a fer, we can store it as a single value without needing to preserve datatype or guid separately
+            if (this.rhsIsFer) {
+                rhs = rhsItem.value;
+            } else if (getResourceByUniqueIdentifier(rhsItem.value) || rhsItem.parent) {
+                // rhs is a FEROV and the item references an element so we update the rhs with that element reference
                 rhs = rhsItem.displayText;
                 rhsg = rhsItem.value;
                 rhsdt = getResourceFerovDataType(rhsItem.value);
@@ -656,9 +678,11 @@ export default class BaseExpressionBuilder extends LightningElement {
 
         const expressionUpdates = {
             [RHS]: {value: rhs, error},
-            [RHSDT]: {value: rhsdt, error: CLEAR_ERROR},
-            [RHSG]: {value: rhsg || CLEAR_VALUE, error: CLEAR_ERROR},
         };
+        if (!this.rhsIsFer) {
+            expressionUpdates[RHSDT] = {value: rhsdt, error: CLEAR_ERROR};
+            expressionUpdates[RHSG] = {value: rhsg || CLEAR_VALUE, error: CLEAR_ERROR};
+        }
         this.fireRowContentsChangedEvent(expressionUpdates);
     }
 

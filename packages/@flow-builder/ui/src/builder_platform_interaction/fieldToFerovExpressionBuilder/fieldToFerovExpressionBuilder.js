@@ -40,7 +40,7 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
     operatorPlaceholder;
 
     /**
-     * @param {Boolean} show  True if operator combobox should be displayed
+     * True if operator combobox should be hidden
      */
     @track
     hideOperator = false;
@@ -52,6 +52,12 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
     get operatorError() {
         return this.state.operatorError;
     }
+
+    /**
+     * True if RHS is a FER, false if RHS is a FEROV
+     */
+    @track
+    rhsIsFer = false;
 
     @api
     rhsLabel;
@@ -94,7 +100,11 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
         } else {
             this.hideOperator = true;
         }
-        populateRhsState(expression[RHS], expression[RHSG] ? expression[RHSG].value : null,
+
+        // if RHSG doesn't exist as a separate property, then RHS must be a FER
+        this.rhsIsFer = !expression[RHSG];
+
+        populateRhsState(expression[RHS], this.rhsIsFer ? expression[RHS].value : expression[RHSG].value,
             (values) => {
                 this.state.rhsDescribe = values;
             }
