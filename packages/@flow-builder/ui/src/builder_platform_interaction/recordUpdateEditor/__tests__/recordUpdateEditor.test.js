@@ -66,6 +66,7 @@ describe('record-update-editor', () => {
             const fieldAssignmentNotSupportedDiv = getFieldAssignmentNotSupportedDiv(recordUpdateEditor);
             expect(sObjectOrSObjectCollectionPicker).toBeNull();
             expect(fieldAssignmentNotSupportedDiv).not.toBeNull();
+            expect(fieldAssignmentNotSupportedDiv.textContent).toBe('FlowBuilderRecordEditor.fieldAssignmentNotSupportedForUpdate');
         });
     });
     describe('Handle Events', () => {

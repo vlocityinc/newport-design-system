@@ -1,7 +1,7 @@
 /* Labels */
 import recordVariableOrRecordCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.recordVariableOrRecordCollectionVariable';
 import recordUpdateTitle from '@salesforce/label/FlowBuilderRecordEditor.recordUpdateTitle';
-import helpIdFieldPopulatedWithText from '@salesforce/label/FlowBuilderRecordEditor.helpIdFieldPopulatedWithText';
+import helpIdFieldPopulatedWithTextForUpdate from '@salesforce/label/FlowBuilderRecordEditor.helpIdFieldPopulatedWithTextForUpdate';
 import helpSObjectRecordUpdateAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectRecordUpdateAltText';
 import selectsObjectOrsObjectCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.selectsObjectOrsObjectCollectionVariable';
 import sObjectVariablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.sObjectVariablePlaceholder';
@@ -10,7 +10,7 @@ import fieldAssignmentNotSupportedForUpdate from '@salesforce/label/FlowBuilderR
 export const LABELS = {
     recordVariableOrRecordCollectionVariable,
     recordUpdateTitle,
-    helpIdFieldPopulatedWithText,
+    helpIdFieldPopulatedWithTextForUpdate,
     helpSObjectRecordUpdateAltText,
     selectsObjectOrsObjectCollectionVariable,
     sObjectVariablePlaceholder,
