@@ -232,6 +232,11 @@ export function getFlowDataTypeByName(dataType) {
     return null;
 }
 
+/**
+ * Returns the ferov type from a field type
+ * @param {FieldType} fieldType - The field type
+ * @returns {String} - The type
+ */
 export function getFerovTypeFromFieldType(fieldType) {
     if (fieldType) {
         return getFerovTypeFromTypeName(fieldType.dataType || fieldType.fieldType);
@@ -240,6 +245,12 @@ export function getFerovTypeFromFieldType(fieldType) {
     return null;
 }
 
+/**
+ * Maps the provided type to one of the ferov types (number, string, boolean, date and datetime)
+ *
+ * @param {String} type - The type
+ * @returns {String} - The ferov type
+ */
 export function getFerovTypeFromTypeName(type) {
     if (type) {
         const ucType = type.toUpperCase();
