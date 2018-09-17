@@ -25,7 +25,7 @@ function createComponentForTest(props) {
 
 const numberVariable = elements[numberVariableGuid];
 
-function createDefaultFerToFerovComponentForTest(hideOperator) {
+function createDefaultFerToFerovComponentForTest(hideOperator = false, rhsIsFer = false) {
     const expressionBuilder = createComponentForTest({
         containerElement: ELEMENT_TYPE.ASSIGNMENT,
         rules: [],
@@ -40,6 +40,7 @@ function createDefaultFerToFerovComponentForTest(hideOperator) {
         rhsIsField: false,
         rhsFields: null,
         rhsLiteralsAllowed: true,
+        rhsIsFer,
     });
     if (hideOperator) {
         expressionBuilder.hideOperator = true;
@@ -269,29 +270,50 @@ describe('base expression builder', () => {
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {newValue: expressionUpdates}});
             });
         });
-        describe('when there is no operator', () => {
-            it('should throw RowContentsChangedEvent with new values when there is no operator and LHS change invalidates RHS', () => {
-                const expressionBuilder = createDefaultFerToFerovComponentForTest(true);
+        it('should throw RowContentsChangedEvent with new values when there is no operator and LHS change invalidates RHS', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest(true);
 
-                rulesMock.getOperators.mockReturnValueOnce([rulesMock.RULE_OPERATOR.ASSIGN]);
+            rulesMock.getOperators.mockReturnValueOnce([rulesMock.RULE_OPERATOR.ASSIGN]);
 
-                return Promise.resolve().then(() => {
-                    const expressionUpdates = {
-                        [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: numberVariableGuid, error: null},
-                        [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
-                        [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: '', error: null},
-                        [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {value: '', error: null},
-                    };
-                    const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+            return Promise.resolve().then(() => {
+                const expressionUpdates = {
+                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: numberVariableGuid, error: null},
+                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
+                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: '', error: null},
+                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {value: '', error: null},
+                };
+                const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
-                    const eventCallback = jest.fn();
-                    expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+                const eventCallback = jest.fn();
+                expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
 
-                    lhsCombobox.dispatchEvent(ourCBChangeEvent);
+                lhsCombobox.dispatchEvent(ourCBChangeEvent);
 
-                    expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {newValue: expressionUpdates}});
-                });
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {newValue: expressionUpdates}});
+            });
+        });
+        it('should throw RowContentsChangedEvent with only one value representing RHS when RHS is FER', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest(true, true);
+
+            rulesMock.getOperators.mockReturnValueOnce([rulesMock.RULE_OPERATOR.ASSIGN]);
+
+            return Promise.resolve().then(() => {
+                const expressionUpdates = {
+                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: numberVariableGuid, error: null},
+                };
+                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+
+                const eventCallback = jest.fn();
+                expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+
+                rhsCombobox.dispatchEvent(ourCBChangeEvent);
+
+                expect(eventCallback).toHaveBeenCalled();
+                const actualUpdates = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(actualUpdates).toMatchObject(expressionUpdates);
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]).not.toBeDefined();
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]).not.toBeDefined();
             });
         });
     });
@@ -302,7 +324,6 @@ describe('base expression builder', () => {
             expect(rulesMock.getOperators).toHaveBeenCalled();
             expect(operatorCombobox.options).toBeDefined();
         });
-
         it('should populate rhs menu data', () => {
             const expressionBuilder = createDefaultFerToFerovComponentForTest();
             return Promise.resolve().then(() => {
@@ -311,7 +332,6 @@ describe('base expression builder', () => {
                 expect(rhsCombobox.menuData).toBeDefined();
             });
         });
-
         it('should populate the expression builder with values from the store', () => {
             const expressionBuilder = createDefaultFerToFerovComponentForTest();
             return Promise.resolve().then(() => {
