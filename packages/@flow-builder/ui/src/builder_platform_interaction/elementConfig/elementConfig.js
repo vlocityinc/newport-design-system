@@ -369,8 +369,8 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.WAIT_EVENT]: {
         // WAIT_EVENT is not a canvas element, but is a first class element
         nodeConfig: {
-            iconName: 'standard:waitEvent',
-            utilityIconName: 'utility:waitEvent',
+            iconName: 'standard:waits',
+            utilityIconName: 'utility:waits',
         },
         labels: {
             singular: LABELS.waitEventSingularLabel,

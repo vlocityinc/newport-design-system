@@ -9,8 +9,6 @@ const SELECTORS = {
     WAIT_EVENT: 'builder_platform_interaction-wait-event'
 };
 
-const EMPTY_WAIT_EVENT_LABEL = LABELS.emptyWaitEventsLabel;
-const DEFAULT_PATH_LABEL = LABELS.defaultPathLabel;
 const DEFAULT_WAIT_EVENT_ID = 'defaultWaitEvent';
 
 export default class WaitEditor extends LightningElement {
@@ -68,7 +66,7 @@ export default class WaitEditor extends LightningElement {
         const waitEventsWithDefaultPath = this.waitElement.waitEvents.map(waitEvent => {
             return {
                 element: waitEvent,
-                label: waitEvent.label && waitEvent.label.value ? waitEvent.label.value : EMPTY_WAIT_EVENT_LABEL,
+                label: waitEvent.label && waitEvent.label.value ? waitEvent.label.value : LABELS.newWaitEventLabel,
                 isDraggable: true,
                 hasErrors: getErrorsFromHydratedElement(waitEvent).length > 0
             };
@@ -79,7 +77,7 @@ export default class WaitEditor extends LightningElement {
             element: {
                 guid: DEFAULT_WAIT_EVENT_ID
             },
-            label: defaultLabel && defaultLabel.value ? defaultLabel.value : DEFAULT_PATH_LABEL,
+            label: defaultLabel && defaultLabel.value ? defaultLabel.value : LABELS.defaultPathLabel,
             isDraggable: false,
             hasErrors: defaultLabel && defaultLabel.error
         };

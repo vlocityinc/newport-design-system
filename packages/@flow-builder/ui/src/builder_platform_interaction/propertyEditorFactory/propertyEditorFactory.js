@@ -72,7 +72,7 @@ export const propertyEditorFactory = (element, config = {}) => {
             break;
         case ELEMENT_TYPE.WAIT:
             if (config[FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]) {
-                // TODO: https://gus.my.salesforce.com/a07B0000005YnL5IAK (W-5395893)
+                // TODO: https://gus.my.salesforce.com/a07B0000005YnL5IAK (W-5395888)
                 // newElement = createDecisionWithOutcomeReferencesWhenClosingPropertyEditor(element);
             } else {
                 newElement = createWaitWithWaitEvents(element);
