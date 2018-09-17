@@ -1,7 +1,7 @@
 // eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
 import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction/elementConfig';
-import { AddElementEvent, EditElementEvent, NewResourceEvent, CANVAS_EVENT, SaveFlowEvent } from 'builder_platform_interaction/events';
+import { AddElementEvent, AddNonCanvasElementEvent, EditElementEvent, NewResourceEvent, CANVAS_EVENT, SaveFlowEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './builderUtilsLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -75,7 +75,7 @@ const getTitleForModalHeader = (mode, elementType) => {
 
     if (mode === EditElementEvent.EVENT_NAME) {
         titlePrefix = LABELS.existingElementHeaderPrefix;
-    } else if (mode === AddElementEvent.EVENT_NAME) {
+    } else if (mode === AddElementEvent.EVENT_NAME || mode === AddNonCanvasElementEvent.EVENT_NAME) {
         titlePrefix = LABELS.newElementHeaderPrefix;
     } else if (mode === SaveFlowEvent.Type.SAVE || mode === SaveFlowEvent.Type.SAVE_AS) {
         titlePrefix = LABELS.newElementHeaderPrefix;
