@@ -1,6 +1,6 @@
 <template>
         <div class="slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
-            <lightning-combobox label="Types" 
+            <lightning-combobox label={labels.actionTypeLabel} 
                                 options={state.typeOptions} 
                                 value={state.selectedElementType} 
                                 onchange={handleElementTypeChanged}

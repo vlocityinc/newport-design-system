@@ -6,6 +6,7 @@ import { filterMatches } from "builder_platform_interaction/expressionUtils";
 import { LABELS } from "./actionSelectorLabels";
 
 export default class ActionSelector extends LightningElement {
+    labels = LABELS;
     @track
     state = {
         selectedElementType : ELEMENT_TYPE.ACTION_CALL,
@@ -251,13 +252,38 @@ export default class ActionSelector extends LightningElement {
     }
 
     getComboItemFromInvocableAction(action) {
+        let subText;
+        if (action.type === ACTION_TYPE.QUICK_ACTION) {
+            const object = this.getQuickActionObject(action);
+            // TODO add {Category} when available
+            subText = object || 'Global';
+            subText += (action.description ? ' - ' + action.description : '');
+        } else {
+            subText = action.description || '';
+        }
         return {
             type : 'option-card',
             text : action.label,
             value: action.durableId,
-            displayText: action.durableId,
-            subText : action.description || ''
+            displayText: action.label,
+            subText
         };
+    }
+
+    /**
+     * Get the object devName from quick action.
+     *
+     * @param {InvocableAction} action the quick action
+     * @return {string|undefined} the object devName or undefined if global quick action
+     */
+    getQuickActionObject(action) {
+        // Case.mynamespace__NewChildCase for object quick action
+        // mynamespace__NewCase for global quick action
+        const parts = action.name.split('.');
+        if (parts.length === 2) {
+            return parts[0];
+        }
+        return undefined;
     }
 
     getComboItemFromApexPlugin(apexPlugin) {
@@ -271,12 +297,13 @@ export default class ActionSelector extends LightningElement {
     }
 
     getComboItemFromSubflow(subflow) {
+        const uniqueName = subflow.namespacePrefix ? subflow.namespacePrefix + '__' + subflow.developerName : subflow.developerName;
         return {
             type : 'option-card',
             text : subflow.masterLabel,
             value: subflow.developerName,
-            displayText: subflow.developerName,
-            subText : subflow.description || ''
+            displayText: subflow.masterLabel,
+            subText : uniqueName + (subflow.description ? ' - ' + subflow.description : '')
         };
     }
 

@@ -1,12 +1,14 @@
-export const mockSubflows = [{
-    "masterLabel": "dataTypes",
-    "description": "A flow with a variable from each type",
-    "developerName": "dataTypes",
-    "namespacePrefix": null
-},
-{
-    "masterLabel": "emptyFlow",
-    "description": null,
-    "developerName": "emptyFlow",
-    "namespacePrefix": null
-}];
+export const mockSubflows = [
+    {
+        "masterLabel": "LFB Sample 01",
+        "description": null,
+        "developerName": "LFB_Sample_01",
+        "namespacePrefix": "mynamespace"
+      },
+      {
+        "masterLabel": "LFB Sample - Huge Flow",
+        "description": null,
+        "developerName": "LFB_Sample_Huge_Flow",
+        "namespacePrefix": "mynamespace"
+      }
+    ];

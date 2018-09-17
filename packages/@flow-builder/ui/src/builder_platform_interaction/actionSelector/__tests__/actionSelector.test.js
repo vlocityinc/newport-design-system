@@ -71,7 +71,7 @@ describe('Action selector', () => {
             expect(lightningCombobox().value).toBe(ELEMENT_TYPE.ACTION_CALL);
         });
         test('Combobox should contain all ACTION_CALL items', () => {
-            expect(groupedCombobox().items.map(item => item.text)).toEqual(['Post to Chatter', 'Send Email']);
+            expect(groupedCombobox().items.map(item => item.text)).toEqual(expect.arrayContaining(['Post to Chatter', 'Send Email']));
         });
         test('Combobox placeholder should be : Find an Action...', () => {
             expect(groupedCombobox().placeholder).toBe('FlowBuilderActionCallEditor.actionComboboxPlaceholder');
@@ -89,7 +89,7 @@ describe('Action selector', () => {
             lightningCombobox().dispatchEvent(lightningCBChangeEventForApex);
             return Promise.resolve().then(() => {
                 expect(lightningCombobox().value).toBe(ELEMENT_TYPE.APEX_CALL);
-                expect(groupedCombobox().items.map(item => item.text)).toEqual(['Apex1', 'Apex2', 'Apex3']);
+                expect(groupedCombobox().items.map(item => item.text)).toEqual(['Action Test']);
             });
         });
         it('should update the Action combobox placeholder', () => {
@@ -115,7 +115,7 @@ describe('Action selector', () => {
                 elementType : ELEMENT_TYPE.ACTION_CALL
             };
             await Promise.resolve();
-            expect(interactionCombobox().value.displayText).toBe('emailSimple-emailSimple');
+            expect(interactionCombobox().value.displayText).toBe('Send Email');
             lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_CALL}}));
             await Promise.resolve();
             expect(lightningCombobox().value).toBe(ELEMENT_TYPE.APEX_CALL);
@@ -193,8 +193,32 @@ describe('Action selector', () => {
             expect(lightningCombobox().value).toBe(ELEMENT_TYPE.ACTION_CALL);
         });
         it('should display the corresponding action label in the Action combobox', () => {
-            // TODO : fix once we display the label
-            expect(interactionCombobox().value.displayText).toBe('emailSimple-emailSimple');
+            expect(interactionCombobox().value.displayText).toBe('Send Email');
+        });
+    });
+    describe('Action subtext', () => {
+        beforeEach(() => {
+            actionSelectorComponent = createComponentUnderTest();
+        });
+        it('should be "Global - {Description}" for global quick actions', () => {
+            return Promise.resolve().then(() => {
+                const item = groupedCombobox().items.find(option => option.value === 'quickAction-mynamespace__LogACall');
+                expect(item.subText).toBe('Global');
+            });
+        });
+        it('should be "{Object} - {Description}" for object quick actions', () => {
+            return Promise.resolve().then(() => {
+                const item = groupedCombobox().items.find(option => option.value === 'quickAction-Case.mynamespace__LogACall');
+                expect(item.subText).toBe('Case');
+            });
+        });
+        it('should be "{Unique Name} - {Description}" for subflows', () => {
+            const lightningCBChangeEventForApex = new CustomEvent('change', {detail: {value: ELEMENT_TYPE.SUBFLOW}});
+            lightningCombobox().dispatchEvent(lightningCBChangeEventForApex);
+            return Promise.resolve().then(() => {
+                const item = groupedCombobox().items.find(option => option.value === 'LFB_Sample_Huge_Flow');
+                expect(item.subText).toBe('mynamespace__LFB_Sample_Huge_Flow');
+            });
         });
     });
 });

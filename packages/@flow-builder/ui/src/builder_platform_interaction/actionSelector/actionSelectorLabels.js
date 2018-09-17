@@ -1,6 +1,7 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 /* Labels */
+import actionTypeLabel from "@salesforce/label/FlowBuilderActionCallEditor.actionTypeLabel";
 import actionTypeOption from "@salesforce/label/FlowBuilderActionCallEditor.actionTypeOption";
 import actionComboboxLabel from "@salesforce/label/FlowBuilderActionCallEditor.actionComboboxLabel";
 import actionComboboxPlaceholder from "@salesforce/label/FlowBuilderActionCallEditor.actionComboboxPlaceholder";
@@ -13,14 +14,12 @@ import apexComboboxPlaceholder from "@salesforce/label/FlowBuilderActionCallEdit
 import emailAlertTypeOption from "@salesforce/label/FlowBuilderActionCallEditor.emailAlertTypeOption";
 import emailAlertComboboxLabel from "@salesforce/label/FlowBuilderActionCallEditor.emailAlertComboboxLabel";
 import emailAlertComboboxPlaceholder from "@salesforce/label/FlowBuilderActionCallEditor.emailAlertComboboxPlaceholder";
-import localActionTypeOption from "@salesforce/label/FlowBuilderActionCallEditor.localActionTypeOption";
-import localActionComboboxLabel from "@salesforce/label/FlowBuilderActionCallEditor.localActionComboboxLabel";
-import localActionComboboxPlaceholder from "@salesforce/label/FlowBuilderActionCallEditor.localActionComboboxPlaceholder";
 import subflowTypeOption from "@salesforce/label/FlowBuilderActionCallEditor.subflowTypeOption";
 import subflowComboboxLabel from "@salesforce/label/FlowBuilderActionCallEditor.subflowComboboxLabel";
 import subflowComboboxPlaceholder from "@salesforce/label/FlowBuilderActionCallEditor.subflowComboboxPlaceholder";
 
 export const LABELS = {
+    actionTypeLabel,
     [ELEMENT_TYPE.ACTION_CALL] : {
         TYPE_OPTION_LABEL : actionTypeOption,
         ACTION_COMBO_LABEL : actionComboboxLabel,
@@ -40,11 +39,6 @@ export const LABELS = {
         TYPE_OPTION_LABEL : emailAlertTypeOption,
         ACTION_COMBO_LABEL : emailAlertComboboxLabel,
         ACTION_COMBO_PLACEHOLDER : emailAlertComboboxPlaceholder
-    },
-    [ELEMENT_TYPE.LOCAL_ACTION_CALL] : {
-        TYPE_OPTION_LABEL : localActionTypeOption,
-        ACTION_COMBO_LABEL : localActionComboboxLabel,
-        ACTION_COMBO_PLACEHOLDER : localActionComboboxPlaceholder
     },
     [ELEMENT_TYPE.SUBFLOW] : {
         TYPE_OPTION_LABEL : subflowTypeOption,
