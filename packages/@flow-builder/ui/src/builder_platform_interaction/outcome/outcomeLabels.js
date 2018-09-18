@@ -4,9 +4,9 @@ import deleteOutcomeLabel from '@salesforce/label/FlowBuilderOutcome.deleteOutco
 import deleteOutcomeTitle from '@salesforce/label/FlowBuilderOutcome.deleteOutcomeTitle';
 import outcomeApiName from '@salesforce/label/FlowBuilderOutcome.outcomeApiName';
 import outcomeConditionsHeader from '@salesforce/label/FlowBuilderOutcome.outcomeConditionsHeader';
-import andConditionLogicLabel from '@salesforce/label/FlowBuilderOutcome.andConditionLogicLabel';
-import orConditionLogicLabel from '@salesforce/label/FlowBuilderOutcome.orConditionLogicLabel';
-import customConditionLogicLabel from '@salesforce/label/FlowBuilderOutcome.customConditionLogicLabel';
+import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.andConditionLogicLabel';
+import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.orConditionLogicLabel';
+import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.customConditionLogicLabel';
 
 export const LABELS = {
     outcomeDetailsHeader,
