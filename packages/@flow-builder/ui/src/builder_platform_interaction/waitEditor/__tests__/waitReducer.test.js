@@ -1,10 +1,19 @@
-import {waitReducer} from "../waitReducer";
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
+import {waitReducer} from '../waitReducer';
+import {
+    PropertyChangedEvent,
+    AddConditionEvent,
+    DeleteConditionEvent,
+    UpdateConditionEvent,
+} from 'builder_platform_interaction/events';
+import { createCondition } from 'builder_platform_interaction/elementFactory';
 
-describe('wait-editor', () => {
-    let noErrorState;
+describe('wait-reducer', () => {
+    let initState;
+    const parentGUID = 'WAIT_EVENT_1';
+    let currCondition;
     beforeEach(() => {
-        noErrorState = {
+        currCondition = createCondition();
+        initState = {
             name : {value: 'testWaitName', error: null},
             label : {value: 'testWaitLabel', error: null},
             elementType : 'WAIT',
@@ -12,6 +21,14 @@ describe('wait-editor', () => {
             isCanvasElement : true,
             locationX : 789,
             locationY : 123,
+            waitEvents: [
+                {
+                    guid: parentGUID,
+                    conditions: [
+                        currCondition,
+                    ],
+                },
+            ],
         };
     });
     it('updates label value', () => {
@@ -23,7 +40,7 @@ describe('wait-editor', () => {
                 error: null
             }
         };
-        const resultObj = waitReducer(noErrorState, event);
+        const resultObj = waitReducer(initState, event);
         expect(resultObj.label.value).toBe('newlabel');
         expect(resultObj.label.error).toBe(null);
     });
@@ -36,7 +53,7 @@ describe('wait-editor', () => {
                 error: 'errorForThisProperty'
             }
         };
-        const resultObj = waitReducer(noErrorState, event);
+        const resultObj = waitReducer(initState, event);
         expect(resultObj.label.value).toBe('label');
         expect(resultObj.label.error).toBe('errorForThisProperty');
     });
@@ -49,7 +66,32 @@ describe('wait-editor', () => {
                 error: null
             }
         };
-        const resultObj = waitReducer(noErrorState, event);
-        expect(resultObj).toEqual(noErrorState);
+        const resultObj = waitReducer(initState, event);
+        expect(resultObj).toEqual(initState);
+    });
+
+    it('adds a condition', () => {
+        const addConditionEvent = new AddConditionEvent(parentGUID);
+        expect(initState.waitEvents[0].conditions).toHaveLength(1);
+        const resultObj = waitReducer(initState, addConditionEvent);
+        expect(resultObj.waitEvents[0].conditions).toHaveLength(2);
+    });
+
+    it('updates a condition', () => {
+        const index = 0;
+        const operator = 'foo';
+        currCondition.operator = operator;
+        const updateConditionEvent = new UpdateConditionEvent(parentGUID, index, { operator });
+        const resultObj = waitReducer(initState, updateConditionEvent);
+        expect(resultObj.waitEvents[index].conditions).toHaveLength(1);
+        const resultCondition = resultObj.waitEvents[index].conditions[0];
+        expect(resultCondition).toEqual(currCondition);
+    });
+
+    it('deletes a condition', () => {
+        const index = 0;
+        const deleteConditionEvent = new DeleteConditionEvent(parentGUID, index);
+        const resultObj = waitReducer(initState, deleteConditionEvent);
+        expect(resultObj.waitEvents[index].conditions).toHaveLength(0);
     });
 });

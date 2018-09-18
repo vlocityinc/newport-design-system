@@ -1,14 +1,23 @@
-import {PropertyChangedEvent, ReorderListEvent} from "builder_platform_interaction/events";
-import {waitValidation, additionalRules} from "./waitValidation";
 import {
     addItem,
+    deleteItem,
+    replaceItem,
     hydrateWithErrors,
-    updateProperties} from "builder_platform_interaction/dataMutationLib";
+    updateProperties} from 'builder_platform_interaction/dataMutationLib';
 import {
     createWaitEvent,
-} from "builder_platform_interaction/elementFactory";
+    createCondition,
+} from 'builder_platform_interaction/elementFactory';
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import {
+    PropertyChangedEvent,
+    AddConditionEvent,
+    DeleteConditionEvent,
+    UpdateConditionEvent,
+    ReorderListEvent
+} from 'builder_platform_interaction/events';
+import {waitValidation, additionalRules} from './waitValidation';
 
 const waitPropertyChanged = (state, event) => {
     event.detail.error = event.detail.error === null ?
@@ -48,6 +57,40 @@ const reorderWaitEvents = (state, event) => {
 };
 
 /**
+ * Reducer for updating wait conditions
+ * @param {Object} state the entire wait sate
+ * @param {Object} event the event with payload information
+ * @param {function} conditionOperation the operation we want to perform on the state's conditions
+ * @returns {Object} updated state
+ */
+const waitConditionReducer = (state, event, conditionOperation) => {
+    const mapEvents = waitEvent => {
+        if (waitEvent.guid === event.detail.parentGUID) {
+            const conditions = conditionOperation(waitEvent.conditions, event);
+            return Object.assign({}, waitEvent, { conditions });
+        }
+        return Object.assign({}, waitEvent);
+    };
+    const waitEvents = state.waitEvents.map(mapEvents);
+    return Object.assign({}, state, { waitEvents });
+};
+
+
+const addWaitCondition = function (conditions) {
+    const newCondition = createCondition();
+    return addItem(conditions, newCondition);
+};
+
+const deleteWaitCondition = function (conditions, event) {
+    return deleteItem(conditions, event.detail.index);
+};
+
+const updateWaitCondition = function (conditions, event) {
+    const conditionToUpdate = conditions[event.detail.index];
+    return replaceItem(conditions, Object.assign({}, conditionToUpdate, event.detail.value), event.detail.index);
+};
+
+/**
  * Wait reducer function runs validation rules and returns back the updated Wait element
  * @param {Object} state - element / Wait node
  * @param {Event} event - object containing type and payload
@@ -55,6 +98,12 @@ const reorderWaitEvents = (state, event) => {
  */
 export const waitReducer = (state, event) => {
     switch (event.type) {
+        case AddConditionEvent.EVENT_NAME:
+            return waitConditionReducer(state, event, addWaitCondition);
+        case DeleteConditionEvent.EVENT_NAME:
+            return waitConditionReducer(state, event, deleteWaitCondition);
+        case UpdateConditionEvent.EVENT_NAME:
+            return waitConditionReducer(state, event, updateWaitCondition);
         case PropertyChangedEvent.EVENT_NAME:
             return waitPropertyChanged(state, event);
         case VALIDATE_ALL:
