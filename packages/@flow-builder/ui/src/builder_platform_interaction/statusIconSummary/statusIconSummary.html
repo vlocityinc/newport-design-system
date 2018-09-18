@@ -1,13 +1,16 @@
 <template>
     <section class={sectionStyle} role="dialog" aria-labelledby="dialog-heading-id-1" aria-describedby="dialog-body-id-2">
-        <button class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse" title={labels.closePanelButtonTitle}>
+        <button 
+            class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse"
+            title={labels.closePanelButtonTitle}
+            onclick={handleCloseButtonClick}>
             <lightning-icon
                 variant="inverse"
                 icon-name="utility:close"
-                size="x-small"
-                onclick={handleCloseButtonClick}>
+                size="x-small">
             </lightning-icon>
         </button>
+
         <header class="slds-popover__header">
             <div class="slds-media slds-media_center slds-has-flexi-truncate ">
                 <div class="slds-media__figure">
