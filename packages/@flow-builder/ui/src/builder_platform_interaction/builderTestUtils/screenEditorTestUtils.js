@@ -191,10 +191,8 @@ export function createTestScreenField(name, type, value, config = {}) {
     }
 
     if (booleanValue(config, 'validation', true)) {
-        field.validationRule = {
-            errorMessage: getStringValue('The value you entered doesn\'t meet the validation criteria for this input field.', null, hydrateValues),
-            formulaExpression: getStringValue('{!Var1} == \'text\'', null, hydrateValues)
-        };
+        field.errorMessage = getStringValue('The value you entered doesn\'t meet the validation criteria for this input field.', null, hydrateValues);
+        field.formulaExpression = getStringValue('{!Var1} == \'text\'', null, hydrateValues);
     }
 
     if (booleanValue(config, 'includeNonMDValues', true)) {
