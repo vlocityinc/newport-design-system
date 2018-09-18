@@ -9,7 +9,7 @@ import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxStateChangedE
 import { deepCopy } from "builder_platform_interaction/storeLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { getResourceByUniqueIdentifier, getResourceFerovDataType  } from "builder_platform_interaction/expressionUtils";
+import { getResourceByUniqueIdentifier, getResourceFerovDataType } from "builder_platform_interaction/expressionUtils";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
@@ -50,7 +50,9 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
         getErrorsFromHydratedElement: jest.fn(),
         getValueFromHydratedItem: require.requireActual('builder_platform_interaction/dataMutationLib').getValueFromHydratedItem,
         GUID_SUFFIX: require.requireActual('builder_platform_interaction/dataMutationLib').GUID_SUFFIX,
-        FEROV_DATA_TYPE_PROPERTY: require.requireActual('builder_platform_interaction/dataMutationLib').FEROV_DATA_TYPE_PROPERTY
+        FEROV_DATA_TYPE_PROPERTY: require.requireActual('builder_platform_interaction/dataMutationLib').FEROV_DATA_TYPE_PROPERTY,
+        pick: require.requireActual('builder_platform_interaction/dataMutationLib').pick,
+        dehydrate: require.requireActual('builder_platform_interaction/dataMutationLib').dehydrate,
     };
 });
 
@@ -85,6 +87,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getElementsForMenuData: jest.fn(),
         getEntitiesMenuData: jest.fn().mockReturnValue(['full menu data']),
         RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction/expressionUtils').RESOURCE_PICKER_MODE,
+        mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
     };
 });
 
