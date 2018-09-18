@@ -40,7 +40,7 @@ export const addCurlyBraces = (value) => {
  * @return {string}     string without curly braces and bang
  */
 export const removeCurlyBraces = (value) =>  {
-    if (value && value.startsWith('{!') && value.endsWith('}')) {
+    if (isReference(value)) {
         return value.substring(2, value.length - 1);
     }
     return value;

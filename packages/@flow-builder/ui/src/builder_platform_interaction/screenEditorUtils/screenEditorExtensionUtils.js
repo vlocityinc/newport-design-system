@@ -107,12 +107,15 @@ function mergeParameters(fieldParameters, descParameters, valuePropName, isInput
         };
 
         if (fieldParam.objectType) {
-            param.objecType = fieldParam.objectType;
+            param.objectType = fieldParam.objectType;
             param.resourcePickerConfig.objectType = fieldParam.objectType;
         }
 
         if (!isInput) {
             param.resourcePickerConfig.elementType = ELEMENT_TYPE.VARIABLE;
+        } else if (!param.value) {
+            // Input param without value, create hydrated null value
+            param.value = {value: null, error: null};
         }
 
         const mdParam = fieldParamMap[param.apiName];

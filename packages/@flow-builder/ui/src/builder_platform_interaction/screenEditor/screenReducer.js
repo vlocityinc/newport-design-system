@@ -1,8 +1,8 @@
-import { screenValidation, getExtensionParameterValidation } from "./screenValidation";
+import { screenValidation, getExtensionParameterValidation, getRulesForField } from "./screenValidation";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
-import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getFerovTypeFromTypeName } from "builder_platform_interaction/screenEditorUtils";
+import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getFerovTypeFromFieldType } from "builder_platform_interaction/screenEditorUtils";
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
@@ -68,7 +68,7 @@ const reorderFields = (screen, event) => {
  */
 const processFerovValueChange = (valueField, currentFieldDataType, defaultValueDataType, newValue, newValueGuid, typePropertyName, guidPropertyName) => {
     // Figure out if we need to update typePropertyName (typePropertyName can be null if value is null)
-    const currentDataType =  currentFieldDataType || getFerovTypeFromTypeName(defaultValueDataType);
+    const currentDataType =  currentFieldDataType || getFerovTypeFromFieldType(defaultValueDataType);
     if (currentDataType === 'reference') {
         if (!newValueGuid) { // Going from reference to literal
             valueField = updateProperties(valueField, {[typePropertyName]: defaultValueDataType});
@@ -84,7 +84,7 @@ const processFerovValueChange = (valueField, currentFieldDataType, defaultValueD
     if (!newValue) { // New value is null, remove data type
         delete valueField[typePropertyName];
     } else if (!valueField[typePropertyName]) { // Coming from null value to non-null, add data type
-        valueField[typePropertyName] = newValueGuid ? 'reference' : currentDataType;
+        valueField[typePropertyName] = newValueGuid ? 'reference' : defaultValueDataType;
     }
 
     return valueField;
@@ -100,10 +100,10 @@ const handleScreenFieldPropertyChange = (data) => {
     // Non-extension screen field change
 
     // Run validation
-    const type = data.field.type.name;
-    const fullPropName = data.property !== 'name' ? 'fields[type.name="' + type + '"].' + data.property : 'name';
-    const newValue = data.hydrated ? data.newValue.value : data.newValue;
-    const error = data.error === null ? screenValidation.validateProperty(fullPropName, newValue) : data.error;
+    const field = data.field;
+    const rules = getRulesForField(field);
+    const newValue = data.hydrated ? data.newValue.value : data.newValue; // TODO property must be hydrated here
+    const error = data.error === null ? screenValidation.validateProperty(data.property, newValue, rules[data.property]) : data.error;
     if (error && data.hydrated) {
         data.newValue.error = error;
     }

@@ -82,8 +82,9 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
         // Change events are not composed, let's re-dispatch
         const val = this.template.querySelector(SELECTORS.TEXTAREA).value;
         if (val !== this.value) {
+            const pce = new PropertyChangedEvent(this.name, val, event.error, null, this.value);
             this.value = val;
-            this.dispatchEvent(new PropertyChangedEvent(this.name, val, event.error, null, this.value));
+            this.dispatchEvent(pce);
         }
 
         event.stopPropagation();

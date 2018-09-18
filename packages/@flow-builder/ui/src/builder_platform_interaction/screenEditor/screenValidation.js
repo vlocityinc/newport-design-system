@@ -39,7 +39,7 @@ const addCommonFieldRules = (rules) => {
         ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)
     ]);
 
-    addRules('helpText', rules [
+    addRules('helpText', rules, [
         ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)
     ]);
 };
@@ -208,7 +208,6 @@ const getScreenAdditionalRules = () => {
     const rules = {};
 
     addCommonRules(rules);
-    rules.pausedText = [ValidationRules.maximumCharactersLimit(10)];
 
     rules.fields = (field) => {
         return getRulesForField(field);
