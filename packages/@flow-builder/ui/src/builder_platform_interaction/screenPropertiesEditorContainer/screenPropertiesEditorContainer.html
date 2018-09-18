@@ -57,6 +57,11 @@
                                                                    class='full-height properties-editor-panel'
                                                                    field={node}>
             </builder_platform_interaction-screen-password-field-properties-editor>
+            
+            <builder_platform_interaction-screen-radio-field-properties-editor if:true={isRadioField}
+                                                                   class='full-height properties-editor-panel'
+                                                                   field={node}>
+            </builder_platform_interaction-screen-radio-field-properties-editor>
 
             <div if:true={isOther} class='properties-editor-panel'>Screen field property editor (TBI)</div>
         </div>

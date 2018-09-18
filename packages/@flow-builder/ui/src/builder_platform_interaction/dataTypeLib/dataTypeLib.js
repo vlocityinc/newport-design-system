@@ -111,27 +111,27 @@ export const FEROV_DATA_TYPE = {
  * Subtypes for screen input field type
  */
 export const INPUT_FIELD_DATA_TYPE = {
-    STRING: {
+    String: {
         label: SCREEN_LABELS.fieldTypeLabelTextField,
         value: 'TextBox',
     },
-    NUMBER: {
+    Number: {
         label: SCREEN_LABELS.fieldTypeLabelNumber,
         value: 'Number',
     },
-    CURRENCY: {
+    Currency: {
         label: SCREEN_LABELS.fieldTypeLabelCurrency,
         value: 'Currency',
     },
-    BOOLEAN: {
+    Boolean: {
         label: SCREEN_LABELS.fieldTypeLabelCheckbox,
         value: 'Checkbox',
     },
-    DATE: {
+    Date: {
         label: SCREEN_LABELS.fieldTypeLabelDate,
         value: 'Date',
     },
-    DATE_TIME: {
+    DateTime: {
         label: SCREEN_LABELS.fieldTypeLabelDateTime,
         value: 'DateTime',
     }

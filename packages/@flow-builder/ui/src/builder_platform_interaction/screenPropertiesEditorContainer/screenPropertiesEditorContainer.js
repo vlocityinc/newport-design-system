@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { isScreen, isDisplayTextField, isExtensionField, isInputField, isTextAreaField, isPasswordField, describeExtension } from "builder_platform_interaction/screenEditorUtils";
+import { isScreen, isDisplayTextField, isExtensionField, isInputField, isTextAreaField, isPasswordField, isRadioField, describeExtension } from "builder_platform_interaction/screenEditorUtils";
 import { createScreenNodeSelectedEvent } from "builder_platform_interaction/events";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
@@ -52,9 +52,14 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         return isPasswordField(this.node);
     }
 
+    get isRadioField() {
+        return isRadioField(this.node);
+    }
+
     // Temporary function that is only needed while property editors are in development.
     get isOther() {
-        return !this.isScreen && !this.isExtensionField && !this.isDisplayField && !this.isInputField && !this.isTextAreaField && !this.isPasswordField;
+        return !this.isScreen && !this.isExtensionField && !this.isDisplayField && !this.isInputField &&
+            !this.isTextAreaField && !this.isPasswordField && !this.isRadioField;
     }
 
     get hasErrors() {

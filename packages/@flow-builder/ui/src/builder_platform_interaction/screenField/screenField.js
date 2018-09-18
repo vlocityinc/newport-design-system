@@ -16,6 +16,10 @@ export default class ScreenField extends LightningElement {
         return this.screenfield.type.fieldType === 'InputField' || this.screenfield.type.fieldType === 'PasswordField';
     }
 
+    get isRadioField() {
+        return this.screenfield.type.fieldType === 'RadioButtons';
+    }
+
     get isTextAreaType() {
         return this.screenfield.type.name === 'LargeTextArea';
     }

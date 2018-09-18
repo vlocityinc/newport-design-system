@@ -1,0 +1,60 @@
+<template>
+    <div if:true={field}>
+        <div class='slds-p-horizontal_small slds-p-top_x-small'>
+             <!--  field label and unique name -->
+             <builder_platform_interaction-label-description layout-mode='vertical'
+                                                             label={field.fieldText}
+                                                             label-optional=true
+                                                             dev-name={field.name}
+                                                             hide-description
+                                                             guid={field.guid}
+                                                             onpropertychanged={handlePropertyChanged}> 
+            </builder_platform_interaction-label-description>
+
+            <!--  Data type: This is read-only for existing fields -->
+            <builder_platform_interaction-data-type-picker
+                available-data-types={dataTypeList}
+                type-and-collection-disabled={isFieldDisabled}
+                required
+                value={dataTypePickerValue}
+                onvaluechanged={handleDataTypeChanged}>
+            </builder_platform_interaction-data-type-picker>
+            
+            <!--  default value: drop down resource list -->
+            <builder_platform_interaction-screen-property-field name='defaultValue'
+                                                                label={labels.fieldDefaultValue} 
+                                                                value={field.defaultValue}
+                                                                type='String'
+                                                                allow-resources='true' 
+                                                                resource-picker-config={defaultValueResourcePickerConfig}
+                                                                onpropertychanged={handleDefaultValuePropertyChanged}>
+            </builder_platform_interaction-screen-property-field>            
+        </div>
+        
+        
+        <!--  TODO add Choice selector -->
+        <!--  TODO add "Add Choice" button -->
+        
+        
+        <div>
+            <lightning-accordion allow-multiple-sections-open active-section-name={allSectionNames} class='slds-has-divider slds-p-top_none'>
+
+                <!--  validation rule -->
+                <lightning-accordion-section name='validationOptions' label={labels.fieldValidation}>
+                    <builder_platform_interaction-validation-editor element={field}>
+                    </builder_platform_interaction-validation-editor>
+                </lightning-accordion-section>   
+                        
+                <!--  help text -->
+                <lightning-accordion-section name='helpText' label={labels.helpText}>
+                    <builder_platform_interaction-screen-property-field name='helpText'
+                                                                        label={labels.helpText}
+                                                                        type='long_string'
+                                                                        value={helpTextValue}
+                                                                        hide-top-padding>
+                    </builder_platform_interaction-screen-property-field>
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </div>
+    </div>
+</template>

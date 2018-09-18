@@ -70,15 +70,14 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelCheckbox,
         icon: 'utility:check',
         category: LABELS.fieldCategoryInput,
-    }, /* {
+    }, {
         name: 'Radio',
-        fieldType: 'InputField',
-        dataType: '',
+        fieldType: 'RadioButtons',
+        dataType: undefined,
         label: LABELS.fieldTypeLabelRadioButtons,
         icon: 'standard:contact_list',
-        template: baseScreenFieldTemplate,
         category: LABELS.fieldCategoryInput
-    }, */ {
+    }, {
         name: 'DisplayText',
         fieldType: 'DisplayText',
         dataType: undefined,
@@ -165,6 +164,14 @@ export function getScreenFieldType(field) {
         if (fieldType === type.fieldType && dataType === type.dataType) {
             return type;
         }
+
+        // Special case for Radio fields.
+        // A reality, radio fields have a dataType associated with it. However, we generically
+        // lump all radio fields as one type in the screenFieldTypes map and dataType is ignored.
+        // For this check only, just check the fieldType and ignore dataType.
+        if (fieldType === type.fieldType && fieldType === 'RadioButtons') {
+            return type;
+        }
     }
 
     throw new Error('No type found for ' + fieldType + ', ' + dataType);
@@ -208,6 +215,14 @@ export function isTextAreaField(field) {
  */
 export function isPasswordField(field) {
     return field && field.fieldType === 'PasswordField';
+}
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a radio field
+ */
+export function isRadioField(field) {
+    return field && field.fieldType === 'RadioButtons';
 }
 
 /**

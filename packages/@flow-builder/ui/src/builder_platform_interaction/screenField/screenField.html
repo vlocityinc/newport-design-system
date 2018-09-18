@@ -21,5 +21,11 @@
                                                             help-text={screenfield.helpText}
                                                             required={screenfield.isRequired}>
         </builder_platform_interaction-screen-textarea-field>
+        <builder_platform_interaction-screen-radio-field if:true={isRadioField}
+                                                            label={fieldText}
+                                                            value={defaultValue}
+                                                            help-text={screenfield.helpText}
+                                                            required={screenfield.isRequired}>
+        </builder_platform_interaction-screen-radio-field>
     </div>
 </template>
