@@ -75,14 +75,16 @@ export default class Combobox extends LightningElement {
      * @param {String} value The variant type to set
      */
     set variant(value) {
-        for (const key in LIGHTNING_INPUT_VARIANTS) {
-            if (LIGHTNING_INPUT_VARIANTS[key] === value) {
-                this._comboboxVariant = value;
-                return;
+        if (value) {
+            for (const key in LIGHTNING_INPUT_VARIANTS) {
+                if (LIGHTNING_INPUT_VARIANTS[key] === value) {
+                    this._comboboxVariant = value;
+                    return;
+                }
             }
-        }
 
-        throw new Error(`Variant must either be '${LIGHTNING_INPUT_VARIANTS.STANDARD}' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`);
+            throw new Error(`Variant must either be '${LIGHTNING_INPUT_VARIANTS.STANDARD}' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`);
+        }
     }
 
     @api

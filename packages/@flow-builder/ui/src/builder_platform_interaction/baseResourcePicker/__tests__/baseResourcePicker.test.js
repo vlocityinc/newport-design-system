@@ -3,6 +3,7 @@ import { getShadowRoot } from 'lwc-test-utils';
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { FilterMatchesEvent } from "builder_platform_interaction/events";
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
+import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
 import BaseResourcePicker from "../baseResourcePicker";
 
 const setupComponentUnderTest = (props) => {
@@ -35,6 +36,7 @@ describe('base-resource-picker', () => {
         required: true,
         disabled: false,
         type: FLOW_DATA_TYPE.NUMBER.value,
+        variant: LIGHTNING_INPUT_VARIANTS.STANDARD,
     };
 
     it('has a static getComboboxConfig method that returns a ComboboxConfig object', () => {
