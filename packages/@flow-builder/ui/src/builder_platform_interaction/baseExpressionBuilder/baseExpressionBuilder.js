@@ -461,6 +461,9 @@ export default class BaseExpressionBuilder extends LightningElement {
      * @param {Object} event   fetchMenuData event
      */
     handleFetchLhsMenuData(event) {
+        if (event.detail.item) {
+            this.state.operatorAndRhsDisabled = false;
+        }
         this.populateLhsMenuData(!!event.detail.item, event.detail.item);
     }
 
@@ -533,7 +536,16 @@ export default class BaseExpressionBuilder extends LightningElement {
         };
 
         if (getFields) {
-            if (parentMenuItem && !this.state[preFetchedFields]) {
+            let preFetchedFieldsObjectType;
+            // get the sobject type from the first field
+            for (const prop in this.state[preFetchedFields]) {
+                if (this.state[preFetchedFields].hasOwnProperty(prop)) {
+                    preFetchedFieldsObjectType = this.state[preFetchedFields][prop].sobjectName;
+                    break;
+                }
+            }
+            // get fields if preFetchedFields is empty or of the wrong sobject
+            if (parentMenuItem && (!this.state[preFetchedFields] || preFetchedFieldsObjectType !== parentMenuItem.objectType)) {
                 getFieldsForEntity(parentMenuItem.objectType, setFieldMenuData);
             } else {
                 setFieldMenuData();

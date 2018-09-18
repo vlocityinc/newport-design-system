@@ -2,7 +2,7 @@ import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE, ELEMENT_TYPE } from '
 import { Store, isPlainObject } from 'builder_platform_interaction/storeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { addItem, getValueFromHydratedItem, dehydrate } from 'builder_platform_interaction/dataMutationLib';
-import { format } from 'builder_platform_interaction/commonUtils';
+import { format, splitStringByPeriod } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './usedByLibLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 
@@ -144,7 +144,7 @@ function findReference(elementGuids, object, elementGuidsReferenced = new Set())
  */
 function matchElement(elementGuids, key, value) {
     if (key && REFERENCE_FIELDS.has(key)) {
-        const guid = value.split('.')[0];
+        const guid = splitStringByPeriod(value)[0];
         return elementGuids && elementGuids.filter((elementGuid) => guid === elementGuid);
     } else if (key && TEMPLATE_FIELDS.has(key)) {
         // For eg: value = 'Hello world, {!var_1.name}'
@@ -152,7 +152,7 @@ function matchElement(elementGuids, key, value) {
         // After slice and split, occurences = ['var_1']
         const occurences = value.match(EXPRESSION_RE);
         if (occurences) {
-            return occurences.map((occurence) => occurence.slice(2, occurence.length - 1).split('.')[0])
+            return occurences.map((occurence) => splitStringByPeriod(occurence.slice(2, occurence.length - 1))[0])
                 .filter((guid) => elementGuids.includes(guid));
         }
     }

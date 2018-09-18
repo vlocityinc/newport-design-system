@@ -105,6 +105,8 @@ export const comboboxInitialConfig = {
     errorMessage: 'testErrorMessage',
 };
 
+const accountVar = comboboxInitialConfig.menuData[1].items[0];
+
 export const secondLevelMenuData =
 [
     {
@@ -112,20 +114,23 @@ export const secondLevelMenuData =
         text: 'FirstName',
         iconName: 'standard:account',
         subText: 'First Name',
-        value: '{!MyAccount.FirstName}'
+        value: '{!MyAccount.FirstName}',
+        parent: accountVar,
     },
     {
         type: 'option-card',
         text: 'LastName',
         iconName: 'standard:account',
         subText: 'Last Name',
-        value: '{!MyAccount.LastName}'
+        value: '{!MyAccount.LastName}',
+        parent: accountVar,
     },
     {
         type: 'option-card',
         text: 'AnnualRevenue',
         iconName: 'standard:account',
         subText: 'Annual Revenue',
-        value: '{!MyAccount.AnnualRevenue}'
+        value: '{!MyAccount.AnnualRevenue}',
+        parent: accountVar,
     },
 ];

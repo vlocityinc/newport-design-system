@@ -2,7 +2,7 @@ import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from "builder_platform_interaction/da
 import { omit, updateProperties } from './objectMutation';
 import { mutateTextWithMergeFields } from './mergeFieldsMutation';
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import { addCurlyBraces, isUndefined } from "builder_platform_interaction/commonUtils";
+import { addCurlyBraces, isUndefined, splitStringByPeriod } from "builder_platform_interaction/commonUtils";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import { getLocalizationService } from "lightning/configProvider";
 import { METADATA_DATE_FORMAT, formatDateTime } from "builder_platform_interaction/dateTimeUtils";
@@ -93,7 +93,7 @@ function convertGuidToDevName(value) {
         throw new Error(`Input value must be a guid but instead was ${value}`);
     }
 
-    const ferovObjectValueParts = value.split('.');
+    const ferovObjectValueParts = splitStringByPeriod(value);
     const guid = value;
     const flowElement = getElementByGuid(ferovObjectValueParts[0]);
 

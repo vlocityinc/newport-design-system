@@ -1,5 +1,6 @@
 import { isPlainObject } from "builder_platform_interaction/storeLib";
 import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE } from "builder_platform_interaction/flowMetadata";
+import { splitStringByPeriod } from "builder_platform_interaction/commonUtils";
 
 // check to enable guid to devname swapping for referencefields. While opening property editor, only template fields guids need to be swapped with dev name.
 let checkReferenceFields = true;
@@ -73,7 +74,7 @@ export const recursiveSwap = (object, swapFunction) => {
  * @returns {String}             the expression after swapping
  */
 export const swapSingleExpression = (expression, mapping) => {
-    const parts = expression.split('.');
+    const parts = splitStringByPeriod(expression);
     if (mapping[parts[0]]) {
         parts[0] = mapping[parts[0]];
         return parts.join('.');

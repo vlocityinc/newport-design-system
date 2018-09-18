@@ -35,6 +35,15 @@ export const addCurlyBraces = (value) => {
 };
 
 /**
+ * Splits a string by period. If no period, returns the string
+ * @param {*} value The string to split
+ * @returns {Array} The string split by period
+ */
+export const splitStringByPeriod = (value) => {
+    return value.split('.');
+};
+
+/**
  * Remove curly braces and bang from the value if it exists.
  * @param {string}      value to remove the curly braces
  * @return {string}     string without curly braces and bang

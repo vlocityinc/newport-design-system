@@ -20,6 +20,8 @@ import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from 'builder_platf
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { propertyEditorFactory } from 'builder_platform_interaction/propertyEditorFactory';
 import { FACTORY_CONFIG, createStartElement } from 'builder_platform_interaction/elementFactory';
+import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
+import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -146,8 +148,13 @@ export default class Editor extends LightningElement {
      * This is called once the flow has been loaded, so that sobjects in the flow have their fields loaded and cached
      */
     loadFieldsForSobjectsInFlow() {
+        // Only gets sObject variables (no collections)
         const sobjectVariables = getSObjectOrSObjectCollectionByEntityElements(storeInstance.getCurrentState().elements);
         for (let i = 0; i < sobjectVariables.length; i++) {
+            // add sobject variable to combobox cache in required shape
+            const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(sobjectVariables[i]);
+            addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
+            // fetch fields and cache them
             getFieldsForEntity(sobjectVariables[i].objectType);
         }
     }

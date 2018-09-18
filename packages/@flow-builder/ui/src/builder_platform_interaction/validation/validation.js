@@ -1,5 +1,6 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { updateProperties, set, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
+import { splitStringByPeriod } from "builder_platform_interaction/commonUtils";
 
 /**
  * @constant defaultRules - map of propertyName to validation rules
@@ -30,10 +31,10 @@ class AttributeMatcher {
         ATTRIBUTE_VALUE_MATCHER_REGEX.lastIndex = 0;
 
         if (result) { // attribute=value matcher
-            this.property = result[1].split('.');
+            this.property = splitStringByPeriod(result[1]);
             this.value = result[2];
         } else {
-            this.property = pattern.split('.');
+            this.property = splitStringByPeriod(pattern);
         }
     }
 

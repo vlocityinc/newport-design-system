@@ -13,6 +13,7 @@ import { getResourceByUniqueIdentifier, getResourceFerovDataType  } from "builde
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
+import { addToParentElementCache } from "builder_platform_interaction/comboboxCache";
 
 
 const SELECTORS = {
@@ -30,6 +31,12 @@ const setupComponentUnderTest = (props) => {
     document.body.appendChild(element);
     return element;
 };
+
+jest.mock('builder_platform_interaction/comboboxCache', () => {
+    return {
+        addToParentElementCache: jest.fn(),
+    };
+});
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
@@ -488,13 +495,14 @@ describe('variable-constant-editor', () => {
             expect(result).toEqual(mockHydratedElementWithErrors);
         });
 
-        it('fetches and caches the fields for a valid sobject variable', () => {
+        it('fetches and caches the fields for a valid sobject variable and stores it in the combobox cache', () => {
             const accountVariable = deepCopy(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
             const objectType = 'Account';
             const variableEditor = setupComponentUnderTest(accountVariable);
             getErrorsFromHydratedElement.mockReturnValueOnce([]);
             variableEditor.validate();
             expect(getFieldsForEntity).toHaveBeenCalledWith(objectType);
+            expect(addToParentElementCache).toHaveBeenCalledTimes(1);
         });
 
         it('does not fetch fields for an sobject if there are errors', () => {

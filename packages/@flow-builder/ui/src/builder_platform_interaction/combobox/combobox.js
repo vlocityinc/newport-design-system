@@ -2,11 +2,12 @@ import { LightningElement, api, track, unwrap } from 'lwc';
 import { FetchMenuDataEvent, ComboboxStateChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from "builder_platform_interaction/events";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { COMBOBOX_NEW_RESOURCE_VALUE } from "builder_platform_interaction/expressionUtils";
-import { format, isUndefinedOrNull, isObject, isValidNumber } from "builder_platform_interaction/commonUtils";
+import { format, isUndefinedOrNull, isObject, isValidNumber, addCurlyBraces, splitStringByPeriod } from "builder_platform_interaction/commonUtils";
 import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
 import { LABELS } from "./comboboxLabels";
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from "builder_platform_interaction/mergeFieldLib";
 import { DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE, DATE_DISPLAY_FORMAT, formatDateTime, getValidDateTime } from "builder_platform_interaction/dateTimeUtils";
+import { getElementFromParentElementCache } from "builder_platform_interaction/comboboxCache";
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
 };
@@ -155,7 +156,7 @@ export default class Combobox extends LightningElement {
                 // set the base value to parent for fetching previous level
                 if (itemOrDisplayText.parent) {
                     this._base = itemOrDisplayText.parent.displayText;
-                    this._mergeFieldLevel++;
+                    this._mergeFieldLevel = MAX_LEVEL_MENU_DATA;
                 }
             } else {
                 throw new Error('Setting an item on Flow Combobox without a value property!');
@@ -367,33 +368,13 @@ export default class Combobox extends LightningElement {
 
         const sanitizedValue = this.getSanitizedValue();
 
-        // If a . is typed or deleted when in resource state, fire an event to fetch new menu data
-        // As of 216 and we support showing only 2 level of menu data
-        // TODO: W-5064397. The following code doesn't account for highlighting and deleting and copy pasting
-        if (this._isMergeField && !this.hasMergeFieldCrossedMaxLevel()) {
-            if (this.wasPeriodEntered(previousValue)) {
-                // set base and fetch next level
-                this.matchTextWithItem(previousValue);
-                if (this._item && this._item.hasNext) {
-                    this._base = previousValue;
-                    // Do we need the itemSelectedEvent here?
-                    this.fireItemSelectedEvent(this._item);
-                    this.fireFetchMenuDataEvent(this._item);
-                } else {
-                    this._item = null;
-                }
-            } else if (this.wasPeriodDeleted(previousValue)) {
-                // remove base and fetch previous level
-                if (this.state.displayText === this._base) {
-                    this._base = null;
-                    this.fireFetchMenuDataEvent();
-                }
-            }
-        }
-
-        // TODO: W-5064397. This needs to be improved to be smarter.
-        // Get previous level menu data in the case that the length of the displayText is shorter than base
-        if (this._base && (!this.state.displayText || this.state.displayText.indexOf(this.getSanitizedValue(this._base)) === -1)) {
+        // Make sure the menu data is up to date with the current value
+        // As of 218, we support showing only 2 level of menu data
+        if (this.isPotentialField()) {
+            // Checks if base is a valid parent element and fetch menu data if so
+            this.getParentElementAndFetchFields();
+        } else if (this._mergeFieldLevel === MAX_LEVEL_MENU_DATA) {
+            // if on the second level and no longer a potential field, get first level menu data
             this._base = null;
             this.fireFetchMenuDataEvent();
         }
@@ -434,7 +415,9 @@ export default class Combobox extends LightningElement {
         // And add a period if selected option has next level
         this.setValueAndCursor(item.displayText, itemHasNextLevel);
 
-        this.fireItemSelectedEvent(item);
+        if (!itemHasNextLevel) {
+            this.fireItemSelectedEvent(item);
+        }
     }
 
     /**
@@ -464,6 +447,11 @@ export default class Combobox extends LightningElement {
      */
     handleFocus() {
         if (this.state.displayText) {
+            // This is needed since in the case of errors, item is not defined in the ComboboxStateChangedEvent
+            // The parent has no idea what the menu data should be, so fetch those fields when necessary
+            if (this.isPotentialField()) {
+                this.getParentElementAndFetchFields();
+            }
             this.fireFilterMatchesEvent(this.getFilterText(this.getSanitizedValue()), this._isMergeField);
         }
     }
@@ -501,14 +489,42 @@ export default class Combobox extends LightningElement {
     }
 
     /**
+     * Determines if the displayText is in the format of a field
+     * @returns {Boolean} returns true if the current displayText is a potential field
+     */
+    isPotentialField() {
+        const field = splitStringByPeriod(this.getSanitizedValue())[1];
+        if (this._isMergeField && !this.hasMergeFieldCrossedMaxLevel() && !isUndefinedOrNull(field)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Grabs the flow element from the cache/store and gets the fields for the item
+     */
+    getParentElementAndFetchFields() {
+        const base = splitStringByPeriod(this.getSanitizedValue())[0];
+        const baseMergeField = addCurlyBraces(base);
+        if (this._mergeFieldLevel === 1 || (this._mergeFieldLevel === MAX_LEVEL_MENU_DATA && this._base !== baseMergeField)) {
+            // get parent element from combobox cache
+            const parentElementInComboboxShape = getElementFromParentElementCache(baseMergeField);
+            if (parentElementInComboboxShape) {
+                this._base = baseMergeField;
+                this.fireFetchMenuDataEvent(parentElementInComboboxShape);
+            }
+        }
+    }
+
+    /**
      * Dispatches the FetchMenuData Event & makes the spinner active
      * @param {Object} item - the selected item to fetch the next level of menu data.
      *                        If undefined or null first level of menu data is fetched.
      */
     fireFetchMenuDataEvent(item) {
-        if (item) {
+        if (item && this._mergeFieldLevel === 1) {
             this._mergeFieldLevel++;
-        } else {
+        } else if (!item && this._mergeFieldLevel === MAX_LEVEL_MENU_DATA) {
             this._mergeFieldLevel--;
         }
         this.state.menuData = [];
@@ -628,31 +644,7 @@ export default class Combobox extends LightningElement {
      * @returns {Boolean} true when the level is greater than max level.
      */
     hasMergeFieldCrossedMaxLevel() {
-        return this.state.displayText.split('.').length > MAX_LEVEL_MENU_DATA;
-    }
-
-    /**
-     * Determines whether a period was entered
-     * @param {String} previousValue the previous value of the combobox
-     * @returns {Boolean} whether a period was entered
-     */
-    wasPeriodEntered(previousValue) {
-        // a period was entered in resource state
-        return ((this.state.displayText.length === previousValue.length + 1) &&
-            (previousValue.charAt(previousValue.length - 2) !== '.') &&
-            (this.state.displayText.charAt(this.state.displayText.length - 2) === '.'));
-    }
-
-    /**
-     * Determines whether a period was deleted
-     * @param {String} previousValue the previous value of the combobox
-     * @returns {Boolean} whether a period was deleted
-     */
-    wasPeriodDeleted(previousValue) {
-        // a period was deleted in resource state
-        return ((this.state.displayText.length === previousValue.length - 1) &&
-            (this.state.displayText.charAt(this.state.displayText.length - 2) !== '.') &&
-            (previousValue.charAt(previousValue.length - 2) === '.'));
+        return splitStringByPeriod(this.state.displayText).length > MAX_LEVEL_MENU_DATA;
     }
 
     /**
@@ -950,7 +942,7 @@ export default class Combobox extends LightningElement {
                 return true;
             }
             // split the merge field by period
-            const mergeFieldArray = value.split('.');
+            const mergeFieldArray = splitStringByPeriod(value);
             let i = 0;
             while (regexResult && i < mergeFieldArray.length) {
                 // don't execute regex on empty strings

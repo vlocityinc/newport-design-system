@@ -10,6 +10,7 @@ import { removeCurlyBraces } from "builder_platform_interaction/commonUtils";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import unknownMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownMergeField';
 import { getValidDateTime, formatDateTime } from "builder_platform_interaction/dateTimeUtils";
+import { addToParentElementCache } from "builder_platform_interaction/comboboxCache";
 import { LABELS } from "../comboboxLabels";
 
 const SELECTORS = {
@@ -66,6 +67,13 @@ const createCombobox = (props) => {
 };
 
 describe('Combobox Tests', () => {
+    beforeAll(() => {
+        const sObjectVariables = comboboxInitialConfig.menuData[1].items;
+        for (let i = 0; i < sObjectVariables.length; i++) {
+            addToParentElementCache(sObjectVariables[i].displayText, sObjectVariables[i]);
+        }
+    });
+
     const getTextInputEvent = function (inputValue) {
         return new CustomEvent('textinput', {
             detail: {text: inputValue},
@@ -483,7 +491,7 @@ describe('Combobox Tests', () => {
             });
         });
 
-        it('FetchMenuData is fired when the length of displayText is less than base length', () => {
+        it('FetchMenuData is fired when the base is no longer in the displayText', () => {
             combobox.value = '{!MyAccount}';
 
             return Promise.resolve().then(() => {
@@ -504,39 +512,63 @@ describe('Combobox Tests', () => {
             });
         });
 
-        it('ItemSelected is fired when a selection is made (tests findItem), and deleting everything fires FetchMenuData on previous level', () => {
+        describe('Copy/paste tests for fetchMenuData', () => {
+            it('From first level to first level', () => {
+                combobox.value = comboboxInitialConfig.menuData[2].items[0];
+                return Promise.resolve().then(() => {
+                    textInputEvent = getTextInputEvent('{!MyNumbe}');
+                    groupedCombobox.dispatchEvent(textInputEvent);
+                    expect(fetchMenuDataHandler).not.toHaveBeenCalled();
+                });
+            });
+
+            it('From first level straight to second level of an sObject', () => {
+                combobox.value = comboboxInitialConfig.menuData[2].items[0];
+                return Promise.resolve().then(() => {
+                    textInputEvent = getTextInputEvent('{!MyAccount.Na}');
+                    groupedCombobox.dispatchEvent(textInputEvent);
+                    expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
+                    expect(fetchMenuDataHandler.mock.calls[0][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
+                });
+            });
+
+            it('From second level of one sObject to second level of same sObject', () => {
+                combobox.value = secondLevelMenuData[0];
+                return Promise.resolve().then(() => {
+                    textInputEvent = getTextInputEvent('{!MyAccount.Na}');
+                    groupedCombobox.dispatchEvent(textInputEvent);
+                    expect(fetchMenuDataHandler).not.toHaveBeenCalled();
+                });
+            });
+
+            it('From second level of one sObject to a different sObject', () => {
+                combobox.value = secondLevelMenuData[0];
+                return Promise.resolve().then(() => {
+                    textInputEvent = getTextInputEvent('{!MyContact.Descri}');
+                    groupedCombobox.dispatchEvent(textInputEvent);
+                    expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
+                    expect(fetchMenuDataHandler.mock.calls[0][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[1]);
+                });
+            });
+
+            it('From second level of sObject back to first level', () => {
+                combobox.value = secondLevelMenuData[0];
+                return Promise.resolve().then(() => {
+                    textInputEvent = getTextInputEvent('{!MyNumb}');
+                    groupedCombobox.dispatchEvent(textInputEvent);
+                    expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
+                    expect(fetchMenuDataHandler.mock.calls[0][0].detail.item).toBeNull();
+                });
+            });
+        });
+
+        it('ItemSelected is fired when a selection is made when the item hasNext=false (tests findItem)', () => {
             combobox.value = '';
-            combobox.menuData = comboboxInitialConfig.menuData;
-            selectEvent = getSelectEvent(comboboxInitialConfig.menuData[1].items[0].value);
+            combobox.menuData = secondLevelMenuData;
+            selectEvent = getSelectEvent(secondLevelMenuData[0].value);
             groupedCombobox.dispatchEvent(selectEvent);
             expect(itemSelectedHandler).toHaveBeenCalledTimes(1);
-            expect(itemSelectedHandler.mock.calls[0][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
-            textInputEvent = getTextInputEvent('');
-            expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
-        });
-
-        it('ItemSelected is fired when a period is entered and matches with a menu item', () => {
-            combobox.value = '';
-            const textInputValue = comboboxInitialConfig.menuData[1].items[0].displayText;
-            const textInputValueWithPeriod = textInputValue.substring(0, textInputValue.length - 1) + '.' + textInputValue.substring(textInputValue.length - 1);
-            combobox.menuData = comboboxInitialConfig.menuData;
-            textInputEvent = getTextInputEvent(textInputValue);
-            groupedCombobox.dispatchEvent(textInputEvent);
-            expect(itemSelectedHandler).not.toHaveBeenCalled();
-            textInputEvent = getTextInputEvent(textInputValueWithPeriod);
-            groupedCombobox.dispatchEvent(textInputEvent);
-            expect(itemSelectedHandler).toHaveBeenCalledTimes(1);
-        });
-
-        it('ItemSelected is not fired when a period is entered but does not match a menu item', () => {
-            combobox.value = '';
-            combobox.menuData = comboboxInitialConfig.menuData;
-            textInputEvent = getTextInputEvent('{!Blah}');
-            groupedCombobox.dispatchEvent(textInputEvent);
-            expect(itemSelectedHandler).not.toHaveBeenCalled();
-            textInputEvent = getTextInputEvent('{!Blah.}');
-            groupedCombobox.dispatchEvent(textInputEvent);
-            expect(itemSelectedHandler).not.toHaveBeenCalled();
+            expect(itemSelectedHandler.mock.calls[0][0].detail.item).toEqual(secondLevelMenuData[0]);
         });
 
         it('ComboboxStateChanged is fired on blur (tests matchTextWithItem)', () => {
@@ -747,6 +779,7 @@ describe('Combobox Tests', () => {
             combobox.value = 'Hey, my name is {!blah}';
             groupedCombobox.dispatchEvent(blurEvent);
             return Promise.resolve().then(() => {
+                // called twice because stateChangedEvent always gets fired
                 expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
                 expect(combobox.errorMessage).toEqual(unknownMergeField);
             });
