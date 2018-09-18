@@ -14,7 +14,8 @@ import {
     createRecordDeleteMetadataObject,
     createScreenMetadataObject,
     createSubflowMetadataObject,
-    createVariableMetadataObject
+    createVariableMetadataObject,
+    createTextTemplateMetadataObject
 } from "builder_platform_interaction/elementFactory";
 
 /**
@@ -59,6 +60,8 @@ export const uiToFlowFactory = (element, config) => {
             return createSubflowMetadataObject(element, config);
         case ELEMENT_TYPE.VARIABLE:
             return createVariableMetadataObject(element, config);
+        case ELEMENT_TYPE.TEXT_TEMPLATE:
+            return createTextTemplateMetadataObject(element, config);
         default:
             return {};
     }

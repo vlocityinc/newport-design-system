@@ -680,6 +680,27 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: false
     },
+    [ELEMENT_TYPE.TEXT_TEMPLATE]: {
+        descriptor: 'builder_platform_interaction:textTemplateEditor',
+        nodeConfig: {
+            iconName: 'standard:text_template',
+            utilityIconName: 'utility:text_template'
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.TEXT_TEMPLATES,
+        labels: {
+            singular: LABELS.textTemplateSingularLabel,
+            plural: LABELS.textTemplatePluralLabel
+        },
+        template: {
+            name: '',
+            label: undefined,
+            guid: '',
+            elementType: ELEMENT_TYPE.TEXT_TEMPLATE,
+            text: ''
+        },
+        canvasElement: false
+    },
     [ELEMENT_TYPE.STAGE]: {
         labels: {
             singular: LABELS.stageSingularLabel,

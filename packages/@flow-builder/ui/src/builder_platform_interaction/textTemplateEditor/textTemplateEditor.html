@@ -1,0 +1,18 @@
+<template>
+    <div class="slds-form slds-form_compound slds-p-around_small">
+        <builder_platform_interaction-label-description dev-name={textTemplateResource.name}
+                                                        guid={textTemplateResource.guid}
+                                                        description={textTemplateResource.description}
+                                                        hide-label=true
+                                                        onpropertychanged={handlePropertyChanged}>
+        </builder_platform_interaction-label-description>
+        
+        <builder_platform_interaction-resourced-textarea class='textarea-input'
+                                                        label={labels.textTemplateLabel}
+                                                        value={textTemplateResource.text.value} 
+                                                        required
+                                                        onpropertychanged={handleResourceTextAreaChanged}
+                                                        onblur={handleResourceTextAreaChanged}>
+        </builder_platform_interaction-resourced-textarea>
+    </div>
+</template>

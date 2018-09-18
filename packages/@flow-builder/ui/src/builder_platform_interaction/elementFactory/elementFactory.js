@@ -16,6 +16,7 @@ export * from './screen.js';
 export * from './startElement.js';
 export * from './subflow.js';
 export * from './variable.js';
+export * from './textTemplate.js';
 export * from './ferov.js';
 export * from './inputParameter.js';
 export * from './outputParameter.js';

@@ -74,6 +74,7 @@ export const addElement = (payload) => {
         switch (payload.elementType) {
             case ELEMENT_TYPE.VARIABLE:
             case ELEMENT_TYPE.CONSTANT:
+            case ELEMENT_TYPE.TEXT_TEMPLATE:
             case ELEMENT_TYPE.FORMULA: return createAction(ADD_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(ADD_DECISION_WITH_OUTCOMES, payload);
@@ -100,6 +101,7 @@ export const updateElement = (payload) => {
             case ELEMENT_TYPE.VARIABLE:
             case ELEMENT_TYPE.CONSTANT:
                 return createAction(UPDATE_VARIABLE_CONSTANT, payload);
+            case ELEMENT_TYPE.TEXT_TEMPLATE:
             case ELEMENT_TYPE.FORMULA:
                 return createAction(UPDATE_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
@@ -130,6 +132,7 @@ export const deleteElement = (payload) => {
     switch (payload.elementType) {
         case ELEMENT_TYPE.VARIABLE:
         case ELEMENT_TYPE.CONSTANT:
+        case ELEMENT_TYPE.TEXT_TEMPLATE:
         case ELEMENT_TYPE.FORMULA: {
             action = createAction(DELETE_RESOURCE, payload);
             break;

@@ -15,6 +15,7 @@ import {
     createDecisionWithOutcomes,
     createWaitWithWaitEvents,
     createVariable,
+    createTextTemplate,
     createRecordCreate,
     createRecordUpdate,
     createRecordLookup,
@@ -98,6 +99,9 @@ export const propertyEditorFactory = (element, config = {}) => {
             break;
         case ELEMENT_TYPE.VARIABLE:
             newElement = createVariable(element);
+            break;
+        case ELEMENT_TYPE.TEXT_TEMPLATE:
+            newElement = createTextTemplate(element);
             break;
         default:
             break;

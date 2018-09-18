@@ -42,6 +42,8 @@ import variableSingularLabel from "@salesforce/label/FlowBuilderElementConfig.va
 import variablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.variablePluralLabel";
 import constantSingularLabel from "@salesforce/label/FlowBuilderElementConfig.constantSingularLabel";
 import constantPluralLabel from "@salesforce/label/FlowBuilderElementConfig.constantPluralLabel";
+import textTemplateSingularLabel from "@salesforce/label/FlowBuilderElementConfig.textTemplateSingularLabel";
+import textTemplatePluralLabel from "@salesforce/label/FlowBuilderElementConfig.textTemplatePluralLabel";
 import formulaSingularLabel from "@salesforce/label/FlowBuilderElementConfig.formulaSingularLabel";
 import formulaPluralLabel from "@salesforce/label/FlowBuilderElementConfig.formulaPluralLabel";
 import outcomeSingularLabel from "@salesforce/label/FlowBuilderElementConfig.outcomeSingularLabel";
@@ -99,6 +101,8 @@ export const LABELS = {
     variablePluralLabel,
     constantSingularLabel,
     constantPluralLabel,
+    textTemplateSingularLabel,
+    textTemplatePluralLabel,
     formulaSingularLabel,
     formulaPluralLabel,
     outcomeSingularLabel,
