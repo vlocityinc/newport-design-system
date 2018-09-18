@@ -604,6 +604,18 @@ describe('Combobox Tests', () => {
 
             expect(selectHandler).toHaveBeenCalledTimes(1);
         });
+
+        it('Shows dropdown with fields after item is selected', () => {
+            selectEvent = getSelectEvent(comboboxInitialConfig.menuData[1].items[0].value);
+            groupedCombobox.dispatchEvent(selectEvent);
+            groupedCombobox.focusAndOpenDropdownIfNotEmpty = jest.fn();
+
+            combobox.menuData = secondLevelMenuData;
+
+            return Promise.resolve().then(() => {
+                expect(groupedCombobox.focusAndOpenDropdownIfNotEmpty).toHaveBeenCalled();
+            });
+        });
     });
 
     describe('Validation Tests', () => {
