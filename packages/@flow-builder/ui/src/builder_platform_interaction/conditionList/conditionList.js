@@ -53,9 +53,11 @@ export default class ConditionList extends LightningElement {
     }
 
     set conditionLogic(conditionLogic) {
-        this.state.conditionLogic = conditionLogic;
+        if (conditionLogic) {
+            this.state.conditionLogic = conditionLogic;
 
-        this.processConditionLogic(this.state.conditionLogic.value);
+            this.processConditionLogic(this.state.conditionLogic.value);
+        }
     }
 
     @api

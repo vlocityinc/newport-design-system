@@ -16,6 +16,8 @@ const outcomeWithOneConditional = {
     ]
 };
 const outcomeWithThreeConditionals = {
+    label: {value: 'Test Name of the Outcome'},
+    name: {value: 'Test Dev Name'},
     guid: {value: '123'},
     conditionLogic: {value: '1 and 2'},
     conditions: [

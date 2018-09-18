@@ -85,15 +85,19 @@ export default class LabelDescription extends LightningElement {
 
     /** @param {Object} label - object with {value, error} **/
     set label(label) {
-        this.state.label = label;
-        const labelInput = this.template.querySelector(SELECTORS.LABEL);
-        this.setInputErrorMessage(labelInput, this.state.label.error);
+        if (label) {
+            this.state.label = label;
+
+            const labelInput = this.template.querySelector(SELECTORS.LABEL);
+            this.setInputErrorMessage(labelInput, this.state.label.error);
+        }
     }
 
     /** @param {Object} devName - object with {value, error} **/
     set devName(devName) {
         if (devName) {
             this.state.devName = devName;
+
             const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
             this.setInputErrorMessage(devNameInput, this.state.devName.error);
         }
