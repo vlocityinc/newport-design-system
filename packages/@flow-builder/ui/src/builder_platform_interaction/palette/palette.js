@@ -12,6 +12,7 @@ export default class Palette extends LightningElement {
     @api showSectionItemCount;
 
     @api
+    // eslint-disable-next-line lwc/valid-api
     get data() {
         return this.rows;
     }

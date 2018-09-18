@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 import { format } from "builder_platform_interaction/commonUtils";
 
 export default class ConnectorPicker extends LightningElement {
+    // eslint-disable-next-line lwc/valid-api
     @api data;
     @api comboboxOptions;
     @api bodyText;
