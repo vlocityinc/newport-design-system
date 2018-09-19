@@ -48,7 +48,15 @@ export default class ActionSelector extends LightningElement {
         }).then((subflows) => {
             if (this.connected) {
                 this.subflowsFetched = true;
-                this.subflows = subflows;
+                // TODO: remove once fixed by process services
+                this.subflows = subflows.map(subflow => {
+                    return {
+                        masterLabel : subflow.masterLabel,
+                        description : subflow.description,
+                        fullName : subflow.namespacePrefix ? subflow.namespacePrefix + '__' + subflow.developerName : subflow.developerName
+
+                    };
+                });
                 this.updateComboboxes();
             }
         }).catch(() => {
@@ -109,18 +117,28 @@ export default class ActionSelector extends LightningElement {
      */
 
     /**
-     * @typedef {Object} SelectedAction
-     * @property {string} elementType the element type (one of the action ELEMENT_TYPE)
-     * @property {string} [apexClass] the apex class (when elementType is ELEMENT_TYPE.APEX_PLUGIN_CALL)
-     * @property {string} [flowName] the flow name (when elementType is ELEMENT_TYPE.SUBFLOW)
-     * @property {string} [actionType] the action name (for invocable actions)
-     * @property {string} [actionName] the action name (for invocable actions)
+     * @typedef {Object} SelectedInvocableAction
+     * @property {string} elementType the element type (ELEMENT_TYPE.ACTION_CALL, ELEMENT_TYPE.APEX_CALL or ELEMENT_TYPE.EMAIL_ALERT)
+     * @property {string} actionType "apex", "quickAction", "component" or same as name for standard invocable actions
+     * @property {string} actionName the action name
+     */
+
+    /**
+     * @typedef {Object} SelectedApexPlugin
+     * @property {string} elementType the element type (ELEMENT_TYPE.APEX_PLUGIN_CALL)
+     * @property {string} apexClass the apex class
+     */
+
+    /**
+     * @typedef {Object} SelectedSubflow
+     * @property {string} elementType the element type (ELEMENT_TYPE.SUBFLOW)
+     * @property {string} flowName the flow name
      */
 
     /**
      * Set the selected action
      *
-     * @param {SelectedAction} newValue the selected action
+     * @param {SelectedInvocableAction|SelectedApexPlugin|SelectedSubflow} newValue the selected action
      */
     set selectedAction(newValue) {
         newValue = unwrap(newValue);
@@ -137,25 +155,25 @@ export default class ActionSelector extends LightningElement {
     /**
      * Get the selected action
      *
-     * @return {SelectedAction} The selected action
+     * @return {SelectedInvocableAction|SelectedApexPlugin|SelectedSubflow} The selected action
      */
     @api
     get selectedAction() {
         let selectedAction;
         if (this.state.selectedActionValue) {
             if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-                const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.name === this.state.selectedActionValue.value);
+                const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.apexClass === this.state.selectedActionValue.value);
                 if (apexPluginFound) {
                     selectedAction = {
-                        apexClass : apexPluginFound.name,
+                        apexClass : apexPluginFound.apexClass,
                         elementType : this.state.selectedElementType
                     };
                 }
             } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
-                const subflowFound = this.subflows.find(subflow => subflow.developerName === this.state.selectedActionValue.value);
+                const subflowFound = this.subflows.find(subflow => subflow.fullName === this.state.selectedActionValue.value);
                 if (subflowFound) {
                     selectedAction = {
-                        flowName : subflowFound.developerName,
+                        flowName : subflowFound.fullName,
                         elementType : this.state.selectedElementType
                     };
                 }
@@ -256,7 +274,7 @@ export default class ActionSelector extends LightningElement {
         if (action.type === ACTION_TYPE.QUICK_ACTION) {
             const object = this.getQuickActionObject(action);
             // TODO add {Category} when available
-            subText = object || 'Global';
+            subText = object || this.labels.globalQuickActionSubTextPrefix;
             subText += (action.description ? ' - ' + action.description : '');
         } else {
             subText = action.description || '';
@@ -290,20 +308,19 @@ export default class ActionSelector extends LightningElement {
         return {
             type : 'option-card',
             text : apexPlugin.name,
-            value: apexPlugin.name,
+            value: apexPlugin.apexClass,
             displayText: apexPlugin.name,
             subText : apexPlugin.Description || ''
         };
     }
 
     getComboItemFromSubflow(subflow) {
-        const uniqueName = subflow.namespacePrefix ? subflow.namespacePrefix + '__' + subflow.developerName : subflow.developerName;
         return {
             type : 'option-card',
             text : subflow.masterLabel,
-            value: subflow.developerName,
+            value: subflow.fullName,
             displayText: subflow.masterLabel,
-            subText : uniqueName + (subflow.description ? ' - ' + subflow.description : '')
+            subText : subflow.fullName + (subflow.description ? ' - ' + subflow.description : '')
         };
     }
 

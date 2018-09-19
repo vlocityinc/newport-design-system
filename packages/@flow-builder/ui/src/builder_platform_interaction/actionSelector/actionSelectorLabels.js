@@ -17,9 +17,11 @@ import emailAlertComboboxPlaceholder from "@salesforce/label/FlowBuilderActionCa
 import subflowTypeOption from "@salesforce/label/FlowBuilderActionCallEditor.subflowTypeOption";
 import subflowComboboxLabel from "@salesforce/label/FlowBuilderActionCallEditor.subflowComboboxLabel";
 import subflowComboboxPlaceholder from "@salesforce/label/FlowBuilderActionCallEditor.subflowComboboxPlaceholder";
+import globalQuickActionSubTextPrefix from "@salesforce/label/FlowBuilderActionCallEditor.globalQuickActionSubTextPrefix";
 
 export const LABELS = {
     actionTypeLabel,
+    globalQuickActionSubTextPrefix,
     [ELEMENT_TYPE.ACTION_CALL] : {
         TYPE_OPTION_LABEL : actionTypeOption,
         ACTION_COMBO_LABEL : actionComboboxLabel,

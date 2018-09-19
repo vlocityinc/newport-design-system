@@ -1,7 +1,8 @@
-export const mockApexPlugins = [{
-    "apexClass": "flowChat",
-    "description": "This is flow chat plugin",
-    "fieldsToNull": [],
-    "name": "{!flowchatplugin}",
-    "tag": "chat"
-}];
+export const mockApexPlugins = [
+    {
+        "apexClass": "mynamespace__lookUpAccountPlugin",
+        "fieldsToNull": [],
+        "name": "Look Up Account ID By Name",
+        "tag": "Account Classes"
+      }
+    ];
