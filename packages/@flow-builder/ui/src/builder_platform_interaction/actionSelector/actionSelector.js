@@ -225,7 +225,7 @@ export default class ActionSelector extends LightningElement {
         const selectedElementType = this.state.selectedElementType;
         switch (selectedElementType) {
             case ELEMENT_TYPE.ACTION_CALL:
-                items = this.invocableActions.filter(action => action.isStandard || action.type === ACTION_TYPE.QUICK_ACTION).map(action => this.getComboItemFromInvocableAction(action));
+                items = this.invocableActions.filter(action => action.isStandard || action.type === ACTION_TYPE.QUICK_ACTION || action.type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));
                 break;
             case ELEMENT_TYPE.APEX_CALL:
                 items = this.invocableActions.filter(action => action.type === ACTION_TYPE.APEX).map(action => this.getComboItemFromInvocableAction(action));

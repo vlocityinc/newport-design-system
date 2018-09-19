@@ -72,8 +72,11 @@ describe('Action selector', () => {
         test('"Action" should be the selected Action type', () => {
             expect(lightningCombobox().value).toBe(ELEMENT_TYPE.ACTION_CALL);
         });
-        test('Combobox should contain all ACTION_CALL items', () => {
-            expect(groupedCombobox().items.map(item => item.text)).toEqual(expect.arrayContaining(['Post to Chatter', 'Send Email']));
+        test('Combobox should contain all ACTION_CALL items : standard actions, quick actions and local actions', () => {
+            const standardActionText = 'Post to Chatter';
+            const quickActionText = 'Add Member';
+            const localActionText = 'successLocalAction';
+            expect(groupedCombobox().items.map(item => item.text)).toEqual(expect.arrayContaining([standardActionText, quickActionText, localActionText]));
         });
         test('Combobox placeholder should be : Find an Action...', () => {
             expect(groupedCombobox().placeholder).toBe('FlowBuilderActionCallEditor.actionComboboxPlaceholder');
