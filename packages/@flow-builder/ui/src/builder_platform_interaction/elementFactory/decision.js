@@ -95,7 +95,7 @@ export function createDecisionWithOutcomeReferences(decision = {}) {
 
 export function createOutcome(outcome = {}) {
     const newOutcome = baseChildElement(outcome);
-    const { conditionLogic = CONDITION_LOGIC.AND, dataType = FLOW_DATA_TYPE.BOOLEAN.value } = outcome;
+    const { conditionLogic = CONDITION_LOGIC.AND } = outcome;
 
     let { conditions } = outcome;
     if (conditions && conditions.length > 0) {
@@ -108,7 +108,7 @@ export function createOutcome(outcome = {}) {
     return Object.assign(newOutcome, {
         conditions,
         conditionLogic,
-        dataType,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         elementType: ELEMENT_TYPE.OUTCOME
     });
 }

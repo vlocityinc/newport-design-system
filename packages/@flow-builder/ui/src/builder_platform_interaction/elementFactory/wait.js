@@ -81,7 +81,7 @@ export function createWaitWithConnectors(wait) {
 
 export function createWaitEvent(waitEvent = {}) {
     const newWaitEvent = baseChildElement(waitEvent);
-    const { conditionLogic = CONDITION_LOGIC.AND, dataType = FLOW_DATA_TYPE.BOOLEAN.value } = waitEvent;
+    const { conditionLogic = CONDITION_LOGIC.NO_CONDITIONS } = waitEvent;
 
     let { conditions } = waitEvent;
     if (conditions && conditions.length > 0) {
@@ -94,7 +94,7 @@ export function createWaitEvent(waitEvent = {}) {
     return Object.assign(newWaitEvent, {
         conditions,
         conditionLogic,
-        dataType,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         elementType: ELEMENT_TYPE.WAIT_EVENT
     });
 }
