@@ -1,6 +1,7 @@
 export const CANVAS_EVENT = {
     CANVAS_MOUSEUP: 'canvasmouseup',
     DRAG_STOP: 'dragnodestop',
+    DRAG_NODE: 'dragnode',
     NODE_SELECTED: 'nodeselected',
     CONNECTOR_SELECTED: 'connectorselected',
     ADD_CONNECTION: 'addconnection',

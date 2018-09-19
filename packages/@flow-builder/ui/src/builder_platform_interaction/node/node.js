@@ -175,6 +175,24 @@ export default class Node extends LightningElement {
         }
     };
 
+    /**
+     * Updates the location of the node while the user is dragging it on the canvas.
+     * @param {object} event - drag event
+     */
+    @api drag = (event) => {
+        const dragNodeEvent = new CustomEvent(CANVAS_EVENT.DRAG_NODE, {
+            bubbles: true,
+            composed: true,
+            cancelable: true,
+            detail: {
+                canvasElementGUID: this.node.guid,
+                locationX: event.pos[0],
+                locationY: event.pos[1]
+            }
+        });
+        this.dispatchEvent(dragNodeEvent);
+    };
+
     render() {
         if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT) {
             return startElement;

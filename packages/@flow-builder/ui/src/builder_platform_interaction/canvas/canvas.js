@@ -428,6 +428,7 @@ export default class Canvas extends LightningElement {
             const canvasElementContainerTemplate = canvasElements[canvasElementIndex];
             const dragStart = canvasElementContainerTemplate.dragStart;
             const dragStop = canvasElementContainerTemplate.dragStop;
+            const drag = canvasElementContainerTemplate.drag;
             const canvasElementContainer = unwrap(canvasElementContainerTemplate).firstChild;
             const isSelected = canvasElementContainerTemplate.node.config.isSelected;
             const elementType = canvasElementContainerTemplate.node.elementType;
@@ -435,7 +436,8 @@ export default class Canvas extends LightningElement {
             if (elementType !== ELEMENT_TYPE.START_ELEMENT) {
                 lib.setDraggable(canvasElementContainer, {
                     start : dragStart,
-                    stop: dragStop
+                    stop: dragStop,
+                    drag
                 });
                 if (!lib.isTarget(canvasElementContainer)) {
                     lib.makeTarget(canvasElementContainer);
