@@ -1,13 +1,4 @@
 import {
-    PropertyChangedEvent,
-    AddConditionEvent,
-    DeleteConditionEvent,
-    UpdateConditionEvent,
-    DeleteWaitEventEvent,
-    ReorderListEvent
-} from "builder_platform_interaction/events";
-import {waitValidation, additionalRules} from "./waitValidation";
-import {
     addItem,
     deleteItem,
     replaceItem,
@@ -21,6 +12,16 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { usedByStoreAndElementState, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
+import {
+    PropertyChangedEvent,
+    AddConditionEvent,
+    DeleteConditionEvent,
+    UpdateConditionEvent,
+    DeleteWaitEventEvent,
+    ReorderListEvent,
+    WaitEventPropertyChangedEvent,
+} from 'builder_platform_interaction/events';
+import {waitValidation, additionalRules} from './waitValidation';
 
 const waitPropertyChanged = (state, event) => {
     event.detail.error = event.detail.error === null ?
@@ -86,7 +87,7 @@ const waitConditionReducer = (state, event, conditionOperation) => {
             const conditions = conditionOperation(waitEvent.conditions, event);
             return Object.assign({}, waitEvent, { conditions });
         }
-        return Object.assign({}, waitEvent);
+        return waitEvent;
     };
     const waitEvents = state.waitEvents.map(mapEvents);
     return Object.assign({}, state, { waitEvents });
@@ -94,7 +95,7 @@ const waitConditionReducer = (state, event, conditionOperation) => {
 
 
 const addWaitCondition = function (conditions) {
-    const newCondition = createCondition();
+    const newCondition = hydrateWithErrors(createCondition());
     return addItem(conditions, newCondition);
 };
 
@@ -105,6 +106,28 @@ const deleteWaitCondition = function (conditions, event) {
 const updateWaitCondition = function (conditions, event) {
     const conditionToUpdate = conditions[event.detail.index];
     return replaceItem(conditions, Object.assign({}, conditionToUpdate, event.detail.value), event.detail.index);
+};
+
+/**
+ * Reducer that handles property changed events for a waitEvent
+ * @param {Object} state the entire state of the waitEditor
+ * @param {Object} event property changed event
+ * @returns {Object} updated waitEditor state
+ */
+const waitEventPropertyChanged = (state, event) => {
+    if (event.detail.error === null) {
+        // TODO: W-5454625 validate property changed events from label-description of waitEvent
+    }
+    const mapEvents = waitEvent => {
+        if (waitEvent.guid === event.detail.guid) {
+            const updatedProperty = { value: event.detail.value, error: event.detail.error };
+            return Object.assign({}, waitEvent, { [event.detail.propertyName] : updatedProperty });
+        }
+        return waitEvent;
+    };
+
+    const waitEvents = state.waitEvents.map(mapEvents);
+    return updateProperties(state, { waitEvents });
 };
 
 /**
@@ -123,6 +146,8 @@ export const waitReducer = (state, event) => {
             return waitConditionReducer(state, event, updateWaitCondition);
         case PropertyChangedEvent.EVENT_NAME:
             return waitPropertyChanged(state, event);
+        case WaitEventPropertyChangedEvent.EVENT_NAME:
+            return waitEventPropertyChanged(state, event);
         case VALIDATE_ALL:
             return waitValidation.validateAll(state, additionalRules);
         case PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT:

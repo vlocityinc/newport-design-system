@@ -4,13 +4,15 @@ import {
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent,
-    DeleteWaitEventEvent
-} from "builder_platform_interaction/events";
+    DeleteWaitEventEvent,
+    WaitEventPropertyChangedEvent,
+} from 'builder_platform_interaction/events';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 describe('wait-reducer', () => {
     let initState;
-    const parentGUID = 'WAIT_EVENT_1';
+    const waitEventGUID = 'WAIT_EVENT_1';
     let currCondition;
 
     beforeEach(() => {
@@ -26,10 +28,11 @@ describe('wait-reducer', () => {
             waitEvents: [
                 {
                     name : {value: 'waitEvent1', error: null},
-                    guid: parentGUID,
+                    guid: waitEventGUID,
                     conditions: [
                         currCondition,
                     ],
+                    conditionLogic: { value: CONDITION_LOGIC.AND, error: null },
                 },
                 {
                     name : {value: 'waitEvent2', error: null},
@@ -81,17 +84,26 @@ describe('wait-reducer', () => {
     });
 
     it('adds a condition', () => {
-        const addConditionEvent = new AddConditionEvent(parentGUID);
+        const addConditionEvent = new AddConditionEvent(waitEventGUID);
         expect(initState.waitEvents[0].conditions).toHaveLength(1);
         const resultObj = waitReducer(initState, addConditionEvent);
         expect(resultObj.waitEvents[0].conditions).toHaveLength(2);
+    });
+
+    it('hydrates a new condition', () => {
+        const addConditionEvent = new AddConditionEvent(waitEventGUID);
+        expect(initState.waitEvents[0].conditions).toHaveLength(1);
+        const resultObj =  waitReducer(initState, addConditionEvent);
+        const newCondition = resultObj.waitEvents[0].conditions[1];
+        expect(newCondition).toHaveProperty('operator.value');
+        expect(newCondition).toHaveProperty('operator.error');
     });
 
     it('updates a condition', () => {
         const index = 0;
         const operator = 'foo';
         currCondition.operator = operator;
-        const updateConditionEvent = new UpdateConditionEvent(parentGUID, index, { operator });
+        const updateConditionEvent = new UpdateConditionEvent(waitEventGUID, index, { operator });
         const resultObj = waitReducer(initState, updateConditionEvent);
         expect(resultObj.waitEvents[index].conditions).toHaveLength(1);
         const resultCondition = resultObj.waitEvents[index].conditions[0];
@@ -100,7 +112,7 @@ describe('wait-reducer', () => {
 
     it('deletes a condition', () => {
         const index = 0;
-        const deleteConditionEvent = new DeleteConditionEvent(parentGUID, index);
+        const deleteConditionEvent = new DeleteConditionEvent(waitEventGUID, index);
         const resultObj = waitReducer(initState, deleteConditionEvent);
         expect(resultObj.waitEvents[index].conditions).toHaveLength(0);
     });
@@ -138,5 +150,13 @@ describe('wait-reducer', () => {
                 expect(usedByLib.invokeUsedByAlertModal).toHaveBeenCalled();
             });
         });
+    });
+
+    it('updates condition logic', () => {
+        const newConditionLogic = CONDITION_LOGIC.OR;
+        const propertyChangedEvent = new WaitEventPropertyChangedEvent('conditionLogic', newConditionLogic, null, waitEventGUID);
+        expect(initState.waitEvents[0].conditionLogic.value).toEqual(CONDITION_LOGIC.AND);
+        const resultObj = waitReducer(initState, propertyChangedEvent);
+        expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(newConditionLogic);
     });
 });
