@@ -8,7 +8,7 @@
             onupdatelistitem={handleUpdateAssignment} 
             ondeletelistitem={handleDeleteAssignment}>
                 <div slot="listBody">
-                  <template for:each={inputOutputAssignmentsItems} 
+                  <template for:each={inputOutputAssignmentItemsWithLhsFields} 
                             for:item="item" 
                             for:index="itemIndex" 
                             slot="listBody">
@@ -20,8 +20,8 @@
                                 <builder_platform_interaction-field-to-ferov-expression-builder 
                                     object-type={recordEntityName}
                                     container-element={elementType}
-                                    lhs-fields={recordFields}
-                                    expression={item}
+                                    lhs-fields={item.fields}
+                                    expression={item.data}
                                     lhs-label={labels.field}
                                     lhs-placeholder={labels.getFieldPlaceholder}
                                     rhs-label={rhsLabel}

@@ -5,6 +5,7 @@ import {
     UpdateRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
+import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
 
 export default class RecordInputOutputAssignments extends LightningElement {
     labels = LABELS;
@@ -12,9 +13,8 @@ export default class RecordInputOutputAssignments extends LightningElement {
     @api
     inputOutputAssignmentsItems = [];
 
-    @track entityFields = [];
-
-    @track entityName = '';
+    @track
+    entityName = '';
 
     @api
     elementType;
@@ -26,26 +26,19 @@ export default class RecordInputOutputAssignments extends LightningElement {
     title = '';
 
     @api
+    recordFields;
+
+    @api
     rhsLabel = '';
+
+    @api
+    readOnlyFields = false;
 
     /**
      * @param {Object[]} rules  Rules to use when fetching menudata
      */
     @api
     rules;
-
-    /**
-     * The assignment items
-     * @param {Object} value - it comes from the recordNode.inputAssignments or recordNode.outputAssignments
-     */
-    set assignmentItems(value) {
-        this.items = value;
-    }
-
-    @api
-    get assignmentItems() {
-        return this.items;
-    }
 
     /**
      * @param {String} entityName - the selected record object
@@ -59,22 +52,57 @@ export default class RecordInputOutputAssignments extends LightningElement {
         return this.entityName;
     }
 
-    /**
-     * @param {Object} fields - fields will be displayed on the Left hand Side
-     */
-    set recordFields(fields) {
-        if (fields) {
-            this.entityFields = fields;
-        }
-    }
-
-    @api
-    get recordFields() {
-        return this.entityFields;
-    }
-
     get showDelete() {
         return this.inputOutputAssignmentsItems.length > 1;
+    }
+
+    /**
+     * Create an array containing the fields. Fields already selected in other input/output assignment item should not be included
+     *  as well as the readOnly is the parameter this.readOnlyFields is true.
+     */
+    get inputOutputAssignmentItemsWithLhsFields() {
+        // Exclude Fields
+        const excludedFields = [];
+        const _inputOutputAssignmentsItems = [];
+        // In the inputOutputAssignmentsItems the left hand side value is formed like "entityName.FieldApiName"
+        this.inputOutputAssignmentsItems.forEach(item => {
+            if (item.leftHandSide.value && item.leftHandSide.value !== '') {
+                excludedFields.push(sanitizeGuid(item.leftHandSide.value).fieldName);
+            }
+        });
+
+        this.inputOutputAssignmentsItems.forEach((item) => {
+            const itemApiName = sanitizeGuid(item.leftHandSide.value).fieldName;
+            const fields = Object.values(this.recordFields);
+            const entityFilteredFields = [];
+            fields.forEach(field => {
+                // The field list Should not contains the already selected field
+                if (this.includeField(excludedFields, field.apiName, itemApiName, field.sobjectName, field.readOnly)) {
+                    entityFilteredFields[field.apiName] = field;
+                }
+            });
+
+            // Copy the item
+            const tmpItemWithField = {};
+            tmpItemWithField.data = item;
+
+            // add the field list related to the item
+            tmpItemWithField.fields = entityFilteredFields;
+
+            _inputOutputAssignmentsItems.push(tmpItemWithField);
+        });
+        return _inputOutputAssignmentsItems;
+    }
+
+    /**
+     * Field to include in the list :
+     * If this.readOnlyFields is true then only field editable should be added to the list.
+     * if a field has already been select then it should not be possible to select it again.
+     */
+    includeField(excludedFields, fieldApiName, itemApiName, itemSobjectName, isFieldReadOnly) {
+        const isFieldPartOfExcludedList  = !excludedFields.includes(fieldApiName) || fieldApiName === itemApiName;
+        const isReadOnlyField = !this.readOnlyFields || !isFieldReadOnly;
+        return isFieldPartOfExcludedList && isReadOnlyField;
     }
 
     /**

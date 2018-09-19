@@ -13,9 +13,9 @@ import RecordInputOutputAssignments from '../recordInputOutputAssignments.js';
 const mockDefaultRecordInputAssignment = {
     object: 'Account',
     inputOutputAssignmentsItems: [{
-        leftHandSide: '',
-        rightHandSide: '',
-        rightHandSideDataType: '',
+        leftHandSide: {value:'', error:null},
+        rightHandSide: {value:'', error:null},
+        rightHandSideDataType: {value: "", error: null},
         rowIndex: 'RECORDCREATEASSIGNMENTFIELD_1',
     }],
     recordFields: mockAccountFields,
@@ -23,15 +23,15 @@ const mockDefaultRecordInputAssignment = {
 };
 
 const mock2InputAssignmentsItems = [{
-    leftHandSide: "Account.Description",
-    rightHandSide: "vDescription",
-    rightHandSideDataType: "reference",
+    leftHandSide: {value: "Account.Description", error:null},
+    rightHandSide: {value: "vDescription", error:null},
+    rightHandSideDataType: {value: "reference", error:null},
     rowIndex: "RECORDCREATEASSIGNMENTFIELD_21",
 },
 {
-    leftHandSide: "Account.Name",
-    rightHandSide: "nameC",
-    rightHandSideDataType: "reference",
+    leftHandSide: {value: "Account.Name", error:null},
+    rightHandSide: {value: "nameC", error:null},
+    rightHandSideDataType: {value: "reference", error:null},
     rowIndex: "RECORDCREATEASSIGNMENTFIELD_22",
 }
 ];
