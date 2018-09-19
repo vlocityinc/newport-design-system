@@ -5,7 +5,7 @@ import waitEventListHeader from '@salesforce/label/FlowBuilderWaitEditor.waitEve
 import waitEventListHelptext from '@salesforce/label/FlowBuilderWaitEditor.waitEventListHelptext';
 import addWaitEventButtonLabel from '@salesforce/label/FlowBuilderWaitEditor.addWaitEventButtonLabel';
 import waitEventsDetailsHeader from '@salesforce/label/FlowBuilderWaitEditor.waitEventsDetailsHeader';
-import emptyWaitEventsLabel from '@salesforce/label/FlowBuilderWaitEditor.emptyWaitEventsLabel';
+import newWaitEventLabel from '@salesforce/label/FlowBuilderWaitEditor.newWaitEventLabel';
 import defaultPathLabel from '@salesforce/label/FlowBuilderWaitEditor.defaultPathLabel';
 
 export const LABELS = {
@@ -15,6 +15,6 @@ export const LABELS = {
     waitEventListHelptext,
     addWaitEventButtonLabel,
     waitEventsDetailsHeader,
-    emptyWaitEventsLabel,
+    newWaitEventLabel,
     defaultPathLabel
 };

@@ -5,8 +5,7 @@ import {
     deleteItem,
     replaceItem,
     hydrateWithErrors,
-    mutateOutcome,
-    unionOfArrays
+    mutateOutcome
 } from "builder_platform_interaction/dataMutationLib";
 import {
     PropertyChangedEvent,
@@ -22,20 +21,7 @@ import { ELEMENT_TYPE, SUB_ELEMENT_TYPE } from "builder_platform_interaction/flo
 import { PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { usedBy, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
-
-const getListOfUsedByElementsForOutcome = (state, event) => {
-    let listOfGuidsToSkipWhenCheckingUsedByGlobally = [state.guid];
-    const mapOfInternalOutcomes = state.outcomes.reduce((acc, outcome) => {
-        listOfGuidsToSkipWhenCheckingUsedByGlobally = addItem(listOfGuidsToSkipWhenCheckingUsedByGlobally, outcome.guid);
-        acc[outcome.guid] = outcome;
-        return acc;
-    }, []);
-
-    const locallyUsedElements = usedBy([event.detail.guid], mapOfInternalOutcomes);
-    const globallyUsedElements = usedBy([event.detail.guid], undefined, listOfGuidsToSkipWhenCheckingUsedByGlobally);
-    return unionOfArrays(locallyUsedElements, globallyUsedElements);
-};
+import { usedByStoreAndElementState, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
 
 const addOutcome = (state) => {
     let newOutcome = mutateOutcome(createFlowElement(ELEMENT_TYPE.OUTCOME, false));
@@ -47,7 +33,7 @@ const addOutcome = (state) => {
 };
 
 const deleteOutcome = (state, event) => {
-    const usedElements = getListOfUsedByElementsForOutcome(state, event);
+    const usedElements = usedByStoreAndElementState(event.detail.guid, state.guid, state.outcomes);
     if (usedElements && usedElements.length > 0) {
         invokeUsedByAlertModal(usedElements, [event.detail.guid], ELEMENT_TYPE.OUTCOME);
     } else {

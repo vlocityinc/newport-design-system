@@ -1,5 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from "./waitEventLabels";
+import {
+    DeleteWaitEventEvent,
+} from "builder_platform_interaction/events";
 
 export default class WaitEvent extends LightningElement {
     labels = LABELS;
@@ -19,11 +22,8 @@ export default class WaitEvent extends LightningElement {
     handleDelete(event) {
         event.stopPropagation();
 
-        // TODO as part of current story: refactor the delete outcome event to be generic for both outcomes and wait events
-        // https://gus.lightning.force.com/a07B0000004YWEKIA4
-
-        // const deleteWaitEventEvent = new DeleteOutcomeEvent(this.outcome.guid);
-        // this.dispatchEvent(deleteOutcomeEvent);
+        const deleteWaitEventEvent = new DeleteWaitEventEvent(this.element.guid);
+        this.dispatchEvent(deleteWaitEventEvent);
     }
 
     handlePropertyChanged(event) {

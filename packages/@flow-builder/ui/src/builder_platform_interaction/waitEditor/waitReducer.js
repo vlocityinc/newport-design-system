@@ -1,4 +1,13 @@
 import {
+    PropertyChangedEvent,
+    AddConditionEvent,
+    DeleteConditionEvent,
+    UpdateConditionEvent,
+    DeleteWaitEventEvent,
+    ReorderListEvent
+} from "builder_platform_interaction/events";
+import {waitValidation, additionalRules} from "./waitValidation";
+import {
     addItem,
     deleteItem,
     replaceItem,
@@ -7,17 +16,11 @@ import {
 import {
     createWaitEvent,
     createCondition,
-} from 'builder_platform_interaction/elementFactory';
+} from "builder_platform_interaction/elementFactory";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import {
-    PropertyChangedEvent,
-    AddConditionEvent,
-    DeleteConditionEvent,
-    UpdateConditionEvent,
-    ReorderListEvent
-} from 'builder_platform_interaction/events';
-import {waitValidation, additionalRules} from './waitValidation';
+import { usedByStoreAndElementState, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
 
 const waitPropertyChanged = (state, event) => {
     event.detail.error = event.detail.error === null ?
@@ -37,6 +40,20 @@ const addWaitEvent = (state) => {
     const waitEvents = addItem(state.waitEvents, newWaitEvent);
 
     return updateProperties(state, {waitEvents});
+};
+
+const deleteWaitEvent = (state, event) => {
+    const usedElements = usedByStoreAndElementState(event.detail.guid, state.guid, state.waitEvents);
+
+    if (usedElements && usedElements.length > 0) {
+        invokeUsedByAlertModal(usedElements, [event.detail.guid], ELEMENT_TYPE.WAIT_EVENT);
+    } else {
+        const waitEvents = state.waitEvents.filter((waitEvent) => {
+            return waitEvent.guid !== event.detail.guid;
+        });
+        return updateProperties(state, {waitEvents});
+    }
+    return state;
 };
 
 const reorderWaitEvents = (state, event) => {
@@ -112,6 +129,8 @@ export const waitReducer = (state, event) => {
             return addWaitEvent(state);
         case ReorderListEvent.EVENT_NAME:
             return reorderWaitEvents(state, event);
+        case DeleteWaitEventEvent.EVENT_NAME:
+            return deleteWaitEvent(state, event);
         default: return state;
     }
 };

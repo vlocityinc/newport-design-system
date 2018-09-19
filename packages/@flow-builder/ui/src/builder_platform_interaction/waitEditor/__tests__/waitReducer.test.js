@@ -1,16 +1,18 @@
-import {waitReducer} from '../waitReducer';
+import {waitReducer} from "../waitReducer";
 import {
     PropertyChangedEvent,
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent,
-} from 'builder_platform_interaction/events';
+    DeleteWaitEventEvent
+} from "builder_platform_interaction/events";
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 
 describe('wait-reducer', () => {
     let initState;
     const parentGUID = 'WAIT_EVENT_1';
     let currCondition;
+
     beforeEach(() => {
         currCondition = createCondition();
         initState = {
@@ -23,7 +25,15 @@ describe('wait-reducer', () => {
             locationY : 123,
             waitEvents: [
                 {
+                    name : {value: 'waitEvent1', error: null},
                     guid: parentGUID,
+                    conditions: [
+                        currCondition,
+                    ],
+                },
+                {
+                    name : {value: 'waitEvent2', error: null},
+                    guid: 'WAIT_EVENT_2',
                     conditions: [
                         currCondition,
                     ],
@@ -93,5 +103,40 @@ describe('wait-reducer', () => {
         const deleteConditionEvent = new DeleteConditionEvent(parentGUID, index);
         const resultObj = waitReducer(initState, deleteConditionEvent);
         expect(resultObj.waitEvents[index].conditions).toHaveLength(0);
+    });
+
+    describe('Delete Wait event', () => {
+        it('with a valid guid deletes the outcome', () => {
+            const deleteWaitEventEvent = new DeleteWaitEventEvent(initState.waitEvents[0].guid);
+
+            const newState = waitReducer(initState, deleteWaitEventEvent);
+
+            expect(newState.waitEvents).toHaveLength(1);
+            expect(newState.waitEvents[0]).toEqual(initState.waitEvents[1]);
+        });
+
+        it('with an invalid guid does nothing', () => {
+            const deleteWaitEventEvent = new DeleteWaitEventEvent('this.guid.does.not.exist');
+
+            const newState = waitReducer(initState, deleteWaitEventEvent);
+
+            expect(newState.waitEvents).toHaveLength(2);
+        });
+
+        describe('used by another element', () => {
+            it('invoke the UsedBy alert modal', () => {
+                const deleteWaitEventEvent = new DeleteWaitEventEvent(initState.waitEvents[0].guid);
+
+                const usedByLib = require.requireActual('builder_platform_interaction/usedByLib');
+                // An element is found which uses the outcome
+                usedByLib.usedByStoreAndElementState = jest.fn().mockReturnValue([{guid: 'someElement'}]);
+                usedByLib.invokeUsedByAlertModal = jest.fn();
+
+                const newState = waitReducer(initState, deleteWaitEventEvent);
+
+                expect(newState.waitEvents).toHaveLength(2);
+                expect(usedByLib.invokeUsedByAlertModal).toHaveBeenCalled();
+            });
+        });
     });
 });

@@ -11,5 +11,6 @@ export default class LightningRadioGroup extends LightningElement {
     @api label;
     @api options;
     @api name;
+    @api type;
     @api required;
 }

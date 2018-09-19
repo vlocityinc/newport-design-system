@@ -1,7 +1,7 @@
 import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store, isPlainObject } from 'builder_platform_interaction/storeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { addItem, getValueFromHydratedItem, dehydrate } from 'builder_platform_interaction/dataMutationLib';
+import { addItem, getValueFromHydratedItem, dehydrate, unionOfArrays } from 'builder_platform_interaction/dataMutationLib';
 import { format, splitStringByPeriod } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './usedByLibLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
@@ -77,6 +77,29 @@ export function invokeUsedByAlertModal(usedByElements, elementGuidsToBeDeleted, 
             }
         }
     });
+}
+
+/**
+ * For a given element, find all elements which reference it, whether in the store or in a parent element's internal
+ * state (i.e., outcomes in a decision, wait events in a wait). Note that the parent element will not be included in the
+ * result
+ *
+ * @param {string} guid - guid of the element being checked for usage
+ * @param {string} parentGuid - guid of the parent element.  It will not be included in the returned array
+ * @param {Object[]}internalElements - array of child elements which will be checked for usage
+ * @return {Object[]} Array of elements which use the specified guid.  This array will never include the parent element
+ */
+export function usedByStoreAndElementState(guid, parentGuid, internalElements) {
+    let listOfGuidsToSkipWhenCheckingUsedByGlobally = [parentGuid];
+    const mapOfInternalOutcomes = internalElements.reduce((acc, element) => {
+        listOfGuidsToSkipWhenCheckingUsedByGlobally = addItem(listOfGuidsToSkipWhenCheckingUsedByGlobally, element.guid);
+        acc[element.guid] = element;
+        return acc;
+    }, []);
+
+    const locallyUsedElements = usedBy([guid], mapOfInternalOutcomes);
+    const globallyUsedElements = usedBy([guid], undefined, listOfGuidsToSkipWhenCheckingUsedByGlobally);
+    return unionOfArrays(locallyUsedElements, globallyUsedElements);
 }
 
 /**

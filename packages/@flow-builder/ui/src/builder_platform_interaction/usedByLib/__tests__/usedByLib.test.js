@@ -1,4 +1,4 @@
-import { usedBy } from "builder_platform_interaction/usedByLib";
+import { usedBy, usedByStoreAndElementState } from "builder_platform_interaction/usedByLib";
 
 const elements = {
     'DECISION_1': {
@@ -10,6 +10,8 @@ const elements = {
             'outcomeReference': 'OUTCOME_1'
         }, {
             'outcomeReference': 'OUTCOME_2'
+        }, {
+            'outcomeReference': 'OUTCOME_4'
         }],
         'availableConnections': [{
             'type': 'REGULAR',
@@ -61,13 +63,28 @@ const elements = {
                 'leftValueReference': 'OUTCOME_1',
                 'operator': 'EqualTo',
                 'rightValue': {
-                    'stringValue': '{!OUTCOME_2}'
+                    'stringValue': '{!OUTCOME_2}' // String value with curly braces should match even if it is equal to a GUID
                 }
             }
         ],
         'guid': 'OUTCOME_3',
         'label': 'OUTCOME 3',
         'name': 'OUTCOME 3',
+        'isCanvasElement': false
+    },
+    'OUTCOME_4': {
+        'conditions': [
+            {
+                'leftValueReference': 'OUTCOME_1',
+                'operator': 'EqualTo',
+                'rightValue': {
+                    'stringValue': 'foo'
+                }
+            }
+        ],
+        'guid': 'OUTCOME_4',
+        'label': 'OUTCOME 4',
+        'name': 'OUTCOME 4',
         'isCanvasElement': false
     },
     'FORMULA_1': {
@@ -208,5 +225,22 @@ describe('Used by library', () => {
         const elementGuids = ['DECISION_1', 'OUTCOME_3', 'FORMULA_1'];
         const actualResult = usedBy(elementGuids, elements);
         expect(actualResult).toHaveLength(0);
+    });
+
+    describe('usedByStoreAndElementState', () => {
+        it('returns an empty array if an element is only referenced by the parent element', () => {
+            const decisionOneOutcomes = elements.DECISION_1.outcomeReferences.map((ref) => {
+                return {
+                    guid: ref.outcomeReference
+                };
+            });
+
+            const actualResult = usedByStoreAndElementState('OUTCOME_4', 'DECISION_1', decisionOneOutcomes);
+            expect(actualResult).toHaveLength(0);
+        });
+        it('returns the referencing element if an element is referenced by an element other than the parent', () => {
+            const actualResult = usedByStoreAndElementState('guid15', 'DECISION_1', []);
+            expect(actualResult).not.toHaveLength(0);
+        });
     });
 });
