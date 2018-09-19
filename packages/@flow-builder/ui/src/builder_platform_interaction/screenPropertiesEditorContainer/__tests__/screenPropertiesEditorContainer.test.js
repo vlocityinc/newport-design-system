@@ -31,7 +31,7 @@ describe('screen-properties-editor-container', () => {
         });
         return Promise.resolve().then(() => {
             const header = getShadowRoot(screenPropertiesEditorContainerElement).querySelector(headerSelector);
-            expect(header.textContent).toBe('FlowBuilderScreenEditor.screen');
+            expect(header.textContent).toBe('FlowBuilderScreenEditor.screenProperties');
         });
     });
     it('displays the field properties header if field is selected', () => {
@@ -40,7 +40,7 @@ describe('screen-properties-editor-container', () => {
         });
         return Promise.resolve().then(() => {
             const header = getShadowRoot(screenPropertiesEditorContainerElement).querySelector(headerSelector);
-            expect(header.textContent).toBe('FlowBuilderScreenEditor.screen > FlowBuilderScreenEditor.fieldTypeLabelTextField');
+            expect(header.textContent).toBe('FlowBuilderScreenEditor.fieldTypeLabelTextField');
         });
     });
     it('displays the error icon when the node has errors', () => {

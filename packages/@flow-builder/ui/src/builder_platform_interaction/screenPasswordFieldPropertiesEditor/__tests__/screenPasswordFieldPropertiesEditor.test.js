@@ -14,6 +14,8 @@ const SELECTORS = {
     REQUIRED_CHECKBOX: 'builder_platform_interaction-screen-property-field[name="isRequired"]',
     DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[name="defaultValue"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
+    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-resourced-textarea[name="errorMessage"]',
+    VALIDATION_FORMULA: 'builder_platform_interaction-resourced-textarea[name="formulaExpression"]',
 };
 
 const fieldName = 'input1';
@@ -33,7 +35,7 @@ describe('screen-password-field-properties-editor', () => {
     let screenPasswordFieldPropEditor;
     beforeEach(() => {
         screenPasswordFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Password', SCREEN_NO_DEF_VALUE, {helpText: false}),
+            field: createTestScreenField(fieldName, 'Password', SCREEN_NO_DEF_VALUE, {validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -68,6 +70,20 @@ describe('screen-password-field-properties-editor', () => {
             const renderedHelpTextField = query(screenPasswordFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
             expect(renderedHelpTextField.value).toBeNull();
+        });
+    });
+    it('Validation rule error message is present but empty', () => {
+        return Promise.resolve().then(() => {
+            const renderedValidationError = query(screenPasswordFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            expect(renderedValidationError).not.toBeNull();
+            expect(renderedValidationError.value).toBeNull();
+        });
+    });
+    it('Validation rule formula is present but empty', () => {
+        return Promise.resolve().then(() => {
+            const renderedValidationFormula = query(screenPasswordFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            expect(renderedValidationFormula).not.toBeNull();
+            expect(renderedValidationFormula.value).toBeNull();
         });
     });
 });
@@ -117,6 +133,30 @@ describe('screen-password-field-properties-editor with help text', () => {
             const renderedHelpTextField = query(screenPasswordFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
             expect(renderedHelpTextField.value.value).toBe('Screen field input1 help text');
+        });
+    });
+});
+
+describe('screen-password-field-properties-editor with validationRule', () => {
+    let screenPasswordFieldPropEditor;
+    beforeEach(() => {
+        screenPasswordFieldPropEditor = createComponentUnderTest({
+            field: createTestScreenField(fieldName, 'Password', SCREEN_NO_DEF_VALUE, {validation: true, helpText: false}),
+        });
+    });
+
+    it('Validation rule error message is present and displayed', () => {
+        return Promise.resolve().then(() => {
+            const renderedValidationError = query(screenPasswordFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            expect(renderedValidationError).not.toBeNull();
+            expect(renderedValidationError.value).toBe("The value you entered doesn't meet the validation criteria for this input field.");
+        });
+    });
+    it('Validation rule formula is present and displayed', () => {
+        return Promise.resolve().then(() => {
+            const renderedValidationFormula = query(screenPasswordFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            expect(renderedValidationFormula).not.toBeNull();
+            expect(renderedValidationFormula.value).toBe("{!Var1} == 'text'");
         });
     });
 });

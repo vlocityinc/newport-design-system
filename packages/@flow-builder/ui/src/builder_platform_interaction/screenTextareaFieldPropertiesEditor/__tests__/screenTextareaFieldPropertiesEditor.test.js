@@ -13,6 +13,8 @@ const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[type="long_string"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
+    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-resourced-textarea[name="errorMessage"]',
+    VALIDATION_FORMULA: 'builder_platform_interaction-resourced-textarea[name="formulaExpression"]',
 };
 
 const fieldName = 'input1';
@@ -32,7 +34,7 @@ describe('screen-textarea-field-properties-editor', () => {
     let screenTextAreaFieldPropEditor;
     beforeEach(() => {
         screenTextAreaFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE, {helpText: false}),
+            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE, {validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -58,6 +60,20 @@ describe('screen-textarea-field-properties-editor', () => {
             const renderedHelpTextField = query(screenTextAreaFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
             expect(renderedHelpTextField.value).toBeNull();
+        });
+    });
+    it('Validation rule error message is present but empty', () => {
+        return Promise.resolve().then(() => {
+            const renderedValidationError = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            expect(renderedValidationError).not.toBeNull();
+            expect(renderedValidationError.value).toBeNull();
+        });
+    });
+    it('Validation rule formula is present but empty', () => {
+        return Promise.resolve().then(() => {
+            const renderedValidationFormula = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            expect(renderedValidationFormula).not.toBeNull();
+            expect(renderedValidationFormula.value).toBeNull();
         });
     });
 });
@@ -90,6 +106,30 @@ describe('screen-textarea-field-properties-editor with help text', () => {
             const renderedHelpTextField = query(screenTextAreaFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
             expect(renderedHelpTextField.value.value).toBe('Screen field input1 help text');
+        });
+    });
+});
+
+describe('screen-textarea-field-properties-editor with validationRule', () => {
+    let screenTextAreaFieldPropEditor;
+    beforeEach(() => {
+        screenTextAreaFieldPropEditor = createComponentUnderTest({
+            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE, {validation: true, helpText: false}),
+        });
+    });
+
+    it('Validation rule error message is present and displayed', () => {
+        return Promise.resolve().then(() => {
+            const renderedValidationError = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            expect(renderedValidationError).not.toBeNull();
+            expect(renderedValidationError.value).toBe("The value you entered doesn't meet the validation criteria for this input field.");
+        });
+    });
+    it('Validation rule formula is present and displayed', () => {
+        return Promise.resolve().then(() => {
+            const renderedValidationFormula = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            expect(renderedValidationFormula).not.toBeNull();
+            expect(renderedValidationFormula.value).toBe("{!Var1} == 'text'");
         });
     });
 });
