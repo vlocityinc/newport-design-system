@@ -16,6 +16,7 @@ export const outcomeGuid = 'guid15';
 export const decisionGuid = 'guid16';
 export const caseSObjectCollectionVariableGuid = 'guid17';
 export const stringConstantGuid = 'guid18';
+export const textTemplateGuid = 'guid19';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -34,6 +35,7 @@ export const actionCallElementDevName = "actionCall1";
 export const outcomeDevName = "outcome1";
 export const decisionDevName = "decision1";
 export const caseSObjectCollectionVariableDevName = 'caseCollectionVar1';
+export const textTemplateDevName = 'textTemplate1';
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -53,6 +55,7 @@ export const assignment = 'ASSIGNMENT';
 export const actionCall = 'ACTION_CALL';
 export const outcome = 'OUTCOME';
 export const formula = 'FORMULA';
+export const textTemplate = 'TEXT_TEMPLATE';
 
 export const elements = {
     [numberVariableGuid]: {
@@ -398,4 +401,15 @@ export const mutatedVariablesAndConstants = {
             error: null
         }
     }
+};
+
+export const textTemplates = {
+        [textTemplateGuid]: {
+            description: 'text template random description',
+            elementType: textTemplate,
+            guid: textTemplateGuid,
+            isCanvasElement: false,
+            name: { value: textTemplateDevName, error: null },
+            text: { value: 'Hello {!World}', error: null }
+        }
 };
