@@ -38,7 +38,6 @@ export default class ScreenPasswordFieldPropertiesEditor extends LightningElemen
         return {
             allowLiterals: true,
             collection: false,
-            objectType: 'String',
             elementType: ELEMENT_TYPE.SCREEN
         };
     }

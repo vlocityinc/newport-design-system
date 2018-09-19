@@ -30,7 +30,6 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
         return {
             allowLiterals: true,
             collection: false,
-            objectType: this.field.dataType,
             elementType: ELEMENT_TYPE.SCREEN
         };
     }
