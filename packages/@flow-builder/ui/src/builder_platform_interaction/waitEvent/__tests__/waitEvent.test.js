@@ -1,8 +1,21 @@
 import {createElement} from 'lwc';
 import WaitEvent from "builder_platform_interaction/waitEvent";
-import { DeleteWaitEventEvent } from "builder_platform_interaction/events";
+import {
+    DeleteWaitEventEvent,
+    PropertyChangedEvent,
+    WaitEventPropertyChangedEvent,
+} from "builder_platform_interaction/events";
 import { getShadowRoot } from 'lwc-test-utils';
 import { LABELS } from "../waitEventLabels";
+import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+
+jest.mock('builder_platform_interaction/conditionListUtils', () => {
+    return {
+        getConditionsWithPrefixes: jest.fn().mockName('getConditionsWithPrefixes'),
+        showDeleteCondition: jest.fn().mockName('showDeleteCondition'),
+    };
+});
 
 const waitEventWithOneConditional = {
     label: {value: 'Test Name of the Outcome'},
@@ -15,7 +28,7 @@ const waitEventWithOneConditional = {
 };
 
 const selectors = {
-    conditionList: 'builder_platform_interaction-list',
+    conditionList: 'builder_platform_interaction-condition-list',
     row: 'builder_platform_interaction-row',
     labelAndName: 'builder_platform_interaction-label-description',
     button: 'lightning-button',
@@ -88,6 +101,56 @@ describe('Wait Event', () => {
                         guid: element.waitEvent.guid
                     }
                 });
+            });
+        });
+    });
+
+    describe('wait conditions', () => {
+        let waitEvent;
+
+        beforeEach(() => {
+            waitEvent = createComponentUnderTest(waitEventWithOneConditional);
+        });
+
+        it('contains a condition list', () => {
+            const conditionList = getShadowRoot(waitEvent).querySelector(selectors.conditionList);
+            expect(conditionList).toBeDefined();
+        });
+
+        it('creates conditions with prefixes when it has condition logic and conditions', () => {
+            expect(getConditionsWithPrefixes).toHaveBeenCalledWith(waitEventWithOneConditional.conditionLogic, waitEventWithOneConditional.conditions);
+        });
+
+        it('allows deletion of conditions when it has conditions', () => {
+            getConditionsWithPrefixes.mockReturnValueOnce([{
+                prefix: 'foo',
+                condition: { rowIndex: 'bar' },
+            }]);
+            waitEvent = createComponentUnderTest(waitEventWithOneConditional);
+            expect(showDeleteCondition).toHaveBeenCalledWith(waitEventWithOneConditional.conditions);
+        });
+
+        it('has AND, OR, NO_CONDITION, and CUSTOM_LOGIC options for wait criteria', () => {
+            const conditionList = getShadowRoot(waitEvent).querySelector(selectors.conditionList);
+            expect(conditionList.conditionLogicOptions).toEqual([
+                expect.objectContaining({ value: CONDITION_LOGIC.NO_CONDITIONS }),
+                expect.objectContaining({ value: CONDITION_LOGIC.AND }),
+                expect.objectContaining({ value: CONDITION_LOGIC.OR }),
+                expect.objectContaining({ value: CONDITION_LOGIC.CUSTOM_LOGIC }),
+            ]);
+        });
+
+        it('dispatches a WaitEventPropertyChangedEvent on PropertyChangedEvent', () => {
+            const conditionList = getShadowRoot(waitEvent).querySelector(selectors.conditionList);
+            const propNameToUpdate = 'foo';
+            const propChangedEvent = new PropertyChangedEvent(propNameToUpdate);
+            const waitEventUpdateSpy = jest.fn();
+
+            window.addEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventUpdateSpy);
+            conditionList.dispatchEvent(propChangedEvent);
+            return Promise.resolve().then(() => {
+                expect(waitEventUpdateSpy.mock.calls[0][0].type).toEqual(WaitEventPropertyChangedEvent.EVENT_NAME);
+                expect(waitEventUpdateSpy.mock.calls[0][0].detail.propertyName).toEqual(propNameToUpdate);
             });
         });
     });

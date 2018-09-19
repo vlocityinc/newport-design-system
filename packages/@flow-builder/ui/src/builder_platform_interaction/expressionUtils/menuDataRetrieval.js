@@ -156,6 +156,7 @@ function getSelector({elementType, shouldBeWritable, isCollection, dataType, ent
             selector = shouldBeWritable ? writableElementsSelector : readableElementsSelector;
             break;
         case ELEMENT_TYPE.DECISION:
+        case ELEMENT_TYPE.WAIT:
         case ELEMENT_TYPE.SCREEN:
             selector = readableElementsSelector;
             break;

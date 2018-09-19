@@ -1,11 +1,24 @@
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from "./waitEventLabels";
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
+import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import {
     DeleteWaitEventEvent,
-} from "builder_platform_interaction/events";
+    WaitEventPropertyChangedEvent,
+} from 'builder_platform_interaction/events';
 
 export default class WaitEvent extends LightningElement {
     labels = LABELS;
+
+    conditionLogicOptions = [
+        {value: CONDITION_LOGIC.NO_CONDITIONS, label: LABELS.alwaysMetLabel},
+        {value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel},
+        {value: CONDITION_LOGIC.OR, label: LABELS.orConditionLogicLabel},
+        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: LABELS.customLogicLabel},
+    ];
+
+    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.COMPARISON, this.elementTypeForExpressionBuilder);
 
     @track element;
 
@@ -28,7 +41,12 @@ export default class WaitEvent extends LightningElement {
 
     handlePropertyChanged(event) {
         event.stopPropagation();
-        // do nothing for now
+
+        const { propertyName, value, error, guid, oldValue } = event.detail;
+        const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(propertyName, value, error, guid, oldValue);
+        this.dispatchEvent(waitEventPropertyChangedEvent);
+
+        // TODO: W-5454625 handle label description changes
     }
 
     get upperCaseWaitConditionsTabText() {
@@ -37,5 +55,21 @@ export default class WaitEvent extends LightningElement {
 
     get upperCaseResumeConditionsTabText() {
         return LABELS.resumeConditionsTabText.toUpperCase();
+    }
+
+    get elementTypeForExpressionBuilder() {
+        return ELEMENT_TYPE.WAIT;
+    }
+
+    get conditionsWithPrefixes() {
+        return this.element.conditions && this.element.conditionLogic ? getConditionsWithPrefixes(this.element.conditionLogic, this.element.conditions) : [];
+    }
+
+    /**
+     * Helper method needed for conditions list
+     * @return {boolean} if delete should be shown for each condition
+     */
+    get showDeleteCondition() {
+        return this.element.conditions && showDeleteCondition(this.element.conditions);
     }
 }
