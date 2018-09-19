@@ -33,6 +33,7 @@ jest.mock('../decisionReducer', () => {
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
     return {
+        pick: require.requireActual('builder_platform_interaction/dataMutationLib').pick,
         getErrorsFromHydratedElement: jest.fn(() => {
             return ['some error'];
         })
@@ -209,7 +210,6 @@ describe('Decision Editor', () => {
     describe('default outcome', () => {
         it('calls the reducer with the passed in action and a propertyName of defaultConnectorLabel', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
-
             // trigger showing of default outcome
             const reorderableOutcomeNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
             reorderableOutcomeNav.dispatchEvent(new CustomEvent('itemselected', {
