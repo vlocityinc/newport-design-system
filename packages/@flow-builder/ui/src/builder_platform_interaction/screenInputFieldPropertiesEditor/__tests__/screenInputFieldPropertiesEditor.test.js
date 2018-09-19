@@ -73,7 +73,7 @@ describe('screen-input-field-properties-editor for TextBox', () => {
     it('Help text is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(renderedHelpTextField).toBeDefined();
+            expect(renderedHelpTextField).not.toBeNull();
             expect(renderedHelpTextField.value).toBeNull();
         });
     });
@@ -121,7 +121,7 @@ describe('screen-input-field-properties-editor for Number', () => {
     it('Help text is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(renderedHelpTextField).toBeDefined();
+            expect(renderedHelpTextField).not.toBeNull();
             expect(renderedHelpTextField.value).toBeNull();
         });
     });
@@ -169,7 +169,7 @@ describe('screen-input-field-properties-editor for Date', () => {
     it('Help text is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(renderedHelpTextField).toBeDefined();
+            expect(renderedHelpTextField).not.toBeNull();
             expect(renderedHelpTextField.value).toBeNull();
         });
     });
@@ -218,7 +218,7 @@ describe('screen-input-field-properties-editor for DateTime', () => {
     it('Help text is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(renderedHelpTextField).toBeDefined();
+            expect(renderedHelpTextField).not.toBeNull();
             expect(renderedHelpTextField.value).toBeNull();
         });
     });
@@ -265,7 +265,7 @@ describe('screen-input-field-properties-editor for Checkbox', () => {
     it('Help text is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(renderedHelpTextField).toBeDefined();
+            expect(renderedHelpTextField).not.toBeNull();
             expect(renderedHelpTextField.value).toBeNull();
         });
     });
@@ -313,7 +313,7 @@ describe('screen-input-field-properties-editor for Currency', () => {
     it('Help text is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(renderedHelpTextField).toBeDefined();
+            expect(renderedHelpTextField).not.toBeNull();
             expect(renderedHelpTextField.value).toBeNull();
         });
     });
@@ -395,7 +395,7 @@ describe('screen-input-field-properties-editor for TextBox with help text', () =
     it('Help text is displayed', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenInputFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(renderedHelpTextField).toBeDefined();
+            expect(renderedHelpTextField).not.toBeNull();
             expect(renderedHelpTextField.value.value).toBe('Screen field input1 help text');
         });
     });

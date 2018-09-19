@@ -163,7 +163,7 @@ const getRulesForInputField = (field, rules) => {
 
     // DisplayText
     if (typeName === 'DisplayText') {
-        addRules('defaultValue', rules, [
+        addRules('fieldText', rules, [
             ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)
         ]);
     }
