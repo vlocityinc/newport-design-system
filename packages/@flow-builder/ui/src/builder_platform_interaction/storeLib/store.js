@@ -74,7 +74,11 @@ export class Store {
         currentListeners = [...currentListeners, listener];
         return function unSubscribe() {
             const index = currentListeners.indexOf(listener);
-            currentListeners = [...currentListeners.slice(0, index), ...currentListeners.slice(index + 1)];
+            if (index !== -1) {
+                currentListeners = [...currentListeners.slice(0, index), ...currentListeners.slice(index + 1)];
+            } else {
+                throw new Error(`Failed to unsubscribe listener. Listener ${listener} not found!`);
+            }
         };
     }
 

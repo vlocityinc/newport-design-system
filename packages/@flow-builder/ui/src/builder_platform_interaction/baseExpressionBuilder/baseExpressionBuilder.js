@@ -3,7 +3,8 @@ import { RowContentsChangedEvent } from "builder_platform_interaction/events";
 import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
 import {
     EXPRESSION_PROPERTY_TYPE,
-    getElementsForMenuData,
+    getSelector,
+    filterAndMutateMenuData,
     filterFieldsForChosenElement,
     getResourceByUniqueIdentifier,
     getResourceFerovDataType,
@@ -23,6 +24,7 @@ import {
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { isObject, isUndefined } from "builder_platform_interaction/commonUtils";
+import { Store } from 'builder_platform_interaction/storeLib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
@@ -47,6 +49,8 @@ const LHS_FULL_MENU_DATA = 'lhsFullMenuData';
 const LHS_FILTERED_MENU_DATA = 'lhsFilteredMenuData';
 const RHS_FULL_MENU_DATA = 'rhsFullMenuData';
 const RHS_FILTERED_MENU_DATA = 'rhsFilteredMenuData';
+
+let storeInstance;
 
 export default class BaseExpressionBuilder extends LightningElement {
     @track
@@ -289,6 +293,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     _rhsParamTypes;
     _rhsCollectionRequiredByRules;
     _rhsLiteralsAllowedForContext = false;
+    _unsubscribeStore;
 
     /**
      * Sets LHS menu data if all the necessary attributes have been initialized
@@ -414,6 +419,27 @@ export default class BaseExpressionBuilder extends LightningElement {
             lightningCombobox.showHelpMessageIfInvalid();
         }
     }
+
+    constructor() {
+        super();
+        storeInstance = Store.getStore();
+        this._unsubscribeStore = storeInstance.subscribe(this.handleStoreChange);
+    }
+    /**
+     * Unsubscribe from the store.
+     */
+    disconnectedCallback() {
+        if (typeof this._unsubscribeStore === 'function') {
+            this._unsubscribeStore();
+        }
+    }
+    /**
+     * Callback from the store for changes in store.
+     */
+    handleStoreChange = () => {
+        this.setLhsMenuData();
+        this.setRhsMenuData();
+    };
 
     /**
      * Toggles whether operator & RHS are disabled
@@ -551,7 +577,8 @@ export default class BaseExpressionBuilder extends LightningElement {
                 setFieldMenuData();
             }
         } else {
-            this.state[fullMenuData] = this.state[filteredMenuData] = getElementsForMenuData(config, paramTypes,
+            const menuDataElements = getSelector(config)(storeInstance.getCurrentState());
+            this.state[fullMenuData] = this.state[filteredMenuData] = filterAndMutateMenuData(menuDataElements, paramTypes,
                 SHOW_NEW_RESOURCE, isFerov, DISABLE_HAS_NEXT, picklistValues);
         }
     }

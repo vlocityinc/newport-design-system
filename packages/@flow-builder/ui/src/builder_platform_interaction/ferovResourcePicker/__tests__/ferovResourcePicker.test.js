@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import FerovResourcePicker from "../ferovResourcePicker";
-import { getElementsForMenuData, normalizeRHS, filterFieldsForChosenElement} from "builder_platform_interaction/expressionUtils";
+import { filterAndMutateMenuData, normalizeRHS, filterFieldsForChosenElement} from "builder_platform_interaction/expressionUtils";
 import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
@@ -44,7 +44,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        getElementsForMenuData: jest.fn().mockReturnValue(['ferovMenuData']).mockName('getElementsForMenuData'),
+        filterAndMutateMenuData: jest.fn().mockReturnValue(['ferovMenuData']).mockName('filterAndMutateMenuData'),
         normalizeRHS: jest.fn().mockReturnValue(Promise.resolve()),
         filterFieldsForChosenElement: jest.fn(),
     };
@@ -79,9 +79,8 @@ describe('ferov-resource-picker', () => {
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes,
-                false, true, false
-            );
+            expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(expect.any(Object), paramTypes, false, true, false);
         });
     });
 
@@ -136,15 +135,15 @@ describe('ferov-resource-picker', () => {
             expect(getRulesForContext).toHaveBeenLastCalledWith({elementType: ELEMENT_TYPE.VARIABLE});
             expect(getRHSTypes).toHaveBeenCalledTimes(1);
             expect(getRHSTypes).toHaveBeenLastCalledWith(ELEMENT_TYPE.VARIABLE, props.elementParam, RULE_OPERATOR.ASSIGN, expect.any(Array));
-            expect(getElementsForMenuData).toHaveBeenCalledTimes(1);
-            expect(getElementsForMenuData).toHaveBeenCalledWith({elementType: ELEMENT_TYPE.VARIABLE}, paramTypes, false, true, false);
+            expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(expect.any(Object), paramTypes, false, true, false);
         });
     });
 
     it('does not query rules and param types with elementConfig set', () => {
         const elementConfigProps = {
             propertyEditorElementType: ELEMENT_TYPE.VARIABLE,
-            elementConfig: { element: ELEMENT_TYPE.VARIABLE, shouldBeWritable: false }
+            elementConfig: { elementType: ELEMENT_TYPE.VARIABLE, shouldBeWritable: false }
         };
         const normalizedValue = {
             itemOrDisplayText: {
@@ -156,8 +155,8 @@ describe('ferov-resource-picker', () => {
         return Promise.resolve().then(() => {
             expect(getRulesForContext).not.toHaveBeenCalled();
             expect(getRHSTypes).not.toHaveBeenCalled();
-            expect(getElementsForMenuData).toHaveBeenCalledTimes(1);
-            expect(getElementsForMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, null, false, true, false);
+            expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(expect.any(Object), null, false, true, false);
         });
     });
 

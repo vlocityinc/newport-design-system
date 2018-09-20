@@ -1,6 +1,7 @@
 import { LightningElement, api, track }  from 'lwc';
 import {
-    getElementsForMenuData,
+    getSelector,
+    filterAndMutateMenuData,
     filterFieldsForChosenElement,
     normalizeRHS,
 } from "builder_platform_interaction/expressionUtils";
@@ -11,10 +12,13 @@ import {
 } from "builder_platform_interaction/ruleLib";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { isObject } from "builder_platform_interaction/commonUtils";
+import { Store } from 'builder_platform_interaction/storeLib';
 
 const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker'
 };
+
+let storeInstance;
 
 export default class FerovResourcePicker extends LightningElement {
     @track
@@ -165,6 +169,11 @@ export default class FerovResourcePicker extends LightningElement {
      */
     _menuData;
 
+    /**
+     * Store unsubscribe function.
+     */
+    _unsubscribeStore;
+
     /** Event handlers */
 
     handleItemSelected(event) {
@@ -182,6 +191,18 @@ export default class FerovResourcePicker extends LightningElement {
         const selectedItem = event.detail.item;
         // if the event has combobox menu item that means they selected an sobject item from the dropdown
         this.populateMenuData(selectedItem);
+    }
+
+    constructor() {
+        super();
+        storeInstance = Store.getStore();
+        this._unsubscribeStore = storeInstance.subscribe(this.handleStoreChange);
+    }
+
+    disconnectedCallback() {
+        if (typeof this._unsubscribeStore === 'function') {
+            this._unsubscribeStore();
+        }
     }
 
     renderedCallback() {
@@ -202,7 +223,7 @@ export default class FerovResourcePicker extends LightningElement {
 
         this.populateMenuData(this.parentItem, normalizedValue.fields);
         this._isInitialized = true;
-    }
+    };
 
     populateMenuData = (parentItem, fields) => {
         if (!this._baseResourcePicker) {
@@ -244,13 +265,20 @@ export default class FerovResourcePicker extends LightningElement {
      * If elementConfig is set use that to fetch the menu data.
      */
     populateFerovMenuData() {
+        let menuDataElements;
+        let allowedParamTypes;
+
         if (!this._elementConfig) {
             this.populateRulesAndParamTypes();
-            this._menuData = getElementsForMenuData({ elementType: this.propertyEditorElementType },
-                this.paramTypes, this.showNewResource, this.allowSobjectForFields, this.disableFieldDrilldown);
+            menuDataElements = this.getElements({ elementType: this.propertyEditorElementType });
+            allowedParamTypes = this.paramTypes;
         } else {
-            this._menuData = getElementsForMenuData(this._elementConfig, null, this.showNewResource, this.allowSobjectForFields, this.disableFieldDrilldown);
+            menuDataElements = this.getElements(this._elementConfig);
+            allowedParamTypes = null;
         }
+
+        this._menuData = filterAndMutateMenuData(menuDataElements, allowedParamTypes, this.showNewResource,
+            this.allowSobjectForFields, this.disableFieldDrilldown);
         this.setFullMenuData(this._menuData);
     }
 
@@ -266,5 +294,19 @@ export default class FerovResourcePicker extends LightningElement {
     populateRulesAndParamTypes() {
         this._rules = getRulesForContext({ elementType: this.propertyEditorElementType });
         this.paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this._rules);
+    }
+
+    /**
+     * Callback from the store for changes in store.
+     */
+    handleStoreChange = () => {
+        this.populateMenuData();
+    };
+
+    /**
+     * Get the selector using config and filter the store elements.
+     */
+    getElements(elementConfig) {
+        return getSelector(elementConfig)(storeInstance.getCurrentState());
     }
 }

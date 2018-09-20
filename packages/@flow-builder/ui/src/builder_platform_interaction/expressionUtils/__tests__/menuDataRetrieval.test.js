@@ -1,4 +1,4 @@
-import { getElementsForMenuData, getEntitiesMenuData } from '../menuDataRetrieval';
+import { getElementsForMenuData, getEntitiesMenuData, getSelector, filterAndMutateMenuData } from '../menuDataRetrieval';
 import { normalizeLHS } from '../resourceUtils';
 import { numberParamCanBeField, stringParam, booleanParam } from "mock/ruleService";
 import * as store from "mock/storeData";
@@ -8,6 +8,7 @@ import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { getAllEntities } from "builder_platform_interaction/sobjectLib";
 import { GLOBAL_CONSTANTS as gcLabels, GLOBAL_CONSTANT_OBJECTS as gcObjects } from "builder_platform_interaction/systemLib";
 import { LABELS } from "../expressionUtilsLabels";
+import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
 
 const collectionVariable = LABELS.collectionVariablePluralLabel.toUpperCase();
@@ -65,10 +66,6 @@ jest.mock('builder_platform_interaction/selectors', () => {
         readableElementsSelector: jest.fn(),
     };
 });
-
-function addCurlyBraces(value) {
-    return '{!' + value + '}';
-}
 
 describe('Menu data retrieval', () => {
     it('should sort alphabetically by category', () => {
@@ -144,18 +141,19 @@ describe('Menu data retrieval', () => {
         expect(copiedElement.subText).toBe(store.numberDataType);
         selectorsMock.writableElementsSelector.mockClear();
     });
-    // TODO Uncomment when we get to W-5164547
-    // it('should have New Resource as first element', () => {
-    //     selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
-    //     const allowedVariables = getElementsForMenuData({
-    //         elementType: ELEMENT_TYPE.ASSIGNMENT,
-    //         shouldBeWritable: true
-    //     }, sampleNumberParamTypes, true);
-    //     expect(allowedVariables).toHaveLength(2);
-    //     expect(allowedVariables[0].text).toBe('FlowBuilderExpressionUtils.newResourceLabel');
-    //     expect(allowedVariables[0].value).toBe('%%NewResource%%');
-    //     selectorsMock.writableElementsSelector.mockClear();
-    // });
+
+    it('should have New Resource as first element', () => {
+        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
+        const allowedVariables = getElementsForMenuData({
+            elementType: ELEMENT_TYPE.ASSIGNMENT,
+            shouldBeWritable: true
+        }, sampleNumberParamTypes, true);
+        expect(allowedVariables).toHaveLength(2);
+        expect(allowedVariables[0].text).toBe('FlowBuilderExpressionUtils.newResourceLabel');
+        expect(allowedVariables[0].value).toBe('%%NewResource%%');
+        selectorsMock.writableElementsSelector.mockClear();
+    });
+
     it('should be able to include sobjects non-collection var when only primitives are valid', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid], store.elements[store.accountSObjectCollectionVariableGuid]]);
         const primitivesWithObjects = getElementsForMenuData({
@@ -297,6 +295,29 @@ describe('Menu data retrieval', () => {
             expect(entitiesMenuData[0].displayText).toEqual(entityApiName);
             expect(entitiesMenuData[0].text).toEqual(entityApiName);
             expect(entitiesMenuData[0].subText).toEqual(entityApiName);
+        });
+    });
+
+    describe('get selector', () => {
+        it('returns selector for element type', () => {
+            selectorsMock.readableElementsSelector.mockReturnValue([store.elements[store.outcomeGuid]]);
+            const selector = getSelector({ elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: false });
+            expect(selector).toBeDefined();
+            const menuData = selector();
+            expect(menuData).toHaveLength(1);
+        });
+    });
+
+    describe('Filter and mutate menu data', () => {
+        it('filters using allowed param and returns in format combobox expects', () => {
+            const menuData = filterAndMutateMenuData([store.elements[store.numberVariableGuid], store.elements[store.dateVariableGuid]], sampleNumberParamTypes);
+            expect(menuData).toHaveLength(1);
+            expect(menuData[0].items).toHaveLength(1);
+            const element = menuData[0].items[0];
+            expect(element.value).toBe(store.numberVariableGuid);
+            expect(element.text).toBe(store.numberVariableDevName);
+            expect(element.subText).toBe(store.numberDataType);
+            expect(element.displayText).toBe(addCurlyBraces(store.numberVariableDevName));
         });
     });
     // TODO: write tests for gettings category once we switch to using labels

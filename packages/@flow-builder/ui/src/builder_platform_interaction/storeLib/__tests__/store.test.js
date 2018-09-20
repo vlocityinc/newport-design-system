@@ -51,6 +51,10 @@ describe('Store class', () => {
             });
             expect(listener).not.toHaveBeenCalled();
         });
+        it('unsubscribe fails if listener not found', () => {
+            unsubscribe();
+            expect(unsubscribe).toThrow('Failed to unsubscribe listener.');
+        });
     });
 
     describe('dispatch function', () => {

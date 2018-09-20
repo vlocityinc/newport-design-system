@@ -108,7 +108,9 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
+        getSelector: require.requireActual('builder_platform_interaction-expression-utils').getSelector,
         getElementsForMenuData: jest.fn().mockReturnValue([]),
+        filterAndMutateMenuData: jest.fn().mockReturnValue([]),
         EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
         getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction/expressionUtils').getResourceByUniqueIdentifier,
         isElementAllowed: jest.fn().mockImplementation(() => false),
@@ -167,7 +169,7 @@ describe('base expression builder', () => {
             const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
             expect(rulesMock.getLHSTypes).toHaveBeenCalled();
-            expect(expressionUtilsMock.getElementsForMenuData).toHaveBeenCalled();
+            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalled();
             expect(lhsCombobox.menuData).toBeDefined();
         });
     });
