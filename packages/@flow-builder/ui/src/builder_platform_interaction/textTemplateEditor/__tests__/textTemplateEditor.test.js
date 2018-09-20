@@ -79,7 +79,7 @@ describe('text-template-editor', () => {
         expect(textarea.value).toEqual(textTemplateResource.text.value);
     });
 
-    it('handles the property changed event and updates the property', () => {
+    it('handles the property changed event and updates the property from label-description', () => {
         const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
         return Promise.resolve().then(() => {
             const event = new PropertyChangedEvent('description', 'new desc', null);
@@ -88,6 +88,23 @@ describe('text-template-editor', () => {
             expect(textTemplateReducer.mock.calls[0][0]).toEqual(textTemplateEditor.node);
         });
     });
+
+    it('handles the property changed event and updates the property from resourced-textarea', () => {
+        const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
+        const newTextTemplate = '<html> New text in template</html>';
+        return Promise.resolve().then(() => {
+            const event = new PropertyChangedEvent(null, newTextTemplate, null, 'some old text');
+            getShadowRoot(textTemplateEditor).querySelector(SELECTORS.RESOURCED_TEXTAREA).dispatchEvent(event);
+            expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
+            expect(createAction.mock.calls[0][1]).toEqual({
+                propertyName: 'text',
+                value: newTextTemplate,
+                error: null
+            });
+            expect(textTemplateReducer.mock.calls[0][0]).toEqual(textTemplateEditor.node);
+        });
+    });
+
 
     describe('validation', () => {
         it('calls reducer with validate all event', () => {

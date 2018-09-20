@@ -15,9 +15,6 @@ export const textTemplateReducer = (textTemplate, action) => {
             const propertyValue = {error: action.payload.error, value: action.payload.value};
             return updateProperties(textTemplate, {[action.payload.propertyName]: propertyValue});
         }
-        case PROPERTY_EDITOR_ACTION.UPDATE_VALUE: {
-            return updateProperties(textTemplate, { [action.payload.propertyName] : action.payload.value });
-        }
         case VALIDATE_ALL:
             return textTemplateValidation.validateAll(textTemplate);
         default: return textTemplate;
