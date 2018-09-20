@@ -1,3 +1,5 @@
+import { isUndefinedOrNull } from "builder_platform_interaction/commonUtils";
+
 // TODO: pass blacklist config form editor Idea is blackListFields being passed per elementType, this config should probably come from builder-utils
 
 const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex', 'availableConnections'];
@@ -48,24 +50,26 @@ export const hydrateWithErrors = (
  * @return {Object} dehydrated element object
  */
 export const dehydrate = (element) => {
-    Object.entries(element).forEach(
-        ([key, value]) => {
-            if (typeof value === 'object') {
-                if (Array.isArray(value)) {
-                    value.forEach((item) => {
-                        dehydrate(item);
-                    });
-                } else if (isItemHydratedWithErrors(element[key])) {
-                    if (element[key].error !== null) {
-                        throw new Error(key + ' should not have any error: ' + element[key].value + ':' + element[key].error);
+    if (!isUndefinedOrNull(element)) {
+        Object.entries(element).forEach(
+            ([key, value]) => {
+                if (typeof value === 'object') {
+                    if (Array.isArray(value)) {
+                        value.forEach((item) => {
+                            dehydrate(item);
+                        });
+                    } else if (isItemHydratedWithErrors(element[key])) {
+                        if (element[key].error !== null) {
+                            throw new Error(key + ' should not have any error: ' + element[key].value + ':' + element[key].error);
+                        }
+                        element[key] = element[key].value;
+                    } else {
+                        dehydrate(value);
                     }
-                    element[key] = element[key].value;
-                } else {
-                    dehydrate(value);
                 }
             }
-        }
-    );
+        );
+    }
     return element;
 };
 

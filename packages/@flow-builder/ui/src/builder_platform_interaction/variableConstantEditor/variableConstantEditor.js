@@ -505,7 +505,7 @@ export default class VariableConstantEditor extends LightningElement {
             // add sobject variable to combobox cache in required shape
             // we call dehydrate here since that is the shape in store as well. This should stay consistent
             const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(dehydrate(this.variableConstantResource));
-            addToParentElementCache(sObjectInComboboxShape);
+            addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
             // fetch fields and cache them
             getFieldsForEntity(objectType);
         }

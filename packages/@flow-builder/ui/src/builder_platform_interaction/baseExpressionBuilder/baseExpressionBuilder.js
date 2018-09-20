@@ -710,7 +710,11 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     getLhsParent() {
         return this.objectType && this._lhsDisplayOption === LHS_DISPLAY_OPTION.SOBJECT_FIELD ?
-            {value: this.objectType}
+            // This shape is needed for checking preFetchedFields & mutating to combobox field shape
+            {
+                objectType: this.objectType,
+                value: this.objectType
+            }
             : this.lhsValue.parent;
     }
 

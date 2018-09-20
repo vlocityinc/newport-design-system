@@ -9,7 +9,7 @@ import { PropertyEditorWarningEvent, PropertyChangedEvent, ComboboxStateChangedE
 import { deepCopy } from "builder_platform_interaction/storeLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { getResourceByUniqueIdentifier, getResourceFerovDataType } from "builder_platform_interaction/expressionUtils";
+import { getResourceByUniqueIdentifier, getResourceFerovDataType, mutateFlowResourceToComboboxShape } from "builder_platform_interaction/expressionUtils";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
@@ -500,12 +500,14 @@ describe('variable-constant-editor', () => {
 
         it('fetches and caches the fields for a valid sobject variable and stores it in the combobox cache', () => {
             const accountVariable = deepCopy(mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]);
+            const accountVariableInComboboxShape = mutateFlowResourceToComboboxShape(accountVariable);
             const objectType = 'Account';
             const variableEditor = setupComponentUnderTest(accountVariable);
             getErrorsFromHydratedElement.mockReturnValueOnce([]);
             variableEditor.validate();
             expect(getFieldsForEntity).toHaveBeenCalledWith(objectType);
             expect(addToParentElementCache).toHaveBeenCalledTimes(1);
+            expect(addToParentElementCache).toHaveBeenCalledWith(accountVariableInComboboxShape.displayText, accountVariableInComboboxShape);
         });
 
         it('does not fetch fields for an sobject if there are errors', () => {
