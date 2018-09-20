@@ -42,7 +42,9 @@ export default class WaitEvent extends LightningElement {
     handlePropertyChanged(event) {
         event.stopPropagation();
 
-        const { propertyName, value, error, guid, oldValue } = event.detail;
+        const { propertyName, value, error, oldValue } = event.detail;
+        const guid = this.element.guid;
+
         const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(propertyName, value, error, guid, oldValue);
         this.dispatchEvent(waitEventPropertyChangedEvent);
 

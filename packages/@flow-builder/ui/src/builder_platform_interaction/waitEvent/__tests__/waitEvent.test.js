@@ -63,6 +63,30 @@ describe('Wait Event', () => {
                 expect(labelAndNameComponents[0].label.value).toBe(waitEventWithOneConditional.label.value);
             });
         });
+
+        it('fires a waitEventPropertyChangedEvent with guid when a propertyChanged event is handled', () => {
+            const newValue = 'newVal';
+
+            const element = createComponentUnderTest(waitEventWithOneConditional);
+
+            const waitEventEventCallback = jest.fn();
+            element.addEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventEventCallback);
+
+            const propertyChangedEvent = new PropertyChangedEvent('label', newValue);
+            const labelAndNameComponent = getShadowRoot(element).querySelector(selectors.labelAndName);
+            labelAndNameComponent.dispatchEvent(propertyChangedEvent);
+
+            expect(waitEventEventCallback).toHaveBeenCalled();
+
+            expect(waitEventEventCallback.mock.calls[0][0]).toMatchObject({
+                detail:{
+                    propertyName: 'label',
+                    value: newValue,
+                    guid: waitEventWithOneConditional.guid
+                }
+            });
+        });
+
         it('has Remove button if show delete is true', () => {
             const element = createComponentUnderTest(waitEventWithOneConditional);
 
