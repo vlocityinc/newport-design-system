@@ -88,7 +88,7 @@ export class Store {
         }
 
         if (!action.type) {
-            throw new Error('Type of a action is not defined');
+            throw new Error('Type of action is not defined');
         }
 
         // Using deepFreeze has a performance impact which is why we only use

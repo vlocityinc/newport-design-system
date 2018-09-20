@@ -85,6 +85,9 @@ export const addElement = (payload) => {
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(ADD_CANVAS_ELEMENT, payload);
                 }
+
+                // Added to support strategy builder non-canvas elements
+                return createAction(ADD_RESOURCE, payload);
         }
     }
     return {};
@@ -116,6 +119,9 @@ export const updateElement = (payload) => {
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(UPDATE_CANVAS_ELEMENT, payload);
                 }
+
+                // Added to support strategy builder non-canvas elements
+                return createAction(UPDATE_RESOURCE, payload);
         }
     }
     return {};
@@ -145,6 +151,9 @@ export const deleteElement = (payload) => {
         default:
             if (isCanvasElement(payload.elementType)) {
                 action = createAction(DELETE_ELEMENT, payload);
+            } else {
+                // Added to support strategy builder non-canvas elements
+                action = createAction(DELETE_RESOURCE, payload);
             }
     }
 
