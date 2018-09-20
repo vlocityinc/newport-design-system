@@ -88,7 +88,7 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
  *
  * @param {Object} field Field to be copied
  * @param {Object} [parent] Parent object if field is a second level item
- * @param {boolean} showAsFieldReference true to show the display text as field reference, otherwise show the field's apiName
+ * @param {boolean} showAsFieldReference true to show the display text as field reference on record variable, otherwise show the field's apiName
  * @param {boolean} showSubText true to show the sub text
  * @returns {MenuItem} Representation of flow element in shape combobox needs
  */
@@ -96,7 +96,7 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
     const formattedField = {
         iconSize: ICON_SIZE
     };
-    if (parent) {
+    if (parent && showAsFieldReference) {
         formattedField.parent = parent;
     }
     const label = field.label || field.apiName;
