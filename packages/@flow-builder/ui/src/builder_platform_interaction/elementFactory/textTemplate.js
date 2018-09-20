@@ -1,6 +1,7 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { baseResource, baseElementsArrayToMap } from "./base/baseElement";
 import { baseResourceMetadataObject } from "./base/baseMetadata";
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.TEXT_TEMPLATE;
 
@@ -11,7 +12,8 @@ export function createTextTemplate(textTemplate = {}) {
         newTextTemplate,
         {
             elementType,
-            text
+            text,
+            dataType: FLOW_DATA_TYPE.STRING.value,
         }
     );
 
