@@ -310,7 +310,7 @@ export default class ActionSelector extends LightningElement {
             text : apexPlugin.name,
             value: apexPlugin.apexClass,
             displayText: apexPlugin.name,
-            subText : apexPlugin.Description || ''
+            subText : apexPlugin.description || ''
         };
     }
 

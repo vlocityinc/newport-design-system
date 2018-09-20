@@ -223,26 +223,34 @@ describe('Action selector', () => {
         });
     });
     describe('Action subtext', () => {
+        const groupedComboboxItemWithValue = value => groupedCombobox().items.find(option => option.value === value);
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
         });
         it('should be "Global - {Description}" for global quick actions', () => {
             return Promise.resolve().then(() => {
-                const item = groupedCombobox().items.find(option => option.value === 'quickAction-mynamespace__LogACall');
+                const item = groupedComboboxItemWithValue('quickAction-mynamespace__LogACall');
                 expect(item.subText).toBe('FlowBuilderActionCallEditor.globalQuickActionSubTextPrefix');
             });
         });
         it('should be "{Object} - {Description}" for object quick actions', () => {
             return Promise.resolve().then(() => {
-                const item = groupedCombobox().items.find(option => option.value === 'quickAction-Case.mynamespace__LogACall');
+                const item = groupedComboboxItemWithValue('quickAction-Case.mynamespace__LogACall');
                 expect(item.subText).toBe('Case');
             });
         });
         it('should be "{Unique Name} - {Description}" for subflows', async () => {
             await dispatchActionTypeChangeEvent(ELEMENT_TYPE.SUBFLOW);
             return Promise.resolve().then(() => {
-                const item = groupedCombobox().items.find(option => option.value === 'mynamespace__LFB_Sample_Huge_Flow');
+                const item = groupedComboboxItemWithValue('mynamespace__LFB_Sample_Huge_Flow');
                 expect(item.subText).toBe('mynamespace__LFB_Sample_Huge_Flow');
+            });
+        });
+        it('should be "{Description}" for apex plugins', async () => {
+            await dispatchActionTypeChangeEvent(ELEMENT_TYPE.APEX_PLUGIN_CALL);
+            return Promise.resolve().then(() => {
+                const item = groupedComboboxItemWithValue('mynamespace__lookUpAccountPlugin');
+                expect(item.subText).toBe('Code copied from https://help.salesforce.com/articleView?id=vpm_designer_elements_apex.htm');
             });
         });
     });
