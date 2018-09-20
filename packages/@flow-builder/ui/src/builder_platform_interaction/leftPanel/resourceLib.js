@@ -26,7 +26,7 @@ const mutateElements = (elements) => Object.values(elements).reduce((acc, elemen
     // Adding utility icons for resource manager
     // TODO: Figure out a better way to recognize elements that do need an icon
     // based on the dataType
-    const dataTypeIconElements = [ELEMENT_TYPE.VARIABLE, ELEMENT_TYPE.CONSTANT, ELEMENT_TYPE.FORMULA];
+    const dataTypeIconElements = [ELEMENT_TYPE.VARIABLE, ELEMENT_TYPE.CONSTANT, ELEMENT_TYPE.FORMULA, ELEMENT_TYPE.STAGE];
     if (element.dataType && dataTypeIconElements.includes(element.elementType)) {
         resourceElement.iconName = getDataTypeIcons(element.dataType, 'utility');
     }

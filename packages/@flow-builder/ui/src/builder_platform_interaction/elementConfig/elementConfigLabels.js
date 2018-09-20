@@ -49,8 +49,8 @@ import formulaPluralLabel from "@salesforce/label/FlowBuilderElementConfig.formu
 import outcomeSingularLabel from "@salesforce/label/FlowBuilderElementConfig.outcomeSingularLabel";
 import outcomePluralLabel from "@salesforce/label/FlowBuilderElementConfig.outcomePluralLabel";
 import flowPropertiesSingularLabel from "@salesforce/label/FlowBuilderElementConfig.flowPropertiesSingularLabel";
-import stageSingularLabel from "@salesforce/label/FlowBuilderElementConfig.stagesSingularLabel";
-import stagePluralLabel from "@salesforce/label/FlowBuilderElementConfig.stagesPluralLabel";
+import stageSingularLabel from "@salesforce/label/FlowBuilderElementConfig.stageSingularLabel";
+import stagePluralLabel from "@salesforce/label/FlowBuilderElementConfig.stagePluralLabel";
 import emptyDefaultOutcomeLabel from "@salesforce/label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel";
 import emptyDefaultWaitPathLabel from '@salesforce/label/FlowBuilderWaitEditor.emptyDefaultWaitPathLabel';
 import sObjectVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectVariablePluralLabel";

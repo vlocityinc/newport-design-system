@@ -28,8 +28,10 @@ export const stringCollectionVariable2DevName = 'collStrVar2';
 export const stringConstantDevName = 'conVar1';
 export const choiceDevName = 'numberChoice';
 const dateVariableDevName = 'dateVar1';
-const stageDevName = 'stage1';
-const stageCollectionDevName = 'stageCollectionVar1';
+export const stageDevName = 'stage1';
+export const stageOrderNumber = 12;
+export const stageCollectionOrderNumber = 14;
+export const stageCollectionDevName = 'stageCollectionVar1';
 export const accountSObjectCollectionVariableDevName = 'accCollectionVar1';
 export const actionCallElementDevName = "actionCall1";
 export const outcomeDevName = "outcome1";
@@ -188,20 +190,22 @@ export const elements = {
         objectType: null,
     },
     [stageCollectionGuid]: {
-        // haven't filled in more of this because we don't have this in our store yet- add as needed except for dataType
-        // dataType is weird, if we find ourselves needing it we need to raise it and handle it properly
         elementType: stageElementType,
         guid: stageCollectionGuid,
-        isCollection: true,
-        name: stageCollectionDevName
+        isActive: true,
+        name: stageCollectionDevName,
+        label: stageCollectionDevName,
+        stageOrder: stageCollectionOrderNumber,
+        description: ''
     },
     [stageGuid]: {
-        // haven't filled in more of this because we don't have this in our store yet- add as needed except for dataType
-        // dataType is weird, if we find ourselves needing it we need to raise it and handle it properly
         elementType: stageElementType,
         guid: stageGuid,
-        isCollection: false,
-        name: stageDevName
+        isActive: false,
+        name: stageDevName,
+        label: stageDevName,
+        stageOrder: stageOrderNumber,
+        description: ''
     },
     [assignmentElementGuid]: {
         assignmentItems: [{

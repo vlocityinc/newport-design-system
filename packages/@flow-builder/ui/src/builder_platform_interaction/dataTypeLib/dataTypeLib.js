@@ -94,6 +94,10 @@ const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.SOBJECT.value]: ["sobject"],
 };
 
+export const STAGE_ORDER_RANGE = {
+    min : 0
+};
+
 let resourceTypes = [];
 
 export { FLOW_DATA_TYPE };

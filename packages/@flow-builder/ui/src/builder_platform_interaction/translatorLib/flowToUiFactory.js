@@ -16,7 +16,8 @@ import {
     createScreenWithConnectors,
     createSubflowWithConnectors,
     createVariableForStore,
-    createTextTemplateForStore
+    createTextTemplateForStore,
+    createStageForStore
 } from "builder_platform_interaction/elementFactory";
 
 /**
@@ -66,6 +67,8 @@ export const flowToUIFactory = (elementType, element) => {
             return createVariableForStore(element);
         case ELEMENT_TYPE.TEXT_TEMPLATE:
             return createTextTemplateForStore(element);
+        case ELEMENT_TYPE.STAGE:
+            return createStageForStore(element);
         default:
             return {};
     }

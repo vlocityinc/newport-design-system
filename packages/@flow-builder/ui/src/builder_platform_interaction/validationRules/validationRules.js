@@ -41,6 +41,10 @@ const regexConfig = {
     shouldBeAPositiveIntegerOrZero : {
         regexPattern: '[^0-9]+',
         message: LABELS.shouldBeAPositiveIntegerOrZero
+    },
+    shouldBePositiveOrNegativeIntegers : {
+        regexPattern: '[a-zA-Z]|\\.{2,}',
+        message: LABELS.shouldBeAPositiveOrNegativeIntegers
     }
 };
 
@@ -82,6 +86,14 @@ export const shouldAcceptOnlyAlphanumericCharacters = (value) => evaluateRegex(r
  * @returns {string|null} errorString or null
  */
 export const shouldBeAPositiveIntegerOrZero = (value) => evaluateRegex(regexConfig.shouldBeAPositiveIntegerOrZero, value);
+
+/**
+ * Function to test the value is positive or negative integer
+ * @param {string} value - value to be tested
+ * @returns {string|null} errorString or null
+ */
+export const shouldBePositiveOrNegativeIntegers = (value) => evaluateRegex(regexConfig.shouldBePositiveOrNegativeIntegers, value);
+
 
 /**
  * Function to test the value is a valid date
@@ -186,6 +198,21 @@ export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) =
         !listOfGuidsToSkip.includes(element.guid) &&
         (element.name && element.name.toLowerCase()) === nameToBeTested.toLowerCase());
     return matches.length > 0 ? LABELS.fieldNotUnique : null;
+};
+
+/**
+ * Checks the uniqueness of the order number amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
+ * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
+ * @param {number} orderNumberToBeTested - for uniqueness in store
+ * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
+ * @returns {string|null} errorString or null
+ */
+export const isUniqueOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToSkip = []) => {
+    const currentState = Store.getStore().getCurrentState();
+    const elements = currentState.elements;
+    const matches = Object.values(elements).filter(element =>
+        !listOfGuidsToSkip.includes(element.guid) && (element.stageOrder) === orderNumberToBeTested);
+    return matches.length > 0 ? LABELS.orderNumberNotUnique : null;
 };
 
     /** Exported Validation Rules End **/

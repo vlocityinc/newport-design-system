@@ -21,6 +21,7 @@ export * from './ferov.js';
 export * from './inputParameter.js';
 export * from './outputParameter.js';
 export * from './connector.js';
+export * from './stage.js';
 
 export const FACTORY_CONFIG = {
     SWAP_GUID_TO_DEV_NAME: 'swapGuidToDevName',

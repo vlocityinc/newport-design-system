@@ -17,6 +17,14 @@ export default class ResourceDetails extends LightningElement {
         return this.resourceDetails.DESCRIPTION !== undefined && this.resourceDetails.DESCRIPTION !== null && this.resourceDetails.DESCRIPTION.length > 0;
     }
 
+    get hasStageOrder() {
+        return this.resourceDetails.STAGE_ORDER !== undefined && this.resourceDetails.STAGE_ORDER !== null && this.resourceDetails.STAGE_ORDER.length > 0;
+    }
+
+    get hasStageActive() {
+        return this.resourceDetails.STAGE_ACTIVE !== undefined && this.resourceDetails.STAGE_ACTIVE !== null;
+    }
+
     get hasUsedByElements() {
         return Array.isArray(this.resourceDetails.USED_BY_ELEMENTS) && this.resourceDetails.USED_BY_ELEMENTS.length > 0;
     }
@@ -31,6 +39,10 @@ export default class ResourceDetails extends LightningElement {
 
     get labels() {
         return LABELS;
+    }
+
+    get activeStage() {
+        return this.resourceDetails.STAGE_ACTIVE === true ? LABELS.stageActiveText : LABELS.stageInActiveText;
     }
 
     handleEditButtonClicked(event) {

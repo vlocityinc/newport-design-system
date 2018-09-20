@@ -8,6 +8,8 @@ import mustBeAValidNumber from '@salesforce/label/FlowBuilderValidation.mustBeAV
 import maximumCharactersLimit from '@salesforce/label/FlowBuilderValidation.maximumCharactersLimit';
 import fieldNotUnique from '@salesforce/label/FlowBuilderValidation.fieldNotUnique';
 import overMaxIntegerValue from '@salesforce/label/FlowBuilderValidation.overMaxIntegerValue';
+import shouldBeAPositiveOrNegativeIntegers from '@salesforce/label/FlowBuilderValidation.shouldBeAPositiveOrNegativeIntegers';
+import orderNumberNotUnique from '@salesforce/label/FlowBuilderValidation.numberNotUnique';
 
 export const LABELS = {
     cannotBeBlank,
@@ -19,5 +21,7 @@ export const LABELS = {
     mustBeAValidNumber,
     maximumCharactersLimit,
     fieldNotUnique,
-    overMaxIntegerValue
+    overMaxIntegerValue,
+    orderNumberNotUnique,
+    shouldBeAPositiveOrNegativeIntegers
 };

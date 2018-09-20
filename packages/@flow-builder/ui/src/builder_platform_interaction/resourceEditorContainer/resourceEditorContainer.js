@@ -5,13 +5,15 @@ import variableEditorTemplate from "./variableEditorTemplate.html";
 import constantEditorTemplate from "./constantEditorTemplate.html";
 import formulaEditorTemplate from "./formulaEditorTemplate.html";
 import textTemplateEditorTemplate from './textTemplateEditorTemplate.html';
+import stageEditorTemplate from "./stageEditorTemplate.html";
 import { propertyEditorFactory } from 'builder_platform_interaction/propertyEditorFactory';
 
 const resourceTypeElementTypeMap = {
     variable: ELEMENT_TYPE.VARIABLE,
     formula: ELEMENT_TYPE.FORMULA,
     constant: ELEMENT_TYPE.CONSTANT,
-    textTemplate: ELEMENT_TYPE.TEXT_TEMPLATE
+    textTemplate: ELEMENT_TYPE.TEXT_TEMPLATE,
+    stage: ELEMENT_TYPE.STAGE
 };
 
 const EDITOR_SELECTOR = '.editor_template';
@@ -106,6 +108,8 @@ export default class ResourceEditorContainer extends LightningElement {
                 return formulaEditorTemplate;
             case ELEMENT_TYPE.TEXT_TEMPLATE:
                 return textTemplateEditorTemplate;
+            case ELEMENT_TYPE.STAGE:
+                return stageEditorTemplate;
             default:
                 return undefined;
         }

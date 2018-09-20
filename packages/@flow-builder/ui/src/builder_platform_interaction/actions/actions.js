@@ -35,6 +35,7 @@ export const PROPERTY_EDITOR_ACTION = {
     ADD_DECISION_OUTCOME: 'ADD_DECISION_OUTCOME',
     ADD_WAIT_EVENT: 'ADD_WAIT_EVENT',
     CHANGE_DATA_TYPE: 'CHANGE_DATA_TYPE',
+    UPDATE_ELEMENT_VALUE : 'UPDATE_ELEMENT_VALUE'
 };
 
 /**
@@ -74,8 +75,10 @@ export const addElement = (payload) => {
         switch (payload.elementType) {
             case ELEMENT_TYPE.VARIABLE:
             case ELEMENT_TYPE.CONSTANT:
+            case ELEMENT_TYPE.FORMULA:
             case ELEMENT_TYPE.TEXT_TEMPLATE:
-            case ELEMENT_TYPE.FORMULA: return createAction(ADD_RESOURCE, payload);
+            case ELEMENT_TYPE.STAGE:
+                return createAction(ADD_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(ADD_DECISION_WITH_OUTCOMES, payload);
             default:
@@ -103,6 +106,7 @@ export const updateElement = (payload) => {
                 return createAction(UPDATE_VARIABLE_CONSTANT, payload);
             case ELEMENT_TYPE.TEXT_TEMPLATE:
             case ELEMENT_TYPE.FORMULA:
+            case ELEMENT_TYPE.STAGE:
                 return createAction(UPDATE_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(MODIFY_DECISION_WITH_OUTCOMES, payload);
@@ -133,6 +137,7 @@ export const deleteElement = (payload) => {
         case ELEMENT_TYPE.VARIABLE:
         case ELEMENT_TYPE.CONSTANT:
         case ELEMENT_TYPE.TEXT_TEMPLATE:
+        case ELEMENT_TYPE.STAGE:
         case ELEMENT_TYPE.FORMULA: {
             action = createAction(DELETE_RESOURCE, payload);
             break;

@@ -702,10 +702,26 @@ export const elementTypeToConfigMap = {
         canvasElement: false
     },
     [ELEMENT_TYPE.STAGE]: {
+        descriptor: 'builder_platform_interaction:stageEditor',
+        nodeConfig: {
+            iconName: 'standard:stage',
+            utilityIconName: 'utility:stage'
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.STAGES,
         labels: {
             singular: LABELS.stageSingularLabel,
             plural: LABELS.stagePluralLabel
-        }
+        },
+        template: {
+            name: '',
+            label: '',
+            guid: '',
+            elementType: ELEMENT_TYPE.STAGE,
+            stageOrder: null,
+            isActive: false
+        },
+        canvasElement: false
     },
     [ELEMENT_TYPE.DEFAULT]: {
         // defaultEditor doesn't exist but should lead here making it easier to debug the issue

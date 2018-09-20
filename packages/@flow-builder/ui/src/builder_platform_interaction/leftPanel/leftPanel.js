@@ -125,7 +125,9 @@ export default class LeftPanel extends LightningElement {
                 DESCRIPTION: currentElementState.description,
                 NAME: currentElementState.name,
                 IS_CHILD_ELEMENT: isChildElement(currentElementState.elementType),
-                USED_BY_ELEMENTS: usedBy([currentElementState.guid], storeElements)
+                USED_BY_ELEMENTS: usedBy([currentElementState.guid], storeElements),
+                STAGE_ORDER: currentElementState.stageOrder,
+                STAGE_ACTIVE: currentElementState.isActive
             };
         } else {
             this.showResourceDetailsPanel = false;

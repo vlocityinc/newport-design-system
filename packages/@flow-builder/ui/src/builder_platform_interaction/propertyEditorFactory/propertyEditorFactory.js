@@ -23,7 +23,8 @@ import {
     createScreen,
     createSubflow,
     FACTORY_CONFIG,
-    createDecisionWithOutcomeReferencesWhenClosingPropertyEditor
+    createDecisionWithOutcomeReferencesWhenClosingPropertyEditor,
+    createStage
 } from "builder_platform_interaction/elementFactory";
 
 /**
@@ -34,41 +35,48 @@ import {
  * @return {Object} newElement    New element object with all relevant data
  */
 export const propertyEditorFactory = (element, config = {}) => {
-    let newElement;
+    let newElement = {};
+
+    const funcs = {
+        'ACTION_CALL': createActionCall,
+        'APEX_CALL': createActionCall,
+        'APEX_PLUGIN_CALL': createApexPlugin,
+        'ASSIGNMENT': createAssignment,
+        'CONSTANT': createConstant,
+        'EMAIL_ALERT': createActionCall,
+        'FLOW_PROPERTIES': createFlowProperties,
+        'FORMULA': createFormula,
+        'LOOP': createLoop,
+        'RECORD_CREATE': createRecordCreate,
+        'RECORD_UPDATE': createRecordUpdate,
+        'RECORD_LOOKUP': createRecordLookup,
+        'RECORD_DELETE': createRecordDelete,
+        'SCREEN': createScreen,
+        'SUBFLOW': createSubflow,
+        'VARIABLE': createVariable,
+        'TEXT_TEMPLATE': createTextTemplate,
+        'STAGE': createStage
+    };
+
+    const options = [element];
 
     switch (element.elementType) {
-        case ELEMENT_TYPE.ACTION_CALL:
-            newElement = createActionCall(element);
-            break;
         case ELEMENT_TYPE.APEX_CALL:
-            newElement = createActionCall(element, ELEMENT_TYPE.APEX_CALL);
-            break;
-        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-            newElement = createApexPlugin(element);
-            break;
-        case ELEMENT_TYPE.ASSIGNMENT:
-            newElement = createAssignment(element);
-            break;
-        case ELEMENT_TYPE.CONSTANT:
-            newElement = createConstant(element);
+            options.push(ELEMENT_TYPE.APEX_CALL);
             break;
         case ELEMENT_TYPE.EMAIL_ALERT:
-            newElement = createActionCall(element, ELEMENT_TYPE.EMAIL_ALERT);
+            options.push(ELEMENT_TYPE.EMAIL_ALERT);
             break;
-        case ELEMENT_TYPE.FLOW_PROPERTIES:
-            newElement = createFlowProperties(element);
+        default:
             break;
-        case ELEMENT_TYPE.FORMULA:
-            newElement = createFormula(element);
-            break;
-        case ELEMENT_TYPE.LOOP:
-            newElement = createLoop(element);
-            break;
+    }
+
+    switch (element.elementType) {
         case ELEMENT_TYPE.DECISION:
             if (config[FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]) {
-                newElement = createDecisionWithOutcomeReferencesWhenClosingPropertyEditor(element);
+                funcs[ELEMENT_TYPE.DECISION] = createDecisionWithOutcomeReferencesWhenClosingPropertyEditor;
             } else {
-                newElement = createDecisionWithOutcomes(element);
+                funcs[ELEMENT_TYPE.DECISION] = createDecisionWithOutcomes;
             }
             break;
         case ELEMENT_TYPE.WAIT:
@@ -76,35 +84,17 @@ export const propertyEditorFactory = (element, config = {}) => {
                 // TODO: https://gus.my.salesforce.com/a07B0000005YnL5IAK (W-5395888)
                 // newElement = createDecisionWithOutcomeReferencesWhenClosingPropertyEditor(element);
             } else {
-                newElement = createWaitWithWaitEvents(element);
+                funcs[ELEMENT_TYPE.WAIT] = createWaitWithWaitEvents;
             }
-            break;
-        case ELEMENT_TYPE.RECORD_CREATE:
-            newElement = createRecordCreate(element);
-            break;
-        case ELEMENT_TYPE.RECORD_UPDATE:
-            newElement = createRecordUpdate(element);
-            break;
-        case ELEMENT_TYPE.RECORD_LOOKUP:
-            newElement = createRecordLookup(element);
-            break;
-        case ELEMENT_TYPE.RECORD_DELETE:
-            newElement = createRecordDelete(element);
-            break;
-        case ELEMENT_TYPE.SCREEN:
-            newElement = createScreen(element);
-            break;
-        case ELEMENT_TYPE.SUBFLOW:
-            newElement = createSubflow(element);
-            break;
-        case ELEMENT_TYPE.VARIABLE:
-            newElement = createVariable(element);
-            break;
-        case ELEMENT_TYPE.TEXT_TEMPLATE:
-            newElement = createTextTemplate(element);
             break;
         default:
             break;
+    }
+
+    const func = funcs[ELEMENT_TYPE[element.elementType]] || null;
+
+    if (typeof func === 'function') {
+        newElement = func(...options);
     }
 
     if (config[FACTORY_CONFIG.SWAP_GUID_TO_DEV_NAME]) {

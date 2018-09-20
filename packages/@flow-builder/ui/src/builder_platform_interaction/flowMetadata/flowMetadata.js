@@ -74,7 +74,8 @@ export const METADATA_KEY = {
     RECORD_DELETE: 'recordDeletes',
     RECORD_UPDATE: 'recordUpdates',
     LOOPS: 'loops',
-    SCREENS: 'screens'
+    SCREENS: 'screens',
+    STAGES: 'stages'
 };
 
 /**

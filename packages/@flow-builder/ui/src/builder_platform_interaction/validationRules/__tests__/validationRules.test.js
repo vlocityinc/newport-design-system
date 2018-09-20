@@ -1,5 +1,5 @@
 import * as rules from "builder_platform_interaction/validationRules";
-import { assignmentElementGuid, assignmentElementName } from "mock/storeData";
+import { assignmentElementGuid, assignmentElementName, stageGuid, stageOrderNumber } from "mock/storeData";
 import { mockAccountFields } from "mock/serverEntityData";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { LABELS } from "../validationRulesLabels";
@@ -92,6 +92,22 @@ describe('shouldBeAPositiveIntegerOrZero method', () => {
         expect(rules.shouldBeAPositiveIntegerOrZero('1AF')).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
     });
 });
+
+describe('shouldBeAPositiveOrNegativeIntegers method', () => {
+    it('should return null when the input contains a positive integer or 0', () => {
+        expect(rules.shouldBePositiveOrNegativeIntegers('1')).toBeNull();
+        expect(rules.shouldBePositiveOrNegativeIntegers('0')).toBeNull();
+    });
+    it('should return null when the input contains a negative integer', () => {
+        expect(rules.shouldBePositiveOrNegativeIntegers('-1')).toBeNull();
+        expect(rules.shouldBePositiveOrNegativeIntegers('-.0')).toBeNull();
+    });
+    it('should return an error when the input contains a exponential values or NaN', () => {
+        expect(rules.shouldBePositiveOrNegativeIntegers('e4')).toBe(LABELS.shouldBeAPositiveOrNegativeIntegers);
+        expect(rules.shouldBePositiveOrNegativeIntegers('1AF')).toBe(LABELS.shouldBeAPositiveOrNegativeIntegers);
+    });
+});
+
 describe('shouldBeADate method', () => {
     it('should return null when the input contains a valid date string', () => {
         expect(rules.shouldBeADate(new Date().toString())).toBeNull();
@@ -161,6 +177,19 @@ describe('shouldBeUnderMaxValue method', () => {
     });
     it('should return an error message when non-number value is passed in', () => {
         expect(rules.shouldBeUnderMaxValue(100)('a')).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
+    });
+});
+
+describe('isUniqueOrderNumberInStore method', () => {
+    it('returns null when a unique order number is tested against store data', () => {
+        const uniqueNumber = 1;
+        expect(rules.isUniqueOrderNumberInStore(uniqueNumber)).toBeNull();
+    });
+    it('returns null when a unique order number is tested against store data while using the listOfGuidsToSkip param', () => {
+        expect(rules.isUniqueOrderNumberInStore(stageOrderNumber, [stageGuid])).toBeNull();
+    });
+    it('returns an error when the order number is not unique', () => {
+        expect(rules.isUniqueOrderNumberInStore(stageOrderNumber)).toBe(LABELS.orderNumberNotUnique);
     });
 });
 
