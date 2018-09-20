@@ -20,11 +20,11 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
     state = {
         objectType: undefined,
         expression: undefined,
-        lhsDescribe: undefined,
+        lhsDescribe: {},
         lhsDisplayOption: LHS_DISPLAY_OPTION.SOBJECT_FIELD,
         operatorValue: undefined,
         operatorError: undefined,
-        rhsDescribe: undefined,
+        rhsDescribe: {},
     };
 
     @api
