@@ -93,21 +93,6 @@ describe('shouldBeAPositiveIntegerOrZero method', () => {
     });
 });
 
-describe('shouldBeAPositiveOrNegativeIntegers method', () => {
-    it('should return null when the input contains a positive integer or 0', () => {
-        expect(rules.shouldBePositiveOrNegativeIntegers('1')).toBeNull();
-        expect(rules.shouldBePositiveOrNegativeIntegers('0')).toBeNull();
-    });
-    it('should return null when the input contains a negative integer', () => {
-        expect(rules.shouldBePositiveOrNegativeIntegers('-1')).toBeNull();
-        expect(rules.shouldBePositiveOrNegativeIntegers('-.0')).toBeNull();
-    });
-    it('should return an error when the input contains a exponential values or NaN', () => {
-        expect(rules.shouldBePositiveOrNegativeIntegers('e4')).toBe(LABELS.shouldBeAPositiveOrNegativeIntegers);
-        expect(rules.shouldBePositiveOrNegativeIntegers('1AF')).toBe(LABELS.shouldBeAPositiveOrNegativeIntegers);
-    });
-});
-
 describe('shouldBeADate method', () => {
     it('should return null when the input contains a valid date string', () => {
         expect(rules.shouldBeADate(new Date().toString())).toBeNull();

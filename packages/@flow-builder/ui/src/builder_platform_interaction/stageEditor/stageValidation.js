@@ -8,7 +8,7 @@ import { Validation } from "builder_platform_interaction/validation";
 const additionalRules = {
     'stageOrder': [
         ValidationRules.shouldNotBeBlank,
-        ValidationRules.shouldBePositiveOrNegativeIntegers
+        ValidationRules.shouldBeAPositiveIntegerOrZero
     ]
 };
 

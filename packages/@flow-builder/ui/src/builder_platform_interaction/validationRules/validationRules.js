@@ -41,10 +41,6 @@ const regexConfig = {
     shouldBeAPositiveIntegerOrZero : {
         regexPattern: '[^0-9]+',
         message: LABELS.shouldBeAPositiveIntegerOrZero
-    },
-    shouldBePositiveOrNegativeIntegers : {
-        regexPattern: '[a-zA-Z]|\\.{2,}',
-        message: LABELS.shouldBeAPositiveOrNegativeIntegers
     }
 };
 
@@ -86,14 +82,6 @@ export const shouldAcceptOnlyAlphanumericCharacters = (value) => evaluateRegex(r
  * @returns {string|null} errorString or null
  */
 export const shouldBeAPositiveIntegerOrZero = (value) => evaluateRegex(regexConfig.shouldBeAPositiveIntegerOrZero, value);
-
-/**
- * Function to test the value is positive or negative integer
- * @param {string} value - value to be tested
- * @returns {string|null} errorString or null
- */
-export const shouldBePositiveOrNegativeIntegers = (value) => evaluateRegex(regexConfig.shouldBePositiveOrNegativeIntegers, value);
-
 
 /**
  * Function to test the value is a valid date
