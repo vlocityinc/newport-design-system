@@ -153,18 +153,17 @@ describe('Menu data retrieval', () => {
         expect(allowedVariables[0].value).toBe('%%NewResource%%');
         selectorsMock.writableElementsSelector.mockClear();
     });
-
-    it('should be able to include sobjects non-collection var when only primitives are valid', () => {
+    it('should include sobjects non-collection var when fields are allowed', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid], store.elements[store.accountSObjectCollectionVariableGuid]]);
         const primitivesWithObjects = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
-        }, sampleNumberParamTypes, false, true);
+        }, sampleNumberParamTypes, false, true, false);
         expect(primitivesWithObjects).toHaveLength(1);
         const primitivesNoObjects = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
-        }, sampleNumberParamTypes, false, false);
+        }, sampleNumberParamTypes, false, true, true);
         expect(primitivesNoObjects).toHaveLength(0);
         selectorsMock.writableElementsSelector.mockClear();
     });

@@ -97,10 +97,10 @@ function elementMatchesRule(allowedParamTypes, element) {
  *
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes        map from dataTypes/elementTypes to rule params which specificy those data or element types
  * @param {Object} element                  object with the necessary specifications to be compared to rule params (usually flow element, but a "fake" one can be built for fields, etc)
- * @param {boolean} allowFerovs                 true if FEROVs are allowed here; certain things are true for all FEROV's e.g. sobjects should be shown so that users can drill down to fields
+ * @param {boolean} showSObjectsForFields   true if fields are allowed here - sobjects should be shown so that users can drill down to fields
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
-export function isElementAllowed(allowedParamTypes, element, allowFerovs = false) {
+export function isElementAllowed(allowedParamTypes, element, showSObjectsForFields = false) {
     const isElementMatchForProperty = (property) => {
         return (allowedParamTypes.hasOwnProperty(element[property]) && elementMatchesRule(allowedParamTypes[element[property]], element));
     };
@@ -109,7 +109,7 @@ export function isElementAllowed(allowedParamTypes, element, allowFerovs = false
         || isElementMatchForProperty(PARAM_PROPERTY.DATA_TYPE)
         || isElementMatchForProperty(PARAM_PROPERTY.ELEMENT_TYPE)
         || isElementMatchForProperty(OBJECT_TYPE)
-        || (allowFerovs && element.dataType === SObjectType && !element.isCollection);
+        || (showSObjectsForFields && element.dataType === SObjectType && !element.isCollection);
 }
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
@@ -238,7 +238,7 @@ export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, inc
         // global constants should be included in menuData for FEROVs
         menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
     }
-    const menuData = menuDataElements.filter(element => isElementAllowed(allowedParamTypes, element, allowFerovs))
+    const menuData = menuDataElements.filter(element => isElementAllowed(allowedParamTypes, element, !disableHasNext))
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
             if (disableHasNext) {
