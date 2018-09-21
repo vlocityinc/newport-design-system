@@ -13,25 +13,26 @@ import RecordInputOutputAssignments from '../recordInputOutputAssignments.js';
 const mockDefaultRecordInputAssignment = {
     object: 'Account',
     inputOutputAssignmentsItems: [{
-        leftHandSide: {value:'', error:null},
-        rightHandSide: {value:'', error:null},
-        rightHandSideDataType: {value: "", error: null},
+        leftHandSide: {value: '', error: null},
+        rightHandSide: {value: '', error: null},
+        rightHandSideDataType: {value: '', error: null},
         rowIndex: 'RECORDCREATEASSIGNMENTFIELD_1',
     }],
     recordFields: mockAccountFields,
     elementType: ELEMENT_TYPE.RECORD_CREATE,
+    rhsLabel: 'Value'
 };
 
 const mock2InputAssignmentsItems = [{
-    leftHandSide: {value: "Account.Description", error:null},
-    rightHandSide: {value: "vDescription", error:null},
-    rightHandSideDataType: {value: "reference", error:null},
+    leftHandSide: {value: 'Account.Description', error: null},
+    rightHandSide: {value: 'vDescription', error: null},
+    rightHandSideDataType: {value: 'reference', error: null},
     rowIndex: "RECORDCREATEASSIGNMENTFIELD_21",
 },
 {
-    leftHandSide: {value: "Account.Name", error:null},
-    rightHandSide: {value: "nameC", error:null},
-    rightHandSideDataType: {value: "reference", error:null},
+    leftHandSide: {value: 'Account.Name', error: null},
+    rightHandSide: {value: 'nameC', error: null},
+    rightHandSideDataType: {value: 'reference', error: null},
     rowIndex: "RECORDCREATEASSIGNMENTFIELD_22",
 }
 ];
@@ -59,20 +60,69 @@ const getExpressionBuilders = (recordInputOutputAssignmentCmp) => {
 };
 
 describe('record-input-output-assignment', () => {
-    describe('Assignment Items', () => {
-        let element;
-        beforeEach(() => {
-            mockDefaultRecordInputAssignment.inputOutputAssignmentsItems = mock2InputAssignmentsItems;
+    describe('Initial state', () => {
+        let element, expressionBuilders;
+        beforeAll(() => {
             element = createComponentUnderTest();
+            expressionBuilders = getExpressionBuilders(element);
         });
-        it('Filter list should be displayed', () => {
+        it('should contain a list', () => {
             expect(getFieldList(element)).not.toBeNull();
         });
-        it('All filter items should be displayed', () => {
-            expect(getExpressionBuilders(element)).toHaveLength(2);
+        it('should contain only one field-to-ferov-expression-builder', () => {
+            expect(expressionBuilders).toHaveLength(1);
+        });
+        it('should have lhs label', () => {
+            expect(expressionBuilders[0].lhsLabel).toBe('FlowBuilderRecordEditor.field');
+        });
+        it('should have lhs placeholder', () => {
+            expect(expressionBuilders[0].lhsPlaceholder).toBe('FlowBuilderRecordEditor.getFieldPlaceholder');
+        });
+        it('should display empty value in lhs', () => {
+            expect(expressionBuilders[0].expression.leftHandSide.value).toBe('');
+        });
+        it('should have rhs label', () => {
+            expect(expressionBuilders[0].rhsLabel).toBe('Value');
+        });
+        it('should display empty value in rhs', () => {
+            expect(expressionBuilders[0].expression.rightHandSide.value).toBe('');
         });
     });
-
+    describe('Assignment Items', () => {
+        let element, expressionBuilders;
+        beforeAll(() => {
+            mockDefaultRecordInputAssignment.inputOutputAssignmentsItems = mock2InputAssignmentsItems;
+            element = createComponentUnderTest();
+            expressionBuilders = getExpressionBuilders(element);
+        });
+        it('should have 2 field-to-ferov-expression-builder', () => {
+            expect(expressionBuilders).toHaveLength(2);
+        });
+        it('should display value in lhs', () => {
+            expect(expressionBuilders[0].expression.leftHandSide.value).toBe('Account.Description');
+        });
+        it('should display value in rhs', () => {
+            expect(expressionBuilders[0].expression.rightHandSide.value).toBe('vDescription');
+        });
+    });
+    describe('Lhs Fields', () => {
+        let element, expressionBuilders;
+        beforeAll(() => {
+            mockDefaultRecordInputAssignment.readOnlyFields = true;
+            element = createComponentUnderTest();
+            expressionBuilders = getExpressionBuilders(element);
+        });
+        it('should not contain readonly fields', () => {
+            const readOnlyFields = Object.values(expressionBuilders[0].lhsFields);
+            expect(readOnlyFields).toContainEqual(expect.objectContaining({
+                readOnly: false
+            }));
+        });
+        it('should not contain duplicated fields', () => {
+            expect(Object.values(expressionBuilders[0].lhsFields).map(field => field.apiName).includes("Name")).toBe(false);
+            expect(Object.values(expressionBuilders[1].lhsFields).map(field => field.apiName).includes("Description")).toBe(false);
+        });
+    });
     describe('handleAddAssignment', () => {
         it('fires addRecordAssignmentEvent', () => {
             const element = createComponentUnderTest();
