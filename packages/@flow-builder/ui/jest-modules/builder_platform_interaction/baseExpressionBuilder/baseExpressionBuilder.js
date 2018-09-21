@@ -63,4 +63,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     @api
     rhsLiteralsAllowed;
+
+    @api
+    hideNewResource;
 }

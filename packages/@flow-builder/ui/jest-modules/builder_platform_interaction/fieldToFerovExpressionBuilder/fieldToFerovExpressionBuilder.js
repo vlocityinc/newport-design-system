@@ -33,4 +33,7 @@ export default class FerToFerovExpressionBuilder extends Element {
 
     @api
     rules;
+
+    @api
+    hideNewResource;
 }

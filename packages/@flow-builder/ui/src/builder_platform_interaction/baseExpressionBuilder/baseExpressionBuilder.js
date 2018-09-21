@@ -40,7 +40,6 @@ const CLEAR_ERROR = null;
 const CLEARED_PROPERTY = {value: CLEAR_VALUE, error: CLEAR_ERROR};
 
 const SHOW_SUBTEXT = true;
-const SHOW_NEW_RESOURCE = true;
 const DISABLE_HAS_NEXT = false;
 
 const LHS_FIELDS = 'lhsFields';
@@ -280,6 +279,12 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setRHSCollectionRequired();
         return this._rhsLiteralsAllowedForContext && !this._rhsCollectionRequiredByRules;
     }
+
+    /**
+     * Set it to true to hide 'New Resource' option in combobox menu data.
+     * @type {Boolean}
+     */
+    @api hideNewResource = false;
 
     _containerElement;
     _objectType;
@@ -579,7 +584,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         } else {
             const menuDataElements = getSelector(config)(storeInstance.getCurrentState());
             this.state[fullMenuData] = this.state[filteredMenuData] = filterAndMutateMenuData(menuDataElements, paramTypes,
-                SHOW_NEW_RESOURCE, isFerov, DISABLE_HAS_NEXT, picklistValues);
+                !this.hideNewResource, isFerov, DISABLE_HAS_NEXT, picklistValues);
         }
     }
 

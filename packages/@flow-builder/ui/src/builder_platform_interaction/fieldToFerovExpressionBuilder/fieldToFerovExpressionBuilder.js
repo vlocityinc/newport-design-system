@@ -132,6 +132,12 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
     _lhsFields;
 
     /**
+     * Set it to true to hide 'New Resource' option in combobox menu data.
+     * @type {Boolean}
+     */
+    @api hideNewResource = false;
+
+    /**
      * Populates the state values for the LHS of the expression such as the display value
      * and what fields should show up in the menudata.
      */
