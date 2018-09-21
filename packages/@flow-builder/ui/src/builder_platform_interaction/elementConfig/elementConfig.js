@@ -275,7 +275,7 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         nonHydratableProperties: ['fieldType', 'dataType', 'type', 'defaultValueDataType', 'defaultValueGuid',
-            'valueDataType', 'valueGuid', 'assignToReferenceDataType', 'assignToReferenceGuid'],
+            'valueDataType', 'valueGuid', 'assignToReferenceDataType', 'assignToReferenceGuid', 'choiceReferences'],
         bodyCssClass: 'slds-scrollable_none',
         template: {
             guid: '',

@@ -25,13 +25,16 @@ import fieldTypeLabelTextField from "@salesforce/label/FlowBuilderScreenEditor.f
 import fieldTypeLabelLargeTextArea from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelLargeTextArea";
 import fieldTypeLabelNumber from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelNumber";
 import fieldTypeLabelCurrency from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelCurrency";
+import fieldTypeLabelCheckbox from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelCheckbox";
+import fieldTypeLabelChoice from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelChoice";
 import fieldTypeLabelDate from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelDate";
 import fieldTypeLabelDateTime from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelDateTime";
 import fieldTypeLabelPassword from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelPassword";
-import fieldTypeLabelCheckbox from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelCheckbox";
 import fieldTypeLabelRadioButtons from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelRadioButtons";
 import fieldTypeLabelDisplayText from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelDisplayText";
 import fieldTypeLabelDisplayRichText from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelDisplayRichText";
+import addChoice from '@salesforce/label/FlowBuilderScreenEditor.addChoice';
+import choices from '@salesforce/label/FlowBuilderScreenEditor.choices';
 import buttonHelpTextAltText from "@salesforce/label/FlowBuilderScreenEditor.buttonHelpTextAltText";
 import screenContainerOptions from "@salesforce/label/FlowBuilderScreenEditor.screenContainerOptions";
 import screenContainerTooltip from "@salesforce/label/FlowBuilderScreenEditor.screenContainerTooltip";
@@ -59,6 +62,7 @@ import spinnerAlternativeText from "@salesforce/label/FlowBuilderEditor.spinnerA
 import extensionOutputsHeader from "@salesforce/label/FlowBuilderScreenEditor.extensionOutputsHeader";
 import fieldValidation from '@salesforce/label/FlowBuilderScreenEditor.fieldValidation';
 import validationFormula from '@salesforce/label/FlowBuilderFormulaTextarea.formulaValidationSpinnerAlternativeText';
+import selectResource from '@salesforce/label/FlowBuilderScreenEditor.selectResource';
 
 export const LABELS = {
     errorRequired,
@@ -87,15 +91,17 @@ export const LABELS = {
     fieldTypeLabelTextField,
     fieldTypeLabelLargeTextArea,
     fieldTypeLabelNumber,
+    fieldTypeLabelCheckbox,
+    fieldTypeLabelChoice,
     fieldTypeLabelCurrency,
     fieldTypeLabelDate,
     fieldTypeLabelDateTime,
     fieldTypeLabelPassword,
-    fieldTypeLabelCheckbox,
     fieldTypeLabelRadioButtons,
     fieldTypeLabelDisplayText,
     fieldTypeLabelDisplayRichText,
     fieldValidation,
+    choices,
     buttonHelpTextAltText,
     screenContainerOptions,
     screenContainerTooltip,
@@ -120,5 +126,7 @@ export const LABELS = {
     apiNameLabel,
     spinnerAlternativeText,
     extensionOutputsHeader,
-    validationFormula
+    validationFormula,
+    addChoice,
+    selectResource
 };

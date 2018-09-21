@@ -1,12 +1,13 @@
 import { LightningElement, api } from 'lwc';
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
+import { PropertyChangedEvent, createChoiceAddedToScreenField } from "builder_platform_interaction/events";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { INPUT_FIELD_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { addGuidAndCurrentValueToEvent, addHydratedCurrentValueToEvent } from "builder_platform_interaction/screenEditorUtils";
+import { addGuidAndCurrentValueToEvent, addHydratedCurrentValueToEvent, getFieldChoiceData } from "builder_platform_interaction/screenEditorUtils";
 
+const HELP_SECTION_NAME = ['helpText'];
+const CHOICE_SECTION_NAME = ['choice'];
 
-const ALL_SECTION_NAMES = ['validationOptions', 'helpText'];
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
 
 /*
@@ -18,8 +19,12 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
     labels = LABELS;
     inputFieldMap = INPUT_FIELD_DATA_TYPE;
 
-    get allSectionNames() {
-        return ALL_SECTION_NAMES;
+    get getHelpAccordionSectionNames() {
+        return HELP_SECTION_NAME;
+    }
+
+    get getChoiceAccordionSectionNames() {
+        return CHOICE_SECTION_NAME;
     }
 
     handlePropertyChanged = (event) => {
@@ -42,13 +47,28 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
         // TODO whatever handling will be required for choices.
     }
 
-    // TODO change to make choices show up.
-    get defaultValueResourcePickerConfig() {
+    handleChoiceChanged = (/* event */) => {
+        // TODO
+    }
+
+    handleChoiceDeleted = (/* event */) => {
+        // TODO
+    }
+
+    handleChoiceAdded = (event) => {
+        event.stopPropagation();
+        this.dispatchEvent(createChoiceAddedToScreenField(this.field, event.detail.index));
+    }
+
+    get fieldChoices() {
+        return getFieldChoiceData(this.field);
+    }
+
+    get choiceResourcePickerConfig() {
         return {
-            allowLiterals: true,
+            allowLiterals: false,
             collection: false,
-            objectType: 'String',
-            elementType: ELEMENT_TYPE.SCREEN
+            elementType: ELEMENT_TYPE.SCREEN // TODO this needs to be changed to CHOICE once Choice selector is added
         };
     }
 
@@ -68,6 +88,10 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
 
     get dataTypeList() {
         return FLOW_INPUT_FIELD_SUB_TYPES;
+    }
+
+    get showDelete() {
+        return this.field.choiceReferences.length > 1;
     }
 
     // Convert the value selected from the data type drop down menu to the corresponding flow data type.

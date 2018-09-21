@@ -22,7 +22,8 @@
         <div class='slds-grow-none slds-shrink-none'>
             <builder_platform_interaction-screen-properties-editor-container node={selectedNode}
                                                                              onscreennodeselected={handleDeselectScreenElement} 
-                                                                             onpropertychanged={handlePropertyChanged}>
+                                                                             onpropertychanged={handleScreenStateChanged}
+                                                                             onchoiceadded={handleScreenStateChanged}>
             </builder_platform_interaction-screen-properties-editor-container>
         </div>
     </div>

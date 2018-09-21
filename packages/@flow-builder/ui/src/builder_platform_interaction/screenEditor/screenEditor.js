@@ -161,10 +161,10 @@ export default class ScreenEditor extends LightningElement {
     };
 
     /**
-     * Handler for the property changed event
+     * Handler for screen state changed events
      * @param {event} event - The event
      */
-    handlePropertyChanged = (event) => {
+    handleScreenStateChanged = (event) => {
         this.screen = screenReducer(this.screen, event, this.selectedNode);
         if (isScreen(this.selectedNode)) {
             this.setSelectedNode(this.screen);

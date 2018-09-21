@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { isItemHydratedWithErrors } from "builder_platform_interaction/dataMutationLib";
+import { getFieldChoiceData } from "builder_platform_interaction/screenEditorUtils";
 
 /**
  * Wrapper used to represent visual preview of radio screen fields.
@@ -8,16 +9,11 @@ export default class ScreenRadioField extends LightningElement {
     @api field;
     @api label;
     @api value;
-    @api helpText;
+    @api helpText;  // TODO: haven't been able to figure out how to display this.
     @api required;
 
     get choices() {
-        // Placeholder values
-        // TODO iterate through this.field.choiceReferences
-        return [
-            { 'label': 'label1', 'value': 'inputvalue2' },
-            { 'label': 'label2', 'value': 'inputvalue1' }
-        ];
+        return getFieldChoiceData(this.field);
     }
 
     get displayLabel() {

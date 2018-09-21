@@ -23,6 +23,23 @@ const addScreenField = (screen, event) => {
 };
 
 /**
+ * Adds a chocie to a screenField.
+ * @param {object} screen - The screen.
+ * @param {event} event - The add choice event.
+ * @param {object} field - the field that the choice should be added to.
+ */
+const addChoice = (screen, event, field) => {
+    const emptyChoice = '';
+    const updatedChoices = insertItem(field.choiceReferences, emptyChoice, event.detail.position);
+    const updatedField = set(field, 'choiceReferences', updatedChoices);
+
+    // Replace the field in the screen
+    const fieldPosition = screen.getFieldIndexByGUID(field.guid);
+    const updatedFields =  replaceItem(screen.fields, updatedField, fieldPosition);
+    return set(screen, 'fields', updatedFields);
+};
+
+/**
  * Deletes screen fields to a screen.
  * @param {object} screen - The screen
  * @param {event} event - The delete screen field event
@@ -278,6 +295,9 @@ export const screenReducer = (state, event, selectedNode) => {
 
         case ReorderListEvent.EVENT_NAME:
             return reorderFields(state, event);
+
+        case SCREEN_EDITOR_EVENT_NAME.CHOICE_ADDED:
+            return addChoice(state, event, selectedNode);
 
         case VALIDATE_ALL:
             return screenValidation.validateAll(state);

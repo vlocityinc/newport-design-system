@@ -1,6 +1,7 @@
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { COMPONENT_INSTANCE, EXTENSION_TYPE_SOURCE, getAllCachedExtensionTypes, listExtensions } from "./screenEditorExtensionUtils";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+// import { getElementByDevName } from "builder_platform_interaction/storeUtils";
 
 const FEROV_TYPES = {
     string: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
@@ -294,4 +295,47 @@ export function getPlaceHolderLabel(fieldName) {
         }
     }
     throw new Error('No type found for ' + fieldName);
+}
+
+/**
+ * Returns an array of the choices associated with the given screenField.
+ * If field.choiceReferences is empty, an empty array is returned.
+ * @param {object} field - the field from which the choiceReferences should be extracted.
+ */
+export function getFieldChoiceData(field) {
+    if (field.choiceReferences) {
+        return field.choiceReferences.map((choice) => {
+            return {
+                label: 'placeholder label',
+                guid:  null,
+                value: choice ? choice : '',
+                displayValue: LABELS.selectResource
+            };
+            /* TODO: enable once factory work for Choices is in.
+            if (choice) {
+                const choiceElement = getElementByDevName(choice);
+                if (!choiceElement) {
+                    throw new Error('Unable to find element: ' + choice);
+                }
+                return {
+                    label: choiceElement.choiceText,
+                    guid:  choiceElement.guid,
+                    value: choiceElement.name, //  devName
+                    displayValue: '{!' + choiceElement.name + '}'
+                };
+            } else {
+
+                // When a new choice is being added to a screen field, there will be
+                // no data for the choice yet. In that case, display this placeholder data.
+                return {
+                    label: '',
+                    guid:  null,
+                    value: '',
+                    displayValue: LABELS.selectResource
+                }
+            }
+            */
+        });
+    }
+    return [];
 }

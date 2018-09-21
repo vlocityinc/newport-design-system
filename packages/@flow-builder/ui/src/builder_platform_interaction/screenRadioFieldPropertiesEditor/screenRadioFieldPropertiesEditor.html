@@ -21,30 +21,56 @@
             </builder_platform_interaction-data-type-picker>
             
             <!--  default value: drop down resource list -->
+            <!--  TODO - this is pulling choices, but not as strictly as we need -->
             <builder_platform_interaction-screen-property-field name='defaultValue'
                                                                 label={labels.fieldDefaultValue} 
                                                                 value={field.defaultValue}
-                                                                type='String'
+                                                                type={field.dataType}
                                                                 allow-resources='true' 
-                                                                resource-picker-config={defaultValueResourcePickerConfig}
+                                                                resource-picker-config={choiceResourcePickerConfig}
                                                                 onpropertychanged={handleDefaultValuePropertyChanged}>
             </builder_platform_interaction-screen-property-field>            
         </div>
         
-        
-        <!--  TODO add Choice selector -->
-        <!--  TODO add "Add Choice" button -->
+
+        <!--  Choice selectors -->
+        <div>
+            <lightning-accordion allow-multiple-sections-open active-section-name={getChoiceAccordionSectionNames} class='slds-has-divider slds-p-top_none'>
+                <lightning-accordion-section name='choicesSection' label={labels.choices}>
+                    <builder_platform_interaction-list items={field.choiceReferences}
+                                                       onaddlistitem={handleChoiceAdded}
+                                                       onupdatelistitem={handleEvent}
+                                                       ondeletelistitem={handleChoiceDeleted}
+                                                       add-label={labels.addChoice}>
+                        <div slot="listBody">
+                            <template for:each={fieldChoices}  for:item="choice" for:index="itemIndex" slot="listBody">
+                                <div class="slds-list__item slds-is-relative" key={choice.rowIndex}>
+                                    <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
+                                        <div slot="rowBody">
+                                            <builder_platform_interaction-screen-property-field 
+                                                name='choice'
+                                                key={itemIndex}
+                                                label={labels.fieldTypeLabelChoice}
+                                                type={field.dataType}
+                                                value={choice.displayValue}
+                                                allow-resources='true' 
+                                                required
+                                                resource-picker-config={choiceResourcePickerConfig}
+                                                onpropertychanged={handleChoiceChanged}>
+                                            </builder_platform_interaction-screen-property-field>
+                                        </div>
+                                    </builder_platform_interaction-row>
+                                </div>
+                            </template>
+                        </div>
+                    </builder_platform_interaction-list>
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </div>
         
         
         <div>
-            <lightning-accordion allow-multiple-sections-open active-section-name={allSectionNames} class='slds-has-divider slds-p-top_none'>
-
-                <!--  validation rule -->
-                <lightning-accordion-section name='validationOptions' label={labels.fieldValidation}>
-                    <builder_platform_interaction-validation-editor element={field}>
-                    </builder_platform_interaction-validation-editor>
-                </lightning-accordion-section>   
-                        
+            <lightning-accordion allow-multiple-sections-open active-section-name={getHelpAccordionSectionNames} class='slds-has-divider slds-p-top_none'>
                 <!--  help text -->
                 <lightning-accordion-section name='helpText' label={labels.helpText}>
                     <builder_platform_interaction-screen-property-field name='helpText'
