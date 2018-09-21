@@ -108,7 +108,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        getSelector: require.requireActual('builder_platform_interaction-expression-utils').getSelector,
+        getSelector: require.requireActual('builder_platform_interaction/expressionUtils').getSelector,
         getElementsForMenuData: jest.fn().mockReturnValue([]),
         filterAndMutateMenuData: jest.fn().mockReturnValue([]),
         EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,

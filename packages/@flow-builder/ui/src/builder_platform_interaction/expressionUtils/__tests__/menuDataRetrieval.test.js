@@ -8,7 +8,7 @@ import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { getAllEntities } from "builder_platform_interaction/sobjectLib";
 import { GLOBAL_CONSTANTS as gcLabels, GLOBAL_CONSTANT_OBJECTS as gcObjects } from "builder_platform_interaction/systemLib";
 import { LABELS } from "../expressionUtilsLabels";
-import { addCurlyBraces } from 'builder_platform_interaction-common-utils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
 
 const collectionVariable = LABELS.collectionVariablePluralLabel.toUpperCase();
