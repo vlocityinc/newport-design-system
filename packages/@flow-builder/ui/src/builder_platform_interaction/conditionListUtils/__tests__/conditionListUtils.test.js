@@ -1,13 +1,16 @@
 import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { showDeleteCondition, getConditionsWithPrefixes } from "../conditionListUtils";
+import andPrefixLabel from '@salesforce/label/FlowBuilderConditionList.andPrefixLabel';
+import orPrefixLabel from '@salesforce/label/FlowBuilderConditionList.orPrefixLabel';
+import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.customConditionLogicLabel';
 
 const listWithOneConditional = {
     containerElementType: ELEMENT_TYPE.DECISION,
     parentGuid: {value: '123'},
     conditionLogicOptions: [
-        {value: CONDITION_LOGIC.AND, label: 'and'},
-        {value: CONDITION_LOGIC.OR, label: 'or'},
-        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: 'custom'}
+        {value: CONDITION_LOGIC.AND, label: andPrefixLabel},
+        {value: CONDITION_LOGIC.OR, label: orPrefixLabel},
+        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: customConditionLogicLabel}
     ],
     conditionLogic: {value: '1'},
     conditions: [
@@ -19,9 +22,9 @@ const listWithThreeConditionals = {
     containerElementType: ELEMENT_TYPE.DECISION,
     parentGuid: {value: '123'},
     conditionLogicOptions: [
-        {value: CONDITION_LOGIC.AND, label: 'and'},
-        {value: CONDITION_LOGIC.OR, label: 'or'},
-        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: 'custom'}
+        {value: CONDITION_LOGIC.AND, label: andPrefixLabel},
+        {value: CONDITION_LOGIC.OR, label: orPrefixLabel},
+        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: customConditionLogicLabel}
     ],
     conditionLogic: {value: '1 and 2'},
     conditions: [
@@ -61,8 +64,8 @@ describe('condition-list-utils', () => {
                 };
 
                 const conditions = getConditionsWithPrefixes(list.conditionLogic, list.conditions);
-                expect(conditions[1].prefix).toEqual('AND');
-                expect(conditions[2].prefix).toEqual('AND');
+                expect(conditions[1].prefix).toEqual(andPrefixLabel.toUpperCase());
+                expect(conditions[2].prefix).toEqual(andPrefixLabel.toUpperCase());
             });
         });
         describe('OR', () => {
@@ -82,8 +85,8 @@ describe('condition-list-utils', () => {
                 };
 
                 const conditions = getConditionsWithPrefixes(list.conditionLogic, list.conditions);
-                expect(conditions[1].prefix).toEqual('OR');
-                expect(conditions[2].prefix).toEqual('OR');
+                expect(conditions[1].prefix).toEqual(orPrefixLabel.toUpperCase());
+                expect(conditions[2].prefix).toEqual(orPrefixLabel.toUpperCase());
             });
         });
         describe('advanced', () => {
