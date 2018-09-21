@@ -3,7 +3,7 @@
         <div class={nodeClasses}>
             <!--Node icon -->
             <div class={rotateIconClass}>
-                <button title={nodeIconTitle} tabindex='0' class='icon' onfocus={handleNodeClick} onclick={handleNodeClick} ondblclick={handleDblClick}>
+                <button title={nodeIconTitle} tabindex='0' class='icon' onfocus={handleNodeClick} onmousedown={handleMouseDown} onclick={handleNodeClick} ondblclick={handleDblClick}>
                     <lightning-icon icon-name={iconName} size='large'></lightning-icon>
                 </button>
             </div>

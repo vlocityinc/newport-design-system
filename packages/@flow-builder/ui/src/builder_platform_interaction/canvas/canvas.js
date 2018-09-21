@@ -431,6 +431,7 @@ export default class Canvas extends LightningElement {
             const drag = canvasElementContainerTemplate.drag;
             const canvasElementContainer = unwrap(canvasElementContainerTemplate).firstChild;
             const isSelected = canvasElementContainerTemplate.node.config.isSelected;
+            const addToDragSelection = canvasElementContainerTemplate.node.config.addToDragSelection;
             const elementType = canvasElementContainerTemplate.node.elementType;
 
             if (elementType !== ELEMENT_TYPE.START_ELEMENT) {
@@ -450,7 +451,7 @@ export default class Canvas extends LightningElement {
             // All nodes can potentially support infinite outgoing connectors, but whether potential anchor points
             // are present is determined by hasAvailableConnections
 
-            if (isSelected) {
+            if (isSelected || addToDragSelection) {
                 lib.addToDragSelection(canvasElementContainer);
             } else {
                 lib.removeFromDragSelection(canvasElementContainer);
