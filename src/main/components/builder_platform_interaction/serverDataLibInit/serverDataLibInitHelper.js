@@ -20,7 +20,7 @@
                 action.setCallback(this, function (result) {
                     var executeCallback = shouldExecuteCallback();
                     if (executeCallback) {
-                        status = result.getState();
+                        var status = result.getState();
                         if (status === 'SUCCESS') {
                             return callback({
                                 data: result.getReturnValue()
@@ -77,6 +77,6 @@
                 }
             });
             showAlertModal = false;
-        }
+        };
     }
 });
