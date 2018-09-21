@@ -23,13 +23,15 @@ const getDefaultAvailableConnections = () => [
 
 export function createRecordCreate(recordCreate = {}) {
     const newRecordCreate = baseCanvasElement(recordCreate);
-    const { inputReference = '', availableConnections = getDefaultAvailableConnections() } = recordCreate;
+    const { inputReference = '', availableConnections = getDefaultAvailableConnections(),
+        assignRecordIdToReference = ''} = recordCreate;
 
     const recordCreateObject = Object.assign(newRecordCreate, {
         inputReference,
         availableConnections,
         maxConnections,
-        elementType
+        elementType,
+        assignRecordIdToReference
     });
 
     return recordCreateObject;

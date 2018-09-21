@@ -6,6 +6,8 @@ import { LABELS } from "./nodeLabels";
 import { format } from "builder_platform_interaction/commonUtils";
 import startElement from "./startElement.html";
 import nodeElement from './node.html';
+import { isTestMode } from "builder_platform_interaction/contextLib";
+
 
 /**
  * Node component for flow builder.
@@ -78,6 +80,20 @@ export default class Node extends LightningElement {
 
     get nodeTypeLabel() {
         return getConfigForElementType(this.node.elementType).labels.singular;
+    }
+
+    /**
+     * Is the component running in test mode?
+     */
+    get isTestMode() {
+        return isTestMode();
+    }
+
+    /**
+     * Build the 'test mode only' class used to ease up Selenium effort
+     */
+    get computedTestClass() {
+        return `test-node-${(this.node.elementType || '').toLowerCase()}`;
     }
 
     isMultiSelect(event) {

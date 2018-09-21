@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 import { PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
 import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { LABELS } from './paletteItemLabels';
+import { isTestMode } from "builder_platform_interaction/contextLib";
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -30,6 +31,20 @@ export default class PaletteItem extends LightningElement {
 
     get hasIcon() {
         return this.iconName !== undefined && this.iconName !== null && this.iconName.length > 0;
+    }
+
+    /**
+     * Is the component running in test mode?
+     */
+    get isTestMode() {
+        return isTestMode();
+    }
+
+    /**
+     * Build the "test mode only" class used to ease up Selenium effort
+     */
+    get computedTestClass() {
+        return `test-paletteitem-${(this.elementType || '').toLowerCase()}`;
     }
 
     handleLinkClick(event) {

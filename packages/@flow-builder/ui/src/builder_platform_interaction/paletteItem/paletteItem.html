@@ -1,5 +1,6 @@
 <template>
     <td role="gridcell">
+        <span if:true={isTestMode} class={computedTestClass}></span>
         <div class="slds-grid slds-grid_vertical-align-center">
             <lightning-icon if:true={hasIcon} icon-name={iconName} size={iconSize} alternative-text={label} class="slds-m-right_x-small drag-element"></lightning-icon>
             <!--
