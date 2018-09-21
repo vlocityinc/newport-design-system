@@ -3,6 +3,7 @@ import {
     createActionCallMetadataObject,
     createApexPluginMetadataObject,
     createAssignmentMetadataObject,
+    createChoiceMetadataObject,
     createConstantMetadataObject,
     createDecisionMetadataObject,
     createFlowPropertiesMetadataObject,
@@ -35,6 +36,8 @@ export const uiToFlowFactory = (element, config) => {
             return createApexPluginMetadataObject(element, config);
         case ELEMENT_TYPE.ASSIGNMENT:
             return createAssignmentMetadataObject(element, config);
+        case ELEMENT_TYPE.CHOICE:
+            return createChoiceMetadataObject(element, config);
         case ELEMENT_TYPE.CONSTANT:
             return createConstantMetadataObject(element, config);
         case ELEMENT_TYPE.EMAIL_ALERT:

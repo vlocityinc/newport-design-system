@@ -56,7 +56,8 @@ import emptyDefaultWaitPathLabel from '@salesforce/label/FlowBuilderWaitEditor.e
 import sObjectVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectVariablePluralLabel";
 import sObjectCollectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectCollectionVariablePluralLabel";
 import collectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.collectionVariablePluralLabel";
-
+import choiceSingularLabel from "@salesforce/label/FlowBuilderElementConfig.choiceSingularLabel";
+import choicePluralLabel from "@salesforce/label/FlowBuilderElementConfig.choicePluralLabel";
 export const LABELS = {
     subflowSingularLabel,
     subflowPluralLabel,
@@ -114,5 +115,7 @@ export const LABELS = {
     emptyDefaultWaitPathLabel,
     sObjectVariablePluralLabel,
     sObjectCollectionVariablePluralLabel,
-    collectionVariablePluralLabel
+    collectionVariablePluralLabel,
+    choiceSingularLabel,
+    choicePluralLabel
 };

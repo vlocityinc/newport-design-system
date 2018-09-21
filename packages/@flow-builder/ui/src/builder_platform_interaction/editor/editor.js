@@ -22,6 +22,7 @@ import { propertyEditorFactory } from 'builder_platform_interaction/propertyEdit
 import { FACTORY_CONFIG, createStartElement } from 'builder_platform_interaction/elementFactory';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
 let unsubscribeStore;
 let storeInstance;
@@ -646,7 +647,8 @@ export default class Editor extends LightningElement {
         node.locationX = event.detail.locationX;
         node.locationY = event.detail.locationY;
 
-        node = hydrateWithErrors(node);
+        const blackListConfigForElement = elementTypeToConfigMap[elementType].nonHydratableProperties;
+        node = hydrateWithErrors(node, blackListConfigForElement || []);
 
         const nodeUpdate = this.deMutateAndAddNodeCollection;
         const newResourceCallback = this.newResourceCallback;

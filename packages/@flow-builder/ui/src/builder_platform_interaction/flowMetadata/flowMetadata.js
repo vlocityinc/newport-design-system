@@ -75,7 +75,8 @@ export const METADATA_KEY = {
     RECORD_UPDATE: 'recordUpdates',
     LOOPS: 'loops',
     SCREENS: 'screens',
-    STAGES: 'stages'
+    STAGES: 'stages',
+    CHOICES: 'choices'
 };
 
 /**
@@ -139,7 +140,9 @@ export const TEMPLATE_FIELDS = new Set([
     'text',        // represents body of a text template
     'fieldText',   // body of screen field of type Display Text
     'helpText',     // help text for a screen or screen field
-    'interviewLabel' // interview label for the flow properties
+    'interviewLabel', // interview label for the flow properties
+    'errorMessage', // errorMessage field in validationRule Object for choice editor and screenField
+    'formulaExpression' // used in validation Rule Object for choice editor and screenField
 ]);
 
 export const EXPRESSION_RE = /\{!([^}]+)\}/g;

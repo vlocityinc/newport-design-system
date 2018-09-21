@@ -16,7 +16,7 @@ export const isItemHydratedWithErrors = (item) => {
 const doHydrateWithErrors = (element, blackList) => {
     Object.entries(element).filter(([key]) => !blackList.includes(key)).forEach(
         ([key, val]) => {
-            if (typeof val === 'string' || val === null || val === undefined) {
+            if (typeof val === 'string' || val === null) {
                 element[key] = { value : val, error: null };
             } else if (typeof val === 'object') {
                 doHydrateWithErrors(val, blackList);

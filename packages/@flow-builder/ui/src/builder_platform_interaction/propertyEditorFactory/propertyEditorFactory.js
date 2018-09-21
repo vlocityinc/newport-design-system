@@ -8,6 +8,7 @@ import {
     createActionCall,
     createApexPlugin,
     createAssignment,
+    createChoice,
     createConstant,
     createFlowProperties,
     createFormula,
@@ -50,6 +51,9 @@ export const propertyEditorFactory = (element, config = {}) => {
             break;
         case ELEMENT_TYPE.ASSIGNMENT:
             newElement = createAssignment(element);
+            break;
+        case ELEMENT_TYPE.CHOICE:
+            newElement = createChoice(element);
             break;
         case ELEMENT_TYPE.CONSTANT:
             newElement = createConstant(element);

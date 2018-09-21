@@ -636,6 +636,20 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: false
     },
+    [ELEMENT_TYPE.CHOICE]: {
+        descriptor: 'builder_platform_interaction:choiceEditor',
+        nodeConfig: {
+            iconName: 'standard:choice',
+            utilityIconName: 'utility:choice'
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.CHOICES,
+        labels: {
+            singular: LABELS.choiceSingularLabel,
+            plural: LABELS.choicePluralLabel
+        },
+        canvasElement: false
+    },
     [ELEMENT_TYPE.CONSTANT]: {
         descriptor: 'builder_platform_interaction:variableConstantEditor',
         nodeConfig: {
