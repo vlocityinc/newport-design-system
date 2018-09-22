@@ -55,7 +55,6 @@ export function createUserInputForChoice(userInput = {}) {
  * @param {Object} value ferov object
  * @param {userInput} userInput
  * @param {string} elementType represents element type meta data string
- * @param {Object[]} processMetaDataValues
  * @param {string} storedValue derived from the ferov value object
  * @param {string} storedValueDataType derived from the ferov value object
  * @param {boolean} isShowInputSelected false by default, true if userInput section is present
@@ -74,7 +73,6 @@ export function createChoice(choice = {}) {
     const {
         dataType = null,
         choiceText = '',
-        processMetaDataValues = [],
         value,
         userInput
     } = choice;
@@ -98,7 +96,6 @@ export function createChoice(choice = {}) {
         elementType,
         dataType,
         choiceText,
-        processMetaDataValues,
         storedValue,
         storedValueDataType,
         isShowInputSelected,
@@ -123,6 +120,9 @@ export function createChoiceForStore(choice = {}) {
  * @returns {choice} choice object in metadata compatible shape.
  */
 export function createChoiceMetadataObject(choice) {
+    if (!choice) {
+        throw new Error('choice element object is required while creating choice metadata object');
+    }
     const newChoice = baseResourceMetadataObject(choice);
     const { dataType, choiceText, userInput } = choice;
     let valueFerovObject;
