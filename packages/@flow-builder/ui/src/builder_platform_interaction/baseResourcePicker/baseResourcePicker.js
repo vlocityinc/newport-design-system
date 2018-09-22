@@ -8,6 +8,7 @@ import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEdi
  * All wrapper classes will have to implement their own logic for retrieving full menu data
  */
 export default class BaseResourcePicker extends LightningElement {
+    static SELECTOR = 'builder_platform_interaction-base-resource-picker';
     /**
      * Custom error message from setCustomValidity
      */

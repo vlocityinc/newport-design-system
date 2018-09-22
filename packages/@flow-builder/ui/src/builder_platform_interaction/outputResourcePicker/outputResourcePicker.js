@@ -1,10 +1,10 @@
 import { LightningElement, api, track }  from 'lwc';
 import {
-    normalizeRHS,
+    normalizeLHS,
     getMenuData,
 } from "builder_platform_interaction/expressionUtils";
 import {
-    getRulesForContext,
+    getOutputRules,
     getRHSTypes,
     RULE_OPERATOR,
 } from "builder_platform_interaction/ruleLib";
@@ -14,18 +14,12 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 
 let storeInstance;
 
-export default class FerovResourcePicker extends LightningElement {
-    @track
-    _customValidity;
-
+export default class OutputResourcePicker extends LightningElement {
     @track
     _value;
 
     @track
     _comboboxConfig = {};
-
-    @track
-    _elementConfig;
 
     /**
      * The allowed param types based on the rule service
@@ -52,54 +46,13 @@ export default class FerovResourcePicker extends LightningElement {
      * @param {module:base-resource-picker.ComboboxConfig} newComboboxConfig the new combobox config object
      */
     set comboboxConfig(newComboboxConfig) {
-        this._comboboxConfig = newComboboxConfig;
+        this._comboboxConfig = Object.assign({}, newComboboxConfig, { literalsAllowed: false });
         this._isInitialized = false;
     }
 
     @api
     get comboboxConfig() {
         return this._comboboxConfig;
-    }
-
-    /**
-     * Custom error message to display
-     * @param {String} message - The error message
-     */
-    @api
-    setCustomValidity(message) {
-        this._customValidity = message;
-        if (this._baseResourcePicker) {
-            this._baseResourcePicker.setCustomValidity(message);
-        }
-    }
-
-    /**
-     * Set the error message through props
-     * @param {String} error the new error message
-     */
-    set errorMessage(error) {
-        this.setCustomValidity(error);
-    }
-
-    @api
-    get errorMessage() {
-        return this._customValidity;
-    }
-
-    /**
-     * The element config using which selector is determined for the element type while getting elements for menu data.
-     * Eg: {element, shouldBeWritable} element is the element type this expression builder is inside,
-     * shouldBeWritable is so property editors can specify the data they need.
-     * @param {module:ferov-resource-picker.ElementConfig} newElementConfig the new element config
-     */
-    set elementConfig(newElementConfig) {
-        this._elementConfig = newElementConfig;
-        this._isInitialized = false;
-    }
-
-    @api
-    get elementConfig() {
-        return this._elementConfig;
     }
 
     /**
@@ -115,31 +68,6 @@ export default class FerovResourcePicker extends LightningElement {
      */
     @api
     elementParam;
-
-    /**
-     * If set to true, hasNext will be set to false for all menu items
-     * @type {Boolean}
-     */
-    @api
-    disableFieldDrilldown = false;
-
-    /**
-     * If set to true, sobjects will not show up in menu data to allow users to select fields
-     * @type {Boolean}
-     */
-    @api
-    disableSobjectForFields = false;
-
-    /**
-     * Set it to true to show 'New Resource' as first item in combobox menu data.
-     * @type {Boolean}
-     */
-    @api
-    showNewResource = false;
-
-    get allowSobjectForFields() {
-        return !this.disableSobjectForFields;
-    }
 
     get parentItem() {
         return this.value && this.value.parent;
@@ -164,15 +92,8 @@ export default class FerovResourcePicker extends LightningElement {
 
     /** Event handlers */
 
-    handleItemSelected(event) {
+    handleValueChange(event) {
         this.value = event.detail.item;
-    }
-
-    handleComboboxChanged(event) {
-        const item = event.detail.item;
-        const displayText = event.detail.displayText;
-
-        this.value = item || displayText;
     }
 
     handleFetchMenuData(event) {
@@ -197,8 +118,7 @@ export default class FerovResourcePicker extends LightningElement {
             this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
 
             const identifier = isObject(this.value) ? this.value.value : this.value;
-            normalizeRHS(identifier)
-                .then(this.initializeResourcePicker);
+            this.initializeResourcePicker(normalizeLHS(identifier));
         }
     }
 
@@ -219,13 +139,14 @@ export default class FerovResourcePicker extends LightningElement {
     };
 
     populateParamTypes = () => {
-        const rules = getRulesForContext({ elementType: this.propertyEditorElementType });
-        this.paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, rules);
+        this.paramTypes = getRHSTypes(this.propertyEditorElementType,
+            this.elementParam, RULE_OPERATOR.ASSIGN, getOutputRules());
     };
 
     populateMenuData = (parentItem, fields) => {
+        const showNewResource = true;
         if (this._baseResourcePicker) {
-            this._baseResourcePicker.setMenuData(getMenuData(this, storeInstance, this.showNewResource, parentItem, fields));
+            this._baseResourcePicker.setMenuData(getMenuData(this, storeInstance, showNewResource, parentItem, fields));
         }
     }
 }
