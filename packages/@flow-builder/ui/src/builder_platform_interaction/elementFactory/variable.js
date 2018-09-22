@@ -7,6 +7,11 @@ const elementType = ELEMENT_TYPE.VARIABLE;
 const DEFAULT_VALUE_PROPERTY = 'defaultValue';
 const FEROV_DATA_TYPE_PROPERTY = 'ferovDataType';
 
+/**
+ * Either creates a new variable or create a new copy of existing variable
+ * @param {Object} variable existing variable which needs to be copied
+ * @return {Object} newVariable new variable which is created
+ */
 export function createVariable(variable = {}) {
     const newVariable = baseResource(variable);
     const { dataType = null, isCollection = false, isInput = false, isOutput = false, objectType = null, scale = 2, value} = variable;
@@ -14,7 +19,7 @@ export function createVariable(variable = {}) {
     if (value) {
         valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, FEROV_DATA_TYPE_PROPERTY);
     }
-    const { defaultValue = null, ferovDataType = null, defaultValueGuid = null } = valueFerov || variable;
+    const { defaultValue = null, ferovDataType = null } = valueFerov || variable;
     Object.assign(newVariable, {
         elementType,
         isCollection,
@@ -25,17 +30,28 @@ export function createVariable(variable = {}) {
         scale,
         defaultValue,
         ferovDataType,
-        defaultValueGuid
     });
     return newVariable;
 }
 
-export function createVariableForStore(variable = {}) {
+/**
+ * Create a new copy of existing variable in shape as expected by store.
+ * @param {Object} variable existing variable which needs to be copied
+ * @return {Object} Map containing guid as key and new variable as value
+ */
+export function createVariableForStore(variable) {
+    if (!variable) {
+        throw new Error('variable is not defined');
+    }
     const newVariable = createVariable(variable);
-
     return baseElementsArrayToMap([newVariable]);
 }
 
+/**
+ * Create a new copy of existing variable in shape as expected by flow metadata.
+ * @param {Object} variable existing variable which needs to be copied
+ * @return {Object} newVariable new variable which is created
+ */
 export function createVariableMetadataObject(variable) {
     if (!variable) {
         throw new Error('variable is not defined');
@@ -51,7 +67,6 @@ export function createVariableMetadataObject(variable) {
     if (valueFerov) {
         valueFerovObject = { value : valueFerov };
     }
-
     Object.assign(newVariable, {
         dataType,
         isCollection,
@@ -60,6 +75,5 @@ export function createVariableMetadataObject(variable) {
         objectType,
         scale,
     }, valueFerovObject);
-
     return newVariable;
 }

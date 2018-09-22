@@ -7,6 +7,11 @@ const elementType = ELEMENT_TYPE.CONSTANT;
 const DEFAULT_VALUE_PROPERTY = 'defaultValue';
 const FEROV_DATA_TYPE_PROPERTY = 'ferovDataType';
 
+/**
+ * Either creates a new constant or create a new copy of existing constant
+ * @param {Object} constant existing constant which needs to be copied
+ * @return {Object} newConstant new constant which is created
+ */
 export function createConstant(constant = {}) {
     const newConstant = baseResource(constant);
     const { dataType = null, value } = constant;
@@ -14,27 +19,34 @@ export function createConstant(constant = {}) {
     if (value) {
         valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, FEROV_DATA_TYPE_PROPERTY);
     }
-    const { defaultValue = null, ferovDataType = null, defaultValueGuid = null } = valueFerov || constant;
-    const constantObject = Object.assign(
-        newConstant,
-        {
-            elementType,
-            dataType,
-            defaultValue,
-            defaultValueGuid,
-            ferovDataType
-        }
-    );
-
-    return constantObject;
+    const { defaultValue = null, ferovDataType = null } = valueFerov || constant;
+    Object.assign(newConstant, {
+        elementType,
+        dataType,
+        defaultValue,
+        ferovDataType
+    });
+    return newConstant;
 }
 
-export function createConstantForStore(constant = {}) {
+/**
+ * Create a new copy of existing constant in shape as expected by store.
+ * @param {Object} constant existing constant which needs to be copied
+ * @return {Object} Map containing guid as key and new constant as value
+ */
+export function createConstantForStore(constant) {
+    if (!constant) {
+        throw new Error('constant is not defined');
+    }
     const newConstant = createConstant(constant);
-
     return baseElementsArrayToMap([newConstant]);
 }
 
+/**
+ * Create a new copy of existing constant in shape as expected by flow metadata.
+ * @param {Object} constant existing constant which needs to be copied
+ * @return {Object} newConstant new constant which is created
+ */
 export function createConstantMetadataObject(constant) {
     if (!constant) {
         throw new Error('constant is not defined');
@@ -51,7 +63,8 @@ export function createConstantMetadataObject(constant) {
         valueFerovObject = { value : valueFerov };
     }
 
-    return Object.assign(newConstant, {
+    Object.assign(newConstant, {
         dataType
     }, valueFerovObject);
+    return newConstant;
 }

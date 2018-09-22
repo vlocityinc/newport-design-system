@@ -11,9 +11,8 @@ const maxConnections = 1;
 const elementType = ELEMENT_TYPE.START_ELEMENT;
 
 /**
- * Method to create the start element object
- *
- * @returns {Object} startElement   the start element object
+ * create the start element object. Start element exists on client side only
+ * @returns {Object} startElement the start element object
  */
 export function createStartElement() {
     const newStartElement = baseCanvasElement({
@@ -32,6 +31,11 @@ export function createStartElement() {
     return newStartElement;
 }
 
+/**
+ * create the start element object with connectors. It is used during translation.
+ * @param {string} startElementReference guid/name of the start element
+ * @returns {Object} startElement the start element object
+ */
 export function createStartElementWithConnectors(startElementReference) {
     const newStartElement = createStartElement();
     let connectors = [];

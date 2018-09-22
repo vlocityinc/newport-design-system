@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ACTION_TYPE, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import {
     createActionCallWithConnectors,
     createApexPluginWithConnectors,
@@ -31,9 +31,7 @@ import {
 export const flowToUIFactory = (elementType, element) => {
     switch (elementType) {
         case ELEMENT_TYPE.ACTION_CALL:
-            return createActionCallWithConnectors(element);
-        case ELEMENT_TYPE.APEX_CALL:
-            return createActionCallWithConnectors(element, ELEMENT_TYPE.APEX_CALL);
+            return actionCallFactory(element);
         case ELEMENT_TYPE.APEX_PLUGIN_CALL:
             return createApexPluginWithConnectors(element);
         case ELEMENT_TYPE.ASSIGNMENT:
@@ -44,8 +42,6 @@ export const flowToUIFactory = (elementType, element) => {
             return createDecisionWithOutcomeReferences(element);
         case ELEMENT_TYPE.WAIT:
             return createWaitWithConnectors(element);
-        case ELEMENT_TYPE.EMAIL_ALERT:
-            return createActionCallWithConnectors(element, ELEMENT_TYPE.EMAIL_ALERT);
         case ELEMENT_TYPE.FLOW_PROPERTIES:
             return createFlowProperties(element);
         case ELEMENT_TYPE.FORMULA:
@@ -78,3 +74,16 @@ export const flowToUIFactory = (elementType, element) => {
 
     // TODO Add other element types
 };
+
+function actionCallFactory(element) {
+    const actionType = element.actionType;
+    switch (actionType) {
+        case ACTION_TYPE.EMAIL_ALERT:
+            return createActionCallWithConnectors(element, ELEMENT_TYPE.EMAIL_ALERT);
+        case ACTION_TYPE.APEX:
+            return createActionCallWithConnectors(element, ELEMENT_TYPE.APEX_CALL);
+        // TODO: Handle case for action type flow
+        default:
+            return createActionCallWithConnectors(element);
+    }
+}
