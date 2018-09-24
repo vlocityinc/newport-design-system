@@ -11,8 +11,10 @@ import {
 import { isObject } from "builder_platform_interaction/commonUtils";
 import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
 
 let storeInstance;
+let rules;
 
 export default class OutputResourcePicker extends LightningElement {
     @track
@@ -46,7 +48,7 @@ export default class OutputResourcePicker extends LightningElement {
      * @param {module:base-resource-picker.ComboboxConfig} newComboboxConfig the new combobox config object
      */
     set comboboxConfig(newComboboxConfig) {
-        this._comboboxConfig = Object.assign({}, newComboboxConfig, { literalsAllowed: false });
+        this._comboboxConfig = Object.assign({}, newComboboxConfig, { literalsAllowed: false, placeholder: outputPlaceholder });
         this._isInitialized = false;
     }
 
@@ -105,6 +107,7 @@ export default class OutputResourcePicker extends LightningElement {
         super();
         storeInstance = Store.getStore();
         this._unsubscribeStore = storeInstance.subscribe(this.handleStoreChange);
+        rules = getOutputRules();
     }
 
     disconnectedCallback() {
@@ -140,7 +143,7 @@ export default class OutputResourcePicker extends LightningElement {
 
     populateParamTypes = () => {
         this.paramTypes = getRHSTypes(this.propertyEditorElementType,
-            this.elementParam, RULE_OPERATOR.ASSIGN, getOutputRules());
+            this.elementParam, RULE_OPERATOR.ASSIGN, rules);
     };
 
     populateMenuData = (parentItem, fields) => {

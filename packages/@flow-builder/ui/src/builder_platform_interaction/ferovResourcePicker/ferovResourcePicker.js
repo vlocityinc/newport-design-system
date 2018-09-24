@@ -13,6 +13,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
 let storeInstance;
+let rules;
 
 export default class FerovResourcePicker extends LightningElement {
     @track
@@ -207,6 +208,7 @@ export default class FerovResourcePicker extends LightningElement {
     initializeResourcePicker = (normalizedValue) => {
         // on first render we want to replace the given value with the itemOrDisplayText from normalized value
         this.value = normalizedValue.itemOrDisplayText;
+        rules = getRulesForContext({ elementType: this.propertyEditorElementType });
         this.populateMenuData(this.parentItem, normalizedValue.fields);
         this._isInitialized = true;
     }
@@ -219,7 +221,6 @@ export default class FerovResourcePicker extends LightningElement {
     };
 
     populateParamTypes = () => {
-        const rules = getRulesForContext({ elementType: this.propertyEditorElementType });
         this.paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, rules);
     };
 
