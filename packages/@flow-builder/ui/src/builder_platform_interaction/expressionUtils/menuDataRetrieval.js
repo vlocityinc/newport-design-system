@@ -151,6 +151,7 @@ export function getStoreElements(storeInstance, {elementType, shouldBeWritable, 
         case ELEMENT_TYPE.EMAIL_ALERT:
         case ELEMENT_TYPE.SUBFLOW:
         case ELEMENT_TYPE.VARIABLE:
+        case ELEMENT_TYPE.CHOICE:
             selector = shouldBeWritable ? writableElementsSelector : readableElementsSelector;
             break;
         case ELEMENT_TYPE.DECISION:

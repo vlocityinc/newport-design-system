@@ -1,0 +1,86 @@
+<template>
+    <div if:true={choiceResource}>
+        <div class="slds-p-around_small">
+            <!-- Name Label Desc Component -->
+            <builder_platform_interaction-label-description
+                    hide-label
+                    dev-name={choiceResource.name}
+                    description={choiceResource.description}
+                    guid={choiceResource.guid}
+                    onpropertychanged={handlePropertyChanged}>
+            </builder_platform_interaction-label-description>
+
+            <lightning-input label={labels.choiceTextInputLabel}
+                             value={choiceResource.choiceText.value}
+                             type="text"
+                             required
+                             onfocusout={handleChoiceLabelChanged}
+                             class="choice-label slds-col slds-size_1-of-2 slds-m-bottom_x-small">
+            </lightning-input>
+
+            <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small">
+                <!--Choice Data Type Picker -->
+                <div class="slds-col slds-grow slds-size_1-of-2">
+                    <builder_platform_interaction-data-type-picker
+                            class-name="slds-size_1-of-1"
+                            available-data-types={dataTypeList}
+                            type-and-collection-disabled={isFieldDisabled}
+                            required
+                            combobox-error-message={choiceResource.dataType.error}
+                            value={dataTypePickerValue}
+                            onvaluechanged={handleDataTypeChanged}>
+                    </builder_platform_interaction-data-type-picker>
+                </div>
+
+                <!--Choice Value -->
+                <div class="default-value slds-col slds-grow slds-size_1-of-2">
+                    <builder_platform_interaction-ferov-resource-picker
+                            value={storedValue}
+                            error-message={choiceResource.storedValue.error}
+                            combobox-config={storedValueComboboxConfig}
+                            property-editor-element-type={choiceResource.elementType}
+                            element-param={choiceParam}
+                            oncomboboxstatechanged={handleStoredValuePropertyChanged}>
+                    </builder_platform_interaction-ferov-resource-picker>
+                </div>
+            </div>
+
+            <lightning-input if:false={isDateTypeBoolean}
+                             label={labels.showInputIfSelectedLabel}
+                             type="checkbox"
+                             checked={choiceResource.isShowInputSelected}
+                             onchange={handleInputSelectionChange}
+                             field-level-help={labels.showInputIfSelectedHelpText}>
+            </lightning-input>
+        </div>
+
+        <div if:true={choiceResource.isShowInputSelected} class="slds-border_top slds-p-around_small">
+            <h3 class="slds-text-heading_small slds-p-bottom_small">{labels.inputSectionHeader}</h3>
+            <lightning-input label={labels.promptTextLabel}
+                             value={choiceResource.userInput.promptText.value}
+                             type="text"
+                             required
+                             onfocusout={handlePromptTextChanged}
+                             class="prompt-text slds-col slds-size_1-of-2 slds-m-bottom_x-small">
+            </lightning-input>
+            <lightning-input label={labels.requiredLabel}
+                             type="checkbox"
+                             checked={choiceResource.userInput.isRequired}
+                             onchange={handleIsRequiredChange}
+                             class="slds-m-bottom_x-small">
+            </lightning-input>
+            <lightning-input label={labels.validateLabel}
+                             type="checkbox"
+                             checked={choiceResource.isValidateSelected}
+                             onchange={handleIsValidateChange}
+                             class="slds-m-bottom_x-small">
+            </lightning-input>
+
+            <builder_platform_interaction-validation-editor if:true={choiceResource.isValidateSelected}
+                                                            element={choiceResource.userInput.validationRule}
+                                                            onpropertychanged={handleValidationEditorChanged}
+                                                            required>
+            </builder_platform_interaction-validation-editor>
+        </div>
+    </div>
+</template>

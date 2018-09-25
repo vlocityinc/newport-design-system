@@ -18,7 +18,6 @@ const validationRule = {
     errorMessage: 'mock error message value',
     formulaExpression: 'mock formula'
 };
-
 const defaultValidationRule = {
     errorMessage: '',
     formulaExpression: ''
@@ -32,7 +31,7 @@ const userInput = {
 
 const defaultUserInput = {
     isRequired: false,
-    promptText: '',
+    promptText: null,
     validationRule: undefined
 };
 
@@ -76,7 +75,7 @@ const defaultChoiceElement = {
     elementType: 'CHOICE',
     description: '',
     name: '',
-    choiceText: '',
+    choiceText: null,
     guid: 'testGUID',
     dataType: null,
     storedValue: null,

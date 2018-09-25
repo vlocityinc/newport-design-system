@@ -78,6 +78,7 @@ export const addElement = (payload) => {
             case ELEMENT_TYPE.FORMULA:
             case ELEMENT_TYPE.TEXT_TEMPLATE:
             case ELEMENT_TYPE.STAGE:
+            case ELEMENT_TYPE.CHOICE:
                 return createAction(ADD_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(ADD_DECISION_WITH_OUTCOMES, payload);
@@ -110,6 +111,7 @@ export const updateElement = (payload) => {
             case ELEMENT_TYPE.TEXT_TEMPLATE:
             case ELEMENT_TYPE.FORMULA:
             case ELEMENT_TYPE.STAGE:
+            case ELEMENT_TYPE.CHOICE:
                 return createAction(UPDATE_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(MODIFY_DECISION_WITH_OUTCOMES, payload);
@@ -144,6 +146,7 @@ export const deleteElement = (payload) => {
         case ELEMENT_TYPE.CONSTANT:
         case ELEMENT_TYPE.TEXT_TEMPLATE:
         case ELEMENT_TYPE.STAGE:
+        case ELEMENT_TYPE.CHOICE:
         case ELEMENT_TYPE.FORMULA: {
             action = createAction(DELETE_RESOURCE, payload);
             break;

@@ -86,7 +86,7 @@ export class Validation {
         const flattenedRulesForNodeElement = Object.entries(rulesForTheNodeElement);
         for (let i = 0, ln = flattenedRulesForNodeElement.length; i < ln; i++) { // Go through each rule (eg: key: label, rules: [rule1, rule2])
             const [key, rules] = flattenedRulesForNodeElement[i];
-            if (nodeElement.hasOwnProperty(key)) { // find out if the key exists in the top level object itself
+            if (nodeElement.hasOwnProperty(key) && nodeElement[key]) { // find out if the key exists in the top level object itself
                 const nodeElementValueObject = nodeElement[key];
                 if (Array.isArray(rules)) { // if there is an array of rules, evaluate it
                     const errorReturnedFromRule = this.runRulesOnData(rules, getValueFromHydratedItem(nodeElementValueObject));
@@ -95,13 +95,13 @@ export class Validation {
                             [key] : { value: nodeElementValueObject.value, error: errorReturnedFromRule }
                         });
                     }
-                // if you have a function, and the value object is an array, calling that function with each object of the array should return you the array of rules for that object
+                    // if you have a function, and the value object is an array, calling that function with each object of the array should return you the array of rules for that object
                 } else if (rules instanceof Function && Array.isArray(nodeElementValueObject)) {
                     for (let j = 0, len = nodeElementValueObject.length; j < len; j++) {
                         nodeElement = set(nodeElement, [key, j], this.validateAll(updateProperties(nodeElementValueObject[j]), rules(nodeElementValueObject[j])));
                     }
                 } else {
-                    nodeElement = set(nodeElement, [key], this.validateAll(nodeElementValueObject, null));
+                    nodeElement = set(nodeElement, [key], this.validateAll(nodeElementValueObject, rules));
                 }
             }
         }

@@ -222,6 +222,7 @@ export const getRulesForContext = (config) => {
         case ELEMENT_TYPE.CONSTANT:
         case ELEMENT_TYPE.FORMULA:
         case ELEMENT_TYPE.SCREEN:
+        case ELEMENT_TYPE.CHOICE:
             rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, config.elementType);
             break;
         // TODO example for output/backwards rules

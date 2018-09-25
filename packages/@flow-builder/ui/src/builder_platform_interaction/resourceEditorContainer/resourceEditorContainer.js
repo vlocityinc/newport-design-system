@@ -6,14 +6,17 @@ import constantEditorTemplate from "./constantEditorTemplate.html";
 import formulaEditorTemplate from "./formulaEditorTemplate.html";
 import textTemplateEditorTemplate from './textTemplateEditorTemplate.html';
 import stageEditorTemplate from "./stageEditorTemplate.html";
+import choiceEditorTemplate from "./choiceEditorTemplate.html";
 import { propertyEditorFactory } from 'builder_platform_interaction/propertyEditorFactory';
+import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
 const resourceTypeElementTypeMap = {
     variable: ELEMENT_TYPE.VARIABLE,
     formula: ELEMENT_TYPE.FORMULA,
     constant: ELEMENT_TYPE.CONSTANT,
     textTemplate: ELEMENT_TYPE.TEXT_TEMPLATE,
-    stage: ELEMENT_TYPE.STAGE
+    stage: ELEMENT_TYPE.STAGE,
+    choice: ELEMENT_TYPE.CHOICE
 };
 
 const EDITOR_SELECTOR = '.editor_template';
@@ -59,8 +62,9 @@ export default class ResourceEditorContainer extends LightningElement {
         // go through the needed steps to create a flow element and get it ready to be used by property editor
         const elementType = resourceTypeElementTypeMap[resourceType];
         let node = propertyEditorFactory({elementType});
+        const config = elementTypeToConfigMap[elementType];
         // NOTE: if we ever need to pass the store state (the second allowed param) then we need to add that here
-        node = hydrateWithErrors(node);
+        node = hydrateWithErrors(node, config.nonHydratableProperties);
 
         // set this to our member variable so that we can pass to the selected property editor template
         this.node = node;
@@ -110,6 +114,8 @@ export default class ResourceEditorContainer extends LightningElement {
                 return textTemplateEditorTemplate;
             case ELEMENT_TYPE.STAGE:
                 return stageEditorTemplate;
+            case ELEMENT_TYPE.CHOICE:
+                return choiceEditorTemplate;
             default:
                 return undefined;
         }

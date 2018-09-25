@@ -36,7 +36,7 @@ export function createValidationRuleForUserInput(validationRule = {}) {
  * @returns {userInput} userInput object for choice
  */
 export function createUserInputForChoice(userInput = {}) {
-    const { isRequired = false, promptText = '' } = userInput;
+    const { isRequired = false, promptText = null } = userInput;
     let validationRule;
     if (userInput.validationRule) {
         validationRule = createValidationRuleForUserInput(userInput.validationRule);
@@ -72,7 +72,7 @@ export function createChoice(choice = {}) {
         isValidateSelected = false; // false by default to keep the validate section close by default
     const {
         dataType = null,
-        choiceText = '',
+        choiceText = null,
         value,
         userInput
     } = choice;

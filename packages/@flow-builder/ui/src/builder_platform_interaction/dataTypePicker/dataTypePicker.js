@@ -43,6 +43,9 @@ export default class DataTypePicker extends LightningElement {
     @api
     helpText = null;
 
+    @api
+    className = 'slds-size_1-of-2';
+
     /**
      * @typedef {Object} SelectedDataType
      *
@@ -68,6 +71,10 @@ export default class DataTypePicker extends LightningElement {
 
     get showScale() {
         return this.allowScale && !this.state.isCollection && (this.state.dataType === FLOW_DATA_TYPE.NUMBER.value || this.state.dataType === FLOW_DATA_TYPE.CURRENCY.value);
+    }
+
+    get comboboxClasses() {
+        return `slds-form-element slds-col slds-grow ${this.className}`;
     }
 
     set comboboxErrorMessage(errorMessage) {
