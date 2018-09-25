@@ -1,16 +1,15 @@
-import { ELEMENT_TYPE, SUB_ELEMENT_TYPE, CONDITION_LOGIC, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
-import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from "./base/baseElement";
-import { createListRowItem, rhsPropertyName, rhsDataTypePropertyName } from "./base/baseList";
-import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from "./base/baseMetadata";
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+import {
+    baseCanvasElement,
+    baseChildElement,
+    baseCanvasElementsArrayToMap
+} from "./base/baseElement";
+import {baseCanvasElementMetadataObject, baseChildElementMetadataObject } from "./base/baseMetadata";
 import { LABELS } from "./elementFactoryLabels";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import { generateGuid } from "builder_platform_interaction/storeLib";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { createFEROVMetadataObject, createFEROV } from "./ferov";
 import { createConnectorObjects } from "./connector";
 
 const elementType = ELEMENT_TYPE.DECISION;
-const lhsMetadataPropertyName = 'leftValueReference';
 
 // For Opening Property editor or copying a decision
 export function createDecisionWithOutcomes(decision = {}) {
@@ -94,41 +93,7 @@ export function createDecisionWithOutcomeReferences(decision = {}) {
 }
 
 export function createOutcome(outcome = {}) {
-    const newOutcome = baseChildElement(outcome);
-    const { conditionLogic = CONDITION_LOGIC.AND } = outcome;
-
-    let { conditions } = outcome;
-    if (conditions && conditions.length > 0) {
-        conditions = conditions.map(condition => createCondition(condition));
-    } else {
-        const newCondition = createCondition();
-        conditions = [newCondition];
-    }
-
-    return Object.assign(newOutcome, {
-        conditions,
-        conditionLogic,
-        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-        elementType: ELEMENT_TYPE.OUTCOME
-    });
-}
-
-// TODO: Refactor for commonalities with wait
-// https://gus.my.salesforce.com/a07B0000005YnL5IAK (W-5395893)
-export function createCondition(condition = {}) {
-    let newCondition = {};
-
-    if (condition.hasOwnProperty(lhsMetadataPropertyName)) {
-        newCondition = createFEROV(condition.rightValue, rhsPropertyName, rhsDataTypePropertyName);
-        newCondition.leftHandSide = condition.leftValueReference;
-        newCondition.operator = condition.operator;
-        newCondition = createListRowItem(newCondition);
-    } else {
-        newCondition = createListRowItem(condition);
-    }
-    newCondition.rowIndex = generateGuid(SUB_ELEMENT_TYPE.CONDITION);
-
-    return newCondition;
+    return baseChildElement(outcome, ELEMENT_TYPE.OUTCOME);
 }
 
 export function createDecisionMetadataObject(decision, config = {}) {
@@ -140,44 +105,13 @@ export function createDecisionMetadataObject(decision, config = {}) {
     let outcomes;
     if (outcomeReferences && outcomeReferences.length > 0) {
         outcomes = outcomeReferences.map(({outcomeReference}) => {
-            return createOutcomeMetadataObject(getElementByGuid(outcomeReference), config);
+            return baseChildElementMetadataObject(getElementByGuid(outcomeReference), config);
         });
     }
     return Object.assign(newDecision, {
         rules: outcomes,
         defaultConnectorLabel
     });
-}
-
-export function createOutcomeMetadataObject(outcome, config = {}) {
-    if (!outcome) {
-        throw new Error('Outcome is not defined');
-    }
-
-    const newOutcome = baseChildElementMetadataObject(outcome, config);
-    let { conditions } = outcome;
-    const { conditionLogic } = outcome;
-    if (conditions && conditions.length > 0) {
-        conditions = conditions.map(condition => createConditionMetadataObject(condition));
-    }
-    return Object.assign(newOutcome, {
-        conditions,
-        conditionLogic
-    });
-}
-
-export function createConditionMetadataObject(condition) {
-    if (!condition) {
-        throw new Error('Condition is not defined');
-    }
-    const { leftHandSide, operator } = condition;
-    const rightValue = createFEROVMetadataObject(condition, rhsPropertyName, rhsDataTypePropertyName);
-    const newCondition = Object.assign({}, {
-        leftValueReference: leftHandSide,
-        rightValue,
-        operator
-    });
-    return newCondition;
 }
 
 function calculateMaxConnections(decision) {

@@ -1,4 +1,11 @@
-import { baseResource, baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from "../../base/baseElement";
+import {
+    baseResource,
+    baseCanvasElement,
+    baseChildElement,
+    baseCanvasElementsArrayToMap
+} from "../../base/baseElement";
+import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import {FLOW_DATA_TYPE} from "../../../dataTypeLib/dataTypeLib";
 
 const resource = {
     name: 'var1',
@@ -19,7 +26,17 @@ const canvasElement = {
 
 const childElement = {
     name: 'Outcome_1',
-    label: 'Outcome 1'
+    label: 'Outcome 1',
+    conditionLogic: 'someConditionLogic'
+};
+
+const mockCondition1 = {
+    leftHandSide: 'lhs1',
+    operator: 'foo'
+};
+const mockCondition2 = {
+    leftHandSide: 'lhs2',
+    operator: 'bar'
 };
 
 const elementList = [{
@@ -119,29 +136,66 @@ describe('Base canvas element function', () => {
 });
 
 describe('Base child element function', () => {
-    it('returns a new child element object with default values when no argument is passed', () => {
-        const expectedResult = {
-            name: '',
-            label: ''
-        };
-        const actualResult = baseChildElement();
-        expect(actualResult).toMatchObject(expectedResult);
+    it('throws an Error if no element type specified', () => {
+        expect(() => baseChildElement()).toThrow('baseChildElement should only be used for outcomes and wait events');
+    });
+    it('throws an Error if invalid element type specified', () => {
+        expect(() => baseChildElement(childElement, ELEMENT_TYPE.ACTION_CALL)).toThrow('baseChildElement should only be used for outcomes and wait events');
     });
     it('returns a new child element object when existing resource child element is passed as argument', () => {
-        const expectedResult = {
-            name: 'Outcome_1',
-            label: 'Outcome 1'
+        const expectedResult =  {
+            conditionLogic: CONDITION_LOGIC.OR,
+            conditions: [
+                mockCondition1,
+                mockCondition2,
+            ]
         };
-        const actualResult = baseChildElement(childElement);
+
+        const actualResult = baseChildElement(childElement, ELEMENT_TYPE.OUTCOME);
         expect(actualResult).not.toBe(expectedResult);
     });
     it('returns a new child element object with same value when existing child element object is passed as argument', () => {
-        const expectedResult = {
-            name: 'Outcome_1',
-            label: 'Outcome 1'
+        const mockOutcome =  {
+            conditionLogic: CONDITION_LOGIC.OR,
+            conditions: [
+                mockCondition1,
+                mockCondition2,
+            ]
         };
-        const actualResult = baseChildElement(childElement);
-        expect(actualResult).toMatchObject(expectedResult);
+
+        const actualResult = baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME);
+        expect(actualResult).toMatchObject(mockOutcome);
+    });
+
+    it('returns a new child element object with a single condition if no conditions specified', () => {
+        const actualResult = baseChildElement(childElement, ELEMENT_TYPE.OUTCOME);
+        expect(actualResult.conditions).toHaveLength(1);
+    });
+
+    it('child element returned has data type BOOLEAN even if no data type specified', () => {
+        const mockOutcome =  {
+            conditionLogic: CONDITION_LOGIC.OR,
+            conditions: [
+                mockCondition1,
+                mockCondition2,
+            ]
+        };
+
+        const actualResult = baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME);
+        expect(actualResult.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+    });
+
+    it('throws an Error if data type other than BOOLEAN specified', () => {
+        const mockOutcome =  {
+            conditionLogic: CONDITION_LOGIC.OR,
+            conditions: [
+                mockCondition1,
+                mockCondition2,
+            ],
+            dataType: FLOW_DATA_TYPE.STRING.value,
+        };
+
+        expect(() => baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME)).toThrow(`dataType ${FLOW_DATA_TYPE.STRING.value} is invalid for baseChildElement`);
     });
 });
 

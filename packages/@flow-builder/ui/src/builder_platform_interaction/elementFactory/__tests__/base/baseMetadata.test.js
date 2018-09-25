@@ -1,4 +1,17 @@
 import { baseResourceMetadataObject, baseChildElementMetadataObject, baseCanvasElementMetadataObject } from "../../base/baseMetadata";
+import {createFEROVMetadataObject} from "../../ferov";
+import {rhsDataTypePropertyName, rhsPropertyName} from "../../base/baseList";
+import {CONDITION_LOGIC} from "../../../flowMetadata/flowMetadata";
+
+jest.mock('../../ferov', () => {
+    return {
+        createFEROVMetadataObject: jest.fn((condition) => {
+            return {
+                value: 'someRHSValueFrom' + condition
+            };
+        }).mockName('createFEROVMetadataObject')
+    };
+});
 
 const resource = {
     name: 'var1',
@@ -7,7 +20,9 @@ const resource = {
 
 const childElement = {
     name: 'Outcome_1',
-    label: 'Outcome 1'
+    label: 'Outcome 1',
+    conditionLogic: CONDITION_LOGIC.OR,
+    conditions: undefined
 };
 
 const canvasElement = {
@@ -63,7 +78,9 @@ describe('Base child element metadata function', () => {
     it('returns a new child element object when existing resource child element is passed as argument', () => {
         const expectedResult = {
             name: 'Outcome_1',
-            label: 'Outcome 1'
+            label: 'Outcome 1',
+            conditionLogic: CONDITION_LOGIC.OR,
+            conditions: undefined
         };
         const actualResult = baseChildElementMetadataObject(childElement);
         expect(actualResult).not.toBe(expectedResult);
@@ -71,10 +88,69 @@ describe('Base child element metadata function', () => {
     it('returns a new child element object with same value when existing child element object is passed as argument', () => {
         const expectedResult = {
             name: 'Outcome_1',
-            label: 'Outcome 1'
+            label: 'Outcome 1',
+            conditionLogic: CONDITION_LOGIC.OR,
+            conditions: undefined
         };
         const actualResult = baseChildElementMetadataObject(childElement);
         expect(actualResult).toMatchObject(expectedResult);
+    });
+
+    describe('conditions', () => {
+        const mockCondition1 = {
+            leftHandSide: 'lhs1',
+            operator: 'foo'
+        };
+        const mockCondition2 = {
+            leftHandSide: 'lhs2',
+            operator: 'bar'
+        };
+        const childElementWithConditions = {
+            name: 'Outcome_1',
+            label: 'Outcome 1',
+            conditionLogic: CONDITION_LOGIC.OR,
+            conditions: [
+                mockCondition1,
+                mockCondition2,
+            ]
+        };
+
+        it('are empty if no conditions provided', () => {
+            const actualResult = baseChildElementMetadataObject(childElement);
+            expect(actualResult.conditions).toBeUndefined();
+        });
+        it('calls createFEROVMetadataObject for each condition', () => {
+            baseChildElementMetadataObject(childElementWithConditions);
+
+            expect(createFEROVMetadataObject.mock.calls[0][0]).toEqual(mockCondition1);
+            expect(createFEROVMetadataObject.mock.calls[0][1]).toEqual(rhsPropertyName);
+            expect(createFEROVMetadataObject.mock.calls[0][2]).toEqual(rhsDataTypePropertyName);
+
+            expect(createFEROVMetadataObject.mock.calls[1][0]).toEqual(mockCondition2);
+            expect(createFEROVMetadataObject.mock.calls[1][1]).toEqual(rhsPropertyName);
+            expect(createFEROVMetadataObject.mock.calls[1][2]).toEqual(rhsDataTypePropertyName);
+        });
+        it('are transformed to store shape', () => {
+            const actualResult = baseChildElementMetadataObject(childElementWithConditions);
+
+            expect(actualResult.conditions).toHaveLength(2);
+
+            expect(actualResult.conditions[0]).toEqual({
+                leftValueReference: mockCondition1.leftHandSide,
+                rightValue: {
+                    value: 'someRHSValueFrom' + mockCondition1
+                },
+                operator: mockCondition1.operator
+            });
+
+            expect(actualResult.conditions[1]).toEqual({
+                leftValueReference: mockCondition2.leftHandSide,
+                rightValue: {
+                    value: 'someRHSValueFrom' + mockCondition2
+                },
+                operator: mockCondition2.operator
+            });
+        });
     });
 });
 

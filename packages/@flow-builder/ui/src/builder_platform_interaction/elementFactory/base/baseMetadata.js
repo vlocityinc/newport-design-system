@@ -1,4 +1,6 @@
 import { createConnectorMetadataObjects } from '../connector';
+import {createFEROVMetadataObject} from "../ferov";
+import {rhsDataTypePropertyName, rhsPropertyName} from "./baseList";
 
 function baseElementMetadataObject(element = {}) {
     const { name = '' } = element;
@@ -43,9 +45,43 @@ export function baseCanvasElementMetadataObject(canvasElement = {}, config = {})
     );
 }
 
+function createConditionMetadataObject(condition) {
+    if (!condition) {
+        throw new Error('Condition is not defined');
+    }
+    const { leftHandSide, operator } = condition;
+    const rightValue = createFEROVMetadataObject(condition, rhsPropertyName, rhsDataTypePropertyName);
+    return Object.assign({}, {
+        leftValueReference: leftHandSide,
+        rightValue,
+        operator
+    });
+}
+
+/**
+ * @typedef {Object} MetadataChildElement
+ * @property {String} label - element label
+ * @property {String} name - element devName
+ * @property {module:flowMetadata.CONDITION_LOGIC} conditionLogic - element condition logic
+ * @property {module:connector.ConnectorMetadata[]} conditions - array of conditions
+ */
+
+/**
+ * Given a store element, create a metadata child element
+ * @param {module:baseElement.Childelement} childElement - store representation of a child element
+ * @param {Object} config - flow config
+ * @return {MetadataChildElement}
+ */
 export function baseChildElementMetadataObject(childElement = {}, config = {}) {
     const newChildElement = baseElementMetadataObject(childElement);
-    const { label = '' } = childElement;
+
+    let { conditions } = childElement;
+    const { label = '', conditionLogic } = childElement;
+
+    if (conditions && conditions.length > 0) {
+        conditions = conditions.map(condition => createConditionMetadataObject(condition));
+    }
+
     const {connectorMap = {}} = config;
     const connectors = connectorMap[childElement.guid];
     let connectorMetadata;
@@ -55,7 +91,9 @@ export function baseChildElementMetadataObject(childElement = {}, config = {}) {
 
     return Object.assign(newChildElement,
         {
-            label
+            label,
+            conditionLogic,
+            conditions
         },
         connectorMetadata
     );

@@ -1,18 +1,14 @@
 import { ELEMENT_TYPE, CONDITION_LOGIC, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import {
     baseCanvasElement,
-    baseCanvasElementsArrayToMap, baseChildElement
+    baseCanvasElementsArrayToMap,
+    baseChildElement
 } from "./base/baseElement";
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import {baseCanvasElementMetadataObject, baseChildElementMetadataObject} from "./base/baseMetadata";
+import {baseCanvasElementMetadataObject, baseChildElementMetadataObject } from "./base/baseMetadata";
 import {LABELS} from "./elementFactoryLabels";
-
-// TODO: Refactor for commonalities with mutateOutcome in decisionEditorDataMutation
-// https://gus.my.salesforce.com/a07B0000005YnL5IAK (W-5395893)
-import {createCondition, createConditionMetadataObject} from "./decision";
 
 const elementType = ELEMENT_TYPE.WAIT;
 const maxConnections = 2;
@@ -79,24 +75,8 @@ export function createWaitWithConnectors(wait) {
     return baseCanvasElementsArrayToMap([waitObject], connectors);
 }
 
-export function createWaitEvent(waitEvent = {}) {
-    const newWaitEvent = baseChildElement(waitEvent);
-    const { conditionLogic = CONDITION_LOGIC.NO_CONDITIONS } = waitEvent;
-
-    let { conditions } = waitEvent;
-    if (conditions && conditions.length > 0) {
-        conditions = conditions.map(condition => createCondition(condition));
-    } else {
-        const newCondition = createCondition();
-        conditions = [newCondition];
-    }
-
-    return Object.assign(newWaitEvent, {
-        conditions,
-        conditionLogic,
-        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-        elementType: ELEMENT_TYPE.WAIT_EVENT
-    });
+export function createWaitEvent(waitEvent = {conditionLogic : CONDITION_LOGIC.NO_CONDITIONS}) {
+    return baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
 }
 
 export function createWaitMetadataObject(wait, config = {}) {
@@ -108,28 +88,11 @@ export function createWaitMetadataObject(wait, config = {}) {
     let waitEvents;
     if (waitEventReferences && waitEventReferences.length > 0) {
         waitEvents = waitEventReferences.map(({waitEventReference}) => {
-            return createWaitEventMetadataObject(getElementByGuid(waitEventReference), config);
+            return baseChildElementMetadataObject(getElementByGuid(waitEventReference), config);
         });
     }
     return Object.assign(newWait, {
         rules: waitEvents,
         defaultConnectorLabel
-    });
-}
-
-export function createWaitEventMetadataObject(waitEvent, config = {}) {
-    if (!waitEvent) {
-        throw new Error('Wait event is not defined');
-    }
-
-    const newWaitEvent = baseChildElementMetadataObject(waitEvent, config);
-    let { conditions } = waitEvent;
-    const { conditionLogic } = waitEvent;
-    if (conditions && conditions.length > 0) {
-        conditions = conditions.map(condition => createConditionMetadataObject(condition));
-    }
-    return Object.assign(newWaitEvent, {
-        conditions,
-        conditionLogic
     });
 }

@@ -1,29 +1,25 @@
 import { createWaitEvent } from '../../wait';
+import { baseChildElement } from "../../base/baseElement";
 import { ELEMENT_TYPE, CONDITION_LOGIC} from "builder_platform_interaction/flowMetadata";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+
+jest.mock('../../base/baseElement', () => {
+    return {
+        baseChildElement: jest.fn().mockName('baseChildElementMock')
+    };
+});
 
 describe('wait', () => {
     describe('waitEvent', () => {
-        let waitEvent;
+        const defaultWaitEvent = {conditionLogic : CONDITION_LOGIC.NO_CONDITIONS};
 
-        beforeEach(() => {
-            waitEvent = createWaitEvent();
-        });
-
-        it('creates element of type WAIT_EVENT', () => {
-            expect(waitEvent.elementType).toEqual(ELEMENT_TYPE.WAIT_EVENT);
-        });
-
-        it('has one condition by default', () => {
-            expect(waitEvent.conditions).toHaveLength(1);
+        it('calls baseChildElement with elementType = WAIT_EVENT', () => {
+            createWaitEvent();
+            expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.WAIT_EVENT);
         });
 
         it('has NO_CONDITIONS as the default condition logic', () => {
-            expect(waitEvent.conditionLogic).toEqual(CONDITION_LOGIC.NO_CONDITIONS);
-        });
-
-        it('has default data type of BOOLEAN', () => {
-            expect(waitEvent.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+            createWaitEvent();
+            expect(baseChildElement.mock.calls[0][0]).toEqual(defaultWaitEvent);
         });
 
         it('uses existing values when passed in a waitEvent object', () => {
@@ -35,17 +31,12 @@ describe('wait', () => {
                     mockCondition1,
                     mockCondition2,
                 ],
-                dataType: 'sfdc',
+                dataType: 'sfdc'
             };
-            waitEvent = createWaitEvent(mockWaitEvent);
 
-            expect(waitEvent.conditions).toEqual([
-                expect.objectContaining(mockCondition1),
-                expect.objectContaining(mockCondition2),
-            ]);
-            expect(waitEvent.conditionLogic).toEqual(CONDITION_LOGIC.OR);
-            // cannot change data type
-            expect(waitEvent.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+            createWaitEvent(mockWaitEvent);
+
+            expect(baseChildElement.mock.calls[0][0]).toEqual(mockWaitEvent);
         });
     });
 });
