@@ -115,7 +115,7 @@ export default class Combobox extends LightningElement {
         const previousIsLiteralAllowed = this._isLiteralAllowed;
         this._isLiteralAllowed = isAllowed ? isAllowed !== 'false' : false;
         if (this._isValidationEnabled && (previousIsLiteralAllowed !== this._isLiteralAllowed)) {
-            this.doValidation(true);
+            this.doValidation();
             this.fireComboboxStateChangedEvent();
         }
     }
@@ -196,7 +196,7 @@ export default class Combobox extends LightningElement {
             this._dataType = dataType;
 
             if (this._isValidationEnabled) {
-                this.doValidation(true);
+                this.doValidation();
                 this.fireComboboxStateChangedEvent();
             } else {
                 this._isValidationEnabled = true;
@@ -241,7 +241,17 @@ export default class Combobox extends LightningElement {
      * Placeholder text for the combobox input field.
      * @type {String}
      */
-    @api placeholder = LABELS.defaultPlaceholder;
+    set placeholder(message) {
+        this._placeholder = message;
+    }
+
+    @api
+    get placeholder() {
+        if (!this._placeholder) {
+            this._placeholder = LABELS.defaultPlaceholder;
+        }
+        return this._placeholder;
+    }
 
     /**
      * Boolean to mark combobox input as required field.
@@ -252,8 +262,19 @@ export default class Combobox extends LightningElement {
 
     /**
      * The error message to display when the combobox is required, but has no value
+     * @param {String} message the message to display
      */
-    @api messageWhenValueMissing = ERROR_MESSAGE.REQUIRED;
+    set messageWhenValueMissing(message) {
+        this._messageWhenValueMissing = message;
+    }
+
+    @api
+    get messageWhenValueMissing() {
+        if (!this._messageWhenValueMissing) {
+            this._messageWhenValueMissing = ERROR_MESSAGE.REQUIRED;
+        }
+        return this._messageWhenValueMissing;
+    }
 
     /**
      * The allowed param types based on the rule service. Used for the merge field validation if present.
@@ -375,7 +396,7 @@ export default class Combobox extends LightningElement {
         if (this.isPotentialField()) {
             // Checks if base is a valid parent element and fetch menu data if so
             this.getParentElementAndFetchFields();
-        } else if (this._mergeFieldLevel === MAX_LEVEL_MENU_DATA) {
+        } else if (this._mergeFieldLevel === MAX_LEVEL_MENU_DATA && !this.hasMergeFieldCrossedMaxLevel()) {
             // if on the second level and no longer a potential field, get first level menu data
             this._base = null;
             this.fireFetchMenuDataEvent();
@@ -426,6 +447,8 @@ export default class Combobox extends LightningElement {
      * fires an event to validate combobox value
      */
     handleBlur() {
+        this.setMergeFieldState(this.state.displayText, true);
+
         // Remove the last dot from the expression
         if (this._isMergeField && this.state.displayText.charAt(this.state.displayText.length - 2) === '.') {
             this.state.displayText = this.state.displayText.substring(0, this.state.displayText.length - 2) + '}';
@@ -434,7 +457,7 @@ export default class Combobox extends LightningElement {
         // If value is null, check if there is one item associated with displayText
         this.matchTextWithItem();
 
-        this.doValidation(true);
+        this.doValidation();
 
         this._isUserBlurred = true;
 
@@ -454,7 +477,9 @@ export default class Combobox extends LightningElement {
             if (this.isPotentialField()) {
                 this.getParentElementAndFetchFields();
             }
-            this.fireFilterMatchesEvent(this.getFilterText(this.getSanitizedValue()), this._isMergeField);
+            if (!this.hasMergeFieldCrossedMaxLevel()) {
+                this.fireFilterMatchesEvent(this.getFilterText(this.getSanitizedValue()), this._isMergeField);
+            }
         }
     }
 
@@ -481,10 +506,11 @@ export default class Combobox extends LightningElement {
     /**
      * Set the resource state if the value start with '{!' and ends with '}'
      * @param {String} value the value to set state on, defaults to displayText
+     * @param {Boolean} isStrictMode whether or not merge fields should be strictly evaluated (should be true for validation)
      */
-    setMergeFieldState(value = this.state.displayText) {
+    setMergeFieldState(value = this.state.displayText, isStrictMode = false) {
         if (value.startsWith('{!') && value.endsWith('}')) {
-            this._isMergeField = !this.isExpressionIdentifierLiteral(value, true);
+            this._isMergeField = isStrictMode ? !this.isExpressionIdentifierLiteral(value, true) : true;
         } else {
             this._isMergeField = false;
         }
@@ -704,13 +730,14 @@ export default class Combobox extends LightningElement {
     }
 
     /**
-     * Input icon search for no selection otherwise clear.
+     * Input icon search and don't show spinner for no selection otherwise clear.
      */
     updateInputIcon() {
         if (this.state.displayText && this.state.displayText.length > 0) {
             this.state.inputIcon = '';
         } else {
             this.state.inputIcon = 'utility:search';
+            this.state.showActivityIndicator = false;
         }
     }
 
@@ -772,9 +799,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Runs the validation for this combobox
-     * @param {Boolean} isBlur whether or not this validate is happening on blur
      */
-    doValidation(isBlur = false) {
+    doValidation() {
         this.clearErrorMessage();
 
         // When combobox is disabled as per design the error message is cleared but the selected value is preserved
@@ -785,7 +811,7 @@ export default class Combobox extends LightningElement {
         if (isTextWithMergeFields(this.state.displayText)) {
             this.validateMultipleMergeFieldsWithText();
         } else {
-            this.validateMergeFieldOrLiteral(isBlur);
+            this.validateMergeFieldOrLiteral();
         }
     }
 
@@ -813,14 +839,14 @@ export default class Combobox extends LightningElement {
         this.validateUsingMergeFieldLib(validateTextWithMergeFields);
     }
 
-    validateMergeFieldOrLiteral(isBlur = false) {
+    validateMergeFieldOrLiteral() {
         if (this.state.displayText) {
             if (this._isMergeField) {
-                this.validateResource(isBlur);
+                this.validateResource();
             } else {
                 this.validateLiteral();
             }
-        } else if (this.required && isBlur) {
+        } else if (this.required) {
             this._errorMessage = this.messageWhenValueMissing;
         }
     }
@@ -840,12 +866,11 @@ export default class Combobox extends LightningElement {
 
     /**
      * Validates the resource value (value enclosed in {! and } ) selected or entered.
-     * @param {Boolean} isBlur whether or not this validation is happening onblur
      */
-    validateResource(isBlur = false) {
+    validateResource() {
         if (this.literalsAllowed && this.isExpressionIdentifierLiteral()) {
             this.validateLiteralForDataType();
-        } else if (isBlur && !this.hasMergeFieldCrossedMaxLevel()) { // no validation for more than max level
+        } else if (!this.hasMergeFieldCrossedMaxLevel()) { // no validation for more than max level
             // For single level merge field use menu data and for two levels use merge field lib
             if (this._mergeFieldLevel === 1 && !this.allowedParamTypes) {
                 if (!this._item) {
@@ -854,6 +879,9 @@ export default class Combobox extends LightningElement {
             } else {
                 this.validateUsingMergeFieldLib(validateMergeField, this.allowedParamTypes);
             }
+        } else if (!this.literalsAllowed && this.hasMergeFieldCrossedMaxLevel()) {
+            // if literals are not allowed, then you cannot reference a merge field past the max level
+            this._errorMessage = ERROR_MESSAGE.GENERIC;
         }
     }
 

@@ -33,4 +33,8 @@ export default class GroupedCombobox extends LightningElement {
         // shows the error message
     }
 
+    @api
+    focusAndOpenDropdownIfNotEmpty() {
+        // toggle dropdown menu
+    }
 }

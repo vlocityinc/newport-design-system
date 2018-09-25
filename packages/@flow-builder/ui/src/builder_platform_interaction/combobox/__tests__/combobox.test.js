@@ -662,7 +662,8 @@ describe('Combobox Tests', () => {
                 { value: '{!9var}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!_test_}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!_test_}', error: null },
-                { value: '{!MyVar1.secondLevel.thirdLevel}', isLiteralsAllowed: false, error: null }, // no validation for more than 2 levels
+                { value: '{!MyVar1.secondLevel.thirdLevel}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: '{!MyVar1.secondLevel.thirdLevel}', isLiteralsAllowed: true, error: null }, // no validation for more than 2 levels if literals allowed
                 { value: '{!MyVar1.}', isLiteralsAllowed: false, error: null }, // no error since last dot is removed before validation
                 { value: '{!' + GLOBAL_CONSTANTS.EMPTY_STRING + '}', error: null },
             ],
@@ -845,6 +846,22 @@ describe('Combobox Tests', () => {
             groupedCombobox.dispatchEvent(blurEvent);
             return Promise.resolve().then(() => {
                 expect(combobox.errorMessage).toBeNull();
+            });
+        });
+
+        it('merge fields with spaces get treated as merge fields when typing', () => {
+            const filterMatchesHandler = jest.fn();
+            combobox.addEventListener(FilterMatchesEvent.EVENT_NAME, filterMatchesHandler);
+            const selectEvent = getSelectEvent(comboboxInitialConfig.menuData[1].items[0].value);
+            groupedCombobox.dispatchEvent(selectEvent);
+            combobox.menuData = secondLevelMenuData;
+            return Promise.resolve().then(() => {
+                const textInputEvent = getTextInputEvent('{!MyAccount.First Na}');
+                groupedCombobox.dispatchEvent(textInputEvent);
+                return Promise.resolve(() => {
+                    expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
+                    expect(filterMatchesHandler[0][1]).toEqual(true);
+                });
             });
         });
     });
