@@ -89,11 +89,11 @@ describe('text-template-editor', () => {
         });
     });
 
-    it('handles the property changed event and updates the property from resourced-textarea', () => {
+    it('handles the change event and updates the property from resourced-textarea', () => {
         const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
         const newTextTemplate = '<html> New text in template</html>';
         return Promise.resolve().then(() => {
-            const event = new PropertyChangedEvent(null, newTextTemplate, null, 'some old text');
+            const event = new CustomEvent('change', {detail: {value: newTextTemplate, error: null}, cancelable: true, composed: true, bubbles: true});
             getShadowRoot(textTemplateEditor).querySelector(SELECTORS.RESOURCED_TEXTAREA).dispatchEvent(event);
             expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
             expect(createAction.mock.calls[0][1]).toEqual({

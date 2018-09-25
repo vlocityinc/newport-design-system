@@ -3,7 +3,6 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LIGHTNING_INPUT_VARIANTS, booleanAttributeValue } from "builder_platform_interaction/screenEditorUtils";
 import { LABELS } from "./resourcedTextareaLabels";
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
 
 const SELECTORS = {
     TEXTAREA: 'textarea',
@@ -73,7 +72,7 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
             textarea.setSelectionRange(cursorPosition, cursorPosition);
             Promise.resolve().then(() => {
                 this.template.querySelector(SELECTORS.FEROV_RESOURCE_PICKER).value = null;
-                this.dispatchEvent(new PropertyChangedEvent(this.name, this.value, event.error, null, val));
+                this.fireEvent(this._value, null);
             });
         }
     }
@@ -82,11 +81,15 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
         // Change events are not composed, let's re-dispatch
         const val = this.template.querySelector(SELECTORS.TEXTAREA).value;
         if (val !== this.value) {
-            const pce = new PropertyChangedEvent(this.name, val, event.error, null, this.value);
             this.value = val;
-            this.dispatchEvent(pce);
+            this.fireEvent(val, null);
         }
 
         event.stopPropagation();
+    }
+
+    fireEvent(value, error) {
+        const event = new CustomEvent('change', {detail:{value, error}, cancelable: true, composed: true, bubbles: true});
+        this.dispatchEvent(event);
     }
 }

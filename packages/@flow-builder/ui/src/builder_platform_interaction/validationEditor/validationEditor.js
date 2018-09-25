@@ -21,19 +21,18 @@ export default class ValidationEditor extends LightningElement {
     }
 
     handleValueChanged = (event) => {
-        let currentValue = this.validationRuleErrorValue;
-        if (event.detail.propertyName === 'errorMessage') {
-            currentValue = this.validationRuleErrorValue;
-        } else if (event.detail.propertyName === 'formulaExpression') {
-            currentValue = this.validationRuleFormulaValue;
-        } else {
-            throw new Error('Invalid property type: ' + event.detail.propertyName);
-        }
-
-        if (currentValue !== event.detail.value) {
-            // Hydrate the current value before sending in to ensure the new value is hydrated also.
-            this.dispatchEvent(new PropertyChangedEvent(event.detail.propertyName, event.detail.value, event.detail.error, this.element.guid, {value: currentValue, error: null}));
-        }
         event.stopPropagation();
+        const propertyName = event.srcElement.name;
+        const newValue = this.template.querySelector('.property-input.' + propertyName).value;
+        const currentValue = this.element[propertyName] ? this.element[propertyName].value : null;
+
+        if ((currentValue || newValue)  && currentValue !== newValue) {
+            const hydratedNewValue = {value: newValue, error: null};
+            const hydrateCurrentValue = {value: currentValue, error: null};
+            const error = event.detail ? event.detail.error : null;
+            const guid = event.detail ? event.detail.guid : null;
+            // Hydrate the current value before sending in to ensure the new value is hydrated also.
+            this.dispatchEvent(new PropertyChangedEvent(propertyName, hydratedNewValue, error, guid, hydrateCurrentValue));
+        }
     }
 }

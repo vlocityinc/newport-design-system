@@ -1,24 +1,22 @@
 <template>
     <div class='slds-form-element'>
-        <builder_platform_interaction-resourced-textarea class='property-input'
+        <builder_platform_interaction-resourced-textarea class='property-input errorMessage'                                         
                                                          name='errorMessage'
                                                          label={labels.errorMessage}
                                                          value={validationRuleErrorValue}
                                                          required={required}
                                                          onblur={handleValueChanged}
-                                                         onchange={handleValueChanged}
-                                                         onpropertychanged={handleValueChanged}>
+                                                         onchange={handleValueChanged}>
         </builder_platform_interaction-resourced-textarea>
     
         <!-- TODO: W-5183123 - change this to formula-editor component -->
-        <builder_platform_interaction-resourced-textarea class='property-input' 
+        <builder_platform_interaction-resourced-textarea class='property-input formulaExpression' 
                                                          name='formulaExpression'
                                                          label={labels.validationFormula}
                                                          value={validationRuleFormulaValue}
                                                          required={required}
                                                          onblur={handleValueChanged}
-                                                         onchange={handleValueChanged}
-                                                         onpropertychanged={handleValueChanged}>
+                                                         onchange={handleValueChanged}>
         </builder_platform_interaction-resourced-textarea>
     </div>
 </template>

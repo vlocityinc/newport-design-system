@@ -62,31 +62,31 @@ function verifyItemInsertion(existingText, selectionStart, selectionEnd, expecte
 
 describe('Item selection from the resource picker', () => {
     it('Should insert the item when there is no text', () => {
-        verifyItemInsertion('', 0, 0, itemText, itemText.length);
+        return verifyItemInsertion('', 0, 0, itemText, itemText.length);
     });
     it('Should insert the item when the cursor is at the beginning of text', () => {
         const existingText = 'Sample Text';
-        verifyItemInsertion(existingText, 0, 0, itemText + existingText, itemText.length);
+        return verifyItemInsertion(existingText, 0, 0, itemText + existingText, itemText.length);
     });
     it('Should insert the item when the cursor is in the middle of text', () => {
-        verifyItemInsertion('Sample Text', 6, 6, 'Sample{!var} Text', 12);
+        return verifyItemInsertion('Sample Text', 6, 6, 'Sample{!var} Text', 12);
     });
     it('Should insert the item when the cursor is at the end of text', () => {
         const existingText = 'Sample Text';
         const finalText = existingText + itemText;
-        verifyItemInsertion(existingText, existingText.length,
+        return verifyItemInsertion(existingText, existingText.length,
             existingText.length, finalText, finalText.length);
     });
     it('Should insert the item when the cursor is on a new line', () => {
         const existingText = 'Sample Text\n';
         const finalText = existingText + itemText;
-        verifyItemInsertion(existingText, existingText.length,
+        return verifyItemInsertion(existingText, existingText.length,
             existingText.length, finalText, finalText.length);
     });
     it('Should replace selected text with the inserted item', () => {
         const existingText = 'Sample Text';
         const finalText = 'Sample {!var}';
-        verifyItemInsertion(existingText, 7, existingText.length, finalText, finalText.length);
+        return verifyItemInsertion(existingText, 7, existingText.length, finalText, finalText.length);
     });
     it('Should not do anything if it has a next item', () => {
         const existingText = 'Sample Text';
