@@ -3,6 +3,7 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LIGHTNING_INPUT_VARIANTS, booleanAttributeValue } from "builder_platform_interaction/screenEditorUtils";
 import { LABELS } from "./resourcedTextareaLabels";
+import { isItemHydratedWithErrors } from "builder_platform_interaction/dataMutationLib";
 
 const SELECTORS = {
     TEXTAREA: 'textarea',
@@ -34,17 +35,24 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
     @track error;
     labels = LABELS;
     _value; // Not tracking cause we have to set the value of the textarea directly in the dom in order to set the position of the cursor
+    _hydrated;
 
     @api setCustomValidity(message) {
         this.error = message;
     }
 
     @api get value() {
-        return this._value;
+        return this._hydrated ?  {value: this._value, error: this._error} : this._value;
     }
 
     set value(val) {
-        this._value = val;
+        this._hydrated = isItemHydratedWithErrors(val);
+        if (this._hydrated) {
+            this._value = val.value;
+            this.setCustomValidity(val.error);
+        } else {
+            this._value = val;
+        }
     }
 
     get classList() {
@@ -80,8 +88,8 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
     handleEvent(event) {
         // Change events are not composed, let's re-dispatch
         const val = this.template.querySelector(SELECTORS.TEXTAREA).value;
-        if (val !== this.value) {
-            this.value = val;
+        if (val !== this._value) {
+            this._value = val;
             this.fireEvent(val, null);
         }
 

@@ -28,6 +28,15 @@ const doHydrateWithErrors = (element, blackList) => {
 };
 
 /**
+ * Hydrates the value if it isn't already
+ * @param {object | null} value - The value to hydrate
+ * @returns {object} - The hydrated value
+ */
+export const hydrateIfNecessary = (value) => {
+    return (value && value.hasOwnProperty('value')) ? value : {value, error: null};
+};
+
+/**
  * Exported function for hydrating element object with errors
  * @param {Object} element element data object
  * @param {string[]} elementBlackListFields List of keys in the element not to be hydrated

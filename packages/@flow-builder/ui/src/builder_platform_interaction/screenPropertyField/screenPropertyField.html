@@ -9,8 +9,7 @@
                                                                                       oncomboboxstatechanged={handleEvent}>
         </builder_platform_interaction-ferov-resource-picker>
         
-        <lightning-input if:true={isInput} 
-                                           class='property-input' 
+        <lightning-input if:true={isInput} class='property-input' 
                                            name={name}
                                            label={label} 
                                            value={propertyValue}
@@ -22,8 +21,7 @@
                                            onblur={handleEvent}>
         </lightning-input>
         
-        <builder_platform_interaction-resourced-textarea if:true={isLongString}  
-                                                                                class='property-input' 
+        <builder_platform_interaction-resourced-textarea if:true={isLongString} class='property-input' 
                                                                                 name={name}
                                                                                 label={label}
                                                                                 value={propertyValue} 
@@ -33,8 +31,7 @@
                                                                                 onblur={handleEvent}>
         </builder_platform_interaction-resourced-textarea>
         
-        <lightning-input-rich-text if:true={isRichString} 
-                                                          class='property-input' 
+        <lightning-input-rich-text if:true={isRichString} class='property-input' 
                                                           name={name}
                                                           label={label}
                                                           value={propertyValue}

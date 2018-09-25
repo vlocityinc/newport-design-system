@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 
 /*
  * Common component that can be used in various property editors where a Validation Rule
@@ -13,11 +14,11 @@ export default class ValidationEditor extends LightningElement {
     labels = LABELS;
 
     get validationRuleErrorValue() {
-        return this.element.errorMessage ? this.element.errorMessage.value : null;
+        return hydrateIfNecessary(this.element.errorMessage);
     }
 
     get validationRuleFormulaValue() {
-        return this.element.formulaExpression ? this.element.formulaExpression.value : null;
+        return hydrateIfNecessary(this.element.formulaExpression);
     }
 
     handleValueChanged = (event) => {
@@ -27,12 +28,12 @@ export default class ValidationEditor extends LightningElement {
         const currentValue = this.element[propertyName] ? this.element[propertyName].value : null;
 
         if ((currentValue || newValue)  && currentValue !== newValue) {
-            const hydratedNewValue = {value: newValue, error: null};
-            const hydrateCurrentValue = {value: currentValue, error: null};
+            const hydratedNewValue = hydrateIfNecessary(newValue);
+            const hydratedCurrentValue = hydrateIfNecessary(currentValue);
             const error = event.detail ? event.detail.error : null;
             const guid = event.detail ? event.detail.guid : null;
             // Hydrate the current value before sending in to ensure the new value is hydrated also.
-            this.dispatchEvent(new PropertyChangedEvent(propertyName, hydratedNewValue, error, guid, hydrateCurrentValue));
+            this.dispatchEvent(new PropertyChangedEvent(propertyName, hydratedNewValue, error, guid, hydratedCurrentValue));
         }
     }
 }
