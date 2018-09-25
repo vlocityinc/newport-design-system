@@ -1,7 +1,7 @@
 import {
     filterAndMutateMenuData,
     filterFieldsForChosenElement,
-    getSelector,
+    getStoreElements,
 } from './menuDataRetrieval';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 
@@ -30,11 +30,6 @@ const getFieldMenuData = (resourcePicker, parentItem, entityFields) => {
     return menuData;
 };
 
-const getElements = (elementConfig, storeInstance) => {
-    // Get the selector using config and filter the store elements.
-    return getSelector(elementConfig)(storeInstance.getCurrentState());
-};
-
 /**
  * Fetch them menu data and set it on the base resource picker.
  * If elementConfig is set use that to fetch the menu data.
@@ -45,17 +40,17 @@ const getElements = (elementConfig, storeInstance) => {
  * @returns {Array} array of resources
  */
 const getFerovMenuData = (resourcePicker, storeInstance, includeNewResource) => {
-    let menuDataElements;
-    let allowedParamTypes;
+    let allowedParamTypes = null;
+    let elementConfig = resourcePicker.elementConfig;
 
-    if (!resourcePicker.elementConfig) {
+    if (!elementConfig) {
+        elementConfig = { elementType: resourcePicker.propertyEditorElementTYpe };
+
         resourcePicker.populateParamTypes();
-        menuDataElements = getElements({ elementType: resourcePicker.propertyEditorElementType }, storeInstance);
         allowedParamTypes = resourcePicker.paramTypes;
-    } else {
-        menuDataElements = getElements(resourcePicker.elementConfig, storeInstance);
-        allowedParamTypes = null;
     }
+
+    const menuDataElements = getStoreElements(storeInstance.getCurrentState(), elementConfig);
 
     return filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource,
         resourcePicker.allowSobjectForFields, resourcePicker.disableFieldDrilldown);

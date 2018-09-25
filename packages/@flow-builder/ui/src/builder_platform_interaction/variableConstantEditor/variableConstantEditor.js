@@ -219,6 +219,14 @@ export default class VariableConstantEditor extends LightningElement {
         return this._elementType === ELEMENT_TYPE.VARIABLE;
     }
 
+    get defaultValueElementParam() {
+        return this.isVariable ? this.variableConstantResource :
+            {
+                isCollection: false,
+                dataType: this.dataType,
+            };
+    }
+
     get entityComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             LABELS.sObjectPickerLabel,

@@ -130,16 +130,19 @@ function getNewResourceItem() {
 
 /**
  * This method returns the selector that should be used to find elements for the menuData
- * @param {Object} elementType              the element type this expression builder lives in
+ * @param {Object} storeInstance        reference to the storeInstance
+ * @param {Object} elementType          the element type this expression builder lives in
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
- * @param {Boolean} isCollection    true if using selector to retrieve collection variables
- * @param {String} dataType    data type to pass in byTypeElementsSelector
- * @param {String} entityName    optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
- * @param {Boolean} sObjectSelector optional: true if using selector to retrieve sobject/sobject collection variables
+ * @param {Boolean} isCollection        true if using selector to retrieve collection variables
+ * @param {String} dataType             data type to pass in byTypeElementsSelector
+ * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
+ * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
  * @returns {function}                  retrieves elements from store
  */
-export function getSelector({elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector}) {
+export function getStoreElements(storeInstance, {elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector}) {
+    let elements = [];
     let selector;
+
     switch (elementType) {
         case ELEMENT_TYPE.ACTION_CALL:
         case ELEMENT_TYPE.APEX_CALL:
@@ -147,12 +150,7 @@ export function getSelector({elementType, shouldBeWritable, isCollection, dataTy
         case ELEMENT_TYPE.ASSIGNMENT:
         case ELEMENT_TYPE.EMAIL_ALERT:
         case ELEMENT_TYPE.SUBFLOW:
-        case ELEMENT_TYPE.LOCAL_ACTION_CALL:
         case ELEMENT_TYPE.VARIABLE:
-        // TODO W-4962830: Populate menu data with the global constants, temporary workaround
-        // since it will go into an infinite loop otherwise
-        // falls through
-        case ELEMENT_TYPE.CONSTANT:
             selector = shouldBeWritable ? writableElementsSelector : readableElementsSelector;
             break;
         case ELEMENT_TYPE.DECISION:
@@ -177,7 +175,10 @@ export function getSelector({elementType, shouldBeWritable, isCollection, dataTy
             break;
         default:
     }
-    return selector;
+    if (selector) {
+        elements = selector(storeInstance);
+    }
+    return elements;
 }
 
 /**
@@ -216,7 +217,7 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
     const state = Store.getStore().getCurrentState();
 
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
-    const menuDataElements = getSelector(elementConfig)(state);
+    const menuDataElements = getStoreElements(state, elementConfig);
 
     return filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource, allowFerovs, disableHasNext, activePicklistValues);
 }

@@ -1,4 +1,4 @@
-import { getElementsForMenuData, getEntitiesMenuData, getSelector, filterAndMutateMenuData } from '../menuDataRetrieval';
+import { getElementsForMenuData, getEntitiesMenuData, getStoreElements, filterAndMutateMenuData } from '../menuDataRetrieval';
 import { normalizeLHS } from '../resourceUtils';
 import { numberParamCanBeField, stringParam, booleanParam } from "mock/ruleService";
 import * as store from "mock/storeData";
@@ -297,12 +297,11 @@ describe('Menu data retrieval', () => {
         });
     });
 
-    describe('get selector', () => {
-        it('returns selector for element type', () => {
+    describe('get store elements', () => {
+        // TODO: W-5470931 more tests for getStoreElements
+        it('returns elements based on element type', () => {
             selectorsMock.readableElementsSelector.mockReturnValue([store.elements[store.outcomeGuid]]);
-            const selector = getSelector({ elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: false });
-            expect(selector).toBeDefined();
-            const menuData = selector();
+            const menuData = getStoreElements(jest.fn(), { elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: false });
             expect(menuData).toHaveLength(1);
         });
     });

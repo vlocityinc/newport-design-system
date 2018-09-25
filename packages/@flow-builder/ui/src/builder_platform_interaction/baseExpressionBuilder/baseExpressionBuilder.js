@@ -3,7 +3,7 @@ import { RowContentsChangedEvent } from "builder_platform_interaction/events";
 import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
 import {
     EXPRESSION_PROPERTY_TYPE,
-    getSelector,
+    getStoreElements,
     filterAndMutateMenuData,
     filterFieldsForChosenElement,
     getResourceByUniqueIdentifier,
@@ -582,7 +582,7 @@ export default class BaseExpressionBuilder extends LightningElement {
                 setFieldMenuData();
             }
         } else {
-            const menuDataElements = getSelector(config)(storeInstance.getCurrentState());
+            const menuDataElements = getStoreElements(storeInstance.getCurrentState(), config);
             this.state[fullMenuData] = this.state[filteredMenuData] = filterAndMutateMenuData(menuDataElements, paramTypes,
                 !this.hideNewResource, isFerov, DISABLE_HAS_NEXT, picklistValues);
         }
