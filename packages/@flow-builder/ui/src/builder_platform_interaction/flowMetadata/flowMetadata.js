@@ -125,7 +125,8 @@ export const REFERENCE_FIELDS = new Set([
     'defaultValue',
     'source',
     'target',
-    'rightHandSideGuid'
+    'rightHandSideGuid',
+    'valueGuid',
 ]);
 
 /**

@@ -25,3 +25,23 @@ export function createListRowItem(listRowItem = {}) {
         rightHandSideDataType
     });
 }
+
+/**
+ * This function creates a new parameter list row item object.
+ * @param {Object} listRowItem object which is used to create new parameter list row item object. If it is not passed, then default values are used.
+ * @returns {Object} new parameter list row item object
+ */
+export function createParameterListRowItem(listRowItem = {}) {
+    const { name = '', value = '', valueDataType = '', rowIndex = generateGuid() } = listRowItem;
+
+    let { valueGuid } = listRowItem;
+    valueGuid = valueGuid || value;
+
+    return ({
+        rowIndex,
+        name,
+        value,
+        valueDataType,
+        valueGuid
+    });
+}
