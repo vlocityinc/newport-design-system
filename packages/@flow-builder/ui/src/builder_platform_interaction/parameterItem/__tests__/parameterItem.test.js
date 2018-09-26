@@ -53,6 +53,7 @@ class ToggleOffChangeEvent extends CustomEvent {
 
 const selectors = {
     ferovResourcePicker: 'builder_platform_interaction-ferov-resource-picker',
+    outputResourcePicker: 'builder_platform_interaction-output-resource-picker',
     hiddenFerovResourcePickerElement: 'builder_platform_interaction-ferov-resource-picker.slds-hide',
     toggle: 'lightning-input',
     baseResourcePicker: 'builder_platform_interaction-base-resource-picker',
@@ -67,6 +68,10 @@ function getFerovResourcePickerElement(parameterItem) {
 
 function getHiddenFerovResourcePickerElement(parameterItem) {
     return getShadowRoot(parameterItem).querySelector(selectors.hiddenFerovResourcePickerElement);
+}
+
+function getOutputResourcePickerElement(parameterItem) {
+    return getShadowRoot(parameterItem).querySelector(selectors.outputResourcePicker);
 }
 
 function getLightningInputToggle(parameterItem) {
@@ -184,50 +189,50 @@ describe('parameter-item', () => {
     });
     describe('showing combobox, not showing input toggle for output parameter', () => {
         describe('parameter has no value', () => {
-            let ferovResourcePicker, toggleInput;
+            let outputResourcePicker, toggleInput;
             beforeAll(() => {
                 const parameterItemCmp = createComponentForTest({
                     item: createMockParameterItem(false, false, 'reference')
                 });
-                ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+                outputResourcePicker = getOutputResourcePickerElement(parameterItemCmp);
                 toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
-                expect(ferovResourcePicker).not.toBeNull();
+                expect(outputResourcePicker).not.toBeNull();
             });
             it('combobox value should be null', () => {
-                expect(ferovResourcePicker.value).toBeNull();
+                expect(outputResourcePicker.value).toBeNull();
             });
             it('combobox should not be required', () => {
-                expect(ferovResourcePicker.comboboxConfig.required).toBe(false);
+                expect(outputResourcePicker.comboboxConfig.required).toBe(false);
             });
             it('combobox label should be shown', () => {
-                expect(ferovResourcePicker.comboboxConfig.label).toEqual(parameterLabel);
+                expect(outputResourcePicker.comboboxConfig.label).toEqual(parameterLabel);
             });
             it('input toggle should not be shown', () => {
                 expect(toggleInput).toBeNull();
             });
         });
         describe('parameter has value', () => {
-            let ferovResourcePicker, toggleInput;
+            let outputResourcePicker, toggleInput;
             beforeAll(() => {
                 const parameterItemCmp = createComponentForTest({
                     item: createMockParameterItem(false, false, 'reference', stringVariableGuid + '.' + stringVariableDevName)
                 });
-                ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+                outputResourcePicker = getOutputResourcePickerElement(parameterItemCmp);
                 toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
-                expect(ferovResourcePicker).not.toBeNull();
+                expect(outputResourcePicker).not.toBeNull();
             });
             it('combobox value should be equal to stringVariableGuid.stringVariableDevName', () => {
-                expect(ferovResourcePicker.value).toEqual(stringVariableGuid + '.' + stringVariableDevName);
+                expect(outputResourcePicker.value).toEqual(stringVariableGuid + '.' + stringVariableDevName);
             });
             it('combobox should not be required', () => {
-                expect(ferovResourcePicker.comboboxConfig.required).toBe(false);
+                expect(outputResourcePicker.comboboxConfig.required).toBe(false);
             });
             it('combobox label should be shown', () => {
-                expect(ferovResourcePicker.comboboxConfig.label).toEqual(parameterLabel);
+                expect(outputResourcePicker.comboboxConfig.label).toEqual(parameterLabel);
             });
             it('input toggle should not be shown', () => {
                 expect(toggleInput).toBeNull();
