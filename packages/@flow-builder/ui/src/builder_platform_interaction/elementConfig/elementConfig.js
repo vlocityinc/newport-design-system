@@ -2,7 +2,6 @@ import { deepCopy, generateGuid } from "builder_platform_interaction/storeLib";
 import { ACTION_TYPE, CONDITION_LOGIC, METADATA_KEY, ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { LABELS } from "./elementConfigLabels";
-import { SORT_ORDER } from "builder_platform_interaction/recordEditorLib";
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 
@@ -446,27 +445,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordCreatePluralLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.REGULAR
-                },
-                {
-                    type: CONNECTOR_TYPE.FAULT
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.RECORD_CREATE,
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: '',
-            inputReference : ''
-        }
+        canHaveFaultConnector: true
     },
     [ELEMENT_TYPE.RECORD_LOOKUP]: {
         descriptor: 'builder_platform_interaction:recordLookupEditor',
@@ -482,34 +461,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordLookupPluralLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.REGULAR
-                },
-                {
-                    type: CONNECTOR_TYPE.FAULT
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-            filters: [],
-            object: '',
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: '',
-            sortField : '',
-            sortOrder : SORT_ORDER.NOT_SORTED,
-            assignNullValuesIfNoRecordsFound : false,
-            outputAssignments : [],
-            outputReference : {},
-            queriedFields: [],
-        }
+        canHaveFaultConnector: true
     },
     [ELEMENT_TYPE.RECORD_DELETE]: {
         // TODO: recordEditor is only a place holder now.
@@ -526,27 +478,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordDeletePluralLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.REGULAR
-                },
-                {
-                    type: CONNECTOR_TYPE.FAULT
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.RECORD_DELETE,
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: '',
-            inputReference : ''
-        }
+        canHaveFaultConnector: true
     },
     [ELEMENT_TYPE.RECORD_UPDATE]: {
         descriptor: 'builder_platform_interaction:recordUpdateEditor',
@@ -562,27 +494,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordUpdatePluralLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.REGULAR
-                },
-                {
-                    type: CONNECTOR_TYPE.FAULT
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.RECORD_UPDATE,
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: '',
-            inputReference : ''
-        }
+        canHaveFaultConnector: true
     },
     [ELEMENT_TYPE.OUTCOME]: {
         // OUTCOME is not a canvas element, but is a first class element

@@ -1,18 +1,15 @@
 <template>
     <div class="slds-m-bottom_small slds-border_top">
-        <h3 class="slds-text-heading_small slds-p-around_small">{assignmentTitle}</h3>
+        <h3 class="slds-text-heading_small slds-p-around_small">{title}</h3>
         <div class="slds-p-horizontal_small ">
-        <builder_platform_interaction-list items={inputOutputAssignmentsItems}
-            add-label={labels.addFieldButtonLabel}
-            onaddlistitem={handleAddAssignment}
-            onupdatelistitem={handleUpdateAssignment} 
-            ondeletelistitem={handleDeleteAssignment}>
+            <builder_platform_interaction-list items={inputOutputAssignmentsItems} add-label={labels.addFieldButtonLabel}
+                onaddlistitem={handleAddAssignment} onupdatelistitem={handleUpdateAssignment} ondeletelistitem={handleDeleteAssignment}>
                 <div slot="listBody">
                   <template for:each={inputOutputAssignmentItemsWithLhsFields} 
                             for:item="item" 
                             for:index="itemIndex" 
                             slot="listBody">
-                    <div class="slds-list__item slds-is-relative" key={item.rowIndex}>
+                    <div class="slds-list__item slds-is-relative" key={item.data.rowIndex}>
                       <builder_platform_interaction-row item-index={itemIndex} 
                         show-delete={showDelete}
                         >

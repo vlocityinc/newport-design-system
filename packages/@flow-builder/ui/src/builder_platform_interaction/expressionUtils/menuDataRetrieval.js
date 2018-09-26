@@ -128,6 +128,43 @@ function getNewResourceItem() {
     };
 }
 
+function writableOrReadableElement(shouldBeWritable) {
+    return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+}
+
+function queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
+    return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, queryable:true}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+}
+
+function deleteableElements() {
+    return sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true});
+}
+
+function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
+    return isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
+}
+
+const selectorProviderMap = {
+    [ELEMENT_TYPE.ACTION_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.APEX_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.ASSIGNMENT]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.EMAIL_ALERT]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.SUBFLOW]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.LOCAL_ACTION_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.VARIABLE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.CHOICE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.CONSTANT]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.DECISION]: () => readableElementsSelector,
+    [ELEMENT_TYPE.WAIT]: () => readableElementsSelector,
+    [ELEMENT_TYPE.SCREEN]: () => readableElementsSelector,
+    [ELEMENT_TYPE.RECORD_CREATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
+    [ELEMENT_TYPE.RECORD_UPDATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
+    [ELEMENT_TYPE.RECORD_DELETE]: () => deleteableElements(),
+    [ELEMENT_TYPE.RECORD_LOOKUP]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
+    [ELEMENT_TYPE.LOOP]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
+};
+
 /**
  * This method returns the selector that should be used to find elements for the menuData
  * @param {Object} storeInstance        reference to the storeInstance
@@ -137,48 +174,16 @@ function getNewResourceItem() {
  * @param {String} dataType             data type to pass in byTypeElementsSelector
  * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
  * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
- * @returns {function}                  retrieves elements from store
+ * @returns {array}                     retrieves elements from store
  */
 export function getStoreElements(storeInstance, {elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector}) {
     let elements = [];
-    let selector;
 
-    switch (elementType) {
-        case ELEMENT_TYPE.ACTION_CALL:
-        case ELEMENT_TYPE.APEX_CALL:
-        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-        case ELEMENT_TYPE.ASSIGNMENT:
-        case ELEMENT_TYPE.EMAIL_ALERT:
-        case ELEMENT_TYPE.SUBFLOW:
-        case ELEMENT_TYPE.VARIABLE:
-        case ELEMENT_TYPE.CHOICE:
-            selector = shouldBeWritable ? writableElementsSelector : readableElementsSelector;
-            break;
-        case ELEMENT_TYPE.DECISION:
-        case ELEMENT_TYPE.WAIT:
-        case ELEMENT_TYPE.SCREEN:
-            selector = readableElementsSelector;
-            break;
-        case ELEMENT_TYPE.RECORD_CREATE:
-            selector = sObjectOrSObjectCollectionByEntitySelector({isCollection, createable:true});
-            break;
-        case ELEMENT_TYPE.RECORD_UPDATE:
-            selector = sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, updateable: true});
-            break;
-        case ELEMENT_TYPE.RECORD_DELETE:
-            selector = sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true});
-            break;
-        case ELEMENT_TYPE.RECORD_LOOKUP:
-            selector = sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, queryable:true}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
-            break;
-        case ELEMENT_TYPE.LOOP:
-            selector = isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
-            break;
-        default:
-    }
+    const selector = selectorProviderMap[elementType](shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector);
     if (selector) {
         elements = selector(storeInstance);
     }
+
     return elements;
 }
 

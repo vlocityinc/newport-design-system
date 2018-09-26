@@ -6,6 +6,12 @@ import helpSObjectRecordUpdateAltText from '@salesforce/label/FlowBuilderRecordE
 import selectsObjectOrsObjectCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.selectsObjectOrsObjectCollectionVariable';
 import sObjectVariablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.sObjectVariablePlaceholder';
 import fieldAssignmentNotSupportedForUpdate from '@salesforce/label/FlowBuilderRecordEditor.fieldAssignmentNotSupportedForUpdate';
+import updateRecordOfThisObject from '@salesforce/label/FlowBuilderRecordEditor.updateRecordOfThisObject';
+import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
+import object from '@salesforce/label/FlowBuilderRecordEditor.object';
+import createAssignmentTitleFormat from '@salesforce/label/FlowBuilderRecordEditor.createAssignmentTitleFormat';
+import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel';
+import setFieldValuesForTheRecordsFormat from '@salesforce/label/FlowBuilderRecordEditor.setFieldValuesForTheRecordsFormat';
 
 export const LABELS = {
     recordVariableOrRecordCollectionVariable,
@@ -14,5 +20,11 @@ export const LABELS = {
     helpSObjectRecordUpdateAltText,
     selectsObjectOrsObjectCollectionVariable,
     sObjectVariablePlaceholder,
-    fieldAssignmentNotSupportedForUpdate
+    fieldAssignmentNotSupportedForUpdate,
+    updateRecordOfThisObject,
+    objectPlaceholder,
+    object,
+    createAssignmentTitleFormat,
+    filterRhsLabel,
+    setFieldValuesForTheRecordsFormat
 };

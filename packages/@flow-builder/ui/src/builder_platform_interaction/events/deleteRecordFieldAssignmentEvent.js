@@ -1,4 +1,4 @@
-const eventName = 'deleteRecordFieldAssignmentEvent';
+const eventName = 'deleterecordfieldassignment';
 
 
 export class DeleteRecordFieldAssignmentEvent {
