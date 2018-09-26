@@ -11,10 +11,27 @@ import { baseElement } from "./base/baseElement";
 
 export function createScreenField(screenField = {}) {
     const newScreenField = baseElement(screenField);
-    const { fieldText = '', extensionName = null, fieldType, isRequired = false, isVisible = false, dataType, helpText = '', choiceReferences = [] } = screenField;
-    let { type } = screenField;
-    let { scale, inputParameters, outputParameters, errorMessage = '', formulaExpression = '' } = screenField;
-    const { defaultValue, validationRule } = screenField;
+    const {
+        fieldText = '',
+        extensionName = null,
+        fieldType,
+        isRequired = false,
+        isVisible = false,
+        dataType,
+        helpText = '',
+        choiceReferences = [],
+        defaultValue,
+        validationRule,
+        defaultValueDataType
+    } = screenField;
+    let {
+        type,
+        scale,
+        inputParameters,
+        outputParameters,
+        errorMessage = '',
+        formulaExpression = ''
+    } = screenField;
     if (isExtensionField(screenField)) {
         inputParameters = [];
         outputParameters = [];
@@ -39,7 +56,7 @@ export function createScreenField(screenField = {}) {
     }
 
     let defaultValueFerovObject;
-    if (defaultValue) {
+    if (!defaultValueDataType) {
         defaultValueFerovObject = createFEROV(
             defaultValue,
             'defaultValue',
@@ -68,7 +85,9 @@ export function createScreenField(screenField = {}) {
             isVisible,
             dataType,
             choiceReferences,
-            extensionName
+            extensionName,
+            defaultValue,
+            defaultValueDataType
         },
         defaultValueFerovObject
     );
