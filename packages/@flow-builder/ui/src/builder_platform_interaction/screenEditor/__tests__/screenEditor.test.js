@@ -20,6 +20,8 @@ import {
     createScreenElementDeselectedEvent
 } from 'builder_platform_interaction/events';
 import { getShadowRoot } from 'lwc-test-utils';
+import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 
 const CANVAS_ELEMENT_NAME = 'builder_platform_interaction-screen-editor-canvas';
 const EDITOR_CONTAINER_ELEMENT_NAME = 'builder_platform_interaction-screen-properties-editor-container';
@@ -37,9 +39,7 @@ const createComponentUnderTest = (props) => {
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
     return {
-        invokeModal: jest.fn(data => {
-            return data;
-        })
+        invokeModal: jest.fn()
     };
 });
 
@@ -80,12 +80,15 @@ describe('Event handling on editor', () => {
         });
     });
 
-    it('delete screen field event deletes the field', () => { // handleDeleteScreenElement - Field (onscreenelementdeleted)
+    it('delete screen field event invokes the delete confirmation modal with the right data', () => { // handleDeleteScreenElement - Field (onscreenelementdeleted)
         return Promise.resolve().then(() => {
-            const length = screenEditorElement.node.fields.length;
             const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[1]));
-            expect(screenEditorElement.node.fields).toHaveLength(length - 1);
+            expect(invokeModal.mock.calls[0][0].headerData.headerTitle).toBe(LABELS.deleteConfirmation);
+            expect(invokeModal.mock.calls[0][0].bodyData.bodyTextOne).toBe(LABELS.deleteConsequence);
+            expect(invokeModal.mock.calls[0][0].footerData.buttonOne.buttonLabel).toBe(LABELS.cancel);
+            expect(invokeModal.mock.calls[0][0].footerData.buttonTwo.buttonLabel).toBe(LABELS.deleteAlternativeText);
+            expect(invokeModal.mock.calls[0][0].footerData.buttonTwo.buttonVariant).toBe('destructive');
         });
     });
 
