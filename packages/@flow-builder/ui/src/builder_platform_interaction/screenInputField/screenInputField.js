@@ -9,6 +9,7 @@ import { isItemHydratedWithErrors } from "builder_platform_interaction/dataMutat
 export default class ScreenInputField extends LightningElement {
     @api name;
     @api value;
+    @api valueType;
     @api required = false;
     @api disabled = false;
     @track formatter;
@@ -60,7 +61,8 @@ export default class ScreenInputField extends LightningElement {
             if (isReference(displayValue)) {
                 return '';
             }
-            if (displayValue && displayValue.trim() !== '') {
+            if (displayValue && displayValue.trim() !== '' && this.valueType !== 'reference') {
+                // Don't try to convert to a date if the value is a reference.
                 // As long as this value isn't blank, we should get a valid date back. The value itself
                 // should have already been validated as being a valid date from the combobox component.
                 return new Date(displayValue).toISOString();
