@@ -7,8 +7,8 @@ import {
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import {baseCanvasElementMetadataObject, baseChildElementMetadataObject } from "./base/baseMetadata";
-import {LABELS} from "./elementFactoryLabels";
+import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from "./base/baseMetadata";
+import { LABELS } from "./elementFactoryLabels";
 
 const elementType = ELEMENT_TYPE.WAIT;
 const maxConnections = 2;

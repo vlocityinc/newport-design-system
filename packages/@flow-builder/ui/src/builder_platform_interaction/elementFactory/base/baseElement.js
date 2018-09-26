@@ -1,5 +1,5 @@
 import { generateGuid } from "builder_platform_interaction/storeLib";
-import { CONDITION_LOGIC, ELEMENT_TYPE, SUB_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { createFEROV } from "../ferov";
 import { createListRowItem, rhsDataTypePropertyName, rhsPropertyName } from "./baseList";
@@ -26,18 +26,33 @@ export function baseCanvasElement(canvasElement = {}) {
     });
 }
 
-function createCondition(condition = {}) {
+/**
+ * @typedef {Object} Condition
+ * @property {String} leftValueReference - lhs reference
+ * @property {String} operator - the operator
+ * @property {String} rightValue - rhs value
+ */
+
+/**
+ * Create a new condition for property editor use
+ * @param {Condition} condition - condition in store shape
+ * @return {module:baseList.ListRowItem} the new condition
+ */
+export function createCondition(condition = {}) {
     let newCondition = {};
 
     if (condition.hasOwnProperty('leftValueReference')) {
-        newCondition = createFEROV(condition.rightValue, rhsPropertyName, rhsDataTypePropertyName);
-        newCondition.leftHandSide = condition.leftValueReference;
-        newCondition.operator = condition.operator;
+        const ferov = createFEROV(condition.rightValue, rhsPropertyName, rhsDataTypePropertyName);
+        newCondition = Object.assign({}, ferov, {
+            leftHandSide : condition.leftValueReference,
+            operator : condition.operator
+        });
+
         newCondition = createListRowItem(newCondition);
     } else {
         newCondition = createListRowItem(condition);
     }
-    newCondition.rowIndex = generateGuid(SUB_ELEMENT_TYPE.CONDITION);
+    newCondition.rowIndex = generateGuid();
 
     return newCondition;
 }

@@ -1,6 +1,7 @@
 export * from './actionCall.js';
 export * from './apexPlugin.js';
 export * from './assignment.js';
+export { createCondition } from './base/baseElement';
 export * from './constant.js';
 export * from './decision.js';
 export * from './flowProperties.js';
