@@ -1,16 +1,17 @@
 import {
     ELEMENT_TYPE,
     CONNECTOR_TYPE
-} from "builder_platform_interaction/flowMetadata";
+} from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap
-} from "./base/baseElement";
-import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createCalloutInputParameter, createCalloutInputParameterMetadataObject } from './calloutInputParameter';
 import { createCalloutOutputParameter, createCalloutOutputParameterMetadataObject } from './calloutOutputParameter';
 import { createConnectorObjects } from './connector';
-import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
+import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const maxConnections = 2;
 const getDefaultAvailableConnections = () => [
@@ -36,7 +37,8 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
         outputParameters,
         availableConnections,
         maxConnections,
-        elementType
+        elementType,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     });
 
     return actionCallObject;

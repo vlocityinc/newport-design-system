@@ -11,6 +11,7 @@ import { createExpressionListRowItemWithoutOperator, rhsPropertyName, rhsDataTyp
 import { NUMBER_RECORDS_TO_STORE,
     RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { createFilter, createFilterMetadataObject } from './recordFilter';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
 const maxConnections = 2;
@@ -80,7 +81,8 @@ export function createRecordUpdate(recordUpdate = {}) {
         numberRecordsToStore,
         filters,
         filterType,
-        object
+        object,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     });
 
     return recordUpdateObject;

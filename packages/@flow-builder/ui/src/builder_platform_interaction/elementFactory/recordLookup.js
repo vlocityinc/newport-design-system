@@ -1,20 +1,21 @@
 import {
     ELEMENT_TYPE,
     CONNECTOR_TYPE
-} from "builder_platform_interaction/flowMetadata";
+} from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap
-} from "./base/baseElement";
-import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import { createFilter, createFilterMetadataObject } from './recordFilter';
 import {
     RECORD_FILTER_CRITERIA,
     SORT_ORDER
-} from "builder_platform_interaction/recordEditorLib";
-import { generateGuid } from "builder_platform_interaction/storeLib";
-import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
+} from 'builder_platform_interaction/recordEditorLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.RECORD_LOOKUP;
 const maxConnections = 2;
@@ -83,7 +84,8 @@ export function createRecordLookup(recordLookup = {}) {
         sortField,
         maxConnections,
         availableConnections,
-        elementType
+        elementType,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     });
 
     return recordLookupObject;
