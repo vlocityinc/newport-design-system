@@ -14,14 +14,18 @@
         <div class="slds-builder-header__item slds-builder-header__utilities">
             <div class="slds-builder-header__utilities-item">
                 <a href={headerBackUrl} class="slds-builder-header__item-action slds-media slds-media_center test-back-url">
-                    <lightning-icon variant="inverse" size="x-small" icon-name="utility:back" class="slds-icon_container slds-icon-utility-back slds-current-color test-back-utility-icon"></lightning-icon>
-                    <div class="slds-media__body slds-text-body_regular slds-p-left_small test-back-label">{labels.backButtonText}</div>
+                    <div class="slds-media__figure">
+                        <lightning-icon variant="inverse" size="x-small" icon-name="utility:back" class="slds-icon_container slds-icon-utility-back slds-current-color test-back-utility-icon"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body test-back-label">{labels.backButtonText}</div>
                 </a>
             </div>
             <div class="slds-builder-header__utilities-item">
                 <a href={headerHelpUrl} target="_blank" class="slds-builder-header__item-action slds-media slds-media_center test-help-url">
-                    <lightning-icon variant="inverse" size="x-small" icon-name="utility:help" class="slds-icon_container slds-icon-utility-back slds-current-color test-help-utility-icon"></lightning-icon>
-                    <div class="slds-media__body slds-text-body_regular slds-p-left_small test-help-label">{labels.helpButtonText}</div>
+                    <div class="slds-media__figure">
+                        <lightning-icon variant="inverse" size="x-small" icon-name="utility:help" class="slds-icon_container slds-icon-utility-back slds-current-color test-help-utility-icon"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body test-help-label">{labels.helpButtonText}</div>
                 </a>
             </div>
         </div>
