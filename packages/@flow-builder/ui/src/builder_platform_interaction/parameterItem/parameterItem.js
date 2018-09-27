@@ -1,5 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
-import { getFlowDataType, getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
+import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
 import { getResourceFerovDataType } from "builder_platform_interaction/expressionUtils";
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
@@ -12,7 +12,7 @@ export default class ParameterItem extends LightningElement {
     labels = LABELS;
 
     @track state = {
-        toggleStatus: null,
+        toggleStatus: false,
         parameterItem: {},
     }
 
@@ -47,28 +47,38 @@ export default class ParameterItem extends LightningElement {
 
     /**
      * @typedef {Object} ParameterItem
+     * @property {String} name  parameter's name (may be hydrated)
      * @property {boolean} isInput  true if the parameter is input parameter
      * @property {boolean} isRequired   true if the parameter is required input parameter
-     * @property {String} label   parameter label
-     * @property {String} dataType     data type of the parameter
-     * @property {String|Object} value    parameter's value (normally, value is hydrated with error)
-     * @property {String|Object} valueGuid    parameter's value guid (normally, valueGuid is hydrated with error)
-     * @property {String|Object} valueDataType   parameter's value data type (normally, valueDataType is hydrated with error)
-     * example for input parameter: {
+     * @property {String|Object} [label]   parameter label (may be hydrated)
+     * @property {String|Object} dataType     the flow data type, see FLOW_DATA_TYPE (may be hydrated)
+     * @property {Number} [maxOccurs]   the maximum occurances
+     * @property {String|Object} [value]    parameter's value (must be hydrated)
+     * @property {String|Object} [valueGuid]    parameter's value guid (may be hydrated)
+     * @property {String|Object} [valueDataType]   parameter's value data type (may be hydrated)
+     * @example <caption>input parameter</caption
+     * {
      * name: 'subjectOrTargetId',
      * isInput: true,
+     * isRequired: true,
      * label: 'Subject or Target Id',
-     * dataType: 'string',
-     * value: {value: '{!textVar}', error: null},
-     * valueGuid: {value: 'VARIABLE_1', error: null},
+     * dataType: 'String',
+     * maxOccurs: 1,
+     * value: {value: 'textVar', error: null},
+     * valueGuid: {value: 'generatedGuid', error: null},
      * valueDataType: {value: 'reference', error: null}
      * }
-     * example for output parameter: {
+     * @example <caption>output parameter</caption>
+     * {
      * name: 'feedId',
      * isInput: false,
+     * isRequired: false,
      * label: 'Feed Id',
-     * dataType: 'reference',
-     * value: {value: 'VARIABLE_11.Id', error: null},
+     * dataType: 'String',
+     * maxOccurs: 1,
+     * value: {value: 'textVar', error: null},
+     * valueGuid: {value: 'generatedGuid', error: null},
+     * valueDataType: {value: 'reference', error: null}
      * }
      */
 
@@ -126,6 +136,10 @@ export default class ParameterItem extends LightningElement {
         return (this.state.toggleStatus) ? '' : 'slds-hide';
     }
 
+    get parameterLabel() {
+        const label = getValueFromHydratedItem(this.state.parameterItem.label);
+        return label ? label : getValueFromHydratedItem(this.state.parameterItem.name);
+    }
     /**
      * @return {String|Object} returns the default value for the combobox or null
      */
@@ -147,7 +161,7 @@ export default class ParameterItem extends LightningElement {
      **/
     get parameterComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
-            this.state.parameterItem.label,
+            this.parameterLabel,
             this.labels.parameterPlaceholder, // placeholder
             this.getErrorMessage, // errorMessage
             this.state.parameterItem.isInput, // literalsAllowed
@@ -170,7 +184,7 @@ export default class ParameterItem extends LightningElement {
     }
 
     getDataType() {
-        return getFlowDataType(this.state.parameterItem.dataType);
+        return getValueFromHydratedItem(this.state.parameterItem.dataType);
     }
 
     /**

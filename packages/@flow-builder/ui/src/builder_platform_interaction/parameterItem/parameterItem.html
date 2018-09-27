@@ -23,7 +23,7 @@
                     </div>
                     <!-- toggle checkbox here -->
                     <div class='slds-col' if:true={showToggle}>
-                        <lightning-input type="toggle" variant="label-hidden" label={state.parameterItem.label} message-toggle-active={labels.toggleActive} message-toggle-inactive={labels.toggleInactive} checked={checked} onchange={handleToggleChanged}>   
+                        <lightning-input type="toggle" variant="label-hidden" label={parameterLabel} message-toggle-active={labels.toggleActive} message-toggle-inactive={labels.toggleInactive} checked={checked} onchange={handleToggleChanged}>   
                         </lightning-input>
                     </div>
                     </div>
@@ -39,7 +39,7 @@
                             <div class="slds-form-element slds-m-top_xxx-small slds-size_medium" aria-hidden={comboboxAriaHidden}>
                                 <!-- Parameter name is here -->
                                 <label class="slds-form-element__label" if:false={state.toggleStatus}>
-                                    {state.parameterItem.label}
+                                    {parameterLabel}
                                 </label>
                                 <!-- Combobox is here -->
                                 <builder_platform_interaction-ferov-resource-picker if:true={state.parameterItem.isInput} class={comboboxClass}
