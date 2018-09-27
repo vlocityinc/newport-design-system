@@ -1,7 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 import { getVariant, booleanValue, getPlaceHolderLabel, CURRENCY_FORMAT, LIGHTNING_INPUT_TYPES } from "builder_platform_interaction/screenEditorUtils";
 import { isReference } from "builder_platform_interaction/commonUtils";
-import { isItemHydratedWithErrors } from "builder_platform_interaction/dataMutationLib";
 
 /**
  * Wrapper used to represent visual preview of screen fields which are are input fields.
@@ -10,12 +9,12 @@ export default class ScreenInputField extends LightningElement {
     @api name;
     @api value;
     @api valueType;
+    @api helpText;
     @api required = false;
     @api disabled = false;
     @track formatter;
     @track type;
     @track _typeName;
-    @track _helpText;
     @track _label;
 
     @api
@@ -33,9 +32,7 @@ export default class ScreenInputField extends LightningElement {
         if (newValue === 'TextBox') {
             // if no type is specified, you get a simple text box, as that is the default.
             this.type = null;
-        } else if (newValue === 'Number') {
-            this.type = LIGHTNING_INPUT_TYPES.NUMBER;
-        } else if (newValue === 'Currency') {
+        } else if (newValue === 'Number' || newValue === 'Currency') {
             this.type = LIGHTNING_INPUT_TYPES.NUMBER;
         } else if (newValue === 'Date') {
             this.type = LIGHTNING_INPUT_TYPES.DATE;
@@ -51,7 +48,8 @@ export default class ScreenInputField extends LightningElement {
     }
 
     get displayValue() {
-        const displayValue = isItemHydratedWithErrors(this.value) ? this.value.value : this.value;
+        const hydrated = this.value && this.value.hasOwnProperty('value');
+        const displayValue = hydrated ? this.value.value : this.value;
 
         // The lightning components used to render canvas preview for date and dateTime need
         // to be ISO format in order to be previewed. Perform this translation for preview
@@ -75,15 +73,6 @@ export default class ScreenInputField extends LightningElement {
     @api
     get variant() {
         return getVariant(this.label);
-    }
-
-    set helpText(newValue) {
-        this._helptext = newValue;
-    }
-
-    @api
-    get helpText() {
-        return this._helptext ? this._helptext.value : null;
     }
 
     @api

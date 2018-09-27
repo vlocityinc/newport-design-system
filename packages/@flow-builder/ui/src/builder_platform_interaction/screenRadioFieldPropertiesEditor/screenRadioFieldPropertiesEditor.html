@@ -35,7 +35,7 @@
 
         <!--  Choice selectors -->
         <div>
-            <lightning-accordion allow-multiple-sections-open active-section-name={getChoiceAccordionSectionNames} class='slds-has-divider slds-p-top_none'>
+            <lightning-accordion allow-multiple-sections-open active-section-name={allSectionNames} class='slds-has-divider slds-p-top_none'>
                 <lightning-accordion-section name='choicesSection' label={labels.choices}>
                     <builder_platform_interaction-list items={field.choiceReferences}
                                                        onaddlistitem={handleChoiceAdded}
@@ -65,18 +65,13 @@
                         </div>
                     </builder_platform_interaction-list>
                 </lightning-accordion-section>
-            </lightning-accordion>
-        </div>
-        
-        
-        <div>
-            <lightning-accordion allow-multiple-sections-open active-section-name={getHelpAccordionSectionNames} class='slds-has-divider slds-p-top_none'>
+
                 <!--  help text -->
                 <lightning-accordion-section name='helpText' label={labels.helpText}>
                     <builder_platform_interaction-screen-property-field name='helpText'
                                                                         label={labels.helpText}
                                                                         type='long_string'
-                                                                        value={helpTextValue}
+                                                                        value={field.helpText}
                                                                         hide-top-padding>
                     </builder_platform_interaction-screen-property-field>
                 </lightning-accordion-section>

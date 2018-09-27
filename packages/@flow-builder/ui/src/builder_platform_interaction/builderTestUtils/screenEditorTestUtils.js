@@ -165,7 +165,7 @@ function createScreen(name, fieldsProducer, config = {}) {
  * @param {string} name - The name of the screen field
  * @param {string} type - The type of the screen field (see screen field types in screen-editor-utils)
  * @param {string} value - The value, if null is passed a random default value will be generated, pass SCREEN_NO_DEF_VALUE if the value should not be set.
- * @param {objec} config - {required = false, helpText = true, validation = true, defaultValueType = static, hydrateValues = true, includeNonMDValues = true, valueType = STATIC}
+ * @param {objec} config - {required = false, validation = true, defaultValueType = static, hydrateValues = true, includeNonMDValues = true, valueType = STATIC}
  * @returns {object} - The screen field
  */
 export function createTestScreenField(name, type, value, config = {}) {
@@ -177,6 +177,7 @@ export function createTestScreenField(name, type, value, config = {}) {
         dataType: fieldType.dataType,
         fieldType:fieldType.fieldType,
         fieldText: getStringValue(null, name, hydrateValues),
+        helpText: getStringValue('Screen field ' + name + ' help text', null, hydrateValues),
         name: getStringValue(null, name, hydrateValues),
         isRequired:booleanValue(config, 'required', false),
         isVisible:true,
@@ -185,10 +186,6 @@ export function createTestScreenField(name, type, value, config = {}) {
         outputParameters:[],
         processMetadataValues:[]
     };
-
-    if (booleanValue(config, 'helpText', true)) {
-        field.helpText = getStringValue('Screen field ' + name + ' help text', null, hydrateValues);
-    }
 
     if (booleanValue(config, 'validation', true)) {
         field.errorMessage = getStringValue('The value you entered doesn\'t meet the validation criteria for this input field.', null, hydrateValues);
@@ -266,7 +263,7 @@ export function createTestScreen(name, screenFieldTypeNames = [], config = {}) {
                 defaultValueType = VALUE_TYPE_NULL;
             }
 
-            const fieldConfig = {required: (i % 2 === 0), helpText: (i % 3 === 0), validation: (i % 4 === 0), hydrateValues: false, includeNonMDValues, defaultValueType};
+            const fieldConfig = {required: (i % 2 === 0), validation: (i % 4 === 0), hydrateValues: false, includeNonMDValues, defaultValueType};
             const val = types[i] === 'Extension' ? 'c:cmpAvailableForFlowScreens' : null;
             const field = createTestScreenField('screenField ' + i, types[i], val, fieldConfig);
             fields.push(field);

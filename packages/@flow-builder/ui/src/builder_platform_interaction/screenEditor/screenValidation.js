@@ -1,5 +1,5 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
-import { Validation } from "builder_platform_interaction/validation";
+import { Validation, defaultRules } from "builder_platform_interaction/validation";
 import { getFerovTypeFromTypeName, getCachedExtensions, isExtensionField } from "builder_platform_interaction/screenEditorUtils";
 import { getElementByDevName } from "builder_platform_interaction/storeUtils";
 import { removeCurlyBraces, isReference } from "builder_platform_interaction/commonUtils";
@@ -15,18 +15,23 @@ const addRules = (property, rules, propertyRules) => {
     rules[property].push(...propertyRules);
 };
 
-// Rules common to screen and screen field
+const addDefaultRules = (rules) => {
+    for (const propertyName in defaultRules) {
+        if (defaultRules.hasOwnProperty(propertyName)) {
+            addRules(propertyName, rules, defaultRules[propertyName]);
+        }
+    }
+};
+
+/**
+ * Rules common to screen and screen field. Right now it only adds default validation rules,
+ * but all rules applying to all properties from either a screen or a screen field should be added here
+ *
+ * @param {object} rules - The rules
+ */
 const addCommonRules = (rules) => {
     // Common rules
-    addRules('name', rules, [
-        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
-        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
-        ValidationRules.maximumCharactersLimit(80)
-    ]);
-
-    addRules('label', rules, [
-        ValidationRules.maximumCharactersLimit(1000)
-    ]);
+    addDefaultRules(rules);
 };
 
 const addCommonFieldRules = (rules) => {

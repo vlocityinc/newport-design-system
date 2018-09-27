@@ -1,8 +1,8 @@
 import { screenValidation, getExtensionParameterValidation, getRulesForField } from "./screenValidation";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { updateProperties, isItemHydratedWithErrors, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
+import { updateProperties, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
-import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getFerovTypeFromFieldType } from "builder_platform_interaction/screenEditorUtils";
+import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getFerovTypeFromFieldType, compareValues } from "builder_platform_interaction/screenEditorUtils";
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
@@ -202,12 +202,8 @@ const handleExtensionFieldPropertyChange = (data) => {
     return set(field, parametersPropName, updatedParams);
 };
 
-const valueChanged = (value1, value2) => {
-    const val1 = isItemHydratedWithErrors(value1) ? value1.value : value1;
-    const val2 = isItemHydratedWithErrors(value2) ? value2.value : value2;
-    const normValue1 = !val1 || val1 === '' ? null : val1;
-    const normValue2 = !val2 || val2 === '' ? null : val2;
-    return normValue1 !== normValue2;
+const isHydrated = (value) => {
+    return value && value.hasOwnProperty('value') && value.hasOwnProperty('error');
 };
 
 /**
@@ -229,24 +225,31 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
     let error = event.detail.error;
     const value = event.detail.value;
     const currentValue = event.detail.oldValue || selectedNode[property];
-    const hydrated = isItemHydratedWithErrors(currentValue);
+    const hydrated = isHydrated(currentValue);
+
+    if (hydrated) {
+        if (!isHydrated(value)) {
+            throw new Error('Current value is hydrated and new value is not' + JSON.stringify(event.detail));
+        }
+    } else if (typeof currentValue === 'string' || typeof value === 'string') {
+        throw new Error('String values have to be hydrated: ' + JSON.stringify(event.detail));
+    }
 
     // Only update the field if the given property value actually changed.
     let updatedNode = selectedNode;
-    if (valueChanged(currentValue, value)) {
-        const newValue = hydrated ? {error, value} : value;
+    if (compareValues(currentValue, value)) {
         if (isScreen(selectedNode)) {
-            error = error === null ? screenValidation.validateProperty(property, value) : error;
             if (hydrated) {
-                newValue.error = error;
+                error = error === null ? screenValidation.validateProperty(property, value.value) : error;
+                value.error = error;
             }
-            updatedNode = updateProperties(screen, {[property]: newValue});
+            updatedNode = updateProperties(screen, {[property]: value});
         } else { // Screen field
             const data = {
                 field: selectedNode,
                 property,
                 currentValue,
-                newValue,
+                newValue: value,
                 hydrated,
                 error,
                 newValueGuid: event.detail.guid,

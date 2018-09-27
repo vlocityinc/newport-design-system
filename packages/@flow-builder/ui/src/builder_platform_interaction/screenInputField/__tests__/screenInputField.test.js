@@ -28,7 +28,8 @@ describe('Currency screen field', () => {
             value: '',
             label: {value: testLabel, error: null},
             required: false,
-            typeName: 'Currency'
+            typeName: 'Currency',
+            helpText: {value: null, error: null}
         });
     });
     it('Type should be number', () => {
@@ -58,7 +59,8 @@ describe('Number screen field', () => {
             value: '',
             label: {value: testLabel, error: null},
             required: false,
-            typeName: 'Number'
+            typeName: 'Number',
+            helpText: {value: null, error: null}
         });
     });
     it('Type should be number', () => {
@@ -88,7 +90,8 @@ describe('Textbox screen field', () => {
             value: '',
             label: {value: testLabel, error: null},
             required: false,
-            typeName: 'TextBox'
+            typeName: 'TextBox',
+            helpText: {value: null, error: null}
         });
     });
     it('Type should be null', () => {
@@ -118,7 +121,8 @@ describe('Screen input field with no label', () => {
             value: '',
             label: {value: '', error: null},
             required: false,
-            typeName: 'Number'
+            typeName: 'Number',
+            helpText: {value: null, error: null}
         });
     });
     it('Label should be shown even when empty because we display a placeholder label', () => {
@@ -142,7 +146,8 @@ describe('Screen input field with empty space only should not be displayed', () 
             value: '',
             label: {value: ' ', error: null},
             required: false,
-            typeName: 'Number'
+            typeName: 'Number',
+            helpText: {value: null, error: null}
         });
     });
     it('Label should be hidden when it is empty', () => {
@@ -160,7 +165,8 @@ describe('DateTime screen input field', () => {
         inputWrapperCmp = createComponentForTest({
             value: dateTimeValue,
             label: {value: testLabel, error: null},
-            typeName: 'DateTime'
+            typeName: 'DateTime',
+            helpText: {value: null, error: null}
         });
     });
     it('Lightning input type should be dateTime', () => {
@@ -183,7 +189,8 @@ describe('DateTime screen input field with variable default vlaue', () => {
         inputWrapperCmp = createComponentForTest({
             value: '{!myVar}',
             label: {value: testLabel, error: null},
-            typeName: 'DateTime'
+            typeName: 'DateTime',
+            helpText: {value: null, error: null}
         });
     });
     it('Value should display empty string because it is a merge field', () => {
@@ -201,7 +208,8 @@ describe('Date screen input field', () => {
         inputWrapperCmp = createComponentForTest({
             value: dateValue,
             label: {value: testLabel, error: null},
-            typeName: 'Date'
+            typeName: 'Date',
+            helpText: {value: null, error: null}
         });
     });
     it('Lightning input type should be date', () => {
@@ -224,7 +232,8 @@ describe('Date screen input field with variable default vlaue', () => {
         inputWrapperCmp = createComponentForTest({
             value: '{!myVar}',
             label: {value: testLabel, error: null},
-            typeName: 'Date'
+            typeName: 'Date',
+            helpText: {value: null, error: null}
         });
     });
     it('Value should display empty string because it is a merge field', () => {
@@ -243,7 +252,7 @@ describe('Field with help text', () => {
             value: '',
             label: {value: testLabel, error: null},
             helpText: {value: helpTextValue, error: null},
-            typeName: 'TextBox'
+            typeName: 'TextBox',
         });
     });
     it('Help text should be passed through', () => {

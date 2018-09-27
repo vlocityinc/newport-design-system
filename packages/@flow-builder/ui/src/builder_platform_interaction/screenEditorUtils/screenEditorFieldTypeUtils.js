@@ -13,6 +13,7 @@ const FEROV_TYPES = {
 
 /**
  * All screen field types
+ * Property type represents the actual data type of the field (used as part of ferov handling)
  */
 const screenFieldTypes = [
     {
@@ -22,6 +23,7 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelTextField,
         icon: 'utility:type_tool',
         category: LABELS.fieldCategoryInput,
+        type: 'String'
     }, {
         name: 'LargeTextArea',
         fieldType: 'LargeTextArea',
@@ -29,6 +31,7 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelLargeTextArea,
         icon: 'utility:type_tool',
         category: LABELS.fieldCategoryInput,
+        type: 'String'
     }, {
         name: 'Number',
         fieldType: 'InputField',
@@ -36,6 +39,7 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelNumber,
         icon: 'utility:topic2',
         category: LABELS.fieldCategoryInput,
+        type: 'Number'
     }, {
         name: 'Currency',
         fieldType: 'InputField',
@@ -43,6 +47,7 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelCurrency,
         icon: 'utility:moneybag',
         category: LABELS.fieldCategoryInput,
+        type: 'Number'
     }, {
         name: 'Date',
         fieldType: 'InputField',
@@ -50,6 +55,7 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelDate,
         icon: 'utility:event',
         category: LABELS.fieldCategoryInput,
+        type: 'Date'
     }, {
         name: 'DateTime',
         fieldType: 'InputField',
@@ -57,6 +63,7 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelDateTime,
         icon: 'utility:event',
         category: LABELS.fieldCategoryInput,
+        type: 'DateTime'
     }, {
         name: 'Password',
         fieldType: 'PasswordField',
@@ -64,6 +71,7 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelPassword,
         icon: 'utility:lock',
         category: LABELS.fieldCategoryInput,
+        type: 'String'
     }, {
         name: 'Checkbox',
         fieldType: 'InputField',
@@ -71,6 +79,7 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelCheckbox,
         icon: 'utility:check',
         category: LABELS.fieldCategoryInput,
+        type: 'Boolean'
     }, {
         name: 'Radio',
         fieldType: 'RadioButtons',
@@ -84,14 +93,16 @@ const screenFieldTypes = [
         dataType: undefined,
         label: LABELS.fieldTypeLabelDisplayText,
         icon: 'utility:type_tool',
-        category: LABELS.fieldCategoryDisplay
+        category: LABELS.fieldCategoryDisplay,
+        type: 'String'
     }, {
         name: 'DisplayRichText',
         fieldType: 'DisplayText',
         dataType: undefined,
         label: LABELS.fieldTypeLabelDisplayRichText,
         icon: 'utility:type_tool',
-        category: LABELS.fieldCategoryDisplay
+        category: LABELS.fieldCategoryDisplay,
+        type: 'String'
     }
 ];
 

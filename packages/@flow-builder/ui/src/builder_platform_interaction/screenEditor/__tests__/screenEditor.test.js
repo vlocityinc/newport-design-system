@@ -94,10 +94,10 @@ describe('Event handling on editor', () => {
 
     it('property change changes screen property', () => { // handlePropertyChanged (onpropertychanged)
         return Promise.resolve().then(() => {
-            const newPausedText =  'screen-editor-test.js property change paused text';
+            const newPausedText = {value:'screen-editor-test.js property change paused text', error: null};
             const editor = getShadowRoot(screenEditorElement).querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
             editor.dispatchEvent(new PropertyChangedEvent('pausedText', newPausedText, null, null, screenEditorElement.node.pausedText));
-            expect(screenEditorElement.node.pausedText.value).toBe(newPausedText);
+            expect(screenEditorElement.node.pausedText.value).toBe(newPausedText.value);
             expect(screenEditorElement.getSelectedNode().guid).toBe(screenEditorElement.node.guid);
         });
     });
@@ -157,8 +157,8 @@ describe('Event handling on editor', () => {
 describe('Screen field property editor events', () => {
     let screenEditorElement;
     const origDisplayText = 'Display This Please';
-    const newDisplayText = 'New Display Text';
-    const newFieldName = 'my new screen field name';
+    const newDisplayText = {value: 'New Display Text', error: null};
+    const newFieldName = {value: 'my new screen field name', error: null};
     beforeEach(() => {
         const screen = createTestScreen('Screen1', null);
         screen.showHeader = true;
@@ -181,8 +181,8 @@ describe('Screen field property editor events', () => {
             canvas.dispatchEvent(createScreenElementSelectedEvent(field));
 
             // Change the field
-            editor.dispatchEvent(new PropertyChangedEvent('fieldText', newDisplayText, null, screenEditorElement.node.fields[0].guid, origDisplayText));
-            expect(screenEditorElement.node.fields[0].fieldText).toBe(newDisplayText);
+            editor.dispatchEvent(new PropertyChangedEvent('fieldText', newDisplayText, null, screenEditorElement.node.fields[0].guid, field.fieldText));
+            expect(screenEditorElement.node.fields[0].fieldText.value).toBe(newDisplayText.value);
         });
     });
     it('Name of DisplayText field changed', () => {
@@ -195,8 +195,8 @@ describe('Screen field property editor events', () => {
             canvas.dispatchEvent(createScreenElementSelectedEvent(field));
 
             // Change the field
-            editor.dispatchEvent(new PropertyChangedEvent('name', newFieldName, null, screenEditorElement.node.fields[0].guid, 'Display This Please'));
-            expect(screenEditorElement.node.fields[0].name).toBe(newFieldName);
+            editor.dispatchEvent(new PropertyChangedEvent('name', newFieldName, null, screenEditorElement.node.fields[0].guid, field.fieldText));
+            expect(screenEditorElement.node.fields[0].name.value).toBe(newFieldName.value);
         });
     });
 });

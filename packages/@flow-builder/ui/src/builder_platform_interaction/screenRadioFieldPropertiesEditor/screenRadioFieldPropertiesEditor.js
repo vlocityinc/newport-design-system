@@ -3,12 +3,16 @@ import { PropertyChangedEvent, createChoiceAddedToScreenField } from "builder_pl
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { INPUT_FIELD_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { addGuidAndCurrentValueToEvent, addHydratedCurrentValueToEvent, getFieldChoiceData } from "builder_platform_interaction/screenEditorUtils";
+import {  getFieldChoiceData } from "builder_platform_interaction/screenEditorUtils";
+import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
 
-const HELP_SECTION_NAME = ['helpText'];
-const CHOICE_SECTION_NAME = ['choice'];
-
+const ALL_SECTION_NAMES = ['choice', 'helpText'];
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
+const CHOICE_FRP_CONFIG = {
+    allowLiterals: false,
+    collection: false,
+    elementType: ELEMENT_TYPE.SCREEN // TODO this needs to be changed to CHOICE once Choice selector is added
+};
 
 /*
  * Screen element property editor for the radio field.
@@ -19,21 +23,12 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
     labels = LABELS;
     inputFieldMap = INPUT_FIELD_DATA_TYPE;
 
-    get getHelpAccordionSectionNames() {
-        return HELP_SECTION_NAME;
-    }
-
-    get getChoiceAccordionSectionNames() {
-        return CHOICE_SECTION_NAME;
+    get allSectionNames() {
+        return ALL_SECTION_NAMES;
     }
 
     handlePropertyChanged = (event) => {
-        this.dispatchEvent(addGuidAndCurrentValueToEvent(event, this.field));
-        event.stopPropagation();
-    }
-
-    handleHelpTextChanged = (event) => {
-        this.dispatchEvent(addHydratedCurrentValueToEvent(event, this.field, this.helpTextValue));
+        this.dispatchEvent(addCurrentValueToEvent(event, this.field, this.field[event.detail.propertyName]));
         event.stopPropagation();
     }
 
@@ -65,15 +60,7 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
     }
 
     get choiceResourcePickerConfig() {
-        return {
-            allowLiterals: false,
-            collection: false,
-            elementType: ELEMENT_TYPE.SCREEN // TODO this needs to be changed to CHOICE once Choice selector is added
-        };
-    }
-
-    get helpTextValue() {
-        return this.field.helpText && this.field.helpText.value ? this.field.helpText : null;
+        return CHOICE_FRP_CONFIG;
     }
 
     get isFieldDisabled() {

@@ -24,6 +24,19 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             }
 
             return null;
+        },
+
+        getElementByDevName(name) {
+            const type = name.substring(0, name.length - 1);
+            const num = name.substring(name.length - 1);
+            return {
+                dataType:type,
+                elementType: "VARIABLE",
+                guid: 'GUID_' + type + '_' + num,
+                isCanvasElement:false,
+                isCollection:false,
+                name
+            };
         }
     };
 });
@@ -67,7 +80,7 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
         type: PropertyChangedEvent.EVENT_NAME,
         detail: {
             propertyName: propertyNameProvider ? propertyNameProvider(field) : propertyName,
-            value: valueAfter.value,
+            value: {value: valueAfter.value, error: null},
             error: null,
             guid: (valueAfter.isReference ? valueAfter.valueGuid : null),
             oldValue: field[propertyName],

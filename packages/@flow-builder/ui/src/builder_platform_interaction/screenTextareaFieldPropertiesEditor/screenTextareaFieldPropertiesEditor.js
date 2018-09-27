@@ -2,7 +2,8 @@ import { LightningElement, api } from 'lwc';
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
-import { LIGHTNING_INPUT_VARIANTS, addGuidAndCurrentValueToEvent, addHydratedCurrentValueToEvent } from "builder_platform_interaction/screenEditorUtils";
+import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
+import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
 
 const ALL_SECTION_NAMES = ['validationOptions', 'helpText'];
 
@@ -19,19 +20,14 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
     }
 
     handlePropertyChanged = (event) => {
-        this.dispatchEvent(addGuidAndCurrentValueToEvent(event, this.field));
         event.stopPropagation();
-    }
-
-    handleHelpTextChanged = (event) => {
-        this.dispatchEvent(addHydratedCurrentValueToEvent(event, this.field, this.helpTextValue));
-        event.stopPropagation();
+        const currentValue = this.field[event.detail.propertyName];
+        this.dispatchEvent(addCurrentValueToEvent(event, this.field, currentValue));
     }
 
     /* Handle change of Default Value resource picker */
     handleDefaultValueChanged(event) {
-        const property = 'defaultValue';
-        this.dispatchEvent(new PropertyChangedEvent(property, event.detail.value, event.detail.error, this.field.guid, this.field[property]));
+        this.dispatchEvent(new PropertyChangedEvent('defaultValue', event.detail.value, event.detail.error, this.field.guid, this.field.defaultValue));
         event.stopPropagation();
     }
 

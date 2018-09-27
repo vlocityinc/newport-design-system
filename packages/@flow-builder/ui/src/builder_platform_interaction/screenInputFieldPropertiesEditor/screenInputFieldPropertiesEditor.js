@@ -1,8 +1,9 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { addGuidAndCurrentValueToEvent, addHydratedCurrentValueToEvent } from "builder_platform_interaction/screenEditorUtils";
+import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
 
+const FRP_CONFIG = {allowLiterals: true, collection: false, elementType: ELEMENT_TYPE.SCREEN};
 const ALL_SECTION_NAMES = ['validationOptions', 'helpText'];
 
 /*
@@ -16,22 +17,8 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
         return ALL_SECTION_NAMES;
     }
 
-    handlePropertyChanged = (event) => {
-        this.dispatchEvent(addGuidAndCurrentValueToEvent(event, this.field));
-        event.stopPropagation();
-    }
-
-    handleHelpTextChanged = (event) => {
-        this.dispatchEvent(addHydratedCurrentValueToEvent(event, this.field, this.helpTextValue));
-        event.stopPropagation();
-    }
-
     get defaultValueResourcePickerConfig() {
-        return {
-            allowLiterals: true,
-            collection: false,
-            elementType: ELEMENT_TYPE.SCREEN
-        };
+        return FRP_CONFIG;
     }
 
     get isCheckbox() {
@@ -42,7 +29,9 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
         return this.field.dataType === 'Number' || this.field.dataType === 'Currency';
     }
 
-    get helpTextValue() {
-        return this.field.helpText && this.field.helpText.value ? this.field.helpText : null;
+    handlePropertyChanged = (event) => {
+        event.stopPropagation();
+        const currentValue = this.field[event.detail.propertyName];
+        this.dispatchEvent(addCurrentValueToEvent(event, this.field, currentValue));
     }
 }

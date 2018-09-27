@@ -37,14 +37,14 @@ describe('validationEditor with no validation rule', () => {
         return Promise.resolve().then(() => {
             const errorMessageInput = query(validationEditorElement, SELECTORS.ERROR_MESSAGE);
             expect(errorMessageInput).toBeDefined();
-            expect(errorMessageInput.value).toBeNull();
+            expect(errorMessageInput.value.value).toBeUndefined();
         });
     });
     it('Formula expression should be empty', () => {
         return Promise.resolve().then(() => {
             const formulaExpressionField = query(validationEditorElement, SELECTORS.FORMULA_EXPRESSION);
             expect(formulaExpressionField).toBeDefined();
-            expect(formulaExpressionField.value).toBeNull();
+            expect(formulaExpressionField.value.value).toBeUndefined();
         });
     });
 });
@@ -60,14 +60,14 @@ describe('validationEditor with validation rule', () => {
         return Promise.resolve().then(() => {
             const errorMessageInput = query(validationEditorElement, SELECTORS.ERROR_MESSAGE);
             expect(errorMessageInput).toBeDefined();
-            expect(errorMessageInput.value).toBe("The value you entered doesn't meet the validation criteria for this input field.");
+            expect(errorMessageInput.value.value).toBe("The value you entered doesn't meet the validation criteria for this input field.");
         });
     });
     it('Formula expression should be displayed correctly', () => {
         return Promise.resolve().then(() => {
             const formulaExpressionField = query(validationEditorElement, SELECTORS.FORMULA_EXPRESSION);
             expect(formulaExpressionField).toBeDefined();
-            expect(formulaExpressionField.value).toBe("{!Var1} == 'text'");
+            expect(formulaExpressionField.value.value).toBe("{!Var1} == 'text'");
         });
     });
 });

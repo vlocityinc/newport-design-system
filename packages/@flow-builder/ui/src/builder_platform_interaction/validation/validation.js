@@ -5,7 +5,7 @@ import { updateProperties, set, getValueFromHydratedItem } from "builder_platfor
  * @constant defaultRules - map of propertyName to validation rules
  * @type {Object}
  */
-const defaultRules = {
+export const defaultRules = {
     'label' : [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.maximumCharactersLimit(255)

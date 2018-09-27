@@ -1,10 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
-import { isItemHydratedWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { booleanAttributeValue, getFlowDataTypeByName, booleanValue } from "builder_platform_interaction/screenEditorUtils";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 
 // QUILL supported formats
 const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
@@ -167,12 +167,10 @@ export default class ScreenPropertyField extends LightningElement {
         throw new Error('Unknown type for property field ' + this.type);
     }
 
-    get dehydratedValue() {
-        return isItemHydratedWithErrors(this.value) ? this.value.value : this.value;
-    }
-
     handleEvent = (event) => {
-        let newValue = null, newGuid = null;
+        event.stopPropagation();
+
+        let newValue = null, newGuid = null, currentValue = null;
 
         if (this.allowResources && event.detail.item) { // And it contains a ferov
             newValue = event.detail.item.displayText;
@@ -181,11 +179,14 @@ export default class ScreenPropertyField extends LightningElement {
             newValue = this.domValue;
         }
 
-        if (this.dehydratedValue !== newValue) {
-            const error = event.detail && event.detail.error ? event.detail.error : null;
-            this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, newGuid, this.value));
+        currentValue = this.value;
+
+        if (!this.isBoolean) {
+            newValue = hydrateIfNecessary(newValue);
+            currentValue = hydrateIfNecessary(currentValue);
         }
 
-        event.stopPropagation();
+        const error = event.detail && event.detail.error ? event.detail.error : null;
+        this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, newGuid, currentValue));
     }
 }

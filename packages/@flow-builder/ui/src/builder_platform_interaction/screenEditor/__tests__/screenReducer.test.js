@@ -16,7 +16,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'label',
-                value: 'newlabel',
+                value: {value: 'newlabel', error: null},
                 error: null
             }
         };
@@ -34,7 +34,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'fieldText',
-                value: newDisplayText,
+                value: {value: newDisplayText, error: null},
                 error: null,
                 guid: screen.fields[0].guid,
                 oldValue: screen.fields[0].fieldText
@@ -55,7 +55,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'errorMessage',
-                value: newErrorMessage,
+                value: {value: newErrorMessage, error: null},
                 error: null,
                 guid: screen.fields[0].guid,
                 oldValue: undefined
@@ -83,7 +83,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'errorMessage',
-                value: newErrorMessage,
+                value: {value: newErrorMessage, error: null},
                 error: null,
                 guid: screen.fields[0].guid,
                 oldValue: screen.fields[0].errorMessage
@@ -103,7 +103,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'formulaExpression',
-                value: newFormula,
+                value: {value: newFormula, error: null},
                 error: null,
                 guid: screen.fields[0].guid,
                 oldValue: undefined
@@ -131,7 +131,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'formulaExpression',
-                value: newFormula,
+                value: {value: newFormula, error: null},
                 error: null,
                 guid: screen.fields[0].guid,
                 oldValue: screen.fields[0].formulaExpression
@@ -149,7 +149,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'label',
-                value: 'newlabel',
+                value: {value: 'newlabel', error: 'errorFromChildComponent'},
                 error: 'errorFromChildComponent'
             }
         };

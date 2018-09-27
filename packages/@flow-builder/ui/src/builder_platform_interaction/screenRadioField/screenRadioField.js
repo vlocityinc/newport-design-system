@@ -1,5 +1,4 @@
 import { LightningElement, api } from 'lwc';
-import { isItemHydratedWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { getFieldChoiceData } from "builder_platform_interaction/screenEditorUtils";
 
 /**
@@ -17,6 +16,6 @@ export default class ScreenRadioField extends LightningElement {
     }
 
     get displayLabel() {
-        return isItemHydratedWithErrors(this.label) ? this.label.value : this.label;
+        return this.label && this.label.hasOwnProperty('value') ? this.label.value : this.label;
     }
 }

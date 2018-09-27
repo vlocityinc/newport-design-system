@@ -16,6 +16,7 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     labels = LABELS;
 
     set node(value) {
+        this.displaySpinner = false;
         this._node = value;
         if (this.isExtensionField) {
             this.fetchDescription();
@@ -41,15 +42,11 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     }
 
     get isInputField() {
-        return isInputField(this.node);
+        return isInputField(this.node) || isPasswordField(this.node);
     }
 
     get isTextAreaField() {
         return isTextAreaField(this.node);
-    }
-
-    get isPasswordField() {
-        return isPasswordField(this.node);
     }
 
     get isRadioField() {

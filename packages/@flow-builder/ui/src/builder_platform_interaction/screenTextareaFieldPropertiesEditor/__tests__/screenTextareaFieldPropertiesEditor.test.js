@@ -55,25 +55,25 @@ describe('screen-textarea-field-properties-editor', () => {
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
     });
-    it('Help text is present but empty', () => {
+    it('Help text should be filled in', () => {
         return Promise.resolve().then(() => {
             const renderedHelpTextField = query(screenTextAreaFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(renderedHelpTextField).toBeDefined();
-            expect(renderedHelpTextField.value).toBeNull();
+            expect(renderedHelpTextField.value.value).toBe('Screen field input1 help text');
         });
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedValidationError = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
-            expect(renderedValidationError.value).toBeNull();
+            expect(renderedValidationError.value.value).toBeUndefined();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedValidationFormula = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
-            expect(renderedValidationFormula.value).toBeNull();
+            expect(renderedValidationFormula.value.value).toBeUndefined();
         });
     });
 });
@@ -122,14 +122,14 @@ describe('screen-textarea-field-properties-editor with validationRule', () => {
         return Promise.resolve().then(() => {
             const renderedValidationError = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
-            expect(renderedValidationError.value).toBe("The value you entered doesn't meet the validation criteria for this input field.");
+            expect(renderedValidationError.value.value).toBe("The value you entered doesn't meet the validation criteria for this input field.");
         });
     });
     it('Validation rule formula is present and displayed', () => {
         return Promise.resolve().then(() => {
             const renderedValidationFormula = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
-            expect(renderedValidationFormula.value).toBe("{!Var1} == 'text'");
+            expect(renderedValidationFormula.value.value).toBe("{!Var1} == 'text'");
         });
     });
 });

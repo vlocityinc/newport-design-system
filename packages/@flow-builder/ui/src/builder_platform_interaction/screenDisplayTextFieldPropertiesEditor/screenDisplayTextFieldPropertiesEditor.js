@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { addGuidAndCurrentValueToEvent } from "builder_platform_interaction/screenEditorUtils";
+import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
 
 /*
  * Screen element property editor
@@ -10,7 +10,7 @@ export default class ScreenDisplayTextFieldPropertiesEditor extends LightningEle
     labels = LABELS;
 
     handlePropertyChanged = (event) => {
-        this.dispatchEvent(addGuidAndCurrentValueToEvent(event, this.field));
         event.stopPropagation();
+        this.dispatchEvent(addCurrentValueToEvent(event, this.field));
     }
 }

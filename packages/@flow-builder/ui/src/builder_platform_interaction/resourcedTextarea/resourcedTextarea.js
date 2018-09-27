@@ -3,7 +3,6 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LIGHTNING_INPUT_VARIANTS, booleanAttributeValue } from "builder_platform_interaction/screenEditorUtils";
 import { LABELS } from "./resourcedTextareaLabels";
-import { isItemHydratedWithErrors } from "builder_platform_interaction/dataMutationLib";
 
 const SELECTORS = {
     TEXTAREA: 'textarea',
@@ -46,7 +45,7 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
     }
 
     set value(val) {
-        this._hydrated = isItemHydratedWithErrors(val);
+        this._hydrated = val && val.hasOwnProperty('value') && val.hasOwnProperty('error');
         if (this._hydrated) {
             this._value = val.value;
             this.setCustomValidity(val.error);
