@@ -5,6 +5,8 @@ import { booleanAttributeValue, getFlowDataTypeByName, booleanValue } from "buil
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 // QUILL supported formats
 const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
@@ -29,10 +31,12 @@ export default class ScreenPropertyField extends LightningElement {
 
     labels = LABELS;
     formats = RTE_FORMATS;
+    rules = [];
 
     constructor() {
         super();
         this.topPadding = true;
+        this.rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.SCREEN);
     }
 
     get computedClass() {
@@ -49,6 +53,10 @@ export default class ScreenPropertyField extends LightningElement {
 
     @api get value() {
         return this._value;
+    }
+
+    get resourcePickerRules() {
+        return this.rules;
     }
 
     get resourceComboBoxConfig() {

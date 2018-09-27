@@ -1,10 +1,20 @@
 import { createElement } from 'lwc';
-import  ScreenPropertyField  from "../screenPropertyField";
+import ScreenPropertyField from "../screenPropertyField";
 import { getShadowRoot } from 'lwc-test-utils';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         readableElementsSelector: jest.fn(data => Object.values(data.elements)),
+    };
+});
+
+jest.mock('builder_platform_interaction/ruleLib', () => {
+    return {
+        getRulesForElementType: jest.fn().mockImplementation(() => []).mockName('getRulesForElementType'),
+        RULE_TYPES: require.requireActual('builder_platform_interaction/ruleLib').RULE_TYPES,
     };
 });
 
@@ -89,6 +99,33 @@ describe('screen-property-field', () => {
             const elem = getShadowRoot(screenPropertyFieldElement).querySelector(INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.fieldLevelHelp).toBe(helpValue);
+        });
+    });
+
+    it('calls getRulesForElementType to fetch rules for resource picker', () => {
+        createComponentUnderTest({
+            name: fieldName,
+            type: 'string',
+            allowResources: true,
+            resourcePickerConfig: {}
+        });
+        return Promise.resolve().then(() => {
+            expect(getRulesForElementType).toHaveBeenCalledWith(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.SCREEN);
+        });
+    });
+
+    it('sets rules on resource picker', () => {
+        const mockRules = ['foo'];
+        getRulesForElementType.mockReturnValueOnce(mockRules);
+        const screenPropertyField = createComponentUnderTest({
+            name: fieldName,
+            type: 'string',
+            allowResources: true,
+            resourcePickerConfig: {}
+        });
+        return Promise.resolve().then(() => {
+            const picker = getShadowRoot(screenPropertyField).querySelector(FerovResourcePicker.SELECTOR);
+            expect(picker.rules).toEqual(mockRules);
         });
     });
 });
