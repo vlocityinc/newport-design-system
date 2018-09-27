@@ -1,5 +1,5 @@
 import {recordUpdateReducer} from "../recordUpdateReducer";
-import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
+import { PropertyChangedEvent } from "builder_platform_interaction/events";
 
 describe('record-update-reducer', () => {
     let originalState;
@@ -17,8 +17,9 @@ describe('record-update-reducer', () => {
             const propertyName = 'inputReference';
             const value = 'VARIABLE_33';
             const error = null;
-            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
-            const newState = recordUpdateReducer(originalState, action);
+            const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.inputReference.value);
+            propChangedEvent.detail.ignoreValidate = true;
+            const newState = recordUpdateReducer(originalState, propChangedEvent);
             expect(newState).not.toBe(originalState);
             expect(newState.inputReference.value).toEqual('VARIABLE_33');
             expect(newState.inputReference.error).toBe(null);
@@ -27,8 +28,9 @@ describe('record-update-reducer', () => {
             const propertyName = 'inputReference';
             const value = 'notValidSobject';
             const error = 'You have entered an invalid value.';
-            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
-            const newState = recordUpdateReducer(originalState, action);
+            const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.inputReference.value);
+            propChangedEvent.detail.ignoreValidate = true;
+            const newState = recordUpdateReducer(originalState, propChangedEvent);
             expect(newState).not.toBe(originalState);
             expect(newState.inputReference.value).toEqual(value);
             expect(newState.inputReference.error).toBe(error);

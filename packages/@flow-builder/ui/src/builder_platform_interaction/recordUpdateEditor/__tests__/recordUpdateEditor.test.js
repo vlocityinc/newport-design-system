@@ -3,6 +3,8 @@ import RecordUpdateEditor from "../recordUpdateEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import * as storeMockedData from "mock/storeData";
 import {  SObjectReferenceChangedEvent } from "builder_platform_interaction/events";
+import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
+import { mockAccountFields } from "mock/serverEntityData";
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
@@ -13,7 +15,7 @@ function createComponentForTest(node) {
 
 const selectors = {
     sObjectOrSObjectCollectionPicker: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
-    fieldAssignmentNotSupported: '.fieldAssignmentNotSupported'
+    entityResourcePicker: 'builder_platform_interaction-entity-resource-picker'
 };
 
 const recordUpdateElementWithSObject = {
@@ -25,7 +27,9 @@ const recordUpdateElementWithSObject = {
     locationX : 358,
     locationY : 227,
     name : {value: 'testRecord', error: null},
-    inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null}
+    numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
+    inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null},
+    object : {value: null, error: null},
 };
 
 const recordUpdateElementWithFields = {
@@ -37,18 +41,36 @@ const recordUpdateElementWithFields = {
     locationX : 358,
     locationY : 227,
     name : {value: 'testRecordFields', error: null},
-    inputAssignment : [{
-        field: {value: "Industry", error: null},
-        value: {stringValue: {value: "theIndustry", error: null}}
-    }]
+    numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.ALL_RECORDS, error: null},
+    inputAssignments : [{
+        leftHandSide: {value: "Account.BillingCountry", error: null},
+        rightHandSide: {value: "myCountry", error: null},
+        rightHandSideDataType: {value: "String", error: null},
+        rightHandSideGuid: {value: "myCountry", error: null},
+        rowIndex: "724cafc2-7744-4e46-8eaa-f2df29539d1d"}],
+    filters: [],
+    filterType: {value: "all", error: null},
+    object : {value: 'account', error: null},
 };
+
+// Mocking out the fetch function to return Account fields
+jest.mock('builder_platform_interaction/serverDataLib', () => {
+    return {
+        fetch: jest.fn().mockImplementation((actionType, callback) => {
+            callback({
+                data: JSON.stringify(mockAccountFields),
+            });
+        }),
+        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
+    };
+});
 
 const getSObjectOrSObjectCollectionPicker = (recordUpdateEditor) => {
     return getShadowRoot(recordUpdateEditor).querySelector(selectors.sObjectOrSObjectCollectionPicker);
 };
 
-const getFieldAssignmentNotSupportedDiv = (recordUpdateEditor) => {
-    return getShadowRoot(recordUpdateEditor).querySelector(selectors.fieldAssignmentNotSupported);
+const getEntityResourcePicker = (recordUpdateEditor) => {
+    return getShadowRoot(recordUpdateEditor).querySelector(selectors.entityResourcePicker);
 };
 
 describe('record-update-editor', () => {
@@ -60,13 +82,12 @@ describe('record-update-editor', () => {
         });
     });
     describe('Edit existing record element using fields assignment', () => {
-        it('Message should be displayed : Field assignment is not supported', () => {
+        it('entity resource picker should be visible & sObject picker should not be visible', () => {
             const recordUpdateEditor = createComponentForTest(recordUpdateElementWithFields);
+            const entityResourcePicker = getEntityResourcePicker(recordUpdateEditor);
             const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
-            const fieldAssignmentNotSupportedDiv = getFieldAssignmentNotSupportedDiv(recordUpdateEditor);
             expect(sObjectOrSObjectCollectionPicker).toBeNull();
-            expect(fieldAssignmentNotSupportedDiv).not.toBeNull();
-            expect(fieldAssignmentNotSupportedDiv.textContent).toBe('FlowBuilderRecordEditor.fieldAssignmentNotSupportedForUpdate');
+            expect(entityResourcePicker).not.toBeNull();
         });
     });
     describe('Handle Events', () => {

@@ -1,6 +1,7 @@
-import { recordUpdateValidation } from "../recordUpdateValidation";
+import { recordUpdateValidation, getRules } from "../recordUpdateValidation";
 import * as storeMockedData from "mock/storeData";
 import { LABELS } from "builder_platform_interaction/validationRules";
+import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 
 describe('Check validations', () => {
     describe('when props set to inputReference', () => {
@@ -15,6 +16,7 @@ describe('Check validations', () => {
                 locationX : 358,
                 locationY : 227,
                 name : {value: 'testRecord', error: null},
+                numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
                 inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null}
             };
         });
@@ -23,12 +25,12 @@ describe('Check validations', () => {
         });
         it('should return an error if blank', () => {
             recordUpdateElementWithValidSObject.inputReference.value = '';
-            const validatedRecordUpdate =  recordUpdateValidation.validateAll(recordUpdateElementWithValidSObject);
+            const validatedRecordUpdate =  recordUpdateValidation.validateAll(recordUpdateElementWithValidSObject, getRules(recordUpdateElementWithValidSObject));
             expect(validatedRecordUpdate.inputReference.error).toBe(LABELS.cannotBeBlank);
         });
         it('should return an error if null', () => {
             recordUpdateElementWithValidSObject.inputReference.value = null;
-            const validatedRecordUpdate =  recordUpdateValidation.validateAll(recordUpdateElementWithValidSObject);
+            const validatedRecordUpdate =  recordUpdateValidation.validateAll(recordUpdateElementWithValidSObject, getRules(recordUpdateElementWithValidSObject));
             expect(validatedRecordUpdate.inputReference.error).toBe(LABELS.cannotBeBlank);
         });
     });
