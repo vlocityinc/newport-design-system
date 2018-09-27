@@ -16,6 +16,7 @@ export default class LightningTextArea extends LightningElement {
     @api required;
     @api name;
     @api fieldLevelHelp;
+    @api disabled;
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {
