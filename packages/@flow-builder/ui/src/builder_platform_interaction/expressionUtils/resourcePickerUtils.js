@@ -17,7 +17,10 @@ const getFieldMenuData = (resourcePicker, parentItem, entityFields) => {
     const showAsFieldReference = true;
     const showSubText = true;
     let menuData;
-    resourcePicker.populateParamTypes();
+    // using element config means we do not care about param types
+    if (!resourcePicker.elementConfig) {
+        resourcePicker.populateParamTypes();
+    }
     if (entityFields) {
         menuData = filterFieldsForChosenElement(parentItem, resourcePicker.paramTypes, entityFields, showAsFieldReference, showSubText);
     } else {

@@ -41,53 +41,70 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
-describe('Get field menudata', () => {
-    beforeEach(() => {
-        resourcePicker = {
-            populateParamTypes() {
-                this.paramTypes = paramTypes;
-            }
-        };
-    });
-    it('Should filter the fields when the fields already have been loaded', () => {
-        getMenuData(resourcePicker, null, true, parentItem, fields);
-        expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, paramTypes,
-            fields, true, true);
+describe('resourcePickerUtils', () => {
+    describe('Get field menudata', () => {
+        beforeEach(() => {
+            resourcePicker = {
+                populateParamTypes() {
+                    this.paramTypes = paramTypes;
+                }
+            };
+        });
+        it('Should filter the fields when the fields already have been loaded', () => {
+            getMenuData(resourcePicker, null, true, parentItem, fields);
+            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, paramTypes,
+                fields, true, true);
+        });
+
+        it('Should filter the fields after waiting for the fields to load', () => {
+            getMenuData(resourcePicker, null, true, parentItem);
+            expect(getFieldsForEntity).toHaveBeenCalledWith(objectName, expect.anything());
+            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, paramTypes,
+                ['field2'], true, true);
+        });
     });
 
-    it('Should filter the fields after waiting for the fields to load', () => {
-        getMenuData(resourcePicker, null, true, parentItem);
-        expect(getFieldsForEntity).toHaveBeenCalledWith(objectName, expect.anything());
-        expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, paramTypes,
-            ['field2'], true, true);
-    });
-});
+    describe('Get FEROV menudata', () => {
+        beforeEach(() => {
+            resourcePicker = {
+                populateParamTypes() {
+                    this.paramTypes = paramTypes;
+                },
+                propertyEditorElementType: 'Assignment',
+                allowSobjectForFields: true,
+                disableFieldDrilldown: true
+            };
+        });
+        it('Should get menu data when there is no element config', () => {
+            getMenuData(resourcePicker, storeInstance, true);
+            expect(getStoreElements).toHaveBeenCalledWith(elements, { elementType: 'Assignment' });
+            expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, ['paramType'], true,
+                true, true);
+        });
 
-describe('Get FEROV menudata', () => {
-    beforeEach(() => {
-        resourcePicker = {
-            populateParamTypes() {
-                this.paramTypes = paramTypes;
-            },
-            propertyEditorElementType: 'Assignment',
-            allowSobjectForFields: true,
-            disableFieldDrilldown: true
-        };
-    });
-    it('Should get menu data when there is no element config', () => {
-        getMenuData(resourcePicker, storeInstance, true);
-        expect(getStoreElements).toHaveBeenCalledWith(elements, { elementType: 'Assignment' });
-        expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-        expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, ['paramType'], true,
-            true, true);
+        it('Should get menu data when there is element config and we do not want new resource option', () => {
+            resourcePicker.elementConfig = 'elementConfig';
+            getMenuData(resourcePicker, storeInstance, false);
+            expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
+            expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, null, false,
+                true, true);
+        });
     });
 
-    it('Should get menu data when there is element config and we do not want new resource option', () => {
-        resourcePicker.elementConfig = 'elementConfig';
-        getMenuData(resourcePicker, storeInstance, false);
-        expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
-        expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-        expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, null, false,
-            true, true);
+    describe('getFieldMenuData', () => {
+        let mockResourcePicker;
+
+        beforeEach(() => {
+            mockResourcePicker = {
+                populateParamTypes: jest.fn().mockName('populateParamTypes'),
+            };
+        });
+
+        it('calls populateParamTypes when the picker has no elementConfig', () => {
+            getMenuData(mockResourcePicker, {}, true, {});
+            expect(mockResourcePicker.populateParamTypes).toHaveBeenCalledTimes(1);
+        });
     });
 });

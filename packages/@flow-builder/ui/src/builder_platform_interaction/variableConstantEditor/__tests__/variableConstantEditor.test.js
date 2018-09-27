@@ -14,6 +14,9 @@ import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { addToParentElementCache } from "builder_platform_interaction/comboboxCache";
+import { getRulesForElementType } from 'builder_platform_interaction/ruleLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 
 
 const SELECTORS = {
@@ -76,6 +79,8 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         getRulesForContext: jest.fn().mockReturnValue([]),
         RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
+        RULE_TYPES: require.requireActual('builder_platform_interaction/ruleLib').RULE_TYPES,
+        getRulesForElementType: jest.fn().mockReturnValue([]),
     };
 });
 
@@ -390,6 +395,23 @@ describe('variable-constant-editor', () => {
             return Promise.resolve().then(() => {
                 const defaultValueCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 expect(defaultValueCombobox).toBeNull();
+            });
+        });
+
+        it('calls getRulesForElementType to fetch rules for default value', () => {
+            setupComponentUnderTest(stringVariable);
+            return Promise.resolve().then(() => {
+                expect(getRulesForElementType).toHaveBeenCalledWith(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.VARIABLE);
+            });
+        });
+
+        it('passes rules to the default value picker', () => {
+            const mockRules = ['foo'];
+            getRulesForElementType.mockReturnValueOnce(mockRules);
+            const variableEditor = setupComponentUnderTest(stringVariable);
+            return Promise.resolve().then(() => {
+                const defaultValueCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+                expect(defaultValueCombobox.rules).toEqual(mockRules);
             });
         });
 

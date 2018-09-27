@@ -12,6 +12,7 @@ import { getResourceByUniqueIdentifier, getResourceFerovDataType, mutateFlowReso
 import { isObject } from "builder_platform_interaction/commonUtils";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 
 // the property names in a variable element (after mutation), a subset of these are also constant properties
 const VARIABLE_CONSTANT_FIELDS = {
@@ -63,6 +64,9 @@ export default class VariableConstantEditor extends LightningElement {
 
     _lastRecordedDataType = '';
 
+    // rules for the default value ferovResourcePicker
+    _rules = [];
+
     /**
      * Internal state for the variable/constant editor
      */
@@ -81,7 +85,8 @@ export default class VariableConstantEditor extends LightningElement {
         this.variableConstantResource = unwrap(newValue);
         this._devNamePreviousValue = this.variableConstantResource.name;
         this._lastRecordedDataType = getValueFromHydratedItem(this.variableConstantResource.dataType);
-
+        // these rules are only used by variable editor to fetch allowed types. Constant editors use element config
+        this._rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementType);
         this.initializeExternalAccessValues();
     }
 
@@ -161,6 +166,10 @@ export default class VariableConstantEditor extends LightningElement {
      */
     get externalAccessHelpText() {
         return LABELS.externalAccessHelpText;
+    }
+
+    get rulesForVariableDefaultValue() {
+        return this._rules;
     }
 
     /**

@@ -1,6 +1,8 @@
 import { api, LightningElement } from 'lwc';
 
 export default class FerovResourcePicker extends LightningElement {
+    static SELECTOR = 'builder_platform_interaction-ferov-resource-picker';
+
     @api elementConfig;
 
     @api propertyEditorElementType;
@@ -18,5 +20,6 @@ export default class FerovResourcePicker extends LightningElement {
     @api disableSobjectForFields;
 
     @api errorMessage;
-}
 
+    @api rules;
+}

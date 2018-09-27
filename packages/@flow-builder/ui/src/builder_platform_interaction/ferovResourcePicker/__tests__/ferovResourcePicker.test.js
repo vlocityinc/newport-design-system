@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import FerovResourcePicker from "../ferovResourcePicker";
 import { normalizeRHS, getMenuData } from "builder_platform_interaction/expressionUtils";
-import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
+import { getRHSTypes, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "../../dataTypeLib/dataTypeLib";
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -34,7 +34,6 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
-        getRulesForContext: jest.fn().mockReturnValue(['rule1']).mockName('getRulesForContext'),
         getRHSTypes: jest.fn().mockReturnValue({paramType:'Data', dataType:'Currency', collection:false}).mockName('getRHSTypes')
     };
 });
@@ -63,6 +62,23 @@ describe('ferov-resource-picker', () => {
         return Promise.resolve().then(() => {
             const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
             expect(baseResourcePicker).toBeDefined();
+        });
+    });
+
+    it('gets rules through an api property', () => {
+        const mockRules = ['foo'];
+        props.rules = mockRules;
+        const ferovResourcePicker = setupComponentUnderTest(props);
+        return Promise.resolve().then(() => {
+            expect(ferovResourcePicker.rules).toEqual(mockRules);
+        });
+    });
+
+    it('sets the rules to an empty array when not given an array', () => {
+        props.rules = undefined;
+        const ferovResourcePicker = setupComponentUnderTest(props);
+        return Promise.resolve().then(() => {
+            expect(ferovResourcePicker.rules).toEqual([]);
         });
     });
 
@@ -123,8 +139,6 @@ describe('ferov-resource-picker', () => {
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getRulesForContext).toHaveBeenCalledTimes(1);
-            expect(getRulesForContext).toHaveBeenLastCalledWith({ elementType: ELEMENT_TYPE.VARIABLE });
             expect(getMenuData).toHaveBeenCalledWith(expect.any(Object), Store.getStore(), true,
                 undefined, undefined);
         });
@@ -132,16 +146,18 @@ describe('ferov-resource-picker', () => {
 
     describe('populateParamTypes function', () => {
         it('calls getRHSTypes with the right arguments', () => {
+            const mockRules = ['rule1'];
+            props.rules = mockRules;
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
                 ferovResourcePicker.populateParamTypes();
                 expect(getRHSTypes).toHaveBeenCalledWith(ELEMENT_TYPE.VARIABLE, { elementType: ELEMENT_TYPE.VARIABLE },
-                    RULE_OPERATOR.ASSIGN, ["rule1"]);
+                    RULE_OPERATOR.ASSIGN, mockRules);
             });
         });
     });
 
-    it('does not query rules and param types with elementConfig set', () => {
+    it('does not set param types with elementConfig set', () => {
         const elementConfigProps = {
             propertyEditorElementType: ELEMENT_TYPE.VARIABLE,
             elementConfig: { elementType: ELEMENT_TYPE.VARIABLE, shouldBeWritable: false }
@@ -154,7 +170,6 @@ describe('ferov-resource-picker', () => {
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(elementConfigProps);
         return Promise.resolve().then(() => {
-            expect(getRulesForContext).toHaveBeenCalledWith({ elementType: ELEMENT_TYPE.VARIABLE });
             expect(getRHSTypes).not.toHaveBeenCalled();
             expect(getMenuData).toHaveBeenCalledWith(expect.any(Object), expect.any(Object), false,
                 undefined, undefined);

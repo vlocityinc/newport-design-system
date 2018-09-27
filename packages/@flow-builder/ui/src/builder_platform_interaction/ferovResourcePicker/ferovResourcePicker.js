@@ -4,7 +4,6 @@ import {
     getMenuData,
 } from "builder_platform_interaction/expressionUtils";
 import {
-    getRulesForContext,
     getRHSTypes,
     RULE_OPERATOR,
 } from "builder_platform_interaction/ruleLib";
@@ -13,9 +12,10 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
 let storeInstance;
-let rules;
 
 export default class FerovResourcePicker extends LightningElement {
+    static SELECTOR = 'builder_platform_interaction-ferov-resource-picker';
+
     @track
     _customValidity;
 
@@ -37,7 +37,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     @api
     populateParamTypes = () => {
-        this.paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, rules);
+        this.paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this.rules);
     };
 
     /**
@@ -109,6 +109,19 @@ export default class FerovResourcePicker extends LightningElement {
     }
 
     /**
+     * Holds the rules used for fetching full menu data, taken from the rule service. We should not need to modify this
+     * @type {module:rules.operatorRule[]}
+     */
+    set rules(rules) {
+        this._rules = Array.isArray(rules) ? rules : [];
+    }
+
+    @api
+    get rules() {
+        return this._rules;
+    }
+
+    /**
      * The element type of the property editor from element config.
      * @type {String}
      */
@@ -168,6 +181,12 @@ export default class FerovResourcePicker extends LightningElement {
      */
     _unsubscribeStore;
 
+    /**
+     * Holds the rules used for fetching full menu data, taken from the rule service. We should not need to modify this
+     * @type {module:rules.operatorRule[]}
+     */
+    _rules;
+
     /** Event handlers */
 
     handleItemSelected(event) {
@@ -213,7 +232,6 @@ export default class FerovResourcePicker extends LightningElement {
     initializeResourcePicker = (normalizedValue) => {
         // on first render we want to replace the given value with the itemOrDisplayText from normalized value
         this.value = normalizedValue.itemOrDisplayText;
-        rules = getRulesForContext({ elementType: this.propertyEditorElementType });
         this.populateMenuData(this.parentItem, normalizedValue.fields);
         this._isInitialized = true;
     }
