@@ -91,6 +91,25 @@ function getDeleteButton(parameterItem) {
 }
 
 describe('parameter-item', () => {
+    describe('input picker', () => {
+        const mockRules = ['foo'];
+        let ferovResourcePicker;
+        let parameterItemCmp;
+        beforeEach(() => {
+            parameterItemCmp = createComponentForTest();
+            parameterItemCmp.rules = mockRules;
+            ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+        });
+
+        it('gets the rules used by the ferovResourcePicker through an api property', () => {
+            expect(parameterItemCmp.rules).toEqual(mockRules);
+        });
+
+        it('passes rules to the ferovResourePicker', () => {
+            expect(ferovResourcePicker.rules).toEqual(mockRules);
+        });
+    });
+
     describe('showing combobox, not showing input toggle for required input parameter', () => {
         describe('parameter has no value', () => {
             let ferovResourcePicker, toggleInput;

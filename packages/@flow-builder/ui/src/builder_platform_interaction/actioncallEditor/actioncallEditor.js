@@ -3,6 +3,7 @@ import { actionCallReducer } from "./actioncallReducer";
 import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { LABELS } from "./actioncallEditorLabels";
 
 const ACTIVETABID_DEFAULT = "tabitem-inputs";
@@ -23,6 +24,8 @@ export default class ActionCallEditor extends LightningElement {
 
     stopCallbackExecutionGetParameters = null;
 
+    inputParameterItemRules = [];
+
     disconnectedCallback() {
         if (this.stopCallbackExecutionGetParameters) {
             this.stopCallbackExecutionGetParameters();
@@ -38,6 +41,7 @@ export default class ActionCallEditor extends LightningElement {
         this.actionCallNode = newValue || {};
         // init inputs, outputs
         this.fetchAndUpdateParameters();
+        this.inputParameterItemRules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementType);
     }
 
     /**

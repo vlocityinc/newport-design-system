@@ -41,9 +41,16 @@ export default class ParameterItem extends LightningElement {
     warningMessage;
 
     /**
+     * Holds the rules used for fetching full menu data, used the ferovResourcePicker to display allowed inputs
+     * @type {module:rules.operatorRule[]}
+     */
+    @api
+    rules = [];
+
+    /**
      * preserve the combobox's value before switching the toggle to OFF
      */
-    preservedValue = {value: null, valueGuid: null, valueDataType: null};;
+    preservedValue = {value: null, valueGuid: null, valueDataType: null};
 
     /**
      * @typedef {Object} ParameterItem
