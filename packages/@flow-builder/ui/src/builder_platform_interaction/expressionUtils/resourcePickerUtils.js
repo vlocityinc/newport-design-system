@@ -44,7 +44,7 @@ const getFerovMenuData = (resourcePicker, storeInstance, includeNewResource) => 
     let elementConfig = resourcePicker.elementConfig;
 
     if (!elementConfig) {
-        elementConfig = { elementType: resourcePicker.propertyEditorElementTYpe };
+        elementConfig = { elementType: resourcePicker.propertyEditorElementType };
 
         resourcePicker.populateParamTypes();
         allowedParamTypes = resourcePicker.paramTypes;

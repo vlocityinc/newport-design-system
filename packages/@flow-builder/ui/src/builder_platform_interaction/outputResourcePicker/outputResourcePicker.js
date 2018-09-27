@@ -129,7 +129,7 @@ export default class OutputResourcePicker extends LightningElement {
 
     initializeResourcePicker = (normalizedValue) => {
         // on first render we want to replace the given value with the itemOrDisplayText from normalized value
-        this.value = normalizedValue.itemOrDisplayText;
+        this.value = normalizedValue.item;
         this.populateMenuData(this.parentItem, normalizedValue.fields);
         this._isInitialized = true;
     }
