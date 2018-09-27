@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 import baseResourcePicker from '../../../modules/builder_platform_interaction/baseResourcePicker/baseResourcePicker.js';
 
 export default class BaseResourcePicker extends LightningElement {
+    static SELECTOR = 'builder_platform_interaction-base-resource-picker';
     @api
     comboboxConfig;
 

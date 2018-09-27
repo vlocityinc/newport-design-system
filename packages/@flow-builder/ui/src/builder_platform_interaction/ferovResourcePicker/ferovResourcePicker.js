@@ -35,6 +35,11 @@ export default class FerovResourcePicker extends LightningElement {
     @track
     paramTypes = null;
 
+    @api
+    populateParamTypes = () => {
+        this.paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, rules);
+    };
+
     /**
      * The current value of the picker
      * @param {module:base-resource-picker.item|String} newValue the new value for the picker
@@ -218,10 +223,6 @@ export default class FerovResourcePicker extends LightningElement {
      */
     handleStoreChange = () => {
         this.populateMenuData();
-    };
-
-    populateParamTypes = () => {
-        this.paramTypes = getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, rules);
     };
 
     populateMenuData = (parentItem, fields) => {

@@ -1,10 +1,11 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import FerovResourcePicker from "../ferovResourcePicker";
-import { normalizeRHS} from "builder_platform_interaction/expressionUtils";
-import { getRulesForContext, getRHSTypes } from "builder_platform_interaction/ruleLib";
+import { normalizeRHS, getMenuData } from "builder_platform_interaction/expressionUtils";
+import { getRulesForContext, getRHSTypes, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "../../dataTypeLib/dataTypeLib";
+import { Store } from 'builder_platform_interaction/storeLib';
 
 const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker',
@@ -14,17 +15,14 @@ const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-ferov-resource-picker', {
         is: FerovResourcePicker,
     });
-
     Object.assign(element, props);
     document.body.appendChild(element);
     return element;
 };
 
-// const paramTypes = {
-//    paramType:'Data',
-//    dataType:'Currency',
-//    collection:false
-// };
+const parentItem = {
+    objectType: 'Account',
+};
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
@@ -36,16 +34,15 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
-        getRulesForContext: jest.fn().mockReturnValue([]).mockName('getRulesForContext'),
+        getRulesForContext: jest.fn().mockReturnValue(['rule1']).mockName('getRulesForContext'),
         getRHSTypes: jest.fn().mockReturnValue({paramType:'Data', dataType:'Currency', collection:false}).mockName('getRHSTypes')
     };
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        filterAndMutateMenuData: jest.fn().mockReturnValue(['ferovMenuData']).mockName('filterAndMutateMenuData'),
+        getMenuData: jest.fn().mockReturnValue(['ferovMenuData']).mockName('getMenuData'),
         normalizeRHS: jest.fn().mockReturnValue(Promise.resolve()),
-        filterFieldsForChosenElement: jest.fn(),
     };
 });
 
@@ -57,6 +54,7 @@ describe('ferov-resource-picker', () => {
             propertyEditorElementType: ELEMENT_TYPE.VARIABLE,
             elementParam: { elementType: ELEMENT_TYPE.VARIABLE },
             comboboxConfig: { label: 'test label' },
+            showNewResource: true
         };
     });
 
@@ -78,9 +76,7 @@ describe('ferov-resource-picker', () => {
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            // TODO W-5415782 Refactor tests since helper methods have been moved to expressionUtils
-            // expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            // expect(filterAndMutateMenuData).toHaveBeenCalledWith(expect.any(Object), paramTypes, false, true, false);
+            expect(getMenuData).toHaveBeenCalledWith(expect.any(Object), Store.getStore(), true, undefined, undefined);
         });
     });
 
@@ -89,19 +85,15 @@ describe('ferov-resource-picker', () => {
         const normalizedValue = {
             itemOrDisplayText: {
                 value: props.value,
-                parent: {
-                    objectType: 'Account',
-                },
+                parent: parentItem,
             },
             fields: ['mockField'],
         };
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            // TODO W-5415782 Refactor tests since helper methods have been moved to expressionUtils
-            // expect(filterFieldsForChosenElement).toHaveBeenCalledWith(normalizedValue.itemOrDisplayText.parent, paramTypes,
-            //     normalizedValue.fields, true, true
-            // );
+            expect(getMenuData).toHaveBeenCalledWith(expect.any(Object), Store.getStore(), true,
+                parentItem, ["mockField"]);
         });
     });
 
@@ -110,17 +102,15 @@ describe('ferov-resource-picker', () => {
         const normalizedValue = {
             itemOrDisplayText: {
                 value: props.value,
-                parent: {
-                    objectType: 'Account',
-                },
+                parent: parentItem,
             },
             fields: undefined,
         };
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            // TODO W-5415782 Refactor tests since helper methods have been moved to expressionUtils
-            // expect(getFieldsForEntity).toHaveBeenCalledWith(normalizedValue.itemOrDisplayText.parent.objectType, expect.any(Function));
+            expect(getMenuData).toHaveBeenCalledWith(expect.any(Object), Store.getStore(), true,
+                parentItem, undefined);
         });
     });
 
@@ -133,13 +123,21 @@ describe('ferov-resource-picker', () => {
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            // TODO W-5415782 Refactor tests since helper methods have been moved to expressionUtils
-            // expect(getRulesForContext).toHaveBeenCalledTimes(1);
-            // expect(getRulesForContext).toHaveBeenLastCalledWith({elementType: ELEMENT_TYPE.VARIABLE});
-            // expect(getRHSTypes).toHaveBeenCalledTimes(1);
-            // expect(getRHSTypes).toHaveBeenLastCalledWith(ELEMENT_TYPE.VARIABLE, props.elementParam, RULE_OPERATOR.ASSIGN, expect.any(Array));
-            // expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            // expect(filterAndMutateMenuData).toHaveBeenCalledWith(expect.any(Object), paramTypes, false, true, false);
+            expect(getRulesForContext).toHaveBeenCalledTimes(1);
+            expect(getRulesForContext).toHaveBeenLastCalledWith({ elementType: ELEMENT_TYPE.VARIABLE });
+            expect(getMenuData).toHaveBeenCalledWith(expect.any(Object), Store.getStore(), true,
+                undefined, undefined);
+        });
+    });
+
+    describe('populateParamTypes function', () => {
+        it('calls getRHSTypes with the right arguments', () => {
+            const ferovResourcePicker = setupComponentUnderTest(props);
+            return Promise.resolve().then(() => {
+                ferovResourcePicker.populateParamTypes();
+                expect(getRHSTypes).toHaveBeenCalledWith(ELEMENT_TYPE.VARIABLE, { elementType: ELEMENT_TYPE.VARIABLE },
+                    RULE_OPERATOR.ASSIGN, ["rule1"]);
+            });
         });
     });
 
@@ -156,11 +154,10 @@ describe('ferov-resource-picker', () => {
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(elementConfigProps);
         return Promise.resolve().then(() => {
-            expect(getRulesForContext).not.toHaveBeenCalled();
+            expect(getRulesForContext).toHaveBeenCalledWith({ elementType: ELEMENT_TYPE.VARIABLE });
             expect(getRHSTypes).not.toHaveBeenCalled();
-            // TODO W-5415782 Refactor tests since helper methods have been moved to expressionUtils
-            // expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            // expect(filterAndMutateMenuData).toHaveBeenCalledWith(expect.any(Object), null, false, true, false);
+            expect(getMenuData).toHaveBeenCalledWith(expect.any(Object), expect.any(Object), false,
+                undefined, undefined);
         });
     });
 
