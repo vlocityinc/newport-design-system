@@ -58,6 +58,9 @@ import sObjectCollectionVariablePluralLabel from "@salesforce/label/FlowBuilderE
 import collectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.collectionVariablePluralLabel";
 import choiceSingularLabel from "@salesforce/label/FlowBuilderElementConfig.choiceSingularLabel";
 import choicePluralLabel from "@salesforce/label/FlowBuilderElementConfig.choicePluralLabel";
+import stepSingularLabel from "@salesforce/label/FlowBuilderElementConfig.stepSingularLabel";
+import stepPluralLabel from "@salesforce/label/FlowBuilderElementConfig.stepPluralLabel";
+
 export const LABELS = {
     subflowSingularLabel,
     subflowPluralLabel,
@@ -117,5 +120,7 @@ export const LABELS = {
     sObjectCollectionVariablePluralLabel,
     collectionVariablePluralLabel,
     choiceSingularLabel,
-    choicePluralLabel
+    choicePluralLabel,
+    stepSingularLabel,
+    stepPluralLabel
 };

@@ -124,8 +124,17 @@ export const createConnectorMetadataObject = (connector) => {
     return { targetReference: connector.target };
 };
 
-export const createConnectorMetadataObjects = (connectors, hasMultipleRegularConnectors) => {
-    const connectorMetadata = {};
+export const createConnectorMetadataObjects = (connectors, hasMultipleRegularConnectors, elementType) => {
+    let connectorMetadata;
+
+    // TODO: Need to refactor the logic on changing datatype based on the elementType for Steps.( W-5478126 )
+    if (elementType === 'STEP') {
+        connectorMetadata = [];
+        hasMultipleRegularConnectors = true;
+    } else {
+        connectorMetadata = {};
+    }
+
     for (let i = 0; i < connectors.length; i++) {
         const connector = connectors[i];
         switch (connector.type) {

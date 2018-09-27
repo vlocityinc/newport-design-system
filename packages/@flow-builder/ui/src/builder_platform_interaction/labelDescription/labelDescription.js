@@ -44,6 +44,18 @@ export default class LabelDescription extends LightningElement {
     @api
     disableDevName;
 
+    /**
+    * Used for cases where the name shouldn't be editable for Step Elements
+    */
+    @api
+    disableName;
+
+    /**
+     * Used for cases where the name shouldn't be editable for Step Elements
+    */
+    @api
+    disableDescription;
+
     // this is needed for checking uniqueness of devName from store
     @api
     guid;

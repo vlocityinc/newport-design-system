@@ -76,7 +76,8 @@ export const METADATA_KEY = {
     LOOPS: 'loops',
     SCREENS: 'screens',
     STAGES: 'stages',
-    CHOICES: 'choices'
+    CHOICES: 'choices',
+    STEPS: 'steps'
 };
 
 /**

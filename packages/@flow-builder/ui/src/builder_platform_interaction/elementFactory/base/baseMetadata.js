@@ -30,8 +30,10 @@ export function baseCanvasElementMetadataObject(canvasElement = {}, config = {})
 
     let connectorMetadata;
     const connectors = connectorMap[canvasElement.guid];
+    const { elementType } = canvasElement;
+
     if (connectors) {
-        connectorMetadata = createConnectorMetadataObjects(connectors, hasMultipleRegularConnectors);
+        connectorMetadata = createConnectorMetadataObjects(connectors, hasMultipleRegularConnectors, elementType);
     }
 
     return Object.assign(

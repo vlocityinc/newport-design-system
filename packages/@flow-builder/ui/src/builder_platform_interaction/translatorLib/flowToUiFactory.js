@@ -18,7 +18,8 @@ import {
     createVariableForStore,
     createTextTemplateForStore,
     createStageForStore,
-    createChoiceForStore
+    createChoiceForStore,
+    createStepWithConnectorsForStore
 } from "builder_platform_interaction/elementFactory";
 
 /**
@@ -68,6 +69,8 @@ export const flowToUIFactory = (elementType, element) => {
             return createStageForStore(element);
         case ELEMENT_TYPE.CHOICE:
             return createChoiceForStore(element);
+        case ELEMENT_TYPE.STEP:
+            return createStepWithConnectorsForStore(element);
         default:
             return {};
     }

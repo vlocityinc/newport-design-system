@@ -649,6 +649,22 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: false
     },
+    [ELEMENT_TYPE.STEP]: {
+        descriptor: 'builder_platform_interaction:stepEditor',
+        nodeConfig: {
+            iconName: 'standard:steps',
+            utilityIconName: 'utility:steps',
+            maxConnections: -1
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.STEPS,
+        labels: {
+            singular: LABELS.stepSingularLabel,
+            plural: LABELS.stepPluralLabel
+        },
+        canvasElement: true,
+        bodyCssClass: 'slds-p-around_none'
+    },
     [ELEMENT_TYPE.DEFAULT]: {
         // defaultEditor doesn't exist but should lead here making it easier to debug the issue
         descriptor: 'builder_platform_interaction:defaultEditor',

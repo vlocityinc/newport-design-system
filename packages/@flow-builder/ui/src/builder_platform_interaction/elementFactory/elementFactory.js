@@ -24,6 +24,7 @@ export * from './outputParameter.js';
 export * from './connector.js';
 export * from './stage.js';
 export * from './choice.js';
+export * from './step.js';
 
 export const FACTORY_CONFIG = {
     SWAP_GUID_TO_DEV_NAME: 'swapGuidToDevName',

@@ -25,7 +25,8 @@ import {
     createSubflow,
     FACTORY_CONFIG,
     createDecisionWithOutcomeReferencesWhenClosingPropertyEditor,
-    createStage
+    createStage,
+    createStep
 } from "builder_platform_interaction/elementFactory";
 
 /**
@@ -111,6 +112,9 @@ export const propertyEditorFactory = (element, config = {}) => {
             break;
         case ELEMENT_TYPE.STAGE:
             newElement = createStage(element);
+            break;
+        case ELEMENT_TYPE.STEP:
+            newElement = createStep(element);
             break;
         default:
             break;

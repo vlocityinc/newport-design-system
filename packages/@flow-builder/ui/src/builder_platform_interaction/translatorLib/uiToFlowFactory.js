@@ -17,7 +17,8 @@ import {
     createSubflowMetadataObject,
     createVariableMetadataObject,
     createTextTemplateMetadataObject,
-    createStageMetadataObject
+    createStageMetadataObject,
+    createStepMetadataObject
 } from "builder_platform_interaction/elementFactory";
 
 /**
@@ -68,6 +69,8 @@ export const uiToFlowFactory = (element, config) => {
             return createTextTemplateMetadataObject(element, config);
         case ELEMENT_TYPE.STAGE:
             return createStageMetadataObject(element, config);
+        case ELEMENT_TYPE.STEP:
+            return createStepMetadataObject(element, config);
         default:
             return {};
     }

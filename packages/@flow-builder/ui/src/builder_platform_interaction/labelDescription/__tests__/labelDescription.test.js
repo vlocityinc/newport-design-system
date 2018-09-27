@@ -730,4 +730,19 @@ describe('label-description', () => {
         //     });
         // });
     });
+    it('check if label, devName, Description fields are disabled', () => {
+        const labelDescription = createComponentUnderTest();
+        labelDescription.disableDevName = true;
+        labelDescription.disableName = true;
+        labelDescription.disableDescription = true;
+
+        return Promise.resolve().then(() => {
+            const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+            const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+            const descriptionLightningInput = getShadowRoot(labelDescription).querySelector(selectors.description);
+            expect(labelLightningInput.disabled).toBeTruthy();
+            expect(devNameLightningInput.disabled).toBeTruthy();
+            expect(descriptionLightningInput.disabled).toBeTruthy();
+        });
+    });
 });
