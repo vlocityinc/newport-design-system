@@ -1,11 +1,11 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api } from "lwc";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent } from "builder_platform_interaction/events";
 import { LABELS } from "./nodeLabels";
 import { format } from "builder_platform_interaction/commonUtils";
 import startElement from "./startElement.html";
-import nodeElement from './node.html';
+import nodeElement from "./node.html";
 import { isTestMode } from "builder_platform_interaction/contextLib";
 
 
@@ -20,10 +20,6 @@ export default class Node extends LightningElement {
     @api node = {
         config: {}
     };
-
-    get nodeGuid() {
-        return this.node.guid;
-    }
 
     get nodeLocation() {
         return `left: ${this.node.locationX}px; top: ${this.node.locationY}px`;
@@ -225,6 +221,11 @@ export default class Node extends LightningElement {
         });
         this.dispatchEvent(dragNodeEvent);
     };
+
+    connectedCallback() {
+        this.setAttribute('id', this.node.guid);
+        this.setAttribute('style', this.nodeLocation);
+    }
 
     render() {
         if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT) {
