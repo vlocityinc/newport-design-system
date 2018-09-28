@@ -314,7 +314,7 @@ export function getPlaceHolderLabel(fieldName) {
  * @param {object} field - the field from which the choiceReferences should be extracted.
  */
 export function getFieldChoiceData(field) {
-    if (field.choiceReferences) {
+    if (field.choiceReferences && field.choiceReferences.length > 0) {
         return field.choiceReferences.map((choice) => {
             if (choice) {
                 const choiceElement = getElementByDevName(choice);

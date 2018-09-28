@@ -1,11 +1,11 @@
 import { LightningElement, api } from 'lwc';
-import { PropertyChangedEvent, createChoiceAddedToScreenField } from "builder_platform_interaction/events";
+import { PropertyChangedEvent, createChoiceAddedEvent, createChoiceChangedEvent, createChoiceDeletedEvent } from "builder_platform_interaction/events";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { INPUT_FIELD_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import {  getFieldChoiceData } from "builder_platform_interaction/screenEditorUtils";
 import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
-
+import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 const ALL_SECTION_NAMES = ['choice', 'helpText'];
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
 const CHOICE_FRP_CONFIG = {
@@ -42,17 +42,26 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
         // TODO whatever handling will be required for choices.
     }
 
-    handleChoiceChanged = (/* event */) => {
-        // TODO
+    handleChoiceChanged = (event) => {
+        event.stopPropagation();
+
+        // We get the display value from the event, which might be something
+        // like {!choice1}, but we want the devName. Get the devName by using the GUID.
+        const element = getElementByGuid(event.detail.guid);
+        if (!element) {
+            throw new Error("Cannot find element for newly selected choice");
+        }
+        this.dispatchEvent(createChoiceChangedEvent(this.field, {value: element.name, error: event.detail.error}, event.detail.listIndex));
     }
 
-    handleChoiceDeleted = (/* event */) => {
-        // TODO
+    handleChoiceDeleted = (event) => {
+        event.stopPropagation();
+        this.dispatchEvent(createChoiceDeletedEvent(this.field, event.detail.index));
     }
 
     handleChoiceAdded = (event) => {
         event.stopPropagation();
-        this.dispatchEvent(createChoiceAddedToScreenField(this.field, event.detail.index));
+        this.dispatchEvent(createChoiceAddedEvent(this.field, this.field.choiceReferences.length));
     }
 
     get fieldChoices() {

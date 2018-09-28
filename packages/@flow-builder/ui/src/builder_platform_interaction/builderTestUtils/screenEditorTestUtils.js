@@ -3,6 +3,7 @@ import { getScreenFieldTypeByName, getLocalExtensionFieldType } from "builder_pl
 import { mutateScreen, demutateScreen, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
+import { createChoice } from "builder_platform_interaction/elementFactory";
 
 const SELECTOR_REGEX = /(.*)\[([^$*^|~]*)(.*)?=["'](.*)["']\]/g;
 
@@ -165,13 +166,21 @@ function createScreen(name, fieldsProducer, config = {}) {
  * @param {string} name - The name of the screen field
  * @param {string} type - The type of the screen field (see screen field types in screen-editor-utils)
  * @param {string} value - The value, if null is passed a random default value will be generated, pass SCREEN_NO_DEF_VALUE if the value should not be set.
- * @param {objec} config - {required = false, validation = true, defaultValueType = static, hydrateValues = true, includeNonMDValues = true, valueType = STATIC}
+ * @param {objec} config - {required = false, validation = true, defaultValueType = static, hydrateValues = true,
+ * includeNonMDValues = true, valueType = STATIC, dataType = undefined, createChoices = false}
  * @returns {object} - The screen field
  */
 export function createTestScreenField(name, type, value, config = {}) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
     const fieldType = type === 'Extension' ? getLocalExtensionFieldType(value) : getScreenFieldTypeByName(type);
-    const field = {
+
+    // If the dataType was specified, use it. (This should only happen for fields where dataType is undefined by default).
+    const dataType = getStringValue(config.dataType, undefined, false);
+    if (dataType) {
+        fieldType.dataType = dataType;
+    }
+
+    let field = {
         guid: generateGuid(), // Guids are generated during translation, so they need to be added here for testing
         choiceReferences: [],
         dataType: fieldType.dataType,
@@ -187,15 +196,7 @@ export function createTestScreenField(name, type, value, config = {}) {
         processMetadataValues:[]
     };
 
-    if (booleanValue(config, 'validation', true)) {
-        field.errorMessage = getStringValue('The value you entered doesn\'t meet the validation criteria for this input field.', null, hydrateValues);
-        field.formulaExpression = getStringValue('{!Var1} == \'text\'', null, hydrateValues);
-    }
-
-    if (booleanValue(config, 'includeNonMDValues', true)) {
-        field.guid = generateGuid();
-        field.type = fieldType;
-    }
+    field = addConfigOptionsToField(field, name, config, fieldType, hydrateValues);
 
     if (type === 'DisplayText' && value !== SCREEN_NO_DEF_VALUE) {
         const val = value !== null ? value : 'Default display text value';
@@ -238,6 +239,41 @@ export function createTestScreenField(name, type, value, config = {}) {
             // Hopefully the object is a well-formed ferov
             field.defaultValue = value;
         }
+    }
+
+    return field;
+}
+
+/**
+ * Helper function for creating a test screen field.
+ * @param field
+ * @param name
+ * @param config
+ * @param fieldType
+ * @param hydrateValues
+ * @returns {*}
+ */
+function addConfigOptionsToField(field, name, config, fieldType, hydrateValues) {
+    // If the field type is Radio, create some choice references.
+    if (fieldType.name === 'Radio' && booleanValue(config, 'createChoices', false)) {
+        for (let i = 0; i < 3; i++) {
+            const choice = createChoice({name: 'choice' + i});
+            field.choiceReferences[i] = choice.name;
+        }
+    }
+
+    if (booleanValue(config, 'helpText', true)) {
+        field.helpText = getStringValue('Screen field ' + name + ' help text', null, hydrateValues);
+    }
+
+    if (booleanValue(config, 'validation', true)) {
+        field.errorMessage = getStringValue('The value you entered doesn\'t meet the validation criteria for this input field.', null, hydrateValues);
+        field.formulaExpression = getStringValue('{!Var1} == \'text\'', null, hydrateValues);
+    }
+
+    if (booleanValue(config, 'includeNonMDValues', true)) {
+        field.guid = generateGuid();
+        field.type = fieldType;
     }
 
     return field;
@@ -315,17 +351,19 @@ export function demutateTestScreen(screen) {
  *
  * @param {Element} element - The parent element
  * @param {String} selector - The name (tagName) of the child
+ * @param {boolean} returnList - If you want a list of matching results returned (vs first one found).
  * @return {Element} the element or null
  */
-export function query(element, selector) {
+export function query(element, selector, returnList) {
     SELECTOR_REGEX.lastIndex = 0;
     const res = SELECTOR_REGEX.exec(selector);
     if (res && res.length === 5) {
-        return find(element, res[1], res[2], res[4], ATT_SELECTOR_OPERATORS.parse(res[3]));
+        return find(element, res[1], res[2], res[4], ATT_SELECTOR_OPERATORS.parse(res[3]), returnList);
     }
 
     return null;
 }
+
 
 /**
  * Returns the child of element that contains an attribute with the given value.
@@ -337,17 +375,25 @@ export function query(element, selector) {
  * @param {String} attributeName - The name of the attribute
  * @param {String} attributeValue - The value of the attribute
  * @param {ATT_SELECTOR_OPERATORS} operator - The operation to use for comparing
+ * @param {boolean} returnList - If you want a list of matching results returned (vs first one found).
  * @return {Element} the element or null
  */
-export function find(element, childName, attributeName, attributeValue, operator) {
+export function find(element, childName, attributeName, attributeValue, operator, returnList = false) {
+    const results = [];
     for (const child of element.querySelectorAll(childName)) {
         if (child[attributeName]) {
             if (check(child[attributeName], attributeValue, ATT_SELECTOR_OPERATORS[operator])) {
-                return child;
+                if (!returnList) {
+                    return child;
+                }
+                results.push(child);
             }
         }
     }
 
+    if (returnList) {
+        return results;
+    }
     return null;
 }
 

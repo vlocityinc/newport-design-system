@@ -24,6 +24,7 @@ export default class ScreenPropertyField extends LightningElement {
     @api allowResources = false;
     @api resourcePickerConfig;
     @api disabled = false;
+    @api listIndex;
 
     @api hideTopPadding = false;
 
@@ -195,6 +196,6 @@ export default class ScreenPropertyField extends LightningElement {
         }
 
         const error = event.detail && event.detail.error ? event.detail.error : null;
-        this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, newGuid, currentValue));
+        this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, newGuid, currentValue, this.listIndex));
     }
 }

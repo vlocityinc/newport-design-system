@@ -26,11 +26,53 @@ const addScreenField = (screen, event) => {
  * Adds a chocie to a screenField.
  * @param {object} screen - The screen.
  * @param {event} event - The add choice event.
- * @param {object} field - the field that the choice should be added to.
+ * @param {object} field - The field that the choice should be added to.
  */
 const addChoice = (screen, event, field) => {
+    // New choices can only be added to the end of the list. The position number should never
+    // be anything other than the the next available index.
+    if (event.detail.position !== field.choiceReferences.length) {
+        throw new Error("Position for new choice is invalid: " + event.detail.position);
+    }
+
     const emptyChoice = '';
     const updatedChoices = insertItem(field.choiceReferences, emptyChoice, event.detail.position);
+    const updatedField = set(field, 'choiceReferences', updatedChoices);
+
+    // Replace the field in the screen
+    const fieldPosition = screen.getFieldIndexByGUID(field.guid);
+    const updatedFields =  replaceItem(screen.fields, updatedField, fieldPosition);
+    return set(screen, 'fields', updatedFields);
+};
+
+/**
+ * Change a choice of a screenField.
+ * @param {*} screen - The screen.
+ * @param {*} event - The change choice event.
+ * @param {*} field - The field that the choice should be changed in.
+ */
+const changeChoice = (screen, event, field) => {
+    if (event.detail.position > field.choiceReferences.length - 1 || event.detail.position < 0) {
+        throw new Error("Invalid position for choice deletion: " + event.detail.position);
+    }
+
+    const updatedChoices = replaceItem(field.choiceReferences, event.detail.newValue.value, event.detail.position);
+    const updatedField = set(field, 'choiceReferences', updatedChoices);
+
+    // Replace the field in the screen
+    const fieldPosition = screen.getFieldIndexByGUID(field.guid);
+    const updatedFields =  replaceItem(screen.fields, updatedField, fieldPosition);
+    return set(screen, 'fields', updatedFields);
+};
+
+/**
+ * Delete a choice of a screenField.
+ * @param {*} screen - The screen.
+ * @param {*} event - The delete choice event.
+ * @param {*} field - The field that the choice should be deleted from.
+ */
+const deleteChoice = (screen, event, field) => {
+    const updatedChoices = deleteItem(field.choiceReferences, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
     // Replace the field in the screen
@@ -301,6 +343,12 @@ export const screenReducer = (state, event, selectedNode) => {
 
         case SCREEN_EDITOR_EVENT_NAME.CHOICE_ADDED:
             return addChoice(state, event, selectedNode);
+
+        case SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED:
+            return changeChoice(state, event, selectedNode);
+
+        case SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED:
+            return deleteChoice(state, event, selectedNode);
 
         case VALIDATE_ALL:
             return screenValidation.validateAll(state);

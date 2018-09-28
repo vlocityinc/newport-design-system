@@ -11,6 +11,15 @@
                                                              onpropertychanged={handlePropertyChanged}> 
             </builder_platform_interaction-label-description>
 
+            <!--  Required checkbox -->
+            <builder_platform_interaction-screen-property-field
+                name='isRequired' 
+                label={labels.required}
+                type='boolean'
+                value={field.isRequired}
+                onpropertychanged={handlePropertyChanged}>
+            </builder_platform_interaction-screen-property-field>
+
             <!--  Data type: This is read-only for existing fields -->
             <builder_platform_interaction-data-type-picker
                 available-data-types={dataTypeList}
@@ -39,7 +48,6 @@
                 <lightning-accordion-section name='choicesSection' label={labels.choices}>
                     <builder_platform_interaction-list items={field.choiceReferences}
                                                        onaddlistitem={handleChoiceAdded}
-                                                       onupdatelistitem={handleEvent}
                                                        ondeletelistitem={handleChoiceDeleted}
                                                        add-label={labels.addChoice}>
                         <div slot="listBody">
@@ -50,6 +58,7 @@
                                             <builder_platform_interaction-screen-property-field 
                                                 name='choice'
                                                 key={itemIndex}
+                                                list-index={itemIndex}
                                                 label={labels.fieldTypeLabelChoice}
                                                 type={field.dataType}
                                                 value={choice.displayValue}

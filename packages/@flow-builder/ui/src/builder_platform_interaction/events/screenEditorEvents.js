@@ -4,7 +4,9 @@ export const SCREEN_EDITOR_EVENT_NAME = {
     SCREEN_ELEMENT_DESELECTED: 'screenelementdeselected',
     SCREEN_ELEMENT_SELECTED: 'screenelementselected',
     SCREEN_NODE_SELECTED: 'screennodeselected',
-    CHOICE_ADDED: 'choiceadded'
+    CHOICE_ADDED: 'choiceadded',
+    CHOICE_CHANGED: 'choicechanged',
+    CHOICE_DELETED: 'choicedeleted'
 };
 
 
@@ -87,10 +89,29 @@ export function createScreenNodeSelectedEvent(screenElement) {
 }
 
 /**
- * Creates an event to be fired when the user wants to add a choice to a screen field choice field.
+ * Creates an event to be fired when the user wants to add a choice to a choice screen field.
  * @param {object} screenElement - The screen field to add the choice to.
  * @param {number} position - The position at which the choice should be added.
  */
-export function createChoiceAddedToScreenField(screenElement, position) {
+export function createChoiceAddedEvent(screenElement, position) {
     return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.CHOICE_ADDED, {screenElement, position});
+}
+
+/**
+ * Creates an event to be fired when the user wants to change a choice of a choice creen field.
+ * @param {*} screenElement
+ * @param {*} newValue
+ * @param {*} position
+ */
+export function createChoiceChangedEvent(screenElement, newValue, position) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, {screenElement, newValue, position});
+}
+
+/**
+ * Creates an event to be fired when the user wants to delete a choice from a choice screen field.
+ * @param {*} screenElement
+ * @param {*} position
+ */
+export function createChoiceDeletedEvent(screenElement, position) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED, {screenElement, position});
 }
