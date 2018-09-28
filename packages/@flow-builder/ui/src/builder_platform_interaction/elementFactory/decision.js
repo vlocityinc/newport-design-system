@@ -17,9 +17,7 @@ export function createDecisionWithOutcomes(decision = {}) {
     const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomeReferences } = decision;
     let { outcomes } = decision;
 
-    if (outcomes && outcomes.length > 0) { // decision with outcomes inside it.
-        outcomes = outcomes.map(outcome => createOutcome(outcome));
-    } else if (outcomeReferences && outcomeReferences.length > 0) { // decision with outcome references
+    if (outcomeReferences && outcomeReferences.length > 0) { // decision with outcome references
         // Decouple outcome from store.
         outcomes = outcomeReferences.map(outcomeReference =>
             createOutcome(getElementByGuid(outcomeReference.outcomeReference))
@@ -36,7 +34,7 @@ export function createDecisionWithOutcomes(decision = {}) {
     });
 }
 
-export function createDecisionWithOutcomeReferencesWhenClosingPropertyEditor(decision) {
+export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision) {
     const newDecision = baseCanvasElement(decision);
     const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomes } = decision;
     let outcomeReferences = [];

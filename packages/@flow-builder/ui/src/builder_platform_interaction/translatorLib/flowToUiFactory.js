@@ -8,7 +8,7 @@ import {
     createFormulaForStore,
     createFlowProperties,
     createLoopWithConnectors,
-    createWaitWithConnectors,
+    createWaitWithWaitEventReferences,
     createRecordCreateWithConnectors,
     createRecordUpdateWithConnectors,
     createRecordLookupWithConnectors,
@@ -44,7 +44,7 @@ export const flowToUIFactory = (elementType, element) => {
         case METADATA_KEY.DECISIONS:
             return createDecisionWithOutcomeReferences(element);
         case METADATA_KEY.WAITS:
-            return createWaitWithConnectors(element);
+            return createWaitWithWaitEventReferences(element);
         case METADATA_KEY.FORMULAS:
             return createFormulaForStore(element);
         case METADATA_KEY.LOOPS:

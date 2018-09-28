@@ -24,7 +24,8 @@ import {
     createScreen,
     createSubflow,
     FACTORY_CONFIG,
-    createDecisionWithOutcomeReferencesWhenClosingPropertyEditor,
+    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
+    createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
     createStage,
     createStep,
     createPicklistChoiceGroup,
@@ -81,15 +82,14 @@ export const propertyEditorFactory = (element, config = {}) => {
             break;
         case ELEMENT_TYPE.DECISION:
             if (config[FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]) {
-                newElement = createDecisionWithOutcomeReferencesWhenClosingPropertyEditor(element);
+                newElement = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(element);
             } else {
                 newElement = createDecisionWithOutcomes(element);
             }
             break;
         case ELEMENT_TYPE.WAIT:
             if (config[FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]) {
-                // TODO: https://gus.my.salesforce.com/a07B0000005YnL5IAK (W-5395888)
-                // newElement = createDecisionWithOutcomeReferencesWhenClosingPropertyEditor(element);
+                newElement = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(element);
             } else {
                 newElement = createWaitWithWaitEvents(element);
             }

@@ -1,14 +1,26 @@
-import { createWaitEvent } from '../../wait';
-import { baseChildElement } from "../../base/baseElement";
+import { createWaitEvent, createWaitWithWaitEvents } from '../../wait';
+import { baseCanvasElement, baseChildElement } from "../../base/baseElement";
 import { ELEMENT_TYPE, CONDITION_LOGIC} from "builder_platform_interaction/flowMetadata";
 
 jest.mock('../../base/baseElement', () => {
     return {
-        baseChildElement: jest.fn().mockName('baseChildElementMock')
+        baseCanvasElement: jest.fn(() => {
+            return {};
+        }).mockName('baseCanvasElementMock'),
+        baseChildElement: jest.fn(() => {
+            return {};
+        }).mockName('baseChildElementMock')
     };
 });
 
 describe('wait', () => {
+    describe('createWaitWithWaitEvents', () => {
+        it('with no parameter calls baseChildElement with an empty object', () => {
+            createWaitWithWaitEvents();
+            expect(baseCanvasElement.mock.calls[0][0]).toEqual({});
+        });
+    });
+
     describe('waitEvent', () => {
         const defaultWaitEvent = {conditionLogic : CONDITION_LOGIC.NO_CONDITIONS};
 

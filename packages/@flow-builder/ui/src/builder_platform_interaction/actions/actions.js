@@ -24,6 +24,9 @@ export const DESELECT_ON_CANVAS = 'DESELECT_ON_CANVAS';
 export const ADD_DECISION_WITH_OUTCOMES = 'ADD_DECISION_WITH_OUTCOMES';
 export const MODIFY_DECISION_WITH_OUTCOMES = 'MODIFY_DECISION_WITH_OUTCOMES';
 
+export const ADD_WAIT_WITH_WAIT_EVENTS = 'ADD_WAIT_WITH_WAIT_EVENTS';
+export const MODIFY_WAIT_WITH_WAIT_EVENTS = 'MODIFY_WAIT_WITH_WAIT_EVENTS';
+
 export const UPDATE_RECORD_LOOKUP = 'UPDATE_RECORD_LOOKUP';
 
 export const PROPERTY_EDITOR_ACTION = {
@@ -82,6 +85,8 @@ export const addElement = (payload) => {
                 return createAction(ADD_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(ADD_DECISION_WITH_OUTCOMES, payload);
+            case ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS:
+                return createAction(ADD_WAIT_WITH_WAIT_EVENTS, payload);
             default:
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(ADD_CANVAS_ELEMENT, payload);
@@ -115,6 +120,8 @@ export const updateElement = (payload) => {
                 return createAction(UPDATE_RESOURCE, payload);
             case ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
                 return createAction(MODIFY_DECISION_WITH_OUTCOMES, payload);
+            case ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS:
+                return createAction(MODIFY_WAIT_WITH_WAIT_EVENTS, payload);
             case ELEMENT_TYPE.RECORD_LOOKUP:
                 return createAction(UPDATE_RECORD_LOOKUP, payload);
             default:

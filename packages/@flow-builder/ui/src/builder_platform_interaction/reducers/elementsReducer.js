@@ -13,6 +13,8 @@ import {
     DESELECT_ON_CANVAS,
     ADD_DECISION_WITH_OUTCOMES,
     MODIFY_DECISION_WITH_OUTCOMES,
+    ADD_WAIT_WITH_WAIT_EVENTS,
+    MODIFY_WAIT_WITH_WAIT_EVENTS,
     UPDATE_RECORD_LOOKUP
 } from "builder_platform_interaction/actions";
 import {deepCopy} from "builder_platform_interaction/storeLib";
@@ -54,6 +56,9 @@ export default function elementsReducer(state = {}, action) {
         case ADD_DECISION_WITH_OUTCOMES:
         case MODIFY_DECISION_WITH_OUTCOMES:
             return _addOrUpdateDecisionWithOutcomes(state, action.payload.decision, action.payload.deletedOutcomes, action.payload.outcomes);
+        case ADD_WAIT_WITH_WAIT_EVENTS:
+        case MODIFY_WAIT_WITH_WAIT_EVENTS:
+            return _addOrUpdateWaitWithWaitEvents(state, action.payload.wait, action.payload.deletedWaitEvents, action.payload.waitEvents);
         default:
             return state;
     }
@@ -139,6 +144,92 @@ function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outc
     newState[decision.guid] = updateProperties(newState[decision.guid], {maxConnections, connectorCount, availableConnections});
 
     newState = omit(newState, deletedOutcomeGuids);
+
+    return newState;
+}
+
+/**
+ * Helper function to add or update a decision
+ *
+ * @param {Object} state - current state of elements in the store
+ * @param {Object} wait - the wait being added/modified
+ * @param {Object[]} deletedWaitEvents - All waitEvents being deleted. If deleted waitEvents have connectors, then
+ * the wait connectorCount will be decremented appropriately
+ * @param {Object[]} waitEvents - All waitEvents in the updated wait state (does not include deleted waitEvents)
+ *
+ * @return {Object} new state after reduction
+ * @private
+ */
+function _addOrUpdateWaitWithWaitEvents(state, wait, deletedWaitEvents, waitEvents = []) {
+    // TODO: https://gus.lightning.force.com/a07B0000005YnL5IAK - Should we refactor for shared code with
+    // _addOrUpdateDecisionWithOutcomes?
+    let newState = updateProperties(state);
+    newState[wait.guid] = updateProperties(newState[wait.guid], wait);
+
+    for (const waitEvent of waitEvents) {
+        newState[waitEvent.guid] = updateProperties(newState[waitEvent.guid], waitEvent);
+    }
+
+    const availableConnections = newState[wait.guid].availableConnections || [];
+
+    // Figure out what waitEvents were newly added and add them to the list of available connections
+    const currentWait = state[wait.guid];
+    let newWaitEventGuids = [];
+    if (currentWait) {
+        const currentWaitEvents = currentWait.waitEventReferences;
+        for (let i = 0; i < waitEvents.length; i++) {
+            let waitEventCurrentlyExists = false;
+            for (let j = 0; j < currentWaitEvents.length; j++) {
+                if (waitEvents[i].guid === currentWaitEvents[j].waitEventReference) {
+                    waitEventCurrentlyExists = true;
+                    break;
+                }
+            }
+            if (!waitEventCurrentlyExists) {
+                newWaitEventGuids.push(waitEvents[i].guid);
+            }
+        }
+    } else {
+        // For a new wait, all the waitEvents are new WaitEvents,
+        // Also, the default connector always exists so add to the list of available connections
+        newWaitEventGuids = waitEvents.map(waitEvent => waitEvent.guid);
+        availableConnections.push({ type: CONNECTOR_TYPE.DEFAULT });
+    }
+    for (let i = 0; i < newWaitEventGuids.length; i++) {
+        availableConnections.push({
+            type: CONNECTOR_TYPE.REGULAR,
+            childReference: newWaitEventGuids[i]
+        });
+    }
+
+    const deletedWaitEventGuids = [];
+    let connectorCount = newState[wait.guid].connectorCount || 0;
+    for (const waitEvent of deletedWaitEvents) {
+        let availableConnectionExists = false;
+        for (let i = 0; i < availableConnections.length; i++) {
+            // If the deleted waitEvent was part of the list of available connections,
+            // remove it from the list
+            if (waitEvent.guid === availableConnections[i].childReference) {
+                availableConnections.splice(i, 1);
+                availableConnectionExists = true;
+                break;
+            }
+        }
+        // If the deleted waitEvent was not part of the list of available connections,
+        // it means that a connector existed for that waitEvent, so decrement the connector count
+        if (!availableConnectionExists) {
+            connectorCount -= 1;
+        }
+
+        deletedWaitEventGuids.push(waitEvent.guid);
+    }
+
+    // Max connections for a wait is the number of wait events + 1 for the default outcome
+    const maxConnections = waitEvents.length + 1;
+
+    newState[wait.guid] = updateProperties(newState[wait.guid], {maxConnections, connectorCount, availableConnections});
+
+    newState = omit(newState, deletedWaitEventGuids);
 
     return newState;
 }
