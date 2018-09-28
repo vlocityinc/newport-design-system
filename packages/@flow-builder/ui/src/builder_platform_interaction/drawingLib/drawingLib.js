@@ -15,6 +15,8 @@ const CONNECTOR_OVERLAY = {
  */
 let instance = null;
 
+let connectionDecorator = null;
+
 /** Wrapper class for drawing library (currently jsplumb) **/
 class DrawingLib {
     constructor() {
@@ -164,6 +166,10 @@ class DrawingLib {
     setExistingConnections = (sourceGuid, targetGuid, label, connectorGuid, connectorType) => {
         const connectionInstance = {source: sourceGuid, target: targetGuid, detachable: false};
 
+        if (connectionDecorator) {
+            connectionDecorator(connectionInstance, connectorType);
+        }
+
         const connection = instance.connect(connectionInstance);
         if (!connection) {
             // guard in case we're editing a flow with unsupported elements
@@ -182,6 +188,7 @@ class DrawingLib {
 
         connection.id = connectorGuid;
         connection.addOverlay(CONNECTOR_OVERLAY.ARROW);
+
         return connection;
     };
 
@@ -303,3 +310,12 @@ class DrawingLib {
 export { CONNECTOR_OVERLAY };
 /** Export of the singleton instance of library **/
 export const drawingLibInstance = new DrawingLib();
+
+/**
+ * Sets up a decorator to configure new connections when they're created
+ * @param {Function} decorator - Function to configure a connector.
+ *                               Accepts (connector, connectorType) and can modify the connector
+ */
+export function setConnectionDecorator(decorator) {
+    connectionDecorator = decorator;
+}
