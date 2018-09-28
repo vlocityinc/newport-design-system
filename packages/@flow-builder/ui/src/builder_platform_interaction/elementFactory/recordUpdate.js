@@ -28,13 +28,10 @@ const getDefaultAvailableConnections = () => [
 function createRecordInputAssignmentsItem(inputAssignmentsItem, objectType) {
         let newAssignment = {};
 
-        if (inputAssignmentsItem.hasOwnProperty(lhsMetadataPropertyName)) {
-            newAssignment = createFEROV(inputAssignmentsItem.value, rhsPropertyName, rhsDataTypePropertyName);
-            let leftHandSide = '';
-            if (inputAssignmentsItem.hasOwnProperty('field')) {
-                if (inputAssignmentsItem.field) {
-                    leftHandSide = objectType + '.' + inputAssignmentsItem.field;
-                }
+        if (inputAssignmentsItem.hasOwnProperty('field')) {
+            const leftHandSide = objectType + '.' + inputAssignmentsItem.field;
+            if (inputAssignmentsItem.hasOwnProperty(lhsMetadataPropertyName)) {
+                newAssignment = createFEROV(inputAssignmentsItem.value, rhsPropertyName, rhsDataTypePropertyName);
             }
             Object.assign(newAssignment, {leftHandSide});
             newAssignment = createExpressionListRowItemWithoutOperator(newAssignment);
@@ -48,8 +45,8 @@ function createRecordInputAssignmentsItem(inputAssignmentsItem, objectType) {
  * return the selected way to store the variables.
  * the default value is SOBJECT_VARIABLE
  */
-function setNumberRecordsToStore(object) {
-    return object && object.value !== '' ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+function setNumberRecordsToStore(inputReference) {
+    return inputReference !== '' ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
 }
 
 export function createRecordUpdate(recordUpdate = {}) {
@@ -59,7 +56,7 @@ export function createRecordUpdate(recordUpdate = {}) {
 
     inputAssignments = inputAssignments.map(item => createRecordInputAssignmentsItem(item, object));
 
-    const numberRecordsToStore = setNumberRecordsToStore(inputAssignments);
+    const numberRecordsToStore = setNumberRecordsToStore(inputReference);
 
     if (filters && filters.length > 0) {
         filters = filters.map(filter => createFilter(filter, object));
