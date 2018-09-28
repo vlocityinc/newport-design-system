@@ -1,11 +1,10 @@
 import {
-    createFlowElement,
     elementTypeToConfigMap,
     getConfigForElementType,
     isCanvasElement,
     isChildElement
 } from "../elementConfig";
-import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 function verifyConfig(elementType, config) {
     let expectedConfig = elementTypeToConfigMap[elementType];
@@ -13,13 +12,6 @@ function verifyConfig(elementType, config) {
         expectedConfig = elementTypeToConfigMap[ELEMENT_TYPE.DEFAULT];
     }
     expect(config.descriptor).toEqual(expectedConfig.descriptor);
-}
-
-function verifyElement(elementType, element) {
-    const config = elementTypeToConfigMap[elementType];
-    expect(element.elementType).toEqual(ELEMENT_TYPE.ASSIGNMENT);
-    expect(element.guid).toBeTruthy();
-    expect(element.maxConnections).toEqual(config.nodeConfig.maxConnections);
 }
 
 describe('element-config', () => {
@@ -64,64 +56,6 @@ describe('element-config', () => {
 
         it('returns false for a top level element', () => {
             expect(isChildElement(ELEMENT_TYPE.ASSIGNMENT)).toEqual(false);
-        });
-    });
-
-    describe('createFlowElement', () => {
-        it('should throw an exception for unknown element types', () => {
-            let template;
-            let typeError;
-            try {
-                template = createFlowElement('foo');
-            } catch (e) {
-                typeError = e;
-            }
-            expect(template).toBeUndefined();
-            expect(typeError).toBeInstanceOf(TypeError);
-        });
-
-        it('should throw an exception for element types without a template', () => {
-            let template;
-            let error;
-            try {
-                template = createFlowElement(ELEMENT_TYPE.DEFAULT);
-            } catch (e) {
-                error = e;
-            }
-            expect(template).toBeUndefined();
-            expect(error).toBeDefined();
-        });
-
-        it('attempts to set maxConnections by default', () => {
-            const elementType = ELEMENT_TYPE.ASSIGNMENT;
-            const element = createFlowElement(elementType);
-
-            expect(element.maxConnections).not.toBeNull();
-        });
-
-        it('does not set maxConnections if hasConnections = false', () => {
-            const elementType = ELEMENT_TYPE.ASSIGNMENT;
-            const element = createFlowElement(elementType, false);
-
-            expect(element.maxConnections).not.toBeDefined();
-        });
-
-        it('returns a new instance of an assignment node with the appropriate fields populated', () => {
-            const elementType = ELEMENT_TYPE.ASSIGNMENT;
-            const element = createFlowElement(elementType);
-            verifyElement(elementType, element);
-        });
-
-        it('returns a new instance of an outcome node with the appropriate fields populated', () => {
-            const elementType = ELEMENT_TYPE.OUTCOME;
-            const element = createFlowElement(elementType, false);
-
-            expect(element.label).toEqual('');
-            expect(element.conditionLogic).toEqual(CONDITION_LOGIC.AND);
-            expect(element.conditions).toEqual([{
-                leftValueReference: '',
-                operator: ''
-            }]);
         });
     });
 });

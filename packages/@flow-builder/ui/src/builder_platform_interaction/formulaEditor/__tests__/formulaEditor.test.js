@@ -1,8 +1,7 @@
 import { createElement } from 'lwc';
 import FormulaEditor from "../formulaEditor";
 import { getShadowRoot } from 'lwc-test-utils';
-import { createFlowElement } from "builder_platform_interaction/elementConfig";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { createFormula } from "builder_platform_interaction/elementFactory";
 import { hydrateWithErrors, mutateEditorElement } from "builder_platform_interaction/dataMutationLib";
 
 const createComponentUnderTest = (node) => {
@@ -67,7 +66,7 @@ describe('formula-editor', () => {
     describe('Edit new formula', () => {
         let formulaEditor;
         beforeEach(() => {
-            formulaResource = createFlowElement(ELEMENT_TYPE.FORMULA, false);
+            formulaResource = createFormula();
             formulaResource = mutateEditorElement(formulaResource);
             formulaResource = hydrateWithErrors(formulaResource);
             formulaEditor = createComponentUnderTest(formulaResource);

@@ -1,5 +1,4 @@
-import { deepCopy, generateGuid } from "builder_platform_interaction/storeLib";
-import { ACTION_TYPE, CONDITION_LOGIC, METADATA_KEY, ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { LABELS } from "./elementConfigLabels";
 
@@ -51,26 +50,6 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.REGULAR
-                },
-                {
-                    type: CONNECTOR_TYPE.FAULT
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.SUBFLOW,
-            flowName: '',
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: ''
-        }
     },
     [ELEMENT_TYPE.ACTION_CALL]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
@@ -91,27 +70,6 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.REGULAR
-                },
-                {
-                    type: CONNECTOR_TYPE.FAULT
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.ACTION_CALL,
-            actionName: '',
-            actionType: '',
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: ''
-        }
     },
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
@@ -128,26 +86,6 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.REGULAR
-                },
-                {
-                    type: CONNECTOR_TYPE.FAULT
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL,
-            apexClass: '',
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: ''
-        }
     },
     [ELEMENT_TYPE.APEX_CALL]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
@@ -165,27 +103,6 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.REGULAR
-                },
-                {
-                    type: CONNECTOR_TYPE.FAULT
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.APEX_CALL,
-            actionName: '',
-            actionType: '',
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: ''
-        }
     },
     [ELEMENT_TYPE.EMAIL_ALERT]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
@@ -203,27 +120,6 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.REGULAR
-                },
-                {
-                    type: CONNECTOR_TYPE.FAULT
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.EMAIL_ALERT,
-            actionName: '',
-            actionType: '',
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: ''
-        }
     },
     [ELEMENT_TYPE.ASSIGNMENT]: {
         descriptor: 'builder_platform_interaction:assignmentEditor',
@@ -240,23 +136,6 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         bodyCssClass: 'slds-p-around_none',
-        template: {
-            assignmentItems: [
-                {
-                    assignToReference: '',
-                    operator: ''
-                }
-            ],
-            config: { isSelected: false },
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.ASSIGNMENT,
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: ''
-        }
     },
 
     [ELEMENT_TYPE.SCREEN]: {
@@ -276,27 +155,6 @@ export const elementTypeToConfigMap = {
         nonHydratableProperties: ['fieldType', 'dataType', 'type', 'defaultValueDataType', 'defaultValueGuid',
             'valueDataType', 'valueGuid', 'assignToReferenceDataType', 'assignToReferenceGuid', 'choiceReferences'],
         bodyCssClass: 'slds-scrollable_none',
-        template: {
-            guid: '',
-            config: { isSelected: false },
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.SCREEN,
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: '',
-            allowBack: true,
-            allowFinish: true,
-            allowPause: true,
-            description: '',
-            helpText: '',
-            pausedText: '',
-            showFooter: true,
-            showHeader: true,
-            rules: [],
-            fields: []
-        }
     },
 
     [ELEMENT_TYPE.DECISION]: {
@@ -317,19 +175,6 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveDefaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            connectorCount: 0,
-            defaultConnectorLabel: LABELS.emptyDefaultOutcomeLabel,
-            elementType: ELEMENT_TYPE.DECISION,
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: '',
-            outcomeReferences: []
-        }
     },
 
     [ELEMENT_TYPE.WAIT]: {
@@ -350,19 +195,6 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveDefaultConnector: true,
-        template: {
-            config: { isSelected: false },
-            connectorCount: 0,
-            defaultConnectorLabel: LABELS.emptyDefaultWaitPathLabel,
-            elementType: ELEMENT_TYPE.WAIT,
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: '',
-            waitEventReferences: []
-        }
     },
 
     [ELEMENT_TYPE.WAIT_EVENT]: {
@@ -376,20 +208,6 @@ export const elementTypeToConfigMap = {
             plural: LABELS.waitEventPluralLabel
         },
         isChildElement: true,
-        template: {
-            name: '',
-            label: '',
-            guid: '',
-            elementType: ELEMENT_TYPE.WAIT_EVENT,
-            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-            conditionLogic: CONDITION_LOGIC.AND,
-            conditions: [
-                {
-                    leftValueReference: '',
-                    operator: ''
-                }
-            ]
-        }
     },
 
     [ELEMENT_TYPE.LOOP]: {
@@ -409,27 +227,6 @@ export const elementTypeToConfigMap = {
             comboBoxLabel: LABELS.loopConnectorPickerComboBoxLabel
         },
         canvasElement: true,
-        template: {
-            config: { isSelected: false },
-            availableConnections: [
-                {
-                    type: CONNECTOR_TYPE.LOOP_NEXT
-                },
-                {
-                    type: CONNECTOR_TYPE.LOOP_END
-                }
-            ],
-            connectorCount: 0,
-            elementType: ELEMENT_TYPE.LOOP,
-            assignNextValueToReference: null,
-            collectionReference: null,
-            guid: '',
-            isCanvasElement: true,
-            label: '',
-            locationX: 0,
-            locationY: 0,
-            name: ''
-        }
     },
     [ELEMENT_TYPE.RECORD_CREATE]: {
         descriptor: 'builder_platform_interaction:recordCreateEditor',
@@ -507,20 +304,6 @@ export const elementTypeToConfigMap = {
             plural: LABELS.outcomePluralLabel
         },
         isChildElement: true,
-        template: {
-            name: '',
-            label: '',
-            guid: '',
-            elementType: ELEMENT_TYPE.OUTCOME,
-            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-            conditionLogic: CONDITION_LOGIC.AND,
-            conditions: [
-                {
-                    leftValueReference: '',
-                    operator: ''
-                }
-            ]
-        }
     },
     [ELEMENT_TYPE.VARIABLE]: {
         descriptor: 'builder_platform_interaction:variableConstantEditor',
@@ -533,18 +316,6 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.variableSingularLabel,
             plural: LABELS.variablePluralLabel
-        },
-        template: {
-            name: '',
-            label: undefined,
-            guid: '',
-            elementType: ELEMENT_TYPE.VARIABLE,
-            dataType: null,
-            isCollection: false,
-            isInput: false,
-            isOutput: false,
-            objectType: null,
-            scale: null,
         },
         canvasElement: false
     },
@@ -602,13 +373,6 @@ export const elementTypeToConfigMap = {
             singular: LABELS.constantSingularLabel,
             plural: LABELS.constantPluralLabel
         },
-        template: {
-            name: '',
-            label: undefined,
-            guid: '',
-            elementType: ELEMENT_TYPE.CONSTANT,
-            dataType: null
-        },
         canvasElement: false
     },
     [ELEMENT_TYPE.FORMULA]: {
@@ -622,15 +386,6 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.formulaSingularLabel,
             plural: LABELS.formulaPluralLabel
-        },
-        template: {
-            name: '',
-            label: undefined,
-            guid: '',
-            elementType: ELEMENT_TYPE.FORMULA,
-            dataType: null,
-            scale: null,
-            expression: ''
         },
         canvasElement: false
     },
@@ -646,13 +401,6 @@ export const elementTypeToConfigMap = {
             singular: LABELS.textTemplateSingularLabel,
             plural: LABELS.textTemplatePluralLabel
         },
-        template: {
-            name: '',
-            label: undefined,
-            guid: '',
-            elementType: ELEMENT_TYPE.TEXT_TEMPLATE,
-            text: ''
-        },
         canvasElement: false
     },
     [ELEMENT_TYPE.STAGE]: {
@@ -666,14 +414,6 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.stageSingularLabel,
             plural: LABELS.stagePluralLabel
-        },
-        template: {
-            name: '',
-            label: '',
-            guid: '',
-            elementType: ELEMENT_TYPE.STAGE,
-            stageOrder: null,
-            isActive: false
         },
         canvasElement: false
     },
@@ -742,33 +482,6 @@ export function isCanvasElement(elementType) {
  */
 export function isChildElement(elementType) {
     return !!getConfigForElementType(elementType).isChildElement;
-}
-
-/**
- * Gets an empty instance of the given element type.
- *
- * @param {String}
- *            elementType an element type such as 'ASSIGNMENT'
- * @param {Boolean}
- *            hasConnections defaults to true and indicates
- * @returns {Object} an empty element of the given elementType
- */
-export function createFlowElement(elementType, hasConnections = true) {
-    const config = elementTypeToConfigMap[elementType];
-    if (!config) {
-        throw new TypeError();
-    } else if (!config.template) {
-        throw new Error('Template not defined for ' + elementType);
-    }
-    const template = deepCopy(config.template);
-    template.guid = generateGuid(elementType);
-    // TODO: is an explicit param necessary or can we just go off the presence of nodeConfig.maxConnections?
-    // Would that work for elements with dynamic maxConnection count (like Decisions)?
-    if (hasConnections) {
-        template.maxConnections = config.nodeConfig.maxConnections;
-    }
-
-    return template;
 }
 
 /**

@@ -5,7 +5,6 @@ import {
     deleteItem,
     replaceItem,
     hydrateWithErrors,
-    mutateOutcome
 } from "builder_platform_interaction/dataMutationLib";
 import {
     PropertyChangedEvent,
@@ -16,7 +15,7 @@ import {
     UpdateConditionEvent
 } from "builder_platform_interaction/events";
 import { generateGuid } from "builder_platform_interaction/storeLib";
-import { createFlowElement } from "builder_platform_interaction/elementConfig";
+import { createOutcome } from "builder_platform_interaction/elementFactory";
 import { ELEMENT_TYPE, SUB_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
@@ -24,7 +23,7 @@ import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { usedByStoreAndElementState, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
 
 const addOutcome = (state) => {
-    let newOutcome = mutateOutcome(createFlowElement(ELEMENT_TYPE.OUTCOME, false));
+    let newOutcome = createOutcome();
     newOutcome = hydrateWithErrors(newOutcome);
 
     const outcomes = addItem(state.outcomes, newOutcome);

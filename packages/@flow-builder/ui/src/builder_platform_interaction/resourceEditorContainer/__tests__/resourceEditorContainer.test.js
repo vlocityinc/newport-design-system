@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import ResourceEditorContainer from "../resourceEditorContainer";
-import { createFlowElement } from "builder_platform_interaction/elementConfig";
 import { hydrateWithErrors, mutateEditorElement } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
@@ -19,12 +18,6 @@ const setupComponentUnderTest = (props) => {
 const EDITOR_SELECTOR = '.editor_template';
 
 const mockNode = { elementType: ELEMENT_TYPE.VARIABLE };
-
-jest.mock('builder_platform_interaction/elementConfig', () => {
-    return {
-        createFlowElement: jest.fn().mockImplementation(elementType => ({ elementType })),
-    };
-});
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
     return {
@@ -53,7 +46,6 @@ describe('resource-editor-container', () => {
         innerNode.getNode.mockReturnValueOnce(mockNode);
         const retVal = container.getNode();
         expect(retVal).toEqual(mockNode);
-        expect(createFlowElement).toHaveBeenCalledWith(ELEMENT_TYPE.VARIABLE, false);
         expect(mutateEditorElement).toHaveBeenCalledWith(mockNode);
         expect(hydrateWithErrors).toHaveBeenCalledWith(mockNode);
     });

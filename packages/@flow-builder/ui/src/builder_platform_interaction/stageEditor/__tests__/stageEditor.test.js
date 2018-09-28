@@ -1,8 +1,7 @@
 import { createElement } from 'lwc';
 import StageEditor from "../stageEditor";
 import { getShadowRoot } from 'lwc-test-utils';
-import { createFlowElement } from "builder_platform_interaction/elementConfig";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { createStage } from "builder_platform_interaction/elementFactory";
 import { hydrateWithErrors, mutateEditorElement } from "builder_platform_interaction/dataMutationLib";
 import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { stageReducer } from "../../stageEditor/stageReducer";
@@ -52,7 +51,7 @@ describe('Stage-Editor', () => {
     describe('Creating a New Stage', () => {
         let stageEditor;
         beforeEach(() => {
-            stageResource = createFlowElement(ELEMENT_TYPE.STAGE, false);
+            stageResource = createStage();
             stageResource = mutateEditorElement(stageResource);
             stageResource = hydrateWithErrors(stageResource);
             stageEditor = createComponentUnderTest(stageResource);
