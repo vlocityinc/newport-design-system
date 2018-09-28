@@ -1,13 +1,14 @@
 const eventName = 'deleteparameteritem';
 
 export class DeleteParameterItemEvent {
-    constructor(parameterName) {
+    constructor(isInput, name) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
             detail: {
-                parameterName
+                isInput,
+                name
             }
         });
     }

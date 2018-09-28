@@ -5,7 +5,7 @@ import { isObject } from 'builder_platform_interaction/commonUtils';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { PARAM_PROPERTY } from "builder_platform_interaction/ruleLib";
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { PropertyChangedEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
+import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './parameterItemLabels';
 
 export default class ParameterItem extends LightningElement {
@@ -263,14 +263,25 @@ export default class ParameterItem extends LightningElement {
             newValue.valueDataType = getResourceFerovDataType(itemOrDisplayText.value);
         } else {
             newValue.value = itemOrDisplayText;
+            newValue.guid = itemOrDisplayText;
             newValue.valueDataType = this.getDataType();
         }
         this.dispatchParameterEvent(newValue, event.detail.error);
     }
 
+    /**
+     * @typedef {Object} ParameterItemNewValue
+     * @property {String} value the new value
+     * @property {String} valueDataType the new value's data type
+     * @property {String} valueGuid the new value's guid
+     */
+    /**
+     * dispatch UpdateParameterItemEvent
+     * @param {ParameterItemNewValue} newValue event fired from the combobox
+     * @param {String} error error message
+     */
     dispatchParameterEvent(newValue, error) {
-        const parameterName = (this.state.parameterItem.isInput ? 'inputParameters.' : 'outputParameters.') + this.state.parameterItem.name;
-        const itemUpdatedEvent = new PropertyChangedEvent(parameterName, newValue.value, error, newValue.valueGuid);
+        const itemUpdatedEvent = new UpdateParameterItemEvent(this.state.parameterItem.isInput, getValueFromHydratedItem(this.state.parameterItem.name), newValue.value, newValue.valueDataType, newValue.valueGuid, error);
         itemUpdatedEvent.detail.valueDataType = newValue.valueDataType;
         this.dispatchEvent(itemUpdatedEvent);
     }
@@ -281,8 +292,7 @@ export default class ParameterItem extends LightningElement {
      */
     handleDelete(event) {
         event.stopPropagation();
-        const parameterName = (this.state.parameterItem.isInput ? 'inputParameters.' : 'outputParameters.') + this.state.parameterItem.name;
-        const itemDeleteEvent = new DeleteParameterItemEvent(parameterName);
+        const itemDeleteEvent = new DeleteParameterItemEvent(this.state.parameterItem.isInput, getValueFromHydratedItem(this.state.parameterItem.name));
         this.dispatchEvent(itemDeleteEvent);
     }
 }
