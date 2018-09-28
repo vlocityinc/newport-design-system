@@ -8,6 +8,8 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { getResourceByUniqueIdentifier, getResourceFerovDataType } from 'builder_platform_interaction/expressionUtils';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './choiceEditorLabels';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 
 
 const flowDataTypeChoiceMenuItems = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY,
@@ -48,6 +50,7 @@ export default class ChoiceEditor extends LightningElement {
 
     set node(newValue) {
         this.choiceResource = unwrap(newValue);
+        this._rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.CHOICE);
         if (this.choiceResource && this.choiceResource.userInput && this.choiceResource.userInput.promptText && !this.choiceResource.userInput.promptText.value) {
             const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName: CHOICE_FIELDS.PROMPT_TEXT, value: '', error: LABELS.cannotBeBlank });
             this.choiceResource.userInput = choiceReducer(this.choiceResource.userInput, action);
@@ -107,6 +110,10 @@ export default class ChoiceEditor extends LightningElement {
         return {
             dataType: this.choiceResource.dataType
         };
+    }
+
+    get rulesForChoiceDefaultValue() {
+        return this._rules;
     }
 
     get isDateTypeBoolean() {
