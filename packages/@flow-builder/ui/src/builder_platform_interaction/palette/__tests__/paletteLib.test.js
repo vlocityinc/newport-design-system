@@ -70,6 +70,7 @@ const ELEMENT_DATA_FLATTENED = [
         "level": 1,
         "posinset": 1,
         "setsize": 3,
+        "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleCollapseText myLabel",
         "label": "myLabel",
         "expanded": true,
         "visibleItems": 1
@@ -80,6 +81,7 @@ const ELEMENT_DATA_FLATTENED = [
         "level": 2,
         "posinset": 1,
         "setsize": 1,
+        "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleCollapseText myLabel",
         "label": "myLabel",
         "expanded": true,
         "visibleItems": 2
@@ -112,6 +114,7 @@ const ELEMENT_DATA_FLATTENED = [
         "level": 1,
         "posinset": 2,
         "setsize": 3,
+        "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleExpandText myLabel",
         "label": "myLabel",
         "expanded": false,
         "visibleItems": 2
@@ -184,16 +187,32 @@ describe('palette-lib', () => {
     describe('createSection', () => {
         it('converts a resource section to a collapsed palette section', () => {
             const input = ELEMENT_DATA[1];
-            const collapsedSections = { myGuid5: true };
             const expected = ELEMENT_DATA_FLATTENED.slice(4, 5);
-            expect(createSection(input, collapsedSections, 1, 2, 3)).toEqual(expected);
+            expect(createSection(input, { collapsedSections: COLLAPSED_SECTIONS }, 1, 2, 3)).toEqual(expected);
         });
 
         it('converts a resource section to an expanded palette section', () => {
             const input = ELEMENT_DATA[0]._children[0];
-            const collapsedSections = {};
             const expected = ELEMENT_DATA_FLATTENED.slice(1, 4);
-            expect(createSection(input, collapsedSections, 2, 1, 1)).toEqual(expected);
+            expect(createSection(input, { collapsedSections: {} }, 2, 1, 1)).toEqual(expected);
+        });
+
+        it('converts a resource section to a palette section with section item count', () => {
+            const input = ELEMENT_DATA[1];
+            const expected = [
+                {
+                    "isSection": true,
+                    "key": "myGuid5",
+                    "level": 1,
+                    "posinset": 2,
+                    "setsize": 3,
+                    "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleExpandText myLabel",
+                    "label": "myLabel (2)",
+                    "expanded": false,
+                    "visibleItems": 2
+                }
+            ];
+            expect(createSection(input, { collapsedSections: COLLAPSED_SECTIONS, showSectionItemCount: true }, 1, 2, 3)).toEqual(expected);
         });
     });
 
@@ -221,6 +240,7 @@ describe('palette-lib', () => {
                     "level": 3,
                     "posinset": 1,
                     "setsize": 1,
+                    "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleCollapseText myLabel",
                     "label": "myLabel",
                     "expanded": true,
                     "visibleItems": 1
@@ -237,7 +257,7 @@ describe('palette-lib', () => {
                     "iconName": "myIconName"
                 }
             ];
-            expect(createLevel(input, {}, 3)).toEqual(expected);
+            expect(createLevel(input, { collapsedSections: {} }, 3)).toEqual(expected);
         });
 
         it('creates a level using the given resource item', () => {
@@ -262,13 +282,13 @@ describe('palette-lib', () => {
                     "iconName": "myIconName"
                 }
             ];
-            expect(createLevel(input, {}, 2)).toEqual(expected);
+            expect(createLevel(input, { collapsedSections: {} }, 2)).toEqual(expected);
         });
     });
 
     describe('flatten', () => {
         it('should create a tree with a deeply nested, expanded, and collapsed sections', () => {
-            expect(flatten(ELEMENT_DATA, COLLAPSED_SECTIONS)).toEqual(ELEMENT_DATA_FLATTENED);
+            expect(flatten(ELEMENT_DATA, { collapsedSections: COLLAPSED_SECTIONS })).toEqual(ELEMENT_DATA_FLATTENED);
         });
     });
 });

@@ -1,18 +1,13 @@
 <template>
-    <td role="gridcell">
-        <span if:true={isTestMode} class={computedTestClass}></span>
-        <div class="slds-grid slds-grid_vertical-align-center">
-            <lightning-icon if:true={hasIcon} icon-name={iconName} size={iconSize} alternative-text={label} class="slds-m-right_x-small drag-element"></lightning-icon>
-            <!--
-            NOTE: Technically the palette item name should be a button because it is more of an
-            action than a destination. However lightning-button will never support truncation of
-            long text (SLDS directive) and we may run into issues when applying slds to a vanilla
-            button once the shadow dom is introduced.
-            -->
-            <a role="button" class="slds-truncate" title={description} onclick={handleLinkClick} onkeypress={handleKeyPress} tabindex="0">{label}</a>
-        </div>
-    </td>
-    <td if:true={detailsButton} role="gridcell" class="square-icon-medium">
-        <lightning-button-icon icon-name="utility:chevronright" variant="bare" alternative-text={labels.detailsText} onclick={handleChevronClick}></lightning-button-icon>
-    </td>
+    <span if:true={isTestMode} class={computedTestClass}></span>
+    <div class="slds-grid slds-grid_vertical-align-center">
+        <lightning-icon if:true={hasIcon} icon-name={iconName} size={iconSize} alternative-text={label} class="slds-m-right_x-small drag-element"></lightning-icon>
+        <!--
+        NOTE: Technically the palette item name should be a button because it is more of an
+        action than a destination. However lightning-button will never support truncation of
+        long text (SLDS directive) and we may run into issues when applying slds to a vanilla
+        button once the shadow dom is introduced.
+        -->
+        <a role="button" class="slds-truncate" title={description} onclick={handleLinkClick} onkeypress={handleKeyPress} tabindex="0">{label}</a>
+    </div>
 </template>

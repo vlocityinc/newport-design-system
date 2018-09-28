@@ -31,7 +31,6 @@ export { AddNonCanvasElementEvent } from './elementEvents/addNonCanvasElementEve
 export { EditElementEvent } from "./elementEvents/editElementEvent";
 export { DeleteElementEvent } from "./elementEvents/deleteElementEvent";
 export { PaletteItemClickedEvent } from "./paletteEvents/paletteItemClickedEvent";
-export { PaletteSectionToggleEvent } from "./paletteEvents/paletteSectionToggleEvent";
 export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';
 export { ItemSelectedEvent } from './itemSelectedEvent';
 export { ComboboxStateChangedEvent } from './comboboxStateChangedEvent';

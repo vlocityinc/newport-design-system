@@ -3,38 +3,52 @@
         <tbody>
             <template for:each={rows} for:item="row" for:index="rowIndex">
                 <!-- Section Header -->                               
-                <tr if:true={row.isSection} is="builder_platform_interaction-palette-section"
+                <tr if:true={row.isSection}
                     key={row.key}
+                    data-key={row.key}
                     aria-expanded={row.expanded}
                     aria-level={row.level}
                     aria-posinset={row.posinset}
                     aria-setsize={row.setsize}
                     class="slds-hint-parent"
-                    section-key={row.key}
-                    label={row.label}
-                    show-item-count={showSectionItemCount}
-                    item-count={row.visibleItems}
-                    expanded={row.expanded}
-                    onpalettesectiontoggle={handleToggleSection}
-                    details-button={showResourceDetails}>
+                    onclick={handleToggleSection}>
+                    <th class="slds-tree__item" scope="row">
+                        <!-- NOTE: The lightning-button-icon component rotates the chevron image for us when toggled. -->
+                        <lightning-button-icon icon-name="utility:chevronright" variant="bare" size="small" alternative-text={row.toggleAlternativeText} class="slds-m-right_x-small"></lightning-button-icon>
+                        <div class="slds-truncate" title={row.label}>{row.label}</div>
+                    </th>
+                    <td if:true={showResourceDetails} role="gridcell">
+                    </td>
                 </tr>
                 <!-- Item -->
-                <tr if:false={row.isSection} is="builder_platform_interaction-palette-item"
+                <tr if:false={row.isSection}
                     draggable={itemsDraggable}
-                    details-button={showResourceDetails}
                     key={row.key}
                     data-key={row.key}
                     aria-level={row.level}
                     aria-posinset={row.posinset}
                     aria-setsize={row.setsize}
                     class="slds-hint-parent palette-item"
-                    description={row.description}
-                    element-type={row.elementType}
-                    guid={row.key}
-                    icon-name={row.iconName}
-                    icon-size={iconSize}
-                    label={row.label}
                     ondragstart={handleDragStart}>
+                    <td role="gridcell">
+                        <builder_platform_interaction-palette-item
+                            element-type={row.elementType}
+                            guid={row.key}
+                            icon-name={row.iconName}
+                            icon-size={iconSize}
+                            label={row.label}>
+                        </builder_platform_interaction-palette-item>
+                    </td>
+                    <td if:true={showResourceDetails} role="gridcell">
+                        <lightning-button-icon
+                            data-guid={row.key}
+                            data-icon-name={row.iconName}
+                            icon-name="utility:chevronright"
+                            variant="bare"
+                            alternative-text={labels.detailsText}
+                            onclick={handleResourceDetailsClick}>
+                        </lightning-button-icon>
+                    </td>
                 </tr>
             </template>
         </tbody>

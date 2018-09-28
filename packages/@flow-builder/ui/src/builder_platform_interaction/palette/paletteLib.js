@@ -1,3 +1,5 @@
+import { LABELS } from './paletteLabels';
+
 /**
  * A section always has a non-empty _children array.
  *
@@ -47,8 +49,8 @@ export function createItem(item, level, posinset, setsize) {
  * @param {Object}
  *            section The lightning-tree-grid data
  * @param {Object}
- *            collapsedSections A map containing sections that should hide their
- *            children
+ *            options Object with a map containing sections that should hide their
+ *            children and a flag which tells us if we need to display counts
  * @param {number}
  *            level The tree depth of the given data
  * @param {number}
@@ -57,19 +59,28 @@ export function createItem(item, level, posinset, setsize) {
  *            setsize The size of the current level
  * @returns {Array} List of tree rows
  */
-export function createSection(section, collapsedSections, level, posinset, setsize) {
+export function createSection(section, options, level, posinset, setsize) {
     let rows = [];
 
     const key = section.guid;
-    const expanded = !collapsedSections[key];
+    const expanded = !options.collapsedSections[key];
     const visibleItems = section._children.length;
+
+    // TODO: Might not be good for i18n.
+    const label = options.showSectionItemCount ? section.label + ' (' + visibleItems + ')' : section.label;
+
+    // TODO: Might not be good for i18n.
+    const prefix = expanded ? LABELS.palleteSectionToggleCollapseText : LABELS.palleteSectionToggleExpandText;
+    const toggleAlternativeText = prefix + ' ' + section.label;
+
     const row = {
         isSection: true,
         key,
         level,
         posinset,
         setsize,
-        label: section.label,
+        toggleAlternativeText,
+        label,
         expanded,
         visibleItems
     };
@@ -77,7 +88,7 @@ export function createSection(section, collapsedSections, level, posinset, setsi
 
     // Only include child items from expanded sections.
     if (expanded) {
-        rows = rows.concat(createLevel(section._children, collapsedSections, level + 1));
+        rows = rows.concat(createLevel(section._children, options, level + 1));
     }
 
     return rows;
@@ -89,18 +100,18 @@ export function createSection(section, collapsedSections, level, posinset, setsi
  * @param {Array}
  *            data The lightning-tree-grid-data
  * @param {Object}
- *            collapsedSections A map containing sections that should hide their
- *            children
+ *            options Object with a map containing sections that should hide their
+ *            children and a flag which tells us if we need to display counts
  * @param {number}
  *            level The tree depth of the given data
  * @returns {Array} List of tree rows
  */
-export function createLevel(data, collapsedSections, level) {
+export function createLevel(data, options, level) {
     let rows = [];
 
     for (let i = 0; i < data.length; i++) {
         if (isSection(data[i])) {
-            rows = rows.concat(createSection(data[i], collapsedSections, level, i + 1, data.length));
+            rows = rows.concat(createSection(data[i], options, level, i + 1, data.length));
         } else {
             rows.push(createItem(data[i], level, i + 1, data.length));
         }
@@ -118,10 +129,10 @@ export function createLevel(data, collapsedSections, level) {
  * @param {Array}
  *            data The lightning-tree-grid data
  * @param {Object}
- *            collapsedSections A map containing sections that should hide their
- *            children
+ *            options Object with a map containing sections that should hide their
+ *            children and a flag which tells us if we need to display counts
  * @returns {Array} List of tree rows
  */
-export function flatten(data, collapsedSections) {
-    return createLevel(data, collapsedSections, 1);
+export function flatten(data, options) {
+    return createLevel(data, options, 1);
 }

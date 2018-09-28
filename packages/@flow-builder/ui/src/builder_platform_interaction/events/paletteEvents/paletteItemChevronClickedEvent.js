@@ -3,20 +3,15 @@
  */
 const eventName = 'paletteitemchevronclicked';
 
-
 export class PaletteItemChevronClickedEvent {
-    constructor(elementType, elementGUID, label, iconName, description) {
+    constructor(elementGUID, iconName) {
         return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                elementType,
                 elementGUID,
-                label,
                 iconName,
-                description
-
             }
         });
     }

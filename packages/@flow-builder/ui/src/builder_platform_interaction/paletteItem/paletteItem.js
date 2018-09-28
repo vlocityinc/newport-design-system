@@ -1,7 +1,6 @@
 import { LightningElement, api } from 'lwc';
-import { PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
+import { PaletteItemClickedEvent } from 'builder_platform_interaction/events';
 import { isChildElement } from 'builder_platform_interaction/elementConfig';
-import { LABELS } from './paletteItemLabels';
 import { isTestMode } from "builder_platform_interaction/contextLib";
 
 /**
@@ -12,21 +11,15 @@ import { isTestMode } from "builder_platform_interaction/contextLib";
  */
 
 export default class PaletteItem extends LightningElement {
-    @api description;
     @api elementType;
     @api guid;
     @api iconName;
     @api label;
     @api iconSize;
-    @api detailsButton;
 
     @api
     get iconElement() {
         return this.template.querySelector('lightning-icon.drag-element');
-    }
-
-    get labels() {
-        return LABELS;
     }
 
     get hasIcon() {
@@ -71,16 +64,5 @@ export default class PaletteItem extends LightningElement {
                 // No special handling for any other keys.
                 break;
         }
-    }
-
-    handleChevronClick(event) {
-        event.stopPropagation();
-        const elementType = this.elementType;
-        const guid = this.guid;
-        const label = this.label;
-        const iconName = this.iconName;
-        const description = this.description;
-        const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(elementType, guid, label, iconName, description);
-        this.dispatchEvent(paletteItemChevronClickedEvent);
     }
 }

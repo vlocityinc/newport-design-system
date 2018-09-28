@@ -38,8 +38,8 @@ describe('left-panel', () => {
         it('when in Flow Resource Details view - the panel header should match the transition layout classes.', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
-            const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+            const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid);
+            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
             return Promise.resolve().then(() => {
                 const panel = getShadowRoot(element).querySelector(selectors.panel);
                 expect(panel.classList).toContain('slds-is-open');
@@ -61,8 +61,8 @@ describe('left-panel', () => {
             it('when in Flow Resource Details view - the panel header should match the layout classes.', () => {
                 const element = createComponentUnderTest();
                 const guid = 'guid1';
-                const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-                getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+                const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid);
+                getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
                 return Promise.resolve().then(() => {
                     const header = getShadowRoot(element).querySelector(selectors.panelHeader);
                     expect(header.classList).not.toContain('slds-p-left_medium');
@@ -81,8 +81,8 @@ describe('left-panel', () => {
         it('when in Flow Resource Details view - should have Back Button Utility Icon.', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
-            const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+            const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid);
+            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
             return Promise.resolve().then(() => {
                 const backButton = getShadowRoot(element).querySelector(selectors.panelHeaderBackButton);
                 expect(backButton.iconName).toBe('utility:back');
@@ -93,8 +93,8 @@ describe('left-panel', () => {
         it('when in Flow Resource Details view - should handle back-button click.', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
-            const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+            const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid);
+            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
             return Promise.resolve().then(() => {
                 const backButton = getShadowRoot(element).querySelector(selectors.panelHeaderBackButton);
                 backButton.click();
@@ -118,8 +118,8 @@ describe('left-panel', () => {
         it('when in Flow Resource Details view - should add show-details class.', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
-            const paletteItemClickedEvent = new PaletteItemChevronClickedEvent('VARIABLE', guid);
-            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+            const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid);
+            getShadowRoot(element).querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
             return Promise.resolve().then(() => {
                 const leftPanel = getShadowRoot(element).querySelector('.slds-panel');
                 expect(leftPanel.classList).toContain('show-details');
