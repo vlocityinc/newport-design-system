@@ -439,7 +439,7 @@ export const elementTypeToConfigMap = {
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: METADATA_KEY.RECORD_CREATE,
+        metadataKey: METADATA_KEY.RECORD_CREATES,
         labels: {
             singular: LABELS.recordCreateSingularLabel,
             plural: LABELS.recordCreatePluralLabel
@@ -455,7 +455,7 @@ export const elementTypeToConfigMap = {
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: METADATA_KEY.RECORD_LOOKUP,
+        metadataKey: METADATA_KEY.RECORD_LOOKUPS,
         labels: {
             singular: LABELS.recordLookupSingularLabel,
             plural: LABELS.recordLookupPluralLabel
@@ -472,7 +472,7 @@ export const elementTypeToConfigMap = {
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: METADATA_KEY.RECORD_DELETE,
+        metadataKey: METADATA_KEY.RECORD_DELETES,
         labels: {
             singular: LABELS.recordDeleteSingularLabel,
             plural: LABELS.recordDeletePluralLabel
@@ -488,7 +488,7 @@ export const elementTypeToConfigMap = {
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
-        metadataKey: METADATA_KEY.RECORD_UPDATE,
+        metadataKey: METADATA_KEY.RECORD_UPDATES,
         labels: {
             singular: LABELS.recordUpdateSingularLabel,
             plural: LABELS.recordUpdatePluralLabel
@@ -561,6 +561,34 @@ export const elementTypeToConfigMap = {
             plural: LABELS.choicePluralLabel
         },
         canvasElement: false
+    },
+    [ELEMENT_TYPE.RECORD_CHOICE_GROUP]: {
+        descriptor: 'builder_platform_interaction:choiceEditor',
+        nodeConfig: {
+            iconName: 'standard:choice',
+            utilityIconName: 'utility:choice'
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        labels: {
+            singular:'Record Choice Group',
+            plural: 'Record Choice Groups'
+        },
+        canvasElement: false,
+        metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS
+    },
+    [ELEMENT_TYPE.PICKLIST_CHOICE_GROUP]: {
+        descriptor: 'builder_platform_interaction:choiceEditor',
+        nodeConfig: {
+            iconName: 'standard:choice',
+            utilityIconName: 'utility:choice'
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        labels: {
+            singular: 'Picklist Choice Group',
+            plural: 'Picklist Choice Groups'
+        },
+        canvasElement: false,
+        metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS
     },
     [ELEMENT_TYPE.CONSTANT]: {
         descriptor: 'builder_platform_interaction:variableConstantEditor',

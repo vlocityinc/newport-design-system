@@ -8,7 +8,7 @@ import {
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
-import { createFilter, createFilterMetadataObject } from './recordFilter';
+import { createFilter, createFilterMetadataObject } from './base/recordFilter';
 import {
     RECORD_FILTER_CRITERIA,
     SORT_ORDER

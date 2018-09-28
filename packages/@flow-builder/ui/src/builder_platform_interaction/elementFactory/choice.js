@@ -109,7 +109,10 @@ export function createChoice(choice = {}) {
  * @param {choice} choice
  * @returns {Object} object in a {guid : [choice]} format
  */
-export function createChoiceForStore(choice = {}) {
+export function createChoiceForStore(choice) {
+    if (!choice) {
+        throw new Error('choice is required to create choice element for store');
+    }
     const newChoice = createChoice(choice);
     return baseElementsArrayToMap([newChoice]);
 }

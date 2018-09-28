@@ -15,6 +15,8 @@ export const ELEMENT_TYPE = {
     CHOICE: 'CHOICE',
     CONSTANT: 'CONSTANT',
     DYNAMIC_CHOICE_SET: 'DYNAMIC_CHOICE_SET',
+    RECORD_CHOICE_GROUP: 'RECORD_CHOICE_GROUP',
+    PICKLIST_CHOICE_GROUP: 'PICKLIST_CHOICE_GROUP',
     FORMULA: 'FORMULA',
     STAGE: 'STAGE',
     TEXT_TEMPLATE: 'TEXT_TEMPLATE',
@@ -69,15 +71,16 @@ export const METADATA_KEY = {
     CONSTANTS: 'constants',
     TEXT_TEMPLATES: 'textTemplates',
     SUBFLOWS: 'subflows',
-    RECORD_CREATE: 'recordCreates',
-    RECORD_LOOKUP: 'recordLookups',
-    RECORD_DELETE: 'recordDeletes',
-    RECORD_UPDATE: 'recordUpdates',
+    RECORD_CREATES: 'recordCreates',
+    RECORD_LOOKUPS: 'recordLookups',
+    RECORD_DELETES: 'recordDeletes',
+    RECORD_UPDATES: 'recordUpdates',
     LOOPS: 'loops',
     SCREENS: 'screens',
     STAGES: 'stages',
     CHOICES: 'choices',
-    STEPS: 'steps'
+    STEPS: 'steps',
+    DYNAMIC_CHOICE_SETS: 'dynamicChoiceSets'
 };
 
 /**

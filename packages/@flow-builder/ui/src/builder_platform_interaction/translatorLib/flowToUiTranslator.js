@@ -1,8 +1,7 @@
 import { swapDevNamesToUids } from "./uidSwapping";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE, METADATA_KEY } from "builder_platform_interaction/flowMetadata";
 import { flowToUIFactory } from "./flowToUiFactory";
 import { createStartElementWithConnectors } from "builder_platform_interaction/elementFactory";
-import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 
 /**
  * Translate flow tooling object into UI data model
@@ -11,18 +10,18 @@ import { elementTypeToConfigMap } from "builder_platform_interaction/elementConf
  * @returns {Object} UI representation of the Flow in a normalized shape
  */
 export function translateFlowToUIModel(flow) {
-    let storeElements, storeConnectors;
-
     // Construct flow properties object
     const properties = flowToUIFactory(ELEMENT_TYPE.FLOW_PROPERTIES, flow);
-
     // Create start element
     const { elements, connectors }  = createStartElementWithConnectors(flow.metadata.startElementReference);
-    storeElements = updateStoreElements(storeElements, elements);
-    storeConnectors = updateStoreConnectors(storeConnectors, connectors);
+    // Create elements and connectors from flow Metadata
+    let {
+        storeElements = {},
+        storeConnectors = []
+    } = createElementsUsingFlowMetadata(flow.metadata);
 
-    // Convert each type of element ex: assignments, decisions, variables
-    ({ storeElements, storeConnectors } = createElementsUsingFlowMetadata(flow.metadata, storeElements, storeConnectors));
+    storeElements = updateStoreElements(elements, storeElements);
+    storeConnectors = updateStoreConnectors(connectors, storeConnectors);
 
     const { nameToGuid, canvasElementGuids } = updateCanvasElementGuidsAndNameToGuidMap(storeElements);
 
@@ -60,6 +59,7 @@ function updateStoreConnectors(storeConnectors = [], newConnectors = []) {
     return [...storeConnectors, ...newConnectors];
 }
 
+
 /**
  * Helper function to loop over storeElements and create devnameToGuid map and canvasElementsGuids array.
  * @param {Object} elements element map with guid as key and element as value
@@ -87,19 +87,17 @@ function updateCanvasElementGuidsAndNameToGuidMap(elements = {}) {
 /**
  * Helper function to loop over all the flow metadata elements and convert them to client side shape
  * @param {Object} metadata flow metadata
- * @param {Object} storeElements element map with guid as key and element as value
- * @param {Array} storeConnectors array of connectors
  * @returns {Object} Object containing updated storeConnectors and storeElements
  */
-function createElementsUsingFlowMetadata(metadata, storeElements, storeConnectors) {
-    const elementTypes = Object.keys(elementTypeToConfigMap);
-    for (let typeIndex = 0; typeIndex < elementTypes.length; typeIndex++) {
-        const elementType = elementTypes[typeIndex];
-        const elementInfo = elementTypeToConfigMap[elementType];
-        const metadataElements = metadata[elementInfo.metadataKey] || [];
-        for (let i = 0; i < metadataElements.length; i++) {
-            const metadataElement = metadataElements[i];
-            const { elements, connectors } = flowToUIFactory(elementType, metadataElement);
+function createElementsUsingFlowMetadata(metadata) {
+    let storeElements, storeConnectors;
+    const metadataKeyList = Object.values(METADATA_KEY);
+    for (let i = 0, metadataKeyListLen = metadataKeyList.length; i < metadataKeyListLen; i++) {
+        const metadataKey = metadataKeyList[i];
+        const metadataElementsList = metadata[metadataKey];
+        for (let j = 0, metadataElementsListLen = metadataElementsList.length; j < metadataElementsListLen; j++) {
+            const metadataElementsListItem = metadataElementsList[j];
+            const { elements, connectors } = flowToUIFactory(metadataKey, metadataElementsListItem);
             if (elements) {
                 storeElements = updateStoreElements(storeElements, elements);
             }

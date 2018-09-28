@@ -220,12 +220,10 @@ describe('createChoice function', () => {
 });
 
 describe('createChoiceForStore function', () => {
-    it('returns a new choice element object for Store with default values when no arguments are passed', () => {
-        const actualResult = createChoiceForStore();
-        const expectedObject = {
-            testGUID: defaultChoiceElement
-        };
-        expect(Object.values(actualResult)[0]).toMatchObject(expectedObject);
+    it('should throw when no element is passed', () => {
+        expect(() => {
+            createChoiceForStore();
+        }).toThrow();
     });
     it('returns a new choice object for store with same values when an existing choice object is passed', () => {
         const actualResult = createChoiceForStore(choiceElementForStore);
@@ -238,9 +236,9 @@ describe('createChoiceForStore function', () => {
 
 describe('createChoiceMetadataObject function', () => {
     it('throws an error when called without a choice Element object', () => {
-            expect(() => {
-                createChoiceMetadataObject();
-            }).toThrow();
+        expect(() => {
+            createChoiceMetadataObject();
+        }).toThrow();
     });
     it('returns a new choice meta data object when a valid choice object is passed', () => {
         const actualResult = createChoiceMetadataObject(choiceElementForStore);

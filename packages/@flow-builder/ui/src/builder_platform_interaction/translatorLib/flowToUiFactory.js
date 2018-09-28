@@ -1,4 +1,4 @@
-import { ACTION_TYPE, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ACTION_TYPE, ELEMENT_TYPE, METADATA_KEY } from "builder_platform_interaction/flowMetadata";
 import {
     createActionCallWithConnectors,
     createApexPluginWithConnectors,
@@ -19,7 +19,9 @@ import {
     createTextTemplateForStore,
     createStageForStore,
     createChoiceForStore,
-    createStepWithConnectorsForStore
+    createStepWithConnectorsForStore,
+    createPicklistChoiceGroupForStore,
+    createRecordChoiceGroupForStore
 } from "builder_platform_interaction/elementFactory";
 
 /**
@@ -31,46 +33,50 @@ import {
  */
 export const flowToUIFactory = (elementType, element) => {
     switch (elementType) {
-        case ELEMENT_TYPE.ACTION_CALL:
+        case METADATA_KEY.ACTION_CALLS:
             return actionCallFactory(element);
-        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
+        case METADATA_KEY.APEX_PLUGIN_CALLS:
             return createApexPluginWithConnectors(element);
-        case ELEMENT_TYPE.ASSIGNMENT:
+        case METADATA_KEY.ASSIGNMENTS:
             return createAssignmentWithConnectors(element);
-        case ELEMENT_TYPE.CONSTANT:
+        case METADATA_KEY.CONSTANTS:
             return createConstantForStore(element);
-        case ELEMENT_TYPE.DECISION:
+        case METADATA_KEY.DECISIONS:
             return createDecisionWithOutcomeReferences(element);
-        case ELEMENT_TYPE.WAIT:
+        case METADATA_KEY.WAITS:
             return createWaitWithConnectors(element);
+        case METADATA_KEY.FORMULAS:
+            return createFormulaForStore(element);
+        case METADATA_KEY.LOOPS:
+            return createLoopWithConnectors(element);
+        case METADATA_KEY.RECORD_CREATES:
+            return createRecordCreateWithConnectors(element);
+        case METADATA_KEY.RECORD_LOOKUPS:
+            return createRecordLookupWithConnectors(element);
+        case METADATA_KEY.RECORD_UPDATES:
+            return createRecordUpdateWithConnectors(element);
+        case METADATA_KEY.RECORD_DELETES:
+            return createRecordDeleteWithConnectors(element);
+        case METADATA_KEY.SCREENS:
+            return createScreenWithConnectors(element);
+        case METADATA_KEY.SUBFLOWS:
+            return createSubflowWithConnectors(element);
+        case METADATA_KEY.VARIABLES:
+            return createVariableForStore(element);
+        case METADATA_KEY.TEXT_TEMPLATES:
+            return createTextTemplateForStore(element);
+        case METADATA_KEY.STAGES:
+            return createStageForStore(element);
+        case METADATA_KEY.CHOICES:
+            return createChoiceForStore(element);
+        case METADATA_KEY.STEPS:
+            return createStepWithConnectorsForStore(element);
+        case METADATA_KEY.DYNAMIC_CHOICE_SETS:
+            return dynamicChoiceSetFactory(element);
+
+        // Flow properties do not have metadata key
         case ELEMENT_TYPE.FLOW_PROPERTIES:
             return createFlowProperties(element);
-        case ELEMENT_TYPE.FORMULA:
-            return createFormulaForStore(element);
-        case ELEMENT_TYPE.LOOP:
-            return createLoopWithConnectors(element);
-        case ELEMENT_TYPE.RECORD_CREATE:
-            return createRecordCreateWithConnectors(element);
-        case ELEMENT_TYPE.RECORD_LOOKUP:
-            return createRecordLookupWithConnectors(element);
-        case ELEMENT_TYPE.RECORD_UPDATE:
-            return createRecordUpdateWithConnectors(element);
-        case ELEMENT_TYPE.RECORD_DELETE:
-            return createRecordDeleteWithConnectors(element);
-        case ELEMENT_TYPE.SCREEN:
-            return createScreenWithConnectors(element);
-        case ELEMENT_TYPE.SUBFLOW:
-            return createSubflowWithConnectors(element);
-        case ELEMENT_TYPE.VARIABLE:
-            return createVariableForStore(element);
-        case ELEMENT_TYPE.TEXT_TEMPLATE:
-            return createTextTemplateForStore(element);
-        case ELEMENT_TYPE.STAGE:
-            return createStageForStore(element);
-        case ELEMENT_TYPE.CHOICE:
-            return createChoiceForStore(element);
-        case ELEMENT_TYPE.STEP:
-            return createStepWithConnectorsForStore(element);
         default:
             return {};
     }
@@ -88,5 +94,16 @@ function actionCallFactory(element) {
         // TODO: Handle case for action type flow
         default:
             return createActionCallWithConnectors(element);
+    }
+}
+
+function dynamicChoiceSetFactory(element) {
+    const dataType = element.dataType;
+    switch (dataType) {
+        case "Picklist":
+        case "Multipicklist":
+            return createPicklistChoiceGroupForStore(element);
+        default:
+            return createRecordChoiceGroupForStore(element);
     }
 }

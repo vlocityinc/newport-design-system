@@ -10,7 +10,7 @@ import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createExpressionListRowItemWithoutOperator, rhsPropertyName, rhsDataTypePropertyName } from "./base/baseList";
 import { NUMBER_RECORDS_TO_STORE,
     RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
-import { createFilter, createFilterMetadataObject } from './recordFilter';
+import { createFilter, createFilterMetadataObject } from './base/recordFilter';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;

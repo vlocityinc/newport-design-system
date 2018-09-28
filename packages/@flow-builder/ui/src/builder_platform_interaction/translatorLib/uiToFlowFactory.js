@@ -9,10 +9,12 @@ import {
     createFlowPropertiesMetadataObject,
     createFormulaMetadataObject,
     createLoopMetadataObject,
+    createPicklistChoiceGroupMetadataObject,
     createRecordCreateMetadataObject,
     createRecordUpdateMetadataObject,
     createRecordLookupMetadataObject,
     createRecordDeleteMetadataObject,
+    createRecordChoiceGroupMetadataObject,
     createScreenMetadataObject,
     createSubflowMetadataObject,
     createVariableMetadataObject,
@@ -41,6 +43,10 @@ export const uiToFlowFactory = (element, config) => {
             return createChoiceMetadataObject(element, config);
         case ELEMENT_TYPE.CONSTANT:
             return createConstantMetadataObject(element, config);
+        case ELEMENT_TYPE.RECORD_CHOICE_GROUP:
+            return createRecordChoiceGroupMetadataObject(element, config);
+        case ELEMENT_TYPE.PICKLIST_CHOICE_GROUP:
+            return createPicklistChoiceGroupMetadataObject(element, config);
         case ELEMENT_TYPE.EMAIL_ALERT:
             return createActionCallMetadataObject(element, config);
         case ELEMENT_TYPE.FLOW_PROPERTIES:

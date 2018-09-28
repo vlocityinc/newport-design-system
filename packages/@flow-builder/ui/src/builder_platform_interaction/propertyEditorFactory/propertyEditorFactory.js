@@ -26,7 +26,9 @@ import {
     FACTORY_CONFIG,
     createDecisionWithOutcomeReferencesWhenClosingPropertyEditor,
     createStage,
-    createStep
+    createStep,
+    createPicklistChoiceGroup,
+    createRecordChoiceGroup
 } from "builder_platform_interaction/elementFactory";
 
 /**
@@ -58,6 +60,12 @@ export const propertyEditorFactory = (element, config = {}) => {
             break;
         case ELEMENT_TYPE.CONSTANT:
             newElement = createConstant(element);
+            break;
+        case ELEMENT_TYPE.RECORD_CHOICE_GROUP:
+            newElement = createRecordChoiceGroup(element);
+            break;
+        case ELEMENT_TYPE.PICKLIST_CHOICE_GROUP:
+            newElement = createPicklistChoiceGroup(element);
             break;
         case ELEMENT_TYPE.EMAIL_ALERT:
             newElement = createActionCall(element, ELEMENT_TYPE.EMAIL_ALERT);

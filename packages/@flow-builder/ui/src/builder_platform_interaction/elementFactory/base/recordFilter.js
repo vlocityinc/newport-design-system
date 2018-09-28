@@ -2,8 +2,8 @@ import {
     createListRowItem,
     rhsPropertyName,
     rhsDataTypePropertyName
-} from "./base/baseList";
-import { createFEROV, createFEROVMetadataObject } from './ferov';
+} from "./baseList";
+import { createFEROV, createFEROVMetadataObject } from '../ferov';
 
 export function createFilter(filter = {}, objectType) {
     let newFilter;
