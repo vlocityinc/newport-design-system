@@ -50,7 +50,8 @@
                              type="checkbox"
                              checked={choiceResource.isShowInputSelected}
                              onchange={handleInputSelectionChange}
-                             field-level-help={labels.showInputIfSelectedHelpText}>
+                             field-level-help={labels.showInputIfSelectedHelpText}
+                             class="test-input-selection-checkbox">
             </lightning-input>
         </div>
 
@@ -67,13 +68,13 @@
                              type="checkbox"
                              checked={choiceResource.userInput.isRequired}
                              onchange={handleIsRequiredChange}
-                             class="slds-m-bottom_x-small">
+                             class="test-required-checkbox slds-m-bottom_x-small">
             </lightning-input>
             <lightning-input label={labels.validateLabel}
                              type="checkbox"
                              checked={choiceResource.isValidateSelected}
                              onchange={handleIsValidateChange}
-                             class="slds-m-bottom_x-small">
+                             class="test-validate-checkbox slds-m-bottom_x-small">
             </lightning-input>
 
             <builder_platform_interaction-validation-editor if:true={choiceResource.isValidateSelected}
