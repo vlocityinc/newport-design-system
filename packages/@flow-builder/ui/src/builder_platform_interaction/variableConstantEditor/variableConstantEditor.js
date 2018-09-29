@@ -1,5 +1,5 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { dehydrate, getErrorsFromHydratedElement, getValueFromHydratedItem, GUID_SUFFIX, FEROV_DATA_TYPE_PROPERTY } from "builder_platform_interaction/dataMutationLib";
+import { dehydrate, getErrorsFromHydratedElement, getValueFromHydratedItem, GUID_SUFFIX } from "builder_platform_interaction/dataMutationLib";
 import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { variableConstantReducer } from "./variableConstantReducer";
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
@@ -13,6 +13,8 @@ import { isObject } from "builder_platform_interaction/commonUtils";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { FEROV_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
+
 
 // the property names in a variable element (after mutation), a subset of these are also constant properties
 const VARIABLE_CONSTANT_FIELDS = {

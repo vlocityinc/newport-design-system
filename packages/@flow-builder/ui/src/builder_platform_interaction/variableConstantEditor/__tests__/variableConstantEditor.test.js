@@ -53,7 +53,7 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
         getErrorsFromHydratedElement: jest.fn(),
         getValueFromHydratedItem: require.requireActual('builder_platform_interaction/dataMutationLib').getValueFromHydratedItem,
         GUID_SUFFIX: require.requireActual('builder_platform_interaction/dataMutationLib').GUID_SUFFIX,
-        FEROV_DATA_TYPE_PROPERTY: require.requireActual('builder_platform_interaction/dataMutationLib').FEROV_DATA_TYPE_PROPERTY,
+        FEROV_DATA_TYPE_PROPERTY: require.requireActual('builder_platform_interaction/elementFactory').FEROV_DATA_TYPE_PROPERTY,
         pick: require.requireActual('builder_platform_interaction/dataMutationLib').pick,
         dehydrate: require.requireActual('builder_platform_interaction/dataMutationLib').dehydrate,
     };

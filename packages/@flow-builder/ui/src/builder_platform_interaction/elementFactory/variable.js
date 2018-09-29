@@ -5,7 +5,7 @@ import { createFEROV, createFEROVMetadataObject } from './ferov';
 
 const elementType = ELEMENT_TYPE.VARIABLE;
 const DEFAULT_VALUE_PROPERTY = 'defaultValue';
-const FEROV_DATA_TYPE_PROPERTY = 'ferovDataType';
+export const FEROV_DATA_TYPE_PROPERTY = 'ferovDataType';
 
 /**
  * Either creates a new variable or create a new copy of existing variable

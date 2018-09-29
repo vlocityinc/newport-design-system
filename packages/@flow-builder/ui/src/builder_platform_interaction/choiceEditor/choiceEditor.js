@@ -1,5 +1,5 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { getErrorsFromHydratedElement, FEROV_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { choiceReducer } from './choiceReducer';
@@ -10,6 +10,7 @@ import { isObject } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './choiceEditorLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { FEROV_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 
 
 const flowDataTypeChoiceMenuItems = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY,
