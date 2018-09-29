@@ -151,10 +151,8 @@ const selectorProviderMap = {
     [ELEMENT_TYPE.ASSIGNMENT]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.EMAIL_ALERT]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.SUBFLOW]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.LOCAL_ACTION_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.VARIABLE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.CHOICE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.CONSTANT]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => readableElementsSelector,
     [ELEMENT_TYPE.WAIT]: () => readableElementsSelector,
     [ELEMENT_TYPE.SCREEN]: () => readableElementsSelector,
@@ -179,9 +177,9 @@ const selectorProviderMap = {
 export function getStoreElements(storeInstance, {elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector}) {
     let elements = [];
 
-    const selector = selectorProviderMap[elementType](shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector);
+    const selector = selectorProviderMap[elementType];
     if (selector) {
-        elements = selector(storeInstance);
+        elements = selector(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector)(storeInstance);
     }
 
     return elements;
