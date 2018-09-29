@@ -45,7 +45,6 @@ export function createScreenField(screenField = {}) {
     }
 
     // Flatten out these properties which makes validation easier.
-
     if (validationRule) {
         if (validationRule.errorMessage) {
             errorMessage = validationRule.errorMessage;
@@ -99,7 +98,7 @@ export function createScreenFieldMetadataObject(screenField) {
     }
 
     // Unflatten these properties.
-    const { errorMessage, formulaExpression, extensionName, defaultValue, dataType, helpText, isRequired, fieldText, fieldType, name } = screenField;
+    const { errorMessage, formulaExpression, extensionName, choiceReferences, defaultValue, dataType, helpText, isRequired, fieldText, fieldType, name } = screenField;
     let { scale, inputParameters, outputParameters } = screenField;
 
     let validationRule;
@@ -127,17 +126,18 @@ export function createScreenFieldMetadataObject(screenField) {
 
     return Object.assign({},
         {
-            validationRule,
-            scale,
-            inputParameters,
-            outputParameters,
+            choiceReferences,
+            dataType,
+            extensionName,
             fieldText,
             fieldType,
-            dataType,
             helpText,
+            inputParameters,
             isRequired,
             name,
-            extensionName,
+            outputParameters,
+            scale,
+            validationRule,
         },
         defaultValueMetadataObject
     );
