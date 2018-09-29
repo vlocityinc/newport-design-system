@@ -1,0 +1,4 @@
+.has-error {
+    border: var(--lwc-borderWidthThick) solid var(--lwc-colorBorderError);
+    background-color: rgba(194, 57, 52, .1);
+}

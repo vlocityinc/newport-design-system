@@ -132,3 +132,25 @@ describe('display text screen field with no text', () => {
         });
     });
 });
+
+describe('screen field preview', () => {
+    it('has has-error class when there is an error in the screenfield', () => {
+        const textfield = createTestScreenField(emptyFieldName, 'DisplayText', 'display text value');
+        textfield.fieldText.error = 'Synth error';
+        const testScreenField = createComponentUnderTest({screenfield: textfield});
+        return Promise.resolve().then(() => {
+            expect(testScreenField).toBeDefined();
+            expect(testScreenField.querySelector('.container').className).toEqual(expect.stringContaining('has-error'));
+        });
+    });
+
+    it('does not have has-error class when there is no error in the screenfield', () => {
+        const textfield = createTestScreenField(emptyFieldName, 'DisplayText', 'display text value');
+        const testScreenField = createComponentUnderTest({screenfield: textfield});
+
+        return Promise.resolve().then(() => {
+            expect(testScreenField).toBeDefined();
+            expect(testScreenField.querySelector('.container').className).not.toEqual(expect.stringContaining('has-error'));
+        });
+    });
+});

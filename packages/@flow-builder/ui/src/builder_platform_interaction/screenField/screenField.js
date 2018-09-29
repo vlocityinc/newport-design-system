@@ -1,12 +1,19 @@
 import { LightningElement, api } from 'lwc';
 import { isExtensionField, getPlaceHolderLabel } from "builder_platform_interaction/screenEditorUtils";
 import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
  */
 export default class ScreenField extends LightningElement {
     @api screenfield;
+
+    get calculatedClass() {
+        const errors = getErrorsFromHydratedElement(this.screenfield);
+        const hasError = errors && errors.length > 0;
+        return 'container slds-m-around_xxx-small slds-p-horizontal_small slds-p-vertical_x-small' + (hasError ? ' has-error' : '');
+    }
 
     get isExtension() {
         return isExtensionField(this.screenfield.type);
