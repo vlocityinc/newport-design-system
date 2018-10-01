@@ -45,8 +45,8 @@ function createRecordInputAssignmentsItem(inputAssignmentsItem, objectType) {
  * return the selected way to store the variables.
  * the default value is SOBJECT_VARIABLE
  */
-function setNumberRecordsToStore(inputReference) {
-    return inputReference !== '' ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
+function getNumberRecordsToStore(inputReference, object) {
+    return inputReference !== '' || object === '' ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
 }
 
 export function createRecordUpdate(recordUpdate = {}) {
@@ -56,7 +56,7 @@ export function createRecordUpdate(recordUpdate = {}) {
 
     inputAssignments = inputAssignments.map(item => createRecordInputAssignmentsItem(item, object));
 
-    const numberRecordsToStore = setNumberRecordsToStore(inputReference);
+    const numberRecordsToStore = getNumberRecordsToStore(inputReference, object);
 
     if (filters && filters.length > 0) {
         filters = filters.map(filter => createFilter(filter, object));
@@ -116,7 +116,10 @@ function createRecordInputParameterMetadataObject(inputParameter) {
         rhsPropertyName,
         rhsDataTypePropertyName
     );
-    return { field, value };
+    if (value) {
+        return { field, value };
+    }
+    return {field};
 }
 
 export function createRecordUpdateMetadataObject(recordUpdate, config) {
@@ -134,7 +137,9 @@ export function createRecordUpdateMetadataObject(recordUpdate, config) {
         } else {
             filters = filters.map(filter => createFilterMetadataObject(filter));
         }
+
         inputAssignments = inputAssignments.map(input => createRecordInputParameterMetadataObject(input));
+
         return Object.assign(recordUpdateMetadata, {
             filters,
             object,
