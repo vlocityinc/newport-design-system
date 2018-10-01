@@ -48,15 +48,7 @@ export default class ActionSelector extends LightningElement {
         }).then((subflows) => {
             if (this.connected) {
                 this.subflowsFetched = true;
-                // TODO: remove once fixed by process services
-                this.subflows = subflows.map(subflow => {
-                    return {
-                        masterLabel : subflow.masterLabel,
-                        description : subflow.description,
-                        fullName : subflow.namespacePrefix ? subflow.namespacePrefix + '__' + subflow.developerName : subflow.developerName
-
-                    };
-                });
+                this.subflows = subflows;
                 this.updateComboboxes();
             }
         }).catch(() => {
