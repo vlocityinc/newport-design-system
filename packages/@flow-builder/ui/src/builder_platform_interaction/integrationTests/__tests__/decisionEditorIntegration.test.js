@@ -43,6 +43,10 @@ const SELECTORS = {
     LEGEND_TEXT: 'strong',
 };
 
+const CONDITION_PREFIXES = {
+        AND: 'FLOWBUILDERCONDITIONLIST.ANDPREFIXLABEL',
+        OR: 'FLOWBUILDERCONDITIONLIST.ORPREFIXLABEL',
+};
 
 const NEW_DECISION_LABEL = 'New Decision';
 const NEW_DECISION_DEV_NAME = 'New_Decision';
@@ -339,7 +343,7 @@ describe('Decision Editor', () => {
                     const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
                     const row = conditionList.querySelectorAll(SELECTORS.ROW);
                     const legendText = getShadowRoot(row[1]).querySelector(SELECTORS.LEGEND_TEXT).textContent;
-                    expect(legendText).toBe('AND');
+                    expect(legendText).toBe(CONDITION_PREFIXES.AND);
                 });
             });
 
@@ -356,7 +360,7 @@ describe('Decision Editor', () => {
                         const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
                         const row = conditionList.querySelectorAll(SELECTORS.ROW);
                         const legendText = getShadowRoot(row[1]).querySelector(SELECTORS.LEGEND_TEXT).textContent;
-                        expect(legendText).toBe('OR');
+                        expect(legendText).toBe(CONDITION_PREFIXES.OR);
                     });
                 });
             });

@@ -59,6 +59,11 @@ const blurEvent = new FocusEvent('blur', {
     'cancelable': true,
 });
 
+const focusEvent = new FocusEvent('focus', {
+    'bubbles'   : true,
+    'cancelable': true,
+});
+
 const textInputEvent = (textInput) => {
     return new CustomEvent('textinput', {
         'bubbles'   : true,
@@ -219,19 +224,25 @@ describe('Loop Editor', () => {
             const loopElement = createComponentForTest(emptyLoopForTesting);
             return Promise.resolve().then(() => {
                 const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
-                colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + stringCollectionVariable1DevName + '}'));
+                const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
                 return Promise.resolve().then(() => {
+                    // initially the loop variable has only the "New Resource" in the menu data
+                    expect(loopVariableLightningCombobox.items).toHaveLength(1);
+                    colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + stringCollectionVariable1DevName + '}'));
                     colVariableLightningCombobox.dispatchEvent(blurEvent);
                     return Promise.resolve().then(() => {
-                    // loop variable should only show variables with dataType of String
-                        const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
-                        expect(loopVariableLightningCombobox.items).toHaveLength(1);
-                        expect(loopVariableLightningCombobox.items[0].label).toBe('FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL');
-                        expect(loopVariableLightningCombobox.items[0].items).toHaveLength(1);
-                        expect(loopVariableLightningCombobox.items[0].items[0].text).toBe(stringVariableDevName);
-                        expect(loopVariableLightningCombobox.items[0].items[0].subText).toBe('String');
-                        expect(loopVariableLightningCombobox.items[0].items[0].displayText).toBe('{!' + stringVariableDevName + '}');
-                        expect(loopVariableLightningCombobox.items[0].items[0].value).toBe(stringVariableGuid);
+                        return Promise.resolve().then(() => {
+                            return Promise.resolve().then(() => {
+                                // loop variable should only show variables with dataType of String
+                                expect(loopVariableLightningCombobox.items).toHaveLength(2);
+                                expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL');
+                                expect(loopVariableLightningCombobox.items[1].items).toHaveLength(1);
+                                expect(loopVariableLightningCombobox.items[1].items[0].text).toBe(stringVariableDevName);
+                                expect(loopVariableLightningCombobox.items[1].items[0].subText).toBe('String');
+                                expect(loopVariableLightningCombobox.items[1].items[0].displayText).toBe('{!' + stringVariableDevName + '}');
+                                expect(loopVariableLightningCombobox.items[1].items[0].value).toBe(stringVariableGuid);
+                            });
+                        });
                     });
                 });
             });
@@ -240,40 +251,46 @@ describe('Loop Editor', () => {
             const loopElement = createComponentForTest(loopForTesting);
             return Promise.resolve().then(() => {
                 const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
-                // Switch collection variable from a string type variable
-                // to a sObject type variable
-                colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + accountSObjectCollectionVariableDevName + '}'));
+                const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
                 return Promise.resolve().then(() => {
-                    colVariableLightningCombobox.dispatchEvent(blurEvent);
+                    // Switch collection variable from a string type variable
+                    // to a sObject type variable
+                    colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + accountSObjectCollectionVariableDevName + '}'));
                     return Promise.resolve().then(() => {
-                        const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
-                        // loop variable should keep the previous value but show a
-                        // data mismatch error
-                        expect(loopVariableLightningCombobox.inputText).toBe('{!' + stringVariableDevName + '}');
-                        expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
+                        colVariableLightningCombobox.dispatchEvent(blurEvent);
+                        return Promise.resolve().then(() => {
+                            // loop variable should keep the previous value but show a
+                            // data mismatch error
+                            expect(loopVariableLightningCombobox.inputText).toBe('{!' + stringVariableDevName + '}');
+                            expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
+                        });
                     });
                 });
             });
         });
         it('shows only sObject variables of the same type as the sObject selected in the collection variable', () => {
             const loopElement = createComponentForTest(emptyLoopForTesting);
+            const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
             return Promise.resolve().then(() => {
                 const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
                 colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + accountSObjectCollectionVariableDevName + '}'));
                 return Promise.resolve().then(() => {
                     colVariableLightningCombobox.dispatchEvent(blurEvent);
                     return Promise.resolve().then(() => {
-                        // loop variable should only show variables with dataType of String
-                        const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
-                        expect(loopVariableLightningCombobox.items).toHaveLength(1);
-                        expect(loopVariableLightningCombobox.items[0].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTVARIABLEPLURALLABEL');
-                        expect(loopVariableLightningCombobox.items[0].items).toHaveLength(1);
-                        expect(loopVariableLightningCombobox.items[0].items[0].dataType).toBe('SObject');
-                        expect(loopVariableLightningCombobox.items[0].items[0].objectType).toBe('Account');
-                        expect(loopVariableLightningCombobox.items[0].items[0].text).toBe(accountSObjectVariableDevName);
-                        expect(loopVariableLightningCombobox.items[0].items[0].subText).toBe('Account');
-                        expect(loopVariableLightningCombobox.items[0].items[0].displayText).toBe('{!' + accountSObjectVariableDevName + '}');
-                        expect(loopVariableLightningCombobox.items[0].items[0].value).toBe(accountSObjectVariableGuid);
+                        return Promise.resolve().then(() => {
+                            return Promise.resolve().then(() => {
+                                // loop variable should only show variables with dataType of String
+                                expect(loopVariableLightningCombobox.items).toHaveLength(2);
+                                expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTVARIABLEPLURALLABEL');
+                                expect(loopVariableLightningCombobox.items[1].items).toHaveLength(1);
+                                expect(loopVariableLightningCombobox.items[1].items[0].dataType).toBe('SObject');
+                                expect(loopVariableLightningCombobox.items[1].items[0].objectType).toBe('Account');
+                                expect(loopVariableLightningCombobox.items[1].items[0].text).toBe(accountSObjectVariableDevName);
+                                expect(loopVariableLightningCombobox.items[1].items[0].subText).toBe('Account');
+                                expect(loopVariableLightningCombobox.items[1].items[0].displayText).toBe('{!' + accountSObjectVariableDevName + '}');
+                                expect(loopVariableLightningCombobox.items[1].items[0].value).toBe(accountSObjectVariableGuid);
+                            });
+                        });
                     });
                 });
             });
@@ -292,17 +309,19 @@ describe('Loop Editor', () => {
             const loopElement = createComponentForTest(loopWithSobjectForTesting);
             return Promise.resolve().then(() => {
                 const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
-                // Switch collection variable from an Account sObject type variable
-                //  to a Case sObject type variable
-                colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + caseSObjectCollectionVariableDevName + '}'));
+                const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
                 return Promise.resolve().then(() => {
-                    colVariableLightningCombobox.dispatchEvent(blurEvent);
+                    // Switch collection variable from an Account sObject type variable
+                    //  to a Case sObject type variable
+                    colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + caseSObjectCollectionVariableDevName + '}'));
                     return Promise.resolve().then(() => {
-                        const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
-                        // loop variable should keep the previous value but show a
-                        // data mismatch error
-                        expect(loopVariableLightningCombobox.inputText).toBe('{!' + accountSObjectVariableDevName + '}');
-                        expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
+                        colVariableLightningCombobox.dispatchEvent(blurEvent);
+                        return Promise.resolve().then(() => {
+                            // loop variable should keep the previous value but show a
+                            // data mismatch error
+                            expect(loopVariableLightningCombobox.inputText).toBe('{!' + accountSObjectVariableDevName + '}');
+                            expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
+                        });
                     });
                 });
             });
@@ -310,13 +329,15 @@ describe('Loop Editor', () => {
         it('shows an error if the user deletes the value of the variable', () => {
             const loopElement = createComponentForTest(loopForTesting);
             return Promise.resolve().then(() => {
-                const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
-                loopVariableLightningCombobox.dispatchEvent(textInputEvent(''));
                 return Promise.resolve().then(() => {
-                    loopVariableLightningCombobox.dispatchEvent(blurEvent);
+                    const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
+                    loopVariableLightningCombobox.dispatchEvent(textInputEvent(''));
                     return Promise.resolve().then(() => {
-                        expect(loopVariableLightningCombobox.inputText).toBe('');
-                        expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                        loopVariableLightningCombobox.dispatchEvent(blurEvent);
+                        return Promise.resolve().then(() => {
+                            expect(loopVariableLightningCombobox.inputText).toBe('');
+                            expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                        });
                     });
                 });
             });
@@ -325,23 +346,28 @@ describe('Loop Editor', () => {
             const loopElement = createComponentForTest(loopForTesting);
             return Promise.resolve().then(() => {
                 const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
-                // Switch collection variable from a string type variable
-                // to a sObject type variable
-                colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + accountSObjectCollectionVariableDevName + '}'));
+                const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
                 return Promise.resolve().then(() => {
+                    // Switch collection variable from a string type variable
+                    // to a sObject type variable
+                    colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + accountSObjectCollectionVariableDevName + '}'));
                     colVariableLightningCombobox.dispatchEvent(blurEvent);
                     return Promise.resolve().then(() => {
-                        const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
                         // loop variable should keep the previous value but show a
                         // data mismatch error
                         expect(loopVariableLightningCombobox.inputText).toBe('{!' + stringVariableDevName + '}');
                         expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
 
                         // User corrects the invalid value
-                        loopVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + accountSObjectVariableDevName + '}'));
-                        loopVariableLightningCombobox.dispatchEvent(blurEvent);
+                        loopVariableLightningCombobox.dispatchEvent(focusEvent);
                         return Promise.resolve().then(() => {
-                            expect(loopVariableLightningCombobox.validity).toBeFalsy();
+                            return Promise.resolve().then(() => {
+                                loopVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + accountSObjectVariableDevName + '}'));
+                                loopVariableLightningCombobox.dispatchEvent(blurEvent);
+                                return Promise.resolve().then(() => {
+                                    expect(loopVariableLightningCombobox.validity).toBeFalsy();
+                                });
+                            });
                         });
                     });
                 });
@@ -351,13 +377,13 @@ describe('Loop Editor', () => {
             const loopElement = createComponentForTest(loopForTesting);
             return Promise.resolve().then(() => {
                 const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
-                // Switch collection variable from a string type variable
-                // to a sObject type variable
-                colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + accountSObjectCollectionVariableDevName + '}'));
+                const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
                 return Promise.resolve().then(() => {
+                    // Switch collection variable from a string type variable
+                    // to a sObject type variable
+                    colVariableLightningCombobox.dispatchEvent(textInputEvent('{!' + accountSObjectCollectionVariableDevName + '}'));
                     colVariableLightningCombobox.dispatchEvent(blurEvent);
                     return Promise.resolve().then(() => {
-                        const loopVariableLightningCombobox = getLoopVariableComboboxElement(loopElement);
                         // loop variable shows a data type mismatch error
                         expect(loopVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.DATATYPE_MISMATCH);
 
@@ -387,18 +413,16 @@ describe('Loop Editor', () => {
                 const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
                 colVariableLightningCombobox.click();
                 return Promise.resolve().then(() => {
-                    expect(colVariableLightningCombobox.items).toHaveLength(2);
-                    expect(colVariableLightningCombobox.items[0].label).toBe('FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL');
+                    expect(colVariableLightningCombobox.items).toHaveLength(3);
+                    expect(colVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL');
                     // There are 3 non-sObject variables with 'isCollection: true' in the mock-store data
-                    // The 4th item is now a "COLLECTION STAGE" that shows up because the mock-store has a stage collection
-                    // Stages are not yet implemented in the flow builder so this might change when that will happen
-                    expect(colVariableLightningCombobox.items[0].items).toHaveLength(4);
-                    expect(colVariableLightningCombobox.items[0].items[0].text).toBe(stringCollectionVariable1DevName);
-                    expect(colVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONVARIABLEPLURALLABEL');
+                    expect(colVariableLightningCombobox.items[1].items).toHaveLength(3);
+                    expect(colVariableLightningCombobox.items[1].items[0].text).toBe(stringCollectionVariable1DevName);
+                    expect(colVariableLightningCombobox.items[2].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONVARIABLEPLURALLABEL');
                     // There are 2 sObject collection variables in the mock-store data
-                    expect(colVariableLightningCombobox.items[1].items).toHaveLength(2);
-                    expect(colVariableLightningCombobox.items[1].items[0].text).toBe(accountSObjectCollectionVariableDevName);
-                    expect(colVariableLightningCombobox.items[1].items[0].subText).toBe('Account');
+                    expect(colVariableLightningCombobox.items[2].items).toHaveLength(2);
+                    expect(colVariableLightningCombobox.items[2].items[0].text).toBe(accountSObjectCollectionVariableDevName);
+                    expect(colVariableLightningCombobox.items[2].items[0].subText).toBe('Account');
                 });
             });
         });
@@ -419,12 +443,14 @@ describe('Loop Editor', () => {
         it('shows an error if the user deletes the value of the variable', () => {
             const loopElement = createComponentForTest(loopForTesting);
             return Promise.resolve().then(() => {
-                const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
-                colVariableLightningCombobox.dispatchEvent(textInputEvent(''));
-                colVariableLightningCombobox.dispatchEvent(blurEvent);
                 return Promise.resolve().then(() => {
-                    expect(colVariableLightningCombobox.inputText).toBe('');
-                    expect(colVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                    const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
+                    colVariableLightningCombobox.dispatchEvent(textInputEvent(''));
+                    colVariableLightningCombobox.dispatchEvent(blurEvent);
+                    return Promise.resolve().then(() => {
+                        expect(colVariableLightningCombobox.inputText).toBe('');
+                        expect(colVariableLightningCombobox.validity).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                    });
                 });
             });
         });
