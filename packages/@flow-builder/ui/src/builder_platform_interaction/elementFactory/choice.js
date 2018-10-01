@@ -128,7 +128,7 @@ export function createChoiceMetadataObject(choice) {
     }
     const newChoice = baseResourceMetadataObject(choice);
     const { dataType, choiceText, userInput } = choice;
-    let valueFerovObject;
+    let valueFerovObject, newUserInput;
     const valueFerov = createFEROVMetadataObject(
         choice,
         STORED_VALUE_PROPERTY,
@@ -137,7 +137,9 @@ export function createChoiceMetadataObject(choice) {
     if (valueFerov) {
         valueFerovObject = { value : valueFerov };
     }
-    const newUserInput = createUserInputForChoice(userInput);
+    if (userInput) {
+        newUserInput = createUserInputForChoice(userInput);
+    }
     return Object.assign(newChoice, {
         dataType,
         choiceText,
