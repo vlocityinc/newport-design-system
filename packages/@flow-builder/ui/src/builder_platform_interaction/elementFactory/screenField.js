@@ -15,6 +15,7 @@ export function createScreenField(screenField = {}) {
         fieldText = '',
         extensionName = null,
         fieldType,
+        isNewField = false, // Client side only for purposes of editing new field only attributes.
         isRequired = false,
         isVisible = false,
         dataType,
@@ -71,22 +72,23 @@ export function createScreenField(screenField = {}) {
     return Object.assign(
         newScreenField,
         {
+            choiceReferences,
+            dataType,
+            defaultValue,
+            defaultValueDataType,
             errorMessage,
-            formulaExpression,
-            helpText,
-            scale,
-            type,
-            inputParameters,
-            outputParameters,
+            extensionName,
             fieldType,
             fieldText,
+            formulaExpression,
+            helpText,
+            inputParameters,
+            isNewField,
             isRequired,
             isVisible,
-            dataType,
-            choiceReferences,
-            extensionName,
-            defaultValue,
-            defaultValueDataType
+            outputParameters,
+            scale,
+            type
         },
         defaultValueFerovObject
     );

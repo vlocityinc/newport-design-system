@@ -17,6 +17,7 @@ const addScreenField = (screen, event) => {
     const position = Number.isInteger(event.position) ? event.position : screen.fields.length;
     const type = getScreenFieldTypeByName(event.typeName);
     const field = createEmptyNodeOfType(type);
+    field.isNewField = true;
     hydrateWithErrors(mutateScreenField(field), elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
     const updatedItems = insertItem(screen.fields, field, position);
     return set(screen, 'fields', updatedItems);
@@ -273,7 +274,9 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
         if (!isHydrated(value)) {
             throw new Error('Current value is hydrated and new value is not' + JSON.stringify(event.detail));
         }
-    } else if (typeof currentValue === 'string' || typeof value === 'string') {
+    } else if ((typeof currentValue === 'string' || typeof value === 'string') &&
+                !elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties.includes(property)) {
+        // Unless this property is on the blacklist, if it's a string, we should be hydrating it.
         throw new Error('String values have to be hydrated: ' + JSON.stringify(event.detail));
     }
 

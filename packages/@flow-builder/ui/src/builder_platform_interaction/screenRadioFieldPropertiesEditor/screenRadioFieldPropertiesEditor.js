@@ -6,6 +6,7 @@ import { INPUT_FIELD_DATA_TYPE } from "builder_platform_interaction/dataTypeLib"
 import {  getFieldChoiceData } from "builder_platform_interaction/screenEditorUtils";
 import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
+import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 const ALL_SECTION_NAMES = ['choice', 'helpText'];
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
 const CHOICE_FRP_CONFIG = {
@@ -38,8 +39,23 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
         this.dispatchEvent(new PropertyChangedEvent("dataType", newFieldDataType, event.detail.error, this.field.guid, this.field.dataType));
     }
 
-    handleDefaultValuePropertyChanged = (/* event */) => {
-        // TODO whatever handling will be required for choices.
+    handleDefaultValuePropertyChanged = (event) => {
+        event.stopPropagation();
+
+        // We get the display value from the event, which might be something
+        // like {!choice1}, but we want the devName. Get the devName by using the GUID.
+        const element = getElementByGuid(event.detail.guid);
+        if (!element) {
+            throw new Error("Cannot find element for newly selected default value");
+        }
+
+        this.dispatchEvent(new PropertyChangedEvent(
+            event.detail.propertyName,
+            hydrateIfNecessary(element.name),
+            event.detail.error,
+            this.field.guid,
+            hydrateIfNecessary(this.field.defaultValue)
+        ));
     }
 
     handleChoiceChanged = (event) => {
@@ -73,9 +89,8 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
     }
 
     get isFieldDisabled() {
-        // TODO reverse this once newField is correctly added to new fields.
         // Left like this for testing during development
-        return this.field.isNewField;
+        return !this.field.isNewField;
     }
 
     get dataTypePickerValue() {
