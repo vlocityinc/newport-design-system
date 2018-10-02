@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
-import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction/events';
+import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent, DiffFlowEvent } from 'builder_platform_interaction/events';
 import { formatDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import { isDevMode } from "builder_platform_interaction/contextLib";
 import { LABELS } from './toolbarLabels';
 
 const ACTIVE = 'Active';
@@ -79,6 +80,10 @@ export default class Toolbar extends LightningElement {
         return classes;
     }
 
+    get isDevMode() {
+        return isDevMode();
+    }
+
     headerTitleForSummary = LABELS.errorPopOverHeader;
 
     handleEditFlowProperties(event) {
@@ -114,5 +119,17 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const saveAsEvent = new SaveFlowEvent(SaveFlowEvent.Type.SAVE_AS);
         this.dispatchEvent(saveAsEvent);
+    }
+
+    /**
+     * Event handler for click event on the diff flow button.
+     * Dispatches an event named diffflow to perform a diff of the saved flow
+     * to the current flow state.
+     * @param event
+     */
+    handleDiff(event) {
+        event.preventDefault();
+        const diffEvent = new DiffFlowEvent();
+        this.dispatchEvent(diffEvent);
     }
 }

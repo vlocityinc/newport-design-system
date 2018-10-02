@@ -5,7 +5,7 @@
     <div class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
         <div class="slds-builder-header_container slds-is-relative">
             <builder_platform_interaction-header flow-name={appState.properties.label} flow-version={appState.properties.versionNumber} back-url={backUrl} help-url={helpUrl}></builder_platform_interaction-header>
-            <builder_platform_interaction-toolbar oneditflowproperties={handleEditFlowProperties} onrunflow={handleRunFlow} ondebugflow={handleDebugFlow} onsaveas={handleSaveFlow} onsave={handleSaveFlow} 
+            <builder_platform_interaction-toolbar oneditflowproperties={handleEditFlowProperties} onrunflow={handleRunFlow} ondebugflow={handleDebugFlow} onsaveas={handleSaveFlow} onsave={handleSaveFlow} ondiffflow={handleDiffFlow}
                 errors={errors} save-status={saveStatus} last-modified-date={appState.properties.lastModifiedDate} flow-status={appState.properties.status} is-edit-flow-properties-disabled={hasNotBeenSaved} is-run-debug-disabled={hasNotBeenSaved} is-save-disabled={disableSave}
                 is-save-as-disabled={hasNotBeenSaved}></builder_platform_interaction-toolbar>
         </div>

@@ -88,6 +88,13 @@
                     disabled={saveDisabled}
                     class="test-toolbar-save slds-m-left_xx-small">
             </lightning-button>
+            <lightning-button if:true={isDevMode}
+                    label="Diff Flow"
+                    variant="brand"
+                    title="Diff Flow"
+                    onclick={handleDiff}
+                    class="test-toolbar-save slds-m-left_xx-small">
+            </lightning-button>
         </div>
     </div>
 </template>

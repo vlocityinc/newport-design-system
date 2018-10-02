@@ -353,14 +353,13 @@ export function invokePopover(cmpName, cmpAttributes, panelAttributes) {
 }
 
 /**
- * Invokes the modal and creates the alert/confirmation modal inside it
- * @param {object} data - contains data for modal header/body/footer
+ * Invokes modals with the specified header, body, and footer promises.
+ * @param data - contains data for modal header/body/footer
+ * @param modalHeaderPromise - the promise for the header.
+ * @param modalBodyPromise - the promise for the body.
+ * @param modalFooterPromise - the promise for footer.
  */
-export const invokeModal = (data) => {
-    const modalHeaderPromise = createComponentPromise("builder_platform_interaction:modalHeader", { headerTitle: data.headerData.headerTitle });
-    const modalBodyPromise = createComponentPromise("builder_platform_interaction:modalBody", { bodyTextOne: data.bodyData.bodyTextOne, bodyTextTwo: data.bodyData.bodyTextTwo, listSectionHeader: data.bodyData.listSectionHeader, listSectionItems: data.bodyData.listSectionItems });
-    const modalFooterPromise = createComponentPromise("builder_platform_interaction:modalFooter", { buttons: data.footerData });
-
+export const invokeModalWithComponents = (data, modalHeaderPromise, modalBodyPromise, modalFooterPromise) => {
     Promise.all([modalHeaderPromise, modalBodyPromise, modalFooterPromise]).then((newComponents) => {
         const createPanelEventAttributes = {
             panelType: MODAL,
@@ -386,6 +385,46 @@ export const invokeModal = (data) => {
         throw new Error('Modal creation failed : ' + errorMessage);
     });
 };
+
+/**
+ * Invokes the modal and creates the alert/confirmation modal inside it
+ * @param {object} data - contains data for modal header/body/footer
+ */
+export const invokeModal = (data) => {
+    const modalHeaderPromise = createComponentPromise("builder_platform_interaction:modalHeader", { headerTitle: data.headerData.headerTitle });
+    const modalBodyPromise = createComponentPromise("builder_platform_interaction:modalBody",
+        {
+            bodyTextOne: data.bodyData.bodyTextOne,
+            bodyTextTwo: data.bodyData.bodyTextTwo,
+            listSectionHeader: data.bodyData.listSectionHeader,
+            listSectionItems: data.bodyData.listSectionItems
+        }
+    );
+    const modalFooterPromise = createComponentPromise("builder_platform_interaction:modalFooter", { buttons: data.footerData });
+
+    invokeModalWithComponents(data, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
+};
+
+/**
+ * Invokes the internal data modal and creates the alert/confirmation modal inside it.
+ * This should only be used when displaying internal only data.
+ * @param data
+ */
+export const invokeModalInternalData = (data) => {
+    const modalHeaderPromise = createComponentPromise("builder_platform_interaction:modalHeader", { headerTitle: data.headerData.headerTitle });
+    const modalBodyPromise = createComponentPromise("builder_platform_interaction:modalBodyInternalData",
+        {
+            bodyTextOne: data.bodyData.bodyTextOne,
+            bodyTextTwo: data.bodyData.bodyTextTwo,
+            listSectionHeader: data.bodyData.listSectionHeader,
+            listSectionItems: data.bodyData.listSectionItems
+        }
+    );
+    const modalFooterPromise = createComponentPromise("builder_platform_interaction:modalFooter", { buttons: data.footerData });
+
+    invokeModalWithComponents(data, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
+};
+
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!

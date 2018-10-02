@@ -1,5 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
-import { invokePropertyEditor, PROPERTY_EDITOR } from 'builder_platform_interaction/builderUtils';
+import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { canvasSelector, getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction/actions';
@@ -20,6 +20,7 @@ import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
+import { diffFlow } from "builder_platform_interaction/metadataUtils";
 
 let unsubscribeStore;
 let storeInstance;
@@ -140,6 +141,57 @@ export default class Editor extends LightningElement {
         } else {
             storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
             this.loadFieldsForSobjectsInFlow();
+        }
+        this.isFlowServerCallInProgress = false;
+    };
+
+    /**
+     * Internal only callback which gets executed when we get a flow for diffing.
+     * @param data
+     * @param error
+     */
+    getFlowCallbackAndDiff = ({data, error}) => {
+        // TODO: W-5488109. We may want to revisit the idea of putting this functionality into a separate component.
+        if (error) {
+            invokeModalInternalData({
+                headerData: {
+                    headerTitle: "Metadata Diff"
+                },
+                bodyData: {
+                    bodyTextOne: "Encountered an issue while trying to retrieve the before flow"
+                },
+                footerData: {
+                    buttonOne: {
+                        buttonLabel: "OK"
+                    }
+                }
+            });
+        } else {
+            const originalFlow = data;
+            const newFlow =  translateUIModelToFlow(storeInstance.getCurrentState());
+
+            // full diff
+            const fullDiff = diffFlow(originalFlow, newFlow, false, false);
+            const fullDiffJson = JSON.stringify(fullDiff, null, 2);
+
+            // Trimmed Diff - use blacklist, ignore undefined values, empty arrays, and empty strings
+            const trimmedDiff = diffFlow(originalFlow, newFlow, true, true);
+            const trimmedDiffJson = JSON.stringify(trimmedDiff, null, 2);
+
+            invokeModalInternalData({
+                headerData: {
+                    headerTitle: "Metadata Diff"
+                },
+                bodyData: {
+                    bodyTextOne: "Trimmed Diff\n\n" + trimmedDiffJson,
+                    bodyTextTwo: "\n\nFull diff\n\n" + fullDiffJson,
+                },
+                footerData: {
+                    buttonOne: {
+                        buttonLabel: "OK"
+                    }
+                }
+            });
         }
         this.isFlowServerCallInProgress = false;
     };
@@ -327,6 +379,19 @@ export default class Editor extends LightningElement {
             invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate });
         }
     };
+
+    /**
+     * Handles the diff flow event fired by the toolbar. This is an internal only event.
+     * @param event
+     */
+    handleDiffFlow = (/* event */) => {
+        // Only perform diff if there is a before diff.
+        if (this.flowId) {
+            // Get the saved copy from the DB as our 'before' flow for comparing.
+            const params = {id: this.flowId};
+            fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallbackAndDiff, params);
+        }
+    }
 
     /**
      * Callback which gets executed after clicking done on the Flow Properties Editor
