@@ -222,11 +222,6 @@ export default class Node extends LightningElement {
         this.dispatchEvent(dragNodeEvent);
     };
 
-    connectedCallback() {
-        this.setAttribute('id', this.node.guid);
-        this.setAttribute('style', this.nodeLocation);
-    }
-
     render() {
         if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT) {
             return startElement;

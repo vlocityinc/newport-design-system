@@ -1,7 +1,3 @@
-:host {
-    position: absolute;
-}
-
 .element-container {
     display: flex;
     justify-content: center;

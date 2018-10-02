@@ -429,7 +429,10 @@ export default class Canvas extends LightningElement {
             const dragStart = canvasElementContainerTemplate.dragStart;
             const dragStop = canvasElementContainerTemplate.dragStop;
             const drag = canvasElementContainerTemplate.drag;
-            const canvasElementContainer = unwrap(canvasElementContainerTemplate);
+            const canvasElementContainer = unwrap(canvasElementContainerTemplate).firstChild;
+            if (!canvasElementContainer.getAttribute('id')) {
+                canvasElementContainer.setAttribute('id', canvasElementContainerTemplate.node.guid);
+            }
             const isSelected = canvasElementContainerTemplate.node.config.isSelected;
             const addToDragSelection = canvasElementContainerTemplate.node.config.addToDragSelection;
             const elementType = canvasElementContainerTemplate.node.elementType;
