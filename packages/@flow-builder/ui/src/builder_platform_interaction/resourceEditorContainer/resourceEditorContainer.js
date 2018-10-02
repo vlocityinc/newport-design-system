@@ -1,5 +1,4 @@
 import { LightningElement, api, track } from 'lwc';
-import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import variableEditorTemplate from "./variableEditorTemplate.html";
 import constantEditorTemplate from "./constantEditorTemplate.html";
@@ -7,8 +6,8 @@ import formulaEditorTemplate from "./formulaEditorTemplate.html";
 import textTemplateEditorTemplate from './textTemplateEditorTemplate.html';
 import stageEditorTemplate from "./stageEditorTemplate.html";
 import choiceEditorTemplate from "./choiceEditorTemplate.html";
-import { propertyEditorFactory } from 'builder_platform_interaction/propertyEditorFactory';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+
 
 const resourceTypeElementTypeMap = {
     variable: ELEMENT_TYPE.VARIABLE,
@@ -56,18 +55,12 @@ export default class ResourceEditorContainer extends LightningElement {
         if (!resourceType) {
             return;
         }
-
         this._selectedResource = resourceType;
-
         // go through the needed steps to create a flow element and get it ready to be used by property editor
         const elementType = resourceTypeElementTypeMap[resourceType];
-        let node = propertyEditorFactory({elementType});
-        const config = elementTypeToConfigMap[elementType];
-        // NOTE: if we ever need to pass the store state (the second allowed param) then we need to add that here
-        node = hydrateWithErrors(node, config.nonHydratableProperties);
-
-        // set this to our member variable so that we can pass to the selected property editor template
-        this.node = node;
+        this.node = getElementForPropertyEditor({
+            elementType
+        });
     }
 
     @api

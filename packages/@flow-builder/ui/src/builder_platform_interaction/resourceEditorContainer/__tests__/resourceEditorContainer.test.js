@@ -1,8 +1,8 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import ResourceEditorContainer from "../resourceEditorContainer";
-import { hydrateWithErrors, mutateEditorElement } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { getElementForPropertyEditor } from "builder_platform_interaction/propertyEditorFactory";
 
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-resource-editor-container', {
@@ -19,10 +19,9 @@ const EDITOR_SELECTOR = '.editor_template';
 
 const mockNode = { elementType: ELEMENT_TYPE.VARIABLE };
 
-jest.mock('builder_platform_interaction/dataMutationLib', () => {
+jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
     return {
-        hydrateWithErrors: jest.fn().mockImplementation((node) => node),
-        mutateEditorElement: jest.fn().mockImplementation((node) => node),
+        getElementForPropertyEditor: jest.fn().mockImplementation((node) => node)
     };
 });
 
@@ -46,8 +45,7 @@ describe('resource-editor-container', () => {
         innerNode.getNode.mockReturnValueOnce(mockNode);
         const retVal = container.getNode();
         expect(retVal).toEqual(mockNode);
-        expect(mutateEditorElement).toHaveBeenCalledWith(mockNode);
-        expect(hydrateWithErrors).toHaveBeenCalledWith(mockNode);
+        expect(getElementForPropertyEditor).toHaveBeenCalled();
     });
 
     it('should call validate on the inner element when resource is selected', () => {

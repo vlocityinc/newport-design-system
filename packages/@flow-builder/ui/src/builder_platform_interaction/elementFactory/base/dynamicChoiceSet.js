@@ -1,6 +1,8 @@
 import { baseResource } from "./baseElement";
 import { baseResourceMetadataObject } from "./baseMetadata";
 import { createFilterMetadataObject, createFilter } from "./recordFilter";
+import { createPicklistChoiceGroupForStore } from "../picklistChoiceGroup";
+import { createRecordChoiceGroupForStore } from "../recordChoiceGroup";
 
 export const createDynamicChoiceSet = (element = {}) => {
     const newDynamicChoiceSet = baseResource(element);
@@ -52,3 +54,20 @@ export const createDynamicChoiceSetMetadataObject = (element) => {
     });
     return newDynamicChoiceSet;
 };
+
+/**
+ * This function is called by flowToUiTranslator for convert dynamic choice set metadata into correct shape and element type.
+ * It used data type property of dynamic choice set to identify element type
+ * @param {Object} element dynamic choice set metadata object
+ * @return {Object} new element in shape expected by store
+ */
+export function dynamicChoiceSetForStore(element) {
+    const dataType = element.dataType;
+    switch (dataType) {
+        case "Picklist":
+        case "Multipicklist":
+            return createPicklistChoiceGroupForStore(element);
+        default:
+            return createRecordChoiceGroupForStore(element);
+    }
+}

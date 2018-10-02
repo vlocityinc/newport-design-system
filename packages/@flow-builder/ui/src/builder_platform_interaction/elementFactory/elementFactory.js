@@ -26,8 +26,5 @@ export * from './choice.js';
 export * from './step.js';
 export * from './recordChoiceGroup.js';
 export * from './picklistChoiceGroup.js';
-
-export const FACTORY_CONFIG = {
-    SWAP_GUID_TO_DEV_NAME: 'swapGuidToDevName',
-    SWAP_DEV_NAME_TO_GUID: 'swapDevNameToGuid'
-};
+export * from './emailAlert';
+export * from './apexCall';

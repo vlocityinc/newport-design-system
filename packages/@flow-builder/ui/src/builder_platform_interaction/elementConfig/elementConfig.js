@@ -1,6 +1,80 @@
 import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { LABELS } from "./elementConfigLabels";
+import {
+    createActionCall,
+    createApexPlugin,
+    createAssignment,
+    createChoice,
+    createConstant,
+    createFlowProperties,
+    createFormula,
+    createLoop,
+    createDecisionWithOutcomes,
+    createWaitWithWaitEvents,
+    createVariable,
+    createTextTemplate,
+    createRecordCreate,
+    createRecordUpdate,
+    createRecordLookup,
+    createRecordDelete,
+    createScreen,
+    createSubflow,
+    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
+    createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
+    createStage,
+    createStep,
+    createPicklistChoiceGroup,
+    createRecordChoiceGroup,
+    createStartElement,
+    createApexCall,
+    createEmailAlert,
+    createOutcome,
+    createWaitEvent,
+    createActionCallMetadataObject,
+    createApexPluginMetadataObject,
+    createAssignmentMetadataObject,
+    createChoiceMetadataObject,
+    createConstantMetadataObject,
+    createDecisionMetadataObject,
+    createFlowPropertiesMetadataObject,
+    createFormulaMetadataObject,
+    createLoopMetadataObject,
+    createPicklistChoiceGroupMetadataObject,
+    createRecordCreateMetadataObject,
+    createRecordUpdateMetadataObject,
+    createRecordLookupMetadataObject,
+    createRecordDeleteMetadataObject,
+    createRecordChoiceGroupMetadataObject,
+    createScreenMetadataObject,
+    createSubflowMetadataObject,
+    createVariableMetadataObject,
+    createTextTemplateMetadataObject,
+    createStageMetadataObject,
+    createStepMetadataObject,
+    createStartElementWithConnectors,
+    createApexPluginWithConnectors,
+    createAssignmentWithConnectors,
+    createConstantForStore,
+    createDecisionWithOutcomeReferences,
+    createFormulaForStore,
+    createLoopWithConnectors,
+    createWaitWithWaitEventReferences,
+    createRecordCreateWithConnectors,
+    createRecordUpdateWithConnectors,
+    createRecordLookupWithConnectors,
+    createRecordDeleteWithConnectors,
+    createScreenWithConnectors,
+    createSubflowWithConnectors,
+    createVariableForStore,
+    createTextTemplateForStore,
+    createStageForStore,
+    createChoiceForStore,
+    createStepWithConnectorsForStore,
+    createActionCallForStore,
+    dynamicChoiceSetForStore
+} from "builder_platform_interaction/elementFactory";
+
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 
@@ -26,14 +100,22 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.flowPropertiesSingularLabel
         },
-        canvasElement: false
+        canvasElement: false,
+        factory: {
+            propertyEditor: createFlowProperties,
+            uiToFlow: createFlowPropertiesMetadataObject,
+        }
     },
     [ELEMENT_TYPE.START_ELEMENT]: {
         nodeConfig: {
             iconName: 'utility:right',
             maxConnections: 1
         },
-        canvasElement: true
+        canvasElement: true,
+        factory: {
+            propertyEditor: createStartElement,
+            flowToUi: createStartElementWithConnectors
+        }
     },
     [ELEMENT_TYPE.SUBFLOW]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
@@ -50,6 +132,11 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
+        factory: {
+            propertyEditor: createSubflow,
+            uiToFlow: createSubflowMetadataObject,
+            flowToUi: createSubflowWithConnectors
+        }
     },
     [ELEMENT_TYPE.ACTION_CALL]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
@@ -70,6 +157,11 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
+        factory: {
+            propertyEditor: createActionCall,
+            uiToFlow: createActionCallMetadataObject,
+            flowToUi: createActionCallForStore
+        }
     },
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
@@ -86,6 +178,11 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
+        factory: {
+            propertyEditor: createApexPlugin,
+            uiToFlow: createApexPluginMetadataObject,
+            flowToUi: createApexPluginWithConnectors
+        }
     },
     [ELEMENT_TYPE.APEX_CALL]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
@@ -103,6 +200,11 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
+        factory: {
+            propertyEditor: createApexCall,
+            uiToFlow: createActionCallMetadataObject,
+            flowToUi: createActionCallForStore
+        }
     },
     [ELEMENT_TYPE.EMAIL_ALERT]: {
         descriptor: 'builder_platform_interaction:actioncallEditor',
@@ -120,6 +222,11 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
+        factory: {
+            propertyEditor: createEmailAlert,
+            uiToFlow: createActionCallMetadataObject,
+            flowToUi: createActionCallForStore
+        }
     },
     [ELEMENT_TYPE.ASSIGNMENT]: {
         descriptor: 'builder_platform_interaction:assignmentEditor',
@@ -136,6 +243,11 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         bodyCssClass: 'slds-p-around_none',
+        factory: {
+            propertyEditor: createAssignment,
+            uiToFlow: createAssignmentMetadataObject,
+            flowToUi: createAssignmentWithConnectors
+        }
     },
 
     [ELEMENT_TYPE.SCREEN]: {
@@ -155,6 +267,11 @@ export const elementTypeToConfigMap = {
         nonHydratableProperties: ['fieldType', 'dataType', 'type', 'defaultValueDataType', 'defaultValueGuid',
             'valueDataType', 'valueGuid', 'assignToReferenceDataType', 'assignToReferenceGuid', 'choiceReferences'],
         bodyCssClass: 'slds-scrollable_none',
+        factory: {
+            propertyEditor: createScreen,
+            uiToFlow: createScreenMetadataObject,
+            flowToUi: createScreenWithConnectors
+        }
     },
 
     [ELEMENT_TYPE.DECISION]: {
@@ -175,6 +292,12 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveDefaultConnector: true,
+        factory: {
+            propertyEditor: createDecisionWithOutcomes,
+            closePropertyEditor: createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
+            uiToFlow: createDecisionMetadataObject,
+            flowToUi: createDecisionWithOutcomeReferences
+        }
     },
 
     [ELEMENT_TYPE.WAIT]: {
@@ -195,6 +318,12 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveDefaultConnector: true,
+        factory: {
+            propertyEditor: createWaitWithWaitEvents,
+            closePropertyEditor: createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
+            uiToFlow: createSubflowMetadataObject,
+            flowToUi: createWaitWithWaitEventReferences
+        }
     },
 
     [ELEMENT_TYPE.WAIT_EVENT]: {
@@ -208,6 +337,9 @@ export const elementTypeToConfigMap = {
             plural: LABELS.waitEventPluralLabel
         },
         isChildElement: true,
+        factory: {
+            propertyEditor: createWaitEvent
+        }
     },
 
     [ELEMENT_TYPE.LOOP]: {
@@ -227,6 +359,11 @@ export const elementTypeToConfigMap = {
             comboBoxLabel: LABELS.loopConnectorPickerComboBoxLabel
         },
         canvasElement: true,
+        factory: {
+            propertyEditor: createLoop,
+            uiToFlow: createLoopMetadataObject,
+            flowToUi: createLoopWithConnectors
+        }
     },
     [ELEMENT_TYPE.RECORD_CREATE]: {
         descriptor: 'builder_platform_interaction:recordCreateEditor',
@@ -242,7 +379,12 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordCreatePluralLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true
+        canHaveFaultConnector: true,
+        factory: {
+            propertyEditor: createRecordCreate,
+            uiToFlow: createRecordCreateMetadataObject,
+            flowToUi: createRecordCreateWithConnectors
+        }
     },
     [ELEMENT_TYPE.RECORD_LOOKUP]: {
         descriptor: 'builder_platform_interaction:recordLookupEditor',
@@ -258,7 +400,12 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordLookupPluralLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true
+        canHaveFaultConnector: true,
+        factory: {
+            propertyEditor: createRecordLookup,
+            uiToFlow: createRecordLookupMetadataObject,
+            flowToUi: createRecordLookupWithConnectors
+        }
     },
     [ELEMENT_TYPE.RECORD_DELETE]: {
         // TODO: recordEditor is only a place holder now.
@@ -275,7 +422,12 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordDeletePluralLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true
+        canHaveFaultConnector: true,
+        factory: {
+            propertyEditor: createRecordDelete,
+            uiToFlow: createRecordDeleteMetadataObject,
+            flowToUi: createRecordDeleteWithConnectors
+        }
     },
     [ELEMENT_TYPE.RECORD_UPDATE]: {
         descriptor: 'builder_platform_interaction:recordUpdateEditor',
@@ -291,7 +443,12 @@ export const elementTypeToConfigMap = {
             plural: LABELS.recordUpdatePluralLabel
         },
         canvasElement: true,
-        canHaveFaultConnector: true
+        canHaveFaultConnector: true,
+        factory: {
+            propertyEditor: createRecordUpdate,
+            uiToFlow: createRecordUpdateMetadataObject,
+            flowToUi: createRecordUpdateWithConnectors
+        }
     },
     [ELEMENT_TYPE.OUTCOME]: {
         // OUTCOME is not a canvas element, but is a first class element
@@ -304,6 +461,9 @@ export const elementTypeToConfigMap = {
             plural: LABELS.outcomePluralLabel
         },
         isChildElement: true,
+        factory: {
+            propertyEditor: createOutcome
+        }
     },
     [ELEMENT_TYPE.VARIABLE]: {
         descriptor: 'builder_platform_interaction:variableConstantEditor',
@@ -317,7 +477,12 @@ export const elementTypeToConfigMap = {
             singular: LABELS.variableSingularLabel,
             plural: LABELS.variablePluralLabel
         },
-        canvasElement: false
+        canvasElement: false,
+        factory: {
+            propertyEditor: createVariable,
+            uiToFlow: createVariableMetadataObject,
+            flowToUi: createVariableForStore
+        }
     },
     [ELEMENT_TYPE.CHOICE]: {
         descriptor: 'builder_platform_interaction:choiceEditor',
@@ -331,7 +496,12 @@ export const elementTypeToConfigMap = {
             singular: LABELS.choiceSingularLabel,
             plural: LABELS.choicePluralLabel
         },
-        canvasElement: false
+        canvasElement: false,
+        factory: {
+            propertyEditor: createChoice,
+            uiToFlow: createChoiceMetadataObject,
+            flowToUi: createChoiceForStore
+        }
     },
     [ELEMENT_TYPE.RECORD_CHOICE_GROUP]: {
         descriptor: 'builder_platform_interaction:choiceEditor',
@@ -345,7 +515,12 @@ export const elementTypeToConfigMap = {
             plural: 'Record Choice Groups'
         },
         canvasElement: false,
-        metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS
+        metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS,
+        factory: {
+            propertyEditor: createRecordChoiceGroup,
+            uiToFlow: createRecordChoiceGroupMetadataObject,
+            flowToUi: dynamicChoiceSetForStore
+        }
     },
     [ELEMENT_TYPE.PICKLIST_CHOICE_GROUP]: {
         descriptor: 'builder_platform_interaction:choiceEditor',
@@ -359,7 +534,12 @@ export const elementTypeToConfigMap = {
             plural: 'Picklist Choice Groups'
         },
         canvasElement: false,
-        metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS
+        metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS,
+        factory: {
+            propertyEditor: createPicklistChoiceGroup,
+            uiToFlow: createPicklistChoiceGroupMetadataObject,
+            flowToUi: dynamicChoiceSetForStore
+        }
     },
     [ELEMENT_TYPE.CONSTANT]: {
         descriptor: 'builder_platform_interaction:variableConstantEditor',
@@ -373,7 +553,12 @@ export const elementTypeToConfigMap = {
             singular: LABELS.constantSingularLabel,
             plural: LABELS.constantPluralLabel
         },
-        canvasElement: false
+        canvasElement: false,
+        factory: {
+            propertyEditor: createConstant,
+            uiToFlow: createConstantMetadataObject,
+            flowToUi: createConstantForStore
+        }
     },
     [ELEMENT_TYPE.FORMULA]: {
         descriptor: 'builder_platform_interaction:formulaEditor',
@@ -387,7 +572,12 @@ export const elementTypeToConfigMap = {
             singular: LABELS.formulaSingularLabel,
             plural: LABELS.formulaPluralLabel
         },
-        canvasElement: false
+        canvasElement: false,
+        factory: {
+            propertyEditor: createFormula,
+            uiToFlow: createFormulaMetadataObject,
+            flowToUi: createFormulaForStore
+        }
     },
     [ELEMENT_TYPE.TEXT_TEMPLATE]: {
         descriptor: 'builder_platform_interaction:textTemplateEditor',
@@ -401,7 +591,12 @@ export const elementTypeToConfigMap = {
             singular: LABELS.textTemplateSingularLabel,
             plural: LABELS.textTemplatePluralLabel
         },
-        canvasElement: false
+        canvasElement: false,
+        factory: {
+            propertyEditor: createTextTemplate,
+            uiToFlow: createTextTemplateMetadataObject,
+            flowToUi: createTextTemplateForStore
+        }
     },
     [ELEMENT_TYPE.STAGE]: {
         descriptor: 'builder_platform_interaction:stageEditor',
@@ -415,7 +610,12 @@ export const elementTypeToConfigMap = {
             singular: LABELS.stageSingularLabel,
             plural: LABELS.stagePluralLabel
         },
-        canvasElement: false
+        canvasElement: false,
+        factory: {
+            propertyEditor: createStage,
+            uiToFlow: createStageMetadataObject,
+            flowToUi: createStageForStore
+        }
     },
     [ELEMENT_TYPE.STEP]: {
         descriptor: 'builder_platform_interaction:stepEditor',
@@ -431,7 +631,12 @@ export const elementTypeToConfigMap = {
             plural: LABELS.stepPluralLabel
         },
         canvasElement: true,
-        bodyCssClass: 'slds-p-around_none'
+        bodyCssClass: 'slds-p-around_none',
+        factory: {
+            propertyEditor: createStep,
+            uiToFlow: createStepMetadataObject,
+            flowToUi: createStepWithConnectorsForStore
+        }
     },
     [ELEMENT_TYPE.DEFAULT]: {
         // defaultEditor doesn't exist but should lead here making it easier to debug the issue

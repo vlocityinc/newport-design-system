@@ -1,6 +1,7 @@
 import {
     ELEMENT_TYPE,
-    CONNECTOR_TYPE
+    CONNECTOR_TYPE,
+    ACTION_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
@@ -80,4 +81,23 @@ export function createActionCallMetadataObject(actionCall, config) {
         inputParameters,
         outputParameters
     });
+}
+
+/**
+ * This function is called by flowToUiTranslator for convert action call metadata into correct shape and element type.
+ * It used action type property of action call to identify element type
+ * @param {Object} actionCall action call metadata object
+ * @return {Object} element in shape expected by store
+ */
+export function createActionCallForStore(actionCall) {
+    const actionType = actionCall.actionType;
+    switch (actionType) {
+        case ACTION_TYPE.EMAIL_ALERT:
+            return createActionCallWithConnectors(actionCall, ELEMENT_TYPE.EMAIL_ALERT);
+        case ACTION_TYPE.APEX:
+            return createActionCallWithConnectors(actionCall, ELEMENT_TYPE.APEX_CALL);
+        // TODO: Handle case for action type flow
+        default:
+            return createActionCallWithConnectors(actionCall);
+    }
 }

@@ -1,9 +1,8 @@
 import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR } from 'builder_platform_interaction/builderUtils';
-import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
-import { canvasSelector, elementPropertyEditorSelector, getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { canvasSelector, getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction/actions';
-import { dehydrate, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from 'builder_platform_interaction/connectorUtils';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -18,11 +17,9 @@ import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/use
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
-import { propertyEditorFactory } from 'builder_platform_interaction/propertyEditorFactory';
-import { FACTORY_CONFIG, createStartElement } from 'builder_platform_interaction/elementFactory';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 
 let unsubscribeStore;
 let storeInstance;
@@ -98,7 +95,9 @@ export default class Editor extends LightningElement {
             this.showSpinner = true;
         } else {
             // Create start element
-            const startElement = createStartElement();
+            const startElement = getElementForStore({
+                elementType: ELEMENT_TYPE.START_ELEMENT
+            });
             storeInstance.dispatch(addElement(startElement));
             this.disableSave = false;
         }
@@ -283,11 +282,8 @@ export default class Editor extends LightningElement {
         const mode = EditElementEvent.EVENT_NAME;
 
         // Pop flow properties editor and do the following on callback.
-        let node = propertyEditorFactory(storeInstance.getCurrentState().properties, { [FACTORY_CONFIG.SWAP_GUID_TO_DEV_NAME]: true });
-        node = hydrateWithErrors(node);
-
+        const node = getElementForPropertyEditor(storeInstance.getCurrentState().properties);
         node.saveType = SaveType.UPDATE;
-
         const nodeUpdate = this.flowPropertiesCallback;
         invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate });
     };
@@ -319,8 +315,7 @@ export default class Editor extends LightningElement {
             this.saveFlow(SaveType.UPDATE);
         } else {
             // Pop flow properties editor and do the following on callback.
-            let node = propertyEditorFactory(storeInstance.getCurrentState().properties, { [FACTORY_CONFIG.SWAP_GUID_TO_DEV_NAME]: true });
-            node = hydrateWithErrors(node);
+            const node = getElementForPropertyEditor(storeInstance.getCurrentState().properties);
 
             // TODO: We won't need to set the save type here after we introduce the save type
             // selector in the flow-properties-editor component. Temporarily adding the save type
@@ -343,7 +338,7 @@ export default class Editor extends LightningElement {
         // Get the save type  before it gets removed by the mutation below.
         // TODO: We may not need to do this depending on how the save type selector is implemented.
         const saveType = flowProperties.saveType;
-        const properties = propertyEditorFactory(dehydrate(deepCopy(flowProperties)), { [FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]: true });
+        const properties = getElementForStore(flowProperties);
 
         storeInstance.dispatch(updateProperties(properties));
         if (saveType !== SaveType.UPDATE) {
@@ -356,7 +351,7 @@ export default class Editor extends LightningElement {
      * containing resources information, which is handled by container.cmp.
      *  @param {object} event - when add resource button is clicked.
      */
-    handleAddResourceClick = (event) => {
+    handleAddResourceElement = (event) => {
         const mode = event.type;
         const nodeUpdate = this.deMutateAndAddNodeCollection;
         invokePropertyEditor(PROPERTY_EDITOR, { mode, nodeUpdate });
@@ -365,16 +360,38 @@ export default class Editor extends LightningElement {
     /** *********** Canvas and Node Event Handling *************** **/
 
     /**
+     * Handles the add element event which is fired after an element from left palette is dropped
+     * on the canvas or via a click to add interaction.
+     *
+     * @param {Object} event canvas element drop event
+     */
+    handleAddCanvasElement = (event) => {
+        if (event && event.type && event.detail) {
+            const mode = event.type;
+            const node = getElementForPropertyEditor({
+                locationX: event.detail.locationX,
+                locationY: event.detail.locationY,
+                elementType: event.detail.elementType
+            });
+            const nodeUpdate = this.deMutateAndAddNodeCollection;
+            const newResourceCallback = this.newResourceCallback;
+            invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
+        }
+    };
+
+
+    /**
      * Handles the edit element event and fires up the property editor based on node type
      * It uses builder-util library to fire up the ui:panel.
      *
      * @param {object} event - node double clicked event coming from node.js
      */
     handleEditElement = (event) => {
-        if (event && event.detail) {
-            this.handleNodeSelection(event);
+        this.handleNodeSelection(event);
+        if (event && event.detail && event.type) {
             const mode = event.type;
-            const node = elementPropertyEditorSelector(storeInstance.getCurrentState(), event.detail.canvasElementGUID);
+            const guid = event.detail.canvasElementGUID;
+            const node = getElementForPropertyEditor(storeInstance.getCurrentState().elements[guid]);
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             invokePropertyEditor(PROPERTY_EDITOR, { mode, nodeUpdate, node, newResourceCallback });
@@ -632,30 +649,6 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Handles the add element event which is fired after an element from left palette is dropped
-     * on the canvas or via a click to add interaction.
-     *
-     * @param {Object} event canvas element drop event
-     */
-    handleAddElement = (event) => {
-        const mode = event.type;
-        const locationX = event.detail.locationX;
-        const locationY = event.detail.locationY;
-        const elementType = event.detail.elementType;
-
-        let node = propertyEditorFactory({ locationX, locationY, elementType });
-        node.locationX = event.detail.locationX;
-        node.locationY = event.detail.locationY;
-
-        const blackListConfigForElement = elementTypeToConfigMap[elementType].nonHydratableProperties;
-        node = hydrateWithErrors(node, blackListConfigForElement || []);
-
-        const nodeUpdate = this.deMutateAndAddNodeCollection;
-        const newResourceCallback = this.newResourceCallback;
-        invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
-    };
-
-    /**
      * Translates the client side model to the format expected by the server and then invokes
      * the save flow action with the correct save type: create or update.
      * @param {string} saveType the save type (saveDraft, createNewFlow, etc) to use when saving the flow
@@ -681,7 +674,7 @@ export default class Editor extends LightningElement {
     deMutateAndUpdateNodeCollection(node) {
         // This deepCopy is needed as a temporary workaround because the unwrap() function that the property editor
         // calls on OK doesn't actually work and keeps the proxy wrappers.
-        const nodeForStore = propertyEditorFactory(dehydrate(deepCopy(node)), { [FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]: true });
+        const nodeForStore = getElementForStore(node);
         storeInstance.dispatch(updateElement(nodeForStore));
     }
 
@@ -689,7 +682,7 @@ export default class Editor extends LightningElement {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
-        const nodeForStore = propertyEditorFactory(dehydrate(deepCopy(node)), { [FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]: true });
+        const nodeForStore = getElementForStore(node);
         storeInstance.dispatch(addElement(nodeForStore));
     }
 

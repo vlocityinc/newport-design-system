@@ -1,140 +1,76 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { Store } from "builder_platform_interaction/storeLib";
+import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
+import { Store, deepCopy } from "builder_platform_interaction/storeLib";
 import {
     swapUidsForDevNames,
     swapDevNamesToGuids
 } from "builder_platform_interaction/translatorLib";
 import {
-    createActionCall,
-    createApexPlugin,
-    createAssignment,
-    createChoice,
-    createConstant,
-    createFlowProperties,
-    createFormula,
-    createLoop,
-    createDecisionWithOutcomes,
-    createWaitWithWaitEvents,
-    createVariable,
-    createTextTemplate,
-    createRecordCreate,
-    createRecordUpdate,
-    createRecordLookup,
-    createRecordDelete,
-    createScreen,
-    createSubflow,
-    FACTORY_CONFIG,
-    createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
-    createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
-    createStage,
-    createStep,
-    createPicklistChoiceGroup,
-    createRecordChoiceGroup
-} from "builder_platform_interaction/elementFactory";
+    hydrateWithErrors, dehydrate
+} from "builder_platform_interaction/dataMutationLib";
 
 /**
- * Element factory to create new objects for each element type for the property editors
- *
- * @param {Object} element        Element to be used as the base for copying information
- * @param {Object} config         Config for element creation
- * @return {Object} newElement    New element object with all relevant data
+ * This function create element using factory, does UID to devname swapping for template fields and hydrate the element
+ * @param {Object} element existing element or just element type to call correct factory
+ * @return {Object} newElement in shape required by property editor
  */
-/* eslint-disable-next-line complexity */
-export const propertyEditorFactory = (element, config = {}) => {
+export function getElementForPropertyEditor(element = {}) {
+    const { elementType } = element;
+    if (!elementType) {
+        throw new Error('ElementType is not defined for creation of resource element');
+    }
+    const { factory } = getConfigForElementType(elementType);
+    const { propertyEditor } = factory;
+    if (!propertyEditor) {
+        throw new Error('property editor factory is not defined to create new element');
+    }
+    const newElement = propertyEditor(element);
+    // Find a better way to do this and don't couple store with this library
+    const elements = Store.getStore().getCurrentState().elements;
+    swapUidsForDevNames(elements, newElement, {enableGuidToDevnameSwappingForReferenceFields: false});
+    return getElementAfterHydratingWithError(newElement);
+}
+
+/**
+ * This function dehydrate the element, create element using factory, does UID to devname swapping
+ * @param {Object} element existing element
+ * @return {Object} newElement in shape required by store
+ */
+
+export function getElementForStore(element) {
+    if (!element) {
+        throw new Error('Element is not defined');
+    }
+    const { elementType } = element;
+    if (!elementType) {
+        throw new Error('ElementType is not defined for creation of resource element');
+    }
+    // TODO: REMOVE THIS DEEP COPY ASAP
+    const elementAfterDehydrateAndUnwrap = dehydrate(deepCopy(element));
+    const { factory } = getConfigForElementType(elementType);
+    const { propertyEditor, closePropertyEditor } = factory;
     let newElement;
-
-    switch (element.elementType) {
-        case ELEMENT_TYPE.ACTION_CALL:
-            newElement = createActionCall(element);
-            break;
-        case ELEMENT_TYPE.APEX_CALL:
-            newElement = createActionCall(element, ELEMENT_TYPE.APEX_CALL);
-            break;
-        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-            newElement = createApexPlugin(element);
-            break;
-        case ELEMENT_TYPE.ASSIGNMENT:
-            newElement = createAssignment(element);
-            break;
-        case ELEMENT_TYPE.CHOICE:
-            newElement = createChoice(element);
-            break;
-        case ELEMENT_TYPE.CONSTANT:
-            newElement = createConstant(element);
-            break;
-        case ELEMENT_TYPE.RECORD_CHOICE_GROUP:
-            newElement = createRecordChoiceGroup(element);
-            break;
-        case ELEMENT_TYPE.PICKLIST_CHOICE_GROUP:
-            newElement = createPicklistChoiceGroup(element);
-            break;
-        case ELEMENT_TYPE.EMAIL_ALERT:
-            newElement = createActionCall(element, ELEMENT_TYPE.EMAIL_ALERT);
-            break;
-        case ELEMENT_TYPE.FLOW_PROPERTIES:
-            newElement = createFlowProperties(element);
-            break;
-        case ELEMENT_TYPE.FORMULA:
-            newElement = createFormula(element);
-            break;
-        case ELEMENT_TYPE.LOOP:
-            newElement = createLoop(element);
-            break;
-        case ELEMENT_TYPE.DECISION:
-            if (config[FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]) {
-                newElement = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(element);
-            } else {
-                newElement = createDecisionWithOutcomes(element);
-            }
-            break;
-        case ELEMENT_TYPE.WAIT:
-            if (config[FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]) {
-                newElement = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(element);
-            } else {
-                newElement = createWaitWithWaitEvents(element);
-            }
-            break;
-        case ELEMENT_TYPE.RECORD_CREATE:
-            newElement = createRecordCreate(element);
-            break;
-        case ELEMENT_TYPE.RECORD_UPDATE:
-            newElement = createRecordUpdate(element);
-            break;
-        case ELEMENT_TYPE.RECORD_LOOKUP:
-            newElement = createRecordLookup(element);
-            break;
-        case ELEMENT_TYPE.RECORD_DELETE:
-            newElement = createRecordDelete(element);
-            break;
-        case ELEMENT_TYPE.SCREEN:
-            newElement = createScreen(element);
-            break;
-        case ELEMENT_TYPE.SUBFLOW:
-            newElement = createSubflow(element);
-            break;
-        case ELEMENT_TYPE.VARIABLE:
-            newElement = createVariable(element);
-            break;
-        case ELEMENT_TYPE.TEXT_TEMPLATE:
-            newElement = createTextTemplate(element);
-            break;
-        case ELEMENT_TYPE.STAGE:
-            newElement = createStage(element);
-            break;
-        case ELEMENT_TYPE.STEP:
-            newElement = createStep(element);
-            break;
-        default:
-            break;
+    if (closePropertyEditor) {
+        newElement = closePropertyEditor(elementAfterDehydrateAndUnwrap);
+    } else if (propertyEditor) {
+        newElement = propertyEditor(elementAfterDehydrateAndUnwrap);
+    } else {
+        throw new Error('property editor factory is not defined to create new element');
     }
-
-    if (config[FACTORY_CONFIG.SWAP_GUID_TO_DEV_NAME]) {
-        const elements = Store.getStore().getCurrentState().elements;
-        swapUidsForDevNames(elements, { [newElement.guid]: newElement }, {enableGuidToDevnameSwappingForReferenceFields: false});
-    } else if (config[FACTORY_CONFIG.SWAP_DEV_NAME_TO_GUID]) {
-        const elements = Store.getStore().getCurrentState().elements;
-        swapDevNamesToGuids(elements, { [newElement.guid]: newElement });
-    }
-
+    const elements = Store.getStore().getCurrentState().elements;
+    swapDevNamesToGuids(elements, newElement);
     return newElement;
-};
+}
+
+/**
+ * Helper function to get non hydratable properties and hydrate an element with errors
+ * @param {Object} element existing element
+ * @return {Object} new Element with errors
+ */
+function getElementAfterHydratingWithError(element) {
+    if (!element) {
+        throw new Error('element is not defined to be hydrated');
+    }
+    const { elementType } = element;
+    const { nonHydratableProperties } = getConfigForElementType(elementType);
+    return hydrateWithErrors(element, nonHydratableProperties || []);
+}

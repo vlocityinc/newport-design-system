@@ -1,7 +1,7 @@
 import { swapDevNamesToUids } from "./uidSwapping";
 import { ELEMENT_TYPE, METADATA_KEY } from "builder_platform_interaction/flowMetadata";
-import { flowToUIFactory } from "./flowToUiFactory";
-import { createStartElementWithConnectors } from "builder_platform_interaction/elementFactory";
+import { createStartElementWithConnectors, createFlowProperties } from "builder_platform_interaction/elementFactory";
+import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 
 /**
  * Translate flow tooling object into UI data model
@@ -11,7 +11,7 @@ import { createStartElementWithConnectors } from "builder_platform_interaction/e
  */
 export function translateFlowToUIModel(flow) {
     // Construct flow properties object
-    const properties = flowToUIFactory(ELEMENT_TYPE.FLOW_PROPERTIES, flow);
+    const properties = createFlowProperties(ELEMENT_TYPE.FLOW_PROPERTIES, flow);
     // Create start element
     const { elements, connectors }  = createStartElementWithConnectors(flow.metadata.startElementReference);
     // Create elements and connectors from flow Metadata
@@ -91,13 +91,17 @@ function updateCanvasElementGuidsAndNameToGuidMap(elements = {}) {
  */
 function createElementsUsingFlowMetadata(metadata) {
     let storeElements, storeConnectors;
+    const metadataKeyToFlowToUiFunctionMap = getMetadataKeyToFlowToUiFunctionMap();
     const metadataKeyList = Object.values(METADATA_KEY);
+    if (!metadataKeyList) {
+        throw new Error('Metadata does not have corresponding element array');
+    }
     for (let i = 0, metadataKeyListLen = metadataKeyList.length; i < metadataKeyListLen; i++) {
         const metadataKey = metadataKeyList[i];
         const metadataElementsList = metadata[metadataKey];
         for (let j = 0, metadataElementsListLen = metadataElementsList.length; j < metadataElementsListLen; j++) {
             const metadataElementsListItem = metadataElementsList[j];
-            const { elements, connectors } = flowToUIFactory(metadataKey, metadataElementsListItem);
+            const { elements, connectors } = metadataKeyToFlowToUiFunctionMap[metadataKey](metadataElementsListItem);
             if (elements) {
                 storeElements = updateStoreElements(storeElements, elements);
             }
@@ -108,4 +112,22 @@ function createElementsUsingFlowMetadata(metadata) {
         storeConnectors,
         storeElements
     };
+}
+
+/**
+ * Helper function to create a map with key as metadataKey and value as flowToUi function
+ * and ignore element type with metadataKey. Eg: flow properties, start etc
+ * @returns {Object} map containing key as metadataKey and value as flowToUi function
+ */
+function getMetadataKeyToFlowToUiFunctionMap() {
+    return Object.keys(elementTypeToConfigMap).reduce((acc, elementTypeKey) => {
+        const { metadataKey, factory } = elementTypeToConfigMap[elementTypeKey];
+        if (!metadataKey || !factory) {
+            return acc;
+        }
+        const { flowToUi } = factory;
+        return Object.assign(acc, {
+            [metadataKey]: flowToUi
+        });
+    }, {});
 }

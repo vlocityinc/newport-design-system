@@ -3,7 +3,8 @@ import { ELEMENT_TYPE, PROCESS_METADATA_VALUES } from "builder_platform_interact
 import { swapUidsForDevNames } from "./uidSwapping";
 import { updateProperties } from "builder_platform_interaction/dataMutationLib";
 import { getFlowBounds } from "builder_platform_interaction/connectorUtils";
-import { uiToFlowFactory } from "./uiToFlowFactory";
+import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
+
 
 const getXYTranslate = (canvasElements) => {
     const EXTRA_SPACING = 180;
@@ -77,13 +78,13 @@ export function translateUIModelToFlow(uiModel) {
                 metadata[elementInfo.metadataKey] = [];
             }
 
-            const metadataElement = uiToFlowFactory(element, config);
+            const metadataElement = getElementForUiToFlowTranslation(element, config);
 
             metadata[elementInfo.metadataKey].push(metadataElement);
         }
     }
 
-    const flowProperties = uiToFlowFactory(uiModel.properties);
+    const flowProperties = getElementForUiToFlowTranslation(uiModel.properties);
     metadata = updateProperties(metadata, flowProperties);
 
     // Swap out guids for dev names in all element references
@@ -102,4 +103,20 @@ export function translateUIModelToFlow(uiModel) {
         fullName: name,
         versionNumber
     };
+}
+
+function getElementForUiToFlowTranslation(element, config) {
+    if (!element) {
+        throw new Error('Element is not defined');
+    }
+    const { elementType } = element;
+    if (!elementType) {
+        throw new Error('ElementType is not defined for creation of resource element');
+    }
+    const { factory } = getConfigForElementType(elementType);
+    const { uiToFlow } = factory;
+    if (!uiToFlow) {
+        throw new Error('ui to flow factory is not defined to translate a flow');
+    }
+    return uiToFlow(element, config);
 }
