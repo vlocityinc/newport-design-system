@@ -5,10 +5,10 @@ import * as expressionUtilsMock from "builder_platform_interaction/expressionUti
 import * as store from "mock/storeData";
 import { SORT_ORDER, NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { RecordStoreOptionChangedEvent,
-    AddRecordLookupFilterEvent,
-    DeleteRecordLookupFilterEvent,
-    UpdateRecordLookupFilterEvent,
-    RecordLookupFilterTypeChangedEvent } from "builder_platform_interaction/events";
+    AddRecordFilterEvent,
+    DeleteRecordFilterEvent,
+    UpdateRecordFilterEvent,
+    RecordFilterTypeChangedEvent } from "builder_platform_interaction/events";
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
@@ -254,23 +254,23 @@ describe('record-lookup-editor', () => {
                 expect(recordLookupEditor.node.assignNullValuesIfNoRecordsFound).toBe(true); // We want the exact value true
             });
         });
-        it('handle UpdateRecordLookupFilterEvent should update the filter element', () => {
-            const updateRecordLookupFilterEvent = new UpdateRecordLookupFilterEvent(0, filterElement, null);
-            getRecordFilter(recordLookupEditor).dispatchEvent(updateRecordLookupFilterEvent);
+        it('handle UpdateRecordFilterEvent should update the filter element', () => {
+            const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
+            getRecordFilter(recordLookupEditor).dispatchEvent(updateRecordFilterEvent);
             return Promise.resolve().then(() => {
                 expect(recordLookupEditor.node.filters[0]).toMatchObject(filterElement);
             });
         });
-        it('handle AddRecordLookupFilterEvent should add a filter element', () => {
-            const addRecordLookupFilterEvent = new AddRecordLookupFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(recordLookupEditor).dispatchEvent(addRecordLookupFilterEvent);
+        it('handle AddRecordFilterEvent should add a filter element', () => {
+            const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
+            getRecordFilter(recordLookupEditor).dispatchEvent(addRecordFilterEvent);
             return Promise.resolve().then(() => {
                 expect(recordLookupEditor.node.filters).toHaveLength(1);
             });
         });
         it('handle record filter type Change event', () => {
-            const recordLookupFilterTypeChangedEvent = new RecordLookupFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
-            getRecordFilter(recordLookupEditor).dispatchEvent(recordLookupFilterTypeChangedEvent);
+            const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
+            getRecordFilter(recordLookupEditor).dispatchEvent(recordFilterTypeChangedEvent);
             return Promise.resolve().then(() => {
                 expect(recordLookupEditor.node.filterType.value).toBe(RECORD_FILTER_CRITERIA.ALL);
             });
@@ -287,9 +287,9 @@ describe('record-lookup-editor', () => {
             const recordFilter = getRecordFilter(recordLookupEditor);
             expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
         });
-        it('record filter fire DeleteRecordLookupFilterEvent', () => {
-            const deleteRecordLookupFilterEvent = new DeleteRecordLookupFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(recordLookupEditor).dispatchEvent(deleteRecordLookupFilterEvent);
+        it('record filter fire DeleteRecordFilterEvent', () => {
+            const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
+            getRecordFilter(recordLookupEditor).dispatchEvent(deleteRecordFilterEvent);
             return Promise.resolve().then(() => {
                 expect(recordLookupEditor.node.filters).toHaveLength(0);
             });

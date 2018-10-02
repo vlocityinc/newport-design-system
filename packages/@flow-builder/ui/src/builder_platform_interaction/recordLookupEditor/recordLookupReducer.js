@@ -1,9 +1,9 @@
 import { updateProperties, set, deleteItem, hydrateWithErrors, replaceItem } from "builder_platform_interaction/dataMutationLib";
 import {
     PropertyChangedEvent,
-    AddRecordLookupFilterEvent,
-    UpdateRecordLookupFilterEvent,
-    DeleteRecordLookupFilterEvent,
+    AddRecordFilterEvent,
+    UpdateRecordFilterEvent,
+    DeleteRecordFilterEvent,
     AddRecordLookupFieldEvent,
     UpdateRecordLookupFieldEvent,
     DeleteRecordLookupFieldEvent,
@@ -30,17 +30,17 @@ const emptyFilterItem = () => {
     };
 };
 
-const addRecordLookupFilter = (state) => {
+const addRecordFilter = (state) => {
     const path = ['filters', state.filters.length];
     return set(state, path, emptyFilterItem());
 };
 
-const deleteRecordLookupFilter = (state, event) => {
+const deleteRecordFilter = (state, event) => {
     const updatedItems = deleteItem(state.filters, event.detail.index);
     return set(state, 'filters', updatedItems);
 };
 
-const updateRecordLookupFilter = (state, event) => {
+const updateRecordFilter = (state, event) => {
     const path = ['filters', event.detail.index];
     const item = updateProperties(state.filters[event.detail.index], event.detail.value);
     return set(state, path, item);
@@ -145,12 +145,12 @@ const managePropertyChanged = (state, event) => {
  */
 export const recordLookupReducer = (state, event) => {
     switch (event.type) {
-        case AddRecordLookupFilterEvent.EVENT_NAME:
-            return addRecordLookupFilter(state, event);
-        case UpdateRecordLookupFilterEvent.EVENT_NAME:
-            return updateRecordLookupFilter(state, event);
-        case DeleteRecordLookupFilterEvent.EVENT_NAME:
-            return deleteRecordLookupFilter(state, event);
+        case AddRecordFilterEvent.EVENT_NAME:
+            return addRecordFilter(state, event);
+        case UpdateRecordFilterEvent.EVENT_NAME:
+            return updateRecordFilter(state, event);
+        case DeleteRecordFilterEvent.EVENT_NAME:
+            return deleteRecordFilter(state, event);
         case AddRecordLookupFieldEvent.EVENT_NAME:
             return addQueriedField(state, event);
         case UpdateRecordLookupFieldEvent.EVENT_NAME:

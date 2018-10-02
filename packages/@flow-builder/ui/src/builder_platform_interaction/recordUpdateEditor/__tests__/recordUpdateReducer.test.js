@@ -1,8 +1,8 @@
 import {recordUpdateReducer} from "../recordUpdateReducer";
 import {
-    AddRecordLookupFilterEvent,
-    UpdateRecordLookupFilterEvent,
-    DeleteRecordLookupFilterEvent,
+    AddRecordFilterEvent,
+    UpdateRecordFilterEvent,
+    DeleteRecordFilterEvent,
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent,
@@ -131,7 +131,7 @@ describe('record-update-reducer using fields', () => {
     describe('handle list item events', () => {
         it('add a filter item', () => {
             const event = {
-                type: AddRecordLookupFilterEvent.EVENT_NAME,
+                type: AddRecordFilterEvent.EVENT_NAME,
             };
             const newState = recordUpdateReducer(originalState, event);
             expect(newState.filters).toHaveLength(2);
@@ -139,7 +139,7 @@ describe('record-update-reducer using fields', () => {
         });
         it('delete a filter item', () => {
             const event = {
-                type: DeleteRecordLookupFilterEvent.EVENT_NAME,
+                type: DeleteRecordFilterEvent.EVENT_NAME,
                 detail: {
                     index: 0,
                 }
@@ -151,7 +151,7 @@ describe('record-update-reducer using fields', () => {
 
         it('update the left hand side of a filter item', () => {
             const event = {
-                type: UpdateRecordLookupFilterEvent.EVENT_NAME,
+                type: UpdateRecordFilterEvent.EVENT_NAME,
                 detail: {
                     index: 0,
                     value: {[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'Account.Description', error: null}},

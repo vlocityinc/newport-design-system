@@ -9,9 +9,9 @@ import {
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent,
-    AddRecordLookupFilterEvent,
-    UpdateRecordLookupFilterEvent,
-    DeleteRecordLookupFilterEvent,
+    AddRecordFilterEvent,
+    UpdateRecordFilterEvent,
+    DeleteRecordFilterEvent,
 } from "builder_platform_interaction/events";
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
@@ -63,17 +63,17 @@ const resetAssignmentErrors = (state) => {
     return state;
 };
 
-const addRecordLookupFilter = (state) => {
+const addRecordFilter = (state) => {
     const path = [FILTERS_PROP, state.filters.length];
     return set(state, path, emptyFilterItem());
 };
 
-const deleteRecordLookupFilter = (state, event) => {
+const deleteRecordFilter = (state, event) => {
     const updatedItems = deleteItem(state.filters, event.detail.index);
     return set(state, FILTERS_PROP, updatedItems);
 };
 
-const updateRecordLookupFilter = (state, event) => {
+const updateRecordFilter = (state, event) => {
     const path = [FILTERS_PROP, event.detail.index];
     const item = updateProperties(state.filters[event.detail.index], event.detail.value);
     return set(state, path, item);
@@ -139,12 +139,12 @@ const managePropertyChanged = (state, event) => {
  */
 export const recordUpdateReducer = (state, event) => {
     switch (event.type) {
-        case AddRecordLookupFilterEvent.EVENT_NAME:
-            return addRecordLookupFilter(state, event);
-        case UpdateRecordLookupFilterEvent.EVENT_NAME:
-            return updateRecordLookupFilter(state, event);
-        case DeleteRecordLookupFilterEvent.EVENT_NAME:
-            return deleteRecordLookupFilter(state, event);
+        case AddRecordFilterEvent.EVENT_NAME:
+            return addRecordFilter(state, event);
+        case UpdateRecordFilterEvent.EVENT_NAME:
+            return updateRecordFilter(state, event);
+        case DeleteRecordFilterEvent.EVENT_NAME:
+            return deleteRecordFilter(state, event);
         case AddRecordFieldAssignmentEvent.EVENT_NAME:
             return addRecordRecordFieldAssignment(state);
         case DeleteRecordFieldAssignmentEvent.EVENT_NAME:

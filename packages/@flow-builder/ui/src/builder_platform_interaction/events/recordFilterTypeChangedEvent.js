@@ -1,7 +1,7 @@
-const eventName = 'recordlookupfiltertypechanged';
+const eventName = 'recordfiltertypechanged';
 
 
-export class RecordLookupFilterTypeChangedEvent {
+export class RecordFilterTypeChangedEvent {
     constructor(filterType) {
         return new CustomEvent(eventName, {
             cancelable: false,

@@ -5,9 +5,9 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 
 import {
-    AddRecordLookupFilterEvent,
-    UpdateRecordLookupFilterEvent,
-    DeleteRecordLookupFilterEvent,
+    AddRecordFilterEvent,
+    UpdateRecordFilterEvent,
+    DeleteRecordFilterEvent,
 } from "builder_platform_interaction/events";
 import RecordLookupFilter from "builder_platform_interaction/recordFilter";
 
@@ -188,20 +188,20 @@ describe('record-filter', () => {
     });
 
     describe('handleAddFilter', () => {
-        it('fires addRecordLookupFilterEvent', () => {
+        it('fires addRecordFilterEvent', () => {
             const element = createComponentUnderTest();
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                element.addEventListener(AddRecordLookupFilterEvent.EVENT_NAME, eventCallback);
+                element.addEventListener(AddRecordFilterEvent.EVENT_NAME, eventCallback);
                 const filterList = getFilterList(element);
-                filterList.dispatchEvent(new AddRecordLookupFilterEvent());
+                filterList.dispatchEvent(new AddRecordFilterEvent());
                 expect(eventCallback).toHaveBeenCalled();
             });
         });
     });
 
     describe('handleUpdateFilter', () => {
-        it('fires updateRecordLookupFilterEvent', () => {
+        it('fires updateRecordFilterEvent', () => {
             const updateData = {
                 index: 0,
                 value: 'newValue',
@@ -209,9 +209,9 @@ describe('record-filter', () => {
             const element = createComponentUnderTest();
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                element.addEventListener(UpdateRecordLookupFilterEvent.EVENT_NAME, eventCallback);
+                element.addEventListener(UpdateRecordFilterEvent.EVENT_NAME, eventCallback);
                 const filterList = getFilterList(element);
-                filterList.dispatchEvent(new UpdateRecordLookupFilterEvent(updateData.index, updateData.value));
+                filterList.dispatchEvent(new UpdateRecordFilterEvent(updateData.index, updateData.value));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
                     detail: {
@@ -224,14 +224,14 @@ describe('record-filter', () => {
     });
 
     describe('handleDeleteFilter', () => {
-        it('fires deleteRecordLookupFilterEvent', () => {
+        it('fires deleteRecordFilterEvent', () => {
             const deleteIndex = 1;
             const element = createComponentUnderTest();
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                element.addEventListener(DeleteRecordLookupFilterEvent.EVENT_NAME, eventCallback);
+                element.addEventListener(DeleteRecordFilterEvent.EVENT_NAME, eventCallback);
                 const filterList = getFilterList(element);
-                filterList.dispatchEvent(new DeleteRecordLookupFilterEvent(deleteIndex));
+                filterList.dispatchEvent(new DeleteRecordFilterEvent(deleteIndex));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
                     detail: {

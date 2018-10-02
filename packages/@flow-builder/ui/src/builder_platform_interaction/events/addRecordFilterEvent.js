@@ -1,7 +1,7 @@
-const eventName = 'addrecordlookupfilter';
+const eventName = 'addrecordfilter';
 
 
-export class AddRecordLookupFilterEvent {
+export class AddRecordFilterEvent {
     constructor() {
         return new CustomEvent(eventName, {
             cancelable: false,

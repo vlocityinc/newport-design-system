@@ -35,10 +35,10 @@ export { PaletteItemClickedEvent } from "./paletteEvents/paletteItemClickedEvent
 export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';
 export { ItemSelectedEvent } from './itemSelectedEvent';
 export { ComboboxStateChangedEvent } from './comboboxStateChangedEvent';
-export { AddRecordLookupFilterEvent } from './addRecordLookupFilterEvent';
-export { UpdateRecordLookupFilterEvent } from './updateRecordLookupFilterEvent';
-export { DeleteRecordLookupFilterEvent } from './deleteRecordLookupFilterEvent';
-export { RecordLookupFilterTypeChangedEvent } from './recordLookupFilterTypeChangedEvent';
+export { AddRecordFilterEvent } from './addRecordFilterEvent';
+export { UpdateRecordFilterEvent } from './updateRecordFilterEvent';
+export { DeleteRecordFilterEvent } from './deleteRecordFilterEvent';
+export { RecordFilterTypeChangedEvent } from './recordFilterTypeChangedEvent';
 export { PaletteItemChevronClickedEvent } from "./paletteEvents/paletteItemChevronClickedEvent";
 export { RecordStoreOptionChangedEvent } from './recordStoreOptionChangedEvent';
 export { SObjectReferenceChangedEvent } from './sObjectReferenceChangedEvent';

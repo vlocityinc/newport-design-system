@@ -1,15 +1,14 @@
-const eventName = 'updaterecordlookupfilter';
+const eventName = 'deleterecordfilter';
 
 
-export class UpdateRecordLookupFilterEvent {
-    constructor(index, value) {
+export class DeleteRecordFilterEvent {
+    constructor(index) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
             detail: {
-                index,
-                value
+                index
             }
         });
     }

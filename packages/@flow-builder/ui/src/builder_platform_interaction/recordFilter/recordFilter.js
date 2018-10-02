@@ -5,10 +5,10 @@ import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEdito
 import { format } from "builder_platform_interaction/commonUtils";
 import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
 import {
-    AddRecordLookupFilterEvent,
-    DeleteRecordLookupFilterEvent,
-    UpdateRecordLookupFilterEvent,
-    RecordLookupFilterTypeChangedEvent
+    AddRecordFilterEvent,
+    DeleteRecordFilterEvent,
+    UpdateRecordFilterEvent,
+    RecordFilterTypeChangedEvent
 } from "builder_platform_interaction/events";
 
 export default class RecordFilter extends LightningElement {
@@ -130,8 +130,8 @@ export default class RecordFilter extends LightningElement {
         event.stopPropagation();
         this.selectedFilter = event.detail.value;
         // fire RecordFilterTypeChangedEvent
-        const recordLookupFilterTypeChangedEvent = new RecordLookupFilterTypeChangedEvent(this.selectedFilter);
-        this.dispatchEvent(recordLookupFilterTypeChangedEvent);
+        const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(this.selectedFilter);
+        this.dispatchEvent(recordFilterTypeChangedEvent);
     }
 
     /**
@@ -140,8 +140,8 @@ export default class RecordFilter extends LightningElement {
      */
     handleAddFilter(event) {
         event.stopPropagation();
-        const addRecordLookupFilterEvent = new AddRecordLookupFilterEvent();
-        this.dispatchEvent(addRecordLookupFilterEvent);
+        const addRecordFilterEvent = new AddRecordFilterEvent();
+        this.dispatchEvent(addRecordFilterEvent);
     }
 
     /**
@@ -150,8 +150,8 @@ export default class RecordFilter extends LightningElement {
      */
     handleUpdateFilter(event) {
         event.stopPropagation();
-        const updateRecordLookupFilterEvent = new UpdateRecordLookupFilterEvent(event.detail.index, event.detail.value, event.detail.error);
-        this.dispatchEvent(updateRecordLookupFilterEvent);
+        const updateRecordFilterEvent = new UpdateRecordFilterEvent(event.detail.index, event.detail.value, event.detail.error);
+        this.dispatchEvent(updateRecordFilterEvent);
     }
 
     /**
@@ -160,7 +160,7 @@ export default class RecordFilter extends LightningElement {
      */
     handleDeleteFilter(event) {
         event.stopPropagation();
-        const deleteRecordLookupFilterEvent = new DeleteRecordLookupFilterEvent(event.detail.index);
-        this.dispatchEvent(deleteRecordLookupFilterEvent);
+        const deleteRecordFilterEvent = new DeleteRecordFilterEvent(event.detail.index);
+        this.dispatchEvent(deleteRecordFilterEvent);
     }
 }

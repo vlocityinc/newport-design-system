@@ -6,10 +6,10 @@ import {  SObjectReferenceChangedEvent } from "builder_platform_interaction/even
 import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { mockAccountFields } from "mock/serverEntityData";
 import { RecordStoreOptionChangedEvent,
-    AddRecordLookupFilterEvent,
-    DeleteRecordLookupFilterEvent,
-    UpdateRecordLookupFilterEvent,
-    RecordLookupFilterTypeChangedEvent,
+    AddRecordFilterEvent,
+    DeleteRecordFilterEvent,
+    UpdateRecordFilterEvent,
+    RecordFilterTypeChangedEvent,
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent, } from "builder_platform_interaction/events";
@@ -198,23 +198,23 @@ describe('record-update-editor usung fields', () => {
                 expect(sObjectOrSObjectCollectionPicker.value).toBe('');
             });
         });
-        it('handle UpdateRecordLookupFilterEvent should update the filter element', () => {
-            const updateRecordLookupFilterEvent = new UpdateRecordLookupFilterEvent(0, filterElement, null);
-            getRecordFilter(recordUpdateEditor).dispatchEvent(updateRecordLookupFilterEvent);
+        it('handle UpdateRecordFilterEvent should update the filter element', () => {
+            const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
+            getRecordFilter(recordUpdateEditor).dispatchEvent(updateRecordFilterEvent);
             return Promise.resolve().then(() => {
                 expect(recordUpdateEditor.node.filters[0]).toMatchObject(filterElement);
             });
         });
-        it('handle AddRecordLookupFilterEvent should add a filter element', () => {
-            const addRecordLookupFilterEvent = new AddRecordLookupFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(recordUpdateEditor).dispatchEvent(addRecordLookupFilterEvent);
+        it('handle AddRecordFilterEvent should add a filter element', () => {
+            const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
+            getRecordFilter(recordUpdateEditor).dispatchEvent(addRecordFilterEvent);
             return Promise.resolve().then(() => {
                 expect(recordUpdateEditor.node.filters).toHaveLength(1);
             });
         });
-        it('record filter fire DeleteRecordLookupFilterEvent', () => {
-            const deleteRecordLookupFilterEvent = new DeleteRecordLookupFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(recordUpdateEditor).dispatchEvent(deleteRecordLookupFilterEvent);
+        it('record filter fire DeleteRecordFilterEvent', () => {
+            const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
+            getRecordFilter(recordUpdateEditor).dispatchEvent(deleteRecordFilterEvent);
             return Promise.resolve().then(() => {
                 expect(recordUpdateEditor.node.filters).toHaveLength(0);
             });
@@ -241,7 +241,7 @@ describe('record-update-editor usung fields', () => {
             });
         });
         it('handle record filter type Change event', () => {
-            const recordUpdateFilterTypeChangedEvent = new RecordLookupFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
+            const recordUpdateFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
             getRecordFilter(recordUpdateEditor).dispatchEvent(recordUpdateFilterTypeChangedEvent);
             return Promise.resolve().then(() => {
                 expect(recordUpdateEditor.node.filterType.value).toBe(RECORD_FILTER_CRITERIA.ALL);
