@@ -59,9 +59,10 @@ export default class ParameterItem extends LightningElement {
      * @property {boolean} isRequired   true if the parameter is required input parameter
      * @property {String|Object} [label]   parameter label (may be hydrated)
      * @property {String|Object} dataType     the flow data type, see FLOW_DATA_TYPE (may be hydrated)
-     * @property {Number} [maxOccurs]   the maximum occurances
+     * @property {Number} [maxOccurs]   the maximum occurrences
      * @property {String|Object} [value]    parameter's value (must be hydrated)
      * @property {String|Object} [valueDataType]   parameter's value data type (may be hydrated)
+     * @property {String} [iconName] parameter's icon name, if we wish to use a custom icon rather than lookup icon by data type
      * @example <caption>input parameter</caption
      * {
      * name: 'subjectOrTargetId',
@@ -71,7 +72,7 @@ export default class ParameterItem extends LightningElement {
      * dataType: 'String',
      * maxOccurs: 1,
      * value: {value: 'textVar', error: null},
-     * valueDataType: {value: 'reference', error: null}
+     * valueDataType: {value: 'reference', error: null},
      * }
      * @example <caption>output parameter</caption>
      * {
@@ -82,7 +83,8 @@ export default class ParameterItem extends LightningElement {
      * dataType: 'String',
      * maxOccurs: 1,
      * value: {value: 'textVar', error: null},
-     * valueDataType: {value: 'reference', error: null}
+     * valueDataType: {value: 'reference', error: null},
+     * iconName: 'utility:events'
      * }
      */
 
@@ -187,7 +189,7 @@ export default class ParameterItem extends LightningElement {
      * icon for parameter
      */
     get iconName() {
-        return getDataTypeIcons(this.getDataType(), 'utility');
+        return this.state.parameterItem.iconName || getDataTypeIcons(this.getDataType(), 'utility');
     }
 
     /**

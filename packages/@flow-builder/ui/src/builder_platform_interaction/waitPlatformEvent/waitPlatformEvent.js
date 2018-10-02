@@ -6,6 +6,11 @@ import { LABELS } from "./waitPlatformEventLabels";
 export default class WaitPlatformEvent extends LightningElement {
     labels = LABELS;
 
+    outputParameterItem = {
+        label: LABELS.platformEventOutputLabel,
+        iconName: 'utility:events',
+    };
+
     /**
      * @returns {Object} config to pass to entity-resource-picker component
      */
