@@ -33,6 +33,9 @@
     <aura:dependency resource="markup://builder_platform_interaction:waitEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:loopEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:actioncallEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:invocableActionEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:apexPluginEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:subflowEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:recordCreateEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:recordLookupEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:recordUpdateEditor" type="MODULE" />

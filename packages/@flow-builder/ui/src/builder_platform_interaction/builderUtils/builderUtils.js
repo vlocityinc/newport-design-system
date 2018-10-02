@@ -4,6 +4,7 @@ import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interactio
 import { AddElementEvent, AddNonCanvasElementEvent, EditElementEvent, NewResourceEvent, CANVAS_EVENT, SaveFlowEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './builderUtilsLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { isObject } from 'builder_platform_interaction/commonUtils';
 
 /**
  * @constant state of callback result
@@ -188,6 +189,20 @@ const getConnectorPickerConfig = (mode, attributes) => {
 };
 
 /**
+ * Gets the property editor descriptor
+ * @param {string} mode the event name(addelement, editelement)
+ * @param {object} elementConfig - the element config
+ * @return {string|undefined} - the element config descriptor
+ */
+const getPropertyEditorDescriptor = (mode, elementConfig) => {
+    const desc = elementConfig.descriptor;
+    if (!isObject(desc)) {
+        return desc;
+    }
+    return desc[mode];
+};
+
+/**
  * Gets the property editor config
  * @param {string} mode based on the event type
  * @param {object} attributes - contains a callback and actual data
@@ -204,7 +219,10 @@ const getPropertyEditorConfig = (mode, attributes) => {
         elementType = attributes.node.elementType,
         elementConfig = getConfigForElementType(elementType),
         titleForModal = getTitleForModalHeader(mode, elementType),
-        desc = elementConfig.descriptor;
+        desc = getPropertyEditorDescriptor(mode, elementConfig);
+        if (!desc) {
+            throw new Error('descriptor is not defined in the element config for the element type: ' + elementType);
+        }
 
     const attr = {
         nodeUpdate,
@@ -242,7 +260,6 @@ const getEditorConfig = (mode, attributes) => {
     if (mode === NewResourceEvent.EVENT_NAME) {
         return getNewResourceConfig(attributes);
     }
-
     return getPropertyEditorConfig(mode, attributes);
 };
 

@@ -2,7 +2,7 @@
 <!-- This template is common, used for invocable-action-editor, apex-plugin-editor, subflow-editor -->
     <div class='slds-form slds-form_compound slds-p-around_small'>
         <div class="slds-p-top_small">
-        {title}
+        {subtitle}
         </div>
         <div class='slds-p-top_small'>
         <builder_platform_interaction-label-description label={labelDescriptionConfig.label} 
@@ -22,7 +22,8 @@
                     <ul>
                         <template for:each={inputs} for:item="item" for:index="index">
                             <builder_platform_interaction-parameter-item item={item}
-                                key={item.rowIndex} item-index={index} element-type={elementType}>
+                                key={item.rowIndex} item-index={index} element-type={elementType}
+                                rules={inputRules}>
                             </builder_platform_interaction-parameter-item>
                         </template>
                     </ul>
@@ -33,7 +34,8 @@
                     <ul>
                         <template for:each={outputs} for:item="item" for:index="index">
                             <builder_platform_interaction-parameter-item item={item} 
-                                key={item.rowIndex} item-index={index} element-type={elementType}>
+                                key={item.rowIndex} item-index={index} element-type={elementType}
+                                rules={inputRules}>
                             </builder_platform_interaction-parameter-item>
                         </template>
                     </ul>

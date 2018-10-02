@@ -1,4 +1,5 @@
 import { LightningElement, api } from 'lwc';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 
 export default class BaseCalloutEditor extends LightningElement {
     /**
@@ -8,10 +9,10 @@ export default class BaseCalloutEditor extends LightningElement {
     @api labelDescriptionConfig;
 
     /**
-     * Editor header title
+     * Modal subtitle
      *
      */
-    @api title;
+    @api subtitle;
 
     /**
      * Input tab header title
@@ -41,11 +42,20 @@ export default class BaseCalloutEditor extends LightningElement {
      * Type of element
      *
      */
-    @api elementType;
+    @api
+    elementType;
 
     /**
      * true to display the spinner
      *
      */
     @api displaySpinner;
+
+    /**
+     * rules for input parameters
+     *
+     */
+    get inputRules() {
+        return getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementType);
+    }
 }

@@ -1,6 +1,7 @@
 import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { LABELS } from "./elementConfigLabels";
+import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import {
     createActionCall,
     createApexPlugin,
@@ -118,7 +119,10 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.SUBFLOW]: {
-        descriptor: 'builder_platform_interaction:actioncallEditor',
+        descriptor: {
+            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:subflowEditor',
+            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+        },
         nodeConfig: {
             iconName: 'standard:flow',
             utilityIconName: 'utility:flow',
@@ -131,6 +135,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.subflowPluralLabel
         },
         canvasElement: true,
+        nonHydratableProperties: ['valueDataType', 'valueGuid'],
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createSubflow,
@@ -139,7 +144,10 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.ACTION_CALL]: {
-        descriptor: 'builder_platform_interaction:actioncallEditor',
+        descriptor: {
+            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:invocableActionEditor',
+            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+        },
         nodeConfig: {
             iconName: 'standard:custom_notification',
             utilityIconName: 'utility:fallback',
@@ -156,6 +164,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.actionPluralLabel
         },
         canvasElement: true,
+        nonHydratableProperties: ['valueDataType', 'valueGuid'],
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createActionCall,
@@ -164,7 +173,10 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
-        descriptor: 'builder_platform_interaction:actioncallEditor',
+        descriptor: {
+            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:apexPluginEditor',
+            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+        },
         nodeConfig: {
             iconName: 'standard:apex_plugin',
             utilityIconName: 'utility:apex_plugin',
@@ -177,6 +189,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.apexPluginPluralLabel
         },
         canvasElement: true,
+        nonHydratableProperties: ['valueDataType', 'valueGuid'],
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createApexPlugin,
@@ -185,7 +198,10 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.APEX_CALL]: {
-        descriptor: 'builder_platform_interaction:actioncallEditor',
+        descriptor: {
+            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:invocableActionEditor',
+            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+        },
         nodeConfig: {
             iconName: 'standard:apex',
             utilityIconName: 'utility:apex',
@@ -199,6 +215,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.apexPluralLabel
         },
         canvasElement: true,
+        nonHydratableProperties: ['valueDataType', 'valueGuid'],
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createApexCall,
@@ -207,7 +224,10 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.EMAIL_ALERT]: {
-        descriptor: 'builder_platform_interaction:actioncallEditor',
+        descriptor: {
+            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:invocableActionEditor',
+            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+        },
         nodeConfig: {
             iconName: 'standard:email',
             utilityIconName: 'utility:email',
@@ -221,6 +241,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.emailAlertPluralLabel
         },
         canvasElement: true,
+        nonHydratableProperties: ['valueDataType', 'valueGuid'],
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createEmailAlert,
