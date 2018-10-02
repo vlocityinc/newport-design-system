@@ -32,8 +32,9 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
     @api readOnly = false;
     @api helpText;
     @track error;
+    @track _value;
+
     labels = LABELS;
-    _value; // Not tracking cause we have to set the value of the textarea directly in the dom in order to set the position of the cursor
     _hydrated;
 
     @api setCustomValidity(message) {
@@ -41,16 +42,22 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
     }
 
     @api get value() {
-        return this._hydrated ?  {value: this._value, error: this._error} : this._value;
+        return this._hydrated ?  {value: this._value, error: this.error} : this._value;
     }
 
     set value(val) {
         this._hydrated = val && val.hasOwnProperty('value') && val.hasOwnProperty('error');
+
         if (this._hydrated) {
             this._value = val.value;
             this.setCustomValidity(val.error);
         } else {
             this._value = val;
+        }
+
+        const textarea = this.template.querySelector(SELECTORS.TEXTAREA);
+        if (textarea) {
+            textarea.value = this._value;
         }
     }
 
@@ -73,26 +80,25 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
             const end = textarea.selectionEnd || start;
             const pre = val.substring(0, start);
             const post = val.substring(end, val.length);
-            const cursorPosition = start + text.length;
-            this._value = (pre + text + post);
-            textarea.value = this._value;
-            textarea.setSelectionRange(cursorPosition, cursorPosition);
+            textarea.value = (pre + text + post);
+            textarea.setSelectionRange(start + text.length, start + text.length);
+            this.fireEvent(textarea.value, null);
+
             Promise.resolve().then(() => {
                 this.template.querySelector(SELECTORS.FEROV_RESOURCE_PICKER).value = null;
-                this.fireEvent(this._value, null);
             });
         }
     }
 
     handleEvent(event) {
+        event.stopPropagation();
+
         // Change events are not composed, let's re-dispatch
         const val = this.template.querySelector(SELECTORS.TEXTAREA).value;
         if (val !== this._value) {
             this._value = val;
             this.fireEvent(val, null);
         }
-
-        event.stopPropagation();
     }
 
     fireEvent(value, error) {

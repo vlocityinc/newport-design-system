@@ -24,7 +24,7 @@ export default class ValidationEditor extends LightningElement {
     handleValueChanged = (event) => {
         event.stopPropagation();
         const propertyName = event.srcElement.name;
-        const newValue = this.template.querySelector('.property-input.' + propertyName).value;
+        const newValue = this.template.querySelector('.property-input.' + propertyName).value.value;
         const currentValue = this.element[propertyName] ? this.element[propertyName].value : null;
 
         if ((currentValue || newValue)  && currentValue !== newValue) {

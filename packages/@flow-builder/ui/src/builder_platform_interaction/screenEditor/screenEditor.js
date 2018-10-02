@@ -51,6 +51,7 @@ export default class ScreenEditor extends LightningElement {
         const event = { type: VALIDATE_ALL };
         processRequiredParamsForExtensionsInScreen(unwrap(this.screen));
         this.screen = screenReducer(this.screen, event);
+        this.resetSelectedNode();
         const errors = getErrorsFromHydratedElement(this.screen);
         return errors;
     }
@@ -166,6 +167,13 @@ export default class ScreenEditor extends LightningElement {
      */
     handleScreenStateChanged = (event) => {
         this.screen = screenReducer(this.screen, event, this.selectedNode);
+        this.resetSelectedNode();
+    };
+
+    /**
+     * Resets the selected node to ensure re-rendering
+     */
+    resetSelectedNode = () => {
         if (isScreen(this.selectedNode)) {
             this.setSelectedNode(this.screen);
         } else {

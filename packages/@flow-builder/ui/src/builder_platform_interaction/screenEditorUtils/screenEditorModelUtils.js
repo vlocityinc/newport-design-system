@@ -20,6 +20,8 @@ export function createEmptyNodeOfType(type) {
         inputParameters: [],
         fieldText: '',
         outputParameters: [],
-        scale: "0" // Store as string for validation purposes.
+        scale: '0', // Store as string for validation purposes.
+        formulaExpression: '',
+        errorMessage: ''
     };
 }
