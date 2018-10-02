@@ -136,10 +136,6 @@ function queryableElements(shouldBeWritable, elementType, isCollection, dataType
     return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, queryable:true}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
 }
 
-function deleteableElements() {
-    return sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true});
-}
-
 function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
     return isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
 }
@@ -157,8 +153,8 @@ const selectorProviderMap = {
     [ELEMENT_TYPE.WAIT]: () => readableElementsSelector,
     [ELEMENT_TYPE.SCREEN]: () => readableElementsSelector,
     [ELEMENT_TYPE.RECORD_CREATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
-    [ELEMENT_TYPE.RECORD_UPDATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
-    [ELEMENT_TYPE.RECORD_DELETE]: () => deleteableElements(),
+    [ELEMENT_TYPE.RECORD_UPDATE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, updateable: true}),
+    [ELEMENT_TYPE.RECORD_DELETE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true}),
     [ELEMENT_TYPE.RECORD_LOOKUP]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
     [ELEMENT_TYPE.LOOP]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
 };
