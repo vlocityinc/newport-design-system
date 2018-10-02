@@ -180,12 +180,11 @@ export default class VariableConstantEditor extends LightningElement {
      */
     get defaultValue() {
         const defaultValue = getValueFromHydratedItem(this.variableConstantResource.defaultValue);
-        const defaultValueGuid = getValueFromHydratedItem(this.variableConstantResource.defaultValueGuid);
-        if (defaultValueGuid) {
+        const defaultValueDataType = getValueFromHydratedItem(this.variableConstantResource.defaultValueDataType);
+        if (defaultValueDataType === FEROV_DATA_TYPE.REFERENCE) {
             return {
                 text: defaultValue,
                 displayText: defaultValue,
-                value: defaultValueGuid
             };
         }
         if (defaultValue && (typeof defaultValue === 'number' || typeof defaultValue === 'boolean')) {

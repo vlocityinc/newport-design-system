@@ -126,12 +126,9 @@ export const REFERENCE_FIELDS = new Set([
     'leftValueReference',
     'outcomeReference',
     'childReference',
-    'leftHandSide',
-    'defaultValue',
+    'previewDefaultValue',
     'source',
     'target',
-    'rightHandSideGuid',
-    'valueGuid',
 ]);
 
 /**
@@ -141,7 +138,7 @@ export const REFERENCE_FIELDS = new Set([
 export const TEMPLATE_FIELDS = new Set([
     // TODO fill out more values and confirm that all FEROV stringValue fields allow this behaviour
     'stringValue', // field of a ferov
-    'rightHandSide', // field of a ferov
+    'previewDefaultValue', // single ferov
     'expression',  // represents body of a formula
     'text',        // represents body of a text template
     'fieldText',   // body of screen field of type Display Text
@@ -149,6 +146,16 @@ export const TEMPLATE_FIELDS = new Set([
     'interviewLabel', // interview label for the flow properties
     'errorMessage', // errorMessage field in validationRule Object for choice editor and screenField
     'formulaExpression' // used in validation Rule Object for choice editor and screenField
+]);
+
+/**
+ * These reference fields should be kept as GUIDs in the GUID->devName swapping
+ */
+export const SPECIAL_REFERENCE_FIELDS = new Set([
+    'defaultValue',
+    'leftHandSide',
+    'rightHandSide',
+    'value'
 ]);
 
 export const EXPRESSION_RE = /\{!([^}]+)\}/g;

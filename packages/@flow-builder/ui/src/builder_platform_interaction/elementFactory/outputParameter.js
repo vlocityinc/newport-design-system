@@ -1,7 +1,23 @@
-export function createOutputParameter(outputParameter = {}) {
-    const { name, assignToReference } = outputParameter;
+import { createParameterListRowItem } from './base/baseList';
 
-    return Object.assign({}, { name, assignToReference });
+export function createOutputParameter(outputParameter = {}) {
+    const { name, assignToReference, value, valueDataType } = outputParameter;
+
+    let valueFerov;
+    if (!valueDataType) {
+        valueFerov = Object.assign({}, {
+            name,
+            value: assignToReference,
+            valueDataType: 'reference'
+        });
+    }
+    const newOutputParameter = Object.assign({
+        name,
+        value,
+        valueDataType
+    },
+    valueFerov);
+    return createParameterListRowItem(newOutputParameter);
 }
 
 export function createOutputParameterMetadataObject(outputParameter) {
@@ -9,5 +25,10 @@ export function createOutputParameterMetadataObject(outputParameter) {
         throw new Error('outputParameter is not defined');
     }
 
-    return createOutputParameter(outputParameter);
+    const { name, value } = outputParameter;
+
+    return Object.assign({}, {
+        name,
+        assignToReference: value
+    });
 }

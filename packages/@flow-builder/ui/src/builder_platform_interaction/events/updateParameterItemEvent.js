@@ -1,7 +1,7 @@
 const eventName = 'updateparameteritem';
 
 export class UpdateParameterItemEvent {
-    constructor(isInput, name, value = null, valueDataType = null, valueGuid = null, error = null) {
+    constructor(isInput, name, value = null, valueDataType = null, error = null) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
@@ -11,7 +11,6 @@ export class UpdateParameterItemEvent {
                 name,
                 value,
                 valueDataType,
-                valueGuid,
                 error
             }
         });

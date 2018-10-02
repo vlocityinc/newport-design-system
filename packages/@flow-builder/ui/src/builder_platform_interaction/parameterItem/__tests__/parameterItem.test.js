@@ -30,9 +30,6 @@ function createMockParameterItem(isInput, isRequired, dataType, value, valueGuid
     if (value) {
         item.value = {value, error: null};
     }
-    if (valueGuid) {
-        item.valueGuid = {value: valueGuid, error: null};
-    }
     if (valueDataType) {
         item.valueDataType = {value: valueDataType, error: null};
     }
@@ -153,7 +150,7 @@ describe('parameter-item', () => {
                 expect(ferovResourcePicker).not.toBeNull();
             });
             it('combobox value should be equal to parameterStringValue', () => {
-                expect(ferovResourcePicker.value.value).toEqual(parameterStringValue);
+                expect(ferovResourcePicker.value).toEqual(parameterStringValue);
             });
             it('combobox should be required', () => {
                 expect(ferovResourcePicker.comboboxConfig.required).toBe(true);
@@ -199,7 +196,7 @@ describe('parameter-item', () => {
                 expect(ferovResourcePicker).not.toBeNull();
             });
             it('combobox value should be equal to parameterStringValue', () => {
-                expect(ferovResourcePicker.value.value).toEqual(parameterStringValue);
+                expect(ferovResourcePicker.value).toEqual(parameterStringValue);
             });
             it('combobox should not be required', () => {
                 expect(ferovResourcePicker.comboboxConfig.required).toBe(false);
@@ -251,7 +248,7 @@ describe('parameter-item', () => {
                 expect(outputResourcePicker).not.toBeNull();
             });
             it('combobox value should be equal to stringVariableGuid.stringVariableDevName', () => {
-                expect(outputResourcePicker.value.value).toEqual(stringVariableGuid + '.' + stringVariableDevName);
+                expect(outputResourcePicker.value).toEqual(stringVariableGuid + '.' + stringVariableDevName);
             });
             it('combobox should not be required', () => {
                 expect(outputResourcePicker.comboboxConfig.required).toBe(false);
@@ -311,7 +308,7 @@ describe('parameter-item', () => {
             }).then(() => {
                 const combobox = getFerovResourcePickerElement(parameterItemCmp);
                 expect(combobox).not.toBeNull();
-                expect(combobox.value.value).toEqual(parameterStringValue);
+                expect(combobox.value).toEqual(parameterStringValue);
             });
         });
         it('should fire UpdateParameterItemEvent', () => {
@@ -325,12 +322,12 @@ describe('parameter-item', () => {
             toggleInput.dispatchEvent(new ToggleOffChangeEvent());
             return Promise.resolve().then(() => {
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: null, valueDataType: null, valueGuid: null, error: null}});
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: null, valueDataType: null, error: null}});
             }).then(() => {
                 // from OFF to ON
                 toggleInput.dispatchEvent(new ToggleOnChangeEvent());
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: parameterStringValue, valueDataType: FEROV_DATA_TYPE.STRING, valueGuid: parameterStringValue, error: null}});
+                expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: parameterStringValue, valueDataType: FEROV_DATA_TYPE.STRING, error: null}});
             });
         });
     });
@@ -347,7 +344,7 @@ describe('parameter-item', () => {
             ferovResourcePicker.dispatchEvent(cbChangeEvent);
             return Promise.resolve().then(() => {
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: newParamValue, valueDataType: FEROV_DATA_TYPE.STRING, valueGuid: null}});
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: newParamValue, valueDataType: FEROV_DATA_TYPE.STRING}});
             });
         });
     });

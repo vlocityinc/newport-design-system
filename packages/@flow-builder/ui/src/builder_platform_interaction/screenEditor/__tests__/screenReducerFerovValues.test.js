@@ -43,7 +43,6 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 
 function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvider, fieldProvider, propertyNameProvider, defaultDataType) {
     const dataTypePropName = propertyName + 'DataType';
-    const guidPropName = propertyName + 'Guid';
 
     // Determine value to use (reference, stringValue or null)
     if (valueBefore.isReference) {
@@ -64,15 +63,10 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
     expect(field[propertyName].value).toBe(valueBefore.value);
     if (valueBefore.isReference) {
         expect(field[dataTypePropName]).toBe('reference');
-        expect(field[guidPropName]).toBe(valueBefore.valueGuid);
-    } else {
-        if (valueBefore.value) {
+    } else if (valueBefore.value) {
             expect(field[dataTypePropName]).toBe('String');
-        } else {
-            expect(field[dataTypePropName]).toBeUndefined();
-        }
-
-        expect(field[guidPropName]).toBeUndefined();
+    } else {
+        expect(field[dataTypePropName]).toBeUndefined();
     }
 
     // Create event for the reducer to process and call the reducer
@@ -99,15 +93,10 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
     expect(newField[propertyName].value).toBe(valueAfter.value);
     if (valueAfter.isReference) {
         expect(newField[dataTypePropName]).toBe('reference');
-        expect(newField[guidPropName]).toBe(valueAfter.valueGuid);
-    } else {
-        if (valueAfter.value) {
+    } else if (valueAfter.value) {
             expect(newField[dataTypePropName]).toBe('String');
-        } else {
-            expect(newField[dataTypePropName]).toBeUndefined();
-        }
-
-        expect(newField[guidPropName]).toBeUndefined();
+    } else {
+        expect(newField[dataTypePropName]).toBeUndefined();
     }
 }
 

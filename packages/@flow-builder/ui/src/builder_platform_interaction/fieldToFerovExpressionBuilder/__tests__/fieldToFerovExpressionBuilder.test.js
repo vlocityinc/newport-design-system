@@ -2,8 +2,7 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 // Importing using relative path here to ensure that we get the actual component and not the mocked version
 import FieldToFerovExpressionBuilder from "../fieldToFerovExpressionBuilder.js";
-import { numberVariableGuid, numberVariableDevName,
-    accountSObjectVariableGuid, accountSObjectVariableDevName, elements } from "mock/storeData";
+import { numberVariableGuid, accountSObjectVariableGuid, accountSObjectVariableDevName, elements } from "mock/storeData";
 import { elementToParam, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
 import {
     mutateFlowResourceToComboboxShape,
@@ -42,15 +41,11 @@ function createMockPopulatedFieldExpression() {
             error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-            value: addCurlyBraces(accountSObjectVariableDevName + '.' + picklistField),
+            value: accountSObjectVariableGuid + '.' + picklistField,
             error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
             value: FEROV_DATA_TYPE.REFERENCE,
-            error: null,
-        },
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {
-            value: accountSObjectVariableGuid + '.' + picklistField,
             error: null,
         }
     };
@@ -215,15 +210,11 @@ describe('field-to-ferov-expression-builder', () => {
                         error: null,
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-                        value: addCurlyBraces(numberVariableDevName),
+                        value: numberVariableGuid,
                         error: null,
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
                         value: FEROV_DATA_TYPE.REFERENCE,
-                        error: null,
-                    },
-                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {
-                        value: numberVariableGuid,
                         error: null,
                     }
                 },

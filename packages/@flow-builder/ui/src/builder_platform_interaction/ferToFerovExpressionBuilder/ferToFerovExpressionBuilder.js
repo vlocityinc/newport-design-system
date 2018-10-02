@@ -13,10 +13,6 @@ import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
-const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
-
-const RHSG = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID;
-
 export default class FerToFerovExpressionBuilder extends LightningElement {
     @track
     state = {
@@ -58,7 +54,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     set expression(expression) {
         this.state.expression = expression;
         this.populateLhsState(expression[LHS]);
-        populateRhsState(expression[RHS], expression[RHSG] ? expression[RHSG].value : null,
+        populateRhsState(expression,
             (values) => {
                 this.state.rhsDescribe = values;
             }

@@ -53,10 +53,10 @@ describe('UID Swapper', () => {
             swapUidsForDevNames(elementUidMap, object);
         });
 
-        it('Does not swap uids to devname for reference fields when disabled', () => {
-            const object = {items:[{first:{elementReference:'pre.abc'}}]};
+        it('Does not swap uids to devname for special reference fields when disabled', () => {
+            const object = {items:[{first:{rightHandSide:'pre.abc'}}]};
             swapUidsForDevNames(elementUidMap, object, {enableGuidToDevnameSwappingForReferenceFields: false});
-            expect(object.items[0].first.elementReference).toEqual('pre.abc');
+            expect(object.items[0].first.rightHandSide).toEqual('pre.abc');
         });
     });
 

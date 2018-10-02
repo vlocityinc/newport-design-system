@@ -123,22 +123,17 @@ const reorderFields = (screen, event) => {
  * @param {any} newValue - The new value of the ferov field
  * @param {string} newValueGuid - The guid of the new value (or null if it is not a reference)
  * @param {string} typePropertyName - The name of the data type property (assigned in ferov mutation)
- * @param {string} guidPropertyName  - The name of the data guid property (assigned in ferov mutation)
  * @return {object} - The processed field
  */
-const processFerovValueChange = (valueField, currentFieldDataType, defaultValueDataType, newValue, newValueGuid, typePropertyName, guidPropertyName) => {
+const processFerovValueChange = (valueField, currentFieldDataType, defaultValueDataType, newValue, newValueGuid, typePropertyName) => {
     // Figure out if we need to update typePropertyName (typePropertyName can be null if value is null)
     const currentDataType =  currentFieldDataType || getFerovTypeFromFieldType(defaultValueDataType);
     if (currentDataType === 'reference') {
         if (!newValueGuid) { // Going from reference to literal
             valueField = updateProperties(valueField, {[typePropertyName]: defaultValueDataType});
-            delete valueField[guidPropertyName];
-        } else { // Going from reference to reference
-            valueField[guidPropertyName] = newValueGuid;
         }
     } else if (currentDataType !== 'reference' && !!newValueGuid) { // Going from literal to reference
         valueField = updateProperties(valueField, {[typePropertyName]: 'reference'});
-        valueField[guidPropertyName] = newValueGuid;
     }
 
     if (!newValue) { // New value is null, remove data type
@@ -171,11 +166,12 @@ const handleScreenFieldPropertyChange = (data) => {
     // Default value needs special handling because defaultValueDataType may need to be updated
     if (data.property === 'defaultValue') {
         // First update the value.
-        const updatedValueField = updateProperties(data.field, {'defaultValue': data.newValue});
+        // TODO: Hack: previewDefaultValue is needed for guid-devName swapping inconsistencies
+        const updatedValueField = updateProperties(data.field, {'defaultValue': data.newValue, 'previewDefaultValue': data.newValue});
 
         // Now the defaultValue object.
         return processFerovValueChange(updatedValueField, data.field.defaultValueDataType, data.dataType || event.detail.defaultValueDataType,
-            newValue, data.newValueGuid, 'defaultValueDataType', 'defaultValueGuid');
+            newValue, data.newValueGuid, 'defaultValueDataType');
     }
 
     return updateProperties(data.field, {[data.property]: data.newValue});
@@ -233,10 +229,9 @@ const handleExtensionFieldPropertyChange = (data) => {
     // Replace the property in the parameter
     let newParam = updateProperties(param, {[paramPropertyName]: data.newValue});
     const dataTypePropName = prefix === 'input' ? 'valueDataType' : 'assignToReferenceDataType';
-    const dataGuidPropName = prefix === 'input' ? 'valueGuid' : 'assignToReferenceGuid';
 
     newParam = processFerovValueChange(newParam, newParam[dataTypePropName], data.dataType,
-        newValue, data.newValueGuid, dataTypePropName, dataGuidPropName);
+        newValue, data.newValueGuid, dataTypePropName);
 
     // Replace the new parameter in the parameters array
     const index = field[parametersPropName].indexOf(param);

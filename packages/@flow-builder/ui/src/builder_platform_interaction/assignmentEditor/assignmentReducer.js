@@ -18,7 +18,6 @@ const addAssignmentItem = (state) => {
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null},
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null},
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: { value: '', error: null},
         rowIndex: generateGuid(SUB_ELEMENT_TYPE.ASSIGNMENT_ITEM),
     };
 

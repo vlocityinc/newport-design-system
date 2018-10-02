@@ -34,8 +34,6 @@ export function createScreenField(screenField = {}) {
         formulaExpression = ''
     } = screenField;
     if (isExtensionField(screenField)) {
-        inputParameters = [];
-        outputParameters = [];
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
         type = getScreenFieldTypeByName(screenField.extensionName) || getLocalExtensionFieldType(screenField.extensionName);
 
@@ -64,6 +62,8 @@ export function createScreenField(screenField = {}) {
         );
     }
 
+    const previewDefaultValue = defaultValue;
+
     // Convert scale property to string, which is needed for validation purposes.
     // Saving it as a string allows it be hydrated.
     if (scale != null && typeof scale === 'number') {
@@ -76,6 +76,7 @@ export function createScreenField(screenField = {}) {
             dataType,
             defaultValue,
             defaultValueDataType,
+            previewDefaultValue,
             errorMessage,
             extensionName,
             fieldType,
@@ -115,13 +116,11 @@ export function createScreenFieldMetadataObject(screenField) {
 
     let defaultValueMetadataObject;
     if (defaultValue) {
-        defaultValueMetadataObject = createFEROVMetadataObject(defaultValue, 'defaultValue', 'defaultValueDataType');
+        const defaultValueFerov = createFEROVMetadataObject(screenField, 'defaultValue', 'defaultValueDataType');
+        defaultValueMetadataObject = { defaultValue : defaultValueFerov };
     }
 
     if (isExtensionField(screenField)) {
-        inputParameters = [];
-        outputParameters = [];
-
         inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
         outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
     }

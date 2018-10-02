@@ -11,9 +11,7 @@ const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
 
-const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
-
-const RHSG = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID;
+const RHSDT = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
 
 export default class FieldToFerovExpressionBuilder extends LightningElement {
     @track
@@ -101,10 +99,10 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
             this.hideOperator = true;
         }
 
-        // if RHSG doesn't exist as a separate property, then RHS must be a FER
-        this.rhsIsFer = !expression[RHSG];
+        // if RHSDT doesn't exist as a separate property, then RHS must be a FER
+        this.rhsIsFer = !expression[RHSDT];
 
-        populateRhsState(expression[RHS], this.rhsIsFer ? expression[RHS].value : expression[RHSG].value,
+        populateRhsState(expression,
             (values) => {
                 this.state.rhsDescribe = values;
             }

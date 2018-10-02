@@ -50,7 +50,7 @@ export default class ParameterItem extends LightningElement {
     /**
      * preserve the combobox's value before switching the toggle to OFF
      */
-    preservedValue = {value: null, valueGuid: null, valueDataType: null};
+    preservedValue = {value: null, valueDataType: null};
 
     /**
      * @typedef {Object} ParameterItem
@@ -61,7 +61,6 @@ export default class ParameterItem extends LightningElement {
      * @property {String|Object} dataType     the flow data type, see FLOW_DATA_TYPE (may be hydrated)
      * @property {Number} [maxOccurs]   the maximum occurances
      * @property {String|Object} [value]    parameter's value (must be hydrated)
-     * @property {String|Object} [valueGuid]    parameter's value guid (may be hydrated)
      * @property {String|Object} [valueDataType]   parameter's value data type (may be hydrated)
      * @example <caption>input parameter</caption
      * {
@@ -72,7 +71,6 @@ export default class ParameterItem extends LightningElement {
      * dataType: 'String',
      * maxOccurs: 1,
      * value: {value: 'textVar', error: null},
-     * valueGuid: {value: 'generatedGuid', error: null},
      * valueDataType: {value: 'reference', error: null}
      * }
      * @example <caption>output parameter</caption>
@@ -84,7 +82,6 @@ export default class ParameterItem extends LightningElement {
      * dataType: 'String',
      * maxOccurs: 1,
      * value: {value: 'textVar', error: null},
-     * valueGuid: {value: 'generatedGuid', error: null},
      * valueDataType: {value: 'reference', error: null}
      * }
      */
@@ -152,14 +149,6 @@ export default class ParameterItem extends LightningElement {
      */
     get parameterValue() {
         const value = getValueFromHydratedItem(this.state.parameterItem.value);
-        const valueGuid = getValueFromHydratedItem(this.state.parameterItem.valueGuid);
-        if (valueGuid) {
-            return {
-                text: value,
-                displayText: value,
-                value: valueGuid
-            };
-        }
         return value ? value : null;
     }
 
@@ -235,16 +224,15 @@ export default class ParameterItem extends LightningElement {
     handleToggleChanged(event) {
         event.stopPropagation();
         this.state.toggleStatus = event.detail.checked;
-        const newValue = {value: null, valueGuid: null, valueDataType: null};
+        const newValue = {value: null, valueDataType: null};
         if (!this.state.toggleStatus) { // from ON to OFF
             if (this.state.parameterItem.hasOwnProperty('value')) {
-                this.preservedValue = {value: this.state.parameterItem.value, valueGuid: this.state.parameterItem.valueGuid, valueDataType: this.state.parameterItem.valueDataType};
+                this.preservedValue = {value: this.state.parameterItem.value, valueDataType: this.state.parameterItem.valueDataType};
             }
         } else if (this.preservedValue.value) {
             newValue.value = getValueFromHydratedItem(this.preservedValue.value);
-            newValue.valueGuid = getValueFromHydratedItem(this.preservedValue.valueGuid);
             newValue.valueDataType = getValueFromHydratedItem(this.preservedValue.valueDataType);
-            this.preservedValue = {value: null, valueGuid: null, valueDataType: null};
+            this.preservedValue = {value: null, valueDataType: null};
         }
         this.dispatchParameterEvent(newValue, null);
     }
@@ -256,14 +244,12 @@ export default class ParameterItem extends LightningElement {
     handleUpdateParameter(event) {
         event.stopPropagation();
         const itemOrDisplayText = event.detail.item ? event.detail.item : event.detail.displayText;
-        const newValue = {value: null, valueGuid: null, valueDataType: null};
+        const newValue = {value: null, valueDataType: null};
         if (isObject(itemOrDisplayText)) {
             newValue.value = itemOrDisplayText.displayText;
-            newValue.valueGuid = itemOrDisplayText.value;
             newValue.valueDataType = getResourceFerovDataType(itemOrDisplayText.value);
         } else {
             newValue.value = itemOrDisplayText;
-            newValue.guid = itemOrDisplayText;
             newValue.valueDataType = this.getDataType();
         }
         this.dispatchParameterEvent(newValue, event.detail.error);
@@ -273,7 +259,6 @@ export default class ParameterItem extends LightningElement {
      * @typedef {Object} ParameterItemNewValue
      * @property {String} value the new value
      * @property {String} valueDataType the new value's data type
-     * @property {String} valueGuid the new value's guid
      */
     /**
      * dispatch UpdateParameterItemEvent
@@ -281,7 +266,7 @@ export default class ParameterItem extends LightningElement {
      * @param {String} error error message
      */
     dispatchParameterEvent(newValue, error) {
-        const itemUpdatedEvent = new UpdateParameterItemEvent(this.state.parameterItem.isInput, getValueFromHydratedItem(this.state.parameterItem.name), newValue.value, newValue.valueDataType, newValue.valueGuid, error);
+        const itemUpdatedEvent = new UpdateParameterItemEvent(this.state.parameterItem.isInput, getValueFromHydratedItem(this.state.parameterItem.name), newValue.value, newValue.valueDataType, error);
         itemUpdatedEvent.detail.valueDataType = newValue.valueDataType;
         this.dispatchEvent(itemUpdatedEvent);
     }

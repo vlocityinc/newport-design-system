@@ -15,7 +15,6 @@ export const EXPRESSION_PROPERTY_TYPE = {
     OPERATOR: 'operator',
     RIGHT_HAND_SIDE: 'rightHandSide',
     RIGHT_HAND_SIDE_DATA_TYPE: 'rightHandSideDataType',
-    RIGHT_HAND_SIDE_GUID: 'rightHandSideGuid',
 };
 
 export const OPERATOR_DISPLAY_OPTION = {
@@ -198,21 +197,20 @@ export const populateLhsStateForField =  (fields, fieldName, fieldParent, isFiel
 /**
  * Populates the state values on an expression builder wrapper that represent the RHS of the expression.
  *
- * @param {String} rhs          the display value of the rhs
- * @param {String} guid         the guid of the rhs
+ * @param {Object} expression   rightHandSide - the display value of the rhs
+ *                              rightHandSideDataType - the data type of the rhs
  * @param {rhsDescribe} callback   function to be called with the initialized state values
  */
-export const populateRhsState = (rhs, guid, callback) => {
+export const populateRhsState = ({ rightHandSide, rightHandSideDataType }, callback) => {
     const rhsState = {
         isField: false,
         fields: null,
-        error: rhs.error,
-        guid: guid || null,
-        value: rhs.value,
+        error: rightHandSide.error,
+        value: rightHandSide.value,
     };
 
-    if (!rhs.error && guid) {
-        const complexGuid = sanitizeGuid(guid);
+    if (!rightHandSide.error && rightHandSideDataType && rightHandSideDataType.value === FEROV_DATA_TYPE.REFERENCE) {
+        const complexGuid = sanitizeGuid(rightHandSide.value);
         const fer = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
 
         if (fer) {

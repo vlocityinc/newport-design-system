@@ -14,7 +14,6 @@ const storeInputParameterWithDefaultValueAsString = {
     name: 'name',
     value: 'My name',
     valueDataType: 'String',
-    valueGuid: 'My name',
     rowIndex: mockGuid
 };
 
@@ -29,7 +28,6 @@ const storeInputParameterWithDefaultValueAsReference = {
     name: 'phone',
     value: 'var_text',
     valueDataType: 'reference',
-    valueGuid: 'var_text',
     rowIndex: mockGuid
 };
 
@@ -42,7 +40,6 @@ const storeOutputParameterWithDefaultValue = {
     name: "accountId",
     value: 'var_text',
     valueDataType: 'reference',
-    valueGuid: 'var_text',
     rowIndex: mockGuid
 };
 

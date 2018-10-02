@@ -213,7 +213,6 @@ describe('base expression builder', () => {
                 const expressionUpdates = {};
                 expressionUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = {value: addCurlyBraces(numberVariableDevName), error: null};
                 expressionUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE] = {value: FEROV_DATA_TYPE.REFERENCE, error: null};
-                expressionUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID] = {value: numberVariableGuid, error: null};
                 const rhsCombobox = getComboboxElements(expressionBuilder)[1];
 
                 const eventCallback = jest.fn();
@@ -236,7 +235,6 @@ describe('base expression builder', () => {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: '', error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: '', error: null},
-                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {value: '', error: null},
                 };
                 const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
@@ -259,7 +257,6 @@ describe('base expression builder', () => {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: newCBValue, error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: '', error: null},
-                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {value: '', error: null},
                 };
                 const operatorCombobox = getLightningCombobox(expressionBuilder);
 
@@ -282,7 +279,6 @@ describe('base expression builder', () => {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: numberVariableGuid, error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: '', error: null},
-                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {value: '', error: null},
                 };
                 const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
@@ -390,7 +386,6 @@ describe('base expression builder', () => {
                 expect(eventCallback).toHaveBeenCalled();
                 expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.value);
                 expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE].value).toEqual(FLOW_DATA_TYPE.STRING.value);
-                expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID].value).toBe('');
             });
         });
     });
@@ -424,7 +419,6 @@ describe('base expression builder', () => {
                 expect(eventCallback).toHaveBeenCalled();
                 expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.displayText);
                 expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE].value).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
-                expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID].value).toBe(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
             });
         });
     });

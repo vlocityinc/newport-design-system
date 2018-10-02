@@ -8,8 +8,8 @@ import {
     baseCanvasElementsArrayToMap
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createCalloutInputParameter, createCalloutInputParameterMetadataObject } from './calloutInputParameter';
-import { createCalloutOutputParameter, createCalloutOutputParameterMetadataObject } from './calloutOutputParameter';
+import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -28,8 +28,8 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
     const newActionCall = baseCanvasElement(actionCall);
     const { actionType = '', actionName = '', availableConnections = getDefaultAvailableConnections() } = actionCall;
     let { inputParameters = [], outputParameters = [] } = actionCall;
-    inputParameters = inputParameters.map(inputParameter => createCalloutInputParameter(inputParameter));
-    outputParameters = outputParameters.map(outputParameter => createCalloutOutputParameter(outputParameter));
+    inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
+    outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
 
     const actionCallObject = Object.assign(newActionCall, {
         actionType,
@@ -72,8 +72,8 @@ export function createActionCallMetadataObject(actionCall, config) {
     const actionCallMetadata = baseCanvasElementMetadataObject(actionCall, config);
     const { actionType, actionName } = actionCall;
     let { inputParameters = [], outputParameters = [] } = actionCall;
-    inputParameters = inputParameters.map(inputParameter => createCalloutInputParameterMetadataObject(inputParameter));
-    outputParameters = outputParameters.map(outputParameter => createCalloutOutputParameterMetadataObject(outputParameter));
+    inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
+    outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
 
     return Object.assign(actionCallMetadata, {
         actionType,

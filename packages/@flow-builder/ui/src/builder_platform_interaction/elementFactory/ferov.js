@@ -256,7 +256,7 @@ export const createFEROVMetadataObject = (element, valueProperty, dataTypeProper
 
             // set the value of the ferov to the given property or its guid on the element
             let ferovValue;
-            if (isFerovReference(ferovDataTypeKey) && element.hasOwnProperty(valuePropertyGuid)) {
+            if (isFerovReference(ferovDataTypeKey)) {
                 ferovValue = element[valuePropertyGuid] || value;
             } else if (isFerovString(ferovDataTypeKey) && value === addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)) {
                 ferovValue = '';

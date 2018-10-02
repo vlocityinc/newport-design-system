@@ -29,7 +29,6 @@ import { Store } from 'builder_platform_interaction/storeLib';
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
 const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
-const RHSG = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID;
 const RHSDT = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
 
 const DATA_TYPE = PARAM_PROPERTY.DATA_TYPE;
@@ -617,7 +616,6 @@ export default class BaseExpressionBuilder extends LightningElement {
     clearRhs(newExpression) {
         newExpression[RHS] = CLEARED_PROPERTY;
         if (!this.rhsIsFer) {
-            newExpression[RHSG] = CLEARED_PROPERTY;
             newExpression[RHSDT] = CLEARED_PROPERTY;
         }
     }
@@ -697,7 +695,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         event.stopPropagation();
         const rhsItem = event.detail.item;
         const error = event.detail.error || CLEAR_ERROR;
-        let rhs, rhsg, rhsdt;
+        let rhs, rhsdt;
 
         // if rhsItem in the event payload is an object then we know the user selected an item from the menu data
         if (isObject(rhsItem)) {
@@ -707,7 +705,6 @@ export default class BaseExpressionBuilder extends LightningElement {
             } else if (getResourceByUniqueIdentifier(rhsItem.value) || rhsItem.parent) {
                 // rhs is a FEROV and the item references an element so we update the rhs with that element reference
                 rhs = rhsItem.displayText;
-                rhsg = rhsItem.value;
                 rhsdt = getResourceFerovDataType(rhsItem.value);
             } else {
                 // the item references a picklist value
@@ -725,7 +722,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         };
         if (!this.rhsIsFer) {
             expressionUpdates[RHSDT] = {value: rhsdt, error: CLEAR_ERROR};
-            expressionUpdates[RHSG] = {value: rhsg || CLEAR_VALUE, error: CLEAR_ERROR};
         }
         this.fireRowContentsChangedEvent(expressionUpdates);
     }

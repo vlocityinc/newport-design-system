@@ -68,7 +68,7 @@ const createTypeValidationRule = (type) => {
         if (isReference(value)) {
             // go to store and retrive the type of 'value' and make sure that it is compatible with 'type'
             const valueTypeFromStore = getElementByDevName(removeCurlyBraces(value));
-            if (type !== valueTypeFromStore.dataType) { // We should use assignment rules here
+            if (type !== valueTypeFromStore.dataType.toLowerCase()) { // We should use assignment rules here
                 error =  'Reference should be of type ' + type;
             }
         } else {

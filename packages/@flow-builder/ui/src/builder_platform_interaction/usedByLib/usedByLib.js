@@ -1,4 +1,4 @@
-import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE, ELEMENT_TYPE, SPECIAL_REFERENCE_FIELDS } from 'builder_platform_interaction/flowMetadata';
 import { Store, isPlainObject } from 'builder_platform_interaction/storeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { addItem, getValueFromHydratedItem, dehydrate, unionOfArrays } from 'builder_platform_interaction/dataMutationLib';
@@ -166,10 +166,10 @@ function findReference(elementGuids, object, elementGuidsReferenced = new Set())
  * @returns {Boolean} true if elementGuids is matched
  */
 function matchElement(elementGuids, key, value) {
-    if (key && REFERENCE_FIELDS.has(key)) {
+    if (key && (REFERENCE_FIELDS.has(key) || SPECIAL_REFERENCE_FIELDS.has(key)) && !EXPRESSION_RE.test(value)) {
         const guid = splitStringByPeriod(value)[0];
         return elementGuids && elementGuids.filter((elementGuid) => guid === elementGuid);
-    } else if (key && TEMPLATE_FIELDS.has(key)) {
+    } else if (key && (TEMPLATE_FIELDS.has(key) || SPECIAL_REFERENCE_FIELDS.has(key))) {
         // For eg: value = 'Hello world, {!var_1.name}'
         // After match, occurrences = ['{!var_1.name}']
         // After slice and split, occurences = ['var_1']

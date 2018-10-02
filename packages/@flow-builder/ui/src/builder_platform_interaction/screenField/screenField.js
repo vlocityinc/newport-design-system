@@ -1,7 +1,8 @@
 import { LightningElement, api } from 'lwc';
 import { isExtensionField, getPlaceHolderLabel } from "builder_platform_interaction/screenEditorUtils";
-import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
-import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { hydrateWithErrors, getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
+import { isReference, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
@@ -57,6 +58,12 @@ export default class ScreenField extends LightningElement {
     }
 
     get defaultValue() {
-        return this.screenfield.defaultValue && this.screenfield.defaultValue.value ? this.screenfield.defaultValue.value : this.screenfield.defaultValue;
+        // Hack due to guid->devName swapping inconsistencies
+        // TODO: Need to update this when changing uid swapping
+        const defaultValue = this.screenfield.previewDefaultValue && this.screenfield.previewDefaultValue.value ? this.screenfield.previewDefaultValue.value : this.screenfield.previewDefaultValue;
+        if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && !isReference(defaultValue)) {
+            return addCurlyBraces(defaultValue);
+        }
+        return defaultValue;
     }
 }

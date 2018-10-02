@@ -7,8 +7,8 @@ import {
     baseCanvasElementsArrayToMap
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createCalloutInputParameter, createCalloutInputParameterMetadataObject } from './calloutInputParameter';
-import { createCalloutOutputParameter, createCalloutOutputParameterMetadataObject } from './calloutOutputParameter';
+import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -28,8 +28,8 @@ export function createApexPlugin(apexPlugin = {}) {
     const newApexPlugin = baseCanvasElement(apexPlugin);
     const { apexClass = '', availableConnections = getDefaultAvailableConnections() } = apexPlugin;
     let { inputParameters = [], outputParameters = [] } = apexPlugin;
-    inputParameters = inputParameters.map(inputParameter => createCalloutInputParameter(inputParameter));
-    outputParameters = outputParameters.map(outputParameter => createCalloutOutputParameter(outputParameter));
+    inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
+    outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
 
     const apexPluginObject = Object.assign(newApexPlugin, {
         apexClass,
@@ -71,8 +71,8 @@ export function createApexPluginMetadataObject(apexPlugin, config) {
     const apexPluginMetadata = baseCanvasElementMetadataObject(apexPlugin, config);
     const { apexClass } = apexPlugin;
     let { inputParameters = [], outputParameters = [] } = apexPlugin;
-    inputParameters = inputParameters.map(inputParameter => createCalloutInputParameterMetadataObject(inputParameter));
-    outputParameters = outputParameters.map(outputParameter => createCalloutOutputParameterMetadataObject(outputParameter));
+    inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
+    outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
 
     return Object.assign(apexPluginMetadata, {
         apexClass,

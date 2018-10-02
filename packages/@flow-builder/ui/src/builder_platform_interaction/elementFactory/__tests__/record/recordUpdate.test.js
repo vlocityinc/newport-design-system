@@ -46,7 +46,6 @@ const mutatedFilterWithField = {
     operator: '',
     rightHandSide: '',
     rightHandSideDataType: 'string',
-    rightHandSideGuid: ''
 };
 
 const mutatedFilterWithValueFieldAndOperator = {
@@ -54,7 +53,6 @@ const mutatedFilterWithValueFieldAndOperator = {
     operator: 'equals',
     rightHandSide: 'myDescription',
     rightHandSideDataType: 'String',
-    rightHandSideGuid: 'myDescription'
 };
 
 const inputAssignmentFieldValue = {
@@ -75,21 +73,18 @@ const mutatedInputAssignmentFieldValue = {
     leftHandSide: 'myObject.description',
     rightHandSide: 'myDescription',
     rightHandSideDataType: 'String',
-    rightHandSideGuid: 'myDescription'
 };
 
 const mutatedInputAssignmentField = {
     leftHandSide: 'myObject.title',
     rightHandSide: '',
     rightHandSideDataType: 'string',
-    rightHandSideGuid: ''
 };
 
 const mutatedInputAssignmentFieldBooleanValue = {
     leftHandSide: 'myObject.isEditeable',
     rightHandSide: '{!$GlobalConstant.False}',
     rightHandSideDataType: 'Boolean',
-    rightHandSideGuid: '{!$GlobalConstant.False}'
 };
 
 describe('recordUpdate Mutation', () => {

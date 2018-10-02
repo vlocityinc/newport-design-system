@@ -1,9 +1,18 @@
 import { isPlainObject } from "builder_platform_interaction/storeLib";
-import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE } from "builder_platform_interaction/flowMetadata";
-import { splitStringByPeriod } from "builder_platform_interaction/commonUtils";
+import { TEMPLATE_FIELDS, REFERENCE_FIELDS, SPECIAL_REFERENCE_FIELDS, EXPRESSION_RE } from "builder_platform_interaction/flowMetadata";
+import { splitStringByPeriod, isReference, removeCurlyBraces } from "builder_platform_interaction/commonUtils";
 
 // check to enable guid to devname swapping for referencefields. While opening property editor, only template fields guids need to be swapped with dev name.
-let checkReferenceFields = true;
+let checkSpecialReferenceFields = true;
+
+const replace = (value, swapFunction) => {
+    const replacer = (fullMatch) => {
+        // Strip '{!', '}'
+        const expressionMatch = fullMatch.substr(2).replace('}', '');
+        return '{!' + swapFunction(expressionMatch) + '}';
+    };
+    return value.replace(EXPRESSION_RE, replacer);
+};
 
 /**
  * Swaps a value that may contain 0 or more variables
@@ -16,19 +25,20 @@ let checkReferenceFields = true;
  * @returns {Object}             the value after swapping out guids or devNames
  */
 export const swapValueFunction = (swapFunction, fieldName, value) => {
-    if (TEMPLATE_FIELDS.has(fieldName)) {
-        if (EXPRESSION_RE.test(value)) {
-            const replacer = (fullMatch) => {
-                // Strip '{!', '}'
-                const expressionMatch = fullMatch.substr(2).replace('}', '');
-                return '{!' + swapFunction(expressionMatch) + '}';
-            };
-            value = value.replace(EXPRESSION_RE, replacer);
-        }
-    } else if (checkReferenceFields && REFERENCE_FIELDS.has(fieldName)) {
+    if (TEMPLATE_FIELDS.has(fieldName) && EXPRESSION_RE.test(value)) {
+        value = replace(value, swapFunction);
+    } else if (REFERENCE_FIELDS.has(fieldName)) {
         value = swapFunction(value);
+    } else if (SPECIAL_REFERENCE_FIELDS.has(fieldName)) {
+        if (EXPRESSION_RE.test(value) && !isReference(value)) {
+            value = replace(value, swapFunction);
+        } else if (checkSpecialReferenceFields) {
+            if (isReference(value)) {
+                value = removeCurlyBraces(value);
+            }
+            value = swapFunction(value);
+        }
     }
-
     return value;
 };
 
@@ -96,7 +106,7 @@ export const swapSingleExpression = (expression, mapping) => {
  */
 export const swapUidsForDevNames = (elementUidMap, flow, config = {}) => {
     const {enableGuidToDevnameSwappingForReferenceFields = true} = config;
-    checkReferenceFields = enableGuidToDevnameSwappingForReferenceFields;
+    checkSpecialReferenceFields = enableGuidToDevnameSwappingForReferenceFields;
     const mapping = {};
     Object.keys(elementUidMap).forEach(uid => {
         mapping[uid] = elementUidMap[uid].name;
@@ -126,7 +136,7 @@ export const swapUidsForDevNames = (elementUidMap, flow, config = {}) => {
  */
 export const swapDevNamesToUids = (nameToUid, flow, config = {}) => {
     const {enableDevnameToGuidSwappingForReferenceFields = true} = config;
-    checkReferenceFields = enableDevnameToGuidSwappingForReferenceFields;
+    checkSpecialReferenceFields = enableDevnameToGuidSwappingForReferenceFields;
     // swap the uid with it's dev name if the uid is in the element map
     // leave it unchanged if it's not
     const swapSingleDevNameToUid = (devName) => {

@@ -14,7 +14,6 @@ const storeInputParameterWithDefaultValueAsString = {
     name: 'text',
     value: 'This is message',
     valueDataType: 'String',
-    valueGuid: 'This is message',
     rowIndex: mockGuid
 };
 
@@ -29,7 +28,6 @@ const storeInputParameterWithDefaultValueAsReference = {
     name: 'subjectNameOrId',
     value: 'var_text',
     valueDataType: 'reference',
-    valueGuid: 'var_text',
     rowIndex: mockGuid
 };
 
@@ -42,7 +40,6 @@ const storeOutputParameterWithDefaultValue = {
     name: "feedId",
     value: 'var_text',
     valueDataType: 'reference',
-    valueGuid: 'var_text',
     rowIndex: mockGuid
 };
 
