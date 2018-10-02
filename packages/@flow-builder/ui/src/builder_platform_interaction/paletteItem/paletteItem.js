@@ -11,6 +11,7 @@ import { isTestMode } from "builder_platform_interaction/contextLib";
  */
 
 export default class PaletteItem extends LightningElement {
+    @api description;
     @api elementType;
     @api guid;
     @api iconName;
