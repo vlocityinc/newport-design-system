@@ -6,7 +6,8 @@ import {
     UpdateRecordLookupFieldEvent,
 } from "builder_platform_interaction/events";
 import RecordFieldPickerRow from "builder_platform_interaction/recordFieldPickerRow";
-import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
+
+const ID_FIELD = 'Id';
 
 const mockDefaultConfig = {
     fieldIndex: 1,
@@ -14,11 +15,11 @@ const mockDefaultConfig = {
 };
 
 const selectors = {
-    baseResourcePicker: 'builder_platform_interaction-base-resource-picker',
+    fieldPicker: 'builder_platform_interaction-field-picker',
 };
 
-const getBaseResourcePicker = (recordFieldPickerRow) => {
-    return getShadowRoot(recordFieldPickerRow).querySelector(selectors.baseResourcePicker);
+const getFieldPicker = (recordFieldPickerRow) => {
+    return getShadowRoot(recordFieldPickerRow).querySelector(selectors.fieldPicker);
 };
 
 const createComponentUnderTest = () => {
@@ -40,74 +41,64 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 
 describe('record-field-picker-row', () => {
     describe('Load all fields', () => {
-        let recordFieldPickerRow, baseResourcePicker;
+        let recordFieldPickerRow, fieldPicker;
         beforeEach(() => {
             recordFieldPickerRow = createComponentUnderTest();
-            baseResourcePicker = getBaseResourcePicker(recordFieldPickerRow);
+            fieldPicker = getFieldPicker(recordFieldPickerRow);
         });
 
-        it('contains a base resource picker', () => {
-            expect(baseResourcePicker).toBeDefined();
+        it('contains a field picker', () => {
+            expect(fieldPicker).toBeDefined();
         });
 
         it('retrieves fields menu data on initial load', () => {
-            const fullMenuData = baseResourcePicker.fullMenuData;
-            expect(fullMenuData).toHaveLength(Object.keys(mockAccountFields).length - 1); // exclude 'Id'
-            expect(fullMenuData).not.toContainEqual(expect.objectContaining({
-                text: 'Id'
-            }));
+            const fields = Object.keys(fieldPicker.fields);
+            expect(fields).toHaveLength(Object.keys(mockAccountFields).length - 1); // exclude 'Id'
+            expect(fields).toEqual(expect.not.arrayContaining([ID_FIELD]));
         });
     });
 
     describe('Set the value', () => {
         it('should not display record-field-picker-row combobox if value is Id', () => {
-            mockDefaultConfig.value = 'Id';
-            const baseResourcePicker = getBaseResourcePicker(createComponentUnderTest());
-            expect(baseResourcePicker).toBeNull();
+            mockDefaultConfig.value = ID_FIELD;
+            const fieldPicker = getFieldPicker(createComponentUnderTest());
+            expect(fieldPicker).toBeNull();
+            mockDefaultConfig.value = undefined;
         });
 
         it('should have "Description" as value', () => {
             mockDefaultConfig.value = 'Description';
-            const baseResourcePicker = getBaseResourcePicker(createComponentUnderTest());
-            expect(baseResourcePicker.value).toEqual(mockDefaultConfig.value);
-        });
-        it('should have subtext and icon', () => {
-            const baseResourcePicker = getBaseResourcePicker(createComponentUnderTest());
-            baseResourcePicker.fullMenuData.forEach((field) => {
-                const expectedItem = {
-                    subText: mockAccountFields[field.value].label,
-                    iconName: getDataTypeIcons(mockAccountFields[field.value].dataType, 'utility'),
-                    iconSize: 'xx-small'
-                };
-                expect(field).toMatchObject(expectedItem);
-            });
+            const fieldPicker = getFieldPicker(createComponentUnderTest());
+            expect(fieldPicker.value).toEqual(mockDefaultConfig.value);
+            mockDefaultConfig.value = undefined;
         });
     });
 
     describe('Exclude some fields', () => {
-        let recordFieldPickerRow, baseResourcePicker;
+        let recordFieldPickerRow, fieldPicker;
         beforeEach(() => {
+            mockDefaultConfig.value = 'Description';
             mockDefaultConfig.queriedFields = [{field: {value: 'Description'}}, {field: {value: 'Fax'}}, {field: {value: 'Name'}}];
             recordFieldPickerRow = createComponentUnderTest();
-            baseResourcePicker = getBaseResourcePicker(recordFieldPickerRow);
+            fieldPicker = getFieldPicker(recordFieldPickerRow);
         });
 
         it('should not contain "Fax", "Name" and "Id"', () => {
-            const fullMenuData = baseResourcePicker.fullMenuData;
-            expect(fullMenuData).toHaveLength(Object.keys(mockAccountFields).length - mockDefaultConfig.queriedFields.length);
-            expect(baseResourcePicker.value).toEqual("Description");
-            expect(fullMenuData.some(item => ["Fax", "Name", "Id"].indexOf(item.text) >= 0)).toBe(false);
+            const fields = Object.keys(fieldPicker.fields);
+            expect(fieldPicker.value).toEqual("Description");
+            expect(fields).toHaveLength(Object.keys(mockAccountFields).length - mockDefaultConfig.queriedFields.length);
+            expect(fields.some(item => ["Fax", "Name", "Id"].indexOf(item.text) >= 0)).toBe(false);
         });
     });
     describe('handling value change event from combobox', () => {
         it("should fire 'UpdateRecordLookupFieldEvent'", () => {
             const recordFieldPickerRow = createComponentUnderTest();
-            const baseResourcePicker = getBaseResourcePicker(recordFieldPickerRow);
+            const fieldPicker = getFieldPicker(recordFieldPickerRow);
             const newParamValue = 'Fax';
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
                 recordFieldPickerRow.addEventListener(UpdateRecordLookupFieldEvent.EVENT_NAME, eventCallback);
-                baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
+                fieldPicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {index: 1, value: newParamValue}});
             });

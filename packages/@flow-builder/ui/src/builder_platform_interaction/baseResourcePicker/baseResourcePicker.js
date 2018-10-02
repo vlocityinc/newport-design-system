@@ -113,7 +113,7 @@ export default class BaseResourcePicker extends LightningElement {
      * @param {String|Boolean} literalsAllowed Pass a string or boolean value: true if literals are allowed false otherwise
      * @param {Boolean} required true if required field, false otherwise
      * @param {Boolean} disabled true if disabled field, false otherwise
-     * @param {String} type the data type of the flow combobox, needed for validation
+     * @param {String} type the data type of the flow combobox, needed for validation if literals are allowed
      * @param {String} variant the variant for the combobox (label-hidden or standard)
      * @returns {ComboboxConfig} The combobox config object
      */
@@ -121,10 +121,10 @@ export default class BaseResourcePicker extends LightningElement {
         label,
         placeholder,
         errorMessage,
-        literalsAllowed,
-        required,
-        disabled,
-        type,
+        literalsAllowed = false,
+        required = false,
+        disabled = false,
+        type = '',
         variant = LIGHTNING_INPUT_VARIANTS.STANDARD
     ) => {
         return {

@@ -320,26 +320,6 @@ export function getElementByDevName(elements = {}, devName) {
 }
 
 /**
- * Get the list of fields of the selected entity. This list should exclude some preselected fields to prevent selection the same field twice.
- * Then transform them to combobox menu data as a list of {type: 'option-inline', text: fieldApiName, displayText: fieldApiName, value: fieldApiName}
- *
- * @param {String} resourceEntityName   resource entity name
- * @param {String[]} excludedFields   the excluded fields
- * @param {function} callback the callback function with menudata
- */
-export function getFieldsMenuData(resourceEntityName, excludedFields, callback) {
-    sobjectLib.getFieldsForEntity(resourceEntityName, fields => {
-        const menuData = [];
-        Object.keys(fields).forEach(field => {
-            if (!excludedFields.includes(field)) {
-                menuData.push(mutateFieldToComboboxShape(fields[field], undefined, false, true));
-            }
-        });
-        callback(menuData);
-    });
-}
-
-/**
  * Get a list of menu data based from the allowed resource types returned by the java controller
  * @returns {MenuItem[]} list of menu items representing the allowed resource types
  */

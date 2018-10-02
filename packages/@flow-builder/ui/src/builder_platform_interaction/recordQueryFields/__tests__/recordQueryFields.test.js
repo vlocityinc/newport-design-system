@@ -28,7 +28,7 @@ const selectors = {
     fieldsList: 'builder_platform_interaction-list',
     recordFieldPicker: 'builder_platform_interaction-record-field-picker-row',
     idCombobox: 'builder_platform_interaction-combobox',
-    baseResourcePicker: 'builder_platform_interaction-base-resource-picker',
+    fieldPicker: 'builder_platform_interaction-field-picker',
 };
 
 const getSObjectPicker = (recordStoreFieldsComponent) => {
@@ -47,8 +47,8 @@ const getIdCombobox = (recordStoreFieldsComponent) => {
     return getShadowRoot(recordStoreFieldsComponent).querySelector(selectors.idCombobox);
 };
 
-const getBaseResourcePicker = (recordFieldPicker) => {
-    return getShadowRoot(recordFieldPicker).querySelector(selectors.baseResourcePicker);
+const getFieldPicker = (recordFieldPicker) => {
+    return getShadowRoot(recordFieldPicker).querySelector(selectors.fieldPicker);
 };
 
 const createComponentUnderTest = (props) => {
@@ -106,15 +106,15 @@ describe('record-store-fields', () => {
             expect(getFieldList(recordQueryFields)).not.toBeNull();
             const fieldPickers = getRecordFieldPickers(recordQueryFields);
             expect(fieldPickers).toHaveLength(1);
-            expect(getBaseResourcePicker(fieldPickers[0]).value).toEqual("");
+            expect(getFieldPicker(fieldPickers[0]).value).toEqual("");
         });
 
         it('show 2 rows in fields', () => {
             recordQueryFields = createComponentUnderTest({outputReference: store.accountSObjectVariableGuid, queriedFields: queried2Fields});
             const fieldPickers = getRecordFieldPickers(recordQueryFields);
             expect(fieldPickers).toHaveLength(2);
-            expect(getBaseResourcePicker(fieldPickers[0]).value).toEqual(queried2Fields[0].field.value);
-            expect(getBaseResourcePicker(fieldPickers[1]).value).toEqual(queried2Fields[1].field.value);
+            expect(getFieldPicker(fieldPickers[0]).value).toEqual(queried2Fields[0].field.value);
+            expect(getFieldPicker(fieldPickers[1]).value).toEqual(queried2Fields[1].field.value);
         });
     });
 
