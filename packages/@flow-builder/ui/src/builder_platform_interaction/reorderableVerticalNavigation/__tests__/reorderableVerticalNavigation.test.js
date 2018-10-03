@@ -3,12 +3,12 @@ import { getShadowRoot } from 'lwc-test-utils';
 import ReorderableVerticalNavigation from "builder_platform_interaction/reorderableVerticalNavigation";
 
 const SELECTORS = {
-    ITEM: 'li',
+    ITEM: 'builder_platform_interaction-reorderable-vertical-navigation-item',
     FRONT_ICON: 'div[slot="front-icon"]',
     END_ICON: 'div[slot="end-icon"]',
     DIV: 'div',
     LINK: 'a',
-    LIST_ITEM: 'li',
+    LIST_ITEM: 'builder_platform_interaction-reorderable-vertical-navigation-item',
     FIRST_LIST_ITEM: '.slds-vertical-tabs__link',
     VERTICAL_TAB_NAV_ITEM: '.slds-vertical-tabs__nav-item'
 };
@@ -44,8 +44,8 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
             const div = getShadowRoot(element).querySelectorAll(SELECTORS.DIV);
-            expect(div).toHaveLength(3);
-            expect(div[0].getAttribute('class')).toContain('slds-vertical-tabs__nav');
+            expect(div).toHaveLength(4);
+            expect(div[2].getAttribute('class')).toContain('slds-vertical-tabs__nav');
         });
     });
     it('renders all initial menu items', () => {

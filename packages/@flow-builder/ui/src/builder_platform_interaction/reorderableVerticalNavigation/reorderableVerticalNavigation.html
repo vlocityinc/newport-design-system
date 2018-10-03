@@ -6,9 +6,9 @@
                      Item Order
                  </slot>
         </div> 
-        <ul class="slds-vertical-tabs__nav" role="tablist" aria-orientation="vertical">
+        <div class="slds-vertical-tabs__nav" role="tablist" aria-orientation="vertical">
             <template for:each={decoratedMenuItems} for:item="item" for:index="itemIndex">
-                <li is="builder_platform_interaction-reorderable-vertical-navigation-item"
+                <builder_platform_interaction-reorderable-vertical-navigation-item
                     class={item.class}
                     has-front-icon={item.isDraggable}
                     key={item.guid}
@@ -26,7 +26,7 @@
                     <div slot='end-icon' class='slds-col_bump-left'>
                         <lightning-icon icon-name='utility:error' size='x-small' variant='error'></lightning-icon>
                     </div>
-                </li>                
+                </builder_platform_interaction-reorderable-vertical-navigation-item>                
             </template>
             <div if:false={hideFooter} class="slds-vertical-tabs__nav-item slds-p-around_small">
                 <slot name="footer">
@@ -34,6 +34,6 @@
                     Default Item
                 </slot>
             </div>
-        </ul>
+        </div>
     </div>
 </template>
