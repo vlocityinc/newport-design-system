@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import InvocableActionEditor from "../invocableActionEditor";
-import { mockActionParameters } from "mock/actionSelectorData";
+import { mockActionParameters } from "mock/calloutData";
 
 const defaultNode = {
         actionName: {value: 'chatterPost', error: null},

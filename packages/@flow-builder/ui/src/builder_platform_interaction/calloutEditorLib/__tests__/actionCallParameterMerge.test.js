@@ -1,5 +1,5 @@
 import { mergeInputOutputParameters } from "../calloutEditorLib";
-import { mockActionParameters } from "mock/actionSelectorData";
+import { mockActionParameters } from "mock/calloutData";
 
 const mockGuid = 'mockGuid';
 
