@@ -5,6 +5,7 @@ import { getRulesForContext } from "builder_platform_interaction/ruleLib";
 import { mockRules } from "mock/ruleService";
 import { ReorderListEvent } from "builder_platform_interaction/events";
 import { CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
+import { resolveRenderCycles} from '../resolveRenderCycles';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const mockStoreLib = require.requireActual('../../../../jest-modules/builder_platform_interaction/storeLib/storeLib-mock.js');
@@ -181,11 +182,11 @@ describe('Decision Editor', () => {
     describe('label and description', () => {
         it('Adding name autofills dev name', () => {
             const decisionEditor = createComponentForTest(emptyDecision);
-            return Promise.resolve().then(() => {
+            return resolveRenderCycles(() => {
                 const labelInput = getShadowRoot(getShadowRoot(decisionEditor).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
                 labelInput.mockUserInput(NEW_DECISION_LABEL);
                 labelInput.dispatchEvent(focusoutEvent);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     expect(decisionEditor.node.label.value).toBe(NEW_DECISION_LABEL);
                     expect(decisionEditor.node.name.value).toBe(NEW_DECISION_DEV_NAME);
                 });
@@ -194,12 +195,12 @@ describe('Decision Editor', () => {
 
         it('Dev name is unchanged if it already exists and name is modified', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
-            return Promise.resolve().then(() => {
+            return resolveRenderCycles(() => {
                 const newLabel = 'new label';
                 const labelInput = getShadowRoot(getShadowRoot(decisionEditor).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
                 labelInput.mockUserInput(newLabel);
                 labelInput.dispatchEvent(focusoutEvent);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     expect(decisionEditor.node.label.value).toBe(newLabel);
                     expect(decisionEditor.node.name.value).toBe(NEW_DECISION_DEV_NAME);
                 });
@@ -210,7 +211,7 @@ describe('Decision Editor', () => {
     describe('outcome list', () => {
         it('default outcome and detail page are always present', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
-            return Promise.resolve().then(() => {
+            return resolveRenderCycles(() => {
                 // Initially we have 2 outcomes in left nav (one default) and 1 outcome detail page
                 const outcomeDetailPages = getShadowRoot(decisionEditor).querySelectorAll(SELECTORS.OUTCOME);
                 expect(outcomeDetailPages).toHaveLength(1);
@@ -221,10 +222,10 @@ describe('Decision Editor', () => {
 
         it('click on Add Outcome will create a new outcome', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
-            return Promise.resolve().then(() => {
+            return resolveRenderCycles(() => {
                 const addOutcomeElement = getShadowRoot(decisionEditor).querySelector(SELECTORS.ADD_BUTTON);
                 addOutcomeElement.click();
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     // After click we have 3 outcomes in left nav (one default)
                     // but still just 1 outcome detail page
                     const outcomeDetailPages = getShadowRoot(decisionEditor).querySelectorAll(SELECTORS.OUTCOME);
@@ -237,12 +238,12 @@ describe('Decision Editor', () => {
 
         it('reorder list sets the correct order of outcomes', () => {
             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
-            return Promise.resolve().then(() => {
+            return resolveRenderCycles(() => {
                 expect(decisionEditor.getNode().outcomes[0].guid).toBe(outcome1Guid);
                 const reorderableNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
                 // fire event to switch order
                 reorderableNav.dispatchEvent(reorderListEvent);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     expect(decisionEditor.getNode().outcomes[0].guid).toBe(outcome2Guid);
                 });
             });
@@ -253,12 +254,12 @@ describe('Decision Editor', () => {
         describe('label and description', () => {
             it('Adding name autofills dev name', () => {
                 const decisionEditor = createComponentForTest(emptyDecision);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
                     const detailLabelInput = unwrap(getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
                     detailLabelInput.mockUserInput(NEW_OUTCOME_LABEL);
                     detailLabelInput.dispatchEvent(focusoutEvent);
-                    return Promise.resolve().then(() => {
+                    return resolveRenderCycles(() => {
                         expect(decisionEditor.node.outcomes[0].label.value).toBe(NEW_OUTCOME_LABEL);
                         expect(decisionEditor.node.outcomes[0].name.value).toBe(NEW_OUTCOME_DEV_NAME);
                     });
@@ -267,13 +268,13 @@ describe('Decision Editor', () => {
 
             it('Dev name is unchanged if it already exists and name is modified', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     const newLabel = 'new outcome label';
                     const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
                     const detailLabelInput = unwrap(getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
                     detailLabelInput.mockUserInput(newLabel);
                     detailLabelInput.dispatchEvent(focusoutEvent);
-                    return Promise.resolve().then(() => {
+                    return resolveRenderCycles(() => {
                         expect(decisionEditor.node.outcomes[0].label.value).toBe(newLabel);
                         expect(decisionEditor.node.outcomes[0].name.value).toBe(outcome1Guid);
                     });
@@ -284,7 +285,7 @@ describe('Decision Editor', () => {
         describe('add/delete conditions', () => {
             it('add condition', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
                     const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
                     const list = getShadowRoot(conditionList).querySelector(SELECTORS.LIST);
@@ -300,7 +301,7 @@ describe('Decision Editor', () => {
 
             it('delete is disabled for one condition', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
                     const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
                     expect(decisionEditor.getNode().outcomes[0].conditions).toHaveLength(1);
@@ -313,7 +314,7 @@ describe('Decision Editor', () => {
 
             it('delete is clickable and works for 2 or more conditions', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     const outcomeDetailPage = decisionEditor.querySelector(SELECTORS.OUTCOME);
                     const list = outcomeDetailPage.querySelector(SELECTORS.LIST);
                     const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
@@ -322,7 +323,7 @@ describe('Decision Editor', () => {
                     expect(decisionEditor.getNode().outcomes[0].conditions).toHaveLength(2);
                     const row = conditionList.querySelector(SELECTORS.ROW);
                     const deleteButton = getShadowRoot(row).querySelector(SELECTORS.LIGHTNING_BUTTON_ICON);
-                    return Promise.resolve().then(() => {
+                    return resolveRenderCycles(() => {
                         expect(deleteButton.disabled).toBeFalsy();
 
                         // make sure clicking the button deletes the condition
@@ -336,7 +337,7 @@ describe('Decision Editor', () => {
         describe('logic', () => {
             it('all conditions are met has AND for more than one row', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcomeWithTwoConditions);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     expect(decisionEditor.node.outcomes[0].conditionLogic.value).toBe(CONDITION_LOGIC.AND);
 
                     const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
@@ -349,13 +350,13 @@ describe('Decision Editor', () => {
 
             it('any condition is met has OR for more than one row', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcomeWithTwoConditions);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     const outcomeDetailPage = decisionEditor.querySelector(SELECTORS.OUTCOME);
                     const conditionCombobox = outcomeDetailPage.querySelector(SELECTORS.CONDITION_COMBOBOX);
 
                     const cbChangeEvent = changeEvent(CONDITION_LOGIC.OR);
                     conditionCombobox.dispatchEvent(cbChangeEvent);
-                    return Promise.resolve().then(() => {
+                    return resolveRenderCycles(() => {
                         expect(decisionEditor.node.outcomes[0].conditionLogic.value).toBe(CONDITION_LOGIC.OR);
                         const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
                         const row = conditionList.querySelectorAll(SELECTORS.ROW);
@@ -367,13 +368,13 @@ describe('Decision Editor', () => {
 
             it('custom condition logic input and shows number for rows', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcomeWithTwoConditions);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     const outcomeDetailPage = decisionEditor.querySelector(SELECTORS.OUTCOME);
                     const conditionCombobox = outcomeDetailPage.querySelector(SELECTORS.CONDITION_COMBOBOX);
 
                     const cbChangeEvent = changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC);
                     conditionCombobox.dispatchEvent(cbChangeEvent);
-                    return Promise.resolve().then(() => {
+                    return resolveRenderCycles(() => {
                         expect(decisionEditor.node.outcomes[0].conditionLogic.value).toBe('1 AND 2');
                         const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
                         const row = conditionList.querySelectorAll(SELECTORS.ROW);
@@ -389,10 +390,10 @@ describe('Decision Editor', () => {
         describe('default outcome', () => {
             it('no delete outcome button', () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     const outcomes = decisionEditor.querySelectorAll(SELECTORS.VERTICAL_TAB_NAV_ITEM);
                     outcomes[2].querySelector('a').click();
-                    return Promise.resolve().then(() => {
+                    return resolveRenderCycles(() => {
                         const deleteOutcomeButton = getShadowRoot(decisionEditor).querySelector(SELECTORS.LIGHTNING_BUTTON);
                         expect(deleteOutcomeButton).toBeNull();
                     });
@@ -401,16 +402,16 @@ describe('Decision Editor', () => {
 
             it('can update label', () => {
                 const decisionEditor = createComponentForTest(emptyDecision);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     const outcomes = decisionEditor.querySelectorAll(SELECTORS.VERTICAL_TAB_NAV_ITEM);
                     outcomes[1].querySelector('a').click();
-                    return Promise.resolve().then(() => {
+                    return resolveRenderCycles(() => {
                         const labelDescription = getShadowRoot(decisionEditor).querySelector(SELECTORS.DEFAULT_OUTCOME);
                         const defaultOutcomeLabelInput = getShadowRoot(labelDescription).querySelector(SELECTORS.LABEL);
                         const newDefaultOutcomeLabel = 'blah blah blah';
                         defaultOutcomeLabelInput.mockUserInput(newDefaultOutcomeLabel);
                         defaultOutcomeLabelInput.dispatchEvent(focusoutEvent);
-                        return Promise.resolve().then(() => {
+                        return resolveRenderCycles(() => {
                             expect(defaultOutcomeLabelInput.value).toBe(newDefaultOutcomeLabel);
                         });
                     });
@@ -421,7 +422,7 @@ describe('Decision Editor', () => {
         describe('delete outcome', () => {
             it('delete outcome button is not present when only one outcome', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
                     const deleteOutcomeButton = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LIGHTNING_BUTTON);
                     expect(deleteOutcomeButton).toBeNull();
@@ -430,14 +431,14 @@ describe('Decision Editor', () => {
 
             it('delete outcome available with 2 or more outcomes and works', () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
-                return Promise.resolve().then(() => {
+                return resolveRenderCycles(() => {
                     let outcomes = decisionEditor.querySelectorAll(SELECTORS.VERTICAL_TAB_NAV_ITEM);
                     expect(outcomes).toHaveLength(3);
                     const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
                     const deleteOutcomeButton = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LIGHTNING_BUTTON);
                     expect(deleteOutcomeButton).toBeDefined();
                     deleteOutcomeButton.click();
-                    return Promise.resolve().then(() => {
+                    return resolveRenderCycles(() => {
                         outcomes = decisionEditor.querySelectorAll(SELECTORS.VERTICAL_TAB_NAV_ITEM);
                         expect(outcomes).toHaveLength(2);
                     });
