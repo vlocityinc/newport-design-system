@@ -1,0 +1,7 @@
+.has-error {
+    border: var(--lwc-borderWidthThin) solid var(--lwc-colorBorderError);
+}
+
+.bordered {
+    border: var(--lwc-borderWidthThin) solid var(--lwc-cardColorBorder);
+}

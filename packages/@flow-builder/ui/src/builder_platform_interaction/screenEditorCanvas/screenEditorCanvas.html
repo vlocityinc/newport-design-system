@@ -9,14 +9,23 @@
                 <!--  header -->
                 <builder_platform_interaction-screen-editor-highlight if:true={screen.showHeader} screen-element={screen} property='showHeader' 
                                                                       prevent-events='true' title={labels.header} tab-index={tabIndex} selected={headerSelected}>
-                    <div slot='screen-element' class='slds-card__header slds-grid slds-border_bottom slds-grow'>
-                        <header class='slds-media slds-media_center slds-has-flexi-truncate'>
-                            <div class='slds-media__body'>
-                                <h2><span class='slds-card__header-link slds-text-heading_small'>{screenTitle}</span></h2>
+                    <div slot='screen-element' class='slds-grid slds-grow'>
+                        <!-- Screen config has errors -->       
+                        <div if:true={screenConfigurationHasErrors} class='slds-grow slds-p-horizontal_small slds-p-vertical_x-small'>
+                            <builder_platform_interaction-screen-field-card class='slds-grow' title={labels.invalidScreen} error>
+                            </builder_platform_interaction-screen-field-card>
+                        </div>             
+
+                        <!-- Screen config is fine -->
+                        <div if:false={screenConfigurationHasErrors} class='slds-card__header slds-grid slds-grow slds-border_bottom'>
+                            <header class='slds-media slds-media_center slds-has-flexi-truncate slds-p-bottom_small'>
+                                <div class='slds-media__body'>
+                                    <h2><span class='slds-card__header-link slds-text-heading_small'>{screenTitle}</span></h2>
+                                </div>
+                            </header>
+                            <div if:true={hasHelpText} class='slds-no-flex'>
+                                <lightning-button-icon icon-name='utility:info' variant='bare' alternative-text='{labels.buttonHelpTextAltText}' size='small'></lightning-button-icon>
                             </div>
-                        </header>
-                        <div if:true={hasHelpText} class='slds-no-flex'>
-                            <lightning-button-icon icon-name='utility:info' variant='bare' alternative-text='{labels.buttonHelpTextAltText}' size='small'></lightning-button-icon>
                         </div>
                     </div>
                 </builder_platform_interaction-screen-editor-highlight>
@@ -47,7 +56,7 @@
                 <!--  footer -->
                 <builder_platform_interaction-screen-editor-highlight if:true={screen.showFooter} screen-element={screen} property='showFooter'
                                                                       prevent-events='true' title={labels.footer} tab-index={tabIndex} selected={footerSelected}>
-                    <div slot='screen-element' class='slds-card__footer slds-grid slds-border_top slds-grow'>
+                    <div slot='screen-element' class='screen-editor-canvas-footer slds-card__footer slds-grid slds-border_top slds-grow'>
                         <button if:true={screen.allowPause} class='slds-button slds-button--neutral' type='button' tabindex='-1'>{labels.pause}</button>
                         <div class='slds-col_bump-left'>
                             <button if:true={screen.allowBack} class='slds-button slds-button--neutral' type='button' tabindex='-1'>{labels.previous}</button>

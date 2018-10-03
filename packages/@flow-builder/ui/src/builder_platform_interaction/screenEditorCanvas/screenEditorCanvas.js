@@ -15,6 +15,19 @@ export default class ScreenEditorCanvas extends LightningElement {
 
     labels = LABELS;
 
+    get screenConfigurationHasErrors() {
+        for (const property in this.screen) {
+            if (this.screen.hasOwnProperty(property)) {
+                const val = this.screen[property];
+                if (val && !Array.isArray(val) && val.error) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     get screenTitle() {
         return this.screen && this.screen.label.value ? this.screen.label.value : '[' + LABELS.screenTitlePlaceHolder + ']';
     }

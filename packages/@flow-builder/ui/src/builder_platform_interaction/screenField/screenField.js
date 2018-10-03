@@ -3,17 +3,18 @@ import { isExtensionField, getPlaceHolderLabel } from "builder_platform_interact
 import { hydrateWithErrors, getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { isReference, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
  */
 export default class ScreenField extends LightningElement {
     @api screenfield;
+    labels = LABELS;
 
-    get calculatedClass() {
-        const errors = getErrorsFromHydratedElement(this.screenfield);
-        const hasError = errors && errors.length > 0;
-        return 'container slds-m-around_xxx-small slds-p-horizontal_small slds-p-vertical_x-small' + (hasError ? ' has-error' : '');
+    get hasErrors() {
+        const errors = this.screenfield && getErrorsFromHydratedElement(this.screenfield);
+        return errors && errors.length > 0;
     }
 
     get isExtension() {
@@ -48,6 +49,10 @@ export default class ScreenField extends LightningElement {
         return this.screenfield && this.screenfield.name ? this.screenfield.name.value : '';
     }
 
+    get displayName() {
+        return this.screenfield.type.label !== null ? this.screenfield.type.label : this.screenfield.type.name;
+    }
+
     get fieldText() {
         // The LWC components used to render these screen fields require a value for this property. however Flow doesn't require this.
         // If the user didn't provide a label, use a placeholder label for preview.
@@ -58,7 +63,7 @@ export default class ScreenField extends LightningElement {
     }
 
     get defaultValue() {
-        // Hack due to guid->devName swapping inconsistencies
+        // Hack due to guid->devName swapping inconsistencies (Jesun David)
         // TODO: Need to update this when changing uid swapping
         const defaultValue = this.screenfield.previewDefaultValue && this.screenfield.previewDefaultValue.value ? this.screenfield.previewDefaultValue.value : this.screenfield.previewDefaultValue;
         if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && !isReference(defaultValue)) {

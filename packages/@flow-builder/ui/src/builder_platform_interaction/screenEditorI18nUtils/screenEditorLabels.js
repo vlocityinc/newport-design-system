@@ -63,6 +63,8 @@ import extensionOutputsHeader from "@salesforce/label/FlowBuilderScreenEditor.ex
 import fieldValidation from '@salesforce/label/FlowBuilderScreenEditor.fieldValidation';
 import validationFormula from '@salesforce/label/FlowBuilderFormulaTextarea.formulaValidationSpinnerAlternativeText';
 import selectResource from '@salesforce/label/FlowBuilderScreenEditor.selectResource';
+import invalidScreen from '@salesforce/label/FlowBuilderScreenEditor.invalidScreen';
+import invalidScreenfield from '@salesforce/label/FlowBuilderScreenEditor.invalidScreenfield';
 
 export const LABELS = {
     errorRequired,
@@ -128,5 +130,7 @@ export const LABELS = {
     extensionOutputsHeader,
     validationFormula,
     addChoice,
-    selectResource
+    selectResource,
+    invalidScreen,
+    invalidScreenfield
 };

@@ -22,3 +22,7 @@
     background: var(--lwc-colorBackgroundSuccess);
     height: var(--lwc-borderWidthThick);
 }
+
+.screen-editor-canvas-footer {
+    background-color: var(--lwc-colorGray3);
+}
