@@ -1,3 +1,14 @@
 <template>
-    <!-- W-4537970 -->
+    <builder_platform_interaction-base-callout-editor 
+        label-description-config={subflowNode} 
+        element-type={elementType} 
+        input-tab-header={labels.inputTabHeader} 
+        output-tab-header={labels.outputTabHeader} 
+        subtitle={subtitle} 
+        inputs={inputs} 
+        outputs={outputs} 
+        display-spinner={displaySpinner}
+        onpropertychanged={handlePropertyChanged}
+        >
+    </builder_platform_interaction-base-callout-editor>
 </template>

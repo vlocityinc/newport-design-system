@@ -1,10 +1,10 @@
 /* Labels */
-import subflowTitle from "@salesforce/label/FlowBuilderActionCallEditor.subflowTitle";
-import subflowInputTabHeader from "@salesforce/label/FlowBuilderActionCallEditor.subflowInputTabHeader";
-import subflowOutputTabHeader from "@salesforce/label/FlowBuilderActionCallEditor.subflowOutputTabHeader";
+import subtitle from "@salesforce/label/FlowBuilderSubflowEditor.subtitle";
+import inputTabHeader from "@salesforce/label/FlowBuilderSubflowEditor.inputTabHeader";
+import outputTabHeader from "@salesforce/label/FlowBuilderSubflowEditor.outputTabHeader";
 
 export const LABELS = {
-    subflowTitle,
-    subflowInputTabHeader,
-    subflowOutputTabHeader
+    subtitle,
+    inputTabHeader,
+    outputTabHeader
 };

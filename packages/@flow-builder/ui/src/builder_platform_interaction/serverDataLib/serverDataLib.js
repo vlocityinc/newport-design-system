@@ -24,6 +24,7 @@ export const SERVER_ACTION_TYPE = {
     SET_USER_PREFERENCES: 'setUserPreferences',
     GET_CONTEXT: 'getContext',
     GET_OPERATORS: 'getOperators',
+    GET_FLOW_INPUT_OUTPUT_VARIABLES: 'getFlowInputOutputVariables'
 };
 
 const actionConfig = {
@@ -50,6 +51,7 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.SET_USER_PREFERENCES]: 'c.setUserPreferences',
     [SERVER_ACTION_TYPE.GET_CONTEXT]: 'c.getContext',
     [SERVER_ACTION_TYPE.GET_OPERATORS]: 'c.getOperators',
+    [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: 'c.getFlowInputOutputVariables'
 };
 
 let auraFetch;
