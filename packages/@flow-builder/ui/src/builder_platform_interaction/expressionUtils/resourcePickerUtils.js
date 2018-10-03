@@ -17,10 +17,8 @@ const getFieldMenuData = (resourcePicker, parentItem, entityFields) => {
     const showAsFieldReference = true;
     const showSubText = true;
     let menuData;
-    // using element config means we do not care about param types
-    if (!resourcePicker.elementConfig) {
-        resourcePicker.populateParamTypes();
-    }
+
+    resourcePicker.populateParamTypes();
     if (entityFields) {
         menuData = filterFieldsForChosenElement(parentItem, resourcePicker.paramTypes, entityFields, showAsFieldReference, showSubText);
     } else {
@@ -43,19 +41,12 @@ const getFieldMenuData = (resourcePicker, parentItem, entityFields) => {
  * @returns {Array} array of resources
  */
 const getFerovMenuData = (resourcePicker, storeInstance, includeNewResource) => {
-    let allowedParamTypes = null;
-    let elementConfig = resourcePicker.elementConfig;
-
-    if (!elementConfig) {
-        elementConfig = { elementType: resourcePicker.propertyEditorElementType };
-
-        resourcePicker.populateParamTypes();
-        allowedParamTypes = resourcePicker.paramTypes;
-    }
+    const elementConfig = resourcePicker.elementConfig || { elementType: resourcePicker.propertyEditorElementType };
+    resourcePicker.populateParamTypes();
 
     const menuDataElements = getStoreElements(storeInstance.getCurrentState(), elementConfig);
 
-    return filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource,
+    return filterAndMutateMenuData(menuDataElements, resourcePicker.paramTypes, includeNewResource,
         resourcePicker.allowSobjectForFields, resourcePicker.disableFieldDrilldown);
 };
 

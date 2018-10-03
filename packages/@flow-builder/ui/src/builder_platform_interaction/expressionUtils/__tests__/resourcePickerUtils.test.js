@@ -79,7 +79,7 @@ describe('resourcePickerUtils', () => {
             getMenuData(resourcePicker, storeInstance, true);
             expect(getStoreElements).toHaveBeenCalledWith(elements, { elementType: 'Assignment' });
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, ['paramType'], true,
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, true,
                 true, true);
         });
 
@@ -88,7 +88,7 @@ describe('resourcePickerUtils', () => {
             getMenuData(resourcePicker, storeInstance, false);
             expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, null, false,
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, false,
                 true, true);
         });
     });

@@ -75,6 +75,14 @@ export default class OutputResourcePicker extends LightningElement {
         return this.value && this.value.parent;
     }
 
+    @api
+    get elementConfig() {
+        return {
+            elementType: this.propertyEditorElementType,
+            shouldBeWritable: true,
+        };
+    }
+
     /**
      * True if the component has been initialized, false otherwise. This is so we do not populate menu data twice on initializing api values
      * @type {Boolean}
