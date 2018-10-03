@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import StepEditor from "../stepEditor";
 import { getShadowRoot } from 'lwc-test-utils';
-import { LABELS } from '../stepEditorLabels';
 
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-step-editor', { is: StepEditor });
@@ -12,17 +11,12 @@ const createComponentUnderTest = (node) => {
 
 const selectors = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
-    HELP_TEXT_ICON: '.test-help-text',
     BADGE_ICON: '.test-badge-icon',
     SECTION_HEADER: '.test-section-description'
 };
 
 const getLabelDescription = (stepEditor) => {
     return getShadowRoot(stepEditor).querySelector(selectors.LABEL_DESCRIPTION);
-};
-
-const getHelpText = (stepEditor) => {
-    return getShadowRoot(stepEditor).querySelector(selectors.HELP_TEXT_ICON);
 };
 
 const getBadgeIcon = (stepEditor) => {
@@ -56,11 +50,6 @@ describe('Step-Editor', () => {
             expect(labelDescription.label).toBe(stepElement.label);
             expect(labelDescription.devName).toBe(stepElement.name);
             expect(labelDescription.description).toBe(stepElement.description);
-        });
-        it('Help Text Content', () => {
-            const helpText = getHelpText(stepEditor);
-            expect(helpText).toBeDefined();
-            expect(helpText.content).toBe(LABELS.deprecatedBadgeIconHelpText);
         });
         it('Badge Icon Element Classes', () => {
             const badgeIcon = getBadgeIcon(stepEditor);
