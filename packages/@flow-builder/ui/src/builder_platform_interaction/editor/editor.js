@@ -14,7 +14,7 @@ import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingL
 import { LABELS } from './editorLabels';
 import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
-import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
+import { logPerfTransactionStart, logPerfTransactionEnd, logPerfMarkStart, logPerfMarkEnd } from 'builder_platform_interaction/loggingUtils';
 import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
@@ -75,6 +75,7 @@ export default class Editor extends LightningElement {
         // TODO: Move these server calls after getting the Flow
         fetch(SERVER_ACTION_TYPE.GET_RULES, this.getRulesCallback);
         fetch(SERVER_ACTION_TYPE.GET_OPERATORS, this.getOperatorsCallback);
+        logPerfMarkStart(SERVER_ACTION_TYPE.GET_ENTITIES);
         fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' }, {background: true});
         fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
         fetch(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES, this.getResourceTypesCallback);
@@ -265,6 +266,7 @@ export default class Editor extends LightningElement {
         if (error) {
             // TODO: handle error case
         } else {
+            logPerfMarkEnd(SERVER_ACTION_TYPE.GET_ENTITIES);
             setEntities(data);
         }
     };
