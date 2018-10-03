@@ -6,14 +6,18 @@ import {
     UpdateConditionEvent,
     DeleteWaitEventEvent,
     WaitEventPropertyChangedEvent,
+    WaitEventParameterChangedEvent,
 } from 'builder_platform_interaction/events';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 describe('wait-reducer', () => {
     let initState;
+    const eventType = 'AlarmTime';
     const waitEventGUID = 'WAIT_EVENT_1';
     let currCondition;
+    const mockInputParameters = { [eventType]: { name: eventType, value: 'foo' } };
 
     beforeEach(() => {
         currCondition = createCondition();
@@ -29,6 +33,7 @@ describe('wait-reducer', () => {
                 {
                     name : {value: 'waitEvent1', error: null},
                     guid: waitEventGUID,
+                    inputParameters: mockInputParameters,
                     conditions: [
                         currCondition,
                     ],
@@ -115,6 +120,22 @@ describe('wait-reducer', () => {
         const deleteConditionEvent = new DeleteConditionEvent(waitEventGUID, index);
         const resultObj = waitReducer(initState, deleteConditionEvent);
         expect(resultObj.waitEvents[index].conditions).toHaveLength(0);
+    });
+
+    it('updates an inputParameter', () => {
+        const index = 0;
+        const newValue = 'bar';
+        const newValueDataType = FLOW_DATA_TYPE.STRING.value;
+        const error = null;
+
+        const waitEventParameterChanged = new WaitEventParameterChangedEvent(eventType, newValue, newValueDataType, error, waitEventGUID, true);
+        const resultObj = waitReducer(initState, waitEventParameterChanged);
+        const inputParameters = resultObj.waitEvents[index].inputParameters;
+
+        expect(Object.keys(inputParameters)).toHaveLength(1);
+        expect(inputParameters.AlarmTime).toHaveProperty('name', eventType);
+        expect(inputParameters.AlarmTime).toHaveProperty('value', {value: newValue, error});
+        expect(inputParameters.AlarmTime).toHaveProperty('valueDataType', newValueDataType);
     });
 
     describe('Delete Wait event', () => {
