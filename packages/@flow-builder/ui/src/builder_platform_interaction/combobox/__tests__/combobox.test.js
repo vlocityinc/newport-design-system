@@ -512,6 +512,14 @@ describe('Combobox Tests', () => {
             });
         });
 
+        it('Clearing value should fire fetchMenuData event', () => {
+            combobox.value = secondLevelMenuData[0];
+            combobox.value = null;
+            return Promise.resolve().then(() => {
+                expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
+            });
+        });
+
         describe('Copy/paste tests for fetchMenuData', () => {
             it('From first level to first level', () => {
                 combobox.value = comboboxInitialConfig.menuData[2].items[0];

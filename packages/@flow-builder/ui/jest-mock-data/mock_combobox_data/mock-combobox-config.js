@@ -115,6 +115,7 @@ export const secondLevelMenuData =
         iconName: 'standard:account',
         subText: 'First Name',
         value: '{!MyAccount.FirstName}',
+        displayText: '{!MyAccount.FirstName}',
         parent: accountVar,
     },
     {
@@ -123,6 +124,7 @@ export const secondLevelMenuData =
         iconName: 'standard:account',
         subText: 'Last Name',
         value: '{!MyAccount.LastName}',
+        displayText: '{!MyAccount.LastName}',
         parent: accountVar,
     },
     {
@@ -131,6 +133,7 @@ export const secondLevelMenuData =
         iconName: 'standard:account',
         subText: 'Annual Revenue',
         value: '{!MyAccount.AnnualRevenue}',
+        displayText: '{!MyAccount.AnnualRevenue}',
         parent: accountVar,
     },
 ];

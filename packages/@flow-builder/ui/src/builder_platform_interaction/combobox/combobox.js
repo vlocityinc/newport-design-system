@@ -139,9 +139,9 @@ export default class Combobox extends LightningElement {
      */
     set value(itemOrDisplayText) {
         let displayText;
-        this._mergeFieldLevel = 1;
         if (isObject(itemOrDisplayText)) {
             if (itemOrDisplayText.value) {
+                this._mergeFieldLevel = 1;
                 const item = unwrap(itemOrDisplayText);
                 displayText = this.syncValueAndDisplayText(item);
 
@@ -164,9 +164,15 @@ export default class Combobox extends LightningElement {
                 throw new Error('Setting an item on Flow Combobox without a value property!');
             }
         } else {
+            if (!itemOrDisplayText && this.state.displayText && this._mergeFieldLevel > 1) {
+                this.fireFetchMenuDataEvent();
+            }
+
             this._item = null;
             displayText = this.getStringValue(unwrap(itemOrDisplayText));
+            this._mergeFieldLevel = 1;
         }
+
         this.state.displayText = displayText;
         this.updateInputIcon();
         this.setMergeFieldState();
