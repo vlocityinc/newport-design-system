@@ -14,27 +14,24 @@ import { removeFromAvailableConnections } from "builder_platform_interaction/con
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.SUBFLOW;
-const maxConnections = 2;
+const maxConnections = 1;
 const getDefaultAvailableConnections = () => [
     {
         type: CONNECTOR_TYPE.REGULAR
-    },
-    {
-        type: CONNECTOR_TYPE.FAULT
     }
 ];
 
 export function createSubflow(subflow = {}) {
     const newSubflow = baseCanvasElement(subflow);
     const { flowName = '', availableConnections = getDefaultAvailableConnections() } = subflow;
-    let { inputParameters = [], outputParameters = [] } = subflow;
-    inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
-    outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
+    let { inputAssignments = [], outputAssignments = [] } = subflow;
+    inputAssignments = inputAssignments.map(inputParameter => createInputParameter(inputParameter));
+    outputAssignments = outputAssignments.map(outputParameter => createOutputParameter(outputParameter));
 
     const subflowObject = Object.assign(newSubflow, {
         flowName,
-        inputParameters,
-        outputParameters,
+        inputAssignments,
+        outputAssignments,
         availableConnections,
         maxConnections,
         elementType,
@@ -70,13 +67,13 @@ export function createSubflowMetadataObject(subflow, config) {
 
     const subflowMetadata = baseCanvasElementMetadataObject(subflow, config);
     const { flowName } = subflow;
-    let { inputParameters = [], outputParameters = [] } = subflow;
-    inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
-    outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
+    let { inputAssignments = [], outputAssignments = [] } = subflow;
+    inputAssignments = inputAssignments.map(inputParameter => createInputParameterMetadataObject(inputParameter));
+    outputAssignments = inputAssignments.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
 
     return Object.assign(subflowMetadata, {
         flowName,
-        inputParameters,
-        outputParameters
+        inputAssignments,
+        outputAssignments
     });
 }
