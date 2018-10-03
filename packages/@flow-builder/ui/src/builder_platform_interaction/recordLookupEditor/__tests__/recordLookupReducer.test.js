@@ -191,7 +191,8 @@ describe('record-lookup-reducer', () => {
             it('should reset outputReference', () => {
                 expect(newState.outputReference.value).toBe('');
             });
-            it('should reset sortField', () => {
+            it('should reset sortOrder and sortField', () => {
+                expect(newState.sortOrder.value).toBe(SORT_ORDER.NOT_SORTED);
                 expect(newState.sortField.value).toBe('');
             });
             it('should reset filters', () => {

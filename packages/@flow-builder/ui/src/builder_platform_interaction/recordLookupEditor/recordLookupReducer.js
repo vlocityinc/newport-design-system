@@ -92,8 +92,9 @@ const updateOutputReferenceAndQueriedFields = (state, value, error) => {
 const resetRecordLookup = (state) => {
     // reset filters: create one empty filter item
     state = set(state, 'filters', [emptyFilterItem()]);
-    // reset sortField
-    state = updateProperties(state, hydrateWithErrors({sortField: ''}));
+    // reset sortField & sortOrder
+    state = updateProperties(state, {sortOrder: { value: SORT_ORDER.NOT_SORTED, error: null}});
+    state = updateProperties(state, {sortField: { value: '', error: null}});
     // reset outputReference and queried fields
     return updateOutputReferenceAndQueriedFields(state, '', null);
 };
@@ -124,7 +125,6 @@ const managePropertyChanged = (state, event) => {
             // reset all filterItems, outputReference, queriedFields
             state = resetRecordLookup(state);
         } else if (propName === 'outputReference' && event.detail.value !== event.detail.oldValue) {
-            // reset queriedFields
             state = resetQueriedFields(state);
         } else if (propName === 'sortOrder' && event.detail.value === SORT_ORDER.NOT_SORTED) {
             // reset error if any, and preserve value
