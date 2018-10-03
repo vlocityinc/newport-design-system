@@ -1,6 +1,7 @@
-import { createRecordUpdate, createRecordUpdateMetadataObject } from '../../recordUpdate';
+import { createRecordUpdate, createRecordUpdateMetadataObject } from '../recordUpdate';
 import { NUMBER_RECORDS_TO_STORE,
     RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const recordUpdateUsingSobject = {
     name: 'RecordUpdate1',
@@ -103,6 +104,10 @@ describe('recordUpdate Mutation', () => {
             const actualResult = createRecordUpdate(recordUpdateUsingSobject);
             expect(actualResult).toMatchObject(mutatedRecordUpdateUsingSobject);
         });
+        it('has dataType of boolean', () => {
+            const actualResult = createRecordUpdate(recordUpdateUsingSobject);
+            expect(actualResult.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+        });
     });
     describe('recordUpdate function using Fields', () => {
         let recordUpdateUsingFields;
@@ -135,6 +140,10 @@ describe('recordUpdate Mutation', () => {
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
             mutatedRecordUpdateWithFields.inputAssignments = [mutatedInputAssignmentFieldValue, mutatedInputAssignmentField, mutatedInputAssignmentFieldBooleanValue];
             expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
+        });
+        it('has dataType of boolean', () => {
+            const actualResult = createRecordUpdate(recordUpdateUsingFields);
+            expect(actualResult.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
         });
     });
 });

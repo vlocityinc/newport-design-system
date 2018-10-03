@@ -1,4 +1,4 @@
-import { createStage, createStageForStore, createStageMetadataObject } from '../../stage';
+import { createStage, createStageForStore, createStageMetadataObject } from '../stage';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     return {

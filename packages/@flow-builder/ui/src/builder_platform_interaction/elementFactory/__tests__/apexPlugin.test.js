@@ -1,5 +1,6 @@
-import { createApexPlugin, createApexPluginMetadataObject } from '../../apexPlugin';
+import { createApexPlugin, createApexPluginMetadataObject } from '../apexPlugin';
 import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const mockGuid = 'mockGuid';
 
@@ -90,6 +91,9 @@ describe('apexPlugin', () => {
             it('has no output parameters by default', () => {
                 expect(apexPlugin.outputParameters).toHaveLength(0);
             });
+            it('has dataType of boolean', () => {
+                expect(apexPlugin.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+            });
         });
 
         describe('when flow apexPlugin is passed', () => {
@@ -108,6 +112,9 @@ describe('apexPlugin', () => {
             it('has outputParameters match the outputParameters from store', () => {
                 expect(apexPlugin.outputParameters).toEqual([storeOutputParameterWithDefaultValue]);
             });
+            it('has dataType of boolean', () => {
+                expect(apexPlugin.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+            });
         });
 
         describe('when store apexPlugin is passed', () => {
@@ -122,6 +129,9 @@ describe('apexPlugin', () => {
             });
             it('has outputParameters match the outputParameters from store', () => {
                 expect(apexPlugin.outputParameters).toEqual([storeOutputParameterWithDefaultValue]);
+            });
+            it('has dataType of boolean', () => {
+                expect(apexPlugin.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
         });
     });

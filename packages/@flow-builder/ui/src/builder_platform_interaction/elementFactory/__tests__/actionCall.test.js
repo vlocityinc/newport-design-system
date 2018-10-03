@@ -1,5 +1,6 @@
-import { createActionCall, createActionCallMetadataObject } from '../../actionCall';
+import { createActionCall, createActionCallMetadataObject } from '../actionCall';
 import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const mockGuid = 'mockGuid';
 
@@ -96,6 +97,9 @@ describe('actionCall', () => {
             it('has no output parameters by default', () => {
                 expect(actionCall.outputParameters).toHaveLength(0);
             });
+            it('has dataType of boolean', () => {
+                expect(actionCall.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+            });
         });
 
         describe('when flow actionCall is passed', () => {
@@ -117,6 +121,9 @@ describe('actionCall', () => {
             it('has outputParameters match the inputParameters from store', () => {
                 expect(actionCall.outputParameters).toEqual([storeOutputParameterWithDefaultValue]);
             });
+            it('has dataType of boolean', () => {
+                expect(actionCall.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+            });
         });
 
         describe('when store actionCall is passed', () => {
@@ -134,6 +141,9 @@ describe('actionCall', () => {
             });
             it('has outputParameters match the inputParameters from store', () => {
                 expect(actionCall.outputParameters).toEqual([storeOutputParameterWithDefaultValue]);
+            });
+            it('has dataType of boolean', () => {
+                expect(actionCall.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
         });
     });

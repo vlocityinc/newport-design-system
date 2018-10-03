@@ -11,6 +11,7 @@ import { createInputParameter, createInputParameterMetadataObject } from './inpu
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.SUBFLOW;
 const maxConnections = 2;
@@ -36,7 +37,8 @@ export function createSubflow(subflow = {}) {
         outputParameters,
         availableConnections,
         maxConnections,
-        elementType
+        elementType,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     });
 
     return subflowObject;

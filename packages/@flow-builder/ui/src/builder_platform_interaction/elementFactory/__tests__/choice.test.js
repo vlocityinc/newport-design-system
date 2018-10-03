@@ -4,7 +4,7 @@ import {
     createChoice,
     createChoiceForStore,
     createChoiceMetadataObject
-} from '../../choice.js';
+} from '../choice.js';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     return {
