@@ -29,8 +29,11 @@ const getDefaultAvailableConnections = () => [
 ];
 
 export function createQueriedField(queriedField) {
+    // In metadata the queried fields are stored as ['someField'...],
+    // but in the store they are stored as [{field: 'someField', rowIndex: '1'}...]
+    const field = queriedField.field || queriedField;
     return {
-        field: queriedField,
+        field,
         rowIndex: generateGuid()
     };
 }
@@ -48,19 +51,11 @@ export function createRecordLookup(recordLookup = {}) {
         availableConnections = getDefaultAvailableConnections()
     } = recordLookup;
 
-    // If no queried fields defined, or if queried fields are not in the object shape the store expects
-    if (queriedFields.length === 0 || !queriedFields[0].hasOwnProperty('field')) {
-        // push 'Id' as a mandatory field
-        if (!queriedFields.includes('Id')) {
-            queriedFields.push('Id');
-        }
-        // create at least one empty row in queriedFields besides 'Id'
-        if (queriedFields.length === 1) {
-            queriedFields.push('');
-        }
-        queriedFields = queriedFields.map(queriedField =>
-            createQueriedField(queriedField)
-        );
+    if (queriedFields && queriedFields.length > 0) {
+        queriedFields = queriedFields.map(queriedField => createQueriedField(queriedField));
+    } else {
+        // If creating new queried fields, there needs to be one for the ID field, and a new blank one
+        queriedFields = ['Id', ''].map(queriedField => createQueriedField(queriedField));
     }
 
     if (filters && filters.length > 0) {
