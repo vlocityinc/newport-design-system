@@ -220,9 +220,6 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     rhsError;
 
-    @api
-    rhsGuid;
-
     /**
      * @param {Boolean} isFer   true if RHS is a FER, false if RHS is a FEROV
      */
@@ -628,9 +625,9 @@ export default class BaseExpressionBuilder extends LightningElement {
      * @param {String} operator             operator value
      */
     clearRhsIfNecessary(expressionUpdates, lhsParam, operator) {
-        if (this.rhsGuid) {
+        if (this.rhsValue && this.rhsValue.value) {
             const newRhsTypes = getRHSTypes(this.containerElement, lhsParam, operator, this._rules);
-            const rhsElementOrField = this.getElementOrField(this.rhsGuid, this.rhsFields);
+            const rhsElementOrField = this.getElementOrField(this.rhsValue.value, this.rhsFields);
             const rhsValid = isElementAllowed(newRhsTypes, elementToParam(rhsElementOrField));
             if (!rhsValid) {
                 this.clearRhs(expressionUpdates);

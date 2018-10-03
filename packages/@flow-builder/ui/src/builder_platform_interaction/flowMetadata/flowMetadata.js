@@ -118,10 +118,6 @@ export const REFERENCE_FIELDS = new Set([
     'elementReference',
     'targetReference',
     'assignToReference',
-    'assignNextValueToReference',
-    'collectionReference',
-    'inputReference',
-    'outputReference',
     'assignRecordIdToReference',
     'leftValueReference',
     'outcomeReference',
@@ -155,7 +151,11 @@ export const SPECIAL_REFERENCE_FIELDS = new Set([
     'defaultValue',
     'leftHandSide',
     'rightHandSide',
-    'value'
+    'value',
+    'assignNextValueToReference',
+    'collectionReference',
+    'outputReference',
+    'inputReference',
 ]);
 
 export const EXPRESSION_RE = /\{!([^}]+)\}/g;
