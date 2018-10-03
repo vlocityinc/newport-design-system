@@ -9,7 +9,7 @@ import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDa
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
-import { setEntities, getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { setEntities, getFieldsForEntity, setEventTypes } from 'builder_platform_interaction/sobjectLib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 import { LABELS } from './editorLabels';
 import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
@@ -79,6 +79,7 @@ export default class Editor extends LightningElement {
         fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' }, {background: true});
         fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
         fetch(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES, this.getResourceTypesCallback);
+        fetch(SERVER_ACTION_TYPE.GET_EVENT_TYPES, this.getEventTypesCallback, {}, { background: true });
     }
 
     @api
@@ -306,6 +307,18 @@ export default class Editor extends LightningElement {
     getExtensionsCallback = (data, error) => {
         if (error) {
             // TODO: handle error case
+        }
+    };
+
+    /**
+     * Callback which gets executed after fetching the event types for wait event editor
+     * @param {Object} has error property if there is error fetching the data else has data property
+     */
+    getEventTypesCallback = ({ data, error }) => {
+        if (error) {
+            // Error is handled in auraFetch function to show error modal
+        } else {
+            setEventTypes(data);
         }
     };
 

@@ -24,7 +24,9 @@ export const SERVER_ACTION_TYPE = {
     SET_USER_PREFERENCES: 'setUserPreferences',
     GET_CONTEXT: 'getContext',
     GET_OPERATORS: 'getOperators',
-    GET_FLOW_INPUT_OUTPUT_VARIABLES: 'getFlowInputOutputVariables'
+    GET_FLOW_INPUT_OUTPUT_VARIABLES: 'getFlowInputOutputVariables',
+    GET_EVENT_TYPES: 'getEventTypes',
+    GET_EVENT_TYPE_PARAMETERS: 'getParametersForEventType'
 };
 
 const actionConfig = {
@@ -51,7 +53,9 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.SET_USER_PREFERENCES]: 'c.setUserPreferences',
     [SERVER_ACTION_TYPE.GET_CONTEXT]: 'c.getContext',
     [SERVER_ACTION_TYPE.GET_OPERATORS]: 'c.getOperators',
-    [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: 'c.getFlowInputOutputVariables'
+    [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: 'c.getFlowInputOutputVariables',
+    [SERVER_ACTION_TYPE.GET_EVENT_TYPES]: 'c.getEventTypes',
+    [SERVER_ACTION_TYPE.GET_EVENT_TYPE_PARAMETERS]: 'c.getParametersForEventType'
 };
 
 let auraFetch;
