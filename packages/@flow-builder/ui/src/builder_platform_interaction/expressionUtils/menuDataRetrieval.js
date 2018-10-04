@@ -15,6 +15,7 @@ import {
     mutateFlowResourceToComboboxShape,
     mutateEntitiesToComboboxShape,
     mutatePicklistValue,
+    mutateEventTypesToComboboxShape,
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import { GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
@@ -39,6 +40,12 @@ export const RESOURCE_PICKER_MODE = {
     FEROV_MODE: 'ferov',
     ENTITY_MODE: 'entity',
 };
+
+/**
+ * Cache of event types mutated to shape the combobox expects.
+ * Event types data does not change. This helps to not create new combobox menu data for every get event types.
+ */
+let _eventTypesCache;
 
 /**
  * Eventually the elements need to be sorted alphabetically by category, as well as
@@ -332,4 +339,16 @@ export const getResourceTypesMenuData = () => {
             label: resourceObject.label,
         };
     });
+};
+
+/**
+ * Retrieves event types combobox menu data
+ * @returns {MenuData}             Combobox menu data with our entities
+ */
+export const getEventTypesMenuData = () => {
+    if (!_eventTypesCache) {
+        const eventTypes = sobjectLib.getEventTypes();
+        _eventTypesCache = mutateEventTypesToComboboxShape(eventTypes);
+    }
+    return _eventTypesCache;
 };

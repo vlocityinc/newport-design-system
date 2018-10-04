@@ -1,11 +1,11 @@
 import { LightningElement, api, track } from 'lwc';
-import { getEntitiesMenuData } from "builder_platform_interaction/expressionUtils";
-import { isObject } from "builder_platform_interaction/commonUtils";
+import { getEntitiesMenuData, getEventTypesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { isObject } from 'builder_platform_interaction/commonUtils';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
-const resourcePickerSelector = 'builder_platform_interaction-base-resource-picker';
 /**
- * Entity resource picker that has one BaseResourcePicker
- * Use this component when you want to select from a list of entities (sobjects)
+ * Object resource picker that has one BaseResourcePicker. The picker shows entities or event type menu data.
+ * For event menu data set the attribute 'isEventMode' to true.
  * Note: this component follows the convention from the combobox where we have displayText and value
  * DisplayText is just a string, use this when you are loading from the store or have just a literal/merge field
  * Value should be used when you have a combobox menu item (taken from CombbooxValueChanged event)
@@ -15,7 +15,7 @@ const resourcePickerSelector = 'builder_platform_interaction-base-resource-picke
 export default class EntityResourcePicker extends LightningElement {
     /**
      * The entity type that will be displayed in the combobox
-     * If not specified defaults to all entity types
+     * If not specified defaults to all entity types.
      * @type {String}
      */
     _crudFilterType;
@@ -61,15 +61,23 @@ export default class EntityResourcePicker extends LightningElement {
 
     /**
      * Set the entity type of @member _crudFilterType
-     * Changing the crudFilter
+     * Use only for entity menu data when isEventMode is false.
+     * Changing the crudFilter.
      * @param {String} crudFilterType the new filter type
      */
     set crudFilterType(crudFilterType) {
         this._crudFilterType = crudFilterType;
-        if (this._isInitialized) {
+        if (this._isInitialized && !this.isEventMode) {
             this.populateEntityMenuData();
         }
     }
+
+    /**
+     * Set the combobox config object
+     * @type {module:base-resource-picker.ComboboxConfig}
+     */
+    @api
+    isEventMode = false;
 
     @api
     get crudFilterType() {
@@ -120,7 +128,7 @@ export default class EntityResourcePicker extends LightningElement {
 
     renderedCallback() {
         if (!this._isInitialized) {
-            this._baseResourcePicker = this.template.querySelector(resourcePickerSelector);
+            this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
             this.populateEntityMenuData();
             this._isInitialized = true;
             // when loading the entity resource picker for the first time, we only get the api value (displayText) not the item
@@ -138,7 +146,7 @@ export default class EntityResourcePicker extends LightningElement {
      * Uses the BaseResourcePicker instance to set the full menu data
      */
     populateEntityMenuData() {
-        this._fullEntityMenuData = getEntitiesMenuData(this._crudFilterType);
+        this._fullEntityMenuData = this.isEventMode ? getEventTypesMenuData() : getEntitiesMenuData(this._crudFilterType);
         this._baseResourcePicker.setMenuData(this._fullEntityMenuData);
     }
 }

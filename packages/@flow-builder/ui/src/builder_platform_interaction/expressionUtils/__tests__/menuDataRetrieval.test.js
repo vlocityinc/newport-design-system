@@ -1,15 +1,17 @@
-import { getElementsForMenuData, getEntitiesMenuData, getStoreElements, filterAndMutateMenuData } from '../menuDataRetrieval';
+import { getElementsForMenuData, getEntitiesMenuData, getStoreElements, filterAndMutateMenuData, getEventTypesMenuData } from '../menuDataRetrieval';
 import { normalizeLHS } from '../resourceUtils';
-import { numberParamCanBeField, stringParam, booleanParam } from "mock/ruleService";
-import * as store from "mock/storeData";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import * as selectorsMock from "builder_platform_interaction/selectors";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { getAllEntities } from "builder_platform_interaction/sobjectLib";
-import { GLOBAL_CONSTANTS as gcLabels, GLOBAL_CONSTANT_OBJECTS as gcObjects } from "builder_platform_interaction/systemLib";
-import { LABELS } from "../expressionUtilsLabels";
+import { numberParamCanBeField, stringParam, booleanParam } from 'mock/ruleService';
+import * as store from 'mock/storeData';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import * as selectorsMock from 'builder_platform_interaction/selectors';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getAllEntities } from 'builder_platform_interaction/sobjectLib';
+import { GLOBAL_CONSTANTS as gcLabels, GLOBAL_CONSTANT_OBJECTS as gcObjects } from 'builder_platform_interaction/systemLib';
+import { LABELS } from '../expressionUtilsLabels';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
+import { platformEvent1ApiName, platformEvent1Label } from 'mock/eventTypesData';
+import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
 
 const collectionVariable = LABELS.collectionVariablePluralLabel.toUpperCase();
 const sobjectVariable = LABELS.sObjectVariablePluralLabel.toUpperCase();
@@ -53,6 +55,9 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         }),
         getAllEntities: jest.fn().mockImplementation(() => {
             return require.requireActual('mock/serverEntityData').mockEntities;
+        }),
+        getEventTypes: jest.fn().mockImplementation(() => {
+            return require.requireActual('mock/eventTypesData').mockEventTypes;
         }),
         ENTITY_TYPE: require.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE,
     };
@@ -318,7 +323,26 @@ describe('Menu data retrieval', () => {
             expect(element.displayText).toBe(addCurlyBraces(store.numberVariableDevName));
         });
     });
+
+    describe('Event types menu data', () => {
+        it('uses cache to fetch the data', () => {
+            getEventTypesMenuData();
+            const eventTypesMenuData = getEventTypesMenuData();
+            expect(getEventTypes).toHaveBeenCalledTimes(1);
+            expect(eventTypesMenuData).toBeDefined();
+            expect(eventTypesMenuData).toHaveLength(3);
+        });
+
+        it('fetches and formats data', () => {
+            const eventTypesMenuData = getEventTypesMenuData();
+            expect(eventTypesMenuData).toBeDefined();
+            expect(eventTypesMenuData).toHaveLength(3);
+            expect(eventTypesMenuData[0].displayText).toEqual(platformEvent1Label);
+            expect(eventTypesMenuData[0].text).toEqual(platformEvent1Label);
+            expect(eventTypesMenuData[0].subText).toEqual(platformEvent1ApiName);
+            expect(eventTypesMenuData[0].dataType).toEqual('SObject');
+            expect(eventTypesMenuData[0].objectType).not.toBeDefined();
+        });
+    });
     // TODO: write tests for gettings category once we switch to using labels
 });
-
-

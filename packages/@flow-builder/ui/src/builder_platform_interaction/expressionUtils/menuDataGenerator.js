@@ -176,3 +176,23 @@ export const mutatePicklistValue = (picklistValue) => {
         picklistValue.value,
     );
 };
+
+/**
+ * Creates a new array of combobx menu data from an existing array of event types taken from the service
+ * @param {Array} eventTypes the array of event types that you want to mutate into comboobx shape
+ * @returns {MenuData} combobox menu data for the given event types
+ */
+export const mutateEventTypesToComboboxShape = (eventTypes) => {
+    return eventTypes.map(eventType => {
+        return createMenuItem(
+            COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+            eventType.label || eventType.qualifiedApiName,
+            eventType.qualifiedApiName,
+            eventType.label || eventType.qualifiedApiName,
+            undefined,
+            eventType.qualifiedApiName,
+            undefined,
+            SOBJECT_TYPE,
+        );
+    });
+};

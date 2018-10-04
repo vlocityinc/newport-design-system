@@ -1,8 +1,9 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
-import { getEntitiesMenuData } from "builder_platform_interaction/expressionUtils";
-import { ComboboxStateChangedEvent, ItemSelectedEvent } from "builder_platform_interaction/events";
-import EntityResourcePicker from "../entityResourcePicker";
+import { getEntitiesMenuData, getEventTypesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { ComboboxStateChangedEvent, ItemSelectedEvent } from 'builder_platform_interaction/events';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import EntityResourcePicker from '../entityResourcePicker';
 
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-entity-resource-picker', {
@@ -15,16 +16,14 @@ const setupComponentUnderTest = (props) => {
 };
 
 const entityMenuData = [{value:'entityMenuData', displayText: 'entity menu data'}, {value: 'testValue', displayText: 'test display text'}];
+const eventTypesMenuData = [{value:'PlatformEvent1', displayText: 'platform event 1'}, {value: 'testValue', displayText: 'test display text'}];
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        getEntitiesMenuData: jest.fn().mockReturnValue([{value:'entityMenuData', displayText: 'entity menu data'}, {value: 'testValue', displayText: 'test display text'}]).mockName('getEntitiesMenuData'),
+        getEntitiesMenuData: jest.fn(),
+        getEventTypesMenuData: jest.fn(),
     };
 });
-
-const selectors = {
-    BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker',
-};
 
 describe('entity-resource-picker', () => {
     let props;
@@ -34,23 +33,25 @@ describe('entity-resource-picker', () => {
             crudFilterType: 'TEST_FILTER',
             comboboxConfig: {},
         };
+        getEntitiesMenuData.mockReturnValueOnce(entityMenuData);
     });
 
     it('contains one base resource picker', () => {
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker).toBeDefined();
         });
     });
 
     it('retrieves entity menu data on initial load', () => {
         const entityResourcePicker = setupComponentUnderTest(props);
-        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
         return Promise.resolve().then(() => {
             expect(getEntitiesMenuData).toHaveBeenCalledTimes(1);
             expect(getEntitiesMenuData).toHaveBeenCalledWith(props.crudFilterType);
             expect(baseResourcePicker.fullMenuData).toEqual(entityMenuData);
+            expect(getEventTypesMenuData).not.toHaveBeenCalled();
         });
     });
 
@@ -61,6 +62,7 @@ describe('entity-resource-picker', () => {
         return Promise.resolve().then(() => {
             expect(getEntitiesMenuData).toHaveBeenCalledTimes(2);
             expect(getEntitiesMenuData).toHaveBeenCalledWith(newFilter);
+            expect(getEventTypesMenuData).not.toHaveBeenCalled();
         });
     });
 
@@ -70,7 +72,7 @@ describe('entity-resource-picker', () => {
         };
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
         });
     });
@@ -79,7 +81,7 @@ describe('entity-resource-picker', () => {
         props.comboboxConfig = { errorMessage: 'fooError' };
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.errorMessage).toEqual(props.comboboxConfig.errorMessage);
         });
     });
@@ -88,7 +90,7 @@ describe('entity-resource-picker', () => {
         props.value = entityMenuData[1].value;
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.value.displayText).toEqual(entityMenuData[1].displayText);
         });
     });
@@ -97,14 +99,14 @@ describe('entity-resource-picker', () => {
         props.value = entityMenuData[1];
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+            const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.value).toEqual(props.value);
         });
     });
 
     it('handles onitemselected event and changes value to event payload', () => {
         const entityResourcePicker = setupComponentUnderTest(props);
-        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
 
         const itemPayload = { value: 'foo' };
         baseResourcePicker.dispatchEvent(new ItemSelectedEvent(itemPayload));
@@ -115,7 +117,7 @@ describe('entity-resource-picker', () => {
 
     it('handles comboboxstatechanged event and changes value to event payload with item', () => {
         const entityResourcePicker = setupComponentUnderTest(props);
-        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
 
         const itemPayload = { value: 'foo' };
         baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(itemPayload));
@@ -126,12 +128,24 @@ describe('entity-resource-picker', () => {
 
     it('handles comboboxstatechanged event and changes value to event payload with displayText', () => {
         const entityResourcePicker = setupComponentUnderTest(props);
-        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(selectors.BASE_RESOURCE_PICKER);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
 
         const displayText = 'foo';
         baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(undefined, displayText));
         return Promise.resolve().then(() => {
             expect(entityResourcePicker.value).toEqual(displayText);
+        });
+    });
+
+    it('retrieves event type menu data on initial load', () => {
+        getEventTypesMenuData.mockReturnValueOnce(eventTypesMenuData);
+        props.isEventMode = true;
+        const entityResourcePicker = setupComponentUnderTest(props);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
+        return Promise.resolve().then(() => {
+            expect(getEventTypesMenuData).toHaveBeenCalledTimes(1);
+            expect(getEntitiesMenuData).not.toHaveBeenCalled();
+            expect(baseResourcePicker.fullMenuData).toEqual(eventTypesMenuData);
         });
     });
 });
