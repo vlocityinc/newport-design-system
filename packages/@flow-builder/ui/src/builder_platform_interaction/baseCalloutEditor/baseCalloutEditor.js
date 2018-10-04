@@ -1,7 +1,11 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 
 export default class BaseCalloutEditor extends LightningElement {
+    @track state = {
+        inputs: [],
+        outputs: [],
+    }
     /**
      * Config for label-description component. For example {name: actionNode.name, label: actionNode.label, description: actionNode.label, guid: actionNode.guid}
      *
@@ -30,13 +34,27 @@ export default class BaseCalloutEditor extends LightningElement {
      * List of input ParameterItem
      *
      */
-    @api inputs;
+    set inputs(newInputs) {
+        this.state.inputs = newInputs || [];
+    }
+
+    @api
+    get inputs() {
+        return this.state.inputs;
+    }
 
     /**
      * List of output ParameterItem
      *
      */
-    @api outputs;
+    set outputs(newOutputs) {
+        this.state.outputs = newOutputs || [];
+    }
+
+    @api
+    get outputs() {
+        return this.state.outputs;
+    }
 
     /**
      * Type of element

@@ -1,4 +1,10 @@
 <template>
-    <div class='slds-form slds-form_compound slds-p-around_small'>TODO: This is an editor for creating invocable action, apex plugin, subflow. It contains action-selector component + callout-editor-container component
-</div>
+    <div class="callout_editor">
+        <div class='slds-form slds-form_compound slds-p-around_small'>
+           <builder_platform_interaction-action-selector selected-action={selectedAction} onvaluechanged={handleActionSelected}></builder_platform_interaction-action-selector>
+        </div>
+        <builder_platform_interaction-callout-editor-container
+            selected-action={selectedAction}>
+        </builder_platform_interaction-callout-editor-container>
+    </div>
 </template>

@@ -1,2 +1,2 @@
-export * from './actionCallParameterMerge';
+export * from './actionCallParametersMerger';
 export * from './subflowParametersMerger';

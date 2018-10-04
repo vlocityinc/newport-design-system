@@ -66,7 +66,7 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     fetchActionParameters() {
-        const actionParams = { actionName: this.node.actionName.value, actionType: this.node.actionType.value };
+        const actionParams = { actionName: getValueFromHydratedItem(this.node.actionName), actionType: getValueFromHydratedItem(this.node.actionType) };
         const keyProvider = (params) => `${params.actionName}-${params.actionType}`;
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, actionParams, {keyProvider}).then((parameters) => {
             if (this.connected) {
