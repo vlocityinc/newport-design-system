@@ -5,7 +5,7 @@
                 <h2 class="slds-welcome-mat__info-title">{#$Label.FlowBuilderWelcomeMat.title}</h2>
                 <p class="body">{#$Label.FlowBuilderWelcomeMat.body_1}</p>
                 <p class="body">{#$Label.FlowBuilderWelcomeMat.body_2}</p>
-                <a href="{#$Label.InteractionListPage.DeprecationMessage_Link_Destination}">{#$Label.InteractionListPage.DeprecationMessage_Link}</a>
+                <a href="{#$Label.InteractionListPage.DeprecationMessage_Link_Destination}" target="_blank">{#$Label.InteractionListPage.DeprecationMessage_Link}</a>
                 <lightning:button aura:id="button" class="slds-button" variant="brand" label="{#$Label.FlowBuilderWelcomeMat.button}" onclick="{!c.closeModal}"></lightning:button>
                 <lightning:input aura:id="checkbox" class="slds-checkbox" type="checkbox" label="{#$Label.FlowBuilderWelcomeMat.checkbox}"></lightning:input>
             </div>
