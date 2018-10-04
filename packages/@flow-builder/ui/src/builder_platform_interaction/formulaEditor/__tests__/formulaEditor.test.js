@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import FormulaEditor from "../formulaEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import { createFormula } from "builder_platform_interaction/elementFactory";
-import { hydrateWithErrors, mutateEditorElement } from "builder_platform_interaction/dataMutationLib";
+import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-formula-editor', { is: FormulaEditor });
@@ -67,7 +67,6 @@ describe('formula-editor', () => {
         let formulaEditor;
         beforeEach(() => {
             formulaResource = createFormula();
-            formulaResource = mutateEditorElement(formulaResource);
             formulaResource = hydrateWithErrors(formulaResource);
             formulaEditor = createComponentUnderTest(formulaResource);
         });
