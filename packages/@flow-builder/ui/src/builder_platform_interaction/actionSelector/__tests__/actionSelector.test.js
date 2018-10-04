@@ -116,6 +116,17 @@ describe('Action selector', () => {
             expect(lightningCombobox().value).toBe(ELEMENT_TYPE.APEX_CALL);
             expect(interactionCombobox().value).toBe('');
         });
+        it('should fire ValueChangedEvent', async () => {
+            const eventCallback = jest.fn();
+            document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
+            await dispatchActionTypeChangeEvent(ELEMENT_TYPE.APEX_CALL);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail.value).toEqual({'elementType': 'APEX_CALL'});
+        });
+        it('api should return the selected element', async () => {
+            await dispatchActionTypeChangeEvent(ELEMENT_TYPE.APEX_CALL);
+            expect(actionSelectorComponent.selectedAction).toEqual({'elementType': 'APEX_CALL'});
+        });
     });
     describe('When there are no actions for a given action type', () => {
         beforeEach(() => {
@@ -148,11 +159,11 @@ describe('Action selector', () => {
             document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
             dispatchActionChangeEvent('emailSimple-emailSimple');
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail.value).toMatchObject({actionName: 'emailSimple', actionType: 'emailSimple'});
+            expect(eventCallback.mock.calls[0][0].detail.value).toEqual({actionName: 'emailSimple', actionType: 'emailSimple', 'elementType': 'ACTION_CALL'});
         });
         it('api should return the selected element', () => {
             dispatchActionChangeEvent('emailSimple-emailSimple');
-            expect(actionSelectorComponent.selectedAction).toMatchObject({actionName: 'emailSimple', actionType: 'emailSimple'});
+            expect(actionSelectorComponent.selectedAction).toEqual({actionName: 'emailSimple', actionType: 'emailSimple', 'elementType': 'ACTION_CALL'});
         });
     });
     describe('Selected element', () => {
@@ -162,32 +173,32 @@ describe('Action selector', () => {
         it('should contain the action name and action type when a standard invocable action is selected', () => {
             dispatchActionTypeChangeEvent(ELEMENT_TYPE.ACTION_CALL);
             dispatchActionChangeEvent('activateSessionPermSet-activateSessionPermSet');
-            expect(actionSelectorComponent.selectedAction).toMatchObject({actionName: 'activateSessionPermSet', actionType: 'activateSessionPermSet'});
+            expect(actionSelectorComponent.selectedAction).toEqual({actionName: 'activateSessionPermSet', actionType: 'activateSessionPermSet', 'elementType': 'ACTION_CALL'});
         });
         it('should contain the action name and action type when quick action is selected', () => {
             dispatchActionTypeChangeEvent(ELEMENT_TYPE.ACTION_CALL);
             dispatchActionChangeEvent('quickAction-CollaborationGroup.mynamespace__NewGroupMember');
-            expect(actionSelectorComponent.selectedAction).toMatchObject({actionName: 'CollaborationGroup.mynamespace__NewGroupMember', actionType: 'quickAction'});
+            expect(actionSelectorComponent.selectedAction).toEqual({actionName: 'CollaborationGroup.mynamespace__NewGroupMember', actionType: 'quickAction', 'elementType': 'ACTION_CALL'});
         });
         it('should contain the action name and action type when an apex action is selected', () => {
             dispatchActionTypeChangeEvent(ELEMENT_TYPE.APEX_CALL);
             dispatchActionChangeEvent('apex-mynamespace__ActionTest');
-            expect(actionSelectorComponent.selectedAction).toMatchObject({actionName: 'mynamespace__ActionTest', actionType: 'apex'});
+            expect(actionSelectorComponent.selectedAction).toEqual({actionName: 'mynamespace__ActionTest', actionType: 'apex', 'elementType': 'APEX_CALL'});
         });
         it('should contain the apex class when an apex plugin is selected', () => {
             dispatchActionTypeChangeEvent(ELEMENT_TYPE.APEX_PLUGIN_CALL);
             dispatchActionChangeEvent('mynamespace__lookUpAccountPlugin');
-            expect(actionSelectorComponent.selectedAction).toMatchObject({apexClass: 'mynamespace__lookUpAccountPlugin'});
+            expect(actionSelectorComponent.selectedAction).toEqual({apexClass: 'mynamespace__lookUpAccountPlugin', 'elementType': 'APEX_PLUGIN_CALL'});
         });
         it('should contain the action name and action type when an email alert is selected', () => {
             dispatchActionTypeChangeEvent(ELEMENT_TYPE.EMAIL_ALERT);
             dispatchActionChangeEvent('emailAlert-mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert');
-            expect(actionSelectorComponent.selectedAction).toMatchObject({actionName: 'mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert', actionType: 'emailAlert'});
+            expect(actionSelectorComponent.selectedAction).toEqual({actionName: 'mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert', actionType: 'emailAlert', 'elementType': 'EMAIL_ALERT'});
         });
         it('should contain the flowName when a subflow is selected', () => {
             dispatchActionTypeChangeEvent(ELEMENT_TYPE.SUBFLOW);
             dispatchActionChangeEvent('mynamespace__LFB_Sample_01');
-            expect(actionSelectorComponent.selectedAction).toMatchObject({flowName: 'mynamespace__LFB_Sample_01'});
+            expect(actionSelectorComponent.selectedAction).toEqual({flowName: 'mynamespace__LFB_Sample_01', 'elementType': 'SUBFLOW'});
         });
     });
     describe('When selecting an element type using the api', () => {

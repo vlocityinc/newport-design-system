@@ -151,32 +151,29 @@ export default class ActionSelector extends LightningElement {
      */
     @api
     get selectedAction() {
-        let selectedAction;
+        let selectedAction = { elementType : this.state.selectedElementType };
         if (this.state.selectedActionValue) {
             if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
                 const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.apexClass === this.state.selectedActionValue.value);
                 if (apexPluginFound) {
-                    selectedAction = {
-                        apexClass : apexPluginFound.apexClass,
-                        elementType : this.state.selectedElementType
-                    };
+                    selectedAction = Object.assign(selectedAction, {
+                        apexClass : apexPluginFound.apexClass
+                    });
                 }
             } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
                 const subflowFound = this.subflows.find(subflow => subflow.fullName === this.state.selectedActionValue.value);
                 if (subflowFound) {
-                    selectedAction = {
+                    selectedAction = Object.assign(selectedAction, {
                         flowName : subflowFound.fullName,
-                        elementType : this.state.selectedElementType
-                    };
+                    });
                 }
             } else {
                 const actionFound = this.invocableActions.find(action => action.durableId === this.state.selectedActionValue.value);
                 if (actionFound) {
-                    selectedAction = {
+                    selectedAction = Object.assign(selectedAction, {
                         actionName : actionFound.name,
                         actionType : actionFound.type,
-                        elementType : this.state.selectedElementType
-                    };
+                    });
                 }
             }
         }
@@ -259,6 +256,8 @@ export default class ActionSelector extends LightningElement {
         this.state.selectedElementType = event.detail.value;
         this.state.selectedActionValue = null;
         this.updateActionCombo();
+        const valueChangedEvent = new ValueChangedEvent(this.selectedAction);
+        this.dispatchEvent(valueChangedEvent);
     }
 
     getComboItemFromInvocableAction(action) {
@@ -319,11 +318,8 @@ export default class ActionSelector extends LightningElement {
     handleActionChanged(event) {
         event.stopPropagation();
         this.state.selectedActionValue = event.detail.item;
-        const selectedAction = this.selectedAction;
-        if (selectedAction) {
-            const valueChangedEvent = new ValueChangedEvent(selectedAction);
-            this.dispatchEvent(valueChangedEvent);
-        }
+        const valueChangedEvent = new ValueChangedEvent(this.selectedAction);
+        this.dispatchEvent(valueChangedEvent);
     }
 
     handleFilterMatches(event) {
