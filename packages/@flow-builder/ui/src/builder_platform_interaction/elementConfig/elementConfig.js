@@ -32,6 +32,7 @@ import {
     createEmailAlert,
     createOutcome,
     createWaitEvent,
+    createWaitMetadataObject,
     createActionCallMetadataObject,
     createApexPluginMetadataObject,
     createAssignmentMetadataObject,
@@ -342,7 +343,7 @@ export const elementTypeToConfigMap = {
         factory: {
             propertyEditor: createWaitWithWaitEvents,
             closePropertyEditor: createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
-            uiToFlow: createSubflowMetadataObject,
+            uiToFlow: createWaitMetadataObject,
             flowToUi: createWaitWithWaitEventReferences
         }
     },

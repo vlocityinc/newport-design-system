@@ -98,6 +98,17 @@ export const CONDITION_LOGIC = {
 };
 
 /**
+ * The event types of wait events. For time events, these can be either absolute (alarmEvent)
+ * or direct record time (dateRefAlarmEvent)
+ * @typedef {String} WaitEventType
+ */
+export const WAIT_EVENT_TYPE = {
+    ABSOLUTE_TIME: 'AlarmEvent',
+    DIRECT_RECORD_TIME: 'DateRefAlarmEvent'
+};
+
+
+/**
  * The top level process metadata values to save with each flow. This includes the BuilderType
  * which helps us identify flow versions created by the Lightning Flow Builder.
  */

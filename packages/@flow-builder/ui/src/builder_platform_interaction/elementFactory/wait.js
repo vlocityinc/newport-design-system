@@ -1,12 +1,19 @@
-import { ELEMENT_TYPE, CONDITION_LOGIC, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+import {
+    ELEMENT_TYPE,
+    CONDITION_LOGIC,
+    CONNECTOR_TYPE,
+    WAIT_EVENT_TYPE
+} from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
     baseChildElement
 } from "./base/baseElement";
+import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createConnectorObjects } from './connector';
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from "./base/baseMetadata";
+import { isObject } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from "./elementFactoryLabels";
 
 const elementType = ELEMENT_TYPE.WAIT;
@@ -22,6 +29,32 @@ const getDefaultAvailableConnections = () => [
         type: CONNECTOR_TYPE.DEFAULT
     }
 ];
+
+/**
+ * Turns an array of paramters into an object where each property contains one index of the array
+ * This also creates inputParamter for each param
+ * @param {Object[]} parameters list of parameters
+ * @returns {Object} object where the key is the param name and the value is the parameter
+ */
+const inputParameterArrayToMap = (parameters) => {
+    const arrayToMap = (acc, param) => {
+        acc[param.name] = createInputParameter(param);
+        return acc;
+    };
+    return parameters.reduce(arrayToMap, {});
+};
+
+/**
+ * Turns an object of parameters into an array of metadata input parameters
+ * @param {Object} parameters object of parameters
+ * @retursn {Object[]} list of metadata parameters
+ */
+const inputParameterMapToArray = (parameters) => {
+    const mapToArray = (paramName) => {
+        return createInputParameterMetadataObject(parameters[paramName]);
+    };
+    return Object.keys(parameters).map(mapToArray);
+};
 
 /**
  * @typedef waitEvent
@@ -88,7 +121,17 @@ export function createWaitWithWaitEvents(wait = {}) {
  * @return {waitEvent}
  */
 export function createWaitEvent(waitEvent = {conditionLogic : CONDITION_LOGIC.NO_CONDITIONS}) {
-    return baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
+    const newWaitEvent = baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
+    const { inputParameters = {}, eventType = WAIT_EVENT_TYPE.ABSOLUTE_TIME } = waitEvent;
+
+    let resumeTimeParameters;
+    if (Array.isArray(inputParameters)) {
+        resumeTimeParameters = inputParameterArrayToMap(inputParameters);
+    }
+    return Object.assign(newWaitEvent, {
+        eventType,
+        inputParameters: resumeTimeParameters || inputParameters,
+    });
 }
 
 /**
@@ -106,7 +149,15 @@ export function createWaitMetadataObject(wait, config = {}) {
     let waitEvents;
     if (waitEventReferences && waitEventReferences.length > 0) {
         waitEvents = waitEventReferences.map(({waitEventReference}) => {
-            return baseChildElementMetadataObject(getElementByGuid(waitEventReference), config);
+            const waitEvent = getElementByGuid(waitEventReference);
+            const metadataWaitEvent = baseChildElementMetadataObject(waitEvent, config);
+            const { inputParameters } = waitEvent;
+
+            let resumeTimeParameters;
+            if (isObject(inputParameters)) {
+                resumeTimeParameters = inputParameterMapToArray(inputParameters);
+            }
+            return Object.assign({}, metadataWaitEvent, { inputParameters: resumeTimeParameters });
         });
     }
     return Object.assign(newWait, {
@@ -156,14 +207,14 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
  */
 export function createWaitWithWaitEventReferences(wait = {}) {
     const newWait = baseCanvasElement(wait);
-    let waitEvents = [], waitEventReferences = [], availableConnections = [];
-    const { defaultConnectorLabel = LABELS.emptyDefaultWaitEventLabel, waitEventsFromMetadata = [] } = wait;
+    let newWaitEvents = [], waitEventReferences = [], availableConnections = [];
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitEventLabel, waitEvents = [] } = wait;
     // create connectors for wait which is default value. This can be refactor to update available connection as well.
     let connectors = createConnectorObjects(wait, newWait.guid);
-    for (let i = 0; i < waitEventsFromMetadata.length; i++) {
-        const waitEvent = createWaitEvent(waitEventsFromMetadata[i]);
-        const connector = createConnectorObjects(waitEventsFromMetadata[i], waitEvent.guid, newWait.guid);
-        waitEvents = [...waitEvents, waitEvent];
+    for (let i = 0; i < waitEvents.length; i++) {
+        const waitEvent = createWaitEvent(waitEvents[i]);
+        const connector = createConnectorObjects(waitEvents[i], waitEvent.guid, newWait.guid);
+        newWaitEvents = [...newWaitEvents, waitEvent];
         // updating waitEventReferences
         waitEventReferences = updateWaitEventReferences(waitEventReferences, waitEvent);
 
@@ -186,7 +237,7 @@ export function createWaitWithWaitEventReferences(wait = {}) {
         // maxConnections,
         availableConnections
     });
-    return baseCanvasElementsArrayToMap([newWait, ...waitEvents], connectors);
+    return baseCanvasElementsArrayToMap([newWait, ...newWaitEvents], connectors);
 }
 
 function updateWaitEventReferences(waitEventReferences = [], waitEvent) {
