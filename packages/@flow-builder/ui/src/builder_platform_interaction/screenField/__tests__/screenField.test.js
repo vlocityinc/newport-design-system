@@ -13,7 +13,8 @@ jest.mock('builder_platform_interaction/selectors', () => {
 const SELECTORS = {
     INPUT_FIELD: 'builder_platform_interaction-screen-input-field',
     TEXT_AREA_FIELD: 'builder_platform_interaction-screen-textarea-field',
-    DISPLAY_FIELD: 'builder_platform_interaction-screen-display-text-field'
+    DISPLAY_FIELD: 'builder_platform_interaction-screen-display-text-field',
+    SCREEN_FIELD_CARD: 'builder_platform_interaction-screen-field-card'
 };
 
 const emptyFieldName = '';
@@ -98,6 +99,22 @@ describe('text area screen field with a label', () => {
     });
 });
 
+describe('display text screen field with errors', () => {
+    it('displays an error card', () => {
+        const textAreaField = createTestScreenField(fieldName, 'DisplayText', 'Displayed text');
+        textAreaField.fieldText.error = 'error';
+        const testScreenField = createComponentUnderTest({
+            screenfield: textAreaField
+        });
+
+        return Promise.resolve().then(() => {
+            const renderedInputField = getShadowRoot(testScreenField).querySelector(SELECTORS.SCREEN_FIELD_CARD);
+            expect(renderedInputField).toBeDefined();
+            expect(renderedInputField.title).toBe('FlowBuilderScreenEditor.invalidScreenfield');
+        });
+    });
+});
+
 describe('display text screen field with text', () => {
     const displayText = 'show this';
     let testScreenField;
@@ -133,24 +150,3 @@ describe('display text screen field with no text', () => {
     });
 });
 
-describe('screen field preview', () => {
-    it('has has-error class when there is an error in the screenfield', () => {
-        const textfield = createTestScreenField(emptyFieldName, 'DisplayText', 'display text value');
-        textfield.fieldText.error = 'Synth error';
-        const testScreenField = createComponentUnderTest({screenfield: textfield});
-        return Promise.resolve().then(() => {
-            expect(testScreenField).toBeDefined();
-            expect(testScreenField.querySelector('.container').className).toEqual(expect.stringContaining('has-error'));
-        });
-    });
-
-    it('does not have has-error class when there is no error in the screenfield', () => {
-        const textfield = createTestScreenField(emptyFieldName, 'DisplayText', 'display text value');
-        const testScreenField = createComponentUnderTest({screenfield: textfield});
-
-        return Promise.resolve().then(() => {
-            expect(testScreenField).toBeDefined();
-            expect(testScreenField.querySelector('.container').className).not.toEqual(expect.stringContaining('has-error'));
-        });
-    });
-});

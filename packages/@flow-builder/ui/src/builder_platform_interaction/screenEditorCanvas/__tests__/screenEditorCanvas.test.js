@@ -19,7 +19,10 @@ const selectors = {
     lightningButtonIcon: 'lightning-button-icon',
     highlightFields: '.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight',
     canvasContainer: 'div.screen-editor-canvas-container',
-    draggingRegion: '.screen-editor-canvas-dragging-region'
+    draggingRegion: '.screen-editor-canvas-dragging-region',
+    highlightElementSlot: 'div[slot="screen-element"]',
+    screenFieldCard: 'builder_platform_interaction-screen-field-card',
+    screenFieldCardBody: 'p.slds-text-heading_small'
 };
 
 describe('help icon', () => {
@@ -47,6 +50,26 @@ describe('fields rendered', () => {
         return Promise.resolve().then(() => {
             const highlightFields = getShadowRoot(screenEditorCanvasElement).querySelectorAll(selectors.highlightFields);
             expect(highlightFields).toHaveLength(8);
+        });
+    });
+});
+
+describe('screen canvas', () => {
+    it('displays error card when screen has errors', () => {
+        const screen = createTestScreen('Screen 1', null);
+        screen.helpText.error = 'text too long';
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {}
+        });
+
+        return Promise.resolve().then(() => {
+            const headerHighlight = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.highlightElementSlot);
+            const screenFieldCard = headerHighlight.querySelector(selectors.screenFieldCard);
+            expect(screenFieldCard).not.toBeNull();
+            const cardBody = getShadowRoot(screenFieldCard).querySelector(selectors.screenFieldCardBody);
+            expect(cardBody).not.toBeNull();
+            expect(cardBody.textContent).toEqual('FlowBuilderScreenEditor.invalidScreen');
         });
     });
 });
