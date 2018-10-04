@@ -11,7 +11,7 @@ import { elementTypeToConfigMap } from "builder_platform_interaction/elementConf
  */
 export function translateFlowToUIModel(flow) {
     // Construct flow properties object
-    const properties = createFlowProperties(ELEMENT_TYPE.FLOW_PROPERTIES, flow);
+    const properties = createFlowProperties(flow);
     // Create start element
     const { elements, connectors }  = createStartElementWithConnectors(flow.metadata.startElementReference);
     // Create elements and connectors from flow Metadata

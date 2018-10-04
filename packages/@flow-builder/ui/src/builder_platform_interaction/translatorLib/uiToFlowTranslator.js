@@ -1,7 +1,5 @@
-import { ELEMENT_INFOS } from "./translationConfig";
 import { ELEMENT_TYPE, PROCESS_METADATA_VALUES } from "builder_platform_interaction/flowMetadata";
 import { swapUidsForDevNames } from "./uidSwapping";
-import { updateProperties } from "builder_platform_interaction/dataMutationLib";
 import { getFlowBounds } from "builder_platform_interaction/connectorUtils";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 
@@ -62,7 +60,7 @@ export function translateUIModelToFlow(uiModel) {
     for (let i = 0; i < elementKeys.length; i++) {
         const key = elementKeys[i];
         const element = elements[key];
-        const elementInfo = ELEMENT_INFOS[element.elementType];
+        const elementInfo = getConfigForElementType(element.elementType);
 
         if (!elementInfo) {
             throw new Error('Unknown element type ' + element.elementType);
@@ -85,7 +83,7 @@ export function translateUIModelToFlow(uiModel) {
     }
 
     const flowProperties = getElementForUiToFlowTranslation(uiModel.properties);
-    metadata = updateProperties(metadata, flowProperties);
+    metadata = Object.assign(metadata, flowProperties);
 
     // Swap out guids for dev names in all element references
     swapUidsForDevNames(elements, metadata);
