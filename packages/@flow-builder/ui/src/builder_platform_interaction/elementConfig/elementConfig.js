@@ -25,8 +25,8 @@ import {
     createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
     createStage,
     createStep,
-    createPicklistChoiceGroup,
-    createRecordChoiceGroup,
+    createPicklistChoiceSet,
+    createRecordChoiceSet,
     createStartElement,
     createApexCall,
     createEmailAlert,
@@ -41,12 +41,12 @@ import {
     createFlowPropertiesMetadataObject,
     createFormulaMetadataObject,
     createLoopMetadataObject,
-    createPicklistChoiceGroupMetadataObject,
+    createPicklistChoiceSetMetadataObject,
     createRecordCreateMetadataObject,
     createRecordUpdateMetadataObject,
     createRecordLookupMetadataObject,
     createRecordDeleteMetadataObject,
-    createRecordChoiceGroupMetadataObject,
+    createRecordChoiceSetMetadataObject,
     createScreenMetadataObject,
     createSubflowMetadataObject,
     createVariableMetadataObject,
@@ -524,41 +524,41 @@ export const elementTypeToConfigMap = {
             flowToUi: createChoiceForStore
         }
     },
-    [ELEMENT_TYPE.RECORD_CHOICE_GROUP]: {
-        descriptor: 'builder_platform_interaction:choiceEditor',
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: {
+        descriptor: 'builder_platform_interaction:recordChoiceSetEditor',
         nodeConfig: {
-            iconName: 'standard:choice',
-            utilityIconName: 'utility:choice'
+            iconName: 'standard:dynamic_record_choice',
+            utilityIconName: 'utility:dynamic_record_choice'
         },
         modalSize: MODAL_SIZE.MEDIUM,
         labels: {
-            singular:'Record Choice Group',
-            plural: 'Record Choice Groups'
+            singular: LABELS.recordChoiceSetSingularLabel,
+            plural: LABELS.recordChoiceSetPluralLabel
         },
         canvasElement: false,
         metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS,
         factory: {
-            propertyEditor: createRecordChoiceGroup,
-            uiToFlow: createRecordChoiceGroupMetadataObject,
+            propertyEditor: createRecordChoiceSet,
+            uiToFlow: createRecordChoiceSetMetadataObject,
             flowToUi: dynamicChoiceSetForStore
         }
     },
-    [ELEMENT_TYPE.PICKLIST_CHOICE_GROUP]: {
-        descriptor: 'builder_platform_interaction:choiceEditor',
+    [ELEMENT_TYPE.PICKLIST_CHOICE_SET]: {
+        descriptor: 'builder_platform_interaction:picklistChoiceSetEditor',
         nodeConfig: {
-            iconName: 'standard:choice',
-            utilityIconName: 'utility:choice'
+            iconName: 'standard:picklist_choice',
+            utilityIconName: 'utility:picklist_choice'
         },
         modalSize: MODAL_SIZE.MEDIUM,
         labels: {
-            singular: 'Picklist Choice Group',
-            plural: 'Picklist Choice Groups'
+            singular: LABELS.picklistChoiceSetSingularLabel,
+            plural: LABELS.picklistChoiceSetPluralLabel
         },
         canvasElement: false,
         metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS,
         factory: {
-            propertyEditor: createPicklistChoiceGroup,
-            uiToFlow: createPicklistChoiceGroupMetadataObject,
+            propertyEditor: createPicklistChoiceSet,
+            uiToFlow: createPicklistChoiceSetMetadataObject,
             flowToUi: dynamicChoiceSetForStore
         }
     },

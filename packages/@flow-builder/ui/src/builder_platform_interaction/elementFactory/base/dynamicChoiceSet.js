@@ -1,34 +1,43 @@
 import { baseResource } from "./baseElement";
 import { baseResourceMetadataObject } from "./baseMetadata";
-import { createFilterMetadataObject, createFilter } from "./recordFilter";
-import { createPicklistChoiceGroupForStore } from "../picklistChoiceGroup";
-import { createRecordChoiceGroupForStore } from "../recordChoiceGroup";
+import { createPicklistChoiceSetForStore } from "../picklistChoiceSet";
+import { createRecordChoiceSetForStore } from "../recordChoiceSet";
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
+const DEFAULT_SORT_VALUE = 'default';
+
+/**
+ * Base dynamic choice element factory
+ * @param {Object} element - base dynamic choice element
+ * @returns {Object} dynamicChoiceSet
+ */
 export const createDynamicChoiceSet = (element = {}) => {
     const newDynamicChoiceSet = baseResource(element);
     const {
-        limit = 0,
         displayField,
         valueField,
-        dataType,
-        filters = [],
-        outputAssignments = [],
-        sortOrder
+        dataType = null,
+        sortOrder = DEFAULT_SORT_VALUE
     } = element;
-
-    const translatedFilters = filters.map((filter) => createFilter(filter));
-    const translatedOutputAssignments = outputAssignments; // TODO create base out put assignments and use here (Work Item: This one, next CL)
+    // We need to set the limit as undefined if it comes out to be zero. valid range for limit is >0 and <200
+    let { limit } = element;
+    if (limit === 0) {
+        limit = undefined;
+    }
     return Object.assign(newDynamicChoiceSet, {
         limit,
         displayField,
         valueField,
         dataType,
-        filters: translatedFilters,
-        outputAssignments: translatedOutputAssignments,
         sortOrder
     });
 };
 
+/**
+ * Base dynamic choice meta data object factory
+ * @param {Object} element - Base dynamic choice metadata object
+ * @returns {Object} dynamicChoiceSetMetadataObject
+ */
 export const createDynamicChoiceSetMetadataObject = (element) => {
     const newDynamicChoiceSet = baseResourceMetadataObject(element);
     const {
@@ -36,21 +45,17 @@ export const createDynamicChoiceSetMetadataObject = (element) => {
         displayField,
         valueField,
         dataType,
-        filters,
-        outputAssignments,
-        sortOrder
     } = element;
-
-    const filtersMetadataObject = filters.map((filter) => createFilterMetadataObject(filter));
-    const outputAssignmentsMetadataObject = outputAssignments; // TODO create base out put assignments and use here (Work Item: This one, next CL)
+    let { sortOrder } = element;
+    if (sortOrder === DEFAULT_SORT_VALUE) {
+        sortOrder = undefined;
+    }
     Object.assign(newDynamicChoiceSet, {
         limit,
         displayField,
         valueField,
         dataType,
-        sortOrder,
-        filters: filtersMetadataObject,
-        outputAssignments: outputAssignmentsMetadataObject
+        sortOrder
     });
     return newDynamicChoiceSet;
 };
@@ -64,10 +69,10 @@ export const createDynamicChoiceSetMetadataObject = (element) => {
 export function dynamicChoiceSetForStore(element) {
     const dataType = element.dataType;
     switch (dataType) {
-        case "Picklist":
-        case "Multipicklist":
-            return createPicklistChoiceGroupForStore(element);
+        case FLOW_DATA_TYPE.PICKLIST.value:
+        case FLOW_DATA_TYPE.MULTI_PICKLIST.value:
+            return createPicklistChoiceSetForStore(element);
         default:
-            return createRecordChoiceGroupForStore(element);
+            return createRecordChoiceSetForStore(element);
     }
 }

@@ -60,6 +60,10 @@ import choiceSingularLabel from "@salesforce/label/FlowBuilderElementConfig.choi
 import choicePluralLabel from "@salesforce/label/FlowBuilderElementConfig.choicePluralLabel";
 import stepSingularLabel from "@salesforce/label/FlowBuilderElementConfig.stepSingularLabel";
 import stepPluralLabel from "@salesforce/label/FlowBuilderElementConfig.stepPluralLabel";
+import recordChoiceSetSingularLabel from "@salesforce/label/FlowBuilderElementConfig.recordChoiceSetSingularLabel";
+import recordChoiceSetPluralLabel from "@salesforce/label/FlowBuilderElementConfig.recordChoiceSetPluralLabel";
+import picklistChoiceSetSingularLabel from "@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetSingularLabel";
+import picklistChoiceSetPluralLabel from "@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetPluralLabel";
 
 export const LABELS = {
     subflowSingularLabel,
@@ -122,5 +126,9 @@ export const LABELS = {
     choiceSingularLabel,
     choicePluralLabel,
     stepSingularLabel,
-    stepPluralLabel
+    stepPluralLabel,
+    recordChoiceSetSingularLabel,
+    recordChoiceSetPluralLabel,
+    picklistChoiceSetSingularLabel,
+    picklistChoiceSetPluralLabel
 };
