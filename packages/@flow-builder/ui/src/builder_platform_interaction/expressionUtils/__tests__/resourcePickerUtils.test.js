@@ -46,18 +46,18 @@ describe('resourcePickerUtils', () => {
         beforeEach(() => {
             resourcePicker = {
                 populateParamTypes() {
-                    this.paramTypes = paramTypes;
+                    return paramTypes;
                 }
             };
         });
         it('Should filter the fields when the fields already have been loaded', () => {
-            getMenuData(resourcePicker, null, true, parentItem, fields);
+            getMenuData(null, null, resourcePicker.populateParamTypes, false, false, null, true, parentItem, fields);
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, paramTypes,
                 fields, true, true);
         });
 
         it('Should filter the fields after waiting for the fields to load', () => {
-            getMenuData(resourcePicker, null, true, parentItem);
+            getMenuData(null, null, resourcePicker.populateParamTypes, false, false, null, true, parentItem);
             expect(getFieldsForEntity).toHaveBeenCalledWith(objectName, expect.anything());
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, paramTypes,
                 ['field2'], true, true);
@@ -68,7 +68,7 @@ describe('resourcePickerUtils', () => {
         beforeEach(() => {
             resourcePicker = {
                 populateParamTypes() {
-                    this.paramTypes = paramTypes;
+                    return paramTypes;
                 },
                 propertyEditorElementType: 'Assignment',
                 allowSobjectForFields: true,
@@ -76,7 +76,8 @@ describe('resourcePickerUtils', () => {
             };
         });
         it('Should get menu data when there is no element config', () => {
-            getMenuData(resourcePicker, storeInstance, true);
+            getMenuData(null, resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
+                resourcePicker.allowSobjectForFields, resourcePicker.disableFieldDrilldown, storeInstance, true);
             expect(getStoreElements).toHaveBeenCalledWith(elements, { elementType: 'Assignment' });
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, true,
@@ -84,27 +85,12 @@ describe('resourcePickerUtils', () => {
         });
 
         it('Should get menu data when there is element config and we do not want new resource option', () => {
-            resourcePicker.elementConfig = 'elementConfig';
-            getMenuData(resourcePicker, storeInstance, false);
+            getMenuData('elementConfig', resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
+                resourcePicker.allowSobjectForFields, resourcePicker.disableFieldDrilldown, storeInstance, false);
             expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, false,
                 true, true);
-        });
-    });
-
-    describe('getFieldMenuData', () => {
-        let mockResourcePicker;
-
-        beforeEach(() => {
-            mockResourcePicker = {
-                populateParamTypes: jest.fn().mockName('populateParamTypes'),
-            };
-        });
-
-        it('calls populateParamTypes when the picker has no elementConfig', () => {
-            getMenuData(mockResourcePicker, {}, true, {});
-            expect(mockResourcePicker.populateParamTypes).toHaveBeenCalledTimes(1);
         });
     });
 });

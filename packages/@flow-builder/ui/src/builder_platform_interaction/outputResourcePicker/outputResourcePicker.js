@@ -14,9 +14,10 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
 
 let storeInstance;
-let rules;
 
 export default class OutputResourcePicker extends LightningElement {
+    static RULES = getOutputRules();
+
     @track
     _value;
 
@@ -115,7 +116,6 @@ export default class OutputResourcePicker extends LightningElement {
         super();
         storeInstance = Store.getStore();
         this._unsubscribeStore = storeInstance.subscribe(this.handleStoreChange);
-        rules = getOutputRules();
     }
 
     disconnectedCallback() {
@@ -136,7 +136,7 @@ export default class OutputResourcePicker extends LightningElement {
     /** HELPER METHODS */
 
     initializeResourcePicker = (normalizedValue) => {
-        // on first render we want to replace the given value with the itemOrDisplayText from normalized value
+        // on first render we want to replace the given value with the item from normalized value
         this.value = normalizedValue.item;
         this.populateMenuData(this.parentItem, normalizedValue.fields);
         this._isInitialized = true;
@@ -151,13 +151,16 @@ export default class OutputResourcePicker extends LightningElement {
 
     populateParamTypes = () => {
         this.paramTypes = getRHSTypes(this.propertyEditorElementType,
-            this.elementParam, RULE_OPERATOR.ASSIGN, rules);
+            this.elementParam, RULE_OPERATOR.ASSIGN, OutputResourcePicker.RULES);
+        return this.paramTypes;
     };
 
     populateMenuData = (parentItem, fields) => {
         const showNewResource = true;
         if (this._baseResourcePicker) {
-            this._baseResourcePicker.setMenuData(getMenuData(this, storeInstance, showNewResource, parentItem, fields));
+            this._baseResourcePicker.setMenuData(
+                getMenuData(null, this.propertyEditorElementType, this.populateParamTypes, true,
+                    false, storeInstance, showNewResource, parentItem, fields));
         }
     }
 }
