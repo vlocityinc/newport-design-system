@@ -6,13 +6,14 @@ import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction
 import {
     DeleteWaitEventEvent,
     WaitEventPropertyChangedEvent,
+    WaitEventParameterChangedEvent,
 } from 'builder_platform_interaction/events';
 
 export default class WaitEvent extends LightningElement {
     labels = LABELS;
 
     conditionLogicOptions = [
-        {value: CONDITION_LOGIC.NO_CONDITIONS, label: LABELS.alwaysMetLabel},
+        {value: CONDITION_LOGIC.NO_CONDITIONS, label: LABELS.alwaysWaitLabel},
         {value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel},
         {value: CONDITION_LOGIC.OR, label: LABELS.orConditionLogicLabel},
         {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: LABELS.customLogicLabel},
@@ -49,6 +50,19 @@ export default class WaitEvent extends LightningElement {
         this.dispatchEvent(waitEventPropertyChangedEvent);
 
         // TODO: W-5454625 handle label description changes
+    }
+
+    handleParameterChanged(event) {
+        event.stopPropagation();
+        const waitEventParameterChanged = new WaitEventParameterChangedEvent(
+            event.detail.name,
+            event.detail.value,
+            event.detail.valueDataType,
+            event.detail.error,
+            this.element.guid,
+            event.detail.isInput,
+            );
+        this.dispatchEvent(waitEventParameterChanged);
     }
 
     get upperCaseWaitConditionsTabText() {

@@ -9,6 +9,7 @@ import * as sobjectLib from "builder_platform_interaction/sobjectLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { elementToParam } from "builder_platform_interaction/ruleLib";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { isObject } from 'builder_platform_interaction/commonUtils';
 
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',
@@ -53,6 +54,30 @@ export const getResourceByUniqueIdentifier = (identifier) => {
  */
 export const getResourceFerovDataType = (identifier) => {
     return isNonElementResourceId(identifier) ? getNonElementResource(identifier).dataType : FEROV_DATA_TYPE.REFERENCE;
+};
+
+/**
+ * Retrieves the information needed for components to update a ferov from a combobox state changed payload
+ * @param {module:MenuDataGenerator.MenuItem} item combobox menu item
+ * @param {String} displayText display text from a combobox state changed event
+ * @param {String} literalDataType the data type we want to assign a literal
+ * @returns {Object} object with value and dataType of the ferov
+ */
+export const getFerovInfoFromComboboxItem = (item, displayText, literalDataType) => {
+    const itemOrDisplayText = item || displayText;
+    let value = null;
+    let dataType = null;
+    if (isObject(itemOrDisplayText)) {
+        value = itemOrDisplayText.displayText;
+        dataType = getResourceFerovDataType(itemOrDisplayText.value);
+    } else {
+        value = itemOrDisplayText;
+        dataType = literalDataType;
+    }
+    return {
+        value,
+        dataType,
+    };
 };
 
 /**

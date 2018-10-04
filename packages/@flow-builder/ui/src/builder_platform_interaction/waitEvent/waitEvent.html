@@ -51,7 +51,12 @@
             </builder_platform_interaction-condition-list>
         </lightning-tab>
         <lightning-tab id="resume-conditions" label={upperCaseResumeConditionsTabText} class="slds-p-around_none">
-            <builder_platform_interaction-wait-resume-conditions></builder_platform_interaction-wait-resume-conditions>
+            <builder_platform_interaction-wait-resume-conditions
+                resume-time-parameters={waitEvent.inputParameters}
+                event-type={waitEvent.eventType}
+                onpropertychanged={handlePropertyChanged}
+                onupdateparameteritem={handleParameterChanged}>
+            </builder_platform_interaction-wait-resume-conditions>
         </lightning-tab>
     </lightning-tabset>
 </template>

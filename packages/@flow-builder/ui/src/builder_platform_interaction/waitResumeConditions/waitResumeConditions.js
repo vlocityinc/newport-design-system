@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { LABELS } from "./waitResumeConditionsLabels";
 
 const resumeEventType = {
@@ -7,23 +7,44 @@ const resumeEventType = {
 };
 
 export default class WaitResumeConditions extends LightningElement {
-    labels = LABELS;
+    /**
+     * The input parameters that defines the resume time for this wait event
+     * @type {module:WaitTimeEvent.ResumeTimeParameter}
+     */
+    @api
+    resumeTimeParameters;
+
+    /**
+     * The event type
+     * @type {String}
+     */
+    @api
+    eventType;
 
     /**
      * internal state for the wait-resume-condition
      */
-    // TODO: W-5395888 set isPlatformEventTypeSelected and isTimeEventTypeSelected via @api to set re-displaying an existing wait node.
-    @track isPlatformEventTypeSelected = false;
-    @track isTimeEventTypeSelected = false;
+    // TODO: W-5395888 set resumeEventType via @api to set re-displaying an existing wait node.
+    @track
+    resumeEventType = resumeEventType.timeEventType;
 
-    get resumeEventType() {
-        return [{ 'label': LABELS.timeEventTypeLabel, 'value': resumeEventType.timeEventType },
-            { 'label': LABELS.platformEventTypeLabel, 'value': resumeEventType.platformEventType }];
+    labels = LABELS;
+
+    resumeEventTypeOptions = [
+        { 'label': LABELS.timeEventTypeLabel, 'value': resumeEventType.timeEventType },
+        { 'label': LABELS.platformEventTypeLabel, 'value': resumeEventType.platformEventType},
+    ];
+
+    get isPlatformEventTypeSelected() {
+        return this.resumeEventType === resumeEventType.platformEventType;
+    }
+
+    get isTimeEventTypeSelected() {
+        return this.resumeEventType === resumeEventType.timeEventType;
     }
 
     handleOptionSelected(event) {
         event.stopPropagation();
-        this.isTimeEventTypeSelected = event.detail.value === resumeEventType.timeEventType;
-        this.isPlatformEventTypeSelected = event.detail.value === resumeEventType.platformEventType;
+        this.resumeEventType = event.detail.value;
     }
 }

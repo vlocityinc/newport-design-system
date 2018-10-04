@@ -13,7 +13,7 @@ import rhsLabel from '@salesforce/label/FlowBuilderConditionList.rhsLabel';
 import lhsPlaceholder from '@salesforce/label/FlowBuilderConditionList.lhsPlaceholder';
 import operatorPlaceholder from '@salesforce/label/FlowBuilderConditionList.operatorPlaceholder';
 
-import alwaysMetLabel from '@salesforce/label/FlowBuilderConditionList.alwaysMetLabel';
+import alwaysWaitLabel from '@salesforce/label/FlowBuilderConditionList.alwaysWaitLabel';
 import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.andConditionLogicLabel';
 import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.orConditionLogicLabel';
 import customLogicLabel from '@salesforce/label/FlowBuilderConditionList.customLogicLabel';
@@ -25,7 +25,7 @@ export const LABELS = {
     waitEventApiName,
     waitConditionsTabText,
     resumeConditionsTabText,
-    alwaysMetLabel,
+    alwaysWaitLabel,
     andConditionLogicLabel,
     orConditionLogicLabel,
     customLogicLabel,

@@ -1,22 +1,29 @@
 <template>
-    <h3 class="slds-section__title slds-accordion__summary-heading -slds-theme_shade slds-p-horizontal_small slds-shrink-none">
+    <h3 class="slds-section__title slds-accordion__summary-heading slds-p-top_small slds-shrink-none">
         <span>{labels.waitResumeConditionsSectionHeader}</span>
     </h3>
-    <div class="slds-text-color_weak slds-text-body_medium slds-p-left_medium slds-truncate">
+    <div class="slds-text-color_weak slds-text-body_medium slds-truncate slds-p-top_small">
         {labels.waitResumeConditionsSectionDescription}
     </div>
+    
     <lightning-radio-group
-                        label={labels.resumeEventTypeLabel}
-                        name="resumeEventType"
-                        options={resumeEventType}
-                        type="button"
-                        onchange={handleOptionSelected}
-                        required>
+        class="slds-p-top_small"
+        label={labels.resumeEventTypeLabel}
+        name="resumeEventType"
+        options={resumeEventTypeOptions}
+        type="button"
+        onchange={handleOptionSelected}
+        value={resumeEventType}
+        required>
     </lightning-radio-group>
+    
     <div if:true={isPlatformEventTypeSelected}>
         <builder_platform_interaction-wait-platform-event></builder_platform_interaction-wait-platform-event>
     </div>
     <div if:true={isTimeEventTypeSelected}>
-        <builder_platform_interaction-wait-time-event></builder_platform_interaction-wait-time-event>
+        <builder_platform_interaction-wait-time-event
+            resume-time-parameters={resumeTimeParameters}
+            event-type={eventType}>
+        </builder_platform_interaction-wait-time-event>
     </div>
 </template>
