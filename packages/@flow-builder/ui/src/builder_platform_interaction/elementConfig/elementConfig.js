@@ -135,7 +135,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.subflowPluralLabel
         },
         canvasElement: true,
-        nonHydratableProperties: ['valueDataType', 'valueGuid'],
+        nonHydratableProperties: ['valueDataType'],
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createSubflow,
@@ -164,7 +164,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.actionPluralLabel
         },
         canvasElement: true,
-        nonHydratableProperties: ['valueDataType', 'valueGuid'],
+        nonHydratableProperties: ['valueDataType'],
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createActionCall,
@@ -189,7 +189,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.apexPluginPluralLabel
         },
         canvasElement: true,
-        nonHydratableProperties: ['valueDataType', 'valueGuid'],
+        nonHydratableProperties: ['valueDataType'],
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createApexPlugin,
@@ -215,7 +215,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.apexPluralLabel
         },
         canvasElement: true,
-        nonHydratableProperties: ['valueDataType', 'valueGuid'],
+        nonHydratableProperties: ['valueDataType'],
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createApexCall,
@@ -241,7 +241,7 @@ export const elementTypeToConfigMap = {
             plural: LABELS.emailAlertPluralLabel
         },
         canvasElement: true,
-        nonHydratableProperties: ['valueDataType', 'valueGuid'],
+        nonHydratableProperties: ['valueDataType'],
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createEmailAlert,

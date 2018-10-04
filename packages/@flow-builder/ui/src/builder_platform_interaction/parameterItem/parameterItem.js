@@ -1,8 +1,8 @@
 import { LightningElement, track, api } from 'lwc';
 import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
 import { getResourceFerovDataType } from "builder_platform_interaction/expressionUtils";
-import { isObject } from 'builder_platform_interaction/commonUtils';
-import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { PARAM_PROPERTY } from "builder_platform_interaction/ruleLib";
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
@@ -109,7 +109,7 @@ export default class ParameterItem extends LightningElement {
      * true if this parameter is optional input parameter and it has a value
      */
     get checked() {
-        return (this.isOptionalInput() && !!getValueFromHydratedItem(this.state.parameterItem.value));
+        return (this.isOptionalInput() && !isUndefinedOrNull(getValueFromHydratedItem(this.state.parameterItem.value)));
     }
 
     /**
@@ -161,7 +161,7 @@ export default class ParameterItem extends LightningElement {
         return BaseResourcePicker.getComboboxConfig(
             this.parameterLabel,
             this.labels.parameterPlaceholder, // placeholder
-            this.getErrorMessage, // errorMessage
+            this.errorMessage, // errorMessage
             this.state.parameterItem.isInput, // literalsAllowed
             this.state.parameterItem.isRequired, // required
             this.disabled, // disabled
@@ -177,8 +177,8 @@ export default class ParameterItem extends LightningElement {
         };
     }
 
-    getErrorMessage() {
-        return getErrorsFromHydratedElement(this.state.parameterItem.value);
+    get errorMessage() {
+        return getErrorFromHydratedItem(this.state.parameterItem.value);
     }
 
     getDataType() {
@@ -235,6 +235,8 @@ export default class ParameterItem extends LightningElement {
             newValue.value = getValueFromHydratedItem(this.preservedValue.value);
             newValue.valueDataType = getValueFromHydratedItem(this.preservedValue.valueDataType);
             this.preservedValue = {value: null, valueDataType: null};
+        } else {
+            newValue.value = '';
         }
         this.dispatchParameterEvent(newValue, null);
     }
