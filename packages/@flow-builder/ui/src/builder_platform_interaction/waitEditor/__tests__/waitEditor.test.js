@@ -6,6 +6,7 @@ import {
     UpdateConditionEvent,
     PropertyChangedEvent,
     WaitEventPropertyChangedEvent,
+    WaitEventParameterChangedEvent,
 } from 'builder_platform_interaction/events';
 import { getShadowRoot } from 'lwc-test-utils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
@@ -91,6 +92,15 @@ describe('wait-editor', () => {
     it('handles WaitEventPropertyChangedEvent from waitEvent', () => {
         const waitElement = createComponentForTest({node: noErrorState});
         const event = new WaitEventPropertyChangedEvent();
+        getShadowRoot(waitElement).querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
+        return Promise.resolve().then(() => {
+            expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
+        });
+    });
+
+    it('handles WaitEventParameterChangedEvent from waitEvent', () => {
+        const waitElement = createComponentForTest({node: noErrorState});
+        const event = new WaitEventParameterChangedEvent();
         getShadowRoot(waitElement).querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
         return Promise.resolve().then(() => {
             expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);

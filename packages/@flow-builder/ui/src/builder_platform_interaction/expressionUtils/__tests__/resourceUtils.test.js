@@ -1,7 +1,13 @@
-import { normalizeLHS, normalizeRHS, getResourceByUniqueIdentifier } from '../resourceUtils';
+import {
+    normalizeLHS,
+    normalizeRHS,
+    getResourceByUniqueIdentifier,
+    getFerovInfoFromComboboxItem,
+} from '../resourceUtils';
 import { numberParamCanBeField } from "mock/ruleService";
 import * as store from "mock/storeData";
 import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -58,4 +64,36 @@ describe('resource retrieval', () => {
             expect(getResourceByUniqueIdentifier(constants[i])).toEqual(GLOBAL_CONSTANT_OBJECTS[constants[i]]);
         });
     }
+});
+
+describe('getFerovInfoFromComboboxItem', () => {
+    it('returns an object with value and dataType properties', () => {
+        const result = getFerovInfoFromComboboxItem();
+        expect(result).toHaveProperty('value');
+        expect(result).toHaveProperty('dataType');
+    });
+
+    it('uses the literal data type when given display text', () => {
+        const mockDataType = 'sfdcDataType';
+        const result = getFerovInfoFromComboboxItem(undefined, undefined, mockDataType);
+        expect(result.dataType).toEqual(mockDataType);
+    });
+
+    it('uses the displayText as value when given display text', () => {
+        const displayText = 'foo';
+        const result = getFerovInfoFromComboboxItem(undefined, 'foo', undefined);
+        expect(result.value).toEqual(displayText);
+    });
+
+    it('uses the displayText as value when given a menu item', () => {
+        const mockItem = { value: 'fooValue', displayText: 'fooDisplayText' };
+        const result = getFerovInfoFromComboboxItem(mockItem);
+        expect(result.value).toEqual(mockItem.displayText);
+    });
+
+    it('gets the ferov data type when given a menu item', () => {
+        const mockItem = { value: 'fooValue', displayText: '{!fooValue}' };
+        const result = getFerovInfoFromComboboxItem(mockItem);
+        expect(result.dataType).toEqual(FEROV_DATA_TYPE.REFERENCE);
+    });
 });

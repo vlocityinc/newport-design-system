@@ -4,6 +4,8 @@ import {
     DeleteWaitEventEvent,
     PropertyChangedEvent,
     WaitEventPropertyChangedEvent,
+    WaitEventParameterChangedEvent,
+    UpdateParameterItemEvent,
 } from "builder_platform_interaction/events";
 import { getShadowRoot } from 'lwc-test-utils';
 import { LABELS } from "../waitEventLabels";
@@ -27,6 +29,17 @@ const waitEventWithOneConditional = {
     ]
 };
 
+const waitEventWithInputParameters = {
+    label: {value: 'Test Name of the Outcome'},
+    name: {value: 'Test Dev Name'},
+    guid: {value: '123'},
+    conditionLogic: {value: '1'},
+    eventType: 'mockEventType',
+    inputParameters: [
+        {name: 'foo', value: 'bar'},
+    ],
+};
+
 const selectors = {
     conditionList: 'builder_platform_interaction-condition-list',
     row: 'builder_platform_interaction-row',
@@ -35,6 +48,7 @@ const selectors = {
     conditionLogicComboBox: '.conditionLogic',
     customLogicInput: '.customLogic',
     removeButton: 'lightning-button.removeWaitEvent',
+    waitResumeConditions: 'builder_platform_interaction-wait-resume-conditions',
 };
 
 const createComponentUnderTest = (waitEvent) => {
@@ -175,6 +189,60 @@ describe('Wait Event', () => {
             return Promise.resolve().then(() => {
                 expect(waitEventUpdateSpy.mock.calls[0][0].type).toEqual(WaitEventPropertyChangedEvent.EVENT_NAME);
                 expect(waitEventUpdateSpy.mock.calls[0][0].detail.propertyName).toEqual(propNameToUpdate);
+            });
+        });
+    });
+
+    describe('resume conditions', () => {
+        let waitEvent;
+        beforeEach(() => {
+            waitEvent = createComponentUnderTest(waitEventWithInputParameters);
+        });
+
+        it('passes inputParamters to to the waitResumeConditions component', () => {
+            const waitResumeConditions = getShadowRoot(waitEvent).querySelector(selectors.waitResumeConditions);
+            expect(waitResumeConditions.resumeTimeParameters).toEqual(waitEventWithInputParameters.inputParameters);
+        });
+
+        it('passes eventType to the waitResumeConditions component', () => {
+            const waitResumeConditions = getShadowRoot(waitEvent).querySelector(selectors.waitResumeConditions);
+            expect(waitResumeConditions.eventType).toEqual(waitEventWithInputParameters.eventType);
+        });
+
+        it('handles PropertyChangedEvent from waitResumeConditions and fires WaitEventPropertyChangedEvent', () => {
+            const propertyChanged = new PropertyChangedEvent();
+            const waitEventUpdateSpy = jest.fn();
+
+            window.addEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventUpdateSpy);
+            const waitResumeConditions = getShadowRoot(waitEvent).querySelector(selectors.waitResumeConditions);
+            waitResumeConditions.dispatchEvent(propertyChanged);
+
+             return Promise.resolve().then(() => {
+                expect(waitEventUpdateSpy).toHaveBeenCalled();
+            });
+        });
+
+        it('handles UpdateParamterItem from waitResumeConditions and fires WaitEventParamterChangedEvent', () => {
+            const isInput = true;
+            const propName = 'foo';
+            const newValue = 'my new value';
+            const newValueDataType = 'sfdcDataType';
+            const error = 'null';
+            const parameterChanged = new UpdateParameterItemEvent(isInput, propName, newValue, newValueDataType, error);
+
+            const waitEventUpdateSpy = jest.fn();
+
+            window.addEventListener(WaitEventParameterChangedEvent.EVENT_NAME, waitEventUpdateSpy);
+            const waitResumeConditions = getShadowRoot(waitEvent).querySelector(selectors.waitResumeConditions);
+            waitResumeConditions.dispatchEvent(parameterChanged);
+
+             return Promise.resolve().then(() => {
+                expect(waitEventUpdateSpy.mock.calls[0][0].type).toEqual(WaitEventParameterChangedEvent.EVENT_NAME);
+                expect(waitEventUpdateSpy.mock.calls[0][0].detail.isInputParameter).toEqual(isInput);
+                expect(waitEventUpdateSpy.mock.calls[0][0].detail.parameterName).toEqual(propName);
+                expect(waitEventUpdateSpy.mock.calls[0][0].detail.value).toEqual(newValue);
+                expect(waitEventUpdateSpy.mock.calls[0][0].detail.valueDataType).toEqual(newValueDataType);
+                expect(waitEventUpdateSpy.mock.calls[0][0].detail.error).toEqual(error);
             });
         });
     });
