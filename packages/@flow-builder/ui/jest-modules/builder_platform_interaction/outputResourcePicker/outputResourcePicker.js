@@ -9,6 +9,10 @@ export default class OutputResourcePicker extends LightningElement {
     @api comboboxConfig;
 
     @api elementParam;
+    
+    @api disableFieldDrilldown;
+    
+    @api errorMessage;
 
 }
 

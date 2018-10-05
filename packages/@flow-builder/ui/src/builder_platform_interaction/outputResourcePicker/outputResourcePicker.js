@@ -44,6 +44,9 @@ export default class OutputResourcePicker extends LightningElement {
         return this._value;
     }
 
+    @api
+    errorMessage;
+
     /**
      * The combobox config for the resource picker
      * @param {module:base-resource-picker.ComboboxConfig} newComboboxConfig the new combobox config object
