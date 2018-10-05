@@ -13,6 +13,8 @@ const SELECTORS = {
     CUSTOM_LOGIC: '.customLogic'
 };
 
+const defaultLogicalOperator = CONDITION_LOGIC.AND;
+
 /**
  * Usage: <builder_platform_interaction-logic-list></builder_platform_interaction-logic-list>
  */
@@ -142,7 +144,11 @@ export default class ConditionList extends LightningElement {
     handleConditionLogicChange(event) {
         let newLogicValue = event.detail.value;
         if (newLogicValue === CONDITION_LOGIC.CUSTOM_LOGIC) {
-            newLogicValue = this.getDefaultCustomLogicString(this.state.conditionLogicComboBoxValue);
+            let logicalOperator = this.state.conditionLogicComboBoxValue;
+            if (logicalOperator === CONDITION_LOGIC.NO_CONDITIONS) {
+                logicalOperator = defaultLogicalOperator;
+            }
+            newLogicValue = this.getDefaultCustomLogicString(logicalOperator);
         }
 
         const propertyChangedEvent = new PropertyChangedEvent(

@@ -313,6 +313,37 @@ describe('Condition List', () => {
                         });
                     });
                 });
+
+                it('from NO_CONDITIONS all conditions should be separated by ANDs', () => {
+                    const list = Object.assign({}, listWithThreeConditionals);
+                    list.conditionLogic = {
+                        value: CONDITION_LOGIC.NO_CONDITIONS,
+                    };
+
+                    const element = createComponentUnderTest(list);
+
+                    return Promise.resolve().then(() => {
+                        const eventCallback = jest.fn();
+                        element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
+
+                        const logicComboBox = getShadowRoot(element).querySelector(selectors.conditionLogicComboBox);
+                        logicComboBox.dispatchEvent(new CustomEvent('change', {
+                            detail: {
+                                value: CONDITION_LOGIC.CUSTOM_LOGIC
+                            }
+                        }));
+
+                        expect(eventCallback).toHaveBeenCalled();
+                        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                            detail: {
+                                guid: element.parentGuid,
+                                propertyName: 'conditionLogic',
+                                value: '1 AND 2 AND 3',
+                                error: null
+                            }
+                        });
+                    });
+                });
             });
         });
     });
