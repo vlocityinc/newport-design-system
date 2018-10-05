@@ -341,7 +341,7 @@ describe('Menu data retrieval', () => {
             expect(eventTypesMenuData[0].text).toEqual(platformEvent1Label);
             expect(eventTypesMenuData[0].subText).toEqual(platformEvent1ApiName);
             expect(eventTypesMenuData[0].dataType).toEqual('SObject');
-            expect(eventTypesMenuData[0].objectType).not.toBeDefined();
+            expect(eventTypesMenuData[0].objectType).toEqual(platformEvent1ApiName);
         });
     });
     // TODO: write tests for gettings category once we switch to using labels

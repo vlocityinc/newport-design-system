@@ -193,6 +193,7 @@ export const mutateEventTypesToComboboxShape = (eventTypes) => {
             eventType.qualifiedApiName,
             undefined,
             SOBJECT_TYPE,
+            eventType.qualifiedApiName,
         );
     });
 };

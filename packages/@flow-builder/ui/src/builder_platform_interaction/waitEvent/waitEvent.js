@@ -62,7 +62,9 @@ export default class WaitEvent extends LightningElement {
             this.element.guid,
             event.detail.isInput,
             );
-        this.dispatchEvent(waitEventParameterChanged);
+        if (event.detail.isInput) { // TODO W-5502328: Remove this once we implement output params translation
+            this.dispatchEvent(waitEventParameterChanged);
+        }
     }
 
     get upperCaseWaitConditionsTabText() {
