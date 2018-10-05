@@ -1,7 +1,7 @@
-import { LightningElement } from 'lwc';
-import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { LABELS } from "./waitPlatformEventLabels";
+import { LightningElement, track } from 'lwc';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { LABELS } from './waitPlatformEventLabels';
+import { isObject } from 'builder_platform_interaction/commonUtils';
 
 export default class WaitPlatformEvent extends LightningElement {
     labels = LABELS;
@@ -12,23 +12,29 @@ export default class WaitPlatformEvent extends LightningElement {
     };
 
     /**
+     * Selected event type from the sobject picker
+     */
+    @track
+    selectedEventType;
+
+    /**
      * @returns {Object} config to pass to entity-resource-picker component
      */
-    get entityComboboxConfig() {
-        // TODO: W-5395889 only available platform events should be returned here.
+    get eventTypeComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             LABELS.eventLabel,
             LABELS.selectEventLabel,
             null,
             false,
             true,
-            false,
-            FLOW_DATA_TYPE.SOBJECT.value
         );
     }
 
-    handleResourceChanged(event) {
+    handleEventTypeChanged(event) {
         event.stopPropagation();
-        // do nothing for now
+        const eventTypeItem = event.detail.item;
+        if (isObject(eventTypeItem)) {
+            this.selectedEventType = event.detail.item.value;
+        }
     }
 }
