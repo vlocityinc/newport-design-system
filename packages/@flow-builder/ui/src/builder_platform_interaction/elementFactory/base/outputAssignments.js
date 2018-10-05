@@ -4,7 +4,7 @@ import { createExpressionListRowItemWithoutOperator } from "./baseList";
  * @param {Object} outputAssignment
  * @param {String} sObject - eg: Account
  */
-export const createOutputAssignment = (outputAssignment, sObject) => {
+export const createOutputAssignment = (outputAssignment = {}, sObject) => {
     let newOuputAssignment = {};
     if (outputAssignment.hasOwnProperty('field') && outputAssignment.hasOwnProperty('assignToReference')) {
         const leftHandSide = sObject + '.' + outputAssignment.field;
@@ -24,7 +24,7 @@ export const createOutputAssignmentMetadataObject = (outputAssignment) => {
     if (!outputAssignment) {
         throw new Error('outputAssignment is required to create the outputAssignmentMetadataObject');
     }
-    const field = outputAssignment.leftHandSide.substring(outputAssignment.leftHandSide.indexOf('.') + 1); // TODO refactor this
+    const field = outputAssignment.leftHandSide.substring(outputAssignment.leftHandSide.indexOf('.') + 1);
     const assignToReference = outputAssignment.rightHandSide;
     return {
         field,

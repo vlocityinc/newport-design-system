@@ -4,7 +4,7 @@ import { createPicklistChoiceSetForStore } from "../picklistChoiceSet";
 import { createRecordChoiceSetForStore } from "../recordChoiceSet";
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
-const DEFAULT_SORT_VALUE = 'default';
+export const DEFAULT_SORT_VALUE = 'Default';
 
 /**
  * Base dynamic choice element factory
@@ -39,6 +39,9 @@ export const createDynamicChoiceSet = (element = {}) => {
  * @returns {Object} dynamicChoiceSetMetadataObject
  */
 export const createDynamicChoiceSetMetadataObject = (element) => {
+    if (!element) {
+        throw new Error('element is required to create dynamic choice set metadata object');
+    }
     const newDynamicChoiceSet = baseResourceMetadataObject(element);
     const {
         limit,
