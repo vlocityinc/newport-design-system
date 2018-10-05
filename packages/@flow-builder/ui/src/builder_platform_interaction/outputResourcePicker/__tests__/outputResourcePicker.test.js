@@ -113,7 +113,7 @@ describe('output-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined);
+                false, false, Store.getStore(), true, undefined, undefined);
         });
     });
 
@@ -130,7 +130,7 @@ describe('output-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, parentItem, ['mockField']);
+                false, false, Store.getStore(), true, parentItem, ['mockField']);
         });
     });
 
@@ -140,7 +140,7 @@ describe('output-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, disableFieldDrilldown, Store.getStore(), true, undefined, undefined);
+                false, disableFieldDrilldown, Store.getStore(), true, undefined, undefined);
         });
     });
 
@@ -157,7 +157,7 @@ describe('output-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, parentItem, undefined);
+                false, false, Store.getStore(), true, parentItem, undefined);
         });
     });
 
@@ -166,7 +166,7 @@ describe('output-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined);
+                false, false, Store.getStore(), true, undefined, undefined);
         });
     });
 
