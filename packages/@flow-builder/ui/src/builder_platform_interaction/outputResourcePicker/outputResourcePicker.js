@@ -72,11 +72,17 @@ export default class OutputResourcePicker extends LightningElement {
     @api
     elementParam;
 
+    /**
+     * If set to true, hasNext will be set to false for all menu items
+     * @type {Boolean}
+     */
+    @api
+    disableFieldDrilldown = false;
+
     get parentItem() {
         return this.value && this.value.parent;
     }
 
-    @api
     get elementConfig() {
         return {
             elementType: this.propertyEditorElementType,
@@ -159,8 +165,8 @@ export default class OutputResourcePicker extends LightningElement {
         const showNewResource = true;
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
-                getMenuData(null, this.propertyEditorElementType, this.populateParamTypes, true,
-                    false, storeInstance, showNewResource, parentItem, fields));
+                getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, true,
+                        this.disableFieldDrilldown, storeInstance, showNewResource, parentItem, fields));
         }
     }
 }

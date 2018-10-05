@@ -20,6 +20,19 @@ const setupComponentUnderTest = (props) => {
     return element;
 };
 
+const expectedElementConfig = {
+    elementType: ELEMENT_TYPE.VARIABLE,
+    shouldBeWritable: true
+};
+
+const getMockNormalizedValue = (props) => {
+    return {
+        item: {
+            value: props.value,
+        }
+    };
+};
+
 const parentItem = {
     objectType: 'Account',
 };
@@ -96,15 +109,10 @@ describe('output-resource-picker', () => {
 
     it('retrieves fer menu data on initial load when value is fer', () => {
         props.value = 'foo';
-        const normalizedValue = {
-            item: {
-                value: props.value,
-            }
-        };
-        normalizeLHS.mockReturnValueOnce(normalizedValue);
+        normalizeLHS.mockReturnValueOnce(getMockNormalizedValue(props));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getMenuData).toHaveBeenCalledWith(null, ELEMENT_TYPE.VARIABLE, expect.any(Function),
+            expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
                 true, false, Store.getStore(), true, undefined, undefined);
         });
     });
@@ -121,8 +129,18 @@ describe('output-resource-picker', () => {
         normalizeLHS.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getMenuData).toHaveBeenCalledWith(null, ELEMENT_TYPE.VARIABLE, expect.any(Function),
+            expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
                 true, false, Store.getStore(), true, parentItem, ['mockField']);
+        });
+    });
+
+    it('passes in disableFieldDrilldown to populateMenudata', () => {
+        const disableFieldDrilldown = props.disableFieldDrilldown = true;
+        normalizeLHS.mockReturnValueOnce(getMockNormalizedValue(props));
+        setupComponentUnderTest(props);
+        return Promise.resolve().then(() => {
+            expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
+                true, disableFieldDrilldown, Store.getStore(), true, undefined, undefined);
         });
     });
 
@@ -138,33 +156,23 @@ describe('output-resource-picker', () => {
         normalizeLHS.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getMenuData).toHaveBeenCalledWith(null, ELEMENT_TYPE.VARIABLE, expect.any(Function),
+            expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
                 true, false, Store.getStore(), true, parentItem, undefined);
         });
     });
 
     it('uses rule service and expression utils to retrieve fer data', () => {
-        const normalizedValue = {
-            item: {
-                value: props.value,
-            }
-        };
-        normalizeLHS.mockReturnValueOnce(normalizedValue);
+        normalizeLHS.mockReturnValueOnce(getMockNormalizedValue(props));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getMenuData).toHaveBeenCalledWith(null, ELEMENT_TYPE.VARIABLE, expect.any(Function),
+            expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
                 true, false, Store.getStore(), true, undefined, undefined);
         });
     });
 
     describe('populateParamTypes function', () => {
         it('calls getRHSTypes with the right arguments', () => {
-            const normalizedValue = {
-                item: {
-                    value: props.value,
-                }
-            };
-            normalizeLHS.mockReturnValueOnce(normalizedValue);
+            normalizeLHS.mockReturnValueOnce(getMockNormalizedValue(props));
             setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
                 const populateParamTypesFn = getMenuData.mock.calls[0][2];
