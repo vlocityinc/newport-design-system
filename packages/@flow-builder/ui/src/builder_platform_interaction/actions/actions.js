@@ -147,19 +147,19 @@ export const deleteElement = (payload) => {
         return {};
     }
 
-    let action = createAction(DELETE_ELEMENT, payload);
+    let action;
     switch (payload.elementType) {
         case ELEMENT_TYPE.VARIABLE:
         case ELEMENT_TYPE.CONSTANT:
         case ELEMENT_TYPE.TEXT_TEMPLATE:
         case ELEMENT_TYPE.STAGE:
         case ELEMENT_TYPE.CHOICE:
-        case ELEMENT_TYPE.FORMULA: {
+        case ELEMENT_TYPE.FORMULA:
             action = createAction(DELETE_RESOURCE, payload);
             break;
-        }
         default:
-            if (isCanvasElement(payload.elementType)) {
+            // Check if element is a canvas element or multiple elements are being deleted
+            if (isCanvasElement(payload.elementType) || !payload.elementType) {
                 action = createAction(DELETE_ELEMENT, payload);
             } else {
                 // Added to support strategy builder non-canvas elements
