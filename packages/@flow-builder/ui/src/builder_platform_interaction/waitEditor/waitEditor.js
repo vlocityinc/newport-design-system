@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { waitReducer } from "./waitReducer";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
+import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { LABELS } from "./waitEditorLabels";
 
@@ -84,6 +85,19 @@ export default class WaitEditor extends LightningElement {
         waitEventsWithDefaultPath.push(defaultPath);
 
         return waitEventsWithDefaultPath;
+    }
+
+    get isDefaultPath() {
+      return this.activeWaitEventId === DEFAULT_WAIT_EVENT_ID;
+    }
+
+    handleDefaultPathChangedEvent(event) {
+      event.stopPropagation();
+      const defaultPathChangedEvent = new PropertyChangedEvent(
+          'defaultConnectorLabel',
+          event.detail.value
+      );
+      this.waitElement = waitReducer(this.waitElement, defaultPathChangedEvent);
     }
 
     handleWaitEventSelected(event) {

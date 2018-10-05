@@ -28,10 +28,10 @@
                 </div>
             </builder_platform_interaction-reorderable-vertical-navigation>
             <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
-                <builder_platform_interaction-wait-event
+                <builder_platform_interaction-wait-event if:false={isDefaultPath}
                     wait-event={activeWaitEvent}
                     show-delete={showDeleteWaitEvent}
-                    ondeletewaitevent={handleDeleteWaitEvent}				
+                    ondeletewaitevent={handleDeleteWaitEvent}
                     onaddcondition={handleEvent}
                     onupdatecondition={handleEvent}
                     ondeletecondition={handleEvent}
@@ -39,8 +39,26 @@
                     onwaiteventpropertychanged={handleEvent}
                     onwaiteventparameterchanged={handleEvent}>
                 </builder_platform_interaction-wait-event>
+                <div if:true={isDefaultPath}>
+                    <div class="slds-grid slds-m-bottom_x-small">
+                        <h3 class="slds-text-title_caps">
+                            <span class="slds-truncate">{labels.waitEventsDetailsHeader}</span>
+                        </h3>
+                    </div>
+                    <builder_platform_interaction-label-description
+                            label={waitElement.defaultConnectorLabel}
+                            onpropertychanged={handleDefaultPathChangedEvent}
+                            hide-dev-name
+                            hide-description
+                            class="defaultPath">
+                    </builder_platform_interaction-label-description>
+                    <div class="slds-text-align_center">
+                        <img src="/img/LakeMountainSimplified.svg" />
+                        <div class="slds-text-heading_medium slds-text-color_weak">{labels.defaultPathNoConditionsNeeded}</div>
+                        <div class="slds-text-body_regular slds-text-color_weak">{labels.defaultPathDescription}</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
-    

@@ -91,7 +91,7 @@ export function createWaitWithWaitEvents(wait = {}) {
     // TODO: W-5395924 connections need to be done properly.
 
     let { waitEvents } = wait;
-    const { waitEventReferences } = wait;
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEventReferences } = wait;
 
     if (waitEventReferences && waitEventReferences.length > 0) {
         // Decouple waitEvent from store.
@@ -109,6 +109,7 @@ export function createWaitWithWaitEvents(wait = {}) {
 
     return Object.assign(newWait, {
         waitEvents,
+        defaultConnectorLabel,
         maxConnections,
         availableConnections,
         elementType
@@ -145,7 +146,7 @@ export function createWaitMetadataObject(wait, config = {}) {
         throw new Error('Wait is not defined');
     }
     const newWait = baseCanvasElementMetadataObject(wait, config);
-    const { waitEventReferences, defaultConnectorLabel = LABELS.emptyDefaultWaitEventLabel} = wait;
+    const { waitEventReferences, defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel} = wait;
     let waitEvents;
     if (waitEventReferences && waitEventReferences.length > 0) {
         waitEvents = waitEventReferences.map(({waitEventReference}) => {
@@ -177,7 +178,7 @@ export function createWaitMetadataObject(wait, config = {}) {
  */
 export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait) {
     const newWait = baseCanvasElement(wait);
-    const { waitEvents } = wait;
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents } = wait;
     let waitEventReferences = [];
     let newWaitEvents = [];
     for (let i = 0; i < waitEvents.length; i++) {
@@ -189,7 +190,8 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
     const deletedWaitEvents = getDeletedWaitEventsUsingStore(wait, newWaitEvents);
     Object.assign(newWait, {
         waitEventReferences,
-        elementType
+        elementType,
+        defaultConnectorLabel
     });
     return {
         wait: newWait,
@@ -208,7 +210,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
 export function createWaitWithWaitEventReferences(wait = {}) {
     const newWait = baseCanvasElement(wait);
     let newWaitEvents = [], waitEventReferences = [], availableConnections = [];
-    const { defaultConnectorLabel = LABELS.emptyDefaultWaitEventLabel, waitEvents = [] } = wait;
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents = [] } = wait;
     // create connectors for wait which is default value. This can be refactor to update available connection as well.
     let connectors = createConnectorObjects(wait, newWait.guid);
     for (let i = 0; i < waitEvents.length; i++) {
