@@ -1,4 +1,10 @@
-import { UPDATE_FLOW, ADD_CANVAS_ELEMENT, DELETE_ELEMENT, ADD_DECISION_WITH_OUTCOMES } from "builder_platform_interaction/actions";
+import {
+    UPDATE_FLOW,
+    ADD_CANVAS_ELEMENT,
+    ADD_WAIT_WITH_WAIT_EVENTS,
+    DELETE_ELEMENT,
+    ADD_DECISION_WITH_OUTCOMES
+} from "builder_platform_interaction/actions";
 import { addItem } from "builder_platform_interaction/dataMutationLib";
 
 /**
@@ -13,6 +19,8 @@ export default function canvasElementsReducer(state = [], action) {
         case UPDATE_FLOW: return [...action.payload.canvasElements];
         case ADD_DECISION_WITH_OUTCOMES:
             return addItem(state, action.payload.decision.guid);
+        case ADD_WAIT_WITH_WAIT_EVENTS:
+            return addItem(state, action.payload.wait.guid);
         case ADD_CANVAS_ELEMENT:
             return addItem(state, action.payload.guid);
         case DELETE_ELEMENT: return _deleteCanvasElements(state, action.payload.selectedElementGUIDs);
