@@ -1,8 +1,6 @@
 import { createElement, unwrap } from 'lwc';
 import DecisionEditor from "builder_platform_interaction/decisionEditor";
 import { getShadowRoot } from 'lwc-test-utils';
-import { getRulesForContext } from "builder_platform_interaction/ruleLib";
-import { mockRules } from "mock/ruleService";
 import { ReorderListEvent } from "builder_platform_interaction/events";
 import { CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
 import { resolveRenderCycles} from '../resolveRenderCycles';
@@ -18,9 +16,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     const ruleLib = require.requireActual('builder_platform_interaction/ruleLib');
-    const mockRuleLib = Object.assign({}, ruleLib);
-    mockRuleLib.getRulesForContext = jest.fn();
-    return mockRuleLib;
+    return Object.assign({}, ruleLib);
 });
 
 const SELECTORS = {
@@ -161,10 +157,6 @@ const decisionWithTwoOutcomes = {
         }
     ]
 };
-
-beforeAll(() => {
-    getRulesForContext.mockReturnValue(mockRules);
-});
 
 const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-decision-editor', {

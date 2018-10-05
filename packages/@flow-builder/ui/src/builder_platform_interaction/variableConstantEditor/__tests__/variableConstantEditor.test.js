@@ -76,7 +76,6 @@ jest.mock('../variableConstantReducer', () => {
 jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         getRHSTypes: jest.fn(),
-        getRulesForContext: jest.fn().mockReturnValue([]),
         RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
         RULE_TYPES: require.requireActual('builder_platform_interaction/ruleLib').RULE_TYPES,

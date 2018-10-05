@@ -281,12 +281,12 @@ describe('get rules for element type', () => {
     beforeEach(() => {
         jest.resetModules();
     });
-    it('decision returns comparison rules', () => {
+    it('gets comparison rules', () => {
         const rulesLib = require.requireActual('builder_platform_interaction/ruleLib');
         rulesLib.setRules(mockRulesFromServiceAssignmentComparisonAndIncludedElems);
 
         const allRules = rulesLib.getRules();
-        const comparisonRules = rulesLib.getRulesForContext({elementType: decisionElement});
+        const comparisonRules = rulesLib.getRulesForElementType(RULE_TYPES.COMPARISON, decisionElement);
 
         expect(comparisonRules).toEqual(allRules[RULE_TYPES.COMPARISON].concat(allRules[decisionElement][RULE_TYPES.COMPARISON]));
     });

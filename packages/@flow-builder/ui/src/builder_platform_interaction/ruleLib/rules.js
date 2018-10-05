@@ -5,7 +5,6 @@
  * @author cnastasa
  * @since 214
  */
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { set } from "builder_platform_interaction/dataMutationLib";
 
 /**
@@ -195,41 +194,5 @@ export const getRulesForElementType = (ruleType, elementType) => {
     if (rulesInstance[elementType] && rulesInstance[elementType][ruleType]) {
         rules = rules.concat(rulesInstance[elementType][ruleType]);
     }
-    return rules;
-};
-
-/**
- * @param {contextConfig} config      Context information - has the shape
- *
- * @returns {Object} the rules needed for the given context
- */
-export const getRulesForContext = (config) => {
-    let rules;
-    switch (config.elementType) {
-        case ELEMENT_TYPE.DECISION:
-        case ELEMENT_TYPE.RECORD_LOOKUP:
-            rules = getRulesForElementType(RULE_TYPES.COMPARISON, config.elementType);
-            break;
-        case ELEMENT_TYPE.ASSIGNMENT:
-        case ELEMENT_TYPE.LOOP:
-        case ELEMENT_TYPE.ACTION_CALL:
-        case ELEMENT_TYPE.APEX_CALL:
-        case ELEMENT_TYPE.EMAIL_ALERT:
-        case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-        case ELEMENT_TYPE.SUBFLOW:
-        case ELEMENT_TYPE.LOCAL_ACTION_CALL:
-        case ELEMENT_TYPE.VARIABLE:
-        case ELEMENT_TYPE.CONSTANT:
-        case ELEMENT_TYPE.FORMULA:
-        case ELEMENT_TYPE.SCREEN:
-        case ELEMENT_TYPE.CHOICE:
-            rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, config.elementType);
-            break;
-        // TODO example for output/backwards rules
-        // case ELEMENT_TYPE.ACTION_CALL: rules = outputRules;
-        default:
-            throw new Error(`Trying to get rules for unknown elementType: ${config.elementType}`);
-    }
-
     return rules;
 };

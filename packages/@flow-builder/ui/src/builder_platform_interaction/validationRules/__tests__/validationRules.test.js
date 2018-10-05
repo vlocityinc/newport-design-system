@@ -7,7 +7,6 @@ import { format } from "builder_platform_interaction/commonUtils";
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
-        getRulesForContext: jest.fn().mockReturnValue([]),
         elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
         isMatch: require.requireActual('builder_platform_interaction/ruleLib').isMatch,
     };
