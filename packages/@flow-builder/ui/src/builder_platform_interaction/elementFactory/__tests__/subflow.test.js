@@ -1,6 +1,9 @@
 import { createSubflow } from '../subflow';
 import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
 import { deepCopy } from "builder_platform_interaction/storeLib";
+import { matchers } from './elementFactoryMatchers';
+
+expect.extend(matchers);
 
 const subflowMetadata = {
     "connector": {
@@ -134,6 +137,9 @@ describe('subflow', () => {
             it('has outputParameters matching the inputAssignments from store', () => {
                 expect(subflow.outputAssignments).toEqual(expectedSubflowInStore.outputAssignments);
             });
+            it('has no common mutable object with subflow metadata passed as parameter', () => {
+                expect(subflow).toHaveNoCommonMutableObjectWith(subflowMetadata);
+            });
         });
         describe('when subflow from store is passed', () => {
             let expectedSubflowInStore;
@@ -150,6 +156,9 @@ describe('subflow', () => {
             });
             it('has outputParameters matching the outputParameters from store', () => {
                 expect(subflow.outputAssignments).toEqual(expectedSubflowInStore.outputAssignments);
+            });
+            it('has no common mutable object with subflow from store passed as parameter', () => {
+                expect(subflow).toHaveNoCommonMutableObjectWith(subflowInStore);
             });
         });
     });

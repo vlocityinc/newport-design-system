@@ -108,7 +108,6 @@ describe('Base canvas element function', () => {
             locationY: 20,
             connectorCount: 1,
             isCanvasElement: true,
-            availableConnections: ['connector1', 'connector2'],
             config: {
                 isSelected: true
             }
@@ -125,7 +124,6 @@ describe('Base canvas element function', () => {
             locationY: 20,
             connectorCount: 1,
             isCanvasElement: true,
-            availableConnections: ['connector1', 'connector2'],
             config: {
                 isSelected: true
             }

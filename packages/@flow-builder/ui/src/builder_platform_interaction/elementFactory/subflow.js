@@ -4,7 +4,8 @@ import {
 } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    createAvailableConnection
 } from "./base/baseElement";
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -22,10 +23,11 @@ const getDefaultAvailableConnections = () => [
 
 export function createSubflow(subflow = {}) {
     const newSubflow = baseCanvasElement(subflow);
-    const { flowName = '', availableConnections = getDefaultAvailableConnections() } = subflow;
-    let { inputAssignments = [], outputAssignments = [] } = subflow;
+    const { flowName = '' } = subflow;
+    let { inputAssignments = [], outputAssignments = [], availableConnections = getDefaultAvailableConnections() } = subflow;
     inputAssignments = inputAssignments.map(inputParameter => createInputParameter(inputParameter));
     outputAssignments = outputAssignments.map(outputParameter => createOutputParameter(outputParameter));
+    availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
     const subflowObject = Object.assign(newSubflow, {
         flowName,

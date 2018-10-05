@@ -12,16 +12,27 @@ export function baseResource(resource = {}) {
     });
 }
 
+export function createAvailableConnection(availableConnection = {}) {
+    const { type } = availableConnection;
+    return { type };
+}
+
+function createCanvasElementConfig(config = { isSelected: false }) {
+    const { isSelected } = config;
+    return { isSelected };
+}
+
 export function baseCanvasElement(canvasElement = {}) {
     const newCanvasElement = baseResource(canvasElement);
-    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, availableConnections, config = { isSelected: false} } = canvasElement;
+    const { label = '', locationX = 0, locationY = 0, connectorCount = 0 } = canvasElement;
+    let { config } = canvasElement;
+    config = createCanvasElementConfig(config);
     return Object.assign(newCanvasElement, {
         label,
         locationX,
         locationY,
         isCanvasElement: true,
         connectorCount,
-        availableConnections,
         config
     });
 }
