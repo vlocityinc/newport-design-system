@@ -1,7 +1,6 @@
 import { createSubflow } from '../subflow';
 import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
 import { deepCopy } from "builder_platform_interaction/storeLib";
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const subflowMetadata = {
     "connector": {
@@ -135,9 +134,6 @@ describe('subflow', () => {
             it('has outputParameters matching the inputAssignments from store', () => {
                 expect(subflow.outputAssignments).toEqual(expectedSubflowInStore.outputAssignments);
             });
-            it('has dataType of boolean', () => {
-                expect(subflow.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
-            });
         });
         describe('when subflow from store is passed', () => {
             let expectedSubflowInStore;
@@ -154,9 +150,6 @@ describe('subflow', () => {
             });
             it('has outputParameters matching the outputParameters from store', () => {
                 expect(subflow.outputAssignments).toEqual(expectedSubflowInStore.outputAssignments);
-            });
-            it('has dataType of boolean', () => {
-                expect(subflow.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
         });
     });
