@@ -7,6 +7,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { subflowReducer } from "./subflowReducer";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 
 export default class SubflowEditor extends LightningElement {
     @track subflowNode = {};
@@ -16,14 +17,22 @@ export default class SubflowEditor extends LightningElement {
 
     @track displaySpinner = true;
 
+    @track subflowDescriptor;
+
     labels = LABELS;
     connected = false
 
-    inputOutputVariables = [];
+    // true if we are creating a new subflow element, false if editing an existing subflow element
+    @api
+    isNewMode = false;
+
+    @api
+    flowProcessType = FLOW_PROCESS_TYPE.FLOW;
 
     connectedCallback() {
         this.connected = true;
         if (this.node) {
+            this.fetchSubflowDescriptor();
             this.fetchFlowInputOutputVariables();
         }
     }
@@ -34,22 +43,33 @@ export default class SubflowEditor extends LightningElement {
 
     fetchFlowInputOutputVariables() {
         this.displaySpinner = true;
-        this.inputOutputVariables = [];
-        this.updateParameters();
+        this.inputs = [];
+        this.outputs = [];
         const flowName = getValueFromHydratedItem(this.node.flowName);
         fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES, {
             flowName
         }).then((inputOutputVariables) => {
             if (this.connected) {
-                this.inputOutputVariables = inputOutputVariables;
                 this.displaySpinner = false;
-                this.updateParameters();
+                const newParameters = mergeSubflowAssignmentsWithInputOutputVariables(this.node.inputAssignments, this.node.outputAssignments, inputOutputVariables);
+                this.inputs = newParameters.inputs;
+                this.outputs = newParameters.outputs;
             }
         }).catch(() => {
             if (this.connected) {
-                this.inputOutputVariables = [];
                 this.displaySpinner = false;
-                this.updateParameters();
+            }
+        });
+    }
+
+    fetchSubflowDescriptor() {
+        this.subflowDescriptor = undefined;
+        const flowName = getValueFromHydratedItem(this.node.flowName);
+        fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
+            flowProcessType : this.flowProcessType
+        }).then((subflows) => {
+            if (this.connected) {
+                this.subflowDescriptor = subflows.find(f => f.fullName === flowName);
             }
         });
     }
@@ -62,6 +82,7 @@ export default class SubflowEditor extends LightningElement {
     set node(newValue) {
         this.subflowNode = newValue || {};
         if (this.connected) {
+            this.fetchSubflowDescriptor();
             this.fetchFlowInputOutputVariables();
         }
     }
@@ -88,22 +109,11 @@ export default class SubflowEditor extends LightningElement {
         return (this.node && this.node.elementType) ? this.node.elementType : undefined;
     }
 
-    // true if we are creating a new subflow element, false if editing an existing subflow element
-    @api
-    isNewMode = false;
-
     get subtitle() {
-        if (this.isNewNode) {
+        if (this.subflowDescriptor == null) {
             return '';
         }
-        // TODO : use flow label instead of devName
-        return format(this.labels.subtitle, getValueFromHydratedItem(this.node.flowName));
-    }
-
-    updateParameters() {
-        const newParameters = mergeSubflowAssignmentsWithInputOutputVariables(this.node.inputAssignments, this.node.outputAssignments, this.inputOutputVariables);
-        this.inputs = newParameters.inputs;
-        this.outputs = newParameters.outputs;
+        return format(this.labels.subtitle, getValueFromHydratedItem(this.subflowDescriptor.masterLabel));
     }
 
     /**

@@ -13,5 +13,10 @@ export const mockSubflows = [
     "masterLabel": "LFB Sample - Huge Flow",
     "fullName": "mynamespace__LFB_Sample_Huge_Flow",
     "description": null
+  },
+  {
+      "masterLabel": "my subflow",
+      "fullName": "mynamespace__subflow",
+      "description": null
   }
-];;
+];

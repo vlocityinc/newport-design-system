@@ -137,7 +137,7 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
-        canHaveFaultConnector: true,
+        canHaveFaultConnector: false,
         factory: {
             propertyEditor: createSubflow,
             uiToFlow: createSubflowMetadataObject,
