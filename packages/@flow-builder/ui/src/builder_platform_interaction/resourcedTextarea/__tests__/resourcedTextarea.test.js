@@ -1,6 +1,7 @@
 import {createElement} from 'lwc';
-import ScreenTextAreaPropertyField from "../resourcedTextarea";
+import ResourcedTextarea from '../resourcedTextarea';
 import { getShadowRoot } from 'lwc-test-utils';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 
 const label = 'Help Text';
 const changeEventName = 'change';
@@ -9,12 +10,18 @@ const resourcePickerVal = 'initialValue';
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-resourced-textarea', {
-        is: ScreenTextAreaPropertyField
+        is: ResourcedTextarea
     });
     Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 };
+
+jest.mock('builder_platform_interaction/mergeFieldLib', () => {
+    return {
+        validateTextWithMergeFields: jest.fn().mockResolvedValue([]),
+    };
+});
 
 const selectors = {
     label: 'label',
@@ -51,7 +58,7 @@ function verifyItemInsertion(existingText, selectionStart, selectionEnd, expecte
     const itemSelectedEvent = new CustomEvent('itemselected', {detail: {item: {displayText: itemText}}});
     ferovResourcePicker.dispatchEvent(itemSelectedEvent);
     return Promise.resolve().then(() => {
-        expect(element.value).toBe(expectedFinalText);
+        expect(element.value).toBe(existingText);
         expect(textarea.value).toBe(expectedFinalText);
         expect(textarea.selectionStart).toBe(expectedFinalCursorPosition);
         expect(textarea.selectionEnd).toBe(expectedFinalCursorPosition);
@@ -107,5 +114,46 @@ describe('Item selection from the resource picker', () => {
             expect(ferovResourcePicker.value).toBe(resourcePickerVal);
             expect(changeEventCallback).not.toHaveBeenCalled();
         });
+    });
+});
+
+describe('Events from the textarea', () => {
+    let eventCallback;
+
+    const expectValueChangedEventWithValue = (value, error) => {
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0]).toMatchObject({ detail: { value, error } });
+    };
+
+    beforeEach(async () => {
+        eventCallback = jest.fn();
+    });
+
+    it('Should fire change event on blur', async () => {
+        const resourcedTextarea = createComponentUnderTest({value: '1+1'});
+        resourcedTextarea.addEventListener('change', eventCallback);
+
+        const textarea = getShadowRoot(resourcedTextarea).querySelector(selectors.textarea);
+        textarea.dispatchEvent(new CustomEvent('blur'));
+        await Promise.resolve();
+        expectValueChangedEventWithValue('1+1', null);
+    });
+
+    it('Should fire change event on blur with validation errors', async () => {
+        const resourcedTextarea = createComponentUnderTest({value: '{!unknownMergeField}'});
+        resourcedTextarea.addEventListener('change', eventCallback);
+
+        const validationError = {
+            errorType : 'errorType',
+            message : 'errorMessage',
+            startIndex : 0,
+            endIndex : 0
+        };
+        validateTextWithMergeFields.mockResolvedValue([validationError]);
+
+        const textarea = getShadowRoot(resourcedTextarea).querySelector(selectors.textarea);
+        textarea.dispatchEvent(new CustomEvent('blur'));
+        await Promise.resolve();
+        expectValueChangedEventWithValue('{!unknownMergeField}', validationError.message);
     });
 });

@@ -1,4 +1,5 @@
 <template>
+    <lightning-spinner if:true={spinnerActive} variant='brand' alternative-text={spinnerAlternativeText}></lightning-spinner>
     <div class='property-input slds-form-element'>
         <label for={name} class='slds-form-element__label'>
             <abbr if:true={isRequired} title={labels.required} class='slds-required'>*</abbr>
@@ -13,7 +14,7 @@
                                                                     onitemselected={handleResourcePickerSelection}>
                 </builder_platform_interaction-ferov-resource-picker>
             </div>                
-            <textarea class='slds-textarea textarea-input' name={name} onblur={handleEvent} onchange={handleEvent}>{_value}</textarea>
+            <textarea class='slds-textarea textarea-input' name={name} onblur={handleEvent} onchange={handleEvent} maxlength={maxLength}>{_value}</textarea>
         </div>
         <div if:true={error} class='slds-has-error'>
             <div role='alert' class='slds-form-element__help'>{error}</div>

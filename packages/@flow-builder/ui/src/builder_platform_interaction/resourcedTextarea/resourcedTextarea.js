@@ -1,6 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { validateTextWithMergeFields } from "builder_platform_interaction/mergeFieldLib";
 import { LIGHTNING_INPUT_VARIANTS, booleanAttributeValue } from "builder_platform_interaction/screenEditorUtils";
 import { LABELS } from "./resourcedTextareaLabels";
 
@@ -9,7 +10,7 @@ const SELECTORS = {
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker'
 };
 
-export default class ScreenTextAreaPropertyField extends LightningElement {
+export default class ResourcedTextarea extends LightningElement {
     elementConfig = {
         elementType: ELEMENT_TYPE.SCREEN,
         shouldBeWritable: true
@@ -31,7 +32,10 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
     @api required =  false;
     @api readOnly = false;
     @api helpText;
+    @api maxLength;
+    @api spinnerAlternativeText;
     @track error;
+    @track spinnerActive;
     @track _value;
 
     labels = LABELS;
@@ -93,12 +97,26 @@ export default class ScreenTextAreaPropertyField extends LightningElement {
     handleEvent(event) {
         event.stopPropagation();
 
-        // Change events are not composed, let's re-dispatch
-        const val = this.template.querySelector(SELECTORS.TEXTAREA).value;
-        if (val !== this._value) {
-            this._value = val;
-            this.fireEvent(val, null);
-        }
+        const val = event.target.value;
+        this._value = val;
+
+        // In some rare cases validateTextWithMergeFields request object fields
+        // from the server because we don't have them in memory yet. The
+        // request may take a while so we should show a spinner.
+        // TODO: [W-5501621] If we have a way to track pending requests we
+        // won't need to make the a duplicate request for object fields in
+        // validateTextWithMergeFields.
+        this.spinnerActive = true;
+
+        validateTextWithMergeFields(val, { allowGlobalConstants : false }).then(errors => {
+            this.spinnerActive = false;
+
+            // TODO: The screenEditor expects just an error message while the
+            // rest of the editors expect an array. We'll need to standardize
+            // this at some point.
+            const error = errors.length > 0 ? errors[0].message : null;
+            this.fireEvent(val, error);
+        });
     }
 
     fireEvent(value, error) {

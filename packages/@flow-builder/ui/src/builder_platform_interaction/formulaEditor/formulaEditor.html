@@ -17,10 +17,11 @@
                                                        required>
         </builder_platform_interaction-data-type-picker>
  
-        <builder_platform_interaction-formula-textarea expression={formulaResource.expression.value}
-                                                       error={formulaResource.expression.error}
-                                                       onvaluechanged={handleFormulaExpressionChanged}>
-        </builder_platform_interaction-formula-textarea>
- 
+        <builder_platform_interaction-resourced-textarea label={labels.formulaLabel}
+                                                         spinner-alternative-text={labels.formulaValidationSpinnerAlternativeText}
+                                                         value={formulaResource.expression}
+                                                         onchange={handleFormulaExpressionChanged}
+                                                         required>
+        </builder_platform_interaction-resourced-textarea>
     </div>
 </template>

@@ -42,8 +42,4 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
             this.field.dataType, // type
             LIGHTNING_INPUT_VARIANTS.STANDARD); // variant
     }
-
-    get helpTextValue() {
-        return this.field.helpText && this.field.helpText.value ? this.field.helpText : null;
-    }
 }

@@ -164,12 +164,12 @@ export default class ScreenPropertyField extends LightningElement {
     get domValue() {
         const input = this.input;
         if (this.allowsResources) {
-            return input.value && input.value.value ? input.value.value : input.value;
-        } else if (this.isString || this.isLongString || this.isRichString) {
-            return input.value;
+            return input.value && input.value.hasOwnProperty('value') ? input.value.value : input.value;
+        } else if (this.isLongString || this.isRichString) {
+            return input.value.value;
         } else if (this.isBoolean) {
             return input.checked;
-        } else if (this.isNumber) {
+        } else if (this.isString || this.isNumber) {
             return input.value;
         }
 
