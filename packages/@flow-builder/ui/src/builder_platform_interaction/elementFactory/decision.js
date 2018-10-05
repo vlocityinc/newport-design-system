@@ -39,12 +39,14 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
     const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomes } = decision;
     let outcomeReferences = [];
     let newOutcomes = [];
+
     for (let i = 0; i < outcomes.length; i++) {
         const outcome = outcomes[i];
         const newOutcome = createOutcome(outcome);
         outcomeReferences = updateOutcomeReferences(outcomeReferences, newOutcome);
         newOutcomes = [...newOutcomes, newOutcome];
     }
+
     const deletedOutcomes = getDeletedOutcomesUsingStore(decision, newOutcomes);
     Object.assign(newDecision, {
         defaultConnectorLabel,
@@ -167,7 +169,7 @@ function updateOutcomeReferences(outcomeReferences = [], outcome) {
 
 function getDeletedOutcomesUsingStore(originalDecision, newOutcomes = []) {
     if (!originalDecision) {
-        throw new Error('Either decision or newOutcome is not defined');
+        throw new Error('decision is not defined');
     }
     const { guid } = originalDecision;
     const decisionFromStore = getElementByGuid(guid);
