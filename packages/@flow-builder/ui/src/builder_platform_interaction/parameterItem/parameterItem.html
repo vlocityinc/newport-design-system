@@ -47,11 +47,13 @@
                                     show-new-resource value={parameterValue} combobox-config={parameterComboboxConfig}
                                     element-param={elementParam} property-editor-element-type={elementType}
                                     rules={rules}
+                                    disable-field-drilldown={disableFieldDrilldown}
                                     onitemselected={handleUpdateParameter} oncomboboxstatechanged={handleUpdateParameter}>                                                                         
                                 </builder_platform_interaction-ferov-resource-picker>
+                                <!-- TODO: should add error-message and  disable-field-drilldown in output-resource-picker when these are implemented-->
                                 <builder_platform_interaction-output-resource-picker if:false={state.parameterItem.isInput} class={comboboxClass}
                                     value={parameterValue} combobox-config={parameterComboboxConfig}
-                                    element-param={elementParam} property-editor-element-type= {elementType}
+                                    element-param={elementParam} property-editor-element-type={elementType}
                                     onitemselected={handleUpdateParameter} oncomboboxstatechanged={handleUpdateParameter}>                                                                         
                                 </builder_platform_interaction-output-resource-picker>
                             </div>

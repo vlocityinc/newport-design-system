@@ -112,7 +112,8 @@ function merge(name, nodeAssignment, isInput, activeVariable, latestVariable) {
     if (variable) {
         parameterItem = Object.assign(parameterItem, {
             label : name,
-            dataType : variable.dataType
+            dataType : variable.dataType,
+            objectType: variable.objectType,
         });
         if (variable.isCollection) {
             parameterItem = Object.assign(parameterItem, { maxOccurs : Number.MAX_SAFE_INTEGER });
@@ -121,7 +122,7 @@ function merge(name, nodeAssignment, isInput, activeVariable, latestVariable) {
         // we don't know the type, assume it is 'String' (dataType is mandatory)
         parameterItem = Object.assign(parameterItem, {
             label : name,
-            dataType : FLOW_DATA_TYPE.STRING.value
+            dataType : FLOW_DATA_TYPE.STRING.value,
         });
     }
     return parameterItem;

@@ -8,6 +8,7 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
  * @property {boolean} isInput true if parameter is input
  * @property {boolean} isOutput true if parameter is output
  * @property {boolean} isRequired true if parameter is required
+ * @property {String} objectType the api name of sobject
  * @property {Number} maxOccurs the maximum occurances
  * @property {String} dataType the parameter's data type (this isn't a flow data type, but a SOAP type). See https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/field_types.htm and https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/primitive_data_types.htm
  * @property {String} description the parameter's description
@@ -35,8 +36,8 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
     const finalArray = [];
     // TODO: handle warning scenarios, for example, if deleting the parameter in apex plugin, but this parameter is already set in apex node.
     inputOrOutputParameters.forEach(paramInfo => {
-        const {name, isInput, isRequired, maxOccurs, dataType, label} = paramInfo;
-        const parameterItem = {name, isInput, isRequired, maxOccurs, label, dataType: getFlowDataType(dataType)};
+        const {name, isInput, isRequired, maxOccurs, dataType, label, sobjectType} = paramInfo;
+        const parameterItem = {name, isInput, isRequired, maxOccurs, label, dataType: getFlowDataType(dataType), objectType: sobjectType};
         // find paramInfo that has the same name as nodeParam
         const nodeParamsFound = nodeParameters.filter(nodeParam => getValueFromHydratedItem(nodeParam.name) === paramInfo.name);
         // node output parameters can be duplicated, so nodeParamsFound can be > 1

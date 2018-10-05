@@ -1,5 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
-import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
+import { getDataTypeIcons, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { getResourceFerovDataType } from "builder_platform_interaction/expressionUtils";
 import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
@@ -60,6 +60,7 @@ export default class ParameterItem extends LightningElement {
      * @property {String|Object} [label]   parameter label (may be hydrated)
      * @property {String|Object} dataType     the flow data type, see FLOW_DATA_TYPE (may be hydrated)
      * @property {Number} [maxOccurs]   the maximum occurrences
+     * @property {String} [objectType] the api name of sobject if dataType is FLOW_DATA_TYPE.SOBJECT (may be hydrated)
      * @property {String|Object} [value]    parameter's value (must be hydrated)
      * @property {String|Object} [valueDataType]   parameter's value data type (may be hydrated)
      * @property {String} [iconName] parameter's icon name, if we wish to use a custom icon rather than lookup icon by data type
@@ -71,6 +72,7 @@ export default class ParameterItem extends LightningElement {
      * label: 'Subject or Target Id',
      * dataType: 'String',
      * maxOccurs: 1,
+     * objectType: null,
      * value: {value: 'textVar', error: null},
      * valueDataType: {value: 'reference', error: null},
      * }
@@ -82,6 +84,7 @@ export default class ParameterItem extends LightningElement {
      * label: 'Feed Id',
      * dataType: 'String',
      * maxOccurs: 1,
+     * objectType: null,
      * value: {value: 'textVar', error: null},
      * valueDataType: {value: 'reference', error: null},
      * iconName: 'utility:events'
@@ -174,11 +177,16 @@ export default class ParameterItem extends LightningElement {
             [PARAM_PROPERTY.DATA_TYPE]: this.getDataType(),
             [PARAM_PROPERTY.IS_COLLECTION]: this.isCollection,
             [PARAM_PROPERTY.ELEMENT_TYPE]: this.elementType,
+            objectType: getValueFromHydratedItem(this.state.parameterItem.objectType),
         };
     }
 
     get errorMessage() {
         return getErrorFromHydratedItem(this.state.parameterItem.value);
+    }
+
+    get disableFieldDrilldown() {
+        return this.getDataType() === FLOW_DATA_TYPE.SOBJECT.value;
     }
 
     getDataType() {

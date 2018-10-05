@@ -18,12 +18,13 @@ function createComponentForTest({ item = createMockParameterItem(true, true, 'st
     return el;
 }
 
-function createMockParameterItem(isInput, isRequired, dataType, value, valueDataType) {
+function createMockParameterItem(isInput, isRequired, dataType, value, valueDataType, objectType) {
     const item = {
         isInput,
         isOutput: !isInput,
         isRequired,
         dataType,
+        objectType,
         label: parameterLabel,
         name: parameterName,
         description: 'Parameter Description',
@@ -420,5 +421,15 @@ describe('parameter-item', () => {
             expect(getFerovResourcePickerElement(parameterItemCmp)).not.toBeNull();
             expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).toBeNull();
         });
+    });
+    describe('when data type is SObject', () => {
+        it('disable field drilldown', () => {
+            const item = createMockParameterItem(true, false, FLOW_DATA_TYPE.SOBJECT.value, undefined, undefined, 'Account');
+            const parameterItemCmp = createComponentForTest({
+                item
+            });
+            expect(getFerovResourcePickerElement(parameterItemCmp).disableFieldDrilldown).toBeTruthy();
+        });
+        // TODO: for outputResourcePicker, the disableFieldDrilldown is not added - still in progress
     });
 });

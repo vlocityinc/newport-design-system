@@ -84,6 +84,7 @@ const mergedInputs = [
         isRequired: false,
         label: 'Community Id',
         maxOccurs: 1,
+        objectType: null,
         name: 'communityId',
         rowIndex: mockGuid,
     },
@@ -93,6 +94,7 @@ const mergedInputs = [
         isRequired: true,
         label: 'Target Name or ID',
         maxOccurs: 1,
+        objectType: null,
         name: 'subjectNameOrId',
         rowIndex: '58d8bd82-1977-4cf3-a5a7-f629347fa0e8',
         value: {
@@ -109,6 +111,7 @@ const mergedInputs = [
         label: 'Message',
         maxOccurs: 1,
         name: 'text',
+        objectType: null,
         rowIndex: '84b6d19d-718f-452d-9803-fe97a263f76c',
         value: {
           value: 'This is a message',
@@ -116,6 +119,26 @@ const mergedInputs = [
         },
         valueDataType: 'String',
         valueGuid: 'This is a message',
+    },
+    {
+        dataType: 'SObject',
+        isInput: true,
+        isRequired: false,
+        label: 'Account',
+        maxOccurs: 1,
+        name: 'account',
+        objectType: 'Account',
+        rowIndex: mockGuid,
+    },
+    {
+        dataType: 'SObject',
+        isInput: true,
+        isRequired: false,
+        label: 'Account List',
+        maxOccurs: 2000,
+        name: 'accountList',
+        objectType: 'Account',
+        rowIndex: mockGuid,
     },
 ];
 
@@ -126,6 +149,7 @@ const mergedOutputs = [
         isRequired: false,
         label: 'Feed Item ID',
         maxOccurs: 1,
+        objectType: null,
         name: 'feedItemId',
         rowIndex: 'a27f10fb-5858-474c-8f87-0fc38a5c7ebf',
         value: {
@@ -144,6 +168,7 @@ const duplicatedMergedOutputs = [
         isRequired: false,
         label: 'Feed Item ID',
         maxOccurs: 1,
+        objectType: null,
         name: 'feedItemId',
         rowIndex: 'a27f10fb-5858-474c-8f87-0fc38a5c7ebf',
         value: {
@@ -159,6 +184,7 @@ const duplicatedMergedOutputs = [
         isRequired: false,
         label: 'Feed Item ID',
         maxOccurs: 1,
+        objectType: null,
         name: 'feedItemId',
         rowIndex: 'abd34jhb-5858-474c-8f87-0fc38a5c7ebf',
         value: {
