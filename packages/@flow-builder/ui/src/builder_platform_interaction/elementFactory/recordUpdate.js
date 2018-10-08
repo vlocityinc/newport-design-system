@@ -6,16 +6,13 @@ import {
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
-import { createFEROV, createFEROVMetadataObject } from './ferov';
-import { createExpressionListRowItemWithoutOperator, rhsPropertyName, rhsDataTypePropertyName } from "./base/baseList";
 import { NUMBER_RECORDS_TO_STORE,
     RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
-import { createFilter, createFilterMetadataObject } from './base/recordFilter';
+import { createFilter, createFilterMetadataObject, createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment  } from './base/baseRecordElement';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
 const maxConnections = 2;
-const lhsMetadataPropertyName = 'value';
 const getDefaultAvailableConnections = () => [
     {
         type: CONNECTOR_TYPE.REGULAR
@@ -24,22 +21,6 @@ const getDefaultAvailableConnections = () => [
         type: CONNECTOR_TYPE.FAULT
     }
 ];
-
-function createRecordInputAssignmentsItem(inputAssignmentsItem, objectType) {
-        let newAssignment = {};
-
-        if (inputAssignmentsItem.hasOwnProperty('field')) {
-            const leftHandSide = objectType + '.' + inputAssignmentsItem.field;
-            if (inputAssignmentsItem.hasOwnProperty(lhsMetadataPropertyName)) {
-                newAssignment = createFEROV(inputAssignmentsItem.value, rhsPropertyName, rhsDataTypePropertyName);
-            }
-            Object.assign(newAssignment, {leftHandSide});
-            newAssignment = createExpressionListRowItemWithoutOperator(newAssignment);
-        } else {
-            newAssignment = createExpressionListRowItemWithoutOperator(inputAssignmentsItem);
-        }
-        return newAssignment;
-}
 
 /*
  * return the selected way to store the variables.
@@ -54,7 +35,7 @@ export function createRecordUpdate(recordUpdate = {}) {
     const { inputReference = '', availableConnections = getDefaultAvailableConnections(), object = '' } = recordUpdate;
     let { filters, inputAssignments = []} = recordUpdate;
 
-    inputAssignments = inputAssignments.map(item => createRecordInputAssignmentsItem(item, object));
+    inputAssignments = inputAssignments.map(item => createFlowInputFieldAssignment(item, object));
 
     const numberRecordsToStore = getNumberRecordsToStore(inputReference, object);
 
@@ -103,25 +84,6 @@ export function createRecordUpdateWithConnectors(recordUpdate = {}) {
     return baseCanvasElementsArrayToMap([recordUpdateObject], connectors);
 }
 
-function createRecordInputParameterMetadataObject(inputParameter) {
-    if (!inputParameter) {
-        throw new Error('record filter is not defined');
-    }
-
-    const field = inputParameter.leftHandSide.substring(
-        inputParameter.leftHandSide.indexOf('.') + 1
-    );
-    const value = createFEROVMetadataObject(
-        inputParameter,
-        rhsPropertyName,
-        rhsDataTypePropertyName
-    );
-    if (value) {
-        return { field, value };
-    }
-    return {field};
-}
-
 export function createRecordUpdateMetadataObject(recordUpdate, config) {
     if (!recordUpdate) {
         throw new Error('recordUpdate is not defined');
@@ -138,7 +100,7 @@ export function createRecordUpdateMetadataObject(recordUpdate, config) {
             filters = filters.map(filter => createFilterMetadataObject(filter));
         }
 
-        inputAssignments = inputAssignments.map(input => createRecordInputParameterMetadataObject(input));
+        inputAssignments = inputAssignments.map(input => createFlowInputFieldAssignmentMetadataObject(input));
 
         return Object.assign(recordUpdateMetadata, {
             filters,

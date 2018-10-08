@@ -2,7 +2,7 @@ import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from "./
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { baseElementsArrayToMap } from "./base/baseElement";
 import { createOutputAssignment, createOutputAssignmentMetadataObject } from "./base/outputAssignments";
-import { createFilterMetadataObject, createFilter } from "./base/recordFilter";
+import { createFilterMetadataObject, createFilter } from "./base/baseRecordElement";
 
 /**
  * Record choice set factory function
