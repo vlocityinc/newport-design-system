@@ -226,7 +226,8 @@ export default class Editor extends LightningElement {
             storeInstance.dispatch(updateProperties({
                 versionNumber: data.versionNumber,
                 status: data.status,
-                lastModifiedDate: data.lastModifiedDate
+                lastModifiedDate: data.lastModifiedDate,
+                isLightningFlowBuilder: true
             }));
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
             this.errors = [];

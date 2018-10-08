@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE, PROCESS_METADATA_VALUES } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { swapUidsForDevNames } from "./uidSwapping";
 import { getFlowBounds } from "builder_platform_interaction/connectorUtils";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
@@ -92,9 +92,6 @@ export function translateUIModelToFlow(uiModel) {
         const startElementReference = elements[startElementId].name;
         Object.assign(metadata, { startElementReference });
     }
-
-    const processMetadataValues = PROCESS_METADATA_VALUES;
-    Object.assign(metadata, { processMetadataValues });
 
     return {
         metadata,

@@ -33,12 +33,6 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
         METADATA_KEY: {
             DUMMY_METADATA: 'dummyMetadata'
         },
-        PROCESS_METADATA_VALUES: [{
-            name: 'BuilderType',
-            value: {
-                stringValue: 'LightningFlowBuilder'
-            }
-        }],
         TEMPLATE_FIELDS: new Set(),
         REFERENCE_FIELDS: new Set(),
         SPECIAL_REFERENCE_FIELDS: new Set()

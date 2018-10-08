@@ -107,20 +107,6 @@ export const WAIT_EVENT_TYPE = {
     DIRECT_RECORD_TIME: 'DateRefAlarmEvent'
 };
 
-
-/**
- * The top level process metadata values to save with each flow. This includes the BuilderType
- * which helps us identify flow versions created by the Lightning Flow Builder.
- */
-export const PROCESS_METADATA_VALUES = [
-    {
-        name: 'BuilderType',
-        value: {
-            stringValue: 'LightningFlowBuilder'
-        }
-    }
-];
-
 /**
  * List of Flow metadata fields that can be references to other Flow elements
  * i.e. fields whose values need to be converted from dev names to GUIDs when loading the flow into the UI client and vice versa.

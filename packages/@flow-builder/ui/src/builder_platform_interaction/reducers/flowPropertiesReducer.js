@@ -1,6 +1,6 @@
 import { UPDATE_FLOW, UPDATE_PROPERTIES } from "builder_platform_interaction/actions";
 import { updateProperties } from "builder_platform_interaction/dataMutationLib";
-
+import { createFlowProperties } from "builder_platform_interaction/elementFactory";
 /**
  * Reducer for properties
  * @param {Object} state properties object in the store
@@ -9,7 +9,7 @@ import { updateProperties } from "builder_platform_interaction/dataMutationLib";
  */
 
 // TODO: Replace this with user selected process type in 218. Hard coded to AutoLaunchedFlow for 216
-const flowProperties = {processType: 'AutoLaunchedFlow', elementType: 'FLOW_PROPERTIES', name: '', label: ''};
+const flowProperties = createFlowProperties();
 
 export default function flowPropertiesReducer(state = flowProperties, action) {
     switch (action.type) {
