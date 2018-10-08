@@ -10,17 +10,16 @@
                 dropdown-alignment="auto"
                 class="slds-size_x-small types">
             </lightning-combobox>
-            <lightning-combobox if:true={state.showFieldSelector}
-                label={labels.sortByFieldLabel}
-                options={state.fieldsOptions}
-                value={selectedField}
-                onchange={handleSelectedFieldChanged}
-                placeholder={labels.selectFieldToSortResultLabel}
-                dropdown-alignment="auto"
+            <builder_platform_interaction-field-picker if:true={showFieldSelector}
                 class="sortField slds-m-left_small slds-size_small types"
-                required>
-            </lightning-combobox>
-            <div if:false={state.showFieldSelector} id="helpText" class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak">
+                label={labels.sortByFieldLabel}
+                placeholder={labels.selectFieldToSortResultLabel}
+                error-message={sortFieldError}
+                value={selectedField}
+                fields={fields}
+                oncomboboxstatechanged={handleSelectedFieldChanged}>
+            </builder_platform_interaction-field-picker>
+            <div if:false={showFieldSelector} id="helpText" class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak">
                 <lightning-icon icon-name="utility:warning" title={labels.warning} alternative-text={labels.warning} variant="warning" size="x-small" 
                 class="slds-m-right_x-small">
                 </lightning-icon>

@@ -69,6 +69,7 @@ export default class FieldPicker extends LightningElement {
         return BaseResourcePicker.getComboboxConfig(
             this.label,
             this.placeholder,
+            undefined, // passing error message through template
             false,
             this.required,
         );

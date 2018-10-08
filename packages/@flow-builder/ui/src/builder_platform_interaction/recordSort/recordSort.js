@@ -23,13 +23,7 @@ export default class RecordSort extends LightningElement {
     _resourceApiName;
 
     @track
-    state = {
-        showFieldSelector : false,
-        selectedSortOrder : '',
-        selectedField : '',
-        fieldsOptions : [],
-        sortFieldErrorMessage: ''
-    };
+    fields;
 
     @api
     resourceDisplayText = '';
@@ -41,7 +35,7 @@ export default class RecordSort extends LightningElement {
      */
     set resourceApiName(value) {
         this._resourceApiName = value;
-        if (value && value !== '') {
+        if (value) {
             this.getFields(value);
         }
     }
@@ -55,75 +49,51 @@ export default class RecordSort extends LightningElement {
      * the value of the order sort dropdown.
      * @param {string} value    This value can be : "NotSorted", "Asc", "Desc"
      */
-    set sortOrder(value) {
-        this.state.selectedSortOrder = value;
-        this.state.showFieldSelector = value !== NOT_SORTED_VALUE;
-    }
-
     @api
-    get sortOrder() {
-        return this.state.selectedSortOrder;
-    }
+    sortOrder;
 
     /**
      * the apiName of the selected field
      * @param {string} value    ex: Id
      */
-    set selectedField(value) {
-        this.state.selectedField = value;
-    }
-
     @api
-    get selectedField() {
-        return this.state.selectedField;
-    }
+    selectedField;
 
-    @api
     get sortOrderOptions() {
         return SORT_ORDER_OPTIONS;
     }
 
     @api
-    get sortFieldError() {
-        return this.state.sortFieldErrorMessage;
-    }
+    sortFieldError;
 
-    set sortFieldError(errorMessage) {
-        this.state.sortFieldErrorMessage = errorMessage;
-        const lightningCombobox = this.template.querySelector('.sortField');
-        if (lightningCombobox) {
-            lightningCombobox.setCustomValidity(this.state.sortFieldErrorMessage);
-            lightningCombobox.showHelpMessageIfInvalid();
-        }
-    }
-
-    @api
     get headerText() {
         return format(this.labels.sortTabHeader, this.resourceDisplayText);
     }
 
+    get showFieldSelector() {
+        return this.sortOrder !== NOT_SORTED_VALUE;
+    }
+
     getFields(resourceApiName) {
         getFieldsForEntity(resourceApiName, (fields) => {
-            if (fields) {
-                this.state.fieldsOptions = Object.values(fields).filter(field => field.sortable).map((field) => {
-                    return { label: field.apiName, value: field.apiName };
-                });
-            } else {
-                this.state.fieldsOptions = [];
-            }
+            this.fields = Object.values(fields)
+            .filter((field) => {
+                return field.sortable;
+            })
+            .reduce((options, field) => {
+                options[field.apiName] = field;
+                return options;
+            }, {});
         });
     }
 
     handleSortOrderChanged(event) {
         event.stopPropagation();
-        this.state.selectedSortOrder = event.detail.value;
-        this.state.showFieldSelector = event.detail.value !== NOT_SORTED_VALUE;
-        this.dispatchEvent(new CustomEvent('change', {detail: {sortOrder: this.state.selectedSortOrder, fieldApiName : this.state.selectedField}}));
+        this.dispatchEvent(new CustomEvent('change', {detail: {sortOrder: event.detail.value, fieldApiName : this.selectedField}}));
     }
 
     handleSelectedFieldChanged(event) {
         event.stopPropagation();
-        this.state.selectedField = event.detail.value;
-        this.dispatchEvent(new CustomEvent('change', {detail: {sortOrder: this.state.selectedSortOrder, fieldApiName : this.state.selectedField}}));
+        this.dispatchEvent(new CustomEvent('change', {detail: {sortOrder: this.sortOrder, fieldApiName : event.detail.displayText, error: event.detail.error}}));
     }
 }
