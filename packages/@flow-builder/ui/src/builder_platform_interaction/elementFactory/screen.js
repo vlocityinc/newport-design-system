@@ -92,6 +92,11 @@ export function createScreenMetadataObject(screen, config) {
 
     const newScreen = baseCanvasElementMetadataObject(screen, config);
 
+    // Flow MD does not allow for pausedText if allowPause is false
+    if (!newScreen.allowPause) {
+        newScreen.pausedText = '';
+    }
+
     const {
         allowBack,
         allowFinish,
