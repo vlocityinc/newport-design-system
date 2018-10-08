@@ -56,8 +56,12 @@ export function invokeUsedByAlertModal(usedByElements, elementGuidsToBeDeleted, 
             const elementToBeDeleted = storeElements[elementGuidsToBeDeleted[0]];
             elementType = elementToBeDeleted && elementToBeDeleted.elementType;
         }
-        headerTitle = format(LABELS.deleteAlertSingleDeleteHeaderTitle, elementType.toLowerCase());
-        bodyTextOne = format(LABELS.deleteAlertSingleDeleteBodyTextOne, elementType.toLowerCase());
+        const elementConfig = getConfigForElementType(elementType);
+        if (elementConfig && elementConfig.labels && elementConfig.labels.singular) {
+            const label = elementConfig.labels.singular.toLowerCase();
+            headerTitle = format(LABELS.deleteAlertSingleDeleteHeaderTitle, label);
+            bodyTextOne = format(LABELS.deleteAlertSingleDeleteBodyTextOne, label);
+        }
     }
 
     // Invoking the alert modal
