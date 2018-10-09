@@ -5,10 +5,11 @@
         input-tab-header={labels.inputTabHeader} 
         output-tab-header={labels.outputTabHeader} 
         subtitle={subtitle} 
-        inputs={inputs} 
-        outputs={outputs} 
+        inputs={subflowNode.inputAssignments} 
+        outputs={subflowNode.outputAssignments} 
         display-spinner={displaySpinner}
         onpropertychanged={handlePropertyChanged}
+        onupdateparameteritem={handleUpdateParameterItem}
         >
     </builder_platform_interaction-base-callout-editor>
 </template>

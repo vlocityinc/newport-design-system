@@ -55,6 +55,7 @@ export default class ParameterItem extends LightningElement {
     /**
      * @typedef {Object} ParameterItem
      * @property {String} name  parameter's name (may be hydrated)
+     * @property {String} rowIndex  the unique identifier
      * @property {boolean} isInput  true if the parameter is input parameter
      * @property {boolean} isRequired   true if the parameter is required input parameter
      * @property {String|Object} [label]   parameter label (may be hydrated)
@@ -278,7 +279,7 @@ export default class ParameterItem extends LightningElement {
      * @param {String} error error message
      */
     dispatchParameterEvent(newValue, error) {
-        const itemUpdatedEvent = new UpdateParameterItemEvent(this.state.parameterItem.isInput, getValueFromHydratedItem(this.state.parameterItem.name), newValue.value, newValue.valueDataType, error);
+        const itemUpdatedEvent = new UpdateParameterItemEvent(this.state.parameterItem.isInput, this.state.parameterItem.rowIndex, getValueFromHydratedItem(this.state.parameterItem.name), newValue.value, newValue.valueDataType, error);
         itemUpdatedEvent.detail.valueDataType = newValue.valueDataType;
         this.dispatchEvent(itemUpdatedEvent);
     }
@@ -289,7 +290,7 @@ export default class ParameterItem extends LightningElement {
      */
     handleDelete(event) {
         event.stopPropagation();
-        const itemDeleteEvent = new DeleteParameterItemEvent(this.state.parameterItem.isInput, getValueFromHydratedItem(this.state.parameterItem.name));
+        const itemDeleteEvent = new DeleteParameterItemEvent(this.state.parameterItem.isInput, this.state.parameterItem.rowIndex, getValueFromHydratedItem(this.state.parameterItem.name));
         this.dispatchEvent(itemDeleteEvent);
     }
 }

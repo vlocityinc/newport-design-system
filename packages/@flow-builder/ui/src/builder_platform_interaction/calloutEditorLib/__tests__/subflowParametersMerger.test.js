@@ -75,7 +75,7 @@ describe('Subflow parameters merger', () => {
             expect(outputs).toHaveLength(2);
             const parameterItem = getParameterItem(inputs, 'inputNumberVariable');
             expect(parameterItem).toEqual(
-                    { "dataType": "Number", "isInput": true, "isRequired": false, "label": "inputNumberVariable", "name": "inputNumberVariable", "value": {"error": null, "value": "numberVariable"}, "valueDataType": "reference" });
+                    { "dataType": "Number", "isInput": true, "isRequired": false, "label": "inputNumberVariable", "name": "inputNumberVariable", "value": {"error": null, "value": "numberVariable"}, "valueDataType": "reference", "rowIndex" : expect.any(String) });
         });
     });
     describe('When there is a latest version and an active version for variables', () => {
@@ -147,7 +147,7 @@ describe('Subflow parameters merger', () => {
         const { inputs }  = mergeSubflowAssignmentsWithInputOutputVariables(nodeInputAssignments, nodeOutputAssignments, inputOutputVariablesVersions);
         const parameterItem = getParameterItem(inputs, 'inputVariable');
         expect(parameterItem).toEqual(
-          { "dataType": "String", "isInput": true, "isRequired": false, "label": "inputVariable", "name": "inputVariable", "value": {"error": null, "value": "numberVariable"}, "valueDataType": "reference" });
+          { "dataType": "String", "isInput": true, "isRequired": false, "label": "inputVariable", "name": "inputVariable", "value": {"error": null, "value": "numberVariable"}, "valueDataType": "reference", "rowIndex" : expect.any(String) });
       });
     });
     describe('When there is no assignment for a given variable', () => {
@@ -164,7 +164,7 @@ describe('Subflow parameters merger', () => {
         const { inputs }  = mergeSubflowAssignmentsWithInputOutputVariables(nodeInputAssignments, nodeOutputAssignments, inputOutputVariablesVersions);
         const parameterItem = getParameterItem(inputs, 'inputVariable');
         expect(parameterItem).toEqual(
-          { "dataType": "Number", "isInput": true, "isRequired": false, "label": "inputVariable", "name": "inputVariable"});
+          { "dataType": "Number", "isInput": true, "isRequired": false, "label": "inputVariable", "name": "inputVariable", "rowIndex" : expect.any(String)});
       });
     });
     describe('When a variable is assigned several times', () => {

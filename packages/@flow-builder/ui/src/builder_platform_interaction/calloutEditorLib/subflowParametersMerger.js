@@ -1,5 +1,7 @@
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+
 /**
  * @typedef {FlowInputOutputVariablesVersion} input/output variables for active and/or latest version,
  * as returned by the GET_FLOW_INPUT_OUTPUT_VARIABLES service
@@ -104,17 +106,21 @@ function merge(name, nodeAssignment, isInput, activeVariable, latestVariable) {
     const variable = activeVariable || latestVariable;
     let parameterItem = {name, isInput, isRequired : false};
     if (nodeAssignment) {
-        // only value needs to be hydrated. Copy it to avoid side effects
+        // only value can be hydrated. Copy it to avoid side effects
         const value = { value : getValueFromHydratedItem(nodeAssignment.value), error : getErrorFromHydratedItem(nodeAssignment.value) };
-        const { valueDataType } = nodeAssignment;
-        parameterItem = Object.assign(parameterItem, { value, valueDataType});
+        const { valueDataType, rowIndex } = nodeAssignment;
+        parameterItem = Object.assign(parameterItem, { value, valueDataType, rowIndex });
+    } else {
+        parameterItem = Object.assign(parameterItem, { rowIndex : generateGuid() });
     }
     if (variable) {
         parameterItem = Object.assign(parameterItem, {
             label : name,
-            dataType : variable.dataType,
-            objectType: variable.objectType,
+            dataType : variable.dataType
         });
+        if (variable.objectType) {
+            parameterItem = Object.assign(parameterItem, {  objectType: variable.objectType });
+        }
         if (variable.isCollection) {
             parameterItem = Object.assign(parameterItem, { maxOccurs : Number.MAX_SAFE_INTEGER });
         }

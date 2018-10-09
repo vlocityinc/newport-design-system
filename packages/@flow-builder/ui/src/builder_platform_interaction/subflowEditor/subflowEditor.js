@@ -1,19 +1,14 @@
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from "./subflowEditorLabels";
 import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
-import { mergeSubflowAssignmentsWithInputOutputVariables } from 'builder_platform_interaction/calloutEditorLib';
 import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { format } from 'builder_platform_interaction/commonUtils';
-import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
-import { subflowReducer } from "./subflowReducer";
+import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from "./subflowReducer";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 
 export default class SubflowEditor extends LightningElement {
     @track subflowNode = {};
-
-    @track inputs = [];
-    @track outputs = [];
 
     @track displaySpinner = true;
 
@@ -31,7 +26,7 @@ export default class SubflowEditor extends LightningElement {
 
     connectedCallback() {
         this.connected = true;
-        if (this.node) {
+        if (this.subflowNode) {
             this.fetchSubflowDescriptor();
             this.fetchFlowInputOutputVariables();
         }
@@ -43,17 +38,14 @@ export default class SubflowEditor extends LightningElement {
 
     fetchFlowInputOutputVariables() {
         this.displaySpinner = true;
-        this.inputs = [];
-        this.outputs = [];
-        const flowName = getValueFromHydratedItem(this.node.flowName);
+        const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES, {
             flowName
         }).then((inputOutputVariables) => {
             if (this.connected) {
                 this.displaySpinner = false;
-                const newParameters = mergeSubflowAssignmentsWithInputOutputVariables(this.node.inputAssignments, this.node.outputAssignments, inputOutputVariables);
-                this.inputs = newParameters.inputs;
-                this.outputs = newParameters.outputs;
+                const event = new CustomEvent(MERGE_WITH_VARIABLES, { detail : inputOutputVariables });
+                this.subflowNode = subflowReducer(this.subflowNode, event);
             }
         }).catch(() => {
             if (this.connected) {
@@ -64,7 +56,7 @@ export default class SubflowEditor extends LightningElement {
 
     fetchSubflowDescriptor() {
         this.subflowDescriptor = undefined;
-        const flowName = getValueFromHydratedItem(this.node.flowName);
+        const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
             flowProcessType : this.flowProcessType
         }).then((subflows) => {
@@ -92,7 +84,8 @@ export default class SubflowEditor extends LightningElement {
      * @returns {object} node - node
      */
     @api getNode() {
-        return this.node;
+        const event = new CustomEvent(REMOVE_UNSET_ASSIGNMENTS);
+        return subflowReducer(this.subflowNode, event);
     }
 
     /**
@@ -100,13 +93,13 @@ export default class SubflowEditor extends LightningElement {
      * @returns {Object[]} list of errors
      */
     @api validate() {
-        const action = createAction(VALIDATE_ALL);
-        this.subflowNode = subflowReducer(this.subflowNode, action);
+        const event = new CustomEvent(VALIDATE_ALL);
+        this.subflowNode = subflowReducer(this.subflowNode, event);
         return getErrorsFromHydratedElement(this.subflowNode);
     }
 
     get elementType() {
-        return (this.node && this.node.elementType) ? this.node.elementType : undefined;
+        return (this.subflowNode && this.subflowNode.elementType) ? this.subflowNode.elementType : undefined;
     }
 
     get subtitle() {
@@ -121,8 +114,15 @@ export default class SubflowEditor extends LightningElement {
      */
     handlePropertyChanged(event) {
         event.stopPropagation();
-        const { propertyName, value, error } = event.detail;
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
-        this.subflowNode = subflowReducer(this.subflowNode, action);
+        this.subflowNode = subflowReducer(this.subflowNode, event);
+    }
+
+
+    /**
+     * @param {object} event - property changed event coming from parameter-item component
+     */
+    handleUpdateParameterItem(event) {
+        event.stopPropagation();
+        this.subflowNode = subflowReducer(this.subflowNode, event);
     }
 }

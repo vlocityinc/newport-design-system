@@ -6,6 +6,7 @@ import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/da
 import { UpdateParameterItemEvent, DeleteParameterItemEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { stringVariableDevName, stringVariableGuid } from 'mock/storeData';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const parameterLabel = 'Parameter Label';
 const parameterName = 'parameterName';
@@ -28,6 +29,7 @@ function createMockParameterItem(isInput, isRequired, dataType, value, valueData
         label: parameterLabel,
         name: parameterName,
         description: 'Parameter Description',
+        rowIndex : generateGuid()
     };
     if (!isUndefinedOrNull(value)) {
         item.value = {value, error: null};
@@ -324,12 +326,12 @@ describe('parameter-item', () => {
             toggleInput.dispatchEvent(new ToggleOffChangeEvent());
             return Promise.resolve().then(() => {
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: null, valueDataType: null, error: null}});
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: null, valueDataType: null, error: null, rowIndex : expect.any(String) }});
             }).then(() => {
                 // from OFF to ON
                 toggleInput.dispatchEvent(new ToggleOnChangeEvent());
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: parameterStringValue, valueDataType: FEROV_DATA_TYPE.STRING, error: null}});
+                expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: parameterStringValue, valueDataType: FEROV_DATA_TYPE.STRING, error: null, rowIndex : expect.any(String)}});
             });
         });
     });
@@ -346,7 +348,7 @@ describe('parameter-item', () => {
             ferovResourcePicker.dispatchEvent(cbChangeEvent);
             return Promise.resolve().then(() => {
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: newParamValue, valueDataType: FEROV_DATA_TYPE.STRING}});
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: newParamValue, valueDataType: FEROV_DATA_TYPE.STRING, rowIndex : expect.any(String)}});
             });
         });
     });
@@ -396,7 +398,7 @@ describe('parameter-item', () => {
             deleteBtn.dispatchEvent(new DeleteButtonClickEvent());
             return Promise.resolve().then(() => {
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName}});
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, rowIndex : expect.any(String)}});
             });
         });
     });
