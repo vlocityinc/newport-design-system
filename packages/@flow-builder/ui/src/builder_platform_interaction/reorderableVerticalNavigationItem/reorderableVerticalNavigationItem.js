@@ -2,6 +2,9 @@ import { LightningElement, api } from 'lwc';
 const LINK_ARIA_SELECTED_ACTIVE = 'true';
 const LINK_ARIA_SELECTED_INACTIVE = 'false';
 
+const CLASS_ACTIVE = 'slds-vertical-tabs__nav-item slds-is-active';
+const CLASS_INACTIVE = 'slds-vertical-tabs__nav-item';
+
 /**
  * Component that provides the items to be included in
  * a vertical navigation component like ReorderableVerticalNavigation
@@ -14,8 +17,13 @@ export default class ReorderableVerticalNavigationItem extends LightningElement 
     @api hasEndIcon = false;
     @api isDraggable = false;
 
+
     get ariaSelected() {
         return this.isActive() ? LINK_ARIA_SELECTED_ACTIVE : LINK_ARIA_SELECTED_INACTIVE;
+    }
+
+    get itemClass() {
+        return this.isActive() ? CLASS_ACTIVE : CLASS_INACTIVE;
     }
 
     handleClick(event) {

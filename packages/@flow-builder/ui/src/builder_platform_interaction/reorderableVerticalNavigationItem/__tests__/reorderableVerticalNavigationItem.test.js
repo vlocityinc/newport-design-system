@@ -6,7 +6,8 @@ const SELECTORS = {
     DRAGGABLE: 'builder_platform_interaction-draggable',
     FRONT_ICON: 'div[slot="front-icon"]',
     END_ICON: 'div[slot="end-icon"]',
-    LINK: 'a'
+    LINK: 'a',
+    MAIN_DIV: 'div'
 };
 
 const createComponentUnderTest = () => {
@@ -70,6 +71,29 @@ describe('ReorderableVerticalNavigationItem', () => {
             return Promise.resolve().then(() => {
                 const draggables = getShadowRoot(element).querySelectorAll(SELECTORS.DRAGGABLE);
                 expect(draggables).toHaveLength(0);
+            });
+        });
+    });
+
+    describe('class', () => {
+        it('has slds-is-active applied to the base div when selected', () => {
+            const element = createComponentUnderTest();
+            element.navItemId = 'item1';
+            element.activeId = 'item1';
+
+            return Promise.resolve().then(() => {
+                const listItem = element.querySelector(SELECTORS.MAIN_DIV);
+                expect(listItem.getAttribute('class')).toContain('slds-is-active');
+            });
+        });
+        it('does not have slds-is-active applied to the base div when not selected', () => {
+            const element = createComponentUnderTest();
+            element.navItemId = 'item1';
+            element.activeId = 'item2';
+
+            return Promise.resolve().then(() => {
+                const listItem = element.querySelector(SELECTORS.MAIN_DIV);
+                expect(listItem.getAttribute('class')).not.toContain('slds-is-active');
             });
         });
     });

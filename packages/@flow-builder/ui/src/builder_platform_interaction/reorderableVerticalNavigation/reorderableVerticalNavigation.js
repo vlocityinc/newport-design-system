@@ -1,8 +1,5 @@
 import { LightningElement, api } from 'lwc';
 
-const CLASS_ACTIVE = 'slds-vertical-tabs__nav-item slds-is-active';
-const CLASS_INACTIVE = 'slds-vertical-tabs__nav-item';
-
 /**
  * Component that provides a vertical list of elements, styled as vertical tabs,
  * that can be selected and reordered.
@@ -38,7 +35,6 @@ export default class ReorderableVerticalNavigation extends LightningElement {
             return {
                 guid: element.guid,
                 label: label !== '' ? label : this.defaultLabel,
-                class: this.isItemActive(element.guid) ? CLASS_ACTIVE : CLASS_INACTIVE,
                 isDraggable,
                 hasErrors
             };

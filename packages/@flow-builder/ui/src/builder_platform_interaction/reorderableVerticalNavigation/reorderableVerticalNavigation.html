@@ -9,7 +9,6 @@
         <div class="slds-vertical-tabs__nav" role="tablist" aria-orientation="vertical">
             <template for:each={decoratedMenuItems} for:item="item" for:index="itemIndex">
                 <builder_platform_interaction-reorderable-vertical-navigation-item
-                    class={item.class}
                     has-front-icon={item.isDraggable}
                     key={item.guid}
                     nav-item-id={item.guid}

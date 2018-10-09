@@ -8,8 +8,7 @@ const SELECTORS = {
     END_ICON: 'div[slot="end-icon"]',
     DIV: 'div',
     LINK: 'a',
-    LIST_ITEM: 'builder_platform_interaction-reorderable-vertical-navigation-item',
-    FIRST_LIST_ITEM: '.slds-vertical-tabs__link',
+    FIRST_LIST_ITEM_ANCHOR: 'builder_platform_interaction-reorderable-vertical-navigation-item .slds-vertical-tabs__link',
     VERTICAL_TAB_NAV_ITEM: '.slds-vertical-tabs__nav-item'
 };
 
@@ -78,23 +77,12 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const firstMenuItem = getShadowRoot(getShadowRoot(element).querySelector(SELECTORS.VERTICAL_TAB_NAV_ITEM)).querySelector(SELECTORS.FIRST_LIST_ITEM);
+            const firstMenuItem = element.querySelector(SELECTORS.FIRST_LIST_ITEM_ANCHOR);
             const eventCallback = jest.fn();
             element.addEventListener('itemselected', eventCallback);
             firstMenuItem.click();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toMatchObject({itemId: 'item1'});
-        });
-    });
-    it('has correct classes applied to its menu items when an item is selected', () => {
-        const element = createComponentUnderTest();
-        element.menuItems = initialMenu;
-        element.activeItemId = 'item1';
-        return Promise.resolve().then(() => {
-            const listItems = getShadowRoot(element).querySelectorAll(SELECTORS.LIST_ITEM);
-            expect(listItems[0].getAttribute('class')).toContain('slds-vertical-tabs__nav-item slds-is-active');
-            expect(listItems[1].getAttribute('class')).toContain('slds-vertical-tabs__nav-item');
-            expect(listItems[1].getAttribute('class')).not.toContain('slds-is-active');
         });
     });
 });
