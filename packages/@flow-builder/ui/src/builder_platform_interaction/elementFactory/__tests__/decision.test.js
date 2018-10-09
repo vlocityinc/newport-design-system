@@ -41,19 +41,19 @@ getElementByGuid.mockImplementation((guid) => {
 
 jest.mock('../base/baseElement');
 baseCanvasElement.mockImplementation((element) => {
-    return element;
+    return Object.assign({}, element);
 }).mockName('baseCanvasElementMock');
 baseChildElement.mockImplementation((outcome) => {
-    return outcome;
+    return Object.assign({}, outcome);
 }).mockName('baseChildElementMock');
 baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap);
 
 jest.mock('../base/baseMetadata');
 baseCanvasElementMetadataObject.mockImplementation((element) => {
-    return element;
+    return Object.assign({}, element);
 });
 baseChildElementMetadataObject.mockImplementation((element) => {
-    return element;
+    return Object.assign({}, element);
 });
 
 
