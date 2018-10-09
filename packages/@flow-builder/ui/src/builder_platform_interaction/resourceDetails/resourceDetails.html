@@ -1,12 +1,12 @@
 <template>
     <ul class="resource-detail-panel-body slds-scrollable_y slds-p-around_small">
         <li class="slds-text-title_caps slds-p-left_none slds-m-bottom_x_small">{labels.detailsText}</li>
-        <li class="slds-item slds-grid slds-truncate_container">
+        <li class="slds-item slds-truncate_container">
             <span class="slds-form-element__label slds-no-flex">{labels.typeText}</span>
             <lightning-icon if:true={hasIcon} class="slds-m-right_xx-small" icon-name={resourceDetails.ICON_NAME} size="xx-small" alternative-text={resourceDetails.LABEL}></lightning-icon>
             <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.TYPE}>{resourceDetails.TYPE}</span>
         </li>
-        <li if:true={hasUniqueName} class="slds-item slds-grid slds-truncate_container">
+        <li if:true={hasUniqueName} class="slds-item slds-truncate_container">
             <span class="slds-form-element__label slds-no-flex">{labels.uniqueNameText}</span>
             <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.NAME}>{resourceDetails.NAME}</span>
         </li>
