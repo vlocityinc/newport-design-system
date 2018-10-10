@@ -102,6 +102,7 @@ export default class WaitTimeEvent extends LightningElement {
         const updateParameterItem = new UpdateParameterItemEvent(
             isInput,
             propertyName,
+            propertyName,
             ferovObject.value,
             ferovObject.dataType,
             event.detail.error
