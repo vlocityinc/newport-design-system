@@ -3,7 +3,7 @@ import { getShadowRoot } from 'lwc-test-utils';
 import ActionSelector from "../actionSelector";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { ValueChangedEvent, ComboboxStateChangedEvent } from "builder_platform_interaction/events";
-import { mockActions, mockApexPlugins, mockSubflows, mockError } from "mock/actionSelectorData";
+import { mockActions, mockApexPlugins, mockSubflows } from "mock/calloutData";
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-action-selector', { is: ActionSelector });
@@ -16,6 +16,10 @@ const selectors = {
     lightningGroupedCombobox: 'lightning-grouped-combobox',
     lightningInteractionCombobox: 'builder_platform_interaction-combobox'
 };
+
+const mockError = [{
+    message:"Event fired" // 'This is the message currently returned when an error occurs ...'
+}];
 
 let mockActionsPromise = Promise.resolve(mockActions);
 let mockApexPluginsPromise = Promise.resolve(mockApexPlugins);

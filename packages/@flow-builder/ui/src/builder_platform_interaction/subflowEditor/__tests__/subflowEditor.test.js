@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import SubflowEditor from "../subflowEditor";
-import { mockSubflows } from 'mock/actionSelectorData';
+import { mockSubflows } from 'mock/calloutData';
 import { mockSubflowVariables} from 'mock/calloutData';
 import { getShadowRoot } from 'lwc-test-utils';
 
