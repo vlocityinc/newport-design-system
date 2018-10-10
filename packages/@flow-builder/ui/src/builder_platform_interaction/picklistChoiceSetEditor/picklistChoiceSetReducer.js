@@ -7,10 +7,11 @@ export const picklistChoiceSetReducer = (picklistChoice, action) => {
         case PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY: {
             let propertyValue;
             if (typeof (action.payload.value) === 'string' || action.payload.value === null) {
-                action.payload.error = (action.payload.error === null) ?
-                    picklistChoiceSetValidation.validateProperty(action.payload.propertyName, action.payload.value) : action.payload.error;
                 if (!action.payload.doValidateProperty) {
                     action.payload.error = null;
+                } else {
+                    action.payload.error = (action.payload.error === null) ?
+                        picklistChoiceSetValidation.validateProperty(action.payload.propertyName, action.payload.value) : action.payload.error;
                 }
                 propertyValue = {error: action.payload.error, value: action.payload.value};
             } else {
