@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { ELEMENT_TYPE, WAIT_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import {
     PropertyChangedEvent,
@@ -16,7 +16,7 @@ const resumeTimeRules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TY
 
 export default class WaitTimeEvent extends LightningElement {
     @track
-    _eventType = WAIT_EVENT_TYPE.ABSOLUTE_TIME;
+    _eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
 
     /**
      * @typedef {Object} ResumeTimeParameter
@@ -34,7 +34,7 @@ export default class WaitTimeEvent extends LightningElement {
 
     /**
      * The event type of the wait event
-     * @type {module:flowMetadata.WaitEventType}
+     * @type {module:flowMetadata.WaitTimeEventType}
      */
     set eventType(eventType) {
         this._eventType = getValueFromHydratedItem(eventType);
@@ -55,8 +55,8 @@ export default class WaitTimeEvent extends LightningElement {
     };
 
     eventTypeValueOptions = [
-        { 'label': this.labels.absoluteTimeLabel, 'value': WAIT_EVENT_TYPE.ABSOLUTE_TIME },
-        { 'label': this.labels.directRecordTimeLabel, 'value': WAIT_EVENT_TYPE.DIRECT_RECORD_TIME },
+        { 'label': this.labels.absoluteTimeLabel, 'value': WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME },
+        { 'label': this.labels.directRecordTimeLabel, 'value': WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME },
     ];
 
     get resumeTimeParameterRules() {
@@ -68,7 +68,7 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     get isAbsoluteTime() {
-        return this.eventType === WAIT_EVENT_TYPE.ABSOLUTE_TIME;
+        return this.eventType === WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
     }
 
     get baseTime() {

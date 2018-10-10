@@ -98,11 +98,11 @@ export const CONDITION_LOGIC = {
 };
 
 /**
- * The event types of wait events. For time events, these can be either absolute (alarmEvent)
+ * The time event types of wait events. For time events, these can be either absolute (alarmEvent)
  * or direct record time (dateRefAlarmEvent)
- * @typedef {String} WaitEventType
+ * @typedef {String} WaitTimeEventType
  */
-export const WAIT_EVENT_TYPE = {
+export const WAIT_TIME_EVENT_TYPE = {
     ABSOLUTE_TIME: 'AlarmEvent',
     DIRECT_RECORD_TIME: 'DateRefAlarmEvent'
 };

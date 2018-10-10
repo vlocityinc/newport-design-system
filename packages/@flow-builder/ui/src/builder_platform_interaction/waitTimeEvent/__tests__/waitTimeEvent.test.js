@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
-import { WAIT_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     PropertyChangedEvent,
     UpdateParameterItemEvent,
@@ -37,7 +37,7 @@ describe('waitTimeEvent', () => {
 
         beforeEach(() => {
             const mockResumeTimeParamters = [{ name: 'foo' }];
-            const mockEventType = WAIT_EVENT_TYPE.ABSOLUTE_TIME;
+            const mockEventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
             props = {
                 resumeTimeParameters: mockResumeTimeParamters,
                 eventType: mockEventType,
@@ -55,7 +55,7 @@ describe('waitTimeEvent', () => {
             window.addEventListener(PropertyChangedEvent.EVENT_NAME, propChangedSpy);
 
             const radio = getShadowRoot(waitTimeEvent).querySelector(selectors.lightningRadioGroup);
-            const mockPayload = { value: WAIT_EVENT_TYPE.DIRECT_RECORD_TIME };
+            const mockPayload = { value: WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME };
             const changedEvent = new CustomEvent('change', { detail: mockPayload});
             radio.dispatchEvent(changedEvent);
             return Promise.resolve().then(() => {

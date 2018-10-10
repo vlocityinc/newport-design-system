@@ -2,7 +2,7 @@ import {
     ELEMENT_TYPE,
     CONDITION_LOGIC,
     CONNECTOR_TYPE,
-    WAIT_EVENT_TYPE
+    WAIT_TIME_EVENT_TYPE
 } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
@@ -123,7 +123,7 @@ export function createWaitWithWaitEvents(wait = {}) {
  */
 export function createWaitEvent(waitEvent = {conditionLogic : CONDITION_LOGIC.NO_CONDITIONS}) {
     const newWaitEvent = baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
-    const { inputParameters = {}, eventType = WAIT_EVENT_TYPE.ABSOLUTE_TIME } = waitEvent;
+    const { inputParameters = {}, eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME } = waitEvent;
 
     let resumeTimeParameters;
     if (Array.isArray(inputParameters)) {
