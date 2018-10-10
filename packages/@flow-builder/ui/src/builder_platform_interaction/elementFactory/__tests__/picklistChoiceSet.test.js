@@ -28,7 +28,7 @@ jest.mock('../base/baseElement', () => {
 const mockDefaultValuesForPicklistChoiceSet = {
     elementType: ELEMENT_TYPE.PICKLIST_CHOICE_SET,
     picklistObject: null,
-    picklistField: null
+    picklistField: undefined
 };
 const paramElementForPicklistChoiceSet = {
     picklistObject: 'mockObject',

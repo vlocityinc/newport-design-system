@@ -2,7 +2,7 @@ export * from './actionCall';
 export * from './apexPlugin';
 export * from './assignment';
 export { createCondition } from './base/baseElement';
-export { dynamicChoiceSetForStore } from './base/dynamicChoiceSet';
+export * from './base/dynamicChoiceSet';
 export * from './constant';
 export * from './decision';
 export * from './flowProperties';

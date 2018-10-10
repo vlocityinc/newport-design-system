@@ -13,6 +13,9 @@ export default class FieldPicker extends LightningElement {
     required;
 
     @api
+    disabled;
+
+    @api
     label;
 
     @api
@@ -34,12 +37,10 @@ export default class FieldPicker extends LightningElement {
     _isInitialized = false;
 
     /**
-     * @param {String} value the selected queried field
+     * @param {String} newValue the selected queried field
      */
     set value(newValue) {
-        if (newValue) {
-            this.state.value = newValue;
-        }
+        this.state.value = newValue;
     }
 
     @api
@@ -48,7 +49,7 @@ export default class FieldPicker extends LightningElement {
     }
 
     /**
-     * @param {String[]} fields the queriedFields from recordNode.queriedFields
+     * @param {String[]} newFields the queriedFields from recordNode.queriedFields
      */
     set fields(newFields) {
         if (newFields) {
@@ -72,6 +73,7 @@ export default class FieldPicker extends LightningElement {
             undefined, // passing error message through template
             false,
             this.required,
+            this.disabled
         );
     }
 

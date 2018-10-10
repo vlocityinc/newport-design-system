@@ -6,6 +6,7 @@ import formulaEditorTemplate from "./formulaEditorTemplate.html";
 import textTemplateEditorTemplate from './textTemplateEditorTemplate.html';
 import stageEditorTemplate from "./stageEditorTemplate.html";
 import choiceEditorTemplate from "./choiceEditorTemplate.html";
+import picklistChoiceSetEditorTemplate from "./picklistChoiceSetEditorTemplate.html";
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 
 
@@ -15,7 +16,8 @@ const resourceTypeElementTypeMap = {
     constant: ELEMENT_TYPE.CONSTANT,
     textTemplate: ELEMENT_TYPE.TEXT_TEMPLATE,
     stage: ELEMENT_TYPE.STAGE,
-    choice: ELEMENT_TYPE.CHOICE
+    choice: ELEMENT_TYPE.CHOICE,
+    picklistChoice: ELEMENT_TYPE.PICKLIST_CHOICE_SET
 };
 
 const EDITOR_SELECTOR = '.editor_template';
@@ -109,6 +111,8 @@ export default class ResourceEditorContainer extends LightningElement {
                 return stageEditorTemplate;
             case ELEMENT_TYPE.CHOICE:
                 return choiceEditorTemplate;
+            case ELEMENT_TYPE.PICKLIST_CHOICE_SET:
+                return picklistChoiceSetEditorTemplate;
             default:
                 return undefined;
         }

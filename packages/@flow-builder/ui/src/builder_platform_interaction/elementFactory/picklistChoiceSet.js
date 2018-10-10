@@ -11,7 +11,7 @@ export const createPicklistChoiceSet = (element = {}) => {
     const picklistChoiceSetElement = createDynamicChoiceSet(element);
     const {
         picklistObject = null,
-        picklistField = null
+        picklistField
     } = element;
     Object.assign(picklistChoiceSetElement, {
         elementType: ELEMENT_TYPE.PICKLIST_CHOICE_SET,

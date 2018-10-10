@@ -1,0 +1,62 @@
+<template>
+    <div if:true={picklistChoiceSetResource}>
+        <div class="slds-form slds-form_compound slds-p-around_small">
+            <!-- Name Label Desc Component -->
+            <builder_platform_interaction-label-description
+                    hide-label
+                    dev-name={picklistChoiceSetResource.name}
+                    description={picklistChoiceSetResource.description}
+                    guid={picklistChoiceSetResource.guid}
+                    onpropertychanged={handlePropertyChanged}>
+            </builder_platform_interaction-label-description>
+
+            <!-- Entity Resource Picker -->
+            <div class="slds-form-element__row">
+                <builder_platform_interaction-entity-resource-picker
+                        class="slds-form-element slds-size_1-of-2"
+                        combobox-config={entityComboboxConfig}
+                        value={picklistChoiceSetResource.picklistObject.value}
+                        oncomboboxstatechanged={handleObjectTypeChange}
+                        onitemselected={handleObjectTypeSelect}>
+                </builder_platform_interaction-entity-resource-picker>
+            </div>
+
+            <div if:true={showPicklistSection}>
+                <!-- Data Type Picker ( Picklist/Multi-Picklist ) -->
+                <builder_platform_interaction-data-type-picker
+                        class-name="slds-size_1-of-2"
+                        available-data-types={dataTypeList}
+                        type-and-collection-disabled={isFieldDisabled}
+                        required
+                        combobox-error-message={picklistChoiceSetResource.dataType.error}
+                        value={dataTypePickerValue}
+                        onvaluechanged={handleDataTypeChanged}>
+                </builder_platform_interaction-data-type-picker>
+
+                <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small">
+                    <!-- Field Picker -->
+                    <builder_platform_interaction-field-picker
+                            class="slds-col slds-grow slds-size_1-of-2"
+                            label={labels.fieldPickerLabel}
+                            placeholder={fieldPickerPlaceholder}
+                            value={picklistChoiceSetResource.picklistField.value}
+                            required
+                            disabled={disableFieldPicker}
+                            fields={menuDataFields}
+                            error-message={picklistChoiceSetResource.picklistField.error}
+                            oncomboboxstatechanged={handleFieldChanged}>
+                    </builder_platform_interaction-field-picker>
+
+                    <!-- Sort Order Combobox -->
+                    <lightning-combobox label={labels.sortOrderLabel}
+                                        value={picklistChoiceSetResource.sortOrder.value}
+                                        options={sortOrderOptions}
+                                        onchange={handleSortOrderChanged}
+                                        dropdown-alignment="auto"
+                                        class="slds-col slds-grow slds-size_1-of-2">
+                    </lightning-combobox>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
