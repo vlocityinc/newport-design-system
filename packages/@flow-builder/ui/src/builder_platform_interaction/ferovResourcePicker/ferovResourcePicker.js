@@ -138,11 +138,11 @@ export default class FerovResourcePicker extends LightningElement {
     disableFieldDrilldown = false;
 
     /**
-     * If set to true, sobjects will not show up in menu data to allow users to select fields
+     * If set to true, global constants will not show up
      * @type {Boolean}
      */
     @api
-    disableSobjectForFields = false;
+    hideGlobalConstants = false;
 
     /**
      * Set it to true to show 'New Resource' as first item in combobox menu data.
@@ -150,10 +150,6 @@ export default class FerovResourcePicker extends LightningElement {
      */
     @api
     showNewResource = false;
-
-    get allowSobjectForFields() {
-        return !this.disableSobjectForFields;
-    }
 
     get parentItem() {
         return this.value && this.value.parent;
@@ -246,7 +242,7 @@ export default class FerovResourcePicker extends LightningElement {
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
-                getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, this.allowSobjectForFields,
+                getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, !this.hideGlobalConstants,
                     this.disableFieldDrilldown, storeInstance, this.showNewResource, parentItem, fields));
         }
     }

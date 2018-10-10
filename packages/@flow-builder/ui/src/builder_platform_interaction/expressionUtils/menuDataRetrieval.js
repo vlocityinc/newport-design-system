@@ -214,19 +214,19 @@ export const getPicklistMenuData = (picklist) => {
  * @param {Object} elementConfig        {element, shouldBeWritable} element is the element type this expression builder is inside, shouldBeWritable is so property editors can specify the data they need
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
  * @param {boolean} includeNewResource  if true, include new resource as first menu item
- * @param {boolean} allowFerovs             true if FEROVs are allowed here; certain things are true for all FEROV's e.g. global constants should be allowed, sobjects should be shown so that users can drill down to fields
+ * @param {boolean} allowGlobalConstants             true if global constants should be allowed
  * @param {boolean} disableHasNext if true, then all menu items will have hasNext set to false regardless of the real value
  * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function getElementsForMenuData(elementConfig, allowedParamTypes, includeNewResource = false,
-                                       allowFerovs = false, disableHasNext = false, activePicklistValues = []) {
+                                       allowGlobalConstants = false, disableHasNext = false, activePicklistValues = []) {
     const state = Store.getStore().getCurrentState();
 
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
     const menuDataElements = getStoreElements(state, elementConfig);
 
-    return filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource, allowFerovs, disableHasNext, activePicklistValues);
+    return filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource, allowGlobalConstants, disableHasNext, activePicklistValues);
 }
 /**
  * Filter the list of elements, append global constants and mutate elements to shape the combobox expects.
@@ -235,14 +235,14 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
  * @param {List} menuDataElements        List of elements from the store that needs to filtered and converted to shape the combobox expects.
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes    if present, is used to determine if each element is valid for this menuData
  * @param {boolean} includeNewResource  if true, include new resource as first menu item
- * @param {boolean} allowFerovs             true if FEROVs are allowed here; certain things are true for all FEROV's e.g. global constants should be allowed, sobjects should be shown so that users can drill down to fields
+ * @param {boolean} allowGlobalConstants             true if FEROVs are allowed here; certain things are true for all FEROV's e.g. global constants should be allowed, sobjects should be shown so that users can drill down to fields
  * @param {boolean} disableHasNext if true, then all menu items will have hasNext set to false regardless of the real value
  * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource = false,
-                                        allowFerovs = false, disableHasNext = false, activePicklistValues = []) {
-    if (allowFerovs) {
+                                        allowGlobalConstants = false, disableHasNext = false, activePicklistValues = []) {
+    if (allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
         menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
     }
