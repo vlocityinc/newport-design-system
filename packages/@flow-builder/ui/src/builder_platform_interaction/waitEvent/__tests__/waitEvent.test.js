@@ -228,7 +228,7 @@ describe('Wait Event', () => {
             const newValue = 'my new value';
             const newValueDataType = 'sfdcDataType';
             const error = 'null';
-            const parameterChanged = new UpdateParameterItemEvent(isInput, propName, newValue, newValueDataType, error);
+            const parameterChanged = new UpdateParameterItemEvent(isInput, null, propName, newValue, newValueDataType, error);
 
             const waitEventUpdateSpy = jest.fn();
 
