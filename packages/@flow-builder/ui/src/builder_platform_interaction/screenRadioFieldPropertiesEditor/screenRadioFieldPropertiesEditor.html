@@ -30,17 +30,18 @@
             </builder_platform_interaction-data-type-picker>
             
             <!--  default value: drop down resource list -->
-            <!--  TODO - this is pulling choices, but not as strictly as we need -->
-            <builder_platform_interaction-screen-property-field name='defaultValue'
-                                                                label={labels.fieldDefaultValue} 
-                                                                value={field.defaultValue}
-                                                                type={field.dataType}
-                                                                allow-resources='true' 
-                                                                resource-picker-config={choiceResourcePickerConfig}
-                                                                onpropertychanged={handleDefaultValuePropertyChanged}>
-            </builder_platform_interaction-screen-property-field>            
+            <builder_platform_interaction-screen-property-field
+                    name="defaultValue"
+                    type="list"
+                    disabled={defaultValueDisabled}
+                    list-choices={availableChoices}
+                    value={field.previewDefaultValue}
+                    label={labels.fieldDefaultValue}
+                    onpropertychanged={handleDefaultValuePropertyChanged}>
+            </builder_platform_interaction-screen-property-field>
+
         </div>
-        
+
 
         <!--  Choice selectors -->
         <div>

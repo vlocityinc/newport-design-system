@@ -7,6 +7,7 @@ import {  getFieldChoiceData } from "builder_platform_interaction/screenEditorUt
 import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
+
 const ALL_SECTION_NAMES = ['choice', 'helpText'];
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
 const CHOICE_FRP_CONFIG = {
@@ -45,17 +46,15 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
         // We get the display value from the event, which might be something
         // like {!choice1}, but we want the devName. Get the devName by using the GUID.
         const element = getElementByGuid(event.detail.guid);
-        if (!element) {
-            throw new Error("Cannot find element for newly selected default value");
+        if (element) {
+            this.dispatchEvent(new PropertyChangedEvent(
+                event.detail.propertyName,
+                hydrateIfNecessary(element.name),
+                event.detail.error,
+                this.field.guid,
+                hydrateIfNecessary(this.field.defaultValue)
+            ));
         }
-
-        this.dispatchEvent(new PropertyChangedEvent(
-            event.detail.propertyName,
-            hydrateIfNecessary(element.name),
-            event.detail.error,
-            this.field.guid,
-            hydrateIfNecessary(this.field.defaultValue)
-        ));
     }
 
     handleChoiceChanged = (event) => {
@@ -64,10 +63,12 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
         // We get the display value from the event, which might be something
         // like {!choice1}, but we want the devName. Get the devName by using the GUID.
         const element = getElementByGuid(event.detail.guid);
-        if (!element) {
-            throw new Error("Cannot find element for newly selected choice");
+        if (element) {
+            this.dispatchEvent(createChoiceChangedEvent(this.field, {
+                value: element.name,
+                error: event.detail.error
+            }, event.detail.listIndex));
         }
-        this.dispatchEvent(createChoiceChangedEvent(this.field, {value: element.name, error: event.detail.error}, event.detail.listIndex));
     }
 
     handleChoiceDeleted = (event) => {
@@ -94,7 +95,7 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
     }
 
     get dataTypePickerValue() {
-        return this.field.dataType ? this.getInputTypeFromFieldDataType : undefined;
+        return this.field.dataType ? this.getInputTypeFromFieldDataType : { dataType: null };
     }
 
     get dataTypeList() {
@@ -115,6 +116,11 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
         throw new Error("Screen field data type is set, but unable to find corresponding flow data type: " + this.field.dataType);
     }
 
+    // If the dataType isn't set yet, user should not be able to set default value.
+    get defaultValueDisabled() {
+        return this.field.dataType === null;
+    }
+
     // Convert flow data type to the value from the data type drop down list.
     getFlowDataTypeFromInputType(newValue) {
         for (const key in this.inputFieldMap) {
@@ -123,5 +129,21 @@ export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
             }
         }
         throw new Error("Unable to find Flow data type for provided screen field input type: " + newValue);
+    }
+
+    // Used to figure out which choices are available as possible values for the default value setting.
+    // The only options should be those that are associated with this field (not all choices in the flow).
+    get availableChoices() {
+        const CHOICES = {};
+        if (this.field.choiceReferences) {
+            for (let i = 0; i < this.field.choiceReferences.length; i++) {
+                const choice = this.field.choiceReferences[i];
+                CHOICES[choice] = {
+                    label: choice,
+                    value: choice
+                };
+            }
+        }
+        return Object.values(CHOICES);
     }
 }

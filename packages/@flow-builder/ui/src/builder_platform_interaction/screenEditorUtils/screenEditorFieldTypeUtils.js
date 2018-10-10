@@ -334,7 +334,7 @@ export function getFieldChoiceData(field) {
                 label: '',
                 guid:  null,
                 value: '',
-                displayValue: LABELS.selectResource
+                displayValue: null
             };
         });
     }

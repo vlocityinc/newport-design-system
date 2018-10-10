@@ -1,9 +1,9 @@
 <template>
     <div class={computedClass}>
         <builder_platform_interaction-ferov-resource-picker if:true={allowsResources} class='property-input' 
-                                                                                      combobox-config={resourceComboBoxConfig} 
+                                                                                      combobox-config={resourceComboBoxConfig}
                                                                                       value={propertyValue}
-                                                                                      element-param={elementParam} 
+                                                                                      element-param={elementParam}
                                                                                       property-editor-element-type='SCREEN'
                                                                                       rules={resourcePickerRules} 
                                                                                       onitemselected={handleEvent}
@@ -21,7 +21,16 @@
                                            onchange={handleEvent} 
                                            onblur={handleEvent}>
         </lightning-input>
-        
+
+        <lightning-combobox if:true={isList}
+                class='slds-combobox__form-element property-input'
+                disabled={disabled}
+                label={label}
+                options={listChoices}
+                value={propertyValue}
+                onchange={handleEvent}>
+        </lightning-combobox>
+
         <builder_platform_interaction-resourced-textarea if:true={isLongString} class='property-input' 
                                                                                 name={name}
                                                                                 label={label}

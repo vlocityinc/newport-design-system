@@ -65,6 +65,12 @@ import validationFormula from '@salesforce/label/FlowBuilderFormulaTextarea.form
 import selectResource from '@salesforce/label/FlowBuilderScreenEditor.selectResource';
 import invalidScreen from '@salesforce/label/FlowBuilderScreenEditor.invalidScreen';
 import invalidScreenfield from '@salesforce/label/FlowBuilderScreenEditor.invalidScreenfield';
+import textDataType from '@salesforce/label/FlowBuilderDataTypes.textDataTypeLabel';
+import numberDataType from '@salesforce/label/FlowBuilderDataTypes.numberDataTypeLabel';
+import currencyDataType from '@salesforce/label/FlowBuilderDataTypes.currencyDataTypeLabel';
+import booleanDataType from '@salesforce/label/FlowBuilderDataTypes.booleanDataTypeLabel';
+import dateDataType from '@salesforce/label/FlowBuilderDataTypes.dateDataTypeLabel';
+import dateTimeDataType from '@salesforce/label/FlowBuilderDataTypes.dateTimeDataTypeLabel';
 
 export const LABELS = {
     errorRequired,
@@ -132,5 +138,11 @@ export const LABELS = {
     addChoice,
     selectResource,
     invalidScreen,
-    invalidScreenfield
+    invalidScreenfield,
+    textDataType,
+    numberDataType,
+    currencyDataType,
+    booleanDataType,
+    dateDataType,
+    dateTimeDataType
 };

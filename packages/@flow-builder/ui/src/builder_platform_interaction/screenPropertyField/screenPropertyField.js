@@ -7,6 +7,7 @@ import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { getElementByDevName } from "builder_platform_interaction/storeUtils";
 
 // QUILL supported formats
 const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
@@ -25,6 +26,7 @@ export default class ScreenPropertyField extends LightningElement {
     @api resourcePickerConfig;
     @api disabled = false;
     @api listIndex;
+    @api listChoices;
 
     @api hideTopPadding = false;
 
@@ -144,7 +146,11 @@ export default class ScreenPropertyField extends LightningElement {
     }
 
     get isInput() {
-        return !this.allowsResources && !this.isLongString && !this.isRichString;
+        return !this.allowsResources && !this.isLongString && !this.isRichString && !this.isList;
+    }
+
+    get isList() {
+        return this.type === 'list';
     }
 
     get inputType() {
@@ -169,7 +175,7 @@ export default class ScreenPropertyField extends LightningElement {
             return input.value.value;
         } else if (this.isBoolean) {
             return input.checked;
-        } else if (this.isString || this.isNumber) {
+        } else if (this.isString || this.isNumber || this.isList) {
             return input.value;
         }
 
@@ -184,13 +190,20 @@ export default class ScreenPropertyField extends LightningElement {
         if (this.allowResources && event.detail.item) { // And it contains a ferov
             newValue = event.detail.item.displayText;
             newGuid = event.detail.item.value;
+        } else if (this.isList && event.detail.value) { // And it contains a ferov from a static list
+            newValue = event.detail.value;
+            const element = getElementByDevName(newValue);
+            if (!element) {
+                throw new Error('Unable to find element by dev name: ' + newValue);
+            }
+            newGuid = element.guid;
         } else {
             newValue = this.domValue;
         }
 
         currentValue = this.value;
 
-        if (!this.isBoolean) {
+        if (!this.isBoolean && !this.isList) {
             newValue = hydrateIfNecessary(newValue);
             currentValue = hydrateIfNecessary(currentValue);
         }
