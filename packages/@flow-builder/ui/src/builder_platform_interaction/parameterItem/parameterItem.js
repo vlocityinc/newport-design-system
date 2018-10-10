@@ -262,7 +262,7 @@ export default class ParameterItem extends LightningElement {
         const itemOrDisplayText = event.detail.item ? event.detail.item : event.detail.displayText;
         const newValue = {value: null, valueDataType: null};
         if (isObject(itemOrDisplayText)) {
-            newValue.value = itemOrDisplayText.displayText;
+            newValue.value = itemOrDisplayText.value;
             newValue.valueDataType = getResourceFerovDataType(itemOrDisplayText.value);
         } else {
             newValue.value = itemOrDisplayText;
