@@ -31,6 +31,7 @@ import fieldTypeLabelDate from "@salesforce/label/FlowBuilderScreenEditor.fieldT
 import fieldTypeLabelDateTime from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelDateTime";
 import fieldTypeLabelPassword from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelPassword";
 import fieldTypeLabelRadioButtons from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelRadioButtons";
+import fieldTypeLabelMultiSelectCheckboxes from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelMultiSelectCheckboxes";
 import fieldTypeLabelDisplayText from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelDisplayText";
 import fieldTypeLabelDisplayRichText from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelDisplayRichText";
 import addChoice from '@salesforce/label/FlowBuilderScreenEditor.addChoice';
@@ -106,6 +107,7 @@ export const LABELS = {
     fieldTypeLabelDateTime,
     fieldTypeLabelPassword,
     fieldTypeLabelRadioButtons,
+    fieldTypeLabelMultiSelectCheckboxes,
     fieldTypeLabelDisplayText,
     fieldTypeLabelDisplayRichText,
     fieldValidation,

@@ -85,7 +85,14 @@ const screenFieldTypes = [
         fieldType: 'RadioButtons',
         dataType: undefined,
         label: LABELS.fieldTypeLabelRadioButtons,
-        icon: 'standard:contact_list',
+        icon: 'utility:radio_button',
+        category: LABELS.fieldCategoryInput
+    }, {
+        name: 'MultiSelectCheckboxes',
+        fieldType: 'MultiSelectCheckboxes',
+        dataType: undefined,
+        label: LABELS.fieldTypeLabelMultiSelectCheckboxes,
+        icon: 'utility:multi_select_checkbox',
         category: LABELS.fieldCategoryInput
     }, {
         name: 'DisplayText',
@@ -177,11 +184,11 @@ export function getScreenFieldType(field) {
             return type;
         }
 
-        // Special case for Radio fields.
-        // A reality, radio fields have a dataType associated with it. However, we generically
-        // lump all radio fields as one type in the screenFieldTypes map and dataType is ignored.
+        // Special case for choice based fields.
+        // A reality, choice based fields have a dataType associated with them. However, we generically
+        // lump each type of choice based fields as one type in the screenFieldTypes map and dataType is ignored.
         // For this check only, just check the fieldType and ignore dataType.
-        if (fieldType === type.fieldType && fieldType === 'RadioButtons') {
+        if (fieldType === type.fieldType && (fieldType === 'RadioButtons' || fieldType === 'MultiSelectCheckboxes')) {
             return type;
         }
     }
@@ -235,6 +242,10 @@ export function isPasswordField(field) {
  */
 export function isRadioField(field) {
     return field && field.fieldType === 'RadioButtons';
+}
+
+export function isMultiSelectCheckboxField(field) {
+    return field && field.fieldType === 'MultiSelectCheckboxes';
 }
 
 /**

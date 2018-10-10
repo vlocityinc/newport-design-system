@@ -17,7 +17,7 @@ const addScreenField = (screen, event) => {
     const position = Number.isInteger(event.position) ? event.position : screen.fields.length;
     const type = getScreenFieldTypeByName(event.typeName);
     const field = createEmptyNodeOfType(type);
-    field.isNewField = true;
+
     hydrateWithErrors(mutateScreenField(field), elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
     const updatedItems = insertItem(screen.fields, field, position);
     return set(screen, 'fields', updatedItems);

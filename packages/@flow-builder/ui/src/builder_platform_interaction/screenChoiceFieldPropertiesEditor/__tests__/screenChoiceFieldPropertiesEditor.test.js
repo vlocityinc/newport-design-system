@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import ScreenRadioFieldPropertiesEditor from "../screenRadioFieldPropertiesEditor";
+import ScreenChoiceFieldPropertiesEditor from "../screenChoiceFieldPropertiesEditor";
 import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
 import { getShadowRoot } from 'lwc-test-utils';
 
@@ -35,8 +35,8 @@ const SELECTORS = {
 const fieldName = 'radio1';
 
 const createComponentUnderTest = (props) => {
-    const el = createElement('builder_platform_interaction-screen-radio-field-properties-editor', {
-        is: ScreenRadioFieldPropertiesEditor
+    const el = createElement('builder_platform_interaction-screen-choice-field-properties-editor', {
+        is: ScreenChoiceFieldPropertiesEditor
     });
     if (props) {
         Object.assign(el, props);
@@ -45,7 +45,7 @@ const createComponentUnderTest = (props) => {
     return el;
 };
 
-describe('screen-radio-field-properties-editor', () => {
+describe('screen-choice-field-properties-editor', () => {
     let screenRadioFieldPropEditor;
     beforeEach(() => {
         screenRadioFieldPropEditor = createComponentUnderTest({
@@ -115,7 +115,7 @@ describe('screen-radio-field-properties-editor', () => {
     });
 });
 
-describe('screen-radio-field-properties-editor choice selectors', () => {
+describe('screen-choice-field-properties-editor choice selectors', () => {
     let screenRadioFieldPropEditor;
     beforeEach(() => {
         screenRadioFieldPropEditor = createComponentUnderTest({
@@ -138,7 +138,7 @@ describe('screen-radio-field-properties-editor choice selectors', () => {
 
 // TODO Cannot test default value yet, currently broken.
 
-describe('screen-radio-field-properties-editor for field that is set to required', () => {
+describe('screen-choice-field-properties-editor for field that is set to required', () => {
     let screenRadioFieldPropEditor;
     beforeEach(() => {
         screenRadioFieldPropEditor = createComponentUnderTest({
@@ -154,7 +154,7 @@ describe('screen-radio-field-properties-editor for field that is set to required
     });
 });
 
-describe('screen-radio-field-properties-editor with help text', () => {
+describe('screen-choice-field-properties-editor with help text', () => {
     let screenRadioFieldPropEditor;
     beforeEach(() => {
         screenRadioFieldPropEditor = createComponentUnderTest({

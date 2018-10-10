@@ -1,8 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
-import { isScreen, isDisplayTextField, isExtensionField, isInputField, isTextAreaField, isPasswordField, isRadioField, describeExtension } from "builder_platform_interaction/screenEditorUtils";
+import *  as screenEditorUtils from "builder_platform_interaction/screenEditorUtils";
 import { createScreenNodeSelectedEvent } from "builder_platform_interaction/events";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
+
 
 /*
  * Right hand side component, used to toggle between screen and field property editors.
@@ -30,33 +31,33 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     }
 
     get isScreen() {
-        return isScreen(this.node);
+        return screenEditorUtils.isScreen(this.node);
     }
 
     get isExtensionField() {
-        return isExtensionField(this.node);
+        return screenEditorUtils.isExtensionField(this.node);
     }
 
     get isDisplayField() {
-        return isDisplayTextField(this.node);
+        return screenEditorUtils.isDisplayTextField(this.node);
     }
 
     get isInputField() {
-        return isInputField(this.node) || isPasswordField(this.node);
+        return screenEditorUtils.isInputField(this.node) || screenEditorUtils.isPasswordField(this.node);
     }
 
     get isTextAreaField() {
-        return isTextAreaField(this.node);
+        return screenEditorUtils.isTextAreaField(this.node);
     }
 
-    get isRadioField() {
-        return isRadioField(this.node);
+    get isChoiceField() {
+        return screenEditorUtils.isRadioField(this.node) || screenEditorUtils.isMultiSelectCheckboxField(this.node);
     }
 
     // Temporary function that is only needed while property editors are in development.
     get isOther() {
         return !this.isScreen && !this.isExtensionField && !this.isDisplayField && !this.isInputField &&
-            !this.isTextAreaField && !this.isPasswordField && !this.isRadioField;
+            !this.isTextAreaField && !this.isPasswordField && !this.isChoiceField;
     }
 
     get hasErrors() {
@@ -79,7 +80,7 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     fetchDescription() {
         this.displaySpinner = true;
         const node = this.node; // closure
-        describeExtension(node.extensionName.value, false, (desc, error) => {
+        screenEditorUtils.describeExtension(node.extensionName.value, false, (desc, error) => {
             this.displaySpinner = false;
             if (this.node === node) { // Let's make sure the user didn't change the selection
                 if (error) {

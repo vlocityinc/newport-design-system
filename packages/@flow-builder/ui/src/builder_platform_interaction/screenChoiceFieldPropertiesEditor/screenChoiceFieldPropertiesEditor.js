@@ -19,7 +19,7 @@ const CHOICE_FRP_CONFIG = {
 /*
  * Screen element property editor for the radio field.
  */
-export default class ScreenRadioFieldPropertiesEditor extends LightningElement {
+export default class ScreenChoiceFieldPropertiesEditor extends LightningElement {
     @api field;
 
     labels = LABELS;
