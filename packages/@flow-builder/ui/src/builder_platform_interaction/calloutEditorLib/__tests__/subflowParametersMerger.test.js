@@ -188,14 +188,16 @@ describe('Subflow parameters merger', () => {
               expect(outputs[1]).toMatchObject(
               { "isInput": false, "name": "outputVariable", "value": {"error": null, "value": "masterVariable2"}, "valueDataType": "reference"});
         });
-        it('generates a parameterItem only for the latest input assignment with this variable', () => {
+        it('generates a parameterItem for each input assignment with this variable', () => {
             nodeInputAssignments = [subflowVariableAssignmentToReference('inputVariable', 'masterVariable1'),
                                           subflowVariableAssignmentToReference('inputVariable', 'masterVariable2')];
             nodeOutputAssignments = [];
             const { inputs, outputs }  = mergeSubflowAssignmentsWithInputOutputVariables(nodeInputAssignments, nodeOutputAssignments, inputOutputVariablesVersions);
-            expect(inputs).toHaveLength(1);
+            expect(inputs).toHaveLength(2);
             expect(outputs).toHaveLength(1);
             expect(inputs[0]).toMatchObject(
+              { "isInput": true, "name": "inputVariable", "value": {"error": null, "value": "masterVariable1"}, "valueDataType": "reference"});
+            expect(inputs[1]).toMatchObject(
               { "isInput": true, "name": "inputVariable", "value": {"error": null, "value": "masterVariable2"}, "valueDataType": "reference"});
         });
     });

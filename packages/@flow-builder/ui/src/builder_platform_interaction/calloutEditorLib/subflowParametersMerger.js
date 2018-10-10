@@ -82,18 +82,12 @@ function mergeSubflowAssignmentsWithVariables(nodeAssignments, isInput, activeVa
     const parameterItems = [];
     for (const [name, { activeVariable, latestVariable, nodeAssignments : nodeAssignmentsForVariable }] of Object.entries(allParameters)) {
         if (nodeAssignmentsForVariable.length > 0) {
-            if (isInput) {
-                // When using CFD, there is a warning when a variable has multiple input assignments.
-                // At runtime, the last input assignment win
-                const parameterItem = merge(name, nodeAssignmentsForVariable[nodeAssignmentsForVariable.length - 1], isInput, activeVariable, latestVariable);
+            // When using CFD, there is a warning when an input variable has multiple input assignments. At runtime, the last input assignment win
+            // When using CFD, you can add multiple output assignments for the same subflow variable
+            nodeAssignmentsForVariable.forEach(nodeAssignment => {
+                const parameterItem = merge(name, nodeAssignment, isInput, activeVariable, latestVariable);
                 parameterItems.push(parameterItem);
-            } else {
-                // When using CFD, you can add multiple output assignments for the same subflow variable
-                nodeAssignmentsForVariable.forEach(nodeAssignment => {
-                    const parameterItem = merge(name, nodeAssignment, isInput, activeVariable, latestVariable);
-                    parameterItems.push(parameterItem);
-                });
-            }
+            });
         } else {
             const parameterItem = merge(name, undefined, isInput, activeVariable, latestVariable);
             parameterItems.push(parameterItem);

@@ -34,7 +34,7 @@ const mergeWithInputOutputVariables = (state, event) => {
 
 const removeUnsetAssignments = (state) => {
     const inputAssignments = state.inputAssignments.filter(inputAssignment => !isUndefinedOrNull(getValueFromHydratedItem(inputAssignment.value)));
-    const outputAssignments = state.outputAssignments.filter(outputAssignment => !isUndefinedOrNull(getValueFromHydratedItem(outputAssignment.value) !== null));
+    const outputAssignments = state.outputAssignments.filter(outputAssignment => !isUndefinedOrNull(getValueFromHydratedItem(outputAssignment.value)));
     state = updateProperties(state, {inputAssignments, outputAssignments });
     return state;
 };
