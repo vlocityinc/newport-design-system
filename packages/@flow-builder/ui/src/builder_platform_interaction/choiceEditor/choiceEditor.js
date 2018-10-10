@@ -10,7 +10,7 @@ import { isObject } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './choiceEditorLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { FEROV_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
+import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 
 
 const flowDataTypeChoiceMenuItems = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY,
@@ -97,13 +97,13 @@ export default class ChoiceEditor extends LightningElement {
 
     get storedValueComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
-            LABELS.choiceValueLabel,
-            LABELS.choiceValuePlaceholder,
-            this.choiceResource.storedValue.error,
-            true,
-            false,
-            false,
-            this.dataType
+            LABELS.choiceValueLabel, // label
+            LABELS.choiceValuePlaceholder, // placeholder
+            this.choiceResource.storedValue.error, // errorMessage
+            true, // literalsAllowed
+            false, // required
+            !this.dataType, // disabled
+            this.dataType // type
         );
     }
 
@@ -211,7 +211,7 @@ export default class ChoiceEditor extends LightningElement {
     updateStoredValueWithElement(item, error) {
         const dataType = getResourceFerovDataType(item.value);
 
-        this.updateProperty(FEROV_DATA_TYPE_PROPERTY, dataType, null);
+        this.updateProperty(STORED_VALUE_DATA_TYPE_PROPERTY, dataType, null);
         this.updateProperty(CHOICE_FIELDS.STORED_VALUE, item.displayText, error);
     }
 
@@ -221,7 +221,7 @@ export default class ChoiceEditor extends LightningElement {
      * @param {object} error
      */
     updateStoredValueWithLiteral(displayText, error) {
-        this.updateProperty(FEROV_DATA_TYPE_PROPERTY, this.dataType, null);
+        this.updateProperty(STORED_VALUE_DATA_TYPE_PROPERTY, this.dataType, null);
         this.updateProperty(CHOICE_FIELDS.STORED_VALUE, displayText, error);
     }
 

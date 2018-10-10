@@ -153,6 +153,7 @@ export const SPECIAL_REFERENCE_FIELDS = new Set([
     'collectionReference',
     'outputReference',
     'inputReference',
+    'storedValue'
 ]);
 
 export const EXPRESSION_RE = /\{!([^}]+)\}/g;

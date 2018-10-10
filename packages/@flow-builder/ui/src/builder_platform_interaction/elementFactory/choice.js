@@ -5,7 +5,7 @@ import { baseResourceMetadataObject } from "./base/baseMetadata";
 
 const elementType = ELEMENT_TYPE.CHOICE;
 const STORED_VALUE_PROPERTY = 'storedValue';
-const STORED_VALUE_DATA_TYPE_PROPERTY = 'storedValueDataType';
+export const STORED_VALUE_DATA_TYPE_PROPERTY = 'storedValueDataType';
 
 /**
  * @typedef {Object} validationRule
