@@ -62,8 +62,8 @@ export default class ParameterItem extends LightningElement {
      * @property {String|Object} dataType     the flow data type, see FLOW_DATA_TYPE (may be hydrated)
      * @property {Number} [maxOccurs]   the maximum occurrences
      * @property {String} [objectType] the api name of sobject if dataType is FLOW_DATA_TYPE.SOBJECT (may be hydrated)
-     * @property {String|Object} [value]    parameter's value (must be hydrated)
-     * @property {String|Object} [valueDataType]   parameter's value data type (may be hydrated)
+     * @property {Object} [value]    parameter's value (must be hydrated)
+     * @property {String} [valueDataType]   parameter's value data type
      * @property {String} [iconName] parameter's icon name, if we wish to use a custom icon rather than lookup icon by data type
      * @example <caption>input parameter</caption
      * {
@@ -75,7 +75,7 @@ export default class ParameterItem extends LightningElement {
      * maxOccurs: 1,
      * objectType: null,
      * value: {value: 'textVar', error: null},
-     * valueDataType: {value: 'reference', error: null},
+     * valueDataType: 'reference',
      * }
      * @example <caption>output parameter</caption>
      * {
@@ -87,7 +87,7 @@ export default class ParameterItem extends LightningElement {
      * maxOccurs: 1,
      * objectType: null,
      * value: {value: 'textVar', error: null},
-     * valueDataType: {value: 'reference', error: null},
+     * valueDataType: 'reference',
      * iconName: 'utility:events'
      * }
      */
@@ -234,6 +234,7 @@ export default class ParameterItem extends LightningElement {
      */
     handleToggleChanged(event) {
         event.stopPropagation();
+        let error = null;
         this.state.toggleStatus = event.detail.checked;
         const newValue = {value: null, valueDataType: null};
         if (!this.state.toggleStatus) { // from ON to OFF
@@ -242,12 +243,14 @@ export default class ParameterItem extends LightningElement {
             }
         } else if (this.preservedValue.value) {
             newValue.value = getValueFromHydratedItem(this.preservedValue.value);
-            newValue.valueDataType = getValueFromHydratedItem(this.preservedValue.valueDataType);
+            newValue.valueDataType = this.preservedValue.valueDataType;
+            error = getErrorFromHydratedItem(this.preservedValue.value);
             this.preservedValue = {value: null, valueDataType: null};
         } else {
             newValue.value = '';
+            newValue.valueDataType = this.getDataType();
         }
-        this.dispatchParameterEvent(newValue, null);
+        this.dispatchParameterEvent(newValue, error);
     }
 
     /**
@@ -280,7 +283,6 @@ export default class ParameterItem extends LightningElement {
      */
     dispatchParameterEvent(newValue, error) {
         const itemUpdatedEvent = new UpdateParameterItemEvent(this.state.parameterItem.isInput, this.state.parameterItem.rowIndex, getValueFromHydratedItem(this.state.parameterItem.name), newValue.value, newValue.valueDataType, error);
-        itemUpdatedEvent.detail.valueDataType = newValue.valueDataType;
         this.dispatchEvent(itemUpdatedEvent);
     }
 

@@ -15,13 +15,6 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
  */
 
 /**
-* @typedef {Object} RowIndexed
-* @property {String} rowIndex
-*
-* @typedef {ParameterItem & RowIndex} IndexedParameterItem
-*/
-
-/**
  * @typedef {InputOutputParameterItems} input and output parameter items
  * @property {ParameterItem[]} inputs the input parameter items (value must be hydrated)
  * @property {ParameterItem[]} outputs the output parameter items (value must be hydrated)
@@ -30,7 +23,7 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
 /**
 * @param {ActionOrApexPluginInputOutputParameter[]} inputOrOutputParameters - all input parameters or all output parameters
 * @param {CalloutInputParameter[]|CalloutOutputParameter[]} nodeParameters - node's input parameters or node's output parameters
-* @return {IndexedParameterItem[]} an array of IndexedParameterItem
+* @return {ParameterItem[]} an array of ParameterItem
 */
 function mergeParameters(inputOrOutputParameters, nodeParameters) {
     const finalArray = [];
@@ -46,7 +39,8 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
                 finalArray.push(Object.assign({}, nodeParamFound, parameterItem));
             });
         } else {
-            finalArray.push(Object.assign({rowIndex: generateGuid()}, parameterItem));
+            // assign the null value to the required parameters, so that validate.validateAll will throw an error if the required input parameter isn't set in new mode
+            finalArray.push(Object.assign({rowIndex: generateGuid()}, isRequired ? {value: {value: null, error: null}} : {}, parameterItem));
         }
     });
     return finalArray;
