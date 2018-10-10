@@ -36,6 +36,10 @@ export default class OutputResourcePicker extends LightningElement {
      * @param {module:base-resource-picker.item|String} newValue the new value for the picker
      */
     set value(newValue) {
+        // TODO: W-5511396 this should only be if the value's "level" has changed
+        if (this._value !== newValue) {
+            this._isInitialized = false;
+        }
         this._value = newValue;
     }
 
