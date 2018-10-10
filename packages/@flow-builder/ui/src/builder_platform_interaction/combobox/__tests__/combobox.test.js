@@ -18,6 +18,21 @@ const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
 };
 
+jest.mock('builder_platform_interaction/systemLib', () => {
+    const emptyString = '$GlobalConstant.EmptyString';
+    const booleanTrue = '$GlobalConstant.True';
+    return {
+        GLOBAL_CONSTANTS: {
+            EMPTY_STRING: emptyString,
+            BOOLEAN_TRUE: booleanTrue,
+        },
+        GLOBAL_CONSTANT_PREFIX: '$GlobalConstant',
+        getNonElementResource: (id) => {
+            return id === emptyString || id === booleanTrue;
+        }
+    };
+});
+
 /**
  * Error message map for validation of literal value.
  *

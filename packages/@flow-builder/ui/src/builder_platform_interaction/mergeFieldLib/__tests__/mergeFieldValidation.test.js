@@ -1,5 +1,19 @@
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
 import { datetimeParamTypes } from "mock/ruleService";
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+
+jest.mock('builder_platform_interaction/systemLib', () => {
+    const emptyString = '$GlobalConstant.EmptyString';
+    return {
+        GLOBAL_CONSTANTS: {
+            EMPTY_STRING: emptyString,
+        },
+        GLOBAL_CONSTANT_PREFIX: '$GlobalConstant',
+        getNonElementResource: (id) => {
+            return id === emptyString;
+        }
+    };
+});
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
@@ -116,7 +130,7 @@ describe('Merge field validation', () => {
     });
     describe('Global constants', () => {
         it('Returns no validation error when it references {!$GlobalConstant.EmptyString}', (done) => {
-            validateMergeField('{!$GlobalConstant.EmptyString}').then(validationErrors => {
+            validateMergeField('{!' + GLOBAL_CONSTANTS.EMPTY_STRING + '}').then(validationErrors => {
                 expect(validationErrors).toEqual([]);
                 done();
             });
@@ -134,7 +148,7 @@ describe('Merge field validation', () => {
             });
         });
         it('Returns a validation error when it references {!$GlobalConstant.EmptyString} when global constants are not allowed', (done) => {
-            validateMergeField('{!$GlobalConstant.EmptyString}', { allowGlobalConstants : false }).then(validationErrors => {
+            validateMergeField('{!' + GLOBAL_CONSTANTS.EMPTY_STRING + '}', { allowGlobalConstants : false }).then(validationErrors => {
                 expect(validationErrors).toEqual([
                     {
                         'endIndex': 28,

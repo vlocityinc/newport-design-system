@@ -1,6 +1,8 @@
 import { createRecordCreate, createRecordCreateMetadataObject } from '../recordCreate';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS  } from 'builder_platform_interaction/recordEditorLib';
+import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
+import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
 
 const mockGuid = 'mockGuid';
 
@@ -51,7 +53,7 @@ const inputAssignmentField = {
 };
 
 const inputAssignmentFieldBooleanValue = {
-    field: 'isEditeable',
+    field: 'isEditable',
     value:{ booleanValue: false }
 };
 
@@ -68,8 +70,8 @@ const uiModelInputAssignmentField = {
 };
 
 const uiModelInputAssignmentFieldBooleanValue = {
-    leftHandSide: 'myObject.isEditeable',
-    rightHandSide: '{!$GlobalConstant.False}',
+    leftHandSide: 'myObject.isEditable',
+    rightHandSide: globalConstantPrefixLabel + '.' + globalConstantFalseLabel,
     rightHandSideDataType: 'Boolean',
 };
 

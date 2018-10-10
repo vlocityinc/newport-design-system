@@ -206,14 +206,14 @@ export const createFEROV = (ferovObject, valueProperty, dataTypeProperty) => {
             props[dataTypeProperty] = META_DATA_TYPES_TO_FEROV_TYPES_MAP[metadataType];
             if (isFerovBoolean(metadataType)) {
                 if (value === true) {
-                    props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
+                    props[valueProperty] = GLOBAL_CONSTANTS.BOOLEAN_TRUE;
                 } else {
-                    props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE);
+                    props[valueProperty] = GLOBAL_CONSTANTS.BOOLEAN_FALSE;
                 }
             } else if (isFerovNumber(metadataType)) {
                 props[valueProperty] = value.toString();
             } else if (isFerovString(metadataType) && value === '') {
-                props[valueProperty] = addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING);
+                props[valueProperty] = GLOBAL_CONSTANTS.EMPTY_STRING;
             } else if (isFerovDate(metadataType)) {
                 props[valueProperty] = formatDateTime(value.split('T')[0], false);
             } else if (isFerovDateTime(metadataType)) {
@@ -258,12 +258,12 @@ export const createFEROVMetadataObject = (element, valueProperty, dataTypeProper
             let ferovValue;
             if (isFerovReference(ferovDataTypeKey)) {
                 ferovValue = element[valuePropertyGuid] || value;
-            } else if (isFerovString(ferovDataTypeKey) && value === addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)) {
+            } else if (isFerovString(ferovDataTypeKey) && value === GLOBAL_CONSTANTS.EMPTY_STRING) {
                 ferovValue = '';
             } else if (isFerovBoolean(ferovDataTypeKey)) {
-                if (value === addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_TRUE)) {
+                if (value === GLOBAL_CONSTANTS.BOOLEAN_TRUE) {
                     ferovValue = true;
-                } else if (value === addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE)) {
+                } else if (value === GLOBAL_CONSTANTS.BOOLEAN_FALSE) {
                     ferovValue = false;
                 }
             } else if (isFerovDateTime(ferovDataTypeKey)) {

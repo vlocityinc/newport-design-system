@@ -2,6 +2,8 @@ import { createRecordUpdate, createRecordUpdateMetadataObject } from '../recordU
 import { NUMBER_RECORDS_TO_STORE,
     RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
+import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
 
 const recordUpdateUsingSobject = {
     name: 'RecordUpdate1',
@@ -66,7 +68,7 @@ const inputAssignmentField = {
 };
 
 const inputAssignmentFieldBooleanValue = {
-    field: 'isEditeable',
+    field: 'isEditable',
     value:{ booleanValue: false }
 };
 
@@ -83,8 +85,8 @@ const mutatedInputAssignmentField = {
 };
 
 const mutatedInputAssignmentFieldBooleanValue = {
-    leftHandSide: 'myObject.isEditeable',
-    rightHandSide: '{!$GlobalConstant.False}',
+    leftHandSide: 'myObject.isEditable',
+    rightHandSide: globalConstantPrefixLabel + '.' + globalConstantFalseLabel,
     rightHandSideDataType: 'Boolean',
 };
 

@@ -234,7 +234,7 @@ export const populateRhsState = ({ rightHandSide, rightHandSideDataType }, callb
         value: rightHandSide.value,
     };
 
-    if (!rightHandSide.error && rightHandSideDataType && rightHandSideDataType.value === FEROV_DATA_TYPE.REFERENCE) {
+    if (!rightHandSide.error && rightHandSideDataType) {
         const complexGuid = sanitizeGuid(rightHandSide.value);
         const fer = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
 

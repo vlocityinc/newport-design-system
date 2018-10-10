@@ -12,7 +12,7 @@ import {
 } from "builder_platform_interaction/expressionUtils";
 import { mockAccountFields, mockAccountFieldWithPicklist } from "mock/serverEntityData";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
+import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
 import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
 
 function createComponentForTest(props) {
@@ -267,7 +267,8 @@ describe('field-to-ferov-expression-builder', () => {
                 },
             });
             const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
-            expect(baseExpressionBuilder.rhsValue).toBe(addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE));
+            expect(baseExpressionBuilder.rhsValue)
+                .toMatchObject(mutateFlowResourceToComboboxShape(GLOBAL_CONSTANT_OBJECTS[GLOBAL_CONSTANTS.BOOLEAN_FALSE]));
             expect(baseExpressionBuilder.rhsIsField).toBeDefined();
             expect(baseExpressionBuilder.rhsIsField).toBeFalsy();
             expect(baseExpressionBuilder.rhsFields).toBeDefined();
