@@ -26,4 +26,6 @@ let mock = {
         removeConnectorFromLib : jest.fn(),
     };
 
+export const setConnectionDecorator = jest.fn();
+
 export { mock as drawingLibInstance };
