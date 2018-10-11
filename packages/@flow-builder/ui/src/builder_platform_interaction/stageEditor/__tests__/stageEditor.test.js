@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import StageEditor from "../stageEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import { createStage } from "builder_platform_interaction/elementFactory";
-import { hydrateWithErrors, mutateEditorElement } from "builder_platform_interaction/dataMutationLib";
+import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { stageReducer } from "../../stageEditor/stageReducer";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
@@ -52,7 +52,6 @@ describe('Stage-Editor', () => {
         let stageEditor;
         beforeEach(() => {
             stageResource = createStage();
-            stageResource = mutateEditorElement(stageResource);
             stageResource = hydrateWithErrors(stageResource);
             stageEditor = createComponentUnderTest(stageResource);
         });
