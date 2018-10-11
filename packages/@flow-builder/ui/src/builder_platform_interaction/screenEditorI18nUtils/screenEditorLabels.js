@@ -63,6 +63,7 @@ import spinnerAlternativeText from "@salesforce/label/FlowBuilderEditor.spinnerA
 import extensionOutputsHeader from "@salesforce/label/FlowBuilderScreenEditor.extensionOutputsHeader";
 import fieldValidation from '@salesforce/label/FlowBuilderScreenEditor.fieldValidation';
 import validationFormula from '@salesforce/label/FlowBuilderFormulaTextarea.formulaValidationSpinnerAlternativeText';
+import select from "@salesforce/label/FlowBuilderScreenEditor.select";
 import selectResource from '@salesforce/label/FlowBuilderScreenEditor.selectResource';
 import invalidScreen from '@salesforce/label/FlowBuilderScreenEditor.invalidScreen';
 import invalidScreenfield from '@salesforce/label/FlowBuilderScreenEditor.invalidScreenfield';
@@ -138,6 +139,7 @@ export const LABELS = {
     extensionOutputsHeader,
     validationFormula,
     addChoice,
+    select,
     selectResource,
     invalidScreen,
     invalidScreenfield,

@@ -123,11 +123,6 @@ export default class ScreenEditor extends LightningElement {
         // select the new field on the canvas.
         const position = Number.isInteger(event.position) ? event.position : this.screen.fields.length - 1;
         this.setSelectedNode(this.screen.fields[position]);
-
-        // Because this is a new screen field, set this flag, which is used by the property
-        // editor to figure out fields that can be set/edited.
-        // TODO: W-4947221 - make sure this isn't saved when the flow is saved
-        this.screen.fields[position].isNewMode = true;
     }
 
     /**

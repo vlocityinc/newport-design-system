@@ -43,18 +43,28 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     handleDefaultValuePropertyChanged = (event) => {
         event.stopPropagation();
 
-        // We get the display value from the event, which might be something
-        // like {!choice1}, but we want the devName. Get the devName by using the GUID.
-        const element = getElementByGuid(event.detail.guid);
-        if (element) {
-            this.dispatchEvent(new PropertyChangedEvent(
-                event.detail.propertyName,
-                hydrateIfNecessary(element.name),
-                event.detail.error,
-                this.field.guid,
-                hydrateIfNecessary(this.field.defaultValue)
-            ));
+        let newValue;
+        if (!event.detail.guid) {
+            // User is trying to set default value back to nothing.
+            newValue = '';
+        } else {
+            // We get the display value from the event, which might be something
+            // like {!choice1}, but we want the devName. Get the devName by using the GUID.
+            const element = getElementByGuid(event.detail.guid);
+            if (!element) {
+                // This should never happen. If it does, something is really wrong.
+                throw new Error("Unable to find element associated with the default choice");
+            }
+            newValue = element.name;
         }
+
+        this.dispatchEvent(new PropertyChangedEvent(
+            event.detail.propertyName,
+            hydrateIfNecessary(newValue),
+            event.detail.error,
+            event.detail.guid ? event.detail.guid : null,
+            hydrateIfNecessary(this.field.defaultValue)
+        ));
     }
 
     handleChoiceChanged = (event) => {
@@ -134,16 +144,23 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     // Used to figure out which choices are available as possible values for the default value setting.
     // The only options should be those that are associated with this field (not all choices in the flow).
     get availableChoices() {
-        const CHOICES = {};
+        const choices = [];
+
+        // This essentially acts as a placeholder as the "no default value" set option.
+        choices[0] = {
+            label: this.labels.select,
+            value: ''
+        };
+
         if (this.field.choiceReferences) {
             for (let i = 0; i < this.field.choiceReferences.length; i++) {
                 const choice = this.field.choiceReferences[i];
-                CHOICES[choice] = {
+                choices[choice] = {
                     label: choice,
                     value: choice
                 };
             }
         }
-        return Object.values(CHOICES);
+        return Object.values(choices);
     }
 }
