@@ -1,4 +1,8 @@
-import { LightningElement, api, track } from 'lwc';
+import {
+    LightningElement,
+    api,
+    track
+} from 'lwc';
 import { invokePopover } from 'builder_platform_interaction/builderUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from './statusIconLabels';
@@ -148,5 +152,16 @@ export default class StatusIcon extends LightningElement {
         const createPanel = this.onCreatePanel;
         const destroyPanel = this.onDestroyPanel;
         invokePopover('builder_platform_interaction:statusIconSummary', { header, messages, type, showOnlyNumberOfErrors }, { direction, referenceSelector, createPanel, destroyPanel });
+    }
+
+    /**
+     * We are setting the id on lightning button icon in renderedCallback
+     * This is a temporary fix until W-5445508 is resolved
+     */
+    renderedCallback() {
+        const lightningButtonIcon = this.template.querySelector('lightning-button-icon');
+        if (lightningButtonIcon && lightningButtonIcon.id === "") {
+            lightningButtonIcon.id = generateGuid();
+        }
     }
 }
