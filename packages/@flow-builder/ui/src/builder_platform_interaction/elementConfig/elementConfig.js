@@ -402,6 +402,7 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
+        nonHydratableProperties: ['numberRecordsToStore'],
         factory: {
             propertyEditor: createRecordCreate,
             uiToFlow: createRecordCreateMetadataObject,

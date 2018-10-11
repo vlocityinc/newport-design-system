@@ -5,6 +5,7 @@ import {
     rhsDataTypePropertyName
 } from "./baseList";
 import { createFEROV, createFEROVMetadataObject } from '../ferov';
+import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 
 const lhsMetadataPropertyName = 'value';
 
@@ -89,3 +90,12 @@ export function createFlowInputFieldAssignment(inputAssignmentsItem, objectType)
     }
     return newAssignment;
 }
+
+export const getDefaultAvailableConnections = () => [
+    {
+        type: CONNECTOR_TYPE.REGULAR
+    },
+    {
+        type: CONNECTOR_TYPE.FAULT
+    }
+];

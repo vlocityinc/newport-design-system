@@ -11,6 +11,13 @@ import fieldAssignmentNotSupportedForCreate from '@salesforce/label/FlowBuilderR
 import recordVariable from '@salesforce/label/FlowBuilderRecordEditor.recordVariable';
 import recordCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.recordCollectionVariable';
 import warning from '@salesforce/label/FlowBuilderRecordEditor.warning';
+import object from '@salesforce/label/FlowBuilderRecordEditor.object';
+import createRecordOfThisObject from '@salesforce/label/FlowBuilderRecordEditor.createRecordOfThisObject';
+import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
+import createAssignmentTitleFormat from '@salesforce/label/FlowBuilderRecordEditor.createAssignmentTitleFormat';
+import storeIdInVariableFormat from '@salesforce/label/FlowBuilderRecordEditor.storeIdInVariableFormat';
+import variable from '@salesforce/label/FlowBuilderRecordEditor.variable';
+import variablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.variablePlaceholder';
 
 export const LABELS = {
     sObjectVariablePlaceholder,
@@ -24,5 +31,12 @@ export const LABELS = {
     fieldAssignmentNotSupportedForCreate,
     recordVariable,
     recordCollectionVariable,
-    warning
+    warning,
+    object,
+    objectPlaceholder,
+    createRecordOfThisObject,
+    createAssignmentTitleFormat,
+    storeIdInVariableFormat,
+    variable,
+    variablePlaceholder
 };
