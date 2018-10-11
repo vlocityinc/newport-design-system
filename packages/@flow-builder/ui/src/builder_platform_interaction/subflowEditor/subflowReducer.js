@@ -16,6 +16,7 @@ const subflowPropertyChanged = (state, event) => {
 };
 
 const updateParameterItem = (state, event) => {
+    // value is null when we unset an assignment
     const {isInput, rowIndex, value, valueDataType, error} = event.detail;
     const propertyName = isInput ? 'inputAssignments' : 'outputAssignments';
     const paramIndex = state[propertyName].findIndex(parameter => getValueFromHydratedItem(parameter.rowIndex) === rowIndex);
