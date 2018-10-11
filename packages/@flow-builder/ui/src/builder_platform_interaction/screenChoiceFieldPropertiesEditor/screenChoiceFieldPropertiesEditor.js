@@ -143,7 +143,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     // Used to figure out which choices are available as possible values for the default value setting.
     // The only options should be those that are associated with this field (not all choices in the flow).
-    get availableChoices() {
+    get defaultValueChoices() {
         const choices = [];
 
         // This essentially acts as a placeholder as the "no default value" set option.

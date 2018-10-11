@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import ScreenChoiceFieldPropertiesEditor from "../screenChoiceFieldPropertiesEditor";
 import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
 import { getShadowRoot } from 'lwc-test-utils';
+import { createScreenField } from "builder_platform_interaction/elementFactory";
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -27,9 +28,7 @@ const SELECTORS = {
     DATA_TYPE: 'builder_platform_interaction-data-type-picker',
     DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[name="defaultValue"]',
     CHOICE_SELECTOR: 'builder_platform_interaction-screen-property-field[name="choice"]',
-    HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
-    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-resourced-textarea[name="errorMessage"]',
-    VALIDATION_FORMULA: 'builder_platform_interaction-resourced-textarea[name="formulaExpression"]',
+    HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]'
 };
 
 const fieldName = 'radio1';
@@ -45,50 +44,56 @@ const createComponentUnderTest = (props) => {
     return el;
 };
 
+const createAndMutateField = (name, fieldType, defaultValue, config) => {
+    const field = createTestScreenField(name, fieldType, defaultValue, config);
+    const mutatedField = createScreenField(field);
+    return mutatedField;
+};
+
 describe('screen-choice-field-properties-editor', () => {
-    let screenRadioFieldPropEditor;
+    let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        screenRadioFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE, {dataType: 'String', validation: false, helpText: false}),
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: createAndMutateField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE, {dataType: 'String', validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenRadioFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
     it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenRadioFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField).toBeDefined();
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
     it('Default value is empty when there is no default value', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = query(screenRadioFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
     });
     it('Required checkbox is present and not checked', () => {
         return Promise.resolve().then(() => {
-            const renderedRequiredCheckbox = query(screenRadioFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
+            const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
             expect(renderedRequiredCheckbox).toBeDefined();
             expect(renderedRequiredCheckbox.value).toBeFalsy();
         });
     });
     it('Datatype drop down is set to required', () => {
         return Promise.resolve().then(() => {
-            const dataTypeDropDown = getShadowRoot(screenRadioFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
+            const dataTypeDropDown = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
             expect(dataTypeDropDown).toBeDefined();
             expect(dataTypeDropDown.required).toBeTruthy();
         });
     });
     it('Datatype drop down and set', () => {
         return Promise.resolve().then(() => {
-            const dataTypeDropDown = getShadowRoot(screenRadioFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
+            const dataTypeDropDown = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
             expect(dataTypeDropDown).toBeDefined();
             expect(dataTypeDropDown.value).toBeDefined();
             expect(dataTypeDropDown.value.dataType).toBe('TextBox');
@@ -96,36 +101,25 @@ describe('screen-choice-field-properties-editor', () => {
     });
     it('Help text is present and filled in', () => {
         return Promise.resolve().then(() => {
-            const helpTextField = query(screenRadioFieldPropEditor, SELECTORS.HELP_TEXT);
+            const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(helpTextField).toBeDefined();
             expect(helpTextField.value.value).toBe("Screen field radio1 help text");
-        });
-    });
-    it('Validation rule error message is present but empty', () => {
-        return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenRadioFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
-            expect(renderedValidationError).toBeNull();
-        });
-    });
-    it('Validation rule formula is present but empty', () => {
-        return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenRadioFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
-            expect(renderedValidationFormula).toBeNull();
         });
     });
 });
 
 describe('screen-choice-field-properties-editor choice selectors', () => {
-    let screenRadioFieldPropEditor;
+    let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        screenRadioFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE,
-                                         {dataType: 'String', createChoices: true}),
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: createAndMutateField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE,
+                                        {dataType: 'String', createChoices: true}),
+
         });
     });
     it('Correct number of choice selectors are present', () => {
         return Promise.resolve().then(() => {
-            const choiceSelectors = query(screenRadioFieldPropEditor, SELECTORS.CHOICE_SELECTOR, true);
+            const choiceSelectors = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR, true);
             expect(choiceSelectors).toBeDefined();
             expect(choiceSelectors).toHaveLength(3);
             expect(choiceSelectors[0].required).toBeTruthy();
@@ -136,18 +130,41 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
     });
 });
 
-// TODO Cannot test default value yet, currently broken.
+describe('screen-choice-field-properties-editor defaultValue', () => {
+    let screenChoiceFieldPropEditor;
+    beforeEach(() => {
+        const field = createTestScreenField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE,
+                                            {dataType: 'String', createChoices: true});
+        field.defaultValue = 'choice1';
+        field.defaultValueDataType = 'reference';
+        const mutatedField = createScreenField(field);
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: mutatedField
+        });
+    });
+    it('When default value is set', () => {
+        return Promise.resolve().then(() => {
+            const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            expect(defaultValue).toBeDefined();
+            expect(defaultValue.value).toBeDefined();
+
+            // Because the field has 3 choices assocaited with it, it should have 4 options.
+            // The 3 choices, plus no default selected.
+            expect(defaultValue.listChoices).toHaveLength(4);
+        });
+    });
+});
 
 describe('screen-choice-field-properties-editor for field that is set to required', () => {
-    let screenRadioFieldPropEditor;
+    let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        screenRadioFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE, {required: true}),
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: createAndMutateField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE, {required: true}),
         });
     });
     it('Required checkbox is present and checked', () => {
         return Promise.resolve().then(() => {
-            const requiredCheckbox = query(screenRadioFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
+            const requiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
             expect(requiredCheckbox).toBeDefined();
             expect(requiredCheckbox.value).toBeTruthy();
         });
@@ -155,15 +172,15 @@ describe('screen-choice-field-properties-editor for field that is set to require
 });
 
 describe('screen-choice-field-properties-editor with help text', () => {
-    let screenRadioFieldPropEditor;
+    let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        screenRadioFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE),
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: createAndMutateField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE),
         });
     });
     it('Help text is displayed', () => {
         return Promise.resolve().then(() => {
-            const helpTextField = query(screenRadioFieldPropEditor, SELECTORS.HELP_TEXT);
+            const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
             expect(helpTextField).toBeDefined();
             expect(helpTextField.value.value).toBe('Screen field radio1 help text');
         });

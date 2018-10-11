@@ -14,6 +14,7 @@ export * from './recordLookup';
 export * from './recordUpdate';
 export * from './recordDelete';
 export * from './screen';
+export * from './screenField';
 export * from './startElement';
 export * from './subflow';
 export * from './variable';

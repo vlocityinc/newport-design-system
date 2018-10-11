@@ -95,6 +95,13 @@ const screenFieldTypes = [
         icon: 'utility:multi_select_checkbox',
         category: LABELS.fieldCategoryInput
     }, {
+        name: 'MultiSelectPicklist',
+        fieldType: 'MultiSelectPicklist',
+        dataType: undefined,
+        label: LABELS.fieldTypeLabelMultiSelectPicklist,
+        icon: 'utility:multi_picklist',
+        category: LABELS.fieldCategoryInput
+    }, {
         name: 'DisplayText',
         fieldType: 'DisplayText',
         dataType: undefined,
@@ -188,7 +195,8 @@ export function getScreenFieldType(field) {
         // A reality, choice based fields have a dataType associated with them. However, we generically
         // lump each type of choice based fields as one type in the screenFieldTypes map and dataType is ignored.
         // For this check only, just check the fieldType and ignore dataType.
-        if (fieldType === type.fieldType && (fieldType === 'RadioButtons' || fieldType === 'MultiSelectCheckboxes')) {
+        if (fieldType === type.fieldType &&
+            (fieldType === 'RadioButtons' || fieldType === 'MultiSelectCheckboxes' || fieldType === 'MultiSelectPicklist')) {
             return type;
         }
     }
@@ -244,8 +252,20 @@ export function isRadioField(field) {
     return field && field.fieldType === 'RadioButtons';
 }
 
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a multi-select checkbox field
+ */
 export function isMultiSelectCheckboxField(field) {
     return field && field.fieldType === 'MultiSelectCheckboxes';
+}
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a multi-select picklist field
+ */
+export function isMultiSelectPicklistField(field) {
+    return field && field.fieldType === 'MultiSelectPicklist';
 }
 
 /**
