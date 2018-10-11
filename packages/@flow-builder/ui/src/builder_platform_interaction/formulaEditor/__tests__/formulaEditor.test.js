@@ -13,7 +13,7 @@ const createComponentUnderTest = (node) => {
 
 const selectors = {
     dataTypePicker: 'builder_platform_interaction-data-type-picker',
-    formulaTextArea : 'builder_platform_interaction-formula-textarea'
+    formulaTextArea : 'builder_platform_interaction-resourced-textarea'
 };
 
 const getDataTypePicker = (formulaEditor) => {
@@ -60,7 +60,7 @@ describe('formula-editor', () => {
         });
         it('Expression textarea should have the proper value', () => {
             const formulaTextArea = getFormulaTextArea(formulaEditor);
-            expect(formulaTextArea.expression).toBe('2+2');
+            expect(formulaTextArea.value.value).toBe('2+2');
         });
     });
     describe('Edit new formula', () => {
@@ -76,7 +76,7 @@ describe('formula-editor', () => {
         });
         it('Expression textarea should be empty', () => {
             const formulaTextArea = getFormulaTextArea(formulaEditor);
-            expect(formulaTextArea.expression).toBe('');
+            expect(formulaTextArea.value.value).toBe('');
         });
     });
 });

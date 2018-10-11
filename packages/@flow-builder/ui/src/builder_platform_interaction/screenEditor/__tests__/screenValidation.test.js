@@ -78,20 +78,20 @@ describe('When field type is DisplayText', () => {
 describe('When field type is TextBox', () => {
     it('and a formulaExpression is provided without an errorMessage, we should get an error', () => {
         const field = createTestScreenField('field1', 'Number', SCREEN_NO_DEF_VALUE, {validation: false});
-        field.formulaExpression = {value: 'abc', error: null};
+        field.validationRule.formulaExpression = {value: 'abc', error: null};
         const rules = getRulesForField(field);
-        expect(screenValidation.validateProperty('errorMessage', "", rules.errorMessage)).toBe(LABELS.cannotBeBlank);
+        expect(screenValidation.validateProperty('errorMessage', "", rules.validationRule.errorMessage)).toBe(LABELS.cannotBeBlank);
     });
     it('and a errorMessage is provided without an formulaExpression, we should get an error', () => {
         const field = createTestScreenField('field1', 'Number', SCREEN_NO_DEF_VALUE, {validation: false});
-        field.errorMessage = {value: 'abc', error: null};
+        field.validationRule.errorMessage = {value: 'abc', error: null};
         const rules = getRulesForField(field);
-        expect(screenValidation.validateProperty('formulaExpression', "", rules.formulaExpression)).toBe(LABELS.cannotBeBlank);
+        expect(screenValidation.validateProperty('formulaExpression', "", rules.validationRule.formulaExpression)).toBe(LABELS.cannotBeBlank);
     });
     it('and both errorMessage and formulaExpression are provided, there should be no error', () => {
         const field = createTestScreenField('field1', 'Number', SCREEN_NO_DEF_VALUE, {validation: true});
         const rules = getRulesForField(field);
-        expect(screenValidation.validateProperty('formulaExpression', field.formulaExpression.value, rules.formulaExpression)).toBeNull();
-        expect(screenValidation.validateProperty('errorMessage', field.errorMessage.value, rules.errorMessage)).toBeNull();
+        expect(screenValidation.validateProperty('formulaExpression', field.validationRule.formulaExpression.value, rules.validationRule.formulaExpression)).toBeNull();
+        expect(screenValidation.validateProperty('errorMessage', field.validationRule.errorMessage.value, rules.validationRule.errorMessage)).toBeNull();
     });
 });

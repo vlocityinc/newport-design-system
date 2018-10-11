@@ -134,9 +134,10 @@ describe('Events from the textarea', () => {
         resourcedTextarea.addEventListener('change', eventCallback);
 
         const textarea = getShadowRoot(resourcedTextarea).querySelector(selectors.textarea);
+        textarea.value = '2+2';
         textarea.dispatchEvent(new CustomEvent('blur'));
         await Promise.resolve();
-        expectValueChangedEventWithValue('1+1', null);
+        expectValueChangedEventWithValue('2+2', null);
     });
 
     it('Should fire change event on blur with validation errors', async () => {

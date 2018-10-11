@@ -83,14 +83,14 @@ describe('screen-input-field-properties-editor for TextBox', () => {
         return Promise.resolve().then(() => {
             const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
-            expect(renderedValidationError.value.value).toBeUndefined();
+            expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
-            expect(renderedValidationFormula.value.value).toBeUndefined();
+            expect(renderedValidationFormula.value.value).toBeNull();
         });
     });
 });
@@ -145,14 +145,14 @@ describe('screen-input-field-properties-editor for Number', () => {
         return Promise.resolve().then(() => {
             const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
-            expect(renderedValidationError.value.value).toBeUndefined();
+            expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
-            expect(renderedValidationFormula.value.value).toBeUndefined();
+            expect(renderedValidationFormula.value.value).toBeNull();
         });
     });
 });
@@ -207,14 +207,14 @@ describe('screen-input-field-properties-editor for Date', () => {
         return Promise.resolve().then(() => {
             const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
-            expect(renderedValidationError.value.value).toBeUndefined();
+            expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
-            expect(renderedValidationFormula.value.value).toBeUndefined();
+            expect(renderedValidationFormula.value.value).toBeNull();
         });
     });
 });
@@ -270,14 +270,14 @@ describe('screen-input-field-properties-editor for DateTime', () => {
         return Promise.resolve().then(() => {
             const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
-            expect(renderedValidationError.value.value).toBeUndefined();
+            expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
-            expect(renderedValidationFormula.value.value).toBeUndefined();
+            expect(renderedValidationFormula.value.value).toBeNull();
         });
     });
 });
@@ -331,14 +331,14 @@ describe('screen-input-field-properties-editor for Checkbox', () => {
         return Promise.resolve().then(() => {
             const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
-            expect(renderedValidationError.value.value).toBeUndefined();
+            expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
-            expect(renderedValidationFormula.value.value).toBeUndefined();
+            expect(renderedValidationFormula.value.value).toBeNull();
         });
     });
 });
@@ -393,14 +393,14 @@ describe('screen-input-field-properties-editor for Currency', () => {
         return Promise.resolve().then(() => {
             const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
-            expect(renderedValidationError.value.value).toBeUndefined();
+            expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
-            expect(renderedValidationFormula.value.value).toBeUndefined();
+            expect(renderedValidationFormula.value.value).toBeNull();
         });
     });
 });

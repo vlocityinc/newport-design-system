@@ -66,14 +66,14 @@ describe('screen-textarea-field-properties-editor', () => {
         return Promise.resolve().then(() => {
             const renderedValidationError = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
-            expect(renderedValidationError.value.value).toBeUndefined();
+            expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
             const renderedValidationFormula = query(screenTextAreaFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
-            expect(renderedValidationFormula.value.value).toBeUndefined();
+            expect(renderedValidationFormula.value.value).toBeNull();
         });
     });
 });

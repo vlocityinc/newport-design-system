@@ -80,29 +80,6 @@ describe('mutateScreen function', () => {
 });
 
 describe('mutateScreenField function', () => {
-    it('mutateScreenField function handles validationRule correctly', () => {
-        // Add the validationRule manually instead of relying on createTestScreenField to do it. The
-        // createTestScreenField method adds validationRule as if the screen has already been mutated.
-        // We want the version of the screen field we'd get from the server, before it's gone through mutation.
-        const screenField = createTestScreenField('field1', 'Number', null, {validation: false, hydrateValues: false});
-        screenField.validationRule = { errorMessage: "Some error message", formulaExpression: "1 == 2"};
-        expect(screenField.validationRule).toBeDefined();
-        expect(screenField.validationRule.errorMessage).toBeDefined();
-        expect(screenField.validationRule.formulaExpression).toBeDefined();
-
-        const mutatedScreenField = mutateScreenField(screenField);
-        expect(mutatedScreenField.validationRule).not.toBeDefined();
-        expect(mutatedScreenField.errorMessage).toBeDefined();
-        expect(mutatedScreenField.formulaExpression).toBeDefined();
-
-        const demutatedScreenField = demutateScreenField(screenField);
-        expect(demutatedScreenField.validationRule).toBeDefined();
-        expect(demutatedScreenField.validationRule.errorMessage).toBeDefined();
-        expect(demutatedScreenField.validationRule.formulaExpression).toBeDefined();
-        expect(demutatedScreenField.errorMessage).not.toBeDefined();
-        expect(demutatedScreenField.formulaExpression).not.toBeDefined();
-    });
-
     it('mutateScreenField function scalar property correctly', () => {
         const screenField = createTestScreenField('field1', 'Number', null, {validation: false, hydrateValues: false});
         screenField.scale = 2;
