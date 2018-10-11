@@ -154,21 +154,21 @@ export default class ActionSelector extends LightningElement {
         let selectedAction = { elementType : this.state.selectedElementType };
         if (this.state.selectedActionValue) {
             if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-                const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.apexClass === this.state.selectedActionValue.value);
+                const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.apexClass === this.state.selectedActionValue);
                 if (apexPluginFound) {
                     selectedAction = Object.assign(selectedAction, {
                         apexClass : apexPluginFound.apexClass
                     });
                 }
             } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
-                const subflowFound = this.subflows.find(subflow => subflow.fullName === this.state.selectedActionValue.value);
+                const subflowFound = this.subflows.find(subflow => subflow.fullName === this.state.selectedActionValue);
                 if (subflowFound) {
                     selectedAction = Object.assign(selectedAction, {
                         flowName : subflowFound.fullName,
                     });
                 }
             } else {
-                const actionFound = this.invocableActions.find(action => action.durableId === this.state.selectedActionValue.value);
+                const actionFound = this.invocableActions.find(action => action.durableId === this.state.selectedActionValue);
                 if (actionFound) {
                     selectedAction = Object.assign(selectedAction, {
                         actionName : actionFound.name,
@@ -317,7 +317,16 @@ export default class ActionSelector extends LightningElement {
 
     handleActionChanged(event) {
         event.stopPropagation();
-        this.state.selectedActionValue = event.detail.item;
+        const item = event.detail.item;
+        if (item === null) {
+            // typed something that does not match an item
+            this.state.selectedActionValue = null;
+        } else {
+            if (this.state.selectedActionValue === item.value) {
+                return;
+            }
+            this.state.selectedActionValue = item.value;
+        }
         const valueChangedEvent = new ValueChangedEvent(this.selectedAction);
         this.dispatchEvent(valueChangedEvent);
     }

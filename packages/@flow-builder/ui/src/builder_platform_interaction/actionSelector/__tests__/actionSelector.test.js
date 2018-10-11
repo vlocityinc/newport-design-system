@@ -53,8 +53,9 @@ describe('Action selector', () => {
     const dispatchActionTypeChangeEvent = (elementType) => {
         lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: elementType}}));
     };
-    const dispatchActionChangeEvent = async (actionDurableId) => {
-        interactionCombobox().dispatchEvent(new ComboboxStateChangedEvent({ value : actionDurableId }));
+    const dispatchActionChangeEvent = async (actionDurableId, displayText = null, error = null) => {
+        const item = actionDurableId ? { value : actionDurableId } : null;
+        interactionCombobox().dispatchEvent(new ComboboxStateChangedEvent(item, displayText, error));
         await Promise.resolve();
     };
     afterEach(() => {
@@ -169,6 +170,25 @@ describe('Action selector', () => {
             dispatchActionChangeEvent('emailSimple-emailSimple');
             expect(actionSelectorComponent.selectedAction).toEqual({actionName: 'emailSimple', actionType: 'emailSimple', 'elementType': 'ACTION_CALL'});
         });
+        it('should not fire ValueChangedEvent if this was already the selected action', () => {
+            dispatchActionChangeEvent('emailSimple-emailSimple');
+            const eventCallback = jest.fn();
+            document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
+            dispatchActionChangeEvent('emailSimple-emailSimple');
+            expect(eventCallback).not.toHaveBeenCalled();
+        });
+    });
+    describe('When we type text that does not match an action', () => {
+        beforeEach(() => {
+            actionSelectorComponent = createComponentUnderTest();
+        });
+        it('should fire ValueChangedEvent with just the elementType', () => {
+            const eventCallback = jest.fn();
+            document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
+            dispatchActionChangeEvent(null, 'not an existing action');
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail.value).toEqual({'elementType': 'ACTION_CALL'});
+        });
     });
     describe('Selected element', () => {
         beforeEach(() => {
@@ -203,6 +223,10 @@ describe('Action selector', () => {
             dispatchActionTypeChangeEvent(ELEMENT_TYPE.SUBFLOW);
             dispatchActionChangeEvent('mynamespace__LFB_Sample_01');
             expect(actionSelectorComponent.selectedAction).toEqual({flowName: 'mynamespace__LFB_Sample_01', 'elementType': 'SUBFLOW'});
+        });
+        it('should only contain the actionType if no action has been selected', () => {
+            dispatchActionTypeChangeEvent(ELEMENT_TYPE.SUBFLOW);
+            expect(actionSelectorComponent.selectedAction).toEqual({ 'elementType': 'SUBFLOW'});
         });
     });
     describe('When selecting an element type using the api', () => {
