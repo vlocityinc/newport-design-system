@@ -85,7 +85,7 @@ export default class ApexPluginEditor extends LightningElement {
     fetchApexPluginParameters() {
         const apexParams = { apexClass: getValueFromHydratedItem(this.node.apexClass)};
         const keyProvider = (params) => `${params.apexClass}`;
-        fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS, apexParams, {keyProvider}).then((parameters) => {
+        fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS, apexParams, keyProvider).then((parameters) => {
             if (this.connected) {
                 this.parameters = parameters;
                 this.parametersFetched = true;

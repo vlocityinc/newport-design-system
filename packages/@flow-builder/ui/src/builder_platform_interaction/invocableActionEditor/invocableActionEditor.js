@@ -70,7 +70,7 @@ export default class InvocableActionEditor extends LightningElement {
     fetchActionParameters() {
         const actionParams = { actionName: getValueFromHydratedItem(this.node.actionName), actionType: getValueFromHydratedItem(this.node.actionType) };
         const keyProvider = (params) => `${params.actionName}-${params.actionType}`;
-        fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, actionParams, {keyProvider}).then((parameters) => {
+        fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, actionParams, keyProvider).then((parameters) => {
             if (this.connected) {
                 this.displaySpinner = false;
                 const event = new CustomEvent(MERGE_WITH_PARAMETERS, { detail : parameters });
@@ -86,10 +86,10 @@ export default class InvocableActionEditor extends LightningElement {
     fetchInvocableActionDescriptor() {
         this.invocableActionDescriptor = undefined;
         const actionParams = { actionName: getValueFromHydratedItem(this.node.actionName), actionType: getValueFromHydratedItem(this.node.actionType) };
-
+        const keyProvider = (params) => params.flowProcessType;
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
             flowProcessType : FLOW_PROCESS_TYPE.FLOW
-        }).then((invocableActions) => {
+        }, keyProvider).then((invocableActions) => {
             if (this.connected) {
                 this.invocableActionDescriptor = invocableActions.find(action => action.name === actionParams.actionName && action.type === actionParams.actionType);
             }

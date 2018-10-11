@@ -102,14 +102,21 @@ const fetchOnceCache = { };
  *            serverActionType type of action to be executed
  * @param {Object}
  *            params any parameters to make server call
- * @param {{keyProvider: (Function|undefined), background: (boolean|undefined)}} optionalParams
- *            keyProvider provides a unique key from the parameters.
+ * @param {Function} keyProvider provides a unique key from the parameters
+ * @param {{background: (boolean|undefined)}} optionalParams
  *            background need to be set to true if request needs to be run as a background
  *            action
  * @return {Promise} Promise object represents the return value from the server
  *         side action
  */
-export function fetchOnce(serverActionType, params, { keyProvider = () => 'default', background = false } = {}) {
+export function fetchOnce(serverActionType, params = {}, keyProvider, { background = false } = {}) {
+    if (!keyProvider) {
+        if (Object.keys(params).length === 0 && params.constructor === Object) {
+            keyProvider = () => 'default';
+        } else {
+            throw new Error("keyProvider is mandatory when there is a least one parameter");
+        }
+    }
     const key = keyProvider(params);
     let serverActionTypeCache = fetchOnceCache[serverActionType];
     if (serverActionTypeCache) {

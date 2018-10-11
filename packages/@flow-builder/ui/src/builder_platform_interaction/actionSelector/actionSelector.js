@@ -43,9 +43,10 @@ export default class ActionSelector extends LightningElement {
                 this.updateComboboxes();
             }
         });
+        const keyProvider = (params) => params.flowProcessType;
         fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
             flowProcessType : this.flowProcessType
-        }).then((subflows) => {
+        }, keyProvider).then((subflows) => {
             if (this.connected) {
                 this.subflowsFetched = true;
                 this.subflows = subflows;
@@ -59,7 +60,7 @@ export default class ActionSelector extends LightningElement {
         });
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
             flowProcessType : this.flowProcessType
-        }).then((invocableActions) => {
+        }, keyProvider).then((invocableActions) => {
             if (this.connected) {
                 this.invocableActionsFetched = true;
                 this.invocableActions = invocableActions;
