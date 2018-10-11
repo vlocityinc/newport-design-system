@@ -4,7 +4,8 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    createAvailableConnection
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -26,11 +27,11 @@ const getDefaultAvailableConnections = () => [
 
 export function createApexPlugin(apexPlugin = {}) {
     const newApexPlugin = baseCanvasElement(apexPlugin);
-    const { apexClass = '', availableConnections = getDefaultAvailableConnections() } = apexPlugin;
-    let { inputParameters = [], outputParameters = [] } = apexPlugin;
+    const { apexClass = '' } = apexPlugin;
+    let { inputParameters = [], outputParameters = [], availableConnections = getDefaultAvailableConnections() } = apexPlugin;
     inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
     outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
-
+    availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
     const apexPluginObject = Object.assign(newApexPlugin, {
         apexClass,
         inputParameters,

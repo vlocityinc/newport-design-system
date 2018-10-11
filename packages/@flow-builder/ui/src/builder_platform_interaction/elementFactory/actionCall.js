@@ -5,7 +5,8 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    createAvailableConnection
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -26,10 +27,11 @@ const getDefaultAvailableConnections = () => [
 
 export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACTION_CALL) {
     const newActionCall = baseCanvasElement(actionCall);
-    const { actionType = '', actionName = '', availableConnections = getDefaultAvailableConnections() } = actionCall;
-    let { inputParameters = [], outputParameters = [] } = actionCall;
+    const { actionType = '', actionName = '' } = actionCall;
+    let { inputParameters = [], outputParameters = [], availableConnections = getDefaultAvailableConnections() } = actionCall;
     inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
     outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
+    availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
     const actionCallObject = Object.assign(newActionCall, {
         actionType,

@@ -1,6 +1,9 @@
 import { createApexPlugin, createApexPluginMetadataObject } from '../apexPlugin';
 import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { matchers } from './elementFactoryMatchers';
+
+expect.extend(matchers);
 
 const mockGuid = 'mockGuid';
 
@@ -8,7 +11,8 @@ const flowInputParameterWithDefaultValueAsString = {
     name: 'name',
     value: {
         stringValue: 'My name'
-    }
+    },
+    processMetadataValues: [],
 };
 
 const storeInputParameterWithDefaultValueAsString = {
@@ -22,7 +26,8 @@ const flowInputParameterWithDefaultValueAsReference = {
     name: 'phone',
     value: {
         elementReference: 'var_text'
-    }
+    },
+    processMetadataValues: [],
 };
 
 const storeInputParameterWithDefaultValueAsReference = {
@@ -35,6 +40,7 @@ const storeInputParameterWithDefaultValueAsReference = {
 const flowOutputParameterWithDefaultValue = {
     name: "accountId",
     assignToReference: 'var_text',
+    processMetadataValues: [],
 };
 
 const storeOutputParameterWithDefaultValue = {
@@ -44,28 +50,67 @@ const storeOutputParameterWithDefaultValue = {
     rowIndex: mockGuid
 };
 
-const defaultFlowApexPlugin = {
+const apexPluginMetaData = {
     apexClass: 'flowChat',
+    label: 'flowChatApexPlugin',
+    name: 'flowChatApexPlugin',
+    locationX: 391,
+    locationY: 297,
     inputParameters: [
         flowInputParameterWithDefaultValueAsString,
         flowInputParameterWithDefaultValueAsReference
     ],
     outputParameters: [
         flowOutputParameterWithDefaultValue
-    ]
+    ],
+    processMetadataValues: [],
 };
 
-const defaultStoreApexPlugin = {
+const apexPluginInStore = {
     apexClass: 'flowChat',
+    guid: '721ca5d6-0e53-4340-a53f-3d4482241a52',
+    name: 'flowChatApexPlugin',
+    description: '',
+    label: 'flowChatApexPlugin',
+    locationX: 391,
+    locationY: 297,
+    isCanvasElement: true,
+    connectorCount: 0,
+    availableConnections: [
+      {
+          type: 'REGULAR'
+      },
+      {
+          type: 'FAULT'
+      }
+    ],
+    config: {
+      isSelected: false
+    },
     inputParameters: [
         storeInputParameterWithDefaultValueAsString,
         storeInputParameterWithDefaultValueAsReference
     ],
     outputParameters: [
         storeOutputParameterWithDefaultValue
-    ]
+    ],
+    maxConnections: 2,
+    elementType: 'APEX_PLUGIN_CALL'
 };
-
+const parametersWithoutProcessMetaDataValue = (parameters, isInput) => {
+    return parameters.map(param => {
+        if (isInput) {
+            return {
+                name: param.name,
+                value: param.value,
+            };
+        }
+        return {
+            name: param.name,
+            assignToReference: param.assignToReference,
+        };
+    });
+};
 describe('apexPlugin', () => {
     const storeLib = require.requireActual('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
@@ -98,57 +143,63 @@ describe('apexPlugin', () => {
 
         describe('when flow apexPlugin is passed', () => {
             beforeAll(() => {
-                apexPlugin = createApexPlugin(defaultFlowApexPlugin);
+                apexPlugin = createApexPlugin(apexPluginMetaData);
             });
             it('creates element of type APEX_PLUGIN_CALL', () => {
                 expect(apexPlugin.elementType).toEqual(ELEMENT_TYPE.APEX_PLUGIN_CALL);
             });
             it('has apexClass equal to apexClass from store', () => {
-                expect(apexPlugin.apexClass).toEqual(defaultStoreApexPlugin.apexClass);
+                expect(apexPlugin.apexClass).toEqual(apexPluginInStore.apexClass);
             });
-            it('has inputParameters match the inputParameters from store', () => {
-                expect(apexPlugin.inputParameters).toEqual([storeInputParameterWithDefaultValueAsString, storeInputParameterWithDefaultValueAsReference]);
+            it('has inputParameters matching the inputParameters from store', () => {
+                expect(apexPlugin.inputParameters).toEqual(apexPluginInStore.inputParameters);
             });
-            it('has outputParameters match the outputParameters from store', () => {
-                expect(apexPlugin.outputParameters).toEqual([storeOutputParameterWithDefaultValue]);
+            it('has outputParameters matching the outputParameters from store', () => {
+                expect(apexPlugin.outputParameters).toEqual(apexPluginInStore.outputParameters);
             });
             it('has dataType of boolean', () => {
                 expect(apexPlugin.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+            });
+            it('has no common mutable object with apex plugin metadata passed as parameter', () => {
+                expect(apexPlugin).toHaveNoCommonMutableObjectWith(apexPluginMetaData);
             });
         });
 
         describe('when store apexPlugin is passed', () => {
             beforeAll(() => {
-                apexPlugin = createApexPlugin(defaultStoreApexPlugin);
+                apexPlugin = createApexPlugin(apexPluginInStore);
             });
             it('has apexClass equal to apexClass from store', () => {
-                expect(apexPlugin.apexClass).toEqual(defaultStoreApexPlugin.apexClass);
+                expect(apexPlugin.apexClass).toEqual(apexPluginInStore.apexClass);
             });
-            it('has inputParameters match the inputParameters from store', () => {
-                expect(apexPlugin.inputParameters).toEqual([storeInputParameterWithDefaultValueAsString, storeInputParameterWithDefaultValueAsReference]);
+            it('has inputParameters matching the inputParameters from store', () => {
+                expect(apexPlugin.inputParameters).toEqual(apexPluginInStore.inputParameters);
             });
-            it('has outputParameters match the outputParameters from store', () => {
-                expect(apexPlugin.outputParameters).toEqual([storeOutputParameterWithDefaultValue]);
+            it('has outputParameters matching the outputParameters from store', () => {
+                expect(apexPlugin.outputParameters).toEqual(apexPluginInStore.outputParameters);
             });
             it('has dataType of boolean', () => {
                 expect(apexPlugin.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
+            it('has no common mutable object with apex plugin from store passed as parameter', () => {
+                expect(apexPlugin).toHaveNoCommonMutableObjectWith(apexPluginInStore);
+            });
         });
     });
     describe('createApexPluginMetadataObject function', () => {
-        let apexPluginMetaData;
+        let apexPluginMetaDataObject;
         describe('when store apexPlugin is passed', () => {
             beforeAll(() => {
-                apexPluginMetaData = createApexPluginMetadataObject(defaultStoreApexPlugin);
+                apexPluginMetaDataObject = createApexPluginMetadataObject(apexPluginInStore);
             });
             it('has apexClass equal to apexClass from flow', () => {
-                expect(apexPluginMetaData.apexClass).toEqual(defaultFlowApexPlugin.apexClass);
+                expect(apexPluginMetaDataObject.apexClass).toEqual(apexPluginMetaData.apexClass);
             });
             it('has inputParameters match the inputParameters from flow', () => {
-                expect(apexPluginMetaData.inputParameters).toEqual([flowInputParameterWithDefaultValueAsString, flowInputParameterWithDefaultValueAsReference]);
+                expect(apexPluginMetaDataObject.inputParameters).toEqual(parametersWithoutProcessMetaDataValue(apexPluginMetaData.inputParameters, true));
             });
-            it('has outputParameters match the outputParameters from flow', () => {
-                expect(apexPluginMetaData.outputParameters).toEqual([flowOutputParameterWithDefaultValue]);
+            it('has outputParameters matching the outputParameters from flow', () => {
+                expect(apexPluginMetaDataObject.outputParameters).toEqual(parametersWithoutProcessMetaDataValue(apexPluginMetaData.outputParameters, false));
             });
         });
     });
