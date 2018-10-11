@@ -1,8 +1,8 @@
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createWaitEvent, createWaitWithWaitEvents } from '../wait';
-import { baseCanvasElement, baseChildElement } from "../base/baseElement";
+import { baseCanvasElement, baseChildElement, createCondition } from "../base/baseElement";
 import { ELEMENT_TYPE, CONDITION_LOGIC} from "builder_platform_interaction/flowMetadata";
-import {baseCanvasElementMetadataObject, baseChildElementMetadataObject} from "../base/baseMetadata";
+import {baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject} from "../base/baseMetadata";
 import { createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor } from "../wait";
 import { LABELS } from "../elementFactoryLabels";
 import { createWaitMetadataObject, createWaitWithWaitEventReferences } from "../wait";
@@ -44,7 +44,8 @@ jest.mock('../base/baseElement', () => {
         baseChildElement: jest.fn((waitEvent) => {
             return Object.assign({}, waitEvent);
         }).mockName('baseChildElementMock'),
-        baseCanvasElementsArrayToMap: jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap
+        baseCanvasElementsArrayToMap: jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap,
+        createCondition: jest.fn().mockImplementation(element => Object.assign({}, element)).mockName('createCondition'),
     };
 });
 
@@ -55,6 +56,7 @@ baseCanvasElementMetadataObject.mockImplementation((element) => {
 baseChildElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
+createConditionMetadataObject.mockImplementation(element => Object.assign({}, element));
 
 describe('wait', () => {
     describe('createWaitWithWaitEvents', () => {
@@ -109,8 +111,8 @@ describe('wait', () => {
         });
 
         it('has NO_CONDITIONS as the default condition logic', () => {
-            createWaitEvent();
-            expect(baseChildElement.mock.calls[0][0].conditionLogic).toEqual(defaultWaitEvent.conditionLogic);
+            const waitEvent = createWaitEvent();
+            expect(waitEvent.conditionLogic).toEqual(defaultWaitEvent.conditionLogic);
         });
 
         it('uses existing values when passed in a waitEvent object', () => {
@@ -128,6 +130,28 @@ describe('wait', () => {
             createWaitEvent(mockWaitEvent);
 
             expect(baseChildElement.mock.calls[0][0]).toEqual(mockWaitEvent);
+        });
+
+        it('calls createCondition for every condition given', () => {
+            const mockCondition = { operator: 'foo' };
+            const mockWaitEvent =  {
+                conditions: [
+                    mockCondition,
+                ],
+            };
+            const waitEvent = createWaitEvent(mockWaitEvent);
+            expect(waitEvent.conditions).toHaveLength(1);
+            expect(waitEvent.conditions[0]).toEqual(mockCondition);
+            expect(waitEvent.conditions[0]).toBe(createCondition.mock.results[0].value);
+            expect(createCondition).toHaveBeenCalledTimes(1);
+            expect(createCondition).toHaveBeenCalledWith(mockCondition);
+        });
+
+        it('sets the condition logic to NO_CONDITIONS when given no conditions and creates one empty condition', () => {
+            const waitEvent = createWaitEvent({conditionLogic: CONDITION_LOGIC.AND});
+            expect(createCondition).toHaveBeenCalled();
+            expect(waitEvent.conditions).toHaveLength(1);
+            expect(waitEvent.conditionLogic).toEqual(CONDITION_LOGIC.NO_CONDITIONS);
         });
     });
 
@@ -346,6 +370,49 @@ describe('wait', () => {
                 expect(wait.waitEvents[0].guid).toEqual(foundElementGuidPrefix + waitFromStore.waitEventReferences[0].waitEventReference);
                 expect(wait.waitEvents[1].guid).toEqual(foundElementGuidPrefix + waitFromStore.waitEventReferences[1].waitEventReference);
                 expect(wait.waitEvents[2].guid).toEqual(foundElementGuidPrefix + waitFromStore.waitEventReferences[2].waitEventReference);
+            });
+
+            describe('conditions', () => {
+                it('calls createConditionMetadataObject for each condition given', () => {
+                    const mockCondition = {leftHandSide: 'foo'};
+                    const mockWaitEvent = {conditions: [mockCondition]};
+                    getElementByGuid.mockReturnValueOnce(mockWaitEvent);
+
+                    const wait = createWaitMetadataObject(waitFromStore);
+
+                    expect(createConditionMetadataObject).toHaveBeenCalledTimes(1);
+                    expect(createConditionMetadataObject).toHaveBeenCalledWith(mockCondition);
+                    expect(wait.waitEvents[0].conditions).toHaveLength(1);
+                    expect(wait.waitEvents[0].conditions[0]).toEqual(mockCondition);
+                    expect(wait.waitEvents[0].conditions[0]).toBe(createConditionMetadataObject.mock.results[0].value);
+                });
+
+                it('sets the condition logic to AND when no conditions exist', () => {
+                    const wait = createWaitMetadataObject(waitFromStore);
+
+                    expect(wait.waitEvents[0].conditionLogic).toEqual(CONDITION_LOGIC.AND);
+                    expect(wait.waitEvents[1].conditionLogic).toEqual(CONDITION_LOGIC.AND);
+                    expect(wait.waitEvents[2].conditionLogic).toEqual(CONDITION_LOGIC.AND);
+                });
+
+                it('sets the condition logic to AND when condition logic is NO_CONDITIONS', () => {
+                    const mockCondition = {leftHandSide: 'foo'};
+                    const mockWaitEvent = {conditions: [mockCondition], conditionLogic: CONDITION_LOGIC.NO_CONDITIONS};
+                    getElementByGuid.mockReturnValueOnce(mockWaitEvent);
+
+                    const wait = createWaitMetadataObject(waitFromStore);
+
+                    expect(wait.waitEvents[0].conditionLogic).toEqual(CONDITION_LOGIC.AND);
+                });
+
+                it('sets conditions to empty list when condition logic is NO_CONDITIONS', () => {
+                    const mockWaitEvent = {conditions: [{}], conditionLogic: CONDITION_LOGIC.NO_CONDITIONS};
+                    getElementByGuid.mockReturnValueOnce(mockWaitEvent);
+
+                    const wait = createWaitMetadataObject(waitFromStore);
+
+                    expect(wait.waitEvents[0].conditions).toHaveLength(0);
+                });
             });
         });
 

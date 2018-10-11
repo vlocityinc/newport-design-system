@@ -63,32 +63,21 @@ export function baseCanvasElementMetadataObject(canvasElement = {}, config = {})
  */
 export function baseChildElementMetadataObject(childElement = {}, config = {}) {
     const newChildElement = baseElementMetadataObject(childElement);
-
-    let { conditions } = childElement;
-    const { label = '', conditionLogic } = childElement;
-
-    if (conditions && conditions.length > 0) {
-        conditions = conditions.map(condition => createConditionMetadataObject(condition));
-    }
-
-    const {connectorMap = {}} = config;
+    const { label = '', } = childElement;
+    const { connectorMap = {} } = config;
     const connectors = connectorMap[childElement.guid];
+
     let connectorMetadata;
     if (connectors) {
         connectorMetadata = createConnectorMetadataObjects(connectors, false);
     }
-
     return Object.assign(newChildElement,
-        {
-            label,
-            conditionLogic,
-            conditions
-        },
+        { label },
         connectorMetadata
     );
 }
 
-function createConditionMetadataObject(condition) {
+export function createConditionMetadataObject(condition) {
     if (!condition) {
         throw new Error('Condition is not defined');
     }

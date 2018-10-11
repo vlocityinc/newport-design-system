@@ -1,5 +1,5 @@
 import { generateGuid } from "builder_platform_interaction/storeLib";
-import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { createFEROV } from "../ferov";
 import { createListRowItem, rhsDataTypePropertyName, rhsPropertyName } from "./baseList";
@@ -51,7 +51,6 @@ export function baseCanvasElement(canvasElement = {}) {
  */
 export function createCondition(condition = {}) {
     let newCondition = {};
-
     if (condition.hasOwnProperty('leftValueReference')) {
         const ferov = createFEROV(condition.rightValue, rhsPropertyName, rhsDataTypePropertyName);
         newCondition = Object.assign({}, ferov, {
@@ -91,28 +90,12 @@ export function baseChildElement(childElement = {}, elementType) {
     } else if (childElement.dataType && childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value) {
         throw new Error(`dataType ${childElement.dataType} is invalid for baseChildElement`);
     }
-
     const newChildElement = baseElement(childElement);
-
-    let { conditions } = childElement;
-    const {
-        conditionLogic = CONDITION_LOGIC.AND,
-        label = ''
-    } = childElement;
-
-    if (conditions && conditions.length > 0) {
-        conditions = conditions.map(condition => createCondition(condition));
-    } else {
-        const newCondition = createCondition();
-        conditions = [newCondition];
-    }
-
+    const { label = '' } = childElement;
     return Object.assign(newChildElement, {
-        conditions,
-        conditionLogic,
-        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+        label,
         elementType,
-        label
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     });
 }
 

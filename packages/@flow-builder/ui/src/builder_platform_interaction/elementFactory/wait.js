@@ -7,12 +7,13 @@ import {
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
-    baseChildElement
+    baseChildElement,
+    createCondition
 } from "./base/baseElement";
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createConnectorObjects } from './connector';
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from "./base/baseMetadata";
+import { baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject} from "./base/baseMetadata";
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from "./elementFactoryLabels";
 
@@ -121,17 +122,31 @@ export function createWaitWithWaitEvents(wait = {}) {
  * @param {waitEvent} waitEvent - waitEvent
  * @return {waitEvent}
  */
-export function createWaitEvent(waitEvent = {conditionLogic : CONDITION_LOGIC.NO_CONDITIONS}) {
+export function createWaitEvent(waitEvent = {}) {
     const newWaitEvent = baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
-    const { inputParameters = {}, eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME } = waitEvent;
+    const { eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME } = waitEvent;
+    let {
+        conditions = [],
+        conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
+        inputParameters = {},
+    } = waitEvent;
 
-    let resumeTimeParameters;
+    if (conditions.length > 0) {
+        conditions = conditions.map(condition => createCondition(condition));
+    } else {
+        // wait events from metadata have AND as condition logic even when they have no conditions
+        conditions = [createCondition()];
+        conditionLogic = CONDITION_LOGIC.NO_CONDITIONS;
+    }
+
     if (Array.isArray(inputParameters)) {
-        resumeTimeParameters = inputParameterArrayToMap(inputParameters);
+        inputParameters = inputParameterArrayToMap(inputParameters);
     }
     return Object.assign(newWaitEvent, {
+        conditions,
+        conditionLogic,
         eventType,
-        inputParameters: resumeTimeParameters || inputParameters,
+        inputParameters,
     });
 }
 
@@ -152,13 +167,29 @@ export function createWaitMetadataObject(wait, config = {}) {
         waitEvents = waitEventReferences.map(({waitEventReference}) => {
             const waitEvent = getElementByGuid(waitEventReference);
             const metadataWaitEvent = baseChildElementMetadataObject(waitEvent, config);
-            const { inputParameters } = waitEvent;
+            const { eventType } = waitEvent;
+            let {
+                inputParameters,
+                conditions = [],
+                conditionLogic
+            } = waitEvent;
 
-            let resumeTimeParameters;
-            if (isObject(inputParameters)) {
-                resumeTimeParameters = inputParameterMapToArray(inputParameters);
+            if (conditions.length === 0 || conditionLogic === CONDITION_LOGIC.NO_CONDITIONS) {
+                conditions = [];
+                conditionLogic = CONDITION_LOGIC.AND;
+            } else {
+                conditions = conditions.map(condition => createConditionMetadataObject(condition));
             }
-            return Object.assign({}, metadataWaitEvent, { inputParameters: resumeTimeParameters });
+
+            if (isObject(inputParameters)) {
+                inputParameters = inputParameterMapToArray(inputParameters);
+            }
+            return Object.assign({}, metadataWaitEvent, {
+                conditions,
+                conditionLogic,
+                eventType,
+                inputParameters,
+            });
         });
     }
     return Object.assign(newWait, {

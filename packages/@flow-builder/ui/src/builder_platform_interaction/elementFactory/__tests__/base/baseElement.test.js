@@ -2,10 +2,14 @@ import {
     baseResource,
     baseCanvasElement,
     baseChildElement,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    createCondition
 } from "../../base/baseElement";
 import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import {FLOW_DATA_TYPE} from "../../../dataTypeLib/dataTypeLib";
+import * as baseList from '../../base/baseList';
+
+const createListRowItemSpy = jest.spyOn(baseList, 'createListRowItem');
 
 const resource = {
     name: 'var1',
@@ -142,11 +146,8 @@ describe('Base child element function', () => {
     });
     it('returns a new child element object when existing resource child element is passed as argument', () => {
         const expectedResult =  {
-            conditionLogic: CONDITION_LOGIC.OR,
-            conditions: [
-                mockCondition1,
-                mockCondition2,
-            ]
+            label: 'foo',
+            elementType: ELEMENT_TYPE.OUTCOME,
         };
 
         const actualResult = baseChildElement(childElement, ELEMENT_TYPE.OUTCOME);
@@ -154,29 +155,18 @@ describe('Base child element function', () => {
     });
     it('returns a new child element object with same value when existing child element object is passed as argument', () => {
         const mockOutcome =  {
-            conditionLogic: CONDITION_LOGIC.OR,
-            conditions: [
-                mockCondition1,
-                mockCondition2,
-            ]
+            label: 'foo',
+            elementType: ELEMENT_TYPE.OUTCOME,
         };
 
         const actualResult = baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME);
         expect(actualResult).toMatchObject(mockOutcome);
     });
 
-    it('returns a new child element object with a single condition if no conditions specified', () => {
-        const actualResult = baseChildElement(childElement, ELEMENT_TYPE.OUTCOME);
-        expect(actualResult.conditions).toHaveLength(1);
-    });
-
     it('child element returned has data type BOOLEAN even if no data type specified', () => {
         const mockOutcome =  {
-            conditionLogic: CONDITION_LOGIC.OR,
-            conditions: [
-                mockCondition1,
-                mockCondition2,
-            ]
+            label: 'foo',
+            elementType: ELEMENT_TYPE.OUTCOME,
         };
 
         const actualResult = baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME);
@@ -194,6 +184,51 @@ describe('Base child element function', () => {
         };
 
         expect(() => baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME)).toThrow(`dataType ${FLOW_DATA_TYPE.STRING.value} is invalid for baseChildElement`);
+    });
+});
+
+describe('createCondition', () => {
+    it('creates a new condition even if one is already passed in', () => {
+        const input = {};
+        const result = createCondition(input);
+        expect(result).not.toBe(input);
+    });
+
+    it('calls createListRowItem when given a condition from the store', () => {
+        const mockCondition = { leftValueReference: '{!foo}', rightValue: { stringValue: 'bar' }, operator: 'fizzBuzz' };
+        const expectedParam = {
+            leftHandSide: mockCondition.leftValueReference,
+            rightHandSide: mockCondition.rightValue.stringValue,
+            rightHandSideDataType: FLOW_DATA_TYPE.STRING.value,
+            operator: mockCondition.operator,
+        };
+        createCondition(mockCondition);
+        expect(createListRowItemSpy).toHaveBeenCalledWith(expectedParam);
+    });
+
+    it('calls listRowItem when given an existing condition', () => {
+        const mockCondition = {
+            leftHandSide: 'foo',
+            rightHandSide: 'bar',
+            rightHandSideDataType: FLOW_DATA_TYPE.STRING.value,
+            operator: 'fizzBuzz',
+        };
+        const condition = createCondition(mockCondition);
+        expect(createListRowItemSpy).toHaveBeenCalledWith(mockCondition);
+        expect(condition).toBe(createListRowItemSpy.mock.results[0].value);
+    });
+
+    it('creates a rowIndex', () => {
+        const result = createCondition();
+        expect(result).toHaveProperty('rowIndex');
+    });
+
+    it('returns a condition list row item', () => {
+        const result = createCondition();
+        expect(result).toHaveProperty('leftHandSide');
+        expect(result).toHaveProperty('operator');
+        expect(result).toHaveProperty('rightHandSide');
+        expect(result).toHaveProperty('rightHandSideDataType');
     });
 });
 

@@ -8,7 +8,7 @@ import {
 import { ELEMENT_TYPE, CONDITION_LOGIC} from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from "../elementFactoryLabels";
 import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
-import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
+import { baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject } from '../base/baseMetadata';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -55,6 +55,7 @@ baseCanvasElementMetadataObject.mockImplementation((element) => {
 baseChildElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
+createConditionMetadataObject.mockImplementation(element => Object.assign({}, element)).mockName('createConditionMetadataObject');
 
 
 // TODO: https://gus.my.salesforce.com/a07B0000004ihceIAA - add connector tests
@@ -121,9 +122,11 @@ describe('decision', () => {
     });
 
     describe('createOutcome', () => {
+        beforeEach(() => {
+            baseChildElement.mockClear();
+        });
         it('calls baseChildElement with elementType = OUTCOME', () => {
             createOutcome();
-
             expect(baseChildElement.mock.calls[0][1]).toEqual(ELEMENT_TYPE.OUTCOME);
         });
 
@@ -329,9 +332,9 @@ describe('decision', () => {
             it('are included in element map for all rules present', () => {
                 const result = createDecisionWithOutcomeReferences(decisionFromFlow);
 
-                expect(result.elements[decisionFromFlow.rules[0].guid]).toEqual(decisionFromFlow.rules[0]);
-                expect(result.elements[decisionFromFlow.rules[1].guid]).toEqual(decisionFromFlow.rules[1]);
-                expect(result.elements[decisionFromFlow.rules[2].guid]).toEqual(decisionFromFlow.rules[2]);
+                expect(result.elements[decisionFromFlow.rules[0].guid]).toMatchObject(decisionFromFlow.rules[0]);
+                expect(result.elements[decisionFromFlow.rules[1].guid]).toMatchObject(decisionFromFlow.rules[1]);
+                expect(result.elements[decisionFromFlow.rules[2].guid]).toMatchObject(decisionFromFlow.rules[2]);
             });
         });
     });
@@ -369,6 +372,17 @@ describe('decision', () => {
                 expect(decision.rules[0].guid).toEqual(foundElementGuidPrefix + decisionFromStore.outcomeReferences[0].outcomeReference);
                 expect(decision.rules[1].guid).toEqual(foundElementGuidPrefix + decisionFromStore.outcomeReferences[1].outcomeReference);
                 expect(decision.rules[2].guid).toEqual(foundElementGuidPrefix + decisionFromStore.outcomeReferences[2].outcomeReference);
+            });
+
+            it('calls createConditionMetadataObject for each condition given', () => {
+                const mockCondition = { leftHandSide: 'foo'};
+                const mockOutcome = {conditions: [mockCondition]};
+                getElementByGuid.mockReturnValueOnce(mockOutcome);
+                const decision = createDecisionMetadataObject(decisionFromStore);
+                expect(createConditionMetadataObject).toHaveBeenCalledTimes(1);
+                expect(decision.rules[0].conditions).toHaveLength(1);
+                expect(decision.rules[0].conditions[0]).toEqual(mockCondition);
+                expect(decision.rules[0].conditions[0]).toBe(createConditionMetadataObject.mock.results[0].value);
             });
         });
 

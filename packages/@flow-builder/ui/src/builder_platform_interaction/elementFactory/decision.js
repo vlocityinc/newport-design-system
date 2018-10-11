@@ -1,10 +1,11 @@
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
     baseChildElement,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    createCondition,
 } from "./base/baseElement";
-import {baseCanvasElementMetadataObject, baseChildElementMetadataObject } from "./base/baseMetadata";
+import {baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject } from "./base/baseMetadata";
 import { LABELS } from "./elementFactoryLabels";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { createConnectorObjects } from "./connector";
@@ -93,7 +94,19 @@ export function createDecisionWithOutcomeReferences(decision = {}) {
 }
 
 export function createOutcome(outcome = {}) {
-    return baseChildElement(outcome, ELEMENT_TYPE.OUTCOME);
+    const childElement = baseChildElement(outcome, ELEMENT_TYPE.OUTCOME);
+    const { conditionLogic = CONDITION_LOGIC.AND } = outcome;
+    let { conditions = [] } = outcome;
+
+    if (conditions.length > 0) {
+        conditions = conditions.map(condition => createCondition(condition));
+    } else {
+        conditions = [createCondition()];
+    }
+    return Object.assign(childElement, {
+        conditionLogic,
+        conditions,
+    });
 }
 
 export function createDecisionMetadataObject(decision, config = {}) {
@@ -105,7 +118,19 @@ export function createDecisionMetadataObject(decision, config = {}) {
     let outcomes;
     if (outcomeReferences && outcomeReferences.length > 0) {
         outcomes = outcomeReferences.map(({outcomeReference}) => {
-            return baseChildElementMetadataObject(getElementByGuid(outcomeReference), config);
+            const outcome = getElementByGuid(outcomeReference);
+            const metadataOutcome = baseChildElementMetadataObject(outcome, config);
+
+            let { conditions = [] } = outcome;
+            const { conditionLogic } = outcome;
+
+            if (conditions.length > 0) {
+                conditions = conditions.map(condition => createConditionMetadataObject(condition));
+            }
+            return Object.assign(metadataOutcome, {
+                conditions,
+                conditionLogic,
+            });
         });
     }
     return Object.assign(newDecision, {
