@@ -145,6 +145,10 @@ describe('Combobox Tests', () => {
             expect(combobox.literalsAllowed).toEqual(comboboxInitialConfig.literalsAllowed);
         });
 
+        it('has blockValidation', () => {
+            expect(combobox.blockValidation).toEqual(comboboxInitialConfig.blockValidation);
+        });
+
         it('has type', () => {
             expect(combobox.type).toEqual(comboboxInitialConfig.type);
         });
@@ -885,6 +889,16 @@ describe('Combobox Tests', () => {
                     expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
                     expect(filterMatchesHandler[0][1]).toEqual(true);
                 });
+            });
+        });
+
+        it('for blockValidation true', () => {
+            combobox.blockValidation = true;
+            combobox.type = FLOW_DATA_TYPE.BOOLEAN.value;
+            combobox.value = 'not a valid value';
+            groupedCombobox.dispatchEvent(blurEvent);
+            return Promise.resolve().then(() => {
+                expect(combobox.errorMessage).toBeNull();
             });
         });
     });

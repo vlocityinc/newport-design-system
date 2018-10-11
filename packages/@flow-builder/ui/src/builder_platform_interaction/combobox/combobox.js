@@ -298,6 +298,12 @@ export default class Combobox extends LightningElement {
         this._isInitialized = true;
     }
 
+    /**
+     * Blocks all the data validation on the component.
+     * @type {boolean}
+     */
+    @api blockValidation = false;
+
     /* ***************** */
     /* Private Variables */
     /* ***************** */
@@ -807,6 +813,10 @@ export default class Combobox extends LightningElement {
      * Runs the validation for this combobox
      */
     doValidation() {
+        if (this.blockValidation) {
+            return;
+        }
+
         this.clearErrorMessage();
 
         // When combobox is disabled as per design the error message is cleared but the selected value is preserved

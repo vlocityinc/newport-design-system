@@ -130,6 +130,20 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
     _lhsFields;
 
     /**
+     * blocks field validation on rhs.
+     * @type {boolean}
+     */
+    @api
+    blockRhsValidation = false;
+
+    /**
+     * hides FEROV-specific menu data (like global constants)
+     * @type {boolean}
+     */
+    @api
+    hideFerovMenuData = false;
+
+    /**
      * Set it to true to hide 'New Resource' option in combobox menu data.
      * @type {Boolean}
      */

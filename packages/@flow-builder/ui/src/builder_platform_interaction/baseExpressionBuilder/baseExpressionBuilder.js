@@ -220,6 +220,9 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     rhsError;
 
+    @api
+    blockRhsValidation = false;
+
     /**
      * @param {Boolean} isFer   true if RHS is a FER, false if RHS is a FEROV
      */
@@ -275,6 +278,13 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setRHSCollectionRequired();
         return this._rhsLiteralsAllowedForContext && !this._rhsCollectionRequiredByRules;
     }
+
+    /**
+     * hides FEROV-specific menu data (like global constants)
+     * @type {boolean}
+     */
+    @api
+    hideFerovMenuData = false;
 
     /**
      * Set it to true to hide 'New Resource' option in combobox menu data.
@@ -580,7 +590,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         } else {
             const menuDataElements = getStoreElements(storeInstance.getCurrentState(), config);
             this.state[fullMenuData] = this.state[filteredMenuData] = filterAndMutateMenuData(menuDataElements, paramTypes,
-                !this.hideNewResource, isFerov, DISABLE_HAS_NEXT, picklistValues);
+                !this.hideNewResource, isFerov && !this.hideFerovMenuData, DISABLE_HAS_NEXT, picklistValues);
         }
     }
 

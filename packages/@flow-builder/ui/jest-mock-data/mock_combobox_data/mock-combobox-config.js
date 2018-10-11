@@ -100,6 +100,7 @@ export const comboboxInitialConfig = {
     label: 'label',
     type: 'String',
     literalsAllowed: true,
+    blockValidation: false,
     disabled: false,
     required: true,
     errorMessage: 'testErrorMessage',
