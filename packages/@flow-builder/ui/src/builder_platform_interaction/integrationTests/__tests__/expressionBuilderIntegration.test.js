@@ -1,14 +1,16 @@
 import { createElement } from 'lwc';
-import ExpressionBuilder from "builder_platform_interaction/expressionBuilder";
+import FerToFerovExpressionBuilder from "builder_platform_interaction/ferToFerovExpressionBuilder";
 import { getShadowRoot } from 'lwc-test-utils';
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
-import { setRules } from "builder_platform_interaction/ruleLib";
+import { setRules, getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
 import { mockAccountFields } from "mock/serverEntityData";
 import * as selectorsMock from "builder_platform_interaction/selectors";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import * as store from "mock/storeData";
 
 const SELECTORS = {
-    COMBOBOX: 'builder_platform_interaction-combobox'
+    BASE_EXPRESSION_BUILDER: 'builder_platform_interaction-base-expression-builder',
+    COMBOBOX: 'builder_platform_interaction-combobox',
 };
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
@@ -21,15 +23,16 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        writableElementsSelector: jest.fn()
+        writableElementsSelector: jest.fn(),
     };
 });
 
 const createComponentForTest = (expression) => {
-    const el = createElement('builder_platform_interaction-expression-builder', {
-        is: ExpressionBuilder
+    const el = createElement('builder_platform_interaction-fer-to-ferov-expression-builder', {
+        is: FerToFerovExpressionBuilder
     });
-    el.configuration = {elementType: 'ASSIGNMENT'};
+    el.containerElement = ELEMENT_TYPE.ASSIGNMENT;
+    el.rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.ASSIGNMENT);
     el.expression = expression;
     document.body.appendChild(el);
     return el;
@@ -62,7 +65,7 @@ const mockSingleAssignmentRule =
     '   }]';
 
 let populatedRHSSObjectFieldExpression;
-let expressionBuilder;
+let ferToFerovExpressionBuilder;
 
 beforeEach(() => {
     selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.stringVariableGuid]]);
@@ -77,24 +80,21 @@ beforeEach(() => {
             error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-            value: '{!' + store.accountSObjectVariableDevName + '.Description}',
+            value: store.accountSObjectVariableGuid + '.Description',
             error: null,
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
             value: 'reference',
             error: null,
         },
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]: {
-            value: store.accountSObjectVariableGuid + '.Description',
-            error: null,
-        }
     };
-    expressionBuilder = createComponentForTest(populatedRHSSObjectFieldExpression);
+    ferToFerovExpressionBuilder = createComponentForTest(populatedRHSSObjectFieldExpression);
 });
 
 describe('Expression Builder', () => {
     it('should populate rhs menu data when there is an sobject variable field reference in rhs', () => {
-        const rhsCombobox = getShadowRoot(expressionBuilder).querySelectorAll(SELECTORS.COMBOBOX)[1];
+        const baseExpressionBuilder = getShadowRoot(ferToFerovExpressionBuilder).querySelector(SELECTORS.BASE_EXPRESSION_BUILDER);
+        const rhsCombobox = getShadowRoot(baseExpressionBuilder).querySelectorAll(SELECTORS.COMBOBOX)[1];
         expect(rhsCombobox.menuData.length).toBeGreaterThan(0);
         expect(rhsCombobox.menuData[0].value).toBe(store.accountSObjectVariableGuid + '.Description');
     });

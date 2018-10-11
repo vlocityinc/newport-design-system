@@ -39,7 +39,6 @@ const SELECTORS = {
     CONDITION_LIST: 'builder_platform_interaction-condition-list',
     LIST: 'builder_platform_interaction-list',
     ROW: 'builder_platform_interaction-row',
-    EXPRESSION_BUILDER: 'builder_platform_interaction-expression-builder',
     LIGHTNING_BUTTON: 'lightning-button',
     LIGHTNING_BUTTON_ICON: 'lightning-button-icon',
     LABEL: '.label',

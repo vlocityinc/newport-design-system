@@ -3,7 +3,10 @@
     min-height: t(sizeSmall);
 }
 
+/**
+// TODO: W-5371838 we'll need this again for the icons
 .THIS builder_platform_interaction-expression-builder .expression-builder-icon-padding {
     width: t(spacingLarge);
     height: t(squareIconMediumBoundary);
 }
+ */
