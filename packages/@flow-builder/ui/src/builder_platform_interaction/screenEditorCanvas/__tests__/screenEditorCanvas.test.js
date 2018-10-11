@@ -19,6 +19,7 @@ const selectors = {
     lightningButtonIcon: 'lightning-button-icon',
     highlightFields: '.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight',
     canvasContainer: 'div.screen-editor-canvas-container',
+    canvasBody: 'div.screen-editor-canvas-body',
     draggingRegion: '.screen-editor-canvas-dragging-region',
     highlightElementSlot: 'div[slot="screen-element"]',
     screenFieldCard: 'builder_platform_interaction-screen-field-card',
@@ -149,8 +150,8 @@ describe('handleDragEnter', () => {
             expect(draggingRegion.classList).toContain('slds-hide');
 
             // Fire dragEnter event on the canvas
-            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
-            canvasDiv.dispatchEvent(dragEnterEvent);
+            const canvasBody = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasBody);
+            canvasBody.dispatchEvent(dragEnterEvent);
             expect(draggingRegion.classList).not.toContain('slds-hide');
         });
     });
@@ -171,12 +172,12 @@ describe('handleDragEnd', () => {
 
             // First dragEnter so the class is removed.
             const dragEnterEvent = new CustomEvent('dragenter');
-            const canvasDiv = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasContainer);
-            canvasDiv.dispatchEvent(dragEnterEvent);
+            const canvasBody = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.canvasBody);
+            canvasBody.dispatchEvent(dragEnterEvent);
             expect(draggingRegion.classList).not.toContain('slds-hide');
 
             // Fire dragEnd event on the canvas
-            canvasDiv.dispatchEvent(dragEndEvent);
+            canvasBody.dispatchEvent(dragEndEvent);
             expect(draggingRegion.classList).toContain('slds-hide');
         });
     });
