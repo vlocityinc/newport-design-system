@@ -1,8 +1,6 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { Validation, defaultRules } from "builder_platform_interaction/validation";
-import { getFerovTypeFromTypeName, getCachedExtensions, isExtensionField } from "builder_platform_interaction/screenEditorUtils";
-import { getElementByDevName } from "builder_platform_interaction/storeUtils";
-import { removeCurlyBraces, isReference } from "builder_platform_interaction/commonUtils";
+import { getCachedExtensions, isExtensionField } from "builder_platform_interaction/screenEditorUtils";
 
 const LONG_STRING_LEN = 65535;
 const MAX_SCALE_VALUE = 17;
@@ -60,9 +58,17 @@ const getDescriptorForExtension = (extName) => {
     throw new Error('Error found trying to determine the descriptor for ' + extName);
 };
 
-const createTypeValidationRule = (type) => {
+// DISABLED UNTIL WE HAVE A CONVERSATION ABOUT TYPE VALIDATION OUTSIDE OF FRP
+// THIS IS EXTRA VALIDATION AND NOT REALLY REQUIRED, I WANTED TO HAVE IT HERE TO
+// DOUBLE CHECK BEFORE SAVING THE SCREEN TO THE STORE SO THAT WE DON'T RELY EXCLUSIVELY
+// ON THE VALIDATION PERFORMED BY THE FRP (AS THIS WOULD BE VIEW-ONLY VALIDATION),
+// BUT IT SEEMS THAT IS THE WAY ALL OTHER EDITORS WORK AND THERE IS NO WAY TO
+// HAVE TYPE ASSIGNMENT VALIDATION RULES RUN HERE RIGHT NOW (LET'S REVISIT IN 220)
+const createTypeValidationRule = (/* type */) => {
     // This is the validation rule itself, here we return an error message if the type of the reference is not compatible with the type in the descriptor
-    return (value) => {
+    return (/* value */) => {
+        return null;
+        /*
         let error = null;
         // TODO Check if it is a reference and if it is not do regular validation
         if (isReference(value)) {
@@ -81,6 +87,7 @@ const createTypeValidationRule = (type) => {
         }
 
         return error;
+        */
     };
 };
 
@@ -143,6 +150,20 @@ const getRulesForExtensionField = (field, rules) => {
 };
 
 /**
+ * Creates a validation rule that will execute requiredness validation only if the value provided (dependentValue) is not empty
+ * @param {String} dependentValue - The value that toggles requiredness validation (passing a value in this argument will trigger requiredness validation)
+ */
+const createConditionalRuleForTextProperty = (dependentValue) => {
+    return (propertyValue) => {
+        if (dependentValue && dependentValue.value && dependentValue.value.length) {
+            return ValidationRules.shouldNotBeBlank(propertyValue);
+        }
+
+        return null;
+    };
+};
+
+/**
  * Adds rules for the provided screen field (specific rules based on type)
  *
  * @param {screenfield} field - The screen field
@@ -174,13 +195,10 @@ const getRulesForInputField = (field, rules) => {
     }
 
     // Error message and formulaExpression are dependent on each other
-    if (field.errorMessage && field.errorMessage.value) {
-        addRules('formulaExpression', rules, [ValidationRules.shouldNotBeBlank]);
-    }
-
-    if (field.formulaExpression && field.formulaExpression.value) {
-        addRules('errorMessage', rules, [ValidationRules.shouldNotBeBlank]);
-    }
+    rules.validationRule = {
+        formulaExpression: [createConditionalRuleForTextProperty(field.validationRule.errorMessage)],
+        errorMessage:[createConditionalRuleForTextProperty(field.validationRule.formulaExpression)]
+    };
 };
 
 /**

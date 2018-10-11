@@ -43,10 +43,9 @@
        </div>
        <div>
             <lightning-accordion allow-multiple-sections-open active-section-name={allSectionNames} class='slds-has-divider slds-p-top_none'>
-            
                 <!--  validation rule -->
                 <lightning-accordion-section name='validationOptions' label={labels.fieldValidation}>
-                    <builder_platform_interaction-validation-editor element={field}>
+                    <builder_platform_interaction-validation-editor element={field.validationRule}>
                     </builder_platform_interaction-validation-editor>
                 </lightning-accordion-section>   
                 

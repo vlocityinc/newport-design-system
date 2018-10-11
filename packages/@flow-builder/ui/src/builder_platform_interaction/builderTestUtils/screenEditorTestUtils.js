@@ -267,8 +267,15 @@ function addConfigOptionsToField(field, name, config, fieldType, hydrateValues) 
     }
 
     if (booleanValue(config, 'validation', true)) {
-        field.errorMessage = getStringValue('The value you entered doesn\'t meet the validation criteria for this input field.', null, hydrateValues);
-        field.formulaExpression = getStringValue('{!Var1} == \'text\'', null, hydrateValues);
+        field.validationRule = {
+            errorMessage: getStringValue('The value you entered doesn\'t meet the validation criteria for this input field.', null, hydrateValues),
+            formulaExpression: getStringValue('{!Var1} == \'text\'', null, hydrateValues)
+        };
+    } else {
+        field.validationRule = {
+            errorMessage: hydrateValues ? {value: null, error: null} : null,
+            formulaExpression: hydrateValues ? {value: null, error: null} : null
+        };
     }
 
     if (booleanValue(config, 'includeNonMDValues', true)) {

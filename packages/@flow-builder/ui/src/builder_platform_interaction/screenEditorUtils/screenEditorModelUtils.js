@@ -28,7 +28,9 @@ export function createEmptyNodeOfType(type) {
         fieldText: '',
         outputParameters: [],
         scale: '0', // Store as string for validation purposes.
-        formulaExpression: '',
-        errorMessage: ''
+        validationRule: {
+            formulaExpression: '',
+            errorMessage: ''
+        }
     };
 }

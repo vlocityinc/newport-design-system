@@ -136,6 +136,7 @@ export const TEMPLATE_FIELDS = new Set([
     'text',        // represents body of a text template
     'fieldText',   // body of screen field of type Display Text
     'helpText',     // help text for a screen or screen field
+    'pausedText', // Paused text for screens
     'interviewLabel', // interview label for the flow properties
     'errorMessage', // errorMessage field in validationRule Object for choice editor and screenField
     'formulaExpression' // used in validation Rule Object for choice editor and screenField

@@ -51,10 +51,30 @@ export function booleanValue(value, name) {
     return value && (value === 'true' || value === true || value === name);
 }
 
-export function compareValues(value1, value2) {
-    const val1 = value1 && value1.value ? value1.value : value1;
-    const val2 = value2 && value2.value ? value2.value : value2;
-    const normValue1 = !val1 || val1 === '' ? null : val1;
-    const normValue2 = !val2 || val2 === '' ? null : val2;
-    return normValue1 !== normValue2;
+function getNormalizedValue(value, propertyName = 'value') {
+    const hydrated = value && value.hasOwnProperty('value');
+    const val = hydrated ? value[propertyName] : value;
+    return !val || val === '' ? null : val;
+}
+
+/**
+ * Compares two values and returns true if they are different.
+ * null, undefined and empty strings are considered to be equal.
+ *
+ * @param {*} value1 - The first value
+ * @param {*} value2 - The second value
+ * @param {*} includeErrors - Should errors be considered in the equality check
+ * @returns true if values are different
+ */
+export function compareValues(value1, value2, includeErrors = false) {
+    const normValue1 = getNormalizedValue(value1, 'value');
+    const normValue2 = getNormalizedValue(value2, 'value');
+    const result = normValue1 !== normValue2;
+    if (!result && includeErrors) {
+        const err1 = getNormalizedValue(value1, 'error');
+        const err2 = getNormalizedValue(value2, 'error');
+        return err1 !== err2;
+    }
+
+    return result;
 }

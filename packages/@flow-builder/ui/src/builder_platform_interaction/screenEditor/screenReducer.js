@@ -1,10 +1,14 @@
 import { screenValidation, getExtensionParameterValidation, getRulesForField } from "./screenValidation";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { updateProperties, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
-import { ReorderListEvent, PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
+import { ReorderListEvent, PropertyChangedEvent, ValidationRuleChangedEvent, SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
 import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getFerovTypeFromFieldType, compareValues } from "builder_platform_interaction/screenEditorUtils";
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+
+const isHydrated = (value) => {
+    return value && value.hasOwnProperty('value') && value.hasOwnProperty('error');
+};
 
 /**
  * Adds screen fields to a screen.
@@ -240,8 +244,13 @@ const handleExtensionFieldPropertyChange = (data) => {
     return set(field, parametersPropName, updatedParams);
 };
 
-const isHydrated = (value) => {
-    return value && value.hasOwnProperty('value') && value.hasOwnProperty('error');
+const updateFieldInScreen = (screen, field, newField) => {
+    // Replace the field in the screen
+    const fieldPosition = screen.getFieldIndexByGUID(field.guid);
+    const updatedItems =  replaceItem(screen.fields, newField, fieldPosition);
+
+    // Replace the fields in the screen
+    return set(screen, 'fields', updatedItems);
 };
 
 /**
@@ -277,7 +286,7 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
 
     // Only update the field if the given property value actually changed.
     let updatedNode = selectedNode;
-    if (compareValues(currentValue, value)) {
+    if (compareValues(currentValue, value, true)) {
         if (isScreen(selectedNode)) {
             if (hydrated) {
                 error = error === null ? screenValidation.validateProperty(property, value.value) : error;
@@ -304,18 +313,49 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 newField = handleScreenFieldPropertyChange(data);
             }
 
-            // Replace the field in the screen
-            const fieldPosition = screen.getFieldIndexByGUID(selectedNode.guid);
-            const updatedItems =  replaceItem(screen.fields, newField, fieldPosition);
-
-            // Replace the fields in the screen
-            updatedNode = set(screen, 'fields', updatedItems);
+            updatedNode = updateFieldInScreen(screen, selectedNode, newField);
         }
     } else {
         // If nothing changed, return the screen, unchanged.
         return screen;
     }
     return updatedNode;
+};
+
+/**
+ * Handles changes in validation rules for screen fields.
+ * @param {object} screen - The screen or node
+ * @param {event} event - The validation rule changed event
+ * @param {object} selectedNode - the currently selected field
+ * @returns {object} - A new screen with the changes applied
+ */
+const validationRuleChanged = (screen, event, selectedNode) => {
+    // Make sure there was a change
+    const newRule = event.detail.rule;
+    const currentRule = selectedNode.validationRule;
+    if (compareValues(newRule.formulaExpression, currentRule.formulaExpression, true) ||
+        compareValues(newRule.errorMessage, currentRule.errorMessage, true)) {
+        // Run validation
+        const validate = (property, element, rules) => {
+            const value = element[property];
+            const propertyRules = rules.validationRule[property];
+            value.error = value.error === null ? screenValidation.validateProperty(property, value.value, propertyRules) : value.error;
+        };
+
+        // Update validationRule in field
+        const updatedField = updateProperties(selectedNode, {validationRule: newRule});
+
+        // I'm validating after updating the rule in the field because conditional requiredness rules should be ran on the new values
+        const validationRulesForField = getRulesForField(updatedField);
+        validate('formulaExpression', newRule, validationRulesForField);
+        validate('errorMessage', newRule, validationRulesForField);
+
+
+        // Update field in screen
+        return updateFieldInScreen(screen, selectedNode, updatedField);
+    }
+
+    return screen;
 };
 
 /**
@@ -329,6 +369,9 @@ export const screenReducer = (state, event, selectedNode) => {
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
             return screenPropertyChanged(state, event, selectedNode);
+
+        case ValidationRuleChangedEvent.EVENT_NAME:
+            return validationRuleChanged(state, event, selectedNode);
 
         case SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED:
             return addScreenField(state, event);

@@ -1,7 +1,6 @@
 import { LightningElement, api } from 'lwc';
-import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
+import { LABELS } from './validationEditorLabels';
+import { ValidationRuleChangedEvent } from 'builder_platform_interaction/events';
 
 /*
  * Common component that can be used in various property editors where a Validation Rule
@@ -13,27 +12,27 @@ export default class ValidationEditor extends LightningElement {
 
     labels = LABELS;
 
-    get validationRuleErrorValue() {
-        return hydrateIfNecessary(this.element.errorMessage);
-    }
-
-    get validationRuleFormulaValue() {
-        return hydrateIfNecessary(this.element.formulaExpression);
-    }
-
     handleValueChanged = (event) => {
         event.stopPropagation();
-        const propertyName = event.srcElement.name;
-        const newValue = this.template.querySelector('.property-input.' + propertyName).value.value;
-        const currentValue = this.element[propertyName] ? this.element[propertyName].value : null;
 
-        if ((currentValue || newValue)  && currentValue !== newValue) {
-            const hydratedNewValue = hydrateIfNecessary(newValue);
-            const hydratedCurrentValue = hydrateIfNecessary(currentValue);
-            const error = event.detail ? event.detail.error : null;
-            const guid = event.detail ? event.detail.guid : null;
-            // Hydrate the current value before sending in to ensure the new value is hydrated also.
-            this.dispatchEvent(new PropertyChangedEvent(propertyName, hydratedNewValue, error, guid, hydratedCurrentValue));
+        const formulaDisplayedValue = this.template.querySelector('.property-input.formulaExpression').value;
+        const errorDisplayedValue = this.template.querySelector('.property-input.errorMessage').value;
+        const hasFormula = formulaDisplayedValue.value && formulaDisplayedValue.value.length > 0;
+        const hasError = errorDisplayedValue.value && errorDisplayedValue.value.length > 0;
+        let formulaError = null, errorError = null;
+
+        if (hasFormula ^ hasError) { // Validate conditional requiredness
+            if (hasFormula) {
+                errorError = LABELS.cannotBeBlank;
+            } else {
+                formulaError = LABELS.cannotBeBlank;
+            }
         }
+
+        // TODO fire only if it really changed
+        this.dispatchEvent(new ValidationRuleChangedEvent({
+            formulaExpression: {value: formulaDisplayedValue.value, error: formulaError},
+            errorMessage: {value: errorDisplayedValue.value, error: errorError}
+        }));
     }
 }

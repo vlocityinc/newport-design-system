@@ -3,7 +3,7 @@
         <builder_platform_interaction-resourced-textarea class='property-input errorMessage'                                         
                                                             name='errorMessage'
                                                             label={labels.errorMessage}
-                                                            value={validationRuleErrorValue}
+                                                            value={element.errorMessage}
                                                             required={required}
                                                             onblur={handleValueChanged}
                                                             onchange={handleValueChanged}>
@@ -14,7 +14,7 @@
         <builder_platform_interaction-resourced-textarea class='property-input formulaExpression' 
                                                         name='formulaExpression'
                                                         label={labels.validationFormula}
-                                                        value={validationRuleFormulaValue}
+                                                        value={element.formulaExpression}
                                                         required={required}
                                                         onblur={handleValueChanged}
                                                         onchange={handleValueChanged}>

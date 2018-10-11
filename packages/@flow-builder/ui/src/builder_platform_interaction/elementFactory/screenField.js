@@ -22,35 +22,23 @@ export function createScreenField(screenField = {}) {
         helpText = '',
         choiceReferences = [],
         defaultValue,
-        validationRule,
         defaultValueDataType
     } = screenField;
     let {
         type,
         scale,
+        validationRule,
         inputParameters,
         outputParameters,
-        errorMessage = '',
-        formulaExpression = ''
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
         type = getScreenFieldTypeByName(screenField.extensionName) || getLocalExtensionFieldType(screenField.extensionName);
 
-        inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
-        outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
+        inputParameters = screenField.inputParameters.map(inputParameter => createInputParameter(inputParameter));
+        outputParameters = screenField.outputParameters.map(outputParameter => createOutputParameter(outputParameter));
     } else {
         type = getScreenFieldType(screenField);
-    }
-
-    // Flatten out these properties which makes validation easier.
-    if (validationRule) {
-        if (validationRule.errorMessage) {
-            errorMessage = validationRule.errorMessage;
-        }
-        if (validationRule.formulaExpression) {
-            formulaExpression = validationRule.formulaExpression;
-        }
     }
 
     let defaultValueFerovObject;
@@ -69,6 +57,13 @@ export function createScreenField(screenField = {}) {
     if (scale != null && typeof scale === 'number') {
         scale = scale.toString();
     }
+
+    if (validationRule && validationRule.formulaExpression) {
+        validationRule = Object.assign({}, validationRule);
+    } else {
+        validationRule = {formulaExpression: null, errorMessage: null};
+    }
+
     return Object.assign(
         newScreenField,
         {
@@ -77,11 +72,10 @@ export function createScreenField(screenField = {}) {
             defaultValue,
             defaultValueDataType,
             previewDefaultValue,
-            errorMessage,
+            validationRule,
             extensionName,
             fieldType,
             fieldText,
-            formulaExpression,
             helpText,
             inputParameters,
             isNewField,
@@ -101,13 +95,8 @@ export function createScreenFieldMetadataObject(screenField) {
     }
 
     // Unflatten these properties.
-    const { errorMessage, formulaExpression, extensionName, choiceReferences, defaultValue, dataType, helpText, isRequired, fieldText, fieldType, name } = screenField;
+    const { extensionName, choiceReferences, defaultValue, dataType, helpText, isRequired, fieldText, fieldType, name, validationRule } = screenField;
     let { scale, inputParameters, outputParameters } = screenField;
-
-    let validationRule;
-    if (errorMessage || formulaExpression) {
-        validationRule = Object.assign({}, {formulaExpression, errorMessage});
-    }
 
     // Convert scale back to number. MD expects this to be a number, but within FlowBuilder, we want it to be a string.
     if (scale != null && typeof scale === 'string') {
@@ -125,7 +114,7 @@ export function createScreenFieldMetadataObject(screenField) {
         outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
     }
 
-    return Object.assign({},
+    const mdScreenField = Object.assign({},
         {
             choiceReferences,
             dataType,
@@ -137,9 +126,14 @@ export function createScreenFieldMetadataObject(screenField) {
             isRequired,
             name,
             outputParameters,
-            scale,
-            validationRule,
+            scale
         },
         defaultValueMetadataObject
     );
+
+    if (validationRule.formulaExpression) {
+        mdScreenField.validationRule = validationRule;
+    }
+
+    return mdScreenField;
 }
