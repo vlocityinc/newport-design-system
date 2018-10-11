@@ -24,6 +24,13 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return partialStoreLibMock;
 });
 
+jest.mock('builder_platform_interaction/loggingUtils', () => {
+    return {
+        logPerfTransactionStart: jest.fn(),
+        logPerfTransactionEnd: jest.fn(),
+    };
+});
+
 const SELECTORS = {
     COLLECTION_VARIABLE: '.test-loop-collection',
     LOOP_VARIABLE: '.test-loop-variable',
