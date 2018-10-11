@@ -113,6 +113,15 @@ describe('base-resource-picker', () => {
         });
     });
 
+    it('sets the allowed param types on the flow combobox', () => {
+        const allowedParamTypes = { foo: {value: 'foo'}};
+        const baseResourcePicker = setupComponentUnderTest({allowedParamTypes});
+        return Promise.resolve().then(() => {
+            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+            expect(flowCombobox.allowedParamTypes).toEqual(allowedParamTypes);
+        });
+    });
+
     describe('event handlers', () => {
         it('handles the filter menu data event', () => {
             const baseResourcePicker = setupComponentUnderTest({comboboxConfig, });
