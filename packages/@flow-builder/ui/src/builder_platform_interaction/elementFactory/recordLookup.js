@@ -4,7 +4,8 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    createAvailableConnection
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
@@ -41,15 +42,16 @@ export function createQueriedField(queriedField) {
 export function createRecordLookup(recordLookup = {}) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
-    let { filters, queriedFields = [] } = recordLookup;
+    let { availableConnections = getDefaultAvailableConnections(), filters, queriedFields = [] } = recordLookup;
     const {
         object = '',
         outputReference = '',
         assignNullValuesIfNoRecordsFound = false,
         sortOrder = SORT_ORDER.NOT_SORTED,
-        sortField = '',
-        availableConnections = getDefaultAvailableConnections()
+        sortField = ''
     } = recordLookup;
+
+    availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
     if (queriedFields && queriedFields.length > 0) {
         queriedFields = queriedFields.map(queriedField => createQueriedField(queriedField));

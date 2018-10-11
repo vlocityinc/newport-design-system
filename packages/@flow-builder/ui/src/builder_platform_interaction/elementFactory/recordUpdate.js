@@ -1,7 +1,8 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    createAvailableConnection
 } from "./base/baseElement";
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
 import { createConnectorObjects } from './connector';
@@ -32,8 +33,10 @@ function getNumberRecordsToStore(inputReference, object) {
 
 export function createRecordUpdate(recordUpdate = {}) {
     const newRecordUpdate = baseCanvasElement(recordUpdate);
-    const { inputReference = '', availableConnections = getDefaultAvailableConnections(), object = '' } = recordUpdate;
-    let { filters, inputAssignments = []} = recordUpdate;
+    const { inputReference = '', object = '' } = recordUpdate;
+    let { filters, inputAssignments = [], availableConnections = getDefaultAvailableConnections()} = recordUpdate;
+
+    availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
     inputAssignments = inputAssignments.map(item => createFlowInputFieldAssignment(item, object));
 

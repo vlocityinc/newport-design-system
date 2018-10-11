@@ -4,6 +4,9 @@ import { NUMBER_RECORDS_TO_STORE,
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
 import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
+import { matchers } from './elementFactoryMatchers';
+
+expect.extend(matchers);
 
 const recordUpdateUsingSobject = {
     name: 'RecordUpdate1',
@@ -110,6 +113,10 @@ describe('recordUpdate Mutation', () => {
             const actualResult = createRecordUpdate(recordUpdateUsingSobject);
             expect(actualResult.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
         });
+        it('has no common mutable object with subflow metadata passed as parameter', () => {
+            const actualResult = createRecordUpdate(recordUpdateUsingSobject);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordUpdateUsingSobject);
+        });
     });
     describe('recordUpdate function using Fields', () => {
         let recordUpdateUsingFields;
@@ -146,6 +153,10 @@ describe('recordUpdate Mutation', () => {
         it('has dataType of boolean', () => {
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
             expect(actualResult.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+        });
+        it('has no common mutable object with record update metadata passed as parameter', () => {
+            const actualResult = createRecordUpdate(recordUpdateUsingFields);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordUpdateUsingFields);
         });
     });
 });

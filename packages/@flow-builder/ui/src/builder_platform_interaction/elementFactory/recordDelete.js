@@ -4,7 +4,8 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
-    baseCanvasElementsArrayToMap
+    baseCanvasElementsArrayToMap,
+    createAvailableConnection
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
@@ -24,7 +25,10 @@ const getDefaultAvailableConnections = () => [
 
 export function createRecordDelete(recordDelete = {}) {
     const newRecordDelete = baseCanvasElement(recordDelete);
-    const { inputReference = '', availableConnections = getDefaultAvailableConnections() } = recordDelete;
+    const { inputReference = '' } = recordDelete;
+    let { availableConnections = getDefaultAvailableConnections() } = recordDelete;
+
+    availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
     const recordDeleteObject = Object.assign(newRecordDelete, {
         inputReference,
