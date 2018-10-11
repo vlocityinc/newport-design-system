@@ -69,7 +69,7 @@ export function createSubflowMetadataObject(subflow, config) {
     const { flowName } = subflow;
     let { inputAssignments = [], outputAssignments = [] } = subflow;
     inputAssignments = inputAssignments.map(inputParameter => createInputParameterMetadataObject(inputParameter));
-    outputAssignments = inputAssignments.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
+    outputAssignments = outputAssignments.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
 
     return Object.assign(subflowMetadata, {
         flowName,

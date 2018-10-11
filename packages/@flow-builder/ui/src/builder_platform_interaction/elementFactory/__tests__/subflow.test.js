@@ -1,4 +1,4 @@
-import { createSubflow } from '../subflow';
+import { createSubflow, createSubflowMetadataObject, createSubflowWithConnectors } from '../subflow';
 import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
 import { deepCopy } from "builder_platform_interaction/storeLib";
 import { matchers } from './elementFactoryMatchers';
@@ -96,6 +96,29 @@ const subflowInStoreWithAnyRowIndexGuidExpected = (subflow) => {
     return copiedSubflow;
 };
 
+const expectedSubflowMetadata = (subflow, { removeConnector = false } = {}) => {
+    const copiedSubflow = deepCopy(subflow);
+    delete copiedSubflow.processMetadataValues;
+    if (removeConnector) {
+        delete copiedSubflow.connector;
+    }
+    if (!copiedSubflow.description) {
+        copiedSubflow.description = "";
+    }
+    copiedSubflow.inputAssignments.forEach(assignment => {
+        delete assignment.processMetadataValues;
+        for (const key in assignment.value) {
+            if (Object.prototype.hasOwnProperty.call(assignment.value, key)) {
+                assignment.value[key] = assignment.value[key].toString();
+            }
+        }
+    });
+    copiedSubflow.outputAssignments.forEach(assignment => {
+        delete assignment.processMetadataValues;
+    });
+    return copiedSubflow;
+};
+
 describe('subflow', () => {
     describe('createSubflow function', () => {
         let subflow;
@@ -159,6 +182,29 @@ describe('subflow', () => {
             });
             it('has no common mutable object with subflow from store passed as parameter', () => {
                 expect(subflow).toHaveNoCommonMutableObjectWith(subflowInStore);
+            });
+        });
+        describe('createSubflowMetadataObject function', () => {
+            describe('when store apexPlugin is passed', () => {
+                beforeAll(() => {
+                    subflow = createSubflowMetadataObject(subflowInStore);
+                });
+                it('is equal to the subflow metadata', () => {
+                    // we don't pass config so connector cannot be recreated
+                    const expectedSubflow = expectedSubflowMetadata(subflowMetadata, { removeConnector : true });
+                    expect(subflow).toEqual(expectedSubflow);
+                });
+                it('has no common mutable object with subflow from store passed as parameter', () => {
+                    expect(subflow).toHaveNoCommonMutableObjectWith(subflowInStore);
+                });
+            });
+        });
+        describe('createSubflowWithConnectors function', () => {
+            beforeAll(() => {
+                subflow = createSubflowWithConnectors(subflowMetadata);
+            });
+            it('has no common mutable object with subflow metadata passed as parameter', () => {
+                expect(subflow).toHaveNoCommonMutableObjectWith(subflowMetadata);
             });
         });
     });
