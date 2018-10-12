@@ -5,27 +5,10 @@ import { getQueryableEntities, getCreateableEntities, getDeletableEntities, getU
 
 const elementsSelector = (state) => state.elements;
 
-const getWritableElements = (elements) => {
-    const writableElements = Object.values(elements).filter(element => element.elementType === ELEMENT_TYPE.VARIABLE);
-    return writableElements;
-};
-
-const getReadableElements = (elements) => {
-    // the start element will never be needed for menu data
-    const readableElements = Object.values(elements).filter(element => element.elementType !== ELEMENT_TYPE.START_ELEMENT);
-    return [...readableElements];
-};
-
-const getCollectionElements = (elements) => {
-    const collectionElements = Object.values(elements).filter(element => element.isCollection);
-    return collectionElements;
-};
-
-const getNonCollectionElementsByType = (elements, dataType) => {
-    const filteredElements = Object.values(elements).filter(element =>
-        (element.dataType === dataType) && (!element.isCollection)
-    );
-    return filteredElements;
+const getFilteredElements = (filterFunction) => {
+    return (elements) => {
+        return Object.values(elements).filter(filterFunction);
+    };
 };
 
 const isQueryableSObject = (objectType) => {
@@ -51,16 +34,12 @@ const isDeleteableSObject = (objectType) => {
  * @returns {Object[]}  list of sobject/sobject collection variables
  */
 export const getSObjectOrSObjectCollectionByEntityElements = (elements, retrieveOptions = {}) => {
-    let allElements = [];
-    const dataType = FLOW_DATA_TYPE.SOBJECT.value;
+    let allElements = getFilteredElements(element => element.dataType === FLOW_DATA_TYPE.SOBJECT.value)(elements);
+
     if (retrieveOptions) {
-        if (retrieveOptions.allSObjectsAndSObjectCollections) {
-            allElements.push(...getCollectionElements(elements).filter(element => element.dataType === dataType));
-            allElements.push(...getNonCollectionElementsByType(elements, dataType));
-        } else if (retrieveOptions.isCollection) {
-            allElements.push(...getCollectionElements(elements).filter(element => element.dataType === dataType));
-        } else {
-            allElements.push(...getNonCollectionElementsByType(elements, dataType));
+        if (!retrieveOptions.allSObjectsAndSObjectCollections) {
+            // elements should either all be collections, or all not be collections, based on isCollection setting
+            allElements = getFilteredElements(element => !!element.isCollection === !!retrieveOptions.isCollection)(allElements);
         }
         if (retrieveOptions.entityName) {
             allElements = allElements.filter(element => element.objectType === retrieveOptions.entityName);
@@ -104,9 +83,12 @@ export const sObjectOrSObjectCollectionByEntitySelector = (retrieveOptions) => {
 };
 
 export const byTypeElementsSelector = (dataType) => {
-    return createSelector([elementsSelector], (elements) => getNonCollectionElementsByType(elements, dataType));
+    return createSelector([elementsSelector], getFilteredElements(element => element.dataType === dataType && !element.isCollection));
 };
 
-export const writableElementsSelector = createSelector([elementsSelector], getWritableElements);
-export const readableElementsSelector = createSelector([elementsSelector], getReadableElements);
-export const collectionElementsSelector = createSelector([elementsSelector], getCollectionElements);
+const choiceTypes = [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.DYNAMIC_CHOICE_SET, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET];
+export const choiceSelector = createSelector([elementsSelector], getFilteredElements(element => choiceTypes.includes(element.elementType)));
+
+export const writableElementsSelector = createSelector([elementsSelector], getFilteredElements(element => element.elementType === ELEMENT_TYPE.VARIABLE));
+export const readableElementsSelector = createSelector([elementsSelector], getFilteredElements(element => element.elementType !== ELEMENT_TYPE.START_ELEMENT));
+export const collectionElementsSelector = createSelector([elementsSelector], getFilteredElements(element => element.isCollection));

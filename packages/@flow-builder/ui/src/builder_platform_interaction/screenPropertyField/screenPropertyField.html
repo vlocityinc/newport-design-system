@@ -1,15 +1,26 @@
 <template>
     <div class={computedClass}>
-        <builder_platform_interaction-ferov-resource-picker if:true={allowsResources} class='property-input' 
+        <builder_platform_interaction-ferov-resource-picker if:true={allowsResourcesForParameter} class='property-input'
                                                                                       combobox-config={resourceComboBoxConfig}
                                                                                       value={propertyValue}
                                                                                       element-param={elementParam}
-                                                                                      property-editor-element-type='SCREEN'
+                                                                                      property-editor-element-type={propertyEditorElementType}
                                                                                       rules={resourcePickerRules} 
                                                                                       onitemselected={handleEvent}
                                                                                       oncomboboxstatechanged={handleEvent}>
         </builder_platform_interaction-ferov-resource-picker>
-        
+
+        <builder_platform_interaction-ferov-resource-picker if:true={allowsResourcesForContext} class='property-input'
+                                                            combobox-config={resourceComboBoxConfig}
+                                                            value={propertyValue}
+                                                            element-config={resourcePickerConfig.elementConfig}
+                                                            hide-global-constants={resourcePickerConfig.hideGlobalConstants}
+                                                            property-editor-element-type={propertyEditorElementType}
+                                                            rules={resourcePickerRules}
+                                                            onitemselected={handleEvent}
+                                                            oncomboboxstatechanged={handleEvent}>
+        </builder_platform_interaction-ferov-resource-picker>
+
         <lightning-input if:true={isInput} class='property-input' 
                                            name={name}
                                            label={label} 

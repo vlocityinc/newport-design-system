@@ -106,7 +106,7 @@ describe('screen-property-field', () => {
         createComponentUnderTest({
             name: fieldName,
             type: 'string',
-            allowResources: true,
+            allowResourcesForParameter: true,
             resourcePickerConfig: {}
         });
         return Promise.resolve().then(() => {
@@ -120,7 +120,7 @@ describe('screen-property-field', () => {
         const screenPropertyField = createComponentUnderTest({
             name: fieldName,
             type: 'string',
-            allowResources: true,
+            allowResourcesForParameter: true,
             resourcePickerConfig: {}
         });
         return Promise.resolve().then(() => {

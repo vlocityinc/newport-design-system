@@ -4,7 +4,8 @@ import {
     readableElementsSelector,
     collectionElementsSelector,
     byTypeElementsSelector,
-    sObjectOrSObjectCollectionByEntitySelector
+    sObjectOrSObjectCollectionByEntitySelector,
+    choiceSelector,
 } from "builder_platform_interaction/selectors";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { Store } from "builder_platform_interaction/storeLib";
@@ -147,6 +148,10 @@ function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, da
     return isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
 }
 
+function screenSelectors(shouldBeWritable, choices) {
+    return choices ? choiceSelector : readableElementsSelector;
+}
+
 const selectorProviderMap = {
     [ELEMENT_TYPE.ACTION_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.APEX_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
@@ -158,7 +163,7 @@ const selectorProviderMap = {
     [ELEMENT_TYPE.CHOICE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => readableElementsSelector,
     [ELEMENT_TYPE.WAIT]: () => readableElementsSelector,
-    [ELEMENT_TYPE.SCREEN]: () => readableElementsSelector,
+    [ELEMENT_TYPE.SCREEN]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices) => screenSelectors(shouldBeWritable, choices),
     [ELEMENT_TYPE.RECORD_CREATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
     [ELEMENT_TYPE.RECORD_UPDATE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, updateable: true}),
     [ELEMENT_TYPE.RECORD_DELETE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true}),
@@ -177,12 +182,12 @@ const selectorProviderMap = {
  * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
  * @returns {array}                     retrieves elements from store
  */
-export function getStoreElements(storeInstance, {elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector}) {
+export function getStoreElements(storeInstance, {elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector, choices}) {
     let elements = [];
 
     const selector = selectorProviderMap[elementType];
     if (selector) {
-        elements = selector(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector)(storeInstance);
+        elements = selector(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices)(storeInstance);
     }
 
     return elements;

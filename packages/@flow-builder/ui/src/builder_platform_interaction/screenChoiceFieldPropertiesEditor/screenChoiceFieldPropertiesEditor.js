@@ -13,7 +13,11 @@ const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
 const CHOICE_FRP_CONFIG = {
     allowLiterals: false,
     collection: false,
-    elementType: ELEMENT_TYPE.SCREEN // TODO this needs to be changed to CHOICE once Choice selector is added
+    hideGlobalConstants: true,
+    elementConfig: {
+        elementType: ELEMENT_TYPE.SCREEN,
+        choices: true,
+    },
 };
 
 /*

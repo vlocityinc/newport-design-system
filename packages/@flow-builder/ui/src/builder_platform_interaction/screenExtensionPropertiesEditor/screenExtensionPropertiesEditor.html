@@ -11,7 +11,7 @@
                     <builder_platform_interaction-screen-property-field key={param.key} name={param.apiName} data-param-type='input'
                                                                         label={param.label} type={param.dataType}
                                                                         value={param.value} required={param.isRequired} 
-                                                                        allow-resources='true' resource-picker-config={param.resourcePickerConfig}
+                                                                        allow-resources-for-parameter resource-picker-config={param.resourcePickerConfig}
                                                                         onpropertychanged={handleInputPropertyChanged}>
                     </builder_platform_interaction-screen-property-field>
                 </template>
@@ -23,7 +23,7 @@
                     <template for:each={mergedField.outputParameters} for:item='param'>
                         <builder_platform_interaction-screen-property-field key={param.key} name={param.apiName} data-param-type='output'
                                                                             label={param.label} value={param.assignToReference}
-                                                                            type={param.dataType} allow-resources='true' 
+                                                                            type={param.dataType} allow-resources-for-parameter
                                                                             resource-picker-config={param.resourcePickerConfig} hide-top-padding={param.isFirst}
                                                                             onpropertychanged={handleOutputPropertyChanged}>
                         </builder_platform_interaction-screen-property-field>

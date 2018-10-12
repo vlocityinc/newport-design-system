@@ -3,7 +3,6 @@ import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { booleanAttributeValue, getFlowDataTypeByName, booleanValue } from "builder_platform_interaction/screenEditorUtils";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
@@ -22,7 +21,8 @@ export default class ScreenPropertyField extends LightningElement {
     @api required = false;
     @api readOnly = false;
     @api helpText;
-    @api allowResources = false;
+    @api allowResourcesForParameter = false;
+    @api allowResourcesForContext = false;
     @api resourcePickerConfig;
     @api disabled = false;
     @api listIndex;
@@ -42,8 +42,12 @@ export default class ScreenPropertyField extends LightningElement {
         this.rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.SCREEN);
     }
 
+    get propertyEditorElementType() {
+        return ELEMENT_TYPE.SCREEN;
+    }
+
     get computedClass() {
-        return booleanAttributeValue(this, 'hideTopPadding') ? 'slds-form-element' : 'slds-form-element slds-p-top_x-small';
+        return booleanAttributeValue(this, 'hideTopPadding') ? 'slds-form-element' : 'slds-form-element slds-p-top_xx-small';
     }
 
     set value(newValue) {
@@ -105,16 +109,12 @@ export default class ScreenPropertyField extends LightningElement {
         return param;
     }
 
-    get objectType() {
-        if (getFlowDataTypeByName(this.type) === FLOW_DATA_TYPE.SOBJECT.value) {
-            return this.objectType;
-        }
-
-        return null;
+    get allowsResourcesForParameter() {
+        return booleanAttributeValue(this, 'allowResourcesForParameter');
     }
 
-    get allowsResources() {
-        return booleanAttributeValue(this, 'allowResources');
+    get allowsResourcesForContext() {
+        return booleanAttributeValue(this, 'allowResourcesForContext');
     }
 
     get isRequired() {
@@ -146,7 +146,7 @@ export default class ScreenPropertyField extends LightningElement {
     }
 
     get isInput() {
-        return !this.allowsResources && !this.isLongString && !this.isRichString && !this.isList;
+        return !this.allowsResourcesForContext && !this.allowResourcesForParameter && !this.isLongString && !this.isRichString && !this.isList;
     }
 
     get isList() {
@@ -169,7 +169,7 @@ export default class ScreenPropertyField extends LightningElement {
 
     get domValue() {
         const input = this.input;
-        if (this.allowsResources) {
+        if (this.allowsResourcesForParameter || this.allowsResourcesForContext) {
             return input.value && input.value.hasOwnProperty('value') ? input.value.value : input.value;
         } else if (this.isLongString || this.isRichString) {
             return input.value.value;
@@ -187,7 +187,7 @@ export default class ScreenPropertyField extends LightningElement {
 
         let newValue = null, newGuid = null, currentValue = null;
 
-        if (this.allowResources && event.detail.item) { // And it contains a ferov
+        if (event.detail.item && (this.allowResourcesForParameter || this.allowResourcesForContext)) { // And it contains a ferov
             newValue = event.detail.item.displayText;
             newGuid = event.detail.item.value;
         } else if (this.isList && event.detail.value) { // And it contains a ferov from a static list
