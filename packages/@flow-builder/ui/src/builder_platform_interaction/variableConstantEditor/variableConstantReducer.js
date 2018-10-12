@@ -25,7 +25,11 @@ const dataTypeChanged = (state, action) => {
 export const variableConstantReducer = (variableOrConstant, action) => {
     switch (action.type) {
         case PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY: {
-            const propertyValue = {error: action.payload.error, value: action.payload.value};
+            const error = action.payload.error || variableConstantValidation.validateProperty(action.payload.propertyName, action.payload.value);
+            const propertyValue = {
+                error,
+                value: action.payload.value
+            };
             return updateProperties(variableOrConstant, {[action.payload.propertyName]: propertyValue});
         }
         case PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE:
