@@ -2,7 +2,9 @@ import { screenValidation, getExtensionParameterValidation, getRulesForField } f
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { updateProperties, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ReorderListEvent, PropertyChangedEvent, ValidationRuleChangedEvent, SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
-import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, getFerovTypeFromFieldType, compareValues } from "builder_platform_interaction/screenEditorUtils";
+import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, isPicklistField, isMultiSelectPicklistField,
+    isMultiSelectCheckboxField, isRadioField,
+    getFerovTypeFromFieldType, compareValues } from "builder_platform_interaction/screenEditorUtils";
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
@@ -159,7 +161,7 @@ const handleScreenFieldPropertyChange = (data, event) => {
     // Non-extension screen field change
 
     // Run validation
-    const field = data.field;
+    let field = data.field;
     const rules = getRulesForField(field);
     const newValue = data.hydrated ? data.newValue.value : data.newValue; // TODO property must be hydrated here
     const error = data.error === null ? screenValidation.validateProperty(data.property, newValue, rules[data.property]) : data.error;
@@ -178,7 +180,20 @@ const handleScreenFieldPropertyChange = (data, event) => {
             newValue, data.newValueGuid, 'defaultValueDataType');
     }
 
-    return updateProperties(data.field, {[data.property]: data.newValue});
+    // If the dataType of the field was changed and this is a choice based field, clear out any choices
+    // that were already configured.
+    if (data.property === 'dataType' && (isPicklistField(field) || isMultiSelectPicklistField(field) ||
+                                         isMultiSelectCheckboxField(field) || isRadioField(field))) {
+        if (field.choiceReferences.length) {
+            // Delete all choices except 1 because when the dataType is changed, all choices must be
+            // reset. Choices are strictly typed so there is no way a change in dataType will result
+            // in the old choices being valid for the new dataType. If we ever change this,
+            // we might need to revisit this.
+            field = set(field, 'choiceReferences', ['']);
+        }
+    }
+
+    return updateProperties(field, {[data.property]: data.newValue});
 };
 
 /**

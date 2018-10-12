@@ -83,21 +83,28 @@ const screenFieldTypes = [
     }, {
         name: 'Radio',
         fieldType: 'RadioButtons',
-        dataType: undefined,
+        dataType: null,
         label: LABELS.fieldTypeLabelRadioButtons,
         icon: 'utility:radio_button',
         category: LABELS.fieldCategoryInput
     }, {
+        name: 'DropdownBox',
+        fieldType: 'DropdownBox',
+        dataType: null,
+        label: LABELS.fieldTypeLabelPicklist,
+        icon: 'utility:picklist_type',
+        category: LABELS.fieldCategoryInput
+    }, {
         name: 'MultiSelectCheckboxes',
         fieldType: 'MultiSelectCheckboxes',
-        dataType: undefined,
+        dataType: null,
         label: LABELS.fieldTypeLabelMultiSelectCheckboxes,
         icon: 'utility:multi_select_checkbox',
         category: LABELS.fieldCategoryInput
     }, {
         name: 'MultiSelectPicklist',
         fieldType: 'MultiSelectPicklist',
-        dataType: undefined,
+        dataType: null,
         label: LABELS.fieldTypeLabelMultiSelectPicklist,
         icon: 'utility:multi_picklist',
         category: LABELS.fieldCategoryInput
@@ -196,7 +203,8 @@ export function getScreenFieldType(field) {
         // lump each type of choice based fields as one type in the screenFieldTypes map and dataType is ignored.
         // For this check only, just check the fieldType and ignore dataType.
         if (fieldType === type.fieldType &&
-            (fieldType === 'RadioButtons' || fieldType === 'MultiSelectCheckboxes' || fieldType === 'MultiSelectPicklist')) {
+            (fieldType === 'RadioButtons' || fieldType === 'MultiSelectCheckboxes' ||
+             fieldType === 'MultiSelectPicklist' || fieldType === 'DropdownBox')) {
             return type;
         }
     }
@@ -266,6 +274,14 @@ export function isMultiSelectCheckboxField(field) {
  */
 export function isMultiSelectPicklistField(field) {
     return field && field.fieldType === 'MultiSelectPicklist';
+}
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a picklist field
+ */
+export function isPicklistField(field) {
+    return field && field.fieldType === 'DropdownBox';
 }
 
 /**
