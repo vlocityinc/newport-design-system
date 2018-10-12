@@ -13,6 +13,6 @@ export const resolveRenderCycles = (callback, count = 0) => {
     }
 
     return Promise.resolve().then(() => {
-        resolveRenderCycles(callback, count + 1);
+        return resolveRenderCycles(callback, count + 1);
     });
 };
