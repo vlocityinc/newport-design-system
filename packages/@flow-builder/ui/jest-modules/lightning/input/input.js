@@ -18,6 +18,7 @@ export default class LightningInput extends LightningElement {
     @api messageToggleActive;
     @api messageToggleInactive;
     @api variant;
+    @api readOnly;
     @api checked;
     @api messageWhenValueMissing;
     @api disabled;
