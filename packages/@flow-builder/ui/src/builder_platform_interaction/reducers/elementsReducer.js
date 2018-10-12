@@ -15,7 +15,9 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES,
     ADD_WAIT_WITH_WAIT_EVENTS,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
-    UPDATE_RECORD_LOOKUP
+    UPDATE_RECORD_LOOKUP,
+    ADD_SCREEN_WITH_FIELDS,
+    MODIFY_SCREEN_WITH_FIELDS
 } from "builder_platform_interaction/actions";
 import {deepCopy} from "builder_platform_interaction/storeLib";
 import {updateProperties, omit, addItem} from "builder_platform_interaction/dataMutationLib";
@@ -59,6 +61,9 @@ export default function elementsReducer(state = {}, action) {
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
             return _addOrUpdateWaitWithWaitEvents(state, action.payload.wait, action.payload.deletedWaitEvents, action.payload.waitEvents);
+        case ADD_SCREEN_WITH_FIELDS:
+        case MODIFY_SCREEN_WITH_FIELDS:
+            return _addOrUpdateScreenWithScreenFields(state, action.payload.screen, action.payload.deletedFields, action.payload.fields);
         default:
             return state;
     }
@@ -300,6 +305,10 @@ function _getSubElementGuids(node) {
         for (let i = 0; i < node.outcomeReferences.length; i++) {
             subElementsGuids.push(node.outcomeReferences[i].outcomeReference);
         }
+    } else if (node.elementType === ELEMENT_TYPE.SCREEN) {
+        for (let i = 0; i < node.fieldReferences.length; i++) {
+            subElementsGuids.push(node.fieldReferences[i].fieldReferences);
+        }
     }
 
     return subElementsGuids;
@@ -460,5 +469,56 @@ function _deselectCanvasElements(elements) {
         }
         return guid;
     });
+    return newState;
+}
+
+/**
+ * Helper function to add or update a screenFields
+ *
+ * @param {Object} state - current state of elements in the store
+ * @param {Object} screen - the screen being added/modified
+ * @param {Object[]} deletedFields - All screenFields being deleted.
+ * @param {Object[]} fields - All screenFields in the updated screen state (does not include deleted screenFields)
+ *
+ * @return {Object} new state after reduction
+ * @private
+ */
+function _addOrUpdateScreenWithScreenFields(state, screen, deletedFields, fields = []) {
+    let newState = updateProperties(state);
+    newState[screen.guid] = updateProperties(newState[screen.guid], screen);
+
+    for (const field of fields) {
+        newState[field.guid] = updateProperties(newState[field.guid], field);
+    }
+
+    // Figure out what fields were newly added
+    const currentScreen = state[screen.guid];
+    let newScreenFieldGuids = [];
+    if (currentScreen) {
+        const currentScreenFields = currentScreen.fieldReferences;
+        for (let i = 0; i < fields.length; i++) {
+            let screenFieldCurrentlyExists = false;
+            for (let j = 0; j < currentScreenFields.length; j++) {
+                if (fields[i].guid === currentScreenFields[j].fieldReference) {
+                    screenFieldCurrentlyExists = true;
+                    break;
+                }
+            }
+            if (!screenFieldCurrentlyExists) {
+                newScreenFieldGuids.push(fields[i].guid);
+            }
+        }
+    } else {
+        // TOD0: Need to figure out how we can handle newly added screen field in factory instead of reducer
+        // For a new screen, all the screenFields are new screenFields
+        newScreenFieldGuids = fields.map(field => field.guid);
+    }
+    const deletedFieldGuids = [];
+    for (const field of deletedFields) {
+        deletedFieldGuids.push(field.guid);
+    }
+
+    newState[screen.guid] = updateProperties(newState[screen.guid]);
+    newState = omit(newState, deletedFieldGuids);
     return newState;
 }

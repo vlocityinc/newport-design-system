@@ -29,6 +29,9 @@ export const MODIFY_WAIT_WITH_WAIT_EVENTS = 'MODIFY_WAIT_WITH_WAIT_EVENTS';
 
 export const UPDATE_RECORD_LOOKUP = 'UPDATE_RECORD_LOOKUP';
 
+export const ADD_SCREEN_WITH_FIELDS = 'ADD_SCREEN_WITH_FIELDS';
+export const MODIFY_SCREEN_WITH_FIELDS = 'MODIFY_SCREEN_WITH_FIELDS';
+
 export const PROPERTY_EDITOR_ACTION = {
     UPDATE_ELEMENT_PROPERTY : 'UPDATE_ELEMENT_PROPERTY',
     ADD_ASSIGNMENT_ITEM: 'ADD_ASSIGNMENT_ITEM',
@@ -38,7 +41,8 @@ export const PROPERTY_EDITOR_ACTION = {
     ADD_DECISION_OUTCOME: 'ADD_DECISION_OUTCOME',
     ADD_WAIT_EVENT: 'ADD_WAIT_EVENT',
     CHANGE_DATA_TYPE: 'CHANGE_DATA_TYPE',
-    UPDATE_ELEMENT_VALUE : 'UPDATE_ELEMENT_VALUE'
+    UPDATE_ELEMENT_VALUE : 'UPDATE_ELEMENT_VALUE',
+    ADD_SCREEN_FIELD: 'ADD_SCREEN_FIELD'
 };
 
 /**
@@ -88,6 +92,8 @@ export const addElement = (payload) => {
                 return createAction(ADD_DECISION_WITH_OUTCOMES, payload);
             case ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS:
                 return createAction(ADD_WAIT_WITH_WAIT_EVENTS, payload);
+            case ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS:
+                return createAction(ADD_SCREEN_WITH_FIELDS, payload);
             default:
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(ADD_CANVAS_ELEMENT, payload);
@@ -126,6 +132,8 @@ export const updateElement = (payload) => {
                 return createAction(MODIFY_WAIT_WITH_WAIT_EVENTS, payload);
             case ELEMENT_TYPE.RECORD_LOOKUP:
                 return createAction(UPDATE_RECORD_LOOKUP, payload);
+            case ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS:
+                return createAction(MODIFY_SCREEN_WITH_FIELDS, payload);
             default:
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(UPDATE_CANVAS_ELEMENT, payload);

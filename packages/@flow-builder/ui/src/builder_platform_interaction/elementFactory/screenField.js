@@ -8,6 +8,9 @@ import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { baseElement } from "./base/baseElement";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+
+const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
 export function createScreenField(screenField = {}) {
     const newScreenField = baseElement(screenField);
@@ -83,7 +86,8 @@ export function createScreenField(screenField = {}) {
             isVisible,
             outputParameters,
             scale,
-            type
+            type,
+            elementType
         },
         defaultValueFerovObject
     );

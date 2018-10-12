@@ -9,7 +9,8 @@ import {
     UPDATE_RESOURCE,
     DELETE_RESOURCE,
     UPDATE_VARIABLE_CONSTANT,
-    MODIFY_DECISION_WITH_OUTCOMES
+    MODIFY_DECISION_WITH_OUTCOMES,
+    MODIFY_SCREEN_WITH_FIELDS
 } from "builder_platform_interaction/actions";
 import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 
@@ -397,6 +398,174 @@ describe('elements-reducer', () => {
                 });
 
                 expect(newState[decision.guid].connectorCount).toBe(decision.connectorCount - 1);
+            });
+        });
+    });
+
+    describe('MODIFY_SCREEN_WITH_FIELDS', () => {
+        let screen;
+        let field;
+        let originalState;
+
+        beforeEach(() => {
+            screen = {
+                guid: 'screen1',
+                label: 'origLabel',
+                connectorCount: 1,
+                maxConnections: 1,
+                fieldReferences: [{fieldReference: 'field1'}]
+            };
+
+            field = {
+                guid: 'field1',
+                label: 'fieldLabel1'
+            };
+
+            originalState = {
+                [screen.guid]: screen,
+                [field.guid]: field
+            };
+        });
+
+        it('updates the screen element', () => {
+            const updatedScreen = {
+                guid: screen.guid,
+                label: 'newLabel'
+            };
+
+            const newState = elementReducer(originalState, {
+                type: MODIFY_SCREEN_WITH_FIELDS,
+                payload: {
+                    screen: updatedScreen,
+                    fields: [],
+                    deletedFields: [],
+
+                }
+            });
+
+            const newScreen = newState[screen.guid];
+
+            expect(newScreen).not.toBe(screen);
+            expect(newScreen.guid).toEqual(updatedScreen.guid);
+            expect(newScreen.label).toEqual(updatedScreen.label);
+        });
+
+        it('adds a new screen element', () => {
+            const newScreen = {
+                guid: 'newScreenGuid',
+                label: 'newLabel',
+                connectorCount: 0,
+                maxConnections: 1
+            };
+            const newField = {
+                guid: 'field2',
+                label: 'field2Label'
+            };
+            const newState = elementReducer(originalState, {
+                type: MODIFY_SCREEN_WITH_FIELDS,
+                payload: {
+                    screen: newScreen,
+                    fields: [newField],
+                    deletedFields: [],
+                }
+            });
+            const addedScreen = newState[newScreen.guid];
+
+            expect(addedScreen.guid).toEqual(newScreen.guid);
+            expect(addedScreen.label).toEqual(newScreen.label);
+            expect(addedScreen.connectorCount).toEqual(0);
+            expect(addedScreen.maxConnections).toEqual(1);
+        });
+
+        it('updates screen fields', () => {
+            const updatedField = {
+                guid: field.guid,
+                label: 'new field label'
+            };
+
+            const newState = elementReducer(originalState, {
+                type: MODIFY_SCREEN_WITH_FIELDS,
+                payload: {
+                    screen,
+                    fields: [updatedField],
+                    deletedFields: [],
+
+                }
+            });
+
+            const newField = newState[field.guid];
+
+            expect(newField).not.toBe(field);
+
+            expect(newField.guid).toEqual(updatedField.guid);
+            expect(newField.label).toEqual(updatedField.label);
+        });
+
+        it('adds screen fields', () => {
+            const field2 = {
+                guid: 'newO',
+                label: 'new field label'
+            };
+
+            const newState = elementReducer(originalState, {
+                type: MODIFY_SCREEN_WITH_FIELDS,
+                payload: {
+                    screen,
+                    fields: [field, field2],
+                    deletedFields: [],
+
+                }
+            });
+
+            const newField = newState[field2.guid];
+            const newScreen = newState[screen.guid];
+
+            expect(newField).toEqual(field2);
+            expect(newScreen.maxConnections).toEqual(1);
+        });
+
+        describe('deleted screen fields', () => {
+            it('are deleted', () => {
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_SCREEN_WITH_FIELDS,
+                    payload: {
+                        screen,
+                        fields: [],
+                        deletedFields: [field],
+
+                    }
+                });
+
+                expect(newState[field.guid]).toBeUndefined();
+            });
+
+            it('updates screen maxConnections', () => {
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_SCREEN_WITH_FIELDS,
+                    payload: {
+                        screen,
+                        fields: [{}],
+                        deletedFields: [field],
+                    }
+                });
+
+                expect(newState[screen.guid].maxConnections).toBe(1);
+            });
+
+            it('without connector does not change connectorCount', () => {
+                screen.availableConnections = [{childReference: field.guid}];
+
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_SCREEN_WITH_FIELDS,
+                    payload: {
+                        screen,
+                        fields: [],
+                        deletedFields: [field],
+
+                    }
+                });
+
+                expect(newState[screen.guid].connectorCount).toBe(screen.connectorCount);
             });
         });
     });

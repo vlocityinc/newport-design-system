@@ -5,6 +5,8 @@ import { screenReducer } from './screenReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { usedByStoreAndElementState, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -130,30 +132,35 @@ export default class ScreenEditor extends LightningElement {
      * @param {event} event - The event
      */
     handleDeleteScreenElement = (event) => {
-        const deleteCallBack = () => {
-            this.screen = screenReducer(this.screen, event);
-            this.handleDeselectScreenElement();
-        };
-
-        // Invoking the delete confirmation modal
-        invokeModal({
-            headerData: {
-                headerTitle: LABELS.deleteConfirmation
-            },
-            bodyData: {
-                bodyTextOne: LABELS.deleteConsequence
-            },
-            footerData: {
-                buttonOne: {
-                    buttonLabel: LABELS.cancel
+        const state = this.screen;
+        const usedElements = usedByStoreAndElementState(event.detail.screenElement.guid, state.guid, state.fields);
+        if (usedElements && usedElements.length > 0) {
+            invokeUsedByAlertModal(usedElements, [event.detail.screenElement.guid], ELEMENT_TYPE.SCREEN_FIELD);
+        } else {
+            const deleteCallBack = () => {
+                this.screen = screenReducer(this.screen, event);
+                this.handleDeselectScreenElement();
+            };
+            // Invoking the delete confirmation modal
+            invokeModal({
+                headerData: {
+                    headerTitle: LABELS.deleteConfirmation
                 },
-                buttonTwo: {
-                    buttonVariant: "destructive",
-                    buttonLabel: LABELS.deleteAlternativeText,
-                    buttonCallback: deleteCallBack
+                bodyData: {
+                    bodyTextOne: LABELS.deleteConsequence
+                },
+                footerData: {
+                    buttonOne: {
+                        buttonLabel: LABELS.cancel
+                    },
+                    buttonTwo: {
+                        buttonVariant: "destructive",
+                        buttonLabel: LABELS.deleteAlternativeText,
+                        buttonCallback: deleteCallBack
+                    }
                 }
-            }
-        });
+            });
+        }
     };
 
     /**

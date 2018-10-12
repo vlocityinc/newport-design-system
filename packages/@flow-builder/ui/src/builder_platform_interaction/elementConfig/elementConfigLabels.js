@@ -64,6 +64,8 @@ import recordChoiceSetSingularLabel from "@salesforce/label/FlowBuilderElementCo
 import recordChoiceSetPluralLabel from "@salesforce/label/FlowBuilderElementConfig.recordChoiceSetPluralLabel";
 import picklistChoiceSetSingularLabel from "@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetSingularLabel";
 import picklistChoiceSetPluralLabel from "@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetPluralLabel";
+import screenFieldSingularLabel from "@salesforce/label/FlowBuilderElementConfig.screenFieldSingularLabel";
+import screenFieldPluralLabel from "@salesforce/label/FlowBuilderElementConfig.screenFieldPluralLabel";
 
 export const LABELS = {
     subflowSingularLabel,
@@ -130,5 +132,7 @@ export const LABELS = {
     recordChoiceSetSingularLabel,
     recordChoiceSetPluralLabel,
     picklistChoiceSetSingularLabel,
-    picklistChoiceSetPluralLabel
+    picklistChoiceSetPluralLabel,
+    screenFieldSingularLabel,
+    screenFieldPluralLabel
 };

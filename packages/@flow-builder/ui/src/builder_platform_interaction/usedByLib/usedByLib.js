@@ -126,7 +126,10 @@ function insertChildReferences(elementGuids, elements) {
         } else if (element.elementType === ELEMENT_TYPE.WAIT) {
             // TODO: update once wait element is added: W-5139646
         } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
-            // TODO: update once screen element is normalized in the store: W-5139658
+            const fieldReferences = element.fieldReferences.map(({fieldReference}) => {
+                return fieldReference;
+            });
+            acc = [...acc, ...fieldReferences];
         }
         return addItem(acc, elementGuid);
     }, []);

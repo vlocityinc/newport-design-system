@@ -19,7 +19,6 @@ import {
     createRecordUpdate,
     createRecordLookup,
     createRecordDelete,
-    createScreen,
     createSubflow,
     createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
     createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
@@ -66,7 +65,6 @@ import {
     createRecordUpdateWithConnectors,
     createRecordLookupWithConnectors,
     createRecordDeleteWithConnectors,
-    createScreenWithConnectors,
     createSubflowWithConnectors,
     createVariableForStore,
     createTextTemplateForStore,
@@ -74,7 +72,11 @@ import {
     createChoiceForStore,
     createStepWithConnectorsForStore,
     createActionCallForStore,
-    dynamicChoiceSetForStore
+    dynamicChoiceSetForStore,
+    createScreenWithFields,
+    createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
+    createScreenWithFieldReferences,
+    createScreenField
 } from "builder_platform_interaction/elementFactory";
 
 
@@ -290,9 +292,10 @@ export const elementTypeToConfigMap = {
             'valueDataType', 'valueGuid', 'assignToReferenceDataType', 'assignToReferenceGuid', 'choiceReferences'],
         bodyCssClass: 'slds-scrollable_none',
         factory: {
-            propertyEditor: createScreen,
+            propertyEditor: createScreenWithFields,
+            closePropertyEditor: createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
             uiToFlow: createScreenMetadataObject,
-            flowToUi: createScreenWithConnectors
+            flowToUi: createScreenWithFieldReferences
         }
     },
 
@@ -659,6 +662,21 @@ export const elementTypeToConfigMap = {
             propertyEditor: createStep,
             uiToFlow: createStepMetadataObject,
             flowToUi: createStepWithConnectorsForStore
+        }
+    },
+    [ELEMENT_TYPE.SCREEN_FIELD]: {
+        // SCREEN FIELD is not a canvas element, but is a first class element
+        nodeConfig: {
+            iconName: 'standard:display_text',
+            utilityIconName: 'utility:display_text',
+        },
+        labels: {
+            singular: LABELS.screenFieldSingularLabel,
+            plural: LABELS.screenFieldPluralLabel
+        },
+        isChildElement: true,
+        factory: {
+            propertyEditor: createScreenField
         }
     },
     [ELEMENT_TYPE.DEFAULT]: {

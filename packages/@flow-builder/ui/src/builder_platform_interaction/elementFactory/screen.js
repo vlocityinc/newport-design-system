@@ -6,86 +6,113 @@ import {
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
 import { createScreenField, createScreenFieldMetadataObject } from './screenField';
 import { createConnectorObjects } from './connector';
+import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 
 const elementType = ELEMENT_TYPE.SCREEN;
 const maxConnections = 1;
 
-export function createScreen(screen = {}) {
-    const newScreen = baseCanvasElement(screen);
-
-    const {
-        allowBack = true,
-        allowFinish = true,
-        allowPause = true,
-        helpText = '',
-        pausedText = '',
-        showFooter = true,
-        showHeader = true
-    } = screen;
+/**
+ * Called when opening a property editor or copying a screen element
+ * @param {screenInStore} screen
+ * @return {screenInPropertyEditor} Screen in the shape expected by a property editor
+ */
+export function createScreenWithFields(screen = {}) {
+    const newScreen = createScreenElement(screen);
+    const { fieldReferences } = screen;
 
     let { fields = [] } = screen;
-    fields = fields.map(field => createScreenField(field));
 
-    const getFieldIndex = function (field) {
-        if (this.fields) {
-            return this.fields.findIndex(sfield => {
-                return sfield.guid === field.guid;
-            });
-        }
+    if (fieldReferences && fieldReferences.length > 0) { // screen with field references
+        // Decouple field from store.
+        fields = fieldReferences.map(fieldReference =>
+            createScreenField(getElementByGuid(fieldReference.fieldReferences))
+        );
+    }
 
-        return -1;
-    };
-
-    const getFieldByGUID = function (guid) {
-        if (this.fields) {
-            return this.fields.find(field => {
-                return field.guid === guid;
-            });
-        }
-
-        return undefined;
-    };
-
-    const getFieldIndexByGUID = function (guid) {
-        if (this.fields) {
-            return this.fields.findIndex(field => {
-                return field.guid === guid;
-            });
-        }
-
-        return -1;
-    };
-
-    const screenObject = Object.assign(newScreen, {
+    return Object.assign(newScreen, {
         fields,
-        allowBack,
-        allowFinish,
-        allowPause,
-        helpText,
-        pausedText,
-        showFooter,
-        showHeader,
         maxConnections,
-        elementType,
-        getFieldIndexByGUID,
-        getFieldByGUID,
-        getFieldIndex
+        elementType
     });
-
-    return screenObject;
 }
 
-export function createScreenWithConnectors(screen) {
-    const newScreen = createScreen(screen);
+/**
+ * Given a screen element in a property editor, create a screen element in the shape expected by the store
+ * @param {screen} screen - screen in the shape of the property editor
+ * @return {
+ *   {
+ *     screen: screen,
+ *     deletedFields: screenField[] , fields: Array, elementType: string}
+ * }
+ */
+export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screen) {
+    const newScreen = createScreenElement(screen);
+    const { fields } = screen;
+
+    let fieldReferences = [];
+    let newFields = [];
+
+    for (let i = 0; i < fields.length; i++) {
+        const field = fields[i];
+        const newField = createScreenField(field);
+        fieldReferences = updateScreenFieldReferences(fieldReferences, newField);
+        newFields = [...newFields, newField];
+    }
+
+    const deletedFields = getDeletedScreenFieldsUsingStore(screen, newFields);
+    Object.assign(newScreen, {
+        fieldReferences,
+        elementType,
+        maxConnections
+    });
+
+    return {
+        screen: newScreen,
+        deletedFields,
+        fields: newFields,
+        elementType: ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS
+    };
+}
+
+/**
+ * Create a screen in the shape of the store (with field references).  This is used when taking a flow element and
+ * converting it for use in the store
+ * @param {Object} screen - screen from metadata
+ * @return {screenInStore} screen in the shape used by the store
+ */
+export function createScreenWithFieldReferences(screen = {}) {
+    const newScreen = createScreenElement(screen);
+    const { fields = [] } = screen;
     const connectors = createConnectorObjects(screen, newScreen.guid);
     const connectorCount = connectors ? connectors.length : 0;
 
-    const screenObject = Object.assign(newScreen, { connectorCount });
+    let screenFields = [], fieldReferences = [];
 
-    return baseCanvasElementsArrayToMap([screenObject], connectors);
+    for (let i = 0; i < fields.length; i++) {
+        const field = fields[i];
+        const screenField = createScreenField(field);
+        screenFields = [...screenFields, screenField];
+        // updating fieldReferences
+        fieldReferences = updateScreenFieldReferences(fieldReferences, screenField);
+    }
+
+    Object.assign(newScreen, {
+        fieldReferences,
+        elementType,
+        connectorCount,
+        maxConnections
+    });
+
+    return baseCanvasElementsArrayToMap([newScreen, ...screenFields], connectors);
 }
 
-export function createScreenMetadataObject(screen, config) {
+/**
+ * Create a screen in the shape needed by the flow metadata
+ * @param {screenInStore} screen - screen from the store
+ * @param {Object} config - configuration for converting screen
+ * @return {Object} screen in the shape for the metadata
+ */
+export function createScreenMetadataObject(screen, config = {}) {
     if (!screen) {
         throw new Error('screen is not defined');
     }
@@ -108,7 +135,12 @@ export function createScreenMetadataObject(screen, config) {
     } = screen;
 
     let { fields = [] } = screen;
-    fields = fields.map(field => createScreenFieldMetadataObject(field));
+    const { fieldReferences } = screen;
+    if (fieldReferences && fieldReferences.length > 0) {
+        fields = fieldReferences.map(fieldReference => {
+            return createScreenFieldMetadataObject(getElementByGuid(fieldReference.fieldReferences));
+        });
+    }
 
     return Object.assign(newScreen, {
         fields,
@@ -120,4 +152,83 @@ export function createScreenMetadataObject(screen, config) {
         showFooter,
         showHeader
     });
+}
+
+export function createScreenElement(screen) {
+    const newScreen = baseCanvasElement(screen);
+    const {
+        allowBack = true,
+        allowFinish = true,
+        allowPause = true,
+        helpText = '',
+        pausedText = '',
+        showFooter = true,
+        showHeader = true
+    } = screen;
+
+    const getFieldIndex = function (field) {
+        if (this.fields) {
+            return this.fields.findIndex(sfield => {
+                return sfield.guid === field.guid;
+            });
+        }
+        return -1;
+    };
+    const getFieldByGUID = function (guid) {
+        if (this.fields) {
+            return this.fields.find(field => {
+                return field.guid === guid;
+            });
+        }
+        return undefined;
+    };
+    const getFieldIndexByGUID = function (guid) {
+        if (this.fields) {
+            return this.fields.findIndex(field => {
+                return field.guid === guid;
+            });
+        }
+        return -1;
+    };
+    const screenObject = Object.assign(newScreen, {
+        allowBack,
+        allowFinish,
+        allowPause,
+        helpText,
+        pausedText,
+        showFooter,
+        showHeader,
+        getFieldIndexByGUID,
+        getFieldByGUID,
+        getFieldIndex
+    });
+    return screenObject;
+}
+
+function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
+    if (!originalScreen) {
+        throw new Error('Either screen or newFields is not defined');
+    }
+    const { guid } = originalScreen;
+    const screenFromStore = getElementByGuid(guid);
+    let screenFieldReferencesFromStore;
+    if (screenFromStore) {
+        screenFieldReferencesFromStore = screenFromStore.fieldReferences.map((fieldReference) => fieldReference.fieldReferences);
+    }
+    if (screenFieldReferencesFromStore) {
+        const newfieldGuids = newFields.map((newField) => newField.guid);
+        return screenFieldReferencesFromStore.filter((fieldReferenceGuid) => {
+            return !newfieldGuids.includes(fieldReferenceGuid);
+        }).map((fieldReference) => getElementByGuid(fieldReference));
+    }
+    return [];
+}
+
+function updateScreenFieldReferences(fieldReferences = [], field) {
+    if (!field || !field.guid) {
+        throw new Error('Either field or field.guid is not defined');
+    }
+    return [...fieldReferences, {
+        fieldReferences: field.guid
+    }];
 }

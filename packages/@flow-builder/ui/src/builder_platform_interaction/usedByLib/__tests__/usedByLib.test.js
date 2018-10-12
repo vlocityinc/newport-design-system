@@ -112,6 +112,38 @@ const elements = {
         'isCanvasElement': false,
         'name': 'VARIABLE 3'
     },
+    'SCREEN_1': {
+        'config': {
+            'isSelected': false
+        },
+        'fieldReferences': [{
+            'fieldReference': 'FIELD_1'
+        }, {
+            'fieldReference': 'FIELD_2'
+        }, {
+            'fieldReference': 'FIELD_3'
+        }],
+        'guid': 'SCREEN_1',
+        'elementType': 'SCREEN'
+    },
+    'FIELD_1': {
+        'label': 'FIELD 1',
+        'name': 'FIELD 1',
+        'guid': 'FIELD_1',
+        'isCanvasElement': false
+    },
+    'FIELD_2': {
+        'guid': 'FIELD_2',
+        'label': 'FIELD 2',
+        'name': 'FIELD 2',
+        'isCanvasElement': false
+    },
+    'FIELD_3': {
+        'guid': 'FIELD_3',
+        'label': 'FIELD 3',
+        'name': 'FIELD 3',
+        'isCanvasElement': false
+    },
 };
 
 describe('Used by library', () => {
@@ -240,6 +272,21 @@ describe('Used by library', () => {
         });
         it('returns the referencing element if an element is referenced by an element other than the parent', () => {
             const actualResult = usedByStoreAndElementState('guid15', 'DECISION_1', []);
+            expect(actualResult).not.toHaveLength(0);
+        });
+
+        it('returns an empty array if an screen field element is only referenced by the screen element', () => {
+            const screenOneFields = elements.SCREEN_1.fieldReferences.map((ref) => {
+                return {
+                    guid: ref.fieldReference
+                };
+            });
+
+            const actualResult = usedByStoreAndElementState('FIELD_3', 'SCREEN_1', screenOneFields);
+            expect(actualResult).toHaveLength(0);
+        });
+        it('returns the referencing screen field element if an element is referenced by any element other than the parent screen element', () => {
+            const actualResult = usedByStoreAndElementState('guid15', 'SCREEN_1', []);
             expect(actualResult).not.toHaveLength(0);
         });
     });
