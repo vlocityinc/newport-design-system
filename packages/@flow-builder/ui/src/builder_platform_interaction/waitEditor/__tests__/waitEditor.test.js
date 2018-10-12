@@ -53,6 +53,7 @@ beforeEach(() => {
                 name: 'waitEventName',
                 conditions: [],
                 conditionLogic: { value: CONDITION_LOGIC.AND, error: null },
+                inputParameters: [],
             }
         ]
     };

@@ -26,7 +26,8 @@ const waitEventWithOneConditional = {
     conditionLogic: {value: '1'},
     conditions: [
         {name: 'condition1', rowIndex: 0}
-    ]
+    ],
+    inputParameters: [],
 };
 
 const waitEventWithInputParameters = {
