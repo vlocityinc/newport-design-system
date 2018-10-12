@@ -122,20 +122,52 @@ describe('wait-reducer', () => {
         expect(resultObj.waitEvents[index].conditions).toHaveLength(0);
     });
 
-    it('updates an inputParameter', () => {
-        const index = 0;
-        const newValue = 'bar';
-        const newValueDataType = FLOW_DATA_TYPE.STRING.value;
-        const error = null;
+    describe('inputParameter with no name change', () => {
+        it('updates an inputParameter', () => {
+            const index = 0;
+            const newValue = 'bar';
+            const newValueDataType = FLOW_DATA_TYPE.STRING.value;
+            const error = null;
 
-        const waitEventParameterChanged = new WaitEventParameterChangedEvent(eventType, newValue, newValueDataType, error, waitEventGUID, true);
-        const resultObj = waitReducer(initState, waitEventParameterChanged);
-        const inputParameters = resultObj.waitEvents[index].inputParameters;
+            const waitEventParameterChanged = new WaitEventParameterChangedEvent(eventType, newValue, newValueDataType, error, waitEventGUID, true);
+            const resultObj = waitReducer(initState, waitEventParameterChanged);
+            const inputParameters = resultObj.waitEvents[index].inputParameters;
 
-        expect(Object.keys(inputParameters)).toHaveLength(1);
-        expect(inputParameters.AlarmTime).toHaveProperty('name', eventType);
-        expect(inputParameters.AlarmTime).toHaveProperty('value', {value: newValue, error});
-        expect(inputParameters.AlarmTime).toHaveProperty('valueDataType', newValueDataType);
+            expect(Object.keys(inputParameters)).toHaveLength(1);
+            expect(inputParameters.AlarmTime).toHaveProperty('name', eventType);
+            expect(inputParameters.AlarmTime).toHaveProperty('value', {value: newValue, error});
+            expect(inputParameters.AlarmTime).toHaveProperty('valueDataType', newValueDataType);
+        });
+
+        it('creates a new inputParameter if a new name is provided', () => {
+            const index = 0;
+            const newEventType = 'someEventType';
+            const newValue = 'bar';
+            const newValueDataType = FLOW_DATA_TYPE.STRING.value;
+            const error = null;
+
+            const waitEventParameterChanged = new WaitEventParameterChangedEvent(newEventType, newValue, newValueDataType, error, waitEventGUID, true);
+            const resultObj = waitReducer(initState, waitEventParameterChanged);
+            const inputParameters = resultObj.waitEvents[index].inputParameters;
+
+            expect(inputParameters[newEventType]).toHaveProperty('name', newEventType);
+            expect(inputParameters[newEventType]).toHaveProperty('value', {value: newValue, error});
+            expect(inputParameters[newEventType]).toHaveProperty('valueDataType', newValueDataType);
+        });
+
+        it('does not delete the old inputParameter if a new name is provided', () => {
+            const index = 0;
+            const newEventType = 'someEventType';
+            const newValue = 'bar';
+            const newValueDataType = FLOW_DATA_TYPE.STRING.value;
+            const error = null;
+
+            const waitEventParameterChanged = new WaitEventParameterChangedEvent(newEventType, newValue, newValueDataType, error, waitEventGUID, true);
+            const resultObj = waitReducer(initState, waitEventParameterChanged);
+            const inputParameters = resultObj.waitEvents[index].inputParameters;
+
+            expect(Object.keys(inputParameters)).toHaveLength(2);
+        });
     });
 
     describe('Delete Wait event', () => {

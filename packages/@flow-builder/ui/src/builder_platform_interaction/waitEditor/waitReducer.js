@@ -80,7 +80,7 @@ const reorderWaitEvents = (state, event) => {
  * Reducer for updating wait events
  * @param {Object} state the entire wait state
  * @param {Object} event the event with payload information
- * @param {function} operation the operation we want to perform on the state's waitEvents
+ * @param {function} waitEventOperation the operation we want to perform on the state's waitEvents
  * @returns {Object} updated state
  */
 const waitEventReducer = (state, event, waitEventOperation) => {
@@ -159,7 +159,11 @@ const getParameterPropertyName = isInputParameter => {
 
 const updateWaitEventParameter = (state, event) => {
     const updateParameter = parameters => {
-        const propsToUpdate = { value: { value: event.detail.value, error: event.detail.error }, valueDataType: event.detail.valueDataType };
+        const propsToUpdate = {
+            name: event.detail.parameterName,
+            value: { value: event.detail.value, error: event.detail.error },
+            valueDataType: event.detail.valueDataType
+        };
         const updatedParam = Object.assign({}, parameters[event.detail.parameterName], propsToUpdate);
         return Object.assign({}, parameters, { [event.detail.parameterName]: updatedParam });
     };
