@@ -64,8 +64,8 @@ export default class WaitResumeConditions extends LightningElement {
         if (this.resumeEventType === resumeEventType.timeEventType) {
             // Set the default back to absolute time
             this._eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
-            this.resumeTimeParameters = [];
         }
+        this.resumeTimeParameters = [];
     }
 
     isTimeEvent(eventType) {

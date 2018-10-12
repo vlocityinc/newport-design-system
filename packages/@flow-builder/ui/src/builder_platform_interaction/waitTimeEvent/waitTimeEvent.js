@@ -15,6 +15,12 @@ import { LABELS } from "./waitTimeEventLabels";
 const resumeTimeRules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.WAIT);
 
 export default class WaitTimeEvent extends LightningElement {
+    parameterNames = {
+        BASE_TIME: 'AlarmTime',
+        OFFSET_NUMBER: 'TimeOffset',
+        OFFSET_UNIT: 'TimeOffsetUnit',
+    };
+
     @track
     _eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
 
@@ -72,7 +78,7 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     get baseTime() {
-        return this.resumeTimeParameters.AlarmTime && getValueFromHydratedItem(this.resumeTimeParameters.AlarmTime.value);
+        return this.getResumeTimeParameterValue(this.parameterNames.BASE_TIME);
     }
 
     get baseTimeErrorMessage() {
@@ -89,6 +95,14 @@ export default class WaitTimeEvent extends LightningElement {
             false,
             FLOW_DATA_TYPE.DATE_TIME.value,
         );
+    }
+
+    get offsetNumber() {
+        return this.getResumeTimeParameterValue(this.parameterNames.OFFSET_NUMBER);
+    }
+
+    get offsetUnit() {
+        return this.getResumeTimeParameterValue(this.parameterNames.OFFSET_UNIT);
     }
 
     handleEventTypeChange(event) {
@@ -112,6 +126,11 @@ export default class WaitTimeEvent extends LightningElement {
 
     handleBaseTimeChange(event) {
         event.stopPropagation();
-        this.handleParameterChange(event, 'AlarmTime', FLOW_DATA_TYPE.DATE_TIME.value, true);
+        this.handleParameterChange(event, this.parameterNames.BASE_TIME, FLOW_DATA_TYPE.DATE_TIME.value, true);
+    }
+
+    getResumeTimeParameterValue(paramName) {
+        const param = this.resumeTimeParameters[paramName];
+        return param && getValueFromHydratedItem(param.value);
     }
 }

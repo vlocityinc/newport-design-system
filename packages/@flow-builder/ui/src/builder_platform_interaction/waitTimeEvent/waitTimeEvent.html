@@ -27,6 +27,19 @@
                 oncomboboxstatechanged={handleBaseTimeChange}>
             </builder_platform_interaction-ferov-resource-picker>
         </div>
+        
+        <lightning-input
+            class="slds-size_1-of-2 slds-p-top_small"
+            value={offsetNumber}
+            type="number" label={labels.offsetNumberLabel}
+            field-level-help={labels.offsetNumberHelpText}>
+        </lightning-input>
 
+		<lightning-input
+            class="slds-size_1-of-2 slds-p-top_small"
+            value={offsetUnit}
+            type="text" label={labels.offsetUnitLabel}
+            field-level-help={labels.offsetUnitHelpText}>
+        </lightning-input>
     </div>
 </template>
