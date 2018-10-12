@@ -170,7 +170,7 @@ export default class PicklistChoiceSetEditor extends LightningElement {
     getEntityFields() {
         sobjectLib.getFieldsForEntity(this.picklistChoiceSetResource.picklistObject.value, (fields) => {
             this._entityFields = fields;
-            if (this.dataType) {
+            if (this.picklistChoiceSetResource.dataType && this.picklistChoiceSetResource.dataType.value) {
                 this.filterEntityFields();
             }
         });
@@ -188,10 +188,6 @@ export default class PicklistChoiceSetEditor extends LightningElement {
 
         // Updating the property only if newValue !== oldValue
         if (value !== this.picklistChoiceSetResource.picklistObject.value) {
-            if (!this.showPicklistSection && !error) {
-                this.showPicklistSection = true;
-            }
-
             this.menuDataFields = [];
             this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.PICKLIST_OBJECT, value, error);
 
@@ -199,8 +195,17 @@ export default class PicklistChoiceSetEditor extends LightningElement {
                 // Getting the entityFields only when a valid value is entered.
                 this.getEntityFields();
             }
-            // Resetting picklistField to null and ensuring that it doesn't get hydrated yet.
-            this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.PICKLIST_FIELD, null, null, false);
+
+            if (!this.showPicklistSection && !error) {
+                // Resetting dataType to null and ensuring that it doesn't get validated yet.
+                this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.DATA_TYPE, null, null, false);
+                this.showPicklistSection = true;
+            }
+
+            if (this.showPicklistSection) {
+                // Resetting picklistField to null and ensuring that it doesn't get validated yet.
+                this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.PICKLIST_FIELD, null, null, false);
+            }
         }
     }
 

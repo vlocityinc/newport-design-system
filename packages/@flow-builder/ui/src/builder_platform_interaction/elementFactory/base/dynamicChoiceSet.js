@@ -16,7 +16,7 @@ export const createDynamicChoiceSet = (element = {}) => {
     const {
         displayField,
         valueField,
-        dataType = null,
+        dataType,
         sortOrder = DEFAULT_SORT_VALUE
     } = element;
     // We need to set the limit as undefined if it comes out to be zero. valid range for limit is >0 and <200

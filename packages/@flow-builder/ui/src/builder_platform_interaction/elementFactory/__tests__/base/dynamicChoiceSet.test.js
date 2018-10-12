@@ -18,7 +18,7 @@ const mockDynamicChoiceSetObjectForNoParam = {
     limit: undefined,
     displayField: undefined,
     valueField: undefined,
-    dataType: null,
+    dataType: undefined,
     sortOrder: DEFAULT_SORT_VALUE
 };
 const mockParamForDynamicChoiceSet = {
