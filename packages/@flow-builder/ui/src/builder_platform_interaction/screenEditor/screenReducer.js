@@ -155,7 +155,7 @@ const processFerovValueChange = (valueField, currentFieldDataType, defaultValueD
  * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType}
  * @returns {screenfield} - The new screenfield after the change
  */
-const handleScreenFieldPropertyChange = (data) => {
+const handleScreenFieldPropertyChange = (data, event) => {
     // Non-extension screen field change
 
     // Run validation
@@ -310,7 +310,7 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
             if (isExtensionField(selectedNode) && property !== 'name') {
                 newField = handleExtensionFieldPropertyChange(data);
             } else {
-                newField = handleScreenFieldPropertyChange(data);
+                newField = handleScreenFieldPropertyChange(data, event);
             }
 
             updatedNode = updateFieldInScreen(screen, selectedNode, newField);

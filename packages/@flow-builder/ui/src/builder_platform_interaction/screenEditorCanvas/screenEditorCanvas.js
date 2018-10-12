@@ -57,7 +57,7 @@ export default class ScreenEditorCanvas extends LightningElement {
         return [];
     }
 
-    handleOnClick = (/* event */) => {
+    handleOnClick = (event) => {
         const selected = this.getSelectedElement();
         this.dispatchEvent(createScreenElementDeselectedEvent(selected));
         event.stopPropagation();
