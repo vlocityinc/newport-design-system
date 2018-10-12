@@ -5,12 +5,12 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 export default class FieldPicker extends LightningElement {
     @track
     state = {
-        fields: [],
+        fields: null,
         value: '',
     };
 
     @api
-    required;
+    required = false;
 
     @api
     disabled;
@@ -82,7 +82,9 @@ export default class FieldPicker extends LightningElement {
             this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
             this._isInitialized = true;
 
-            this.populateFieldMenuData();
+            if (this.fields) {
+                this.populateFieldMenuData();
+            }
         }
     }
 
