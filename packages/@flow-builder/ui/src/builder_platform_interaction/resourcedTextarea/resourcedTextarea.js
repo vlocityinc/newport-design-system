@@ -120,7 +120,7 @@ export default class ResourcedTextarea extends LightningElement {
     }
 
     fireEvent(value, error) {
-        const event = new CustomEvent('change', {detail:{value, error}, cancelable: true, composed: true, bubbles: true});
+        const event = new CustomEvent('change', {detail: {value: value && value.trim(), error}, cancelable: true, composed: true, bubbles: true});
         this.dispatchEvent(event);
     }
 }

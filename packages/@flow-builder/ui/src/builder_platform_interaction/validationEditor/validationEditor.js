@@ -14,9 +14,13 @@ export default class ValidationEditor extends LightningElement {
 
     handleValueChanged = (event) => {
         event.stopPropagation();
+        const property = event.srcElement.name;
+        const formulaDisplayedValue = (property === 'formulaExpression') ? {value: event.detail.value, error: event.detail.error} :
+                                                                           this.template.querySelector('.property-input.formulaExpression').value;
 
-        const formulaDisplayedValue = this.template.querySelector('.property-input.formulaExpression').value;
-        const errorDisplayedValue = this.template.querySelector('.property-input.errorMessage').value;
+        const errorDisplayedValue = (property === 'errorMessage') ? {value: event.detail.value, error: event.detail.error} :
+                                                                    this.template.querySelector('.property-input.errorMessage').value;
+
         const hasFormula = formulaDisplayedValue.value && formulaDisplayedValue.value.length > 0;
         const hasError = errorDisplayedValue.value && errorDisplayedValue.value.length > 0;
         let formulaError = null, errorError = null;
