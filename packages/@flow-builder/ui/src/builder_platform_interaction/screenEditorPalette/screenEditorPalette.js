@@ -40,7 +40,7 @@ export default class ScreenPalette extends LightningElement {
         const sections = [];
 
         const filterInput = this.template.querySelector(SELECTORS.FILTER_INPUT);
-        const pattern = filterInput ? filterInput.value : undefined;
+        const pattern = filterInput ? filterInput.value.trim() : undefined;
 
         const typeMap = getTypeMap(pattern);
         for (const type in typeMap) {

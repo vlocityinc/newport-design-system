@@ -107,7 +107,7 @@ export default class LeftPanel extends LightningElement {
     }
 
     handleResourceSearch(event) {
-        this.searchString = event.detail.value;
+        this.searchString = event.detail.value.trim();
         const currentState = storeInstance.getCurrentState();
         this.canvasElements = getResourceSections(currentState.elements, resourceFilter(true, this.searchString), nameComparator);
         this.nonCanvasElements = getResourceSections(currentState.elements, resourceFilter(false, this.searchString), nameComparator);
