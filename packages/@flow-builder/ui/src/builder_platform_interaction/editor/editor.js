@@ -21,6 +21,7 @@ import { addToParentElementCache } from 'builder_platform_interaction/comboboxCa
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
+import { setGlobalVariables, setSystemVariables } from 'builder_platform_interaction/systemLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -80,6 +81,8 @@ export default class Editor extends LightningElement {
         fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
         fetch(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES, this.getResourceTypesCallback);
         fetch(SERVER_ACTION_TYPE.GET_EVENT_TYPES, this.getEventTypesCallback, {}, { background: true });
+        fetch(SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES, this.getAllGlobalVariablesCallback, { flowProcessType: 'Flow' });
+        fetch(SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES, this.getSystemVariablesCallback, { flowProcessType: 'Flow' });
     }
 
     @api
@@ -321,6 +324,22 @@ export default class Editor extends LightningElement {
             // Error is handled in auraFetch function to show error modal
         } else {
             setEventTypes(data);
+        }
+    };
+
+    getAllGlobalVariablesCallback = ({ data, error }) => {
+        if (error) {
+            // TODO: handle error case
+        } else {
+            setGlobalVariables(data);
+        }
+    };
+
+    getSystemVariablesCallback = ({ data, error }) => {
+        if (error) {
+            // TODO: handle error case
+        } else {
+            setSystemVariables(data);
         }
     };
 
