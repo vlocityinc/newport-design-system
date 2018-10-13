@@ -14,6 +14,7 @@ const CHOICE_FRP_CONFIG = {
     allowLiterals: false,
     collection: false,
     hideGlobalConstants: true,
+    showNewResource: true,
     elementConfig: {
         elementType: ELEMENT_TYPE.SCREEN,
         choices: true,
