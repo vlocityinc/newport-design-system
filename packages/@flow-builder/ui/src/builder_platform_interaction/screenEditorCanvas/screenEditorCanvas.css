@@ -3,6 +3,10 @@
     background-color:var(--lwc-colorGray4);
 }
 
+.screen-editor-canvas-body {
+    min-height: var(--lwc-varSpacingVerticalXLarge);
+}
+
 .screen-editor-canvas-content {
     min-width: var(--lwc-sizeMedium);
 }
