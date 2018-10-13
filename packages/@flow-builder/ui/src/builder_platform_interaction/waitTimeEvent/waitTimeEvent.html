@@ -12,17 +12,18 @@
         
         <div class="slds-border_top slds-p-top_medium"></div>
         
+        <!-- input paramters (resume time parameters) -->
         <h3 class="slds-text-heading_small">{labels.resumeTimeHeader}</h3>
 
-        <div if:true={isAbsoluteTime} class="slds-form-element__row slds-p-top_small">    
+        <div if:true={isAbsoluteTime} class="slds-form-element__row slds-p-top_small slds-p-bottom_small">    
             <builder_platform_interaction-ferov-resource-picker
                 class="slds-size_1-of-2"
                 value={baseTime}
                 error-message={baseTimeErrorMessage}
                 combobox-config={baseTimeComoboboxConfig}
                 property-editor-element-type={elementType}
-                element-param={baseTimeElementParam}
-                rules={resumeTimeParameterRules}
+                element-param={dateTimeElementParam}
+                rules={timeEventParameterRules}
                 show-new-resource
                 oncomboboxstatechanged={handleBaseTimeChange}>
             </builder_platform_interaction-ferov-resource-picker>
@@ -41,5 +42,22 @@
             type="text" label={labels.offsetUnitLabel}
             field-level-help={labels.offsetUnitHelpText}>
         </lightning-input>
+        <div class="slds-border_top slds-p-top_medium"></div>
+
+        <h3 class="slds-text-heading_small">{labels.assignOutputsToVariablesLabel}</h3>
+
+        <!-- output parameters (assign outputs to variables) -->
+        <div class="slds-form-element_row slds-p-top_small">
+            <ul>
+                <builder_platform_interaction-parameter-item
+                    item={outputResumeTime}
+                    element-type={elementType}>
+                </builder_platform_interaction-parameter-item>
+                <builder_platform_interaction-parameter-item
+                    item={outputEventDeliveryStatus}
+                    element-type={elementType}>
+                </builder_platform_interaction-parameter-item>
+            </ul>
+        </div>
     </div>
 </template>

@@ -27,7 +27,7 @@ const waitEventWithOneConditional = {
     conditions: [
         {name: 'condition1', rowIndex: 0}
     ],
-    inputParameters: [],
+    inputParameters: {},
 };
 
 const waitEventWithInputParameters = {
@@ -36,9 +36,10 @@ const waitEventWithInputParameters = {
     guid: {value: '123'},
     conditionLogic: {value: '1'},
     eventType: 'mockEventType',
-    inputParameters: [
-        {name: 'foo', value: 'bar'},
-    ],
+    inputParameters: {
+        foo: {name: 'foo', value: 'bar'},
+    },
+    outputParameters: [],
 };
 
 const selectors = {
@@ -188,6 +189,7 @@ describe('Wait Event', () => {
             window.addEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventUpdateSpy);
             conditionList.dispatchEvent(propChangedEvent);
             return Promise.resolve().then(() => {
+                window.removeEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventUpdateSpy);
                 expect(waitEventUpdateSpy.mock.calls[0][0].type).toEqual(WaitEventPropertyChangedEvent.EVENT_NAME);
                 expect(waitEventUpdateSpy.mock.calls[0][0].detail.propertyName).toEqual(propNameToUpdate);
             });
@@ -196,8 +198,18 @@ describe('Wait Event', () => {
 
     describe('resume conditions', () => {
         let waitEvent;
+        const waitEventParameterSpy = jest.fn().mockName('waitEventParameterChangedEventSpy');
+        const waitEventPropertySpy = jest.fn().mockName('waitEventPropertyChangedEventSpy');
+
         beforeEach(() => {
             waitEvent = createComponentUnderTest(waitEventWithInputParameters);
+            window.addEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventPropertySpy);
+            window.addEventListener(WaitEventParameterChangedEvent.EVENT_NAME, waitEventParameterSpy);
+        });
+
+        afterEach(() => {
+            window.removeEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventPropertySpy);
+            window.removeEventListener(WaitEventParameterChangedEvent.EVENT_NAME, waitEventParameterSpy);
         });
 
         it('passes inputParamters to to the waitResumeConditions component', () => {
@@ -212,14 +224,12 @@ describe('Wait Event', () => {
 
         it('handles PropertyChangedEvent from waitResumeConditions and fires WaitEventPropertyChangedEvent', () => {
             const propertyChanged = new PropertyChangedEvent();
-            const waitEventUpdateSpy = jest.fn();
 
-            window.addEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventUpdateSpy);
             const waitResumeConditions = getShadowRoot(waitEvent).querySelector(selectors.waitResumeConditions);
             waitResumeConditions.dispatchEvent(propertyChanged);
 
              return Promise.resolve().then(() => {
-                expect(waitEventUpdateSpy).toHaveBeenCalled();
+                expect(waitEventPropertySpy).toHaveBeenCalled();
             });
         });
 
@@ -231,19 +241,16 @@ describe('Wait Event', () => {
             const error = 'null';
             const parameterChanged = new UpdateParameterItemEvent(isInput, null, propName, newValue, newValueDataType, error);
 
-            const waitEventUpdateSpy = jest.fn();
-
-            window.addEventListener(WaitEventParameterChangedEvent.EVENT_NAME, waitEventUpdateSpy);
             const waitResumeConditions = getShadowRoot(waitEvent).querySelector(selectors.waitResumeConditions);
             waitResumeConditions.dispatchEvent(parameterChanged);
 
              return Promise.resolve().then(() => {
-                expect(waitEventUpdateSpy.mock.calls[0][0].type).toEqual(WaitEventParameterChangedEvent.EVENT_NAME);
-                expect(waitEventUpdateSpy.mock.calls[0][0].detail.isInputParameter).toEqual(isInput);
-                expect(waitEventUpdateSpy.mock.calls[0][0].detail.parameterName).toEqual(propName);
-                expect(waitEventUpdateSpy.mock.calls[0][0].detail.value).toEqual(newValue);
-                expect(waitEventUpdateSpy.mock.calls[0][0].detail.valueDataType).toEqual(newValueDataType);
-                expect(waitEventUpdateSpy.mock.calls[0][0].detail.error).toEqual(error);
+                expect(waitEventParameterSpy.mock.calls[0][0].type).toEqual(WaitEventParameterChangedEvent.EVENT_NAME);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.isInputParameter).toEqual(isInput);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.parameterName).toEqual(propName);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.value).toEqual(newValue);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(newValueDataType);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.error).toEqual(error);
             });
         });
     });

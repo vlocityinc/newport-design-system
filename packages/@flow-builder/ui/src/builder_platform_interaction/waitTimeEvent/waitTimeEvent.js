@@ -11,12 +11,13 @@ import { getFerovInfoFromComboboxItem } from 'builder_platform_interaction/expre
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS } from "./waitTimeEventLabels";
 
-// rules used by the pickers in resume time section of the waitTimeEvent
-const resumeTimeRules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.WAIT);
+// rules used by the input pickers in the waitTimeEvent
+const timeEventRules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.WAIT);
 
 export default class WaitTimeEvent extends LightningElement {
     parameterNames = {
         BASE_TIME: 'AlarmTime',
+        EVENT_DELIVERY_STATUS: 'Status',
         OFFSET_NUMBER: 'TimeOffset',
         OFFSET_UNIT: 'TimeOffsetUnit',
     };
@@ -25,18 +26,59 @@ export default class WaitTimeEvent extends LightningElement {
     _eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
 
     /**
-     * @typedef {Object} ResumeTimeParameter
-     * @property {String} name the name of the paramter
+     * The output resume time (alarm time)
+     * @type {module:ParameterItem.ParameterItem}
+     */
+    @track
+    outputResumeTime = {};
+
+    /**
+     * The event delivery status output
+     *
+     * @type {module:ParameterItem.ParameterItem}
+     */
+    @track
+    outputEventDeliveryStatus = {};
+
+    /**
+     * @typedef {Object} WaitEventParameter
+     * @property {String} name the name of the parameter
      * @property {String} value the ferov value of the parameter
      * @property {String} valueDataType the datatype of the ferov value
      */
 
     /**
      * Object of input parameters used to define the resume time
-     * @type{ResumeTimeParameter}
+     * @type {WaitEventParameter}
      */
     @api
-    resumeTimeParameters = [];
+    resumeTimeParameters = {};
+
+    /**
+     * Object of output parameters
+     *
+     * @param {Object} outputParameters object of @type {WaitEventParameter}
+     */
+    set outputParameters(outputParameters = []) {
+        // TODO: W-5502328 the translation work for outputParameters is not done yet.
+        // If the shape of the output params is different this setter needs to change
+        this._outputParameters = outputParameters;
+        const alarmTime = outputParameters.find(param => param.name === this.parameterNames.BASE_TIME);
+        this.outputResumeTime = Object.assign({},
+            alarmTime,
+            this.outputResumeTimeDefinition
+        );
+        const status = outputParameters.find(param => param.name === this.parameterNames.EVENT_DELIVERY_STATUS);
+        this.outputEventDeliveryStatus = Object.assign({},
+            status,
+            this.outputEventDeliveryStatusDefinition
+        );
+    }
+
+    @api
+    get outputParameters() {
+        return this._outputParameters;
+    }
 
     /**
      * The event type of the wait event
@@ -55,7 +97,9 @@ export default class WaitTimeEvent extends LightningElement {
 
     _eventType;
 
-    baseTimeElementParam = {
+    _outputParameters;
+
+    dateTimeElementParam = {
         isCollection: false,
         dataType: FLOW_DATA_TYPE.DATE_TIME.value,
     };
@@ -65,13 +109,35 @@ export default class WaitTimeEvent extends LightningElement {
         { 'label': this.labels.directRecordTimeLabel, 'value': WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME },
     ];
 
-    get resumeTimeParameterRules() {
-        return resumeTimeRules;
+    // TODO: W-5502328 we might be able to remove this once the translation work for outputParameters is done
+    outputResumeTimeDefinition = {
+        rowIndex: 0,
+        isInput: false,
+        isRequired: false,
+        label: this.labels.resumeTimeLabel,
+        dataType: FLOW_DATA_TYPE.DATE_TIME.value,
+        iconName: 'utility:date_input',
+    }
+
+    // TODO: W-5502328 we might be able to remove this once the translation work for outputParameters is done
+    outputEventDeliveryStatusDefinition = {
+        rowIndex: 1,
+        isInput: false,
+        isRequired: false,
+        label: this.labels.eventDeliveryStatusLabel,
+        dataType: FLOW_DATA_TYPE.STRING.value,
+        iconName: 'utility:type_tool',
+    }
+
+    get timeEventParameterRules() {
+        return timeEventRules;
     }
 
     get elementType() {
         return ELEMENT_TYPE.WAIT;
     }
+
+    /** input parameters */
 
     get isAbsoluteTime() {
         return this.eventType === WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
@@ -88,7 +154,7 @@ export default class WaitTimeEvent extends LightningElement {
     get baseTimeComoboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             this.labels.baseTimeLabel,
-            this.labels.baseTimePlaceholder,
+            this.labels.defaultPickerPlaceholder,
             null,
             true,
             true,
@@ -115,7 +181,7 @@ export default class WaitTimeEvent extends LightningElement {
         const ferovObject = getFerovInfoFromComboboxItem(event.detail.item, event.detail.displayText, literalDataType);
         const updateParameterItem = new UpdateParameterItemEvent(
             isInput,
-            propertyName,
+            null,
             propertyName,
             ferovObject.value,
             ferovObject.dataType,

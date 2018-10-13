@@ -132,10 +132,12 @@ describe('waitResumeConditions', () => {
         let waitResumeConditions;
         let props;
         beforeEach(() => {
-            const mockResumeTimeParamters = [{ name: 'foo' }];
+            const mockResumeTimeParamters = { foo: { name: 'foo' } };
+            const mockOutputParameters = [{name: 'bar' }];
             const mockEventType = WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME;
             props = {
                 resumeTimeParameters: mockResumeTimeParamters,
+                outputParameters: mockOutputParameters,
                 eventType: mockEventType,
             };
             waitResumeConditions = createComponentUnderTest(props);
@@ -157,6 +159,11 @@ describe('waitResumeConditions', () => {
                 const waitTimeEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitTimeEvent);
                 expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
             });
+        });
+
+        it('passes outputParameters to waitTimeEvent', () => {
+            const waitTimeEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitTimeEvent);
+            expect(waitTimeEvent.outputParameters).toEqual(props.outputParameters);
         });
     });
 });

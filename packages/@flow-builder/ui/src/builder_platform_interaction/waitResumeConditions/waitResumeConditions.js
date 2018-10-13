@@ -11,10 +11,17 @@ const resumeEventType = {
 export default class WaitResumeConditions extends LightningElement {
     /**
      * The input parameters that defines the resume time for this wait event
-     * @type {module:WaitTimeEvent.ResumeTimeParameter}
+     * @type {module:WaitTimeEvent.WaitEventParameter}
      */
     @api
     resumeTimeParameters;
+
+    /**
+     * The output parameters
+     * @type {module:WaitTimeEvent.WaitEventParamter}
+     */
+    @api
+    outputParameters;
 
     /**
      * The event type
