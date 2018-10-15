@@ -1,6 +1,6 @@
-import { Element, api } from 'engine';
+import { LightningElement, api } from "lwc";
 
-export default class FerToFerovExpressionBuilder extends Element {
+export default class FerToFerovExpressionBuilder extends LightningElement {
     @api
     lhsLabel;
 
