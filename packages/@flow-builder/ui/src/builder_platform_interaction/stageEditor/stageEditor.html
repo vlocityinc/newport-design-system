@@ -15,6 +15,7 @@
                                  onfocusout={handleOrderChange}
                                  value={stageResource.stageOrder.value}
                                  required min={stageOrderRange.min}
+                                 max={stageOrderRange.max}
                                  message-when-value-missing={showErrorMessageIfBlank}
                                  field-level-help={labels.orderHelpText}>
                 </lightning-input>

@@ -18,5 +18,8 @@ describe('Default Validations', () => {
         it('should return an error if empty string value is entered.', () => {
             expect(stageValidation.validateProperty('stageOrder', '')).toBe(LABELS.cannotBeBlank);
         });
+        it('should return an error if value entered is more than max limit.', () => {
+            expect(stageValidation.validateProperty('stageOrder', '1000000000000')).toBe(LABELS.overMaxIntegerValue);
+        });
     });
 });

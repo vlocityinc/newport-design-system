@@ -95,7 +95,8 @@ const TYPE_MAPPING = {
 };
 
 export const STAGE_ORDER_RANGE = {
-    min : 0
+    min : 0,
+    max : 99999999
 };
 
 let resourceTypes = [];
