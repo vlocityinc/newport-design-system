@@ -132,9 +132,10 @@ describe('wait', () => {
             expect(baseChildElement.mock.calls[0][0]).toEqual(mockWaitEvent);
         });
 
-        it('calls createCondition for every condition given', () => {
+        it('calls createCondition for every condition given if condition logic is not NO_CONDITIONS', () => {
             const mockCondition = { operator: 'foo' };
             const mockWaitEvent =  {
+                conditionLogic: CONDITION_LOGIC.AND,
                 conditions: [
                     mockCondition,
                 ],
@@ -145,6 +146,20 @@ describe('wait', () => {
             expect(waitEvent.conditions[0]).toBe(createCondition.mock.results[0].value);
             expect(createCondition).toHaveBeenCalledTimes(1);
             expect(createCondition).toHaveBeenCalledWith(mockCondition);
+        });
+
+        it('does not call createCondition with existing conditions when condition logic is NO_CONDITIONS', () => {
+            const mockCondition = { operator: 'foo' };
+            const mockWaitEvent =  {
+                conditionLogic: CONDITION_LOGIC.NO_CONDITIONS,
+                conditions: [
+                    mockCondition,
+                ],
+            };
+            createWaitEvent(mockWaitEvent);
+            expect(createCondition).toHaveBeenCalledTimes(1);
+            expect(createCondition.mock.calls[0][0]).not.toBeDefined();
+            expect(createCondition).not.toHaveBeenCalledWith(mockCondition);
         });
 
         it('sets the condition logic to NO_CONDITIONS when given no conditions and creates one empty condition', () => {
