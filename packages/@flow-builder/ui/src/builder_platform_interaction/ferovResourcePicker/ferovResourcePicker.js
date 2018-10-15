@@ -155,6 +155,13 @@ export default class FerovResourcePicker extends LightningElement {
         return this.value && this.value.parent;
     }
 
+    get allowedParamTypes() {
+        if (this.disableFieldDrilldown) {
+            return null;
+        }
+        return this.paramTypes;
+    }
+
     /**
      * True if the component has been initialized, false otherwise. This is so we do not populate menu data twice on initializing api values
      * @type {Boolean}

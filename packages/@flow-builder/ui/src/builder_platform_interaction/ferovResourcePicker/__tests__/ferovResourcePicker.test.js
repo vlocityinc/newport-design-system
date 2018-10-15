@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import FerovResourcePicker from "../ferovResourcePicker";
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { normalizeRHS, getMenuData } from "builder_platform_interaction/expressionUtils";
 import { getRHSTypes, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
@@ -212,6 +213,28 @@ describe('ferov-resource-picker', () => {
             expect(getRHSTypes).not.toHaveBeenCalled();
             expect(getMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
                 true, false, Store.getStore(), false, undefined, undefined);
+        });
+    });
+
+    it('does not send param types to the base picker when disableFieldDrilldown is true', () => {
+        const normalizedValue = {
+            itemOrDisplayText: {
+                value: props.value,
+            }
+        };
+        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        const mockRules = ['rule1'];
+        props.rules = mockRules;
+        props.disableFieldDrilldown = true;
+        const ferovPicker = setupComponentUnderTest(props);
+        const basePicker = getShadowRoot(ferovPicker).querySelector(BaseResourcePicker.SELECTOR);
+
+        return Promise.resolve().then(() => {
+            const populateParamTypesFn = getMenuData.mock.calls[0][2];
+            populateParamTypesFn();
+            expect(getRHSTypes).toHaveBeenCalled();
+            expect(getRHSTypes.mock.results[0]).toEqual(expect.any(Object));
+            expect(basePicker.allowedParamTypes).toEqual(null);
         });
     });
 

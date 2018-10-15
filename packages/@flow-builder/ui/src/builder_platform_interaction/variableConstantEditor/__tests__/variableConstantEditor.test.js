@@ -17,6 +17,7 @@ import { addToParentElementCache } from "builder_platform_interaction/comboboxCa
 import { getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 
 
 const SELECTORS = {
@@ -464,6 +465,22 @@ describe('variable-constant-editor', () => {
                 const flowCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 flowCombobox.dispatchEvent(valueChangedEvent);
                 expect(getResourceFerovDataType).toHaveBeenCalledWith(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
+            });
+        });
+
+        it('has field drilldown disabled for constants', () => {
+            const constantEditor = setupComponentUnderTest(stringConstant);
+            return Promise.resolve().then(() => {
+                const defaultValuePicker = getShadowRoot(constantEditor).querySelector(FerovResourcePicker.SELECTOR);
+                expect(defaultValuePicker.disableFieldDrilldown).toEqual(true);
+            });
+        });
+
+        it('has field drilldown enabled for variables', () => {
+            const variableEditor = setupComponentUnderTest(stringVariable);
+            return Promise.resolve().then(() => {
+                const defaultValuePicker = getShadowRoot(variableEditor).querySelector(FerovResourcePicker.SELECTOR);
+                expect(defaultValuePicker.disableFieldDrilldown).toEqual(false);
             });
         });
     });

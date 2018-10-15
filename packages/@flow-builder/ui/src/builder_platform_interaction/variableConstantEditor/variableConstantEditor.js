@@ -229,6 +229,10 @@ export default class VariableConstantEditor extends LightningElement {
         return this._elementType === ELEMENT_TYPE.VARIABLE;
     }
 
+    get isConstant() {
+        return this._elementType === ELEMENT_TYPE.CONSTANT;
+    }
+
     get defaultValueElementParam() {
         return this.isVariable ? this.variableConstantResource :
             {
