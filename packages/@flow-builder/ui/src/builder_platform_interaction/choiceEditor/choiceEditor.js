@@ -325,9 +325,9 @@ export default class ChoiceEditor extends LightningElement {
      */
     handleValidationEditorChanged(event) {
         event.stopPropagation();
-        if (event.detail && event.detail.value && event.detail.oldValue && event.detail.value.value !== event.detail.oldValue.value) {
-            const action = this.updateInputValue(event.detail.value, event.detail.propertyName, event.detail.error);
-            this.choiceResource.userInput.validationRule = choiceReducer(this.choiceResource.userInput.validationRule, action);
+        if (event.detail && event.detail.rule) {
+            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName: CHOICE_FIELDS.VALIDATION_RULE, value: event.detail.rule, error: null });
+            this.choiceResource.userInput = choiceReducer(this.choiceResource.userInput, action);
         }
     }
 
