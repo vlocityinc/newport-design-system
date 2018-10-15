@@ -1,47 +1,93 @@
 import { createRecordCreate, createRecordCreateMetadataObject } from '../recordCreate';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS  } from 'builder_platform_interaction/recordEditorLib';
+import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
 import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
+import { matchers } from './elementFactoryMatchers';
 
+expect.extend(matchers);
 const mockGuid = 'mockGuid';
 
-const defaultFlowRecordCreate = {};
-const defaultStoreRecordCreate = {};
+const flowRecordCreateFieldsMetadata = () => ({
+    assignRecordIdToReference: "myNewId",
+    inputAssignments: [{
+        field: "BillingCity",
+        value: {elementReference: "myCity"}
+    }, {
+        field: "BillingCountry",
+        value: {elementReference: "myCountry"}
+    }],
+    label: "myCreate with fields",
+    locationX: 1074,
+    locationY: 527,
+    name: "myCreate",
+    object: "Account"
+});
 
-const recordCreateUsingSobject = {
-    name: 'RecordCreate1',
-    description: '',
-    inputReference: 'myObject',
-};
-
-const recordCreateUsingFieldsTemplate = () => {
-    return {
-        name: 'RecordCreate1',
-        description: '',
-        object: 'myObject',
-        assignRecordIdToReference: undefined,
-        inputAssignments: []};
-};
-
-const uiModelRecordCreateUsingSobject = {
-    name: 'RecordCreate1',
-    description: '',
-    elementType: 'RECORD_CREATE',
-    inputReference: 'myObject',
+const flowRecordCreateFieldsStore = () => ({
+    assignRecordIdToReference: { value: "myNewId", valueDataType: "String" },
+    availableConnections: [{
+            type: "REGULAR"
+        }, {
+            type: "FAULT"
+        }],
+    config: { isSelected: false },
+    connectorCount: 0,
+    dataType: "Boolean",
+    description: "",
+    elementType: "RECORD_CREATE",
+    guid: "mockGuid",
+    inputAssignments: [{
+        leftHandSide: "Account.BillingCity",
+        rightHandSide: "28221fc3-b4a3-45ca-a195-7a849faa1dc6",
+        rightHandSideDataType: "reference",
+        rowIndex: "ae4ba97b-9f5b-4705-adec-32f7700498c3"
+        }, {
+        leftHandSide: "Account.BillingCountry",
+        rightHandSide: "382aed63-0e85-4e36-8f32-3836eb02acf3",
+        rightHandSideDataType: "reference",
+        rowIndex: "e7aa85e8-1a18-4211-862f-60bd9e7f8192"}],
+    isCanvasElement: true,
+    label: "myCreate with fields",
+    locationX: 1074,
+    locationY: 527,
+    maxConnections: 2,
+    name: "myCreate",
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
-    wayToStoreFields: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
-};
+    object: "Account"
+});
 
-const uiModelRecordCreateWithFieldsTemplate = () => {
-    return { name: 'RecordCreate1',
-    description: '',
-    object: 'myObject',
-    elementType: 'RECORD_CREATE',
+const flowRecordCreateSObjectMetadata = () => ({
+    inputReference: "mySObjectVar",
+    label: "myCreateFast",
+    locationX: 595,
+    locationY: 580,
+    name: "myCreateFast"
+});
+
+const flowRecordCreateSObjectStore = () => ({
+    availableConnections: [{
+            "type": "REGULAR"
+        }, {
+            "type": "FAULT"
+        }],
+    config: {isSelected: false},
+    connectorCount: 0,
+    dataType: "Boolean",
+    description: "",
+    elementType: "RECORD_CREATE",
+    guid: "mockGuid",
+    inputReference: "mySObjectVar",
+    isCanvasElement: true,
+    label: "myCreateFast",
+    locationX: 595,
+    locationY: 580,
+    maxConnections: 2,
+    name: "myCreateFast",
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
-    wayToStoreFields: WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
-    };
-};
+    object: ""
+});
+
 
 const inputAssignmentFieldValue = {
     field: 'description',
@@ -58,19 +104,19 @@ const inputAssignmentFieldBooleanValue = {
 };
 
 const uiModelInputAssignmentFieldValue = {
-    leftHandSide: 'myObject.description',
+    leftHandSide: 'Account.description',
     rightHandSide: 'myDescription',
     rightHandSideDataType: 'String',
 };
 
 const uiModelInputAssignmentField = {
-    leftHandSide: 'myObject.title',
+    leftHandSide: 'Account.title',
     rightHandSide: '',
     rightHandSideDataType: 'string',
 };
 
 const uiModelInputAssignmentFieldBooleanValue = {
-    leftHandSide: 'myObject.isEditable',
+    leftHandSide: 'Account.isEditable',
     rightHandSide: globalConstantPrefixLabel + '.' + globalConstantFalseLabel,
     rightHandSideDataType: 'Boolean',
 };
@@ -92,7 +138,7 @@ describe('recordCreate', () => {
 
         describe('when flow recordCreate is passed', () => {
             beforeAll(() => {
-                recordCreate = createRecordCreate(defaultFlowRecordCreate);
+                recordCreate = createRecordCreate(flowRecordCreateFieldsMetadata);
             });
             it('has dataType of boolean', () => {
                 expect(recordCreate.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
@@ -101,7 +147,7 @@ describe('recordCreate', () => {
 
         describe('when store recordCreate is passed', () => {
             beforeAll(() => {
-                recordCreate = createRecordCreate(defaultStoreRecordCreate);
+                recordCreate = createRecordCreate(flowRecordCreateFieldsStore);
             });
             it('has dataType of boolean', () => {
                 expect(recordCreate.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
@@ -109,9 +155,8 @@ describe('recordCreate', () => {
         });
     });
 });
-describe('recordCreate flow metadata => UI model', () => {
-    describe('recordCreate function using sObject', () => {
-        it('returns a new record update object when no argument is passed; numberRecordsToStore should be set to FIRSt_RECORD by default', () => {
+describe('recordCreate new element from left panel', () => {
+    it('returns a new record update object when no argument is passed; numberRecordsToStore should be set to FIRSt_RECORD by default', () => {
             const uiModelResult = {
                 name: '',
                 description: '',
@@ -121,17 +166,26 @@ describe('recordCreate flow metadata => UI model', () => {
             const actualResult = createRecordCreate();
             expect(actualResult).toMatchObject(uiModelResult);
         });
+});
+describe('recordCreate flow metadata => UI model', () => {
+    describe('recordCreate function using sObject', () => {
         it('returns a new record update object with same value and the numberRecordsToStore calculated from the inputReference', () => {
-            const actualResult = createRecordCreate(recordCreateUsingSobject);
-            expect(actualResult).toMatchObject(uiModelRecordCreateUsingSobject);
+            const recordCreateSObjectMetadata = flowRecordCreateSObjectMetadata();
+            const actualResult = createRecordCreate(recordCreateSObjectMetadata);
+            expect(actualResult).toMatchObject(flowRecordCreateSObjectStore());
+        });
+        it('has no common mutable object with record create metadata passed as parameter', () => {
+            const recordCreateSObjectMetadata = flowRecordCreateSObjectMetadata();
+            const actualResult = createRecordCreate(recordCreateSObjectMetadata);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordCreateSObjectMetadata);
         });
     });
     describe('recordCreate function using Fields', () => {
         let recordCreateUsingFields;
         let uiModelRecordCreateWithFields;
         beforeEach(() => {
-            recordCreateUsingFields = recordCreateUsingFieldsTemplate();
-            uiModelRecordCreateWithFields = uiModelRecordCreateWithFieldsTemplate();
+            recordCreateUsingFields = flowRecordCreateFieldsMetadata();
+            uiModelRecordCreateWithFields = flowRecordCreateFieldsStore();
         });
         it('inputAssignments with value should return the expression (RHS/LHS)', () => {
             recordCreateUsingFields.inputAssignments = [inputAssignmentFieldValue];
@@ -145,21 +199,30 @@ describe('recordCreate flow metadata => UI model', () => {
             uiModelRecordCreateWithFields.inputAssignments = [uiModelInputAssignmentFieldValue, uiModelInputAssignmentField, uiModelInputAssignmentFieldBooleanValue];
             expect(actualResult).toMatchObject(uiModelRecordCreateWithFields);
         });
+        it('has no common mutable object with record create with fields metadata passed as parameter', () => {
+            const actualResult = createRecordCreate(recordCreateUsingFields);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordCreateUsingFields);
+        });
     });
 });
 describe('recordCreate UI model => flow metadata', () => {
     describe('recordCreate function using sObject', () => {
         it('record update using sObject', () => {
-            const actualResult = createRecordCreateMetadataObject(uiModelRecordCreateUsingSobject);
-            expect(actualResult).toMatchObject(recordCreateUsingSobject);
+            const actualResult = createRecordCreateMetadataObject(flowRecordCreateSObjectStore());
+            expect(actualResult).toMatchObject(flowRecordCreateSObjectMetadata());
+        });
+        it('has no common mutable object with record create store passed as parameter', () => {
+            const recordCreateSObjectStore = flowRecordCreateSObjectStore();
+            const actualResult = createRecordCreateMetadataObject(recordCreateSObjectStore);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordCreateSObjectStore);
         });
     });
     describe('recordCreate function using Fields', () => {
         let recordCreateUsingFields;
         let uiModelRecordCreateWithFields;
         beforeEach(() => {
-            recordCreateUsingFields = recordCreateUsingFieldsTemplate();
-            uiModelRecordCreateWithFields = uiModelRecordCreateWithFieldsTemplate();
+            recordCreateUsingFields = flowRecordCreateFieldsMetadata();
+            uiModelRecordCreateWithFields = flowRecordCreateFieldsStore();
         });
         it('inputAssignments with value', () => {
             uiModelRecordCreateWithFields.inputAssignments = [uiModelInputAssignmentFieldValue];
@@ -172,6 +235,10 @@ describe('recordCreate UI model => flow metadata', () => {
             recordCreateUsingFields.inputAssignments = [inputAssignmentFieldValue, inputAssignmentField, inputAssignmentFieldBooleanValue];
             const actualResult = createRecordCreateMetadataObject(uiModelRecordCreateWithFields);
             expect(actualResult).toMatchObject(recordCreateUsingFields);
+        });
+        it('has no common mutable object with record create store passed as parameter', () => {
+            const actualResult = createRecordCreateMetadataObject(uiModelRecordCreateWithFields);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(uiModelRecordCreateWithFields);
         });
     });
 });

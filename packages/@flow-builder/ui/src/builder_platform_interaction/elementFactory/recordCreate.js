@@ -30,25 +30,7 @@ export function createRecordCreate(recordCreate = {}) {
 
     let numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
 
-    if (inputReference) {
-        // When the builder is loaded the store does not yet contain the variables
-        // numberRecordsToStore can only be calculated at the opening on the element
-        const variable  = getElementByGuid(inputReference) || getNonElementResource(inputReference);
-        if (variable) {
-            numberRecordsToStore = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
-        }
-
-        recordCreateObject = Object.assign(newRecordCreate, {
-            object,
-            numberRecordsToStore,
-            inputReference,
-            availableConnections,
-            maxConnections,
-            elementType,
-            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-
-        });
-    } else {
+    if (object) {
         inputAssignments = inputAssignments.map(item => createFlowInputFieldAssignment(item, object));
 
         if (assignRecordIdToReference && !assignRecordIdToReference.value) {
@@ -65,6 +47,25 @@ export function createRecordCreate(recordCreate = {}) {
             assignRecordIdToReference,
             dataType: FLOW_DATA_TYPE.BOOLEAN.value,
 
+        });
+    } else {
+        if (inputReference) {
+         // When the builder is loaded the store does not yet contain the variables
+            // numberRecordsToStore can only be calculated at the opening on the element
+            const variable  = getElementByGuid(inputReference) || getNonElementResource(inputReference);
+            if (variable) {
+                numberRecordsToStore = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+            }
+        }
+
+        recordCreateObject = Object.assign(newRecordCreate, {
+            object,
+            numberRecordsToStore,
+            inputReference,
+            availableConnections,
+            maxConnections,
+            elementType,
+            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         });
     }
 
