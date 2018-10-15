@@ -144,6 +144,10 @@ function queryableElements(shouldBeWritable, elementType, isCollection, dataType
     return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, queryable:true}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
 }
 
+function createableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
+    return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, createable:true}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+}
+
 function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
     return isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
 }
@@ -164,7 +168,7 @@ const selectorProviderMap = {
     [ELEMENT_TYPE.DECISION]: () => readableElementsSelector,
     [ELEMENT_TYPE.WAIT]: () => readableElementsSelector,
     [ELEMENT_TYPE.SCREEN]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices) => screenSelectors(shouldBeWritable, choices),
-    [ELEMENT_TYPE.RECORD_CREATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
+    [ELEMENT_TYPE.RECORD_CREATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => createableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
     [ELEMENT_TYPE.RECORD_UPDATE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, updateable: true}),
     [ELEMENT_TYPE.RECORD_DELETE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true}),
     [ELEMENT_TYPE.RECORD_LOOKUP]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
