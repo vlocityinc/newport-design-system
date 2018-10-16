@@ -1,6 +1,6 @@
 import { screenValidation, getExtensionParameterValidation, getRulesForField } from "./screenValidation";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { updateProperties, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
+import { updateProperties, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { ReorderListEvent, PropertyChangedEvent, ValidationRuleChangedEvent, SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
 import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, isPicklistField, isMultiSelectPicklistField,
     isMultiSelectCheckboxField, isRadioField,
@@ -142,7 +142,7 @@ const processFerovValueChange = (valueField, currentFieldDataType, defaultValueD
         valueField = updateProperties(valueField, {[typePropertyName]: 'reference'});
     }
 
-    if (!newValue) { // New value is null, remove data type
+    if (getValueFromHydratedItem(newValue) === null || getValueFromHydratedItem(newValue) === '') { // New value is null, remove data type
         delete valueField[typePropertyName];
     } else if (!valueField[typePropertyName]) { // Coming from null value to non-null, add data type
         valueField[typePropertyName] = newValueGuid ? 'reference' : defaultValueDataType;
@@ -157,7 +157,7 @@ const processFerovValueChange = (valueField, currentFieldDataType, defaultValueD
  * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType}
  * @returns {screenfield} - The new screenfield after the change
  */
-const handleScreenFieldPropertyChange = (data, event) => {
+const handleScreenFieldPropertyChange = (data) => {
     // Non-extension screen field change
 
     // Run validation
@@ -176,7 +176,7 @@ const handleScreenFieldPropertyChange = (data, event) => {
         const updatedValueField = updateProperties(data.field, {'defaultValue': data.newValue, 'previewDefaultValue': data.newValue});
 
         // Now the defaultValue object.
-        return processFerovValueChange(updatedValueField, data.field.defaultValueDataType, data.dataType || event.detail.defaultValueDataType,
+        return processFerovValueChange(updatedValueField, data.field.defaultValueDataType, data.dataType,
             newValue, data.newValueGuid, 'defaultValueDataType');
     }
 
@@ -317,9 +317,15 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 hydrated,
                 error,
                 newValueGuid: event.detail.guid,
-                dataType: selectedNode.dataType || event.detail.valueDataType,
+                dataType: selectedNode.dataType || event.detail.valueDataType || event.detail.defaultValueDataType,
                 required: event.detail.required
             };
+
+            // If the default value is being cleared out, the dataType associated with the new value should be set
+            // to undefined because we want to clear that property.
+            if (data.newValue.value === undefined || data.newValue.value === null || data.newValue.value === '') {
+                data.dataType = undefined;
+            }
 
             let newField = null;
             if (isExtensionField(selectedNode) && property !== 'name') {
