@@ -10,16 +10,6 @@ import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib
 
 const ALL_SECTION_NAMES = ['choice', 'helpText'];
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
-const CHOICE_FRP_CONFIG = {
-    allowLiterals: false,
-    collection: false,
-    hideGlobalConstants: true,
-    showNewResource: true,
-    elementConfig: {
-        elementType: ELEMENT_TYPE.SCREEN,
-        choices: true,
-    },
-};
 
 /*
  * Screen element property editor for the radio field.
@@ -101,7 +91,17 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     }
 
     get choiceResourcePickerConfig() {
-        return CHOICE_FRP_CONFIG;
+        return {
+            allowLiterals: false,
+            collection: false,
+            hideGlobalConstants: true,
+            showNewResource: true,
+            elementConfig: {
+                elementType: ELEMENT_TYPE.SCREEN,
+                dataType: this.field.dataType,
+                choices: true
+            }
+        };
     }
 
     get isFieldDisabled() {
@@ -137,6 +137,11 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         // Or, if the only choice associated with this field is the placeholder choice, then don't let them set default value yet.
         return this.field.dataType === null || (this.field.choiceReferences.length === 1 &&
             this.field.choiceReferences[0].trim() === '');
+    }
+
+    get choiceDisabled() {
+        // If the dataType isn't set yet, user should not be able to set any choice values.
+        return this.field.dataType === null;
     }
 
     // Convert flow data type to the value from the data type drop down list.

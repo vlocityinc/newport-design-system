@@ -73,7 +73,7 @@ export default class ScreenPropertyField extends LightningElement {
             this.error, // errorMessage
             this.resourcePickerConfig.allowLiterals, // literalsAllowed
             this.required, // required
-            false, // disabled
+            this.disabled, // disabled
             getFlowDataTypeByName(this.type)
         );
     }
