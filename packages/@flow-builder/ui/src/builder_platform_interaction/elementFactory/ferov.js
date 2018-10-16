@@ -186,6 +186,15 @@ function validateParams(valueProperty, dataTypeProperty) {
 }
 
 /**
+ * Returns the dataType key of the field passed in
+ * @param {String} fieldName the key of the field
+ * @returns {String} the dataType key
+ */
+export const getDataTypeKey = (fieldName) => {
+    return fieldName + 'DataType';
+};
+
+/**
  * Creates a ferov object in the shape that the store expects
  *
  * @param {Object} ferovObject        The name of the flow metadata Ferov object inside the element (eg. 'value' which is the RHS of a condition). This object will be changed into a scalar and placed inside @param valueProperty
@@ -194,6 +203,7 @@ function validateParams(valueProperty, dataTypeProperty) {
  * @returns {Object}                  The element with ferov object and props based on @param valueProperty & @param dataTypeProperty
  */
 export const createFEROV = (ferovObject, valueProperty, dataTypeProperty) => {
+    // TODO: W-5494171 Use getDataTypeKey instead of passing in dataTypeProperty
     validateParams(valueProperty, dataTypeProperty);
 
     const props = {[valueProperty]: ''};

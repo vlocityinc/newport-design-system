@@ -1,11 +1,11 @@
 import { baseElementsArrayToMap, baseResource } from "./base/baseElement";
-import { createFEROV, createFEROVMetadataObject } from "./ferov";
+import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from "./ferov";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { baseResourceMetadataObject } from "./base/baseMetadata";
 
 const elementType = ELEMENT_TYPE.CHOICE;
 const STORED_VALUE_PROPERTY = 'storedValue';
-export const STORED_VALUE_DATA_TYPE_PROPERTY = 'storedValueDataType';
+export const STORED_VALUE_DATA_TYPE_PROPERTY = getDataTypeKey(STORED_VALUE_PROPERTY);
 
 /**
  * @typedef {Object} validationRule

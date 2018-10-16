@@ -2,7 +2,7 @@ import { generateGuid } from "builder_platform_interaction/storeLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { createFEROV } from "../ferov";
-import { createListRowItem, rhsDataTypePropertyName, rhsPropertyName } from "./baseList";
+import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from "./baseList";
 
 export function baseResource(resource = {}) {
     const newResource = baseElement(resource);
@@ -52,7 +52,7 @@ export function baseCanvasElement(canvasElement = {}) {
 export function createCondition(condition = {}) {
     let newCondition = {};
     if (condition.hasOwnProperty('leftValueReference')) {
-        const ferov = createFEROV(condition.rightValue, rhsPropertyName, rhsDataTypePropertyName);
+        const ferov = createFEROV(condition.rightValue, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
         newCondition = Object.assign({}, ferov, {
             leftHandSide : condition.leftValueReference,
             operator : condition.operator
@@ -62,7 +62,6 @@ export function createCondition(condition = {}) {
     } else {
         newCondition = createListRowItem(condition);
     }
-    newCondition.rowIndex = generateGuid();
 
     return newCondition;
 }

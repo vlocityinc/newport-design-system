@@ -189,7 +189,7 @@ describe('variable-constant-editor', () => {
             const eventPayload = { dataType : 'Currency', isCollection: false, scale: null };
             dispatchValueChangedEvent(variableEditor, eventPayload);
             return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1].propertyName).toEqual('ferovDataType');
+                expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValueDataType');
                 expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
                 expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValueGuid');
                 expect(createAction.mock.calls[1][1].value).toEqual('');
@@ -206,7 +206,7 @@ describe('variable-constant-editor', () => {
             const eventPayload = { dataType : 'String', isCollection: true, scale: null };
             dispatchValueChangedEvent(variableEditor, eventPayload);
             return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1].propertyName).toEqual('ferovDataType');
+                expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValueDataType');
                 expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
                 expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValueGuid');
                 expect(createAction.mock.calls[1][1].value).toEqual('');
@@ -437,7 +437,7 @@ describe('variable-constant-editor', () => {
                 displayText: '{!var1}'
             };
             const expectedUpdatePropPayload = {
-                propertyName: 'ferovDataType',
+                propertyName: 'defaultValueDataType',
                 value: 'reference',
                 error: null
             };

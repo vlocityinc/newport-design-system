@@ -13,7 +13,7 @@ import { isObject } from "builder_platform_interaction/commonUtils";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { FEROV_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
+import { DEFAULT_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 
 
 // the property names in a variable element (after mutation), a subset of these are also constant properties
@@ -402,13 +402,13 @@ export default class VariableConstantEditor extends LightningElement {
     updateDefaultValueWithElement(item, error) {
         const dataType = getResourceFerovDataType(item.value);
 
-        this.updateProperty(FEROV_DATA_TYPE_PROPERTY, dataType, null);
+        this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, dataType, null);
         this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, item.value, null);
         this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, item.displayText, error);
     }
 
     updateDefaultValueWithLiteral(displayText, error) {
-        this.updateProperty(FEROV_DATA_TYPE_PROPERTY, this.dataType, null);
+        this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, this.dataType, null);
         this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, '', null);
         this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, displayText, error);
     }
@@ -492,7 +492,7 @@ export default class VariableConstantEditor extends LightningElement {
      * @return {boolean} Returns true for ferovDataType 'reference', otherwise false.
      */
     hasFerovDataTypeRef() {
-        return this.variableConstantResource[FEROV_DATA_TYPE_PROPERTY] === FEROV_DATA_TYPE.REFERENCE;
+        return this.variableConstantResource[DEFAULT_VALUE_DATA_TYPE_PROPERTY] === FEROV_DATA_TYPE.REFERENCE;
     }
 
     /** *********************************/

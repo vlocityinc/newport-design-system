@@ -6,7 +6,7 @@ const constantWithDefaultValueAsString = {
     elementType: "CONSTANT",
     dataType: "String",
     defaultValue: "Hello {!var_guid}",
-    ferovDataType: "String"
+    defaultValueDataType: "String"
 };
 
 const constantWithDefaultValueAsReference = {
@@ -15,7 +15,7 @@ const constantWithDefaultValueAsReference = {
     elementType: "CONSTANT",
     dataType: "String",
     defaultValue: "var_guid",
-    ferovDataType: "reference"
+    defaultValueDataType: "reference"
 };
 
 const constantFlowMetadataWithDefaultValueAsString = {
@@ -45,7 +45,7 @@ describe('Constant:', () => {
                 elementType: 'CONSTANT',
                 dataType: null,
                 defaultValue: null,
-                ferovDataType: null
+                defaultValueDataType: null
             };
             const actualResult = createConstant();
             expect(actualResult).toMatchObject(expectedResult);

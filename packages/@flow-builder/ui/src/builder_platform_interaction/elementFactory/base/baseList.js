@@ -1,8 +1,8 @@
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getDataTypeKey } from '../ferov';
 
-export const rhsPropertyName = 'rightHandSide';
-export const rhsDataTypePropertyName = 'rightHandSideDataType';
-export const rhsGuidPropertyName = 'rightHandSideGuid';
+export const RHS_PROPERTY = 'rightHandSide';
+export const RHS_DATA_TYPE_PROPERTY = getDataTypeKey(RHS_PROPERTY);
 
 /**
  * This function creates a new list row item object.

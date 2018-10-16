@@ -1,6 +1,6 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { baseCanvasElement, baseCanvasElementsArrayToMap } from "./base/baseElement";
-import { createListRowItem, rhsPropertyName, rhsDataTypePropertyName } from "./base/baseList";
+import { createListRowItem, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY } from "./base/baseList";
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createConnectorObjects } from './connector';
@@ -43,7 +43,7 @@ export function createAssignmentItem(assignmentItem = {}) {
     if (assignmentItem.hasOwnProperty('assignToReference')) {
         const leftHandSide = assignmentItem.assignToReference;
         const operator = assignmentItem.operator;
-        const rhsFerovObject = createFEROV(assignmentItem.value, rhsPropertyName, rhsDataTypePropertyName);
+        const rhsFerovObject = createFEROV(assignmentItem.value, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
         newAssignmentItem = Object.assign({}, {leftHandSide, operator}, rhsFerovObject);
         newAssignmentItem = createListRowItem(newAssignmentItem);
     } else {
@@ -79,7 +79,7 @@ export function createAssignmentItemMetadataObject(assignmentItem) {
 
     const assignToReference = assignmentItem.leftHandSide;
     const operator = assignmentItem.operator;
-    const value = createFEROVMetadataObject(assignmentItem, rhsPropertyName, rhsDataTypePropertyName);
+    const value = createFEROVMetadataObject(assignmentItem, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
 
     const newAssignmentItem = Object.assign({}, {assignToReference, operator, value});
 

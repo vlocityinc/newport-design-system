@@ -1,8 +1,8 @@
 import {
     createListRowItem,
     createExpressionListRowItemWithoutOperator,
-    rhsPropertyName,
-    rhsDataTypePropertyName
+    RHS_PROPERTY,
+    RHS_DATA_TYPE_PROPERTY
 } from "./baseList";
 import { createFEROV, createFEROVMetadataObject } from '../ferov';
 import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
@@ -20,8 +20,8 @@ export function createFilter(filter = {}, objectType) {
         const { operator = ''} = filter;
         const rhsFerovObject = createFEROV(
             filter.value,
-            rhsPropertyName,
-            rhsDataTypePropertyName
+            RHS_PROPERTY,
+            RHS_DATA_TYPE_PROPERTY
         );
         newFilter = Object.assign(
             {},
@@ -47,8 +47,8 @@ export function createFilterMetadataObject(filter) {
     const operator = filter.operator;
     const value = createFEROVMetadataObject(
         filter,
-        rhsPropertyName,
-        rhsDataTypePropertyName
+        RHS_PROPERTY,
+        RHS_DATA_TYPE_PROPERTY
     );
     const newFilter = Object.assign({}, { field, operator, value });
 
@@ -66,8 +66,8 @@ export function createFlowInputFieldAssignmentMetadataObject(inputParameter) {
     );
     const value = createFEROVMetadataObject(
         inputParameter,
-        rhsPropertyName,
-        rhsDataTypePropertyName
+        RHS_PROPERTY,
+        RHS_DATA_TYPE_PROPERTY
     );
     if (value) {
         return { field, value };
@@ -81,7 +81,7 @@ export function createFlowInputFieldAssignment(inputAssignmentsItem, objectType)
     if (inputAssignmentsItem.hasOwnProperty('field')) {
         const leftHandSide = objectType + '.' + inputAssignmentsItem.field;
         if (inputAssignmentsItem.hasOwnProperty(lhsMetadataPropertyName)) {
-            newAssignment = createFEROV(inputAssignmentsItem.value, rhsPropertyName, rhsDataTypePropertyName);
+            newAssignment = createFEROV(inputAssignmentsItem.value, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
         }
         Object.assign(newAssignment, {leftHandSide});
         newAssignment = createExpressionListRowItemWithoutOperator(newAssignment);

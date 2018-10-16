@@ -9,6 +9,7 @@ import { createInputParameter, createInputParameterMetadataObject } from './inpu
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { baseElement } from "./base/baseElement";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from "./variable";
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -48,8 +49,8 @@ export function createScreenField(screenField = {}) {
     if (!defaultValueDataType) {
         defaultValueFerovObject = createFEROV(
             defaultValue,
-            'defaultValue',
-            'defaultValueDataType'
+            DEFAULT_VALUE_PROPERTY,
+            DEFAULT_VALUE_DATA_TYPE_PROPERTY
         );
     }
 

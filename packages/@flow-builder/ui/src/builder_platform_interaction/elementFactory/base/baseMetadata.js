@@ -1,6 +1,6 @@
 import { createConnectorMetadataObjects } from '../connector';
 import { createFEROVMetadataObject } from "../ferov";
-import { rhsDataTypePropertyName, rhsPropertyName } from "./baseList";
+import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from "./baseList";
 
 function baseElementMetadataObject(element = {}) {
     const { name = '' } = element;
@@ -82,7 +82,7 @@ export function createConditionMetadataObject(condition) {
         throw new Error('Condition is not defined');
     }
     const { leftHandSide, operator } = condition;
-    const rightValue = createFEROVMetadataObject(condition, rhsPropertyName, rhsDataTypePropertyName);
+    const rightValue = createFEROVMetadataObject(condition, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
     return Object.assign({}, {
         leftValueReference: leftHandSide,
         rightValue,

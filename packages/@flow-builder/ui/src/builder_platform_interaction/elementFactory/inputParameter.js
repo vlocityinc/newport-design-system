@@ -1,22 +1,22 @@
-import { createFEROV, createFEROVMetadataObject } from './ferov';
+import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 import { createParameterListRowItem } from './base/baseList';
 
-export const valuePropertyName = 'value';
-export const valueDataTypePropertyName = 'valueDataType';
+export const VALUE_PROPERTY_NAME = 'value';
+export const VALUE_DATA_TYPE_PROPERTY_NAME = getDataTypeKey(VALUE_PROPERTY_NAME);
 
 export function createInputParameter(inputParameter = {}) {
-    const { name, value, valueDataType} = inputParameter;
+    const { rowIndex, name, value, valueDataType } = inputParameter;
 
     let valueFerov;
     if (!valueDataType) {
-        valueFerov = createFEROV(value, valuePropertyName, valueDataTypePropertyName);
+        valueFerov = createFEROV(value, VALUE_PROPERTY_NAME, VALUE_DATA_TYPE_PROPERTY_NAME);
     }
     const newInputParameter = Object.assign({
-            name,
-            value,
-            valueDataType
-        },
-        valueFerov);
+        rowIndex,
+        name,
+        value,
+        valueDataType
+    }, valueFerov);
     return createParameterListRowItem(newInputParameter);
 }
 
@@ -29,7 +29,7 @@ export function createInputParameterMetadataObject(inputParameter) {
 
     let valueFerov;
     if (value) {
-        const ferov = createFEROVMetadataObject(inputParameter, valuePropertyName, valueDataTypePropertyName);
+        const ferov = createFEROVMetadataObject(inputParameter, VALUE_PROPERTY_NAME, VALUE_DATA_TYPE_PROPERTY_NAME);
         valueFerov = { value: ferov };
     }
 

@@ -27,16 +27,16 @@ describe('UID Swapper', () => {
         };
 
         it('Swaps values inside a template', () => {
-            expect(swapValueFunction(swapFunction, 'stringValue', '{!value}')).toEqual('{![value]}');
+            expect(swapValueFunction(swapFunction, null, 'stringValue', '{!value}')).toEqual('{![value]}');
         });
         it('Swaps compound values inside a template', () => {
-            expect(swapValueFunction(swapFunction, 'stringValue', '{!value.first.second}')).toEqual('{![value.first.second]}');
+            expect(swapValueFunction(swapFunction, null, 'stringValue', '{!value.first.second}')).toEqual('{![value.first.second]}');
         });
         it('Swaps multiple values inside a template', () => {
-            expect(swapValueFunction(swapFunction, 'stringValue', ' {!first.a.b} {!second.a.b}')).toEqual(' {![first.a.b]} {![second.a.b]}');
+            expect(swapValueFunction(swapFunction, null, 'stringValue', ' {!first.a.b} {!second.a.b}')).toEqual(' {![first.a.b]} {![second.a.b]}');
         });
         it('Swaps reference values', () => {
-            expect(swapValueFunction(swapFunction, 'elementReference', 'value')).toEqual('[value]');
+            expect(swapValueFunction(swapFunction, null, 'elementReference', 'value')).toEqual('[value]');
         });
     });
 

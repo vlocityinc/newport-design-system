@@ -2,7 +2,7 @@ import { baseResourceMetadataObject, baseChildElementMetadataObject, baseCanvasE
 import {CONDITION_LOGIC} from "builder_platform_interaction/flowMetadata";
 import { createConditionMetadataObject } from "../../base/baseMetadata";
 import { createFEROVMetadataObject } from '../../ferov';
-import { rhsDataTypePropertyName, rhsPropertyName } from "../../base/baseList";
+import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from '../../base/baseList';
 
 jest.mock('../../ferov', () => {
     return {
@@ -10,7 +10,8 @@ jest.mock('../../ferov', () => {
             return {
                 value: 'someRHSValueFrom' + condition
             };
-        }).mockName('createFEROVMetadataObject')
+        }).mockName('createFEROVMetadataObject'),
+        getDataTypeKey: require.requireActual('../../ferov').getDataTypeKey,
     };
 });
 
@@ -172,7 +173,7 @@ describe('createConditionMetadataObject', () => {
     it('calls createFEROVMetadataObject with the given condition', () => {
         const condition = { foo: 'bar'};
         createConditionMetadataObject(condition);
-        expect(createFEROVMetadataObject).toHaveBeenCalledWith(condition, rhsPropertyName, rhsDataTypePropertyName);
+        expect(createFEROVMetadataObject).toHaveBeenCalledWith(condition, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
     });
 
     it('creates a metadata condition', () => {

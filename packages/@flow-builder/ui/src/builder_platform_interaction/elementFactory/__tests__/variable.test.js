@@ -11,7 +11,7 @@ const variableWithDefaultValueAsString = {
     objectType: null,
     scale: 0,
     defaultValue: 'Hello {!var_guid}',
-    ferovDataType: 'String'
+    defaultValueDataType: 'String'
 };
 
 const variableWithDefaultValueAsReference = {
@@ -25,7 +25,7 @@ const variableWithDefaultValueAsReference = {
     objectType: null,
     scale: 0,
     defaultValue: 'var',
-    ferovDataType: 'reference'
+    defaultValueDataType: 'reference'
 };
 
 const variableFlowMetadataWithDefaultValueAsString = {
@@ -68,7 +68,7 @@ describe('Variable:', () => {
                 objectType: null,
                 scale: 2,
                 defaultValue: null,
-                ferovDataType: null
+                defaultValueDataType: null
             };
             const actualResult = createVariable();
             expect(actualResult).toMatchObject(expectedResult);

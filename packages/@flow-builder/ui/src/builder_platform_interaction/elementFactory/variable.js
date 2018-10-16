@@ -1,11 +1,11 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { baseResource, baseElementsArrayToMap } from "./base/baseElement";
 import { baseResourceMetadataObject } from "./base/baseMetadata";
-import { createFEROV, createFEROVMetadataObject } from './ferov';
+import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 
 const elementType = ELEMENT_TYPE.VARIABLE;
-const DEFAULT_VALUE_PROPERTY = 'defaultValue';
-export const FEROV_DATA_TYPE_PROPERTY = 'ferovDataType';
+export const DEFAULT_VALUE_PROPERTY = 'defaultValue';
+export const DEFAULT_VALUE_DATA_TYPE_PROPERTY = getDataTypeKey(DEFAULT_VALUE_PROPERTY);
 
 /**
  * Either creates a new variable or create a new copy of existing variable
@@ -17,9 +17,9 @@ export function createVariable(variable = {}) {
     const { dataType = null, isCollection = false, isInput = false, isOutput = false, objectType = null, scale = 2, value} = variable;
     let valueFerov;
     if (value) {
-        valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, FEROV_DATA_TYPE_PROPERTY);
+        valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
     }
-    const { defaultValue = null, ferovDataType = null } = valueFerov || variable;
+    const { defaultValue = null, defaultValueDataType = null } = valueFerov || variable;
     Object.assign(newVariable, {
         elementType,
         isCollection,
@@ -29,7 +29,7 @@ export function createVariable(variable = {}) {
         objectType,
         scale,
         defaultValue,
-        ferovDataType,
+        defaultValueDataType,
     });
     return newVariable;
 }
@@ -62,7 +62,7 @@ export function createVariableMetadataObject(variable) {
     const valueFerov = createFEROVMetadataObject(
         variable,
         DEFAULT_VALUE_PROPERTY,
-        FEROV_DATA_TYPE_PROPERTY
+        DEFAULT_VALUE_DATA_TYPE_PROPERTY
     );
     if (valueFerov) {
         valueFerovObject = { value : valueFerov };
