@@ -110,19 +110,23 @@ export default class SubflowEditor extends LightningElement {
         return format(this.labels.subtitle, getValueFromHydratedItem(this.subflowDescriptor.masterLabel));
     }
 
-    /**
-     * @param {object} event - property changed event coming from label-description component
-     */
-    handlePropertyChanged(event) {
-        event.stopPropagation();
-        this.subflowNode = subflowReducer(this.subflowNode, event);
+    get parameterListConfig() {
+        return {
+            inputTabHeader: this.labels.inputTabHeader,
+            outputTabHeader: this.labels.outputTabHeader,
+            emptyInputsMessage: this.labels.emptyInputs,
+            emptyOutputsMessage: this.labels.emptyOutputs,
+            inputsNeedToBeSorted: true,
+            outputsNeedToBeSorted: true,
+            inputs: this.subflowNode.inputAssignments,
+            outputs: this.subflowNode.outputAssignments,
+        };
     }
 
-
     /**
-     * @param {object} event - property changed event coming from parameter-item component
+     * @param {object} event - property changed event coming from label-description component and parameter-item component
      */
-    handleUpdateParameterItem(event) {
+    handleEvent(event) {
         event.stopPropagation();
         this.subflowNode = subflowReducer(this.subflowNode, event);
     }

@@ -1,7 +1,8 @@
 <template>
     <builder_platform_interaction-base-callout-editor label-description-config={actionCallNode} element-type={elementType} 
-    input-tab-header={labels.actionCallInputTabHeader} output-tab-header={labels.actionCallOutputTabHeader} subtitle={subtitle} 
-    inputs={actionCallNode.inputParameters} outputs={actionCallNode.outputParameters} display-spinner={displaySpinner} 
-    onpropertychanged={handleEvent} onupdateparameteritem={handleEvent}>
+                                                      subtitle={subtitle}
+                                                      parameter-list-config={parameterListConfig}
+                                                      display-spinner={displaySpinner} 
+                                                      onpropertychanged={handleEvent} onupdateparameteritem={handleEvent}>
     </builder_platform_interaction-base-callout-editor>
 </template>

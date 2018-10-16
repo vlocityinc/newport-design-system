@@ -70,15 +70,19 @@ export default class ApexPluginEditor extends LightningElement {
     isNewMode = false;
 
     get subtitle() {
-        return format(this.labels.apexSubTitle, getValueFromHydratedItem(this.apexNode.apexClass));
+        return format(this.labels.subtitle, getValueFromHydratedItem(this.apexNode.apexClass));
     }
 
-    get labelDescriptionConfig() {
+    get parameterListConfig() {
         return {
-            label: this.apexNode.label,
-            description: this.apexNode.description,
-            name: this.apexNode.name,
-            guid: this.apexNode.guid,
+            inputTabHeader: this.labels.inputTabHeader,
+            outputTabHeader: this.labels.outputTabHeader,
+            emptyInputsMessage: this.labels.emptyInputs,
+            emptyOutputsMessage: this.labels.emptyOutputs,
+            sortInputs: true,
+            sortOutputs: true,
+            inputs: this.inputs,
+            outputs: this.outputs,
         };
     }
 
@@ -102,15 +106,7 @@ export default class ApexPluginEditor extends LightningElement {
     /**
      * @param {object} event - property changed event coming from label-description and parameter-item component
      */
-    handlePropertyChanged(event) {
-        event.stopPropagation();
-        // TODO
-    }
-
-    /**
-     * @param {object} event - property changed event coming from parameter-item component
-     */
-    handleUpdateParameterItem(event) {
+    handleEvent(event) {
         event.stopPropagation();
         // TODO
     }

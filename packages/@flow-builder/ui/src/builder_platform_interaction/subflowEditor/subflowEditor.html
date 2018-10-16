@@ -1,15 +1,8 @@
 <template>
-    <builder_platform_interaction-base-callout-editor
-        label-description-config={subflowNode} 
-        element-type={elementType} 
-        input-tab-header={labels.inputTabHeader} 
-        output-tab-header={labels.outputTabHeader} 
-        subtitle={subtitle} 
-        inputs={subflowNode.inputAssignments} 
-        outputs={subflowNode.outputAssignments} 
-        display-spinner={displaySpinner}
-        onpropertychanged={handlePropertyChanged}
-        onupdateparameteritem={handleUpdateParameterItem}
-        >
+    <builder_platform_interaction-base-callout-editor label-description-config={subflowNode} element-type={elementType} 
+                                                      subtitle={subtitle}
+                                                      parameter-list-config={parameterListConfig}
+                                                      display-spinner={displaySpinner} 
+                                                      onpropertychanged={handleEvent} onupdateparameteritem={handleEvent}>
     </builder_platform_interaction-base-callout-editor>
 </template>

@@ -104,7 +104,20 @@ export default class InvocableActionEditor extends LightningElement {
         if (!this.invocableActionDescriptor) {
             return '';
         }
-        return format(this.labels.actionCallSubTitle, getValueFromHydratedItem(this.invocableActionDescriptor.label));
+        return format(this.labels.subtitle, getValueFromHydratedItem(this.invocableActionDescriptor.label));
+    }
+
+    get parameterListConfig() {
+        return {
+            inputTabHeader: this.labels.inputTabHeader,
+            outputTabHeader: this.labels.outputTabHeader,
+            emptyInputsMessage: this.labels.emptyInputs,
+            emptyOutputsMessage: this.labels.emptyOutputs,
+            sortInputs: true,
+            sortOutputs: true,
+            inputs: this.actionCallNode.inputParameters,
+            outputs: this.actionCallNode.outputParameters,
+        };
     }
 
     /**

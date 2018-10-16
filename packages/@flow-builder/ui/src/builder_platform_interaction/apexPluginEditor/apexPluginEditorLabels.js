@@ -1,10 +1,14 @@
 /* Labels */
-import apexSubTitle from "@salesforce/label/FlowBuilderApexPluginEditor.apexSubTitle";
-import apexInputTabHeader from "@salesforce/label/FlowBuilderApexPluginEditor.apexInputTabHeader";
-import apexOutputTabHeader from "@salesforce/label/FlowBuilderApexPluginEditor.apexOutputTabHeader";
+import subtitle from "@salesforce/label/FlowBuilderApexPluginEditor.subtitle";
+import inputTabHeader from "@salesforce/label/FlowBuilderApexPluginEditor.inputTabHeader";
+import outputTabHeader from "@salesforce/label/FlowBuilderApexPluginEditor.outputTabHeader";
+import emptyInputs from "@salesforce/label/FlowBuilderApexPluginEditor.emptyInputs";
+import emptyOutputs from "@salesforce/label/FlowBuilderApexPluginEditor.emptyOutputs";
 
 export const LABELS = {
-    apexSubTitle,
-    apexInputTabHeader,
-    apexOutputTabHeader
+    subtitle,
+    inputTabHeader,
+    outputTabHeader,
+    emptyInputs,
+    emptyOutputs
 };

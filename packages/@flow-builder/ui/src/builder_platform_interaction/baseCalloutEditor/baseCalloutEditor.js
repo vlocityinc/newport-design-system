@@ -1,10 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 
 export default class BaseCalloutEditor extends LightningElement {
     @track state = {
-        inputs: [],
-        outputs: [],
+        parameterListConfig: {},
     }
     /**
      * Config for label-description component. For example {name: actionNode.name, label: actionNode.label, description: actionNode.label, guid: actionNode.guid}
@@ -19,43 +17,29 @@ export default class BaseCalloutEditor extends LightningElement {
     @api subtitle;
 
     /**
-     * Input tab header title
-     *
+     * @typedef {Object} ParameterList
+     * @property {String} inputTabHeader input tab header
+     * @property {String} outputTabHeader  output tab header
+     * @property {String} emptyInputsMessage  empty message if there are no input parameters. It should be replaced by emptyState component when  W-5383760 is ready.
+     * @property {String} emptyOutputsMessage   empty message if there are no output parameters. It should be replaced by emptyState component when  W-5383760 is ready.
+     * @property {boolean} [sortInputs]   true if input parameters need to be sorted
+     * @property {boolean} [sortOutputs]  true if output parameters need to be sorted
+     * @property {ParameterItem[]} inputs   input parameters
+     * @property {ParameterItem[]} outputs output parameters
      */
-    @api inputTabHeader;
 
     /**
-     * Output tab header title
+     * Config for parameter list component.
      *
      */
-    @api outputTabHeader;
-
-    /**
-     * List of input ParameterItem
-     *
-     */
-    set inputs(newInputs) {
-        this.state.inputs = newInputs || [];
+    set parameterListConfig(newValue) {
+        this.state.parameterListConfig = newValue || {};
     }
 
     @api
-    get inputs() {
-        return this.state.inputs;
+    get parameterListConfig() {
+        return this.state.parameterListConfig;
     }
-
-    /**
-     * List of output ParameterItem
-     *
-     */
-    set outputs(newOutputs) {
-        this.state.outputs = newOutputs || [];
-    }
-
-    @api
-    get outputs() {
-        return this.state.outputs;
-    }
-
     /**
      * Type of element
      *
@@ -68,12 +52,4 @@ export default class BaseCalloutEditor extends LightningElement {
      *
      */
     @api displaySpinner;
-
-    /**
-     * rules for input parameters
-     *
-     */
-    get inputRules() {
-        return getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementType);
-    }
 }

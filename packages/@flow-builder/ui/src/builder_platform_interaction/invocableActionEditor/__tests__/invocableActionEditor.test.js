@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import InvocableActionEditor from "../invocableActionEditor";
-import { mockActionParameters } from "mock/calloutData";
+import { mockActionParameters, mockActions } from "mock/calloutData";
 
 const defaultNode = {
         actionName: {value: 'chatterPost', error: null},
@@ -26,7 +26,6 @@ const defaultNode = {
                   error: null
                 },
                 valueDataType: 'reference',
-                valueGuid:'578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
               },
               {
                   rowIndex: '84b6d19d-718f-452d-9803-fe97a263f76c',
@@ -39,7 +38,6 @@ const defaultNode = {
                     error: null
                   },
                   valueDataType: 'String',
-                  valueGuid: 'This is a message',
               }
         ],
         outputParameters: [
@@ -54,10 +52,12 @@ const defaultNode = {
                   error: null
                 },
                 valueDataType: 'reference',
-                valueGuid:'578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
             }
         ]
     };
+
+const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
+commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
@@ -68,13 +68,7 @@ const createComponentUnderTest = (node) => {
 
 const selectors = {
     baseCalloutEditor: 'builder_platform_interaction-base-callout-editor',
-    labelDescription: 'builder_platform_interaction-label-description',
-    lightningTab: 'lightning-tab',
-    inputParameterItems: '#tabitem-inputs builder_platform_interaction-parameter-item',
-    outputParameterItems: '#tabitem-outputs builder_platform_interaction-parameter-item',
 };
-
-let mockActionParametersPromise = Promise.resolve(mockActionParameters);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual('builder_platform_interaction/serverDataLib');
@@ -82,10 +76,14 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         SERVER_ACTION_TYPE,
         fetchOnce : (serverActionType) => {
-            if (serverActionType === SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS) {
-                return mockActionParametersPromise;
+            switch (serverActionType) {
+            case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS:
+                return Promise.resolve(mockActions);
+            case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS:
+                return Promise.resolve(mockActionParameters);
+            default:
+                return Promise.reject();
             }
-            return Promise.reject();
         }
     };
 });
@@ -94,50 +92,16 @@ const getBaseCalloutEditor = (actionEditor) => {
     return getShadowRoot(actionEditor).querySelector(selectors.baseCalloutEditor);
 };
 
-const getLabelDescription = (baseCalloutEditor) => {
-    return getShadowRoot(baseCalloutEditor).querySelector(selectors.labelDescription);
-};
-
-const getLightningTabs = (baseCalloutEditor) => {
-    return getShadowRoot(baseCalloutEditor).querySelectorAll(selectors.lightningTab);
-};
-
-const getInputParameterItems = (baseCalloutEditor) => {
-    return getShadowRoot(baseCalloutEditor).querySelectorAll(selectors.inputParameterItems);
-};
-
-const getOutputParameterItems = (baseCalloutEditor) => {
-    return getShadowRoot(baseCalloutEditor).querySelectorAll(selectors.outputParameterItems);
-};
-
 describe('Invocable Action editor', () => {
     let actionEditorCmp, baseCalloutEditorCmp;
     beforeEach(() => {
         actionEditorCmp = createComponentUnderTest(defaultNode);
         baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
     });
-    afterEach(() => {
-        mockActionParametersPromise = Promise.resolve(mockActionParameters);
+    it('should display a subtitle including the action call label', () => {
+        expect(baseCalloutEditorCmp.subtitle).toBe('FlowBuilderInvocableActionEditor.subtitle(Post to Chatter)');
     });
     it('contains base callout editor', () => {
-        expect(getBaseCalloutEditor(actionEditorCmp)).not.toBeNull();
-    });
-    it('contains label description with values', () => {
-        const labelDescription = getLabelDescription(baseCalloutEditorCmp);
-        expect(labelDescription.label.value).toEqual(defaultNode.label.value);
-        expect(labelDescription.devName.value).toEqual(defaultNode.name.value);
-        expect(labelDescription.description.value).toEqual(defaultNode.description.value);
-    });
-    it('contains 2 tabs', () => {
-        const lightningTabs = getLightningTabs(baseCalloutEditorCmp);
-        expect(lightningTabs).toHaveLength(2);
-    });
-    it('contains input parameters in input tab', () => {
-        const parameterItems = getInputParameterItems(baseCalloutEditorCmp);
-        expect(parameterItems).toHaveLength(mockActionParameters.filter(parameter => parameter.isInput === true).length);
-    });
-    it('contain output parameters in output tab', () => {
-        const parameterItems = getOutputParameterItems(baseCalloutEditorCmp);
-        expect(parameterItems).toHaveLength(mockActionParameters.filter(parameter => parameter.isOutput === true).length);
+        expect(baseCalloutEditorCmp).not.toBeNull();
     });
 });
