@@ -1,0 +1,33 @@
+<template>
+    <lightning-tabset>
+        <lightning-tab id="tabitem-inputs" label={inputTabHeader}>
+            <div class="slds-p-horizontal_small" >
+                <ul if:false={emptyInputs}>
+                    <template for:each={sortedInputs} for:item="item" for:index="index">
+                        <builder_platform_interaction-parameter-item item={item}
+                                key={item.rowIndex} item-index={index} element-type={elementType}
+                                rules={inputRules}>
+                        </builder_platform_interaction-parameter-item>
+                    </template>
+                </ul>
+                <div if:true={emptyInputs} class='emptyInputsMessage'>
+                    {emptyInputsMessage}
+                </div>
+            </div>
+        </lightning-tab>
+        <lightning-tab id="tabitem-outputs" label={outputTabHeader}>
+            <div class="slds-p-horizontal_small">
+                <ul if:false={emptyOutputs}>
+                    <template for:each={sortedOutputs} for:item="item" for:index="index">
+                        <builder_platform_interaction-parameter-item item={item} 
+                                key={item.rowIndex} item-index={index} element-type={elementType}>
+                        </builder_platform_interaction-parameter-item>
+                    </template>
+                </ul>
+                <div if:true={emptyOutputs} class='emptyOutputsMessage'>
+                    {emptyOutputsMessage}
+                </div>
+            </div>
+        </lightning-tab>
+    </lightning-tabset>
+</template>
