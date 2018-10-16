@@ -145,7 +145,38 @@ export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOption
         if (Object.keys(defaultOutcomeComboboxOption).length === 2) {
             sortedComboboxOptions.push(defaultOutcomeComboboxOption);
         }
+    // TODO: Refactor this when the connector utils are refactored:
+    // W-5478126 https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000005ajm1IAA/view
+    } else if (sourceElement.elementType === ELEMENT_TYPE.WAIT) {
+        // Iterating over wait events and sorting the comboboxOptions in the same order.
+        // Default path will be second to last in comboboxOptions
+        // FAULT is pushed at the end in comboboxOptions
+        const defaultPathComboboxOption = {};
+        const faultComboboxOption = {};
+        for (let i = 0; i < sourceElement.waitEventReferences.length; i++) {
+            comboboxOptions.forEach(option => {
+                if (option.value === sourceElement.waitEventReferences[i].waitEventReference) {
+                    sortedComboboxOptions.push(option);
+                } else if (option.value ===  CONNECTOR_TYPE.DEFAULT && Object.keys(defaultPathComboboxOption).length === 0) {
+                    defaultPathComboboxOption.label = option.label;
+                    defaultPathComboboxOption.value = option.value;
+                } else if (option.value ===  CONNECTOR_TYPE.FAULT && Object.keys(faultComboboxOption).length === 0) {
+                    faultComboboxOption.label = option.label;
+                    faultComboboxOption.value = option.value;
+                }
+                return option;
+            });
+        }
+
+        if (Object.keys(defaultPathComboboxOption).length === 2) {
+            sortedComboboxOptions.push(defaultPathComboboxOption);
+        }
+
+        if (Object.keys(faultComboboxOption).length === 2) {
+            sortedComboboxOptions.push(faultComboboxOption);
+        }
     }
+
     return sortedComboboxOptions;
 };
 

@@ -154,7 +154,7 @@ function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outc
 }
 
 /**
- * Helper function to add or update a decision
+ * Helper function to add or update a wait
  *
  * @param {Object} state - current state of elements in the store
  * @param {Object} wait - the wait being added/modified
@@ -196,9 +196,11 @@ function _addOrUpdateWaitWithWaitEvents(state, wait, deletedWaitEvents, waitEven
         }
     } else {
         // For a new wait, all the waitEvents are new WaitEvents,
-        // Also, the default connector always exists so add to the list of available connections
+        // The default connector always exists so add it to the list of available connections
+        // Also add the FAULT connector to the list of available connections
         newWaitEventGuids = waitEvents.map(waitEvent => waitEvent.guid);
         availableConnections.push({ type: CONNECTOR_TYPE.DEFAULT });
+        availableConnections.push({ type: CONNECTOR_TYPE.FAULT });
     }
     for (let i = 0; i < newWaitEventGuids.length; i++) {
         availableConnections.push({
@@ -229,8 +231,8 @@ function _addOrUpdateWaitWithWaitEvents(state, wait, deletedWaitEvents, waitEven
         deletedWaitEventGuids.push(waitEvent.guid);
     }
 
-    // Max connections for a wait is the number of wait events + 1 for the default outcome
-    const maxConnections = waitEvents.length + 1;
+    // Max connections for a wait is the number of wait events + 1 for the default + 1 for fault
+    const maxConnections = waitEvents.length + 2;
 
     newState[wait.guid] = updateProperties(newState[wait.guid], {maxConnections, connectorCount, availableConnections});
 

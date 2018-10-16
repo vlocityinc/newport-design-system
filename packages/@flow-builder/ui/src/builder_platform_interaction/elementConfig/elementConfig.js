@@ -329,8 +329,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:waitEditor',
         nodeConfig: {
             iconName: 'standard:waits',
-            utilityIconName: 'utility:waits',
-            maxConnections: 1
+            utilityIconName: 'utility:waits'
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.WAITS,

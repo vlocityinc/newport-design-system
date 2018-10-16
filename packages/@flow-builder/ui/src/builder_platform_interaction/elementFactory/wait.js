@@ -18,7 +18,6 @@ import { isObject } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from "./elementFactoryLabels";
 
 const elementType = ELEMENT_TYPE.WAIT;
-const maxConnections = 2;
 const getDefaultAvailableConnections = () => [
     {
         type: CONNECTOR_TYPE.REGULAR
@@ -30,6 +29,7 @@ const getDefaultAvailableConnections = () => [
         type: CONNECTOR_TYPE.DEFAULT
     }
 ];
+const MAX_CONNECTIONS_DEFAULT = 2;
 
 /**
  * Turns an array of paramters into an object where each property contains one index of the array
@@ -89,8 +89,6 @@ const inputParameterMapToArray = (parameters) => {
  */
 export function createWaitWithWaitEvents(wait = {}) {
     const newWait = baseCanvasElement(wait);
-    // TODO: W-5395924 connections need to be done properly.
-
     let { waitEvents } = wait;
     const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEventReferences } = wait;
 
@@ -108,6 +106,7 @@ export function createWaitWithWaitEvents(wait = {}) {
         availableConnections = getDefaultAvailableConnections()
     } = wait;
 
+    const maxConnections = calculateMaxWaitConnections(wait);
     return Object.assign(newWait, {
         waitEvents,
         defaultConnectorLabel,
@@ -242,35 +241,89 @@ export function createWaitWithWaitEventReferences(wait = {}) {
     const newWait = baseCanvasElement(wait);
     let newWaitEvents = [], waitEventReferences = [], availableConnections = [];
     const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents = [] } = wait;
-    // create connectors for wait which is default value. This can be refactor to update available connection as well.
+    // create connectors for wait, which initially are the default and fault ones.
     let connectors = createConnectorObjects(wait, newWait.guid);
     for (let i = 0; i < waitEvents.length; i++) {
         const waitEvent = createWaitEvent(waitEvents[i]);
-        const connector = createConnectorObjects(waitEvents[i], waitEvent.guid, newWait.guid);
+        const connectorsFromWaitEvent = createConnectorObjects(waitEvents[i], waitEvent.guid, newWait.guid);
+        // add the wait event connector to the list of connectors
+        connectors = [...connectors, ...connectorsFromWaitEvent];
         newWaitEvents = [...newWaitEvents, waitEvent];
         // updating waitEventReferences
         waitEventReferences = updateWaitEventReferences(waitEventReferences, waitEvent);
-
-        // TODO: W-5395924 - wait event connectors
-        availableConnections = 0; // availableConnections = addRegularConnectorToAvailableConnections(availableConnections, rule);
-        // connector is an array. FIX it.
-        connectors = [...connectors, ...connector];
+        // updating availableConnections
+        availableConnections = addRegularConnectorToAvailableConnections(availableConnections, waitEvents[i]);
     }
-    // TODO: W-5395924 - wait event connectors
-    // availableConnections = addDefaultConnectorToAvailableConnections(availableConnections, decision);
+    availableConnections = addDefaultConnectorToAvailableConnections(availableConnections, wait);
+    availableConnections = addFaultConnectorToAvailableConnections(availableConnections, wait);
     const connectorCount = connectors ? connectors.length : 0;
-    // TODO: W-5395924 - wait event connectors
-    // const maxConnections = calculateMaxConnections(decision);
+    const maxConnections = calculateMaxWaitConnections(wait);
     Object.assign(newWait, {
         waitEventReferences,
         defaultConnectorLabel,
         elementType,
         connectorCount,
-        // TODO: W-5395924 - wait event connectors
-        // maxConnections,
+        maxConnections,
         availableConnections
     });
     return baseCanvasElementsArrayToMap([newWait, ...newWaitEvents], connectors);
+}
+
+function calculateMaxWaitConnections(wait) {
+    if (!wait) {
+        throw new Error('Max connection cannot be calculated because wait object is not defined');
+    }
+
+    // TODO: Change this to get the value from connectorUtils when the connector utils are refactored:
+    // W-5478126 https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000005ajm1IAA/view
+    // Regular connectors for each event + default + fault
+    let length = MAX_CONNECTIONS_DEFAULT;
+    if (wait.waitEvents) {
+        length = wait.waitEvents.length + MAX_CONNECTIONS_DEFAULT;
+    }
+    return length;
+}
+
+function addDefaultConnectorToAvailableConnections(availableConnections = [], wait) {
+    if (!availableConnections || !wait) {
+        throw new Error('Either availableConnections or wait is not defined');
+    }
+    const { defaultConnector } = wait;
+    if (!defaultConnector) {
+        return [...availableConnections, {
+            type: CONNECTOR_TYPE.DEFAULT
+        }];
+    }
+    return availableConnections;
+}
+
+function addFaultConnectorToAvailableConnections(availableConnections = [], wait) {
+    if (!availableConnections || !wait) {
+        throw new Error('Either availableConnections or wait is not defined');
+    }
+    const { faultConnector } = wait;
+    if (!faultConnector) {
+        return [...availableConnections, {
+            type: CONNECTOR_TYPE.FAULT
+        }];
+    }
+    return availableConnections;
+}
+
+function addRegularConnectorToAvailableConnections(availableConnections = [], waitEvent) {
+    if (!availableConnections || !waitEvent || !waitEvent.name) {
+        throw new Error('Either availableConnections or wait event is not defined');
+    }
+    const { name, connector } = waitEvent;
+
+    if (!connector) {
+        const childReference = name;
+        return [...availableConnections, {
+            type: CONNECTOR_TYPE.REGULAR,
+            childReference
+        }];
+    }
+    return availableConnections;
 }
 
 function updateWaitEventReferences(waitEventReferences = [], waitEvent) {
