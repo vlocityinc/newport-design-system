@@ -1,18 +1,102 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './waitPlatformEventLabels';
 import { isObject } from 'builder_platform_interaction/commonUtils';
+import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
+import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 
 export default class WaitPlatformEvent extends LightningElement {
     labels = LABELS;
 
+    filterParameters = new Map();
+
+    /**
+     * @type {String} guid of the parent wait element
+     */
+    @api
+    parentGuid;
+
     /**
      * Selected event type from the sobject picker
+     * @type {String} event type of the platform event
      */
+    set eventType(eventType) {
+        this._eventType = eventType;
+
+        if (eventType && eventType.value) {
+            this.updateFilterFields(eventType.value);
+        }
+    }
+
+    @api
+    get eventType() {
+        return this._eventType;
+    }
+
+    /**
+     * Object of input parameters used to define the resume time
+     * @type {Map}
+     */
+    set resumeTimeParameters(inputParametersMap) {
+        if (inputParametersMap) {
+            this.filterParameters = inputParametersMap;
+
+            const inputParameters = Object.values(inputParametersMap);
+
+            this.filters = [];
+            for (let i = 0; i < inputParameters.length; i++) {
+                const inputParameter = inputParameters[i];
+                const filter = {
+                    expression: {
+                        leftHandSide: {
+                            value: inputParameter.name,
+                            error: null
+                        },
+                        rightHandSide: {
+                            value: inputParameter.value,
+                            error: null
+                        },
+                        rightHandSideDataType: {
+                            value: inputParameter.valueDataType,
+                            error: null
+                        }
+                    },
+                    rowIndex: inputParameter.rowIndex
+                };
+                this.filters.push(filter);
+            }
+        }
+    }
+
+    @api
+    get resumeTimeParameters() {
+        return this.filterParameters;
+    }
+
+    // TODO: this should not need to be @track once eventType is flowing down correctly instead of being set at
+    // this level by handleEventTypeChanged (currently needed for tests to pass)
     @track
-    selectedEventType;
+    _eventType;
+
+    @track
+    filterConditionLogicOptions = [
+        {value: CONDITION_LOGIC.NO_CONDITIONS, label: LABELS.noConditionsLabel},
+        {value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel}
+    ];
+
+
+    @track
+    elementTypeForExpressionBuilder = ELEMENT_TYPE.WAIT;
+
+    @track
+    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementTypeForExpressionBuilder);
+
+    @track
+    filters = [];
+
+    @track filterFields;
 
     @track
     outputParameterItem = {
@@ -20,6 +104,28 @@ export default class WaitPlatformEvent extends LightningElement {
         iconName: 'utility:events',
         dataType: FLOW_DATA_TYPE.SOBJECT.value,
     };
+
+    get eventTypeValue() {
+        return this._eventType && this._eventType.value;
+    }
+
+    /**
+     * @returns the selected condition logic for filtering
+     */
+    get filterConditionLogic() {
+        return {
+            value: this.filters.length === 0 ? CONDITION_LOGIC.NO_CONDITIONS : CONDITION_LOGIC.AND
+        };
+    }
+
+    /**
+     * get the fields of the selected entity
+     */
+    updateFilterFields(objectType) {
+        getFieldsForEntity(objectType, (fields) => {
+            this.filterFields = fields;
+        });
+    }
 
     /**
      * @returns {Object} config to pass to entity-resource-picker component
@@ -34,15 +140,27 @@ export default class WaitPlatformEvent extends LightningElement {
         );
     }
 
+    get showDelete() {
+        return this.filters.length > 1;
+    }
+
     get elementType() {
         return ELEMENT_TYPE.WAIT;
     }
 
+    // TODO: as part of current story this should be moved up to wait event?
     handleEventTypeChanged(event) {
         event.stopPropagation();
+
         const eventTypeItem = event.detail.item;
         if (isObject(eventTypeItem)) {
-            this.outputParameterItem.objectType = this.selectedEventType = eventTypeItem.objectType;
+            this.outputParameterItem.objectType = eventTypeItem.objectType;
+            this.eventType = {
+                value: eventTypeItem.objectType,
+                error: null
+            };
+        } else {
+            this.eventType = null;
         }
     }
 }

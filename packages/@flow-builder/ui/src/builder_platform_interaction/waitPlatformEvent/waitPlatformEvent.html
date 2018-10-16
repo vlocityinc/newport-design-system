@@ -3,14 +3,46 @@
         <builder_platform_interaction-entity-resource-picker
             class="slds-form-element slds-size_1-of-2"
             combobox-config={eventTypeComboboxConfig}
-            value=""
+            value={eventTypeValue}
             is-event-mode
             oncomboboxstatechanged={handleEventTypeChanged}
             onitemselected={handleEventTypeChanged}>
         </builder_platform_interaction-entity-resource-picker>    
     </div>
-    <div if:true={selectedEventType}>
+    <div if:true={eventTypeValue}>
         <h3 class="slds-p-top_small slds-text-heading_small slds-p-bottom_small">{labels.filterEventLabel}</h3>
+
+        <builder_platform_interaction-condition-list
+                parent-guid={parentGuid}
+                conditions={filters}
+                condition-logic-options={filterConditionLogicOptions}
+                condition-logic={filterConditionLogic}
+                logic-combobox-label={labels.waitFilterConditionsHeader}
+                container-element-type={elementTypeForExpressionBuilder}
+                onpropertychanged={handlePropertyChanged}>
+            <div slot="conditions">
+                <template for:each={filters} for:item="filter" for:index="filterIndex">
+                    <div class="slds-list__item slds-is-relative" key={filter.rowIndex}>
+                        <builder_platform_interaction-row show-prefix=false
+                                                          item-index={filterIndex} show-delete={showDelete}>
+                            <div slot="rowBody">
+                                <builder_platform_interaction-field-to-ferov-expression-builder
+                                        container-element={elementTypeForExpressionBuilder}
+                                        rules={rulesForExpressionBuilder}
+                                        expression={filter.expression}
+                                        object-type={eventTypeValue}
+                                        lhs-fields={filterFields}
+                                        lhs-label={labels.platformEventFilterLhsLabel}
+                                        rhs-label={labels.platformEventFilterRhsLabel}
+                                        lhs-placeholder={labels.lhsPlaceholder}>
+                                </builder_platform_interaction-field-to-ferov-expression-builder>
+                            </div>
+                        </builder_platform_interaction-row>
+                    </div>
+                </template>
+            </div>
+        </builder_platform_interaction-condition-list>
+
         <div class="slds-border_top">
             <div class="slds-grid slds-p-top_small">
                 <h3 class="slds-text-heading_small slds-section__title">
@@ -21,9 +53,9 @@
             <div>
                 <ul>
                     <builder_platform_interaction-parameter-item
-	                		item={outputParameterItem} 
-	                		element-type={elementType}>
-	                	</builder_platform_interaction-parameter-item>
+                            item={outputParameterItem}
+                            element-type={elementType}>
+                        </builder_platform_interaction-parameter-item>
                 </ul>
             </div>
         </div>

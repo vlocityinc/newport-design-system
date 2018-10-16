@@ -18,7 +18,11 @@
     </lightning-radio-group>
     
     <div if:true={isPlatformEventTypeSelected}>
-        <builder_platform_interaction-wait-platform-event></builder_platform_interaction-wait-platform-event>
+        <builder_platform_interaction-wait-platform-event
+                parent-guid={parentGuid}
+                event-type={eventType}
+                resume-time-parameters={resumeTimeParameters}>
+        ></builder_platform_interaction-wait-platform-event>
     </div>
     <div if:true={isTimeEventTypeSelected}>
         <builder_platform_interaction-wait-time-event

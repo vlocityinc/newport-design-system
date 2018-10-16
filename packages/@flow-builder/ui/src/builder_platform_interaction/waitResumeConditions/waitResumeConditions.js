@@ -24,6 +24,12 @@ export default class WaitResumeConditions extends LightningElement {
     outputParameters;
 
     /**
+     * @type {String} guid of the parent wait element
+     */
+    @api
+    parentGuid;
+
+    /**
      * The event type
      * @type {String}
      */
