@@ -72,12 +72,12 @@ describe('resourcePickerUtils', () => {
                 },
                 propertyEditorElementType: 'Assignment',
                 allowSobjectForFields: true,
-                disableFieldDrilldown: true
+                enableFieldDrilldown: false
             };
         });
         it('Should get menu data when there is no element config', () => {
             getMenuData(null, resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
-                resourcePicker.allowSobjectForFields, resourcePicker.disableFieldDrilldown, storeInstance, true);
+                resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, true);
             expect(getStoreElements).toHaveBeenCalledWith(elements, { elementType: 'Assignment' });
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, true,
@@ -86,7 +86,7 @@ describe('resourcePickerUtils', () => {
 
         it('Should get menu data when there is element config and we do not want new resource option', () => {
             getMenuData('elementConfig', resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
-                resourcePicker.allowSobjectForFields, resourcePicker.disableFieldDrilldown, storeInstance, false);
+                resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, false);
             expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, false,

@@ -430,8 +430,8 @@ describe('parameter-item', () => {
             const parameterItemCmp = createComponentForTest({
                 item
             });
-            expect(getFerovResourcePickerElement(parameterItemCmp).disableFieldDrilldown).toBeTruthy();
+            expect(getFerovResourcePickerElement(parameterItemCmp).enableFieldDrilldown).toBeFalsy();
         });
-        // TODO: for outputResourcePicker, the disableFieldDrilldown is not added - still in progress
+        // TODO: for outputResourcePicker, the enableFieldDrilldown is not added - still in progress
     });
 });

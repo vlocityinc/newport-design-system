@@ -131,11 +131,12 @@ export default class FerovResourcePicker extends LightningElement {
     elementParam;
 
     /**
-     * If set to true, hasNext will be set to false for all menu items
+     * If set to true, hasNext will be set to true for sobjectVariables,
+     * and the allowedParamTypes will be passed to the combobox to enable validating fields
      * @type {Boolean}
      */
     @api
-    disableFieldDrilldown = false;
+    enableFieldDrilldown = false;
 
     /**
      * If set to true, global constants will not show up
@@ -156,10 +157,12 @@ export default class FerovResourcePicker extends LightningElement {
     }
 
     get allowedParamTypes() {
-        if (this.disableFieldDrilldown) {
-            return null;
+        // The combobox needs these paramTypes to validate certain cases when there are multiple levels of menuData,
+        // otherwise it will rely on what's in the current menuData
+        if (this.enableFieldDrilldown) {
+            return this.paramTypes;
         }
-        return this.paramTypes;
+        return null;
     }
 
     /**
@@ -250,7 +253,7 @@ export default class FerovResourcePicker extends LightningElement {
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
                 getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, !this.hideGlobalConstants,
-                    this.disableFieldDrilldown, storeInstance, this.showNewResource, parentItem, fields));
+                    this.enableFieldDrilldown, storeInstance, this.showNewResource, parentItem, fields));
         }
     }
 }

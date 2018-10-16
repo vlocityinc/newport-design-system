@@ -15,7 +15,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     @api showNewResource;
 
-    @api disableFieldDrilldown;
+    @api enableFieldDrilldown;
     
     @api hideGlobalConstants;
 

@@ -3,7 +3,7 @@ import { getShadowRoot } from 'lwc-test-utils';
 import FerovResourcePicker from "../ferovResourcePicker";
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { normalizeRHS, getMenuData } from "builder_platform_interaction/expressionUtils";
-import { getRHSTypes, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
+import * as mockRuleLib from "builder_platform_interaction/ruleLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "../../dataTypeLib/dataTypeLib";
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -32,10 +32,16 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
+    const mockParam = {
+        paramType: 'Data',
+        dataType: 'Currency',
+        collection: false,
+    };
     return {
+        mockParam,
         RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
-        getRHSTypes: jest.fn().mockReturnValue({paramType:'Data', dataType:'Currency', collection:false}).mockName('getRHSTypes')
+        getRHSTypes: jest.fn().mockReturnValue(mockParam).mockName('getRHSTypes')
     };
 });
 
@@ -191,8 +197,8 @@ describe('ferov-resource-picker', () => {
             return Promise.resolve().then(() => {
                 const populateParamTypesFn = getMenuData.mock.calls[0][2];
                 populateParamTypesFn();
-                expect(getRHSTypes).toHaveBeenCalledWith(ELEMENT_TYPE.VARIABLE, { elementType: ELEMENT_TYPE.VARIABLE },
-                    RULE_OPERATOR.ASSIGN, mockRules);
+                expect(mockRuleLib.getRHSTypes).toHaveBeenCalledWith(ELEMENT_TYPE.VARIABLE, { elementType: ELEMENT_TYPE.VARIABLE },
+                    mockRuleLib.RULE_OPERATOR.ASSIGN, mockRules);
             });
         });
     });
@@ -210,13 +216,13 @@ describe('ferov-resource-picker', () => {
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         setupComponentUnderTest(elementConfigProps);
         return Promise.resolve().then(() => {
-            expect(getRHSTypes).not.toHaveBeenCalled();
+            expect(mockRuleLib.getRHSTypes).not.toHaveBeenCalled();
             expect(getMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
                 true, false, Store.getStore(), false, undefined, undefined);
         });
     });
 
-    it('does not send param types to the base picker when disableFieldDrilldown is true', () => {
+    it('sends param types to the base picker when enableFieldDrilldown is true', () => {
         const normalizedValue = {
             itemOrDisplayText: {
                 value: props.value,
@@ -225,15 +231,38 @@ describe('ferov-resource-picker', () => {
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         const mockRules = ['rule1'];
         props.rules = mockRules;
-        props.disableFieldDrilldown = true;
+        props.enableFieldDrilldown = true;
         const ferovPicker = setupComponentUnderTest(props);
         const basePicker = getShadowRoot(ferovPicker).querySelector(BaseResourcePicker.SELECTOR);
 
         return Promise.resolve().then(() => {
             const populateParamTypesFn = getMenuData.mock.calls[0][2];
             populateParamTypesFn();
-            expect(getRHSTypes).toHaveBeenCalled();
-            expect(getRHSTypes.mock.results[0]).toEqual(expect.any(Object));
+            return Promise.resolve().then(() => {
+                expect(mockRuleLib.getRHSTypes).toHaveBeenCalled();
+                expect(mockRuleLib.getRHSTypes.mock.results[0]).toEqual(expect.any(Object));
+                expect(basePicker.allowedParamTypes).toEqual(mockRuleLib.mockParam);
+            });
+        });
+    });
+
+    it('does not send param types to the base picker when enableFieldDrilldown is not set', () => {
+        const normalizedValue = {
+            itemOrDisplayText: {
+                value: props.value,
+            }
+        };
+        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        const mockRules = ['rule1'];
+        props.rules = mockRules;
+        const ferovPicker = setupComponentUnderTest(props);
+        const basePicker = getShadowRoot(ferovPicker).querySelector(BaseResourcePicker.SELECTOR);
+
+        return Promise.resolve().then(() => {
+            const populateParamTypesFn = getMenuData.mock.calls[0][2];
+            populateParamTypesFn();
+            expect(mockRuleLib.getRHSTypes).toHaveBeenCalled();
+            expect(mockRuleLib.getRHSTypes.mock.results[0]).toEqual(expect.any(Object));
             expect(basePicker.allowedParamTypes).toEqual(null);
         });
     });

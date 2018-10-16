@@ -186,8 +186,8 @@ export default class ParameterItem extends LightningElement {
         return getErrorFromHydratedItem(this.state.parameterItem.value);
     }
 
-    get disableFieldDrilldown() {
-        return this.getDataType() === FLOW_DATA_TYPE.SOBJECT.value;
+    get enableFieldDrilldown() {
+        return this.getDataType() !== FLOW_DATA_TYPE.SOBJECT.value;
     }
 
     getDataType() {

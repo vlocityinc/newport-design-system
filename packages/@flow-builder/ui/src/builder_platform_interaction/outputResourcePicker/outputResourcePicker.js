@@ -84,7 +84,7 @@ export default class OutputResourcePicker extends LightningElement {
      * @type {Boolean}
      */
     @api
-    disableFieldDrilldown = false;
+    enableFieldDrilldown = false;
 
     get parentItem() {
         return this.value && this.value.parent;
@@ -173,7 +173,7 @@ export default class OutputResourcePicker extends LightningElement {
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
                 getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, false,
-                        this.disableFieldDrilldown, storeInstance, showNewResource, parentItem, fields));
+                        this.enableFieldDrilldown, storeInstance, showNewResource, parentItem, fields));
         }
     }
 }

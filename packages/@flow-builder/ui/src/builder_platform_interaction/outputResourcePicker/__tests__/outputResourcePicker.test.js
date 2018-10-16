@@ -134,13 +134,13 @@ describe('output-resource-picker', () => {
         });
     });
 
-    it('passes in disableFieldDrilldown to populateMenudata', () => {
-        const disableFieldDrilldown = props.disableFieldDrilldown = true;
+    it('passes in enableFieldDrilldown to populateMenudata', () => {
+        const enableFieldDrilldown = props.enableFieldDrilldown = true;
         normalizeLHS.mockReturnValueOnce(getMockNormalizedValue(props));
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                false, disableFieldDrilldown, Store.getStore(), true, undefined, undefined);
+                false, enableFieldDrilldown, Store.getStore(), true, undefined, undefined);
         });
     });
 
