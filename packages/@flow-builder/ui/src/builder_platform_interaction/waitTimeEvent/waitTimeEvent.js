@@ -116,7 +116,6 @@ export default class WaitTimeEvent extends LightningElement {
         isRequired: false,
         label: this.labels.resumeTimeLabel,
         dataType: FLOW_DATA_TYPE.DATE_TIME.value,
-        iconName: 'utility:date_input',
     }
 
     // TODO: W-5502328 we might be able to remove this once the translation work for outputParameters is done
@@ -177,7 +176,7 @@ export default class WaitTimeEvent extends LightningElement {
         this.dispatchEvent(propChangedEvent);
     }
 
-    handleParameterChange(event, propertyName, literalDataType, isInput) {
+    handleFerovParameterChange(event, propertyName, literalDataType, isInput) {
         const ferovObject = getFerovInfoFromComboboxItem(event.detail.item, event.detail.displayText, literalDataType);
         const updateParameterItem = new UpdateParameterItemEvent(
             isInput,
@@ -190,9 +189,31 @@ export default class WaitTimeEvent extends LightningElement {
         this.dispatchEvent(updateParameterItem);
     }
 
+    handleLiteralParameterChange(event, propertyName, literalDataType, isInput) {
+        const updateParameterItem = new UpdateParameterItemEvent(
+            isInput,
+            null,
+            propertyName,
+            event.detail.value,
+            literalDataType,
+            event.detail.error
+            );
+        this.dispatchEvent(updateParameterItem);
+    }
+
     handleBaseTimeChange(event) {
         event.stopPropagation();
-        this.handleParameterChange(event, this.parameterNames.BASE_TIME, FLOW_DATA_TYPE.DATE_TIME.value, true);
+        this.handleFerovParameterChange(event, this.parameterNames.BASE_TIME, FLOW_DATA_TYPE.DATE_TIME.value, true);
+    }
+
+    handleOffsetNumberChange(event) {
+        event.stopPropagation();
+        this.handleLiteralParameterChange(event, this.parameterNames.OFFSET_NUMBER, FLOW_DATA_TYPE.NUMBER.value, true);
+    }
+
+    handleOffsetUnitChange(event) {
+        event.stopPropagation();
+        this.handleLiteralParameterChange(event, this.parameterNames.OFFSET_UNIT, FLOW_DATA_TYPE.STRING.value, true);
     }
 
     getResumeTimeParameterValue(paramName) {
