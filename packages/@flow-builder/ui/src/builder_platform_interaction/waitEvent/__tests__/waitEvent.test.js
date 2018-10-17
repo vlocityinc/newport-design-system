@@ -27,7 +27,7 @@ const waitEventWithOneConditional = {
     conditions: [
         {name: 'condition1', rowIndex: 0}
     ],
-    inputParameters: {},
+    inputParameters: [],
 };
 
 const waitEventWithInputParameters = {
@@ -36,9 +36,9 @@ const waitEventWithInputParameters = {
     guid: {value: '123'},
     conditionLogic: {value: '1'},
     eventType: 'mockEventType',
-    inputParameters: {
-        foo: {name: 'foo', value: 'bar'},
-    },
+    inputParameters: [
+        {name: 'foo', value: 'bar'}
+    ],
     outputParameters: [],
 };
 

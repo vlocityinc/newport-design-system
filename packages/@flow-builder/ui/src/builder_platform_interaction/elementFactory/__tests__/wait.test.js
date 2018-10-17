@@ -1,5 +1,6 @@
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createWaitEvent, createWaitWithWaitEvents } from '../wait';
+import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
 import { baseCanvasElement, baseChildElement, createCondition } from "../base/baseElement";
 import { ELEMENT_TYPE, CONDITION_LOGIC, CONNECTOR_TYPE} from "builder_platform_interaction/flowMetadata";
 import {baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject} from "../base/baseMetadata";
@@ -17,6 +18,15 @@ const existingWait = {
     ]
 };
 
+const existingWaitEventGuid = 'existingWaitEvent';
+const existingWaitEvent = {
+    guid: existingWaitEventGuid,
+    inputParameters: [
+        {a:1},
+        {b:2}
+    ]
+};
+
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid: jest.fn()
@@ -29,6 +39,8 @@ getElementByGuid.mockImplementation((guid) => {
         return null;
     } else if (guid === existingWaitGuid) {
         return existingWait;
+    } else if (guid === existingWaitEventGuid) {
+        return existingWaitEvent;
     }
 
     return {
@@ -57,6 +69,13 @@ baseChildElementMetadataObject.mockImplementation((element) => {
     return Object.assign({}, element);
 });
 createConditionMetadataObject.mockImplementation(element => Object.assign({}, element));
+
+jest.mock('../inputParameter', () => {
+    return {
+        createInputParameter: jest.fn().mockImplementation(element => Object.assign({}, element)).mockName('createInputParameter'),
+        createInputParameterMetadataObject: jest.fn().mockImplementation(element => Object.assign({}, element)).mockName('createInputParameterMetadataObject')
+    };
+});
 
 describe('wait', () => {
     describe('createWaitWithWaitEvents', () => {
@@ -181,6 +200,23 @@ describe('wait', () => {
             expect(createCondition).toHaveBeenCalled();
             expect(waitEvent.conditions).toHaveLength(1);
             expect(waitEvent.conditionLogic).toEqual(CONDITION_LOGIC.NO_CONDITIONS);
+        });
+
+        it('sets the input parameters with result of createParameterItem for every input parameter given', () => {
+            const mockWaitEvent =  {
+                inputParameters: [
+                    {a:1},
+                    {b:2},
+                ],
+            };
+            const waitEvent = createWaitEvent(mockWaitEvent);
+
+            expect(createInputParameter.mock.calls[0][0]).toEqual(mockWaitEvent.inputParameters[0]);
+            expect(createInputParameter.mock.calls[1][0]).toEqual(mockWaitEvent.inputParameters[1]);
+
+            expect(waitEvent.inputParameters).toHaveLength(2);
+            expect(waitEvent.inputParameters[0]).toEqual(createInputParameter.mock.results[0].value);
+            expect(waitEvent.inputParameters[1]).toEqual(createInputParameter.mock.results[1].value);
         });
     });
 
@@ -397,7 +433,7 @@ describe('wait', () => {
                 guid: existingWaitGuid,
                 waitEventReferences: [
                     {
-                        waitEventReference: 'waitEvent1'
+                        waitEventReference: existingWaitEventGuid
                     },
                     {
                         waitEventReference: 'waitEvent2'
@@ -420,7 +456,7 @@ describe('wait', () => {
                 const wait = createWaitMetadataObject(waitFromStore);
 
                 expect(wait.waitEvents).toHaveLength(3);
-                expect(wait.waitEvents[0].guid).toEqual(foundElementGuidPrefix + waitFromStore.waitEventReferences[0].waitEventReference);
+                expect(wait.waitEvents[0].guid).toEqual(existingWaitEventGuid);
                 expect(wait.waitEvents[1].guid).toEqual(foundElementGuidPrefix + waitFromStore.waitEventReferences[1].waitEventReference);
                 expect(wait.waitEvents[2].guid).toEqual(foundElementGuidPrefix + waitFromStore.waitEventReferences[2].waitEventReference);
             });
@@ -466,6 +502,17 @@ describe('wait', () => {
 
                     expect(wait.waitEvents[0].conditions).toHaveLength(0);
                 });
+            });
+
+            it('sets the input parameters with result of createParameterItemMetadataObject for every input parameter given', () => {
+                const wait = createWaitMetadataObject(waitFromStore);
+
+                expect(createInputParameterMetadataObject.mock.calls[0][0]).toEqual(wait.waitEvents[0].inputParameters[0]);
+                expect(createInputParameterMetadataObject.mock.calls[1][0]).toEqual(wait.waitEvents[0].inputParameters[1]);
+
+                expect(wait.waitEvents[0].inputParameters).toHaveLength(2);
+                expect(wait.waitEvents[0].inputParameters[0]).toEqual(createInputParameterMetadataObject.mock.results[0].value);
+                expect(wait.waitEvents[0].inputParameters[1]).toEqual(createInputParameterMetadataObject.mock.results[1].value);
             });
         });
 

@@ -42,14 +42,14 @@ describe('wait-platform-event', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 parentGuid: 'guid',
                 eventType: someEventType,
-                resumeTimeParameters: {
-                    a: {
+                resumeTimeParameters: [
+                    {
                         name: 'a',
                         value: 'v',
                         valueDataType: 'vdt',
                         rowIndex: 'ri'
                     }
-                }
+                ]
             });
 
             const filterFields = [1, 2, 3];
@@ -71,14 +71,14 @@ describe('wait-platform-event', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 parentGuid: 'guid',
                 eventType: {value: 'foo'},
-                resumeTimeParameters: {
-                    a: {
+                resumeTimeParameters: [
+                    {
                         name: 'a',
                         value: 'v',
                         valueDataType: 'vdt',
                         rowIndex: 'ri'
                     }
-                }
+                ]
             });
 
             const conditionList = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.CONDITION_LIST);
@@ -94,20 +94,20 @@ describe('wait-platform-event', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 parentGuid: 'guid',
                 eventType: {value: 'foo'},
-                resumeTimeParameters: {
-                    a: {
+                resumeTimeParameters: [
+                    {
                         name: 'a',
                         value: 'v',
                         valueDataType: 'vdt',
                         rowIndex: 'ri'
                     },
-                    b: {
+                    {
                         name: 'b',
                         value: 'vb',
                         valueDataType: 'vdt2',
                         rowIndex: 'ri2'
                     }
-                }
+                ]
             });
 
             const rows = getShadowRoot(waitPlatformEventElement).querySelectorAll(SELECTORS.ROW);
@@ -119,14 +119,14 @@ describe('wait-platform-event', () => {
                 const waitPlatformEventElement = setupComponentUnderTest({
                     parentGuid: 'guid',
                     eventType: {value: 'foo'},
-                    resumeTimeParameters: {
-                        a: {
+                    resumeTimeParameters: [
+                        {
                             name: 'a',
                             value: 'v',
                             valueDataType: 'vdt',
                             rowIndex: 'ri'
                         }
-                    }
+                    ]
                 });
 
                 const row = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.ROW);
@@ -138,20 +138,20 @@ describe('wait-platform-event', () => {
                 const waitPlatformEventElement = setupComponentUnderTest({
                     parentGuid: 'guid',
                     eventType: {value: 'foo'},
-                    resumeTimeParameters: {
-                        a: {
+                    resumeTimeParameters: [
+                        {
                             name: 'a',
                             value: 'v',
                             valueDataType: 'vdt',
                             rowIndex: 'ri'
                         },
-                        b: {
+                        {
                             name: 'b',
-                            value: 'v2',
+                            value: 'vb',
                             valueDataType: 'vdt2',
                             rowIndex: 'ri2'
                         }
-                    }
+                    ]
                 });
 
                 const row = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.ROW);
@@ -172,7 +172,7 @@ describe('wait-platform-event', () => {
                 const waitPlatformEventElement = setupComponentUnderTest({
                     parentGuid: 'guid',
                     eventType: {value: 'foo'},
-                    resumeTimeParameters: {a: resumeTimeParameter}
+                    resumeTimeParameters: [resumeTimeParameter]
                 });
 
                 const filterExpressionBuilder = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.FILTER_EXPRESSION_BUILDER);
@@ -200,7 +200,7 @@ describe('wait-platform-event', () => {
         it('is hidden if platform event is not selected', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 parentGuid: 'guid',
-                resumeTimeParameters: {}
+                resumeTimeParameters: []
             });
 
             const parameterItem = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.PARAMETER_ITEM);

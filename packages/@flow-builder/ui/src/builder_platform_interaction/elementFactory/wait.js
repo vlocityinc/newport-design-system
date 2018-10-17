@@ -14,7 +14,6 @@ import { createInputParameter, createInputParameterMetadataObject } from './inpu
 import { createConnectorObjects } from './connector';
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject} from "./base/baseMetadata";
-import { isObject } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from "./elementFactoryLabels";
 
 const elementType = ELEMENT_TYPE.WAIT;
@@ -30,32 +29,6 @@ const getDefaultAvailableConnections = () => [
     }
 ];
 const MAX_CONNECTIONS_DEFAULT = 2;
-
-/**
- * Turns an array of paramters into an object where each property contains one index of the array
- * This also creates inputParamter for each param
- * @param {Object[]} parameters list of parameters
- * @returns {Object} object where the key is the param name and the value is the parameter
- */
-const inputParameterArrayToMap = (parameters) => {
-    const arrayToMap = (acc, param) => {
-        acc[param.name] = createInputParameter(param);
-        return acc;
-    };
-    return parameters.reduce(arrayToMap, {});
-};
-
-/**
- * Turns an object of parameters into an array of metadata input parameters
- * @param {Object} parameters object of parameters
- * @retursn {Object[]} list of metadata parameters
- */
-const inputParameterMapToArray = (parameters) => {
-    const mapToArray = (paramName) => {
-        return createInputParameterMetadataObject(parameters[paramName]);
-    };
-    return Object.keys(parameters).map(mapToArray);
-};
 
 /**
  * @typedef waitEvent
@@ -127,7 +100,7 @@ export function createWaitEvent(waitEvent = {}) {
     let {
         conditions = [],
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
-        inputParameters = {},
+        inputParameters = [],
     } = waitEvent;
 
     if (conditions.length > 0 && conditionLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
@@ -138,9 +111,10 @@ export function createWaitEvent(waitEvent = {}) {
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
 
-    if (Array.isArray(inputParameters)) {
-        inputParameters = inputParameterArrayToMap(inputParameters);
-    }
+    inputParameters = inputParameters.map((inputParameter) => {
+        return createInputParameter(inputParameter);
+    });
+
     return Object.assign(newWaitEvent, {
         conditions,
         conditionLogic,
@@ -168,7 +142,7 @@ export function createWaitMetadataObject(wait, config = {}) {
             const metadataWaitEvent = baseChildElementMetadataObject(waitEvent, config);
             const { eventType } = waitEvent;
             let {
-                inputParameters,
+                inputParameters = [],
                 conditions = [],
                 conditionLogic
             } = waitEvent;
@@ -180,9 +154,10 @@ export function createWaitMetadataObject(wait, config = {}) {
                 conditions = conditions.map(condition => createConditionMetadataObject(condition));
             }
 
-            if (isObject(inputParameters)) {
-                inputParameters = inputParameterMapToArray(inputParameters);
-            }
+            inputParameters = inputParameters.map((inputParameter) => {
+                return createInputParameterMetadataObject(inputParameter);
+            });
+
             return Object.assign({}, metadataWaitEvent, {
                 conditions,
                 conditionLogic,

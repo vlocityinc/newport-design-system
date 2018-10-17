@@ -10,7 +10,7 @@ import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 export default class WaitPlatformEvent extends LightningElement {
     labels = LABELS;
 
-    filterParameters = new Map();
+    filterParameters = [];
 
     /**
      * @type {String} guid of the parent wait element
@@ -36,18 +36,16 @@ export default class WaitPlatformEvent extends LightningElement {
     }
 
     /**
-     * Object of input parameters used to define the resume time
+     * Object of input filter parameters
      * @type {Map}
      */
-    set resumeTimeParameters(inputParametersMap) {
-        if (inputParametersMap) {
-            this.filterParameters = inputParametersMap;
-
-            const inputParameters = Object.values(inputParametersMap);
+    set resumeTimeParameters(parameterItems) {
+        if (parameterItems) {
+            this.filterParameters = parameterItems;
 
             this.filters = [];
-            for (let i = 0; i < inputParameters.length; i++) {
-                const inputParameter = inputParameters[i];
+            for (let i = 0; i < parameterItems.length; i++) {
+                const inputParameter = parameterItems[i];
                 const filter = {
                     expression: {
                         leftHandSide: {

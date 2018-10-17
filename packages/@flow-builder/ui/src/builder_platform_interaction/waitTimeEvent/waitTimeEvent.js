@@ -14,13 +14,34 @@ import { LABELS } from "./waitTimeEventLabels";
 // rules used by the input pickers in the waitTimeEvent
 const timeEventRules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.WAIT);
 
+/**
+ * Turns an array of paramters into an object where each property contains one index of the array
+ * This also creates inputParamter for each param
+ * @param {Object[]} parameters list of parameters
+ * @returns {Object} object where the key is the param name and the value is the parameter
+ */
+const inputParameterArrayToMap = (parameters = []) => {
+    const parametersMap = new Map();
+
+    parameters.forEach((param) => {
+        parametersMap.set(param.name, param);
+    });
+
+    return parametersMap;
+};
+
+const PARAMETER_NAMES = {
+    BASE_TIME: 'AlarmTime',
+    EVENT_DELIVERY_STATUS: 'Status',
+    OFFSET_NUMBER: 'TimeOffset',
+    OFFSET_UNIT: 'TimeOffsetUnit',
+};
+
 export default class WaitTimeEvent extends LightningElement {
-    parameterNames = {
-        BASE_TIME: 'AlarmTime',
-        EVENT_DELIVERY_STATUS: 'Status',
-        OFFSET_NUMBER: 'TimeOffset',
-        OFFSET_UNIT: 'TimeOffsetUnit',
-    };
+    @track
+    resumeTimeParametersMap = new Map();
+    @track
+    resumeTimeParametersArray = [];
 
     @track
     _eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
@@ -49,10 +70,23 @@ export default class WaitTimeEvent extends LightningElement {
 
     /**
      * Object of input parameters used to define the resume time
-     * @type {WaitEventParameter}
+     * @type {ParameterItem[]}
+     */
+    set resumeTimeParameters(resumeTimeParameters) {
+        this.resumeTimeParametersArray = resumeTimeParameters;
+        if (resumeTimeParameters) {
+            this.resumeTimeParametersMap = inputParameterArrayToMap(resumeTimeParameters);
+        }
+    }
+
+    /**
+     * Array of parameter items used to define the resume time input
+     * @type {ParameterItem[]}
      */
     @api
-    resumeTimeParameters = {};
+    get resumeTimeParameters() {
+        return this.resumeTimeParametersArray;
+    }
 
     /**
      * Object of output parameters
@@ -63,12 +97,12 @@ export default class WaitTimeEvent extends LightningElement {
         // TODO: W-5502328 the translation work for outputParameters is not done yet.
         // If the shape of the output params is different this setter needs to change
         this._outputParameters = outputParameters;
-        const alarmTime = outputParameters.find(param => param.name === this.parameterNames.BASE_TIME);
+        const alarmTime = outputParameters.find(param => param.name === PARAMETER_NAMES.BASE_TIME);
         this.outputResumeTime = Object.assign({},
             alarmTime,
             this.outputResumeTimeDefinition
         );
-        const status = outputParameters.find(param => param.name === this.parameterNames.EVENT_DELIVERY_STATUS);
+        const status = outputParameters.find(param => param.name === PARAMETER_NAMES.EVENT_DELIVERY_STATUS);
         this.outputEventDeliveryStatus = Object.assign({},
             status,
             this.outputEventDeliveryStatusDefinition
@@ -95,8 +129,6 @@ export default class WaitTimeEvent extends LightningElement {
 
     labels = LABELS;
 
-    _eventType;
-
     _outputParameters;
 
     dateTimeElementParam = {
@@ -116,7 +148,8 @@ export default class WaitTimeEvent extends LightningElement {
         isRequired: false,
         label: this.labels.resumeTimeLabel,
         dataType: FLOW_DATA_TYPE.DATE_TIME.value,
-    }
+        iconName: 'utility:date_input',
+    };
 
     // TODO: W-5502328 we might be able to remove this once the translation work for outputParameters is done
     outputEventDeliveryStatusDefinition = {
@@ -126,7 +159,7 @@ export default class WaitTimeEvent extends LightningElement {
         label: this.labels.eventDeliveryStatusLabel,
         dataType: FLOW_DATA_TYPE.STRING.value,
         iconName: 'utility:type_tool',
-    }
+    };
 
     get timeEventParameterRules() {
         return timeEventRules;
@@ -143,11 +176,11 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     get baseTime() {
-        return this.getResumeTimeParameterValue(this.parameterNames.BASE_TIME);
+        return this.getResumeTimeParameterValue(PARAMETER_NAMES.BASE_TIME);
     }
 
     get baseTimeErrorMessage() {
-        return this.resumeTimeParameters.AlarmTime && getErrorFromHydratedItem(this.resumeTimeParameters.AlarmTime.value);
+        return this.baseTime && getErrorFromHydratedItem(this.baseTime.value);
     }
 
     get baseTimeComoboboxConfig() {
@@ -163,11 +196,11 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     get offsetNumber() {
-        return this.getResumeTimeParameterValue(this.parameterNames.OFFSET_NUMBER);
+        return this.getResumeTimeParameterValue(PARAMETER_NAMES.OFFSET_NUMBER);
     }
 
     get offsetUnit() {
-        return this.getResumeTimeParameterValue(this.parameterNames.OFFSET_UNIT);
+        return this.getResumeTimeParameterValue(PARAMETER_NAMES.OFFSET_UNIT);
     }
 
     handleEventTypeChange(event) {
@@ -203,21 +236,21 @@ export default class WaitTimeEvent extends LightningElement {
 
     handleBaseTimeChange(event) {
         event.stopPropagation();
-        this.handleFerovParameterChange(event, this.parameterNames.BASE_TIME, FLOW_DATA_TYPE.DATE_TIME.value, true);
+        this.handleFerovParameterChange(event, PARAMETER_NAMES.BASE_TIME, FLOW_DATA_TYPE.DATE_TIME.value, true);
     }
 
     handleOffsetNumberChange(event) {
         event.stopPropagation();
-        this.handleLiteralParameterChange(event, this.parameterNames.OFFSET_NUMBER, FLOW_DATA_TYPE.NUMBER.value, true);
+        this.handleLiteralParameterChange(event, PARAMETER_NAMES.OFFSET_NUMBER, FLOW_DATA_TYPE.NUMBER.value, true);
     }
 
     handleOffsetUnitChange(event) {
         event.stopPropagation();
-        this.handleLiteralParameterChange(event, this.parameterNames.OFFSET_UNIT, FLOW_DATA_TYPE.STRING.value, true);
+        this.handleLiteralParameterChange(event, PARAMETER_NAMES.OFFSET_UNIT, FLOW_DATA_TYPE.STRING.value, true);
     }
 
     getResumeTimeParameterValue(paramName) {
-        const param = this.resumeTimeParameters[paramName];
+        const param = this.resumeTimeParametersMap.get(paramName);
         return param && getValueFromHydratedItem(param.value);
     }
 }

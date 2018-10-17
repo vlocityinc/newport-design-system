@@ -53,7 +53,7 @@ describe('waitTimeEvent', () => {
         expect(getRulesForElementTypeParameters).toEqual([RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.WAIT]);
     });
 
-    describe('resume time paramters', () => {
+    describe('resume time parameters', () => {
         let waitTimeEvent;
         let props;
 
@@ -61,10 +61,10 @@ describe('waitTimeEvent', () => {
         const updateParameterSpy = jest.fn().mockName('updateParameterEventSpy');
 
         beforeEach(() => {
-            const mockResumeTimeParamters = {foo:{ name: 'foo' }};
+            const mockResumeTimeParameters = [{ name: 'foo' }];
             const mockEventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
             props = {
-                resumeTimeParameters: mockResumeTimeParamters,
+                resumeTimeParameters: mockResumeTimeParameters,
                 eventType: mockEventType,
             };
             waitTimeEvent = createComponentUnderTest(props);

@@ -132,11 +132,11 @@ describe('waitResumeConditions', () => {
         let waitResumeConditions;
         let props;
         beforeEach(() => {
-            const mockResumeTimeParamters = { foo: { name: 'foo' } };
+            const mockResumeTimeParameters = [{ name: 'foo' }];
             const mockOutputParameters = [{name: 'bar' }];
             const mockEventType = WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME;
             props = {
-                resumeTimeParameters: mockResumeTimeParamters,
+                resumeTimeParameters: mockResumeTimeParameters,
                 outputParameters: mockOutputParameters,
                 eventType: mockEventType,
             };
