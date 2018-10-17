@@ -35,8 +35,8 @@ export default class ValidationEditor extends LightningElement {
 
         // TODO fire only if it really changed
         this.dispatchEvent(new ValidationRuleChangedEvent({
-            formulaExpression: {value: formulaDisplayedValue.value, error: formulaError},
-            errorMessage: {value: errorDisplayedValue.value, error: errorError}
+            formulaExpression: {value: formulaDisplayedValue.value, error: formulaDisplayedValue.error || formulaError},
+            errorMessage: {value: errorDisplayedValue.value, error: errorDisplayedValue.error || errorError}
         }));
     }
 }
