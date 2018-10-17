@@ -8,7 +8,7 @@ import { addCurrentValueToEvent } from "builder_platform_interaction/screenEdito
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 
-const ALL_SECTION_NAMES = ['choice', 'helpText'];
+const ALL_SECTION_NAMES = ['choicesSection', 'helpText'];
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
 
 /*
