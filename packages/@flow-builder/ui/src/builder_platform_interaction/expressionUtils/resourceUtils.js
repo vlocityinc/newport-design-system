@@ -156,25 +156,26 @@ export const normalizeLHS = (lhsIdentifier, elementType, callback) => {
     const lhs = {};
     const complexGuid = sanitizeGuid(lhsIdentifier);
     const flowElement = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
-    if (!flowElement) {
+    if (flowElement) {
+        if (complexGuid.fieldName) {
+            // TODO: W-4960448: the field will appear empty briefly when fetching the first time
+            const sobject = flowElement.objectType;
+            lhs.parameter = getFieldParamRepresentation(sobject, complexGuid.fieldName, (field) => {
+                const isFieldOnSobjectVar = !!flowElement;
+                const fieldParent = isFieldOnSobjectVar ? mutateFlowResourceToComboboxShape(flowElement) : {value: field.sobjectName};
+                lhs.item = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
+                if (callback) {
+                    callback(lhsIdentifier);
+                }
+                lhs.activePicklistValues = field.activePicklistValues;
+            });
+        } else {
+            lhs.item = mutateFlowResourceToComboboxShape(flowElement);
+            lhs.parameter = elementToParam(flowElement);
+        }
+    } else {
         // Pass in lhsIdentifier as string in the default case
         lhs.item = lhsIdentifier;
-    }
-    if (complexGuid.fieldName) {
-        // TODO: W-4960448: the field will appear empty briefly when fetching the first time
-        const sobject = (flowElement) ? flowElement.objectType : complexGuid.guidOrLiteral;
-        lhs.parameter = getFieldParamRepresentation(sobject, complexGuid.fieldName, (field) => {
-            const isFieldOnSobjectVar = !!flowElement;
-            const fieldParent = isFieldOnSobjectVar ? mutateFlowResourceToComboboxShape(flowElement) : {value: field.sobjectName};
-            lhs.item = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
-            if (callback) {
-                callback(lhsIdentifier);
-            }
-            lhs.activePicklistValues = field.activePicklistValues;
-        });
-    } else if (flowElement) {
-        lhs.item = mutateFlowResourceToComboboxShape(flowElement);
-        lhs.parameter = elementToParam(flowElement);
     }
     return lhs;
 };
