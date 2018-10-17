@@ -25,7 +25,7 @@ export function createScreenWithFields(screen = {}) {
     if (fieldReferences && fieldReferences.length > 0) { // screen with field references
         // Decouple field from store.
         fields = fieldReferences.map(fieldReference =>
-            createScreenField(getElementByGuid(fieldReference.fieldReferences))
+            createScreenField(getElementByGuid(fieldReference.fieldReference))
         );
     }
 
@@ -138,7 +138,7 @@ export function createScreenMetadataObject(screen, config = {}) {
     const { fieldReferences } = screen;
     if (fieldReferences && fieldReferences.length > 0) {
         fields = fieldReferences.map(fieldReference => {
-            return createScreenFieldMetadataObject(getElementByGuid(fieldReference.fieldReferences));
+            return createScreenFieldMetadataObject(getElementByGuid(fieldReference.fieldReference));
         });
     }
 
@@ -213,7 +213,7 @@ function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
     const screenFromStore = getElementByGuid(guid);
     let screenFieldReferencesFromStore;
     if (screenFromStore) {
-        screenFieldReferencesFromStore = screenFromStore.fieldReferences.map((fieldReference) => fieldReference.fieldReferences);
+        screenFieldReferencesFromStore = screenFromStore.fieldReferences.map((fieldReference) => fieldReference.fieldReference);
     }
     if (screenFieldReferencesFromStore) {
         const newfieldGuids = newFields.map((newField) => newField.guid);
@@ -229,6 +229,6 @@ function updateScreenFieldReferences(fieldReferences = [], field) {
         throw new Error('Either field or field.guid is not defined');
     }
     return [...fieldReferences, {
-        fieldReferences: field.guid
+        fieldReference: field.guid
     }];
 }

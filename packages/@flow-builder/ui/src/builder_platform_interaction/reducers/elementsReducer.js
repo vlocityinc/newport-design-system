@@ -309,7 +309,7 @@ function _getSubElementGuids(node) {
         }
     } else if (node.elementType === ELEMENT_TYPE.SCREEN) {
         for (let i = 0; i < node.fieldReferences.length; i++) {
-            subElementsGuids.push(node.fieldReferences[i].fieldReferences);
+            subElementsGuids.push(node.fieldReferences[i].fieldReference);
         }
     }
 
@@ -501,7 +501,7 @@ function _addOrUpdateScreenWithScreenFields(state, screen, deletedFields, fields
         for (let i = 0; i < fields.length; i++) {
             let screenFieldCurrentlyExists = false;
             for (let j = 0; j < currentScreenFields.length; j++) {
-                if (fields[i].guid === currentScreenFields[j].fieldReference) {
+                if (fields[i].guid === currentScreenFields[j].fieldReferences) {
                     screenFieldCurrentlyExists = true;
                     break;
                 }
