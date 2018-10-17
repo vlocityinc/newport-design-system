@@ -330,8 +330,7 @@ export default class Canvas extends LightningElement {
      */
     handleCanvasMouseUp = (event) => {
         event.preventDefault();
-        const path = event.composedPath();
-        if (Array.isArray(path) && (path.length > 0) && (path[0].id === 'canvas' || path[0].id === 'innerCanvas')) {
+        if (event.target && (event.target.id === 'canvas' || event.target.id === 'innerCanvas')) {
             const canvasMouseUpEvent = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
                 composed: true,
@@ -415,8 +414,8 @@ export default class Canvas extends LightningElement {
 
     renderedCallback() {
         if (!lib.getContainer()) {
-            this.canvasArea = this.template.querySelector('#canvas');
-            this.innerCanvasArea = this.template.querySelector('#innerCanvas');
+            this.canvasArea = this.template.querySelector('.canvas');
+            this.innerCanvasArea = this.template.querySelector('.inner-canvas');
             lib.setContainer('innerCanvas');
         }
         const canvasElements = this.template.querySelectorAll('builder_platform_interaction-node');
