@@ -95,6 +95,10 @@ export default class ChoiceEditor extends LightningElement {
         return storedValue;
     }
 
+    get showNewResourceButton() {
+        return !this.isNewMode;
+    }
+
     get storedValueComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             LABELS.choiceValueLabel, // label

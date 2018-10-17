@@ -3,7 +3,7 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { baseElementsArrayToMap } from "./base/baseElement";
 import { createOutputAssignment, createOutputAssignmentMetadataObject } from "./base/outputAssignments";
 import { createFilterMetadataObject, createFilter } from "./base/baseRecordElement";
-
+import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 /**
  * Record choice set factory function
  * @param {Object} element - record choice set element
@@ -15,15 +15,25 @@ export const createRecordChoiceSet = (element = {}) => {
         object = null,
         sortField = '',
         outputAssignments = [],
-        filters = []
     } = element;
     const translatedOutputAssignments = outputAssignments.map(outputAssignment => createOutputAssignment(outputAssignment, object));
-    const translatedFilters = filters.map((filter) => createFilter(filter, object));
+    let { filters } = element;
+    if (filters && filters.length > 0) {
+        filters = filters.map(filter => createFilter(filter, object));
+    } else {
+        const newFilter = createFilter();
+        filters = [newFilter];
+    }
+    const filterType = filters[0].leftHandSide
+        ? RECORD_FILTER_CRITERIA.ALL
+        : RECORD_FILTER_CRITERIA.NONE;
+
     Object.assign(recordChoiceSetElement, {
         elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
         object,
         sortField,
-        filters: translatedFilters,
+        filterType,
+        filters,
         outputAssignments: translatedOutputAssignments,
     });
 
@@ -54,15 +64,20 @@ export const createRecordChoiceSetMetadataObject = (element) => {
         object,
         sortField,
         outputAssignments,
-        filters
+        filterType
     } = element;
-    const filtersMetadataObject = filters.map((filter) => createFilterMetadataObject(filter));
+    let { filters } = element;
+    if (filterType === RECORD_FILTER_CRITERIA.NONE) {
+        filters = [];
+    } else {
+        filters = filters.map(filter => createFilterMetadataObject(filter));
+    }
     const outputAssignmentsMetadataObject = outputAssignments.map(outputAssignment => createOutputAssignmentMetadataObject(outputAssignment));
     const recordChoiceSetMetadataObject = Object.assign(baseDynamicChoiceMetadataObject, {
         object,
         sortField,
         outputAssignments: outputAssignmentsMetadataObject,
-        filters: filtersMetadataObject
+        filters
     });
 
     return recordChoiceSetMetadataObject;

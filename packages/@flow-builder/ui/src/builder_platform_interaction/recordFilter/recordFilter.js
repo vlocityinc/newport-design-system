@@ -26,6 +26,9 @@ export default class RecordFilter extends LightningElement {
     @api
     elementType;
 
+    @api
+    hideNewResource = false;
+
     get rules() {
         return this.elementType ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType) : undefined;
     }

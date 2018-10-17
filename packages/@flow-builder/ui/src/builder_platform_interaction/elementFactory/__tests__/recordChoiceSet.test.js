@@ -5,6 +5,7 @@ import {
 } from '../recordChoiceSet';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from '../base/baseElement';
+import { createFilter } from '../base/baseRecordElement';
 
 jest.mock('../base/dynamicChoiceSet', () => {
     return {
@@ -23,12 +24,19 @@ jest.mock('../base/baseElement', () => {
         }).mockName('baseElementsArrayToMap')
     };
 });
+jest.mock('builder_platform_interaction/storeLib', () => {
+    return {
+        generateGuid: jest.fn().mockImplementation(() => {
+            return 'MOCK_GUID';
+        })
+    };
+});
 const mockDefaultValuesForRecordChoiceSet = {
     elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
     object: null,
     sortField: '',
     outputAssignments: [],
-    filters: []
+    filters: [createFilter()]
 };
 const paramElementForRecordChoiceSet = {
     object: 'mockObject',
@@ -41,7 +49,7 @@ const mockRecordChoiceSetResult = {
     object: 'mockObject',
     sortField: 'mockField',
     outputAssignments: [],
-    filters: []
+    filters: [createFilter()]
 };
 describe('createRecordChoiceSet', () => {
     it('with empty param produces default value object', () => {
@@ -78,6 +86,6 @@ describe('createRecordChoiceForStore', () => {
     });
     it('calls the baseElementsArrayToMap function with the right param', () => {
         createRecordChoiceSetForStore(mockRecordChoiceSetResult);
-        expect(baseElementsArrayToMap.mock.calls[0][0]).toEqual([mockRecordChoiceSetResult]);
+        expect(baseElementsArrayToMap.mock.calls[0][0]).toMatchObject([mockRecordChoiceSetResult]);
     });
 });

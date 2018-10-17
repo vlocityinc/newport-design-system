@@ -1,10 +1,9 @@
-import { baseResource } from "./baseElement";
-import { baseResourceMetadataObject } from "./baseMetadata";
-import { createPicklistChoiceSetForStore } from "../picklistChoiceSet";
-import { createRecordChoiceSetForStore } from "../recordChoiceSet";
+import { baseResource } from './baseElement';
+import { baseResourceMetadataObject } from './baseMetadata';
+import { createPicklistChoiceSetForStore } from '../picklistChoiceSet';
+import { createRecordChoiceSetForStore } from '../recordChoiceSet';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-
-export const DEFAULT_SORT_VALUE = 'Default';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 
 /**
  * Base dynamic choice element factory
@@ -17,12 +16,14 @@ export const createDynamicChoiceSet = (element = {}) => {
         displayField,
         valueField,
         dataType,
-        sortOrder = DEFAULT_SORT_VALUE
+        sortOrder = SORT_ORDER.NOT_SORTED
     } = element;
     // We need to set the limit as undefined if it comes out to be zero. valid range for limit is >0 and <200
     let { limit } = element;
-    if (limit === 0) {
-        limit = undefined;
+    if (limit === 0 || limit === undefined) {
+        limit = '';
+    } else if (typeof limit === 'number') {
+        limit = limit.toString();
     }
     return Object.assign(newDynamicChoiceSet, {
         limit,
@@ -44,13 +45,15 @@ export const createDynamicChoiceSetMetadataObject = (element) => {
     }
     const newDynamicChoiceSet = baseResourceMetadataObject(element);
     const {
-        limit,
         displayField,
         valueField,
         dataType,
     } = element;
-    let { sortOrder } = element;
-    if (sortOrder === DEFAULT_SORT_VALUE) {
+    let { sortOrder, limit } = element;
+    if (limit === '') {
+        limit = undefined;
+    }
+    if (sortOrder === SORT_ORDER.NOT_SORTED) {
         sortOrder = undefined;
     }
     Object.assign(newDynamicChoiceSet, {

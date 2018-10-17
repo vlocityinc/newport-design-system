@@ -1,8 +1,8 @@
 import {
     createDynamicChoiceSet,
-    DEFAULT_SORT_VALUE,
     createDynamicChoiceSetMetadataObject
 } from '../../base/dynamicChoiceSet';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 jest.mock('../../base/baseElement', () => {
     return {
         baseResource: jest.fn(() => {
@@ -15,11 +15,11 @@ jest.mock('../../base/baseElement', () => {
 });
 
 const mockDynamicChoiceSetObjectForNoParam = {
-    limit: undefined,
+    limit: '',
     displayField: undefined,
     valueField: undefined,
     dataType: undefined,
-    sortOrder: DEFAULT_SORT_VALUE
+    sortOrder: SORT_ORDER.NOT_SORTED
 };
 const mockParamForDynamicChoiceSet = {
     limit: 0,
@@ -29,11 +29,11 @@ const mockParamForDynamicChoiceSet = {
     sortOrder: undefined
 };
 const mockDynamicChoiceSetResult = {
-    limit: undefined,
+    limit: '',
     displayField: 'mockDisplayField',
     valueField: 'mockValueField',
     dataType: 'mockDataType',
-    sortOrder: DEFAULT_SORT_VALUE
+    sortOrder: SORT_ORDER.NOT_SORTED
 };
 const mockDyanmicChoiceMetadataObjectResult = {
     limit: undefined,

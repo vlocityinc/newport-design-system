@@ -53,4 +53,5 @@ export const NO_CRITERIA_LABELS = {
     [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.filterNoCriteriaGet,
     [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.filterNoCriteriaUpdate,
     [ELEMENT_TYPE.RECORD_DELETE]: LABELS.filterNoCriteriaDelete,
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.filterNoCriteriaGet
 };

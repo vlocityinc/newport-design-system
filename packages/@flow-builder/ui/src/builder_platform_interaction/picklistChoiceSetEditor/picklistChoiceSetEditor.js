@@ -4,21 +4,21 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { picklistChoiceSetReducer } from './picklistChoiceSetReducer';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { DEFAULT_SORT_VALUE } from 'builder_platform_interaction/elementFactory';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './picklistChoiceSetEditorLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 
 const SORT_ORDER_OPTIONS = [{
     label : LABELS.ascendingSortOrder,
-    value : 'Asc'
+    value : SORT_ORDER.ASC
 }, {
     label : LABELS.descendingSortOrder,
-    value : 'Desc'
+    value : SORT_ORDER.DESC
 }, {
     label : LABELS.defaultSortOrder,
-    value : DEFAULT_SORT_VALUE
+    value : SORT_ORDER.NOT_SORTED
 }];
 
 const PICKLIST_CHOICE_SET_FIELDS = {

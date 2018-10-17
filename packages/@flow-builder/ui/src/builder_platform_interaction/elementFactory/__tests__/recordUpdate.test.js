@@ -51,7 +51,7 @@ const mutatedFilterWithField = {
     leftHandSide: 'myObject.title',
     operator: '',
     rightHandSide: '',
-    rightHandSideDataType: 'string',
+    rightHandSideDataType: '',
 };
 
 const mutatedFilterWithValueFieldAndOperator = {
@@ -84,7 +84,7 @@ const mutatedInputAssignmentFieldValue = {
 const mutatedInputAssignmentField = {
     leftHandSide: 'myObject.title',
     rightHandSide: '',
-    rightHandSideDataType: 'string',
+    rightHandSideDataType: '',
 };
 
 const mutatedInputAssignmentFieldBooleanValue = {

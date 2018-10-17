@@ -3,6 +3,7 @@ export * from './apexPlugin';
 export * from './assignment';
 export { createCondition } from './base/baseElement';
 export * from './base/dynamicChoiceSet';
+export { createFilter } from './base/baseRecordElement';
 export * from './constant';
 export * from './decision';
 export * from './flowProperties';

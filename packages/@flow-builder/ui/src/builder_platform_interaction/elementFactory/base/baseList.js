@@ -22,7 +22,7 @@ export function createListRowItem(listRowItem = {}) {
  * @returns {Object} new list row item object
  */
 export function createExpressionListRowItemWithoutOperator(listRowItem = {}) {
-    const { leftHandSide = '', rightHandSide = '', rightHandSideDataType = 'string', rowIndex = generateGuid() } = listRowItem;
+    const { leftHandSide = '', rightHandSide = '', rightHandSideDataType = '', rowIndex = generateGuid() } = listRowItem;
 
     return {
         rowIndex,

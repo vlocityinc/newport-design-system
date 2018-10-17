@@ -1,0 +1,58 @@
+<template>
+    <div if:true={recordChoiceSetResource}>
+        <div class="slds-form slds-form_compound slds-p-around_small">
+            <!-- Name Label Desc Component -->
+            <builder_platform_interaction-label-description
+                    hide-label
+                    dev-name={recordChoiceSetResource.name}
+                    description={recordChoiceSetResource.description}
+                    guid={recordChoiceSetResource.guid}
+                    onpropertychanged={handlePropertyChanged}>
+            </builder_platform_interaction-label-description>
+            <!-- Entity Resource Picker -->
+            <div class="slds-form-element__row">
+                <builder_platform_interaction-entity-resource-picker
+                        class="slds-form-element slds-size_1-of-2"
+                        combobox-config={entityComboboxConfig}
+                        value={recordChoiceSetResource.object.value}
+                        oncomboboxstatechanged={handleObjectTypeChange}
+                        onitemselected={handleObjectTypeSelect}>
+                </builder_platform_interaction-entity-resource-picker>
+            </div>
+        </div>
+
+        <div if:true={showSecondSection}>
+            <!--Record Filter component  -->
+            <builder_platform_interaction-record-filter 
+                element-type={recordChoiceSetResource.elementType}
+                filter-items={recordChoiceSetResource.filters}
+                record-entity-name={recordChoiceSetResource.object.value}
+                resource-display-text={resourceDisplayText}
+                record-fields={entityFields}
+                filter-type={recordChoiceSetResource.filterType.value}
+                hide-new-resource={hideNewResourceButton}
+                onrecordfiltertypechanged={handleFilterTypeChanged}
+                onaddrecordfilter={handleListItemChanged}
+                onupdaterecordfilter={handleListItemChanged}
+                ondeleterecordfilter={handleListItemChanged}>
+            </builder_platform_interaction-record-filter>
+
+            <builder_platform_interaction-record-sort
+                resource-api-name={recordChoiceSetResource.object.value}
+                resource-display-text={resourceDisplayText}
+                selected-field={recordChoiceSetResource.sortField.value}
+                sort-order={recordChoiceSetResource.sortOrder.value}
+                sort-field-error={recordChoiceSetResource.sortField.error}
+                onchange={handleRecordSortChanged}>
+            </builder_platform_interaction-record-sort>
+            <lightning-input 
+                type="number"
+                placeholder={labels.choiceLimitPlaceholder}
+                label={labels.choiceLimitLabel}
+                onfocusout={handleChoiceLimitChanged}
+                value={recordChoiceSetResource.limit.value}
+                class="choice-limit slds-p-horizontal_small slds-p-bottom_small slds-form-element slds-size_1-of-2">
+            </lightning-input>
+        </div>
+    </div>
+</template>

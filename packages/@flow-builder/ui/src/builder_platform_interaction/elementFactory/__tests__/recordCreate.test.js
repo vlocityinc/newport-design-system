@@ -112,7 +112,7 @@ const uiModelInputAssignmentFieldValue = {
 const uiModelInputAssignmentField = {
     leftHandSide: 'Account.title',
     rightHandSide: '',
-    rightHandSideDataType: 'string',
+    rightHandSideDataType: '',
 };
 
 const uiModelInputAssignmentFieldBooleanValue = {

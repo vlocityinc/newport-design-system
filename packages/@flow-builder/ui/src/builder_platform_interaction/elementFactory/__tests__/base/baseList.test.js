@@ -13,7 +13,7 @@ describe('createListRowItem function', () => {
             leftHandSide: '',
             operator: '',
             rightHandSide: '',
-            rightHandSideDataType: 'string'
+            rightHandSideDataType: ''
         };
         const actualResult = createListRowItem();
         expect(actualResult).toMatchObject(expectedResult);

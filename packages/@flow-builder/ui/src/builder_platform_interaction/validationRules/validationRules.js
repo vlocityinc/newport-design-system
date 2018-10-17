@@ -152,7 +152,23 @@ export const maximumCharactersLimit = (limit) => {
         return null;
     };
 };
-
+/**
+ * Tests if the value passed is within the given range or not.
+ * @param {number} rangeMinimum Minimum
+ * @param {number} rangeMaximum Maximum
+ * @returns {string|null} errorString or null
+ */
+export const shouldBeInRange = (rangeMinimum, rangeMaximum) => {
+    return function (value) {
+        if (value !== '') {
+            value = Number(value);
+            if (value < rangeMinimum || value > rangeMaximum) {
+            return format(LABELS.shouldBeInRange, rangeMinimum, rangeMaximum);
+            }
+        }
+        return null;
+    };
+};
 /**
  * Validates 3 part expression builder to make sure LHS and operator are not blank
  *
