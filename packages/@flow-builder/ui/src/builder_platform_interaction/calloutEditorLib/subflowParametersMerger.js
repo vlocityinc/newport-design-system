@@ -2,6 +2,21 @@ import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_plat
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
+export const MERGE_WARNING_TYPE = {
+        NOT_AVAILABLE_IN_SUBFLOW : 'notAvailableInSubflow',
+        DATA_TYPE_CHANGED : 'dataTypeChanged',
+        ONLY_AVAILABLE_IN_LATEST : 'onlyAvailableInLatest',
+        ONLY_AVAILABLE_IN_ACTIVE : 'onlyAvailableInActive',
+        DUPLICATE : 'duplicate'
+};
+
+/**
+* @typedef {Object} WithWarnings
+* @property {String[]} warnings
+*
+* @typedef {ParameterItem & WithWarnings} ParameterItemWithWarnings
+*/
+
 /**
  * @typedef {FlowInputOutputVariablesVersion} input/output variables for active and/or latest version,
  * as returned by the GET_FLOW_INPUT_OUTPUT_VARIABLES service
@@ -12,8 +27,8 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * @typedef {InputOutputParameterItems} input and output parameter items
- * @property {ParameterItem[]} inputs the input parameter items (value must be hydrated)
- * @property {ParameterItem[]} outputs the output parameter items (value must be hydrated)
+ * @property {ParameterItemWithWarnings[]} inputs the input parameter items (value must be hydrated)
+ * @property {ParameterItemWithWarnings[]} outputs the output parameter items (value must be hydrated)
  */
 
 /**
@@ -25,10 +40,11 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
  * @return {InputOutputParameterItems} the input and output parameter items
  */
 export function mergeSubflowAssignmentsWithInputOutputVariables(nodeInputAssignments, nodeOutputAssignments, inputOutputVariablesVersions) {
-    const activeInputVariables = getVariables(inputOutputVariablesVersions, version => version.isActiveVersion === true, variable => variable.isInput === true);
+    const flowHasActiveVersion = inputOutputVariablesVersions.find(version => version.isActiveVersion) !== undefined;
+    const activeInputVariables = flowHasActiveVersion ? getVariables(inputOutputVariablesVersions, version => version.isActiveVersion === true, variable => variable.isInput === true) : undefined;
     const latestInputVariables = getVariables(inputOutputVariablesVersions, version => version.isLatestVersion === true, variable => variable.isInput === true);
 
-    const activeOutputVariables = getVariables(inputOutputVariablesVersions, version => version.isActiveVersion === true, variable => variable.isOutput === true);
+    const activeOutputVariables = flowHasActiveVersion ? getVariables(inputOutputVariablesVersions, version => version.isActiveVersion === true, variable => variable.isOutput === true) : undefined;
     const latestOutputVariables = getVariables(inputOutputVariablesVersions, version => version.isLatestVersion === true, variable => variable.isOutput === true);
 
     return {
@@ -54,11 +70,13 @@ function getVariables(inputOutputVariablesVersions, versionFilter, variableFilte
  */
 function getAsMap(activeVariables, latestVariables, nodeAssignments) {
     const map = {};
-    activeVariables.forEach(variable => {
-        map[variable.name] = map[variable.name] || {};
-        map[variable.name].activeVariable = variable;
-        map[variable.name].nodeAssignments = [];
-    });
+    if (activeVariables) {
+        activeVariables.forEach(variable => {
+            map[variable.name] = map[variable.name] || {};
+            map[variable.name].activeVariable = variable;
+            map[variable.name].nodeAssignments = [];
+        });
+    }
     latestVariables.forEach(variable => {
         map[variable.name] = map[variable.name] || {};
         map[variable.name].latestVariable = variable;
@@ -78,6 +96,7 @@ function getAsMap(activeVariables, latestVariables, nodeAssignments) {
  * Merge either input or output subflow assignments with input or output subflow active and latest variables
  */
 function mergeSubflowAssignmentsWithVariables(nodeAssignments, isInput, activeVariables, latestVariables) {
+    const flowHasActiveVersion = activeVariables !== undefined;
     const allParameters = getAsMap(activeVariables, latestVariables, nodeAssignments);
     const parameterItems = [];
     for (const [name, { activeVariable, latestVariable, nodeAssignments : nodeAssignmentsForVariable }] of Object.entries(allParameters)) {
@@ -86,10 +105,23 @@ function mergeSubflowAssignmentsWithVariables(nodeAssignments, isInput, activeVa
             // When using CFD, you can add multiple output assignments for the same subflow variable
             nodeAssignmentsForVariable.forEach(nodeAssignment => {
                 const parameterItem = merge(name, nodeAssignment, isInput, activeVariable, latestVariable);
+                const warnings = nodeAssignmentsForVariable.length === 1 ? [] : [MERGE_WARNING_TYPE.DUPLICATE];
+                const warning = getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable);
+                if (warning) {
+                    warnings.push(warning);
+                }
+                if (warnings.length > 0) {
+                    parameterItem.warnings = warnings;
+                }
                 parameterItems.push(parameterItem);
             });
         } else {
-            const parameterItem = merge(name, undefined, isInput, activeVariable, latestVariable);
+            const nodeAssignment = undefined;
+            const parameterItem = merge(name, nodeAssignment, isInput, activeVariable, latestVariable);
+            const warning = getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable);
+            if (warning) {
+                parameterItem.warnings = [warning];
+            }
             parameterItems.push(parameterItem);
         }
     }
@@ -126,4 +158,22 @@ function merge(name, nodeAssignment, isInput, activeVariable, latestVariable) {
         });
     }
     return parameterItem;
+}
+
+function getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable) {
+    if (nodeAssignment && !activeVariable && !latestVariable) {
+        return MERGE_WARNING_TYPE.NOT_AVAILABLE_IN_SUBFLOW;
+    }
+    if (activeVariable && !latestVariable) {
+        return MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_ACTIVE;
+    }
+    if (flowHasActiveVersion && latestVariable && !activeVariable) {
+        return MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_LATEST;
+    }
+    if (latestVariable && activeVariable) {
+        if (latestVariable.dataType !== activeVariable.dataType || latestVariable.objectType !== activeVariable.objectType || latestVariable.isCollection !== activeVariable.isCollection) {
+            return MERGE_WARNING_TYPE.DATA_TYPE_CHANGED;
+        }
+    }
+    return undefined;
 }
