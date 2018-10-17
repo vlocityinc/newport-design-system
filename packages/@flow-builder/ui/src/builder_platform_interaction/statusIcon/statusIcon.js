@@ -19,6 +19,7 @@ export default class StatusIcon extends LightningElement {
     @api direction = 'south'; // other options : north, east & west
     @api headerforsummary; // header for summary / body of panel
     @api showOnlyNumberOfErrors = false;
+    @api disableAutoOpen = false;
 
     @api get messages() {
         return this.internalMessages;
@@ -39,7 +40,9 @@ export default class StatusIcon extends LightningElement {
 
         if (this.internalMessages && this.internalMessages.length > 0) {
             this.isIconVisible = true;
-            this.createPanel();
+            if (!this.disableAutoOpen) {
+                this.createPanel();
+            }
         } else {
             this.isIconVisible = false;
         }

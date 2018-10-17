@@ -10,12 +10,12 @@
                         </lightning-badge>
                     </div>
                     <div class='slds-col'>
-                        <lightning-button-icon if:true={warningMessage} icon-name='utility:warning' class='slds-icon-text-warning' size='medium' title={warningMessage}>
-                        </lightning-button-icon>
-                     <!-- TODO: will replace icon by status-icon when W-5422703 is fixed
-                        <builder_platform_interaction-status-icon if:true={warningMessage} type='warning' direction='north' headerforsummary={labels.warningHeaderForSummary} messages={warningMessages}>
+                        <builder_platform_interaction-status-icon 
+                            if:true={warningMessage} type='warning' direction='north' 
+                            headerforsummary={labels.warningHeaderForSummary}
+                            disable-auto-open 
+                            messages={warningMessages}>
                         </builder_platform_interaction-status-icon>
-                      -->
                     </div>
                     <div class='slds-col' if:true={showDelete}>
                         <lightning-button-icon icon-name="utility:delete" size="large" onclick={handleDelete}>

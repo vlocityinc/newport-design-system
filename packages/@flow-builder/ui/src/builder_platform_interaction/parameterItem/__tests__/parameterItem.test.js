@@ -64,7 +64,7 @@ const selectors = {
     hiddenFerovResourcePickerElement: 'builder_platform_interaction-ferov-resource-picker.slds-hide',
     toggle: 'lightning-input',
     baseResourcePicker: 'builder_platform_interaction-base-resource-picker',
-    warningIcon: 'lightning-button-icon',
+    warningIcon: 'builder_platform_interaction-status-icon',
     warningBadge: 'lightning-badge',
     deleteButton: 'lightning-button-icon',
 };
@@ -357,11 +357,12 @@ describe('parameter-item', () => {
         it('should show only icon if only warningMessage is set', () => {
             parameterItemCmp = createComponentForTest({
                 item: createMockParameterItem(true, false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                warningMessage: 'Warning'
+                warningMessage: 'Warning message'
             });
-            const warningIcon = getWarningIcon(parameterItemCmp);
-            expect(warningIcon).not.toBeNull();
-            expect(warningIcon.iconName).toEqual('utility:warning');
+            const statusIcon = getWarningIcon(parameterItemCmp);
+            expect(statusIcon).not.toBeNull();
+            expect(statusIcon.type).toBe('warning');
+            expect(statusIcon.messages).toEqual([{guid : expect.any(String), message : 'Warning message'}]);
             expect(getWarningBadge(parameterItemCmp)).toBeNull();
         });
         it('should show badge and icon if both warningBadge and warningMessage are set', () => {

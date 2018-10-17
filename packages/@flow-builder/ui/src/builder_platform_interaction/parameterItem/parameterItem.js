@@ -219,14 +219,9 @@ export default class ParameterItem extends LightningElement {
         return classes;
     }
 
-    /**
-     * TODO: will remove comment when W-5422703 is fixed
-     */
-    /*
     get warningMessages() {
         return [{messages: this.warningMessage}];
     }
-    */
 
     /**
      * handle the toggle changed event
