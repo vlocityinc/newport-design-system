@@ -1,7 +1,7 @@
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createWaitEvent, createWaitWithWaitEvents } from '../wait';
 import { baseCanvasElement, baseChildElement, createCondition } from "../base/baseElement";
-import { ELEMENT_TYPE, CONDITION_LOGIC} from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE, CONDITION_LOGIC, CONNECTOR_TYPE} from "builder_platform_interaction/flowMetadata";
 import {baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject} from "../base/baseMetadata";
 import { createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor } from "../wait";
 import { LABELS } from "../elementFactoryLabels";
@@ -98,6 +98,20 @@ describe('wait', () => {
                 expect(wait.waitEvents[0].guid).toEqual(foundElementGuidPrefix + waitEventReferences[0].waitEventReference);
                 expect(wait.waitEvents[1].guid).toEqual(foundElementGuidPrefix + waitEventReferences[1].waitEventReference);
                 expect(wait.waitEvents[2].guid).toEqual(foundElementGuidPrefix + waitEventReferences[2].waitEventReference);
+            });
+        });
+
+        describe('wait connections', () => {
+            const newWait = createWaitWithWaitEvents();
+            it('have a maximum of 2 default connections when no wait events are present', () => {
+                expect(newWait.maxConnections).toEqual(2);
+            });
+
+            it('have 3 types of available connections by default', () => {
+                expect(newWait.availableConnections).toHaveLength(3);
+                expect(newWait.availableConnections[0]).toEqual({type: CONNECTOR_TYPE.REGULAR});
+                expect(newWait.availableConnections[1]).toEqual({type: CONNECTOR_TYPE.FAULT});
+                expect(newWait.availableConnections[2]).toEqual({type: CONNECTOR_TYPE.DEFAULT});
             });
         });
     });
@@ -348,6 +362,30 @@ describe('wait', () => {
                 expect(result.elements[waitFromFlow.waitEvents[0].guid]).toMatchObject(waitFromFlow.waitEvents[0]);
                 expect(result.elements[waitFromFlow.waitEvents[1].guid]).toMatchObject(waitFromFlow.waitEvents[1]);
                 expect(result.elements[waitFromFlow.waitEvents[2].guid]).toMatchObject(waitFromFlow.waitEvents[2]);
+            });
+        });
+        describe('wait connections', () => {
+            let result;
+            let wait;
+            beforeEach(() => {
+                result = createWaitWithWaitEventReferences(waitFromFlow);
+                wait = result.elements[existingWaitGuid];
+            });
+            it('have the correct connector count when all connections are available', () => {
+               expect(wait.connectorCount).toBe(0);
+            });
+
+            it('have the correct number of max connections', () => {
+                expect(wait.maxConnections).toBe(5);
+            });
+
+            it('have the correct available connections', () => {
+                expect(wait.availableConnections).toHaveLength(5);
+                expect(wait.availableConnections[0]).toEqual({childReference: 'waitEvent1', type: CONNECTOR_TYPE.REGULAR});
+                expect(wait.availableConnections[1]).toEqual({childReference: 'waitEvent2', type: CONNECTOR_TYPE.REGULAR});
+                expect(wait.availableConnections[2]).toEqual({childReference: 'waitEvent3', type: CONNECTOR_TYPE.REGULAR});
+                expect(wait.availableConnections[3]).toEqual({type: CONNECTOR_TYPE.DEFAULT});
+                expect(wait.availableConnections[4]).toEqual({type: CONNECTOR_TYPE.FAULT});
             });
         });
     });

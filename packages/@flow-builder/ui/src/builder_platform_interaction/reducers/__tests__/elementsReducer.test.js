@@ -10,6 +10,7 @@ import {
     DELETE_RESOURCE,
     UPDATE_VARIABLE_CONSTANT,
     MODIFY_DECISION_WITH_OUTCOMES,
+    MODIFY_WAIT_WITH_WAIT_EVENTS,
     MODIFY_SCREEN_WITH_FIELDS
 } from "builder_platform_interaction/actions";
 import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
@@ -398,6 +399,104 @@ describe('elements-reducer', () => {
                 });
 
                 expect(newState[decision.guid].connectorCount).toBe(decision.connectorCount - 1);
+            });
+        });
+    });
+
+    describe('MODIFY_WAIT_WITH_EVENTS', () => {
+        let wait;
+        let event1, event2;
+        let originalState;
+
+        beforeEach(() => {
+            wait = {
+                guid: 'waitGuid',
+                label: 'test wait element',
+                connectorCount: 3,
+                waitEventReferences: [{waitEventReference: 'waitEventReference1'}, {waitEventReference: 'waitEventReference2'}]
+            };
+
+            event1 = {
+                guid: 'waitEventReference1',
+                label: 'event1 label'
+            };
+
+            event2 = {
+                    guid: 'waitEventReference2',
+                    label: 'event2 label'
+                };
+
+            originalState = {
+                [wait.guid]: wait,
+                [event1.guid]: event1,
+                [event2.guid]: event2
+            };
+        });
+
+        describe('deleted event', () => {
+            beforeEach(() => {
+                // event1 will be deleted; the new wait node passed as argument to the reducer will looks this:
+                wait = {
+                    guid: 'waitGuid',
+                    label: 'test wait element',
+                    connectorCount: 3,
+                    waitEventReferences: [{waitEventReference: 'waitEventReference2'}]
+                };
+            });
+            it('is deleted', () => {
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                    payload: {
+                        wait,
+                        waitEvents: [],
+                        deletedWaitEvents: [event1],
+                    }
+                });
+
+                expect(newState[event1.guid]).toBeUndefined();
+            });
+
+            it('updates wait maxConnections', () => {
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                    payload: {
+                        wait,
+                        waitEvents: [event2],
+                        deletedWaitEvents: [event1],
+                    }
+                });
+
+                expect(newState[wait.guid].maxConnections).toBe(3);
+            });
+
+            it('without connector does not change connectorCount', () => {
+                wait.availableConnections = [{childReference: event1.guid}];
+
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                    payload: {
+                        wait,
+                        waitEvents: [event2],
+                        deletedWaitEvents: [event1],
+                    }
+                });
+
+                expect(newState[wait.guid].connectorCount).toBe(wait.connectorCount);
+            });
+
+            it('with connector decrements connectorCount', () => {
+                wait.availableConnections = [];
+
+                const newState = elementReducer(originalState, {
+                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                    payload: {
+                        wait,
+                        waitEvents: [event2],
+                        deletedWaitEvents: [event1],
+                    }
+                });
+
+                expect(newState[wait.guid].connectorCount).toBe(wait.connectorCount - 1);
             });
         });
     });

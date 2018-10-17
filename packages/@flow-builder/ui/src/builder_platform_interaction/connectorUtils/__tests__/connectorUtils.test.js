@@ -82,6 +82,42 @@ describe('Connector Utils', () => {
             }]);
         });
 
+        it('Sorting options in connector picker for Wait Element', () => {
+            const sourceElement = {
+                elementType: ELEMENT_TYPE.WAIT,
+                waitEventReferences: [{waitEventReference: 'waitEventReference1'}, {waitEventReference: 'waitEventReference2'}],
+            };
+            const comboboxOptions = [{
+                label: 'event 2',
+                value: 'waitEventReference2'
+            }, {
+                label: 'Fault',
+                value: CONNECTOR_TYPE.FAULT
+            }, {
+                label: 'Default',
+                value: CONNECTOR_TYPE.DEFAULT
+            }, {
+                label: 'event 1',
+                value: 'waitEventReference1'
+            }];
+
+            const sortedOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
+
+            expect(sortedOptions).toEqual([{
+                label: 'event 1',
+                value: 'waitEventReference1'
+            }, {
+                label: 'event 2',
+                value: 'waitEventReference2'
+            }, {
+                label: 'Default',
+                value: CONNECTOR_TYPE.DEFAULT
+            }, {
+                label: 'Fault',
+                value: CONNECTOR_TYPE.FAULT
+            }]);
+        });
+
         it('Getting connector label and value for connector-picker combobox', () => {
             const elements = {
                 'outcome_1': {
