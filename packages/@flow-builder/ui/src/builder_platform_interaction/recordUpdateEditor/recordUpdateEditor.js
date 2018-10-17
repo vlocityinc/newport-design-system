@@ -158,7 +158,7 @@ export default class RecordUpdateEditor extends LightningElement {
 
     handleRecordStoreOptionChanged(event) {
         event.stopPropagation();
-        this.updateProperty('numberRecordsToStore', event.detail.numberRecordsToStore, null, false, getValueFromHydratedItem(this.state.numberRecordsToStore));
+        this.updateProperty('numberRecordsToStore', event.detail.numberRecordsToStore, event.detail.error, false, getValueFromHydratedItem(this.state.numberRecordsToStore));
         this.state.recordEntityName = getValueFromHydratedItem(this.state.recordUpdateElement.object);
         this.state.numberRecordsToStore = this.state.recordUpdateElement.numberRecordsToStore;
     }
@@ -172,7 +172,7 @@ export default class RecordUpdateEditor extends LightningElement {
         const newRecordEntityName = event.detail.item ? event.detail.item.value : '';
 
         if (newRecordEntityName !== oldRecordEntityName) {
-            this.updateProperty('object', newRecordEntityName, null, false, oldRecordEntityName);
+            this.updateProperty('object', newRecordEntityName, event.detail.error, false, oldRecordEntityName);
             this.state.recordEntityName = newRecordEntityName;
             this.updateFields();
         }

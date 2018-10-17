@@ -205,7 +205,7 @@ export default class RecordCreateEditor extends LightningElement {
             numberRecordsToStoreOldValue = '';
             this.state.wayToStoreFields = event.detail.wayToStoreFields;
         }
-        this.updateProperty('numberRecordsToStore', event.detail.numberRecordsToStore, null, false, numberRecordsToStoreOldValue);
+        this.updateProperty('numberRecordsToStore', event.detail.numberRecordsToStore, event.detail.error, false, numberRecordsToStoreOldValue);
         this.state.recordEntityName = this.objectValue;
     }
 
@@ -231,7 +231,7 @@ export default class RecordCreateEditor extends LightningElement {
         const newRecordEntityName = event.detail.item ? event.detail.item.value : '';
 
         if (newRecordEntityName !== oldRecordEntityName) {
-            this.updateProperty('object', newRecordEntityName, null, false, oldRecordEntityName);
+            this.updateProperty('object', newRecordEntityName, event.detail.error, false, oldRecordEntityName);
             this.state.recordEntityName = newRecordEntityName;
             this.updateFields();
             this.resourceDisplayText();
@@ -246,7 +246,7 @@ export default class RecordCreateEditor extends LightningElement {
     handleAssignRecordIdToReferenceEvent(event) {
         event.stopPropagation();
         const itemOrDisplayText = event.detail.item ? event.detail.item.displayText : event.detail.displayText;
-        this.updateProperty('assignRecordIdToReference', itemOrDisplayText, null, false);
+        this.updateProperty('assignRecordIdToReference', itemOrDisplayText, event.detail.error, false);
     }
 
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
