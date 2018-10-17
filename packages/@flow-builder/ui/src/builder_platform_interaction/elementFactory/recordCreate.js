@@ -15,15 +15,14 @@ import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEdit
 import { getNonElementResource } from "builder_platform_interaction/systemLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment, getDefaultAvailableConnections }  from "./base/baseRecordElement";
-import { createFEROV } from './ferov';
 
 const elementType = ELEMENT_TYPE.RECORD_CREATE;
 const maxConnections = 2;
 
 export function createRecordCreate(recordCreate = {}) {
     const newRecordCreate = baseCanvasElement(recordCreate);
-    const { inputReference = '', object = '' } = recordCreate;
-    let { inputAssignments = [], availableConnections = getDefaultAvailableConnections(), assignRecordIdToReference = ''} = recordCreate;
+    const { inputReference = '', object = '', assignRecordIdToReference = '' } = recordCreate;
+    let { inputAssignments = [], availableConnections = getDefaultAvailableConnections()} = recordCreate;
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
     let recordCreateObject = null;
@@ -33,10 +32,6 @@ export function createRecordCreate(recordCreate = {}) {
     if (object) {
         inputAssignments = inputAssignments.map(item => createFlowInputFieldAssignment(item, object));
 
-        if (assignRecordIdToReference && !assignRecordIdToReference.value) {
-            assignRecordIdToReference = createFEROV({stringValue:assignRecordIdToReference},
-                    'value', 'valueDataType');
-        }
         recordCreateObject = Object.assign(newRecordCreate, {
             object,
             inputAssignments,
@@ -50,7 +45,7 @@ export function createRecordCreate(recordCreate = {}) {
         });
     } else {
         if (inputReference) {
-         // When the builder is loaded the store does not yet contain the variables
+            // When the builder is loaded the store does not yet contain the variables
             // numberRecordsToStore can only be calculated at the opening on the element
             const variable  = getElementByGuid(inputReference) || getNonElementResource(inputReference);
             if (variable) {
@@ -100,10 +95,10 @@ export function createRecordCreateMetadataObject(recordCreate, config) {
     const { inputReference, object, numberRecordsToStore } = recordCreate;
 
     if (numberRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && recordCreate.object !== '') {
-        let { assignRecordIdToReference, inputAssignments = [] } = recordCreate;
+        const {assignRecordIdToReference } = recordCreate;
+        let { inputAssignments = [] } = recordCreate;
         inputAssignments = inputAssignments.map(input => createFlowInputFieldAssignmentMetadataObject(input));
 
-        assignRecordIdToReference = assignRecordIdToReference.value;
         return Object.assign(recordCreateMetadata, {
             object,
             inputAssignments,
