@@ -94,6 +94,41 @@ export function createScreenField(screenField = {}) {
     );
 }
 
+/**
+ * Creates an empty screen field of the given type
+ * @param {String} typeName - The field type
+ * @return {object} - The new screen field
+ */
+export function createEmptyScreenFieldOfType(typeName) {
+    const type = getScreenFieldTypeByName(typeName);
+
+    let choiceReferences = [];
+    // Always add a placeholder choice for any choice based fields.
+    if (type.name === 'Radio' || type.name === 'MultiSelectCheckboxes' || type.name === 'DropdownBox' || type.name === 'MultiSelectPicklist') {
+        choiceReferences = [''];
+    }
+
+    const newScreenField = {
+            isRequired: type.dataType === 'Boolean' ? true : false,
+            defaultValue: '',
+            dataType: type.dataType,
+            extensionName: type.name,
+            choiceReferences,
+            defaultSelectedChoiceReference: '',
+            fieldType: type.fieldType,
+            isNewField: true, // used to enable various functionality for newly created fields only
+            scale: '0', // Store as string for validation purposes.
+            inputParameters: [],
+            outputParameters: [],
+            validationRule: {
+                formulaExpression: '',
+                errorMessage: ''
+           }
+    };
+
+    return createScreenField(newScreenField);
+}
+
 export function createScreenFieldMetadataObject(screenField) {
     if (!screenField) {
         throw new Error("screenField is not defined");

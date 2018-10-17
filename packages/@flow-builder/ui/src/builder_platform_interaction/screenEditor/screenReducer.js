@@ -1,10 +1,11 @@
 import { screenValidation, getExtensionParameterValidation, getRulesForField } from "./screenValidation";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { updateProperties, set, deleteItem, insertItem, replaceItem, mutateScreenField, hydrateWithErrors, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
+import { updateProperties, set, deleteItem, insertItem, replaceItem, hydrateWithErrors, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { ReorderListEvent, PropertyChangedEvent, ValidationRuleChangedEvent, SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
-import { getScreenFieldTypeByName, createEmptyNodeOfType, isScreen, isExtensionField, isPicklistField, isMultiSelectPicklistField,
+import { isScreen, isExtensionField, isPicklistField, isMultiSelectPicklistField,
     isMultiSelectCheckboxField, isRadioField,
     getFerovTypeFromFieldType, compareValues } from "builder_platform_interaction/screenEditorUtils";
+import { createEmptyScreenFieldOfType } from "builder_platform_interaction/elementFactory";
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
@@ -21,10 +22,9 @@ const isHydrated = (value) => {
 const addScreenField = (screen, event) => {
     // Figure out if the field be added to the end or somewhere in between.
     const position = Number.isInteger(event.position) ? event.position : screen.fields.length;
-    const type = getScreenFieldTypeByName(event.typeName);
-    const field = createEmptyNodeOfType(type);
+    const field = createEmptyScreenFieldOfType(event.typeName);
 
-    hydrateWithErrors(mutateScreenField(field), elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
+    hydrateWithErrors(field, elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
     const updatedItems = insertItem(screen.fields, field, position);
     return set(screen, 'fields', updatedItems);
 };

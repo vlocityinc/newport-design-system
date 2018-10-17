@@ -1,4 +1,3 @@
-export * from "./screenEditorModelUtils.js";
 export * from "./screenEditorFieldTypeUtils.js";
 export * from "./screenEditorExtensionUtils.js";
 
