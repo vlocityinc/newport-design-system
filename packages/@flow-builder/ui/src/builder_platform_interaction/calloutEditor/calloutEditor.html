@@ -1,7 +1,11 @@
 <template>
     <div class="callout_editor">
         <div class='slds-form slds-form_compound slds-p-around_small'>
-           <builder_platform_interaction-action-selector selected-action={selectedAction} onvaluechanged={handleActionSelected}></builder_platform_interaction-action-selector>
+           <builder_platform_interaction-action-selector 
+                selected-action={selectedAction}
+                error-message={selectedActionError} 
+                onvaluechanged={handleActionSelected}>
+           </builder_platform_interaction-action-selector>
         </div>
         <builder_platform_interaction-callout-editor-container
             selected-action={selectedAction}>

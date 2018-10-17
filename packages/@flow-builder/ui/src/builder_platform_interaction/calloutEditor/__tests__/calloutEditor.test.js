@@ -2,7 +2,6 @@ import { createElement } from 'lwc';
 import CalloutEditor  from "../calloutEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { shouldNotBeNullOrUndefined } from "builder_platform_interaction/validationRules";
 
 const setupComponentUnderTest = () => {
     const element = createElement('builder_platform_interaction-callout-editor', {
@@ -34,48 +33,25 @@ const mockSelectedSubflow = {
     elementType : ELEMENT_TYPE.SUBFLOW
 };
 
-jest.mock('builder_platform_interaction/validationRules', () => {
-    return {
-        shouldNotBeNullOrUndefined: jest.fn(),
-    };
-});
-
-const dispatchSelectedActionChangeEvent = (component, actionName, actionType) => {
+const dispatchValueChangeEvent = (component, value, error = null) => {
     const changeEvent = new CustomEvent('valuechanged', {
         detail: {
-            value: {
-                actionName,
-                actionType,
-                elementType : ELEMENT_TYPE.ACTION_CALL
-            }
+            value,
+            error
         }
     });
     component.dispatchEvent(changeEvent);
 };
 
-const dispatchSelectedApexChangeEvent = (component, apexClass) => {
-    const changeEvent = new CustomEvent('valuechanged', {
-        detail: {
-            value: {
-                apexClass,
-                elementType : ELEMENT_TYPE.APEX_PLUGIN_CALL
-            }
-        }
-    });
-    component.dispatchEvent(changeEvent);
-};
+const dispatchSelectedActionChangeEvent = (component, actionName, actionType) =>
+    dispatchValueChangeEvent(component, { actionName, actionType, elementType : ELEMENT_TYPE.ACTION_CALL });
 
-const dispatchSelectedSubflowChangeEvent = (component, flowName) => {
-    const changeEvent = new CustomEvent('valuechanged', {
-        detail: {
-            value: {
-                flowName,
-                elementType : ELEMENT_TYPE.SUBFLOW
-            }
-        }
-    });
-    component.dispatchEvent(changeEvent);
-};
+const dispatchSelectedApexChangeEvent = (component, apexClass) =>
+    dispatchValueChangeEvent(component, { apexClass, elementType : ELEMENT_TYPE.APEX_PLUGIN_CALL });
+
+const dispatchSelectedSubflowChangeEvent = (component, flowName) =>
+    dispatchValueChangeEvent(component, { flowName, elementType : ELEMENT_TYPE.SUBFLOW });
+
 describe('callout-editor', () => {
     let calloutEditor, actionSelector;
     beforeEach(() => {
@@ -145,19 +121,16 @@ describe('callout-editor', () => {
     describe('Validation', () => {
         const mockError = 'mockError';
         it('returns an error when there is no selected action', () => {
-            shouldNotBeNullOrUndefined.mockReturnValueOnce(mockError);
             const errors = calloutEditor.validate();
-            expect(errors).toHaveLength(1);
-            expect(errors).toContain(mockError);
-            expect(shouldNotBeNullOrUndefined).toHaveBeenCalledWith(undefined);
+            expect(errors).toEqual(["FlowBuilderValidation.cannotBeBlank"]);
         });
 
         it('returns an error when typing the invalid action', () => {
-            const referencedCombobox = getShadowRoot(actionSelector).querySelector(selectors.REFERENCED_COMBOBOX);
-            referencedCombobox.errorMessage = mockError;
-            const errors = calloutEditor.validate();
-            expect(errors).toHaveLength(1);
-            expect(errors).toContain(mockError);
+            dispatchValueChangeEvent(actionSelector, { elementType : ELEMENT_TYPE.ACTION_CALL }, mockError);
+            return Promise.resolve().then(() => {
+                const errors = calloutEditor.validate();
+                expect(errors).toEqual(["FlowBuilderValidation.cannotBeBlank"]);
+            });
         });
 
         it('returns no error when referenced action is selected', () => {

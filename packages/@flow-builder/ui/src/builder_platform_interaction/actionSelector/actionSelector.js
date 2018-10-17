@@ -4,6 +4,7 @@ import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE} from "builder_platform_in
 import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
 import { LABELS } from "./actionSelectorLabels";
+import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
 
 export default class ActionSelector extends LightningElement {
     labels = LABELS;
@@ -14,7 +15,8 @@ export default class ActionSelector extends LightningElement {
         filteredActionMenuData : [],
         spinnerActive : true,
         actionComboLabel : '',
-        actionPlaceholder : ''
+        actionPlaceholder : '',
+        errorMessage : null
     };
     @api
     flowProcessType = FLOW_PROCESS_TYPE.FLOW;
@@ -143,6 +145,7 @@ export default class ActionSelector extends LightningElement {
         } else {
             this.state.selectedActionValue = newValue.actionType && newValue.actionName ? newValue.actionType + '-' + newValue.actionName : null;
         }
+        this.updateActionCombo();
     }
 
     /**
@@ -152,24 +155,28 @@ export default class ActionSelector extends LightningElement {
      */
     @api
     get selectedAction() {
-        let selectedAction = { elementType : this.state.selectedElementType };
-        if (this.state.selectedActionValue) {
-            if (this.state.selectedElementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-                const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.apexClass === this.state.selectedActionValue);
+        return this.getSelectedActionFrom(this.state.selectedElementType, this.state.selectedActionValue);
+    }
+
+    getSelectedActionFrom(elementType, actionValue) {
+        let selectedAction = { elementType };
+        if (actionValue) {
+            if (elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
+                const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.apexClass === actionValue);
                 if (apexPluginFound) {
                     selectedAction = Object.assign(selectedAction, {
                         apexClass : apexPluginFound.apexClass
                     });
                 }
-            } else if (this.state.selectedElementType === ELEMENT_TYPE.SUBFLOW) {
-                const subflowFound = this.subflows.find(subflow => subflow.fullName === this.state.selectedActionValue);
+            } else if (elementType === ELEMENT_TYPE.SUBFLOW) {
+                const subflowFound = this.subflows.find(subflow => subflow.fullName === actionValue);
                 if (subflowFound) {
                     selectedAction = Object.assign(selectedAction, {
                         flowName : subflowFound.fullName,
                     });
                 }
             } else {
-                const actionFound = this.invocableActions.find(action => action.durableId === this.state.selectedActionValue);
+                const actionFound = this.invocableActions.find(action => action.durableId === actionValue);
                 if (actionFound) {
                     selectedAction = Object.assign(selectedAction, {
                         actionName : actionFound.name,
@@ -179,6 +186,15 @@ export default class ActionSelector extends LightningElement {
             }
         }
         return selectedAction;
+    }
+
+    @api
+    get errorMessage() {
+        return this.state.errorMessage;
+    }
+
+    set errorMessage(value) {
+        this.state.errorMessage = value;
     }
 
     get actionComboDisabled() {
@@ -254,10 +270,9 @@ export default class ActionSelector extends LightningElement {
 
     handleElementTypeChanged(event) {
         event.stopPropagation();
-        this.state.selectedElementType = event.detail.value;
-        this.state.selectedActionValue = null;
-        this.updateActionCombo();
-        const valueChangedEvent = new ValueChangedEvent(this.selectedAction);
+        const selectedElementType = event.detail.value;
+        const newSelectedAction = this.getSelectedActionFrom(selectedElementType, null);
+        const valueChangedEvent = new ValueChangedEvent(newSelectedAction);
         this.dispatchEvent(valueChangedEvent);
     }
 
@@ -318,17 +333,20 @@ export default class ActionSelector extends LightningElement {
 
     handleActionChanged(event) {
         event.stopPropagation();
-        const item = event.detail.item;
+        const { item } = event.detail;
+        let newSelectedActionValue;
         if (item === null) {
             // typed something that does not match an item
-            this.state.selectedActionValue = null;
+            newSelectedActionValue = null;
         } else {
             if (this.state.selectedActionValue === item.value) {
                 return;
             }
-            this.state.selectedActionValue = item.value;
+            newSelectedActionValue = item.value;
         }
-        const valueChangedEvent = new ValueChangedEvent(this.selectedAction);
+        const newSelectedAction = this.getSelectedActionFrom(this.state.selectedElementType, newSelectedActionValue);
+        const error = shouldNotBeNullOrUndefined(newSelectedActionValue);
+        const valueChangedEvent = new ValueChangedEvent(newSelectedAction, error);
         this.dispatchEvent(valueChangedEvent);
     }
 
