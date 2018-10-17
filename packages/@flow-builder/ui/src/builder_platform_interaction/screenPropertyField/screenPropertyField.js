@@ -187,7 +187,7 @@ export default class ScreenPropertyField extends LightningElement {
 
         let newValue = null, newGuid = null, currentValue = null;
 
-        if (event.detail.item && (this.allowResourcesForParameter || this.allowResourcesForContext)) { // And it contains a ferov
+        if (event.detail && event.detail.item && (this.allowResourcesForParameter || this.allowResourcesForContext)) { // And it contains a ferov
             newValue = event.detail.item.displayText;
             newGuid = event.detail.item.value;
         } else if (this.isList && event.detail.value) { // And it contains a ferov from a static list
