@@ -9,4 +9,4 @@ const additionalRules = {
     'inputParameters': validateRequiredInputParameter(),
 };
 
-export const invocableActionValidation = new Validation(additionalRules);
+export const apexPluginValidation = new Validation(additionalRules);

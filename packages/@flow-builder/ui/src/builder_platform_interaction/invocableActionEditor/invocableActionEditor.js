@@ -4,7 +4,8 @@ import { LABELS } from './invocableActionEditorLabels';
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { invocableActionReducer, MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from './invocableActionReducer';
+import { invocableActionReducer } from './invocableActionReducer';
+import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 
 export default class InvocableActionEditor extends LightningElement {
