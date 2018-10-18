@@ -152,8 +152,8 @@ function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, da
     return isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
 }
 
-function screenSelectors(shouldBeWritable, choices) {
-    return choices ? choiceSelector : readableElementsSelector;
+function screenSelectors(shouldBeWritable, choices, dataType) {
+    return choices ? choiceSelector(dataType) : readableElementsSelector;
 }
 
 const selectorProviderMap = {
@@ -167,7 +167,7 @@ const selectorProviderMap = {
     [ELEMENT_TYPE.CHOICE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => readableElementsSelector,
     [ELEMENT_TYPE.WAIT]: () => readableElementsSelector,
-    [ELEMENT_TYPE.SCREEN]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices) => screenSelectors(shouldBeWritable, choices),
+    [ELEMENT_TYPE.SCREEN]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices) => screenSelectors(shouldBeWritable, choices, dataType),
     [ELEMENT_TYPE.RECORD_CREATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => createableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
     [ELEMENT_TYPE.RECORD_UPDATE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, updateable: true}),
     [ELEMENT_TYPE.RECORD_DELETE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true}),

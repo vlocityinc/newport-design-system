@@ -87,7 +87,9 @@ export const byTypeElementsSelector = (dataType) => {
 };
 
 const choiceTypes = [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.DYNAMIC_CHOICE_SET, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET];
-export const choiceSelector = createSelector([elementsSelector], getFilteredElements(element => choiceTypes.includes(element.elementType)));
+export const choiceSelector = (dataType) => {
+    return createSelector([elementsSelector], getFilteredElements(element => choiceTypes.includes(element.elementType) && (!dataType || dataType === element.dataType)));
+};
 
 export const writableElementsSelector = createSelector([elementsSelector], getFilteredElements(element => element.elementType === ELEMENT_TYPE.VARIABLE));
 export const readableElementsSelector = createSelector([elementsSelector], getFilteredElements(element => element.elementType !== ELEMENT_TYPE.START_ELEMENT));
