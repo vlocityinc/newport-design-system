@@ -1,5 +1,5 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { dehydrate, getErrorsFromHydratedElement, getValueFromHydratedItem, GUID_SUFFIX } from "builder_platform_interaction/dataMutationLib";
+import { dehydrate, getErrorsFromHydratedElement, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { variableConstantReducer } from "./variableConstantReducer";
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
@@ -403,13 +403,11 @@ export default class VariableConstantEditor extends LightningElement {
         const dataType = getResourceFerovDataType(item.value);
 
         this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, dataType, null);
-        this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, item.value, null);
-        this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, item.displayText, error);
+        this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, item.value, error);
     }
 
     updateDefaultValueWithLiteral(displayText, error) {
         this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, this.dataType, null);
-        this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE + GUID_SUFFIX, '', null);
         this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, displayText, error);
     }
 

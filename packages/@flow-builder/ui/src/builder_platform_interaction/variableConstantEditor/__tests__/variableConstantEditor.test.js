@@ -191,10 +191,8 @@ describe('variable-constant-editor', () => {
             return Promise.resolve().then(() => {
                 expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValueDataType');
                 expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
-                expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValueGuid');
-                expect(createAction.mock.calls[1][1].value).toEqual('');
-                expect(createAction.mock.calls[2][1].propertyName).toEqual('defaultValue');
-                expect(createAction.mock.calls[2][1].value).toEqual(null);
+                expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValue');
+                expect(createAction.mock.calls[1][1].value).toEqual(null);
                 expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
             });
         });
@@ -208,10 +206,8 @@ describe('variable-constant-editor', () => {
             return Promise.resolve().then(() => {
                 expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValueDataType');
                 expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
-                expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValueGuid');
-                expect(createAction.mock.calls[1][1].value).toEqual('');
-                expect(createAction.mock.calls[2][1].propertyName).toEqual('defaultValue');
-                expect(createAction.mock.calls[2][1].value).toEqual(null);
+                expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValue');
+                expect(createAction.mock.calls[1][1].value).toEqual(null);
                 expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
             });
         });
@@ -415,17 +411,16 @@ describe('variable-constant-editor', () => {
             });
         });
 
-        it('has variable reducer called for defaultValue and defaultValueGuid', () => {
+        it('has variable reducer called for defaultValue', () => {
             getResourceByUniqueIdentifier.mockReturnValueOnce({});
             getResourceFerovDataType.mockReturnValueOnce(FEROV_DATA_TYPE.STRING.value);
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
                 const defaultValueCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 defaultValueCombobox.dispatchEvent(getComboboxStateChangedEvent());
-                expect(variableConstantReducer).toHaveBeenCalledTimes(3);
+                expect(variableConstantReducer).toHaveBeenCalledTimes(2);
                 expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
                 expect(variableConstantReducer.mock.calls[1][0]).toEqual(variableEditor.node);
-                expect(variableConstantReducer.mock.calls[2][0]).toEqual(variableEditor.node);
             });
         });
 
