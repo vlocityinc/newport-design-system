@@ -54,7 +54,7 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createAndMutateField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE, {dataType: 'String', validation: false, helpText: false}),
+            field: createAndMutateField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -286,7 +286,7 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createAndMutateField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE,
+            field: createAndMutateField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE,
                                         {dataType: 'String', createChoices: true}),
 
         });
@@ -307,7 +307,7 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
 describe('screen-choice-field-properties-editor defaultValue', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        const field = createTestScreenField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE,
+        const field = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE,
                                             {dataType: 'String', createChoices: true});
         field.defaultValue = 'choice1';
         field.defaultValueDataType = 'reference';
@@ -333,7 +333,7 @@ describe('screen-choice-field-properties-editor for field that is set to require
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createAndMutateField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE, {required: true}),
+            field: createAndMutateField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, {required: true}),
         });
     });
     it('Required checkbox is present and checked', () => {
@@ -349,7 +349,7 @@ describe('screen-choice-field-properties-editor with help text', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createAndMutateField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE),
+            field: createAndMutateField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE),
         });
     });
     it('Help text is displayed', () => {
@@ -365,7 +365,7 @@ describe('screen-choice-field-properties-editor for existing field', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createAndMutateField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE),
+            field: createAndMutateField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE),
         });
     });
     it('DataType drop down is disabled', () => {
@@ -380,7 +380,7 @@ describe('screen-choice-field-properties-editor for existing field', () => {
 describe('screen-choice-field-properties-editor for new field', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        const field = createTestScreenField(fieldName, 'Radio', SCREEN_NO_DEF_VALUE);
+        const field = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE);
         field.isNewField = true;
         field.dataType = null;
         const mutatedField = createScreenField(field);

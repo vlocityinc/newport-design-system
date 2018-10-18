@@ -107,7 +107,7 @@ export function createEmptyScreenFieldOfType(typeName) {
 
     let choiceReferences = [];
     // Always add a placeholder choice for any choice based fields.
-    if (type.name === 'Radio' || type.name === 'MultiSelectCheckboxes' || type.name === 'DropdownBox' || type.name === 'MultiSelectPicklist') {
+    if (type.name === 'RadioButtons' || type.name === 'MultiSelectCheckboxes' || type.name === 'DropdownBox' || type.name === 'MultiSelectPicklist') {
         choiceReferences = [''];
     }
 

@@ -1,0 +1,27 @@
+<!--
+ Wrapper for a radio based choice screen field.
+-->
+<template>
+  <lightning-radio-group if:true={isRadioField}
+                         label={displayLabel}
+                         options={choices}
+                         value={defaultChoice}
+                         disabled
+                         required={field.required}>
+  </lightning-radio-group>
+  <lightning-checkbox-group if:true={isMultiSelectCheckboxField}
+                            label={displayLabel}
+                            options={choices}
+                            value={defaultChoice}
+                            field-level-help={helpText}
+                            disabled
+                            required={field.required}>
+  </lightning-checkbox-group>
+  <lightning-picklist if:true={isPickListType}
+                      label={displayLabel}
+                      options={choices}
+                      value={defaultChoice}
+                      field-level-help={helpText}
+                      required={field.required}>
+</lightning-picklist>
+</template>

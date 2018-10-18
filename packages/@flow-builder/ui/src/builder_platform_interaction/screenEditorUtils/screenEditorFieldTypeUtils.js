@@ -82,7 +82,7 @@ const screenFieldTypes = [
         category: LABELS.fieldCategoryInput,
         type: 'Boolean'
     }, {
-        name: 'Radio',
+        name: 'RadioButtons',
         fieldType: 'RadioButtons',
         dataType: null,
         label: LABELS.fieldTypeLabelRadioButtons,
@@ -372,7 +372,7 @@ export function getFieldChoiceData(field) {
                 return {
                     label: choiceElement.choiceText,
                     guid:  choiceElement.guid,
-                    value: choiceElement.name, //  devName
+                    value: choiceElement.guid,
                     displayValue: '{!' + choiceElement.name + '}'
                 };
             }

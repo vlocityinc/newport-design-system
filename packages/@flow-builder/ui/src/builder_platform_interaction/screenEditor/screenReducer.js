@@ -190,7 +190,8 @@ const handleScreenFieldPropertyChange = (data) => {
             // reset. Choices are strictly typed so there is no way a change in dataType will result
             // in the old choices being valid for the new dataType. If we ever change this,
             // we might need to revisit this.
-            field = set(field, 'choiceReferences', [createChoiceReference()]);
+            const emptyChoice = hydrateWithErrors(createChoiceReference());
+            field = set(field, 'choiceReferences', [emptyChoice]);
         }
     }
 

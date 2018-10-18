@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
-import { isExtensionField, getPlaceHolderLabel } from "builder_platform_interaction/screenEditorUtils";
+import { isExtensionField, isRadioField, isMultiSelectCheckboxField, isMultiSelectPicklistField,
+         isPicklistField, getPlaceHolderLabel } from "builder_platform_interaction/screenEditorUtils";
 import { hydrateWithErrors, getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { isReference, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -25,8 +26,9 @@ export default class ScreenField extends LightningElement {
         return this.screenfield.type.fieldType === 'InputField' || this.screenfield.type.fieldType === 'PasswordField';
     }
 
-    get isRadioField() {
-        return this.screenfield.type.fieldType === 'RadioButtons';
+    get isChoiceField() {
+        return isRadioField(this.screenfield) || isMultiSelectCheckboxField(this.screenfield) ||
+               isMultiSelectPicklistField(this.screenfield) || isPicklistField(this.screenfield);
     }
 
     get isTextAreaType() {

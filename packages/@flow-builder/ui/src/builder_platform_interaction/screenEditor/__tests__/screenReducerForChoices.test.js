@@ -10,7 +10,7 @@ const SCREEN_NAME = 'TestScreen1';
 
 it('change choice screen field by changing the 1st choice', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', 'Radio', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
     const screen = createTestScreen(SCREEN_NAME, []);
     const newChoice = createChoice({name: 'newChoice'});
     screen.fields = [field];
@@ -35,7 +35,7 @@ it('change choice screen field by changing the 1st choice', () => {
 
 it('change choice screen field by changing the last choice', () => {
         // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', 'Radio', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
     const screen = createTestScreen(SCREEN_NAME, []);
     const newChoice = createChoice({name: 'newChoice'});
     screen.fields = [field];
@@ -60,7 +60,7 @@ it('change choice screen field by changing the last choice', () => {
 
 it('add choice to radio screen field', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', 'Radio', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
     const originalNumChoices = field.choiceReferences.length;
     expect(originalNumChoices).toBe(3);
     const screen = createTestScreen(SCREEN_NAME, []);
@@ -84,7 +84,7 @@ it('add choice to radio screen field', () => {
 
 it('Attempt to add choice to invalid position results in an error', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', 'Radio', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
     const originalNumChoices = field.choiceReferences.length;
     expect(originalNumChoices).toBe(3);
     const screen = createTestScreen(SCREEN_NAME, []);
@@ -108,7 +108,7 @@ it('Attempt to add choice to invalid position results in an error', () => {
 
 it('Delete first choice from radio screen field', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', 'Radio', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
     const originalNumChoices = field.choiceReferences.length;
     expect(originalNumChoices).toBe(3);
     const screen = createTestScreen(SCREEN_NAME, []);
@@ -133,7 +133,7 @@ it('Delete first choice from radio screen field', () => {
 
 it('Delete last choice from radio screen field', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField('radioField1', 'Radio', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
     const originalNumChoices = field.choiceReferences.length;
     expect(originalNumChoices).toBe(3);
     const screen = createTestScreen(SCREEN_NAME, []);
