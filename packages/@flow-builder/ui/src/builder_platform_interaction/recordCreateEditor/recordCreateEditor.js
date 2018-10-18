@@ -96,10 +96,7 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     get inputReferenceError() {
-        if (this.state.recordCreateElement.inputReference && this.state.recordCreateElement.inputReference.error) {
-            return this.state.recordCreateElement.inputReference.error;
-        }
-        return '';
+        return this.state.recordCreateElement.inputReference.error;
     }
 
     get assignNullValuesIfNoRecordsFound() {
