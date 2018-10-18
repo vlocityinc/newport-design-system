@@ -8,7 +8,7 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { LABELS } from "./variableConstantEditorLabels";
-import { getResourceByUniqueIdentifier, getResourceFerovDataType, mutateFlowResourceToComboboxShape } from "builder_platform_interaction/expressionUtils";
+import { getResourceByUniqueIdentifier, getResourceFerovDataType, mutateFlowResourceToComboboxShape, getItemOrDisplayText } from "builder_platform_interaction/expressionUtils";
 import { isObject } from "builder_platform_interaction/commonUtils";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
@@ -372,7 +372,7 @@ export default class VariableConstantEditor extends LightningElement {
     updateObjectType(event, error) {
         event.stopPropagation();
 
-        const itemOrDisplayText = this.getItemOrDisplayText(event);
+        const itemOrDisplayText = getItemOrDisplayText(event);
         const value = itemOrDisplayText.value || itemOrDisplayText;
 
         this.updateProperty(VARIABLE_CONSTANT_FIELDS.OBJECT_TYPE, value, error);
@@ -385,7 +385,7 @@ export default class VariableConstantEditor extends LightningElement {
     updateDefaultValue(event) {
         event.stopPropagation();
 
-        const itemOrDisplayText = this.getItemOrDisplayText(event);
+        const itemOrDisplayText = getItemOrDisplayText(event);
         const error = event.detail.error;
 
         if (isObject(itemOrDisplayText)) {
@@ -471,18 +471,6 @@ export default class VariableConstantEditor extends LightningElement {
     fireWarningEvent(propertyName, message) {
         const warningEvent = new PropertyEditorWarningEvent(propertyName, message);
         this.dispatchEvent(warningEvent);
-    }
-
-    /**
-     * Extract out value from the event or item if payload is from combobox
-     * Ex: If a select happened it will have an item as payload
-     * Ex: if a literal is typed then the event will not have an item, just a display text
-     * @param {Object} event Event for the data type
-     * @return {Object|String} value of the event payload
-     */
-    getItemOrDisplayText(event) {
-        // if it is a combobox value changed event we have two cases: literals or item select
-        return event.detail.item ? event.detail.item : event.detail.displayText;
     }
 
     /**

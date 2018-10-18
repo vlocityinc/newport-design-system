@@ -37,6 +37,18 @@ export const LHS_DISPLAY_OPTION = {
 };
 
 /**
+ * Extract out value from the event or item if payload is from combobox
+ * Ex: If a select happened it will have an item as payload
+ * Ex: if a literal is typed then the event will not have an item, just a display text
+ * @param {Object} event Event for the data type
+ * @return {Object|String} value of the event payload
+ */
+export const getItemOrDisplayText = (event) => {
+    // if it is a combobox value changed event we have two cases: literals or item select
+    return event.detail.item || event.detail.displayText;
+};
+
+/**
  * Retrieves element or global constant
  *
  * @param {String} identifier    unique identifier that can be used to retrieve the flow resource

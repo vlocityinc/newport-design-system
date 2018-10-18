@@ -93,16 +93,14 @@ export default class WaitTimeEvent extends LightningElement {
      *
      * @param {Object} outputParameters object of @type {WaitEventParameter}
      */
-    set outputParameters(outputParameters = []) {
-        // TODO: W-5502328 the translation work for outputParameters is not done yet.
-        // If the shape of the output params is different this setter needs to change
+    set outputParameters(outputParameters = {}) {
         this._outputParameters = outputParameters;
-        const alarmTime = outputParameters.find(param => param.name === PARAMETER_NAMES.BASE_TIME);
+        const alarmTime = outputParameters[PARAMETER_NAMES.BASE_TIME];
         this.outputResumeTime = Object.assign({},
             alarmTime,
             this.outputResumeTimeDefinition
         );
-        const status = outputParameters.find(param => param.name === PARAMETER_NAMES.EVENT_DELIVERY_STATUS);
+        const status = outputParameters[PARAMETER_NAMES.EVENT_DELIVERY_STATUS];
         this.outputEventDeliveryStatus = Object.assign({},
             status,
             this.outputEventDeliveryStatusDefinition

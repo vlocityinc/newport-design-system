@@ -11,10 +11,12 @@ import {
     createCondition
 } from "./base/baseElement";
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject} from "./base/baseMetadata";
 import { LABELS } from "./elementFactoryLabels";
+import { isObject } from 'builder_platform_interaction/commonUtils';
 
 const elementType = ELEMENT_TYPE.WAIT;
 const getDefaultAvailableConnections = () => [
@@ -29,6 +31,32 @@ const getDefaultAvailableConnections = () => [
     }
 ];
 const MAX_CONNECTIONS_DEFAULT = 2;
+
+/**
+ * Turns an array of paramters into an object where each property contains one index of the array
+ * This also creates outputParameter for each param.
+ * @param {Object[]} parameters list of parameters
+ * @returns {Object} object where the key is the param name and the value is the parameter
+ */
+const outputParameterArrayToMap = (parameters) => {
+    const arrayToMap = (acc, param) => {
+        acc[param.name] = createOutputParameter(param);
+        return acc;
+    };
+    return parameters.reduce(arrayToMap, {});
+};
+
+/**
+ * Turns an object of parameters into an array of metadata output parameters
+ * @param {Object} parameters object of parameters
+ * @returns {Object[]} list of metadata parameters
+ */
+const outputParameterMapToArray = (parameters) => {
+    const mapToArray = (paramName) => {
+        return createOutputParameterMetadataObject(parameters[paramName]);
+    };
+    return Object.keys(parameters).map(mapToArray);
+};
 
 /**
  * @typedef waitEvent
@@ -101,6 +129,7 @@ export function createWaitEvent(waitEvent = {}) {
         conditions = [],
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
         inputParameters = [],
+        outputParameters = {},
     } = waitEvent;
 
     if (conditions.length > 0 && conditionLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
@@ -115,11 +144,16 @@ export function createWaitEvent(waitEvent = {}) {
         return createInputParameter(inputParameter);
     });
 
+    if (Array.isArray(outputParameters)) {
+        outputParameters = outputParameterArrayToMap(outputParameters);
+    }
+
     return Object.assign(newWaitEvent, {
         conditions,
         conditionLogic,
         eventType,
         inputParameters,
+        outputParameters,
     });
 }
 
@@ -143,6 +177,7 @@ export function createWaitMetadataObject(wait, config = {}) {
             const { eventType } = waitEvent;
             let {
                 inputParameters = [],
+                outputParameters,
                 conditions = [],
                 conditionLogic
             } = waitEvent;
@@ -158,11 +193,16 @@ export function createWaitMetadataObject(wait, config = {}) {
                 return createInputParameterMetadataObject(inputParameter);
             });
 
+            if (isObject(outputParameters)) {
+                outputParameters =  outputParameterMapToArray(inputParameters);
+            }
+
             return Object.assign({}, metadataWaitEvent, {
                 conditions,
                 conditionLogic,
                 eventType,
                 inputParameters,
+                outputParameters,
             });
         });
     }
@@ -175,11 +215,11 @@ export function createWaitMetadataObject(wait, config = {}) {
 /**
  * Given a wait element in a property editor, create a wait element in the shape expected by the store
  * @param {wait} wait - wait in the shape of the property editor
- * @return {
+ * @return
  *   {
  *     wait: wait,
  *     deletedWaitEvents: waitEvent[] , waitEvents: Array, elementType: string}
- * }
+ *   }
  */
 export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait) {
     const newWait = baseCanvasElement(wait);

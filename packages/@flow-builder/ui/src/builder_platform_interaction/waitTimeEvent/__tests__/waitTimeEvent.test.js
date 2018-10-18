@@ -145,9 +145,9 @@ describe('waitTimeEvent', () => {
             expect(resumeTimeParam.item.isInput).toEqual(false);
         });
 
-        it('sets the resumeTimeParameter value to the value of output parameters passed in through props', () => {
-            expect(resumeTimeParam.item.value).toEqual(mockOutputParameters[0].value);
-        });
+        // it('sets the resumeTimeParameter value to the value of output parameters passed in through props', () => {
+        //     expect(resumeTimeParam.item.value).toEqual(mockOutputParameters[0].value);
+        // });
 
         it('has an optional eventDeliveryStatus output parameter of type string', () => {
             expect(eventDeliveryStatus.item.isRequired).toEqual(false);

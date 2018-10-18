@@ -93,6 +93,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getEntitiesMenuData: jest.fn().mockReturnValue(['full menu data']),
         RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction/expressionUtils').RESOURCE_PICKER_MODE,
         mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
+        getItemOrDisplayText: require.requireActual('builder_platform_interaction/expressionUtils').getItemOrDisplayText,
     };
 });
 

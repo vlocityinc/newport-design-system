@@ -3,14 +3,48 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './waitPlatformEventLabels';
-import { isObject } from 'builder_platform_interaction/commonUtils';
 import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { PropertyChangedEvent, UpdateParameterItemEvent } from 'builder_platform_interaction/events';
+import { getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
+
+// The property names in a wait event
+const WAIT_EVENT_FIELDS = {
+    EVENT_TYPE : 'eventType',
+};
+
+const OUTPUT_PARAMETER_DEFINITION = {
+    label: LABELS.platformEventOutputLabel,
+    iconName: 'utility:events',
+    dataType: FLOW_DATA_TYPE.SOBJECT.value,
+};
 
 export default class WaitPlatformEvent extends LightningElement {
     labels = LABELS;
 
     filterParameters = [];
+
+    /**
+     * Object of output parameters
+     *
+     * @param {module:WaitTimeEvent.WaitEventParameter} outputParameters
+     */
+    set outputParameters(outputParameters = {}) {
+        this._outputParameters = outputParameters;
+        const eventTypeValue = getValueFromHydratedItem(this.eventType);
+        const outputParam = outputParameters[eventTypeValue];
+        this.outputParameterItem = Object.assign({},
+            outputParam,
+            { objectType: eventTypeValue, name: eventTypeValue, },
+            OUTPUT_PARAMETER_DEFINITION,
+        );
+    }
+
+    @api
+    get outputParameters() {
+        return this._outputParameters;
+    }
 
     /**
      * @type {String} guid of the parent wait element
@@ -24,9 +58,10 @@ export default class WaitPlatformEvent extends LightningElement {
      */
     set eventType(eventType) {
         this._eventType = eventType;
-
-        if (eventType && eventType.value) {
-            this.updateFilterFields(eventType.value);
+        const eventTypeValue = getValueFromHydratedItem(eventType);
+        if (eventTypeValue && !getErrorFromHydratedItem(eventType)) {
+            this._lastRecordedEventTypeValue = eventTypeValue;
+            this.updateFilterFields(eventTypeValue);
         }
     }
 
@@ -84,7 +119,6 @@ export default class WaitPlatformEvent extends LightningElement {
         {value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel}
     ];
 
-
     @track
     elementTypeForExpressionBuilder = ELEMENT_TYPE.WAIT;
 
@@ -96,12 +130,15 @@ export default class WaitPlatformEvent extends LightningElement {
 
     @track filterFields;
 
+    /**
+     * The event delivery status output
+     *
+     * @type {module:ParameterItem.ParameterItem}
+     */
     @track
-    outputParameterItem = {
-        label: LABELS.platformEventOutputLabel,
-        iconName: 'utility:events',
-        dataType: FLOW_DATA_TYPE.SOBJECT.value,
-    };
+    outputParameterItem = {};
+
+    _lastRecordedEventTypeValue = null;
 
     get eventTypeValue() {
         return this._eventType && this._eventType.value;
@@ -132,7 +169,7 @@ export default class WaitPlatformEvent extends LightningElement {
         return BaseResourcePicker.getComboboxConfig(
             LABELS.eventLabel,
             LABELS.selectEventLabel,
-            null,
+            getErrorFromHydratedItem(this.eventType),
             false,
             true,
         );
@@ -150,15 +187,41 @@ export default class WaitPlatformEvent extends LightningElement {
     handleEventTypeChanged(event) {
         event.stopPropagation();
 
-        const eventTypeItem = event.detail.item;
-        if (isObject(eventTypeItem)) {
-            this.outputParameterItem.objectType = eventTypeItem.objectType;
-            this.eventType = {
-                value: eventTypeItem.objectType,
-                error: null
-            };
-        } else {
-            this.eventType = null;
+        const itemOrDisplayText = getItemOrDisplayText(event);
+        const value = itemOrDisplayText.value || itemOrDisplayText;
+        const error = event.detail.error;
+
+        // fire the property change event to update event type and error
+        this.firePropertyChangedEvent(WAIT_EVENT_FIELDS.EVENT_TYPE, value, error);
+
+        // fire updateparameteritem to update name in the parameter item and clear the value
+        // only if the event type is valid and there is no error
+        // TODO: fire delete parameter item once available to delete old event type parameter
+        if (this._lastRecordedEventTypeValue && this._lastRecordedEventTypeValue !== value && !error) {
+            const { valueDataType, rowIndex = null } = this.outputParameters[this._lastRecordedEventTypeValue];
+            this.fireUpdateParameterItemEvent(value, null, rowIndex, valueDataType);
+            this._lastRecordedEventTypeValue = value;
         }
+
+        // update the event type to new value and update error
+        this.eventType = { value, error };
+    }
+
+    /** Helper Methods **/
+
+    /**
+     * Fire property changed event
+     */
+    firePropertyChangedEvent(propName, value, error) {
+        const propChangedEvent = new PropertyChangedEvent(propName, value, error);
+        this.dispatchEvent(propChangedEvent);
+    }
+
+    /**
+     * Fire update parameter item event
+     */
+    fireUpdateParameterItemEvent(name, value, rowIndex, valueDataType) {
+        const updateParamItemEvent = new UpdateParameterItemEvent(false, rowIndex, name, value, valueDataType);
+        this.dispatchEvent(updateParamItemEvent);
     }
 }
