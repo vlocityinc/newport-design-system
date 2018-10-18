@@ -36,11 +36,10 @@ describe('Invocable Action Editor Validation', () => {
                         dataType: 'String',
                         name: 'subjectNameOrId',
                         value: {
-                          value: 'textVar',
+                          value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
                           error: null
                         },
                         valueDataType: 'reference',
-                        valueGuid:'578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
                       },
                       {
                           rowIndex: '84b6d19d-718f-452d-9803-fe97a263f76c',
@@ -53,7 +52,6 @@ describe('Invocable Action Editor Validation', () => {
                             error: null
                           },
                           valueDataType: 'String',
-                          valueGuid: 'This is a message',
                       }
                 ],
                 outputParameters: [
@@ -64,11 +62,10 @@ describe('Invocable Action Editor Validation', () => {
                         dataType: 'String',
                         name: 'feedItemId',
                         value: {
-                          value: 'textVar',
+                          value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
                           error: null
                         },
                         valueDataType: 'reference',
-                        valueGuid:'578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
                     }
                 ]
         };
