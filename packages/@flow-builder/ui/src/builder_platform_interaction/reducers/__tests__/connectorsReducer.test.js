@@ -1,10 +1,10 @@
 import reducer from "../connectorsReducer";
-import { ADD_CONNECTOR, DELETE_ELEMENT, MODIFY_DECISION_WITH_OUTCOMES } from "builder_platform_interaction/actions";
+import { ADD_CONNECTOR, DELETE_ELEMENT, MODIFY_DECISION_WITH_OUTCOMES, MODIFY_WAIT_WITH_WAIT_EVENTS } from "builder_platform_interaction/actions";
 
 const connectorsState = [{
     guid: 'c1',
     label: 'l1',
-    childSource: 'o1'
+    childSource: 'childGuid1'
 }, {
     guid: 'c2',
     label: 'l2'
@@ -13,7 +13,7 @@ const connectorsState = [{
 const newConnectorStateAfterAddingConnector = [{
     guid: 'c1',
     label: 'l1',
-    childSource: 'o1'
+    childSource: 'childGuid1'
 }, {
     guid: 'c2',
     label: 'l2'
@@ -25,7 +25,7 @@ const newConnectorStateAfterAddingConnector = [{
 const newConnectorStateAfterConnectorDeletion = [{
     guid: 'c1',
     label: 'l1',
-    childSource: 'o1'
+    childSource: 'childGuid1'
 }];
 
 describe('connectors-reducer', () => {
@@ -94,7 +94,7 @@ describe('connectors-reducer', () => {
                 const payloadWithModifiedOutcomeWithConnection = {
                     decision: {},
                     outcomes: [{
-                        guid: 'o1',
+                        guid: 'childGuid1',
                         label: newLabel
                     }],
                     deletedOutcomes: [],
@@ -128,13 +128,82 @@ describe('connectors-reducer', () => {
                     decision: {},
                     outcomes: [{}],
                     deletedOutcomes: [{
-                        guid: 'o1'
+                        guid: 'childGuid1'
                     }],
                 };
 
                 expect(reducer(connectorsState, {
                     type: MODIFY_DECISION_WITH_OUTCOMES,
                     payload: payloadWithDeletedOutcomeWithConnection
+                })).toEqual([connectorsState[1]]);
+            });
+        });
+    });
+
+    describe('MODIFY_WAIT_WITH_WAIT_EVENTS', () => {
+        describe('with modified wait event label', () => {
+            it('with no connections does nothing', () => {
+                const payloadWithModifiedWaitEventButNoConnection = {
+                    wait: {},
+                    waitEvents: [{
+                        guid: 'waitEventWithNoConnection'
+                    }],
+                    deletedWaitEvents: [{}],
+                };
+
+                expect(reducer(connectorsState, {
+                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                    payload: payloadWithModifiedWaitEventButNoConnection
+                })).toEqual(connectorsState);
+            });
+
+            it('with connection associatd with wait event updates the connection label', () => {
+                const newLabel = 'new label!';
+
+                const payloadWithModifiedWaitEventButNoConnection = {
+                    wait: {},
+                    waitEvents: [{
+                        guid: 'childGuid1',
+                        label: newLabel
+                    }],
+                    deletedWaitEvents: [],
+                };
+
+                const updatedConnectors = reducer(connectorsState, {
+                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                    payload: payloadWithModifiedWaitEventButNoConnection
+                });
+
+                expect(updatedConnectors[0].label).toEqual(newLabel);
+            });
+        });
+
+        describe('with deleted wait event', () => {
+            it('with no connections does nothing', () => {
+                const payloadWithDeletedWaitEventButNoConnection = {
+                    wait: {},
+                    waitEvents: [{}],
+                    deletedWaitEvents: [{}],
+                };
+
+                expect(reducer(connectorsState, {
+                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                    payload: payloadWithDeletedWaitEventButNoConnection
+                })).toEqual(connectorsState);
+            });
+
+            it('with connections deletes the connection', () => {
+                const payloadWithDeletedWaitEventWithConnection = {
+                    wait: {},
+                    waitEvents: [{}],
+                    deletedWaitEvents: [{
+                        guid: 'childGuid1'
+                    }],
+                };
+
+                expect(reducer(connectorsState, {
+                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                    payload: payloadWithDeletedWaitEventWithConnection
                 })).toEqual([connectorsState[1]]);
             });
         });

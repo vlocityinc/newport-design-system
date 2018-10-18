@@ -5,7 +5,8 @@ import {
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
-    MODIFY_DECISION_WITH_OUTCOMES
+    MODIFY_DECISION_WITH_OUTCOMES,
+    MODIFY_WAIT_WITH_WAIT_EVENTS
 } from "builder_platform_interaction/actions";
 import { addItem, updateProperties, replaceItem} from "builder_platform_interaction/dataMutationLib";
 import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
@@ -32,6 +33,13 @@ export default function connectorsReducer(state = [], action) {
             action.payload.outcomes,
             action.payload.deletedOutcomes
         );
+        case MODIFY_WAIT_WITH_WAIT_EVENTS: return _deleteAndUpdateConnectorsForChildElements(
+                state,
+                action.payload.wait.guid,
+                action.payload.wait.defaultConnectorLabel,
+                action.payload.waitEvents,
+                action.payload.deletedWaitEvents
+            );
         default: return state;
     }
 }
@@ -59,7 +67,7 @@ function _deleteConnectors(connectors, connectorsToDelete) {
  * Update/delete connectors for all of the given child elements
  *
  * @param {Object[]} origConnectors   current state of connectors in the store
- * @param {String} decisionGuid    Guid of the decision element
+ * @param {String} parentElementGuid    Guid of the parent element (e.g. decision, wait)
  * @param {String} defaultConnectorLabel    Connector Label of the default connector
  * @param {Object[]} updatedElements     array of child elements (outcomes or wait events) whose connectors are to be
  * updated
@@ -69,7 +77,7 @@ function _deleteConnectors(connectors, connectorsToDelete) {
  * @return {Object[]} new state of connectors after reduction
  * @private
  */
-function _deleteAndUpdateConnectorsForChildElements(origConnectors, decisionGuid, defaultConnectorLabel, updatedElements, deletedElements) {
+function _deleteAndUpdateConnectorsForChildElements(origConnectors, parentElementGuid, defaultConnectorLabel, updatedElements, deletedElements) {
     const deletedElementGuidMap = new Map();
     for (let i = 0; i < deletedElements.length; i++) {
         deletedElementGuidMap.set(deletedElements[i].guid, deletedElements[i]);
@@ -89,7 +97,7 @@ function _deleteAndUpdateConnectorsForChildElements(origConnectors, decisionGuid
 
         if (!connector.childSource) {
             let updatedConnector = connector;
-            if (connector.type === CONNECTOR_TYPE.DEFAULT && connector.source === decisionGuid) {
+            if (connector.type === CONNECTOR_TYPE.DEFAULT && connector.source === parentElementGuid) {
                 updatedConnector = updateProperties(connector, {
                     label: defaultConnectorLabel
                 });
