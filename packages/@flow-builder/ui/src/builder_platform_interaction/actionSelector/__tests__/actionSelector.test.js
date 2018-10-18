@@ -248,6 +248,19 @@ describe('Action selector', () => {
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toEqual({ error : "FlowBuilderValidation.cannotBeBlank", value : {'elementType': 'ACTION_CALL'}});
         });
+        it('should remove errors after they are corrected', () => {
+            // set an error
+            dispatchActionChangeEvent(null, '');
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error : "FlowBuilderValidation.cannotBeBlank", value : {'elementType': 'ACTION_CALL'}});
+            // fiddle with the event listener to get it to rest
+            document.removeEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
+            eventCallback = jest.fn();
+            document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
+            // now remove it
+            dispatchActionChangeEvent('emailSimple-emailSimple');
+            expectEventCallbackCalledWithValue({ actionName: 'emailSimple', actionType: 'emailSimple', 'elementType': 'ACTION_CALL' });
+        });
     });
     describe('When action changes', () => {
         beforeEach(() => {
