@@ -17,6 +17,7 @@ export const decisionGuid = 'guid16';
 export const caseSObjectCollectionVariableGuid = 'guid17';
 export const stringConstantGuid = 'guid18';
 export const textTemplateGuid = 'guid19';
+export const startElementGuid = 'guid20';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -38,6 +39,7 @@ export const outcomeDevName = "outcome1";
 export const decisionDevName = "decision1";
 export const caseSObjectCollectionVariableDevName = 'caseCollectionVar1';
 export const textTemplateDevName = 'textTemplate1';
+export const startElementName = '';
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -47,6 +49,7 @@ const dateDataType = 'Date';
 
 const choiceElementType = 'CHOICE';
 const stageElementType = 'STAGE';
+const startElementType = 'START_ELEMENT';
 
 export const account = 'Account';
 export const caseObjectType = 'Case';
@@ -290,7 +293,19 @@ export const elements = {
         ],
         connectorCount: 0,
         maxConnections: 2
-      }
+      },
+      [startElementGuid]: {
+        config: {isSelected: false},
+        connectorCount: 0,
+        elementType: startElementType,
+        guid: startElementGuid,
+        isCanvasElement: true,
+        label: startElementName,
+        locationX: 379,
+        locationY: 149,
+        maxConnections: 1,
+        name: startElementName,
+    },
 };
 
 export const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCollectionVariable1Guid,

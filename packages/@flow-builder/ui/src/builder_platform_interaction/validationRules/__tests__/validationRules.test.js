@@ -1,5 +1,5 @@
 import * as rules from "builder_platform_interaction/validationRules";
-import { assignmentElementGuid, assignmentElementName, stageGuid, stageOrderNumber } from "mock/storeData";
+import { assignmentElementGuid, assignmentElementName, stageGuid, stageOrderNumber, startElementName } from "mock/storeData";
 import { mockAccountFields } from "mock/serverEntityData";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { LABELS } from "../validationRulesLabels";
@@ -149,6 +149,9 @@ describe('isUniqueDevNameInStore method', () => {
     });
     it('returns an error when the dev name is not unique (uniqueness is case insensitive)', () => {
         expect(rules.isUniqueDevNameInStore(assignmentElementName.toUpperCase())).toBe(LABELS.fieldNotUnique);
+    });
+    it('returns null when a dev name is blank & tested against store data - { start element }.', () => {
+        expect(rules.isUniqueDevNameInStore(startElementName)).toBeNull();
     });
 });
 
