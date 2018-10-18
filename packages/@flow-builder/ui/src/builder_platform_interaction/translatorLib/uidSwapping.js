@@ -7,7 +7,51 @@ import { getDataTypeKey } from "builder_platform_interaction/elementFactory";
 // check to enable guid to devname swapping for referencefields. While opening property editor, only template fields guids need to be swapped with dev name.
 let checkReferenceFields = true;
 
-const replace = (value, swapFunction) => {
+/**
+ * @param {*} object complex object(eg: it can assignment, decision or outcome etc)
+ * @param {*} fieldName name of the field
+ * @returns data type of the give field if any.
+ */
+export const getDataType = (object, fieldName) => {
+    return object ? object[getDataTypeKey(fieldName)] : null;
+};
+
+/**
+ * @param {*} object complex object(eg: it can assignment, decision or outcome etc)
+ * @param {*} fieldName name of the field
+ * @return true if given field is a template field
+ */
+export const isTemplateField = (object, fieldName) => {
+    const dataType = getDataType(object, getDataType);
+    return dataType === FEROV_DATA_TYPE.STRING || TEMPLATE_FIELDS.has(fieldName);
+};
+
+/**
+ * @param {*} object complex object(eg: it can assignment, decision or outcome etc)
+ * @param {*} fieldName name of the field
+ * @return true if given field is a reference field
+ */
+export const isReferenceField = (object, fieldName) => {
+    const dataType = getDataType(object, getDataType);
+    return dataType === FEROV_DATA_TYPE.REFERENCE || REFERENCE_FIELDS.has(fieldName);
+};
+
+/**
+ * @param {*} propertyName name of the property
+ * @param {*} propertyValue value of the property
+ * @return true if swapping needs to happen, else it returns false.
+ */
+export const shouldCallSwapFunction = (propertyName, propertyValue) => {
+    return propertyName && propertyValue && (typeof (propertyValue) === 'string' || (Array.isArray(propertyValue) && REFERENCE_FIELDS.has(propertyName)));
+};
+
+/**
+ * This function executes swap function on value which are template fields
+ * @param {*} swapFunction function which is used to swap value
+ * @param {*} value value to be swapped
+ * @return value after swapping
+ */
+const swapTemplateField = (swapFunction, value) => {
     const replacer = (fullMatch) => {
         // Strip '{!', '}'
         const expressionMatch = fullMatch.substr(2).replace('}', '');
@@ -15,6 +59,17 @@ const replace = (value, swapFunction) => {
     };
     return value.replace(EXPRESSION_RE, replacer);
 };
+
+/**
+ * This function executes swap function on value which are referenced fields
+ * @param {*} swapFunction function which is used to swap value
+ * @param {*} value value to be swapped
+ * @return value after swapping
+ */
+const swapReferenceField = (swapFunction, value) => {
+    return swapFunction(isReference(value) ? removeCurlyBraces(value) : value);
+};
+
 
 /**
  * Swaps a value that may contain 0 or more variables
@@ -27,12 +82,10 @@ const replace = (value, swapFunction) => {
  * @returns {Object}             the value after swapping out guids or devNames
  */
 export const swapValueFunction = (swapFunction, object, fieldName, value) => {
-    const dataType = object ? object[getDataTypeKey(fieldName)] : null;
-    if (dataType === FEROV_DATA_TYPE.STRING || TEMPLATE_FIELDS.has(fieldName)) {
-        value = replace(value, swapFunction);
-    } else if (checkReferenceFields &&
-        (dataType === FEROV_DATA_TYPE.REFERENCE || REFERENCE_FIELDS.has(fieldName))) {
-        value = swapFunction(isReference(value) ? removeCurlyBraces(value) : value);
+    if (isTemplateField(object, fieldName)) {
+        return swapTemplateField(swapFunction, value);
+    } else if (checkReferenceFields && isReferenceField(object, fieldName)) {
+        return swapReferenceField(swapFunction, value);
     }
     return value;
 };
@@ -54,9 +107,9 @@ export const recursiveSwap = (object, swapFunction) => {
         Object.keys(object).forEach(objectKey => {
             const value = object[objectKey];
 
-            if (typeof (value) === 'string') {
+            if (shouldCallSwapFunction(objectKey, value)) {
                 // swap out the value unless the value is null or undefined
-                const newValue = value && swapFunction(object, objectKey, value);
+                const newValue = swapFunction(object, objectKey, value);
 
                 if (newValue !== value) {
                     object[objectKey] = newValue;

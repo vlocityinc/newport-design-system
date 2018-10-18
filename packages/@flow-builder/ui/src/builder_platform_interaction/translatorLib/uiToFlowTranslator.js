@@ -35,6 +35,8 @@ export function translateUIModelToFlow(uiModel) {
     const elements = uiModel.elements;
     const connectors = uiModel.connectors;
     const { name, versionNumber } = uiModel.properties;
+    // Swap out guids for dev names in all element references
+    swapUidsForDevNames(elements, uiModel);
 
     // Get map of source element guids to connectors
     const connectorMap = {};
@@ -85,8 +87,6 @@ export function translateUIModelToFlow(uiModel) {
     const flowProperties = getElementForUiToFlowTranslation(uiModel.properties);
     metadata = Object.assign(metadata, flowProperties);
 
-    // Swap out guids for dev names in all element references
-    swapUidsForDevNames(elements, metadata);
 
     if (startElementId && elements[startElementId]) {
         const startElementReference = elements[startElementId].name;

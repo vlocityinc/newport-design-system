@@ -31,11 +31,11 @@
             
             <!--  default value: drop down resource list -->
             <builder_platform_interaction-screen-property-field
-                    name="defaultValue"
+                    name="defaultSelectedChoiceReference"
                     type="list"
                     disabled={defaultValueDisabled}
                     list-choices={defaultValueChoices}
-                    value={field.previewDefaultValue}
+                    value={field.defaultSelectedChoiceReference}
                     label={labels.fieldDefaultValue}
                     onpropertychanged={handleDefaultValuePropertyChanged}>
             </builder_platform_interaction-screen-property-field>
@@ -53,12 +53,12 @@
                                                        add-label={labels.addChoice}>
                         <div slot="listBody">
                             <template for:each={fieldChoices}  for:item="choice" for:index="itemIndex" slot="listBody">
-                                <div class="slds-list__item slds-is-relative" key={choice.rowIndex}>
+                                <div class="slds-list__item slds-is-relative" key={choice.guid}>
                                     <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
                                         <div slot="rowBody">
                                             <builder_platform_interaction-screen-property-field 
                                                 name='choice'
-                                                key={itemIndex}
+                                                key={choice.guid}
                                                 list-index={itemIndex}
                                                 label={labels.fieldTypeLabelChoice}
                                                 type={field.dataType}

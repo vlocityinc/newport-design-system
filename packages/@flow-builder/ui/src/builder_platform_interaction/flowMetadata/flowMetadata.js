@@ -129,6 +129,8 @@ export const REFERENCE_FIELDS = new Set([
     'collectionReference',
     'outputReference',
     'inputReference',
+    'choiceReference',
+    'defaultSelectedChoiceReference',
 ]);
 
 /**

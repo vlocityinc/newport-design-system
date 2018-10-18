@@ -6,7 +6,6 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { getElementByDevName } from "builder_platform_interaction/storeUtils";
 
 // QUILL supported formats
 const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
@@ -191,12 +190,7 @@ export default class ScreenPropertyField extends LightningElement {
             newValue = event.detail.item.displayText;
             newGuid = event.detail.item.value;
         } else if (this.isList && event.detail.value) { // And it contains a ferov from a static list
-            newValue = event.detail.value;
-            const element = getElementByDevName(newValue);
-            if (!element) {
-                throw new Error('Unable to find element by dev name: ' + newValue);
-            }
-            newGuid = element.guid;
+            newGuid = event.detail.value;
         } else {
             newValue = this.domValue;
         }

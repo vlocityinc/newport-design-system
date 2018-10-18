@@ -1,7 +1,8 @@
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { COMPONENT_INSTANCE, EXTENSION_TYPE_SOURCE, getAllCachedExtensionTypes, listExtensions } from "./screenEditorExtensionUtils";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { getElementByDevName } from "builder_platform_interaction/storeUtils";
+import { getElementByGuid } from "builder_platform_interaction/storeUtils";
+import { generateGuid } from "builder_platform_interaction/storeLib";
 
 const FEROV_TYPES = {
     string: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
@@ -363,8 +364,8 @@ export function getPlaceHolderLabel(fieldName) {
 export function getFieldChoiceData(field) {
     if (field.choiceReferences && field.choiceReferences.length > 0) {
         return field.choiceReferences.map((choice) => {
-            if (choice) {
-                const choiceElement = getElementByDevName(choice);
+            if (choice && choice.choiceReference && choice.choiceReference.value && choice.choiceReference.value !== "") {
+                const choiceElement = getElementByGuid(choice.choiceReference.value);
                 if (!choiceElement) {
                     throw new Error('Unable to find element: ' + choice);
                 }
@@ -379,7 +380,7 @@ export function getFieldChoiceData(field) {
             // no data for the choice yet. In that case, display this placeholder data.
             return {
                 label: '',
-                guid:  null,
+                guid:  generateGuid(),
                 value: '',
                 displayValue: null
             };

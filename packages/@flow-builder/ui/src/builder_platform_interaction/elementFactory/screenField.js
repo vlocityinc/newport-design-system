@@ -24,9 +24,9 @@ export function createScreenField(screenField = {}) {
         isVisible = false,
         dataType,
         helpText = '',
-        choiceReferences = [],
         defaultValue,
-        defaultValueDataType
+        defaultValueDataType,
+        defaultSelectedChoiceReference
     } = screenField;
     let {
         type,
@@ -34,6 +34,7 @@ export function createScreenField(screenField = {}) {
         validationRule,
         inputParameters,
         outputParameters,
+        choiceReferences = []
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
@@ -53,8 +54,9 @@ export function createScreenField(screenField = {}) {
             DEFAULT_VALUE_DATA_TYPE_PROPERTY
         );
     }
-
     const previewDefaultValue = defaultValue;
+
+    choiceReferences = choiceReferences.map((choiceReference) => createChoiceReference(choiceReference));
 
     // Convert scale property to string, which is needed for validation purposes.
     // Saving it as a string allows it be hydrated.
@@ -88,7 +90,8 @@ export function createScreenField(screenField = {}) {
             outputParameters,
             scale,
             type,
-            elementType
+            elementType,
+            defaultSelectedChoiceReference
         },
         defaultValueFerovObject
     );
@@ -135,8 +138,8 @@ export function createScreenFieldMetadataObject(screenField) {
     }
 
     // Unflatten these properties.
-    const { extensionName, choiceReferences, defaultValue, dataType, helpText, isRequired, fieldText, fieldType, name, validationRule } = screenField;
-    let { scale, inputParameters, outputParameters } = screenField;
+    const { extensionName, defaultValue, dataType, helpText, isRequired, fieldText, fieldType, name, validationRule, defaultSelectedChoiceReference } = screenField;
+    let { scale, inputParameters, outputParameters, choiceReferences } = screenField;
 
     // Convert scale back to number. MD expects this to be a number, but within FlowBuilder, we want it to be a string.
     if (scale != null && typeof scale === 'string') {
@@ -145,7 +148,7 @@ export function createScreenFieldMetadataObject(screenField) {
 
     let defaultValueMetadataObject;
     if (defaultValue) {
-        const defaultValueFerov = createFEROVMetadataObject(screenField, 'defaultValue', 'defaultValueDataType');
+        const defaultValueFerov = createFEROVMetadataObject(screenField, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
         defaultValueMetadataObject = { defaultValue : defaultValueFerov };
     }
 
@@ -153,6 +156,8 @@ export function createScreenFieldMetadataObject(screenField) {
         inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
         outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
     }
+
+    choiceReferences = choiceReferences.map((choiceReference) => createChoiceReferenceMetadatObject(choiceReference));
 
     const mdScreenField = Object.assign({},
         {
@@ -166,9 +171,10 @@ export function createScreenFieldMetadataObject(screenField) {
             isRequired,
             name,
             outputParameters,
-            scale
+            scale,
+            defaultSelectedChoiceReference
         },
-        defaultValueMetadataObject
+        defaultValueMetadataObject,
     );
 
     if (validationRule.formulaExpression) {
@@ -176,4 +182,24 @@ export function createScreenFieldMetadataObject(screenField) {
     }
 
     return mdScreenField;
+}
+
+export function createChoiceReference(choiceReference) {
+    let newChoiceReference;
+    if (!choiceReference) {
+        newChoiceReference = '';
+    } else {
+        newChoiceReference = choiceReference.choiceReference || choiceReference;
+    }
+    return {
+        choiceReference: newChoiceReference
+    };
+}
+
+function createChoiceReferenceMetadatObject(choiceReferenceObject) {
+    const { choiceReference } = choiceReferenceObject;
+    if (!choiceReference) {
+        throw new Error('Choice reference is not defined');
+    }
+    return choiceReference;
 }

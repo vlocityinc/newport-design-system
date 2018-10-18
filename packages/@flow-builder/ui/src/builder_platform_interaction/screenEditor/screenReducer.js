@@ -8,6 +8,7 @@ import { isScreen, isExtensionField, isPicklistField, isMultiSelectPicklistField
 import { createEmptyScreenFieldOfType } from "builder_platform_interaction/elementFactory";
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { createChoiceReference } from "builder_platform_interaction/elementFactory";
 
 const isHydrated = (value) => {
     return value && value.hasOwnProperty('value') && value.hasOwnProperty('error');
@@ -42,7 +43,7 @@ const addChoice = (screen, event, field) => {
         throw new Error("Position for new choice is invalid: " + event.detail.position);
     }
 
-    const emptyChoice = '';
+    const emptyChoice = hydrateWithErrors(createChoiceReference());
     const updatedChoices = insertItem(field.choiceReferences, emptyChoice, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
@@ -63,7 +64,7 @@ const changeChoice = (screen, event, field) => {
         throw new Error("Invalid position for choice deletion: " + event.detail.position);
     }
 
-    const updatedChoices = replaceItem(field.choiceReferences, event.detail.newValue.value, event.detail.position);
+    const updatedChoices = replaceItem(field.choiceReferences, hydrateWithErrors(createChoiceReference(event.detail.newValue.value)), event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
     // Replace the field in the screen
@@ -189,7 +190,7 @@ const handleScreenFieldPropertyChange = (data) => {
             // reset. Choices are strictly typed so there is no way a change in dataType will result
             // in the old choices being valid for the new dataType. If we ever change this,
             // we might need to revisit this.
-            field = set(field, 'choiceReferences', ['']);
+            field = set(field, 'choiceReferences', [createChoiceReference()]);
         }
     }
 

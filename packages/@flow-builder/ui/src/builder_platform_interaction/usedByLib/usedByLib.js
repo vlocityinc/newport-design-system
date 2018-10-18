@@ -1,12 +1,11 @@
-import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { EXPRESSION_RE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store, isPlainObject } from 'builder_platform_interaction/storeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { addItem, getValueFromHydratedItem, dehydrate, unionOfArrays } from 'builder_platform_interaction/dataMutationLib';
 import { format, splitStringByPeriod } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './usedByLibLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
-import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getDataTypeKey } from 'builder_platform_interaction/elementFactory';
+import { isTemplateField, isReferenceField, shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
 
 /**
  * This function return list of elements which are referencing elements in the elementGuids array.
@@ -156,7 +155,7 @@ function findReference(elementGuids, object, elementGuidsReferenced = new Set())
         for (let index = 0; index < keysLength; index += 1) {
             const key = keys[index];
             const value = getValueFromHydratedItem(object[key]);
-            if (typeof (value) === 'string') {
+            if (shouldCallSwapFunction(key, value)) {
                 const newElementGuidsReferenced = matchElement(elementGuids, object, key, value);
                 updateElementGuidsReferenced(elementGuidsReferenced, newElementGuidsReferenced);
             } else if (typeof (value) !== 'number') {
@@ -176,8 +175,7 @@ function findReference(elementGuids, object, elementGuidsReferenced = new Set())
  */
 function matchElement(elementGuids, object, key, value) {
     if (key) {
-        const dataType = object[getDataTypeKey(key)];
-        if (dataType === FEROV_DATA_TYPE.STRING || TEMPLATE_FIELDS.has(key)) {
+        if (isTemplateField(object, key)) {
             // For eg: value = 'Hello world, {!var_1.name}'
             // After match, occurrences = ['{!var_1.name}']
             // After slice and split, occurences = ['var_1']
@@ -186,7 +184,7 @@ function matchElement(elementGuids, object, key, value) {
                 return occurences.map((occurence) => splitStringByPeriod(occurence.slice(2, occurence.length - 1))[0])
                     .filter((guid) => elementGuids.includes(guid));
             }
-        } else if (dataType === FEROV_DATA_TYPE.REFERENCE || REFERENCE_FIELDS.has(key)) {
+        } else if (isReferenceField(object, key)) {
             const guid = splitStringByPeriod(value)[0];
             return elementGuids && elementGuids.filter((elementGuid) => guid === elementGuid);
         }

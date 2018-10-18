@@ -26,7 +26,7 @@ const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     REQUIRED_CHECKBOX: 'builder_platform_interaction-screen-property-field[name="isRequired"]',
     DATA_TYPE: 'builder_platform_interaction-data-type-picker',
-    DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[name="defaultValue"]',
+    DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD: 'builder_platform_interaction-screen-property-field[name="defaultSelectedChoiceReference"]',
     CHOICE_SELECTOR: 'builder_platform_interaction-screen-property-field[name="choice"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]'
 };
@@ -72,7 +72,7 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
     });
     it('Default value is empty when there is no default value', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
@@ -130,7 +130,7 @@ describe('screen-choice-field-properties-editor for multi-select picklist, type 
     });
     it('Default value is empty when there is no default value', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
@@ -188,7 +188,7 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
     });
     it('Default value is empty when there is no default value', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
@@ -246,7 +246,7 @@ describe('screen-choice-field-properties-editor for picklist, type DateTime', ()
     });
     it('Default value is empty when there is no default value', () => {
         return Promise.resolve().then(() => {
-            const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
             expect(renderedDefaultValueField.value).toBeUndefined();
         });
@@ -318,7 +318,7 @@ describe('screen-choice-field-properties-editor defaultValue', () => {
     });
     it('When default value is set', () => {
         return Promise.resolve().then(() => {
-            const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
             expect(defaultValue).toBeDefined();
             expect(defaultValue.value).toBeDefined();
 
@@ -397,7 +397,7 @@ describe('screen-choice-field-properties-editor for new field', () => {
     });
     it('Default value is disabled because dataType is not yet set', () => {
         return Promise.resolve().then(() => {
-            const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
+            const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
             expect(defaultValue).toBeDefined();
             expect(defaultValue.disabled).toBeTruthy();
         });
