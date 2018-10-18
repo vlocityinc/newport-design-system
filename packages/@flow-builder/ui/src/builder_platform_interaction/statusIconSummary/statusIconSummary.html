@@ -30,9 +30,9 @@
                {messageBody}
             </template>
             <template if:false={showOnlyNumberOfErrors}>
-                <ul class="slds-list--dotted">
+                <ul class={messageListClass}>
                     <template for:each={messages} for:item="item">
-                        <li key={item.guid}>{item.message} </li>
+                        <li key={item.guid} class="message">{item.message} </li>
                     </template>
                 </ul>
             </template>

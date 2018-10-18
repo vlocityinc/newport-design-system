@@ -42,4 +42,8 @@ export default class StatusIconSummary extends LightningElement {
     get messageBody() {
         return this.messages.length > 1 ? format(LABELS.popupErrorMessagePlural, this.messages.length) : format(LABELS.popupErrorMessageSingular, this.messages.length);
     }
+
+    get messageListClass() {
+        return this.messages.length > 1 ? 'slds-list--dotted' : '';
+    }
 }
