@@ -11,25 +11,64 @@
         </lightning-radio-group>
 
         <div class="slds-border_top slds-p-top_medium"></div>
-        
+
         <!-- input paramters (resume time parameters) -->
         <h3 class="slds-text-heading_small">{labels.resumeTimeHeader}</h3>
-
-        <div if:true={isAbsoluteTime} class="slds-form-element__row slds-p-top_small">    
+ 
+        <div if:true={isAbsoluteTime} class="slds-form-element__row slds-p-top_small slds-p-bottom_small">
             <builder_platform_interaction-ferov-resource-picker
                 class="slds-size_1-of-2"
-                value={baseTime}
-                error-message={baseTimeErrorMessage}
-                combobox-config={baseTimeComoboboxConfig}
+                value={absoluteBaseTime}
+                error-message={absoluteBaseTimeErrorMessage}
+                combobox-config={absoluteBaseTimeComboboxConfig}
                 property-editor-element-type={elementType}
                 element-param={dateTimeElementParam}
                 rules={timeEventParameterRules}
                 show-new-resource
                 enable-field-drilldown
-                oncomboboxstatechanged={handleBaseTimeChange}>
+                oncomboboxstatechanged={handleAbsoluteBaseTimeChange}>
             </builder_platform_interaction-ferov-resource-picker>
         </div>
-
+        <div if:false={isAbsoluteTime} class="slds-form-element slds-p-top_small">
+            <div class="slds-size_medium">
+                <lightning-input
+                    type="text"
+                    label={labels.salesforceObject}
+                    onfocusout={handleSalesforceObjectFocusOut}
+                    value={salesforceObjectValue}
+                    required
+                    message-when-value-missing={labels.cannotBeBlank}
+                    class="salesforce-object"
+                    field-level-help={labels.salesforceObjectHelpText}>
+                </lightning-input>
+            </div>
+            <div class="slds-size_medium slds-m-top_x-small">
+                <lightning-input
+                    type="text"
+                    label={labels.baseTimeLabel}
+                    onfocusout={handleDirectRecordBaseTimeChange}
+                    value={directRecordBaseTime}
+                    required
+                    message-when-value-missing={labels.cannotBeBlank}
+                    class="direct-record-basetime"
+                    field-level-help={labels.directRecordBaseTimeHelpText}>
+                </lightning-input>
+            </div>
+            <div class="slds-size_medium slds-m-top_x-small">
+                <builder_platform_interaction-ferov-resource-picker
+                    class="slds-size_1-of-2"
+                    value={recordIdValue}
+                    error-message={recordIdErrorMessage}
+                    combobox-config={recordIdComboboxConfig}
+                    property-editor-element-type={elementType}
+                    element-param={recordIdElementParam}
+                    onitemselected={handleRecordIdChanged}
+                    rules={timeEventParameterRules}
+                    show-new-resource
+                    oncomboboxstatechanged={handleRecordIdChanged}>
+                </builder_platform_interaction-ferov-resource-picker>
+            </div>
+        </div>
         <lightning-input
             class="slds-size_1-of-2 slds-p-top_small"
             value={offsetNumber}
@@ -37,7 +76,6 @@
             field-level-help={labels.offsetNumberHelpText}
             onchange={handleOffsetNumberChange}>>
         </lightning-input>
-
 		<lightning-input
             class="slds-size_1-of-2 slds-p-top_small"
             value={offsetUnit}
@@ -45,7 +83,7 @@
             field-level-help={labels.offsetUnitHelpText}
             onchange={handleOffsetUnitChange}>>
         </lightning-input>
-        <div class="slds-border_top slds-p-top_medium"></div>
+        <div class="slds-border_top slds-m-top_small slds-m-bottom_small"></div>
 
         <h3 class="slds-text-heading_small">{labels.assignOutputsToVariablesLabel}</h3>
 

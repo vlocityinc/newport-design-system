@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE, WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import {
@@ -24,22 +24,26 @@ const inputParameterArrayToMap = (parameters = []) => {
     const parametersMap = new Map();
 
     parameters.forEach((param) => {
-        parametersMap.set(param.name, param);
+        parametersMap.set(param.name.value, param);
     });
 
     return parametersMap;
 };
 
 const PARAMETER_NAMES = {
-    BASE_TIME: 'AlarmTime',
-    EVENT_DELIVERY_STATUS: 'Status',
-    OFFSET_NUMBER: 'TimeOffset',
-    OFFSET_UNIT: 'TimeOffsetUnit',
+        ABSOLUTE_BASE_TIME: 'AlarmTime',
+        SALESFORCE_OBJECT: 'TimeTableColumnEnumOrId',
+        DIRECT_RECORD_BASE_TIME: 'TimeFieldColumnEnumOrId',
+        RECORD_ID: 'EntityObjectId',
+        EVENT_DELIVERY_STATUS: 'Status',
+        OFFSET_NUMBER: 'TimeOffset',
+        OFFSET_UNIT: 'TimeOffsetUnit'
 };
 
 export default class WaitTimeEvent extends LightningElement {
     @track
     resumeTimeParametersMap = new Map();
+
     @track
     resumeTimeParametersArray = [];
 
@@ -95,7 +99,7 @@ export default class WaitTimeEvent extends LightningElement {
      */
     set outputParameters(outputParameters = {}) {
         this._outputParameters = outputParameters;
-        const alarmTime = outputParameters[PARAMETER_NAMES.BASE_TIME];
+        const alarmTime = outputParameters[PARAMETER_NAMES.ABSOLUTE_BASE_TIME];
         this.outputResumeTime = Object.assign({},
             alarmTime,
             this.outputResumeTimeDefinition
@@ -133,6 +137,11 @@ export default class WaitTimeEvent extends LightningElement {
         isCollection: false,
         dataType: FLOW_DATA_TYPE.DATE_TIME.value,
     };
+
+    recordIdElementParam = {
+        isCollection: false,
+        dataType: FLOW_DATA_TYPE.STRING.value,
+    }
 
     eventTypeValueOptions = [
         { 'label': this.labels.absoluteTimeLabel, 'value': WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME },
@@ -173,23 +182,35 @@ export default class WaitTimeEvent extends LightningElement {
         return this.eventType === WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
     }
 
-    get baseTime() {
-        return this.getResumeTimeParameterValue(PARAMETER_NAMES.BASE_TIME);
+    get absoluteBaseTime() {
+        return this.getResumeTimeParameterValue(PARAMETER_NAMES.ABSOLUTE_BASE_TIME);
     }
 
-    get baseTimeErrorMessage() {
-        return this.baseTime && getErrorFromHydratedItem(this.baseTime.value);
+    get absoluteBaseTimeErrorMessage() {
+        return this.getResumeTimeParameterError(PARAMETER_NAMES.ABSOLUTE_BASE_TIME);
     }
 
-    get baseTimeComoboboxConfig() {
+    get absoluteBaseTimeComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             this.labels.baseTimeLabel,
-            this.labels.defaultPickerPlaceholder,
+            this.labels.ferovPickerPlaceholder,
             null,
             true,
             true,
             false,
-            FLOW_DATA_TYPE.DATE_TIME.value,
+            FLOW_DATA_TYPE.DATE_TIME.value
+        );
+    }
+
+    get recordIdComboboxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.labels.recordId,
+            this.labels.ferovPickerPlaceholder,
+            null,
+            true,
+            true,
+            false,
+            FEROV_DATA_TYPE.REFERENCE.value
         );
     }
 
@@ -199,6 +220,22 @@ export default class WaitTimeEvent extends LightningElement {
 
     get offsetUnit() {
         return this.getResumeTimeParameterValue(PARAMETER_NAMES.OFFSET_UNIT);
+    }
+
+    get recordIdValue() {
+        return this.getResumeTimeParameterValue(PARAMETER_NAMES.RECORD_ID);
+    }
+
+    get recordIdErrorMessage() {
+        return this.getResumeTimeParameterError(PARAMETER_NAMES.RECORD_ID);
+    }
+
+    get salesforceObjectValue() {
+        return this.getResumeTimeParameterValue(PARAMETER_NAMES.SALESFORCE_OBJECT);
+    }
+
+    get directRecordBaseTime() {
+        return this.getResumeTimeParameterValue(PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME);
     }
 
     handleEventTypeChange(event) {
@@ -232,9 +269,14 @@ export default class WaitTimeEvent extends LightningElement {
         this.dispatchEvent(updateParameterItem);
     }
 
-    handleBaseTimeChange(event) {
+    handleRecordIdChanged(event) {
         event.stopPropagation();
-        this.handleFerovParameterChange(event, PARAMETER_NAMES.BASE_TIME, FLOW_DATA_TYPE.DATE_TIME.value, true);
+         this.handleFerovParameterChange(event, PARAMETER_NAMES.RECORD_ID, FLOW_DATA_TYPE.STRING.value, true);
+    }
+
+    handleAbsoluteBaseTimeChange(event) {
+        event.stopPropagation();
+        this.handleFerovParameterChange(event, PARAMETER_NAMES.ABSOLUTE_BASE_TIME, FLOW_DATA_TYPE.DATE_TIME.value, true);
     }
 
     handleOffsetNumberChange(event) {
@@ -247,8 +289,39 @@ export default class WaitTimeEvent extends LightningElement {
         this.handleLiteralParameterChange(event, PARAMETER_NAMES.OFFSET_UNIT, FLOW_DATA_TYPE.STRING.value, true);
     }
 
+    handleSalesforceObjectFocusOut(event) {
+        event.stopPropagation();
+        const error = event.target.value === '' ? this.labels.cannotBeBlank : null;
+        const updateParameterItem = new UpdateParameterItemEvent(
+            true,
+            null,
+            PARAMETER_NAMES.SALESFORCE_OBJECT,
+            event.target.value,
+            FLOW_DATA_TYPE.STRING.value,
+            error);
+        this.dispatchEvent(updateParameterItem);
+    }
+
+    handleDirectRecordBaseTimeChange(event) {
+        event.stopPropagation();
+        const error = event.target.value === '' ? this.labels.cannotBeBlank : null;
+        const updateParameterItem = new UpdateParameterItemEvent(
+            true,
+            null,
+            PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME,
+            event.target.value,
+            FLOW_DATA_TYPE.STRING.value,
+            error);
+        this.dispatchEvent(updateParameterItem);
+    }
+
     getResumeTimeParameterValue(paramName) {
         const param = this.resumeTimeParametersMap.get(paramName);
-        return param && getValueFromHydratedItem(param.value);
+        return param ? getValueFromHydratedItem(param.value) : null;
+    }
+
+    getResumeTimeParameterError(paramName) {
+        const param = this.resumeTimeParametersMap.get(paramName);
+        return param ? getErrorFromHydratedItem(param.value) : null;
     }
 }
