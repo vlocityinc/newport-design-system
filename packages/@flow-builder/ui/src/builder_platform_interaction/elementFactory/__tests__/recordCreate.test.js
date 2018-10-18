@@ -25,7 +25,7 @@ const flowRecordCreateFieldsMetadata = () => ({
 });
 
 const flowRecordCreateFieldsStore = () => ({
-    assignRecordIdToReference: { value: "myNewId", valueDataType: "String" },
+    assignRecordIdToReference: "myNewId",
     availableConnections: [{
             type: "REGULAR"
         }, {
