@@ -4,7 +4,7 @@
         <li class="slds-item slds-truncate_container">
             <span class="slds-form-element__label slds-no-flex">{labels.typeText}</span>
             <lightning-icon if:true={hasIcon} class="slds-m-right_xx-small" icon-name={resourceDetails.ICON_NAME} size="xx-small" alternative-text={resourceDetails.LABEL}></lightning-icon>
-            <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.TYPE}>{resourceDetails.TYPE}</span>
+            <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.LABEL}>{resourceDetails.LABEL}</span>
         </li>
         <li if:true={hasUniqueName} class="slds-item slds-truncate_container">
             <span class="slds-form-element__label slds-no-flex">{labels.uniqueNameText}</span>
@@ -13,14 +13,6 @@
         <li if:true={hasDescription} class="slds-item slds-hyphenate">
             <span class="slds-form-element__label">{labels.descriptionText}</span>
             <span class="slds-text-body_regular slds-align-middle" title={resourceDetails.DESCRIPTION}>{resourceDetails.DESCRIPTION}</span>
-        </li>
-        <li if:true={hasStageOrder} class="slds-item slds-hyphenate test-stage-order">
-            <span class="slds-form-element__label">{labels.stageOrderText}</span>
-            <span class="slds-text-body_regular slds-align-middle test-stage-order-content" title={resourceDetails.STAGE_ORDER}>{resourceDetails.STAGE_ORDER}</span>
-        </li>
-        <li if:true={hasStageActive} class="slds-item slds-hyphenate test-active-by-default">
-            <span class="slds-form-element__label">{labels.stageActiveByDefaultText}</span>
-            <span class="slds-text-body_regular slds-align-middle test-active-by-default-content" title={activeStage}>{activeStage}</span>
         </li>
     </ul>
     <div if:true={hasUsedByElements} class="slds-p-horizontal_small">

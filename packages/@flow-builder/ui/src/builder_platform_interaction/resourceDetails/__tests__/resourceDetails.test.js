@@ -13,20 +13,10 @@ const createComponentUnderTest = (details) => {
     return el;
 };
 
-const RESOURCE_DETAILS = {
-    TYPE: 'STAGE',
-    GUID: 'stageguid1',
-    LABEL: 'label',
-    ICON_NAME: 'Stage_Icon',
-    DESCRIPTION: 'Stage_Desc',
-    NAME: 'guid_1',
-    IS_CHILD_ELEMENT: false
-};
-
 const ASSIGNMENT_DETAILS = {
     TYPE: 'ASSIGNMENT',
     GUID: 'guid1',
-    LABEL: 'label',
+    LABEL: 'Assignment',
     ICON_NAME: 'Assignment_Icon',
     DESCRIPTION: 'Assignment_Desc',
     NAME: 'guid_1',
@@ -36,46 +26,10 @@ const ASSIGNMENT_DETAILS = {
 const selectors = {
     footer: '.panel-footer',
     footerButtons: 'lightning-button',
-    activeByDefault: '.test-active-by-default',
-    stageOrder: '.test-stage-order',
     detailsSection: '.resource-detail-panel-body',
-    activeByDefaultContent: '.test-active-by-default-content',
-    stageOrderContent: '.test-stage-order-content'
 };
 
 describe('Resource Details', () => {
-    describe('details-section', () => {
-        describe('Stage Element', () => {
-            it('when Not active by default should display No.', () => {
-                const pair = { STAGE_ACTIVE: false };
-                const STAGE_DETAILS = {...RESOURCE_DETAILS, ...pair};
-                const element = createComponentUnderTest(STAGE_DETAILS);
-                return Promise.resolve().then(() => {
-                    const activeByDefault = getShadowRoot(element).querySelector(`${selectors.activeByDefault} ${selectors.activeByDefaultContent}`);
-                    expect(activeByDefault.title).toBe(LABELS.stageInActiveText);
-                });
-            });
-            it('when Active by Default should display Yes.', () => {
-                const pair = { STAGE_ACTIVE: true };
-                const STAGE_DETAILS = {...RESOURCE_DETAILS, ...pair};
-                const element = createComponentUnderTest(STAGE_DETAILS);
-                return Promise.resolve().then(() => {
-                    const activeByDefault = getShadowRoot(element).querySelector(`${selectors.activeByDefault} ${selectors.activeByDefaultContent}`);
-                    expect(activeByDefault.title).toBe(LABELS.stageActiveText);
-                });
-            });
-            it('should display Stage Order Information', () => {
-                const pair = { STAGE_ACTIVE: true, STAGE_ORDER: "2" };
-                const STAGE_DETAILS = {...RESOURCE_DETAILS, ...pair};
-                const element = createComponentUnderTest(STAGE_DETAILS);
-                return Promise.resolve().then(() => {
-                    const stageOrder = getShadowRoot(element).querySelector(`${selectors.stageOrder} ${selectors.stageOrderContent}`);
-                    expect(stageOrder.title).toBe(STAGE_DETAILS.STAGE_ORDER);
-                });
-            });
-        });
-    });
-
     it('should display Edit Button', () => {
         const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
         return Promise.resolve().then(() => {
