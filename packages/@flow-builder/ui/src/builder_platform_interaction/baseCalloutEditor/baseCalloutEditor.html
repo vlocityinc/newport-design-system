@@ -14,10 +14,12 @@
         <lightning-spinner if:true={displaySpinner} size='medium' variant='brand' class='spinner'></lightning-spinner>
         <div class="slds-p-top_small"> 
             <builder_platform_interaction-parameter-list inputs={parameterListConfig.inputs} outputs={parameterListConfig.outputs} 
+                                                         warnings={warnings}
                                                          input-tab-header={parameterListConfig.inputTabHeader} output-tab-header={parameterListConfig.outputTabHeader} 
                                                          element-type={elementType}
                                                          sort-inputs={parameterListConfig.sortInputs} sort-outputs={parameterListConfig.sortOutputs}
-                                                         empty-inputs-message={parameterListConfig.emptyInputsMessage} empty-outputs-message={parameterListConfig.emptyOutputsMessage}>
+                                                         empty-inputs-message={parameterListConfig.emptyInputsMessage} empty-outputs-message={parameterListConfig.emptyOutputsMessage}
+                                                         >
             </builder_platform_interaction-parameter-list>
         </div>
     </div>

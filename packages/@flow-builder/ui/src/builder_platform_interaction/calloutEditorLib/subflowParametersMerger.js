@@ -2,6 +2,9 @@ import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_plat
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
+/**
+ * @enum {string} MERGE_WARNING_TYPE
+ */
 export const MERGE_WARNING_TYPE = {
         NOT_AVAILABLE_IN_SUBFLOW : 'notAvailableInSubflow',
         DATA_TYPE_CHANGED : 'dataTypeChanged',
@@ -12,7 +15,7 @@ export const MERGE_WARNING_TYPE = {
 
 /**
 * @typedef {Object} WithWarnings
-* @property {String[]} warnings
+* @property {MERGE_WARNING_TYPE[]} warnings
 *
 * @typedef {ParameterItem & WithWarnings} ParameterItemWithWarnings
 */

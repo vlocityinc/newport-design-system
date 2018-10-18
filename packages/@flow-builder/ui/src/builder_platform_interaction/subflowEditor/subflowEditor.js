@@ -6,6 +6,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from "./subflowReducer";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
+import { getParameterListWarnings } from './subflowParameterListWarnings';
 
 export default class SubflowEditor extends LightningElement {
     @track subflowNode = {};
@@ -120,6 +121,7 @@ export default class SubflowEditor extends LightningElement {
             outputsNeedToBeSorted: true,
             inputs: this.subflowNode.inputAssignments,
             outputs: this.subflowNode.outputAssignments,
+            warnings: getParameterListWarnings(this.subflowNode.inputAssignments, this.subflowNode.outputAssignments)
         };
     }
 

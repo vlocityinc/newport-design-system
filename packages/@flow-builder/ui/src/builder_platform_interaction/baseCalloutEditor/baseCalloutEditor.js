@@ -26,6 +26,7 @@ export default class BaseCalloutEditor extends LightningElement {
      * @property {boolean} [sortOutputs]  true if output parameters need to be sorted
      * @property {ParameterItem[]} inputs   input parameters
      * @property {ParameterItem[]} outputs output parameters
+     * @property {ParameterListWarnings} warnings warnings for input or output parameters
      */
 
     /**
@@ -52,4 +53,8 @@ export default class BaseCalloutEditor extends LightningElement {
      *
      */
     @api displaySpinner;
+
+    get warnings() {
+        return this.parameterListConfig.warnings ? this.parameterListConfig.warnings : {};
+    }
 }

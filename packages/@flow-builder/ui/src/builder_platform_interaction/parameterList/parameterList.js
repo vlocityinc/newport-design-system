@@ -82,14 +82,6 @@ export default class ParameterList extends LightningElement {
         return this.state.outputs.length === 0;
     }
 
-    get sortedInputs() {
-        return this.sortInputs ? this.state.inputs.slice().sort(multiComparator([compareParamsByRequired, compareParamsByLabel])) : this.state.inputs;
-    }
-
-    get sortedOutputs() {
-        return this.sortOutputs ? this.state.outputs.slice().sort(compareParamsByLabel) : this.state.outputs;
-    }
-
     /**
      * true if input parameters need to be sorted
      *
@@ -103,4 +95,29 @@ export default class ParameterList extends LightningElement {
      */
     @api
     sortOutputs = false;
+
+    /**
+     * @typedef {Object} ParameterItemWarning warning configuration for a ParameterItem component
+     * @property {string} warningBadge the badge text
+     * @property {string} warningMessage the warning message
+     * @property {boolean} shouldBeDeleted true if deleting the row would resolve the warning
+     *
+     * @typedef {Object.<string, ParameterItemWarning>} ParameterListWarnings warnings for ParameterList component
+     * The key is the rowIndex of the ParameterItem.
+     */
+
+    /**
+     * @type {ParameterListWarnings} the warnings for the parameters
+     */
+    @api warnings = {};
+
+    get sortedInputsWithWarnings() {
+        const sortedInputs = this.sortInputs ? this.state.inputs.slice().sort(multiComparator([compareParamsByRequired, compareParamsByLabel])) : this.state.inputs;
+        return sortedInputs.map(item => ({ item, warning : this.warnings[item.rowIndex] || {} }));
+    }
+
+    get sortedOutputsWithWarnings() {
+        const sortedOutputs = this.sortOutputs ? this.state.outputs.slice().sort(compareParamsByLabel) : this.state.outputs;
+        return sortedOutputs.map(item => ({ item, warning : this.warnings[item.rowIndex] || {} }));
+    }
 }
