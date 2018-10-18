@@ -16,6 +16,11 @@ import { logPerfMarkStart, logPerfMarkEnd } from "builder_platform_interaction/l
 
 const canvas = 'canvas';
 
+const SELECTORS = {
+    CANVAS: '.canvas',
+    INNER_CANVAS: '.inner-canvas'
+};
+
 export default class Canvas extends LightningElement {
     @api nodes = [];
     @api connectors = [];
@@ -330,7 +335,7 @@ export default class Canvas extends LightningElement {
      */
     handleCanvasMouseUp = (event) => {
         event.preventDefault();
-        if (event.target && (event.target.id === 'canvas' || event.target.id === 'innerCanvas')) {
+        if (event.target && (event.target.classList.contains('canvas') || event.target.classList.contains('inner-canvas'))) {
             const canvasMouseUpEvent = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
                 composed: true,
@@ -414,9 +419,9 @@ export default class Canvas extends LightningElement {
 
     renderedCallback() {
         if (!lib.getContainer()) {
-            this.canvasArea = this.template.querySelector('.canvas');
-            this.innerCanvasArea = this.template.querySelector('.inner-canvas');
-            lib.setContainer('innerCanvas');
+            this.canvasArea = this.template.querySelector(SELECTORS.CANVAS);
+            this.innerCanvasArea = this.template.querySelector(SELECTORS.INNER_CANVAS);
+            lib.setContainer(unwrap(this.innerCanvasArea));
         }
         const canvasElements = this.template.querySelectorAll('builder_platform_interaction-node');
         const connectors = this.template.querySelectorAll('builder_platform_interaction-connector');
