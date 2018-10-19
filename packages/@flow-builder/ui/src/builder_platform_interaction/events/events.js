@@ -55,3 +55,4 @@ export { DeleteRecordFieldAssignmentEvent } from './deleteRecordFieldAssignmentE
 export { WaitEventPropertyChangedEvent } from './waitEventPropertyChangedEvent';
 export { WaitEventParameterChangedEvent } from './waitEventParameterChangedEvent';
 export { ValidationRuleChangedEvent } from './validationRuleChangedEvent';
+export { BackEvent } from './headerEvents/backEvent';

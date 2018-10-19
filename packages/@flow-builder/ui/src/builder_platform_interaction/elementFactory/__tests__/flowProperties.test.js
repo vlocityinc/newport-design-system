@@ -72,7 +72,8 @@ describe('Flow properties', () => {
                 processType: 'AutoLaunchedFlow',
                 status: 'Draft',
                 elementType: 'FLOW_PROPERTIES',
-                isLightningFlowBuilder: true
+                isLightningFlowBuilder: true,
+                hasUnsavedChanges: false
             };
             const actualResult = createFlowProperties();
             expect(actualResult).toMatchObject(expectedResult);

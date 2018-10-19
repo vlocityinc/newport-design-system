@@ -26,6 +26,7 @@ export default class Toolbar extends LightningElement {
     @api lastModifiedDate;
     @api saveStatus;
     @api isLightningFlowBuilder;
+    @api hasUnsavedChanges;
 
     labels = LABELS;
 
@@ -62,7 +63,7 @@ export default class Toolbar extends LightningElement {
     }
 
     get saveDisabled() {
-        return this.isSaveDisabled || this.flowStatus === ACTIVE || this.flowStatus === OBSOLETE || !this.isLightningFlowBuilder;
+        return this.isSaveDisabled || this.flowStatus === ACTIVE || this.flowStatus === OBSOLETE || !this.isLightningFlowBuilder || !this.hasUnsavedChanges;
     }
 
     get statusBadgeLabel() {

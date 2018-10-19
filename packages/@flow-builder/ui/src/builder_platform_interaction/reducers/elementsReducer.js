@@ -17,7 +17,8 @@ import {
     MODIFY_WAIT_WITH_WAIT_EVENTS,
     UPDATE_RECORD_LOOKUP,
     ADD_SCREEN_WITH_FIELDS,
-    MODIFY_SCREEN_WITH_FIELDS
+    MODIFY_SCREEN_WITH_FIELDS,
+    ADD_START_ELEMENT
 } from "builder_platform_interaction/actions";
 import {deepCopy} from "builder_platform_interaction/storeLib";
 import {updateProperties, omit, addItem} from "builder_platform_interaction/dataMutationLib";
@@ -35,6 +36,7 @@ export default function elementsReducer(state = {}, action) {
         case UPDATE_FLOW:
             return deepCopy(action.payload.elements);
         case ADD_CANVAS_ELEMENT:
+        case ADD_START_ELEMENT:
         case ADD_RESOURCE:
         case UPDATE_CANVAS_ELEMENT:
         case UPDATE_RESOURCE:

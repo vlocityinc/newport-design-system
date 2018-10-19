@@ -23,11 +23,6 @@ describe('flow-properties-reducer', () => {
         expect(newPropertiesState.processType).toEqual(defaultProperties.processType);
     });
 
-    it('with state set to defined & action type set to empty should return the current state object', () => {
-        const newPropertiesState = reducer(oldProperties, {});
-        expect(newPropertiesState).toEqual(oldProperties);
-    });
-
     it('with state set to defined & action type set to UPDATE_PROPERTIES should return the new state with updated properties', () => {
         const newPropertiesState = reducer(oldProperties, {type: UPDATE_PROPERTIES, payload: newProperties });
         expect(newPropertiesState).not.toBe(oldProperties);
@@ -36,6 +31,7 @@ describe('flow-properties-reducer', () => {
         expect(newPropertiesState.description).toEqual(oldProperties.description);
         expect(newPropertiesState.processType).toEqual(newProperties.processType);
         expect(newPropertiesState.org).toEqual(newProperties.org);
+        expect(newPropertiesState.hasUnsavedChanges).toBe(true);
     });
 
     it('with state set to undefined & action type set to UPDATE_PROPERTIES should return the new state with the new properties', () => {
@@ -43,6 +39,7 @@ describe('flow-properties-reducer', () => {
         expect(newPropertiesState.org).toEqual(newProperties.org);
         expect(newPropertiesState.elementType).toEqual(defaultProperties.elementType);
         expect(newPropertiesState.processType).toEqual(newProperties.processType);
+        expect(newPropertiesState.hasUnsavedChanges).toBe(true);
     });
 
     it('with state set to defined & action type set to UPDATE_FLOW should return the new state with the updated flow properties', () => {
@@ -53,6 +50,7 @@ describe('flow-properties-reducer', () => {
         expect(newPropertiesState.description).toEqual(oldProperties.description);
         expect(newPropertiesState.processType).toEqual(newProperties.processType);
         expect(newPropertiesState.org).toEqual(newProperties.org);
+        expect(newPropertiesState.hasUnsavedChanges).toBe(false);
     });
 
     it('with state set to undefined & action type set to UPDATE_FLOW should return the new state with the new flow properties', () => {
@@ -60,5 +58,6 @@ describe('flow-properties-reducer', () => {
         expect(newPropertiesState.org).toEqual(newProperties.org);
         expect(newPropertiesState.elementType).toEqual(defaultProperties.elementType);
         expect(newPropertiesState.processType).toEqual(newProperties.processType);
+        expect(newPropertiesState.hasUnsavedChanges).toBe(false);
     });
 });

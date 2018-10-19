@@ -31,7 +31,8 @@ export function createFlowProperties(flowProperties = {}) {
         interviewLabel = '',
         processType = 'AutoLaunchedFlow',
         status = 'Draft',
-        processMetadataValues
+        processMetadataValues,
+        hasUnsavedChanges = false
     } = flowProperties.metadata || flowProperties;
 
     let { isLightningFlowBuilder = true } = flowProperties;
@@ -54,7 +55,8 @@ export function createFlowProperties(flowProperties = {}) {
             processType,
             status,
             elementType,
-            isLightningFlowBuilder
+            isLightningFlowBuilder,
+            hasUnsavedChanges
     };
 }
 

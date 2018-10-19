@@ -1,5 +1,4 @@
-import { UPDATE_FLOW, UPDATE_PROPERTIES } from "builder_platform_interaction/actions";
-import { updateProperties } from "builder_platform_interaction/dataMutationLib";
+import { UPDATE_FLOW, UPDATE_PROPERTIES, UPDATE_PROPERTIES_AFTER_SAVING, ADD_START_ELEMENT } from "builder_platform_interaction/actions";
 import { createFlowProperties } from "builder_platform_interaction/elementFactory";
 /**
  * Reducer for properties
@@ -13,10 +12,28 @@ const flowProperties = createFlowProperties();
 
 export default function flowPropertiesReducer(state = flowProperties, action) {
     switch (action.type) {
-        case UPDATE_FLOW:
-            return updateProperties(state, action.payload.properties);
-        case UPDATE_PROPERTIES:
-            return updateProperties(state, action.payload);
-        default: return state;
+        // Default value of hasUnsavedChanges is false in factory, so in this case it will be set to false.
+        case UPDATE_FLOW: return Object.assign({}, state, action.payload.properties, {
+            hasUnsavedChanges: false
+        });
+        // This action is dispatch when after flow properties are updated
+        // In first case, hasUnsavedChanges is set to true.
+        case UPDATE_PROPERTIES: return Object.assign({}, state, action.payload, {
+            hasUnsavedChanges: true
+        });
+        // This action is dispatched after flow is saved
+        // After flow is saved, hasUnsavedChanges is set to false.
+        case UPDATE_PROPERTIES_AFTER_SAVING: return Object.assign({}, state, action.payload, {
+            hasUnsavedChanges: false
+        });
+
+        // These actions are dispatched when new flow is created
+        case ADD_START_ELEMENT:
+        case 'INIT': return state;
+
+        // hasUnsavedChanges is set to true, if any other action is dispatch
+        default: return Object.assign({}, state, {
+            hasUnsavedChanges: true
+        });
     }
 }

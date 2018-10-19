@@ -4,6 +4,7 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 export const UPDATE_FLOW = 'UPDATE_FLOW';
 
 export const UPDATE_PROPERTIES = 'UPDATE_PROPERTIES';
+export const UPDATE_PROPERTIES_AFTER_SAVING = 'UPDATE_PROPERTIES_AFTER_SAVING';
 
 export const ADD_CANVAS_ELEMENT = 'ADD_CANVAS_ELEMENT';
 export const UPDATE_CANVAS_ELEMENT = 'UPDATE_CANVAS_ELEMENT';
@@ -31,6 +32,9 @@ export const UPDATE_RECORD_LOOKUP = 'UPDATE_RECORD_LOOKUP';
 
 export const ADD_SCREEN_WITH_FIELDS = 'ADD_SCREEN_WITH_FIELDS';
 export const MODIFY_SCREEN_WITH_FIELDS = 'MODIFY_SCREEN_WITH_FIELDS';
+
+export const ADD_START_ELEMENT = 'ADD_START_ELEMENT';
+
 
 export const PROPERTY_EDITOR_ACTION = {
     UPDATE_ELEMENT_PROPERTY: 'UPDATE_ELEMENT_PROPERTY',
@@ -75,6 +79,14 @@ export const updateFlow = (payload) => createAction(UPDATE_FLOW, payload);
 export const updateProperties = (payload) => createAction(UPDATE_PROPERTIES, payload);
 
 /**
+ * Action for updating flow properties in the store after saving a flow.
+ *
+ * @param {Object} payload - contains new flow information
+ * @returns {Object} action new action based on type and payload
+ */
+export const updatePropertiesAfterSaving = (payload) => createAction(UPDATE_PROPERTIES_AFTER_SAVING, payload);
+
+/**
  * Action for adding a new element in the store.
  *
  * @param {Object} payload - contains new element value to be added
@@ -98,6 +110,8 @@ export const addElement = (payload) => {
                 return createAction(ADD_WAIT_WITH_WAIT_EVENTS, payload);
             case ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS:
                 return createAction(ADD_SCREEN_WITH_FIELDS, payload);
+            case ELEMENT_TYPE.START_ELEMENT:
+                return createAction(ADD_START_ELEMENT, payload);
             default:
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(ADD_CANVAS_ELEMENT, payload);

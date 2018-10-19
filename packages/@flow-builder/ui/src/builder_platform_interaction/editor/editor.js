@@ -1,8 +1,8 @@
 import { LightningElement, track, api } from 'lwc';
-import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
+import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData, invokeModal } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { canvasSelector, getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas } from 'builder_platform_interaction/actions';
+import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas, updatePropertiesAfterSaving } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from 'builder_platform_interaction/connectorUtils';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -226,7 +226,7 @@ export default class Editor extends LightningElement {
             // TODO: handle error case
         } else if (data.isSuccess) {
             this.currentFlowId = data.flowId;
-            storeInstance.dispatch(updateProperties({
+            storeInstance.dispatch(updatePropertiesAfterSaving({
                 versionNumber: data.versionNumber,
                 status: data.status,
                 lastModifiedDate: data.lastModifiedDate,
@@ -361,6 +361,40 @@ export default class Editor extends LightningElement {
 
         window.open(url, '_blank');
     };
+
+    /**
+     * Handles event when a user clicks on back button in header
+     * Redirect if a user has no unsaved changes
+     * show confirmation modal if a user has unsaved changes
+     */
+
+    handleHeaderBack = () => {
+        const backCallback = () => {
+            window.location.href = this.backUrl;
+        };
+        if (this.appState.properties.hasUnsavedChanges) {
+            invokeModal({
+                headerData: {
+                    headerTitle: LABELS.backButtonRedirectConfirmationTitle
+                },
+                bodyData: {
+                    bodyTextOne: LABELS.backButtonRedirectConfirmationMessage
+                },
+                footerData: {
+                    buttonOne: {
+                        buttonLabel: LABELS.cancel
+                    },
+                    buttonTwo: {
+                        buttonVariant: "brand",
+                        buttonLabel: LABELS.okayButtonLabel,
+                        buttonCallback: backCallback
+                    }
+                }
+            });
+        } else {
+            backCallback();
+        }
+    }
 
     /**
      * Handles the edit flow properies event fired by the toolbar. Opens the flow properties property editor with

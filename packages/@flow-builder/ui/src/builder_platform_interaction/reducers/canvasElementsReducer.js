@@ -4,7 +4,8 @@ import {
     ADD_WAIT_WITH_WAIT_EVENTS,
     DELETE_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
-    ADD_SCREEN_WITH_FIELDS
+    ADD_SCREEN_WITH_FIELDS,
+    ADD_START_ELEMENT
 } from "builder_platform_interaction/actions";
 import { addItem } from "builder_platform_interaction/dataMutationLib";
 
@@ -22,6 +23,7 @@ export default function canvasElementsReducer(state = [], action) {
             return addItem(state, action.payload.decision.guid);
         case ADD_WAIT_WITH_WAIT_EVENTS:
             return addItem(state, action.payload.wait.guid);
+        case ADD_START_ELEMENT:
         case ADD_CANVAS_ELEMENT:
             return addItem(state, action.payload.guid);
         case ADD_SCREEN_WITH_FIELDS:

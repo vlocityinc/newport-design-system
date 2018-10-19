@@ -56,20 +56,6 @@ describe('HEADER', () => {
         });
     });
 
-    it('checks the rendering BACK URL when its undefined and should return Undefined.', () => {
-        const headerComponent = createComponentForTest();
-        return Promise.resolve().then(() => {
-            expect(getShadowRoot(headerComponent).querySelector(selectors.backUrl).value).toBeUndefined();
-        });
-    });
-
-    it('checks the rendering BACK URL when ProcessUIFlow value is provided should return /300', () => {
-        const headerComponent = createComponentForTest('Flow Name', '1', '/300');
-        return Promise.resolve().then(() => {
-            expect(getShadowRoot(headerComponent).querySelector(selectors.backUrl).pathname).toEqual("/300");
-        });
-    });
-
     it('checks the rendering BACK label', () => {
         const headerComponent = createComponentForTest();
         return Promise.resolve().then(() => {
