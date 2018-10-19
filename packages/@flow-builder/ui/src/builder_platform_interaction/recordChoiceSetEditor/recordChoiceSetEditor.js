@@ -94,6 +94,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
     get hideNewResourceButton() {
         return this.isNewMode;
     }
+
     get entityComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             LABELS.entityPickerLabel, // label
@@ -209,11 +210,18 @@ export default class RecordChoiceSetEditor extends LightningElement {
         this.updateProperty(event.detail.propertyName, value, error);
     }
 
+    /**
+     * @param {Object} event recordFilterType changed event from record-filter component
+     */
     handleFilterTypeChanged(event) {
         event.stopPropagation();
         const value = event.detail.filterType;
         this.updateProperty(RECORD_CHOICE_SET_FIELDS.FILTER_TYPE, value, null);
     }
+
+    /**
+     * @param {Object} event [add/update/delete]recordFilter event from record-filter component
+     */
     handleListItemChanged(event) {
         event.stopPropagation();
         const actionType = event.type;
@@ -226,6 +234,9 @@ export default class RecordChoiceSetEditor extends LightningElement {
         this.recordChoiceSetResource = recordChoiceSetReducer(this.recordChoiceSetResource, action);
     }
 
+    /**
+     * @param {*} event change event from record sort component
+     */
     handleRecordSortChanged(event) {
         event.stopPropagation();
         if (this.recordChoiceSetResource.sortField.value !== event.detail.fieldApiName) {
@@ -235,6 +246,9 @@ export default class RecordChoiceSetEditor extends LightningElement {
         }
     }
 
+    /**
+     * @param {*} event focus out event from choice limit input
+     */
     handleChoiceLimitChanged(event) {
         const choiceLimitElement = event.target;
         const limitValue = choiceLimitElement.value;

@@ -157,8 +157,7 @@ describe('picklist-choice-set-editor', () => {
         let picklistChoiceEditor;
         let dataTypePicker;
         beforeEach(() => {
-            const hydratedPicklistObject = hydrateWithErrors(picklistChoiceObject, ['guid', 'elementType']);
-            picklistChoiceEditor = setupComponentUnderTest(hydratedPicklistObject);
+            picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
             dataTypePicker = getShadowRoot(picklistChoiceEditor).querySelector(SELECTORS.DATA_TYPE_PICKER);
         });
 
@@ -177,17 +176,17 @@ describe('picklist-choice-set-editor', () => {
         });
 
         it('Handles value change event when data type option is selected', () => {
-            dispatchValueChangedEvent({ dataType : 'Picklist' });
+            dispatchValueChangedEvent({ dataType : 'MultiPicklist' });
             expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
                 propertyName : 'dataType',
-                value: 'Picklist',
+                value: 'MultiPicklist',
                 error: null,
                 doValidateProperty: true
             });
         });
 
         it('Changing value in data-type-picker should update picklistField', () => {
-            dispatchValueChangedEvent({ dataType : 'Picklist' });
+            dispatchValueChangedEvent({ dataType : 'MultiPicklist' });
             expect(createAction.mock.calls[1][1]).toEqual({
                 propertyName: 'picklistField',
                 value: null,

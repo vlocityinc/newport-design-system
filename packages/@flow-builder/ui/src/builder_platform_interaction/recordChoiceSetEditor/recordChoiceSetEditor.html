@@ -36,7 +36,7 @@
                 onupdaterecordfilter={handleListItemChanged}
                 ondeleterecordfilter={handleListItemChanged}>
             </builder_platform_interaction-record-filter>
-
+            <!--Record Sort component  -->
             <builder_platform_interaction-record-sort
                 resource-api-name={recordChoiceSetResource.object.value}
                 resource-display-text={resourceDisplayText}
@@ -45,6 +45,7 @@
                 sort-field-error={recordChoiceSetResource.sortField.error}
                 onchange={handleRecordSortChanged}>
             </builder_platform_interaction-record-sort>
+            <!--Choice Limit Filter component  -->
             <lightning-input 
                 type="number"
                 placeholder={labels.choiceLimitPlaceholder}

@@ -69,7 +69,7 @@ class DrawingLib {
 
     /**
      * Sets the container as the main area for all the jsPlumb activity.
-     * @param {String} container - id of the elements where the jsPlumb instance should live
+     * @param {String|Object} container - id of the element or the whole element where the jsPlumb instance should live
      */
     setContainer = (container) => {
         instance.setContainer(container);

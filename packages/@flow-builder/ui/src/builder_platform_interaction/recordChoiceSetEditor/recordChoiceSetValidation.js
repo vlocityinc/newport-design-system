@@ -32,7 +32,7 @@ const validateFilter = () => {
 export const recordChoiceSetValidation = new Validation(additionalRules);
 export const getRules = (recordChoice) => {
     const overrideRules = Object.assign({}, recordChoiceSetValidation.finalizedRules);
-    if (recordChoice.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
+    if (recordChoice.filterType && recordChoice.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
         overrideRules.filters = validateFilter();
     }
 
