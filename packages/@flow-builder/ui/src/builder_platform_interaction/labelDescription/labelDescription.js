@@ -160,7 +160,10 @@ export default class LabelDescription extends LightningElement {
      * @param {String} newDevName - the dev name entered by the user
      */
     updateDevName(newDevName) {
-        const error = isUniqueDevNameInStore(newDevName, [this.guid]);
+        let error = null;
+        if (newDevName) {
+            error = isUniqueDevNameInStore(newDevName, [this.guid]);
+        }
         const event = new PropertyChangedEvent(
             // TODO get property name from constant source
             'name',

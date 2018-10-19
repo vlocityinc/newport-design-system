@@ -2,7 +2,6 @@ import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressio
 import { isUndefinedOrNull, format } from "builder_platform_interaction/commonUtils";
 import { Store } from "builder_platform_interaction/storeLib";
 import { LABELS as labels} from "./validationRulesLabels";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 /**
  * @param {Object} rule - object containing regex pattern and message
@@ -201,8 +200,7 @@ export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) =
     const elements = currentState.elements;
     const matches = Object.values(elements).filter(element =>
         !listOfGuidsToSkip.includes(element.guid) &&
-        (element.name && element.name.toLowerCase()) === nameToBeTested.toLowerCase() &&
-        (element.elementType !== ELEMENT_TYPE.START_ELEMENT));
+        (element.name && element.name.toLowerCase()) === nameToBeTested.toLowerCase());
     return matches.length > 0 ? LABELS.fieldNotUnique : null;
 };
 
