@@ -114,6 +114,7 @@
     color: t(colorBrandDarker) !important;
     box-shadow: t(shadowButtonFocus);
     cursor: pointer;
+    z-index: 400;
 }
 
 .THIS builder_platform_interaction-canvas .canvas .jtk-overlay.fault-label {
@@ -131,6 +132,7 @@
     color: t(colorTextError) !important;
     box-shadow: 0 0 3px t(colorBorderDestructiveActive);
     cursor: pointer;
+    z-index: 400;
 }
 
 .THIS builder_platform_interaction-canvas .canvas .jtk-endpoint.jtk-endpoint-anchor.jtk-draggable.jtk-endpoint-connected.jtk-dragging {

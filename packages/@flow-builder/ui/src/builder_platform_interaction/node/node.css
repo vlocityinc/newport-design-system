@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 
-.node-container:active {
+.node-container.jtk-drag-selected, .node-container.jtk-drag.jtk-dragged {
     z-index: 400;
 }
 
