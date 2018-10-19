@@ -1,5 +1,4 @@
 import { getElementsForMenuData, getEntitiesMenuData, getStoreElements, filterAndMutateMenuData, getEventTypesMenuData } from '../menuDataRetrieval';
-import { normalizeLHS } from '../resourceUtils';
 import { numberParamCanBeField, stringParam, booleanParam } from 'mock/ruleService';
 import * as store from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -241,7 +240,8 @@ describe('Menu data retrieval', () => {
         });
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockClear();
     });
-    describe('RHS menuData', () => {
+    // TODO W-5528544: Move this test to outputResourcePicker if needed
+    /* describe('RHS menuData', () => {
         it('should have active picklist values in menu data when LHS is picklist field', () => {
             selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid]]);
             const complexGuid = store.accountSObjectVariableGuid + '.AccountSource';
@@ -259,7 +259,7 @@ describe('Menu data retrieval', () => {
             expect(menuData).toContainEqual(expect.objectContaining({items: expect.any(Array)}));
             selectorsMock.writableElementsSelector.mockClear();
         });
-    });
+    });*/
     describe('global constants', () => {
         it('empty string should show in menuData when allowed', () => {
             // all global constants returned from selector

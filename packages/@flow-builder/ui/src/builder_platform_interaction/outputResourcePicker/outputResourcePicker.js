@@ -1,7 +1,10 @@
 import { LightningElement, api, track }  from 'lwc';
 import {
-    normalizeLHS,
     getMenuData,
+    getResourceByUniqueIdentifier,
+    getFieldParamRepresentation,
+    mutateFieldToComboboxShape,
+    mutateFlowResourceToComboboxShape,
 } from "builder_platform_interaction/expressionUtils";
 import {
     getOutputRules,
@@ -12,6 +15,8 @@ import { isObject } from "builder_platform_interaction/commonUtils";
 import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
+import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
+import { elementToParam } from "builder_platform_interaction/ruleLib";
 
 let storeInstance;
 
@@ -142,7 +147,7 @@ export default class OutputResourcePicker extends LightningElement {
             this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
 
             const identifier = isObject(this.value) ? this.value.value : this.value;
-            this.initializeResourcePicker(normalizeLHS(identifier));
+            this.initializeResourcePicker(this.normalizeValue(identifier));
         }
     }
 
@@ -176,4 +181,32 @@ export default class OutputResourcePicker extends LightningElement {
                         this.enableFieldDrilldown, storeInstance, showNewResource, parentItem, fields));
         }
     }
+
+    normalizeValue = (identifier, elementType, callback) => {
+        const normalizedValue = {};
+        const complexGuid = sanitizeGuid(identifier);
+        const flowElement = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
+        if (flowElement) {
+            if (complexGuid.fieldName) {
+                // TODO: W-4960448: the field will appear empty briefly when fetching the first time
+                const sobject = flowElement.objectType;
+                normalizedValue.parameter = getFieldParamRepresentation(sobject, complexGuid.fieldName, (field) => {
+                    const isFieldOnSobjectVar = !!flowElement;
+                    const fieldParent = isFieldOnSobjectVar ? mutateFlowResourceToComboboxShape(flowElement) : {value: field.sobjectName};
+                    normalizedValue.item = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
+                    if (callback) {
+                        callback(identifier);
+                    }
+                    normalizedValue.activePicklistValues = field.activePicklistValues;
+                });
+            } else {
+                normalizedValue.item = mutateFlowResourceToComboboxShape(flowElement);
+                normalizedValue.parameter = elementToParam(flowElement);
+            }
+        } else {
+            // Pass in identifier as string in the default case
+            normalizedValue.item = identifier;
+        }
+        return normalizedValue;
+    };
 }

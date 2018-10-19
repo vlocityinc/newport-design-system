@@ -1,10 +1,8 @@
 import {
-    normalizeLHS,
     normalizeRHS,
     getResourceByUniqueIdentifier,
     getFerovInfoFromComboboxItem,
 } from '../resourceUtils';
-import { numberParamCanBeField } from "mock/ruleService";
 import * as store from "mock/storeData";
 import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -24,7 +22,8 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
-describe('LHS normalize', () => {
+// TODO W-5528544: Move these tests to outputResourcePicker if needed
+/* describe('LHS normalize', () => {
     it('should handle the case when LHS is guid', () => {
         const normalizedElement = normalizeLHS(store.numberVariableGuid);
         expect(normalizedElement.item.displayText).toBe('{!' + store.numberVariableDevName + '}');
@@ -39,14 +38,12 @@ describe('LHS normalize', () => {
         expect(normalizedElement.activePicklistValues).toBeDefined();
         expect(normalizedElement.activePicklistValues).toEqual(expect.any(Array));
     });
-});
+}); */
 
 describe('RHS normalize', () => {
     it('should match an rhs value with a picklist api name to a menu item', () => {
-        const complexGuid = store.accountSObjectVariableGuid + '.AccountSource';
-        const lhs = normalizeLHS(complexGuid);
         const rhsApiValue = 'AccountSource';
-        normalizeRHS(rhsApiValue, lhs)
+        normalizeRHS(rhsApiValue)
             .then((rhs) => {
                 expect(rhs.itemOrDisplayText).toBeDefined();
                 expect(rhs.itemOrDisplayText).toEqual(rhsApiValue);
