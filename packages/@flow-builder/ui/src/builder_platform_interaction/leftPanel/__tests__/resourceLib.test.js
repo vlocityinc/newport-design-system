@@ -233,7 +233,8 @@ function verifyItem(item) {
 }
 
 function verifySection(section, expectedSectionCounts) {
-    expect(section.guid).toMatch(new RegExp('^RESOURCEPALETTESECTION'));
+    expect(section.guid).toBeDefined();
+    expect(section.guid).not.toBe('');
 
     // Empty sections should not be included.
     expect(section).toHaveProperty('_children');

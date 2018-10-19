@@ -16,7 +16,7 @@ import {
 } from "builder_platform_interaction/events";
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { createOutcome } from "builder_platform_interaction/elementFactory";
-import { ELEMENT_TYPE, SUB_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
@@ -68,7 +68,7 @@ const addCondition = (state, event) => {
             [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null},
             [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null},
             [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
-            rowIndex: generateGuid(SUB_ELEMENT_TYPE.CONDITION),
+            rowIndex: generateGuid(),
         };
         return outcome.guid === event.detail.parentGUID ? updateProperties(outcome, {
             conditions: addItem(outcome.conditions, newCondition),

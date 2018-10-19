@@ -1,7 +1,6 @@
 import { recordUpdateValidation, getRules } from "./recordUpdateValidation";
 import { updateProperties, set, deleteItem } from "builder_platform_interaction/dataMutationLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { SUB_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import {
@@ -29,7 +28,7 @@ const emptyFilterItem = () => {
         [OPERATOR]: { value: '', error: null},
         [RHS]: { value: '', error: null},
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
-        rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM),
+        rowIndex: generateGuid(),
     };
 };
 
@@ -38,7 +37,7 @@ const emptyAssignmentItem = () => {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null},
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
-        rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_CREATE_ASSIGNMENT_FIELD),
+        rowIndex: generateGuid(),
     };
 };
 

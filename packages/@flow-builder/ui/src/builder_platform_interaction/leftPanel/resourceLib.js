@@ -4,8 +4,6 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { labelComparator } from "builder_platform_interaction/sortLib";
 import { generateGuid } from "builder_platform_interaction/storeLib";
 
-const SECTION_PREFIX = 'RESOURCE_PALETTE_SECTION';
-
 /**
  * Transforms elements into a form that is usable by lightning-tree-grid. These
  * are grouped by element category so that they can more easily be placed into
@@ -70,7 +68,7 @@ export const getResourceSections = (elements, filter, sort) => {
         })
         .map(category => {
             const section = {
-                guid: generateGuid(SECTION_PREFIX),
+                guid: generateGuid(),
                 label: category,
                 _children: resourceMap[category]
             };

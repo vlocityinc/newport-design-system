@@ -10,7 +10,6 @@ import {
 } from "builder_platform_interaction/events";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { generateGuid } from "builder_platform_interaction/storeLib";
-import { SUB_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { recordLookupValidation, getRules } from "./recordLookupValidation";
 import { RECORD_FILTER_CRITERIA, SORT_ORDER } from "builder_platform_interaction/recordEditorLib";
@@ -26,7 +25,7 @@ const emptyFilterItem = () => {
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null},
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null},
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
-        rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FILTER_ITEM),
+        rowIndex: generateGuid(),
     };
 };
 
@@ -47,7 +46,7 @@ const updateRecordFilter = (state, event) => {
 };
 
 const addQueriedField = (state) => {
-    const emptyField = hydrateWithErrors({field: '', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FIELD)});
+    const emptyField = hydrateWithErrors({field: '', rowIndex: generateGuid()});
     const path = ['queriedFields', state.queriedFields.length];
     return set(state, path, emptyField);
 };
@@ -79,7 +78,7 @@ const updateQueriedField = (state, event) => {
 
 const resetQueriedFields = (state) => {
     // reset queriedFields: create one empty filter item + Id
-    return set(state, 'queriedFields', hydrateWithErrors([{field: 'Id', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FIELD)}, {field: '', rowIndex: generateGuid(SUB_ELEMENT_TYPE.RECORD_LOOKUP_FIELD)}]));
+    return set(state, 'queriedFields', hydrateWithErrors([{field: 'Id', rowIndex: generateGuid()}, {field: '', rowIndex: generateGuid()}]));
 };
 
 const updateOutputReferenceAndQueriedFields = (state, value, error) => {

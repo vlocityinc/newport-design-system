@@ -1,9 +1,6 @@
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { deepCopy, generateGuid } from "builder_platform_interaction/storeLib";
 
-const SECTION_PREFIX = 'ELEMENTS_PALETTE_SECTION';
-const ITEM_PREFIX = 'ELEMENTS_PALETTE_ITEM';
-
 /**
  * Transforms elements into a form that is usable by lightning-tree-grid. These
  * are grouped by element category so that they can more easily be placed into
@@ -20,7 +17,7 @@ const mutateElements = (elements) => elements.reduce((acc, element) => {
     }
 
     const item = deepCopy(element);
-    item.guid = generateGuid(ITEM_PREFIX);
+    item.guid = generateGuid();
     item.iconName = getConfigForElementType(element.elementType).nodeConfig.iconName;
     delete item.section;
     acc[element.section].push(item);
@@ -44,7 +41,7 @@ export const getElementSections = (elements) => {
     const elementSections = Object.keys(elementMap).reduce((acc, name) => {
         const section = {};
         section._children = elementMap[name];
-        section.guid = generateGuid(SECTION_PREFIX);
+        section.guid = generateGuid();
         section.label = name;
         acc.push(section);
         return acc;

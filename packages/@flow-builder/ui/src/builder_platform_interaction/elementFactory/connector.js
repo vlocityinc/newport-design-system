@@ -14,7 +14,7 @@ import { LABELS } from "./elementFactoryLabels";
  * @returns {Object} connector       connector object
  */
 export const createConnector = (source, childSource, target, label, type) => {
-    const guid = generateGuid("CONNECTOR");
+    const guid = generateGuid();
     const config = {
         isSelected: false
     };

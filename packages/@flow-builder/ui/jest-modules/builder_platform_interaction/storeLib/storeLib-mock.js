@@ -91,8 +91,8 @@ const MockStore = jest.fn().mockImplementation(() => {
 
 const mockStoreInstance = new MockStore();
 
-export const generateGuid = (arg) => {
-    return storeLib.generateGuid(arg);
+export const generateGuid = () => {
+    return storeLib.generateGuid();
 };
 
 export const deepCopy = (arg) => {

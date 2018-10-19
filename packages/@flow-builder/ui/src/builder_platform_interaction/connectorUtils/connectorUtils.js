@@ -63,7 +63,7 @@ export const getFlowBounds = (canvasElements) => {
  */
 export const createConnectorObject = (source, childSource, target, label, type) => {
     const connector = {};
-    connector.guid = generateGuid('CONNECTOR');
+    connector.guid = generateGuid();
     connector.source = source;
     // Tracks the guid of the child element that this connector is associated with (like an outcome or wait event)
     connector.childSource = childSource;
