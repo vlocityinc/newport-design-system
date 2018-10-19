@@ -185,6 +185,7 @@ export default class VariableConstantEditor extends LightningElement {
             return {
                 text: defaultValue,
                 displayText: defaultValue,
+                value: defaultValue,
             };
         }
         if (defaultValue && (typeof defaultValue === 'number' || typeof defaultValue === 'boolean')) {
