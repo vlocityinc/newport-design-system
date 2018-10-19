@@ -21,9 +21,12 @@
         <builder_platform_interaction-wait-platform-event
                 parent-guid={parentGuid}
                 event-type={eventType}
-                resume-time-parameters={resumeTimeParameters}
-                output-parameters={outputParameters}>
-        ></builder_platform_interaction-wait-platform-event>
+                input-filter-parameters={resumeTimeParameters}
+                output-parameters={outputParameters}
+                onaddcondition={handlePlatformInputFilterEvent}
+                ondeletecondition={handlePlatformInputFilterEvent}
+                onupdatecondition={handlePlatformInputFilterEvent}>
+        </builder_platform_interaction-wait-platform-event>
     </div>
     <div if:true={isTimeEventTypeSelected}>
         <builder_platform_interaction-wait-time-event

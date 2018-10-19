@@ -37,7 +37,7 @@ const waitEventWithInputParameters = {
     conditionLogic: {value: '1'},
     eventType: 'mockEventType',
     inputParameters: [
-        {name: 'foo', value: 'bar'}
+        {name: {value:'foo'}, value: {value:'bar'}, valueDataType: {value:'vdt'}}
     ],
     outputParameters: [],
 };
@@ -212,7 +212,7 @@ describe('Wait Event', () => {
             window.removeEventListener(WaitEventParameterChangedEvent.EVENT_NAME, waitEventParameterSpy);
         });
 
-        it('passes inputParamters to to the waitResumeConditions component', () => {
+        it('passes inputParameters to to the waitResumeConditions component', () => {
             const waitResumeConditions = getShadowRoot(waitEvent).querySelector(selectors.waitResumeConditions);
             expect(waitResumeConditions.resumeTimeParameters).toEqual(waitEventWithInputParameters.inputParameters);
         });
@@ -233,7 +233,7 @@ describe('Wait Event', () => {
             });
         });
 
-        it('handles UpdateParamterItem from waitResumeConditions and fires WaitEventParamterChangedEvent', () => {
+        it('handles UpdateParameterItem from waitResumeConditions and fires WaitEventParameterChangedEvent', () => {
             const isInput = true;
             const propName = 'foo';
             const newValue = 'my new value';
@@ -247,7 +247,7 @@ describe('Wait Event', () => {
              return Promise.resolve().then(() => {
                 expect(waitEventParameterSpy.mock.calls[0][0].type).toEqual(WaitEventParameterChangedEvent.EVENT_NAME);
                 expect(waitEventParameterSpy.mock.calls[0][0].detail.isInputParameter).toEqual(isInput);
-                expect(waitEventParameterSpy.mock.calls[0][0].detail.parameterName).toEqual(propName);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.name).toEqual(propName);
                 expect(waitEventParameterSpy.mock.calls[0][0].detail.value).toEqual(newValue);
                 expect(waitEventParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(newValueDataType);
                 expect(waitEventParameterSpy.mock.calls[0][0].detail.error).toEqual(error);

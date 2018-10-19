@@ -4,18 +4,19 @@
 const eventName = 'waiteventparameterchanged';
 
 export class WaitEventParameterChangedEvent {
-    constructor(parameterName, value, valueDataType, error = null, parentGUID = null, isInputParameter) {
+    constructor(name, value, valueDataType, error = null, parentGUID = null, isInputParameter, index = null) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
             detail: {
-                parameterName,
+                name,
                 value,
                 valueDataType,
                 error,
                 parentGUID,
                 isInputParameter,
+                index
             }
         });
     }

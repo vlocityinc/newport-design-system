@@ -14,14 +14,13 @@ const EVENT_FIELD_TYPE = {
 /**
  * Cache to hold the event type input/output fields to avoid call to the server.
  * @example
- * {
- *     'PlatformEvent1__e' : {
- *         input : [
- *             { dataType: "reference", isRequired: false, label: "Created By", qualifiedApiName: "CreatedById" }
- *             ...
- *         ],
+ * [
+ *     {
+ *          input : [
+ *               "CreatedById" : { dataType: "string", isRequired: false, label: "Created By", qualifiedApiName: "CreatedById" },
+ *          ],
  *         output : [
- *             { dataType: "sobject", isRequired: true, label: "PlatformEvent1", qualifiedApiName: "PlatformEvent1__e" }
+ *              "PlatformEvent1__e" : { dataType: "sobject", isRequired: true, label: "PlatformEvent1", qualifiedApiName: "PlatformEvent1__e" }
  *         ]
  *     },
  *     'PlatformEvent2__e' : {
@@ -29,7 +28,7 @@ const EVENT_FIELD_TYPE = {
  *         output : [...]
  *     },
  *     ...
- * }
+ *]
  */
 const eventTypeParameters = {};
 
@@ -60,15 +59,15 @@ const getParametersForEventTypeCallback = (eventTypeParametersData = [], eventTy
     }
 
     const eventTypeAllParameters = Array.isArray(eventTypeParametersData) ? eventTypeParametersData : [];
-    const inputParams = [];
-    const outputParams = [];
+    const inputParams = {};
+    const outputParams = {};
     const parameters = {};
     eventTypeAllParameters.forEach(eventTypeParameter => {
         if (eventTypeParameter.isSubscription) {
-            inputParams.push(eventTypeParameter);
+            inputParams[eventTypeParameter.qualifiedApiName] = eventTypeParameter;
         }
         if (eventTypeParameter.isPublication) {
-            outputParams.push(eventTypeParameter);
+            outputParams[eventTypeParameter.qualifiedApiName] = eventTypeParameter;
         }
     });
     parameters[EVENT_FIELD_TYPE.INPUT] = inputParams;

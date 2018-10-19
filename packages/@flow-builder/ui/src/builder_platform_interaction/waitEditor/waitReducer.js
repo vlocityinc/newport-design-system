@@ -1,11 +1,14 @@
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import {
     addItem,
     deleteItem,
     replaceItem,
     hydrateWithErrors,
+    omit,
     updateProperties,
 } from 'builder_platform_interaction/dataMutationLib';
 import {
+    createInputParameter,
     createWaitEvent,
     createCondition,
 } from "builder_platform_interaction/elementFactory";
@@ -22,6 +25,8 @@ import {
     ReorderListEvent,
     WaitEventPropertyChangedEvent,
     WaitEventParameterChangedEvent,
+    WaitEventAddParameterEvent,
+    WaitEventDeleteParameterEvent,
 } from 'builder_platform_interaction/events';
 import {waitValidation, additionalRules} from './waitValidation';
 
@@ -159,15 +164,69 @@ const getParameterPropertyName = isInputParameter => {
 
 const updateWaitEventParameter = (state, event) => {
     const updateParameter = parameters => {
-        const propsToUpdate = {
-            name: event.detail.parameterName,
-            value: { value: event.detail.value, error: event.detail.error },
-            valueDataType: event.detail.valueDataType
-        };
+        // Only set the params that are actually passed in
+        const propsToUpdate = {};
+        if (!isUndefinedOrNull(event.detail.name)) {
+            propsToUpdate.name = {
+                value: event.detail.name,
+                error: null
+            };
+        }
+        if (!isUndefinedOrNull(event.detail.value)) {
+            propsToUpdate.value = {
+                value: event.detail.value,
+                error: null
+            };
+        }
+        if (!isUndefinedOrNull(event.detail.valueDataType)) {
+            propsToUpdate.valueDataType = {
+                value: event.detail.valueDataType,
+                error: null
+            };
+        }
+
+        // input parameters is an array
+        if (event.detail.isInputParameter) {
+            const index = event.detail.index;
+
+            if (index < 0 || index >= parameters.length) {
+                throw new Error(`Invalid parameter item index: ${index}`);
+            }
+
+            const updatedParam = Object.assign({}, parameters[index], propsToUpdate);
+            return replaceItem(parameters, updatedParam, index);
+        }
+
+        // Otherwise output parameters is a map
+        if (!parameters[event.detail.parameterName]) {
+            throw new Error(`Attempting to update non-exitant parameter item ${event.detail.parameterName}`);
+        }
+
         const updatedParam = Object.assign({}, parameters[event.detail.parameterName], propsToUpdate);
         return Object.assign({}, parameters, { [event.detail.parameterName]: updatedParam });
     };
     return waitEventReducer(state, event, waitEventOperation(getParameterPropertyName(event.detail.isInputParameter), updateParameter));
+};
+
+const addWaitEventParameter = (state, event) => {
+    const addParameter = parameters => {
+        const newParameter = hydrateWithErrors(createInputParameter());
+        return addItem(parameters, newParameter);
+    };
+    return waitEventReducer(state, event, waitEventOperation(getParameterPropertyName(event.detail.isInputParameter), addParameter));
+};
+
+const deleteWaitEventParameter = (state, event) => {
+    const deleteParameter = parameters => {
+        // input parameters is an array
+        if (event.detail.isInputParameter) {
+            return deleteItem(parameters, event.detail.index);
+        }
+
+        // Otherwise output parameters is a Map
+        return omit(parameters, [event.detail.name]);
+    };
+    return waitEventReducer(state, event, waitEventOperation(getParameterPropertyName(event.detail.isInputParameter), deleteParameter));
 };
 
 /**
@@ -190,6 +249,10 @@ export const waitReducer = (state, event) => {
             return waitEventPropertyChanged(state, event);
         case WaitEventParameterChangedEvent.EVENT_NAME:
             return updateWaitEventParameter(state, event);
+        case WaitEventAddParameterEvent.EVENT_NAME:
+            return addWaitEventParameter(state, event);
+        case WaitEventDeleteParameterEvent.EVENT_NAME:
+            return deleteWaitEventParameter(state, event);
         case VALIDATE_ALL:
             return waitValidation.validateAll(state, additionalRules);
         case PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT:

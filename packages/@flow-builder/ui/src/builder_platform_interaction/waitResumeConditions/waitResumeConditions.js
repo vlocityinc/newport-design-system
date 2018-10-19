@@ -2,6 +2,14 @@ import { LightningElement, api, track } from 'lwc';
 import { LABELS } from "./waitResumeConditionsLabels";
 import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import {
+    AddConditionEvent,
+    DeleteConditionEvent,
+    UpdateConditionEvent,
+    WaitEventAddParameterEvent,
+    WaitEventDeleteParameterEvent,
+    WaitEventParameterChangedEvent
+} from "builder_platform_interaction/events";
 
 const resumeEventType = {
     timeEventType: 'TIME_EVENT_TYPE',
@@ -79,10 +87,47 @@ export default class WaitResumeConditions extends LightningElement {
             this._eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
         }
         this.resumeTimeParameters = [];
+
+        // TODO: event type needs to be updated in the wait editor reducer
     }
 
     isTimeEvent(eventType) {
         const value = getValueFromHydratedItem(eventType);
         return Object.values(WAIT_TIME_EVENT_TYPE).includes(value);
+    }
+
+    handlePlatformInputFilterEvent(event) {
+        event.stopPropagation();
+        switch (event.type) {
+            case AddConditionEvent.EVENT_NAME:
+                this.dispatchEvent(new WaitEventAddParameterEvent(
+                    event.detail.parentGUID, true
+                ));
+                break;
+            case DeleteConditionEvent.EVENT_NAME:
+                this.dispatchEvent(new WaitEventDeleteParameterEvent(
+                    event.detail.parentGUID, true, event.detail.index
+                ));
+                break;
+            case UpdateConditionEvent.EVENT_NAME:
+                // clean up event type from beginning of lhs value if present
+                if (event.detail.value.leftHandSide) {
+                    const eventTypeRegExp = new RegExp(`^${this._eventType.value}\\.`);
+                    event.detail.value.leftHandSide.value = event.detail.value.leftHandSide.value.replace(eventTypeRegExp, '');
+                }
+
+                this.dispatchEvent(new WaitEventParameterChangedEvent(
+                    event.detail.value.leftHandSide ? event.detail.value.leftHandSide.value : undefined,
+                    event.detail.value.rightHandSide ? event.detail.value.rightHandSide.value : undefined,
+                    event.detail.value.rightHandSideDataType ? event.detail.value.rightHandSideDataType.value : undefined,
+                    event.detail.error,
+                    event.detail.parentGUID,
+                    true,
+                    event.detail.index
+                ));
+                break;
+            default:
+                break;
+        }
     }
 }

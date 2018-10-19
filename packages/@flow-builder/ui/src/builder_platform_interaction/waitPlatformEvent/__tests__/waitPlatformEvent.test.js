@@ -3,15 +3,14 @@ import { getShadowRoot } from 'lwc-test-utils';
 import WaitPlatformEvent from '../waitPlatformEvent';
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
 import {LABELS} from "../waitPlatformEventLabels";
+
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getEventTypes: require.requireActual('builder_platform_interaction/sobjectLib').getEventTypes,
-        getFieldsForEntity: jest.fn((eventType, callback) => {
-            callback([1, 2, 3]);
-        }).mockName('getFieldsForEntity')
+        getInputParametersForEventType: jest.fn().mockName('getInputParametersForEventType')
     };
 });
 
@@ -35,13 +34,22 @@ const setupComponentUnderTest = (props) => {
 
 describe('wait-platform-event', () => {
     describe('event type', () => {
-        it('updates the filter fields based on call to getFieldsForEntity', () => {
-            const someEventType = {value: 'foo'};
+        it('updates the filter fields based on call to getInputParametersForEventType', () => {
+            const filterFields = {
+                a: {},
+                b: {}
+            };
+
+            getInputParametersForEventType.mockImplementationOnce((eventType, callback) => {
+                callback(filterFields);
+            });
+
+            const someEventType = {value: 'foo', error: null};
 
             const waitPlatformEventElement = setupComponentUnderTest({
                 parentGuid: 'guid',
                 eventType: someEventType,
-                resumeTimeParameters: [
+                inputFilterParameters: [
                     {
                         name: 'a',
                         value: 'v',
@@ -51,12 +59,7 @@ describe('wait-platform-event', () => {
                 ]
             });
 
-            const filterFields = [1, 2, 3];
-
-            getFieldsForEntity.mockImplementationOnce((eventType, callback) => {
-                callback(filterFields);
-            });
-            expect(getFieldsForEntity).toHaveBeenCalledWith(someEventType.value, expect.any(Function));
+            expect(getInputParametersForEventType).toHaveBeenCalledWith(someEventType.value, expect.any(Function));
 
             return Promise.resolve().then(() => {
                 const filterExpressionBuilder = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.FILTER_EXPRESSION_BUILDER);
@@ -65,12 +68,12 @@ describe('wait-platform-event', () => {
         });
     });
 
-    describe('resumeTimeParameters', () => {
+    describe('inputFilterParameters', () => {
         it('condition logic options are NO CONDITIONS and AND', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 parentGuid: 'guid',
-                eventType: {value: 'foo'},
-                resumeTimeParameters: [
+                eventType: {value: 'foo', error: null},
+                inputFilterParameters: [
                     {
                         name: 'a',
                         value: 'v',
@@ -89,11 +92,11 @@ describe('wait-platform-event', () => {
             ]);
         });
 
-        it('one filter per resumeTimeParameter', () => {
+        it('one filter per inputFilterParameters', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 parentGuid: 'guid',
-                eventType: {value: 'foo'},
-                resumeTimeParameters: [
+                eventType: {value: 'foo', error: null},
+                inputFilterParameters: [
                     {
                         name: 'a',
                         value: 'v',
@@ -117,8 +120,8 @@ describe('wait-platform-event', () => {
             it('is false if only one filter is present', () => {
                 const waitPlatformEventElement = setupComponentUnderTest({
                     parentGuid: 'guid',
-                    eventType: {value: 'foo'},
-                    resumeTimeParameters: [
+                    eventType: {value: 'foo', error: null},
+                    inputFilterParameters: [
                         {
                             name: 'a',
                             value: 'v',
@@ -136,8 +139,8 @@ describe('wait-platform-event', () => {
             it('is true if only multiple filters are present', () => {
                 const waitPlatformEventElement = setupComponentUnderTest({
                     parentGuid: 'guid',
-                    eventType: {value: 'foo'},
-                    resumeTimeParameters: [
+                    eventType: {value: 'foo', error: null},
+                    inputFilterParameters: [
                         {
                             name: 'a',
                             value: 'v',
@@ -160,18 +163,28 @@ describe('wait-platform-event', () => {
         });
 
         describe('expression builder', () => {
-            it('expression set from resumeTimeParameter', () => {
-                const resumeTimeParameter = {
-                    name: 'a',
-                    value: 'v',
-                    valueDataType: 'vdt',
+            it('expression set from inputFilterParameters', () => {
+                const inputFilterParameter = {
+                    name: {
+                        value: 'a',
+                        error: 'nameError'
+                    },
+                    value: {
+                        value: 'v',
+                        error: 'valueError'
+                    },
+                    valueDataType: {
+                        value: 'vdt',
+                        error: 'vdtError'
+                    },
                     rowIndex: 'ri'
                 };
 
+                const eventTypeValue = 'foo';
                 const waitPlatformEventElement = setupComponentUnderTest({
                     parentGuid: 'guid',
-                    eventType: {value: 'foo'},
-                    resumeTimeParameters: [resumeTimeParameter]
+                    eventType: {value: eventTypeValue, error: null},
+                    inputFilterParameters: [inputFilterParameter]
                 });
 
                 const filterExpressionBuilder = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.FILTER_EXPRESSION_BUILDER);
@@ -179,16 +192,16 @@ describe('wait-platform-event', () => {
 
                 expect(expression).toMatchObject({
                     leftHandSide: {
-                        value: resumeTimeParameter.name,
-                        error: null
+                        value: eventTypeValue + '.' + inputFilterParameter.name.value,
+                        error: inputFilterParameter.name.error,
                     },
                     rightHandSide: {
-                        value: resumeTimeParameter.value,
-                        error: null
+                        value: inputFilterParameter.value.value,
+                        error: inputFilterParameter.value.error
                     },
                     rightHandSideDataType: {
-                    value: resumeTimeParameter.valueDataType,
-                        error: null
+                        value: inputFilterParameter.valueDataType.value,
+                        error: inputFilterParameter.valueDataType.error
                     }
                 });
             });
@@ -199,7 +212,7 @@ describe('wait-platform-event', () => {
         it('is hidden if platform event is not selected', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 parentGuid: 'guid',
-                resumeTimeParameters: []
+                inputFilterParameters: []
             });
 
             const parameterItem = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.PARAMETER_ITEM);
@@ -210,7 +223,7 @@ describe('wait-platform-event', () => {
 
         it('is visible if a platform event is selected', () => {
             const waitPlatformEventElement = setupComponentUnderTest(
-                { parentGuid: 'guid', resumeTimeParameters: {} }
+                { parentGuid: 'guid', inputFilterParameters: {} }
             );
             const eventTypePicker = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
 

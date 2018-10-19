@@ -24,7 +24,7 @@ const inputParameterArrayToMap = (parameters = []) => {
     const parametersMap = new Map();
 
     parameters.forEach((param) => {
-        parametersMap.set(param.name.value, param);
+        parametersMap.set(getValueFromHydratedItem(param.name), param);
     });
 
     return parametersMap;

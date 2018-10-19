@@ -4,9 +4,9 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './waitPlatformEventLabels';
 import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
-import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { PropertyChangedEvent, UpdateParameterItemEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, WaitEventDeleteParameterEvent } from 'builder_platform_interaction/events';
 import { getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
 
 // The property names in a wait event
@@ -58,9 +58,11 @@ export default class WaitPlatformEvent extends LightningElement {
      */
     set eventType(eventType) {
         this._eventType = eventType;
+
         const eventTypeValue = getValueFromHydratedItem(eventType);
         if (eventTypeValue && !getErrorFromHydratedItem(eventType)) {
             this._lastRecordedEventTypeValue = eventTypeValue;
+
             this.updateFilterFields(eventTypeValue);
         }
     }
@@ -74,7 +76,7 @@ export default class WaitPlatformEvent extends LightningElement {
      * Object of input filter parameters
      * @type {Map}
      */
-    set resumeTimeParameters(parameterItems) {
+    set inputFilterParameters(parameterItems) {
         if (parameterItems) {
             this.filterParameters = parameterItems;
 
@@ -84,16 +86,16 @@ export default class WaitPlatformEvent extends LightningElement {
                 const filter = {
                     expression: {
                         leftHandSide: {
-                            value: inputParameter.name,
-                            error: null
+                            value: inputParameter.name.value ? this.eventTypeValue + '.' + inputParameter.name.value : '',
+                            error: inputParameter.name.error
                         },
                         rightHandSide: {
-                            value: inputParameter.value,
-                            error: null
+                            value: inputParameter.value.value,
+                            error: inputParameter.value.error
                         },
                         rightHandSideDataType: {
-                            value: inputParameter.valueDataType,
-                            error: null
+                            value: inputParameter.valueDataType.value,
+                            error: inputParameter.valueDataType.error
                         }
                     },
                     rowIndex: inputParameter.rowIndex
@@ -104,12 +106,10 @@ export default class WaitPlatformEvent extends LightningElement {
     }
 
     @api
-    get resumeTimeParameters() {
+    get inputFilterParameters() {
         return this.filterParameters;
     }
 
-    // TODO: this should not need to be @track once eventType is flowing down correctly instead of being set at
-    // this level by handleEventTypeChanged (currently needed for tests to pass)
     @track
     _eventType;
 
@@ -120,10 +120,13 @@ export default class WaitPlatformEvent extends LightningElement {
     ];
 
     @track
+    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementTypeForExpressionBuilder);
+
+    @track
     elementTypeForExpressionBuilder = ELEMENT_TYPE.WAIT;
 
     @track
-    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementTypeForExpressionBuilder);
+    eventTypeParameters;
 
     @track
     filters = [];
@@ -156,9 +159,9 @@ export default class WaitPlatformEvent extends LightningElement {
     /**
      * get the fields of the selected entity
      */
-    updateFilterFields(objectType) {
-        getFieldsForEntity(objectType, (fields) => {
-            this.filterFields = fields;
+    updateFilterFields(eventType) {
+        getInputParametersForEventType(eventType, (params) => {
+            this.filterFields = params;
         });
     }
 
@@ -183,7 +186,6 @@ export default class WaitPlatformEvent extends LightningElement {
         return ELEMENT_TYPE.WAIT;
     }
 
-    // TODO: as part of current story this should be moved up to wait event?
     handleEventTypeChanged(event) {
         event.stopPropagation();
 
@@ -194,13 +196,9 @@ export default class WaitPlatformEvent extends LightningElement {
         // fire the property change event to update event type and error
         this.firePropertyChangedEvent(WAIT_EVENT_FIELDS.EVENT_TYPE, value, error);
 
-        // fire updateparameteritem to update name in the parameter item and clear the value
-        // only if the event type is valid and there is no error
-        // TODO: fire delete parameter item once available to delete old event type parameter
+        // if the event type is valid and there is no error then clear all input parameters
         if (this._lastRecordedEventTypeValue && this._lastRecordedEventTypeValue !== value && !error) {
-            const { valueDataType, rowIndex = null } = this.outputParameters[this._lastRecordedEventTypeValue];
-            this.fireUpdateParameterItemEvent(value, null, rowIndex, valueDataType);
-            this._lastRecordedEventTypeValue = value;
+            this.deleteAllParameterItems();
         }
 
         // update the event type to new value and update error
@@ -218,10 +216,17 @@ export default class WaitPlatformEvent extends LightningElement {
     }
 
     /**
-     * Fire update parameter item event
+     * Deletes all parameter items
      */
-    fireUpdateParameterItemEvent(name, value, rowIndex, valueDataType) {
-        const updateParamItemEvent = new UpdateParameterItemEvent(false, rowIndex, name, value, valueDataType);
-        this.dispatchEvent(updateParamItemEvent);
+    deleteAllParameterItems() {
+        // TODO: convert to a single event
+        // Counting backwards so we delete down towards index 0
+        for (let i = this.filterParameters.length - 1; i >= 0;  i--) {
+            const deleteParamItemEvent = new WaitEventDeleteParameterEvent(this.parentGuid, true, i);
+            this.dispatchEvent(deleteParamItemEvent);
+        }
+
+        // TODO: For output parameter add an output parameter with empty value with the new eventType name and
+        // delete the output parameter of old eventType name
     }
 }
