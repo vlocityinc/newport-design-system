@@ -187,7 +187,13 @@ const updateWaitEventParameter = (state, event) => {
 
         // input parameters is an array
         if (event.detail.isInputParameter) {
-            const index = event.detail.index;
+            let index = event.detail.index;
+
+            if (index === null) {
+                index = parameters.findIndex(param => {
+                    return param.name.value === event.detail.name;
+                });
+            }
 
             if (index < 0 || index >= parameters.length) {
                 throw new Error(`Invalid parameter item index: ${index}`);
