@@ -28,3 +28,7 @@ export function getUserPreferences() {
 export function orgHasFlowBuilderPreview() {
     return context.access && context.access.orgHasFlowBuilderPreview;
 }
+
+export function orgHasFlowBuilderDebug() {
+    return context.access && context.access.orgHasFlowBuilderDebug;
+}

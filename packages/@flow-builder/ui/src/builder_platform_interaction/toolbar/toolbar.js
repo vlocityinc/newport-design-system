@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent, DiffFlowEvent } from 'builder_platform_interaction/events';
 import { formatDateTime } from 'builder_platform_interaction/dateTimeUtils';
-import { isDevMode } from "builder_platform_interaction/contextLib";
+import { orgHasFlowBuilderDebug } from "builder_platform_interaction/contextLib";
 import { LABELS } from './toolbarLabels';
 
 const ACTIVE = 'Active';
@@ -82,8 +82,8 @@ export default class Toolbar extends LightningElement {
         return classes;
     }
 
-    get isDevMode() {
-        return isDevMode();
+    get isDiffFlowAllowed() {
+        return orgHasFlowBuilderDebug();
     }
 
     headerTitleForSummary = LABELS.errorPopOverHeader;
