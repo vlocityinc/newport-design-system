@@ -192,11 +192,33 @@ describe('wait-reducer', () => {
         });
     });
 
-    it('updates condition logic', () => {
-        const newConditionLogic = CONDITION_LOGIC.OR;
-        const propertyChangedEvent = new WaitEventPropertyChangedEvent('conditionLogic', newConditionLogic, null, waitEventGUID);
-        expect(initState.waitEvents[0].conditionLogic.value).toEqual(CONDITION_LOGIC.AND);
-        const resultObj = waitReducer(initState, propertyChangedEvent);
-        expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(newConditionLogic);
+    describe('condition logic', () => {
+        it('updates condition logic', () => {
+            const newConditionLogic = CONDITION_LOGIC.OR;
+            const propertyChangedEvent = new WaitEventPropertyChangedEvent('conditionLogic', newConditionLogic, null, waitEventGUID);
+            expect(initState.waitEvents[0].conditionLogic.value).toEqual(CONDITION_LOGIC.AND);
+            const resultObj = waitReducer(initState, propertyChangedEvent);
+            expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(newConditionLogic);
+        });
+
+        it('other logic to no condition', () => {
+            const newConditionLogic = CONDITION_LOGIC.NO_CONDITIONS;
+            const propertyChangedEvent = new WaitEventPropertyChangedEvent('conditionLogic', newConditionLogic, null, waitEventGUID);
+            expect(initState.waitEvents[0].conditionLogic.value).toEqual(CONDITION_LOGIC.AND);
+            const resultObj = waitReducer(initState, propertyChangedEvent);
+            expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(newConditionLogic);
+            expect(resultObj.waitEvents[0].conditions).toHaveLength(0);
+        });
+
+        it('no condition to other logic adds a condition', () => {
+            initState.waitEvents[0].conditionLogic.value = CONDITION_LOGIC.NO_CONDITION;
+            initState.waitEvents[0].conditions = [];
+            const newConditionLogic = CONDITION_LOGIC.OR;
+            const propertyChangedEvent = new WaitEventPropertyChangedEvent('conditionLogic', newConditionLogic, null, waitEventGUID);
+            expect(initState.waitEvents[0].conditionLogic.value).toEqual(CONDITION_LOGIC.NO_CONDITION);
+            const resultObj = waitReducer(initState, propertyChangedEvent);
+            expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(newConditionLogic);
+            expect(resultObj.waitEvents[0].conditions).toHaveLength(1);
+        });
     });
 });

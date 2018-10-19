@@ -190,15 +190,12 @@ describe('wait', () => {
                 ],
             };
             createWaitEvent(mockWaitEvent);
-            expect(createCondition).toHaveBeenCalledTimes(1);
-            expect(createCondition.mock.calls[0][0]).not.toBeDefined();
-            expect(createCondition).not.toHaveBeenCalledWith(mockCondition);
+            expect(createCondition).not.toHaveBeenCalled();
         });
 
         it('sets the condition logic to NO_CONDITIONS when given no conditions and creates one empty condition', () => {
             const waitEvent = createWaitEvent({conditionLogic: CONDITION_LOGIC.AND});
-            expect(createCondition).toHaveBeenCalled();
-            expect(waitEvent.conditions).toHaveLength(1);
+            expect(waitEvent.conditions).toHaveLength(0);
             expect(waitEvent.conditionLogic).toEqual(CONDITION_LOGIC.NO_CONDITIONS);
         });
 

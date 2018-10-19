@@ -17,7 +17,6 @@ const additionalRules = {
     conditions: ValidationRules.validateExpressionWith3Properties({elementType: ELEMENT_TYPE.DECISION})
 };
 
-
 class DecisionValidation extends Validation {
     /**
      * @param {Object} nodeElement - node element data passed as an object.
@@ -41,8 +40,10 @@ class DecisionValidation extends Validation {
      * @param {string} currentOutcomeGuid - guid of the current outcome whose devname is tested for uniquness
      * @returns {string|null} errorString or null
      */
-    validateOutcomeNameUniquenessLocally = (allOutcomes, devNameToBeValidated, currentOutcomeGuid) => {
-        const matches = allOutcomes.filter(outcome => outcome.guid !== currentOutcomeGuid && outcome.name.value.toLowerCase() === devNameToBeValidated.toLowerCase());
+    validateOutcomeNameUniquenessLocally = (state, devNameToBeValidated, currentOutcomeGuid) => {
+        // Add the decision editor guid and api name to the list to check
+        const allLocalValues = state.outcomes.concat([{guid: state.guid, name: state.name}]);
+        const matches = allLocalValues.filter(existingLocalValue => existingLocalValue.guid !== currentOutcomeGuid && existingLocalValue.name.value.toLowerCase() === devNameToBeValidated.toLowerCase());
         return matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
     };
 }

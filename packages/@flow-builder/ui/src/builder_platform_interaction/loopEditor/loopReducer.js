@@ -1,7 +1,7 @@
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import {PropertyChangedEvent, LoopCollectionChangedEvent} from "builder_platform_interaction/events";
-import {loopValidation, additionalRules} from "./loopValidation";
-import {updateProperties} from "builder_platform_interaction/dataMutationLib";
+import { PropertyChangedEvent, LoopCollectionChangedEvent } from "builder_platform_interaction/events";
+import { loopValidation } from "./loopValidation";
+import { updateProperties } from "builder_platform_interaction/dataMutationLib";
 
 const LOOP_PROPERTIES = {
     COLLECTION_VARIABLE: 'collectionReference',
@@ -55,7 +55,7 @@ export const loopReducer = (state, event) => {
         case LoopCollectionChangedEvent.EVENT_NAME:
             return loopCollectionChangedEvent(state, event);
         case VALIDATE_ALL: {
-            return loopValidation.validateAll(state, additionalRules);
+            return loopValidation.validateAll(state);
         }
         default: return state;
     }

@@ -28,11 +28,19 @@ import {
     WaitEventAddParameterEvent,
     WaitEventDeleteParameterEvent,
 } from 'builder_platform_interaction/events';
-import {waitValidation, additionalRules} from './waitValidation';
+import {waitValidation} from './waitValidation';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+
+const validateProperty = (state, event) => {
+    event.detail.error = event.detail.error === null ? waitValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    if (event.detail.error === null && event.detail.propertyName === 'name') {
+        // Check for duplicate wait event api names
+        event.detail.error = waitValidation.validateWaitEventNameUniquenessLocally(state, event.detail.value, event.detail.guid);
+    }
+};
 
 const waitPropertyChanged = (state, event) => {
-    event.detail.error = event.detail.error === null ?
-        waitValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    validateProperty(state, event);
     return updateProperties(state, {
         [event.detail.propertyName]: {
             value: event.detail.value,
@@ -136,6 +144,18 @@ const updateWaitCondition = function (state, event) {
     return waitEventReducer(state, event, waitEventOperation('conditions', updateCondition));
 };
 
+const configureConditionsByLogic = (waitEvent, event) => {
+    const newConditions = {
+        conditions: waitEvent.conditions
+    };
+    if (event.detail.value === CONDITION_LOGIC.NO_CONDITIONS) {
+        newConditions.conditions = [];
+    } else if (waitEvent.conditions.length === 0) {
+        newConditions.conditions = [hydrateWithErrors(createCondition())];
+    }
+    return newConditions;
+};
+
 /**
  * Reducer that handles property changed events for a waitEvent
  * @param {Object} state the entire state of the waitEditor
@@ -143,13 +163,15 @@ const updateWaitCondition = function (state, event) {
  * @returns {Object} updated waitEditor state
  */
 const waitEventPropertyChanged = (state, event) => {
-    if (event.detail.error === null) {
-        // TODO: W-5454625 validate property changed events from label-description of waitEvent
-    }
+    validateProperty(state, event);
     const mapEvents = waitEvent => {
         if (waitEvent.guid === event.detail.guid) {
+            let conditions;
+            if (event.detail.propertyName === 'conditionLogic') {
+                conditions = configureConditionsByLogic(waitEvent, event);
+            }
             const updatedProperty = { value: event.detail.value, error: event.detail.error };
-            return Object.assign({}, waitEvent, { [event.detail.propertyName] : updatedProperty });
+            return Object.assign({}, waitEvent, { [event.detail.propertyName] : updatedProperty }, conditions);
         }
         return waitEvent;
     };
@@ -260,7 +282,7 @@ export const waitReducer = (state, event) => {
         case WaitEventDeleteParameterEvent.EVENT_NAME:
             return deleteWaitEventParameter(state, event);
         case VALIDATE_ALL:
-            return waitValidation.validateAll(state, additionalRules);
+            return waitValidation.validateAll(state);
         case PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT:
             return addWaitEvent(state);
         case ReorderListEvent.EVENT_NAME:

@@ -22,6 +22,11 @@ describe('Additional Decision Validations', () => {
     });
 });
 describe('All validations happen when OK is clicked', () => {
+    it('check all rules are included in finalizedRules', () => {
+            // 5 is the combination of defaultRules in Validation.js and the additionalRules in DecisionValidation
+            expect(Object.keys(decisionValidation.finalizedRules)).toHaveLength(5);
+    });
+
     describe('when conditions are set', () => {
         it('and they are correct should return the same node with no error messages', () => {
             const decisionWithCorrectCondition = {

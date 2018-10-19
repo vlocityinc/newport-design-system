@@ -135,8 +135,7 @@ export function createWaitEvent(waitEvent = {}) {
     if (conditions.length > 0 && conditionLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
         conditions = conditions.map(condition => createCondition(condition));
     } else {
-        // wait events from metadata have AND as condition logic even when they have no conditions
-        conditions = [createCondition()];
+        // wait events from metadata have NO CONDITIONS as condition logic even when they have no conditions
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
 

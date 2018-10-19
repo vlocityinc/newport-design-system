@@ -105,14 +105,16 @@ const updateCondition = (state, event) => {
     return updateProperties(state, {outcomes});
 };
 
-const outcomePropertyChanged = (state, event) => {
-    if (event.detail.error === null) {
-        event.detail.error = decisionValidation.validateProperty(event.detail.propertyName, event.detail.value);
-        if (event.detail.property === 'name') {
-            // we need to run the outcome api name uniqueness validation within the current session of property editor
-            decisionValidation.validateOutcomeNameUniquenessLocally(state.outcomes, event.detail.value, event.detail.guid);
-        }
+const validateProperty = (state, event) => {
+    event.detail.error = event.detail.error === null ? decisionValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    if (event.detail.error === null && event.detail.propertyName === 'name') {
+        // we need to run the outcome api name uniqueness validation within the current session of property editor
+        event.detail.error = decisionValidation.validateOutcomeNameUniquenessLocally(state, event.detail.value, event.detail.guid);
     }
+};
+
+const outcomePropertyChanged = (state, event) => {
+    validateProperty(state, event);
     const outcomes = state.outcomes.map((outcome) => {
         return event.detail.guid !== outcome.guid ? outcome : updateProperties(outcome, {
             [event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}
@@ -123,8 +125,7 @@ const outcomePropertyChanged = (state, event) => {
 };
 
 const decisionPropertyChanged = (state, event) => {
-    event.detail.error = event.detail.error === null ?
-        decisionValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    validateProperty(state, event);
     return updateProperties(state, {[event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}});
 };
 
