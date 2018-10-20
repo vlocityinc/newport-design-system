@@ -9,6 +9,7 @@ import {
 } from 'builder_platform_interaction/dataMutationLib';
 import {
     createInputParameter,
+    createOutputParameter,
     createWaitEvent,
     createCondition,
 } from "builder_platform_interaction/elementFactory";
@@ -226,20 +227,32 @@ const updateWaitEventParameter = (state, event) => {
         }
 
         // Otherwise output parameters is a map
-        if (!parameters[event.detail.parameterName]) {
-            throw new Error(`Attempting to update non-exitant parameter item ${event.detail.parameterName}`);
+        if (!parameters[event.detail.name]) {
+            throw new Error(`Attempting to update non-existent parameter item ${event.detail.name}`);
         }
 
-        const updatedParam = Object.assign({}, parameters[event.detail.parameterName], propsToUpdate);
-        return Object.assign({}, parameters, { [event.detail.parameterName]: updatedParam });
+        const updatedParam = Object.assign({}, parameters[event.detail.name], propsToUpdate);
+        return Object.assign({}, parameters, { [event.detail.name]: updatedParam });
     };
     return waitEventReducer(state, event, waitEventOperation(getParameterPropertyName(event.detail.isInputParameter), updateParameter));
 };
 
 const addWaitEventParameter = (state, event) => {
     const addParameter = parameters => {
-        const newParameter = hydrateWithErrors(createInputParameter());
-        return addItem(parameters, newParameter);
+        // input parameters is an array
+        if (event.detail.isInputParameter) {
+            const newParameter = hydrateWithErrors(createInputParameter());
+            return addItem(parameters, newParameter);
+        }
+
+        // output parameters is a Map
+        if (event.detail.name) {
+            const name = hydrateWithErrors(event.detail.name);
+            const newParameter = hydrateWithErrors(createOutputParameter({ name }));
+            return Object.assign({}, parameters, { [event.detail.name]: newParameter });
+        }
+        // output param without name
+        throw new Error(`Attempting to add output event parameter with no name ${event.detail.name}`);
     };
     return waitEventReducer(state, event, waitEventOperation(getParameterPropertyName(event.detail.isInputParameter), addParameter));
 };

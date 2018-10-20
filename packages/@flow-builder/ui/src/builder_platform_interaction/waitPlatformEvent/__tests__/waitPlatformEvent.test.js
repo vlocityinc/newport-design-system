@@ -1,10 +1,10 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import WaitPlatformEvent from '../waitPlatformEvent';
-import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
 import {LABELS} from "../waitPlatformEventLabels";
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
@@ -212,7 +212,8 @@ describe('wait-platform-event', () => {
         it('is hidden if platform event is not selected', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 parentGuid: 'guid',
-                inputFilterParameters: []
+                inputFilterParameters: [],
+                outputParameters: { 'foo__e' : {value: 'foo__e', displayText: 'foo' }}
             });
 
             const parameterItem = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.PARAMETER_ITEM);
@@ -222,18 +223,19 @@ describe('wait-platform-event', () => {
         });
 
         it('is visible if a platform event is selected', () => {
-            const waitPlatformEventElement = setupComponentUnderTest(
-                { parentGuid: 'guid', inputFilterParameters: {} }
-            );
-            const eventTypePicker = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+            const waitPlatformEventElement = setupComponentUnderTest({
+                parentGuid: 'guid',
+                inputFilterParameters: [],
+                outputParameters: { 'foo__e' : {value: 'foo__e', displayText: 'foo' }}
+            });
 
-            const itemPayload = { objectType: 'foo__e', value: 'foo__e', displayText: 'foo' };
-            eventTypePicker.dispatchEvent(new ComboboxStateChangedEvent(itemPayload));
+            // populate the event type and ensure that the parameterItem is now visible
+            waitPlatformEventElement.eventType = { value: 'foo__e', error: null };
             return Promise.resolve().then(() => {
-                const parameterItem = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.PARAMETER_ITEM);
-                // expect(parameterItem.item.dataType).toBe(FLOW_DATA_TYPE.SOBJECT.value);
-                // expect(parameterItem.item.objectType).toBe('foo__e');
-                expect(parameterItem.elementType).toBe(ELEMENT_TYPE.WAIT);
+                const parameterItemUpdated = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.PARAMETER_ITEM);
+                expect(parameterItemUpdated).not.toBeNull();
+                expect(parameterItemUpdated.item.dataType).toBe(FLOW_DATA_TYPE.SOBJECT.value);
+                expect(parameterItemUpdated.elementType).toBe(ELEMENT_TYPE.WAIT);
             });
         });
     });

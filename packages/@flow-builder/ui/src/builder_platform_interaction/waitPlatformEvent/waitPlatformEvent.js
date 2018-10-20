@@ -6,7 +6,7 @@ import { LABELS } from './waitPlatformEventLabels';
 import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { PropertyChangedEvent, WaitEventDeleteParameterEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, WaitEventDeleteParameterEvent, WaitEventAddParameterEvent } from 'builder_platform_interaction/events';
 import { getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
 
 // The property names in a wait event
@@ -131,7 +131,8 @@ export default class WaitPlatformEvent extends LightningElement {
     @track
     filters = [];
 
-    @track filterFields;
+    @track
+    filterFields;
 
     /**
      * The event delivery status output
@@ -198,7 +199,14 @@ export default class WaitPlatformEvent extends LightningElement {
 
         // if the event type is valid and there is no error then clear all input parameters
         if (this._lastRecordedEventTypeValue && this._lastRecordedEventTypeValue !== value && !error) {
-            this.deleteAllParameterItems();
+            // clear all the input parameters
+            this.deleteAllFilterInputParameterItems();
+
+            // delete the old output parameter item and add the new one
+            this.fireWaitEventDeleteParameterEvent(this._lastRecordedEventTypeValue, this.parentGuid, false, null);
+            this.fireWaitEventAddParameterEvent(value, this.parentGuid, false, null);
+
+            this._lastRecordedEventTypeValue = value;
         }
 
         // update the event type to new value and update error
@@ -216,17 +224,29 @@ export default class WaitPlatformEvent extends LightningElement {
     }
 
     /**
+     * Fire wait event add parameter item event
+     */
+    fireWaitEventAddParameterEvent(name, pGuid, isInput, index) {
+        const addParamItemEvent = new WaitEventAddParameterEvent(name, pGuid, isInput, index);
+        this.dispatchEvent(addParamItemEvent);
+    }
+
+    /**
+     * Fire wait event delete parameter item event
+     */
+    fireWaitEventDeleteParameterEvent(name, pGuid, isInput, index) {
+        const deleteParamItemEvent = new WaitEventDeleteParameterEvent(name, pGuid, isInput, index);
+        this.dispatchEvent(deleteParamItemEvent);
+    }
+
+    /**
      * Deletes all parameter items
      */
-    deleteAllParameterItems() {
+    deleteAllFilterInputParameterItems() {
         // TODO: convert to a single event
         // Counting backwards so we delete down towards index 0
         for (let i = this.filterParameters.length - 1; i >= 0;  i--) {
-            const deleteParamItemEvent = new WaitEventDeleteParameterEvent(this.parentGuid, true, i);
-            this.dispatchEvent(deleteParamItemEvent);
+            this.fireWaitEventDeleteParameterEvent(null, this.parentGuid, true, i);
         }
-
-        // TODO: For output parameter add an output parameter with empty value with the new eventType name and
-        // delete the output parameter of old eventType name
     }
 }

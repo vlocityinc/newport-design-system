@@ -101,12 +101,12 @@ export default class WaitResumeConditions extends LightningElement {
         switch (event.type) {
             case AddConditionEvent.EVENT_NAME:
                 this.dispatchEvent(new WaitEventAddParameterEvent(
-                    event.detail.parentGUID, true
+                    null, event.detail.parentGUID, true
                 ));
                 break;
             case DeleteConditionEvent.EVENT_NAME:
                 this.dispatchEvent(new WaitEventDeleteParameterEvent(
-                    event.detail.parentGUID, true, event.detail.index
+                    null, event.detail.parentGUID, true, event.detail.index
                 ));
                 break;
             case UpdateConditionEvent.EVENT_NAME:

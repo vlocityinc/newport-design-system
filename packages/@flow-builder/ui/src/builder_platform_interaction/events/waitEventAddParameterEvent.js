@@ -4,12 +4,13 @@
 const eventName = 'waiteventaddparameter';
 
 export class WaitEventAddParameterEvent {
-    constructor(parentGUID = null, isInputParameter) {
+    constructor(name = null, parentGUID = null, isInputParameter) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
             detail: {
+                name,
                 parentGUID,
                 isInputParameter,
             }

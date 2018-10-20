@@ -15,7 +15,7 @@ const EVENT_FIELD_TYPE = {
  * Cache to hold the event type input/output fields to avoid call to the server.
  * @example
  * [
- *     {
+ *     "PlatformEvent1__e" : {
  *          input : [
  *               "CreatedById" : { dataType: "string", isRequired: false, label: "Created By", qualifiedApiName: "CreatedById" },
  *          ],
