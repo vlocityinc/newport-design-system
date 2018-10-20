@@ -10,6 +10,7 @@ import { createOutputParameter, createOutputParameterMetadataObject } from './ou
 import { baseElement } from "./base/baseElement";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from "./variable";
+import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -201,5 +202,6 @@ function createChoiceReferenceMetadatObject(choiceReferenceObject) {
     if (!choiceReference) {
         throw new Error('Choice reference is not defined');
     }
-    return choiceReference;
+    const name = getElementByGuid(choiceReference);
+    return name;
 }

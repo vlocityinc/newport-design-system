@@ -32,7 +32,7 @@ export const isTemplateField = (object, fieldName) => {
  * @return true if given field is a reference field
  */
 export const isReferenceField = (object, fieldName) => {
-    const dataType = getDataType(object, getDataType);
+    const dataType = getDataType(object, fieldName);
     return dataType === FEROV_DATA_TYPE.REFERENCE || REFERENCE_FIELDS.has(fieldName);
 };
 
