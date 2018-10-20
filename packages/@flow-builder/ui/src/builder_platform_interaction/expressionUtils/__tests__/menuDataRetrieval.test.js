@@ -17,7 +17,7 @@ const sobjectVariable = LABELS.sObjectVariablePluralLabel.toUpperCase();
 const sobjectCollectionVariable = LABELS.sObjectCollectionVariablePluralLabel.toUpperCase();
 
 /*
-    Desired format output from getElementsForMenuData
+    Desired format output from getStoreElements
     [
         {
          label: "Collection Variable",

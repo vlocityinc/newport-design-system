@@ -184,13 +184,13 @@ export default class OutputResourcePicker extends LightningElement {
 
     normalizeValue = (identifier, elementType, callback) => {
         const normalizedValue = {};
-        const complexGuid = sanitizeGuid(identifier);
-        const flowElement = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
+        const flowElement = getResourceByUniqueIdentifier(identifier);
         if (flowElement) {
-            if (complexGuid.fieldName) {
+            const fieldName = sanitizeGuid(identifier).fieldName;
+            if (fieldName) {
                 // TODO: W-4960448: the field will appear empty briefly when fetching the first time
                 const sobject = flowElement.objectType;
-                normalizedValue.parameter = getFieldParamRepresentation(sobject, complexGuid.fieldName, (field) => {
+                normalizedValue.parameter = getFieldParamRepresentation(sobject, fieldName, (field) => {
                     const isFieldOnSobjectVar = !!flowElement;
                     const fieldParent = isFieldOnSobjectVar ? mutateFlowResourceToComboboxShape(flowElement) : {value: field.sobjectName};
                     normalizedValue.item = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);

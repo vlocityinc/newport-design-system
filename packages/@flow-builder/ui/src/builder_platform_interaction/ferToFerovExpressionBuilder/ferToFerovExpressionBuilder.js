@@ -7,9 +7,9 @@ import {
     LHS_DISPLAY_OPTION,
     populateLhsStateForField,
     populateRhsState,
+    getSecondLevelItems,
 } from "builder_platform_interaction/expressionUtils";
 import { elementToParam } from "builder_platform_interaction/ruleLib";
-import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -79,16 +79,16 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
         };
 
         if (lhs.value && !lhs.error) {
-            const complexGuid = sanitizeGuid(lhs.value);
-            const fer = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
+            const fer = getResourceByUniqueIdentifier(lhs.value);
 
             if (fer) {
                 const lhsItem = mutateFlowResourceToComboboxShape(fer);
-                if (complexGuid.fieldName) {
-                    getFieldsForEntity(lhsItem.objectType, (fields) => {
+                const fieldName = sanitizeGuid(lhs.value).fieldName;
+                if (fieldName) {
+                    getSecondLevelItems(lhsItem.objectType, (fields) => {
                         const isFieldOnSobjectVar = true;
                         this.state.lhsDescribe = updateProperties(this.state.lhsDescribe,
-                            populateLhsStateForField(fields, complexGuid.fieldName, lhsItem, isFieldOnSobjectVar));
+                            populateLhsStateForField(fields, fieldName, lhsItem, isFieldOnSobjectVar));
                         this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
                     });
                 } else {

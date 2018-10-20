@@ -101,6 +101,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         LHS_DISPLAY_OPTION: require.requireActual('builder_platform_interaction/expressionUtils').LHS_DISPLAY_OPTION,
         populateLhsStateForField: require.requireActual('builder_platform_interaction/expressionUtils').populateLhsStateForField,
         populateRhsState: require.requireActual('builder_platform_interaction/expressionUtils').populateRhsState,
+        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
     };
 });
 

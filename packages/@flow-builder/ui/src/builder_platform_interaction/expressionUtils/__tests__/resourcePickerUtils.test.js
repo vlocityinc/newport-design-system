@@ -25,6 +25,7 @@ const storeInstance = {
 
 jest.mock('../menuDataRetrieval', () => {
     return {
+        getSecondLevelItems: require.requireActual('../menuDataRetrieval').getSecondLevelItems,
         filterFieldsForChosenElement: jest.fn(),
         getStoreElements: jest.fn((storeState) => {
             return storeState;

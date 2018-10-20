@@ -9,9 +9,11 @@ import { removeCurlyBraces } from "builder_platform_interaction/commonUtils";
  * @returns {Boolean}    true if the id might point to a non-element resource, false otherwise
  */
 export const isNonElementResourceId = (id) => {
-    // TODO system & global variables will be handled here W-5067879
-    // also need to rethink if just removing curly braces allows this function to cover every case
-    return id && removeCurlyBraces(id).startsWith(GLOBAL_CONSTANT_PREFIX);
+    if (!id) {
+        return false;
+    }
+    const prefix = removeCurlyBraces(id).split('.')[0];
+    return [GLOBAL_CONSTANT_PREFIX].indexOf(prefix) >= 0;
 };
 
 /**

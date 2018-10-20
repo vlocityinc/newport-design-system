@@ -54,7 +54,8 @@ export const getItemOrDisplayText = (event) => {
  * @return {Object|undefined}    element or resource if the identifier is valid, otherwise undefined
  */
 export const getResourceByUniqueIdentifier = (identifier) => {
-    return getElementByGuid(identifier) || getNonElementResource(identifier);
+    const complexGuid = sanitizeGuid(identifier);
+    return getElementByGuid(complexGuid.guidOrLiteral) || getNonElementResource(identifier);
 };
 
 /**
@@ -99,13 +100,13 @@ export const getFerovInfoFromComboboxItem = (item, displayText, literalDataType)
  */
 export const normalizeRHS = (rhsIdentifier) => {
     const rhs = {};
-    const complexGuid = sanitizeGuid(rhsIdentifier);
-    const flowElement = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
-    if (flowElement && complexGuid.fieldName) {
+    const flowElement = getResourceByUniqueIdentifier(rhsIdentifier);
+    const fieldName = sanitizeGuid(rhsIdentifier).fieldName;
+    if (flowElement && fieldName) {
         return new Promise((resolve) => {
             // TODO: W-4960448: the field will appear empty briefly when fetching the first time
             sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
-                rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[complexGuid.fieldName], mutateFlowResourceToComboboxShape(flowElement), true, true);
+                rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[fieldName], mutateFlowResourceToComboboxShape(flowElement), true, true);
                 rhs.fields = fields;
                 resolve(rhs);
             });
@@ -202,17 +203,17 @@ export const populateRhsState = ({ rightHandSide, rightHandSideDataType }, callb
     };
 
     if (!rightHandSide.error && rightHandSideDataType) {
-        const complexGuid = sanitizeGuid(rightHandSide.value);
-        const fer = getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
+        const fer = getResourceByUniqueIdentifier(rightHandSide.value);
 
         if (fer) {
             const rhsItem = mutateFlowResourceToComboboxShape(fer);
             rhsState.value = rhsItem;
-            if (complexGuid.fieldName) {
+            const fieldName = sanitizeGuid(rightHandSide.value).fieldName;
+            if (fieldName) {
                 const isFieldOnSobjectVar = true;
                 sobjectLib.getFieldsForEntity(fer.objectType, (fields) => {
                     rhsState.isField = true;
-                    rhsState.value = mutateFieldToComboboxShape(fields[complexGuid.fieldName], rhsItem, isFieldOnSobjectVar, isFieldOnSobjectVar);
+                    rhsState.value = mutateFieldToComboboxShape(fields[fieldName], rhsItem, isFieldOnSobjectVar, isFieldOnSobjectVar);
                     rhsState.fields = fields;
                     callback(rhsState);
                 });

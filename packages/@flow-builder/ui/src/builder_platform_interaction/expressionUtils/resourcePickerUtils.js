@@ -2,8 +2,8 @@ import {
     filterAndMutateMenuData,
     filterFieldsForChosenElement,
     getStoreElements,
+    getSecondLevelItems,
 } from './menuDataRetrieval';
-import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 
 const getFieldMenuData = (elementConfig, populateParamTypesFn, parentItem, entityFields) => {
     const showAsFieldReference = true;
@@ -16,7 +16,7 @@ const getFieldMenuData = (elementConfig, populateParamTypesFn, parentItem, entit
     } else {
         // when handling fetch menu data (user selects new sobject) we will not have the fields yet
         const entityName = parentItem.objectType;
-        getFieldsForEntity(entityName, (fields) => {
+        getSecondLevelItems(entityName, (fields) => {
             menuData = filterFieldsForChosenElement(parentItem, allowedParamTypes, fields, showAsFieldReference, showSubText);
         });
     }

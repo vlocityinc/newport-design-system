@@ -38,6 +38,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getResourceByUniqueIdentifier: jest.fn(),
         getEntitiesMenuData: require.requireActual('builder_platform_interaction/expressionUtils').getEntitiesMenuData,
         EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
+        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
     };
 });
 

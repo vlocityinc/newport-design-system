@@ -94,6 +94,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction/expressionUtils').RESOURCE_PICKER_MODE,
         mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
         getItemOrDisplayText: require.requireActual('builder_platform_interaction/expressionUtils').getItemOrDisplayText,
+        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
     };
 });
 

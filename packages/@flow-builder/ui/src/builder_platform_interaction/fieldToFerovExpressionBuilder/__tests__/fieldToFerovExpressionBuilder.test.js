@@ -73,6 +73,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         populateRhsState: require.requireActual('builder_platform_interaction/expressionUtils').populateRhsState,
         mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
         mutateFieldToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFieldToComboboxShape,
+        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
     };
 });
 

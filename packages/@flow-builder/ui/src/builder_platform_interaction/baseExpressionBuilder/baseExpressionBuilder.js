@@ -11,6 +11,7 @@ import {
     isElementAllowed,
     filterMatches,
     LHS_DISPLAY_OPTION,
+    getSecondLevelItems,
 } from "builder_platform_interaction/expressionUtils";
 import {
     getLHSTypes,
@@ -22,7 +23,6 @@ import {
     RULE_OPERATOR,
 } from "builder_platform_interaction/ruleLib";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { isObject, isUndefined } from "builder_platform_interaction/commonUtils";
 import { Store } from 'builder_platform_interaction/storeLib';
 
@@ -583,7 +583,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             }
             // get fields if preFetchedFields is empty or of the wrong sobject
             if (parentMenuItem && (!this.state[preFetchedFields] || preFetchedFieldsObjectType !== parentMenuItem.objectType)) {
-                getFieldsForEntity(parentMenuItem.objectType, setFieldMenuData);
+                getSecondLevelItems(parentMenuItem.objectType, setFieldMenuData);
             } else {
                 setFieldMenuData();
             }
@@ -604,16 +604,12 @@ export default class BaseExpressionBuilder extends LightningElement {
     /**
      * @param {String} value       a guid
      * @param {Object[]} fields    fields populating the relevant menu data, if there are any
-     * @returns {Object}           Object representing the field or the FER represented by the quid
+     * @returns {Object}           Object representing the field or the FER represented by the guid
      */
     getElementOrField(value, fields) {
-        const complexGuid = sanitizeGuid(value);
+        const fieldName = sanitizeGuid(value).fieldName;
 
-        if (complexGuid.fieldName && !fields) {
-            throw new Error('fields should have already been initialized');
-        }
-
-        return complexGuid.fieldName ? fields[complexGuid.fieldName] : getResourceByUniqueIdentifier(complexGuid.guidOrLiteral);
+        return fieldName ? fields[fieldName] : getResourceByUniqueIdentifier(value);
     }
 
     /**

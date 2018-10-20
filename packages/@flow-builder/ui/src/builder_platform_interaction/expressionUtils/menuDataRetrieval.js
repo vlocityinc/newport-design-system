@@ -255,6 +255,7 @@ export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, inc
         // global constants should be included in menuData for FEROVs
         menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
     }
+
     const menuData = menuDataElements.filter(element => isElementAllowed(allowedParamTypes, element, !disableHasNext))
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
@@ -319,6 +320,10 @@ export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, f
     return Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
         return mutateFieldToComboboxShape(element, chosenElement, showAsFieldReference, showSubText);
     });
+}
+
+export function getSecondLevelItems(topLevelItemType, callback) {
+    sobjectLib.getFieldsForEntity(topLevelItemType, callback);
 }
 
 /**
