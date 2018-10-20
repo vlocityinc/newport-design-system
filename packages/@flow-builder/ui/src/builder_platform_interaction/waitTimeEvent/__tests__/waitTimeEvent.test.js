@@ -26,6 +26,7 @@ const selectors = {
     picker: 'builder_platform_interaction-ferov-resource-picker',
     parameterItem: 'builder_platform_interaction-parameter-item',
     lightningRadioGroup: 'lightning-radio-group',
+    lightningInput: 'lightning-input',
 };
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
@@ -56,12 +57,16 @@ describe('waitTimeEvent', () => {
     describe('resume time parameters', () => {
         let waitTimeEvent;
         let props;
+        const errorMessage = 'bad';
 
         const propChangedSpy = jest.fn().mockName('propertyChangedEventSpy');
-        const updateParameterSpy = jest.fn().mockName('updateParameterEventSpy');
+        let updateParameterSpy;
 
         beforeEach(() => {
-            const mockResumeTimeParameters = [{ name: 'foo' }];
+            const mockResumeTimeParameters = [
+                { name: 'foo'},
+                { name: 'TimeOffset', value: -3},
+                { name: 'TimeOffsetUnit', value: 'Days'}];
             const mockEventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
             props = {
                 resumeTimeParameters: mockResumeTimeParameters,
@@ -69,6 +74,7 @@ describe('waitTimeEvent', () => {
             };
             waitTimeEvent = createComponentUnderTest(props);
             window.addEventListener(PropertyChangedEvent.EVENT_NAME, propChangedSpy);
+            updateParameterSpy = jest.fn().mockName('updateParameterEventSpy');
             window.addEventListener(UpdateParameterItemEvent.EVENT_NAME, updateParameterSpy);
         });
 
@@ -80,6 +86,13 @@ describe('waitTimeEvent', () => {
         it('has a date time picker when absolute time is selected', () => {
             const picker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
             expect(picker.comboboxConfig.type).toEqual(FLOW_DATA_TYPE.DATE_TIME.value);
+        });
+
+        it('loads the existing offset number and unit values', () => {
+            const offsetNumber = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[0];
+            expect(offsetNumber.value).toEqual(-3);
+            const offsetUnit = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[1];
+            expect(offsetUnit.value).toEqual('Days');
         });
 
         it('dispatches PropertyChangedEvent when event type changes', () => {
@@ -94,7 +107,7 @@ describe('waitTimeEvent', () => {
             });
         });
 
-        it('fires UpdateParameterItemEvent on combobox state changed', () => {
+        it('fires UpdateParameterItemEvent on base time combobox state changed', () => {
             const mockFerov = { value: 'foo', dataType: 'sfdcDatType' };
             getFerovInfoFromComboboxItem.mockReturnValueOnce(mockFerov);
             const mockItem = { value: 'foo', displayText: 'foo bar' };
@@ -108,6 +121,44 @@ describe('waitTimeEvent', () => {
                 expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(mockFerov.value);
                 expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(mockFerov.dataType);
                 expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toEqual(true);
+            });
+        });
+
+        it('fires UpdateParameterItemEvent on offset number blur', () => {
+            const blurEvent = new CustomEvent('blur', {
+                detail: {value: 1000, error: errorMessage},
+            });
+
+            const offsetNumber = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[0];
+            offsetNumber.dispatchEvent(blurEvent);
+
+            return Promise.resolve().then(() => {
+                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
+                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('Number');
+                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(1000);
+                expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
+                expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual('TimeOffset');
+                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(errorMessage);
+            });
+        });
+
+        it('fires UpdateParameterItemEvent on offset unit blur', () => {
+            const blurEvent = new CustomEvent('blur', {
+                detail: {value: 'Hours', error: errorMessage},
+            });
+
+            const offsetUnit = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[1];
+            offsetUnit.dispatchEvent(blurEvent);
+
+            return Promise.resolve().then(() => {
+                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
+                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('String');
+                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('Hours');
+                expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
+                expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual('TimeOffsetUnit');
+                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(errorMessage);
             });
         });
 

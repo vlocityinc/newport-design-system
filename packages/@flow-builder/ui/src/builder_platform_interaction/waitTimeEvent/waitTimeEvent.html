@@ -74,14 +74,14 @@
             value={offsetNumber}
             type="number" label={labels.offsetNumberLabel}
             field-level-help={labels.offsetNumberHelpText}
-            onchange={handleOffsetNumberChange}>>
+            onblur={handleOffsetNumberChange}>
         </lightning-input>
 		<lightning-input
             class="slds-size_1-of-2 slds-p-top_small"
             value={offsetUnit}
             type="text" label={labels.offsetUnitLabel}
             field-level-help={labels.offsetUnitHelpText}
-            onchange={handleOffsetUnitChange}>>
+            onblur={handleOffsetUnitChange}>
         </lightning-input>
         <div class="slds-border_top slds-m-top_small slds-m-bottom_small"></div>
 
