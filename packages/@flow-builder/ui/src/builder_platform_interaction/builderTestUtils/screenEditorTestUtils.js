@@ -3,7 +3,7 @@ import { getScreenFieldTypeByName, getLocalExtensionFieldType } from "builder_pl
 import { mutateScreen, demutateScreen, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { createChoice } from "builder_platform_interaction/elementFactory";
+import { createChoiceReference } from "builder_platform_interaction/elementFactory";
 
 const SELECTOR_REGEX = /(.*)\[([^$*^|~]*)(.*)?=["'](.*)["']\]/g;
 
@@ -257,8 +257,8 @@ function addConfigOptionsToField(field, name, config, fieldType, hydrateValues) 
     // If the field type is Radio, create some choice references.
     if (fieldType.name === 'RadioButtons' && booleanValue(config, 'createChoices', false)) {
         for (let i = 0; i < 3; i++) {
-            const choice = createChoice({name: 'choice' + i});
-            field.choiceReferences[i] = choice.name;
+            const choiceGuid = 'choice' + i;
+            field.choiceReferences[i] = hydrateWithErrors(createChoiceReference(choiceGuid));
         }
     }
 

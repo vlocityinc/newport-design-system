@@ -28,7 +28,7 @@ it('change choice screen field by changing the 1st choice', () => {
 
     // The first chocie should be changed, the rest should be the same.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences[0]).toBe(newChoice.name);
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(newChoice.name);
     expect(newScreen.fields[0].choiceReferences[1]).toBe(field.choiceReferences[1]);
     expect(newScreen.fields[0].choiceReferences[2]).toBe(field.choiceReferences[2]);
 });
@@ -55,7 +55,7 @@ it('change choice screen field by changing the last choice', () => {
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[0]).toBe(field.choiceReferences[0]);
     expect(newScreen.fields[0].choiceReferences[1]).toBe(field.choiceReferences[1]);
-    expect(newScreen.fields[0].choiceReferences[2]).toBe(newChoice.name);
+    expect(newScreen.fields[0].choiceReferences[2].choiceReference.value).toBe(newChoice.name);
 });
 
 it('add choice to radio screen field', () => {
@@ -79,7 +79,7 @@ it('add choice to radio screen field', () => {
     // New choice is added to the end of the list and it's empty.
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences).toHaveLength(originalNumChoices + 1);
-    expect(newScreen.fields[0].choiceReferences[originalNumChoices]).toBe("");
+    expect(newScreen.fields[0].choiceReferences[originalNumChoices].choiceReference.value).toBe("");
 });
 
 it('Attempt to add choice to invalid position results in an error', () => {

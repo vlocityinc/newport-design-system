@@ -12,11 +12,11 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getElementByDevName(devName) {
+        getElementByGuid(guid) {
                 return {
-                    name: devName,
-                    choiceText: devName,
-                    guid: devName + 'testGuid',
+                    name: guid,
+                    choiceText: 'choice text ' + guid,
+                    guid,
                 };
         }
     };
@@ -309,8 +309,7 @@ describe('screen-choice-field-properties-editor defaultValue', () => {
     beforeEach(() => {
         const field = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE,
                                             {dataType: 'String', createChoices: true});
-        field.defaultValue = 'choice1';
-        field.defaultValueDataType = 'reference';
+        field.defaultSelectedChoiceReference = 'choice1';
         const mutatedField = createScreenField(field);
         screenChoiceFieldPropEditor = createComponentUnderTest({
             field: mutatedField
