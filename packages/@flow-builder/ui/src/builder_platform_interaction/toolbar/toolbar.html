@@ -72,6 +72,12 @@
                     disabled={isRunDebugDisabled}
                     class="test-toolbar-debug">
                 </lightning-button>
+                <lightning-button if:true={isDiffFlowAllowed}
+                                  label={labels.diffFlowTitle}
+                                  title={labels.diffFlowTitle}
+                                  onclick={handleDiff}
+                                  class="test-toolbar-debug">
+                </lightning-button>
             </div>
             <lightning-button
                     label={labels.saveAsTitle}
@@ -86,13 +92,6 @@
                     title={labels.saveTitle}
                     onclick={handleSave}
                     disabled={saveDisabled}
-                    class="test-toolbar-save slds-m-left_xx-small">
-            </lightning-button>
-            <lightning-button if:true={isDiffFlowAllowed}
-                    label="Diff Flow"
-                    variant="brand"
-                    title="Diff Flow"
-                    onclick={handleDiff}
                     class="test-toolbar-save slds-m-left_xx-small">
             </lightning-button>
         </div>
