@@ -7,7 +7,8 @@ const filterText = {
     category: 'SObject',
     curlyBraces: '{',
     specialChar: '@#$%',
-    newResource: 'new resource'
+    newResource: 'new resource',
+    esperanto: '«คู้Eöש是[[Activate Session-Based Permission Set]]是שöEคู้是שöEคู้»'
 };
 
 const menuData = [
@@ -173,6 +174,12 @@ describe('Combobox Search Library', () => {
             expect(filteredArray).toHaveLength(1);
             expect(filteredArray[0].items).toHaveLength(1);
             expect(filteredArray[0].items[0].text).toContainEqual(filteredTextNewResource);
+        });
+
+        it('Search should not gack for esperanto.', () => {
+            expect(() => {
+                filterMatches(filterText.esperanto, menuData);
+            }).not.toThrow();
         });
     });
 });

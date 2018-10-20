@@ -69,7 +69,20 @@ function highlight(filterText, targetText) {
     }
     // lookbehind works only in V8 engine
     // const regex = new RegExp('(?<=' + filterText + ')|(?=' + filterText + ')', 'i');
-    const regex = new RegExp('(' + filterText + ')', 'i');
+    let regex;
+    // The reason for the following unsightly code is due to unicode restrictions in JS.
+    // The 'u' tag causes opening sequence characters to be invalid so { will cause an issue
+    // So we try to account for as much unicode as possible, then try without the 'u' tag, then default to no highlight
+    try {
+        regex = new RegExp('(' + filterText + ')', 'ui');
+    } catch (error1) {
+        try {
+            regex = new RegExp('(' + filterText + ')', 'i');
+        } catch (error2) {
+            return targetText;
+        }
+    }
+
     const targetTextArray = targetText.split(regex).filter(String);
     const formattedText = targetTextArray.map(targetTextFragment => {
         return {
