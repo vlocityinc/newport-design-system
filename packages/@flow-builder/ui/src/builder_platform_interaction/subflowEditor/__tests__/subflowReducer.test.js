@@ -1,6 +1,7 @@
 import { mockSubflowVariables } from 'mock/calloutData';
 import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from '../subflowReducer';
-import { UpdateParameterItemEvent } from 'builder_platform_interaction/events';
+import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
+import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/calloutEditorLib';
 
 const originalState = {
     "guid": "0302b036-6534-4213-aab1-a22f7999a4d2",
@@ -182,5 +183,31 @@ describe('subflowReducer', () => {
         newState = subflowReducer(newState, event);
         expect(getParameterItemsWithName(newState.inputAssignments, 'inputNumberVariable')[0].value).toEqual({"value": null, "error": null});
       });
+    });
+    describe('DeleteParameterItemEvent', () => {
+        let newState;
+        beforeEach(() => {
+            const event = new CustomEvent(MERGE_WITH_VARIABLES, { detail : mockSubflowVariables });
+            newState = subflowReducer(originalState, event);
+        });
+        it('deletes the assignment', () => {
+          const rowIndex = 'd461606d-cf4c-4bb1-b40b-54bbd4eb1a41';
+          const event = new DeleteParameterItemEvent(true, rowIndex, 'inputNumberVariable');
+          newState = subflowReducer(newState, event);
+          const inputNumberVariableParameterItems = getParameterItemsWithName(newState.inputAssignments, 'inputNumberVariable');
+          expect(inputNumberVariableParameterItems).toHaveLength(1);
+          expect(inputNumberVariableParameterItems[0].value.value).toEqual('3');
+        });
+        it('removes duplicate warning if there is no more duplicate', () => {
+            let inputNumberVariableParameterItems = getParameterItemsWithName(newState.inputAssignments, 'inputNumberVariable');
+            expect(inputNumberVariableParameterItems[0].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+            expect(inputNumberVariableParameterItems[1].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+            const rowIndex = inputNumberVariableParameterItems[1].rowIndex;
+            const event = new DeleteParameterItemEvent(true, rowIndex, 'inputNumberVariable');
+            newState = subflowReducer(newState, event);
+            inputNumberVariableParameterItems = getParameterItemsWithName(newState.inputAssignments, 'inputNumberVariable');
+            expect(inputNumberVariableParameterItems).toHaveLength(1);
+            expect(inputNumberVariableParameterItems[0].warnings).toEqual([]);
+        });
     });
 });
