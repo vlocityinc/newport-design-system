@@ -30,12 +30,12 @@
                 </div>                      
                 <!-- left: param name + combobox -->
                 <div class="slds-col slds-order_1 slds-p-right_medium slds-size_1-of-2 slds-col_bump-right">
-                    <div class="slds-grid">
+                    <div class="slds-grid slds-grid_vertical-align-start">
                         <!-- parameterType.icon -->
-                        <div class="slds-m-right_x-small" if:false={hideParameterIcon}>
+                        <div class="slds-m-right_x-small slds-p-top_xx-small" if:false={hideParameterIcon}>
                             <lightning-icon icon-name={iconName} size="xx-small" alternative-text={alternativeText}></lightning-icon>
                         </div>
-                        <div class="slds-col">
+                        <div class="slds-col slds-grid slds-grid_vertical-align-end">
                             <div class="slds-form-element slds-m-top_xxx-small slds-size_medium" aria-hidden={comboboxAriaHidden}>
                                 <!-- Parameter name is here -->
                                 <label class="slds-form-element__label" if:false={state.toggleStatus}>
