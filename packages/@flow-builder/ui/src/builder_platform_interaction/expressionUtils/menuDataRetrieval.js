@@ -17,9 +17,11 @@ import {
     mutateEntitiesToComboboxShape,
     mutatePicklistValue,
     mutateEventTypesToComboboxShape,
+    getSystemVariableMenuData,
+    COMBOBOX_ITEM_DISPLAY_TYPE,
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
-import { GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
+import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX } from "builder_platform_interaction/systemLib";
 
 const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
 
@@ -30,11 +32,6 @@ const isPicklistFieldAllowed = (allowedTypes) => {
         isCollection: false,
     };
     return isElementAllowed(allowedTypes, picklistParam);
-};
-
-export const COMBOBOX_ITEM_DISPLAY_TYPE = {
-    OPTION_CARD: 'option-card',
-    OPTION_INLINE: 'option-inline'
 };
 
 export const RESOURCE_PICKER_MODE = {
@@ -250,7 +247,8 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource = false,
-                                        allowGlobalConstants = false, disableHasNext = false, activePicklistValues = []) {
+                                        allowGlobalConstants = false, disableHasNext = false, activePicklistValues = [],
+                                        showSystemVariables = true) {
     if (allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
         menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
@@ -267,12 +265,16 @@ export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, inc
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
 
+    if (showSystemVariables) {
+        menuData.push(getSystemVariableMenuData());
+    }
+
+
     if (activePicklistValues && activePicklistValues.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
         // if the picklist is allowed we want to include those in the menu data
         const picklistMenuData = getPicklistMenuData(activePicklistValues);
         menuData.push(picklistMenuData);
     }
-    // TODO add Global/System Variables here as well
 
     if (includeNewResource) {
         menuData.unshift(getNewResourceItem());
@@ -323,7 +325,13 @@ export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, f
 }
 
 export function getSecondLevelItems(topLevelItemType, callback) {
-    sobjectLib.getFieldsForEntity(topLevelItemType, callback);
+    switch (topLevelItemType) {
+        case SYSTEM_VARIABLE_PREFIX:
+            callback(getSystemVariables());
+            break;
+        default:
+            sobjectLib.getFieldsForEntity(topLevelItemType, callback);
+    }
 }
 
 /**

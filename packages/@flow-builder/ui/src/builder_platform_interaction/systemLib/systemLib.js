@@ -1,5 +1,6 @@
 import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from "./globalConstants";
 import { removeCurlyBraces } from "builder_platform_interaction/commonUtils";
+import { getSystemVariables, SYSTEM_VARIABLE_PREFIX } from "./systemVariables";
 
 /**
  * Checks if the id passed in might point to a non-element resource such as
@@ -13,7 +14,7 @@ export const isNonElementResourceId = (id) => {
         return false;
     }
     const prefix = removeCurlyBraces(id).split('.')[0];
-    return [GLOBAL_CONSTANT_PREFIX].indexOf(prefix) >= 0;
+    return [GLOBAL_CONSTANT_PREFIX, SYSTEM_VARIABLE_PREFIX].indexOf(prefix) >= 0;
 };
 
 /**
@@ -23,10 +24,10 @@ export const isNonElementResourceId = (id) => {
  * @returns {Object|undefined}  if the id was valid, the object it references will be returned, otherwise undefined
  */
 export const getNonElementResource = (id) => {
-    // TODO system & global variables will be handled here W-5067879
-    return GLOBAL_CONSTANT_OBJECTS[removeCurlyBraces(id)];
+    const reference = removeCurlyBraces(id);
+    return GLOBAL_CONSTANT_OBJECTS[reference] || getSystemVariables()[reference];
 };
 
 export { GLOBAL_CONSTANT_PREFIX, GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "./globalConstants";
-export { setSystemVariables, getSystemVariables } from './systemVariables';
+export { setSystemVariables, getSystemVariables, SYSTEM_VARIABLE_PREFIX } from './systemVariables';
 export { setGlobalVariables, getGlobalVariableTypes, getGlobalVariables } from './globalVariables';

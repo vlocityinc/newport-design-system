@@ -1,12 +1,19 @@
-import { COMBOBOX_ITEM_DISPLAY_TYPE } from './menuDataRetrieval';
 import { FLOW_DATA_TYPE, getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
-import { isNonElementResourceId } from "builder_platform_interaction/systemLib";
+import { isNonElementResourceId, SYSTEM_VARIABLE_PREFIX } from "builder_platform_interaction/systemLib";
 import { getElementCategory } from "builder_platform_interaction/elementConfig";
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import systemVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const ICON_TYPE = 'utility';
 const RIGHT_ICON_NAME = 'utility:chevronright';
 const ICON_SIZE = 'xx-small';
+
+export const COMBOBOX_ITEM_DISPLAY_TYPE = {
+    OPTION_CARD: 'option-card',
+    OPTION_INLINE: 'option-inline'
+};
+
 
 /**
  * The subtext of a row varies a bit. This function captures those rules.
@@ -132,12 +139,11 @@ export function mutateFlowResourceToComboboxShape(resource) {
     newElement.value = resource.guid;
     newElement.displayText = '{!' + resource.name + '}';
     newElement.hasNext = resource.dataType === SOBJECT_TYPE && !resource.isCollection;
-    newElement.category = isNonElement ?
-        resource.category : getElementCategory(resource.elementType, resource.dataType, resource.isCollection).toUpperCase();
-    newElement.iconName = getDataTypeIcons(resource.dataType, ICON_TYPE);
+    newElement.category = resource.category || getElementCategory(resource.elementType, resource.dataType, resource.isCollection).toUpperCase();
+    newElement.iconName = resource.iconName || getDataTypeIcons(resource.dataType, ICON_TYPE);
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     newElement.dataType = resource.dataType;
-    newElement.objectType = resource.objectType ? resource.objectType : null;
+    newElement.objectType = resource.objectType || null;
     if (newElement.hasNext) {
         newElement.rightIconName = RIGHT_ICON_NAME;
         newElement.rightIconSize = ICON_SIZE;
@@ -201,4 +207,24 @@ export const mutateEventTypesToComboboxShape = (eventTypes) => {
             eventType.qualifiedApiName,
         );
     });
+};
+
+export const getSystemVariableMenuData = () => {
+    const systemVariableCategory = {
+        label: systemVariableCategoryLabel,
+        items: [{
+            hasNext: true,
+            value: SYSTEM_VARIABLE_PREFIX,
+            text: SYSTEM_VARIABLE_PREFIX,
+            displayText: addCurlyBraces(SYSTEM_VARIABLE_PREFIX),
+            type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+            objectType: SYSTEM_VARIABLE_PREFIX,
+            iconName: ICON_TYPE + ':system_and_global_variable',
+            iconSize: ICON_SIZE,
+            rightIconName: RIGHT_ICON_NAME,
+            rightIconSize: ICON_SIZE,
+        }],
+    };
+
+    return systemVariableCategory;
 };

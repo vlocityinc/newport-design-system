@@ -1,8 +1,8 @@
 import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
 
-export const SYSTEM_VARIABLE_PREFIX = '$Flow.';
+export const SYSTEM_VARIABLE_PREFIX = '$Flow';
 
-let systemVariables;
+let systemVariables = {};
 
 /**
  * Converts serialized FlowSystemVariablesEnums to a form usable by menus.
@@ -11,9 +11,10 @@ let systemVariables;
  *            data raw variable data from the server
  */
 const convertData = (data) => data.reduce((acc, obj) => {
-    const name = `${SYSTEM_VARIABLE_PREFIX}${obj.devName}`;
+    const name = `${SYSTEM_VARIABLE_PREFIX}.${obj.devName}`;
     const variable = Object.assign(obj, {
         category: systemVariableCategory,
+        apiName: obj.devName,
         dataType: obj.dataType,
         guid: name,
         label: obj.devName,
