@@ -110,12 +110,6 @@ export default class WaitResumeConditions extends LightningElement {
                 ));
                 break;
             case UpdateConditionEvent.EVENT_NAME:
-                // clean up event type from beginning of lhs value if present
-                if (event.detail.value.leftHandSide) {
-                    const eventTypeRegExp = new RegExp(`^${this._eventType.value}\\.`);
-                    event.detail.value.leftHandSide.value = event.detail.value.leftHandSide.value.replace(eventTypeRegExp, '');
-                }
-
                 this.dispatchEvent(new WaitEventParameterChangedEvent(
                     event.detail.value.leftHandSide ? event.detail.value.leftHandSide.value : undefined,
                     event.detail.value.rightHandSide ? event.detail.value.rightHandSide.value : undefined,

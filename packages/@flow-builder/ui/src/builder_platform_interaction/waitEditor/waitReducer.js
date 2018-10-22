@@ -198,7 +198,7 @@ const updateWaitEventParameter = (state, event) => {
         if (!isUndefinedOrNull(event.detail.value)) {
             propsToUpdate.value = {
                 value: event.detail.value,
-                error: null
+                error: event.detail.error
             };
         }
         if (!isUndefinedOrNull(event.detail.valueDataType)) {

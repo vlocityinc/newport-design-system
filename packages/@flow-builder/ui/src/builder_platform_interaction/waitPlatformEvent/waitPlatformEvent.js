@@ -6,8 +6,12 @@ import { LABELS } from './waitPlatformEventLabels';
 import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { PropertyChangedEvent, WaitEventDeleteParameterEvent, WaitEventAddParameterEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent,
+         WaitEventDeleteParameterEvent,
+         WaitEventAddParameterEvent,
+         WaitEventPropertyChangedEvent } from 'builder_platform_interaction/events';
 import { getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 
 // The property names in a wait event
 const WAIT_EVENT_FIELDS = {
@@ -32,11 +36,10 @@ export default class WaitPlatformEvent extends LightningElement {
      */
     set outputParameters(outputParameters = {}) {
         this._outputParameters = outputParameters;
-        const eventTypeValue = getValueFromHydratedItem(this.eventType);
-        const outputParam = outputParameters[eventTypeValue];
+        const outputParam = outputParameters[this.eventTypeValue];
         this.outputParameterItem = Object.assign({},
             outputParam,
-            { objectType: eventTypeValue, name: eventTypeValue, },
+            { objectType: this.eventTypeValue, name: this.eventTypeValue, },
             OUTPUT_PARAMETER_DEFINITION,
         );
     }
@@ -86,7 +89,7 @@ export default class WaitPlatformEvent extends LightningElement {
                 const filter = {
                     expression: {
                         leftHandSide: {
-                            value: inputParameter.name.value ? this.eventTypeValue + '.' + inputParameter.name.value : '',
+                            value: this.getLHSValue(inputParameter),
                             error: inputParameter.name.error
                         },
                         rightHandSide: {
@@ -145,7 +148,7 @@ export default class WaitPlatformEvent extends LightningElement {
     _lastRecordedEventTypeValue = null;
 
     get eventTypeValue() {
-        return this._eventType && this._eventType.value;
+        return this._eventType ? getValueFromHydratedItem(this._eventType) : null;
     }
 
     /**
@@ -187,6 +190,25 @@ export default class WaitPlatformEvent extends LightningElement {
         return ELEMENT_TYPE.WAIT;
     }
 
+    /**
+     * Expression builder needs to have the field value prefixed with event type name.
+     * This function ensure that and returns the lhs value with the prefix.
+     */
+    getLHSValue(parameter) {
+        const parameterName = getValueFromHydratedItem(parameter.name);
+        const fieldPrefix = this.eventTypeValue + '.';
+        if (!isUndefinedOrNull(parameterName) || parameterName.indexOf(fieldPrefix) !== -1) {
+            return parameterName;
+        }
+
+        if (this.filterFields && this.filterFields[parameterName]) {
+            return this.filterFields[parameterName].prefixedApiName;
+        }
+
+        // fallback to prepending event api name to field name
+        return fieldPrefix + getValueFromHydratedItem(parameterName);
+    }
+
     handleEventTypeChanged(event) {
         event.stopPropagation();
 
@@ -211,6 +233,14 @@ export default class WaitPlatformEvent extends LightningElement {
 
         // update the event type to new value and update error
         this.eventType = { value, error };
+    }
+
+    handlePropertyChanged(event) {
+        event.stopPropagation();
+
+        const { propertyName, value, error, oldValue } = event.detail;
+        const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(propertyName, value, error, this.parentGuid, oldValue);
+        this.dispatchEvent(waitEventPropertyChangedEvent);
     }
 
     /** Helper Methods **/

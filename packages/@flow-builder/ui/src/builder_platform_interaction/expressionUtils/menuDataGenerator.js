@@ -93,8 +93,6 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
  * @returns {MenuItem} Representation of flow element in shape combobox needs
  */
 export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSubText) {
-    const isEventTypeField = !!field.qualifiedApiName;
-
     const formattedField = {
         iconSize: ICON_SIZE
     };
@@ -106,10 +104,10 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
     const apiName = field.apiName || field.qualifiedApiName;
 
     const label = field.label || apiName;
-    formattedField.text = field.apiName;
+    formattedField.text = apiName;
     formattedField.subText = (showSubText) ? label : '';
-    formattedField.value = (parent && !isEventTypeField) ? (parent.value + '.' + apiName) : apiName;
-    formattedField.displayText = (showAsFieldReference && parent && !isEventTypeField) ?
+    formattedField.value = (parent) ? (parent.value + '.' + apiName) : apiName;
+    formattedField.displayText = (showAsFieldReference && parent) ?
         (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + apiName + '}') : apiName;
     formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     formattedField.iconName = getDataTypeIcons(field.dataType, ICON_TYPE);

@@ -63,6 +63,10 @@ const getParametersForEventTypeCallback = (eventTypeParametersData = [], eventTy
     const outputParams = {};
     const parameters = {};
     eventTypeAllParameters.forEach(eventTypeParameter => {
+        // These additional properties are needed for expression builder
+        eventTypeParameter.sobjectName = eventTypeApiName;
+        eventTypeParameter.prefixedApiName = eventTypeApiName + '.' + eventTypeParameter.qualifiedApiName;
+
         if (eventTypeParameter.isSubscription) {
             inputParams[eventTypeParameter.qualifiedApiName] = eventTypeParameter;
         }
