@@ -262,16 +262,16 @@ export default class WaitTimeEvent extends LightningElement {
             isInput,
             null,
             propertyName,
-            event.detail.value,
+            event.target.value,
             literalDataType,
-            event.detail.error
+            null
             );
         this.dispatchEvent(updateParameterItem);
     }
 
     handleRecordIdChanged(event) {
         event.stopPropagation();
-         this.handleFerovParameterChange(event, PARAMETER_NAMES.RECORD_ID, FLOW_DATA_TYPE.STRING.value, true);
+        this.handleFerovParameterChange(event, PARAMETER_NAMES.RECORD_ID, FLOW_DATA_TYPE.STRING.value, true);
     }
 
     handleAbsoluteBaseTimeChange(event) {

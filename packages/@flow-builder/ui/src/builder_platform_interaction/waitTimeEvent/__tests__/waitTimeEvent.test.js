@@ -57,7 +57,6 @@ describe('waitTimeEvent', () => {
     describe('resume time parameters', () => {
         let waitTimeEvent;
         let props;
-        const errorMessage = 'bad';
 
         const propChangedSpy = jest.fn().mockName('propertyChangedEventSpy');
         let updateParameterSpy;
@@ -124,41 +123,37 @@ describe('waitTimeEvent', () => {
             });
         });
 
-        it('fires UpdateParameterItemEvent on offset number blur', () => {
-            const blurEvent = new CustomEvent('blur', {
-                detail: {value: 1000, error: errorMessage},
-            });
+        it('fires UpdateParameterItemEvent on offset number focus out', () => {
+            const focusOut = new CustomEvent('focusout');
 
             const offsetNumber = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[0];
-            offsetNumber.dispatchEvent(blurEvent);
+            offsetNumber.dispatchEvent(focusOut);
 
             return Promise.resolve().then(() => {
                 expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
                 expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
                 expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('Number');
-                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(1000);
+                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(-3);
                 expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
                 expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual('TimeOffset');
-                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(errorMessage);
+                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
             });
         });
 
-        it('fires UpdateParameterItemEvent on offset unit blur', () => {
-            const blurEvent = new CustomEvent('blur', {
-                detail: {value: 'Hours', error: errorMessage},
-            });
+        it('fires UpdateParameterItemEvent on offset unit focus out', () => {
+            const focusOut = new CustomEvent('focusout');
 
             const offsetUnit = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[1];
-            offsetUnit.dispatchEvent(blurEvent);
+            offsetUnit.dispatchEvent(focusOut);
 
             return Promise.resolve().then(() => {
                 expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
                 expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
                 expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('String');
-                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('Hours');
+                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('Days');
                 expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
                 expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual('TimeOffsetUnit');
-                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(errorMessage);
+                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
             });
         });
 

@@ -15,7 +15,7 @@
         <!-- input paramters (resume time parameters) -->
         <h3 class="slds-text-heading_small">{labels.resumeTimeHeader}</h3>
  
-        <div if:true={isAbsoluteTime} class="slds-form-element__row slds-p-top_small slds-p-bottom_small">
+        <div if:true={isAbsoluteTime} class="slds-form-element__row slds-p-top_small">
             <builder_platform_interaction-ferov-resource-picker
                 class="slds-size_1-of-2"
                 value={absoluteBaseTime}
@@ -74,14 +74,14 @@
             value={offsetNumber}
             type="number" label={labels.offsetNumberLabel}
             field-level-help={labels.offsetNumberHelpText}
-            onblur={handleOffsetNumberChange}>
+            onfocusout={handleOffsetNumberChange}>
         </lightning-input>
 		<lightning-input
             class="slds-size_1-of-2 slds-p-top_small"
             value={offsetUnit}
             type="text" label={labels.offsetUnitLabel}
             field-level-help={labels.offsetUnitHelpText}
-            onblur={handleOffsetUnitChange}>
+            onfocusout={handleOffsetUnitChange}>
         </lightning-input>
         <div class="slds-border_top slds-m-top_small slds-m-bottom_small"></div>
 
