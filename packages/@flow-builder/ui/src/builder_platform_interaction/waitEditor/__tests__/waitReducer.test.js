@@ -155,6 +155,22 @@ describe('wait-reducer', () => {
             expect(inputParameters[0].value).toEqual({value: newValue, error});
             expect(inputParameters[0].valueDataType.value).toEqual(newValueDataType);
         });
+
+        it('updates inputParameter when index is null', () => {
+            const index = null;
+            const actualExpectedIndex = 0;
+            const newValue = 'bar';
+            const newValueDataType = FLOW_DATA_TYPE.STRING.value;
+            const error = null;
+
+            const waitEventParameterChanged = new WaitEventParameterChangedEvent(eventType, newValue, newValueDataType, error, waitEventGUID, true, index);
+            const resultObj = waitReducer(initState, waitEventParameterChanged);
+            const inputParameters = resultObj.waitEvents[actualExpectedIndex].inputParameters;
+
+            expect(inputParameters[0].name.value).toEqual(eventType);
+            expect(inputParameters[0].value).toEqual({value: newValue, error});
+            expect(inputParameters[0].valueDataType.value).toEqual(newValueDataType);
+        });
     });
 
     describe('Delete Wait event', () => {

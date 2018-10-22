@@ -212,7 +212,7 @@ const updateWaitEventParameter = (state, event) => {
         if (event.detail.isInputParameter) {
             let index = event.detail.index;
 
-            if (index === null) {
+            if (index === null && parameters.length > 0) {
                 index = parameters.findIndex(param => {
                     return param.name.value === event.detail.name;
                 });
