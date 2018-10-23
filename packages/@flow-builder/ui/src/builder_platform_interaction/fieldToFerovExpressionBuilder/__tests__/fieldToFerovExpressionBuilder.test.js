@@ -227,6 +227,28 @@ describe('field-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.rhsFields).toBeDefined();
             expect(baseExpressionBuilder.rhsFields).toBeFalsy();
         });
+        it('should handle FER with no datatype', () => {
+            const expressionBuilder = createComponentForTest({
+                objectType: sobject,
+                lhsFields: mockAccountFields,
+                expression: {
+                    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+                        value: numberVariableGuid,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
+                        value: RULE_OPERATOR.ASSIGN,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
+                        value: numberVariableGuid,
+                        error: null,
+                    }
+                },
+            });
+            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+            expect(baseExpressionBuilder.rhsIsFer).toBeTruthy();
+        });
         it('should handle field on sobject var on RHS', () => {
             const expressionBuilder = createComponentForTest({
                 expression: createMockPopulatedFieldExpression(),
@@ -294,7 +316,7 @@ describe('field-to-ferov-expression-builder', () => {
                         error: null,
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
-                        value: FEROV_DATA_TYPE.BOOLEAN,
+                        value: FEROV_DATA_TYPE.STRING,
                         error: null,
                     },
                 },
