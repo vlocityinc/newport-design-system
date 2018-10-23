@@ -1,6 +1,6 @@
 <template>
     <lightning-tabset>
-        <lightning-tab id="tabitem-inputs" label={inputTabHeader}>
+        <lightning-tab id='tabitem-inputs' class='tabitem-inputs' label={inputTabHeader}>
             <div class="slds-p-horizontal_small" >
                 <ul if:false={emptyInputs}>
                     <template for:each={sortedInputsWithWarnings} for:item="input" for:index="index">
@@ -16,7 +16,7 @@
                 </div>
             </div>
         </lightning-tab>
-        <lightning-tab id="tabitem-outputs" label={outputTabHeader}>
+        <lightning-tab id='tabitem-outputs' class='tabitem-outputs' label={outputTabHeader}>
             <div class="slds-p-horizontal_small">
                 <ul if:false={emptyOutputs}>
                     <template for:each={sortedOutputsWithWarnings} for:item="output" for:index="index">

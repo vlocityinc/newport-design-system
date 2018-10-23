@@ -73,8 +73,8 @@ const defaultParameterList = {
 
 const selectors = {
     lightningTab: 'lightning-tab',
-    inputParameterItems: '#tabitem-inputs builder_platform_interaction-parameter-item',
-    outputParameterItems: '#tabitem-outputs builder_platform_interaction-parameter-item',
+    inputParameterItems: '.tabitem-inputs builder_platform_interaction-parameter-item',
+    outputParameterItems: '.tabitem-outputs builder_platform_interaction-parameter-item',
     emptyInputsMessage: '.emptyInputsMessage',
     emptyOutputsMessage: '.emptyOutputsMessage',
 };
