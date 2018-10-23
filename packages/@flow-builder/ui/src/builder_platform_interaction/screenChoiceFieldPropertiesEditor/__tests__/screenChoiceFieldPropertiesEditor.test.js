@@ -224,64 +224,6 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
     });
 });
 
-describe('screen-choice-field-properties-editor for picklist, type DateTime', () => {
-    let screenChoiceFieldPropEditor;
-    beforeEach(() => {
-        screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createAndMutateField(fieldName, 'DropdownBox', SCREEN_NO_DEF_VALUE, {dataType: 'DateTime', validation: false, helpText: false}),
-        });
-    });
-    it('API Name field should be filled in', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
-            expect(nameAndLabelField.devName.value).toBe(fieldName);
-        });
-    });
-    it('Label field should be filled in', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
-            expect(nameAndLabelField).toBeDefined();
-            expect(nameAndLabelField.label.value).toBe(fieldName);
-        });
-    });
-    it('Default value is empty when there is no default value', () => {
-        return Promise.resolve().then(() => {
-            const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
-            expect(renderedDefaultValueField).toBeDefined();
-            expect(renderedDefaultValueField.value).toBeUndefined();
-        });
-    });
-    it('Required checkbox is present and not checked', () => {
-        return Promise.resolve().then(() => {
-            const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
-            expect(renderedRequiredCheckbox).toBeDefined();
-            expect(renderedRequiredCheckbox.value).toBeFalsy();
-        });
-    });
-    it('Datatype drop down is set to required', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.required).toBeTruthy();
-        });
-    });
-    it('Datatype drop down and set', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.value).toBeDefined();
-            expect(dataTypeDropDown.value.dataType).toBe('DateTime');
-        });
-    });
-    it('Help text is present and filled in', () => {
-        return Promise.resolve().then(() => {
-            const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(helpTextField).toBeDefined();
-            expect(helpTextField.value.value).toBe("Screen field field1 help text");
-        });
-    });
-});
-
 describe('screen-choice-field-properties-editor choice selectors', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {

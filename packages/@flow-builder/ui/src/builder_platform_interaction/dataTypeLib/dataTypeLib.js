@@ -135,10 +135,6 @@ export const INPUT_FIELD_DATA_TYPE = {
     Date: {
         label: SCREEN_LABELS.dateDataType,
         value: 'Date',
-    },
-    DateTime: {
-        label: SCREEN_LABELS.dateTimeDataType,
-        value: 'DateTime',
     }
 };
 
