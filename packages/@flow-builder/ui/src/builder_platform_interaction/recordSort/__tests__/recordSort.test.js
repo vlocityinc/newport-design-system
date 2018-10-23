@@ -31,7 +31,7 @@ const createComponentUnderTest = (props) => {
 
 const selectors = {
     lightningCombobox: 'lightning-combobox',
-    filterHelpText: '#helpText',
+    filterHelpText: '.helpText',
     fieldPicker: 'builder_platform_interaction-field-picker',
 };
 
