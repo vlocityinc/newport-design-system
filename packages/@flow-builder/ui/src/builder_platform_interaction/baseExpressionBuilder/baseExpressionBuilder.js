@@ -279,12 +279,18 @@ export default class BaseExpressionBuilder extends LightningElement {
         return this._rhsLiteralsAllowedForContext && !this._rhsCollectionRequiredByRules;
     }
 
-    /**
-     * hides FEROV-specific menu data (like global constants)
-     * @type {boolean}
-     */
     @api
-    hideFerovMenuData = false;
+    get hideFerovMenuData() {
+        return this._hideFerovMenuData;
+    }
+
+    /**
+     * @type {boolean} hide hides FEROV-specific menu data (like global constants) when set to true.
+     */
+    set hideFerovMenuData(hide) {
+        this._hideFerovMenuData = !!hide;
+        this.setRhsMenuData();
+    }
 
     /**
      * Set it to true to hide 'New Resource' option in combobox menu data.
@@ -305,6 +311,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     _rhsCollectionRequiredByRules;
     _rhsLiteralsAllowedForContext = false;
     _unsubscribeStore;
+    _hideFerovMenuData = false;
 
     /**
      * Sets LHS menu data if all the necessary attributes have been initialized
