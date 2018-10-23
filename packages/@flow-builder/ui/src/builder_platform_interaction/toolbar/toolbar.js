@@ -90,8 +90,10 @@ export default class Toolbar extends LightningElement {
 
     handleEditFlowProperties(event) {
         event.preventDefault();
-        const editFlowPropertiesEvent = new EditFlowPropertiesEvent();
-        this.dispatchEvent(editFlowPropertiesEvent);
+        if (!this.isEditFlowPropertiesDisabled) {
+            const editFlowPropertiesEvent = new EditFlowPropertiesEvent();
+            this.dispatchEvent(editFlowPropertiesEvent);
+        }
     }
 
     handleRun(event) {
