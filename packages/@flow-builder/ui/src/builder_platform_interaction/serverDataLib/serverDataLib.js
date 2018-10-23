@@ -76,7 +76,7 @@ export function setAuraFetch(fn) {
  * @param {Object} storable set to true if results need to be cached, Background set to true if request needs to be run as background action
  * @return {Function} setComponentDisconnected this should be called in disconnected callback of a component
  */
-export function fetch(serverActionType, callback, params, { background = false, storable = false } = {}) {
+export function fetch(serverActionType, callback, params, { background = false, storable = false, disableErrorModal = false, messageForErrorModal } = {}) {
     let executeCallback = true;
 
     function shouldExecuteCallback() {
@@ -88,7 +88,7 @@ export function fetch(serverActionType, callback, params, { background = false, 
     }
 
     if (actionConfig[serverActionType] && auraFetch) {
-        auraFetch(actionConfig[serverActionType], shouldExecuteCallback, callback, params, background, storable);
+        auraFetch(actionConfig[serverActionType], shouldExecuteCallback, callback, params, background, storable, disableErrorModal, messageForErrorModal);
     }
     return stopCallbackExecution;
 }

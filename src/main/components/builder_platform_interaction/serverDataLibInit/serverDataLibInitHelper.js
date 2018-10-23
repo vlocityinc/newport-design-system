@@ -5,7 +5,7 @@
      */
     initializeFetch: function(cmp) {
         var showAlertModal = true;
-        var auraFetch = $A.getCallback(function(actionName, shouldExecuteCallback, callback, params, background, storable) {
+        var auraFetch = $A.getCallback(function(actionName, shouldExecuteCallback, callback, params, background, storable, disableErrorModal, messageForErrorModal) {
             if (actionName && callback) {
                 var action = cmp.get(actionName);
                 if (params) {
@@ -26,8 +26,8 @@
                                 data: result.getReturnValue()
                             });
                         } else if (status === 'ERROR' || status === 'INCOMPLETE') {
-                            if (showAlertModal) {
-                                openAlertModal(status);
+                            if (showAlertModal && !disableErrorModal) {
+                                openAlertModal(status, messageForErrorModal);
                             }
                             return callback({
                                 error: result.getError()
@@ -44,14 +44,18 @@
             serverDataLib.setAuraFetch(auraFetch);
         }
 
-        var openAlertModal = function(status) {
+        var openAlertModal = function(status, errorMessage) {
             var headerTitle, bodyTextOne, buttonVariant, buttonLabel, alertModal;
             alertModal = cmp.find('builderUtils').invokeModal;
             buttonVariant = 'Brand';
             buttonLabel = $A.get('$Label.FlowBuilderAlertModal.okayButtonLabel');
             if (status === 'ERROR') {
                 headerTitle = $A.get('$Label.FlowBuilderAlertModal.errorTitle');
-                bodyTextOne = $A.get('$Label.FlowBuilderAlertModal.errorMessage');
+                if (errorMessage) {
+                    bodyTextOne = errorMessage;                    
+                } else {
+                    bodyTextOne = $A.get('$Label.FlowBuilderAlertModal.errorMessage');
+                }
             } else if (status === 'INCOMPLETE') {
                 headerTitle = $A.get('$Label.FlowBuilderAlertModal.noNetworkConnectionTitle');
                 bodyTextOne = $A.get('$Label.FlowBuilderAlertModal.noNetworkConnectionMessage');
