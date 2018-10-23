@@ -4,7 +4,7 @@ function lib(){
      * JSPLUMB version: 2.5.11
      * Made changes in following lines to make JSPLUMB performant. Please be mindful of it before updating the version:
      * 1) Line 1414 - CL 15923035
-     * 2) Line 4269 - CL 15923035 
+     * 2) Line 4269 - CL 15923035, 16808581
      * 3) Line 6493 & 6511 - CL 15923035
      * 4) Line 6584 & 6586 - CL 15923035
      */
@@ -4266,8 +4266,8 @@ function lib(){
                         return null;
                     }
                     var id;
-                    // Adding this check to make sure that element has an "id" attribute.
-                    if (element.hasAttribute("id")) {
+                    // Adding this check to make sure that element has an "id" attribute.Short term fix for connector issue
+                    if (element.hasAttribute && element.hasAttribute("id")) {
                         id = _currentInstance.getAttribute(element, "id");                        
                     }
                     if (!id || id === "undefined") {
