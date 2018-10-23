@@ -2,32 +2,36 @@
 
 exports[`Rich label args are properly escaped 1`] = `
 <builder_platform_interaction-rich-label>
-  the url is 
-  <strong>
-    &lt;img src="http://foo.bar/foo.jpg" /&gt;
-  </strong>
-  
+  #shadow-root(open)
+    the url is 
+    <strong>
+      &lt;img src="http://foo.bar/foo.jpg" /&gt;
+    </strong>
+    
 </builder_platform_interaction-rich-label>
 `;
 
 exports[`Rich label label not set 1`] = `
 <builder_platform_interaction-rich-label>
-  
+  #shadow-root(open)
+    
 </builder_platform_interaction-rich-label>
 `;
 
 exports[`Rich label label with args 1`] = `
 <builder_platform_interaction-rich-label>
-  begin arg0 arg2 arg1 end
+  #shadow-root(open)
+    begin arg0 arg2 arg1 end
 </builder_platform_interaction-rich-label>
 `;
 
 exports[`Rich label label with strong tag 1`] = `
 <builder_platform_interaction-rich-label>
-  begin arg0 
-  <strong>
-    arg2
-  </strong>
-   arg1 end
+  #shadow-root(open)
+    begin arg0 
+    <strong>
+      arg2
+    </strong>
+     arg1 end
 </builder_platform_interaction-rich-label>
 `;
