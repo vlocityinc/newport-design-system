@@ -381,6 +381,7 @@ export default class Canvas extends LightningElement {
         if (event.key === KEYS.SPACE && this.isPanModeOn) {
             // Code block for disabling panning mode
             event.preventDefault();
+            this.isMouseDown = false;
             this.togglePan(PAN_ACTION.PAN_OFF);
         }
     };
