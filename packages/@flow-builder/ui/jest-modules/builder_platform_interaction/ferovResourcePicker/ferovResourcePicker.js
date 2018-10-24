@@ -22,4 +22,6 @@ export default class FerovResourcePicker extends LightningElement {
     @api errorMessage;
 
     @api rules;
+
+    @api hideSystemVariables;
 }

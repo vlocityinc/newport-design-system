@@ -81,7 +81,7 @@ describe('resourcePickerUtils', () => {
                 resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, true);
             expect(getStoreElements).toHaveBeenCalledWith(elements, { elementType: 'Assignment' });
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, true, true, true);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, true, true, true, null, true);
         });
 
         it('Should get menu data when there is element config and we do not want new resource option', () => {
@@ -89,7 +89,7 @@ describe('resourcePickerUtils', () => {
                 resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, false);
             expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, false, true, true);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, false, true, true, null, true);
         });
     });
 });

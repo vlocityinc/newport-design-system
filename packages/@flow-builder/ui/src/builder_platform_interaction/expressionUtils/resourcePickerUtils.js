@@ -24,12 +24,12 @@ const getFieldMenuData = (elementConfig, populateParamTypesFn, parentItem, entit
 };
 
 const getFerovMenuData = (elementConfig, propertyEditorElementType, populateParamTypesFn, allowSobjectForFields,
-    enableFieldDrilldown, storeInstance, includeNewResource) => {
+    enableFieldDrilldown, storeInstance, includeNewResource, showSystemVariables) => {
     const menuDataElements = getStoreElements(storeInstance.getCurrentState(),
         elementConfig || { elementType: propertyEditorElementType });
 
     return filterAndMutateMenuData(menuDataElements, populateParamTypesFn(), includeNewResource,
-        allowSobjectForFields, !enableFieldDrilldown);
+        allowSobjectForFields, !enableFieldDrilldown, null, showSystemVariables);
 };
 
 /**
@@ -47,13 +47,13 @@ const getFerovMenuData = (elementConfig, propertyEditorElementType, populatePara
  * @returns {Array} array of resources
  */
 export const getMenuData = (elementConfig, propertyEditorElementType, populateParamTypesFn, allowSobjectForFields,
-    enableFieldDrilldown, storeInstance, includeNewResource, parentItem, fields) => {
+    enableFieldDrilldown, storeInstance, includeNewResource, parentItem, fields, showSystemVariables = true) => {
     let menuData;
     if (parentItem) {
         menuData = getFieldMenuData(elementConfig, populateParamTypesFn, parentItem, fields);
     } else {
         menuData = getFerovMenuData(elementConfig, propertyEditorElementType, populateParamTypesFn, allowSobjectForFields,
-            enableFieldDrilldown, storeInstance, includeNewResource);
+            enableFieldDrilldown, storeInstance, includeNewResource, showSystemVariables);
     }
     return menuData;
 };

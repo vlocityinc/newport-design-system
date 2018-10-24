@@ -152,6 +152,9 @@ export default class FerovResourcePicker extends LightningElement {
     @api
     showNewResource = false;
 
+    @api
+    hideSystemVariables = false;
+
     get parentItem() {
         return this.value && this.value.parent;
     }
@@ -253,7 +256,7 @@ export default class FerovResourcePicker extends LightningElement {
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
                 getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, !this.hideGlobalConstants,
-                    this.enableFieldDrilldown, storeInstance, this.showNewResource, parentItem, fields));
+                    this.enableFieldDrilldown, storeInstance, this.showNewResource, parentItem, fields, !this.hideSystemVariables));
         }
     }
 }
