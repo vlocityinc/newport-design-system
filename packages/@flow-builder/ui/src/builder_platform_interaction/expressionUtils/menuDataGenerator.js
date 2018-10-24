@@ -209,21 +209,23 @@ export const mutateEventTypesToComboboxShape = (eventTypes) => {
     });
 };
 
+export const flowSystemVariableCategory = {
+    hasNext: true,
+    value: SYSTEM_VARIABLE_PREFIX,
+    text: SYSTEM_VARIABLE_PREFIX,
+    displayText: addCurlyBraces(SYSTEM_VARIABLE_PREFIX),
+    type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+    objectType: SYSTEM_VARIABLE_PREFIX,
+    iconName: ICON_TYPE + ':system_and_global_variable',
+    iconSize: ICON_SIZE,
+    rightIconName: RIGHT_ICON_NAME,
+    rightIconSize: ICON_SIZE,
+};
+
 export const getSystemVariableMenuData = () => {
     const systemVariableCategory = {
         label: systemVariableCategoryLabel,
-        items: [{
-            hasNext: true,
-            value: SYSTEM_VARIABLE_PREFIX,
-            text: SYSTEM_VARIABLE_PREFIX,
-            displayText: addCurlyBraces(SYSTEM_VARIABLE_PREFIX),
-            type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
-            objectType: SYSTEM_VARIABLE_PREFIX,
-            iconName: ICON_TYPE + ':system_and_global_variable',
-            iconSize: ICON_SIZE,
-            rightIconName: RIGHT_ICON_NAME,
-            rightIconSize: ICON_SIZE,
-        }],
+        items: [flowSystemVariableCategory],
     };
 
     return systemVariableCategory;
