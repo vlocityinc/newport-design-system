@@ -202,6 +202,6 @@ function createChoiceReferenceMetadatObject(choiceReferenceObject) {
     if (!choiceReference) {
         throw new Error('Choice reference is not defined');
     }
-    const name = getElementByGuid(choiceReference);
+    const { name } = getElementByGuid(choiceReference);
     return name;
 }

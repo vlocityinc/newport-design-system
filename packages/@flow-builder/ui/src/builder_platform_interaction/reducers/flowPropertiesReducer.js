@@ -1,4 +1,4 @@
-import { UPDATE_FLOW, UPDATE_PROPERTIES, UPDATE_PROPERTIES_AFTER_SAVING, ADD_START_ELEMENT } from "builder_platform_interaction/actions";
+import { UPDATE_FLOW, UPDATE_PROPERTIES, UPDATE_PROPERTIES_AFTER_SAVING, ADD_START_ELEMENT, SELECT_ON_CANVAS, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS } from "builder_platform_interaction/actions";
 import { createFlowProperties } from "builder_platform_interaction/elementFactory";
 /**
  * Reducer for properties
@@ -27,8 +27,11 @@ export default function flowPropertiesReducer(state = flowProperties, action) {
             hasUnsavedChanges: false
         });
 
-        // These actions are dispatched when new flow is created
+        // For these, hasUnsavedChanges will not be updated.
         case ADD_START_ELEMENT:
+        case SELECT_ON_CANVAS:
+        case TOGGLE_ON_CANVAS:
+        case DESELECT_ON_CANVAS:
         case 'INIT': return state;
 
         // hasUnsavedChanges is set to true, if any other action is dispatch
