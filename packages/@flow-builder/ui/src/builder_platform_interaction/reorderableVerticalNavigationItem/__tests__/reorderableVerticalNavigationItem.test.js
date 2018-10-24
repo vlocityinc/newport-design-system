@@ -82,7 +82,7 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.activeId = 'item1';
 
             return Promise.resolve().then(() => {
-                const listItem = element.querySelector(SELECTORS.MAIN_DIV);
+                const listItem = getShadowRoot(element).querySelector(SELECTORS.MAIN_DIV);
                 expect(listItem.getAttribute('class')).toContain('slds-is-active');
             });
         });
@@ -92,7 +92,7 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.activeId = 'item2';
 
             return Promise.resolve().then(() => {
-                const listItem = element.querySelector(SELECTORS.MAIN_DIV);
+                const listItem = getShadowRoot(element).querySelector(SELECTORS.MAIN_DIV);
                 expect(listItem.getAttribute('class')).not.toContain('slds-is-active');
             });
         });
