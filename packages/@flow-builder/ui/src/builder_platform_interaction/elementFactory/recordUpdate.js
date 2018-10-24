@@ -9,7 +9,7 @@ import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
 import { NUMBER_RECORDS_TO_STORE,
     RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
-import { createFilter, createFilterMetadataObject, createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment  } from './base/baseRecordElement';
+import { createRecordFilters, createFilterMetadataObject, createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment  } from './base/baseRecordElement';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
@@ -42,12 +42,7 @@ export function createRecordUpdate(recordUpdate = {}) {
 
     const numberRecordsToStore = getNumberRecordsToStore(inputReference, object);
 
-    if (filters && filters.length > 0) {
-        filters = filters.map(filter => createFilter(filter, object));
-    } else {
-        const newFilter = createFilter();
-        filters = [newFilter];
-    }
+    filters = createRecordFilters(filters, object);
 
     const filterType = filters[0].leftHandSide
     ? RECORD_FILTER_CRITERIA.ALL

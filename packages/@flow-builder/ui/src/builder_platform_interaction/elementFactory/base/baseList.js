@@ -33,6 +33,21 @@ export function createExpressionListRowItemWithoutOperator(listRowItem = {}) {
 }
 
 /**
+ * This function creates a new list row item object without an operator and without the rightHandSideDataType.
+ * @param {Object} listRowItem object which is used to create new list row item object. If it is not passed, then default values are used.
+ * @returns {Object} new list row item object
+ */
+export function createExpressionListRowItemWithoutOperatorAndRHSDataType(listRowItem = {}) {
+    const { leftHandSide = '', rightHandSide = '', rowIndex = generateGuid() } = listRowItem;
+
+    return {
+        rowIndex,
+        leftHandSide,
+        rightHandSide
+    };
+}
+
+/**
  * This function creates a new parameter list row item object.
  * @param {Object} listRowItem object which is used to create new parameter list row item object. If it is not passed, then default values are used.
  * @returns {Object} new parameter list row item object

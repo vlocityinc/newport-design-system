@@ -1,6 +1,5 @@
 import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
+    ELEMENT_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
@@ -9,7 +8,11 @@ import {
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
-import { createFilter, createFilterMetadataObject } from './base/baseRecordElement';
+import { createRecordFilters,
+    createFilterMetadataObject,
+    createFlowOutputFieldAssignment,
+    getDefaultAvailableConnections,
+    createFlowOutputFieldAssignmentMetadataObject } from './base/baseRecordElement';
 import {
     RECORD_FILTER_CRITERIA,
     SORT_ORDER
@@ -17,17 +20,12 @@ import {
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
+import { getNonElementResource } from "builder_platform_interaction/systemLib";
+import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 
 const elementType = ELEMENT_TYPE.RECORD_LOOKUP;
 const maxConnections = 2;
-const getDefaultAvailableConnections = () => [
-    {
-        type: CONNECTOR_TYPE.REGULAR
-    },
-    {
-        type: CONNECTOR_TYPE.FAULT
-    }
-];
 
 export function createQueriedField(queriedField) {
     // In metadata the queried fields are stored as ['someField'...],
@@ -42,7 +40,7 @@ export function createQueriedField(queriedField) {
 export function createRecordLookup(recordLookup = {}) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
-    let { availableConnections = getDefaultAvailableConnections(), filters, queriedFields = [] } = recordLookup;
+    let { availableConnections = getDefaultAvailableConnections(), filters, queriedFields = [], outputAssignments = [] } = recordLookup;
     const {
         object = '',
         outputReference = '',
@@ -53,37 +51,63 @@ export function createRecordLookup(recordLookup = {}) {
 
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
-    if (queriedFields && queriedFields.length > 0) {
-        queriedFields = queriedFields.map(queriedField => createQueriedField(queriedField));
-    } else {
-        // If creating new queried fields, there needs to be one for the ID field, and a new blank one
-        queriedFields = ['Id', ''].map(queriedField => createQueriedField(queriedField));
-    }
+    let recordLookupObject = null;
+    let numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
 
-    if (filters && filters.length > 0) {
-        filters = filters.map(filter => createFilter(filter, object));
-    } else {
-        const newFilter = createFilter();
-        filters = [newFilter];
-    }
+    filters = createRecordFilters(filters, object);
+
     const filterType = filters[0].leftHandSide
         ? RECORD_FILTER_CRITERIA.ALL
         : RECORD_FILTER_CRITERIA.NONE;
 
-    const recordLookupObject = Object.assign(newRecordLookup, {
-        object,
-        outputReference,
-        assignNullValuesIfNoRecordsFound,
-        filterType,
-        filters,
-        queriedFields,
-        sortOrder,
-        sortField,
-        maxConnections,
-        availableConnections,
-        elementType,
-        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-    });
+    if (outputReference) {
+        // When the builder is loaded the store does not yet contain the variables
+        // numberRecordsToStore can only be calculated at the opening on the element
+        const variable  = getElementByGuid(outputReference) || getNonElementResource(outputReference);
+        if (variable) {
+            numberRecordsToStore = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+        }
+
+        if (queriedFields && queriedFields.length > 0) {
+            queriedFields = queriedFields.map(queriedField => createQueriedField(queriedField));
+        } else {
+            // If creating new queried fields, there needs to be one for the ID field, and a new blank one
+            queriedFields = ['Id', ''].map(queriedField => createQueriedField(queriedField));
+        }
+
+        recordLookupObject = Object.assign(newRecordLookup, {
+            object,
+            outputReference,
+            numberRecordsToStore,
+            assignNullValuesIfNoRecordsFound,
+            filterType,
+            filters,
+            queriedFields,
+            sortOrder,
+            sortField,
+            maxConnections,
+            availableConnections,
+            elementType,
+            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+        });
+    } else {
+        outputAssignments = outputAssignments.map(item => createFlowOutputFieldAssignment(item, object, 'assignToReference'));
+
+        recordLookupObject = Object.assign(newRecordLookup, {
+            object,
+            outputAssignments,
+            numberRecordsToStore,
+            assignNullValuesIfNoRecordsFound,
+            filterType,
+            filters,
+            sortOrder,
+            sortField,
+            maxConnections,
+            availableConnections,
+            elementType,
+            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+        });
+    }
 
     return recordLookupObject;
 }
@@ -122,7 +146,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         object,
         outputReference,
         assignNullValuesIfNoRecordsFound = false,
-        filterType
+        filterType,
     } = recordLookup;
 
     let { sortOrder, sortField, filters = [], queriedFields = [] } = recordLookup;
@@ -142,9 +166,24 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         sortField = undefined;
     }
 
+    if (outputReference) {
+        return Object.assign(recordUpdateMetadata, {
+            object,
+            outputReference,
+            assignNullValuesIfNoRecordsFound,
+            filters,
+            queriedFields,
+            sortOrder,
+            sortField
+        });
+    }
+
+    let { outputAssignments = [] } = recordLookup;
+    outputAssignments = outputAssignments.map(output => createFlowOutputFieldAssignmentMetadataObject(output));
+
     return Object.assign(recordUpdateMetadata, {
         object,
-        outputReference,
+        outputAssignments,
         assignNullValuesIfNoRecordsFound,
         filters,
         queriedFields,

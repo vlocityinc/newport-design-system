@@ -1,6 +1,7 @@
 import {
     createListRowItem,
     createExpressionListRowItemWithoutOperator,
+    createExpressionListRowItemWithoutOperatorAndRHSDataType,
     RHS_PROPERTY,
     RHS_DATA_TYPE_PROPERTY
 } from "./baseList";
@@ -8,6 +9,7 @@ import { createFEROV, createFEROVMetadataObject } from '../ferov';
 import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 
 const lhsMetadataPropertyName = 'value';
+const outputLhsMetadataPropertyName = 'assignToReference';
 
 export function createFilter(filter = {}, objectType) {
     let newFilter;
@@ -80,8 +82,8 @@ export function createFlowInputFieldAssignment(inputAssignmentsItem, objectType)
 
     if (inputAssignmentsItem.hasOwnProperty('field')) {
         const leftHandSide = objectType + '.' + inputAssignmentsItem.field;
-        if (inputAssignmentsItem.hasOwnProperty(lhsMetadataPropertyName)) {
-            newAssignment = createFEROV(inputAssignmentsItem.value, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
+        if (inputAssignmentsItem[lhsMetadataPropertyName]) {
+            newAssignment = createFEROV(inputAssignmentsItem[lhsMetadataPropertyName], RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
         }
         Object.assign(newAssignment, {leftHandSide});
         newAssignment = createExpressionListRowItemWithoutOperator(newAssignment);
@@ -89,6 +91,31 @@ export function createFlowInputFieldAssignment(inputAssignmentsItem, objectType)
         newAssignment = createExpressionListRowItemWithoutOperator(inputAssignmentsItem);
     }
     return newAssignment;
+}
+
+export function createFlowOutputFieldAssignment(outputAssignmentsItem, objectType) {
+    let newAssignment = {};
+
+    if (outputAssignmentsItem.hasOwnProperty('field')) {
+        const leftHandSide = objectType + '.' + outputAssignmentsItem.field;
+        const rightHandSide = outputAssignmentsItem[outputLhsMetadataPropertyName];
+        newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType({leftHandSide, rightHandSide});
+    } else {
+        newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(outputAssignmentsItem);
+    }
+    return newAssignment;
+}
+
+export function createFlowOutputFieldAssignmentMetadataObject(outputParameter) {
+    if (!outputParameter) {
+        throw new Error('record Flow output Field Assignment is not defined');
+    }
+
+    const field = outputParameter.leftHandSide.substring(
+        outputParameter.leftHandSide.indexOf('.') + 1
+    );
+
+    return { field, [outputLhsMetadataPropertyName]: outputParameter.rightHandSide };
 }
 
 export const getDefaultAvailableConnections = () => [
@@ -99,3 +126,13 @@ export const getDefaultAvailableConnections = () => [
         type: CONNECTOR_TYPE.FAULT
     }
 ];
+
+export const createRecordFilters = (filters, object) => {
+    if (filters && filters.length > 0) {
+        filters = filters.map(filter => createFilter(filter, object));
+    } else {
+        const newFilter = createFilter();
+        filters = [newFilter];
+    }
+    return filters;
+};

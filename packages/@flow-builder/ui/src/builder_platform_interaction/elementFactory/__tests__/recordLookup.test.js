@@ -1,12 +1,13 @@
-import { createRecordLookup } from '../recordLookup';
+import { createRecordLookup, createRecordLookupMetadataObject } from '../recordLookup';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { matchers } from './elementFactoryMatchers';
+import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 
 expect.extend(matchers);
 
 const mockGuid = 'mockGuid';
 
-const defaultStoreRecordLookup = {
+const recordLookupSObjectStore = () => ({
     assignNullValuesIfNoRecordsFound: false,
     availableConnections: [
         {
@@ -14,7 +15,7 @@ const defaultStoreRecordLookup = {
         }, {
             "type": "FAULT"
         }],
-    config: { isSelected: true },
+    config: { isSelected: false },
     connectorCount: 0,
     dataType: "Boolean",
     description: "",
@@ -23,38 +24,111 @@ const defaultStoreRecordLookup = {
     filters: [{
         leftHandSide: "Account.BillingCity",
         operator: "EqualTo",
-        rightHandSide: "51e58894-fc23-48de-b6c5-5992a6134d92",
+        rightHandSide: "vCity",
         rightHandSideDataType: "reference",
-        rowIndex: "690c14d4-3085-4919-8455-4eab61a78c4d"}],
-    guid: "802005a3-cb93-4b76-9db9-d9f623afdb5a",
+        rowIndex: "mockGuid"}],
+    guid: "mockGuid",
     isCanvasElement: true,
     label: "lookupSObject",
-    locationX: 254,
-    locationY: 456,
+    locationX: 304,
+    locationY: 629,
     maxConnections: 2,
     name: "lookupSObject",
     object: "Account",
-    outputReference: "56414561-f9e3-49bd-be38-dadaaac8c371",
+    outputReference: "vSobjectAccount",
     queriedFields: [{field: "BillingCountry",
-        rowIndex: "f38be3c9-3fce-4718-9ecb-16cde3b6c54e"}],
+        rowIndex: "mockGuid"}],
     sortField: "",
     sortOrder: "NotSorted"
-};
+});
 
-const flowRecordLoookupFields = {
+
+const recordLoookupSObjectMetadata = () => ({
     assignNullValuesIfNoRecordsFound: false,
     filters: [{
         field: "BillingCity",
         operator: "EqualTo",
-        value: {elementReference: "myCity"}}],
+        value: {elementReference: "vCity"}}],
     label: "lookupSObject",
     locationX: 304,
     locationY: 629,
     name: "lookupSObject",
     object: "Account",
-    outputAssignments: [],
-    outputReference: "test",
+    outputReference: "vSobjectAccount",
     queriedFields: ["BillingCountry"]
+});
+
+const recordLoookupFieldsMetadata = () => ({
+    assignNullValuesIfNoRecordsFound: false,
+    filters: [{
+        field: "BillingCity",
+        operator: "EqualTo",
+        value: {elementReference: "vCity"}}],
+    label: "lookup with Fields",
+    locationX: 431,
+    locationY: 345,
+    name: "lookup_with_fields",
+    object: "Account",
+    outputAssignments: [{
+        field: "BillingCountry",
+        assignToReference: "myCountry"}],
+    queriedFields: []
+});
+
+const recordLoookupFieldsStore = () => ({
+    assignNullValuesIfNoRecordsFound: false,
+    availableConnections: [
+        {
+            "type": "REGULAR"
+        }, {
+            "type": "FAULT"
+        }],
+    config: { isSelected: false },
+    connectorCount: 0,
+    dataType: "Boolean",
+    description: "",
+    elementType: "RECORD_LOOKUP",
+    filterType: "all",
+    filters: [{
+        leftHandSide: "Account.BillingCity",
+        operator: "EqualTo",
+        rightHandSide: "vCity",
+        rightHandSideDataType: "reference",
+        rowIndex: "mockGuid"}],
+    guid: "mockGuid",
+    isCanvasElement: true,
+    label: "lookup with Fields",
+    locationX: 431,
+    locationY: 345,
+    maxConnections: 2,
+    name: "lookup_with_fields",
+    numberRecordsToStore: "firstRecord",
+    object: "Account",
+    outputAssignments: [{
+        leftHandSide: "Account.BillingCountry",
+        rightHandSide: "myCountry"}],
+    sortField: "",
+    sortOrder: "NotSorted"
+});
+
+const outputAssignmentField = {
+    field: 'title',
+    assignToReference: 'vTitle'
+};
+
+const outputAssignmentFieldValue = {
+    field: 'description',
+    assignToReference: 'vDescription'
+};
+
+const uiModelOutputAssignmentFieldValue = {
+    leftHandSide: 'Account.description',
+    rightHandSide: 'vDescription',
+};
+
+const uiModelOutputAssignmentField = {
+    leftHandSide: 'Account.title',
+    rightHandSide: 'vTitle',
 };
 
 describe('recordLookup', () => {
@@ -63,36 +137,121 @@ describe('recordLookup', () => {
     describe('createRecordLookup function', () => {
         let recordLookup;
         describe('when empty recordLookup is created', () => {
-            beforeAll(() => {
-                recordLookup = createRecordLookup();
-            });
             it('has dataType of boolean', () => {
+                recordLookup = createRecordLookup();
                 expect(recordLookup.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
         });
 
         describe('when flow recordLookup is passed', () => {
             beforeAll(() => {
-                recordLookup = createRecordLookup(flowRecordLoookupFields);
+                recordLookup = createRecordLookup(recordLoookupSObjectMetadata());
             });
             it('has dataType of boolean', () => {
                 expect(recordLookup.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
             it('has no common mutable object with record lookup metadata passed as parameter', () => {
-                expect(recordLookup).toHaveNoCommonMutableObjectWith(flowRecordLoookupFields);
+                expect(recordLookup).toHaveNoCommonMutableObjectWith(recordLoookupSObjectMetadata());
             });
         });
 
         describe('when store recordLookup is passed', () => {
             beforeAll(() => {
-                recordLookup = createRecordLookup(defaultStoreRecordLookup);
+                recordLookup = createRecordLookup(recordLookupSObjectStore());
             });
             it('has dataType of boolean', () => {
                 expect(recordLookup.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
             it('has no common mutable object with ecord lookup from store passed as parameter', () => {
-                expect(recordLookup).toHaveNoCommonMutableObjectWith(defaultStoreRecordLookup);
+                expect(recordLookup).toHaveNoCommonMutableObjectWith(recordLookupSObjectStore());
             });
+        });
+    });
+});
+describe('recordLookup new element from left panel', () => {
+    it('returns a new record lookup object when no argument is passed; numberRecordsToStore should be set to FIRSt_RECORD by default', () => {
+        const uiModelResult = {
+            name: '',
+            description: '',
+            elementType: 'RECORD_LOOKUP',
+            numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+        };
+        const actualResult = createRecordLookup();
+        expect(actualResult).toMatchObject(uiModelResult);
+    });
+});
+describe('recordLookup flow metadata => UI model', () => {
+    describe('recordLookup function using sObject', () => {
+        it('returns a new record update object with same value and the numberRecordsToStore calculated from the inputReference', () => {
+            const recordLookupSObjectMetadata = recordLoookupFieldsMetadata();
+            const actualResult = createRecordLookup(recordLookupSObjectMetadata);
+            expect(actualResult).toMatchObject(recordLoookupFieldsStore());
+        });
+        it('has no common mutable object with record lookup metadata passed as parameter', () => {
+            const recordLookupSObjectMetadata = recordLoookupFieldsMetadata();
+            const actualResult = createRecordLookup(recordLookupSObjectMetadata);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordLookupSObjectMetadata);
+        });
+    });
+    describe('recordLookup function using Fields', () => {
+        let recordLookupUsingFields;
+        let uiModelRecordLookupWithFields;
+        beforeEach(() => {
+            recordLookupUsingFields = recordLoookupFieldsMetadata();
+            uiModelRecordLookupWithFields = recordLoookupFieldsStore();
+        });
+        it('outputAssignments with value should return the expression (RHS/LHS)', () => {
+            recordLookupUsingFields.outputAssignments = [outputAssignmentFieldValue];
+            const actualResult = createRecordLookup(recordLookupUsingFields);
+            uiModelRecordLookupWithFields.outputAssignments = [uiModelOutputAssignmentFieldValue];
+            expect(actualResult).toMatchObject(uiModelRecordLookupWithFields);
+        });
+        it('outputAssignments with multiple values should return the expression (RHS/LHS)', () => {
+            recordLookupUsingFields.outputAssignments = [outputAssignmentFieldValue, outputAssignmentField];
+            const actualResult = createRecordLookup(recordLookupUsingFields);
+            uiModelRecordLookupWithFields.outputAssignments = [uiModelOutputAssignmentFieldValue, uiModelOutputAssignmentField];
+            expect(actualResult).toMatchObject(uiModelRecordLookupWithFields);
+        });
+        it('has no common mutable object with record lookup with fields metadata passed as parameter', () => {
+            const actualResult = createRecordLookup(recordLookupUsingFields);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordLookupUsingFields);
+        });
+    });
+});
+describe('recordLookup UI model => flow metadata', () => {
+    describe('recordLookup function using sObject', () => {
+        it('record lookup using sObject', () => {
+            const actualResult = createRecordLookupMetadataObject(recordLookupSObjectStore());
+            expect(actualResult).toMatchObject(recordLoookupSObjectMetadata());
+        });
+        it('has no common mutable object with record create store passed as parameter', () => {
+            const recordCreateSObjectStore = recordLookupSObjectStore();
+            const actualResult = createRecordLookupMetadataObject(recordCreateSObjectStore);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordCreateSObjectStore);
+        });
+    });
+    describe('recordLookup function using Fields', () => {
+        let recordLookupUsingFields;
+        let uiModelRecordLookupWithFields;
+        beforeEach(() => {
+            recordLookupUsingFields = recordLoookupFieldsMetadata();
+            uiModelRecordLookupWithFields = recordLoookupFieldsStore();
+        });
+        it('outputAssignments with value', () => {
+            uiModelRecordLookupWithFields.outputAssignments = [uiModelOutputAssignmentFieldValue];
+            recordLookupUsingFields.outputAssignments = [outputAssignmentFieldValue];
+            const actualResult = createRecordLookupMetadataObject(uiModelRecordLookupWithFields);
+            expect(actualResult).toMatchObject(recordLookupUsingFields);
+        });
+        it('outputAssignments with multiple values', () => {
+            uiModelRecordLookupWithFields.outputAssignments = [uiModelOutputAssignmentFieldValue, uiModelOutputAssignmentField];
+            recordLookupUsingFields.outputAssignments = [outputAssignmentFieldValue, outputAssignmentField];
+            const actualResult = createRecordLookupMetadataObject(uiModelRecordLookupWithFields);
+            expect(actualResult).toMatchObject(recordLookupUsingFields);
+        });
+        it('has no common mutable object with record lookup store passed as parameter', () => {
+            const actualResult = createRecordLookupMetadataObject(uiModelRecordLookupWithFields);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(uiModelRecordLookupWithFields);
         });
     });
 });
