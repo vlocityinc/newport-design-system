@@ -1,4 +1,5 @@
 import { createParameterListRowItem } from './base/baseList';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 export function createOutputParameter(outputParameter = {}) {
     const { name, assignToReference, value, valueDataType } = outputParameter;
@@ -8,7 +9,7 @@ export function createOutputParameter(outputParameter = {}) {
         valueFerov = Object.assign({}, {
             name,
             value: assignToReference,
-            valueDataType: 'reference'
+            valueDataType: FEROV_DATA_TYPE.REFERENCE
         });
     }
     const newOutputParameter = Object.assign({

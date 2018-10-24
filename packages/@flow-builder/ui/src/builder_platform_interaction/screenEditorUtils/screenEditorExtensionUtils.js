@@ -303,7 +303,7 @@ export function mergeExtensionInfo(fieldMetadata, extensionDescription) {
         extensionName: extensionDescription.name,
         name: fieldMetadata.name ? fieldMetadata.name : {value: '', error: null},
         inputParameters: mergeParameters(fieldMetadata.inputParameters, extensionDescription.inputParameters, 'value', true),
-        outputParameters: mergeParameters(fieldMetadata.outputParameters, extensionDescription.outputParameters, 'assignToReference', false)
+        outputParameters: mergeParameters(fieldMetadata.outputParameters, extensionDescription.outputParameters, 'value', false)
     };
 }
 

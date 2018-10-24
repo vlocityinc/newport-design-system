@@ -205,7 +205,7 @@ export function createTestScreenField(name, type, value, config = {}) {
         field.extensionName = value;
         // Params made up
         field.outputParameters = [{
-            assignToReference: getStringValue('VARIABLE_5', null, hydrateValues),
+            value: getStringValue('VARIABLE_5', null, hydrateValues),
             name: getStringValue('attribute1', null, hydrateValues),
             processMetadataValues:[]
         }];

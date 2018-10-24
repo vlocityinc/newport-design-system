@@ -22,7 +22,7 @@ export const getDataType = (object, fieldName) => {
  * @return true if given field is a template field
  */
 export const isTemplateField = (object, fieldName) => {
-    const dataType = getDataType(object, getDataType);
+    const dataType = getDataType(object, fieldName);
     return dataType === FEROV_DATA_TYPE.STRING || TEMPLATE_FIELDS.has(fieldName);
 };
 

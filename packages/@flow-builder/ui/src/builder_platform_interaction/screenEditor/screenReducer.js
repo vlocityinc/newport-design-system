@@ -207,15 +207,13 @@ const handleScreenFieldPropertyChange = (data) => {
 const handleExtensionFieldPropertyChange = (data) => {
     let prefix;
     let parametersPropName;
-    let paramPropertyName;
+
     if (data.property.startsWith('input.')) {
         prefix = 'input';
         parametersPropName = 'inputParameters';
-        paramPropertyName = 'value';
     } else if (data.property.startsWith('output.')) {
         prefix = 'output';
         parametersPropName = 'outputParameters';
-        paramPropertyName = 'assignToReference';
     } else {
         throw new Error('Unknown parameter type: ' + data.property);
     }
@@ -228,7 +226,7 @@ const handleExtensionFieldPropertyChange = (data) => {
         param = {
             name: paramName,
             processMetadataValues:[],
-            [paramPropertyName]: null
+            value: null
         };
 
         hydrateWithErrors(param, elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
@@ -248,8 +246,8 @@ const handleExtensionFieldPropertyChange = (data) => {
     }
 
     // Replace the property in the parameter
-    let newParam = updateProperties(param, {[paramPropertyName]: data.newValue});
-    const dataTypePropName = prefix === 'input' ? 'valueDataType' : 'assignToReferenceDataType';
+    let newParam = updateProperties(param, {value: data.newValue});
+    const dataTypePropName = 'valueDataType';
 
     newParam = processFerovValueChange(newParam, newParam[dataTypePropName], data.dataType,
         newValue, data.newValueGuid, dataTypePropName);

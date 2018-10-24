@@ -143,7 +143,7 @@ const getRulesForExtensionField = (field, rules) => {
         } else {
             const type = attributeDescriptors[0].dataType;
             return {
-                assignToReference: [createTypeValidationRule(type)]
+                value: [createTypeValidationRule(type)]
             };
         }
     };

@@ -289,7 +289,7 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         nonHydratableProperties: ['fieldType', 'dataType', 'type', 'defaultValueDataType', 'defaultValueGuid',
-            'valueDataType', 'valueGuid', 'assignToReferenceDataType', 'assignToReferenceGuid'],
+            'valueDataType', 'valueGuid'],
         bodyCssClass: 'slds-scrollable_none',
         factory: {
             propertyEditor: createScreenWithFields,
