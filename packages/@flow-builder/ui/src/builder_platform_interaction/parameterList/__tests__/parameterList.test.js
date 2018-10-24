@@ -73,10 +73,11 @@ const defaultParameterList = {
 
 const selectors = {
     lightningTab: 'lightning-tab',
-    inputParameterItems: '.tabitem-inputs builder_platform_interaction-parameter-item',
-    outputParameterItems: '.tabitem-outputs builder_platform_interaction-parameter-item',
+    inputTab: '.tabitem-inputs',
+    outputTab: '.tabitem-outputs',
     emptyInputsMessage: '.emptyInputsMessage',
     emptyOutputsMessage: '.emptyOutputsMessage',
+    parameterItem: 'builder_platform_interaction-parameter-item',
 };
 
 const getLightningTabs = (parameterList) => {
@@ -84,11 +85,11 @@ const getLightningTabs = (parameterList) => {
 };
 
 const getInputParameterItems = (parameterList) => {
-    return getShadowRoot(parameterList).querySelectorAll(selectors.inputParameterItems);
+    return getShadowRoot(parameterList).querySelector(selectors.inputTab).querySelectorAll(selectors.parameterItem);
 };
 
 const getOutputParameterItems = (parameterList) => {
-    return getShadowRoot(parameterList).querySelectorAll(selectors.outputParameterItems);
+    return getShadowRoot(parameterList).querySelector(selectors.outputTab).querySelectorAll(selectors.parameterItem);
 };
 
 const getEmptyInputsMessage = (parameterList) => {
@@ -158,7 +159,7 @@ describe('parameter-list', () => {
                 {name: 'subjectNameOrId', label: 'Subject Name or Id', isRequired: true},
                 {name: 'communityId', label: 'Community ID', isRequired: false},
                 ];
-            const inputParameters = parameterItems.map(parameterItem => {
+            const inputParameters = parameterItems.items.map(parameterItem => {
                 return {name: getValueFromHydratedItem(parameterItem.item.name), label: getValueFromHydratedItem(parameterItem.item.label), isRequired: parameterItem.item.isRequired};
             });
             expect(inputParameters).toEqual(expectedInputs);
@@ -173,7 +174,7 @@ describe('parameter-list', () => {
                 {name: 'accountId', label: 'Account ID', isRequired: false},
                 {name: 'feedId', label: 'Feed ID', isRequired: false},
                 ];
-            const outputParameters = parameterItems.map(parameterItem => {
+            const outputParameters = parameterItems.items.map(parameterItem => {
                 return {name: getValueFromHydratedItem(parameterItem.item.name), label: getValueFromHydratedItem(parameterItem.item.label), isRequired: parameterItem.item.isRequired};
             });
             expect(outputParameters).toEqual(expectedOutputs);
