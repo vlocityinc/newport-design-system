@@ -1,6 +1,75 @@
 import { usedBy, usedByStoreAndElementState } from "builder_platform_interaction/usedByLib";
 
 const elements = {
+    WAIT_1: {
+        waitEventReferences: [
+            {waitEventReference: 'WAIT_EVENT_1'},
+            {waitEventReference: 'WAIT_EVENT_2'},
+            {waitEventReference: 'WAIT_EVENT_4'},
+        ],
+        guid: 'WAIT_1',
+        elementType: 'WAIT',
+    },
+    WAIT_EVENT_1: {
+        conditions: [
+            {
+                leftValueReference: 'VARIABLE_1.fieldName',
+                operator: 'EqualTo',
+                'rightValue': {
+                    'elementReference': 'VARIABLE_3'
+                },
+            },
+        ],
+        'label': 'WAIT EVENT 1',
+        'name': 'WAIT EVENT 1',
+        'guid': 'WAIT_EVENT_1',
+        'isCanvasElement': false
+    },
+    'WAIT_EVENT_2': {
+        'conditions': [
+            {
+                'leftValueReference': 'VARIABLE_1',
+                'operator': 'EqualTo',
+                'rightValue': {
+                    'stringValue': 'WAIT_EVENT_1' // String value without curly braces should not be match even if it is equal to a GUID
+                }
+            }
+        ],
+        'guid': 'WAIT_EVENT_2',
+        'label': 'WAIT EVENT 2',
+        'name': 'WAIT EVENT 2',
+        'isCanvasElement': false
+    },
+    'WAIT_EVENT_3': {
+        'conditions': [
+            {
+                'leftValueReference': 'WAIT_EVENT_1',
+                'operator': 'EqualTo',
+                'rightValue': {
+                    'stringValue': '{!WAIT_EVENT_2}' // String value with curly braces should match even if it is equal to a GUID
+                }
+            }
+        ],
+        'guid': 'WAIT_EVENT_3',
+        'label': 'WAIT EVENT 3',
+        'name': 'WAIT EVENT 3',
+        'isCanvasElement': false
+    },
+    'WAIT_EVENT_4': {
+        'conditions': [
+            {
+                'leftValueReference': 'WAIT_EVENT_1',
+                'operator': 'EqualTo',
+                'rightValue': {
+                    'stringValue': 'foo'
+                }
+            }
+        ],
+        'guid': 'WAIT_EVENT_4',
+        'label': 'WAIT EVENT 4',
+        'name': 'WAIT EVENT 4',
+        'isCanvasElement': false
+    },
     'DECISION_1': {
         'defaultConnectorLabel': '[Default Outcome]',
         'config': {
@@ -88,7 +157,7 @@ const elements = {
         'isCanvasElement': false
     },
     'FORMULA_1': {
-        'expression': '{!VARIABLE_1.fieldName} is a variable with following element jfkdjkfjdkjf: {!OUTCOME_3}',
+        'expression': '{!VARIABLE_1.fieldName} is a variable with following elements jfkdjkfjdkjf: {!OUTCOME_3} {!WAIT_EVENT_3}',
         'name': 'Formula_1',
         'elementType': 'FORMULA',
         'guid': 'FORMULA_1',
@@ -154,7 +223,24 @@ describe('Used by library', () => {
     });
     it('returns an array of elements where an element is being referenced', () => {
         const elementGuids = ['VARIABLE_1'];
-        const expectedResult = [{
+        const expectedResult = [
+        {
+            'guid': 'WAIT_EVENT_1',
+            'label': 'WAIT EVENT 1',
+            'name': 'WAIT EVENT 1',
+            'elementGuidsReferenced': [
+                'VARIABLE_1'
+            ]
+        },
+        {
+            'guid': 'WAIT_EVENT_2',
+            'label': 'WAIT EVENT 2',
+            'name': 'WAIT EVENT 2',
+            'elementGuidsReferenced': [
+                'VARIABLE_1'
+            ]
+        },
+        {
             'guid': 'OUTCOME_1',
             'label': 'OUTCOME 1',
             'name': 'OUTCOME 1',
@@ -183,20 +269,47 @@ describe('Used by library', () => {
     });
     it('returns an array of object which contains guid, label, name, elementGuidsReferenced', () => {
         const elementGuids = ['VARIABLE_3'];
-        const expectedResult = [{
-            'guid': 'OUTCOME_1',
-            'label': 'OUTCOME 1',
-            'name': 'OUTCOME 1',
-            'elementGuidsReferenced': [
-                'VARIABLE_3'
-            ]
-        }];
+        const expectedResult = [
+            {
+                'guid': 'WAIT_EVENT_1',
+                'label': 'WAIT EVENT 1',
+                'name': 'WAIT EVENT 1',
+                'elementGuidsReferenced': [
+                    'VARIABLE_3'
+                ],
+            },
+            {
+                'guid': 'OUTCOME_1',
+                'label': 'OUTCOME 1',
+                'name': 'OUTCOME 1',
+                'elementGuidsReferenced': [
+                    'VARIABLE_3'
+                ],
+            },
+        ];
         const actualResult = usedBy(elementGuids, elements);
         expect(actualResult).toMatchObject(expectedResult);
     });
     it('returns an array of object which contains multiple element guids referenced', () => {
         const elementGuids = ['VARIABLE_1', 'VARIABLE_3', 'VARIABLE_2'];
         const expectedResult = [{
+            'guid': 'WAIT_EVENT_1',
+            'label': 'WAIT EVENT 1',
+            'name': 'WAIT EVENT 1',
+            'elementGuidsReferenced': [
+                'VARIABLE_1',
+                'VARIABLE_3'
+            ]
+        },
+        {
+            'guid': 'WAIT_EVENT_2',
+            'label': 'WAIT EVENT 2',
+            'name': 'WAIT EVENT 2',
+            'elementGuidsReferenced': [
+                'VARIABLE_1'
+            ]
+        },
+        {
             'guid': 'OUTCOME_1',
             'label': 'OUTCOME 1',
             'name': 'OUTCOME 1',
@@ -225,12 +338,13 @@ describe('Used by library', () => {
         expect(actualResult).toMatchObject(expectedResult);
     });
     it('returns an array of object if an element is referenced in a template field', () => {
-        const elementGuids = ['OUTCOME_3'];
+        const elementGuids = ['WAIT_EVENT_3', 'OUTCOME_3'];
         const expectedResult = [{
             'guid': 'FORMULA_1',
             'name': 'Formula_1',
             'elementGuidsReferenced': [
-                'OUTCOME_3'
+                'OUTCOME_3',
+                'WAIT_EVENT_3',
             ],
             iconName: 'standard:formula'
         }];
@@ -238,23 +352,35 @@ describe('Used by library', () => {
         expect(actualResult).toMatchObject(expectedResult);
     });
     it('returns an array of object including any childReferences if an element is referenced and has child references', () => {
-        const elementGuids = ['DECISION_1'];
-        const expectedResult = [{
-            'guid': 'OUTCOME_3',
-            'label': 'OUTCOME 3',
-            'name': 'OUTCOME 3',
-            'elementGuidsReferenced': [
-                'OUTCOME_1',
-                'OUTCOME_2'
-            ],
-            "iconName": "standard:custom"
-        }];
+        const elementGuids = ['WAIT_1', 'DECISION_1'];
+        const expectedResult = [
+            {
+                'guid': 'WAIT_EVENT_3',
+                'label': 'WAIT EVENT 3',
+                'name': 'WAIT EVENT 3',
+                'elementGuidsReferenced': [
+                    'WAIT_EVENT_1',
+                    'WAIT_EVENT_2'
+                ],
+                "iconName": "standard:custom"
+            },
+            {
+                'guid': 'OUTCOME_3',
+                'label': 'OUTCOME 3',
+                'name': 'OUTCOME 3',
+                'elementGuidsReferenced': [
+                    'OUTCOME_1',
+                    'OUTCOME_2'
+                ],
+                "iconName": "standard:custom"
+            },
+        ];
         const actualResult = usedBy(elementGuids, elements);
         expect(actualResult).toMatchObject(expectedResult);
     });
 
     it('returns an empty array in case the references are cyclic', () => {
-        const elementGuids = ['DECISION_1', 'OUTCOME_3', 'FORMULA_1'];
+        const elementGuids = ['DECISION_1', 'OUTCOME_3', 'WAIT_EVENT_3', 'FORMULA_1'];
         const actualResult = usedBy(elementGuids, elements);
         expect(actualResult).toHaveLength(0);
     });

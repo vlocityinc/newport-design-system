@@ -125,7 +125,10 @@ function insertChildReferences(elementGuids, elements) {
             });
             acc = [...acc, ...outcomeReferences];
         } else if (element.elementType === ELEMENT_TYPE.WAIT) {
-            // TODO: update once wait element is added: W-5139646
+            const waitEventReferences = element.waitEventReferences.map(({waitEventReference}) => {
+                return waitEventReference;
+            });
+            acc = [...acc, ...waitEventReferences];
         } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
             const fieldReferences = element.fieldReferences.map(({fieldReference}) => {
                 return fieldReference;
