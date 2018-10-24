@@ -5,12 +5,13 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { choiceReducer } from './choiceReducer';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { getResourceByUniqueIdentifier, getResourceFerovDataType } from 'builder_platform_interaction/expressionUtils';
+import { getResourceByUniqueIdentifier, getResourceFerovDataType, getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './choiceEditorLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 
 
 const flowDataTypeChoiceMenuItems = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY,
@@ -236,14 +237,20 @@ export default class ChoiceEditor extends LightningElement {
     handleStoredValuePropertyChanged(event) {
         event.stopPropagation();
 
-        const itemOrDisplayText = event.detail.item ? event.detail.item : event.detail.displayText;
         const error = event.detail.error;
+        // if there's an error, only store the display text even if there's an item (an item means something was selected from the dropdown)
+        const itemOrDisplayText = error ? event.detail.displayText : getItemOrDisplayText(event);
 
+        // if it's an object, we know something was selected from the menu data & there was no error
         if (isObject(itemOrDisplayText)) {
             // set the correct ferov data type based on the user selected data type
             const element = getResourceByUniqueIdentifier(itemOrDisplayText.value);
             if (element || itemOrDisplayText.parent) {
                 this.updateStoredValueWithElement(itemOrDisplayText, error);
+            } else {
+                // the combobox didn't send an error but we couldn't find a resource to match this item, so something is wrong
+                // the main use case for this is if a user leaves the combobox with only {!$Flow.} selected
+                this.updateStoredValueWithLiteral(event.detail.displayText, genericErrorMessage);
             }
         } else {
             this.updateStoredValueWithLiteral(itemOrDisplayText, error);

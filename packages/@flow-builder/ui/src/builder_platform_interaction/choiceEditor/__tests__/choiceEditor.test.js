@@ -53,6 +53,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getResourceByUniqueIdentifier: jest.fn(),
         getResourceFerovDataType: jest.fn(),
+        getItemOrDisplayText: require.requireActual('builder_platform_interaction/expressionUtils').getItemOrDisplayText,
     };
 });
 
