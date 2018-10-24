@@ -7,6 +7,7 @@ function lib(){
      * 2) Line 4269 - CL 15923035, 16808581
      * 3) Line 6493 & 6511 - CL 15923035
      * 4) Line 6584 & 6586 - CL 15923035
+     * 5) Line 1437 & 6534 - CL 16825093
      */
     /**
      * jsBezier
@@ -1431,7 +1432,9 @@ function lib(){
                     e.returnValue = false;
                 }
             },
-            _defaultInputFilterSelector = "input,textarea,select,button,option",
+            // Removed button from this list to enable dragging of nodes in firefox.
+            // Currently there is no way of overriding this setting
+            _defaultInputFilterSelector = "input,textarea,select,option",
         //
         // filters out events on all input elements, like textarea, checkbox, input, select.
             _inputFilter = function(e, el, _katavorio) {
@@ -6526,8 +6529,9 @@ function lib(){
                         }
                     }
                 };
-
-                _oneLevel(el);
+                // Commenting this line as we don't need to tranverse the child nodes of an element.
+                // Also this line was throwing console warnings
+                // _oneLevel(el);
             };
 
             // refresh the offsets for child elements of this element.
