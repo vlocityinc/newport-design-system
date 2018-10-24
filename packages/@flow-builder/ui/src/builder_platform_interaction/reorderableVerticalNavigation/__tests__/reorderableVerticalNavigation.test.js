@@ -73,16 +73,23 @@ describe('ReorderableVerticalNavigation', () => {
             expect(frontIcon).toHaveLength(1);
         });
     });
-    it('fires itemselected that includes itemId when an item is clicked', () => {
+    it('fires itemselected that includes itemId when an itemclicked event is fired', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const firstMenuItem = element.querySelector(SELECTORS.FIRST_LIST_ITEM_ANCHOR);
+            const firstMenuItem = getShadowRoot(element).querySelector(SELECTORS.ITEM);
             const eventCallback = jest.fn();
             element.addEventListener('itemselected', eventCallback);
-            firstMenuItem.click();
+
+            const itemClickedEvent = new CustomEvent('itemclicked', {
+                detail: {
+                    itemId: 'someItemId'
+                }
+            });
+            firstMenuItem.dispatchEvent(itemClickedEvent);
+
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toMatchObject({itemId: 'item1'});
+            expect(eventCallback.mock.calls[0][0].detail).toMatchObject({itemId: itemClickedEvent.detail.itemId});
         });
     });
 });
