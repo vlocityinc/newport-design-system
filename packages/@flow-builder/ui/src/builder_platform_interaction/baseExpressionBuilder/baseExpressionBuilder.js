@@ -25,6 +25,7 @@ import {
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { isObject, isUndefined } from "builder_platform_interaction/commonUtils";
 import { Store } from 'builder_platform_interaction/storeLib';
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
@@ -655,13 +656,14 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     handleLhsValueChanged(event) {
         event.stopPropagation();
-        const selectedItem = event.detail.item;
-        const newValue = selectedItem ? selectedItem.value : event.detail.displayText;
-        const expressionUpdates = {[LHS]: {value: newValue || CLEAR_VALUE, error: event.detail.error || CLEAR_ERROR}};
-        this.state.operatorAndRhsDisabled = !!event.detail.error;
+        const expressionUpdates = {};
+        let newValue = event.detail.displayText || CLEAR_VALUE;
+        let newError = event.detail.error || CLEAR_ERROR;
 
-        if (selectedItem) {
-            const lhsElementOrField = this.getElementOrField(newValue, this.lhsFields);
+        const lhsElementOrField = event.detail.item ? this.getElementOrField(event.detail.item.value, this.lhsFields) : null;
+
+        if (lhsElementOrField && !newError) {
+            newValue = event.detail.item.value;
             const newLhsParam = elementToParam(lhsElementOrField);
 
             if (!this.hideOperator && !getOperators(this.containerElement, newLhsParam, this._rules).includes(this.operatorValue)) {
@@ -672,12 +674,16 @@ export default class BaseExpressionBuilder extends LightningElement {
                 this.clearRhsIfNecessary(expressionUpdates, newLhsParam, this.operatorForRules());
             }
         } else {
+            if (newValue && !newError) {
+                newError = genericErrorMessage;
+            }
             // Operator & rhs will be invalid or disabled in this case
             if (!this.hideOperator) {
                 expressionUpdates[OPERATOR] = CLEARED_PROPERTY;
             }
             this.clearRhs(expressionUpdates);
         }
+        expressionUpdates[LHS] = {value: newValue, error: newError};
         this.fireRowContentsChangedEvent(expressionUpdates);
     }
 
@@ -704,11 +710,11 @@ export default class BaseExpressionBuilder extends LightningElement {
     handleRhsValueChanged(event) {
         event.stopPropagation();
         const rhsItem = event.detail.item;
-        const error = event.detail.error || CLEAR_ERROR;
+        let error = event.detail.error || CLEAR_ERROR;
         let rhs, rhsdt;
 
         // if rhsItem in the event payload is an object then we know the user selected an item from the menu data
-        if (isObject(rhsItem)) {
+        if (isObject(rhsItem) && !error) {
             // if the rhs is a fer, we can store it as a single value without needing to preserve datatype or guid separately
             if (this.rhsIsFer) {
                 rhs = rhsItem.value;
@@ -716,10 +722,14 @@ export default class BaseExpressionBuilder extends LightningElement {
                 // rhs is a FEROV and the item references an element so we update the rhs with that element reference
                 rhs = rhsItem.displayText;
                 rhsdt = getResourceFerovDataType(rhsItem.value);
-            } else {
+            } else if (this.lhsActivePicklistValues && this.lhsActivePicklistValues.find((picklistItem) => picklistItem.value === rhsItem.value)) {
                 // the item references a picklist value
                 rhs = rhsItem.value;
                 rhsdt = FEROV_DATA_TYPE.STRING;
+            } else {
+                rhs = event.detail.displayText;
+                rhsdt = FEROV_DATA_TYPE.STRING;
+                error = genericErrorMessage;
             }
         } else {
             // rhs isn't an item, so it's a literal or blank
