@@ -17,6 +17,7 @@ const SELECTORS = {
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
     VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-resourced-textarea[name="errorMessage"]',
     VALIDATION_FORMULA: 'builder_platform_interaction-resourced-textarea[name="formulaExpression"]',
+    VALIDATION_EDITOR: 'builder_platform_interaction-validation-editor',
 };
 
 const fieldName = 'input1';
@@ -81,14 +82,16 @@ describe('screen-input-field-properties-editor for TextBox', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
         });
@@ -143,14 +146,16 @@ describe('screen-input-field-properties-editor for Number', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
         });
@@ -205,14 +210,16 @@ describe('screen-input-field-properties-editor for Date', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
         });
@@ -268,14 +275,16 @@ describe('screen-input-field-properties-editor for DateTime', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
         });
@@ -329,14 +338,16 @@ describe('screen-input-field-properties-editor for Checkbox', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
         });
@@ -391,14 +402,16 @@ describe('screen-input-field-properties-editor for Currency', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
         });
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
         });
@@ -497,14 +510,16 @@ describe('screen-input-field-properties-editor with validationRule', () => {
 
     it('Validation rule error message is present and displayed', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationError = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBe("The value you entered doesn't meet the validation criteria for this input field.");
         });
     });
     it('Validation rule formula is present and displayed', () => {
         return Promise.resolve().then(() => {
-            const renderedValidationFormula = query(screenInputFieldPropEditor, SELECTORS.VALIDATION_FORMULA);
+            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBe("{!Var1} == 'text'");
         });
