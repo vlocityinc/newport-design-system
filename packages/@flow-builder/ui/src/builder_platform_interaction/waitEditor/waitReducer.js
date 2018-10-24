@@ -28,6 +28,7 @@ import {
     WaitEventParameterChangedEvent,
     WaitEventAddParameterEvent,
     WaitEventDeleteParameterEvent,
+    WaitEventDeleteAllParametersEvent,
 } from 'builder_platform_interaction/events';
 import {waitValidation} from './waitValidation';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
@@ -157,6 +158,12 @@ const configureConditionsByLogic = (waitEvent, event) => {
     return newConditions;
 };
 
+const verifyParentGuidIsSet = (event) => {
+    if (isUndefinedOrNull(event.detail.parentGUID)) {
+        throw new Error('The wait event GUID must be set!');
+    }
+};
+
 /**
  * Reducer that handles property changed events for a waitEvent
  * @param {Object} state the entire state of the waitEditor
@@ -164,9 +171,10 @@ const configureConditionsByLogic = (waitEvent, event) => {
  * @returns {Object} updated waitEditor state
  */
 const waitEventPropertyChanged = (state, event) => {
+    verifyParentGuidIsSet(event);
     validateProperty(state, event);
     const mapEvents = waitEvent => {
-        if (waitEvent.guid === event.detail.guid) {
+        if (waitEvent.guid === event.detail.parentGUID) {
             let conditions;
             if (event.detail.propertyName === 'conditionLogic') {
                 conditions = configureConditionsByLogic(waitEvent, event);
@@ -181,11 +189,12 @@ const waitEventPropertyChanged = (state, event) => {
     return updateProperties(state, { waitEvents });
 };
 
-const getParameterPropertyName = isInputParameter => {
+const getParametersPropertyName = isInputParameter => {
     return isInputParameter ? 'inputParameters' : 'outputParameters';
 };
 
 const updateWaitEventParameter = (state, event) => {
+    verifyParentGuidIsSet(event);
     const updateParameter = parameters => {
         // Only set the params that are actually passed in
         const propsToUpdate = {};
@@ -234,10 +243,11 @@ const updateWaitEventParameter = (state, event) => {
         const updatedParam = Object.assign({}, parameters[event.detail.name], propsToUpdate);
         return Object.assign({}, parameters, { [event.detail.name]: updatedParam });
     };
-    return waitEventReducer(state, event, waitEventOperation(getParameterPropertyName(event.detail.isInputParameter), updateParameter));
+    return waitEventReducer(state, event, waitEventOperation(getParametersPropertyName(event.detail.isInputParameter), updateParameter));
 };
 
 const addWaitEventParameter = (state, event) => {
+    verifyParentGuidIsSet(event);
     const addParameter = parameters => {
         // input parameters is an array
         if (event.detail.isInputParameter) {
@@ -254,10 +264,11 @@ const addWaitEventParameter = (state, event) => {
         // output param without name
         throw new Error(`Attempting to add output event parameter with no name ${event.detail.name}`);
     };
-    return waitEventReducer(state, event, waitEventOperation(getParameterPropertyName(event.detail.isInputParameter), addParameter));
+    return waitEventReducer(state, event, waitEventOperation(getParametersPropertyName(event.detail.isInputParameter), addParameter));
 };
 
 const deleteWaitEventParameter = (state, event) => {
+    verifyParentGuidIsSet(event);
     const deleteParameter = parameters => {
         // input parameters is an array
         if (event.detail.isInputParameter) {
@@ -267,7 +278,21 @@ const deleteWaitEventParameter = (state, event) => {
         // Otherwise output parameters is a Map
         return omit(parameters, [event.detail.name]);
     };
-    return waitEventReducer(state, event, waitEventOperation(getParameterPropertyName(event.detail.isInputParameter), deleteParameter));
+    return waitEventReducer(state, event, waitEventOperation(getParametersPropertyName(event.detail.isInputParameter), deleteParameter));
+};
+
+const deleteAllWaitEventParameters = (state, event) => {
+    verifyParentGuidIsSet(event);
+    const inputParamsRemovedState = waitEventReducer(state, event,
+        waitEventOperation(getParametersPropertyName(true), () => {
+            return [];
+        })
+    );
+    return waitEventReducer(inputParamsRemovedState, event,
+        waitEventOperation(getParametersPropertyName(false), () => {
+            return {};
+        })
+    );
 };
 
 /**
@@ -294,6 +319,8 @@ export const waitReducer = (state, event) => {
             return addWaitEventParameter(state, event);
         case WaitEventDeleteParameterEvent.EVENT_NAME:
             return deleteWaitEventParameter(state, event);
+        case WaitEventDeleteAllParametersEvent.EVENT_NAME:
+            return deleteAllWaitEventParameters(state, event);
         case VALIDATE_ALL:
             return waitValidation.validateAll(state);
         case PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT:

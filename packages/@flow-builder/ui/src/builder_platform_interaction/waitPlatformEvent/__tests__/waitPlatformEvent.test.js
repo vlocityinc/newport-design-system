@@ -47,7 +47,7 @@ describe('wait-platform-event', () => {
             const someEventType = {value: 'foo', error: null};
 
             const waitPlatformEventElement = setupComponentUnderTest({
-                parentGuid: 'guid',
+                waitEventGuid: 'guid',
                 eventType: someEventType,
                 inputFilterParameters: [
                     {
@@ -71,7 +71,7 @@ describe('wait-platform-event', () => {
     describe('inputFilterParameters', () => {
         it('condition logic options are NO CONDITIONS and AND', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
-                parentGuid: 'guid',
+                waitEventGuid: 'guid',
                 eventType: {value: 'foo', error: null},
                 inputFilterParameters: [
                     {
@@ -94,7 +94,7 @@ describe('wait-platform-event', () => {
 
         it('one filter per inputFilterParameters', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
-                parentGuid: 'guid',
+                waitEventGuid: 'guid',
                 eventType: {value: 'foo', error: null},
                 inputFilterParameters: [
                     {
@@ -119,7 +119,7 @@ describe('wait-platform-event', () => {
         describe('showDelete', () => {
             it('is false if only one filter is present', () => {
                 const waitPlatformEventElement = setupComponentUnderTest({
-                    parentGuid: 'guid',
+                    waitEventGuid: 'guid',
                     eventType: {value: 'foo', error: null},
                     inputFilterParameters: [
                         {
@@ -138,7 +138,7 @@ describe('wait-platform-event', () => {
 
             it('is true if only multiple filters are present', () => {
                 const waitPlatformEventElement = setupComponentUnderTest({
-                    parentGuid: 'guid',
+                    waitEventGuid: 'guid',
                     eventType: {value: 'foo', error: null},
                     inputFilterParameters: [
                         {
@@ -182,7 +182,7 @@ describe('wait-platform-event', () => {
 
                 const eventTypeValue = 'foo';
                 const waitPlatformEventElement = setupComponentUnderTest({
-                    parentGuid: 'guid',
+                    waitEventGuid: 'guid',
                     eventType: {value: eventTypeValue, error: null},
                     inputFilterParameters: [inputFilterParameter]
                 });
@@ -211,7 +211,7 @@ describe('wait-platform-event', () => {
     describe('parameter output', () => {
         it('is hidden if platform event is not selected', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
-                parentGuid: 'guid',
+                waitEventGuid: 'guid',
                 inputFilterParameters: [],
                 outputParameters: { 'foo__e' : {value: 'foo__e', displayText: 'foo' }}
             });
@@ -224,7 +224,7 @@ describe('wait-platform-event', () => {
 
         it('is visible if a platform event is selected', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
-                parentGuid: 'guid',
+                waitEventGuid: 'guid',
                 inputFilterParameters: [],
                 outputParameters: { 'foo__e' : {value: 'foo__e', displayText: 'foo' }}
             });

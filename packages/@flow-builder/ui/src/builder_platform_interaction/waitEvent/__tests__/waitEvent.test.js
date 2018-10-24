@@ -98,7 +98,7 @@ describe('Wait Event', () => {
                 detail:{
                     propertyName: 'label',
                     value: newValue,
-                    guid: waitEventWithOneConditional.guid
+                    parentGUID: waitEventWithOneConditional.guid
                 }
             });
         });

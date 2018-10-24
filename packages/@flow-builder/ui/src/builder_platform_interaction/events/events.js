@@ -56,5 +56,6 @@ export { WaitEventPropertyChangedEvent } from './waitEventPropertyChangedEvent';
 export { WaitEventParameterChangedEvent } from './waitEventParameterChangedEvent';
 export { WaitEventAddParameterEvent } from './waitEventAddParameterEvent';
 export { WaitEventDeleteParameterEvent } from './waitEventDeleteParameterEvent';
+export { WaitEventDeleteAllParametersEvent } from './waitEventDeleteAllParametersEvent';
 export { ValidationRuleChangedEvent } from './validationRuleChangedEvent';
 export { BackEvent } from './headerEvents/backEvent';

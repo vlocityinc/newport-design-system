@@ -8,6 +8,7 @@ import {
     UpdateConditionEvent,
     WaitEventAddParameterEvent,
     WaitEventDeleteParameterEvent,
+    WaitEventDeleteAllParametersEvent,
     WaitEventParameterChangedEvent
 } from "builder_platform_interaction/events";
 
@@ -35,7 +36,7 @@ export default class WaitResumeConditions extends LightningElement {
      * @type {String} guid of the parent wait element
      */
     @api
-    parentGuid;
+    waitEventGuid;
 
     /**
      * The event type
@@ -86,9 +87,9 @@ export default class WaitResumeConditions extends LightningElement {
             // Set the default back to absolute time
             this._eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
         }
-        this.resumeTimeParameters = [];
-
-        // TODO: event type needs to be updated in the wait editor reducer
+        this.dispatchEvent(new WaitEventDeleteAllParametersEvent(
+            this.waitEventGuid,
+        ));
     }
 
     isTimeEvent(eventType) {

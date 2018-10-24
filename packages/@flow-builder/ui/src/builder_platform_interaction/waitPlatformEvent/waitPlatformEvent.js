@@ -53,7 +53,7 @@ export default class WaitPlatformEvent extends LightningElement {
      * @type {String} guid of the parent wait element
      */
     @api
-    parentGuid;
+    waitEventGuid;
 
     /**
      * Selected event type from the sobject picker
@@ -225,8 +225,8 @@ export default class WaitPlatformEvent extends LightningElement {
             this.deleteAllFilterInputParameterItems();
 
             // delete the old output parameter item and add the new one
-            this.fireWaitEventDeleteParameterEvent(this._lastRecordedEventTypeValue, this.parentGuid, false, null);
-            this.fireWaitEventAddParameterEvent(value, this.parentGuid, false, null);
+            this.fireWaitEventDeleteParameterEvent(this._lastRecordedEventTypeValue, this.waitEventGuid, false, null);
+            this.fireWaitEventAddParameterEvent(value, this.waitEventGuid, false, null);
 
             this._lastRecordedEventTypeValue = value;
         }
@@ -239,7 +239,7 @@ export default class WaitPlatformEvent extends LightningElement {
         event.stopPropagation();
 
         const { propertyName, value, error, oldValue } = event.detail;
-        const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(propertyName, value, error, this.parentGuid, oldValue);
+        const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(propertyName, value, error, this.waitEventGuid, oldValue);
         this.dispatchEvent(waitEventPropertyChangedEvent);
     }
 
@@ -276,7 +276,7 @@ export default class WaitPlatformEvent extends LightningElement {
         // TODO: convert to a single event
         // Counting backwards so we delete down towards index 0
         for (let i = this.filterParameters.length - 1; i >= 0;  i--) {
-            this.fireWaitEventDeleteParameterEvent(null, this.parentGuid, true, i);
+            this.fireWaitEventDeleteParameterEvent(null, this.waitEventGuid, true, i);
         }
     }
 }
