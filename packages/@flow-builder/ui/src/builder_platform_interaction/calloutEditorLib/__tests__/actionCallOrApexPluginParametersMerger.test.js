@@ -1,4 +1,4 @@
-import { mergeInputOutputParameters } from "../calloutEditorLib";
+import { mergeInputOutputParameters, MERGE_WARNING_TYPE } from "../calloutEditorLib";
 import { mockActionParameters } from "mock/calloutData";
 
 const mockGuid = 'mockGuid';
@@ -11,11 +11,10 @@ const nodeInputParameters = [
           error: null
         },
         value: {
-          value: 'textVar',
+          value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
           error: null
         },
         valueDataType: 'reference',
-        valueGuid: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
       },
       {
           rowIndex: '84b6d19d-718f-452d-9803-fe97a263f76c',
@@ -28,7 +27,6 @@ const nodeInputParameters = [
             error: null
           },
           valueDataType: 'String',
-          valueGuid: 'This is a message',
       }
     ];
 
@@ -40,11 +38,10 @@ const nodeOutputParameters = [
           error: null
         },
         value: {
-          value: 'textVar',
+          value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
           error: null
         },
         valueDataType: 'reference',
-        valueGuid: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
     }
 ];
 
@@ -56,11 +53,10 @@ const duplicatedOutputParameters = [
           error: null
         },
         value: {
-          value: 'textVar',
+          value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
           error: null
         },
         valueDataType: 'reference',
-        valueGuid: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
     },
     {
         rowIndex: 'abd34jhb-5858-474c-8f87-0fc38a5c7ebf',
@@ -69,11 +65,10 @@ const duplicatedOutputParameters = [
           error: null
         },
         value: {
-          value: 'textVar1',
+          value: 'dh78nd45-afd1-4ddb-9d7e-fdfe6ab5703f',
           error: null
         },
         valueDataType: 'reference',
-        valueGuid: 'dh78nd45-afd1-4ddb-9d7e-fdfe6ab5703f'
     }
 ];
 
@@ -98,11 +93,10 @@ const mergedInputs = [
         name: 'subjectNameOrId',
         rowIndex: '58d8bd82-1977-4cf3-a5a7-f629347fa0e8',
         value: {
-          value: 'textVar',
+          value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
           error: null
         },
         valueDataType: 'reference',
-        valueGuid: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f'
     },
     {
         dataType: 'String',
@@ -118,7 +112,6 @@ const mergedInputs = [
           error: null
         },
         valueDataType: 'String',
-        valueGuid: 'This is a message',
     },
     {
         dataType: 'SObject',
@@ -153,11 +146,10 @@ const mergedOutputs = [
         name: 'feedItemId',
         rowIndex: 'a27f10fb-5858-474c-8f87-0fc38a5c7ebf',
         value: {
-          value: 'textVar',
+          value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
           error: null
         },
         valueDataType: 'reference',
-        valueGuid: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
     }
 ];
 
@@ -172,11 +164,11 @@ const duplicatedMergedOutputs = [
         name: 'feedItemId',
         rowIndex: 'a27f10fb-5858-474c-8f87-0fc38a5c7ebf',
         value: {
-          value: 'textVar',
+          value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
           error: null
         },
         valueDataType:'reference',
-        valueGuid: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
+        warnings: ['duplicate']
     },
     {
         dataType: 'String',
@@ -188,24 +180,64 @@ const duplicatedMergedOutputs = [
         name: 'feedItemId',
         rowIndex: 'abd34jhb-5858-474c-8f87-0fc38a5c7ebf',
         value: {
-          value: 'textVar1',
+          value: 'dh78nd45-afd1-4ddb-9d7e-fdfe6ab5703f',
           error: null
         },
         valueDataType: 'reference',
-        valueGuid: 'dh78nd45-afd1-4ddb-9d7e-fdfe6ab5703f'
+        warnings: ['duplicate']
     }
 ];
+
+const notAvailableParameter = [
+    {
+        rowIndex: '58d8bd82-1977-4cf3-a5a7-f629347fa0e8',
+        name: {
+          value: 'notAvailableParameter',
+          error: null
+        },
+        value: {
+          value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
+          error: null
+        },
+        valueDataType: 'reference',
+      },
+];
+const getParameterItem = (parameterItems, name) => parameterItems.find(parameterItem => parameterItem.name === name);
 
 describe('ActionCall/ApexPlugin parameters merge', () => {
     const storeLib = require.requireActual('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
-    it('merges input and output parameters', () => {
-        const mergedParameters = mergeInputOutputParameters(mockActionParameters, nodeInputParameters, nodeOutputParameters);
-        expect(mergedParameters.inputs).toEqual(mergedInputs);
-        expect(mergedParameters.outputs).toEqual(mergedOutputs);
+    describe('When there is no warning', () => {
+        it('merges input and output parameters', () => {
+            const mergedParameters = mergeInputOutputParameters(mockActionParameters, nodeInputParameters, nodeOutputParameters);
+            expect(mergedParameters.inputs).toEqual(mergedInputs);
+            expect(mergedParameters.outputs).toEqual(mergedOutputs);
+        });
     });
-    it('merges duplicated output parameters', () => {
-        const mergedParameters = mergeInputOutputParameters(mockActionParameters, null, duplicatedOutputParameters);
-        expect(mergedParameters.outputs).toEqual(duplicatedMergedOutputs);
+    describe('When there is duplicate parameter', () => {
+        let mergedParameters;
+        beforeEach(() => {
+            mergedParameters = mergeInputOutputParameters(mockActionParameters, null, duplicatedOutputParameters);
+        });
+        it('merges duplicated output parameters', () => {
+            expect(mergedParameters.outputs).toEqual(duplicatedMergedOutputs);
+        });
+        it('generates DUPLICATE warning', () => {
+            expect(mergedParameters.outputs[0].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+            expect(mergedParameters.outputs[1].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+        });
+    });
+    describe('When there is no parameter in an action or apex plugin', () => {
+        let notAvailabelParameterItem;
+        beforeEach(() => {
+            const mergedParameters = mergeInputOutputParameters(mockActionParameters, notAvailableParameter, null);
+            notAvailabelParameterItem = getParameterItem(mergedParameters.inputs, 'notAvailableParameter');
+        });
+        it('should have notAvailableParameter item', () => {
+            expect(notAvailabelParameterItem).toBeDefined();
+        });
+        it('generates NOT_AVAILABLE warning', () => {
+            expect(notAvailabelParameterItem.warnings).toEqual([MERGE_WARNING_TYPE.NOT_AVAILABLE]);
+        });
     });
 });

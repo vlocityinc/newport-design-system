@@ -1,6 +1,36 @@
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { getFlowDataType } from "builder_platform_interaction/dataTypeLib";
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { MERGE_WARNING_TYPE } from './mergeWarningType';
+
+/**
+ * Get as a map. Key is the variable name, value has properties parameter,
+ * paramAssigments
+ */
+function getAsMap(actionParameters, nodeParameters) {
+    const map = {};
+    actionParameters.forEach(parameter => {
+        map[parameter.name] = map[parameter.name] || {};
+        map[parameter.name].parameter = parameter;
+        map[parameter.name].paramAssigments = [];
+    });
+    nodeParameters.forEach(nodeParameter => {
+        // there can be several assignments for a given parameter
+        const nodeParameterName = getValueFromHydratedItem(nodeParameter.name);
+        map[nodeParameterName] = map[nodeParameterName] || {};
+        map[nodeParameterName].paramAssigments = map[nodeParameterName].paramAssigments || [];
+        map[nodeParameterName].paramAssigments.push(nodeParameter);
+    });
+    return map;
+}
+
+/**
+* @typedef {Object} WithWarnings
+* @property {MERGE_WARNING_TYPE[]} warnings
+*
+* @typedef {ParameterItem & WithWarnings} ParameterItemWithWarnings
+*/
+
 /**
  * @typedef {ActionOrApexPluginInputOutputParameter} action call or apex plugin input/output parameter
  * @property {String} name parameter's name
@@ -16,36 +46,48 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
 
 /**
  * @typedef {InputOutputParameterItems} input and output parameter items
- * @property {ParameterItem[]} inputs the input parameter items (value must be hydrated)
- * @property {ParameterItem[]} outputs the output parameter items (value must be hydrated)
+ * @property {ParameterItemWithWarnings[]} inputs the input parameter items (value must be hydrated)
+ * @property {ParameterItemWithWarnings[]} outputs the output parameter items (value must be hydrated)
  */
 
 /**
 * @param {ActionOrApexPluginInputOutputParameter[]} inputOrOutputParameters - all input parameters or all output parameters
 * @param {CalloutInputParameter[]|CalloutOutputParameter[]} nodeParameters - node's input parameters or node's output parameters
-* @return {ParameterItem[]} an array of ParameterItem
+* @return {ParameterItemWithWarnings[]} an array of ParameterItemWithWarnings
 */
 function mergeParameters(inputOrOutputParameters, nodeParameters) {
     const finalArray = [];
-    // TODO: handle warning scenarios, for example, if deleting the parameter in apex plugin, but this parameter is already set in apex node.
-    inputOrOutputParameters.forEach(paramInfo => {
-        const {name, isInput, isRequired, maxOccurs, dataType, label, sobjectType} = paramInfo;
-        const parameterItem = {name, isInput, isRequired, maxOccurs, label, dataType: getFlowDataType(dataType), objectType: sobjectType};
-        // find paramInfo that has the same name as nodeParam
-        const nodeParamsFound = nodeParameters.filter(nodeParam => getValueFromHydratedItem(nodeParam.name) === paramInfo.name);
-        // node output parameters can be duplicated, so nodeParamsFound can be > 1
-        if (nodeParamsFound.length > 0) {
-            nodeParamsFound.forEach(nodeParamFound => {
-                finalArray.push(Object.assign({}, nodeParamFound, parameterItem));
+    const allParameters = getAsMap(inputOrOutputParameters, nodeParameters);
+    for (const [name, { parameter, paramAssigments }] of Object.entries(allParameters)) {
+        let parameterItem = {name};
+        if (parameter) {
+            const {isInput, isRequired, maxOccurs, dataType, label, sobjectType} = parameter;
+            parameterItem = {name, isInput, isRequired, maxOccurs, label, dataType: getFlowDataType(dataType), objectType: sobjectType};
+        }
+        if (paramAssigments.length > 0) {
+            paramAssigments.forEach(nodeParameter => {
+                const parameterItemWithWarning = Object.assign({}, nodeParameter, parameterItem);
+                const warnings = getMergeWarnings(parameter, paramAssigments);
+                if (warnings.length > 0) {
+                    parameterItemWithWarning.warnings = warnings;
+                }
+                finalArray.push(parameterItemWithWarning);
             });
         } else {
             // assign the null value to the required parameters, so that validate.validateAll will throw an error if the required input parameter isn't set in new mode
-            finalArray.push(Object.assign({rowIndex: generateGuid()}, isRequired ? {value: {value: null, error: null}} : {}, parameterItem));
+            finalArray.push(Object.assign({rowIndex: generateGuid()}, parameterItem.isRequired ? {value: {value: null, error: null}} : {}, parameterItem));
         }
-    });
+    }
     return finalArray;
 }
 
+function getMergeWarnings(parameter, paramAssigments) {
+    const warnings = paramAssigments.length === 1 ? [] : [MERGE_WARNING_TYPE.DUPLICATE];
+    if (!parameter) {
+        warnings.push(MERGE_WARNING_TYPE.NOT_AVAILABLE);
+    }
+    return warnings;
+}
 /**
  * Merge all the action call/apex plugin input/output parameters with the values from the input/output parameters of action call/apex plugin node
  *

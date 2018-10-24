@@ -1,4 +1,5 @@
-import { mergeSubflowAssignmentsWithInputOutputVariables, MERGE_WARNING_TYPE } from "../subflowParametersMerger";
+import { mergeSubflowAssignmentsWithInputOutputVariables } from "../subflowParametersMerger";
+import { MERGE_WARNING_TYPE } from "../mergeWarningType";
 
 const numberVariableDescription = (name, { isInput, isOutput }) => ({
         "dataType": "Number",
@@ -167,7 +168,7 @@ describe('Subflow parameters merger', () => {
       it('generates a parameter item with notAvailableInSubflow warning', () => {
           const { inputs }  = mergeSubflowAssignmentsWithInputOutputVariables(nodeInputAssignments, nodeOutputAssignments, inputOutputVariablesVersions);
           const parameterItem = getParameterItem(inputs, 'inputVariable');
-          expect(parameterItem.warnings).toEqual([MERGE_WARNING_TYPE.NOT_AVAILABLE_IN_SUBFLOW]);
+          expect(parameterItem.warnings).toEqual([MERGE_WARNING_TYPE.NOT_AVAILABLE]);
       });
     });
     describe('When there is no assignment for a given variable', () => {

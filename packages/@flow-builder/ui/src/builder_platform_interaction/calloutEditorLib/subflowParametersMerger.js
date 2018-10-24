@@ -1,17 +1,7 @@
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-
-/**
- * @enum {string} MERGE_WARNING_TYPE
- */
-export const MERGE_WARNING_TYPE = {
-        NOT_AVAILABLE_IN_SUBFLOW : 'notAvailableInSubflow',
-        DATA_TYPE_CHANGED : 'dataTypeChanged',
-        ONLY_AVAILABLE_IN_LATEST : 'onlyAvailableInLatest',
-        ONLY_AVAILABLE_IN_ACTIVE : 'onlyAvailableInActive',
-        DUPLICATE : 'duplicate'
-};
+import { MERGE_WARNING_TYPE } from './mergeWarningType';
 
 /**
 * @typedef {Object} WithWarnings
@@ -165,7 +155,7 @@ function merge(name, nodeAssignment, isInput, activeVariable, latestVariable) {
 
 function getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable) {
     if (nodeAssignment && !activeVariable && !latestVariable) {
-        return MERGE_WARNING_TYPE.NOT_AVAILABLE_IN_SUBFLOW;
+        return MERGE_WARNING_TYPE.NOT_AVAILABLE;
     }
     if (activeVariable && !latestVariable) {
         return MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_ACTIVE;
