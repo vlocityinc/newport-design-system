@@ -14,6 +14,7 @@ import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { DEFAULT_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 
 
 // the property names in a variable element (after mutation), a subset of these are also constant properties
@@ -386,14 +387,20 @@ export default class VariableConstantEditor extends LightningElement {
     updateDefaultValue(event) {
         event.stopPropagation();
 
-        const itemOrDisplayText = getItemOrDisplayText(event);
         const error = event.detail.error;
+        // if there's an error, only store the display text even if there's an item (an item means something was selected from the dropdown)
+        const itemOrDisplayText = error ? event.detail.displayText : getItemOrDisplayText(event);
 
+        // if it's an object, we know something was selected from the menu data & there was no error
         if (isObject(itemOrDisplayText)) {
             // set the correct ferov data type based on the user selected data type
             const element = getResourceByUniqueIdentifier(itemOrDisplayText.value);
             if (element || itemOrDisplayText.parent) {
                 this.updateDefaultValueWithElement(itemOrDisplayText, error);
+            } else {
+                // the combobox didn't send an error but we couldn't find a resource to match this item, so something is wrong
+                // the main use case for this is if a user leaves the combobox with only {!$Flow.} selected
+                this.updateDefaultValueWithLiteral(event.detail.displayText, genericErrorMessage);
             }
         } else {
             this.updateDefaultValueWithLiteral(itemOrDisplayText, error);
