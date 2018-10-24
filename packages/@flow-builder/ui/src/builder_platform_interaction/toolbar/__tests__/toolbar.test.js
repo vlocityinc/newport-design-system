@@ -33,7 +33,7 @@ describe('toolbar', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(EditFlowPropertiesEvent.EVENT_NAME, eventCallback);
-            toolbarComponent.querySelector(selectors.editflowproperties).click();
+            getShadowRoot(toolbarComponent).querySelector(selectors.editflowproperties).click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });
@@ -44,7 +44,7 @@ describe('toolbar', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(RunFlowEvent.EVENT_NAME, eventCallback);
-            toolbarComponent.querySelector(selectors.run).click();
+            getShadowRoot(toolbarComponent).querySelector(selectors.run).click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });
@@ -55,7 +55,7 @@ describe('toolbar', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(DebugFlowEvent.EVENT_NAME, eventCallback);
-            toolbarComponent.querySelector(selectors.debug).click();
+            getShadowRoot(toolbarComponent).querySelector(selectors.debug).click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });
