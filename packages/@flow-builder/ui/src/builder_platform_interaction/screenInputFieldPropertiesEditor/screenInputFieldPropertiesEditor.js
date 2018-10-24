@@ -4,7 +4,6 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
 
 const FRP_CONFIG = {allowLiterals: true, collection: false, elementType: ELEMENT_TYPE.SCREEN};
-const ALL_SECTION_NAMES = ['validationOptions', 'helpText'];
 
 /*
  * Screen element property editor for input fields.
@@ -12,10 +11,6 @@ const ALL_SECTION_NAMES = ['validationOptions', 'helpText'];
 export default class ScreenInputFieldPropertiesEditor extends LightningElement {
     @api field;
     labels = LABELS;
-
-    get allSectionNames() {
-        return ALL_SECTION_NAMES;
-    }
 
     get defaultValueResourcePickerConfig() {
         return FRP_CONFIG;

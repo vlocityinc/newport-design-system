@@ -5,8 +5,6 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
 import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
 
-const ALL_SECTION_NAMES = ['validationOptions', 'helpText'];
-
 /*
  * Screen element property editor for the text area field.
  */
@@ -14,10 +12,6 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
     @api field;
 
     labels = LABELS;
-
-    get allSectionNames() {
-        return ALL_SECTION_NAMES;
-    }
 
     handlePropertyChanged = (event) => {
         event.stopPropagation();

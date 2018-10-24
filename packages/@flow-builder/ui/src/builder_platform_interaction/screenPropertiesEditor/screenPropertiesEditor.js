@@ -3,7 +3,7 @@ import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 
-const ALL_SECTION_NAMES = ['containerOptions', 'navigationOptions', 'helpText'];
+const ALL_SECTION_NAMES = ['containerOptions'];
 
 /*
  * Screen element property editor
