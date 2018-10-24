@@ -7,7 +7,7 @@ import { createAddScreenFieldEvent } from "builder_platform_interaction/events";
 import { labelComparator } from "builder_platform_interaction/sortLib";
 
 const SELECTORS = {
-    FILTER_INPUT: '#filter-input',
+    FILTER_INPUT: '.palette-search-input',
 };
 
 export default class ScreenPalette extends LightningElement {
