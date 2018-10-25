@@ -23,7 +23,7 @@ export function createFlowProperties(flowProperties = {}) {
         label = '',
         description = '',
         interviewLabel = '',
-        processType = 'AutoLaunchedFlow',
+        processType = null,
         status = 'Draft',
         processMetadataValues,
         hasUnsavedChanges = false

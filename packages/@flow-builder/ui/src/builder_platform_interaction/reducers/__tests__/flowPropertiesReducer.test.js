@@ -3,7 +3,7 @@ import { UPDATE_FLOW, UPDATE_PROPERTIES  } from "builder_platform_interaction/ac
 
 const defaultProperties = {
     elementType: 'FLOW_PROPERTIES',
-    processType: 'AutoLaunchedFlow'
+    processType: null
 };
 const oldProperties = {
     name: 'ass1',

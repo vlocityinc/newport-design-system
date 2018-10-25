@@ -9,10 +9,13 @@ const additionalRules = {
     'label' : [
         ValidationRules.maximumCharactersLimit(255)
     ],
-    'name'  : [
+    'name' : [
         ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
         ValidationRules.maximumCharactersLimit(80)
+    ],
+    'processType' : [
+        ValidationRules.shouldNotBeNullOrUndefined
     ]
 };
 

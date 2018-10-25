@@ -21,7 +21,7 @@ import { addToParentElementCache } from 'builder_platform_interaction/comboboxCa
 import { mutateFlowResourceToComboboxShape, flowSystemVariableCategory } from 'builder_platform_interaction/expressionUtils';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
-import { setGlobalVariables, setSystemVariables } from 'builder_platform_interaction/systemLib';
+import { setGlobalVariables, setSystemVariables, setProcessTypes } from 'builder_platform_interaction/systemLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -83,6 +83,7 @@ export default class Editor extends LightningElement {
         fetch(SERVER_ACTION_TYPE.GET_EVENT_TYPES, this.getEventTypesCallback, {}, { background: true });
         fetch(SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES, this.getAllGlobalVariablesCallback, { flowProcessType: 'Flow' });
         fetch(SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES, this.getSystemVariablesCallback, { flowProcessType: 'Flow' });
+        fetch(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, this.getProcessTypesCallback);
     }
 
     @api
@@ -344,6 +345,14 @@ export default class Editor extends LightningElement {
             setSystemVariables(data);
         }
     };
+
+    getProcessTypesCallback = ({ data, error }) => {
+        if (error) {
+            // TODO: handle error case
+        } else {
+            setProcessTypes(data);
+        }
+    }
 
     /**
      * Helper method to construct the url for the run/debug mode and launch the window in a new tab

@@ -31,3 +31,4 @@ export const getNonElementResource = (id) => {
 export { GLOBAL_CONSTANT_PREFIX, GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "./globalConstants";
 export { setSystemVariables, getSystemVariables, SYSTEM_VARIABLE_PREFIX } from './systemVariables';
 export { setGlobalVariables, getGlobalVariableTypes, getGlobalVariables } from './globalVariables';
+export { setProcessTypes, getProcessTypes } from './processTypes';

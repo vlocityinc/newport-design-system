@@ -1,10 +1,11 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, unwrap } from 'lwc';
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { LABELS } from "./flowPropertiesEditorLabels";
 import { flowPropertiesEditorReducer } from "./flowPropertiesEditorReducer";
 import { SaveType } from "builder_platform_interaction/saveType";
-
+import { getProcessTypesMenuData } from "builder_platform_interaction/expressionUtils";
+import { PropertyChangedEvent } from "builder_platform_interaction/events";
 /**
  * Flow Properties property editor for Flow Builder
  *
@@ -19,8 +20,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     set node(newValue) {
-        const data = newValue;
-        this.flowProperties = data;
+        this.flowProperties = unwrap(newValue);
     }
 
     /**
@@ -38,6 +38,10 @@ export default class FlowPropertiesEditor extends LightningElement {
     @api validate() {
         const event = { type: VALIDATE_ALL };
         this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, event);
+        const processTypeElement = this.template.querySelector('.process-type');
+        if (this.flowProperties.processType && this.flowProperties.processType.error) {
+            this.setElementErrorMessage(processTypeElement, this.flowProperties.processType.error);
+        }
         return getErrorsFromHydratedElement(this.flowProperties);
     }
 
@@ -49,10 +53,23 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     labels = LABELS;
 
+    _processTypes;
+
     /**
-     * The dev name field should be disabled when saving as a new version.
+     * The value of the currently selected process type
      */
-    get disableDevName() {
+    get processType() {
+        let retVal = null;
+        if (this.flowProperties.processType) {
+            retVal = this.flowProperties.processType.value;
+        }
+        return retVal;
+    }
+
+    /**
+     * Indicates whether we are saving an existing to an existing flow definition (updating or saving as new version)
+     */
+    get savingExistingFlow() {
         return this.node.saveType === SaveType.NEW_VERSION || this.node.saveType === SaveType.UPDATE;
     }
 
@@ -85,6 +102,34 @@ export default class FlowPropertiesEditor extends LightningElement {
         return description;
     }
 
+    /**
+     * Returns the process types
+     * If the process type menu data is not populated we call the expression utils to create the menu data
+     * @returns {module:builder_platform_interaction/expressionUtils.MenuItem[]} Menu items representing allowed process types
+     */
+    get processTypes() {
+        if (!this._processTypes) {
+            this._processTypes = getProcessTypesMenuData();
+        }
+        return this._processTypes;
+    }
+
+    /**
+     * Sets custom validation for lightning element when 'Ok' button on the property editor is clicked
+     * @param {object} element - element that needs custom validation
+     * @param {string} error - Any existing error message
+     */
+    setElementErrorMessage(element, error) {
+        if (element) {
+            if (error) {
+                element.setCustomValidity(error);
+            } else {
+                element.setCustomValidity('');
+            }
+            element.showHelpMessageIfInvalid();
+        }
+    }
+
     /* ********************** */
     /*     Event handlers     */
     /* ********************** */
@@ -95,5 +140,23 @@ export default class FlowPropertiesEditor extends LightningElement {
     handleEvent(event) {
         event.stopPropagation();
         this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, event);
+    }
+
+    /**
+     * @param {object} event - change event coming from the lightning-combobox component displaying process types
+     */
+    handleProcessTypeChange(event) {
+        event.stopPropagation();
+        const propChangedEvent = new PropertyChangedEvent(
+            'processType',
+            event.detail.value);
+        this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, propChangedEvent);
+    }
+
+    renderedCallback() {
+        if (this.flowProperties.processType && this.flowProperties.processType.value && !this.flowProperties.processType.error) {
+            const processTypeElement = this.template.querySelector('.process-type');
+            this.setElementErrorMessage(processTypeElement, null);
+        }
     }
 }

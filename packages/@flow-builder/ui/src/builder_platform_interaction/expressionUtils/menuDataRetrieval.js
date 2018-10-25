@@ -21,7 +21,7 @@ import {
     COMBOBOX_ITEM_DISPLAY_TYPE,
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
-import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX } from "builder_platform_interaction/systemLib";
+import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, getProcessTypes } from "builder_platform_interaction/systemLib";
 
 const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
 
@@ -359,6 +359,20 @@ export const getResourceTypesMenuData = () => {
         return {
             value: resourceObject.value,
             label: resourceObject.label,
+        };
+    });
+};
+
+/**
+ * Get a list of menu data based from the allowed process types returned by the java controller
+ * @returns {MenuItem[]} list of menu items representing the allowed process types
+ */
+export const getProcessTypesMenuData = () => {
+    const processTypes = getProcessTypes();
+    return processTypes.map(processTypeObject => {
+        return {
+            value: processTypeObject.name,
+            label: processTypeObject.label,
         };
     });
 };

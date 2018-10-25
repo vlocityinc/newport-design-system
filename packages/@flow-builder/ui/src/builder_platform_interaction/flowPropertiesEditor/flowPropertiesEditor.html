@@ -5,11 +5,22 @@
     <div class='slds-p-around_small'>
         <builder_platform_interaction-label-description dev-name={flowProperties.name}
                                                         dev-name-label={labels.uniqueNameLabel}
-                                                        disable-dev-name={disableDevName}
+                                                        disable-dev-name={savingExistingFlow}
                                                         description={flowProperties.description}
                                                         label={flowProperties.label}
                                                         name-label={labels.nameLabel}
                                                         onpropertychanged={handleEvent}>
         </builder_platform_interaction-label-description>
+        <lightning-combobox class="process-type slds-col slds-grow"
+                            label={labels.processTypeLabel}
+                            options={processTypes}
+                            value={processType}
+                            required
+                            disabled={savingExistingFlow}
+                            placeholder={labels.processTypePlaceholderLabel}
+                            message-when-value-missing={labels.processTypeRequiredLabel}
+                            dropdown-alignment="auto"
+                            onchange={handleProcessTypeChange}>
+        </lightning-combobox>
     </div>
 </template>

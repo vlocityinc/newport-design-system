@@ -69,7 +69,6 @@ describe('Flow properties', () => {
                 versionNumber: null,
                 lastModifiedDate: null,
                 interviewLabel: '',
-                processType: 'AutoLaunchedFlow',
                 status: 'Draft',
                 elementType: 'FLOW_PROPERTIES',
                 isLightningFlowBuilder: true,
