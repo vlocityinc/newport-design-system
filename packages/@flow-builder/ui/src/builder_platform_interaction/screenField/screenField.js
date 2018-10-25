@@ -67,7 +67,7 @@ export default class ScreenField extends LightningElement {
     get defaultValue() {
         // Hack due to guid->devName swapping inconsistencies (Jesun David)
         // TODO: Need to update this when changing uid swapping
-        const defaultValue = this.screenfield.previewDefaultValue && this.screenfield.previewDefaultValue.value ? this.screenfield.previewDefaultValue.value : this.screenfield.previewDefaultValue;
+        const defaultValue = this.screenfield.previewDefaultValue && this.screenfield.previewDefaultValue.hasOwnProperty('value') ? this.screenfield.previewDefaultValue.value : this.screenfield.previewDefaultValue;
         if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && !isReference(defaultValue)) {
             return addCurlyBraces(defaultValue);
         }
