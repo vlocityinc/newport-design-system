@@ -80,7 +80,16 @@ describe('Record Choice Set Validation', () => {
         limit: {
             value: '-3',
             error: null
-        }
+        },
+        displayField: {
+            value: 'AccountSource',
+            error: null
+        },
+        valueField: {
+            value: 'AccountSource',
+            error: null
+        },
+        outputAssignments: []
     };
 
     describe('validateAll', () => {

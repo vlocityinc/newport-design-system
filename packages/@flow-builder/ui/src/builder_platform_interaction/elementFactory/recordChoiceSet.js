@@ -13,7 +13,7 @@ export const createRecordChoiceSet = (element = {}) => {
     const recordChoiceSetElement = createDynamicChoiceSet(element);
     const {
         object = null,
-        sortField = '',
+        sortField = null,
         outputAssignments = [],
     } = element;
     const translatedOutputAssignments = outputAssignments.map(outputAssignment => createOutputAssignment(outputAssignment, object));

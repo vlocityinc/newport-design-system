@@ -50,6 +50,8 @@ export const PROPERTY_EDITOR_ACTION = {
     UPDATE_FILTER_ITEM:'updaterecordfilter',
     DELETE_FILTER_ITEM: 'deleterecordfilter',
     ADD_FILTER_ITEM: 'addrecordfilter',
+    ADD_EMPTY_OUTPUT_ASSIGNMENT: 'addemptyoutputassignment',
+    UPDATE_OUTPUT_ASSIGNMENTS_BEFORE_CLOSE: 'updateoutputassignmentbeforeclose'
 };
 
 /**

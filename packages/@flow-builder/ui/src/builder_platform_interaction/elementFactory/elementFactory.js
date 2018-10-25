@@ -4,6 +4,7 @@ export * from './assignment';
 export { createCondition } from './base/baseElement';
 export * from './base/dynamicChoiceSet';
 export { createFilter } from './base/baseRecordElement';
+export { createOutputAssignment } from './base/outputAssignments';
 export * from './constant';
 export * from './decision';
 export * from './flowProperties';

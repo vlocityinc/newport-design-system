@@ -85,7 +85,16 @@ describe('record-choice-set-editor', () => {
         limit: {
             value: '',
             error: null
-        }
+        },
+        displayField: {
+            value: 'AccountSource',
+            error: null
+        },
+        valueField: {
+            value: 'AccountSource',
+            error: null
+        },
+        outputAssignments: []
     };
 
     const recordChoiceObjectWithoutObjectField = {
@@ -148,9 +157,9 @@ describe('record-choice-set-editor', () => {
             expect(entityResourcePicker).not.toBeNull();
         });
 
-        it('Changing value in entity-resource-picker should update picklistObject', () => {
+        it('Changing value in entity-resource-picker should update object', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(createAction.mock.calls[0][1]).toEqual({
+            expect(createAction.mock.calls[1][1]).toEqual({
                 propertyName: 'object',
                 value: 'Contact',
                 error: null,
@@ -163,9 +172,9 @@ describe('record-choice-set-editor', () => {
             expect(getFieldsForEntity).toHaveBeenCalledTimes(3);
         });
 
-        it('Changing value in entity-resource-picker should update picklistField', () => {
+        it('Changing value in entity-resource-picker should update filterType', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(createAction.mock.calls[1][1]).toEqual({
+            expect(createAction.mock.calls[2][1]).toEqual({
                 propertyName: 'filterType',
                 value: 'none',
                 error: null,

@@ -1,22 +1,22 @@
 import { createExpressionListRowItemWithoutOperator } from "./baseList";
 /**
- * Facotry function for creating output assignment used in record lookup and recordChoiceSet
+ * Factory function for creating output assignment used in record lookup and recordChoiceSet
  * @param {Object} outputAssignment
  * @param {String} sObject - eg: Account
  */
 export const createOutputAssignment = (outputAssignment = {}, sObject) => {
-    let newOuputAssignment = {};
+    let newOutputAssignment = {};
     if (outputAssignment.hasOwnProperty('field') && outputAssignment.hasOwnProperty('assignToReference')) {
         const leftHandSide = sObject + '.' + outputAssignment.field;
         const rightHandSide = outputAssignment.assignToReference;
-        newOuputAssignment = createExpressionListRowItemWithoutOperator({leftHandSide, rightHandSide});
+        newOutputAssignment = createExpressionListRowItemWithoutOperator({leftHandSide, rightHandSide});
     } else {
-        newOuputAssignment = createExpressionListRowItemWithoutOperator();
+        newOutputAssignment = createExpressionListRowItemWithoutOperator(outputAssignment);
     }
-    return newOuputAssignment;
+    return newOutputAssignment;
 };
 /**
- * Facotry function for creating output assignment metadata object used in record lookup and recordChoiceSet
+ * Factory function for creating output assignment metadata object used in record lookup and recordChoiceSet
  * @param {Object} outputAssignment
  * @param {String} sObject
  */

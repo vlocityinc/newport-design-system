@@ -14,11 +14,13 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { format } from 'builder_platform_interaction/commonUtils';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import {
     SORT_ORDER,
     RECORD_FILTER_CRITERIA
 } from 'builder_platform_interaction/recordEditorLib';
+import { getOutputRules } from 'builder_platform_interaction/ruleLib';
 
 const RECORD_CHOICE_SET_FIELDS = {
     RECORD_OBJECT: 'object',
@@ -26,6 +28,10 @@ const RECORD_CHOICE_SET_FIELDS = {
     SORT_FIELD: 'sortField',
     SORT_ORDER: 'sortOrder',
     LIMIT: 'limit',
+    DISPLAY_FIELD: 'displayField',
+    DATA_TYPE: 'dataType',
+    VALUE_FIELD: 'valueField',
+    OUTPUT_ASSIGNMENTS: 'outputAssignments'
 };
 const SELECTORS = {
     LIMIT: '.choice-limit'
@@ -37,10 +43,14 @@ export default class RecordChoiceSetEditor extends LightningElement {
      */
     @track
     recordChoiceSetResource;
-    @track
-    menuDataFields = [];
 
-    _entityFields;
+    @track
+    menuDataFields = {};
+
+    @track
+    filteredMenuDataFields = {};
+
+    rules = getOutputRules();
 
     /**
      * second section includes Filter, Sort Results, Choice Template and Additional Assignments sections
@@ -50,9 +60,18 @@ export default class RecordChoiceSetEditor extends LightningElement {
     @api validate() {
         // NOTE: if we find there is a case where an error can happen on a field without touching on it,
         // we might have to go through reducer to stuff the errors and call get errors method
-        const event = { type: VALIDATE_ALL };
+        const event = { type: VALIDATE_ALL, showSecondSection: this.showSecondSection };
         this.recordChoiceSetResource = recordChoiceSetReducer(this.recordChoiceSetResource, event);
-        return getErrorsFromHydratedElement(this.recordChoiceSetResource);
+        const errors = getErrorsFromHydratedElement(this.recordChoiceSetResource);
+
+        // If there are no errors then we need to update outputAssignments before storing the recordChoiceSetResource
+        if (errors && errors.length === 0) {
+            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_OUTPUT_ASSIGNMENTS_BEFORE_CLOSE, {
+                propertyName: RECORD_CHOICE_SET_FIELDS.OUTPUT_ASSIGNMENTS
+            });
+            this.recordChoiceSetResource = recordChoiceSetReducer(this.recordChoiceSetResource, action);
+        }
+        return errors;
     }
 
     /**
@@ -74,6 +93,14 @@ export default class RecordChoiceSetEditor extends LightningElement {
         this.recordChoiceSetResource = unwrap(newValue);
         if (this.recordChoiceSetResource.object && this.recordChoiceSetResource.object.value) {
             this.getEntityFields();
+
+            if (this.recordChoiceSetResource.outputAssignments && this.recordChoiceSetResource.outputAssignments.length === 0) {
+                const action = createAction(PROPERTY_EDITOR_ACTION.ADD_EMPTY_OUTPUT_ASSIGNMENT, {
+                    propertyName: RECORD_CHOICE_SET_FIELDS.OUTPUT_ASSIGNMENTS
+                });
+                this.recordChoiceSetResource = recordChoiceSetReducer(this.recordChoiceSetResource, action);
+            }
+
             this.showSecondSection = true;
         }
     }
@@ -89,6 +116,10 @@ export default class RecordChoiceSetEditor extends LightningElement {
      */
     get isFieldDisabled() {
         return !this.isNewMode;
+    }
+
+    get dataType() {
+        return this.recordChoiceSetResource.dataType.value;
     }
 
     get hideNewResourceButton() {
@@ -107,11 +138,11 @@ export default class RecordChoiceSetEditor extends LightningElement {
         );
     }
 
-    /**
-     * @returns {Object} the entity fields
-     */
-    get entityFields() {
-        return this._entityFields;
+    get recordFieldsForFilter() {
+        return Object.keys(this.menuDataFields).filter(key => this.menuDataFields[key].filterable).reduce((obj, key) => {
+            obj[key] = this.menuDataFields[key];
+            return obj;
+        }, {});
     }
 
     get resourceDisplayText() {
@@ -122,19 +153,21 @@ export default class RecordChoiceSetEditor extends LightningElement {
         return '';
     }
 
-    /**
-     * Helper method to filter entityFields based on the selected dataType
-     */
-    filterEntityFields() {
-        if (!this._entityFields) {
-            return;
-        }
-        this.menuDataFields = Object.keys(this._entityFields).reduce((menuData, fieldName) => {
-            if (this._entityFields[fieldName].dataType === this.dataType) {
-                menuData[fieldName] = this._entityFields[fieldName];
-            }
-            return menuData;
-        }, {});
+    get dataTypeList() {
+        return [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY,
+            FLOW_DATA_TYPE.DATE, FLOW_DATA_TYPE.BOOLEAN];
+    }
+
+    get dataTypePickerValue() {
+        return { dataType : this.dataType };
+    }
+
+    get disableValueFieldPicker() {
+        return !this.dataType;
+    }
+
+    get outputAssignmentTitle() {
+        return format(this.labels.outputFieldsHeaderLabel, this.resourceDisplayText);
     }
 
     /**
@@ -148,17 +181,41 @@ export default class RecordChoiceSetEditor extends LightningElement {
         // if it is a combobox value changed event we have two cases: literals or item select
         return event.detail.item || event.detail.displayText;
     }
+
     /**
      * Helper method to get entityFields based on the selected recordChoiceSetObject
      */
     getEntityFields() {
         sobjectLib.getFieldsForEntity(this.recordChoiceSetResource.object.value, (fields) => {
-            this._entityFields = fields;
-            if (this.dataType) {
+            this.menuDataFields = fields;
+
+            if (!this.menuDataFields) {
+                return;
+            }
+
+            // Filtering the menudata based on the selected dataType(if any) for the Choice Value Field Picker
+            if (this.recordChoiceSetResource.dataType && this.recordChoiceSetResource.dataType.value) {
                 this.filterEntityFields();
             }
         });
     }
+
+    /**
+     * Helper method to filter entityFields based on the selected dataType
+     */
+    filterEntityFields() {
+        if (!this.menuDataFields) {
+            return;
+        }
+
+        this.filteredMenuDataFields = Object.keys(this.menuDataFields).reduce((filteredMenuData, fieldName) => {
+            if (this.menuDataFields[fieldName].dataType === this.dataType) {
+                filteredMenuData[fieldName] = this.menuDataFields[fieldName];
+            }
+            return filteredMenuData;
+        }, {});
+    }
+
     /**
      * Helper method to update the recordChoiceObjectType. Also resets other properties accordingly.
      * @param {Object} event
@@ -170,7 +227,8 @@ export default class RecordChoiceSetEditor extends LightningElement {
         const value = itemOrDisplayText.value || itemOrDisplayText;
         // Updating the property only if newValue !== oldValue
         if (value !== this.recordChoiceSetResource.object.value) {
-            this.menuDataFields = [];
+            this.menuDataFields = {};
+            this.filteredMenuDataFields = {};
             this.updateProperty(RECORD_CHOICE_SET_FIELDS.RECORD_OBJECT, value, error);
             if (value && !error) {
                 // Getting the entityFields only when a valid value is entered.
@@ -179,7 +237,12 @@ export default class RecordChoiceSetEditor extends LightningElement {
             this.updateProperty(RECORD_CHOICE_SET_FIELDS.FILTER_TYPE, RECORD_FILTER_CRITERIA.NONE, null, false);
             this.updateProperty(RECORD_CHOICE_SET_FIELDS.SORT_ORDER, SORT_ORDER.NOT_SORTED, null, false);
             this.updateProperty(RECORD_CHOICE_SET_FIELDS.SORT_FIELD, null, null, false);
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.DISPLAY_FIELD, null, null, false);
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.VALUE_FIELD, null, null, false);
+
+            // Updating the dataType property only for the first time when second section opens
             if (!this.showSecondSection && !error) {
+                this.updateProperty(RECORD_CHOICE_SET_FIELDS.DATA_TYPE, null, null, false);
                 this.showSecondSection = true;
             }
         }
@@ -256,6 +319,49 @@ export default class RecordChoiceSetEditor extends LightningElement {
             this.updateProperty(RECORD_CHOICE_SET_FIELDS.LIMIT, limitValue, LABELS.mustBeAValidNumber);
         } else {
             this.updateProperty(RECORD_CHOICE_SET_FIELDS.LIMIT, limitValue, null);
+        }
+    }
+
+    /**
+     * @param {*} event comboboxstatechanged event coming from choice label field picker
+     */
+    handleDisplayFieldChanged(event) {
+        event.stopPropagation();
+        const itemOrDisplayText = this.getItemOrDisplayText(event);
+        const value = itemOrDisplayText.value || itemOrDisplayText;
+
+        if (value !== this.recordChoiceSetResource.displayField.value) {
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.DISPLAY_FIELD, value, event.detail.error);
+        }
+    }
+
+    /**
+     * @param {*} event value changed event coming from data type picker
+     */
+    handleDataTypeChanged(event) {
+        event.stopPropagation();
+        const value = event.detail.value;
+
+        // Updating the property only if newValue !== oldValue
+        if (value.dataType !== this.dataType) {
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.DATA_TYPE, value.dataType, event.detail.error);
+            // Filtering entityFields based on selected dataType
+            this.filterEntityFields();
+            // Resetting picklistField to null and ensuring that it doesn't get hydrated yet.
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.VALUE_FIELD, null, null, false);
+        }
+    }
+
+    /**
+     * @param {*} event event comboboxstatechanged event coming from choice value field picker
+     */
+    handleValueFieldChanged(event) {
+        event.stopPropagation();
+        const itemOrDisplayText = this.getItemOrDisplayText(event);
+        const value = itemOrDisplayText.value || itemOrDisplayText;
+
+        if (value !== this.recordChoiceSetResource.valueField.value) {
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.VALUE_FIELD, value, event.detail.error);
         }
     }
 

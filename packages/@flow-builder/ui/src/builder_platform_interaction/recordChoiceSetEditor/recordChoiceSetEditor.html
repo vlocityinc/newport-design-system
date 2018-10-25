@@ -9,6 +9,7 @@
                     guid={recordChoiceSetResource.guid}
                     onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-label-description>
+
             <!-- Entity Resource Picker -->
             <div class="slds-form-element__row">
                 <builder_platform_interaction-entity-resource-picker
@@ -22,13 +23,13 @@
         </div>
 
         <div if:true={showSecondSection}>
-            <!--Record Filter component  -->
+            <!-- Record Filter component  -->
             <builder_platform_interaction-record-filter 
                 element-type={recordChoiceSetResource.elementType}
                 filter-items={recordChoiceSetResource.filters}
                 record-entity-name={recordChoiceSetResource.object.value}
                 resource-display-text={resourceDisplayText}
-                record-fields={entityFields}
+                record-fields={recordFieldsForFilter}
                 filter-type={recordChoiceSetResource.filterType.value}
                 hide-new-resource={hideNewResourceButton}
                 onrecordfiltertypechanged={handleFilterTypeChanged}
@@ -36,7 +37,8 @@
                 onupdaterecordfilter={handleListItemChanged}
                 ondeleterecordfilter={handleListItemChanged}>
             </builder_platform_interaction-record-filter>
-            <!--Record Sort component  -->
+
+            <!-- Record Sort component  -->
             <builder_platform_interaction-record-sort
                 resource-api-name={recordChoiceSetResource.object.value}
                 resource-display-text={resourceDisplayText}
@@ -45,15 +47,77 @@
                 sort-field-error={recordChoiceSetResource.sortField.error}
                 onchange={handleRecordSortChanged}>
             </builder_platform_interaction-record-sort>
-            <!--Choice Limit Filter component  -->
+
+            <!-- Choice Limit Filter component  -->
             <lightning-input 
                 type="number"
                 placeholder={labels.choiceLimitPlaceholder}
                 label={labels.choiceLimitLabel}
                 onfocusout={handleChoiceLimitChanged}
                 value={recordChoiceSetResource.limit.value}
+                field-level-help={labels.choiceLimitHelpText}
                 class="choice-limit slds-p-horizontal_small slds-p-bottom_small slds-form-element slds-size_1-of-2">
             </lightning-input>
+
+            <!-- Choice Template Section -->
+            <div class="slds-border_top slds-p-around_small">
+                <h3 class="slds-text-heading_small slds-p-bottom_small">{labels.choiceTemplateHeading}</h3>
+                <!-- Choice Label Field Picker -->
+                <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
+                    <builder_platform_interaction-field-picker
+                            class="slds-col slds-grow slds-size_1-of-2"
+                            label={labels.choiceLabel}
+                            placeholder={labels.choiceLabelPlaceholder}
+                            value={recordChoiceSetResource.displayField.value}
+                            required
+                            fields={menuDataFields}
+                            error-message={recordChoiceSetResource.displayField.error}
+                            oncomboboxstatechanged={handleDisplayFieldChanged}>
+                    </builder_platform_interaction-field-picker>
+                </div>
+
+                <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small">
+                    <!-- Choice Data Type Picker -->
+                    <div class="slds-col slds-grow slds-size_1-of-2">
+                        <builder_platform_interaction-data-type-picker
+                                class-name="slds-size_1-of-1"
+                                available-data-types={dataTypeList}
+                                type-and-collection-disabled={isFieldDisabled}
+                                required
+                                combobox-error-message={recordChoiceSetResource.dataType.error}
+                                value={dataTypePickerValue}
+                                onvaluechanged={handleDataTypeChanged}>
+                        </builder_platform_interaction-data-type-picker>
+                    </div>
+
+                    <!-- Choice Value Field Picker -->
+                    <builder_platform_interaction-field-picker
+                            class="slds-col slds-grow slds-size_1-of-2"
+                            label={labels.choiceValueLabel}
+                            placeholder={labels.choiceValuePlaceholder}
+                            value={recordChoiceSetResource.valueField.value}
+                            disabled={disableValueFieldPicker}
+                            fields={filteredMenuDataFields}
+                            error-message={recordChoiceSetResource.valueField.error}
+                            oncomboboxstatechanged={handleValueFieldChanged}>
+                    </builder_platform_interaction-field-picker>
+                </div>
+            </div>
+
+            <!-- OutputAssignments fields -->
+            <builder_platform_interaction-record-input-output-assignments
+                    input-output-assignments-items={recordChoiceSetResource.outputAssignments}
+                    resource-display-text={resourceDisplayText}
+                    record-entity-name={recordChoiceSetResource.object.value}
+                    record-fields={menuDataFields}
+                    element-type={recordChoiceSetResource.elementType}
+                    title={outputAssignmentTitle}
+                    rhs-label={labels.outputAssignmentRhsLabel}
+                    rules={rules}
+                    onupdaterecordfieldassignment={handleListItemChanged}
+                    onaddrecordfieldassignment={handleListItemChanged}
+                    ondeleterecordfieldassignment={handleListItemChanged}>
+            </builder_platform_interaction-record-input-output-assignments>
         </div>
     </div>
 </template>

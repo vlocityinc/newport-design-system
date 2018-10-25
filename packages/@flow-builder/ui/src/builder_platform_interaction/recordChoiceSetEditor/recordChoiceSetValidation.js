@@ -29,8 +29,29 @@ const validateFilter = () => {
         return rules;
     };
 };
+
+/**
+ * Validate the outputAssignments item. We only need to validate when either LHS or RHS is filled.
+ * @return {function} the function to be called with each outputAssignment item to return the array of rules.
+ */
+const validateOutputAssignments = () => {
+    return (outputAssignment) => {
+        const rules = {};
+
+        if (outputAssignment[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [ValidationRules.shouldNotBeBlank];
+        }
+
+        if (outputAssignment[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE] = [ValidationRules.shouldNotBeBlank];
+        }
+
+        return rules;
+    };
+};
+
 export const recordChoiceSetValidation = new Validation(additionalRules);
-export const getRules = (recordChoice) => {
+export const getRules = (recordChoice, showSecondSection) => {
     const overrideRules = Object.assign({}, recordChoiceSetValidation.finalizedRules);
     if (recordChoice.filterType && recordChoice.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
         overrideRules.filters = validateFilter();
@@ -40,5 +61,13 @@ export const getRules = (recordChoice) => {
     if (recordChoice.sortOrder.value !== SORT_ORDER.NOT_SORTED) {
         overrideRules.sortField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
     }
+
+    // Validating the following fields only after the second section is made visible
+    if (showSecondSection) {
+        overrideRules.displayField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
+        overrideRules.dataType = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
+        overrideRules.outputAssignments = validateOutputAssignments();
+    }
+
     return overrideRules;
 };

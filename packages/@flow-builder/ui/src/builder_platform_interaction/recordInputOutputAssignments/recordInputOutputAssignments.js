@@ -73,7 +73,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
 
         this.inputOutputAssignmentsItems.forEach((item) => {
             const itemApiName = sanitizeGuid(item.leftHandSide.value).fieldName;
-            const fields = Object.values(this.recordFields);
+            const fields = this.recordFields && Object.values(this.recordFields);
             const entityFilteredFields = [];
             fields.forEach(field => {
                 // The field list Should not contains the already selected field

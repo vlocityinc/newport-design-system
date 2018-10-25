@@ -34,7 +34,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 const mockDefaultValuesForRecordChoiceSet = {
     elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
     object: null,
-    sortField: '',
+    sortField: null,
     outputAssignments: [],
     filters: [createFilter()]
 };

@@ -14,7 +14,7 @@ export const createDynamicChoiceSet = (element = {}) => {
     const newDynamicChoiceSet = baseResource(element);
     const {
         displayField,
-        valueField,
+        valueField = null,
         dataType,
         sortOrder = SORT_ORDER.NOT_SORTED
     } = element;

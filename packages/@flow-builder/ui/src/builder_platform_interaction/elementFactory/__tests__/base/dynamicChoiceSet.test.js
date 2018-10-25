@@ -17,7 +17,7 @@ jest.mock('../../base/baseElement', () => {
 const mockDynamicChoiceSetObjectForNoParam = {
     limit: '',
     displayField: undefined,
-    valueField: undefined,
+    valueField: null,
     dataType: undefined,
     sortOrder: SORT_ORDER.NOT_SORTED
 };
