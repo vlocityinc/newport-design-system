@@ -3,6 +3,7 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import invocableActionTemplate from "./invocableActionTemplate.html";
 import apexPluginTemplate from "./apexPluginTemplate.html";
 import subflowTemplate from "./subflowTemplate.html";
+import emptyTemplate from './emptyTemplate.html';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 
 const EDITOR_SELECTOR = '.editor_template';
@@ -94,7 +95,7 @@ export default class CalloutEditorContainer extends LightningElement {
     render() {
         const elementType = this.node.elementType;
         if (this.isInitialState()) {
-            return undefined;
+            return emptyTemplate;
         }
         switch (elementType) {
             case ELEMENT_TYPE.ACTION_CALL:
@@ -106,7 +107,7 @@ export default class CalloutEditorContainer extends LightningElement {
             case ELEMENT_TYPE.SUBFLOW:
                 return subflowTemplate;
             default:
-                return undefined;
+                return emptyTemplate;
         }
     }
 }

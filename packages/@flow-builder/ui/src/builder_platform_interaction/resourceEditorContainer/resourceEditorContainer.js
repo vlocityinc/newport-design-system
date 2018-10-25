@@ -9,7 +9,7 @@ import choiceEditorTemplate from "./choiceEditorTemplate.html";
 import picklistChoiceSetEditorTemplate from "./picklistChoiceSetEditorTemplate.html";
 import recordChoiceSetEditorTemplate from './recordChoiceSetEditorTemplate.html';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-
+import emptyTemplate from './emptyTemplate.html';
 
 const resourceTypeElementTypeMap = {
     variable: ELEMENT_TYPE.VARIABLE,
@@ -118,7 +118,7 @@ export default class ResourceEditorContainer extends LightningElement {
             case ELEMENT_TYPE.RECORD_CHOICE_SET:
                 return recordChoiceSetEditorTemplate;
             default:
-                return undefined;
+                return emptyTemplate;
         }
     }
 }
