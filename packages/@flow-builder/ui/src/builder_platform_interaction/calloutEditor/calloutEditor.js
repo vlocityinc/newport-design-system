@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 
 const CONTAINER_SELECTOR = 'builder_platform_interaction-callout-editor-container';
 
@@ -88,5 +89,17 @@ export default class CalloutEditor extends LightningElement {
         event.stopPropagation();
         this.selectedAction = event.detail.value;
         this.selectedActionError = event.detail.error;
+    }
+
+    handleCannotRetrieveParameters(event) {
+       event.stopPropagation();
+       // reset selected action
+       this.selectedAction = { elementType : this.selectedAction.elementType };
+   }
+
+   handleCannotRetrieveActions(event) {
+       event.stopPropagation();
+       const closePropertyEditorEvent = new ClosePropertyEditorEvent();
+       this.dispatchEvent(closePropertyEditorEvent);
    }
 }

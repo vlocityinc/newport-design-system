@@ -7,6 +7,7 @@ import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_
 import { invocableActionReducer } from './invocableActionReducer';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS, getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
 
 export default class InvocableActionEditor extends LightningElement {
     /**
@@ -80,8 +81,20 @@ export default class InvocableActionEditor extends LightningElement {
         }).catch(() => {
             if (this.connected) {
                 this.displaySpinner = false;
+                this.cannotRetrieveParameters();
             }
         });
+    }
+
+    cannotRetrieveParameters() {
+        if (!this.isNewMode) {
+            const closePropertyEditorEvent = new ClosePropertyEditorEvent();
+            this.dispatchEvent(closePropertyEditorEvent);
+        } else {
+            // let the parent property editor decide what to do
+            const cannotRetrieveParametersEvent = new CannotRetrieveCalloutParametersEvent();
+            this.dispatchEvent(cannotRetrieveParametersEvent);
+        }
     }
 
     fetchInvocableActionDescriptor() {
@@ -94,6 +107,8 @@ export default class InvocableActionEditor extends LightningElement {
             if (this.connected) {
                 this.invocableActionDescriptor = invocableActions.find(action => action.name === actionParams.actionName && action.type === actionParams.actionType);
             }
+        }).catch(() => {
+            // ignore the error : we won't use the invocableActionDescriptor in this case
         });
     }
 

@@ -6,6 +6,7 @@ import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_
 import { apexPluginReducer } from './apexPluginReducer';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS, getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
 
 export default class ApexPluginEditor extends LightningElement {
     /**
@@ -98,6 +99,8 @@ export default class ApexPluginEditor extends LightningElement {
             if (this.connected) {
                 this.apexPluginDescriptor = apexPlugins.find(apexPlugin => apexPlugin.apexClass === getValueFromHydratedItem(this.apexPluginNode.apexClass));
             }
+        }).catch(() => {
+            // ignore the error : we won't use the apexPluginDescriptor in this case
         });
     }
 
@@ -113,8 +116,20 @@ export default class ApexPluginEditor extends LightningElement {
         }).catch(() => {
             if (this.connected) {
                 this.displaySpniner = false;
+                this.cannotRetrieveParameters();
             }
         });
+    }
+
+    cannotRetrieveParameters() {
+        if (!this.isNewMode) {
+            const closePropertyEditorEvent = new ClosePropertyEditorEvent();
+            this.dispatchEvent(closePropertyEditorEvent);
+        } else {
+            // let the parent property editor decide what to do
+            const cannotRetrieveParametersEvent = new CannotRetrieveCalloutParametersEvent();
+            this.dispatchEvent(cannotRetrieveParametersEvent);
+        }
     }
 
     /**

@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import CalloutEditor  from "../calloutEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-
+import { CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
 const setupComponentUnderTest = () => {
     const element = createElement('builder_platform_interaction-callout-editor', {
         is: CalloutEditor,
@@ -54,14 +54,24 @@ const dispatchSelectedSubflowChangeEvent = (component, flowName) =>
 
 describe('callout-editor', () => {
     let calloutEditor, actionSelector;
+    const getContainer = () => getShadowRoot(calloutEditor).querySelector(selectors.CONTAINER);
     beforeEach(() => {
         calloutEditor = setupComponentUnderTest();
         actionSelector = getShadowRoot(calloutEditor).querySelector(selectors.ACTION_SELECTOR);
     });
+    it('has an action-selector component', () => {
+        expect(actionSelector).not.toBeNull();
+    });
+    it('reset the selected action if an error occurs while retrieving parameters', async () => {
+        dispatchSelectedActionChangeEvent(actionSelector, mockSelectedAction.actionName, mockSelectedAction.actionType);
+        await Promise.resolve();
+        const container = getContainer();
+        expect(container.selectedAction).toEqual(mockSelectedAction);
+        container.dispatchEvent(new CannotRetrieveCalloutParametersEvent());
+        await Promise.resolve();
+        expect(container.selectedAction).toEqual({elementType : ELEMENT_TYPE.ACTION_CALL});
+    });
     describe('invocable-action', () => {
-        it('has an action-selector component', () => {
-            expect(actionSelector).not.toBeNull();
-        });
         it('has an inner callout-editor-container component that takes in the selected action', () => {
             dispatchSelectedActionChangeEvent(actionSelector, mockSelectedAction.actionName, mockSelectedAction.actionType);
             return Promise.resolve().then(() => {
@@ -93,9 +103,6 @@ describe('callout-editor', () => {
         });
     });
     describe('apex-plugin', () => {
-        it('has an action-selector component', () => {
-            expect(actionSelector).not.toBeNull();
-        });
         it('has an inner callout-editor-container component that takes in the selected apex class', () => {
             dispatchSelectedApexChangeEvent(actionSelector, mockSelectedApex.apexClass);
             return Promise.resolve().then(() => {
@@ -106,9 +113,6 @@ describe('callout-editor', () => {
         });
     });
     describe('subflow', () => {
-        it('has an action-selector component', () => {
-            expect(actionSelector).not.toBeNull();
-        });
         it('has an inner callout-editor-container component that takes in the selected apex class', () => {
             dispatchSelectedSubflowChangeEvent(actionSelector, mockSelectedSubflow.flowName);
             return Promise.resolve().then(() => {

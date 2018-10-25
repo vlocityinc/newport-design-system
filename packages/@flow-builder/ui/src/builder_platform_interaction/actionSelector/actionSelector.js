@@ -1,5 +1,5 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { ValueChangedEvent } from "builder_platform_interaction/events";
+import { ValueChangedEvent, CannotRetrieveActionsEvent } from "builder_platform_interaction/events";
 import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
 import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
@@ -43,6 +43,7 @@ export default class ActionSelector extends LightningElement {
             if (this.connected) {
                 this.apexPluginsFetched = true;
                 this.updateComboboxes();
+                this.dispatchCannotRetrieveActionsEvent();
             }
         });
         const keyProvider = (params) => params.flowProcessType;
@@ -58,6 +59,7 @@ export default class ActionSelector extends LightningElement {
             if (this.connected) {
                 this.subflowsFetched = true;
                 this.updateComboboxes();
+                this.dispatchCannotRetrieveActionsEvent();
             }
         });
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
@@ -72,10 +74,16 @@ export default class ActionSelector extends LightningElement {
             if (this.connected) {
                 this.invocableActionsFetched = true;
                 this.updateComboboxes();
+                this.dispatchCannotRetrieveActionsEvent();
             }
         });
         this.updateTypeCombo();
         this.updateActionCombo();
+    }
+
+    dispatchCannotRetrieveActionsEvent() {
+        const event = new CannotRetrieveActionsEvent();
+        this.dispatchEvent(event);
     }
 
     disconnectedCallback() {

@@ -3,10 +3,11 @@ import SubflowEditor from "../subflowEditor";
 import { mockSubflows } from 'mock/calloutData';
 import { mockSubflowVariables} from 'mock/calloutData';
 import { getShadowRoot } from 'lwc-test-utils';
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
 
-const createComponentUnderTest = (node) => {
+const createComponentUnderTest = (node, { isNewMode = false} = {}) => {
     const el = createElement('builder_platform_interaction-subflow-editor', { is: SubflowEditor });
-    el.node = node;
+    Object.assign(el, {node, isNewMode});
     document.body.appendChild(el);
     return el;
 };
@@ -14,6 +15,8 @@ const createComponentUnderTest = (node) => {
 const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
+let mockSubflowVariablesPromise = Promise.resolve(mockSubflowVariables);
+let mockSubflowsPromise = Promise.resolve(mockSubflows);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual('builder_platform_interaction/serverDataLib');
@@ -23,9 +26,9 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         fetchOnce : (serverActionType) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_SUBFLOWS:
-                    return Promise.resolve(mockSubflows);
+                    return mockSubflowsPromise;
                 case SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES:
-                    return Promise.resolve(mockSubflowVariables);
+                    return mockSubflowVariablesPromise;
                 default:
                     return Promise.reject();
             }
@@ -101,13 +104,43 @@ const getBaseCalloutEditor = (subflowEditor) => {
 
 describe('subflow-editor', () => {
     let subflowEditor;
+    afterEach(() => {
+        mockSubflowsPromise = Promise.resolve(mockSubflows);
+        mockSubflowVariablesPromise = Promise.resolve(mockSubflowVariables);
+    });
+    it('should display a subtitle including the subflow label', async () => {
+        subflowEditor = createComponentUnderTest(subflowNode, {isNewMode:false});
+        await Promise.resolve();
+        const baseCalloutEditor = getBaseCalloutEditor(subflowEditor);
+        expect(baseCalloutEditor.subtitle).toBe('FlowBuilderSubflowEditor.subtitle(my subflow)');
+    });
+    it('should not display a subtitle if call to GET_SUBFLOWS failed', async () => {
+        mockSubflowsPromise = Promise.reject();
+        subflowEditor = createComponentUnderTest(subflowNode, {isNewMode:false});
+        await Promise.resolve();
+        const baseCalloutEditor = getBaseCalloutEditor(subflowEditor);
+        expect(baseCalloutEditor.subtitle).toBe('');
+    });
     describe('Edit existing subflow', () => {
-        beforeEach(() => {
-            subflowEditor = createComponentUnderTest(subflowNode);
+        it('should dispatch a ClosePropertyEditorEvent if call to GET_FLOW_INPUT_OUTPUT_VARIABLES failed', async () => {
+            mockSubflowVariablesPromise = Promise.reject();
+            subflowEditor = createComponentUnderTest(subflowNode, {isNewMode:false});
+            const eventCallback = jest.fn();
+            document.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+            await Promise.resolve();
+            document.removeEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+            expect(eventCallback).toHaveBeenCalled();
         });
-        it('should display a subtitle including the subflow label', () => {
-            const baseCalloutEditor = getBaseCalloutEditor(subflowEditor);
-            expect(baseCalloutEditor.subtitle).toBe('FlowBuilderSubflowEditor.subtitle(my subflow)');
+    });
+    describe('New subflow node', () => {
+        it('should dispatch a CannotRetrieveCalloutParametersEvent if call to GET_FLOW_INPUT_OUTPUT_VARIABLES failed', async () => {
+            mockSubflowVariablesPromise = Promise.reject();
+            subflowEditor = createComponentUnderTest(subflowNode, {isNewMode:true});
+            const eventCallback = jest.fn();
+            document.addEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
+            await Promise.resolve();
+            document.removeEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
+            expect(eventCallback).toHaveBeenCalled();
         });
     });
 });

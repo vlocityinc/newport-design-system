@@ -60,3 +60,5 @@ export { WaitEventDeleteAllParametersEvent } from './waitEventDeleteAllParameter
 export { ValidationRuleChangedEvent } from './validationRuleChangedEvent';
 export { BackEvent } from './headerEvents/backEvent';
 export { ClosePropertyEditorEvent } from './closePropertyEditorEvent';
+export { CannotRetrieveCalloutParametersEvent } from './cannotRetrieveCalloutParametersEvent';
+export { CannotRetrieveActionsEvent } from './cannotRetrieveActionsEvent';

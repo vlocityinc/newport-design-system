@@ -103,13 +103,14 @@ const fetchOnceCache = { };
  * @param {Object}
  *            params any parameters to make server call
  * @param {Function} keyProvider provides a unique key from the parameters
- * @param {{background: (boolean|undefined)}} optionalParams
- *            background need to be set to true if request needs to be run as a background
- *            action
+ * @param {{background: (boolean|undefined), disableErrorModal: (boolean|undefined), messageForErrorModal: (string|undefined)}} optionalParams
+ *            background need to be set to true if request needs to be run as a background action
+ *            disableErrorModal need to be set to true to disable the default error modal panel
+ *            messageForErrorModal the message to use instead of the default error message
  * @return {Promise} Promise object represents the return value from the server
  *         side action
  */
-export function fetchOnce(serverActionType, params = {}, keyProvider, { background = false } = {}) {
+export function fetchOnce(serverActionType, params = {}, keyProvider, { background = false, disableErrorModal = false, messageForErrorModal } = {}) {
     if (!keyProvider) {
         if (Object.keys(params).length === 0 && params.constructor === Object) {
             keyProvider = () => 'default';
@@ -138,7 +139,7 @@ export function fetchOnce(serverActionType, params = {}, keyProvider, { backgrou
             } else {
                 resolve(readonly(data));
             }
-        }, params, { background, storable : false });
+        }, params, { background, storable : false, disableErrorModal, messageForErrorModal });
     });
     serverActionTypeCache[key].isRejected = () => rejected;
     return serverActionTypeCache[key];

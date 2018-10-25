@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import InvocableActionEditor from "../invocableActionEditor";
 import { mockActionParameters, mockActions } from "mock/calloutData";
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
 
 const defaultNode = {
         actionName: {value: 'chatterPost', error: null},
@@ -59,9 +60,9 @@ const defaultNode = {
 const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
-const createComponentUnderTest = (node) => {
+const createComponentUnderTest = (node, { isNewMode = false} = {}) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
-    el.node = node;
+    Object.assign(el, {node, isNewMode});
     document.body.appendChild(el);
     return el;
 };
@@ -69,6 +70,9 @@ const createComponentUnderTest = (node) => {
 const selectors = {
     baseCalloutEditor: 'builder_platform_interaction-base-callout-editor',
 };
+
+let mockActionParametersPromise = Promise.resolve(mockActionParameters);
+let mockActionsPromise = Promise.resolve(mockActions);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual('builder_platform_interaction/serverDataLib');
@@ -78,9 +82,9 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         fetchOnce : (serverActionType) => {
             switch (serverActionType) {
             case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS:
-                return Promise.resolve(mockActions);
+                return mockActionsPromise;
             case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS:
-                return Promise.resolve(mockActionParameters);
+                return mockActionParametersPromise;
             default:
                 return Promise.reject();
             }
@@ -98,10 +102,48 @@ describe('Invocable Action editor', () => {
         actionEditorCmp = createComponentUnderTest(defaultNode);
         baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
     });
-    it('should display a subtitle including the action call label', () => {
+    afterEach(() => {
+        mockActionParametersPromise = Promise.resolve(mockActionParameters);
+        mockActionsPromise = Promise.resolve(mockActions);
+    });
+    it('should display a subtitle including the action call label', async () => {
+        actionEditorCmp = createComponentUnderTest(defaultNode);
+        baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
+        await Promise.resolve();
         expect(baseCalloutEditorCmp.subtitle).toBe('FlowBuilderInvocableActionEditor.subtitle(Post to Chatter)');
     });
     it('contains base callout editor', () => {
+        actionEditorCmp = createComponentUnderTest(defaultNode);
+        baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
         expect(baseCalloutEditorCmp).not.toBeNull();
+    });
+    it('should not display a subtitle if call to GET_INVOCABLE_ACTIONS failed', async () => {
+        mockActionsPromise = Promise.reject();
+        actionEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:false});
+        baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
+        await Promise.resolve();
+        expect(baseCalloutEditorCmp.subtitle).toBe('');
+    });
+    describe('Edit existing invocable action', () => {
+        it('should dispatch a ClosePropertyEditorEvent if call to GET_INVOCABLE_ACTION_PARAMETERS failed', async () => {
+            mockActionParametersPromise = Promise.reject();
+            actionEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:false});
+            const eventCallback = jest.fn();
+            document.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+            await Promise.resolve();
+            document.removeEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+            expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+    describe('New invocable action node', () => {
+        it('should dispatch a CannotRetrieveCalloutParametersEvent if call to GET_INVOCABLE_ACTION_PARAMETERS failed', async () => {
+            mockActionParametersPromise = Promise.reject();
+            actionEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:true});
+            const eventCallback = jest.fn();
+            document.addEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
+            await Promise.resolve();
+            document.removeEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
+            expect(eventCallback).toHaveBeenCalled();
+        });
     });
 });

@@ -7,6 +7,7 @@ import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from "
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
 
 export default class SubflowEditor extends LightningElement {
     @track subflowNode = {};
@@ -51,8 +52,20 @@ export default class SubflowEditor extends LightningElement {
         }).catch(() => {
             if (this.connected) {
                 this.displaySpinner = false;
+                this.cannotRetrieveParameters();
             }
         });
+    }
+
+    cannotRetrieveParameters() {
+        if (!this.isNewMode) {
+            const closePropertyEditorEvent = new ClosePropertyEditorEvent();
+            this.dispatchEvent(closePropertyEditorEvent);
+        } else {
+            // let the parent property editor decide what to do
+            const cannotRetrieveParametersEvent = new CannotRetrieveCalloutParametersEvent();
+            this.dispatchEvent(cannotRetrieveParametersEvent);
+        }
     }
 
     fetchSubflowDescriptor() {
@@ -65,6 +78,8 @@ export default class SubflowEditor extends LightningElement {
             if (this.connected) {
                 this.subflowDescriptor = subflows.find(f => f.fullName === flowName);
             }
+        }).catch(() => {
+            // ignore the error : we won't use the subflowDescriptor in this case
         });
     }
 

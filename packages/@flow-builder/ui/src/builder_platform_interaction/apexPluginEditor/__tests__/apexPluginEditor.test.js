@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import ApexPluginEditor from "../apexPluginEditor";
 import { mockApexPluginParameters, mockApexPlugins } from "mock/calloutData";
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
 
 const defaultNode = {
         apexClass: {value: 'flowchat', error: null},
@@ -58,9 +59,9 @@ const defaultNode = {
 const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
-const createComponentUnderTest = (node) => {
+const createComponentUnderTest = (node, { isNewMode = false} = {}) => {
     const el = createElement('builder_platform_interaction-apex-plugin-editor', { is: ApexPluginEditor });
-    el.node = node;
+    Object.assign(el, {node, isNewMode});
     document.body.appendChild(el);
     return el;
 };
@@ -68,6 +69,9 @@ const createComponentUnderTest = (node) => {
 const selectors = {
     baseCalloutEditor: 'builder_platform_interaction-base-callout-editor',
 };
+
+let mockApexPluginParametersPromise = Promise.resolve(mockApexPluginParameters);
+let mockApexPluginsPromise = Promise.resolve(mockApexPlugins);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual('builder_platform_interaction/serverDataLib');
@@ -77,9 +81,9 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         fetchOnce : (serverActionType) => {
             switch (serverActionType) {
             case SERVER_ACTION_TYPE.GET_APEX_PLUGINS:
-                return Promise.resolve(mockApexPlugins);
+                return mockApexPluginsPromise;
             case SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS:
-                return Promise.resolve(mockApexPluginParameters);
+                return mockApexPluginParametersPromise;
             default:
                 return Promise.reject();
             }
@@ -93,14 +97,48 @@ const getBaseCalloutEditor = (apexPluginEditor) => {
 
 describe('Apex Plugin editor', () => {
     let apexPluginEditorCmp, baseCalloutEditorCmp;
-    beforeEach(() => {
+    afterEach(() => {
+        mockApexPluginParametersPromise = Promise.resolve(mockApexPluginParameters);
+        mockApexPluginsPromise = Promise.resolve(mockApexPlugins);
+    });
+    it('should display a subtitle including the apex plugin name', async () => {
         apexPluginEditorCmp = createComponentUnderTest(defaultNode);
         baseCalloutEditorCmp = getBaseCalloutEditor(apexPluginEditorCmp);
-    });
-    it('should display a subtitle including the apex plugin name', () => {
+        await Promise.resolve();
         expect(baseCalloutEditorCmp.subtitle).toBe('FlowBuilderApexPluginEditor.subtitle(flow chat plugin)');
     });
     it('contains base callout editor', () => {
+        apexPluginEditorCmp = createComponentUnderTest(defaultNode);
+        baseCalloutEditorCmp = getBaseCalloutEditor(apexPluginEditorCmp);
         expect(baseCalloutEditorCmp).not.toBeNull();
+    });
+    it('should not display a subtitle if call to GET_APEX_PLUGINS failed', async () => {
+        mockApexPluginsPromise = Promise.reject();
+        apexPluginEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:false});
+        baseCalloutEditorCmp = getBaseCalloutEditor(apexPluginEditorCmp);
+        await Promise.resolve();
+        expect(baseCalloutEditorCmp.subtitle).toBe('');
+    });
+    describe('Edit existing apex plugin', () => {
+        it('should dispatch a ClosePropertyEditorEvent if call to GET_APEX_PLUGIN_PARAMETERS failed', async () => {
+            mockApexPluginParametersPromise = Promise.reject();
+            apexPluginEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:false});
+            const eventCallback = jest.fn();
+            document.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+            await Promise.resolve();
+            document.removeEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+            expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+    describe('New apex plugin node', () => {
+        it('should dispatch a CannotRetrieveCalloutParametersEvent if call to GET_APEX_PLUGIN_PARAMETERS failed', async () => {
+            mockApexPluginParametersPromise = Promise.reject();
+            apexPluginEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:true});
+            const eventCallback = jest.fn();
+            document.addEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
+            await Promise.resolve();
+            document.removeEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
+            expect(eventCallback).toHaveBeenCalled();
+        });
     });
 });
