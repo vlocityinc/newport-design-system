@@ -1,0 +1,3 @@
+.slds-section__title div {
+    line-height: var(--lwc-lineHeightText);
+}
