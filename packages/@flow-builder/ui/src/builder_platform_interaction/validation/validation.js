@@ -27,6 +27,18 @@ export class Validation {
     }
 
     /**
+     * @param {Object[]} guidToNameList array of objects with guid and name keys
+     * @param {string} devNameToBeValidated
+     * @param {string} guidToBeValidated
+     * @returns {string|null} errorString or null
+     */
+    validateDevNameUniquenessLocally = (guidToNameList, devNameToBeValidated, guidToBeValidated) => {
+        const matches = guidToNameList.filter(existingLocalValue =>
+            (existingLocalValue.guid !== guidToBeValidated) &&
+            (existingLocalValue.name.toLowerCase() === devNameToBeValidated.toLowerCase()));
+        return matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
+    };
+    /**
      * @param {object} existingRules - default/common rules for the fields specified
      * @param {object} additionalRules - additional element specific rules
      * @returns {object} finalRules - after merging, if additionalRules is provided

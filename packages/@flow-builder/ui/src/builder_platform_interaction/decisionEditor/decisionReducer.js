@@ -125,6 +125,8 @@ const outcomePropertyChanged = (state, event) => {
 };
 
 const decisionPropertyChanged = (state, event) => {
+    // TODO: W-5553931 Guid should already be present in the event.
+    event.detail.guid = state.guid;
     validateProperty(state, event);
     return updateProperties(state, {[event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}});
 };

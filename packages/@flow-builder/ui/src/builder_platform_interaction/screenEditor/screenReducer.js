@@ -284,7 +284,7 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
         property = 'fieldText';
     }
 
-    let error = event.detail.error;
+    const error = event.detail.error;
     const value = event.detail.value;
     const currentValue = event.detail.oldValue || selectedNode[property];
     const hydrated = isHydrated(currentValue);
@@ -304,8 +304,10 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
     if (compareValues(currentValue, value, true)) {
         if (isScreen(selectedNode)) {
             if (hydrated) {
-                error = error === null ? screenValidation.validateProperty(property, value.value) : error;
-                value.error = error;
+                value.error = error || screenValidation.validateProperty(property, value.value);
+                if (value.error === null && property === 'name') {
+                    value.error = screenValidation.validateFieldNameUniquenessLocally(screen, value.value, screen.guid);
+                }
             }
             updatedNode = updateProperties(screen, {[property]: value});
         } else { // Screen field
@@ -320,6 +322,10 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 dataType: selectedNode.dataType || event.detail.valueDataType || event.detail.defaultValueDataType,
                 required: event.detail.required
             };
+
+            if (data.property === 'name' && data.error === null) {
+                data.error = screenValidation.validateFieldNameUniquenessLocally(screen, data.newValue.value, event.detail.guid);
+            }
 
             // If the default value is being cleared out, the dataType associated with the new value should be set
             // to undefined because we want to clear that property.

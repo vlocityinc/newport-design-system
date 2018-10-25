@@ -34,17 +34,26 @@ class DecisionValidation extends Validation {
     }
 
     /**
-     * Method to check if an outcome devname is unique locally amongst all other outcomes.
-     * @param {Object[]} allOutcomes - list of all outcome objects
+     * Method to check if devname is unique locally amongst all other outcomes and parent decision.
+     * @param {Object} state - overall state of decision node
      * @param {string} devNameToBeValidated - for uniqueness
      * @param {string} currentOutcomeGuid - guid of the current outcome whose devname is tested for uniquness
      * @returns {string|null} errorString or null
      */
     validateOutcomeNameUniquenessLocally = (state, devNameToBeValidated, currentOutcomeGuid) => {
         // Add the decision editor guid and api name to the list to check
-        const allLocalValues = state.outcomes.concat([{guid: state.guid, name: state.name}]);
-        const matches = allLocalValues.filter(existingLocalValue => existingLocalValue.guid !== currentOutcomeGuid && existingLocalValue.name.value.toLowerCase() === devNameToBeValidated.toLowerCase());
-        return matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
+        const stateGuidToDevName = [{
+            guid: state.guid,
+            name: state.name.value
+        }];
+        const outcomesDevNameToGuidList = state.outcomes.map(outcome => {
+            return {
+                guid: outcome.guid,
+                name: outcome.name.value,
+            };
+        });
+        const finalListOfGuidToDevNames = stateGuidToDevName.concat(outcomesDevNameToGuidList);
+        return this.validateDevNameUniquenessLocally(finalListOfGuidToDevNames, devNameToBeValidated, currentOutcomeGuid);
     };
 }
 

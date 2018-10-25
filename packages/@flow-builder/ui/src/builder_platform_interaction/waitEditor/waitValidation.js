@@ -42,17 +42,25 @@ class WaitValidation extends Validation {
     }
 
     /**
-     * Method to check if an outcome devname is unique locally amongst all other outcomes.
-     * @param {Object[]} allOutcomes - list of all outcome objects
+     * Method to check if devname is unique locally amongst all other waitevents and parent wait node state.
+     * @param {Object} state -  overall state of wait node
      * @param {string} devNameToBeValidated - for uniqueness
-     * @param {string} currentOutcomeGuid - guid of the current outcome whose devname is tested for uniquness
+     * @param {string} currentWaitEventGuid - guid of the current waitevent whose devname is tested for uniquness
      * @returns {string|null} errorString or null
      */
     validateWaitEventNameUniquenessLocally = (state, devNameToBeValidated, currentWaitEventGuid) => {
-        // Add the wait editor guid and api name to the list to check
-        const allLocalValues = state.waitEvents.concat([{guid: state.guid, name: state.name}]);
-        const matches = allLocalValues.filter(existingLocalValue => existingLocalValue.guid !== currentWaitEventGuid && existingLocalValue.name.value.toLowerCase() === devNameToBeValidated.toLowerCase());
-        return matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
+        const stateGuidToDevName = [{
+            guid: state.guid,
+            name: state.name.value
+        }];
+        const waitEventsDevNameToGuidList = state.waitEvents.map(waitEvent => {
+            return {
+                guid: waitEvent.guid,
+                name: waitEvent.name.value,
+            };
+        });
+        const finalListOfGuidToDevNames = stateGuidToDevName.concat(waitEventsDevNameToGuidList);
+        return this.validateDevNameUniquenessLocally(finalListOfGuidToDevNames, devNameToBeValidated, currentWaitEventGuid);
     };
 }
 

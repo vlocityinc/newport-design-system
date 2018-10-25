@@ -238,8 +238,30 @@ const getScreenAdditionalRules = () => {
 
     return rules;
 };
-
-export const screenValidation = new Validation(getScreenAdditionalRules());
+class ScreenValidation extends Validation {
+    /**
+     * Method to check if devname is unique locally amongst all other fields and parent screen node state.
+     * @param {Object} state -  overall state of screen node
+     * @param {string} devNameToBeValidated - for uniqueness
+     * @param {string} currentFieldGuid - guid of the current field whose devname is tested for uniquness
+     * @returns {string|null} errorString or null
+     */
+    validateFieldNameUniquenessLocally = (state, devNameToBeValidated, currentFieldGuid) => {
+        const stateGuidToDevName = [{
+            guid: state.guid,
+            name: state.name.value
+        }];
+        const fieldsDevNameToGuidList = state.fields.map(field => {
+            return {
+                guid: field.guid,
+                name: field.name.value,
+            };
+        });
+        const finalListOfGuidToDevNames = stateGuidToDevName.concat(fieldsDevNameToGuidList);
+        return this.validateDevNameUniquenessLocally(finalListOfGuidToDevNames, devNameToBeValidated, currentFieldGuid);
+    };
+}
+export const screenValidation = new ScreenValidation(getScreenAdditionalRules());
 
 export const getExtensionParameterValidation = (propertyName, type, required) => {
     const rules = getExtensionParameterRules(type, required);
