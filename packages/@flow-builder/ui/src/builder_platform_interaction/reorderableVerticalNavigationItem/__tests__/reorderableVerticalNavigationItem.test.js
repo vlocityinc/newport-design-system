@@ -53,6 +53,21 @@ describe('ReorderableVerticalNavigationItem', () => {
             expect(eventCallback.mock.calls[0][0].detail).toMatchObject({itemId: testNavItemId});
         });
     });
+    it('calls the dragstart handle from draggable component when dragstart happens', () => {
+        const element = createComponentUnderTest();
+        element.isDraggable = true;
+        return Promise.resolve().then(() => {
+            const draggableElement = getShadowRoot(element).querySelector(SELECTORS.DRAGGABLE);
+            draggableElement.handleDragStart = jest.fn();
+
+            const anchorElement = getShadowRoot(element).querySelector(SELECTORS.LINK);
+            const dragstartEvent = new CustomEvent('dragstart');
+            anchorElement.dispatchEvent(dragstartEvent);
+
+            expect(draggableElement.handleDragStart).toHaveBeenCalled();
+        });
+    });
+
     describe('isDraggable', () => {
         it('is wrapped in a draggable if isDraggable', () => {
             const element = createComponentUnderTest();
