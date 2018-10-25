@@ -133,27 +133,89 @@ function getNewResourceItem() {
     };
 }
 
+/**
+ * @typedef filterInformation
+ * @property selector    the selector that can be used to get items for this filter from the store
+ * @property isWritable  whether or not everything allowed by this filter must be writable
+ */
+
+// TODO: all of this regarding filtering & selectors will be revisited with W-5462144
+
+/**
+ * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
+ * @returns filterInformation
+ */
 function writableOrReadableElement(shouldBeWritable) {
-    return shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+    return {
+        selector: shouldBeWritable ? writableElementsSelector : readableElementsSelector,
+        isWritable: shouldBeWritable,
+    };
 }
 
+/**
+ * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
+ * @param {Object} elementType          the element type this expression builder lives in
+ * @param {Boolean} isCollection        true if using selector to retrieve collection variables
+ * @param {String} dataType             data type to pass in byTypeElementsSelector
+ * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
+ * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
+ * @returns filterInformation
+ */
 function queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
-    return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, queryable:true}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+    const selector = sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, queryable:true})
+        : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+    return {
+        selector,
+        isWritable: !sObjectSelector && shouldBeWritable,
+    };
 }
 
+/**
+ * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
+ * @param {Object} elementType          the element type this expression builder lives in
+ * @param {Boolean} isCollection        true if using selector to retrieve collection variables
+ * @param {String} dataType             data type to pass in byTypeElementsSelector
+ * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
+ * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
+ * @returns filterInformation
+ */
 function createableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
-    return sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, createable:true}) : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+    const selector = sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, createable:true})
+        : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+    return {
+        selector,
+        isWritable: !sObjectSelector && shouldBeWritable,
+    };
 }
 
+/**
+ * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
+ * @param {Object} elementType          the element type this expression builder lives in
+ * @param {Boolean} isCollection        true if using selector to retrieve collection variables
+ * @param {String} dataType             data type to pass in byTypeElementsSelector
+ * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
+ * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
+ * @returns filterInformation
+ */
 function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
-    return isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType));
+    return {
+        selector: isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType)),
+    };
 }
 
+/**
+ * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
+ * @param {String} dataType             data type to pass in byTypeElementsSelector
+ * @param {Boolean} choices             optional: should this menu data only contain choices
+ * @returns filterInformation
+ */
 function screenSelectors(shouldBeWritable, choices, dataType) {
-    return choices ? choiceSelector(dataType) : readableElementsSelector;
+    return {
+        selector: choices ? choiceSelector(dataType) : readableElementsSelector,
+    };
 }
 
-const selectorProviderMap = {
+const filterInformationProviderMap = {
     [ELEMENT_TYPE.ACTION_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.APEX_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
@@ -162,8 +224,8 @@ const selectorProviderMap = {
     [ELEMENT_TYPE.SUBFLOW]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.VARIABLE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.CHOICE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.DECISION]: () => readableElementsSelector,
-    [ELEMENT_TYPE.WAIT]: () => readableElementsSelector,
+    [ELEMENT_TYPE.DECISION]: () => writableOrReadableElement(),
+    [ELEMENT_TYPE.WAIT]: () => writableOrReadableElement(),
     [ELEMENT_TYPE.SCREEN]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices) => screenSelectors(shouldBeWritable, choices, dataType),
     [ELEMENT_TYPE.RECORD_CREATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => createableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
     [ELEMENT_TYPE.RECORD_UPDATE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, updateable: true}),
@@ -173,22 +235,31 @@ const selectorProviderMap = {
 };
 
 /**
- * This method returns the selector that should be used to find elements for the menuData
- * @param {Object} storeInstance        reference to the storeInstance
  * @param {Object} elementType          the element type this expression builder lives in
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
  * @param {Boolean} isCollection        true if using selector to retrieve collection variables
  * @param {String} dataType             data type to pass in byTypeElementsSelector
  * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
  * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
- * @returns {array}                     retrieves elements from store
+ * @param {Boolean} choices             optional: should this menu data only contain choices
+ * @returns filterInformation
  */
-export function getStoreElements(storeInstance, {elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector, choices}) {
+function getFilterInformation({elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector, choices}) {
+    return filterInformationProviderMap[elementType] ? filterInformationProviderMap[elementType](shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices) : {};
+}
+
+/**
+ * This method returns the selector that should be used to find elements for the menuData
+ * @param {Object} storeInstance   reference to the storeInstance
+ * @param {Object} config          contains necessary context to return the filterInformation
+ * @returns {array}                retrieves elements from store
+ */
+export function getStoreElements(storeInstance, config) {
     let elements = [];
 
-    const selector = selectorProviderMap[elementType];
-    if (selector) {
-        elements = selector(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices)(storeInstance);
+    const filterInformation = getFilterInformation(config);
+    if (filterInformation.selector) {
+        elements = filterInformation.selector(storeInstance);
     }
 
     return elements;
@@ -324,13 +395,29 @@ export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, f
     });
 }
 
-export function getSecondLevelItems(topLevelItemType, callback) {
+export function getSecondLevelItems(elementConfig, topLevelItemType, callback) {
+    const shouldBeWritable = elementConfig && getFilterInformation(elementConfig).isWritable;
+
+    const filterWritable = (items) => {
+        const writableItems = {};
+        Object.keys(items)
+            .filter((key) => {
+                return !items[key].readOnly;
+            })
+            .forEach((key) => {
+                writableItems[key] = items[key];
+            });
+        return writableItems;
+    };
+
     switch (topLevelItemType) {
         case SYSTEM_VARIABLE_PREFIX:
-            callback(getSystemVariables());
+            callback(shouldBeWritable ? filterWritable(getSystemVariables()) : getSystemVariables());
             break;
         default:
-            sobjectLib.getFieldsForEntity(topLevelItemType, callback);
+            sobjectLib.getFieldsForEntity(topLevelItemType, (fields) => {
+                callback(shouldBeWritable ? filterWritable(fields) : fields);
+            });
     }
 }
 

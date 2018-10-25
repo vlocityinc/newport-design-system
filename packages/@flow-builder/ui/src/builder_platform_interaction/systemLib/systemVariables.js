@@ -18,7 +18,8 @@ const convertData = (data) => data.reduce((acc, obj) => {
         dataType: obj.dataType,
         guid: name,
         label: obj.devName,
-        name
+        name,
+        readOnly: !obj.isAssignable,
     });
     delete variable.devName;
 

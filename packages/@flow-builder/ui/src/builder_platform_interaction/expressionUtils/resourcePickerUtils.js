@@ -16,7 +16,7 @@ const getFieldMenuData = (elementConfig, populateParamTypesFn, parentItem, entit
     } else {
         // when handling fetch menu data (user selects new sobject) we will not have the fields yet
         const entityName = parentItem.objectType;
-        getSecondLevelItems(entityName, (fields) => {
+        getSecondLevelItems(elementConfig, entityName, (fields) => {
             menuData = filterFieldsForChosenElement(parentItem, allowedParamTypes, fields, showAsFieldReference, showSubText);
         });
     }

@@ -85,7 +85,8 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                 const lhsItem = mutateFlowResourceToComboboxShape(fer);
                 const fieldName = sanitizeGuid(lhs.value).fieldName;
                 if (fieldName) {
-                    getSecondLevelItems(lhsItem.objectType, (fields) => {
+                    getSecondLevelItems({ elementType: this.containerElement, shouldBeWritable: true },
+                        lhsItem.objectType, (fields) => {
                         const isFieldOnSobjectVar = true;
                         this.state.lhsDescribe = updateProperties(this.state.lhsDescribe,
                             populateLhsStateForField(fields, fieldName, lhsItem, isFieldOnSobjectVar));
