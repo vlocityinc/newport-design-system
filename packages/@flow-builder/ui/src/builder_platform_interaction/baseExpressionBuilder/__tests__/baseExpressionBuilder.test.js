@@ -101,6 +101,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         getRHSTypes: jest.fn(),
         transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
         elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
+        isCollectionRequired: jest.fn().mockReturnValue(false).mockName('isCollectionRequired'),
         RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
     };
@@ -449,6 +450,7 @@ describe('base expression builder', () => {
             rulesMock.getRHSTypes.mockReturnValue();
         });
         it('when rhs literal is allowed by context but RHS must be collection, literals should not be allowed', () => {
+            rulesMock.isCollectionRequired.mockReturnValueOnce(true);
             rulesMock.getRHSTypes.mockReturnValue({ 'Date' : [dateCollectionParam]});
             const expressionBuilder = createDefaultFerToFerovComponentForTest();
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];

@@ -19,6 +19,7 @@ import {
     getRHSTypes,
     transformOperatorsForCombobox,
     elementToParam,
+    isCollectionRequired,
     PARAM_PROPERTY,
     RULE_OPERATOR,
 } from "builder_platform_interaction/ruleLib";
@@ -33,7 +34,6 @@ const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 const RHSDT = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
 
 const DATA_TYPE = PARAM_PROPERTY.DATA_TYPE;
-const COLLECTION_REQUIRED = PARAM_PROPERTY.IS_COLLECTION;
 
 const CLEAR_VALUE = '';
 const CLEAR_ERROR = null;
@@ -276,8 +276,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     @api
     get rhsLiteralsAllowed() {
-        this.setRHSCollectionRequired();
-        return this._rhsLiteralsAllowedForContext && !this._rhsCollectionRequiredByRules;
+        return this._rhsLiteralsAllowedForContext && !isCollectionRequired(this._rhsParamTypes, this._rhsDataType);
     }
 
     @api
@@ -309,7 +308,6 @@ export default class BaseExpressionBuilder extends LightningElement {
     _rhsIsField;
     _rhsIsFer;
     _rhsParamTypes;
-    _rhsCollectionRequiredByRules;
     _rhsLiteralsAllowedForContext = false;
     _unsubscribeStore;
     _hideFerovMenuData = false;
@@ -396,26 +394,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         return Object.keys(this.rhsParamTypes)
             .filter(key => this.rhsParamTypes[key][0][DATA_TYPE])
             .map(key => this.rhsParamTypes[key][0][DATA_TYPE]);
-    }
-
-    /**
-     * Determines if a collection is required on the RHS based on the rules and the current LHS and operator value
-     */
-    setRHSCollectionRequired() {
-        this._rhsCollectionRequiredByRules = true;
-
-        if (!this.rhsParamTypes) {
-            return;
-        }
-
-        const dataType = this._rhsDataType;
-        if (dataType && this.rhsParamTypes[dataType]) {
-            const dataTypeParams = this.rhsParamTypes[dataType];
-            const paramLiteralAllowed = dataTypeParams.find((param) => {
-                return !param[COLLECTION_REQUIRED];
-            });
-            this._rhsCollectionRequiredByRules = isUndefined(paramLiteralAllowed);
-        }
     }
 
     /**

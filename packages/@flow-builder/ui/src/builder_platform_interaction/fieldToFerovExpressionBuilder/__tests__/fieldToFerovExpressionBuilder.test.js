@@ -59,6 +59,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
         getRHSTypes: jest.fn(),
+        isCollectionRequired: jest.fn().mockReturnValue(false).mockName('isCollectionRequired'),
         RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
     };

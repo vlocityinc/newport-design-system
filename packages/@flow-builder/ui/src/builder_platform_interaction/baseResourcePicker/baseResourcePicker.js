@@ -1,5 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
+import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';
 import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
 
 /**
@@ -69,7 +70,7 @@ export default class BaseResourcePicker extends LightningElement {
 
     @api
     get errorMessage() {
-        return  this._customValidity;
+        return this._customValidity;
     }
 
     /**
@@ -138,6 +139,22 @@ export default class BaseResourcePicker extends LightningElement {
             variant
         };
     };
+
+    /**
+     * Get value for literalsAllowed
+     * If allowed param types are given and collection is required based on dataType, force literalsAllowed to false
+     * @readonly
+     * @memberof BaseResourcePicker
+     */
+    get literalsAllowed() {
+        if (!this.comboboxConfig) {
+            return false;
+        }
+        if (!this.allowedParamTypes) {
+            return this.comboboxConfig.literalsAllowed;
+        }
+        return this.comboboxConfig.literalsAllowed && !isCollectionRequired(this.allowedParamTypes, this.comboboxConfig.type);
+    }
 
     /** EVENT HANDLERS */
 

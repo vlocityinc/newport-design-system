@@ -1,11 +1,11 @@
 import { shallowCopyArray, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
-import { isUndefinedOrNull } from "builder_platform_interaction/commonUtils";
+import { isUndefinedOrNull, isUndefined } from "builder_platform_interaction/commonUtils";
 import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
 const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE, CANNOT_BE_ELEMENTS,
-    MUST_BE_ELEMENTS, PARAM_TYPE_ELEMENT, PARAM_TYPE, SOBJECT_FIELD_REQUIREMENT } = PARAM_PROPERTY;
+    MUST_BE_ELEMENTS, PARAM_TYPE_ELEMENT, PARAM_TYPE, SOBJECT_FIELD_REQUIREMENT} = PARAM_PROPERTY;
 const { CAN_BE, CANNOT_BE, MUST_BE } = CONSTRAINT;
 
 const IS_SOBJECT_FIELD = 'isSObjectField';
@@ -18,6 +18,26 @@ export const OBJECT_TYPE = 'objectType';
  * A map from an elementType or dataType to an array of params relating to that elementType or dataType.
  * @typedef {Object.<string, param[]>} allowedParamMap
  */
+
+ /**
+ * Determines if a collection is required based on the paramTypes and dataType
+ * @param {allowedParamMap} paramTypes the allowed param types
+ * @param {String} dataType the data type of the field
+ */
+export const isCollectionRequired = (paramTypes, dataType) => {
+    let collectionRequired = true;
+
+    if (dataType && paramTypes && paramTypes[dataType]) {
+        const dataTypeParams = paramTypes[dataType];
+        // find the first param that does not have to be a collection (can be literal)
+        const paramLiteralAllowed = dataTypeParams.find((param) => {
+            return !param[IS_COLLECTION];
+        });
+        // if we could not find a param that can be a literal, then collection is required
+        collectionRequired = isUndefined(paramLiteralAllowed);
+    }
+    return collectionRequired;
+};
 
 /**
  * Helper to get the value inside of either data type or element type. This accounts for

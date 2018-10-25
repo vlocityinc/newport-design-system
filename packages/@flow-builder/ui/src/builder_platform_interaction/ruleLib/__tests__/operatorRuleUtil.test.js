@@ -1,17 +1,25 @@
-import { isMatch, getLHSTypes, getOperators, getRHSTypes, transformOperatorsForCombobox } from "builder_platform_interaction/ruleLib";
+import {
+    isMatch,
+    getLHSTypes,
+    getOperators,
+    getRHSTypes,
+    transformOperatorsForCombobox,
+    setOperators,
+    isCollectionRequired,
+} from '../operatorRuleUtil';
 import { mockRules, dateParam, stageParam, stringParam, numberParamMustBeField, numberParamCannotBeField, numberParamCanBeField,
     dateCollectionParam, dateParamMissingCollection, dateParamMustBeElements, dateParamCannotBeElements,
     dateParamNoElementsList } from "mock/ruleService";
 import { elements, dateVariableGuid, dateCollectionVariableGuid, stageGuid, stringVariableGuid, accountSObjectVariableGuid,
     hydratedElements } from "mock/storeData";
-import { RULE_TYPES, RULE_PROPERTY } from '../rules';
+import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY } from '../rules';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { setOperators } from "../operatorRuleUtil";
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const ASSIGNMENT_OPERATOR = 'Assign';
 const EQUALS_OPERATOR = 'Equals';
 const { LEFT, RHS_PARAMS } = RULE_PROPERTY;
+const { IS_COLLECTION } = PARAM_PROPERTY;
 const mockAccountField = {
     "sobjectName":"Account",
     "dataType":"Number",
@@ -285,6 +293,46 @@ describe('Operator Rule Util', () => {
             expect(() => {
                 getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, elements[dateVariableGuid], ASSIGNMENT_OPERATOR, 42, ASSIGNMENT);
             }).toThrow();
+        });
+    });
+
+    describe('isCollectionRequired', () => {
+        it('returns true when given no dataType', () => {
+            const isRequired = isCollectionRequired({});
+            expect(isRequired).toEqual(true);
+        });
+
+        it('returns true when there is no param for the given dataType', () => {
+            const isRequired = isCollectionRequired({}, 'fooDataType');
+            expect(isRequired).toEqual(true);
+        });
+
+        it('returns false when there is a param where literals are allowed', () => {
+            const mockDataType = 'fooDataType';
+            const mockParam = { IS_COLLECTION: false };
+            const mockAllowedParams = {
+                [mockDataType]: [
+                    mockParam,
+                ],
+            };
+
+            const isRequired = isCollectionRequired(mockAllowedParams, mockDataType);
+            expect(isRequired).toEqual(false);
+        });
+
+        it('returns true when all params require a collection', () => {
+            const mockDataType = 'fooDataType';
+            const mockParamOne = { [IS_COLLECTION]: true };
+            const mockParamTwo = { [IS_COLLECTION]: true };
+            const mockAllowedParams = {
+                [mockDataType]: [
+                    mockParamOne,
+                    mockParamTwo,
+                ],
+            };
+
+            const isRequired = isCollectionRequired(mockAllowedParams, mockDataType);
+            expect(isRequired).toEqual(true);
         });
     });
 });
