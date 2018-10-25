@@ -1,13 +1,17 @@
 <aura:component>
+    <!-- notify to close the panel -->
+    <aura:registerEvent name="notify" type="ui:notify" />
     <!-- callback to update-->
     <aura:attribute name="nodeUpdate" type="Object" description="callback function run on node update"/>
     <aura:attribute name="newResourceCallback" type="Object" description="new resource callback for inline resource creation"/>
     <aura:attribute name="bodyComponent" type="Object" description="contains descriptor and attributes for inner component"/>
+    <aura:attribute type="Object" name="panelInstance" description="set after panel creation" />
+    <aura:attribute type="Object" name="closeActionCallback" description="set after panel creation" />
     <!-- Handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <!-- Body -->
     
-    <div id="modal-content-id" aura:id="body-content" onaddnewresource="{!c.handleAddNewResource}">
+    <div id="modal-content-id" aura:id="body-content" onaddnewresource="{!c.handleAddNewResource}" onclosepropertyeditor="{!c.handleClose}">
         {!v.body}
     </div>
 </aura:component>

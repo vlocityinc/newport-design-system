@@ -19,5 +19,15 @@
         if (newResourceCallback && typeof newResourceCallback === 'function') {
             newResourceCallback();
         }
+    },
+    
+    closePanel: function(cmp) {
+        var closeActionCallback = cmp.get('v.closeActionCallback');
+        var panelInstance = cmp.get('v.panelInstance');
+        cmp.getEvent('notify').setParams({
+            action: 'closePanel',
+            typeOf: 'ui:closePanel',
+            callback: closeActionCallback(panelInstance)
+        }).fire();
     }
 })

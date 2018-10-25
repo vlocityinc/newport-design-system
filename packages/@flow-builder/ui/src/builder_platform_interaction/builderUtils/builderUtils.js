@@ -291,6 +291,9 @@ const doInvoke = (cmpName, attr, panelConfig) => {
                 const panelFooter = panel.get('v.footer')[0];
                 panelFooter.set('v.panelInstance', panel);
                 panelFooter.set('v.closeActionCallback', closeActionCallback);
+                const panelBody = panel.get('v.body')[0];
+                panelBody.set('v.panelInstance', panel);
+                panelBody.set('v.closeActionCallback', closeActionCallback);
             }
         };
         dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
