@@ -6,7 +6,8 @@
             onclick={handleClick}
             role="tab"
             tabindex="0"
-            aria-selected={ariaSelected}>
+            aria-selected={ariaSelected}
+            ondragstart={handleDragStart}>
             <builder_platform_interaction-draggable if:true={isDraggable} index={navItemId}  class="slds-grid slds-size_1-of-1">
                 <template if:true={hasFrontIcon}>
                     <slot name="front-icon">

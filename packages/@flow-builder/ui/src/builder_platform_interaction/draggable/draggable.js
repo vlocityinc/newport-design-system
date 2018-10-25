@@ -6,6 +6,7 @@ import {
 export default class Draggable extends LightningElement {
     @api index;
 
+    @api
     handleDragStart(event) {
         // Cannot use a different attribute here because only 'text' works in IE
         event.dataTransfer.setData('text', this.index);

@@ -26,6 +26,13 @@ export default class ReorderableVerticalNavigationItem extends LightningElement 
         return this.isActive() ? CLASS_ACTIVE : CLASS_INACTIVE;
     }
 
+    // In FireFox the dragstart happens only for the anchor element;
+    // we need to specifically call the handler from the draggable element
+    handleDragStart(event) {
+        const draggableElement = this.template.querySelector('builder_platform_interaction-draggable');
+        draggableElement.handleDragStart(event);
+    }
+
     handleClick(event) {
         event.preventDefault();
 
