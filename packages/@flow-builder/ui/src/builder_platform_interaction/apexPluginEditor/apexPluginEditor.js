@@ -4,7 +4,7 @@ import { LABELS } from "./apexPluginEditorLabels";
 import { format } from "builder_platform_interaction/commonUtils";
 import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { apexPluginReducer } from './apexPluginReducer';
-import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
+import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS, getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 
 export default class ApexPluginEditor extends LightningElement {
@@ -88,6 +88,7 @@ export default class ApexPluginEditor extends LightningElement {
             sortOutputs: true,
             inputs: this.apexPluginNode.inputParameters,
             outputs: this.apexPluginNode.outputParameters,
+            warnings: getParameterListWarnings(this.apexPluginNode.inputParameters, this.apexPluginNode.outputParameters, this.labels),
         };
     }
 

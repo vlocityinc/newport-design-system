@@ -53,15 +53,16 @@ function getAsMap(actionParameters, nodeParameters) {
 /**
 * @param {ActionOrApexPluginInputOutputParameter[]} inputOrOutputParameters - all input parameters or all output parameters
 * @param {CalloutInputParameter[]|CalloutOutputParameter[]} nodeParameters - node's input parameters or node's output parameters
+* @param {Boolean} isInput true if merging input parameters
 * @return {ParameterItemWithWarnings[]} an array of ParameterItemWithWarnings
 */
-function mergeParameters(inputOrOutputParameters, nodeParameters) {
+function mergeParameters(inputOrOutputParameters, nodeParameters, isInput) {
     const finalArray = [];
     const allParameters = getAsMap(inputOrOutputParameters, nodeParameters);
     for (const [name, { parameter, paramAssigments }] of Object.entries(allParameters)) {
-        let parameterItem = {name};
+        let parameterItem = {name, isInput};
         if (parameter) {
-            const {isInput, isRequired, maxOccurs, dataType, label, sobjectType} = parameter;
+            const {isRequired, maxOccurs, dataType, label, sobjectType} = parameter;
             parameterItem = {name, isInput, isRequired, maxOccurs, label, dataType: getFlowDataType(dataType), objectType: sobjectType};
         }
         if (paramAssigments.length > 0) {
@@ -100,11 +101,7 @@ export function mergeInputOutputParameters(allParameters, nodeInputParameters, n
     const newParameters = {};
     newParameters.inputs = allParameters.filter(parameter => parameter.isInput === true);
     newParameters.outputs = allParameters.filter(parameter => parameter.isInput === false);
-    if (nodeInputParameters) {
-       newParameters.inputs = mergeParameters(newParameters.inputs, nodeInputParameters);
-    }
-    if (nodeOutputParameters) {
-       newParameters.outputs = mergeParameters(newParameters.outputs, nodeOutputParameters);
-    }
+    newParameters.inputs = mergeParameters(newParameters.inputs, nodeInputParameters, true);
+    newParameters.outputs = mergeParameters(newParameters.outputs, nodeOutputParameters, false);
    return newParameters;
 }

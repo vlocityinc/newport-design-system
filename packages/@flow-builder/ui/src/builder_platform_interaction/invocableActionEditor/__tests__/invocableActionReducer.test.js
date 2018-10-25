@@ -1,9 +1,11 @@
 import { invocableActionReducer } from "../invocableActionReducer";
-import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
+import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS, MERGE_WARNING_TYPE } from 'builder_platform_interaction/calloutEditorLib';
 import { mockActionParameters } from "mock/calloutData";
 import {
-    UpdateParameterItemEvent,
+    UpdateParameterItemEvent, DeleteParameterItemEvent
 } from "builder_platform_interaction/events";
+
+const getParameterItemsWithName = (parameterItems, name) => parameterItems.filter(parameterItem => parameterItem.name === name);
 
 describe('invocable-action-reducer', () => {
     let originalState;
@@ -27,7 +29,7 @@ describe('invocable-action-reducer', () => {
                       error: null
                     },
                     value: {
-                      value: 'textVar',
+                      value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
                       error: null
                     },
                     valueDataType: 'reference',
@@ -53,10 +55,22 @@ describe('invocable-action-reducer', () => {
                         error: null
                         },
                     value: {
-                        value: 'textVar',
+                        value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
                         error: null
                     },
                     valueDataType: 'reference',
+                },
+                {
+                    rowIndex: '78g56g57-7843-783b-78h5-785hk64g90g4',
+                    name: {
+                        value: 'feedItemId',
+                        error: null
+                        },
+                    value: {
+                        value: 'My feed Id',
+                        error: null
+                    },
+                    valueDataType: 'String',
                 }
             ]
         };
@@ -72,10 +86,10 @@ describe('invocable-action-reducer', () => {
                 newState = invocableActionReducer(originalState, event);
         });
         it('should merge input parameters', () => {
-            expect(newState.inputParameters).toHaveLength(mockActionParameters.filter(parameter => parameter.isInput === true).length);
+            expect(newState.inputParameters).toHaveLength(5);
         });
         it('should merge output parameters', () => {
-            expect(newState.outputParameters).toHaveLength(mockActionParameters.filter(parameter => parameter.isOutput === true).length);
+            expect(newState.outputParameters).toHaveLength(2);
         });
     });
 
@@ -132,8 +146,37 @@ describe('invocable-action-reducer', () => {
                 }
             };
             const newState = invocableActionReducer(originalState, event);
-            expect(newState.outputParameters).toHaveLength(1);
+            expect(newState.outputParameters).toHaveLength(2);
             expect(newState.outputParameters[0].value.value).toEqual('feedItemVar');
+        });
+    });
+
+    describe('delete parameter', () => {
+        let newState, event;
+        beforeEach(() => {
+            // first, merge parameters
+            event = {
+                    type: MERGE_WITH_PARAMETERS,
+                    detail: mockActionParameters
+                };
+            newState = invocableActionReducer(originalState, event);
+        });
+        it('deletes the duplicate parameter', () => {
+            event = new DeleteParameterItemEvent(false, '78g56g57-7843-783b-78h5-785hk64g90g4', 'feedItemId');
+            newState = invocableActionReducer(originalState, event);
+            expect(newState.outputParameters).toHaveLength(1);
+            expect(newState.outputParameters[0].value.value).toEqual('578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f');
+        });
+        it('removes duplicate warning if there is no more duplicate', () => {
+            let duplicateOutputParameters = getParameterItemsWithName(newState.outputParameters, 'feedItemId');
+            expect(duplicateOutputParameters[0].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+            expect(duplicateOutputParameters[1].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+            const rowIndex = duplicateOutputParameters[1].rowIndex;
+            event = new DeleteParameterItemEvent(false, rowIndex, 'feedItemId');
+            newState = invocableActionReducer(newState, event);
+            duplicateOutputParameters = getParameterItemsWithName(newState.outputParameters, 'feedItemId');
+            expect(duplicateOutputParameters).toHaveLength(1);
+            expect(duplicateOutputParameters[0].warnings).toEqual([]);
         });
     });
 
@@ -170,7 +213,7 @@ describe('invocable-action-reducer', () => {
             };
             const newState = invocableActionReducer(originalState, event);
             expect(newState).not.toBe(originalState);
-            expect(newState.outputParameters).toHaveLength(1);
+            expect(newState.outputParameters).toHaveLength(2);
             expect(newState.outputParameters[0].value.value).toEqual('invalid value');
             expect(newState.outputParameters[0].value.error).toEqual('Entered an invalid value');
         });

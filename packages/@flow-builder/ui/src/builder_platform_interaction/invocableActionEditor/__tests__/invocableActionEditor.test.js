@@ -22,7 +22,7 @@ const defaultNode = {
                   error: null
                 },
                 value: {
-                  value: 'textVar',
+                  value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
                   error: null
                 },
                 valueDataType: 'reference',
@@ -48,7 +48,7 @@ const defaultNode = {
                   error: null
                 },
                 value: {
-                  value: 'textVar',
+                  value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
                   error: null
                 },
                 valueDataType: 'reference',

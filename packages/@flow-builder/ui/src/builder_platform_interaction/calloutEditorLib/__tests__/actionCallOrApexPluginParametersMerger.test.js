@@ -217,7 +217,7 @@ describe('ActionCall/ApexPlugin parameters merge', () => {
     describe('When there is duplicate parameter', () => {
         let mergedParameters;
         beforeEach(() => {
-            mergedParameters = mergeInputOutputParameters(mockActionParameters, null, duplicatedOutputParameters);
+            mergedParameters = mergeInputOutputParameters(mockActionParameters, [], duplicatedOutputParameters);
         });
         it('merges duplicated output parameters', () => {
             expect(mergedParameters.outputs).toEqual(duplicatedMergedOutputs);
@@ -230,7 +230,7 @@ describe('ActionCall/ApexPlugin parameters merge', () => {
     describe('When there is no parameter in an action or apex plugin', () => {
         let notAvailabelParameterItem;
         beforeEach(() => {
-            const mergedParameters = mergeInputOutputParameters(mockActionParameters, notAvailableParameter, null);
+            const mergedParameters = mergeInputOutputParameters(mockActionParameters, notAvailableParameter, []);
             notAvailabelParameterItem = getParameterItem(mergedParameters.inputs, 'notAvailableParameter');
         });
         it('should have notAvailableParameter item', () => {

@@ -1,9 +1,11 @@
 import { apexPluginReducer } from '../apexPluginReducer';
-import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
+import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS, MERGE_WARNING_TYPE } from 'builder_platform_interaction/calloutEditorLib';
 import { mockApexPluginParameters } from 'mock/calloutData';
 import {
-    UpdateParameterItemEvent,
+    UpdateParameterItemEvent, DeleteParameterItemEvent
 } from "builder_platform_interaction/events";
+
+const getParameterItemsWithName = (parameterItems, name) => parameterItems.filter(parameterItem => parameterItem.name === name);
 
 describe('apex-plugin-reducer', () => {
     let originalState;
@@ -56,6 +58,18 @@ describe('apex-plugin-reducer', () => {
                         error: null
                     },
                     valueDataType: 'reference',
+                },
+                {
+                    rowIndex: '36h89634-h4k5-4698-0k78-2867b56d4j4d',
+                    name: {
+                        value: 'AccountId',
+                        error: null
+                        },
+                    value: {
+                        value: 'My account Id',
+                        error: null
+                    },
+                    valueDataType: 'String',
                 }
             ]
         };
@@ -71,10 +85,10 @@ describe('apex-plugin-reducer', () => {
                 newState = apexPluginReducer(originalState, event);
         });
         it('should merge input parameters', () => {
-            expect(newState.inputParameters).toHaveLength(mockApexPluginParameters.filter(parameter => parameter.isInput === true).length);
+            expect(newState.inputParameters).toHaveLength(4);
         });
         it('should merge output parameters', () => {
-            expect(newState.outputParameters).toHaveLength(mockApexPluginParameters.filter(parameter => parameter.isOutput === true).length);
+            expect(newState.outputParameters).toHaveLength(3);
         });
     });
 
@@ -131,8 +145,37 @@ describe('apex-plugin-reducer', () => {
                 }
             };
             const newState = apexPluginReducer(originalState, event);
-            expect(newState.outputParameters).toHaveLength(1);
+            expect(newState.outputParameters).toHaveLength(2);
             expect(newState.outputParameters[0].value.value).toEqual('accountIdVar');
+        });
+    });
+
+    describe('delete parameter', () => {
+        let newState, event;
+        beforeEach(() => {
+            // first, merge parameters
+            event = {
+                    type: MERGE_WITH_PARAMETERS,
+                    detail: mockApexPluginParameters
+                };
+            newState = apexPluginReducer(originalState, event);
+        });
+        it('deletes the duplicate parameter', () => {
+            event = new DeleteParameterItemEvent(false, '36h89634-h4k5-4698-0k78-2867b56d4j4d', 'AccountId');
+            newState = apexPluginReducer(originalState, event);
+            expect(newState.outputParameters).toHaveLength(1);
+            expect(newState.outputParameters[0].value.value).toEqual('578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f');
+        });
+        it('removes duplicate warning if there is no more duplicate', () => {
+            let duplicateOutputParameters = getParameterItemsWithName(newState.outputParameters, 'AccountId');
+            expect(duplicateOutputParameters[0].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+            expect(duplicateOutputParameters[1].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+            const rowIndex = duplicateOutputParameters[1].rowIndex;
+            event = new DeleteParameterItemEvent(false, rowIndex, 'AccountId');
+            newState = apexPluginReducer(newState, event);
+            duplicateOutputParameters = getParameterItemsWithName(newState.outputParameters, 'AccountId');
+            expect(duplicateOutputParameters).toHaveLength(1);
+            expect(duplicateOutputParameters[0].warnings).toEqual([]);
         });
     });
 
@@ -169,7 +212,7 @@ describe('apex-plugin-reducer', () => {
             };
             const newState = apexPluginReducer(originalState, event);
             expect(newState).not.toBe(originalState);
-            expect(newState.outputParameters).toHaveLength(1);
+            expect(newState.outputParameters).toHaveLength(2);
             expect(newState.outputParameters[0].value.value).toEqual('invalid value');
             expect(newState.outputParameters[0].value.error).toEqual('Entered an invalid value');
         });

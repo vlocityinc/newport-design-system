@@ -1,8 +1,8 @@
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { invocableActionValidation } from "./invocableActionValidation";
-import { UpdateParameterItemEvent, PropertyChangedEvent } from "builder_platform_interaction/events";
-import { updateParameterItem, mergeWithInputOutputParameters, removeUnsetParameters,
+import { UpdateParameterItemEvent, PropertyChangedEvent, DeleteParameterItemEvent } from "builder_platform_interaction/events";
+import { updateParameterItem, mergeWithInputOutputParameters, removeUnsetParameters, deleteParameterItem,
     MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
 
 const invocableActionPropertyChanged = (state, event) => {
@@ -22,6 +22,8 @@ export const invocableActionReducer = (state, event) => {
             return invocableActionPropertyChanged(state, event);
         case UpdateParameterItemEvent.EVENT_NAME:
             return updateParameterItem(state, event.detail);
+        case DeleteParameterItemEvent.EVENT_NAME:
+            return deleteParameterItem(state, event.detail);
         case MERGE_WITH_PARAMETERS:
             return mergeWithInputOutputParameters(state, event.detail);
         case REMOVE_UNSET_PARAMETERS:
