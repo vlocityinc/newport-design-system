@@ -53,7 +53,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
     set expression(expression) {
         this.state.expression = expression;
-        this.populateLhsState(expression[LHS]);
+        this.populateLhsState();
         populateRhsState(expression,
             (values) => {
                 this.state.rhsDescribe = values;
@@ -62,12 +62,25 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     }
 
     @api
-    containerElement;
+    get containerElement() {
+        return this._containerElement;
+    }
+
+    set containerElement(element) {
+        this._containerElement = element;
+        this.populateLhsState();
+    }
 
     @api
     rules;
 
-    populateLhsState(lhs) {
+    _containerElement;
+
+    populateLhsState() {
+        if (!this.state.expression || !this.containerElement) {
+            return;
+        }
+        const lhs = this.state.expression[LHS];
         this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.NOT_FIELD;
 
         this.state.lhsDescribe = {

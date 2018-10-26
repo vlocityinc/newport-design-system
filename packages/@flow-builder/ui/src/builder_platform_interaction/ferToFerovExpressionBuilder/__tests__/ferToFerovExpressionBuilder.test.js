@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 // Importing using relative path here to ensure that we get the actual component and not the mocked version
 import FerToFerovExpressionBuilder from "../ferToFerovExpressionBuilder.js";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { numberVariableGuid, accountSObjectVariableGuid, accountSObjectVariableDevName, elements } from "mock/storeData";
 import { elementToParam, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
 import { mutateFlowResourceToComboboxShape, mutateFieldToComboboxShape, EXPRESSION_PROPERTY_TYPE, LHS_DISPLAY_OPTION, } from "builder_platform_interaction/expressionUtils";
@@ -103,6 +104,8 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         populateLhsStateForField: require.requireActual('builder_platform_interaction/expressionUtils').populateLhsStateForField,
         populateRhsState: require.requireActual('builder_platform_interaction/expressionUtils').populateRhsState,
         getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
+        getStoreElements: jest.fn(),
+        filterAndMutateMenuData: jest.fn(),
     };
 });
 
@@ -128,6 +131,7 @@ describe('fer-to-ferov-expression-builder', () => {
         for (let i = 0; i < 3; i++) {
             it(`has the ${labels[i]} defined`, () => {
                 const expressionBuilder = createComponentForTest({
+                    containerElement: ELEMENT_TYPE.ASSIGNMENT,
                     lhsLabel: "LHS",
                     operatorLabel: "operator",
                     rhsLabel: "RHS",
@@ -141,6 +145,7 @@ describe('fer-to-ferov-expression-builder', () => {
         for (let i = 0; i < 3; i++) {
             it(`has the ${placeholders[i]} defined`, () => {
                 const expressionBuilder = createComponentForTest({
+                    containerElement: ELEMENT_TYPE.ASSIGNMENT,
                     lhsPlaceholder: "LHS",
                     operatorPlaceholder: "operator",
                     rhsPlaceholder: "RHS",
@@ -153,6 +158,7 @@ describe('fer-to-ferov-expression-builder', () => {
     describe('parsing LHS', () => {
         it('should handle FER on LHS', () => {
             const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: createMockPopulatedExpression(),
             });
             const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
@@ -166,6 +172,7 @@ describe('fer-to-ferov-expression-builder', () => {
         });
         it('should handle field on sobject var on LHS', () => {
             const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: createMockPopulatedFieldExpression(),
             });
             return Promise.resolve().then(() => {
@@ -179,6 +186,7 @@ describe('fer-to-ferov-expression-builder', () => {
         });
         it('should pass plain lhs value if there is an error', () => {
             const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
                         value: INVALID_VALUE,
@@ -206,6 +214,7 @@ describe('fer-to-ferov-expression-builder', () => {
         });
         it('should pass plain lhs value if invalid but there is no error', () => {
             const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
                         value: INVALID_VALUE,
@@ -235,6 +244,7 @@ describe('fer-to-ferov-expression-builder', () => {
     describe('parsing RHS', () => {
         it('should handle FER on RHS', () => {
             const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: createMockPopulatedExpression(),
             });
             const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
@@ -246,6 +256,7 @@ describe('fer-to-ferov-expression-builder', () => {
         });
         it('should handle field on sobject var on RHS', () => {
             const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: createMockPopulatedFieldExpression(),
             });
             return Promise.resolve().then(() => {
@@ -257,6 +268,7 @@ describe('fer-to-ferov-expression-builder', () => {
         });
         it('should handle Global Constant on RHS', () => {
             const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
                         value: accountSObjectVariableGuid + '.' + picklistField,
@@ -287,6 +299,7 @@ describe('fer-to-ferov-expression-builder', () => {
         it('should handle literal on RHS', () => {
             const literal = 'abc';
             const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
                         value: accountSObjectVariableGuid + '.' + picklistField,
