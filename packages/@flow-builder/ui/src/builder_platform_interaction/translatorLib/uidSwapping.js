@@ -133,14 +133,13 @@ export const recursiveSwap = (object, swapFunction) => {
  */
 export const swapSingleExpression = (expression, mapping) => {
     const parts = splitStringByPeriod(expression);
-    if (mapping[parts[0]]) {
-        parts[0] = mapping[parts[0]];
+    // TODO: Clean up this part: W-5535097
+    const lowerCaseFirstPart = parts[0].toLowerCase();
+    if (mapping[lowerCaseFirstPart]) {
+        parts[0] = mapping[lowerCaseFirstPart];
         return parts.join('.');
     }
 
-    if (mapping[expression]) {
-        return mapping[expression];
-    }
     return expression;
 };
 
@@ -209,7 +208,8 @@ export const swapDevNamesToGuids = (elementUidMap, flow) => {
     const nameToUid = {};
     for (let i = 0; i < elementGuids.length; i++) {
         const element = elementUidMap[elementGuids[i]];
-        nameToUid[element.name] = element.guid;
+        const devname = element.name.toLowerCase();
+        nameToUid[devname] = element.guid;
     }
     swapDevNamesToUids(nameToUid, flow);
 };

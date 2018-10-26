@@ -3,7 +3,7 @@ import { swapUidsForDevNames, swapDevNamesToUids, swapSingleExpression, swapValu
 const elementUidMap = {'before':{name:'after'}, 'pre':{name:'post'}};
 const guidMapping = {'before':'after', 'pre':'post'};
 
-const nameToUidMapping = {'BEFORE':'AFTER', 'secondSwap':'secondSwapAfter'};
+const nameToUidMapping = {'before':'AFTER', 'secondswap':'secondSwapAfter'};
 
 describe('UID Swapper', () => {
     describe('Swaps single expressions', () => {
