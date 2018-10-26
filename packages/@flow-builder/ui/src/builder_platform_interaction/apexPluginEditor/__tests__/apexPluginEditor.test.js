@@ -104,7 +104,8 @@ describe('Apex Plugin editor', () => {
     it('should display a subtitle including the apex plugin name', async () => {
         apexPluginEditorCmp = createComponentUnderTest(defaultNode);
         baseCalloutEditorCmp = getBaseCalloutEditor(apexPluginEditorCmp);
-        await Promise.resolve();
+        await mockApexPluginsPromise;
+        await mockApexPluginParametersPromise;
         expect(baseCalloutEditorCmp.subtitle).toBe('FlowBuilderApexPluginEditor.subtitle(flow chat plugin)');
     });
     it('contains base callout editor', () => {
@@ -116,8 +117,9 @@ describe('Apex Plugin editor', () => {
         mockApexPluginsPromise = Promise.reject();
         apexPluginEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:false});
         baseCalloutEditorCmp = getBaseCalloutEditor(apexPluginEditorCmp);
-        await Promise.resolve();
-        expect(baseCalloutEditorCmp.subtitle).toBe('');
+        await mockApexPluginsPromise.catch(() => {
+            expect(baseCalloutEditorCmp.subtitle).toBe('');
+        });
     });
     describe('Edit existing apex plugin', () => {
         it('should dispatch a ClosePropertyEditorEvent if call to GET_APEX_PLUGIN_PARAMETERS failed', async () => {
@@ -125,9 +127,11 @@ describe('Apex Plugin editor', () => {
             apexPluginEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:false});
             const eventCallback = jest.fn();
             document.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
-            await Promise.resolve();
-            document.removeEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
-            expect(eventCallback).toHaveBeenCalled();
+            await mockApexPluginsPromise;
+            await mockApexPluginParametersPromise.catch(() => {
+                document.removeEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+                expect(eventCallback).toHaveBeenCalled();
+            });
         });
     });
     describe('New apex plugin node', () => {
@@ -136,9 +140,11 @@ describe('Apex Plugin editor', () => {
             apexPluginEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:true});
             const eventCallback = jest.fn();
             document.addEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
-            await Promise.resolve();
-            document.removeEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
-            expect(eventCallback).toHaveBeenCalled();
+            await mockApexPluginsPromise;
+            await mockApexPluginParametersPromise.catch(() => {
+                document.removeEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
+                expect(eventCallback).toHaveBeenCalled();
+            });
         });
     });
 });
