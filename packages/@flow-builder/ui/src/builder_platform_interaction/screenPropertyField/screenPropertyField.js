@@ -53,6 +53,8 @@ export default class ScreenPropertyField extends LightningElement {
         this._value = newValue;
         const input = this.input;
         if (input && input.setCustomValidity) {
+            // Set error to empty string to clear the error.
+            // See https://www.w3.org/TR/html50/forms.html#dom-cva-setcustomvalidity
             input.setCustomValidity(this.error || '');
         }
     }

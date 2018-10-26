@@ -97,7 +97,7 @@ export default class Combobox extends LightningElement {
      * @param {String} error the new error message
      */
     set errorMessage(error) {
-        if (error || error === null) {
+        if (error || error === null || error === '') {
             this.setErrorMessage(error);
         }
     }
