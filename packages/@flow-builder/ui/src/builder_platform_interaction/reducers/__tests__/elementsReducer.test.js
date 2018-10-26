@@ -220,7 +220,17 @@ describe('elements-reducer', () => {
                 label: 'origLabel',
                 connectorCount: 2,
                 maxConnections: 3,
-                outcomeReferences: [{outcomeReference: 'outcome1'}]
+                outcomeReferences: [{outcomeReference: 'outcome1'}],
+                availableConnections: [
+                    {
+                        childReference: 'a',
+                        type: 'DEFAULT'
+                    },
+                    {
+                        childReference: 'b',
+                        type: 'DEFAULT'
+                    },
+                ]
             };
 
             outcome = {
@@ -293,6 +303,36 @@ describe('elements-reducer', () => {
             expect(addedDecision.maxConnections).toEqual(2);
         });
 
+        it('shallow copies existing availableConnections to a new array', () => {
+            const updatedDecision = {
+                guid: 'decision1',
+                label: 'newLabel',
+                outcomeReferences: [
+                    {outcomeReference: 'outcome1'},
+                    {outcomeReference: 'outcome2'},
+                ],
+            };
+
+            const newOutcome = {
+                guid: 'outcome2',
+                label: 'outcome2Label'
+            };
+
+            const newState = elementReducer(originalState, {
+                type: MODIFY_DECISION_WITH_OUTCOMES,
+                payload: {
+                    decision: updatedDecision,
+                    outcomes: [newOutcome],
+                    deletedOutcomes: [],
+                }
+            });
+
+            const decisionAfterUpdate = newState[updatedDecision.guid];
+
+            expect(decisionAfterUpdate.availableConnections).toHaveLength(3);
+            expect(decisionAfterUpdate.availableConnections).not.toBe(decision.availableConnections);
+        });
+
         it('updates outcomes', () => {
             const updatedOutcome = {
                 guid: outcome.guid,
@@ -338,7 +378,11 @@ describe('elements-reducer', () => {
 
             expect(newOutcome).toEqual(outcome2);
             expect(newDecision.maxConnections).toEqual(3);
-            expect(newDecision.availableConnections).toEqual([{type: CONNECTOR_TYPE.REGULAR, childReference: newOutcome.guid}]);
+            expect(newDecision.availableConnections).toEqual([
+                decision.availableConnections[0],
+                decision.availableConnections[1],
+                {type: CONNECTOR_TYPE.REGULAR, childReference: newOutcome.guid},
+            ]);
         });
 
         describe('deleted outcomes', () => {
@@ -413,7 +457,17 @@ describe('elements-reducer', () => {
                 guid: 'waitGuid',
                 label: 'test wait element',
                 connectorCount: 3,
-                waitEventReferences: [{waitEventReference: 'waitEventReference1'}, {waitEventReference: 'waitEventReference2'}]
+                waitEventReferences: [{waitEventReference: 'waitEventReference1'}, {waitEventReference: 'waitEventReference2'}],
+                availableConnections: [
+                    {
+                        childReference: 'a',
+                        type: 'DEFAULT'
+                    },
+                    {
+                        childReference: 'b',
+                        type: 'DEFAULT'
+                    },
+                ]
             };
 
             event1 = {
@@ -431,6 +485,36 @@ describe('elements-reducer', () => {
                 [event1.guid]: event1,
                 [event2.guid]: event2
             };
+        });
+
+        it('shallow copies existing availableConnections to a new array', () => {
+            const updatedWait = {
+                guid: 'waitGuid',
+                label: 'newLabel',
+                waitEventReferences: [
+                    {waitEventReference: 'waitEventReference1'},
+                    {waitEventReference: 'waitEventReference2'},
+                ],
+            };
+
+            const newWaitEvent = {
+                guid: 'waitEvent3',
+                label: 'waitEvent3Label'
+            };
+
+            const newState = elementReducer(originalState, {
+                type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                payload: {
+                    wait: updatedWait,
+                    waitEvents: [newWaitEvent],
+                    deletedWaitEvents: [],
+                }
+            });
+
+            const waitAfterUpdate = newState[updatedWait.guid];
+
+            expect(waitAfterUpdate.availableConnections).toHaveLength(3);
+            expect(waitAfterUpdate.availableConnections).not.toBe(wait.availableConnections);
         });
 
         describe('deleted event', () => {

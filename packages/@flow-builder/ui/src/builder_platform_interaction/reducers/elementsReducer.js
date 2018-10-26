@@ -21,7 +21,7 @@ import {
     ADD_START_ELEMENT
 } from "builder_platform_interaction/actions";
 import {deepCopy} from "builder_platform_interaction/storeLib";
-import {updateProperties, omit, addItem} from "builder_platform_interaction/dataMutationLib";
+import {shallowCopyArray, updateProperties, omit, addItem} from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 
 /**
@@ -91,7 +91,10 @@ function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outc
         newState[outcome.guid] = updateProperties(newState[outcome.guid], outcome);
     }
 
-    const availableConnections = newState[decision.guid].availableConnections || [];
+    // TODO: available connections management should be moved to the elementFactory
+    // See: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000005XCn7IAG/view
+    const availableConnections = newState[decision.guid].availableConnections ?
+        shallowCopyArray(newState[decision.guid].availableConnections) : [];
 
     // Figure out what outcomes were newly added and add them to the list of available connections
     const currentDecision = state[decision.guid];
@@ -177,7 +180,10 @@ function _addOrUpdateWaitWithWaitEvents(state, wait, deletedWaitEvents, waitEven
         newState[waitEvent.guid] = updateProperties(newState[waitEvent.guid], waitEvent);
     }
 
-    const availableConnections = newState[wait.guid].availableConnections || [];
+    // TODO: available connections management should be moved to the elementFactory
+    // See: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000005XCn7IAG/view
+    const availableConnections = newState[wait.guid].availableConnections ?
+        shallowCopyArray(newState[wait.guid].availableConnections) : [];
 
     // Figure out what waitEvents were newly added and add them to the list of available connections
     const currentWait = state[wait.guid];
