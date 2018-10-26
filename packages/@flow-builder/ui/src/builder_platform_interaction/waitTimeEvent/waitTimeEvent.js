@@ -1,11 +1,11 @@
 import { LightningElement, api, track } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { ELEMENT_TYPE, WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, WAIT_TIME_EVENT_TYPE, WAIT_TIME_EVENT_PARAMETER_NAMES } from 'builder_platform_interaction/flowMetadata';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import {
-    PropertyChangedEvent,
     UpdateParameterItemEvent,
+    UpdateWaitEventEventTypeEvent,
 } from 'builder_platform_interaction/events';
 import { getFerovInfoFromComboboxItem } from 'builder_platform_interaction/expressionUtils';
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
@@ -28,16 +28,6 @@ const inputParameterArrayToMap = (parameters = []) => {
     });
 
     return parametersMap;
-};
-
-const PARAMETER_NAMES = {
-        ABSOLUTE_BASE_TIME: 'AlarmTime',
-        SALESFORCE_OBJECT: 'TimeTableColumnEnumOrId',
-        DIRECT_RECORD_BASE_TIME: 'TimeFieldColumnEnumOrId',
-        RECORD_ID: 'EntityObjectId',
-        EVENT_DELIVERY_STATUS: 'Status',
-        OFFSET_NUMBER: 'TimeOffset',
-        OFFSET_UNIT: 'TimeOffsetUnit'
 };
 
 export default class WaitTimeEvent extends LightningElement {
@@ -99,12 +89,12 @@ export default class WaitTimeEvent extends LightningElement {
      */
     set outputParameters(outputParameters = {}) {
         this._outputParameters = outputParameters;
-        const alarmTime = outputParameters[PARAMETER_NAMES.ABSOLUTE_BASE_TIME];
+        const alarmTime = outputParameters[WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME];
         this.outputResumeTime = Object.assign({},
             alarmTime,
             this.outputResumeTimeDefinition
         );
-        const status = outputParameters[PARAMETER_NAMES.EVENT_DELIVERY_STATUS];
+        const status = outputParameters[WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS];
         this.outputEventDeliveryStatus = Object.assign({},
             status,
             this.outputEventDeliveryStatusDefinition
@@ -129,6 +119,12 @@ export default class WaitTimeEvent extends LightningElement {
         return this._eventType;
     }
 
+    /**
+     * @type {String} guid of the parent wait element
+     */
+    @api
+    waitEventGuid;
+
     labels = LABELS;
 
     _outputParameters;
@@ -150,6 +146,7 @@ export default class WaitTimeEvent extends LightningElement {
 
     // TODO: W-5502328 we might be able to remove this once the translation work for outputParameters is done
     outputResumeTimeDefinition = {
+        name: WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME,
         rowIndex: 0,
         isInput: false,
         isRequired: false,
@@ -160,6 +157,7 @@ export default class WaitTimeEvent extends LightningElement {
 
     // TODO: W-5502328 we might be able to remove this once the translation work for outputParameters is done
     outputEventDeliveryStatusDefinition = {
+        name: WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS,
         rowIndex: 1,
         isInput: false,
         isRequired: false,
@@ -183,11 +181,11 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     get absoluteBaseTime() {
-        return this.getResumeTimeParameterValue(PARAMETER_NAMES.ABSOLUTE_BASE_TIME);
+        return this.getResumeTimeParameterValue(WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME);
     }
 
     get absoluteBaseTimeErrorMessage() {
-        return this.getResumeTimeParameterError(PARAMETER_NAMES.ABSOLUTE_BASE_TIME);
+        return this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME);
     }
 
     get absoluteBaseTimeComboboxConfig() {
@@ -215,33 +213,35 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     get offsetNumber() {
-        return this.getResumeTimeParameterValue(PARAMETER_NAMES.OFFSET_NUMBER);
+        return this.getResumeTimeParameterValue(WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER);
     }
 
     get offsetUnit() {
-        return this.getResumeTimeParameterValue(PARAMETER_NAMES.OFFSET_UNIT);
+        return this.getResumeTimeParameterValue(WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT);
     }
 
     get recordIdValue() {
-        return this.getResumeTimeParameterValue(PARAMETER_NAMES.RECORD_ID);
+        return this.getResumeTimeParameterValue(WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID);
     }
 
     get recordIdErrorMessage() {
-        return this.getResumeTimeParameterError(PARAMETER_NAMES.RECORD_ID);
+        return this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID);
     }
 
     get salesforceObjectValue() {
-        return this.getResumeTimeParameterValue(PARAMETER_NAMES.SALESFORCE_OBJECT);
+        return this.getResumeTimeParameterValue(WAIT_TIME_EVENT_PARAMETER_NAMES.SALESFORCE_OBJECT);
     }
 
     get directRecordBaseTime() {
-        return this.getResumeTimeParameterValue(PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME);
+        return this.getResumeTimeParameterValue(WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME);
     }
 
     handleEventTypeChange(event) {
         event.stopPropagation();
-        const propChangedEvent = new PropertyChangedEvent('eventType', event.detail.value, null);
-        this.dispatchEvent(propChangedEvent);
+
+        // fire update event type event
+        const updateWaitEventEventEvent = new UpdateWaitEventEventTypeEvent(event.detail.value, null, this.waitEventGuid);
+        this.dispatchEvent(updateWaitEventEventEvent);
     }
 
     handleFerovParameterChange(event, propertyName, literalDataType, isInput) {
@@ -271,22 +271,22 @@ export default class WaitTimeEvent extends LightningElement {
 
     handleRecordIdChanged(event) {
         event.stopPropagation();
-        this.handleFerovParameterChange(event, PARAMETER_NAMES.RECORD_ID, FLOW_DATA_TYPE.STRING.value, true);
+        this.handleFerovParameterChange(event, WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID, FLOW_DATA_TYPE.STRING.value, true);
     }
 
     handleAbsoluteBaseTimeChange(event) {
         event.stopPropagation();
-        this.handleFerovParameterChange(event, PARAMETER_NAMES.ABSOLUTE_BASE_TIME, FLOW_DATA_TYPE.DATE_TIME.value, true);
+        this.handleFerovParameterChange(event, WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME, FLOW_DATA_TYPE.DATE_TIME.value, true);
     }
 
     handleOffsetNumberChange(event) {
         event.stopPropagation();
-        this.handleLiteralParameterChange(event, PARAMETER_NAMES.OFFSET_NUMBER, FLOW_DATA_TYPE.NUMBER.value, true);
+        this.handleLiteralParameterChange(event, WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER, FLOW_DATA_TYPE.NUMBER.value, true);
     }
 
     handleOffsetUnitChange(event) {
         event.stopPropagation();
-        this.handleLiteralParameterChange(event, PARAMETER_NAMES.OFFSET_UNIT, FLOW_DATA_TYPE.STRING.value, true);
+        this.handleLiteralParameterChange(event, WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT, FLOW_DATA_TYPE.STRING.value, true);
     }
 
     handleSalesforceObjectFocusOut(event) {
@@ -295,7 +295,7 @@ export default class WaitTimeEvent extends LightningElement {
         const updateParameterItem = new UpdateParameterItemEvent(
             true,
             null,
-            PARAMETER_NAMES.SALESFORCE_OBJECT,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.SALESFORCE_OBJECT,
             event.target.value,
             FLOW_DATA_TYPE.STRING.value,
             error);
@@ -308,7 +308,7 @@ export default class WaitTimeEvent extends LightningElement {
         const updateParameterItem = new UpdateParameterItemEvent(
             true,
             null,
-            PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME,
             event.target.value,
             FLOW_DATA_TYPE.STRING.value,
             error);

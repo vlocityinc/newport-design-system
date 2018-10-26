@@ -12,6 +12,9 @@ import {
     createOutputParameter,
     createWaitEvent,
     createCondition,
+    createWaitEventInputParameters,
+    createWaitEventOutputParameters,
+    getParametersPropertyName,
 } from "builder_platform_interaction/elementFactory";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
@@ -28,7 +31,7 @@ import {
     WaitEventParameterChangedEvent,
     WaitEventAddParameterEvent,
     WaitEventDeleteParameterEvent,
-    WaitEventDeleteAllParametersEvent,
+    UpdateWaitEventEventTypeEvent,
 } from 'builder_platform_interaction/events';
 import {waitValidation} from './waitValidation';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
@@ -189,10 +192,6 @@ const waitEventPropertyChanged = (state, event) => {
     return updateProperties(state, { waitEvents });
 };
 
-const getParametersPropertyName = isInputParameter => {
-    return isInputParameter ? 'inputParameters' : 'outputParameters';
-};
-
 const updateWaitEventParameter = (state, event) => {
     verifyParentGuidIsSet(event);
     const updateParameter = parameters => {
@@ -296,6 +295,55 @@ const deleteAllWaitEventParameters = (state, event) => {
 };
 
 /**
+ * Updates the event type for a wait event and do the parameters cleanup and add parameters with empty values.
+ * The operations performed are
+ * 1. Verify parentGuid is set and do update only if the current and old eventType name is different
+ * 2. Update the eventType for the wait event (parentGuid)
+ * 3. Clear all the input and output parameters for the wait event
+ * 4. Add input and output parameters for the wait event with empty values
+ * @param {Object} state the entire wait state
+ * @param {Object} event the event with payload information
+ */
+const updateWaitEventEventType = (state, event) => {
+    verifyParentGuidIsSet(event);
+    const { value, oldValue, error } = event.detail;
+
+    // noop when old and new eventType is same and there is no error
+    if (!error && value === oldValue) {
+        return state;
+    }
+
+    // update wait event
+    const eventTypeUpdatedState = waitEventPropertyChanged(state, event);
+
+    // if there is error, do not clear the parameters
+    if (!isUndefinedOrNull(error)) {
+        return eventTypeUpdatedState;
+    }
+
+    // remove all the parameters for the wait event
+    const parametersRemovedState = deleteAllWaitEventParameters(eventTypeUpdatedState, event);
+
+    // initialize the input and output parameters for the new event type
+    const inputParameters = hydrateWithErrors(createWaitEventInputParameters(value));
+    const outputParameters = hydrateWithErrors(createWaitEventOutputParameters(value));
+
+    // update the state with new input parameters
+    const inputParamsAddedState = waitEventReducer(parametersRemovedState, event,
+        waitEventOperation(getParametersPropertyName(true), () => {
+            return inputParameters;
+        })
+    );
+
+    // update the state with new output parameters
+    return waitEventReducer(inputParamsAddedState, event,
+        waitEventOperation(getParametersPropertyName(false), () => {
+            return outputParameters;
+        })
+    );
+};
+
+/**
  * Wait reducer function runs validation rules and returns back the updated Wait element
  * @param {Object} state - element / Wait node
  * @param {Event} event - object containing type and payload
@@ -319,8 +367,8 @@ export const waitReducer = (state, event) => {
             return addWaitEventParameter(state, event);
         case WaitEventDeleteParameterEvent.EVENT_NAME:
             return deleteWaitEventParameter(state, event);
-        case WaitEventDeleteAllParametersEvent.EVENT_NAME:
-            return deleteAllWaitEventParameters(state, event);
+        case UpdateWaitEventEventTypeEvent.EVENT_NAME:
+            return updateWaitEventEventType(state, event);
         case VALIDATE_ALL:
             return waitValidation.validateAll(state);
         case PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT:

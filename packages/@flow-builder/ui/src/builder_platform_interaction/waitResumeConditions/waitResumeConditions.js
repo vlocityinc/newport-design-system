@@ -8,9 +8,10 @@ import {
     UpdateConditionEvent,
     WaitEventAddParameterEvent,
     WaitEventDeleteParameterEvent,
-    WaitEventDeleteAllParametersEvent,
-    WaitEventParameterChangedEvent
-} from "builder_platform_interaction/events";
+    WaitEventParameterChangedEvent,
+    UpdateWaitEventEventTypeEvent
+} from 'builder_platform_interaction/events';
+import { isWaitTimeEventType } from 'builder_platform_interaction/elementFactory';
 
 const resumeEventType = {
     timeEventType: 'TIME_EVENT_TYPE',
@@ -86,15 +87,16 @@ export default class WaitResumeConditions extends LightningElement {
         if (this.resumeEventType === resumeEventType.timeEventType) {
             // Set the default back to absolute time
             this._eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
+
+            // fire update event type event
+            const updateWaitEventEventEvent = new UpdateWaitEventEventTypeEvent(this._eventType, null, this.waitEventGuid);
+            this.dispatchEvent(updateWaitEventEventEvent);
         }
-        this.dispatchEvent(new WaitEventDeleteAllParametersEvent(
-            this.waitEventGuid,
-        ));
     }
 
     isTimeEvent(eventType) {
-        const value = getValueFromHydratedItem(eventType);
-        return Object.values(WAIT_TIME_EVENT_TYPE).includes(value);
+        const eventTypeValue = getValueFromHydratedItem(eventType);
+        return isWaitTimeEventType(eventTypeValue);
     }
 
     handlePlatformInputFilterEvent(event) {

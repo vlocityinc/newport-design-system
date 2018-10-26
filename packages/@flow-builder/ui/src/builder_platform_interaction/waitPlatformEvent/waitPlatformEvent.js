@@ -6,17 +6,13 @@ import { LABELS } from './waitPlatformEventLabels';
 import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { PropertyChangedEvent,
-         WaitEventDeleteParameterEvent,
-         WaitEventAddParameterEvent,
-         WaitEventPropertyChangedEvent } from 'builder_platform_interaction/events';
+import {
+    WaitEventPropertyChangedEvent,
+    UpdateWaitEventEventTypeEvent,
+} from 'builder_platform_interaction/events';
 import { getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
-
-// The property names in a wait event
-const WAIT_EVENT_FIELDS = {
-    EVENT_TYPE : 'eventType',
-};
+import { isWaitTimeEventType } from 'builder_platform_interaction/elementFactory';
 
 const OUTPUT_PARAMETER_DEFINITION = {
     label: LABELS.platformEventOutputLabel,
@@ -60,13 +56,17 @@ export default class WaitPlatformEvent extends LightningElement {
      * @type {String} event type of the platform event
      */
     set eventType(eventType) {
-        this._eventType = eventType;
-
         const eventTypeValue = getValueFromHydratedItem(eventType);
+        // To avoid setting the Time Event Types - AlarmEvent and DateRefAlarmEvent
+        if (isWaitTimeEventType(eventTypeValue)) {
+            return;
+        }
+
+        this._eventType = eventType;
         if (eventTypeValue && !getErrorFromHydratedItem(eventType)) {
             this._lastRecordedEventTypeValue = eventTypeValue;
-
             this.updateFilterFields(eventTypeValue);
+            this.updateOutputParameterItemEventType();
         }
     }
 
@@ -170,6 +170,15 @@ export default class WaitPlatformEvent extends LightningElement {
     }
 
     /**
+     * Update the event type name in output parameter item
+     */
+    updateOutputParameterItemEventType() {
+        Object.assign(this.outputParameterItem,
+            { objectType: this.eventTypeValue, name: this.eventTypeValue, }
+        );
+    }
+
+    /**
      * @returns {Object} config to pass to entity-resource-picker component
      */
     get eventTypeComboboxConfig() {
@@ -211,23 +220,17 @@ export default class WaitPlatformEvent extends LightningElement {
 
     handleEventTypeChanged(event) {
         event.stopPropagation();
-
         const itemOrDisplayText = getItemOrDisplayText(event);
         const value = itemOrDisplayText.value || itemOrDisplayText;
         const error = event.detail.error;
 
-        // fire the property change event to update event type and error
-        this.firePropertyChangedEvent(WAIT_EVENT_FIELDS.EVENT_TYPE, value, error);
+        // fire update event type event
+        const updateWaitEvenTypeEvent = new UpdateWaitEventEventTypeEvent(value, error, this.waitEventGuid, this._lastRecordedEventTypeValue);
+        this.dispatchEvent(updateWaitEvenTypeEvent);
+
 
         // if the event type is valid and there is no error then clear all input parameters
-        if (this._lastRecordedEventTypeValue && this._lastRecordedEventTypeValue !== value && !error) {
-            // clear all the input parameters
-            this.deleteAllFilterInputParameterItems();
-
-            // delete the old output parameter item and add the new one
-            this.fireWaitEventDeleteParameterEvent(this._lastRecordedEventTypeValue, this.waitEventGuid, false, null);
-            this.fireWaitEventAddParameterEvent(value, this.waitEventGuid, false, null);
-
+        if (this._lastRecordedEventTypeValue !== value && !error) {
             this._lastRecordedEventTypeValue = value;
         }
 
@@ -241,42 +244,5 @@ export default class WaitPlatformEvent extends LightningElement {
         const { propertyName, value, error, oldValue } = event.detail;
         const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(propertyName, value, error, this.waitEventGuid, oldValue);
         this.dispatchEvent(waitEventPropertyChangedEvent);
-    }
-
-    /** Helper Methods **/
-
-    /**
-     * Fire property changed event
-     */
-    firePropertyChangedEvent(propName, value, error) {
-        const propChangedEvent = new PropertyChangedEvent(propName, value, error);
-        this.dispatchEvent(propChangedEvent);
-    }
-
-    /**
-     * Fire wait event add parameter item event
-     */
-    fireWaitEventAddParameterEvent(name, pGuid, isInput, index) {
-        const addParamItemEvent = new WaitEventAddParameterEvent(name, pGuid, isInput, index);
-        this.dispatchEvent(addParamItemEvent);
-    }
-
-    /**
-     * Fire wait event delete parameter item event
-     */
-    fireWaitEventDeleteParameterEvent(name, pGuid, isInput, index) {
-        const deleteParamItemEvent = new WaitEventDeleteParameterEvent(name, pGuid, isInput, index);
-        this.dispatchEvent(deleteParamItemEvent);
-    }
-
-    /**
-     * Deletes all parameter items
-     */
-    deleteAllFilterInputParameterItems() {
-        // TODO: convert to a single event
-        // Counting backwards so we delete down towards index 0
-        for (let i = this.filterParameters.length - 1; i >= 0;  i--) {
-            this.fireWaitEventDeleteParameterEvent(null, this.waitEventGuid, true, i);
-        }
     }
 }

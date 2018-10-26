@@ -30,6 +30,7 @@
     </div>
     <div if:true={isTimeEventTypeSelected}>
         <builder_platform_interaction-wait-time-event
+            wait-event-guid={waitEventGuid}
             resume-time-parameters={resumeTimeParameters}
             output-parameters={outputParameters}
             event-type={eventType}>

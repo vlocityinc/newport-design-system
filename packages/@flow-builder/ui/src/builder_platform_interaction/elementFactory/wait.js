@@ -2,7 +2,9 @@ import {
     ELEMENT_TYPE,
     CONDITION_LOGIC,
     CONNECTOR_TYPE,
-    WAIT_TIME_EVENT_TYPE
+    WAIT_TIME_EVENT_TYPE,
+    WAIT_TIME_EVENT_FIELDS,
+    WAIT_EVENT_FIELDS,
 } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
@@ -15,8 +17,8 @@ import { createOutputParameter, createOutputParameterMetadataObject } from './ou
 import { createConnectorObjects } from './connector';
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject} from "./base/baseMetadata";
-import { LABELS } from "./elementFactoryLabels";
 import { isObject } from 'builder_platform_interaction/commonUtils';
+import { LABELS } from "./elementFactoryLabels";
 
 const elementType = ELEMENT_TYPE.WAIT;
 const getDefaultAvailableConnections = () => [
@@ -33,7 +35,24 @@ const getDefaultAvailableConnections = () => [
 const MAX_CONNECTIONS_DEFAULT = 2;
 
 /**
- * Turns an array of paramters into an object where each property contains one index of the array
+ * Whether the event type is one of the wait time event types (AlarmEvent or DateRefAlarmEvent)
+ * @param {String} eventTypeName event type name
+ * @returns {Boolean} true if event type is a wait time event type, false otherwise
+ */
+export const isWaitTimeEventType = eventTypeName => {
+    return Object.values(WAIT_TIME_EVENT_TYPE).includes(eventTypeName);
+};
+
+/**
+ * Returns the event parameter type field name. 'inputParameters' or 'outputParameters'
+ * @param {Boolean} isInputParameter whether input or output param, true for input.
+ */
+export const getParametersPropertyName = isInputParameter => {
+    return isInputParameter ? WAIT_EVENT_FIELDS.INPUT_PARAMETERS : WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS;
+};
+
+/**
+ * Turns an array of output parameters into an object where each property contains one index of the array
  * This also creates outputParameter for each param.
  * @param {Object[]} parameters list of parameters
  * @returns {Object} object where the key is the param name and the value is the parameter
@@ -56,6 +75,67 @@ const outputParameterMapToArray = (parameters) => {
         return createOutputParameterMetadataObject(parameters[paramName]);
     };
     return Object.keys(parameters).map(mapToArray);
+};
+
+/**
+ * For a given eventType return the additional parameters which are not in the existing parameters.
+ * @param {String} eventType The event type
+ * @param {Array} parameters The parameters array
+ * @param {Boolean} isInput whether the parameters are input or output. true for input, false otherwise.
+ */
+const getAdditionalParameters = (eventType, parameters, isInput = false) => {
+    const existingParameterNames = parameters.reduce((acc, param) => {
+        acc[param.name] = param.name;
+        return acc;
+    }, {});
+    const paramType = getParametersPropertyName(isInput);
+
+    // for wait time event type filter and return the additional params for both input and output params
+    if (isWaitTimeEventType(eventType)) {
+        return WAIT_TIME_EVENT_FIELDS[eventType][paramType]
+                                .filter(paramName => !existingParameterNames[paramName])
+                                .map(paramName => {
+                                    return { 'name' : paramName };
+                                });
+    // for platform event additional params needed only for output parameters, since input parameters is a condition list
+    // the eventType is the output parameter namefor platform event type
+    } else if (paramType === WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS && !existingParameterNames[eventType]) {
+        return [{ name: eventType }];
+    }
+    return [];
+};
+
+/**
+ * Creates all the input parameters for the event type. This includes the ones not in the metadata.
+ * The additional ones are added with empty values.
+ * @param {String} eventType The event type.
+ * @param {Array} inputParameters input parameters array
+ */
+export const createWaitEventInputParameters = (eventType, inputParameters = []) => {
+    const additionalInputParameters = getAdditionalParameters(eventType, inputParameters, true);
+    return [...inputParameters, ...additionalInputParameters].map((inputParameter) => {
+        return createInputParameter(inputParameter);
+    });
+};
+
+/**
+ * Creates all the output parameters for the event type. This includes the ones not in the metadata.
+ * The additional ones are added with empty values.
+ * @param {String} eventType The event type.
+ * @param {Array} outputParameters output parameters array
+ */
+export const createWaitEventOutputParameters = (eventType, outputParameters = []) => {
+    // if output parameters is empty object convert it to empty array
+    // so that additional empty parameters can be added to it
+    if (isObject(outputParameters) && Object.keys(outputParameters).length === 0) {
+        outputParameters = [];
+    }
+
+    if (Array.isArray(outputParameters)) {
+        const additionalOutputParameters = getAdditionalParameters(eventType, outputParameters);
+        return outputParameterArrayToMap([...outputParameters, ...additionalOutputParameters]);
+    }
+    return outputParameters;
 };
 
 /**
@@ -139,13 +219,8 @@ export function createWaitEvent(waitEvent = {}) {
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
 
-    inputParameters = inputParameters.map((inputParameter) => {
-        return createInputParameter(inputParameter);
-    });
-
-    if (Array.isArray(outputParameters)) {
-        outputParameters = outputParameterArrayToMap(outputParameters);
-    }
+    inputParameters = createWaitEventInputParameters(eventType, inputParameters);
+    outputParameters = createWaitEventOutputParameters(eventType, outputParameters);
 
     return Object.assign(newWaitEvent, {
         conditions,
@@ -193,7 +268,7 @@ export function createWaitMetadataObject(wait, config = {}) {
             });
 
             if (isObject(outputParameters)) {
-                outputParameters =  outputParameterMapToArray(inputParameters);
+                outputParameters =  outputParameterMapToArray(outputParameters);
             }
 
             return Object.assign({}, metadataWaitEvent, {

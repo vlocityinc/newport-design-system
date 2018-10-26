@@ -121,7 +121,7 @@ describe('waitResumeConditions', () => {
                         verifyResumeEventType(waitResumeConditions, true);
                         const waitTimeEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitTimeEvent);
                         expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
-                        // TODO W-5508504: Update this test to check that the event gets fired
+                        // TODO W-5502328: Update this test to check that the event gets fired
                         // expect(waitTimeEvent.resumeTimeParameters).toEqual([]);
                     });
                 });

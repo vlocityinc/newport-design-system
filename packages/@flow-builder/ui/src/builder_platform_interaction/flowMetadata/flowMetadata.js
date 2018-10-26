@@ -99,6 +99,13 @@ export const CONDITION_LOGIC = {
     NO_CONDITIONS: 'no_conditions'
 };
 
+// Property names in wait event
+export const WAIT_EVENT_FIELDS = {
+    EVENT_TYPE : 'eventType',
+    INPUT_PARAMETERS : 'inputParameters',
+    OUTPUT_PARAMETERS : 'outputParameters',
+};
+
 /**
  * The time event types of wait events. For time events, these can be either absolute (alarmEvent)
  * or direct record time (dateRefAlarmEvent)
@@ -107,6 +114,54 @@ export const CONDITION_LOGIC = {
 export const WAIT_TIME_EVENT_TYPE = {
     ABSOLUTE_TIME: 'AlarmEvent',
     DIRECT_RECORD_TIME: 'DateRefAlarmEvent'
+};
+
+/**
+ * All the input and output parameter names for various event types.
+ * Note: We might need additional parameters for standard event.
+ * TODO: W-5502328 once we fetch the event parameters from service we might not need it.
+ */
+export const WAIT_TIME_EVENT_PARAMETER_NAMES = {
+    ABSOLUTE_BASE_TIME: 'AlarmTime',
+    SALESFORCE_OBJECT: 'TimeTableColumnEnumOrId',
+    DIRECT_RECORD_BASE_TIME: 'TimeFieldColumnEnumOrId',
+    RECORD_ID: 'EntityObjectId',
+    EVENT_DELIVERY_STATUS: 'Status',
+    RESUME_TIME: 'AlarmTime',
+    OFFSET_NUMBER: 'TimeOffset',
+    OFFSET_UNIT: 'TimeOffsetUnit',
+};
+
+/**
+ * Map of input and output parameter names for an event type.
+ * Note: We might need additional info for standard event type.
+ * TODO: W-5502328 once we fetch the event parameters from service we might not need it.
+ */
+export const WAIT_TIME_EVENT_FIELDS = {
+    [WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME]: {
+        [WAIT_EVENT_FIELDS.INPUT_PARAMETERS]: [
+            WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT,
+        ],
+        [WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS]: [
+            WAIT_TIME_EVENT_PARAMETER_NAMES.RESUME_TIME,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS,
+        ],
+    },
+    [WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME]: {
+        [WAIT_EVENT_FIELDS.INPUT_PARAMETERS]: [
+            WAIT_TIME_EVENT_PARAMETER_NAMES.SALESFORCE_OBJECT,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT,
+        ],
+        [WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS]: [
+            WAIT_TIME_EVENT_PARAMETER_NAMES.RESUME_TIME,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS,
+        ],
+    },
 };
 
 /**
