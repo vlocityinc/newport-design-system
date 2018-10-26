@@ -49,8 +49,9 @@ export function createItem(item, level, posinset, setsize) {
  * @param {Object}
  *            section The lightning-tree-grid data
  * @param {Object}
- *            options Object with a map containing sections that should hide their
- *            children and a flag which tells us if we need to display counts
+ *            options Object with a map containing sections that should hide
+ *            their children and a flag which tells us if we need to display
+ *            counts
  * @param {number}
  *            level The tree depth of the given data
  * @param {number}
@@ -63,7 +64,8 @@ export function createSection(section, options, level, posinset, setsize) {
     let rows = [];
 
     const key = section.guid;
-    const expanded = !options.collapsedSections[key];
+    const id = section.label;
+    const expanded = !options.collapsedSections[id];
     const visibleItems = section._children.length;
 
     // TODO: Might not be good for i18n.
@@ -75,6 +77,7 @@ export function createSection(section, options, level, posinset, setsize) {
 
     const row = {
         isSection: true,
+        id,
         key,
         level,
         posinset,
@@ -100,8 +103,9 @@ export function createSection(section, options, level, posinset, setsize) {
  * @param {Array}
  *            data The lightning-tree-grid-data
  * @param {Object}
- *            options Object with a map containing sections that should hide their
- *            children and a flag which tells us if we need to display counts
+ *            options Object with a map containing sections that should hide
+ *            their children and a flag which tells us if we need to display
+ *            counts
  * @param {number}
  *            level The tree depth of the given data
  * @returns {Array} List of tree rows
@@ -129,8 +133,9 @@ export function createLevel(data, options, level) {
  * @param {Array}
  *            data The lightning-tree-grid data
  * @param {Object}
- *            options Object with a map containing sections that should hide their
- *            children and a flag which tells us if we need to display counts
+ *            options Object with a map containing sections that should hide
+ *            their children and a flag which tells us if we need to display
+ *            counts
  * @returns {Array} List of tree rows
  */
 export function flatten(data, options) {

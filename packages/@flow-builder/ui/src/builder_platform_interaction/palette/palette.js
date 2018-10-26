@@ -102,8 +102,8 @@ export default class Palette extends LightningElement {
      *            event A section toggle event
      */
     handleToggleSection(event) {
-        const key = event.currentTarget.dataset.key;
-        this.collapsedSections[key] = !this.collapsedSections[key];
+        const sectionId = event.currentTarget.dataset.id;
+        this.collapsedSections[sectionId] = !this.collapsedSections[sectionId];
         this.init();
     }
 

@@ -4,18 +4,18 @@ const ELEMENT_DATA = [
     // Example of a section with deeply nested items.
     {
         "guid": "myGuid1",
-        "label": "myLabel",
+        "label": "myLabel1",
         "_children": [
             {
                 "guid": "myGuid2",
-                "label": "myLabel",
+                "label": "myLabel2",
                 "_children": [
                     // Items with a description should have the description in
                     // the flattened version.
                     {
                         "elementType": "Variable",
                         "guid": "myGuid3",
-                        "label": "myLabel",
+                        "label": "myLabel3",
                         "description": "myDescription",
                         "iconName": "myIconName"
                     },
@@ -24,7 +24,7 @@ const ELEMENT_DATA = [
                     {
                         "elementType": "Variable",
                         "guid": "myGuid4",
-                        "label": "myLabel",
+                        "label": "myLabel4",
                         "iconName": "myIconName"
                     }
                 ]
@@ -34,18 +34,18 @@ const ELEMENT_DATA = [
     // Example of a section that is not deeply nested.
     {
         "guid": "myGuid5",
-        "label": "myLabel",
+        "label": "myLabel5",
         "_children": [
             {
                 "elementType": "Variable",
                 "guid": "myGuid6",
-                "label": "myLabel",
+                "label": "myLabel6",
                 "iconName": "myIconName"
             },
             {
                 "elementType": "Variable",
                 "guid": "myGuid7",
-                "label": "myLabel",
+                "label": "myLabel7",
                 "iconName": "myIconName"
             }
         ]
@@ -54,35 +54,37 @@ const ELEMENT_DATA = [
     {
         "elementType": "Variable",
         "guid": "leaf",
-        "label": "myLabel",
+        "label": "myLabel8",
         "iconName": "myIconName"
     }
 ];
 
 const COLLAPSED_SECTIONS = {
-    "myGuid5": true
+    "myLabel5": true
 };
 
 const ELEMENT_DATA_FLATTENED = [
     {
         "isSection": true,
+        "id": "myLabel1",
         "key": "myGuid1",
         "level": 1,
         "posinset": 1,
         "setsize": 3,
-        "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleCollapseText myLabel",
-        "label": "myLabel",
+        "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleCollapseText myLabel1",
+        "label": "myLabel1",
         "expanded": true,
         "visibleItems": 1
     },
     {
         "isSection": true,
+        "id": "myLabel2",
         "key": "myGuid2",
         "level": 2,
         "posinset": 1,
         "setsize": 1,
-        "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleCollapseText myLabel",
-        "label": "myLabel",
+        "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleCollapseText myLabel2",
+        "label": "myLabel2",
         "expanded": true,
         "visibleItems": 2
     },
@@ -92,7 +94,7 @@ const ELEMENT_DATA_FLATTENED = [
         "level": 3,
         "posinset": 1,
         "setsize": 2,
-        "label": "myLabel",
+        "label": "myLabel3",
         "description": "myDescription",
         "elementType": "Variable",
         "iconName": "myIconName"
@@ -103,19 +105,20 @@ const ELEMENT_DATA_FLATTENED = [
         "level": 3,
         "posinset": 2,
         "setsize": 2,
-        "label": "myLabel",
+        "label": "myLabel4",
         "description": "",
         "elementType": "Variable",
         "iconName": "myIconName"
     },
     {
         "isSection": true,
+        "id": "myLabel5",
         "key": "myGuid5",
         "level": 1,
         "posinset": 2,
         "setsize": 3,
-        "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleExpandText myLabel",
-        "label": "myLabel",
+        "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleExpandText myLabel5",
+        "label": "myLabel5",
         "expanded": false,
         "visibleItems": 2
     },
@@ -125,7 +128,7 @@ const ELEMENT_DATA_FLATTENED = [
         "level": 1,
         "posinset": 3,
         "setsize": 3,
-        "label": "myLabel",
+        "label": "myLabel8",
         "description": "",
         "elementType": "Variable",
         "iconName": "myIconName"
@@ -202,12 +205,13 @@ describe('palette-lib', () => {
             const expected = [
                 {
                     "isSection": true,
+                    "id": "myLabel5",
                     "key": "myGuid5",
                     "level": 1,
                     "posinset": 2,
                     "setsize": 3,
-                    "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleExpandText myLabel",
-                    "label": "myLabel (2)",
+                    "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleExpandText myLabel5",
+                    "label": "myLabel5 (2)",
                     "expanded": false,
                     "visibleItems": 2
                 }
@@ -221,12 +225,12 @@ describe('palette-lib', () => {
             const input = [
                 {
                     "guid": "myGuid5",
-                    "label": "myLabel",
+                    "label": "myLabel5",
                     "_children": [
                         {
                             "elementType": "Variable",
                             "guid": "myGuid6",
-                            "label": "myLabel",
+                            "label": "myLabel6",
                             "description": "myDescription",
                             "iconName": "myIconName"
                         }
@@ -236,12 +240,13 @@ describe('palette-lib', () => {
             const expected = [
                 {
                     "isSection": true,
+                    "id": "myLabel5",
                     "key": "myGuid5",
                     "level": 3,
                     "posinset": 1,
                     "setsize": 1,
-                    "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleCollapseText myLabel",
-                    "label": "myLabel",
+                    "toggleAlternativeText": "FlowBuilderLeftPanel.palleteSectionToggleCollapseText myLabel5",
+                    "label": "myLabel5",
                     "expanded": true,
                     "visibleItems": 1
                 },
@@ -251,7 +256,7 @@ describe('palette-lib', () => {
                     "level": 4,
                     "posinset": 1,
                     "setsize": 1,
-                    "label": "myLabel",
+                    "label": "myLabel6",
                     "description": "myDescription",
                     "elementType": "Variable",
                     "iconName": "myIconName"
