@@ -23,9 +23,10 @@
                     <template for:each={mergedField.outputParameters} for:item='param'>
                         <builder_platform_interaction-screen-property-field key={param.key} name={param.apiName} data-param-type='output'
                                                                             label={param.label} value={param.value}
-                                                                            type={param.dataType} allow-resources-for-parameter
-                                                                            resource-picker-config={param.resourcePickerConfig} hide-top-padding={param.isFirst}
-                                                                            onpropertychanged={handleOutputPropertyChanged}>
+                                                                            type={param.dataType} allow-resources-for-output
+                                                                            resource-picker-config={param.resourcePickerConfig} 
+                                                                            hide-top-padding={param.isFirst}
+                                                                            onpropertychanged={handleOutputPropertyChanged}>                                                                            
                         </builder_platform_interaction-screen-property-field>
                     </template>               
                 </lightning-accordion-section>

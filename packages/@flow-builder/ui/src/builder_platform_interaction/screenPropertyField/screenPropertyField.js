@@ -22,6 +22,8 @@ export default class ScreenPropertyField extends LightningElement {
     @api helpText;
     @api allowResourcesForParameter = false;
     @api allowResourcesForContext = false;
+    @api allowResourcesForOutput = false;
+
     @api resourcePickerConfig;
     @api disabled = false;
     @api listIndex;
@@ -94,20 +96,32 @@ export default class ScreenPropertyField extends LightningElement {
     }
 
     get elementParam() {
-        const param = {
-            dataType: getFlowDataTypeByName(this.type),
-            collection: this.resourcePickerConfig.collection
-        };
+        if (this.allowsResourcesForParameter) {
+            const param = {
+                dataType: getFlowDataTypeByName(this.type),
+                collection: this.resourcePickerConfig.collection
+            };
 
-        if (this.resourcePickerConfig.objectType) {
-            param.objectType = this.resourcePickerConfig.objectType;
+            if (this.resourcePickerConfig.objectType) {
+                param.objectType = this.resourcePickerConfig.objectType;
+            }
+
+            if (this.resourcePickerConfig.elementType) {
+                param.elementType = this.resourcePickerConfig.elementType; // isSObjectField
+            }
+
+            return param;
         }
 
-        if (this.resourcePickerConfig.elementType) {
-            param.elementType = this.resourcePickerConfig.elementType; // isSObjectField
-        }
+        return null;
+    }
 
-        return param;
+    get isFerov() {
+        return this.allowsResourcesForParameter || this.allowsResourcesForContext;
+    }
+
+    get allowsResources() {
+        return this.allowResourcesForContext || this.allowResourcesForParameter || this.allowResourcesForOutput;
     }
 
     get allowsResourcesForParameter() {
@@ -116,6 +130,10 @@ export default class ScreenPropertyField extends LightningElement {
 
     get allowsResourcesForContext() {
         return booleanAttributeValue(this, 'allowResourcesForContext');
+    }
+
+    get allowsResourcesForOutput() {
+        return booleanAttributeValue(this, 'allowResourcesForOutput');
     }
 
     get isRequired() {
@@ -147,7 +165,7 @@ export default class ScreenPropertyField extends LightningElement {
     }
 
     get isInput() {
-        return !this.allowsResourcesForContext && !this.allowResourcesForParameter && !this.isLongString && !this.isRichString && !this.isList;
+        return !this.allowsResources && !this.isLongString && !this.isRichString && !this.isList;
     }
 
     get isList() {
@@ -170,7 +188,7 @@ export default class ScreenPropertyField extends LightningElement {
 
     get domValue() {
         const input = this.input;
-        if (this.allowsResourcesForParameter || this.allowsResourcesForContext) {
+        if (this.allowsResourcesForParameter || this.allowsResourcesForContext || this.allowResourcesForOutput) {
             return input.value && input.value.hasOwnProperty('value') ? input.value.value : input.value;
         } else if (this.isLongString || this.isRichString) {
             return input.value.value;
@@ -200,6 +218,13 @@ export default class ScreenPropertyField extends LightningElement {
         }
 
         currentValue = this.value;
+
+        // This is here specifically for boolean values, we are getting an empty string
+        // from the dom and that doesn't work for booleans, feel free to add && this.isBoolean
+        // to the if test if this is causing issues with other data types
+        if (newValue === '') {
+            newValue = null;
+        }
 
         if (!this.isBoolean && !this.isList) {
             newValue = hydrateIfNecessary(newValue);

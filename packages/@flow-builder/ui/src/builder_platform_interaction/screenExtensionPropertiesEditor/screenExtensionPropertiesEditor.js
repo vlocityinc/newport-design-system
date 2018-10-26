@@ -72,6 +72,6 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         event.detail.propertyName = prefix + '.' + event.detail.propertyName;
         event.detail.valueDataType = param.dataType;
         event.detail.required = param.isRequired;
-        event.detail.oldValue = this.value;
+        event.detail.oldValue = param.value;
     }
 }

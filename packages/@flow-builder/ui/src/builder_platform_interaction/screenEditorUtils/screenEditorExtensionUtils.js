@@ -102,7 +102,10 @@ function mergeParameters(fieldParameters, descParameters, valuePropName, isInput
             key: (isInput ? 'input$$.' : 'output$$.') + fieldParam.apiName,
             resourcePickerConfig: {
                 allowLiterals: isInput,
-                collection: fieldParam.maxOccurs > 1
+                collection: fieldParam.maxOccurs > 1,
+                elementConfig: null,
+                hideGlobalConstants: !isInput,
+                showNewResource:false
             }
         };
 

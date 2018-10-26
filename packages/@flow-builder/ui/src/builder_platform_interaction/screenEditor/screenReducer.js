@@ -158,7 +158,7 @@ const processFerovValueChange = (valueField, currentFieldDataType, defaultValueD
  * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType}
  * @returns {screenfield} - The new screenfield after the change
  */
-const handleScreenFieldPropertyChange = (data) => {
+const handleStandardScreenFieldPropertyChange = (data) => {
     // Non-extension screen field change
 
     // Run validation
@@ -221,6 +221,8 @@ const handleExtensionFieldPropertyChange = (data) => {
     let field = data.field;
     const paramName = data.property.substring(prefix.length + 1); // + 1 to remove the dot
     let param = field[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
+
+    // Going from no value to having a value
     if (!param) {
         // Parameters that were never assigned a value are not present in the flow MD, let's create the param and add it
         param = {
@@ -245,16 +247,25 @@ const handleExtensionFieldPropertyChange = (data) => {
         data.newValue.error = error;
     }
 
+
     // Replace the property in the parameter
-    let newParam = updateProperties(param, {value: data.newValue});
-    const dataTypePropName = 'valueDataType';
-
-    newParam = processFerovValueChange(newParam, newParam[dataTypePropName], data.dataType,
-        newValue, data.newValueGuid, dataTypePropName);
-
-    // Replace the new parameter in the parameters array
+    let updatedParams = null;
     const index = field[parametersPropName].indexOf(param);
-    const updatedParams = replaceItem(field[parametersPropName], newParam, index);
+    if (!data.newValue.value && !data.newValue.error) {
+        // User cleared the value and we are fine with that, let's remove the parameter
+        updatedParams = deleteItem(field[parametersPropName], index);
+    } else {
+        // Replace the property in the parameter
+        let newParam = updateProperties(param, {value: data.newValue});
+        const dataTypePropName = 'valueDataType';
+
+        newParam = processFerovValueChange(newParam, newParam[dataTypePropName], data.dataType,
+                                           newValue, data.newValueGuid, dataTypePropName);
+
+        // Replace the new parameter in the parameters array
+        updatedParams = replaceItem(field[parametersPropName], newParam, index);
+    }
+
     // Replace the parameters in the field
     return set(field, parametersPropName, updatedParams);
 };
@@ -266,6 +277,34 @@ const updateFieldInScreen = (screen, field, newField) => {
 
     // Replace the fields in the screen
     return set(screen, 'fields', updatedItems);
+};
+
+/**
+ * Handles changes in properties in a screenfield.
+ * @param {object} screen - The screen or node
+ * @param {event} event - The property changed event
+ * @param {object} screenfield - The screenfield
+ * @returns {object} - A new screen/node with the changes applied
+ */
+const handleScreenFieldPropertyChange = (data, event, screenfield) => {
+    if (data.property === 'name' && data.error === null) {
+        data.error = screenValidation.validateFieldNameUniquenessLocally(screen, data.newValue.value, event.detail.guid);
+    }
+
+    // If the default value is being cleared out, the dataType associated with the new value should be set
+    // to undefined because we want to clear that property.
+    if (data.newValue.value === undefined || data.newValue.value === null || data.newValue.value === '') {
+        data.dataType = undefined;
+    }
+
+    let newField = null;
+    if (isExtensionField(screenfield) && data.property !== 'name') {
+        newField = handleExtensionFieldPropertyChange(data);
+    } else {
+        newField = handleStandardScreenFieldPropertyChange(data);
+    }
+
+    return updateFieldInScreen(screen, screenfield, newField);
 };
 
 /**
@@ -309,7 +348,14 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                     value.error = screenValidation.validateFieldNameUniquenessLocally(screen, value.value, screen.guid);
                 }
             }
+
             updatedNode = updateProperties(screen, {[property]: value});
+
+            if (property === 'allowPause' && !value && screen.pausedText.error) {
+                // Clear the the pausedText if allowPause is false and the pausedText has an error, if it doesn't we
+                // keep it until the user saves the flow in case he changes his mind
+                updatedNode = updateProperties(updatedNode, {pausedText: {value: null, error: null}});
+            }
         } else { // Screen field
             const data = {
                 field: selectedNode,
@@ -323,24 +369,7 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 required: event.detail.required
             };
 
-            if (data.property === 'name' && data.error === null) {
-                data.error = screenValidation.validateFieldNameUniquenessLocally(screen, data.newValue.value, event.detail.guid);
-            }
-
-            // If the default value is being cleared out, the dataType associated with the new value should be set
-            // to undefined because we want to clear that property.
-            if (data.newValue.value === undefined || data.newValue.value === null || data.newValue.value === '') {
-                data.dataType = undefined;
-            }
-
-            let newField = null;
-            if (isExtensionField(selectedNode) && property !== 'name') {
-                newField = handleExtensionFieldPropertyChange(data);
-            } else {
-                newField = handleScreenFieldPropertyChange(data, event);
-            }
-
-            updatedNode = updateFieldInScreen(screen, selectedNode, newField);
+            updatedNode = handleScreenFieldPropertyChange(data, event, selectedNode);
         }
     } else {
         // If nothing changed, return the screen, unchanged.

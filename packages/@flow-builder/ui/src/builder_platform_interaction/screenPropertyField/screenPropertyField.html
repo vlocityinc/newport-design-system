@@ -1,67 +1,71 @@
 <template>
     <div class={computedClass}>
-        <builder_platform_interaction-ferov-resource-picker if:true={allowsResourcesForParameter} class='property-input'
-                                                                                      combobox-config={resourceComboBoxConfig}
-                                                                                      value={propertyValue}
-                                                                                      element-param={elementParam}
-                                                                                      property-editor-element-type={propertyEditorElementType}
-                                                                                      rules={resourcePickerRules}
-                                                                                      enable-field-drilldown
-                                                                                      onitemselected={handleEvent}
-                                                                                      oncomboboxstatechanged={handleEvent}>
-        </builder_platform_interaction-ferov-resource-picker>
-
-        <builder_platform_interaction-ferov-resource-picker if:true={allowsResourcesForContext} class='property-input'
+        <builder_platform_interaction-ferov-resource-picker if:true={isFerov} 
+                                                            class='property-input'
                                                             combobox-config={resourceComboBoxConfig}
-                                                            value={propertyValue}
                                                             element-config={resourcePickerConfig.elementConfig}
+                                                            element-param={elementParam}
+                                                            enable-field-drilldown
                                                             hide-global-constants={resourcePickerConfig.hideGlobalConstants}
                                                             property-editor-element-type={propertyEditorElementType}
                                                             rules={resourcePickerRules}
-                                                            enable-field-drilldown
-                                                            onitemselected={handleEvent}
                                                             show-new-resource={resourcePickerConfig.showNewResource}
-                                                            oncomboboxstatechanged={handleEvent}>
+                                                            value={propertyValue}
+                                                            oncomboboxstatechanged={handleEvent}
+                                                            onitemselected={handleEvent}>
         </builder_platform_interaction-ferov-resource-picker>
 
-        <lightning-input if:true={isInput} class='property-input' 
-                                           name={name}
-                                           label={label} 
-                                           value={propertyValue}
-                                           checked={checked}
-                                           required={required}
-                                           type={inputType} 
-                                           field-level-help={helpText}
-                                           onchange={handleEvent} 
-                                           onblur={handleEvent}>
+        <builder_platform_interaction-output-resource-picker if:true={allowsResourcesForOutput} 
+                                                             class='property-input'
+                                                             combobox-config={resourceComboboxConfig}
+                                                             element-param={elementParam}
+                                                             property-editor-element-type={propertyEditorElementType}
+                                                             value={propertyValue}
+                                                             oncomboboxstatechanged={handleEvent}
+                                                             onitemselected={handleEvent}>
+        </builder_platform_interaction-output-resource-picker>
+
+        <lightning-input if:true={isInput}
+                         checked={checked}
+                         class='property-input'
+                         field-level-help={helpText}
+                         label={label}
+                         name={name}
+                         required={required}
+                         type={inputType}
+                         value={propertyValue}
+                         onblur={handleEvent}
+                         onchange={handleEvent}>
         </lightning-input>
 
         <lightning-combobox if:true={isList}
-                class='slds-combobox__form-element property-input'
-                disabled={disabled}
-                label={label}
-                options={listChoices}
-                value={propertyValue}
-                onchange={handleEvent}>
+                            class='slds-combobox__form-element property-input'
+                            disabled={disabled}
+                            label={label}
+                            options={listChoices}
+                            value={propertyValue}
+                            onchange={handleEvent}>
         </lightning-combobox>
 
-        <builder_platform_interaction-resourced-textarea if:true={isLongString} class='property-input' 
-                                                                                name={name}
-                                                                                label={label}
-                                                                                value={value} 
-                                                                                required={required}
-                                                                                help-text={helpText}
-                                                                                onchange={handleEvent}
-                                                                                onblur={handleEvent}>
+        <builder_platform_interaction-resourced-textarea if:true={isLongString}
+                                                         class='property-input'
+                                                         help-text={helpText}
+                                                         label={label}
+                                                         name={name}
+                                                         required={required}
+                                                         value={value}
+                                                         onblur={handleEvent}
+                                                         onchange={handleEvent}>
         </builder_platform_interaction-resourced-textarea>
         
-        <lightning-input-rich-text if:true={isRichString} class='property-input' 
-                                                          name={name}
-                                                          label={label}
-                                                          value={propertyValue}
-                                                          formats={formats} 
-                                                          onchange={handleEvent}
-                                                          onblur={handleEvent}>
+        <lightning-input-rich-text if:true={isRichString}
+                                   class='property-input'
+                                   formats={formats}
+                                   label={label}
+                                   name={name}
+                                   value={propertyValue}
+                                   onblur={handleEvent}
+                                   onchange={handleEvent}>
         </lightning-input-rich-text>
     </div>
 </template>
