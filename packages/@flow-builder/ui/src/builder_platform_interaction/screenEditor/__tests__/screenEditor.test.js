@@ -73,7 +73,7 @@ describe('Event handling on editor', () => {
     it('add screen field event can add a field to a specific position', () => {
         return Promise.resolve().then(() => {
             const length = screenEditorElement.node.fields.length;
-            const canvas = screenEditorElement.querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createAddScreenFieldEvent('Currency', 0));
             expect(screenEditorElement.node.fields).toHaveLength(length + 1);
             expect(screenEditorElement.node.fields[0].guid).toBe(screenEditorElement.getSelectedNode().guid);
