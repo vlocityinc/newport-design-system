@@ -69,7 +69,6 @@ describe('Flow properties', () => {
                 versionNumber: null,
                 lastModifiedDate: null,
                 interviewLabel: '',
-                status: 'Draft',
                 elementType: 'FLOW_PROPERTIES',
                 isLightningFlowBuilder: true,
                 hasUnsavedChanges: false

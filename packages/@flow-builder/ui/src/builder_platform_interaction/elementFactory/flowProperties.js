@@ -24,7 +24,7 @@ export function createFlowProperties(flowProperties = {}) {
         description = '',
         interviewLabel = '',
         processType = null,
-        status = 'Draft',
+        status,
         processMetadataValues,
         hasUnsavedChanges = false
     } = flowProperties.metadata || flowProperties;
