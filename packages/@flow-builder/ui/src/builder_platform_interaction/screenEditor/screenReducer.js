@@ -286,7 +286,7 @@ const updateFieldInScreen = (screen, field, newField) => {
  * @param {object} screenfield - The screenfield
  * @returns {object} - A new screen/node with the changes applied
  */
-const handleScreenFieldPropertyChange = (data, event, screenfield) => {
+const handleScreenFieldPropertyChange = (data, screen, event, screenfield) => {
     if (data.property === 'name' && data.error === null) {
         data.error = screenValidation.validateFieldNameUniquenessLocally(screen, data.newValue.value, event.detail.guid);
     }
@@ -369,7 +369,7 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 required: event.detail.required
             };
 
-            updatedNode = handleScreenFieldPropertyChange(data, event, selectedNode);
+            updatedNode = handleScreenFieldPropertyChange(data, screen, event, selectedNode);
         }
     } else {
         // If nothing changed, return the screen, unchanged.
