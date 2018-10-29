@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { isExtensionField, isRadioField, isMultiSelectCheckboxField, isMultiSelectPicklistField,
+import { isExtensionField, isNumberField, isCurrencyField, isRadioField, isMultiSelectCheckboxField, isMultiSelectPicklistField,
          isPicklistField, getPlaceHolderLabel } from "builder_platform_interaction/screenEditorUtils";
 import { hydrateWithErrors, getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { isReference, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
@@ -68,6 +68,13 @@ export default class ScreenField extends LightningElement {
         // Hack due to guid->devName swapping inconsistencies (Jesun David)
         // TODO: Need to update this when changing uid swapping
         const defaultValue = this.screenfield.previewDefaultValue && this.screenfield.previewDefaultValue.hasOwnProperty('value') ? this.screenfield.previewDefaultValue.value : this.screenfield.previewDefaultValue;
+        if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && (isCurrencyField(this.screenfield) ||
+            isNumberField(this.screenfield))) {
+            // If the field has a reference for it's default value and the field type makes it such that we can't display
+            // the reference name (due to limitations of the components we're using to render the preview),
+            // don't display anything.
+            return '';
+        }
         if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && !isReference(defaultValue)) {
             return addCurlyBraces(defaultValue);
         }

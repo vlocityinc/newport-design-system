@@ -37,7 +37,8 @@ describe('screen-input-field-properties-editor for TextBox', () => {
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {validation: false, helpText: false})
+            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE,
+                {defaultValueFerovProcess: true, validation: false, helpText: false})
         });
     });
     it('API Name field should be filled in', () => {
@@ -102,7 +103,8 @@ describe('screen-input-field-properties-editor for Number', () => {
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Number', SCREEN_NO_DEF_VALUE, {validation: false, helpText: false}),
+            field: createTestScreenField(fieldName, 'Number', SCREEN_NO_DEF_VALUE,
+                {defaultValueFerovProcess: true, validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -166,7 +168,8 @@ describe('screen-input-field-properties-editor for Date', () => {
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Date', SCREEN_NO_DEF_VALUE, {validation: false, helpText: false}),
+            field: createTestScreenField(fieldName, 'Date', SCREEN_NO_DEF_VALUE,
+                {defaultValueFerovProcess: true, validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -230,7 +233,8 @@ describe('screen-input-field-properties-editor for DateTime', () => {
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'DateTime', SCREEN_NO_DEF_VALUE, {validation: false, helpText: false}),
+            field: createTestScreenField(fieldName, 'DateTime', SCREEN_NO_DEF_VALUE,
+                {defaultValueFerovProcess: true, validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -295,7 +299,8 @@ describe('screen-input-field-properties-editor for Checkbox', () => {
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Checkbox', SCREEN_NO_DEF_VALUE, {validation: false, helpText: false}),
+            field: createTestScreenField(fieldName, 'Checkbox', SCREEN_NO_DEF_VALUE,
+                {defaultValueFerovProcess: true, validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -358,7 +363,8 @@ describe('screen-input-field-properties-editor for Currency', () => {
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Currency', SCREEN_NO_DEF_VALUE, {validation: false, helpText: false}),
+            field: createTestScreenField(fieldName, 'Currency', SCREEN_NO_DEF_VALUE,
+                {defaultValueFerovProcess: true, validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -419,35 +425,33 @@ describe('screen-input-field-properties-editor for Currency', () => {
 });
 
 describe('screen-input-field-properties-editor for Number with default value', () => {
-    const defaultVal = 42;
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Number', defaultVal),
+            field: createTestScreenField(fieldName, 'Number', 42, {defaultValueFerovProcess: true}),
         });
     });
     it('Default value is displayed', () => {
         return Promise.resolve().then(() => {
             const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
-            expect(renderedDefaultValueField.value).toEqual(defaultVal);
+            expect(renderedDefaultValueField.value).toEqual("42");
         });
     });
 });
 
 describe('screen-input-field-properties-editor for Currency with default value', () => {
-    const defaultVal = 1000;
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'Currency', defaultVal),
+            field: createTestScreenField(fieldName, 'Currency', 1000, {defaultValueFerovProcess: true}),
         });
     });
     it('Default value is displayed', () => {
         return Promise.resolve().then(() => {
             const renderedDefaultValueField = query(screenInputFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
-            expect(renderedDefaultValueField.value).toEqual(defaultVal);
+            expect(renderedDefaultValueField.value).toEqual("1000");
         });
     });
 });
@@ -457,7 +461,7 @@ describe('screen-input-field-properties-editor for TextBox with default value', 
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'TextBox', defaultVal),
+            field: createTestScreenField(fieldName, 'TextBox', defaultVal, {defaultValueFerovProcess: true}),
         });
     });
     it('Default value is displayed', () => {
@@ -473,7 +477,8 @@ describe('screen-input-field-properties-editor for TextBox that set to required'
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {required: true}),
+            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE,
+                {defaultValueFerovProcess: true, required: true}),
         });
     });
     it('Required checkbox is present and not checked', () => {
@@ -488,7 +493,7 @@ describe('screen-input-field-properties-editor for TextBox with help text', () =
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE),
+            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {defaultValueFerovProcess: true}),
         });
     });
     it('Help text is displayed', () => {
@@ -504,7 +509,8 @@ describe('screen-input-field-properties-editor with validationRule', () => {
     let screenInputFieldPropEditor;
     beforeEach(() => {
         screenInputFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {validation: true, helpText: false}),
+            field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE,
+                {defaultValueFerovProcess: true, validation: true, helpText: false}),
         });
     });
 

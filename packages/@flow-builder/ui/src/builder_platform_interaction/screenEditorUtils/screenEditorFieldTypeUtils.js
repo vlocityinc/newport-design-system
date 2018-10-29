@@ -242,6 +242,22 @@ export function isInputField(field) {
 }
 
 /**
+ * @param field - field to test
+ * @returns {*|boolean} Indicates if the specified field is a number field.
+ */
+export function isNumberField(field) {
+    return field && field.dataType === 'Number';
+}
+
+/**
+ * @param field - field to test
+ * @returns {*|boolean} Indicates if the specified field is a currency field.
+ */
+export function isCurrencyField(field) {
+    return field && field.dataType === 'Currency';
+}
+
+/**
  * @param {object} field - field to test
  * @returns {boolean} Indicates if specified field is a text area field
  */

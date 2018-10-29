@@ -35,7 +35,8 @@ describe('screen-textarea-field-properties-editor', () => {
     let screenTextAreaFieldPropEditor;
     beforeEach(() => {
         screenTextAreaFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE, {validation: false, helpText: false}),
+            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE,
+                { defaultValueFerovProcess: true, validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -86,7 +87,7 @@ describe('screen-textarea-field-properties-editor with default value', () => {
     let screenTextAreaFieldPropEditor;
     beforeEach(() => {
         screenTextAreaFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'LargeTextArea', defaultVal),
+            field: createTestScreenField(fieldName, 'LargeTextArea', defaultVal, {defaultValueFerovProcess: true}),
         });
     });
     it('Default value is rendered', () => {
@@ -101,7 +102,7 @@ describe('screen-textarea-field-properties-editor with help text', () => {
     let screenTextAreaFieldPropEditor;
     beforeEach(() => {
         screenTextAreaFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE),
+            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE, {defaultValueFerovProcess: true}),
         });
     });
     it('Help text is displayed', () => {
@@ -117,7 +118,8 @@ describe('screen-textarea-field-properties-editor with validationRule', () => {
     let screenTextAreaFieldPropEditor;
     beforeEach(() => {
         screenTextAreaFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE, {validation: true, helpText: false}),
+            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE,
+                { defaultValueFerovProcess: true, validation: true, helpText: false}),
         });
     });
 

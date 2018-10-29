@@ -3,7 +3,7 @@ import { getScreenFieldTypeByName, getLocalExtensionFieldType } from "builder_pl
 import { mutateScreen, demutateScreen, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { createChoiceReference } from "builder_platform_interaction/elementFactory";
+import { createChoiceReference, createFEROV, DEFAULT_VALUE_DATA_TYPE_PROPERTY, DEFAULT_VALUE_PROPERTY } from "builder_platform_interaction/elementFactory";
 import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTOR_REGEX = /(.*)\[([^$*^|~]*)(.*)?=["'](.*)["']\]/g;
@@ -166,8 +166,9 @@ function createScreen(name, fieldsProducer, config = {}) {
  * Creates a screen field to be used for testing
  * @param {string} name - The name of the screen field
  * @param {string} type - The type of the screen field (see screen field types in screen-editor-utils)
- * @param {string} value - The value, if null is passed a random default value will be generated, pass SCREEN_NO_DEF_VALUE if the value should not be set.
- * @param {objec} config - {required = false, validation = true, defaultValueType = static, hydrateValues = true,
+ * @param {string} value - The defaultValue. If null is passed, a random default value will be generated. Pass SCREEN_NO_DEF_VALUE
+ *   if the defaultValue should not be set.
+ * @param {object} config - {required = false, validation = true, defaultValueType = static, hydrateValues = true,
  * includeNonMDValues = true, valueType = STATIC, dataType = undefined, createChoices = false}
  * @returns {object} - The screen field
  */
@@ -191,13 +192,11 @@ export function createTestScreenField(name, type, value, config = {}) {
         name: getStringValue(null, name, hydrateValues),
         isRequired:booleanValue(config, 'required', false),
         isVisible:true,
-        scale:0,
+        scale: getStringValue("0", "0", hydrateValues),
         inputParameters:[],
         outputParameters:[],
         processMetadataValues:[]
     };
-
-    field = addConfigOptionsToField(field, name, config, fieldType, hydrateValues);
 
     if (type === 'DisplayText' && value !== SCREEN_NO_DEF_VALUE) {
         const val = value !== null ? value : 'Default display text value';
@@ -224,22 +223,40 @@ export function createTestScreenField(name, type, value, config = {}) {
             // Set the string version of the default value, and the internal version, which
             // specifies what type of field value this is.
             if (type === 'TextBox' ||  type === 'LargeTextArea' || type === 'Password') {
-                field._defaultValue = {stringValue:value};
-                field.defaultValue = value;
+                field.defaultValue = {stringValue:value};
             } else if (type === 'Number' || type === 'Currency') {
-                field._defaultValue = {numberValue:value};
-                field.defaultValue = value;
+                field.defaultValue = {numberValue:value};
             } else if (type === 'Date' || type === 'DateTime') {
-                field._defaultValue = {dateValue:value};
-                field.defaultValue = value;
+                field.defaultValue = {dateValue:value};
             } else if (type === 'Checkbox') {
-                field._defaultValue = {booleanValue:value};
-                field.defaultValue = value;
+                field.defaultValue = {booleanValue:value};
             }
         } else {
             // Hopefully the object is a well-formed ferov
             field.defaultValue = value;
         }
+    }
+
+    field = addConfigOptionsToField(field, name, config, fieldType, hydrateValues);
+
+    return field;
+}
+
+// TODO: W-5483251 - this function should be removed once the test utils that
+// create screen fields are updated to use elementFactory. This should no longer
+// be needed as the screen field created would be passed to the elementFactory,
+// which would do this work.
+function processDefaultValue(field) {
+    if (field.defaultValue) {
+        const defaultValueFerovObject = createFEROV(
+            field.defaultValue,
+            DEFAULT_VALUE_PROPERTY,
+            DEFAULT_VALUE_DATA_TYPE_PROPERTY
+        );
+
+        field.defaultValue = defaultValueFerovObject.defaultValue;
+        field.previewDefaultValue = defaultValueFerovObject.defaultValue;
+        field.defaultValueDataType = defaultValueFerovObject.defaultValueDataType;
     }
 
     return field;
@@ -282,6 +299,13 @@ function addConfigOptionsToField(field, name, config, fieldType, hydrateValues) 
     if (booleanValue(config, 'includeNonMDValues', true)) {
         field.guid = generateGuid();
         field.type = fieldType;
+    }
+
+    // TODO: W-5483251 - this should go away once test builder utils
+    // are updated to go through elementFactory. All tests that make use of this
+    // config param should delete this property from their config.
+    if (booleanValue(config, 'defaultValueFerovProcess', false)) {
+        field = processDefaultValue(field);
     }
 
     return field;
