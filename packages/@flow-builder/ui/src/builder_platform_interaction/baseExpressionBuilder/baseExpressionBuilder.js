@@ -292,6 +292,19 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.setRhsMenuData();
     }
 
+    @api
+    get hideSystemVariables() {
+        return this._hideSystemVariables;
+    }
+
+    /**
+     * @type {boolean} hide hides system variables menu options.
+     */
+    set hideSystemVariables(hide) {
+        this._hideSystemVariables = !!hide;
+        this.setRhsMenuData();
+    }
+
     /**
      * Set it to true to hide 'New Resource' option in combobox menu data.
      * @type {Boolean}
@@ -311,6 +324,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     _rhsLiteralsAllowedForContext = false;
     _unsubscribeStore;
     _hideFerovMenuData = false;
+    _hideSystemVariables = false;
 
     /**
      * Sets LHS menu data if all the necessary attributes have been initialized
@@ -576,7 +590,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         } else {
             const menuDataElements = getStoreElements(storeInstance.getCurrentState(), config);
             this.state[fullMenuData] = this.state[filteredMenuData] = filterAndMutateMenuData(menuDataElements, paramTypes,
-                !this.hideNewResource, isFerov && !this.hideFerovMenuData, DISABLE_HAS_NEXT, picklistValues);
+                !this.hideNewResource, isFerov && !this.hideFerovMenuData, DISABLE_HAS_NEXT, picklistValues, !this.hideSystemVariables);
         }
     }
 
