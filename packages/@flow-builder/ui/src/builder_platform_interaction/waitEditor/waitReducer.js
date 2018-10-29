@@ -161,6 +161,25 @@ const configureConditionsByLogic = (waitEvent, event) => {
     return newConditions;
 };
 
+/**
+ * If the platform event logic is no conditions then remove all input parameters.  Otherwise (logic must be 'and')
+ * ensure there is at least one input parameter
+ * @param {WaitEvent} waitEvent initial state of the waitEvent
+ * @param {WaitEventPropertyChangedEvent} event
+ * @return {WaitEvent} WaitEvent with updated input parameters
+ */
+const updatePlatformEventInputParametersByLogic = (waitEvent, event) => {
+    const inputParameters = [];
+
+    if (event.detail.value !== CONDITION_LOGIC.NO_CONDITIONS && waitEvent.inputParameters.length === 0) {
+        // condition logic must be 'and' and we need an input parameter
+        const newParameter = hydrateWithErrors(createInputParameter());
+        inputParameters.push(newParameter);
+    }
+
+    return Object.assign({}, waitEvent, {inputParameters});
+};
+
 const verifyParentGuidIsSet = (event) => {
     if (isUndefinedOrNull(event.detail.parentGUID)) {
         throw new Error('The wait event GUID must be set!');
@@ -181,6 +200,8 @@ const waitEventPropertyChanged = (state, event) => {
             let conditions;
             if (event.detail.propertyName === 'conditionLogic') {
                 conditions = configureConditionsByLogic(waitEvent, event);
+            } else if (event.detail.propertyName === 'platformEventConditionLogic') {
+                return updatePlatformEventInputParametersByLogic(waitEvent, event);
             }
             const updatedProperty = { value: event.detail.value, error: event.detail.error };
             return Object.assign({}, waitEvent, { [event.detail.propertyName] : updatedProperty }, conditions);

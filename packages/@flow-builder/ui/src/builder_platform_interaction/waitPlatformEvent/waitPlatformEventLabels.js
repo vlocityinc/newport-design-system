@@ -6,7 +6,7 @@ import platformEventOutputHelpText from '@salesforce/label/FlowBuilderWaitEditor
 import platformEventOutputLabel from '@salesforce/label/FlowBuilderWaitEditor.platformEventOutputLabel';
 import noConditionsLabel from '@salesforce/label/FlowBuilderConditionList.noConditionsLabel';
 import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.andConditionLogicLabel';
-import platformEventFilterLhsLabel from '@salesforce/label/FlowBuilderWaitEditor.lhsLabelplatformEventFilterLhsLabel';
+import platformEventFilterLhsLabel from '@salesforce/label/FlowBuilderWaitEditor.platformEventFilterLhsLabel';
 import platformEventFilterRhsLabel from '@salesforce/label/FlowBuilderWaitEditor.platformEventFilterRhsLabel';
 
 export const LABELS = {

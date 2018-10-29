@@ -30,7 +30,7 @@ export default class WaitPlatformEvent extends LightningElement {
      *
      * @param {module:WaitTimeEvent.WaitEventParameter} outputParameters
      */
-    set outputParameters(outputParameters = {}) {
+    set outputParameters(outputParameters) {
         this._outputParameters = outputParameters;
         const outputParam = outputParameters[this.eventTypeValue];
         this.outputParameterItem = Object.assign({},
@@ -105,6 +105,9 @@ export default class WaitPlatformEvent extends LightningElement {
                 };
                 this.filters.push(filter);
             }
+
+            this.filterConditionLogic = this.filters.length === 0 ? {value: CONDITION_LOGIC.NO_CONDITIONS} :
+                {value: CONDITION_LOGIC.AND};
         }
     }
 
@@ -132,6 +135,9 @@ export default class WaitPlatformEvent extends LightningElement {
     eventTypeParameters;
 
     @track
+    filterConditionLogic = {value: CONDITION_LOGIC.NO_CONDITIONS};
+
+    @track
     filters = [];
 
     @track
@@ -149,15 +155,6 @@ export default class WaitPlatformEvent extends LightningElement {
 
     get eventTypeValue() {
         return this._eventType ? getValueFromHydratedItem(this._eventType) : null;
-    }
-
-    /**
-     * @returns the selected condition logic for filtering
-     */
-    get filterConditionLogic() {
-        return {
-            value: this.filters.length === 0 ? CONDITION_LOGIC.NO_CONDITIONS : CONDITION_LOGIC.AND
-        };
     }
 
     /**
@@ -241,8 +238,17 @@ export default class WaitPlatformEvent extends LightningElement {
     handlePropertyChanged(event) {
         event.stopPropagation();
 
-        const { propertyName, value, error, oldValue } = event.detail;
+        let { propertyName } = event.detail;
+        const { value, error, oldValue } = event.detail;
+
+        if (event.detail.propertyName === 'conditionLogic') {
+            this.filterConditionLogic = {value: event.detail.value};
+            propertyName = 'platformEventConditionLogic';
+        }
+
         const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(propertyName, value, error, this.waitEventGuid, oldValue);
+
+
         this.dispatchEvent(waitEventPropertyChangedEvent);
     }
 }

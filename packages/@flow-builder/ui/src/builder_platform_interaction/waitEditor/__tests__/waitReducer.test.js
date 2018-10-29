@@ -198,15 +198,37 @@ describe('wait-reducer', () => {
             expect(inputParameters[directRecordBaseTimeIndex].valueDataType.value).toEqual(stringDataType);
         });
 
-        it('updates inputParameter when index is null', () => {
-            const InputParameterEventindex = null;
-            const newValue = 'newAbsoluteBaseTimeValueWhenIndexNull';
-            const waitEventParameterChanged = new WaitEventParameterChangedEvent(absoluteBaseTime, newValue, stringDataType, nullError, absoluteBaseTimeTypeWaitEventGUID, true, InputParameterEventindex);
+        it('updates inputParameter if a new name is provided', () => {
+            const index = 0;
+            const newEventType = 'someEventType';
+            const newValue = 'bar';
+            const newValueDataType = FLOW_DATA_TYPE.STRING.value;
+            const error = null;
+
+            const waitEventParameterChanged = new WaitEventParameterChangedEvent(newEventType, newValue, newValueDataType, error, absoluteBaseTimeTypeWaitEventGUID, true, index);
             const resultObj = waitReducer(initState, waitEventParameterChanged);
-            const inputParameters = resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].inputParameters;
+            const inputParameters = resultObj.waitEvents[index].inputParameters;
+
+            expect(inputParameters[0].name.value).toEqual(newEventType);
+            expect(inputParameters[0].value).toEqual({value: newValue, error});
+            expect(inputParameters[0].valueDataType.value).toEqual(newValueDataType);
+        });
+
+        it('updates inputParameter when index is null but name is found', () => {
+            const index = null;
+            const actualExpectedIndex = 0;
+            const newValue = 'bar';
+            const newValueDataType = FLOW_DATA_TYPE.STRING.value;
+            const error = null;
+
+            const waitEventParameterChanged = new WaitEventParameterChangedEvent(absoluteBaseTime, newValue, newValueDataType, error, absoluteBaseTimeTypeWaitEventGUID, true, index);
+
+            const resultObj = waitReducer(initState, waitEventParameterChanged);
+            const inputParameters = resultObj.waitEvents[actualExpectedIndex].inputParameters;
+
             expect(inputParameters[0].name.value).toEqual(absoluteBaseTime);
-            expect(inputParameters[0].value).toEqual({value: newValue, error: nullError});
-            expect(inputParameters[0].valueDataType.value).toEqual(stringDataType);
+            expect(inputParameters[0].value).toEqual({value: newValue, error});
+            expect(inputParameters[0].valueDataType.value).toEqual(newValueDataType);
         });
     });
 

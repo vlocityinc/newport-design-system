@@ -92,6 +92,41 @@ describe('wait-platform-event', () => {
             ]);
         });
 
+        describe('sets condition logic', () => {
+            it('set to NO CONDITIONS if no input parameters are present', () => {
+                const waitPlatformEventElement = setupComponentUnderTest({
+                    waitEventGuid: 'guid',
+                    eventType: {value: 'foo', error: null},
+                    inputFilterParameters: []
+                });
+
+                const conditionList = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.CONDITION_LIST);
+                const filterLogic = conditionList.conditionLogic;
+
+                expect(filterLogic).toEqual({ value: CONDITION_LOGIC.NO_CONDITIONS});
+            });
+
+            it('set to AND if input parameters are present', () => {
+                const waitPlatformEventElement = setupComponentUnderTest({
+                    waitEventGuid: 'guid',
+                    eventType: {value: 'foo', error: null},
+                    inputFilterParameters: [
+                        {
+                            name: 'a',
+                            value: 'v',
+                            valueDataType: 'vdt',
+                            rowIndex: 'ri'
+                        }
+                    ]
+                });
+
+                const conditionList = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.CONDITION_LIST);
+                const filterLogic = conditionList.conditionLogic;
+
+                expect(filterLogic).toEqual({ value: CONDITION_LOGIC.AND});
+            });
+        });
+
         it('one filter per inputFilterParameters', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 waitEventGuid: 'guid',
@@ -181,6 +216,7 @@ describe('wait-platform-event', () => {
                 };
 
                 const eventTypeValue = 'foo';
+
                 const waitPlatformEventElement = setupComponentUnderTest({
                     waitEventGuid: 'guid',
                     eventType: {value: eventTypeValue, error: null},
@@ -192,7 +228,7 @@ describe('wait-platform-event', () => {
 
                 expect(expression).toMatchObject({
                     leftHandSide: {
-                        value: eventTypeValue + '.' + inputFilterParameter.name.value,
+                        value: inputFilterParameter.name.value,
                         error: inputFilterParameter.name.error,
                     },
                     rightHandSide: {
