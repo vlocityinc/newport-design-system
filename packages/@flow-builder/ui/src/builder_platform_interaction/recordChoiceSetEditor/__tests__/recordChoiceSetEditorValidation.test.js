@@ -82,25 +82,35 @@ describe('Record Choice Set Validation', () => {
             error: null
         },
         displayField: {
-            value: 'AccountSource',
+            value: null,
             error: null
         },
         valueField: {
             value: 'AccountSource',
             error: null
         },
-        outputAssignments: []
+        outputAssignments: [{
+            leftHandSide: {
+                value: 'lhs',
+                error: null
+            },
+            rightHandSide: {
+                value: '',
+                error: null
+            }
+        }]
     };
 
     describe('validateAll', () => {
         const validate = (node) => {
-            return getErrorsFromHydratedElement(recordChoiceSetValidation.validateAll(node, getRules(node)));
+            return getErrorsFromHydratedElement(recordChoiceSetValidation.validateAll(node, getRules(node, true)));
         };
         const recordChoice = setupComponentUnderTest(recordChoiceObject);
         const node = recordChoice.node;
         const errors = validate(node);
-        it('Returns 3 errors for recordChoiceSetObject', () => {
-            expect(errors).toHaveLength(3);
+
+        it('Returns 5 errors for recordChoiceSetObject', () => {
+            expect(errors).toHaveLength(5);
         });
         it('Returns error for key leftHandSide', () => {
             expect(errors[0]).toHaveProperty('key', 'leftHandSide');
@@ -111,12 +121,19 @@ describe('Record Choice Set Validation', () => {
         it('Returns error for key limit', () => {
             expect(errors[2]).toHaveProperty('key', 'limit');
         });
+        it('Returns error for key displayField', () => {
+            expect(errors[3]).toHaveProperty('key', 'displayField');
+        });
+        it('Returns error for key rightHandSide', () => {
+            expect(errors[4]).toHaveProperty('key', 'rightHandSide');
+        });
     });
+
     describe('getRules', () => {
         describe('when second section is hidden/ object field is not filled', () => {
             const recordChoice = setupComponentUnderTest(recordChoiceObjectWithoutObject);
             const node = recordChoice.node;
-            const rules = getRules(node);
+            const rules = getRules(node, false);
             const keysFromRules = Object.keys(rules);
             const expectedKeysFromRules = [
                 'label',
@@ -124,17 +141,20 @@ describe('Record Choice Set Validation', () => {
                 'object',
                 'limit'
             ];
+
             it('returns rules object with number of keys as 4', () => {
                 expect(keysFromRules).toHaveLength(4);
             });
+
             it('rules object should contain rule for key:', () => {
                 expect(keysFromRules).toEqual(expect.arrayContaining(expectedKeysFromRules));
             });
         });
+
         describe('when second section is shown/when object is filled in record choice object', () => {
             const recordChoice = setupComponentUnderTest(recordChoiceObject);
             const node = recordChoice.node;
-            const rules = getRules(node);
+            const rules = getRules(node, true);
             const keysFromRules = Object.keys(rules);
             const expectedKeysFromRules = [
                 'filters',
@@ -142,11 +162,16 @@ describe('Record Choice Set Validation', () => {
                 'limit',
                 'name',
                 'object',
-                'sortField'
+                'sortField',
+                'displayField',
+                'dataType',
+                'outputAssignments'
             ];
-            it('returns rules object with number of keys as 6', () => {
-                expect(keysFromRules).toHaveLength(6);
+
+            it('returns rules object with number of keys as 9', () => {
+                expect(keysFromRules).toHaveLength(9);
             });
+
             it('rules object should contain rule for key:', () => {
                 expect(keysFromRules).toEqual(expect.arrayContaining(expectedKeysFromRules));
             });

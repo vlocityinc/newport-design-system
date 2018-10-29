@@ -1,4 +1,4 @@
-import { createExpressionListRowItemWithoutOperator } from "./baseList";
+import { createExpressionListRowItemWithoutOperatorAndRHSDataType } from "./baseList";
 /**
  * Factory function for creating output assignment used in record lookup and recordChoiceSet
  * @param {Object} outputAssignment
@@ -9,9 +9,9 @@ export const createOutputAssignment = (outputAssignment = {}, sObject) => {
     if (outputAssignment.hasOwnProperty('field') && outputAssignment.hasOwnProperty('assignToReference')) {
         const leftHandSide = sObject + '.' + outputAssignment.field;
         const rightHandSide = outputAssignment.assignToReference;
-        newOutputAssignment = createExpressionListRowItemWithoutOperator({leftHandSide, rightHandSide});
+        newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType({leftHandSide, rightHandSide});
     } else {
-        newOutputAssignment = createExpressionListRowItemWithoutOperator(outputAssignment);
+        newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(outputAssignment);
     }
     return newOutputAssignment;
 };

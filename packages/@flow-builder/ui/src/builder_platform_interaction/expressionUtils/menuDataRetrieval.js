@@ -232,6 +232,7 @@ const filterInformationProviderMap = {
     [ELEMENT_TYPE.SUBFLOW]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.VARIABLE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.CHOICE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => writableOrReadableElement(),
     [ELEMENT_TYPE.WAIT]: () => writableOrReadableElement(),
     [ELEMENT_TYPE.SCREEN]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices) => screenSelectors(shouldBeWritable, choices, dataType),
