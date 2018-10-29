@@ -95,9 +95,15 @@ export default class StatusIcon extends LightningElement {
     get iconTitle() {
         let title;
         if (this.type === 'warning') {
-            title = this.panelHidden ? LABELS.statusIconShowWarningTitle : LABELS.statusIconHideWarningTitle;
+            if (this.messages.length > 1) {
+                title = this.panelHidden ? LABELS.statusIconShowWarningPluralTitle : LABELS.statusIconHideWarningPluralTitle;
+            } else {
+                title = this.panelHidden ? LABELS.statusIconShowWarningSingularTitle : LABELS.statusIconHideWarningSingularTitle;
+            }
+        } else if (this.messages.length > 1) {
+            title = this.panelHidden ? LABELS.statusIconShowErrorPluralTitle : LABELS.statusIconHideErrorPluralTitle;
         } else {
-            title = this.panelHidden ? LABELS.statusIconShowErrorTitle : LABELS.statusIconHideErrorTitle;
+            title = this.panelHidden ? LABELS.statusIconShowErrorSingularTitle : LABELS.statusIconHideErrorSingularTitle;
         }
         return title;
     }
