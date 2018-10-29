@@ -76,7 +76,7 @@ export default class ApexPluginEditor extends LightningElement {
         if (!this.apexPluginDescriptor) {
             return '';
         }
-        return format(this.labels.subtitle, getValueFromHydratedItem(this.apexPluginDescriptor.name));
+        return format(this.labels.subtitle, getValueFromHydratedItem(this.apexPluginDescriptor.name), this.labels.apexPluginTypeLabel);
     }
 
     get parameterListConfig() {

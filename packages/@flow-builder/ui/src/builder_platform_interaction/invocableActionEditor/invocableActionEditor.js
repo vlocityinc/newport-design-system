@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { LABELS } from './invocableActionEditorLabels';
+import { LABELS, ACTION_TYPE_LABEL } from './invocableActionEditorLabels';
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
@@ -120,7 +120,7 @@ export default class InvocableActionEditor extends LightningElement {
         if (!this.invocableActionDescriptor) {
             return '';
         }
-        return format(this.labels.subtitle, getValueFromHydratedItem(this.invocableActionDescriptor.label));
+        return format(this.labels.subtitle, getValueFromHydratedItem(this.invocableActionDescriptor.label), ACTION_TYPE_LABEL[this.elementType]);
     }
 
     get parameterListConfig() {

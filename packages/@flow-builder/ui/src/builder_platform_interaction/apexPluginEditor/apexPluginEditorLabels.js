@@ -6,6 +6,7 @@ import emptyInputs from "@salesforce/label/FlowBuilderApexPluginEditor.emptyInpu
 import emptyOutputs from "@salesforce/label/FlowBuilderApexPluginEditor.emptyOutputs";
 import badgeWillCauseErrors from "@salesforce/label/FlowBuilderApexPluginEditor.badgeWillCauseErrors";
 import warningNotAvailable from "@salesforce/label/FlowBuilderApexPluginEditor.warningNotAvailable";
+import apexPluginTypeLabel from "@salesforce/label/FlowBuilderApexPluginEditor.apexPluginTypeLabel";
 
 export const LABELS = {
     subtitle,
@@ -14,5 +15,6 @@ export const LABELS = {
     emptyInputs,
     emptyOutputs,
     badgeWillCauseErrors,
-    warningNotAvailable
+    warningNotAvailable,
+    apexPluginTypeLabel
 };

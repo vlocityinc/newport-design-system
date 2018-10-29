@@ -3,6 +3,8 @@ import { getShadowRoot } from 'lwc-test-utils';
 import InvocableActionEditor from "../invocableActionEditor";
 import { mockActionParameters, mockActions } from "mock/calloutData";
 import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
+import { LABELS } from '../invocableActionEditorLabels';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 const defaultNode = {
         actionName: {value: 'chatterPost', error: null},
@@ -57,9 +59,6 @@ const defaultNode = {
         ]
     };
 
-const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
-commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
-
 const createComponentUnderTest = (node, { isNewMode = false} = {}) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     Object.assign(el, {node, isNewMode});
@@ -111,7 +110,7 @@ describe('Invocable Action editor', () => {
         baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
         await mockActionsPromise;
         await mockActionParametersPromise;
-        expect(baseCalloutEditorCmp.subtitle).toBe('FlowBuilderInvocableActionEditor.subtitle(Post to Chatter)');
+        expect(baseCalloutEditorCmp.subtitle).toBe(format(LABELS.subtitle, 'Post to Chatter', LABELS.coreActionTypeLabel));
     });
     it('contains base callout editor', () => {
         actionEditorCmp = createComponentUnderTest(defaultNode);

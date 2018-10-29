@@ -1,8 +1,10 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import ApexPluginEditor from "../apexPluginEditor";
+import { LABELS } from "../apexPluginEditorLabels";
 import { mockApexPluginParameters, mockApexPlugins } from "mock/calloutData";
 import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 const defaultNode = {
         apexClass: {value: 'flowchat', error: null},
@@ -56,9 +58,6 @@ const defaultNode = {
         ]
 };
 
-const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
-commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
-
 const createComponentUnderTest = (node, { isNewMode = false} = {}) => {
     const el = createElement('builder_platform_interaction-apex-plugin-editor', { is: ApexPluginEditor });
     Object.assign(el, {node, isNewMode});
@@ -106,7 +105,7 @@ describe('Apex Plugin editor', () => {
         baseCalloutEditorCmp = getBaseCalloutEditor(apexPluginEditorCmp);
         await mockApexPluginsPromise;
         await mockApexPluginParametersPromise;
-        expect(baseCalloutEditorCmp.subtitle).toBe('FlowBuilderApexPluginEditor.subtitle(flow chat plugin)');
+        expect(baseCalloutEditorCmp.subtitle).toBe(format(LABELS.subtitle, 'flow chat plugin', LABELS.apexPluginTypeLabel));
     });
     it('contains base callout editor', () => {
         apexPluginEditorCmp = createComponentUnderTest(defaultNode);
