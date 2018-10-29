@@ -51,7 +51,6 @@ export function createRecordLookup(recordLookup = {}) {
 
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
-    let recordLookupObject = null;
     let numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
 
     filters = createRecordFilters(filters, object);
@@ -60,40 +59,10 @@ export function createRecordLookup(recordLookup = {}) {
         ? RECORD_FILTER_CRITERIA.ALL
         : RECORD_FILTER_CRITERIA.NONE;
 
-    if (outputReference) {
-        // When the builder is loaded the store does not yet contain the variables
-        // numberRecordsToStore can only be calculated at the opening on the element
-        const variable  = getElementByGuid(outputReference) || getNonElementResource(outputReference);
-        if (variable) {
-            numberRecordsToStore = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
-        }
-
-        if (queriedFields && queriedFields.length > 0) {
-            queriedFields = queriedFields.map(queriedField => createQueriedField(queriedField));
-        } else {
-            // If creating new queried fields, there needs to be one for the ID field, and a new blank one
-            queriedFields = ['Id', ''].map(queriedField => createQueriedField(queriedField));
-        }
-
-        recordLookupObject = Object.assign(newRecordLookup, {
-            object,
-            outputReference,
-            numberRecordsToStore,
-            assignNullValuesIfNoRecordsFound,
-            filterType,
-            filters,
-            queriedFields,
-            sortOrder,
-            sortField,
-            maxConnections,
-            availableConnections,
-            elementType,
-            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-        });
-    } else {
+    if (outputAssignments.length > 0) {
         outputAssignments = outputAssignments.map(item => createFlowOutputFieldAssignment(item, object, 'assignToReference'));
 
-        recordLookupObject = Object.assign(newRecordLookup, {
+        return Object.assign(newRecordLookup, {
             object,
             outputAssignments,
             numberRecordsToStore,
@@ -109,7 +78,35 @@ export function createRecordLookup(recordLookup = {}) {
         });
     }
 
-    return recordLookupObject;
+    // When the builder is loaded the store does not yet contain the variables
+    // numberRecordsToStore can only be calculated at the opening on the element
+    const variable  = getElementByGuid(outputReference) || getNonElementResource(outputReference);
+    if (variable) {
+        numberRecordsToStore = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+    }
+
+    if (queriedFields && queriedFields.length > 0) {
+        queriedFields = queriedFields.map(queriedField => createQueriedField(queriedField));
+    } else {
+        // If creating new queried fields, there needs to be one for the ID field, and a new blank one
+        queriedFields = ['Id', ''].map(queriedField => createQueriedField(queriedField));
+    }
+
+    return Object.assign(newRecordLookup, {
+        object,
+        outputReference,
+        numberRecordsToStore,
+        assignNullValuesIfNoRecordsFound,
+        filterType,
+        filters,
+        queriedFields,
+        sortOrder,
+        sortField,
+        maxConnections,
+        availableConnections,
+        elementType,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+    });
 }
 
 export function createRecordLookupWithConnectors(recordLookup) {

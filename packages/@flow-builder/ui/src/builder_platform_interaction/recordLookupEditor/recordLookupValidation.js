@@ -23,6 +23,27 @@ const validateFilter = () => {
 };
 
 /**
+ * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
+ * @return {function} the function to be called with each filter item to return the array of rules.
+ */
+const validateAssignments = () => {
+    return () => {
+        const rules = {
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank]
+        };
+        return rules;
+    };
+};
+
+/**
+ * Validate the outputReference item.
+ * @return {function} the function to be called with each filter item to return the array of rules.
+ */
+const validateOutputReference = () => {
+    return [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined];
+};
+
+/**
  * Validate the queried field.
  * @return {function} the function to be called with each queried field to return the array of rules.
  */
@@ -38,11 +59,6 @@ const additionalRules = {
     object: [
         ValidationRules.shouldNotBeBlank
     ],
-    // TODO: only validate outputReference if store fields in sObject variable
-    outputReference: [
-        ValidationRules.shouldNotBeNullOrUndefined,
-        ValidationRules.shouldNotBeBlank
-    ],
 };
 
 export const recordLookupValidation = new Validation(additionalRules);
@@ -52,7 +68,7 @@ export const recordLookupValidation = new Validation(additionalRules);
  * @return {Object} the override rules
  */
 export const getRules = (nodeElement) => {
-    const overrideRules = Object.assign({}, recordLookupValidation.finalizedRules);
+    const overrideRules = { ...recordLookupValidation.finalizedRules};
     // validate filters if filter type is ALL
     if (nodeElement.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
         overrideRules.filters = validateFilter();
@@ -64,6 +80,14 @@ export const getRules = (nodeElement) => {
     // validate queriedFields if store fields in sObject variable and queriedFiels contains 'ID' + more than one row
     if (nodeElement.outputReference && nodeElement.outputReference.value && nodeElement.queriedFields.length > 2) {
         overrideRules.queriedFields = validateQueriedField();
+    }
+
+    if (nodeElement.outputAssignments.length > 0) {
+        if (nodeElement.object.value !== '') {
+            overrideRules.outputAssignments = validateAssignments();
+        }
+    } else {
+        overrideRules.outputReference = validateOutputReference();
     }
     return overrideRules;
 };

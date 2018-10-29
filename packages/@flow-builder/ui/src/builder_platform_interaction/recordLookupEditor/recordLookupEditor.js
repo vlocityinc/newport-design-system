@@ -1,34 +1,34 @@
 import { LightningElement, api, track } from 'lwc';
 import { recordLookupReducer } from "./recordLookupReducer";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { ENTITY_TYPE, getFieldsForEntity, getAllEntities } from "builder_platform_interaction/sobjectLib";
 import { LABELS } from "./recordLookupEditorLabels";
-import { getResourceByUniqueIdentifier } from "builder_platform_interaction/expressionUtils";
+import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
 
-    @track
-    fields = {};
+    rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.RECORD_LOOKUP);
+
     /**
      * Internal state for the editor
      */
-    @track recordLookupElement = {};
-
     @track
-    recordEntityName = '';
+    state = {
+        recordLookupElement: {},
+        recordEntityName: '',
+        wayToStoreFields: '',
+        resourceDisplayText: '',
+        fields: {},
+    }
 
     sObjectName = '';
-
-    /**
-     * The default value of number records to store.
-     */
-    numberRecordsToStoreValue = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
 
     crudFilterType = ENTITY_TYPE.QUERYABLE
 
@@ -38,17 +38,18 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {object} node - node
      */
     @api getNode() {
-        return this.recordLookupElement;
+        return this.state.recordLookupElement;
     }
 
     @api
     get node() {
-        return this.recordLookupElement;
+        return this.state.recordLookupElement;
     }
 
     set node(newValue) {
-        this.recordLookupElement = newValue;
-        this.recordEntityName = this.recordLookupElement.object.value;
+        this.state.recordLookupElement = newValue;
+        this.state.recordEntityName = this.state.recordLookupElement.object.value;
+        this.state.wayToStoreFields = this.state.recordLookupElement.outputAssignments.length > 0 ? WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES : WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE;
         this.updateFields();
     }
 
@@ -58,45 +59,40 @@ export default class RecordLookupEditor extends LightningElement {
      */
     @api validate() {
         const event = { type: VALIDATE_ALL };
-        this.recordLookupElement = recordLookupReducer(this.recordLookupElement, event);
-        return getErrorsFromHydratedElement(this.recordLookupElement);
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
+        return getErrorsFromHydratedElement(this.state.recordLookupElement);
     }
 
     /**
      * @returns {Object} the entity fields
      */
     get recordFields() {
-        return this.fields;
+        return this.state.fields;
     }
 
     /**
-     * @returns {String} number of records to store (see record-editor-lib.NUMBER_RECORDS_TO_STORE)
+     * Returns the number of result stored.
+     * If firstRecord then the user will be able to select a sObject variable
+     * If allRecord then the user will be able to select a sObject Collection variable
+     * @returns {String} This value can be 'firstRecord' or 'allRecords'
      */
-    get numberRecordsToStore() {
-        if (this.recordLookupElement.outputReference && this.recordLookupElement.outputReference.value) {
-            const variable = getResourceByUniqueIdentifier(this.recordLookupElement.outputReference.value);
-            if (variable) {
-                this.sObjectName = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value ? variable.guid : '';
-                this.numberRecordsToStoreValue = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
-            }
-        }
-        // TODO : Modify it when implementing : W-4961821
-        return this.numberRecordsToStoreValue;
+    get numberRecordsToStoreValue() {
+        return this.state.recordLookupElement.numberRecordsToStore;
     }
 
     /**
      * @returns {boolean} true if you want to store all the records to an sObject collection variable
      */
     get isCollection() {
-        return this.numberRecordsToStore === NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
+        return this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     /**
      * @returns {String} the sObject or sObject collection variable that you want to assign the records to reference them later
      */
     get outputReference() {
-        if (this.recordLookupElement.outputReference && this.recordLookupElement.outputReference.value) {
-            return this.recordLookupElement.outputReference.value;
+        if (this.state.recordLookupElement.outputReference && this.state.recordLookupElement.outputReference.value) {
+            return this.state.recordLookupElement.outputReference.value;
         }
         return '';
     }
@@ -105,8 +101,8 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {String} the output reference error message
      */
     get outputReferenceErrorMessage() {
-        if (this.recordLookupElement.outputReference) {
-            return this.recordLookupElement.outputReference.error;
+        if (this.state.recordLookupElement.outputReference) {
+            return this.state.recordLookupElement.outputReference.error;
         }
         return '';
     }
@@ -116,31 +112,40 @@ export default class RecordLookupEditor extends LightningElement {
      */
     get entityComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
-            this.labels.object,
-            this.labels.objectPlaceholder,
-            this.recordLookupElement.object.error,
-            false,
-            true,
-            false,
+            this.labels.object, // Label
+            this.labels.objectPlaceholder, // Placeholder
+            this.state.recordLookupElement.object.error, // errorMessage
+            false, // literalsAllowed
+            true, // required
+            false, // disabled
             FLOW_DATA_TYPE.SOBJECT.value
         );
     }
 
     get resourceDisplayText() {
-        const entityToDisplay = getAllEntities().filter(entity => entity.apiName === this.recordEntityName);
+        const entityToDisplay = getAllEntities().filter(entity => entity.apiName === this.state.recordEntityName);
         if (entityToDisplay.length === 1) {
             return entityToDisplay[0].entityLabel;
         }
         return '';
     }
 
+    get isSObjectMode() {
+        return (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && this.state.wayToStoreFields === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE)
+        || (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
+    }
+
+    get wayToStoreFieldsValue() {
+        return this.state.wayToStoreFields;
+    }
+
     /**
      * get the fields of the selected entity
      */
     updateFields() {
-        if (this.recordEntityName) {
-            getFieldsForEntity(this.recordEntityName, (fields) => {
-                this.fields = fields;
+        if (this.state.recordEntityName) {
+            getFieldsForEntity(this.state.recordEntityName, (fields) => {
+                this.state.fields = fields;
             });
         }
     }
@@ -150,7 +155,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handlePropertyOrListItemChanged(event) {
         event.stopPropagation();
-        this.recordLookupElement = recordLookupReducer(this.recordLookupElement, event);
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
 
     /**
@@ -166,9 +171,9 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handleResourceChanged(event) {
         event.stopPropagation();
-        const oldRecordEntityName = this.recordEntityName;
-        if (event.detail.item && !event.detail.error && this.recordEntityName !== event.detail.item.value) {
-            this.recordEntityName = event.detail.item.value;
+        const oldRecordEntityName = this.state.recordEntityName;
+        if (event.detail.item && !event.detail.error && this.state.recordEntityName !== event.detail.item.value) {
+            this.state.recordEntityName = event.detail.item.value;
             this.updateFields();
         }
         const value = event.detail.item ? event.detail.item.value : event.detail.displayText;
@@ -181,10 +186,14 @@ export default class RecordLookupEditor extends LightningElement {
     handleRecordStoreOptionsChanged(event) {
         event.stopPropagation();
         if (this.numberRecordsToStoreValue !== event.detail.numberRecordsToStore) {
-            this.numberRecordsToStoreValue = event.detail.numberRecordsToStore;
+            this.updateProperty('numberRecordsToStore', event.detail.numberRecordsToStore, null, true, this.numberRecordsToStoreValue);
             this.updateProperty('outputReference', '', null, true, this.sObjectName);
-        } else if (this.recordLookupElement.assignNullValuesIfNoRecordsFound !== event.detail.assignNullToVariableNoRecord) {
+        } else if (this.state.recordLookupElement.assignNullValuesIfNoRecordsFound !== event.detail.assignNullToVariableNoRecord) {
             this.updateProperty('assignNullValuesIfNoRecordsFound', event.detail.assignNullToVariableNoRecord, null, false);
+        } else if (this.state.wayToStoreFields !== event.detail.wayToStoreFields) {
+            // reset outputAssignments
+            this.updateProperty('wayToStoreFields', '', null, true);
+            this.state.wayToStoreFields = event.detail.wayToStoreFields;
         }
     }
 
@@ -193,7 +202,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handleRecordSortChanged(event) {
         event.stopPropagation();
-        if (this.recordLookupElement.sortField.value !== event.detail.fieldApiName) {
+        if (this.state.recordLookupElement.sortField.value !== event.detail.fieldApiName) {
             this.updateProperty('sortField', event.detail.fieldApiName, event.detail.error, false);
         } else {
             this.updateProperty('sortOrder', event.detail.sortOrder, event.detail.error, false);
@@ -205,9 +214,14 @@ export default class RecordLookupEditor extends LightningElement {
         this.updateProperty('filterType', event.detail.filterType, event.detail.error, false);
     }
 
+    handleRecordInputOutputAssignmentsChanged(event) {
+        event.stopPropagation();
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
+    }
+
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
         const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
-        this.recordLookupElement = recordLookupReducer(this.recordLookupElement, propChangedEvent);
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, propChangedEvent);
     }
 }

@@ -3,7 +3,7 @@
         {labels.recordLookupTitle}
     </div>
     <div class="slds-p-horizontal_small slds-p-top_small">
-        <builder_platform_interaction-label-description label={recordLookupElement.label} dev-name={recordLookupElement.name} description={recordLookupElement.description} guid={recordLookupElement.guid} onpropertychanged={handlePropertyOrListItemChanged}> </builder_platform_interaction-label-description>
+        <builder_platform_interaction-label-description label={state.recordLookupElement.label} dev-name={state.recordLookupElement.name} description={state.recordLookupElement.description} guid={state.recordLookupElement.guid} onpropertychanged={handlePropertyOrListItemChanged}> </builder_platform_interaction-label-description>
     </div>
     
     <!-- sobject picker -->
@@ -12,7 +12,7 @@
         <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
             <builder_platform_interaction-entity-resource-picker
                     combobox-config={entityComboboxConfig}
-                    value={recordLookupElement.object.value}
+                    value={state.recordLookupElement.object.value}
                     crud-filter-type={crudFilterType}
                     oncomboboxstatechanged={handleResourceChanged}
                     onitemselected={handleResourceChanged}>
@@ -20,29 +20,69 @@
         </div>
     </div>
 
-    <div if:true={recordEntityName}>
+    <div if:true={state.recordEntityName}>
         <!-- Find Records section -->
-        <builder_platform_interaction-record-filter element-type={recordLookupElement.elementType} filter-items={recordLookupElement.filters} record-entity-name={recordEntityName} resource-display-text={resourceDisplayText} record-fields={recordFields} filter-type={recordLookupElement.filterType.value} onrecordfiltertypechanged={handleFilterTypeChanged} onaddrecordfilter={handlePropertyOrListItemChanged} onupdaterecordfilter={handlePropertyOrListItemChanged} ondeleterecordfilter={handlePropertyOrListItemChanged}></builder_platform_interaction-record-filter>
+        <builder_platform_interaction-record-filter 
+            element-type={state.recordLookupElement.elementType}
+            filter-items={state.recordLookupElement.filters}
+            record-entity-name={state.recordEntityName}
+            resource-display-text={resourceDisplayText}
+            record-fields={recordFields}
+            filter-type={state.recordLookupElement.filterType.value}
+            onrecordfiltertypechanged={handleFilterTypeChanged}
+            onaddrecordfilter={handlePropertyOrListItemChanged}
+            onupdaterecordfilter={handlePropertyOrListItemChanged}
+            ondeleterecordfilter={handlePropertyOrListItemChanged}>
+        </builder_platform_interaction-record-filter>
 
         <!-- Sort Records section -->
         <builder_platform_interaction-record-sort
-                resource-api-name={recordEntityName}
-                resource-display-text={resourceDisplayText}
-                selected-field={recordLookupElement.sortField.value}
-                sort-order={recordLookupElement.sortOrder.value}
-                sort-field-error={recordLookupElement.sortField.error}
-                onchange={handleRecordSortChanged}></builder_platform_interaction-record-sort>
+            resource-api-name={state.recordEntityName}
+            resource-display-text={resourceDisplayText}
+            selected-field={state.recordLookupElement.sortField.value}
+            sort-order={state.recordLookupElement.sortOrder.value}
+            sort-field-error={state.recordLookupElement.sortField.error}
+            onchange={handleRecordSortChanged}>
+        </builder_platform_interaction-record-sort>
                 
         <!-- Record Store Fields Selection section -->
         <builder_platform_interaction-record-store-options
-                element-type={recordLookupElement.elementType}
-                resource-display-text={resourceDisplayText}
-                number-of-records-to-store={numberRecordsToStore}
-                assign-null-values-if-no-records-found={recordLookupElement.assignNullValuesIfNoRecordsFound}
-                onrecordstoreoptionchanged={handleRecordStoreOptionsChanged}>
+            element-type={state.recordLookupElement.elementType}
+            resource-display-text={resourceDisplayText}
+            number-of-records-to-store={numberRecordsToStoreValue}
+            way-to-store-fields={wayToStoreFieldsValue}
+            assign-null-values-if-no-records-found={state.recordLookupElement.assignNullValuesIfNoRecordsFound}
+            onrecordstoreoptionchanged={handleRecordStoreOptionsChanged}>
         </builder_platform_interaction-record-store-options>
+        
         <!-- SObject or SObject collection section -->
-        <builder_platform_interaction-record-query-fields is-collection={isCollection} record-entity-name={recordEntityName} resource-display-text={resourceDisplayText} element-type={recordLookupElement.elementType} queried-fields={recordLookupElement.queriedFields}
-                output-reference={outputReference} sobject-variable-error-message={outputReferenceErrorMessage} onsobjectreferencechanged={handleSObjectReferenceChanged} onaddrecordlookupfield={handlePropertyOrListItemChanged} onupdaterecordlookupfield={handlePropertyOrListItemChanged} ondeleterecordlookupfield={handlePropertyOrListItemChanged}></builder_platform_interaction-record-query-fields>
+        <builder_platform_interaction-record-query-fields if:true={isSObjectMode} 
+            is-collection={isCollection}
+            record-entity-name={state.recordEntityName}
+            resource-display-text={resourceDisplayText}
+            element-type={state.recordLookupElement.elementType}
+            queried-fields={state.recordLookupElement.queriedFields}
+            output-reference={outputReference}
+            sobject-variable-error-message={outputReferenceErrorMessage}
+            onsobjectreferencechanged={handleSObjectReferenceChanged}
+            onaddrecordlookupfield={handlePropertyOrListItemChanged}
+            onupdaterecordlookupfield={handlePropertyOrListItemChanged}
+            ondeleterecordlookupfield={handlePropertyOrListItemChanged}>
+        </builder_platform_interaction-record-query-fields>
+        
+        <builder_platform_interaction-record-input-output-assignments 
+            if:false={isSObjectMode} 
+            input-output-assignments-items={state.recordLookupElement.outputAssignments}
+            resource-display-text={resourceDisplayText}
+            record-entity-name={state.recordEntityName}
+            record-fields={recordFields}
+            element-type={state.recordLookupElement.elementType}
+            title={assignmentTitle}
+            rhs-label={labels.filterRhsLabel}
+            rules={rules}
+            onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+            onaddrecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+            ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}>
+        </builder_platform_interaction-record-input-output-assignments>
     </div>
 </template> 

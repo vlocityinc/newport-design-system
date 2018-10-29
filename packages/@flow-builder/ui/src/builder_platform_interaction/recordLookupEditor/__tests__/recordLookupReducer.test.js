@@ -269,9 +269,9 @@ describe('record-lookup-reducer', () => {
                 expect(newState.filterType.value).toBe(RECORD_FILTER_CRITERIA.NONE);
                 expect(newState).not.toBe(originalState);
             });
-            it('should reset filter errors', () => {
+            it('should reset filter errors and value', () => {
                 expect(newState.filters).toHaveLength(1);
-                expect(newState.filters[0].leftHandSide.value).toBe('invalidValue');
+                expect(newState.filters[0].leftHandSide.value).toBe('');
                 expect(newState.filters[0].leftHandSide.error).toBeNull();
             });
         });

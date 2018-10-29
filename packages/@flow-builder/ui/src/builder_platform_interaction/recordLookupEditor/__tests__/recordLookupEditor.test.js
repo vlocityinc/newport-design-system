@@ -74,7 +74,8 @@ const defaultRecordLookupElement = {
     queriedFields: [],
     object: { value: '', error: null},
     filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
-    filters: []
+    filters: [],
+    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
 };
 
 const recordLookupElementWithSObject = {
@@ -92,7 +93,8 @@ const recordLookupElementWithSObject = {
     queriedFields: [],
     object: { value: 'Account', error: ''},
     filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
-    filters: []
+    filters: [],
+    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
 };
 
 const recordLookupElementWithSObjectAndFilters = {
@@ -114,7 +116,8 @@ const recordLookupElementWithSObjectAndFilters = {
         operator: {value: "EqualTo", error: null},
         rightHandSide: {value: "my address", error: null},
         rightHandSideDataType: {value: "String", error: null},
-        rowIndex: "RECORDLOOKUPFILTERITEM_122"}]
+        rowIndex: "RECORDLOOKUPFILTERITEM_122"}],
+    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
 };
 
 const getRecordStoreOption = (recordLookupEditor) => {
