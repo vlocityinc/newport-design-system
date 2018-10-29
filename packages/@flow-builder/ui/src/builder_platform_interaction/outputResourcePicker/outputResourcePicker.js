@@ -2,7 +2,6 @@ import { LightningElement, api, track }  from 'lwc';
 import {
     getMenuData,
     getResourceByUniqueIdentifier,
-    getFieldParamRepresentation,
     mutateFieldToComboboxShape,
     mutateFlowResourceToComboboxShape,
 } from "builder_platform_interaction/expressionUtils";
@@ -17,6 +16,7 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
 import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
 import { elementToParam } from "builder_platform_interaction/ruleLib";
+import * as sobjectLib from "builder_platform_interaction/sobjectLib";
 
 let storeInstance;
 
@@ -156,7 +156,7 @@ export default class OutputResourcePicker extends LightningElement {
     initializeResourcePicker = (normalizedValue) => {
         // on first render we want to replace the given value with the item from normalized value
         this.value = normalizedValue.item;
-        this.populateMenuData(this.parentItem, normalizedValue.fields);
+        this.populateMenuData(this.parentItem);
         this._isInitialized = true;
     }
 
@@ -173,16 +173,16 @@ export default class OutputResourcePicker extends LightningElement {
         return this.paramTypes;
     };
 
-    populateMenuData = (parentItem, fields) => {
+    populateMenuData = (parentItem) => {
         const showNewResource = true;
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
                 getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, false,
-                        this.enableFieldDrilldown, storeInstance, showNewResource, parentItem, fields, false));
+                        this.enableFieldDrilldown, storeInstance, showNewResource, parentItem, undefined, false));
         }
     }
 
-    normalizeValue = (identifier, elementType, callback) => {
+    normalizeValue = (identifier) => {
         const normalizedValue = {};
         const flowElement = getResourceByUniqueIdentifier(identifier);
         if (flowElement) {
@@ -190,13 +190,13 @@ export default class OutputResourcePicker extends LightningElement {
             if (fieldName) {
                 // TODO: W-4960448: the field will appear empty briefly when fetching the first time
                 const sobject = flowElement.objectType;
-                normalizedValue.parameter = getFieldParamRepresentation(sobject, fieldName, (field) => {
-                    const isFieldOnSobjectVar = !!flowElement;
-                    const fieldParent = isFieldOnSobjectVar ? mutateFlowResourceToComboboxShape(flowElement) : {value: field.sobjectName};
-                    normalizedValue.item = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
-                    if (callback) {
-                        callback(identifier);
-                    }
+                sobjectLib.getFieldsForEntity(sobject, (fields) => {
+                    const field = fields[fieldName];
+                    field.isCollection = false;
+                    normalizedValue.parameter = elementToParam(field);
+
+                    const fieldParent = mutateFlowResourceToComboboxShape(flowElement);
+                    normalizedValue.item = mutateFieldToComboboxShape(field, fieldParent, true, true);
                     normalizedValue.activePicklistValues = field.activePicklistValues;
                 });
             } else {

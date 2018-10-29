@@ -120,27 +120,6 @@ export const normalizeRHS = (rhsIdentifier) => {
 };
 
 /**
- * Builds the parameter representation of a field.
- *
- * @param {String} sobject           the sobject type this field belongs to
- * @param {String} fieldName         API name of the field to be described
- * @param {function} callback        to be executed after the field is retrieved
- * @returns {Object}                 the parameter representation of this field, to be used with the rules service
- */
-export const getFieldParamRepresentation = (sobject, fieldName, callback) => {
-    let fieldParam;
-    sobjectLib.getFieldsForEntity(sobject, (fields) => {
-        const field = fields[fieldName];
-        field.isCollection = false;
-        fieldParam = elementToParam(field);
-        if (callback) {
-            callback(field);
-        }
-    });
-    return fieldParam;
-};
-
-/**
  * The shape an expression builder needs to operator on any LHS.
  * @typedef {Object} normalizedLHS
  * @param {MenuItem} item     what the combobox needs to display this lhs
