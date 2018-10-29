@@ -54,7 +54,7 @@ describe('waitTimeEvent', () => {
         expect(getRulesForElementTypeParameters).toEqual([RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.WAIT]);
     });
 
-    describe('resume time parameters', () => {
+    describe('absolute resume time parameters', () => {
         let waitTimeEvent;
         let props;
 
@@ -163,6 +163,89 @@ describe('waitTimeEvent', () => {
         });
     });
 
+    describe('direct record time type time parameters', () => {
+        let waitTimeEvent;
+        let props;
+        const directRecordSalesforceObject = 'TimeTableColumnEnumOrId';
+        const directRecordBaseTime = 'TimeFieldColumnEnumOrId';
+        const directRecordRecordId = 'EntityObjectId';
+
+        const propChangedSpy = jest.fn().mockName('propertyChangedEventSpy');
+        let updateParameterSpy;
+
+        beforeEach(() => {
+            const directRecordTimeTypeParameters = [
+                { name: directRecordSalesforceObject, value: 'Account'},
+                { name: directRecordBaseTime, value: 'LastModifiedDate'},
+                { name: directRecordRecordId, value: '{!recId}'}
+            ];
+            const mockEventType = WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME;
+            props = {
+                resumeTimeParameters: directRecordTimeTypeParameters,
+                eventType: mockEventType,
+            };
+            waitTimeEvent = createComponentUnderTest(props);
+            window.addEventListener(PropertyChangedEvent.EVENT_NAME, propChangedSpy);
+            updateParameterSpy = jest.fn().mockName('updateParameterEventSpy');
+            window.addEventListener(UpdateParameterItemEvent.EVENT_NAME, updateParameterSpy);
+        });
+
+        afterEach(() => {
+            window.removeEventListener(PropertyChangedEvent.EVENT_NAME, propChangedSpy);
+            window.removeEventListener(UpdateParameterItemEvent.EVENT_NAME, updateParameterSpy);
+        });
+
+        it('fires UpdateParameterItemEvent on salesforceObject focus out', () => {
+            const focusOut = new CustomEvent('focusout');
+
+            const offsetUnit = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[0];
+            offsetUnit.dispatchEvent(focusOut);
+
+            return Promise.resolve().then(() => {
+                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
+                expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual(directRecordSalesforceObject);
+                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('String');
+                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('Account');
+                expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
+                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
+            });
+        });
+
+        it('fires UpdateParameterItemEvent on basetime focus out', () => {
+            const focusOut = new CustomEvent('focusout');
+
+            const offsetUnit = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[1];
+            offsetUnit.dispatchEvent(focusOut);
+
+            return Promise.resolve().then(() => {
+                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
+                expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual(directRecordBaseTime);
+                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('String');
+                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('LastModifiedDate');
+                expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
+                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
+            });
+        });
+
+        it('fires UpdateParameterItemEvent on recordId combobox state changed', () => {
+            const mockFerov = { value: 'recordId', dataType: 'String' };
+            getFerovInfoFromComboboxItem.mockReturnValueOnce(mockFerov);
+            const mockItem = { value: 'newRecordId', displayText: 'newRecordId' };
+            const comboboxStateChanged = new ComboboxStateChangedEvent(mockItem);
+
+            const picker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+            picker.dispatchEvent(comboboxStateChanged);
+
+            return Promise.resolve().then(() => {
+                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(mockFerov.value);
+                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(mockFerov.dataType);
+                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toEqual(true);
+            });
+        });
+     });
     describe('output parameters', () => {
         let waitTimeEvent;
         let resumeTimeParam;
