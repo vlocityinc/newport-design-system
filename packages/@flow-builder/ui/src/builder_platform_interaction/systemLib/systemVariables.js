@@ -20,6 +20,7 @@ const convertData = (data) => data.reduce((acc, obj) => {
         label: obj.devName,
         name,
         readOnly: !obj.isAssignable,
+        isSystemVariable: true,
     });
     delete variable.devName;
 

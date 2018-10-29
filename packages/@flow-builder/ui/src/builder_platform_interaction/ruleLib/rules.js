@@ -73,6 +73,7 @@ export const PARAM_PROPERTY = {
     CANNOT_BE_ELEMENTS: 'cannotBeElements',
     MUST_BE_ELEMENTS: 'mustBeElements',
     SOBJECT_FIELD_REQUIREMENT: 'canBeSobjectField',
+    SYSTEM_VARIABLE_REQUIREMENT: 'canBeSystemVariable',
 };
 
 export const CONSTRAINT = {

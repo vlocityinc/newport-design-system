@@ -23,6 +23,8 @@ import {
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, getProcessTypes } from "builder_platform_interaction/systemLib";
 
+const { DATA_TYPE, SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
+
 const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
 
 const isPicklistFieldAllowed = (allowedTypes) => {
@@ -111,7 +113,7 @@ export function isElementAllowed(allowedParamTypes, element, showSObjectsForFiel
     };
 
     return !allowedParamTypes
-        || isElementMatchForProperty(PARAM_PROPERTY.DATA_TYPE)
+        || isElementMatchForProperty(DATA_TYPE)
         || isElementMatchForProperty(PARAM_PROPERTY.ELEMENT_TYPE)
         || isElementMatchForProperty(OBJECT_TYPE)
         || (showSObjectsForFields && element.dataType === SObjectType && !element.isCollection);
@@ -311,6 +313,7 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
 
     return filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource, allowGlobalConstants, disableHasNext, activePicklistValues);
 }
+
 /**
  * Filter the list of elements, append global constants and mutate elements to shape the combobox expects.
  * Used when subscribed to store. If subscribing to store is not needed use getElementsForMenuData.
@@ -321,6 +324,7 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
  * @param {boolean} allowGlobalConstants             true if FEROVs are allowed here; certain things are true for all FEROV's e.g. global constants should be allowed, sobjects should be shown so that users can drill down to fields
  * @param {boolean} disableHasNext if true, then all menu items will have hasNext set to false regardless of the real value
  * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
+ * @param {boolean} showSystemVariables   are system variables allowed in this context
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource = false,
@@ -331,7 +335,11 @@ export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, inc
         menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
     }
 
-    const menuData = menuDataElements.filter(element => isElementAllowed(allowedParamTypes, element, !disableHasNext))
+    // the rules can block sobject fields by setting a flag on allowedParamTypes even if disableHasNext is false
+    const sobjectFieldsAllowed = !disableHasNext && (!allowedParamTypes || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]);
+
+    const menuData = menuDataElements
+        .filter(element => isElementAllowed(allowedParamTypes, element, sobjectFieldsAllowed))
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
             if (disableHasNext) {
@@ -342,10 +350,9 @@ export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, inc
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
 
-    if (showSystemVariables) {
+    if (showSystemVariables && allowedParamTypes && allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]) {
         menuData.push(getSystemVariableMenuData());
     }
-
 
     if (activePicklistValues && activePicklistValues.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
         // if the picklist is allowed we want to include those in the menu data

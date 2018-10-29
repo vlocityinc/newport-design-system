@@ -392,7 +392,7 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     getPossibleRHSDataTypes() {
         return Object.keys(this.rhsParamTypes)
-            .filter(key => this.rhsParamTypes[key][0][DATA_TYPE])
+            .filter(key => this.rhsParamTypes[key][0] && this.rhsParamTypes[key][0][DATA_TYPE])
             .map(key => this.rhsParamTypes[key][0][DATA_TYPE]);
     }
 

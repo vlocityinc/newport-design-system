@@ -9,6 +9,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
         isMatch: require.requireActual('builder_platform_interaction/ruleLib').isMatch,
+        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
     };
 });
 

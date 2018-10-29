@@ -1,14 +1,16 @@
 import { shallowCopyArray, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { isUndefinedOrNull, isUndefined } from "builder_platform_interaction/commonUtils";
 import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';
+import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
 const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE, CANNOT_BE_ELEMENTS,
-    MUST_BE_ELEMENTS, PARAM_TYPE_ELEMENT, PARAM_TYPE, SOBJECT_FIELD_REQUIREMENT} = PARAM_PROPERTY;
+    MUST_BE_ELEMENTS, PARAM_TYPE_ELEMENT, PARAM_TYPE, SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 const { CAN_BE, CANNOT_BE, MUST_BE } = CONSTRAINT;
 
 const IS_SOBJECT_FIELD = 'isSObjectField';
+const IS_SYSTEM_VARIABLE = 'isSystemVariable';
 
 let operatorsInstance = {};
 
@@ -16,6 +18,7 @@ export const OBJECT_TYPE = 'objectType';
 
 /**
  * A map from an elementType or dataType to an array of params relating to that elementType or dataType.
+ * AND this map has two extra keys - isSObjectField and isSystemVariable which are short cuts to see if those special types are allowed
  * @typedef {Object.<string, param[]>} allowedParamMap
  */
 
@@ -101,6 +104,8 @@ export const elementToParam = (element) => {
         // an element goes through this function twice, and on the first pass it will have 'isCollection' but on the second
         // it has 'collection', so we have to account for both options
         [IS_COLLECTION]: element.hasOwnProperty('collection') ? element.collection : element.isCollection,
+        [IS_SYSTEM_VARIABLE]: element[IS_SYSTEM_VARIABLE] || element.category === systemVariableCategory,
+
     };
 };
 
@@ -109,10 +114,10 @@ const elementTypeNotAllowedForDataParam = (rule, element) => {
         || (rule[CANNOT_BE_ELEMENTS] && rule[CANNOT_BE_ELEMENTS].includes(element));
 };
 
-const sObjectFieldAllowed = (rule, element) => {
-    return rule[SOBJECT_FIELD_REQUIREMENT] === CAN_BE ||
-        (rule[SOBJECT_FIELD_REQUIREMENT] === MUST_BE && element[IS_SOBJECT_FIELD]) ||
-        (rule[SOBJECT_FIELD_REQUIREMENT] === CANNOT_BE && !element[IS_SOBJECT_FIELD]);
+const propertyAllowed = (rule, property, status) => {
+    return rule[property] === CAN_BE ||
+        (rule[property] === MUST_BE && status) ||
+        (rule[property] === CANNOT_BE && !status);
 };
 
 const propertyMatches = (rule, element, property) => {
@@ -141,7 +146,7 @@ export const isMatch = (ruleParam, element) => {
        if all of the above is ok, make sure that the rule param's sObjectField requirement is respected */
     let matches = ruleParam[PARAM_TYPE] === PARAM_TYPE_ELEMENT
         || ((elementParam[ELEMENT_TYPE] ? !elementTypeNotAllowedForDataParam(ruleParam, elementParam[ELEMENT_TYPE]) : true)
-        && sObjectFieldAllowed(ruleParam, elementParam));
+        && propertyAllowed(ruleParam, SOBJECT_FIELD_REQUIREMENT, elementParam[IS_SOBJECT_FIELD]) && propertyAllowed(ruleParam, SYSTEM_VARIABLE_REQUIREMENT, elementParam[IS_SYSTEM_VARIABLE]));
 
     const propertiesToCompare = [DATA_TYPE, ELEMENT_TYPE, IS_COLLECTION];
     let i = 0;
@@ -155,6 +160,16 @@ export const isMatch = (ruleParam, element) => {
 };
 
 /**
+ * Operator rules have flags which can be set to CANNOT_BE, CAN_BE, or MUST_BE.
+ * @param {rules/param} param   an operatorRuleParam to be checked
+ * @param {String} flag         canBeSobjectField, canBeSystemVariable, etc
+ * @returns {Boolean}           true if this flag is allowed, but not necessarily required, by this param, false otherwise
+ */
+const specialCaseAllowed = (param, flag) => {
+    return [CAN_BE, MUST_BE].indexOf(param[flag]) >= 0;
+};
+
+/**
  * Get the allowed left hand side types based on the rule type
  * @param {String} elementType      elementType where this rule is being used
  * @param {operatorRule[]} rules         list of rules we are checking for lhs types. These are taken from the FlowOperatorRuleUtil service
@@ -162,6 +177,8 @@ export const isMatch = (ruleParam, element) => {
  * @returns {allowedParamMap}   map of data types & element types to allowed left hand side types
  */
 export const getLHSTypes = (elementType, rules, ruleType) => {
+    let canBeSystemVariable = false;
+    let canBeSObjectField = false;
     if (!Array.isArray(rules)) {
         throw new Error(`Rules must be an Array but instead was ${typeof rules}`);
     }
@@ -187,9 +204,14 @@ export const getLHSTypes = (elementType, rules, ruleType) => {
     // now iterate through the param type map and deserialize all the values and convert the sets to arrays
     Object.keys(paramTypeMap).forEach((key) => {
         paramTypeMap[key] = Array.from(paramTypeMap[key]).map((serializedValue) => {
-            return JSON.parse(serializedValue);
+            const param = JSON.parse(serializedValue);
+            canBeSObjectField = canBeSObjectField || specialCaseAllowed(param, SOBJECT_FIELD_REQUIREMENT);
+            canBeSystemVariable = canBeSystemVariable || specialCaseAllowed(param, SYSTEM_VARIABLE_REQUIREMENT);
+            return param;
         });
     });
+    paramTypeMap[SOBJECT_FIELD_REQUIREMENT] = canBeSObjectField;
+    paramTypeMap[SYSTEM_VARIABLE_REQUIREMENT] = canBeSystemVariable;
     return paramTypeMap;
 };
 
@@ -261,6 +283,8 @@ export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) 
     if (!Array.isArray(rules)) {
         throw new Error(`Rule must be an Array but instead was ${typeof rules}`);
     }
+    let canBeSystemVariable = false;
+    let canBeSObjectField = false;
     let allowedRules = rules;
     // if the rule type was specified then we want to filter by rule type
     if (ruleType !== undefined) {
@@ -296,7 +320,11 @@ export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) 
         if (!paramTypeMap.hasOwnProperty(type)) {
             paramTypeMap[type] = [];
         }
+        canBeSObjectField = canBeSObjectField || specialCaseAllowed(rhsParam, SOBJECT_FIELD_REQUIREMENT);
+        canBeSystemVariable = canBeSystemVariable || specialCaseAllowed(rhsParam, SYSTEM_VARIABLE_REQUIREMENT);
         paramTypeMap[type].push(rhsParam);
     });
+    paramTypeMap[SOBJECT_FIELD_REQUIREMENT] = canBeSObjectField;
+    paramTypeMap[SYSTEM_VARIABLE_REQUIREMENT] = canBeSystemVariable;
     return paramTypeMap;
 };

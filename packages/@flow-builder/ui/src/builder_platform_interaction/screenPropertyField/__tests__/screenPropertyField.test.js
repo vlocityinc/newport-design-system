@@ -15,6 +15,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         getRulesForElementType: jest.fn().mockImplementation(() => []).mockName('getRulesForElementType'),
         RULE_TYPES: require.requireActual('builder_platform_interaction/ruleLib').RULE_TYPES,
+        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
     };
 });
 

@@ -38,6 +38,7 @@ const sobjectCollectionVariable = LABELS.sObjectCollectionVariablePluralLabel.to
 
 const sampleNumberParamTypes = {
     Number : [numberParamCanBeField],
+    canBeSobjectField: true,
 };
 
 const sampleStringParamTypes = {
@@ -104,7 +105,7 @@ describe('Menu data retrieval', () => {
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         }, sampleNumberParamTypes);
-        expect(allowedVariables).toHaveLength(2);
+        expect(allowedVariables).toHaveLength(1);
         expect(allowedVariables[0].items).toHaveLength(1);
         expect(allowedVariables[0].items[0].displayText).toBe(addCurlyBraces(store.numberVariableDevName));
         selectorsMock.writableElementsSelector.mockClear();
@@ -153,7 +154,7 @@ describe('Menu data retrieval', () => {
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         }, sampleNumberParamTypes, true);
-        expect(allowedVariables).toHaveLength(3);
+        expect(allowedVariables).toHaveLength(2);
         expect(allowedVariables[0].text).toBe('FlowBuilderExpressionUtils.newResourceLabel');
         expect(allowedVariables[0].value).toBe('%%NewResource%%');
         selectorsMock.writableElementsSelector.mockClear();
@@ -164,12 +165,12 @@ describe('Menu data retrieval', () => {
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         }, sampleNumberParamTypes, false, true, false);
-        expect(primitivesWithObjects).toHaveLength(2);
+        expect(primitivesWithObjects).toHaveLength(1);
         const primitivesNoObjects = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         }, sampleNumberParamTypes, false, true, true);
-        expect(primitivesNoObjects).toHaveLength(1);
+        expect(primitivesNoObjects).toHaveLength(0);
         selectorsMock.writableElementsSelector.mockClear();
     });
     it('should have only sobject variables', () => {
@@ -191,7 +192,7 @@ describe('Menu data retrieval', () => {
     it('should have one sobject variable and one sobject collection variable', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(jest.fn().mockReturnValue([store.elements[store.accountSObjectVariableGuid], store.elements[store.accountSObjectCollectionVariableGuid]]));
         const menuData = getElementsForMenuData({elementType: ELEMENT_TYPE.RECORD_LOOKUP, sObjectSelector: true});
-        expect(menuData).toHaveLength(3);
+        expect(menuData).toHaveLength(2);
         expect(menuData[0].label).toBe(sobjectCollectionVariable);
         expect(menuData[1].label).toBe(sobjectVariable);
         expect(menuData[0].items).toHaveLength(1);
@@ -315,7 +316,7 @@ describe('Menu data retrieval', () => {
     describe('Filter and mutate menu data', () => {
         it('filters using allowed param and returns in format combobox expects', () => {
             const menuData = filterAndMutateMenuData([store.elements[store.numberVariableGuid], store.elements[store.dateVariableGuid]], sampleNumberParamTypes);
-            expect(menuData).toHaveLength(2);
+            expect(menuData).toHaveLength(1);
             expect(menuData[0].items).toHaveLength(1);
             const element = menuData[0].items[0];
             expect(element.value).toBe(store.numberVariableGuid);
