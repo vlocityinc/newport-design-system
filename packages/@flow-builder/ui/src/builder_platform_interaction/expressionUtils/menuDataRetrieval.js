@@ -203,6 +203,12 @@ function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, da
     };
 }
 
+function sObjectScalarsOrCollections(config) {
+    return {
+        selector: sObjectOrSObjectCollectionByEntitySelector(config),
+    };
+}
+
 /**
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
  * @param {String} dataType             data type to pass in byTypeElementsSelector
@@ -228,8 +234,8 @@ const filterInformationProviderMap = {
     [ELEMENT_TYPE.WAIT]: () => writableOrReadableElement(),
     [ELEMENT_TYPE.SCREEN]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices) => screenSelectors(shouldBeWritable, choices, dataType),
     [ELEMENT_TYPE.RECORD_CREATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => createableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
-    [ELEMENT_TYPE.RECORD_UPDATE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, updateable: true}),
-    [ELEMENT_TYPE.RECORD_DELETE]: () => sObjectOrSObjectCollectionByEntitySelector({allSObjectsAndSObjectCollections: true, deleteable: true}),
+    [ELEMENT_TYPE.RECORD_UPDATE]: () => sObjectScalarsOrCollections({allSObjectsAndSObjectCollections: true, updateable: true}),
+    [ELEMENT_TYPE.RECORD_DELETE]: () => sObjectScalarsOrCollections({allSObjectsAndSObjectCollections: true, deleteable: true}),
     [ELEMENT_TYPE.RECORD_LOOKUP]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
     [ELEMENT_TYPE.LOOP]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
 };
@@ -415,9 +421,7 @@ export function getSecondLevelItems(elementConfig, topLevelItemType, callback) {
             callback(shouldBeWritable ? filterWritable(getSystemVariables()) : getSystemVariables());
             break;
         default:
-            sobjectLib.getFieldsForEntity(topLevelItemType, (fields) => {
-                callback(shouldBeWritable ? filterWritable(fields) : fields);
-            });
+            sobjectLib.getFieldsForEntity(topLevelItemType, callback);
     }
 }
 
