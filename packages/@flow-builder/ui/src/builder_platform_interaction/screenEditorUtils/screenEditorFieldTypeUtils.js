@@ -390,7 +390,7 @@ export function getFieldChoiceData(field) {
                     throw new Error('Unable to find element: ' + choice);
                 }
                 return {
-                    label: choiceElement.choiceText,
+                    label: choiceElement.name,
                     guid:  choiceElement.guid,
                     value: choiceElement.guid,
                     displayValue: '{!' + choiceElement.name + '}'
