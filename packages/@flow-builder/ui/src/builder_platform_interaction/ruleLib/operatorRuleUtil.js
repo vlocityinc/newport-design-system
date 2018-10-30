@@ -1,6 +1,7 @@
 import { shallowCopyArray, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { isUndefinedOrNull, isUndefined } from "builder_platform_interaction/commonUtils";
 import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';
+import { ruleElementTypeToUIElementType } from "builder_platform_interaction/flowMetadata";
 import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
@@ -145,7 +146,7 @@ export const isMatch = (ruleParam, element) => {
        if the rule param's paramType is data, and the element has an elementType, make sure the element type is allowed
        if all of the above is ok, make sure that the rule param's sObjectField requirement is respected */
     let matches = ruleParam[PARAM_TYPE] === PARAM_TYPE_ELEMENT
-        || ((elementParam[ELEMENT_TYPE] ? !elementTypeNotAllowedForDataParam(ruleParam, elementParam[ELEMENT_TYPE]) : true)
+        || ((elementParam[ELEMENT_TYPE] ? !elementTypeNotAllowedForDataParam(ruleParam, ruleElementTypeToUIElementType[elementParam[ELEMENT_TYPE]]) : true)
         && propertyAllowed(ruleParam, SOBJECT_FIELD_REQUIREMENT, elementParam[IS_SOBJECT_FIELD]) && propertyAllowed(ruleParam, SYSTEM_VARIABLE_REQUIREMENT, elementParam[IS_SYSTEM_VARIABLE]));
 
     const propertiesToCompare = [DATA_TYPE, ELEMENT_TYPE, IS_COLLECTION];
