@@ -86,9 +86,17 @@ export const byTypeElementsSelector = (dataType) => {
     return createSelector([elementsSelector], getFilteredElements(element => element.dataType === dataType && !element.isCollection));
 };
 
-const choiceTypes = [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.DYNAMIC_CHOICE_SET, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET];
+const choiceTypes = [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET];
+const textCompatibleTypes = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value];
 export const choiceSelector = (dataType) => {
-    return createSelector([elementsSelector], getFilteredElements(element => choiceTypes.includes(element.elementType) && (!dataType || dataType === element.dataType)));
+    // element must be a choice
+    // if a dataType is specified for the choice field, this choice must have a compatible dataType
+    return createSelector([elementsSelector],
+        getFilteredElements((element) => {
+            return choiceTypes.includes(element.elementType) &&
+            (!dataType || dataType === element.dataType || (dataType === FLOW_DATA_TYPE.STRING.value && textCompatibleTypes.includes(element.dataType)));
+        }
+    ));
 };
 
 export const writableElementsSelector = createSelector([elementsSelector], getFilteredElements(element => element.elementType === ELEMENT_TYPE.VARIABLE));
