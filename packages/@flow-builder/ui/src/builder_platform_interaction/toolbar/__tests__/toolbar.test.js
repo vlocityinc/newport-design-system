@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent } from 'builder_platform_interaction/events';
+import { EditFlowPropertiesEvent, SaveFlowEvent } from 'builder_platform_interaction/events';
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { getShadowRoot } from 'lwc-test-utils';
 import { LABELS } from '../toolbarLabels';
@@ -17,10 +17,7 @@ const createComponentUnderTest = (props = {}) => {
 };
 
 const selectors = {
-    root: '.toolbar',
-    run: '.test-toolbar-run',
     editflowproperties: '.test-toolbar-editflowproperties',
-    debug: '.test-toolbar-debug',
     saveas: '.test-toolbar-saveas',
     save: '.test-toolbar-save',
     lastSave: '.test-toolbar-last-saved'
@@ -38,25 +35,12 @@ describe('toolbar', () => {
         });
     });
 
-    it('fires run event when run button is clicked', () => {
+    it('Button Group should be present', () => {
         const toolbarComponent = createComponentUnderTest();
 
         return Promise.resolve().then(() => {
-            const eventCallback = jest.fn();
-            toolbarComponent.addEventListener(RunFlowEvent.EVENT_NAME, eventCallback);
-            getShadowRoot(toolbarComponent).querySelector(selectors.run).click();
-            expect(eventCallback).toHaveBeenCalled();
-        });
-    });
-
-    it('fires debug event when debug button is clicked', () => {
-        const toolbarComponent = createComponentUnderTest();
-
-        return Promise.resolve().then(() => {
-            const eventCallback = jest.fn();
-            toolbarComponent.addEventListener(DebugFlowEvent.EVENT_NAME, eventCallback);
-            getShadowRoot(toolbarComponent).querySelector(selectors.debug).click();
-            expect(eventCallback).toHaveBeenCalled();
+            const toolbarButtonGroup = getShadowRoot(toolbarComponent).querySelector('lightning-button-group');
+            expect(toolbarButtonGroup).not.toBeNull();
         });
     });
 

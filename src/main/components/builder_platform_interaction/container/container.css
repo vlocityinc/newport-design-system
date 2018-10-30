@@ -1,41 +1,3 @@
-/************* Toolbar *****************/
-/*TODO: Remove button-group css once lightning-button-group is available in raptor (W-5278403)*/
-/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon .slds-button {*/
-    /*border-radius: 0;*/
-    /*margin-left: -1px;*/
-/*}*/
-
-/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:first-child .slds-button {*/
-    /*border-radius: .25rem 0 0 .25rem;*/
-    /*margin-left: t(spacingNone);*/
-/*}*/
-
-/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:last-child .slds-button {*/
-    /*border-radius: 0 .25rem .25rem 0;*/
-/*}*/
-
-/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__item-group .slds-button-group lightning-button-icon:only-child .slds-button {*/
-    /*border-radius: t(borderRadiusMedium);*/
-/*}*/
-
-/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button .slds-button {*/
-    /*border-radius: 0;*/
-    /*margin-left: -1px;*/
-/*}*/
-
-/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:first-child .slds-button {*/
-    /*border-radius: .25rem 0 0 .25rem;*/
-    /*margin-left: t(spacingNone);*/
-/*}*/
-
-/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:last-child .slds-button {*/
-    /*border-radius: 0 .25rem .25rem 0;*/
-/*}*/
-
-/*.THIS builder_platform_interaction-toolbar .slds-builder-toolbar .slds-builder-toolbar__actions .slds-button-group lightning-button:only-child .slds-button {*/
-    /*border-radius: t(borderRadiusMedium);*/
-/*}*/
-
 /************* Left Panel *****************/
 /*.THIS builder_platform_interaction-left-panel .flow-resource-list .new-resource-button button {*/
     /*flex-grow: 1;*/
@@ -43,26 +5,6 @@
 
 /*.THIS builder_platform_interaction-palette .slds-icon-standard-decision svg {*/
     /*transform: rotate(-45deg);*/
-/*}*/
-
-/************* Zoom Panel *****************/
-/*TODO: Remove button-group css once lightning-button-group is available in raptor (W-5278403)*/
-/*.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon .slds-button {*/
-    /*border-radius: 0;*/
-    /*margin-left: -1px;*/
-/*}*/
-
-/*.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:first-child .slds-button {*/
-    /*border-radius: .25rem 0 0 .25rem;*/
-    /*margin-left: t(spacingNone);;*/
-/*}*/
-
-/*.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:last-child .slds-button {*/
-    /*border-radius: 0 .25rem .25rem 0;*/
-/*}*/
-
-/*.THIS builder_platform_interaction-zoom-panel .zoom-panel .slds-button-group lightning-button-icon:only-child .slds-button {*/
-    /*border-radius: t(borderRadiusMedium);*/
 /*}*/
 
 /************* Node *****************/

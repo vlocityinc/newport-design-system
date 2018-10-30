@@ -57,28 +57,25 @@
                              title={statusBadgeTitle}
                              class={statusBadgeClasses}>
             </lightning-badge>
-            <div class="slds-button-group slds-m-left_xx-small" role="group">
+            <lightning-button-group class="slds-m-left_xx-small">
                 <lightning-button
                     label={labels.runTitle}
                     title={labels.runTitle}
                     onclick={handleRun}
-                    disabled={isRunDebugDisabled}
-                    class="test-toolbar-run">
+                    disabled={isRunDebugDisabled}>
                 </lightning-button>
                 <lightning-button
                     label={labels.debugTitle}
                     title={labels.debugTitle}
                     onclick={handleDebug}
-                    disabled={isRunDebugDisabled}
-                    class="test-toolbar-debug">
+                    disabled={isRunDebugDisabled}>
                 </lightning-button>
                 <lightning-button if:true={isDiffFlowAllowed}
                                   label={labels.diffFlowTitle}
                                   title={labels.diffFlowTitle}
-                                  onclick={handleDiff}
-                                  class="test-toolbar-debug">
+                                  onclick={handleDiff}>
                 </lightning-button>
-            </div>
+            </lightning-button-group>
             <lightning-button
                     label={labels.saveAsTitle}
                     title={labels.saveAsTitle}
