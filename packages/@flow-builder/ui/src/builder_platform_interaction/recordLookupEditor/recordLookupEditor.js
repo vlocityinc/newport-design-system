@@ -49,7 +49,7 @@ export default class RecordLookupEditor extends LightningElement {
     set node(newValue) {
         this.state.recordLookupElement = newValue;
         this.state.recordEntityName = this.state.recordLookupElement.object.value;
-        this.state.wayToStoreFields = this.state.recordLookupElement.outputAssignments.length > 0 ? WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES : WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE;
+        this.state.wayToStoreFields = this.hasOutputAssignemts ? WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES : WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE;
         this.updateFields();
     }
 
@@ -61,6 +61,10 @@ export default class RecordLookupEditor extends LightningElement {
         const event = { type: VALIDATE_ALL };
         this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
         return getErrorsFromHydratedElement(this.state.recordLookupElement);
+    }
+
+    get hasOutputAssignemts() {
+        return this.state.recordLookupElement.outputAssignments && this.state.recordLookupElement.outputAssignments.length > 0;
     }
 
     /**
