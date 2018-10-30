@@ -72,9 +72,10 @@ export default class SubflowEditor extends LightningElement {
         this.subflowDescriptor = undefined;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         const keyProvider = (params) => params.flowName;
+        const options = {disableErrorModal : true};
         fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
             flowProcessType : this.flowProcessType
-        }, keyProvider).then((subflows) => {
+        }, keyProvider, options).then((subflows) => {
             if (this.connected) {
                 this.subflowDescriptor = subflows.find(f => f.fullName === flowName);
             }
@@ -120,10 +121,11 @@ export default class SubflowEditor extends LightningElement {
     }
 
     get subtitle() {
-        if (this.subflowDescriptor == null) {
+        if (!this.subflowNode) {
             return '';
         }
-        return format(this.labels.subtitle, getValueFromHydratedItem(this.subflowDescriptor.masterLabel));
+        const flowName = this.subflowDescriptor != null ? this.subflowDescriptor.masterLabel : getValueFromHydratedItem(this.subflowNode.flowName);
+        return format(this.labels.subtitle, flowName);
     }
 
     get parameterListConfig() {

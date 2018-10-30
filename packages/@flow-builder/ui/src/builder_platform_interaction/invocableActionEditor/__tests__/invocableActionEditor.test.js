@@ -3,8 +3,9 @@ import { getShadowRoot } from 'lwc-test-utils';
 import InvocableActionEditor from "../invocableActionEditor";
 import { mockActionParameters, mockActions } from "mock/calloutData";
 import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
-import { LABELS } from '../invocableActionEditorLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
+
+const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
+commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
 const defaultNode = {
         actionName: {value: 'chatterPost', error: null},
@@ -96,39 +97,34 @@ const getBaseCalloutEditor = (actionEditor) => {
 };
 
 describe('Invocable Action editor', () => {
-    let actionEditorCmp, baseCalloutEditorCmp;
-    beforeEach(() => {
-        actionEditorCmp = createComponentUnderTest(defaultNode);
-        baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
-    });
     afterEach(() => {
         mockActionParametersPromise = Promise.resolve(mockActionParameters);
         mockActionsPromise = Promise.resolve(mockActions);
     });
     it('should display a subtitle including the action call label', async () => {
-        actionEditorCmp = createComponentUnderTest(defaultNode);
-        baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
+        const actionEditorCmp = createComponentUnderTest(defaultNode);
+        const baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
         await mockActionsPromise;
         await mockActionParametersPromise;
-        expect(baseCalloutEditorCmp.subtitle).toBe(format(LABELS.subtitle, 'Post to Chatter', LABELS.coreActionTypeLabel));
+        expect(baseCalloutEditorCmp.subtitle).toBe('FlowBuilderInvocableActionEditor.subtitle(Post to Chatter,FlowBuilderInvocableActionEditor.coreActionTypeLabel)');
     });
     it('contains base callout editor', () => {
-        actionEditorCmp = createComponentUnderTest(defaultNode);
-        baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
+        const actionEditorCmp = createComponentUnderTest(defaultNode);
+        const baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
         expect(baseCalloutEditorCmp).not.toBeNull();
     });
-    it('should not display a subtitle if call to GET_INVOCABLE_ACTIONS failed', async () => {
+    it('should display a subtitle using the unique name if call to GET_INVOCABLE_ACTIONS failed', async () => {
         mockActionsPromise = Promise.reject();
-        actionEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:false});
-        baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
+        const actionEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:false});
         await mockActionsPromise.catch(() => {
-            expect(baseCalloutEditorCmp.subtitle).toBe('');
+            const baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
+            expect(baseCalloutEditorCmp.subtitle).toBe('FlowBuilderInvocableActionEditor.subtitle(chatterPost,FlowBuilderInvocableActionEditor.coreActionTypeLabel)');
         });
     });
     describe('Edit existing invocable action', () => {
         it('should dispatch a ClosePropertyEditorEvent if call to GET_INVOCABLE_ACTION_PARAMETERS failed', async () => {
             mockActionParametersPromise = Promise.reject();
-            actionEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:false});
+            createComponentUnderTest(defaultNode, {isNewMode:false});
             const eventCallback = jest.fn();
             document.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
             await mockActionsPromise;
@@ -141,7 +137,7 @@ describe('Invocable Action editor', () => {
     describe('New invocable action node', () => {
         it('should dispatch a CannotRetrieveCalloutParametersEvent if call to GET_INVOCABLE_ACTION_PARAMETERS failed', async () => {
             mockActionParametersPromise = Promise.reject();
-            actionEditorCmp = createComponentUnderTest(defaultNode, {isNewMode:true});
+            createComponentUnderTest(defaultNode, {isNewMode:true});
             const eventCallback = jest.fn();
             document.addEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
             await mockActionsPromise;

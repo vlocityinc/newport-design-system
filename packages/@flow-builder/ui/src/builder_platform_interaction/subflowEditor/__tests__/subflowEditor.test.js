@@ -115,12 +115,12 @@ describe('subflow-editor', () => {
         const baseCalloutEditor = getBaseCalloutEditor(subflowEditor);
         expect(baseCalloutEditor.subtitle).toBe('FlowBuilderSubflowEditor.subtitle(my subflow)');
     });
-    it('should not display a subtitle if call to GET_SUBFLOWS failed', async () => {
+    it('should display a subtitle using unique name if call to GET_SUBFLOWS failed', async () => {
         mockSubflowsPromise = Promise.reject();
         subflowEditor = createComponentUnderTest(subflowNode, {isNewMode:false});
         await mockSubflowsPromise.catch(() => {
             const baseCalloutEditor = getBaseCalloutEditor(subflowEditor);
-            expect(baseCalloutEditor.subtitle).toBe('');
+            expect(baseCalloutEditor.subtitle).toBe('FlowBuilderSubflowEditor.subtitle(mynamespace__subflow)');
         });
     });
     describe('Edit existing subflow', () => {

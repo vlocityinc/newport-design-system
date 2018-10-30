@@ -101,9 +101,10 @@ export default class InvocableActionEditor extends LightningElement {
         this.invocableActionDescriptor = undefined;
         const actionParams = { actionName: getValueFromHydratedItem(this.node.actionName), actionType: getValueFromHydratedItem(this.node.actionType) };
         const keyProvider = (params) => params.flowProcessType;
+        const options = {disableErrorModal : true};
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
             flowProcessType : FLOW_PROCESS_TYPE.FLOW
-        }, keyProvider).then((invocableActions) => {
+        }, keyProvider, options).then((invocableActions) => {
             if (this.connected) {
                 this.invocableActionDescriptor = invocableActions.find(action => action.name === actionParams.actionName && action.type === actionParams.actionType);
             }
@@ -117,10 +118,11 @@ export default class InvocableActionEditor extends LightningElement {
     isNewMode = false;
 
     get subtitle() {
-        if (!this.invocableActionDescriptor) {
+        if (!this.actionCallNode) {
             return '';
         }
-        return format(this.labels.subtitle, getValueFromHydratedItem(this.invocableActionDescriptor.label), ACTION_TYPE_LABEL[this.elementType]);
+        const actionName = this.invocableActionDescriptor != null ? this.invocableActionDescriptor.label : getValueFromHydratedItem(this.actionCallNode.actionName);
+        return format(this.labels.subtitle, actionName, ACTION_TYPE_LABEL[this.elementType]);
     }
 
     get parameterListConfig() {

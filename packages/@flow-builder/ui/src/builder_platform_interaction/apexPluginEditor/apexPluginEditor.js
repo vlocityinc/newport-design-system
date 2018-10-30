@@ -73,10 +73,11 @@ export default class ApexPluginEditor extends LightningElement {
     isNewMode = false;
 
     get subtitle() {
-        if (!this.apexPluginDescriptor) {
+        if (!this.apexPluginNode) {
             return '';
         }
-        return format(this.labels.subtitle, getValueFromHydratedItem(this.apexPluginDescriptor.name), this.labels.apexPluginTypeLabel);
+        const name = this.apexPluginDescriptor != null ? this.apexPluginDescriptor.name : getValueFromHydratedItem(this.apexPluginNode.apexClass);
+        return format(this.labels.subtitle, name, this.labels.apexPluginTypeLabel);
     }
 
     get parameterListConfig() {
@@ -95,7 +96,8 @@ export default class ApexPluginEditor extends LightningElement {
 
     fetchApexPluginDescriptor() {
         this.apexPluginDescriptor = undefined;
-        fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGINS).then((apexPlugins) => {
+        const options = {disableErrorModal : true};
+        fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, {}, undefined, options).then((apexPlugins) => {
             if (this.connected) {
                 this.apexPluginDescriptor = apexPlugins.find(apexPlugin => apexPlugin.apexClass === getValueFromHydratedItem(this.apexPluginNode.apexClass));
             }
