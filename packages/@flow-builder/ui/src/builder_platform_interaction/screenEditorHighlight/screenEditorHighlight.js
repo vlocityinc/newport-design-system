@@ -12,8 +12,6 @@ export default class ScreenEditorHighlight extends LightningElement {
     @api preventEvents = false;
     @api displayIcons = false;
     @api draggable = false;
-    @api title;
-    @api tabIndex = 0;
     @api selected = false;
 
     labels = LABELS;

@@ -10,9 +10,7 @@ const INSERTION_LINE_SELECTOR = '.screen-editor-canvas-insertion-line';
  */
 export default class ScreenEditorCanvas extends LightningElement {
     @api screen;
-    @api tabIndex = 0;
     @api selectedItemGuid;
-
     labels = LABELS;
 
     get screenConfigurationHasErrors() {
