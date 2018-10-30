@@ -7,12 +7,18 @@ import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction
 import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
+    AddConditionEvent,
+    DeleteConditionEvent,
+    UpdateConditionEvent,
+    WaitEventAddParameterEvent,
+    WaitEventDeleteParameterEvent,
+    WaitEventParameterChangedEvent,
     WaitEventPropertyChangedEvent,
     UpdateWaitEventEventTypeEvent,
 } from 'builder_platform_interaction/events';
 import { getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
-import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { isWaitTimeEventType } from 'builder_platform_interaction/elementFactory';
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 
 const OUTPUT_PARAMETER_DEFINITION = {
     label: LABELS.platformEventOutputLabel,
@@ -89,7 +95,8 @@ export default class WaitPlatformEvent extends LightningElement {
                 const filter = {
                     expression: {
                         leftHandSide: {
-                            value: this.getLHSValue(inputParameter),
+                            // Expression builder needs to have the field value prefixed with event type name.
+                            value: this.addEventTypePrefix(inputParameter.name),
                             error: inputParameter.name.error
                         },
                         rightHandSide: {
@@ -197,13 +204,20 @@ export default class WaitPlatformEvent extends LightningElement {
     }
 
     /**
-     * Expression builder needs to have the field value prefixed with event type name.
-     * This function ensure that and returns the lhs value with the prefix.
+     * Add eventType API name prefix to the parameter name.
+     * @param {Object} paramName parameter name object hydrated with error
      */
-    getLHSValue(parameter) {
-        const parameterName = getValueFromHydratedItem(parameter.name);
+    addEventTypePrefix(paramName) {
+        const parameterName = getValueFromHydratedItem(paramName);
+        const error = getErrorFromHydratedItem(paramName);
         const fieldPrefix = this.eventTypeValue + '.';
-        if (!isUndefinedOrNull(parameterName) || parameterName.indexOf(fieldPrefix) !== -1) {
+
+        // if there is an error do not add the prefix
+        if (!parameterName || !isUndefinedOrNull(error)) {
+            return parameterName;
+        }
+
+        if (parameterName.startsWith(fieldPrefix)) {
             return parameterName;
         }
 
@@ -212,7 +226,30 @@ export default class WaitPlatformEvent extends LightningElement {
         }
 
         // fallback to prepending event api name to field name
-        return fieldPrefix + getValueFromHydratedItem(parameterName);
+        // this is needed for unlikely scenario when the getInputParametersForEventType async call
+        // to populate filterFields takes longer
+        return fieldPrefix + parameterName;
+    }
+
+    /**
+     * Removes eventType API name prefix from the parameter name.
+     * @param {Object} paramName hydrated parameter name object
+     */
+    removeEventTypePrefix(paramName) {
+        const parameterName = getValueFromHydratedItem(paramName);
+        const error = getErrorFromHydratedItem(paramName);
+        const fieldPrefix = this.eventTypeValue + '.';
+
+        // if there is an error do not remove the prefix
+        if (!parameterName || !isUndefinedOrNull(error)) {
+            return parameterName;
+        }
+
+        if (parameterName.startsWith(fieldPrefix)) {
+            return parameterName.substring(fieldPrefix.length);
+        }
+
+        return parameterName;
     }
 
     handleEventTypeChanged(event) {
@@ -250,5 +287,35 @@ export default class WaitPlatformEvent extends LightningElement {
 
 
         this.dispatchEvent(waitEventPropertyChangedEvent);
+    }
+
+    handlePlatformInputFilterEvent(event) {
+        event.stopPropagation();
+        switch (event.type) {
+            case AddConditionEvent.EVENT_NAME:
+                this.dispatchEvent(new WaitEventAddParameterEvent(
+                    null, event.detail.parentGUID, true
+                ));
+                break;
+            case DeleteConditionEvent.EVENT_NAME:
+                this.dispatchEvent(new WaitEventDeleteParameterEvent(
+                    null, event.detail.parentGUID, true, event.detail.index
+                ));
+                break;
+            case UpdateConditionEvent.EVENT_NAME:
+                this.dispatchEvent(new WaitEventParameterChangedEvent(
+                    // EventType prefix should not be there in metadata/store
+                    event.detail.value.leftHandSide ? this.removeEventTypePrefix(event.detail.value.leftHandSide) : undefined,
+                    event.detail.value.rightHandSide ? event.detail.value.rightHandSide.value : undefined,
+                    event.detail.value.rightHandSideDataType ? event.detail.value.rightHandSideDataType.value : undefined,
+                    event.detail.error,
+                    event.detail.parentGUID,
+                    true,
+                    event.detail.index
+                ));
+                break;
+            default:
+                break;
+        }
     }
 }

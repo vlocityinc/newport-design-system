@@ -1,10 +1,14 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
-import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    WAIT_TIME_EVENT_TYPE,
+    WAIT_EVENT_FIELDS,
+} from 'builder_platform_interaction/flowMetadata';
 import {
     PropertyChangedEvent,
     UpdateParameterItemEvent,
     ComboboxStateChangedEvent,
+    UpdateWaitEventEventTypeEvent,
 } from "builder_platform_interaction/events";
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFerovInfoFromComboboxItem } from 'builder_platform_interaction/expressionUtils';
@@ -59,7 +63,8 @@ describe('waitTimeEvent', () => {
         let props;
 
         const propChangedSpy = jest.fn().mockName('propertyChangedEventSpy');
-        let updateParameterSpy;
+        const updateParameterSpy = jest.fn().mockName('updateParameterEventSpy');
+        const updateWaitEventEventTypeSpy = jest.fn().mockName('updateWaitEventEventTypeSpy');
 
         beforeEach(() => {
             const mockResumeTimeParameters = [
@@ -73,13 +78,14 @@ describe('waitTimeEvent', () => {
             };
             waitTimeEvent = createComponentUnderTest(props);
             window.addEventListener(PropertyChangedEvent.EVENT_NAME, propChangedSpy);
-            updateParameterSpy = jest.fn().mockName('updateParameterEventSpy');
             window.addEventListener(UpdateParameterItemEvent.EVENT_NAME, updateParameterSpy);
+            window.addEventListener(UpdateWaitEventEventTypeEvent.EVENT_NAME, updateWaitEventEventTypeSpy);
         });
 
         afterEach(() => {
             window.removeEventListener(PropertyChangedEvent.EVENT_NAME, propChangedSpy);
             window.removeEventListener(UpdateParameterItemEvent.EVENT_NAME, updateParameterSpy);
+            window.removeEventListener(UpdateWaitEventEventTypeEvent.EVENT_NAME, updateWaitEventEventTypeSpy);
         });
 
         it('has a date time picker when absolute time is selected', () => {
@@ -94,15 +100,15 @@ describe('waitTimeEvent', () => {
             expect(offsetUnit.value).toEqual('Days');
         });
 
-        it('dispatches PropertyChangedEvent when event type changes', () => {
+        it('dispatches UpdateWaitEventEventTypeEvent when event type changes', () => {
             const radio = getShadowRoot(waitTimeEvent).querySelector(selectors.lightningRadioGroup);
             const mockPayload = { value: WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME };
             const changedEvent = new CustomEvent('change', { detail: mockPayload});
 
             radio.dispatchEvent(changedEvent);
             return Promise.resolve().then(() => {
-                expect(propChangedSpy.mock.calls[0][0].detail.propertyName).toEqual('eventType');
-                expect(propChangedSpy.mock.calls[0][0].detail.value).toEqual(mockPayload.value);
+                expect(updateWaitEventEventTypeSpy.mock.calls[0][0].detail.propertyName).toEqual(WAIT_EVENT_FIELDS.EVENT_TYPE);
+                expect(updateWaitEventEventTypeSpy.mock.calls[0][0].detail.value).toEqual(mockPayload.value);
             });
         });
 

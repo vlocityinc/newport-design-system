@@ -19,7 +19,10 @@
                 condition-logic={filterConditionLogic}
                 logic-combobox-label={labels.waitFilterConditionsHeader}
                 container-element-type={elementTypeForExpressionBuilder}
-                onpropertychanged={handlePropertyChanged}>
+                onpropertychanged={handlePropertyChanged}
+                onaddcondition={handlePlatformInputFilterEvent}
+                ondeletecondition={handlePlatformInputFilterEvent}
+                onupdatecondition={handlePlatformInputFilterEvent}>
             <div slot="conditions">
                 <template for:each={filters} for:item="filter" for:index="filterIndex">
                     <div class="slds-list__item slds-is-relative" key={filter.rowIndex}>

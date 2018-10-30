@@ -3,12 +3,6 @@ import { LABELS } from "./waitResumeConditionsLabels";
 import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
-    AddConditionEvent,
-    DeleteConditionEvent,
-    UpdateConditionEvent,
-    WaitEventAddParameterEvent,
-    WaitEventDeleteParameterEvent,
-    WaitEventParameterChangedEvent,
     UpdateWaitEventEventTypeEvent
 } from 'builder_platform_interaction/events';
 import { isWaitTimeEventType } from 'builder_platform_interaction/elementFactory';
@@ -97,34 +91,5 @@ export default class WaitResumeConditions extends LightningElement {
     isTimeEvent(eventType) {
         const eventTypeValue = getValueFromHydratedItem(eventType);
         return isWaitTimeEventType(eventTypeValue);
-    }
-
-    handlePlatformInputFilterEvent(event) {
-        event.stopPropagation();
-        switch (event.type) {
-            case AddConditionEvent.EVENT_NAME:
-                this.dispatchEvent(new WaitEventAddParameterEvent(
-                    null, event.detail.parentGUID, true
-                ));
-                break;
-            case DeleteConditionEvent.EVENT_NAME:
-                this.dispatchEvent(new WaitEventDeleteParameterEvent(
-                    null, event.detail.parentGUID, true, event.detail.index
-                ));
-                break;
-            case UpdateConditionEvent.EVENT_NAME:
-                this.dispatchEvent(new WaitEventParameterChangedEvent(
-                    event.detail.value.leftHandSide ? event.detail.value.leftHandSide.value : undefined,
-                    event.detail.value.rightHandSide ? event.detail.value.rightHandSide.value : undefined,
-                    event.detail.value.rightHandSideDataType ? event.detail.value.rightHandSideDataType.value : undefined,
-                    event.detail.error,
-                    event.detail.parentGUID,
-                    true,
-                    event.detail.index
-                ));
-                break;
-            default:
-                break;
-        }
     }
 }
