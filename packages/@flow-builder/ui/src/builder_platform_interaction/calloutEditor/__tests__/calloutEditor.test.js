@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import CalloutEditor  from "../calloutEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
+import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
 const setupComponentUnderTest = () => {
     const element = createElement('builder_platform_interaction-callout-editor', {
         is: CalloutEditor,
@@ -58,6 +58,20 @@ describe('callout-editor', () => {
     beforeEach(() => {
         calloutEditor = setupComponentUnderTest();
         actionSelector = getShadowRoot(calloutEditor).querySelector(selectors.ACTION_SELECTOR);
+    });
+    describe('general things', () => {
+        it('updates hasActions on receiving actions Loaded Event with no actions', async () => {
+            const changeEvent = new ActionsLoadedEvent(mockSelectedAction.actionName, 0);
+            actionSelector.dispatchEvent(changeEvent);
+            await Promise.resolve();
+            expect(getContainer().hasActions).toEqual({ value: false });
+        });
+        it('updates hasActions on receiving actions Loaded Event with actions', async () => {
+            const changeEvent = new ActionsLoadedEvent(mockSelectedAction.actionName, 3);
+            actionSelector.dispatchEvent(changeEvent);
+            await Promise.resolve();
+            expect(getContainer().hasActions).toEqual({ value: true });
+        });
     });
     it('has an action-selector component', () => {
         expect(actionSelector).not.toBeNull();

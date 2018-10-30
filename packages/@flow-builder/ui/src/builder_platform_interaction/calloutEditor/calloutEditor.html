@@ -4,12 +4,14 @@
            <builder_platform_interaction-action-selector 
                 selected-action={selectedAction}
                 error-message={selectedActionError} 
+                onactionsloaded={handleActionsLoaded}
                 onvaluechanged={handleActionSelected}
                 oncannotretrieveactions={handleCannotRetrieveActions}>
            </builder_platform_interaction-action-selector>
         </div>
         <builder_platform_interaction-callout-editor-container
-            selected-action={selectedAction} oncannotretrievecalloutparameters={handleCannotRetrieveParameters}>
+            selected-action={selectedAction} oncannotretrievecalloutparameters={handleCannotRetrieveParameters}
+            has-actions={hasActions}>
         </builder_platform_interaction-callout-editor-container>
     </div>
 </template>

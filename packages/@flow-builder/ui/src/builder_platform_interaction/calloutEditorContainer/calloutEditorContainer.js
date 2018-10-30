@@ -3,12 +3,21 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import invocableActionTemplate from "./invocableActionTemplate.html";
 import apexPluginTemplate from "./apexPluginTemplate.html";
 import subflowTemplate from "./subflowTemplate.html";
-import emptyTemplate from './emptyTemplate.html';
+import noActionTemplate from "./noActionTemplate.html";
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { LABELS } from "./calloutEditorLabels";
 
 const EDITOR_SELECTOR = '.editor_template';
 
 export default class CalloutEditorContainer extends LightningElement {
+    labels = LABELS;
+
+    @track
+    state = {
+        noActionBodyRegular : '',
+        noActionHeadingMedium : '',
+    };
+
     /**
      * The currently selected action
      * @type {Object}
@@ -21,6 +30,18 @@ export default class CalloutEditorContainer extends LightningElement {
      */
     @track
     node = {};
+
+    _hasActions = false;
+
+    @api
+    get hasActions() {
+        return this._hasActions;
+    }
+
+    set hasActions(newValue) {
+        this._hasActions = newValue.value;
+        this.updateLabels();
+    }
 
     /**
      * Sets the selected action
@@ -94,8 +115,11 @@ export default class CalloutEditorContainer extends LightningElement {
 
     render() {
         const elementType = this.node.elementType;
+        if (!this._hasActions) {
+            return noActionTemplate;
+        }
         if (this.isInitialState()) {
-            return emptyTemplate;
+            return noActionTemplate;
         }
         switch (elementType) {
             case ELEMENT_TYPE.ACTION_CALL:
@@ -107,7 +131,28 @@ export default class CalloutEditorContainer extends LightningElement {
             case ELEMENT_TYPE.SUBFLOW:
                 return subflowTemplate;
             default:
-                return emptyTemplate;
+                return noActionTemplate;
         }
+    }
+
+    @api
+    get noActionHeadingMedium() {
+        return this.state.noActionHeadingMedium;
+    }
+
+    @api
+    get noActionBodyRegular() {
+        return this.state.noActionBodyRegular;
+    }
+
+    updateLabels() {
+        const elementType = (this.node && this.node.elementType) ? this.node.elementType : null;
+        if (elementType == null) {
+            this.state.noActionHeadingMedium = '';
+            this.state.noActionBodyRegular = '';
+        }
+
+        this.state.noActionHeadingMedium = this.labels[elementType].HEAD[this._hasActions];
+        this.state.noActionBodyRegular = this.labels[elementType].BODY[this._hasActions];
     }
 }

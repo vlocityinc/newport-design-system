@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import ActionSelector from "../actionSelector";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { ValueChangedEvent, ComboboxStateChangedEvent } from "builder_platform_interaction/events";
+import { ValueChangedEvent, ComboboxStateChangedEvent, ActionsLoadedEvent } from "builder_platform_interaction/events";
 import { mockActions, mockApexPlugins, mockSubflows } from "mock/calloutData";
 
 const createComponentUnderTest = () => {
@@ -83,38 +83,60 @@ describe('Action selector', () => {
         });
     });
     describe('When user selects an action type', () => {
-        let eventCallback;
-        const expectEventCallbackCalledWithElementType = (elementType, error = null) => {
-            expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toEqual({error, value : {elementType}});
+        let valueChangedEventCallback;
+        const expectValueChangedEventCallbackCalledWithElementType = (elementType, error = null) => {
+            expect(valueChangedEventCallback).toHaveBeenCalled();
+            expect(valueChangedEventCallback.mock.calls[0][0].detail).toEqual({error, value : {elementType}});
         };
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
-            eventCallback = jest.fn();
-            document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
+            valueChangedEventCallback = jest.fn();
+            document.addEventListener(ValueChangedEvent.EVENT_NAME, valueChangedEventCallback);
         });
         afterEach(() => {
-            document.removeEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
+            document.removeEventListener(ValueChangedEvent.EVENT_NAME, valueChangedEventCallback);
         });
         it('should fire ValueChangedEvent with APEX_CALL when apex call is selected', async () => {
             lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_CALL}}));
-            expectEventCallbackCalledWithElementType(ELEMENT_TYPE.APEX_CALL);
+            expectValueChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.APEX_CALL);
         });
         it('should fire ValueChangedEvent with ACTION_CALL when action call is selected', async () => {
             lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.ACTION_CALL}}));
-            expectEventCallbackCalledWithElementType(ELEMENT_TYPE.ACTION_CALL);
+            expectValueChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.ACTION_CALL);
         });
         it('should fire ValueChangedEvent with APEX_PLUGIN_CALL when apex plugin call is selected', async () => {
             lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_PLUGIN_CALL}}));
-            expectEventCallbackCalledWithElementType(ELEMENT_TYPE.APEX_PLUGIN_CALL);
+            expectValueChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.APEX_PLUGIN_CALL);
         });
         it('should fire ValueChangedEvent with EMAIL_ALERT when email alert call is selected', async () => {
             lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.EMAIL_ALERT}}));
-            expectEventCallbackCalledWithElementType(ELEMENT_TYPE.EMAIL_ALERT);
+            expectValueChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.EMAIL_ALERT);
         });
         it('should fire ValueChangedEvent with SUBFLOW when subflow is selected', async () => {
             lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.SUBFLOW}}));
-            expectEventCallbackCalledWithElementType(ELEMENT_TYPE.SUBFLOW);
+            expectValueChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.SUBFLOW);
+        });
+    });
+    describe('When action list is resolved', () => {
+        let actionsChangedEventCallback;
+        const expectActionsChangedEventCallbackCalledWithElementType = (elementType, numberActions, error = null) => {
+            expect(actionsChangedEventCallback).toHaveBeenCalled();
+            expect(actionsChangedEventCallback.mock.calls[1][0].detail).toEqual({error, value : {elementType}, number: numberActions});
+        };
+        beforeEach(() => {
+            mockApexPluginsPromise = Promise.resolve([]);
+            actionSelectorComponent = createComponentUnderTest();
+            actionsChangedEventCallback = jest.fn();
+            document.addEventListener(ActionsLoadedEvent.EVENT_NAME, actionsChangedEventCallback);
+        });
+        afterEach(() => {
+            document.removeEventListener(ActionsLoadedEvent.EVENT_NAME, actionsChangedEventCallback);
+        });
+        it('should fire ActionsChangedEvent when actions are updated', async () => {
+            const expectedNumber = 0;
+            actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_PLUGIN_CALL };
+            interactionCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_PLUGIN_CALL, number: expectedNumber}}));
+            expectActionsChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.APEX_PLUGIN_CALL, expectedNumber);
         });
     });
     describe('When action type changes', () => {

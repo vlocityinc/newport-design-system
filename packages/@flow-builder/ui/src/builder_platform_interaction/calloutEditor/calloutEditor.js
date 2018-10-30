@@ -18,6 +18,8 @@ export default class CalloutEditor extends LightningElement {
 
     @track selectedActionError = null;
 
+    @track hasActions = {};
+
     @api
     get node() {
         return this.calloutNode;
@@ -101,5 +103,9 @@ export default class CalloutEditor extends LightningElement {
        event.stopPropagation();
        const closePropertyEditorEvent = new ClosePropertyEditorEvent();
        this.dispatchEvent(closePropertyEditorEvent);
+   }
+
+    handleActionsLoaded(event) {
+        this.hasActions = { value : !(event.detail.number === 0)}; // only set it when the event explicitly says it has 0
    }
 }

@@ -1,5 +1,5 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { ValueChangedEvent, CannotRetrieveActionsEvent } from "builder_platform_interaction/events";
+import { ValueChangedEvent, CannotRetrieveActionsEvent, ActionsLoadedEvent } from "builder_platform_interaction/events";
 import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
 import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
@@ -259,6 +259,10 @@ export default class ActionSelector extends LightningElement {
         this.state.actionComboLabel = LABELS[selectedElementType].ACTION_COMBO_LABEL;
         this.state.actionPlaceholder = LABELS[selectedElementType].ACTION_COMBO_PLACEHOLDER;
         this.fullActionMenuData = this.state.filteredActionMenuData = items;
+        // dispatch event up so that other cmps know to render 'no available actions of this type'
+        const newSelectedAction = this.getSelectedActionFrom(selectedElementType, null);
+        const valueChangedEvent = new ActionsLoadedEvent(newSelectedAction, this.fullActionMenuData.length);
+        this.dispatchEvent(valueChangedEvent);
     }
 
     updateTypeCombo() {

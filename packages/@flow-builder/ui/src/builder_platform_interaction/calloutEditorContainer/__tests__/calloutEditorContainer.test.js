@@ -98,7 +98,7 @@ describe('callout-editor-container', () => {
         let container;
         beforeEach(() => {
             getElementForPropertyEditor.mockReturnValue(invocableActionNode);
-            container = setupComponentUnderTest({selectedAction: mockSelectedAction});
+            container = setupComponentUnderTest({selectedAction: mockSelectedAction, hasActions: { value: true}});
         });
         it('should accept the selected action', () => {
             expect(container.selectedAction).toEqual(mockSelectedAction);
