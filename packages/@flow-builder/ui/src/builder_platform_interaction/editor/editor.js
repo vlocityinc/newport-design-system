@@ -287,7 +287,11 @@ export default class Editor extends LightningElement {
         if (error) {
             // TODO: handle error case
         } else {
-            this.backUrl = data.backUrl;
+            let isFromAloha = data.preferred === 'CLASSIC';
+            if (window.location.search.indexOf('isFromAloha=true') >= 0) {
+                isFromAloha = true;
+            }
+            this.backUrl = isFromAloha ? data.flowUrl : data.lightningFlowUrl;
             this.helpUrl = data.helpUrl;
             this.runDebugUrl = data.runDebugUrl;
         }
