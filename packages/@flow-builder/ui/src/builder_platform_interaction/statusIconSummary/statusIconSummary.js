@@ -4,8 +4,9 @@ import { format } from "builder_platform_interaction/commonUtils";
 
 export default class StatusIconSummary extends LightningElement {
     @api header;
-    @api messages = [];
-    @api type = 'error';
+    @api sections = {};
+    @api type;
+    @api allCount
     @api handleClickCallback;
     @api showOnlyNumberOfErrors = false;
 
@@ -24,7 +25,8 @@ export default class StatusIconSummary extends LightningElement {
      * @returns {string} sectionStyle: the section style css based on type
      */
     get sectionStyle() {
-        return 'slds-popover slds-popover_medium slds-show slds-popover_' + this.type;
+        const popOverClasses =  'slds-popover slds-show slds-popover_' + this.type;
+        return this.type === 'warning' ? popOverClasses + ' slds-popover_large' : popOverClasses + ' slds-popover_medium';
     }
 
     /**
@@ -40,10 +42,23 @@ export default class StatusIconSummary extends LightningElement {
      * @returns {string} message body with the number of errors, this replaces the list of errors in the body
      */
     get messageBody() {
-        return this.messages.length > 1 ? format(LABELS.popupErrorMessagePlural, this.messages.length) : format(LABELS.popupErrorMessageSingular, this.messages.length);
+        if (this.type === 'warning') {
+            return this.allCount > 1 ? format(LABELS.popupWarningMessagePlural, this.allCount) : format(LABELS.popupWarningMessageSingular, this.allCount);
+        }
+        return this.allCount > 1 ? format(LABELS.popupErrorMessagePlural, this.allCount) : format(LABELS.popupErrorMessageSingular, this.allCount);
     }
 
-    get messageListClass() {
-        return this.messages.length > 1 ? 'slds-list--dotted' : '';
+    /**
+     * @returns {boolean} hasSectionHeader : section header based on type
+     */
+    get hasSectionHeader() {
+        return this.type  === 'warning';
+    }
+
+    /**
+     * @returns {string} sectionStyle: the section style css based on type
+    */
+    get hasSections() {
+        return this.type === 'warning' ? 'slds-item' : '';
     }
 }

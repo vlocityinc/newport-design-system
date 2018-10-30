@@ -27,8 +27,11 @@ export default class Toolbar extends LightningElement {
     @api saveStatus;
     @api isLightningFlowBuilder;
     @api hasUnsavedChanges;
+    @api warnings;
 
     labels = LABELS;
+    headerTitleForErrorSummary = LABELS.errorPopOverHeader;
+    headerTitleForWarningSummary = LABELS.warningPopOverHeader;
 
     statusLabelAndTitle = {
         [ACTIVE]: {
@@ -85,8 +88,6 @@ export default class Toolbar extends LightningElement {
     get isDiffFlowAllowed() {
         return orgHasFlowBuilderDebug();
     }
-
-    headerTitleForSummary = LABELS.errorPopOverHeader;
 
     handleEditFlowProperties(event) {
         event.preventDefault();

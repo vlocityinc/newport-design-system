@@ -17,13 +17,13 @@
                 } else if (validationErrors.length > 0 ) {
                     var errors = [];
                     for (var i = 0, len = validationErrors.length; i < len; i++) {
-                        errors.push({
+                        errors.push(
                             // TODO : talk about key(devName) to actual label in error messages, will be finalized as part of this work item 
-                            messages:validationErrors[i].key + ": " + validationErrors[i].errorString
-                        });
+                            validationErrors[i].key + ": " + validationErrors[i].errorString
+                        );
                     }
                     cmp.set('v.isSaveDisabled', false);
-                    cmp.set('v.messages', errors);
+                    cmp.set('v.messages', {'No Section': errors});
                 }
             }
         } 

@@ -13,6 +13,7 @@ import diffFlowTitle from '@salesforce/label/FlowBuilderToolbar.diffFlowTitle';
 import saveTitle from '@salesforce/label/FlowBuilderToolbar.saveTitle';
 import saveAsTitle from '@salesforce/label/FlowBuilderToolbar.saveAsTitle';
 import errorPopOverHeader from '@salesforce/label/FlowBuilderValidation.errorPopOverHeader';
+import warningPopOverHeader from '@salesforce/label/FlowBuilderValidation.warningPopOverHeader';
 
 export const LABELS = {
     flowPropertiesTitle,
@@ -29,5 +30,6 @@ export const LABELS = {
     diffFlowTitle,
     saveTitle,
     saveAsTitle,
-    errorPopOverHeader
+    errorPopOverHeader,
+    warningPopOverHeader
 };

@@ -6,6 +6,10 @@ import statusIconShowErrorSingularTitle from "@salesforce/label/FlowBuilderCommo
 import statusIconHideErrorSingularTitle from "@salesforce/label/FlowBuilderCommonPropertyEditor.statusIconHideErrorSingularTitle";
 import statusIconShowWarningSingularTitle from "@salesforce/label/FlowBuilderCommonPropertyEditor.statusIconShowWarningSingularTitle";
 import statusIconHideWarningSingularTitle from "@salesforce/label/FlowBuilderCommonPropertyEditor.statusIconHideWarningSingularTitle";
+import generalWarningSectionTitle from "@salesforce/label/FlowBuilderCommonPropertyEditor.generalWarningSectionTitle";
+import generalWarningSectionInfo from "@salesforce/label/FlowBuilderCommonPropertyEditor.generalWarningSectionInfo";
+import validationWarningsSectionTitle from "@salesforce/label/FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle";
+import validationWarningsSectionInfo from "@salesforce/label/FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo";
 export const LABELS = {
     statusIconShowErrorPluralTitle,
     statusIconHideErrorPluralTitle,
@@ -14,5 +18,9 @@ export const LABELS = {
     statusIconShowErrorSingularTitle,
     statusIconHideErrorSingularTitle,
     statusIconShowWarningSingularTitle,
-    statusIconHideWarningSingularTitle
+    statusIconHideWarningSingularTitle,
+    generalWarningSectionTitle,
+    generalWarningSectionInfo,
+    validationWarningsSectionTitle,
+    validationWarningsSectionInfo
 };

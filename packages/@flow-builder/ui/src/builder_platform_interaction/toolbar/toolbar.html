@@ -46,10 +46,18 @@
             </button>
             <div class="inline-display slds-m-left_xx-small">
                 <builder_platform_interaction-status-icon
+                    messages={warnings}
+                    type="warning"
+                    direction="south"
+                    headerforsummary={headerTitleForWarningSummary}>
+                </builder_platform_interaction-status-icon>
+            </div>
+            <div class="inline-display slds-m-left_xx-small">
+                <builder_platform_interaction-status-icon
                     messages={errors}
                     type="error"
                     direction="south"
-                    headerforsummary={headerTitleForSummary}>
+                    headerforsummary={headerTitleForErrorSummary}>
                 </builder_platform_interaction-status-icon>
             </div>
             <lightning-badge if:true={flowStatus}

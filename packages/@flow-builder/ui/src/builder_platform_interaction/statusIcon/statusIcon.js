@@ -15,7 +15,7 @@ export default class StatusIcon extends LightningElement {
     @track isIconVisible = false;
     @track panelHidden = true;
 
-    @api type = 'error'; // Can only be error or warning as of now
+    @api type; // Can only be error or warning as of now
     @api direction = 'south'; // other options : north, east & west
     @api headerforsummary; // header for summary / body of panel
     @api showOnlyNumberOfErrors = false;
@@ -25,20 +25,14 @@ export default class StatusIcon extends LightningElement {
         return this.internalMessages;
     }
 
-    set messages(msgs = []) {
-        this.internalMessages = msgs.map(error => {
-            return {
-                message: error.messages,
-                guid: generateGuid()
-            };
-        });
-
+    set messages(msgs) {
+        this.createSections(msgs);
         // Closing the panel if it was previously open and errors got updated
         if (this.panelInstance && this.closePanelFunction) {
             this.closePanelFunction();
         }
 
-        if (this.internalMessages && this.internalMessages.length > 0) {
+        if (this.allCount > 0) {
             this.isIconVisible = true;
             if (!this.disableAutoOpen) {
                 this.createPanel();
@@ -109,6 +103,37 @@ export default class StatusIcon extends LightningElement {
     }
 
     /**
+     * @param {object} msgs - messages based off the type
+     * @returns {object} createSections : based of msgs
+    */
+    createSections(msgs) {
+        if (!msgs) {
+            msgs = {};
+        }
+        this.allCount = 0;
+        this.internalMessages = Object.keys(msgs).map((section) => {
+            let sectionHeader = section;
+            let sectionInfo = '';
+            this.allCount += msgs[section].length;
+            if (this.type === 'warning') {
+                sectionHeader = (section === 'INFO' ? LABELS.generalWarningSectionTitle : LABELS.validationWarningsSectionTitle);
+                sectionInfo = (section === 'INFO' ? LABELS.generalWarningSectionInfo : LABELS.validationWarningsSectionInfo);
+            }
+            return {
+                title: sectionHeader,
+                sectionInfo,
+                guid: generateGuid(),
+                messages: msgs[section].map(msg => {
+                    return {
+                        message: msg,
+                        guid: generateGuid()
+                    };
+                })
+            };
+        });
+    }
+
+    /**
      * Handle Icon click : event handler for clicking on icon button. Acts as a toggle to show/hide the panel and create it for the very first time.
      */
     handleIconClick() {
@@ -153,14 +178,15 @@ export default class StatusIcon extends LightningElement {
      */
     createPanel() {
         const header = this.headerforsummary;
-        const messages = this.internalMessages;
+        const sections = this.internalMessages;
         const type = this.type;
+        const allCount = this.allCount;
         const showOnlyNumberOfErrors = this.showOnlyNumberOfErrors;
         const direction = this.direction;
         const referenceSelector = dotPrefixForClass + this.classForIcon + ' lightning-button-icon';
         const createPanel = this.onCreatePanel;
         const destroyPanel = this.onDestroyPanel;
-        invokePopover('builder_platform_interaction:statusIconSummary', { header, messages, type, showOnlyNumberOfErrors }, { direction, referenceSelector, createPanel, destroyPanel });
+        invokePopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount }, { direction, referenceSelector, createPanel, destroyPanel });
     }
 
     /**

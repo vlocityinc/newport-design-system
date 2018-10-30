@@ -220,7 +220,7 @@ export default class ParameterItem extends LightningElement {
     }
 
     get warningMessages() {
-        return [{messages: this.warningMessage}];
+        return { 'No Section': [this.warningMessage] };
     }
 
     /**

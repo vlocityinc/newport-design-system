@@ -362,7 +362,7 @@ describe('parameter-item', () => {
             const statusIcon = getWarningIcon(parameterItemCmp);
             expect(statusIcon).not.toBeNull();
             expect(statusIcon.type).toBe('warning');
-            expect(statusIcon.messages).toEqual([{guid : expect.any(String), message : 'Warning message'}]);
+            expect(statusIcon.messages).toEqual([{guid : expect.any(String), "messages": [{"guid": expect.any(String), "message": "Warning message"}], "sectionInfo": "FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo", "title": "FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle" }]);
             expect(getWarningBadge(parameterItemCmp)).toBeNull();
         });
         it('should show badge and icon if both warningBadge and warningMessage are set', () => {

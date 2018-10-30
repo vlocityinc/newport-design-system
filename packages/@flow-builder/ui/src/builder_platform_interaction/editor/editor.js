@@ -64,7 +64,7 @@ export default class Editor extends LightningElement {
     @track hasNotBeenSaved = true;
     @track disableSave = true;
     @track saveStatus;
-
+    @track warnings;
     @track errors;
 
     constructor() {
@@ -234,7 +234,7 @@ export default class Editor extends LightningElement {
                 isLightningFlowBuilder: true
             }));
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
-            this.errors = [];
+            this.errors = {};
         } else {
             this.saveStatus = null;
             this.errors = data.errors;
@@ -245,6 +245,7 @@ export default class Editor extends LightningElement {
             this.saveStatus = LABELS.savedStatus;
         }
         this.disableSave = false;
+        this.warnings = data.warnings;
     };
 
     /**

@@ -25,17 +25,23 @@
                 </div>
             </div>
         </header>
-        <div class="slds-popover__body slds-popover__body_scrollable" id="dialog-body-id-2">
-            <template if:true={showOnlyNumberOfErrors}>
-               {messageBody}
-            </template>
-            <template if:false={showOnlyNumberOfErrors}>
-                <ul class={messageListClass}>
-                    <template for:each={messages} for:item="item">
-                        <li key={item.guid} class="message">{item.message} </li>
-                    </template>
-                </ul>
-            </template>
+        <div class="slds-popover__body slds-popover__body_scrollable slds-p-around_none" id="dialog-body-id-2">
+            <ul class="slds-has-dividers_bottom-space">
+                <li class="slds-item">{messageBody}</li>
+                <template if:false={showOnlyNumberOfErrors} for:each={sections} for:item="section">
+                    <li key={section.guid} if:true={hasSectionHeader} class="slds-item">{section.title} ({section.messages.length})
+                    </li>
+                    <li key={section.guid} if:true={hasSectionHeader} class="slds-p-around_x-small">{section.sectionInfo}
+                    </li>
+                    <li key={section.guid} class={hasSections}>
+                        <ul key={section.guid} class="slds-is-nested slds-list_dotted slds-list_vertical-space-medium">
+                            <template for:each={section.messages} for:item="info">
+                                <li key={info.guid} class="slds-item">{info.message}</li>
+                            </template>
+                        </ul>
+                    </li>
+                </template>
+            </ul>
         </div>
     </section>
 </template>
