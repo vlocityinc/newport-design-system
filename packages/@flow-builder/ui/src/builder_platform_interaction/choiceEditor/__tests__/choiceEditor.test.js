@@ -5,7 +5,7 @@ import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interacti
 import { choiceReducer } from '../choiceReducer';
 import { PropertyChangedEvent, ComboboxStateChangedEvent, ValueChangedEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { getResourceByUniqueIdentifier, getResourceFerovDataType } from 'builder_platform_interaction/expressionUtils';
+import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId } from 'builder_platform_interaction/expressionUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { LABELS } from '../choiceEditorLabels';
 
@@ -52,7 +52,7 @@ jest.mock('../choiceReducer', () => {
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getResourceByUniqueIdentifier: jest.fn(),
-        getResourceFerovDataType: jest.fn(),
+        getFerovDataTypeForValidId: jest.fn(),
         getItemOrDisplayText: require.requireActual('builder_platform_interaction/expressionUtils').getItemOrDisplayText,
     };
 });
@@ -235,7 +235,7 @@ describe('choice-editor', () => {
             const valueChangedEvent = new ComboboxStateChangedEvent(selectedMenuItem, null, null);
             const flowCombobox = getShadowRoot(choiceEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             flowCombobox.dispatchEvent(valueChangedEvent);
-            expect(getResourceFerovDataType).toHaveBeenCalledWith(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
+            expect(getFerovDataTypeForValidId).toHaveBeenCalledWith(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
         });
     });
 

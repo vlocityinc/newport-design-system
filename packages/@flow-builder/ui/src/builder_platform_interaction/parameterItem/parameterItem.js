@@ -1,7 +1,7 @@
 import { LightningElement, track, api } from 'lwc';
 import { getDataTypeIcons, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { getResourceFerovDataType } from "builder_platform_interaction/expressionUtils";
-import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { getFerovInfoAndErrorFromEvent } from "builder_platform_interaction/expressionUtils";
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { PARAM_PROPERTY } from "builder_platform_interaction/ruleLib";
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
@@ -229,23 +229,22 @@ export default class ParameterItem extends LightningElement {
      */
     handleToggleChanged(event) {
         event.stopPropagation();
-        let error = null;
         this.state.toggleStatus = event.detail.checked;
-        const newValue = {value: null, valueDataType: null};
+        let value = null, dataType = null, error = null;
         if (!this.state.toggleStatus) { // from ON to OFF
             if (this.state.parameterItem.hasOwnProperty('value')) {
                 this.preservedValue = {value: this.state.parameterItem.value, valueDataType: this.state.parameterItem.valueDataType};
             }
         } else if (this.preservedValue.value) {
-            newValue.value = getValueFromHydratedItem(this.preservedValue.value);
-            newValue.valueDataType = this.preservedValue.valueDataType;
+            value = getValueFromHydratedItem(this.preservedValue.value);
+            dataType = this.preservedValue.valueDataType;
             error = getErrorFromHydratedItem(this.preservedValue.value);
             this.preservedValue = {value: null, valueDataType: null};
         } else {
-            newValue.value = '';
-            newValue.valueDataType = this.getDataType();
+            value = '';
+            dataType = this.getDataType();
         }
-        this.dispatchParameterEvent(newValue, error);
+        this.dispatchParameterEvent(value, dataType, error);
     }
 
     /**
@@ -254,30 +253,22 @@ export default class ParameterItem extends LightningElement {
      */
     handleUpdateParameter(event) {
         event.stopPropagation();
-        const itemOrDisplayText = event.detail.item ? event.detail.item : event.detail.displayText;
-        const newValue = {value: null, valueDataType: null};
-        if (isObject(itemOrDisplayText)) {
-            newValue.value = itemOrDisplayText.value;
-            newValue.valueDataType = getResourceFerovDataType(itemOrDisplayText.value);
-        } else {
-            newValue.value = itemOrDisplayText;
-            newValue.valueDataType = this.getDataType();
-        }
-        this.dispatchParameterEvent(newValue, event.detail.error);
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(event, this.getDataType());
+        this.dispatchParameterEvent(value, dataType, error);
     }
 
     /**
      * @typedef {Object} ParameterItemNewValue
      * @property {String} value the new value
-     * @property {String} valueDataType the new value's data type
+     * @property {String} dataType the new value's data type
      */
     /**
      * dispatch UpdateParameterItemEvent
      * @param {ParameterItemNewValue} newValue event fired from the combobox
      * @param {String} error error message
      */
-    dispatchParameterEvent(newValue, error) {
-        const itemUpdatedEvent = new UpdateParameterItemEvent(this.state.parameterItem.isInput, this.state.parameterItem.rowIndex, getValueFromHydratedItem(this.state.parameterItem.name), newValue.value, newValue.valueDataType, error);
+    dispatchParameterEvent(value, dataType, error) {
+        const itemUpdatedEvent = new UpdateParameterItemEvent(this.state.parameterItem.isInput, this.state.parameterItem.rowIndex, getValueFromHydratedItem(this.state.parameterItem.name), value, dataType, error);
         this.dispatchEvent(itemUpdatedEvent);
     }
 

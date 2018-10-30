@@ -9,6 +9,7 @@ import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { elementToParam } from "builder_platform_interaction/ruleLib";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { isObject } from 'builder_platform_interaction/commonUtils';
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',
@@ -59,36 +60,44 @@ export const getResourceByUniqueIdentifier = (identifier) => {
 };
 
 /**
- * Gets the data type to determine how this value should be stored in a FEROV
+ * Gets the data type to determine how this value should be stored in a FEROV if the id belongs to a valid resource.
+ * If the id doesn't belong to a valid resource returns null
  *
  * @param {String} identifier    unique identifier that can be used to retrieve the flow resource
- * @returns {FEROV_DATA_TYPE}    the dataType category this value belongs to
+ * @returns {FEROV_DATA_TYPE|null}    the dataType category this value belongs to or null if it doesn't exist
  */
-export const getResourceFerovDataType = (identifier) => {
-    return isNonElementResourceId(identifier) ? getNonElementResource(identifier).dataType : FEROV_DATA_TYPE.REFERENCE;
+export const getFerovDataTypeForValidId = (identifier) => {
+    if (isNonElementResourceId(identifier)) {
+        const resource = getNonElementResource(identifier);
+        return resource ? resource.dataType : null;
+    }
+    return FEROV_DATA_TYPE.REFERENCE;
 };
 
 /**
  * Retrieves the information needed for components to update a ferov from a combobox state changed payload
- * @param {module:MenuDataGenerator.MenuItem} item combobox menu item
- * @param {String} displayText display text from a combobox state changed event
- * @param {String} literalDataType the data type we want to assign a literal
- * @returns {Object} object with value and dataType of the ferov
+ * @param {Object} event  event fired by the combobox on change
+ * @param {Object} literalDataType the data type we want to assign a literal
+ * @returns {Object} object with value and dataType of the ferov, and the error if there is one
  */
-export const getFerovInfoFromComboboxItem = (item, displayText, literalDataType) => {
-    const itemOrDisplayText = item || displayText;
-    let value = null;
-    let dataType = null;
-    if (isObject(itemOrDisplayText)) {
-        value = itemOrDisplayText.displayText;
-        dataType = getResourceFerovDataType(itemOrDisplayText.value);
-    } else {
-        value = itemOrDisplayText;
-        dataType = literalDataType;
+export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
+    const itemOrDisplayText = event.detail.item || event.detail.displayText;
+    let error = event.detail.error;
+    let value = event.detail.displayText;
+    let dataType = literalDataType;
+    if (isObject(itemOrDisplayText) && !error) {
+        const resourceDataType = getFerovDataTypeForValidId(itemOrDisplayText.value);
+        if (resourceDataType) {
+            value = itemOrDisplayText.displayText;
+            dataType = resourceDataType;
+        } else {
+            error = genericErrorMessage;
+        }
     }
     return {
         value,
         dataType,
+        error,
     };
 };
 

@@ -96,7 +96,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         sanitizeGuid: require.requireActual('builder_platform_interaction/dataMutationLib').sanitizeGuid,
         filterFieldsForChosenElement: require.requireActual('builder_platform_interaction/expressionUtils').filterFieldsForChosenElement,
         OPERATOR_DISPLAY_OPTION: require.requireActual('builder_platform_interaction/expressionUtils').OPERATOR_DISPLAY_OPTION,
-        getResourceFerovDataType: require.requireActual('builder_platform_interaction/expressionUtils').getResourceFerovDataType,
+        getFerovDataTypeForValidId: require.requireActual('builder_platform_interaction/expressionUtils').getFerovDataTypeForValidId,
         mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
         mutateFieldToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFieldToComboboxShape,
         validateExpressionShape: require.requireActual('builder_platform_interaction/expressionUtils').validateExpressionShape,

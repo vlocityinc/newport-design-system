@@ -7,7 +7,7 @@ import {
     UpdateParameterItemEvent,
     UpdateWaitEventEventTypeEvent,
 } from 'builder_platform_interaction/events';
-import { getFerovInfoFromComboboxItem } from 'builder_platform_interaction/expressionUtils';
+import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS } from "./waitTimeEventLabels";
 
@@ -245,14 +245,14 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     handleFerovParameterChange(event, propertyName, literalDataType, isInput) {
-        const ferovObject = getFerovInfoFromComboboxItem(event.detail.item, event.detail.displayText, literalDataType);
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(event, literalDataType);
         const updateParameterItem = new UpdateParameterItemEvent(
             isInput,
             null,
             propertyName,
-            ferovObject.value,
-            ferovObject.dataType,
-            event.detail.error
+            value,
+            dataType,
+            error,
             );
         this.dispatchEvent(updateParameterItem);
     }

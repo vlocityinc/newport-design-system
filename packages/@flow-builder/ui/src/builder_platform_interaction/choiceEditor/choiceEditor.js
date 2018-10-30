@@ -5,7 +5,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { choiceReducer } from './choiceReducer';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { getResourceByUniqueIdentifier, getResourceFerovDataType, getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
+import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId, getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './choiceEditorLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -214,7 +214,7 @@ export default class ChoiceEditor extends LightningElement {
      * @param {object} error
      */
     updateStoredValueWithElement(item, error) {
-        const dataType = getResourceFerovDataType(item.value);
+        const dataType = getFerovDataTypeForValidId(item.value);
 
         this.updateProperty(STORED_VALUE_DATA_TYPE_PROPERTY, dataType, null);
         this.updateProperty(CHOICE_FIELDS.STORED_VALUE, item.displayText, error);

@@ -11,7 +11,7 @@ import {
     UpdateWaitEventEventTypeEvent,
 } from "builder_platform_interaction/events";
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getFerovInfoFromComboboxItem } from 'builder_platform_interaction/expressionUtils';
+import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import WaitTimeEvent from '../waitTimeEvent';
 
@@ -35,7 +35,7 @@ const selectors = {
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        getFerovInfoFromComboboxItem: jest.fn().mockName('getFerovInfoFromComboboxItem'),
+        getFerovInfoAndErrorFromEvent: jest.fn().mockName('getFerovInfoAndErrorFromEvent'),
     };
 });
 
@@ -114,7 +114,7 @@ describe('waitTimeEvent', () => {
 
         it('fires UpdateParameterItemEvent on base time combobox state changed', () => {
             const mockFerov = { value: 'foo', dataType: 'sfdcDatType' };
-            getFerovInfoFromComboboxItem.mockReturnValueOnce(mockFerov);
+            getFerovInfoAndErrorFromEvent.mockReturnValueOnce(mockFerov);
             const mockItem = { value: 'foo', displayText: 'foo bar' };
             const comboboxStateChanged = new ComboboxStateChangedEvent(mockItem);
 
@@ -237,7 +237,7 @@ describe('waitTimeEvent', () => {
 
         it('fires UpdateParameterItemEvent on recordId combobox state changed', () => {
             const mockFerov = { value: 'recordId', dataType: 'String' };
-            getFerovInfoFromComboboxItem.mockReturnValueOnce(mockFerov);
+            getFerovInfoAndErrorFromEvent.mockReturnValueOnce(mockFerov);
             const mockItem = { value: 'newRecordId', displayText: 'newRecordId' };
             const comboboxStateChanged = new ComboboxStateChangedEvent(mockItem);
 

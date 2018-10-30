@@ -7,7 +7,7 @@ import {
     filterAndMutateMenuData,
     filterFieldsForChosenElement,
     getResourceByUniqueIdentifier,
-    getResourceFerovDataType,
+    getFerovDataTypeForValidId,
     isElementAllowed,
     filterMatches,
     LHS_DISPLAY_OPTION,
@@ -713,7 +713,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             } else if (getResourceByUniqueIdentifier(rhsItem.value) || rhsItem.parent) {
                 // rhs is a FEROV and the item references an element so we update the rhs with that element reference
                 rhs = rhsItem.displayText;
-                rhsdt = getResourceFerovDataType(rhsItem.value);
+                rhsdt = getFerovDataTypeForValidId(rhsItem.value);
             } else if (this.lhsActivePicklistValues && this.lhsActivePicklistValues.find((picklistItem) => picklistItem.value === rhsItem.value)) {
                 // the item references a picklist value
                 rhs = rhsItem.value;

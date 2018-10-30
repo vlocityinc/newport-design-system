@@ -8,7 +8,7 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { LABELS } from "./variableConstantEditorLabels";
-import { getResourceByUniqueIdentifier, getResourceFerovDataType, mutateFlowResourceToComboboxShape, getItemOrDisplayText } from "builder_platform_interaction/expressionUtils";
+import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId, mutateFlowResourceToComboboxShape, getItemOrDisplayText } from "builder_platform_interaction/expressionUtils";
 import { isObject } from "builder_platform_interaction/commonUtils";
 import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
@@ -408,7 +408,7 @@ export default class VariableConstantEditor extends LightningElement {
     }
 
     updateDefaultValueWithElement(item, error) {
-        const dataType = getResourceFerovDataType(item.value);
+        const dataType = getFerovDataTypeForValidId(item.value);
 
         this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, dataType, null);
         this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, item.value, error);
