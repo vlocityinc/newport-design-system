@@ -15,7 +15,6 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
 import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
-import { elementToParam } from "builder_platform_interaction/ruleLib";
 import * as sobjectLib from "builder_platform_interaction/sobjectLib";
 
 let storeInstance;
@@ -154,8 +153,8 @@ export default class OutputResourcePicker extends LightningElement {
     /** HELPER METHODS */
 
     initializeResourcePicker = (normalizedValue) => {
-        // on first render we want to replace the given value with the item from normalized value
-        this.value = normalizedValue.item;
+        // on first render we want to replace the given value with the normalized value
+        this.value = normalizedValue;
         this.populateMenuData(this.parentItem);
         this._isInitialized = true;
     }
@@ -182,8 +181,16 @@ export default class OutputResourcePicker extends LightningElement {
         }
     }
 
+    /**
+     * This function handles any identifier that may be passed to the picker,
+     * such as GUIDs for flow elements, and returns what the
+     * the expression builder will need to use to work with that.
+     *
+     * @param {String} identifier    Used to identify the value (e.g. GUID for flow elements)
+     * @returns normalizedValue      value to pass to the combobox
+     */
     normalizeValue = (identifier) => {
-        const normalizedValue = {};
+        let normalizedValue;
         const flowElement = getResourceByUniqueIdentifier(identifier);
         if (flowElement) {
             const fieldName = sanitizeGuid(identifier).fieldName;
@@ -193,19 +200,16 @@ export default class OutputResourcePicker extends LightningElement {
                 sobjectLib.getFieldsForEntity(sobject, (fields) => {
                     const field = fields[fieldName];
                     field.isCollection = false;
-                    normalizedValue.parameter = elementToParam(field);
 
                     const fieldParent = mutateFlowResourceToComboboxShape(flowElement);
-                    normalizedValue.item = mutateFieldToComboboxShape(field, fieldParent, true, true);
-                    normalizedValue.activePicklistValues = field.activePicklistValues;
+                    normalizedValue = mutateFieldToComboboxShape(field, fieldParent, true, true);
                 });
             } else {
-                normalizedValue.item = mutateFlowResourceToComboboxShape(flowElement);
-                normalizedValue.parameter = elementToParam(flowElement);
+                normalizedValue = mutateFlowResourceToComboboxShape(flowElement);
             }
         } else {
             // Pass in identifier as string in the default case
-            normalizedValue.item = identifier;
+            normalizedValue = identifier;
         }
         return normalizedValue;
     };

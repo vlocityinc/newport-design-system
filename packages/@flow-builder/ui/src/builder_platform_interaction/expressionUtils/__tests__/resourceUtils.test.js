@@ -22,24 +22,6 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
-// TODO W-5528544: Move these tests to outputResourcePicker if needed
-/* describe('LHS normalize', () => {
-    it('should handle the case when LHS is guid', () => {
-        const normalizedElement = normalizeLHS(store.numberVariableGuid);
-        expect(normalizedElement.item.displayText).toBe('{!' + store.numberVariableDevName + '}');
-        expect(normalizedElement.parameter.collection).toBe(false);
-        expect(normalizedElement.parameter.dataType).toBe(numberParamCanBeField.dataType);
-        expect(normalizedElement.parameter.elementType).toBe(store.variable);
-    });
-
-    it('should store active picklist values when LHS is picklist field', () => {
-        const complexGuid = store.accountSObjectVariableGuid + '.AccountSource';
-        const normalizedElement = normalizeLHS(complexGuid);
-        expect(normalizedElement.activePicklistValues).toBeDefined();
-        expect(normalizedElement.activePicklistValues).toEqual(expect.any(Array));
-    });
-}); */
-
 describe('RHS normalize', () => {
     it('should match an rhs value with a picklist api name to a menu item', () => {
         const rhsApiValue = 'AccountSource';
