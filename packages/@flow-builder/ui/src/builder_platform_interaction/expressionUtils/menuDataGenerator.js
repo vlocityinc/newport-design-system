@@ -1,4 +1,8 @@
-import { FLOW_DATA_TYPE, getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
+import {
+    FLOW_DATA_TYPE,
+    getDataTypeLabel,
+    getDataTypeIcons,
+} from "builder_platform_interaction/dataTypeLib";
 import { isNonElementResourceId, SYSTEM_VARIABLE_PREFIX } from "builder_platform_interaction/systemLib";
 import { getElementCategory } from "builder_platform_interaction/elementConfig";
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
@@ -31,7 +35,7 @@ function getSubText(dataType, objectType, label) {
     } else if (label) {
         subText = label;
     } else {
-        subText = dataType;
+        subText = getDataTypeLabel(dataType);
     }
     return subText;
 }

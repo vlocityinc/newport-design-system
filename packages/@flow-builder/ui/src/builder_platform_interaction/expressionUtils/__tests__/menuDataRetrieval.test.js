@@ -138,13 +138,13 @@ describe('Menu data retrieval', () => {
         expect(copiedElement.subText).toBe(store.outcomeDevName);
         selectorsMock.readableElementsSelector.mockClear();
     });
-    it('should set subText to dataType if no objectType or label', () => {
+    it('should set subText to dataType label if no objectType or label', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         })[0].items[0];
-        expect(copiedElement.subText).toBe(store.numberDataType);
+        expect(copiedElement.subText).toBe(FLOW_DATA_TYPE.NUMBER.label);
         selectorsMock.writableElementsSelector.mockClear();
     });
 
@@ -321,7 +321,7 @@ describe('Menu data retrieval', () => {
             const element = menuData[0].items[0];
             expect(element.value).toBe(store.numberVariableGuid);
             expect(element.text).toBe(store.numberVariableDevName);
-            expect(element.subText).toBe(store.numberDataType);
+            expect(element.subText).toBe(FLOW_DATA_TYPE.NUMBER.label);
             expect(element.displayText).toBe(addCurlyBraces(store.numberVariableDevName));
         });
     });

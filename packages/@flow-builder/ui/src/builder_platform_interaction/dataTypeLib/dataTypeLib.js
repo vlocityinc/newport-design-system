@@ -163,6 +163,23 @@ export function getDataTypeIcons(dataType, iconType = 'standard') {
 }
 
 /**
+ * Returns a label for the dataType of api name @param dataTypeApiName
+ *
+ * @param {String} dataTypeApiName the api name of the data type
+ * @returns {String} the label of the data type
+ */
+export function getDataTypeLabel(dataTypeApiName) {
+    const dataTypeKey = FLOW_API_VALUE_TO_FLOW_DATA_TYPE[dataTypeApiName];
+    if (!dataTypeKey || !FLOW_DATA_TYPE[dataTypeKey]) {
+        throw new Error(`Invalid data type api name ${dataTypeApiName}`);
+    }
+    if (!FLOW_DATA_TYPE[dataTypeKey].label) {
+        return dataTypeApiName;
+    }
+    return FLOW_DATA_TYPE[dataTypeKey].label;
+}
+
+/**
  * convert from parameter data type to flow data type
  * @param {String} dataType     parameter's dataType
  * @returns {String} flow data type
