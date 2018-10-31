@@ -1,3 +1,4 @@
+import { readonly } from 'lwc';
 import { translateFlowToUIModel } from "../flowToUiTranslator";
 import { translateUIModelToFlow } from "../uiToFlowTranslator";
 import { flowWithVariables } from './flowTestData/flowWithVariablesTestData';
@@ -6,6 +7,9 @@ import { deepCopy, Store } from "builder_platform_interaction/storeLib";
 import { flowCollectionServicesDemo } from './flowTestData/flowCollectionServicesDemo';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { updateFlow } from 'builder_platform_interaction/actions';
+import { flowLegalNameChange } from './flowTestData/flowLegalNameChangeTestData';
+
+const SAMPLE_FLOWS = [flowLegalNameChange, flowCollectionServicesDemo, flowWithVariables, flowWithAssignments];
 
 // we want to use the real implementation (and we cannot use unmock ...)
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -19,19 +23,20 @@ jest.mock('builder_platform_interaction/storeLib', () => {
  * @param {Object} expected the expected object we want to modify
  * @param {Function} callback the function called for each property. This function can modify the expected object.
  */
-export const modifyExpected = (given, expected, callback, path = '') => {
+export const modifyExpected = (given, expected, callback, path = []) => {
     if (given == null || expected == null) {
         return expected;
     }
+    given = readonly(given);
     if (Array.isArray(given) && Array.isArray(expected)) {
         const length = given.length >= expected.length ? given.length : expected.length;
         for (let i = 0; i < length; i++) {
-            modifyExpected(i < given.length ? given[i] : undefined, i < expected.length ? expected[i] : undefined, callback, path + `[${i}]`);
+            modifyExpected(i < given.length ? given[i] : undefined, i < expected.length ? expected[i] : undefined, callback, [...path, i]);
         }
     } else if (typeof given === 'object' && typeof expected === 'object') {
         for (const key in given) {
             if (Object.prototype.hasOwnProperty.call(given, key)) {
-                const newPath = path + (path.length > 0 ? '.' : '') + key;
+                const newPath = [...path, key];
                 callback(given, expected, key, given[key], expected[key], newPath);
                 modifyExpected(given[key], expected[key], callback, newPath);
             }
@@ -39,7 +44,7 @@ export const modifyExpected = (given, expected, callback, path = '') => {
         for (const key in expected) {
             if (Object.prototype.hasOwnProperty.call(expected, key)) {
                 if (!Object.prototype.hasOwnProperty.call(given, key)) {
-                    const newPath = path + (path.length > 0 ? '.' : '') + key;
+                    const newPath = [...path, key];
                     callback(given, expected, key, given[key], expected[key], newPath);
                     modifyExpected(given[key], expected[key], callback, newPath);
                 }
@@ -51,7 +56,7 @@ export const modifyExpected = (given, expected, callback, path = '') => {
 
 const isEmpty = (value) => value === "" || value == null || (Array.isArray(value) && value.length === 0);
 
-const and = (callbacks) => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+const all = (callbacks) => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
     for (const callback of callbacks) {
         callback(givenElement, expectedElement, key, givenValue, expectedValue, path);
     }
@@ -67,9 +72,38 @@ const ignoreEmptyFields = (givenElement, expectedElement, key, givenValue, expec
     }
 };
 
+/**
+ * Test if path1 is the same path than path2
+ * @param {string[]} path1 first path
+ * @param {string[]} path2 second path
+ * @returns {boolean} true if path1 is same path than path2
+ */
+const isSamePath = (path1, path2) => {
+    let i = path1.length;
+    if (i !== path2.length) {
+        return false;
+    }
+    while (i--) {
+        if (path1[i] !== path2[i]) {
+            return false;
+        }
+    }
+    return true;
+};
+
+/**
+ * Test if a path is included in a given array of paths
+ * @param {string[][]} paths array of paths
+ * @param {string[]} path path
+ * @returns {boolean} true if path is included in paths
+ */
+const isPathIncluded = (paths, path) => {
+    return paths.find(pathFromArray => isSamePath(pathFromArray, path)) !== undefined;
+};
+
 const ignoreIfNotInGiven = (paths) => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
     if (expectedElement) {
-        if (isEmpty(givenValue) && paths.includes(path)) {
+        if (isEmpty(givenValue) && isPathIncluded(paths, path)) {
             delete expectedElement[key];
         }
     }
@@ -77,7 +111,7 @@ const ignoreIfNotInGiven = (paths) => (givenElement, expectedElement, key, given
 
 const ignoreIfNotInExpected = (paths) => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
     if (expectedElement) {
-        if (isEmpty(expectedValue) && paths.includes(path)) {
+        if (isEmpty(expectedValue) && isPathIncluded(paths, path)) {
             if (!Object.prototype.hasOwnProperty.call(expectedElement, key)) {
                 delete expectedElement[key];
             } else {
@@ -93,29 +127,42 @@ const stringifyExpectedNumberValue = (givenElement, expectedElement, key, givenV
     }
 };
 
-const isFlowScreenFieldElement = (element) => element.fieldType != null && element.helpText != null;
-
-const ignoreIsVisibleForFlowScreenField = (givenElement, expectedElement, key) => {
-    if (isFlowScreenFieldElement(givenElement) && key === 'isVisible') {
-        delete expectedElement.isVisible;
-    }
-};
-
-const replaceDateToDateJson = (givenElement, expectedElement, key, givenValue, expectedValue) => {
-    if (expectedElement && key === 'dateTimeValue' && typeof expectedValue == 'string') {
+const replaceDateTimeToDateJson = (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+    if (expectedElement && key === 'dateTimeValue' && typeof expectedValue == 'string' && path[path.length - 2] === 'value') {
         expectedElement[key] = new Date(expectedValue).toJSON();
     }
 };
 
+const ignoreDateValue = (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+    if (expectedElement && key === 'dateValue' && typeof expectedValue == 'string' && path[path.length - 2] === 'value') {
+        expectedElement[key] = givenValue;
+    }
+};
+
+const ignoreIfDefaultValue = (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+    if (!isEmpty(givenValue)) {
+        return;
+    }
+    // default value is 0 for limit
+    if (key === 'limit' && expectedValue === 0 && path[path.length - 3] === 'dynamicChoiceSets') {
+        delete expectedElement.limit;
+    }
+    // isVisible is "Reserved for future use"
+    if (key === 'isVisible' && expectedValue === false && path[path.length - 3] === 'fields') {
+        delete expectedElement.isVisible;
+    }
+};
+
 const getExpectedFlowMetadata = (uiFlow, flowFromMetadataAPI) => {
-    const ignoredIfNotInGiven = ['createdById', 'createdDate', 'definitionId', 'id', 'lastModifiedById',
-        'lastModifiedDate', 'manageableState', 'masterLabel', 'processType', 'status', 'metadata.isTemplate'];
-    const ignoredIfNotInExpected = ['metadata.processMetadataValues'];
-    // stringifyExpectedNumberValue : why do we have a string instead of a number in numberValue ?
+    const ignoredIfNotInGiven = [['createdById'], ['createdDate'], ['definitionId'], ['id'], ['lastModifiedById'],
+        ['lastModifiedDate'], ['manageableState'], ['masterLabel'], ['processType'], ['status'], ['metadata', 'isTemplate']];
+    const ignoredIfNotInExpected = [['metadata', 'processMetadataValues']];
+    // TODO : stringifyExpectedNumberValue : it would be better to have a number instead of a string
+    // TODO : ignoreDateValue, replaceDateTimeToDateJson : The date issues will also need to change once we get date time utils exposed
     return modifyExpected(uiFlow, deepCopy(flowFromMetadataAPI),
-        and([ignoreEmptyFields, ignoreIfNotInGiven(ignoredIfNotInGiven),
+        all([ignoreEmptyFields, ignoreIfNotInGiven(ignoredIfNotInGiven),
              ignoreIfNotInExpected(ignoredIfNotInExpected), stringifyExpectedNumberValue,
-             ignoreIsVisibleForFlowScreenField, replaceDateToDateJson]));
+             replaceDateTimeToDateJson, ignoreIfDefaultValue, ignoreDateValue]));
 };
 
 describe('Getting flow metadata, calling flow-to-ui translation and calling ui-to-flow', () => {
@@ -123,26 +170,14 @@ describe('Getting flow metadata, calling flow-to-ui translation and calling ui-t
     beforeEach(() => {
         store = Store.getStore(reducer);
     });
-    it('for variables should return same object', () => {
-        const expectedFlowMetadataForVariables = flowWithVariables.metadata.variables;
-        const uiFlow = translateFlowToUIModel(flowWithVariables);
-        store.dispatch(updateFlow(uiFlow));
-        const actualFlowMetadataForVariables = translateUIModelToFlow(uiFlow).metadata.variables;
-        expect(actualFlowMetadataForVariables).toMatchObject(expectedFlowMetadataForVariables);
-    });
-    it('for assignments should return same object', () => {
-        const expectedFlowMetadataForAssignments = flowWithAssignments.metadata.assignments;
-        const uiFlow = translateFlowToUIModel(flowWithAssignments);
-        store.dispatch(updateFlow(uiFlow));
-        const actualFlowMetadataForAssignments = translateUIModelToFlow(uiFlow).metadata.assignments;
-        expect(actualFlowMetadataForAssignments).toMatchObject(expectedFlowMetadataForAssignments);
-    });
-    it('returns the same metadata for a sample flow', () => {
-        // TODO : we want to use a flow that have all possible elements
-        const uiFlow = translateFlowToUIModel(flowCollectionServicesDemo);
-        store.dispatch(updateFlow(uiFlow));
-        const newMetadataFlow = translateUIModelToFlow(uiFlow);
-        const expected = getExpectedFlowMetadata(newMetadataFlow, flowCollectionServicesDemo);
-        expect(newMetadataFlow).toEqual(expected);
+    SAMPLE_FLOWS.forEach(metadataFlow => {
+        it(`returns the same metadata for sample flow ${metadataFlow.fullName}`, () => {
+            // TODO : deepCopy should not be necessary but currently translateFlowToUIModel modifies the metadataFlow given as parameter
+            const uiFlow = translateFlowToUIModel(deepCopy(metadataFlow));
+            store.dispatch(updateFlow(uiFlow));
+            const newMetadataFlow = translateUIModelToFlow(uiFlow);
+            const expected = getExpectedFlowMetadata(newMetadataFlow, metadataFlow);
+            expect(newMetadataFlow).toEqual(expected);
+        });
     });
 });
