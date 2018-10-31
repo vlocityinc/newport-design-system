@@ -142,6 +142,15 @@ export const WAIT_TIME_EVENT_TYPE = {
 };
 
 /**
+ * Acceptable values for wait time offset units
+ * @type {{hours, days}}
+ */
+export const WAIT_TIME_EVENT_OFFSET_UNIT = {
+    HOURS: 'Hours',
+    DAYS: 'Days'
+};
+
+/**
  * All the input and output parameter names for various event types.
  * Note: We might need additional parameters for standard event.
  * TODO: W-5502328 once we fetch the event parameters from service we might not need it.

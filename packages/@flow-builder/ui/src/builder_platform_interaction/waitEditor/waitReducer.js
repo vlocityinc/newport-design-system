@@ -33,7 +33,7 @@ import {
     WaitEventDeleteParameterEvent,
     UpdateWaitEventEventTypeEvent,
 } from 'builder_platform_interaction/events';
-import {waitValidation} from './waitValidation';
+import {waitValidation } from './waitValidation';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 const validateProperty = (state, event) => {
@@ -391,7 +391,7 @@ export const waitReducer = (state, event) => {
         case UpdateWaitEventEventTypeEvent.EVENT_NAME:
             return updateWaitEventEventType(state, event);
         case VALIDATE_ALL:
-            return waitValidation.validateAll(state);
+            return waitValidation.validateAll(state, waitValidation.getBaseWaitRules());
         case PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT:
             return addWaitEvent(state);
         case ReorderListEvent.EVENT_NAME:

@@ -152,6 +152,7 @@ describe('All validation happens when OK is clicked', () => {
             },
             waitEvents: [{
                 guid: 'SOME_WAIT_EVENT_1',
+                eventType: '',
                 label: {
                     value: '',
                     error: null,
@@ -166,10 +167,11 @@ describe('All validation happens when OK is clicked', () => {
                 }
             }]
         };
-        const validatedWait = waitValidation.validateAll(waitWithEmptyProperties);
+
+        const validatedWait = waitValidation.validateAll(waitWithEmptyProperties, waitValidation.getBaseWaitRules());
         const waitEvent = validatedWait.waitEvents[0];
+
         expect(waitEvent.label.error).toBe(CANNOT_BE_BLANK_ERROR);
         expect(waitEvent.name.error).toBe(CANNOT_BE_BLANK_ERROR);
-        expect(waitEvent.conditionLogic.error).toBe(CANNOT_BE_BLANK_ERROR);
     });
 });

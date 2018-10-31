@@ -1,8 +1,21 @@
-import * as ValidationRules from "builder_platform_interaction/validationRules";
-import { Validation } from "builder_platform_interaction/validation";
-import { updateProperties } from "builder_platform_interaction/dataMutationLib";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
+import { Validation, defaultRules } from 'builder_platform_interaction/validation';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, WAIT_TIME_EVENT_TYPE, WAIT_TIME_EVENT_PARAMETER_NAMES, WAIT_TIME_EVENT_OFFSET_UNIT } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from "./waitEditorLabels";
+
+/**
+ * Function to test the value is equal to the string 'days' or 'weeks'
+ * @param {string} value - value to be tested
+ * @returns {string|null} errorString or null
+ */
+export const shouldBeHoursDaysOrBlank = (value) => {
+    if (value && value !== WAIT_TIME_EVENT_OFFSET_UNIT.HOURS && value !== WAIT_TIME_EVENT_OFFSET_UNIT.DAYS) {
+        return LABELS.shouldBeHoursOrDays;
+    }
+
+    return null;
+};
 
 /**
  * @constant additionalRules - map of propertyName to validation rules
@@ -21,24 +34,87 @@ const conditionRule = {
     conditions: ValidationRules.validateExpressionWith3Properties({elementType: ELEMENT_TYPE.WAIT})
 };
 
+const absoluteTimeRules = () => {
+    return {
+        inputParameters: (inputParameter) => {
+            const ipRules = {};
+
+            if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME) {
+                ipRules.value = [ValidationRules.shouldNotBeBlank];
+            } else if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT) {
+                ipRules.value = [shouldBeHoursDaysOrBlank];
+            }
+
+            return ipRules;
+        }
+    };
+};
+
+const directTimeRules = () => {
+    return {
+        inputParameters: (inputParameter) => {
+            const requiredParameterNames = [
+                WAIT_TIME_EVENT_PARAMETER_NAMES.SALESFORCE_OBJECT,
+                WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME,
+                WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID,
+            ];
+
+            const ipRules = {};
+
+            if (requiredParameterNames.includes(inputParameter.name.value)) {
+                ipRules.value = [ValidationRules.shouldNotBeBlank];
+            }
+
+            if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT) {
+                ipRules.value = [shouldBeHoursDaysOrBlank];
+            }
+
+            return ipRules;
+        }
+    };
+};
+
+const platformEventParametersRule = () => {
+    return {
+        eventType: [ValidationRules.shouldNotBeBlank],
+        inputParameters: () => {
+            return {
+                name: [ValidationRules.shouldNotBeBlank]
+            };
+        }
+    };
+};
+
 class WaitValidation extends Validation {
     /**
-     * @param {Object} nodeElement - node element data passed as an object.
-     * @param {Object} overrideRules - if passed, will override the default rules.
-     * @returns {Object} nodeElement - updated Node element after all the rules are run on respective data values.
+     * @returns {Object} Base rules for a wait node
      */
-    validateAll(nodeElement, overrideRules) {
-        if (nodeElement.waitEvents) {
-            const waitEvents = nodeElement.waitEvents.map((waitEvent) => {
-                if (waitEvent.conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
-                    // Make sure to validate conditions in cases other than 'Always Wait'
-                    overrideRules = Object.assign(overrideRules = {}, this.finalizedRules, conditionRule);
-                }
-                return super.validateAll(waitEvent, overrideRules);
-            });
-            nodeElement = updateProperties(nodeElement, {waitEvents});
-        }
-        return super.validateAll(nodeElement, overrideRules);
+    getBaseWaitRules() {
+        const overrideRules = Object.assign({}, this.finalizedRules);
+        overrideRules.waitEvents = this.getWaitEventRules();
+        return overrideRules;
+    }
+
+    getWaitEventRules() {
+        return (waitEvent) => {
+            let rules = Object.assign({}, defaultRules);
+
+            if (waitEvent.conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
+                rules = Object.assign(rules, conditionRule);
+            }
+
+            // Resume validation based on event type
+            if (waitEvent.eventType.value === WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME) {
+                rules = Object.assign(rules, absoluteTimeRules());
+            } else if (waitEvent.eventType.value === WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME) {
+                rules = Object.assign(rules, directTimeRules());
+            } else {
+                // Platform events
+                rules = Object.assign(rules, platformEventParametersRule());
+            }
+
+            return rules;
+        };
     }
 
     /**

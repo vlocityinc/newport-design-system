@@ -14,6 +14,12 @@ import { LABELS } from "./waitTimeEventLabels";
 // rules used by the input pickers in the waitTimeEvent
 const timeEventRules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.WAIT);
 
+const SELECTORS = {
+    SALESFORCE_OBJECT_INPUT: '.salesforce-object',
+    DIRECT_RECORD_BASE_TIME_INPUT: '.direct-record-basetime',
+    OFFSET_UNIT: '.offset-unit',
+};
+
 /**
  * Turns an array of paramters into an object where each property contains one index of the array
  * This also creates inputParamter for each param
@@ -70,6 +76,15 @@ export default class WaitTimeEvent extends LightningElement {
         this.resumeTimeParametersArray = resumeTimeParameters;
         if (resumeTimeParameters) {
             this.resumeTimeParametersMap = inputParameterArrayToMap(resumeTimeParameters);
+
+            const salesforceObjectInput = this.template.querySelector(SELECTORS.SALESFORCE_OBJECT_INPUT);
+            this.setInputErrorMessage(salesforceObjectInput, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.SALESFORCE_OBJECT));
+
+            const directBaseTimeInput = this.template.querySelector(SELECTORS.DIRECT_RECORD_BASE_TIME_INPUT);
+            this.setInputErrorMessage(directBaseTimeInput, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME));
+
+            const offsetUnitInput = this.template.querySelector(SELECTORS.OFFSET_UNIT);
+            this.setInputErrorMessage(offsetUnitInput, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT));
         }
     }
 
@@ -87,7 +102,7 @@ export default class WaitTimeEvent extends LightningElement {
      *
      * @param {Object} outputParameters object of @type {WaitEventParameter}
      */
-    set outputParameters(outputParameters = {}) {
+    set outputParameters(outputParameters) {
         this._outputParameters = outputParameters;
         const alarmTime = outputParameters[WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME];
         this.outputResumeTime = Object.assign({},
@@ -137,7 +152,7 @@ export default class WaitTimeEvent extends LightningElement {
     recordIdElementParam = {
         isCollection: false,
         dataType: FLOW_DATA_TYPE.STRING.value,
-    }
+    };
 
     eventTypeValueOptions = [
         { 'label': this.labels.absoluteTimeLabel, 'value': WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME },
@@ -323,5 +338,20 @@ export default class WaitTimeEvent extends LightningElement {
     getResumeTimeParameterError(paramName) {
         const param = this.resumeTimeParametersMap.get(paramName);
         return param ? getErrorFromHydratedItem(param.value) : null;
+    }
+
+    /** Sets the CustomValidity if there is a valid error message.
+     * @param {Object} element - the input component
+     * @param {Object} error - the error
+     */
+    setInputErrorMessage(element, error) {
+        if (element) {
+            if (error) {
+                element.setCustomValidity(error);
+            } else {
+                element.setCustomValidity('');
+            }
+            element.showHelpMessageIfInvalid();
+        }
     }
 }
