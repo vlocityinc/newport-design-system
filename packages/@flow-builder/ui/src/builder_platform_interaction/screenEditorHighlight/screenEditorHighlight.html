@@ -4,6 +4,9 @@
             <lightning-icon icon-name='utility:connected_apps' size='x-small' variant='inverse'></lightning-icon>
             <div class='slds-p-left_xx-small slds-text-body_small slds-truncate'>{title}</div>
         </div>
+
+        <!-- TODO - remove as part of W-5572394 fix. This is a temporary workaround. -->
+        <span tabindex="0"></span>
         
         <div if:false={shouldPreventEvents} class='highlight-frame has-box-shadow'>
             <slot name='screen-element'></slot>
