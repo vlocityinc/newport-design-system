@@ -29,12 +29,12 @@ export const COMBOBOX_ITEM_DISPLAY_TYPE = {
  * @returns {String} the subtext to display in a combobox row
  */
 function getSubText(dataType, objectType, label) {
-    let subText;
+    let subText = '';
     if (dataType === SOBJECT_TYPE) {
         subText = objectType;
     } else if (label) {
         subText = label;
-    } else {
+    } else if (dataType) {
         subText = getDataTypeLabel(dataType);
     }
     return subText;
