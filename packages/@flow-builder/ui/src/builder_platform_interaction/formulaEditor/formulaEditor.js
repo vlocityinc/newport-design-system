@@ -56,6 +56,9 @@ export default class FormulaEditor extends LightningElement {
         return !this.isNewMode ? this.labels.dataTypeCannotBeChangedHelpText : null;
     }
 
+    get hideNewResourceButton() {
+        return this.isNewMode;
+    }
     /**
      * @param {object} event - property changed event coming from label-description component
      */

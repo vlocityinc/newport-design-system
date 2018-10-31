@@ -5,6 +5,7 @@
                                                             label={labels.errorMessage}
                                                             value={element.errorMessage}
                                                             required={required}
+                                                            hide-new-resource={hideNewResource}
                                                             onblur={handleValueChanged}
                                                             onchange={handleValueChanged}>
         </builder_platform_interaction-resourced-textarea>
@@ -17,6 +18,7 @@
                                                         value={element.formulaExpression}
                                                         required={required}
                                                         show-global-variables
+                                                        hide-new-resource={hideNewResource}
                                                         onblur={handleValueChanged}
                                                         onchange={handleValueChanged}>
         </builder_platform_interaction-resourced-textarea>

@@ -124,6 +124,10 @@ export default class VariableConstantEditor extends LightningElement {
         return dataTypePickerValueObj;
     }
 
+    get hideNewResourceButton() {
+        return this.isNewMode;
+    }
+
     // we want to disable certain fields based on whether we are editing an existing variable/constant or a new variable/constant
     get isFieldDisabled() {
         return !this.isNewMode;

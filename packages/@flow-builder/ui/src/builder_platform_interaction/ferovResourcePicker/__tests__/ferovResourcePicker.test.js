@@ -60,7 +60,6 @@ describe('ferov-resource-picker', () => {
             propertyEditorElementType: ELEMENT_TYPE.VARIABLE,
             elementParam: { elementType: ELEMENT_TYPE.VARIABLE },
             comboboxConfig: { label: 'test label' },
-            showNewResource: true
         };
     });
 
@@ -218,7 +217,7 @@ describe('ferov-resource-picker', () => {
         return Promise.resolve().then(() => {
             expect(mockRuleLib.getRHSTypes).not.toHaveBeenCalled();
             expect(getMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), false, undefined, undefined, true, false);
+                true, false, Store.getStore(), true, undefined, undefined, true, false);
         });
     });
 

@@ -21,6 +21,9 @@ export default class TextTemplateEditor extends LightningElement {
     textTemplateResource;
 
     @api
+    isNewMode = false;
+
+    @api
     get node() {
         return this.textTemplateResource;
     }
@@ -39,6 +42,9 @@ export default class TextTemplateEditor extends LightningElement {
         return this.textTemplateResource;
     }
 
+    get hideNewResourceButton() {
+        return this.isNewMode;
+    }
     get apiNameLabel() {
         return LABELS.apiNameLabel;
     }

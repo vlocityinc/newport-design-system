@@ -40,6 +40,8 @@ export default class RecordInputOutputAssignments extends LightningElement {
     @api
     rules;
 
+    @api
+    hideNewResource = false;
     /**
      * @param {String} entityName - the selected record object
      */

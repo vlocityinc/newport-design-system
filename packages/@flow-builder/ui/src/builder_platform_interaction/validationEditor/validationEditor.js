@@ -9,6 +9,7 @@ import { ValidationRuleChangedEvent } from 'builder_platform_interaction/events'
 export default class ValidationEditor extends LightningElement {
     @api element;
     @api required = false;
+    @api hideNewResource = false;
 
     labels = LABELS;
 

@@ -146,11 +146,11 @@ export default class FerovResourcePicker extends LightningElement {
     hideGlobalConstants = false;
 
     /**
-     * Set it to true to show 'New Resource' as first item in combobox menu data.
+     * Set it to true to hide 'New Resource' as first item in combobox menu data.
      * @type {Boolean}
      */
     @api
-    showNewResource = false;
+    hideNewResource = false;
 
     @api
     hideSystemVariables = false;
@@ -259,7 +259,7 @@ export default class FerovResourcePicker extends LightningElement {
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
                 getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, !this.hideGlobalConstants,
-                    this.enableFieldDrilldown, storeInstance, this.showNewResource, parentItem, fields, !this.hideSystemVariables, this.showGlobalVariables));
+                    this.enableFieldDrilldown, storeInstance, !this.hideNewResource, parentItem, fields, !this.hideSystemVariables, this.showGlobalVariables));
         }
     }
 }

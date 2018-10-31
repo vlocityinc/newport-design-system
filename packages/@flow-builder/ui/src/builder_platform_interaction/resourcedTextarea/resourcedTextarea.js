@@ -35,6 +35,7 @@ export default class ResourcedTextarea extends LightningElement {
     @api maxLength;
     @api spinnerAlternativeText;
     @api showGlobalVariables = false;
+    @api hideNewResource = false;
     @track error;
     @track spinnerActive;
     @track _value;

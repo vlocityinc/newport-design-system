@@ -105,7 +105,7 @@ function mergeParameters(fieldParameters, descParameters, valuePropName, isInput
                 collection: fieldParam.maxOccurs > 1,
                 elementConfig: null,
                 hideGlobalConstants: !isInput,
-                showNewResource:false
+                hideNewResource: true
             }
         };
 
