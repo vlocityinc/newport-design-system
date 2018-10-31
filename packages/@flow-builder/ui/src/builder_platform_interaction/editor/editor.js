@@ -1,5 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
-import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData, invokeModal } from 'builder_platform_interaction/builderUtils';
+import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { canvasSelector, getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas, updatePropertiesAfterSaving } from 'builder_platform_interaction/actions';
@@ -134,6 +134,7 @@ export default class Editor extends LightningElement {
             },
             properties
         };
+        this.showWarningIfUnsavedChanges();
     };
 
     /**
@@ -380,36 +381,26 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Handles event when a user clicks on back button in header
-     * Redirect if a user has no unsaved changes
-     * show confirmation modal if a user has unsaved changes
+     * Call back for before unload event
+     * It will invoke a default browser warning when user tries to leave the flow builder
+     * @param {Object} event before unload event
      */
+    beforeUnloadCallback = (event) => {
+        event.preventDefault();
+        // Chrome requires returnValue to be set.
+        event.returnValue = '';
+    };
 
-    handleHeaderBack = () => {
-        const backCallback = () => {
-            window.location.href = this.backUrl;
-        };
+    /**
+     * Add before unload event listener when flow has unsaved changes
+     * Remove before unload event listener when flow has no unsaved changes
+     * It is called when state of store is changed
+     */
+    showWarningIfUnsavedChanges = () => {
         if (this.appState.properties.hasUnsavedChanges) {
-            invokeModal({
-                headerData: {
-                    headerTitle: LABELS.backButtonRedirectConfirmationTitle
-                },
-                bodyData: {
-                    bodyTextOne: LABELS.backButtonRedirectConfirmationMessage
-                },
-                footerData: {
-                    buttonOne: {
-                        buttonLabel: LABELS.cancel
-                    },
-                    buttonTwo: {
-                        buttonVariant: "brand",
-                        buttonLabel: LABELS.okayButtonLabel,
-                        buttonCallback: backCallback
-                    }
-                }
-            });
+            window.addEventListener('beforeunload', this.beforeUnloadCallback);
         } else {
-            backCallback();
+            window.removeEventListener('beforeunload', this.beforeUnloadCallback);
         }
     }
 

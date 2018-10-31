@@ -58,7 +58,6 @@ export { WaitEventAddParameterEvent } from './waitEventAddParameterEvent';
 export { WaitEventDeleteParameterEvent } from './waitEventDeleteParameterEvent';
 export { UpdateWaitEventEventTypeEvent } from './updateWaitEventEventTypeEvent';
 export { ValidationRuleChangedEvent } from './validationRuleChangedEvent';
-export { BackEvent } from './headerEvents/backEvent';
 export { ClosePropertyEditorEvent } from './closePropertyEditorEvent';
 export { CannotRetrieveCalloutParametersEvent } from './cannotRetrieveCalloutParametersEvent';
 export { CannotRetrieveActionsEvent } from './cannotRetrieveActionsEvent';
