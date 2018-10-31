@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import ScreenInputField from "builder_platform_interaction/screenInputField";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-
 import {
     CURRENCY_FORMAT,
     LIGHTNING_INPUT_TYPES,
@@ -13,6 +12,17 @@ const SELECTORS = {
     INPUT : 'lightning-input'
 };
 const testLabel = 'input1';
+
+jest.mock('builder_platform_interaction/systemLib', () => {
+    const booleanTrue = '$GlobalConstant.True';
+    const booleanFalse = '$GlobalConstant.False';
+    return {
+        GLOBAL_CONSTANTS: {
+            BOOLEAN_TRUE: booleanTrue,
+            BOOLEAN_FALSE: booleanFalse,
+        },
+    };
+});
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-input-field', { is: ScreenInputField });
@@ -110,6 +120,63 @@ describe('Textbox screen field', () => {
         return Promise.resolve().then(() => {
             const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
             expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
+        });
+    });
+});
+
+describe('Checkbox field with global constant true for its default value', () => {
+    let inputWrapperCmp;
+    beforeEach(() => {
+        inputWrapperCmp = createComponentForTest({
+            value: '$GlobalConstant.True',
+            label: {value: testLabel, error: null},
+            required: false,
+            typeName: 'Checkbox',
+            helpText: {value: null, error: null}
+        });
+    });
+    it('Checkbox should be checked', () => {
+        return Promise.resolve().then(() => {
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
+            expect(input.checked).toBeTruthy();
+        });
+    });
+});
+
+describe('Checkbox field with global constant false for its default value', () => {
+    let inputWrapperCmp;
+    beforeEach(() => {
+        inputWrapperCmp = createComponentForTest({
+            value: '$GlobalConstant.False',
+            label: {value: testLabel, error: null},
+            required: false,
+            typeName: 'Checkbox',
+            helpText: {value: null, error: null}
+        });
+    });
+    it('Checkbox should not be checked', () => {
+        return Promise.resolve().then(() => {
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
+            expect(input.checked).toBeFalsy();
+        });
+    });
+});
+
+describe('Checkbox field with reference for its default value', () => {
+    let inputWrapperCmp;
+    beforeEach(() => {
+        inputWrapperCmp = createComponentForTest({
+            value: 'MyVar1',
+            label: {value: testLabel, error: null},
+            required: false,
+            typeName: 'Checkbox',
+            helpText: {value: null, error: null}
+        });
+    });
+    it('Checkbox should not be checked', () => {
+        return Promise.resolve().then(() => {
+            const input = getShadowRoot(inputWrapperCmp).querySelector(SELECTORS.INPUT);
+            expect(input.checked).toBeFalsy();
         });
     });
 });

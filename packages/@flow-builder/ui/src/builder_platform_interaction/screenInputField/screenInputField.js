@@ -1,6 +1,7 @@
 import { LightningElement, track, api } from 'lwc';
 import { getVariant, booleanValue, getPlaceHolderLabel, CURRENCY_FORMAT, LIGHTNING_INPUT_TYPES } from "builder_platform_interaction/screenEditorUtils";
 import { isReference } from "builder_platform_interaction/commonUtils";
+import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 
 /**
  * Wrapper used to represent visual preview of screen fields which are are input fields.
@@ -87,6 +88,14 @@ export default class ScreenInputField extends LightningElement {
     }
 
     get checked() {
-        return this.type === LIGHTNING_INPUT_TYPES.CHECKBOX && booleanValue(this.value);
+        if (this.type === LIGHTNING_INPUT_TYPES.CHECKBOX) {
+            if (this.value === GLOBAL_CONSTANTS.BOOLEAN_TRUE) {
+                return true;
+            } else if (this.value === GLOBAL_CONSTANTS.BOOLEAN_FALSE) {
+                return false;
+            }
+            return this.value ? booleanValue(this.value) : false;
+        }
+        return false;
     }
 }

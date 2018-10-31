@@ -9,6 +9,7 @@ import { createEmptyScreenFieldOfType } from "builder_platform_interaction/eleme
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { createChoiceReference } from "builder_platform_interaction/elementFactory";
+import { GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
 
 const isHydrated = (value) => {
     return value && value.hasOwnProperty('value') && value.hasOwnProperty('error');
@@ -135,7 +136,12 @@ const reorderFields = (screen, event) => {
 const processFerovValueChange = (valueField, currentFieldDataType, defaultValueDataType, newValue, newValueGuid, typePropertyName) => {
     // Figure out if we need to update typePropertyName (typePropertyName can be null if value is null)
     const currentDataType =  currentFieldDataType || getFerovTypeFromFieldType(defaultValueDataType);
-    if (currentDataType === 'reference') {
+
+    if (newValueGuid && newValueGuid in GLOBAL_CONSTANT_OBJECTS) {
+        // Going to reference, but it's actually a global constant, which needs to be treated
+        // like a primitive.
+        valueField = updateProperties(valueField, {[typePropertyName]: GLOBAL_CONSTANT_OBJECTS[newValueGuid].dataType});
+    } else if (currentDataType === 'reference') {
         if (!newValueGuid) { // Going from reference to literal
             valueField = updateProperties(valueField, {[typePropertyName]: defaultValueDataType});
         }
@@ -174,8 +180,21 @@ const handleStandardScreenFieldPropertyChange = (data) => {
     if (data.property === 'defaultValue') {
         // First update the value.
         // TODO: Hack: previewDefaultValue is needed for guid-devName swapping inconsistencies
-        const updatedValueField = updateProperties(data.field, {'defaultValue': data.newValue, 'previewDefaultValue': data.newValue});
-
+        let updatedValueField;
+        if (data.newValueGuid && data.newValueGuid in GLOBAL_CONSTANT_OBJECTS) {
+            // If the new value is a reference, but it's also a global constant,
+            // set the value to the GUID (which is really a devName that is understood
+            // by the rest of FlowBuilder.
+            updatedValueField = updateProperties(data.field, {
+                'defaultValue': data.newValueGuid,
+                'previewDefaultValue': data.newValue
+            });
+        } else {
+            updatedValueField = updateProperties(data.field, {
+                'defaultValue': data.newValue,
+                'previewDefaultValue': data.newValue
+            });
+        }
         // Now the defaultValue object.
         return processFerovValueChange(updatedValueField, data.field.defaultValueDataType, data.dataType,
             newValue, data.newValueGuid, 'defaultValueDataType');

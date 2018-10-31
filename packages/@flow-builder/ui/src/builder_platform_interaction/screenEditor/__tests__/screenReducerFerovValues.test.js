@@ -6,6 +6,7 @@ export const REFERENCE_VALUES = {
     STRING_1: {value:'{!String1}', valueGuid: 'GUID_String_1', isReference: true},
     STRING_2: {value:'{!String2}', valueGuid: 'GUID_String_2', isReference: true},
     NUMBER_3: {value:'{!Number3}', valueGuid: 'GUID_Number_3', isReference: true},
+    CHECKBOX_1: {value:'{!Boolean1}', valueGuid: 'GUID_Boolean_1', isReference: true},
 };
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
@@ -91,7 +92,9 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
     // Make sure everything went well
     expect(newScreen).toBeDefined();
     expect(newField[propertyName].value).toBe(valueAfter.value);
-    if (valueAfter.isReference) {
+    if (valueAfter.isReference && valueAfter.globalConstantDataType) {
+        expect(newField[dataTypePropName]).toBe(valueAfter.globalConstantDataType);
+    } else if (valueAfter.isReference) {
         expect(newField[dataTypePropName]).toBe('reference');
     } else if (valueAfter.value) {
             expect(newField[dataTypePropName]).toBe('String');
@@ -120,9 +123,9 @@ function testInputParamValue(valueBefore, valueAfter) {
     testFerovValue(valueBefore, valueAfter, 'value', screenFieldProvider, fieldProvider, propertyNameProvider, 'String');
 }
 
-function testDefaultValue(valueBefore, valueAfter) {
+function testDefaultValue(valueBefore, valueAfter, fieldType) {
     const screenFieldProvider = (value) => {
-        return createTestScreenField('textfield1', 'TextBox', value, {hydrateValues: false});
+        return createTestScreenField('field1', fieldType || 'TextBox', value, {hydrateValues: false});
     };
 
     const fieldProvider = (screen) => {
@@ -139,6 +142,10 @@ describe('screen reducer change screen field default value', () => {
 
     it('from literal to null', () => {
         testDefaultValue({value:'BEFORE', isReference: false}, {value:null, isReference:false});
+    });
+
+    it('from literal to global constant', () => {
+        testDefaultValue({value:'BEFORE', isReference: false}, {value:'$GlobalConstant.EmptyString', isReference:true, globalConstantDataType:'String'});
     });
 
     it('from null to literal', () => {
@@ -161,8 +168,16 @@ describe('screen reducer change screen field default value', () => {
         testDefaultValue(REFERENCE_VALUES.STRING_1, {value:null, isReference:false});
     });
 
+    it('from reference to global constant', () => {
+        testDefaultValue(REFERENCE_VALUES.CHECKBOX_1, {value:'$GlobalConstant.True', isReference:true, globalConstantDataType:'Boolean'}, 'Checkbox');
+    });
+
     it('from null to reference', () => {
         testDefaultValue({value:null, isReference:false}, REFERENCE_VALUES.STRING_1);
+    });
+
+    it('from null to global constant', () => {
+        testDefaultValue({value:null, isReference:false}, {value:'$GlobalConstant.False', isReference:true, globalConstantDataType:'Boolean'}, 'Checkbox');
     });
 
     it('from reference to literal', () => {

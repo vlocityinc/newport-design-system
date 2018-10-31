@@ -5,6 +5,7 @@ import { hydrateWithErrors, getErrorsFromHydratedElement } from "builder_platfor
 import { isReference, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
 
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
@@ -67,7 +68,16 @@ export default class ScreenField extends LightningElement {
     get defaultValue() {
         // Hack due to guid->devName swapping inconsistencies (Jesun David)
         // TODO: Need to update this when changing uid swapping
-        const defaultValue = this.screenfield.previewDefaultValue && this.screenfield.previewDefaultValue.hasOwnProperty('value') ? this.screenfield.previewDefaultValue.value : this.screenfield.previewDefaultValue;
+        const defaultValuePreview = this.screenfield.previewDefaultValue && this.screenfield.previewDefaultValue.hasOwnProperty('value') ?
+                             this.screenfield.previewDefaultValue.value : this.screenfield.previewDefaultValue;
+
+        // If the default value is global constant, pass the actual default value, not the preview version.
+        const defaultValue = this.screenfield.defaultValue && this.screenfield.defaultValue.hasOwnProperty('value') ?
+            this.screenfield.defaultValue.value : this.screenfield.defaultValue;
+        if (defaultValue in GLOBAL_CONSTANT_OBJECTS) {
+            return defaultValue;
+        }
+
         if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && (isCurrencyField(this.screenfield) ||
             isNumberField(this.screenfield))) {
             // If the field has a reference for it's default value and the field type makes it such that we can't display
@@ -75,9 +85,9 @@ export default class ScreenField extends LightningElement {
             // don't display anything.
             return '';
         }
-        if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && !isReference(defaultValue)) {
-            return addCurlyBraces(defaultValue);
+        if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && !isReference(defaultValuePreview)) {
+            return addCurlyBraces(defaultValuePreview);
         }
-        return defaultValue;
+        return defaultValuePreview;
     }
 }
