@@ -7,7 +7,6 @@ const elementType = ELEMENT_TYPE.FLOW_PROPERTIES;
  * which helps us identify flow versions created by the Lightning Flow Builder.
  */
 const LIGHTNING_FLOW_BUILDER = 'LightningFlowBuilder';
-const CLOUD_FLOW_DESIGNER = 'CloudFlowDesigner';
 const BUILDER_TYPE = 'BuilderType';
 const ORIGIN_BUILDER_TYPE = 'OriginBuilderType';
 
@@ -29,13 +28,13 @@ export function createFlowProperties(flowProperties = {}) {
         hasUnsavedChanges = false
     } = flowProperties.metadata || flowProperties;
 
-    let { isLightningFlowBuilder = true, isCreatedInCfd = false } = flowProperties;
+    let { isLightningFlowBuilder = true, isCreatedOutsideLfb = false } = flowProperties;
 
     if (processMetadataValues) {
-        // isCreatedInCfd can be true in 2 cases
+        // isCreatedOutsideLFB can be true in 2 cases
         // 1) when an existing flow is never saved in LFB => In this case processMetadataValues will be an empty array
-        // 2) when an existing flow is saved in LFB atleast once => In this case processMetadataValues will have a bit named 'createdInCloudFlowDesigner'
-        isCreatedInCfd = processMetadataValues.length === 0 || checkIfCreatedInCfd(processMetadataValues);
+        // 2) After an existing flow is saved for the first time in LFB
+        isCreatedOutsideLfb = processMetadataValues.length === 0 || checkIfCreatedOutsideLFB(processMetadataValues);
         isLightningFlowBuilder = checkIfLightningFlowBuilder(processMetadataValues);
     }
 
@@ -50,7 +49,7 @@ export function createFlowProperties(flowProperties = {}) {
             status,
             elementType,
             isLightningFlowBuilder,
-            isCreatedInCfd,
+            isCreatedOutsideLfb,
             hasUnsavedChanges
     };
 }
@@ -70,11 +69,11 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         interviewLabel,
         processType,
         status,
-        isCreatedInCfd
+        isCreatedOutsideLfb
     } = flowProperties;
 
     // Adding a bit to make sure that flow is a saved/created in flow builder.
-    const processMetadataValues = setProcessMetadataValue(isCreatedInCfd);
+    const processMetadataValues = setProcessMetadataValue(isCreatedOutsideLfb);
 
     return {
             label,
@@ -87,22 +86,20 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
 }
 
 /**
- * Check if flow was created in CFD at some point of time.
- * @param {Array} processMetadataValues array of bits
- * @returns true if processMetadataValues have a bit which is to cloud flow designer
+ * Check if flow was created via CFD, metadata api or any third party builder at some point of time.
+ * @param {Array} processMetadataValues array of objects
+ * @returns true if processMetadataValues have an object with name as 'OriginBuilderType'
  */
-function checkIfCreatedInCfd(processMetadataValues = []) {
-    return processMetadataValues.some(((processMetadataValue) => {
-        return (processMetadataValue.name === ORIGIN_BUILDER_TYPE
-            && processMetadataValue.value
-            && processMetadataValue.value.stringValue === CLOUD_FLOW_DESIGNER);
+function checkIfCreatedOutsideLFB(processMetadataValues = []) {
+    return !processMetadataValues.some(((processMetadataValue) => {
+        return processMetadataValue.name === ORIGIN_BUILDER_TYPE;
     }));
 }
 
 /**
  * Check if flow was created/saved in LFB.
- * @param {Array} processMetadataValues array of bits
- * @returns true if processMetadataValues have a bit which is to cloud flow designer
+ * @param {Array} processMetadataValues array of objects
+ * @returns true if processMetadataValues have a object with name as 'BuilderType' and stringValue as 'LightningFlowBuilder'
  */
 
 function checkIfLightningFlowBuilder(processMetadataValues = []) {
@@ -115,11 +112,14 @@ function checkIfLightningFlowBuilder(processMetadataValues = []) {
 
 /**
  * Setter for processMatadataValue
- * @param {*} isCreatedInCfd if flow was created in CFD
+ * @param {*} isCreatedOutsideLfb if flow was created via CFD, metadata api or any third party builder
  */
-function setProcessMetadataValue(isCreatedInCfd = false) {
+function setProcessMetadataValue(isCreatedOutsideLfb = false) {
     const lfbProcessMetadataValue = createProcessMetadataValue(BUILDER_TYPE, LIGHTNING_FLOW_BUILDER);
-    const originProcessMetadataValue = createProcessMetadataValue(ORIGIN_BUILDER_TYPE, (isCreatedInCfd ? CLOUD_FLOW_DESIGNER : LIGHTNING_FLOW_BUILDER));
+    if (isCreatedOutsideLfb) {
+        return [lfbProcessMetadataValue];
+    }
+    const originProcessMetadataValue = createProcessMetadataValue(ORIGIN_BUILDER_TYPE, LIGHTNING_FLOW_BUILDER);
     return [lfbProcessMetadataValue, originProcessMetadataValue];
 }
 
