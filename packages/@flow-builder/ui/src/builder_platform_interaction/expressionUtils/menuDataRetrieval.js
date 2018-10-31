@@ -17,7 +17,7 @@ import {
     mutateEntitiesToComboboxShape,
     mutatePicklistValue,
     mutateEventTypesToComboboxShape,
-    getSystemVariableMenuData,
+    getSystemAndGlobalVariableMenuData,
     COMBOBOX_ITEM_DISPLAY_TYPE,
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
@@ -330,7 +330,7 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
  */
 export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource = false,
                                         allowGlobalConstants = false, disableHasNext = false, activePicklistValues = [],
-                                        showSystemVariables = true) {
+                                        showSystemVariables = true, showGlobalVariables = false) {
     if (allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
         menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
@@ -351,14 +351,15 @@ export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, inc
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
 
-    if (showSystemVariables && allowedParamTypes && allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]) {
-        menuData.push(getSystemVariableMenuData());
+    const systemVariablesAllowed = showSystemVariables && allowedParamTypes && allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT];
+    if (systemVariablesAllowed || showGlobalVariables) {
+        menuData.push(getSystemAndGlobalVariableMenuData(systemVariablesAllowed, showGlobalVariables));
     }
 
     if (activePicklistValues && activePicklistValues.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
         // if the picklist is allowed we want to include those in the menu data
         const picklistMenuData = getPicklistMenuData(activePicklistValues);
-        menuData.push(picklistMenuData);
+        menuData.unshift(picklistMenuData);
     }
 
     if (includeNewResource) {

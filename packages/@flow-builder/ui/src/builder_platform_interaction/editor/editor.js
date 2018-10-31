@@ -18,7 +18,7 @@ import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform
 import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
-import { mutateFlowResourceToComboboxShape, flowSystemVariableCategory } from 'builder_platform_interaction/expressionUtils';
+import { mutateFlowResourceToComboboxShape, getFlowSystemVariableComboboxItem } from 'builder_platform_interaction/expressionUtils';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
 import { setGlobalVariables, setSystemVariables, setProcessTypes } from 'builder_platform_interaction/systemLib';
@@ -345,8 +345,9 @@ export default class Editor extends LightningElement {
         if (error) {
             // TODO: handle error case
         } else {
+            const item = getFlowSystemVariableComboboxItem();
             // system variables are treated like sobjects in the menu data so this category is a "parent element" as well
-            addToParentElementCache(flowSystemVariableCategory.displayText, flowSystemVariableCategory);
+            addToParentElementCache(item.displayText, item);
             setSystemVariables(data);
         }
     };

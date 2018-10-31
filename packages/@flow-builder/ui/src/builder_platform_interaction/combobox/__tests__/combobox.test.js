@@ -21,15 +21,20 @@ const SELECTORS = {
 jest.mock('builder_platform_interaction/systemLib', () => {
     const emptyString = '$GlobalConstant.EmptyString';
     const booleanTrue = '$GlobalConstant.True';
+    const globalConstantPrefix = '$GlobalConstant';
+    const systemVariablePrefix = '$SystemVariable';
     return {
         GLOBAL_CONSTANTS: {
             EMPTY_STRING: emptyString,
             BOOLEAN_TRUE: booleanTrue,
         },
-        GLOBAL_CONSTANT_PREFIX: '$GlobalConstant',
+        GLOBAL_CONSTANT_PREFIX: globalConstantPrefix,
         getNonElementResource: (id) => {
             return id === emptyString || id === booleanTrue;
-        }
+        },
+        isNonElementResourceId: (id) => {
+            return id.startsWith(globalConstantPrefix) || id.startsWith(systemVariablePrefix);
+        },
     };
 });
 

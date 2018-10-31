@@ -3,10 +3,10 @@ import {
     getDataTypeLabel,
     getDataTypeIcons,
 } from "builder_platform_interaction/dataTypeLib";
-import { isNonElementResourceId, SYSTEM_VARIABLE_PREFIX } from "builder_platform_interaction/systemLib";
+import { isNonElementResourceId, SYSTEM_VARIABLE_PREFIX, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
 import { getElementCategory } from "builder_platform_interaction/elementConfig";
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import systemVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
+import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const ICON_TYPE = 'utility';
@@ -213,24 +213,52 @@ export const mutateEventTypesToComboboxShape = (eventTypes) => {
     });
 };
 
-export const flowSystemVariableCategory = {
-    hasNext: true,
-    value: SYSTEM_VARIABLE_PREFIX,
-    text: SYSTEM_VARIABLE_PREFIX,
-    displayText: addCurlyBraces(SYSTEM_VARIABLE_PREFIX),
-    type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
-    objectType: SYSTEM_VARIABLE_PREFIX,
-    iconName: ICON_TYPE + ':system_and_global_variable',
-    iconSize: ICON_SIZE,
-    rightIconName: RIGHT_ICON_NAME,
-    rightIconSize: ICON_SIZE,
+const mutateSystemAndGlobalVariablesToComboboxShape = (value) => {
+    return {
+        value,
+        objectType: value,
+        text: value,
+        displayText: addCurlyBraces(value),
+        type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+        hasNext: true,
+        iconName: ICON_TYPE + ':system_and_global_variable',
+        iconSize: ICON_SIZE,
+        rightIconName: RIGHT_ICON_NAME,
+        rightIconSize: ICON_SIZE,
+    };
 };
 
-export const getSystemVariableMenuData = () => {
-    const systemVariableCategory = {
-        label: systemVariableCategoryLabel,
-        items: [flowSystemVariableCategory],
+const getGlobalVariableTypeComboboxItems = () => {
+    const globalVariableTypes = getGlobalVariableTypes();
+    const typeMenuData = [];
+
+    Object.keys(globalVariableTypes).forEach((type) => {
+        const globalVariable = globalVariableTypes[type];
+        typeMenuData.push(mutateSystemAndGlobalVariablesToComboboxShape(globalVariable.name));
+    });
+
+    return typeMenuData;
+};
+
+export const getFlowSystemVariableComboboxItem = () => {
+    return mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_PREFIX);
+};
+
+export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlobalVariables) => {
+    const categories = [];
+    if (showSystemVariables) {
+        categories.push(getFlowSystemVariableComboboxItem());
+    }
+    if (showGlobalVariables) {
+        categories.push(...getGlobalVariableTypeComboboxItems());
+    }
+    categories.sort((a, b) => {
+        return a.displayText - b.displayText;
+    });
+    const globalVariableCategory = {
+        label: systemGlobalVariableCategoryLabel,
+        items: categories,
     };
 
-    return systemVariableCategory;
+    return globalVariableCategory;
 };

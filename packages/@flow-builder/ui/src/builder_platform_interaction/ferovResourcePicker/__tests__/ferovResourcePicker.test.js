@@ -131,7 +131,7 @@ describe('ferov-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined, true);
+                true, false, Store.getStore(), true, undefined, undefined, true, false);
         });
     });
 
@@ -148,7 +148,7 @@ describe('ferov-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, parentItem, ["mockField"], true);
+                true, false, Store.getStore(), true, parentItem, ["mockField"], true, false);
         });
     });
 
@@ -165,7 +165,7 @@ describe('ferov-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, parentItem, undefined, true);
+                true, false, Store.getStore(), true, parentItem, undefined, true, false);
         });
     });
 
@@ -179,7 +179,7 @@ describe('ferov-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined, true);
+                true, false, Store.getStore(), true, undefined, undefined, true, false);
         });
     });
 
@@ -218,7 +218,7 @@ describe('ferov-resource-picker', () => {
         return Promise.resolve().then(() => {
             expect(mockRuleLib.getRHSTypes).not.toHaveBeenCalled();
             expect(getMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), false, undefined, undefined, true);
+                true, false, Store.getStore(), false, undefined, undefined, true, false);
         });
     });
 
