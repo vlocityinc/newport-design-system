@@ -360,7 +360,8 @@ export function invokePopover(cmpName, cmpAttributes, panelAttributes) {
                 referenceElementSelector: panelAttributes.referenceSelector,
                 closeAction: () => {
                     panelAttributes.destroyPanel();
-                }
+                },
+                closeOnClickOut: panelAttributes.closeOnClickOut == null ? false : panelAttributes.closeOnClickOut
             },
             onCreate: (panel) => {
                 panelAttributes.createPanel(panel, newComponent.elements[0]);

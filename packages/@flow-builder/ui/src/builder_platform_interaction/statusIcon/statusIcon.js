@@ -19,7 +19,8 @@ export default class StatusIcon extends LightningElement {
     @api direction = 'south'; // other options : north, east & west
     @api headerforsummary; // header for summary / body of panel
     @api showOnlyNumberOfErrors = false;
-    @api disableAutoOpen = false;
+    @api disableAutoOpen = false; // by default we open the popover automatically if there are errors/warnings
+    @api closeOnClickOut = false; // close when we click out of the popover
 
     @api get messages() {
         return this.internalMessages;
@@ -186,7 +187,8 @@ export default class StatusIcon extends LightningElement {
         const referenceSelector = dotPrefixForClass + this.classForIcon + ' lightning-button-icon';
         const createPanel = this.onCreatePanel;
         const destroyPanel = this.onDestroyPanel;
-        invokePopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount }, { direction, referenceSelector, createPanel, destroyPanel });
+        const closeOnClickOut = this.closeOnClickOut;
+        invokePopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount }, { direction, referenceSelector, createPanel, destroyPanel, closeOnClickOut });
     }
 
     /**
