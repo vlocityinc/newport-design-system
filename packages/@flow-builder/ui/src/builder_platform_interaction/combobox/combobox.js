@@ -8,6 +8,7 @@ import { LABELS } from "./comboboxLabels";
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from "builder_platform_interaction/mergeFieldLib";
 import { DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE, DATE_DISPLAY_FORMAT, formatDateTime, getValidDateTime } from "builder_platform_interaction/dateTimeUtils";
 import { getElementFromParentElementCache } from "builder_platform_interaction/comboboxCache";
+import { isNonElementResourceId } from "builder_platform_interaction/systemLib";
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
 };
@@ -980,6 +981,10 @@ export default class Combobox extends LightningElement {
         let regexResult = true;
         if (valueToCheck.startsWith('{!') && valueToCheck.endsWith('}')) {
             value = valueToCheck.substring(2, valueToCheck.length - 1);
+        }
+
+        if (isNonElementResourceId(value)) {
+            return false;
         }
 
         if (value) {

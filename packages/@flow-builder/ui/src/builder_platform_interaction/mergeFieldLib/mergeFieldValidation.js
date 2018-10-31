@@ -19,6 +19,7 @@ const SYSTEM_VARIABLE_PREFIX = '$Flow.';
 const VALIDATION_ERROR_TYPE = {
     INVALID_MERGEFIELD : 'notAValidMergeField',
     INVALID_GLOBAL_CONSTANT : 'invalidGlobalConstant',
+    INVALID_GLOBAL_VARIABLE : 'invalidGlobalVariable',
     UNKNOWN_MERGE_FIELD : 'unknownMergeField',
     WRONG_DATA_TYPE : 'wrongDataType'
 };
@@ -162,8 +163,13 @@ export class MergeFieldsValidation {
         return Promise.resolve([]);
     }
 
-    _validateSystemVariable() {
-        // TODO : validate system variables
+    _validateSystemVariable(mergeFieldReferenceValue, index) {
+        const endIndex = index + mergeFieldReferenceValue.length - 1;
+        if (!getNonElementResource(mergeFieldReferenceValue)) {
+            const validationErrorLabel = format(LABELS.invalidGlobalVariable, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_VARIABLE, validationErrorLabel, index, endIndex);
+            return Promise.resolve([validationError]);
+        }
         return Promise.resolve([]);
     }
 
