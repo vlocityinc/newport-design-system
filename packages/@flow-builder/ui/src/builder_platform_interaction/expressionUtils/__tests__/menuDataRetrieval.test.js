@@ -242,18 +242,15 @@ describe('Menu data retrieval', () => {
         });
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockClear();
     });
-    // TODO W-5528544: Move this test to outputResourcePicker if needed
-    /* describe('RHS menuData', () => {
+    describe('RHS menuData', () => {
         it('should have active picklist values in menu data when LHS is picklist field', () => {
             selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid]]);
-            const complexGuid = store.accountSObjectVariableGuid + '.AccountSource';
-            const lhs = normalizeLHS(complexGuid);
             // configuration for menu data retrieval
             const allowedParamTypes = null;
             const includeNewResource = false;
             const allowSObjectForFields = false;
             const disableHasNext = false;
-            const activePicklistValues = lhs.activePicklistValues;
+            const activePicklistValues = ['pick1', 'pick2'];
 
             const menuData = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true}, allowedParamTypes, includeNewResource, allowSObjectForFields, disableHasNext, activePicklistValues);
             const picklistLabel = 'Picklist Values';
@@ -261,7 +258,7 @@ describe('Menu data retrieval', () => {
             expect(menuData).toContainEqual(expect.objectContaining({items: expect.any(Array)}));
             selectorsMock.writableElementsSelector.mockClear();
         });
-    });*/
+    });
     describe('global constants', () => {
         it('empty string should show in menuData when allowed', () => {
             // all global constants returned from selector
