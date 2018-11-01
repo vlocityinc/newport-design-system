@@ -137,16 +137,20 @@ export function mutateFlowResourceToComboboxShape(resource) {
         iconSize: ICON_SIZE
     };
     const isNonElement = isNonElementResourceId(resource.guid);
+    const resourceLabel = resource.type ? resource.type.label : resource.label;
+    const resourceIcon = resource.type ? resource.type.icon : resource.iconName;
+    // some screen fields do not have data type and we need to get them from the type object
+    const resourceDataType = resource.dataType || (resource.type && resource.type.type);
 
     newElement.text = resource.name;
-    newElement.subText = isNonElement ? resource.description : getSubText(resource.dataType, resource.objectType, resource.label);
+    newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resource.objectType, resourceLabel);
     newElement.value = resource.guid;
     newElement.displayText = '{!' + resource.name + '}';
-    newElement.hasNext = resource.dataType === SOBJECT_TYPE && !resource.isCollection;
-    newElement.category = resource.category || getElementCategory(resource.elementType, resource.dataType, resource.isCollection).toUpperCase();
-    newElement.iconName = resource.iconName || getDataTypeIcons(resource.dataType, ICON_TYPE);
+    newElement.hasNext = resourceDataType === SOBJECT_TYPE && !resource.isCollection;
+    newElement.category = resource.category || getElementCategory(resource.elementType, resourceDataType, resource.isCollection).toUpperCase();
+    newElement.iconName = resourceIcon || getDataTypeIcons(resourceDataType, ICON_TYPE);
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
-    newElement.dataType = resource.dataType;
+    newElement.dataType = resourceDataType;
     newElement.objectType = resource.objectType || null;
     if (newElement.hasNext) {
         newElement.rightIconName = RIGHT_ICON_NAME;

@@ -1,5 +1,6 @@
 import { mutateFlowResourceToComboboxShape } from '../menuDataGenerator';
-import { getDataTypeLabel } from 'builder_platform_interaction/dataTypeLib';
+import { getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
+import { getElementCategory } from 'builder_platform_interaction/elementConfig';
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
     return {
@@ -33,6 +34,26 @@ describe('menuDataGenerator', () => {
             getDataTypeLabel.mockReturnValueOnce(mockLabel);
             const result = mutateFlowResourceToComboboxShape(mockResource);
             expect(result.subText).toEqual(mockLabel);
+        });
+
+        it('gets the data type from a type object when dataType does not exist', () => {
+            mockResource.dataType = undefined;
+            mockResource.type = { type: 'screenFieldDataType' };
+            mutateFlowResourceToComboboxShape(mockResource);
+            expect(getDataTypeLabel).toHaveBeenCalledWith(mockResource.type.type);
+            expect(getDataTypeIcons).toHaveBeenCalledWith(mockResource.type.type, expect.any(String));
+            expect(getElementCategory).toHaveBeenCalledWith(undefined, mockResource.type.type, undefined);
+        });
+
+        it('calls getDataTypeIcons if no icon exists in type object', () => {
+            mockResource.type = { };
+            mutateFlowResourceToComboboxShape(mockResource);
+            expect(getDataTypeIcons).toHaveBeenCalledTimes(1);
+        });
+
+        it('calls getDataTypeIcons when no icon exists', () => {
+            mutateFlowResourceToComboboxShape(mockResource);
+            expect(getDataTypeIcons).toHaveBeenCalledTimes(1);
         });
     });
 });
