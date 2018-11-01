@@ -9,6 +9,10 @@
     cursor: pointer;
 }
 
+.THIS builder_platform_interaction-canvas .canvas .jtk-connector.connector-selected {
+    z-index: 400;
+}
+
 .THIS builder_platform_interaction-canvas .canvas .jtk-connector.jtk-dragging {
     z-index: 401;
 }

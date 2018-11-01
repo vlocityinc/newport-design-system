@@ -241,6 +241,7 @@ class DrawingLib {
             paintStyle = this.connectorStyles.selectedConnector;
             cssClass = 'label-selected';
         }
+        connection.addClass('connector-selected');
         this.setPaintStyleAndLabel(connection, paintStyle, hoverPaintStyle, cssClass);
     };
 
@@ -262,6 +263,7 @@ class DrawingLib {
             hoverPaintStyle = this.connectorStyles.hoverConnector;
             cssClass = '';
         }
+        connection.removeClass('connector-selected');
         this.setPaintStyleAndLabel(connection, paintStyle, hoverPaintStyle, cssClass);
     };
 
