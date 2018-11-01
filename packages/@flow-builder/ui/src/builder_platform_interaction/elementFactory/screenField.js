@@ -1,4 +1,5 @@
 import {
+    isChoiceField,
     isExtensionField,
     getLocalExtensionFieldType,
     getScreenFieldTypeByName,
@@ -18,7 +19,7 @@ export function createScreenField(screenField = {}) {
     const newScreenField = baseElement(screenField);
     const {
         fieldText = '',
-        extensionName = null,
+        extensionName,
         fieldType,
         isNewField = false, // Client side only for purposes of editing new field only attributes.
         isRequired = false,
@@ -105,20 +106,11 @@ export function createScreenField(screenField = {}) {
  */
 export function createEmptyScreenFieldOfType(typeName) {
     const type = getScreenFieldTypeByName(typeName);
-
-    let choiceReferences = [];
-    // Always add a placeholder choice for any choice based fields.
-    if (type.name === 'RadioButtons' || type.name === 'MultiSelectCheckboxes' || type.name === 'DropdownBox' || type.name === 'MultiSelectPicklist') {
-        choiceReferences = [''];
-    }
-
     const newScreenField = {
             isRequired: type.dataType === 'Boolean' ? true : false,
             defaultValue: '',
             dataType: type.dataType,
             extensionName: type.name,
-            choiceReferences,
-            defaultSelectedChoiceReference: '',
             fieldType: type.fieldType,
             isNewField: true, // used to enable various functionality for newly created fields only
             scale: '0', // Store as string for validation purposes.
@@ -129,6 +121,11 @@ export function createEmptyScreenFieldOfType(typeName) {
                 errorMessage: ''
            }
     };
+
+    // Always add a placeholder choice for any choice based fields.
+    if (type.name === 'RadioButtons' || type.name === 'MultiSelectCheckboxes' || type.name === 'DropdownBox' || type.name === 'MultiSelectPicklist') {
+        newScreenField.choiceReferences = [''];
+    }
 
     return createScreenField(newScreenField);
 }
@@ -172,18 +169,22 @@ export function createScreenFieldMetadataObject(screenField) {
             name,
             outputParameters,
             scale,
-            defaultSelectedChoiceReference
+
         },
         defaultValueMetadataObject,
     );
 
-    // This field is only allowed when the field type is extension.
+    // Only allowed when the field type is extension.
     if (isExtensionField(screenField)) {
         mdScreenField.extensionName = extensionName;
     }
 
     if (validationRule.formulaExpression) {
         mdScreenField.validationRule = validationRule;
+    }
+
+    if (isChoiceField(screenField)) {
+        mdScreenField.defaultSelectedChoiceReference = defaultSelectedChoiceReference;
     }
 
     return mdScreenField;

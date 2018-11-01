@@ -306,6 +306,15 @@ export function isPicklistField(field) {
 }
 
 /**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if the specified field is a choice based field.
+ */
+export function isChoiceField(field) {
+    return field && (isPicklistField(field) || isMultiSelectCheckboxField(field) ||
+        isMultiSelectPicklistField(field) || isRadioField(field));
+}
+
+/**
  * @param {string} dataType - The dataType to look up.
  * @returns {string} The corresponding FLOW_DATA_TYPE. Returns null there is no match.
  */
