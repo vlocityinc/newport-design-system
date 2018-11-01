@@ -1,6 +1,7 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { Validation, defaultRules } from "builder_platform_interaction/validation";
 import { getCachedExtensions, isExtensionField } from "builder_platform_interaction/screenEditorUtils";
+import { isReference } from "builder_platform_interaction/commonUtils";
 
 const LONG_STRING_LEN = 65535;
 const MAX_SCALE_VALUE = 17;
@@ -152,11 +153,27 @@ const getRulesForExtensionField = (field, rules) => {
 /**
  * Creates a validation rule that will execute requiredness validation only if the value provided (dependentValue) is not empty
  * @param {String} dependentValue - The value that toggles requiredness validation (passing a value in this argument will trigger requiredness validation)
+ * @returns {function} - The validation rule
  */
 const createConditionalRuleForTextProperty = (dependentValue) => {
     return (propertyValue) => {
         if (dependentValue && dependentValue.value && dependentValue.value.length) {
             return ValidationRules.shouldNotBeBlank(propertyValue);
+        }
+
+        return null;
+    };
+};
+
+/**
+ * Creates a validation rule that will always return null if the value is a reference, if it is not, the wrapped rule will be executed
+ * @param {String} rule - The rule to execute if the value is not a reference
+ * @returns {function} - The validation rule
+ */
+const createReferenceSafeRule = (rule) => {
+    return (value) => {
+        if (!isReference(value)) {
+            return rule(value);
         }
 
         return null;
@@ -175,22 +192,22 @@ const getRulesForInputField = (field, rules) => {
     // Number based fields
     if (typeName === 'Number' || typeName === 'Currency') {
         addRules('scale', rules, [
-            ValidationRules.shouldBeAPositiveIntegerOrZero,
-            ValidationRules.shouldBeUnderMaxValue(MAX_SCALE_VALUE)
+            createReferenceSafeRule(ValidationRules.shouldBeAPositiveIntegerOrZero),
+            createReferenceSafeRule(ValidationRules.shouldBeUnderMaxValue(MAX_SCALE_VALUE))
         ]);
     }
 
     // Date
     if (typeName === 'Date') {
         addRules('defaultValue', rules, [
-            ValidationRules.shouldBeADate
+            createReferenceSafeRule(ValidationRules.shouldBeADate)
         ]);
     }
 
     // DisplayText
     if (typeName === 'DisplayText') {
         addRules('fieldText', rules, [
-            ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)
+            createReferenceSafeRule(ValidationRules.maximumCharactersLimit(LONG_STRING_LEN))
         ]);
     }
 
