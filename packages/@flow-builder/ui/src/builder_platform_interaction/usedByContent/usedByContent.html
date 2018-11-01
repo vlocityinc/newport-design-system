@@ -4,12 +4,16 @@
         <ul if:true={listSectionItems} class='slds-has-block-links test-list-section-items'>
             <template for:each={listSectionItems} for:item='listItem'>
                 <li key={listItem.guid} class='slds-p-vertical_x-small test-list-section-item'>
-                    <lightning-icon if:true={listItem.iconName}
-                                    icon-name={listItem.iconName} 
-                                    title={listItem.name} alternative-text={listItem.name} 
-                                    size='small' class='slds-m-right_x-small test-use-standard-icon'>
-                    </lightning-icon>
-                    <span class="test-list-item-name">{listItem.name}</span>
+                    <div class="slds-grid slds-grid_vertical-align-center">
+                        <builder_platform_interaction-element-icon
+                                if:true={listItem.iconName}
+                                icon-name={listItem.iconName}
+                                icon-size='small'
+                                title={listItem.name}
+                                alternative-text={listItem.name}>
+                        </builder_platform_interaction-element-icon>
+                        <span class="test-list-item-name">{listItem.name}</span>
+                    </div>
                 </li>
             </template>
         </ul>

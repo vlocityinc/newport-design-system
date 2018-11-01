@@ -1,0 +1,12 @@
+.rotate-icon-container {
+    border-radius: var(--lwc-borderRadiusMedium);
+}
+
+.non-canvas-decision-icon {
+    transform: rotate(45deg) scale(0.91666);
+}
+
+.rotate-icon-svg {
+    transform: rotate(-45deg);
+    background: transparent;
+}

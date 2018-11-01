@@ -1,7 +1,13 @@
 <template>
     <span if:true={isTestMode} class={computedTestClass}></span>
     <div class="slds-grid slds-grid_vertical-align-center">
-        <lightning-icon if:true={hasIcon} icon-name={iconName} size={iconSize} alternative-text={label} class="slds-m-right_x-small drag-element"></lightning-icon>
+        <builder_platform_interaction-element-icon
+                if:true={hasIcon}
+                icon-name={iconName}
+                icon-size={iconSize}
+                is-draggable
+                alternative-text={label}>
+        </builder_platform_interaction-element-icon>
         <!--
         NOTE: Technically the palette item name should be a button because it is more of an
         action than a destination. However lightning-button will never support truncation of

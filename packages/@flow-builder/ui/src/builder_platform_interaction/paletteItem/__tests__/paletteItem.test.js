@@ -22,7 +22,7 @@ const createComponentUnderTest = (iconName) => {
 };
 
 const selectors = {
-    lightningIcon: 'lightning-icon',
+    elementIcon: 'builder_platform_interaction-element-icon',
     link: 'a'
 };
 
@@ -58,40 +58,36 @@ describe('PaletteItem', () => {
         });
     });
 
-    describe('icon', () => {
-        it('does not show an icon when the iconName is undefined', () => {
+    describe('elementIcon', () => {
+        it('does not render elementIcon when the iconName is undefined', () => {
             const paletteItem = createComponentUnderTest(undefined);
             return Promise.resolve().then(() => {
-                const icon = getShadowRoot(paletteItem).querySelector(selectors.lightningIcon);
-                expect(icon).toBeNull();
+                const elementIcon = getShadowRoot(paletteItem).querySelector(selectors.elementIcon);
+                expect(elementIcon).toBeNull();
             });
         });
 
-        it('does not show an icon when the iconName is null', () => {
+        it('does not render elementIcon when the iconName is null', () => {
             const paletteItem = createComponentUnderTest(null);
             return Promise.resolve().then(() => {
-                const icon = getShadowRoot(paletteItem).querySelector(selectors.lightningIcon);
-                expect(icon).toBeNull();
+                const elementIcon = getShadowRoot(paletteItem).querySelector(selectors.elementIcon);
+                expect(elementIcon).toBeNull();
             });
         });
 
-        it('does not show an icon when the iconName is empty', () => {
+        it('does not render elementIcon when the iconName is empty', () => {
             const paletteItem = createComponentUnderTest('');
             return Promise.resolve().then(() => {
-                const icon = getShadowRoot(paletteItem).querySelector(selectors.lightningIcon);
-                expect(icon).toBeNull();
+                const elementIcon = getShadowRoot(paletteItem).querySelector(selectors.elementIcon);
+                expect(elementIcon).toBeNull();
             });
         });
 
-        it('shows an icon when the iconName is non-empty', () => {
-            const iconName = 'myIconName';
-            const paletteItem = createComponentUnderTest(iconName);
+        it('renders elementIcon when the iconName is non-empty', () => {
+            const paletteItem = createComponentUnderTest('iconName');
             return Promise.resolve().then(() => {
-                const icon = getShadowRoot(paletteItem).querySelector(selectors.lightningIcon);
-                expect(icon).not.toBeNull();
-                expect(icon.iconName).toEqual(iconName);
-                expect(icon.size).toEqual(ICON_SIZE);
-                expect(icon.alternativeText).toEqual(LABEL);
+                const elementIcon = getShadowRoot(paletteItem).querySelector(selectors.elementIcon);
+                expect(elementIcon).not.toBeNull();
             });
         });
     });

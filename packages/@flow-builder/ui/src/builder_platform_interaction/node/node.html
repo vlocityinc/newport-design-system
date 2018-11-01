@@ -5,7 +5,11 @@
             <!--Node icon -->
             <div class={rotateIconClass}>
                 <button title={nodeIconTitle} tabindex='0' class='icon' onfocus={handleNodeClick} onmousedown={handleMouseDown} onclick={handleNodeClick} ondblclick={handleDblClick}>
-                    <lightning-icon icon-name={iconName} size='large'></lightning-icon>
+                    <builder_platform_interaction-element-icon
+                            icon-name={iconName}
+                            icon-size='large'
+                            is-canvas-element-icon>
+                    </builder_platform_interaction-element-icon>
                 </button>
             </div>
 

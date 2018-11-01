@@ -15,7 +15,7 @@ const selectors = {
     usedBySectionHeaderTitle: '.test-list-header-title',
     usedBySectionItems: '.test-list-section-items',
     usedBySectionItem: '.test-list-section-item',
-    usedByStandardIcon: '.test-use-standard-icon'
+    usedByStandardIcon: 'builder_platform_interaction-element-icon'
 };
 
 describe('Used-By-Content component', () => {
@@ -58,7 +58,7 @@ describe('Used-By-Content component', () => {
                 expect(usedBySectionItems.classList).not.toBeNull();
             });
         });
-        it('when not null should display Standard Icon.', () => {
+        it('when not null should render element icon component.', () => {
             const expectedResult = [{
                 'guid': 'FORMULA_1',
                 'name': 'Formula_1',
@@ -70,7 +70,7 @@ describe('Used-By-Content component', () => {
             const usedByContentComponent = createComponentForTest('Section-Header', expectedResult);
             return Promise.resolve().then(() => {
                 const usedBySectionItemStandardIcon = getShadowRoot(usedByContentComponent).querySelector(selectors.usedByStandardIcon);
-                expect(usedBySectionItemStandardIcon.iconName).toBe('standard:formula');
+                expect(usedBySectionItemStandardIcon).not.toBeNull();
             });
         });
     });

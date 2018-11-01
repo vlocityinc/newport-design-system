@@ -141,7 +141,8 @@ export default class Palette extends LightningElement {
         // to create our own polyfill since the Raptor team doesn't plan on
         // creating one in the near future.
         const paletteItem = referenceElement.querySelector('builder_platform_interaction-palette-item');
-        const dragElement = paletteItem.iconElement;
+        const elementIcon = paletteItem.elementIcon;
+        const dragElement = elementIcon.iconElement;
         event.dataTransfer.setData('text', item.elementType);
         if (event.dataTransfer.setDragImage && dragElement) {
             event.dataTransfer.setDragImage(unwrap(dragElement), 0, 0);

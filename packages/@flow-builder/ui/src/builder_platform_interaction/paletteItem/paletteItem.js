@@ -19,8 +19,8 @@ export default class PaletteItem extends LightningElement {
     @api iconSize;
 
     @api
-    get iconElement() {
-        return this.template.querySelector('lightning-icon.drag-element');
+    get elementIcon() {
+        return this.template.querySelector('builder_platform_interaction-element-icon');
     }
 
     get hasIcon() {
