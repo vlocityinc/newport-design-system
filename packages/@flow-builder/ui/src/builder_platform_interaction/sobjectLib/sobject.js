@@ -103,13 +103,12 @@ export const getUpdateableEntities = () => {
  * Only goes to the server if the fields for that sObject are not cached
  * @param {String} entityName Api name of the SObject
  * @param {Function} callback Function to call once the server call is complete
+ * @param {Boolean} isValidation whether the fields are being fetch for validation. Only uses the cache in this case
  */
-export const getFieldsForEntity = (entityName, callback) => {
-    if (cachedEntityFields[entityName]) {
-        if (callback) {
-            callback(cachedEntityFields[entityName]);
-        }
-    } else {
+export const getFieldsForEntity = (entityName, callback, isValidation = false) => {
+    if (cachedEntityFields[entityName] && callback) {
+        callback(cachedEntityFields[entityName]);
+    } else if (!isValidation) {
         const params = {
             entityApiName: entityName
         };
@@ -120,5 +119,7 @@ export const getFieldsForEntity = (entityName, callback) => {
                 getFieldsForEntityCallback(data, entityName, callback);
             }
         }, params);
+    } else if (callback) {
+        callback();
     }
 };

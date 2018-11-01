@@ -269,16 +269,19 @@ export class MergeFieldsValidation {
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
-        return this._getFieldForEntity(element.objectType, fieldName).then(field => {
-            if (!field) {
-                const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.objectType);
-                return [this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex)];
-            // validate field for the allowed param types
-            } else if (this.allowedParamTypes && !this._isElementValidForAllowedParamTypes(field)) {
-                const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
-                return [validationError];
+        return this._getFieldForEntity(element.objectType, fieldName).then(({ field, skipValidation }) => {
+            let errors = [];
+            if (!skipValidation) {
+                if (!field) {
+                    const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.objectType);
+                    errors = [this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex)];
+                // validate field for the allowed param types
+                } else if (this.allowedParamTypes && !this._isElementValidForAllowedParamTypes(field)) {
+                    const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
+                    errors = [validationError];
+                }
             }
-            return [];
+            return errors;
         });
     }
 
@@ -286,15 +289,21 @@ export class MergeFieldsValidation {
         fieldName = fieldName.toLowerCase();
         return new Promise((resolve) => {
             sobjectLib.getFieldsForEntity(entityName, (fields) => {
-                for (const apiName in fields) {
-                    if (fields.hasOwnProperty(apiName)) {
-                        if (fieldName === apiName.toLowerCase()) {
-                            resolve(fields[apiName]);
+                if (!fields) {
+                    // skip validation in the case that the fields are not cached
+                    // save-time validation will take care of this
+                    resolve({ skipValidation: true });
+                } else {
+                    for (const apiName in fields) {
+                        if (fields.hasOwnProperty(apiName)) {
+                            if (fieldName === apiName.toLowerCase()) {
+                                resolve({ field: fields[apiName] });
+                            }
                         }
                     }
+                    resolve({ field: undefined });
                 }
-                resolve(undefined);
-            });
+            }, true);
         });
     }
 }

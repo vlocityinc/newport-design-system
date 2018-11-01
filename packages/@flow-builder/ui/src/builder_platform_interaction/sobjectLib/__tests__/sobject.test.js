@@ -74,6 +74,12 @@ describe('SObject Lib Tests', () => {
                 expect(fields.Phone.dataType).toEqual('String');
             });
         });
+
+        it('Get fields returns an empty object when validating and the cache does not contain the info', () => {
+            getFieldsForEntity('Contact', (fields) => {
+                expect(fields).toBeUndefined();
+            }, true);
+        });
     });
 });
 

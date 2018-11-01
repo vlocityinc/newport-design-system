@@ -1,6 +1,7 @@
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
 import { datetimeParamTypes } from "mock/ruleService";
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/systemLib', () => {
     const emptyString = '$GlobalConstant.EmptyString';
@@ -88,6 +89,15 @@ describe('Merge field validation', () => {
                         'message': 'FlowBuilderMergeFieldValidation.unknownResource',
                         'startIndex': 2
                     }]);
+                done();
+            });
+        });
+        it('Returns no validation errors if fields are not cached', (done) => {
+            getFieldsForEntity.mockImplementationOnce((entityName, callback) => {
+                callback();
+            });
+            validateMergeField('{!accVar1.Name}').then(validationErrors => {
+                expect(validationErrors).toEqual([]);
                 done();
             });
         });
