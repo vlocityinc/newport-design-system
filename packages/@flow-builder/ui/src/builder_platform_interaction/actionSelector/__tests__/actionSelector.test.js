@@ -119,9 +119,9 @@ describe('Action selector', () => {
     });
     describe('When action list is resolved', () => {
         let actionsChangedEventCallback;
-        const expectActionsChangedEventCallbackCalledWithElementType = (elementType, numberActions, error = null) => {
+        const expectActionsChangedEventCallbackCalledWithElementType = (elementType, numberActions) => {
             expect(actionsChangedEventCallback).toHaveBeenCalled();
-            expect(actionsChangedEventCallback.mock.calls[1][0].detail).toEqual({error, value : {elementType}, number: numberActions});
+            expect(actionsChangedEventCallback.mock.calls[1][0].detail).toEqual({value : {elementType}, number: numberActions});
         };
         beforeEach(() => {
             mockApexPluginsPromise = Promise.resolve([]);

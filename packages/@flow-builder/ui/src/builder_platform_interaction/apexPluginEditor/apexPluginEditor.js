@@ -84,8 +84,10 @@ export default class ApexPluginEditor extends LightningElement {
         return {
             inputTabHeader: this.labels.inputTabHeader,
             outputTabHeader: this.labels.outputTabHeader,
-            emptyInputsMessage: this.labels.emptyInputs,
-            emptyOutputsMessage: this.labels.emptyOutputs,
+            emptyInputsTitle: this.labels.emptyInputsTitle,
+            emptyInputsBody: format(this.labels.emptyInputsBody, this.labels.apexPluginTypeLabel),
+            emptyOutputsTitle: this.labels.emptyOutputsTitle,
+            emptyOutputsBody: format(this.labels.emptyOutputsBody, this.labels.apexPluginTypeLabel),
             sortInputs: true,
             sortOutputs: true,
             inputs: this.apexPluginNode.inputParameters,

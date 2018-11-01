@@ -132,8 +132,10 @@ export default class SubflowEditor extends LightningElement {
         return {
             inputTabHeader: this.labels.inputTabHeader,
             outputTabHeader: this.labels.outputTabHeader,
-            emptyInputsMessage: this.labels.emptyInputs,
-            emptyOutputsMessage: this.labels.emptyOutputs,
+            emptyInputsTitle: this.labels.emptyInputsTitle,
+            emptyInputsBody: format(this.labels.emptyInputsBody, this.labels.subflowTypeLabel),
+            emptyOutputsTitle: this.labels.emptyOutputsTitle,
+            emptyOutputsBody: format(this.labels.emptyOutputsBody, this.labels.subflowTypeLabel),
             inputsNeedToBeSorted: true,
             outputsNeedToBeSorted: true,
             inputs: this.subflowNode.inputAssignments,

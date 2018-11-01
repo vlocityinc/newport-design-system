@@ -7,8 +7,10 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
 
 const defaultInputTabHeader = 'Send to action';
 const defaultOutputTabHeader = 'Received from action';
-const defaultEmptyInputsMessage = 'No variables to define';
-const defaultEmptyOutputsMessage = 'This action doesn’t return any data';
+const defaultEmptyInputsTitle = 'No inputs';
+const defaultEmptyInputsBody = 'No variables to define';
+const defaultEmptyOutputsTitle = 'No outputs';
+const defaultEmptyOutputsBody = 'This action doesn’t return any data';
 
 const defaultInputParameters = [
     {
@@ -75,8 +77,9 @@ const selectors = {
     lightningTab: 'lightning-tab',
     inputTab: '.tabitem-inputs',
     outputTab: '.tabitem-outputs',
-    emptyInputsMessage: '.emptyInputsMessage',
-    emptyOutputsMessage: '.emptyOutputsMessage',
+    emptyInputs: '.emptyInputsMessage',
+    emptyOutputs: '.emptyOutputsMessage',
+    goneCamping: '.goneCamping',
     parameterItem: 'builder_platform_interaction-parameter-item',
 };
 
@@ -92,20 +95,21 @@ const getOutputParameterItems = (parameterList) => {
     return getShadowRoot(parameterList).querySelector(selectors.outputTab).querySelectorAll(selectors.parameterItem);
 };
 
-const getEmptyInputsMessage = (parameterList) => {
-    return getShadowRoot(parameterList).querySelector(selectors.emptyInputsMessage);
+const getEmptyInputs = (parameterList) => {
+    return getShadowRoot(parameterList).querySelector(selectors.emptyInputs).querySelector(selectors.goneCamping);
 };
 
-const getEmptyOutputsMessage = (parameterList) => {
-    return getShadowRoot(parameterList).querySelector(selectors.emptyOutputsMessage);
+const getEmptyOutputs = (parameterList) => {
+    return getShadowRoot(parameterList).querySelector(selectors.emptyOutputs).querySelector(selectors.goneCamping);
 };
 
 function createComponentForTest({ elementType = ELEMENT_TYPE.ACTION_CALL, inputTabHeader = defaultInputTabHeader, outputTabHeader = defaultOutputTabHeader,
-    emptyInputsMessage = defaultEmptyInputsMessage, emptyOutputsMessage = defaultEmptyOutputsMessage,
+    emptyInputsTitle = defaultEmptyInputsTitle, emptyOutputsTitle = defaultEmptyOutputsTitle,
+    emptyInputsBody = defaultEmptyInputsBody, emptyOutputsBody = defaultEmptyOutputsBody,
     inputs = [], outputs = [],
     sortInputs = true, sortOutputs = true} = {}) {
     const el = createElement('builder_platform_interaction-parameter-list', { is: ParameterList });
-    Object.assign(el, {elementType, inputTabHeader, outputTabHeader, inputs, outputs, emptyInputsMessage, emptyOutputsMessage, sortInputs, sortOutputs});
+    Object.assign(el, {elementType, inputTabHeader, outputTabHeader, inputs, outputs, emptyInputsTitle, emptyOutputsTitle, emptyInputsBody, emptyOutputsBody, sortInputs, sortOutputs});
     document.body.appendChild(el);
     return el;
 }
@@ -121,16 +125,18 @@ describe('parameter-list', () => {
             expect(lightningTabs).toHaveLength(2);
         });
         it('should contain empty inputs message in input tab', () => {
-            const emptyMsg = getEmptyInputsMessage(parameterList);
-            expect(emptyMsg.textContent).toEqual(defaultEmptyInputsMessage);
+            const nothing = getEmptyInputs(parameterList);
+            expect(nothing.title).toEqual(defaultEmptyInputsTitle);
+            expect(nothing.body).toEqual(defaultEmptyInputsBody);
         });
         it('should not contain any input parameters in input tab', () => {
             const parameterItems = getInputParameterItems(parameterList);
             expect(parameterItems).toHaveLength(0);
         });
         it('should contain empty outputs message in output tab', () => {
-            const emptyMsg = getEmptyOutputsMessage(parameterList);
-            expect(emptyMsg.textContent).toEqual(defaultEmptyOutputsMessage);
+            const nothing = getEmptyOutputs(parameterList);
+            expect(nothing.title).toEqual(defaultEmptyOutputsTitle);
+            expect(nothing.body).toEqual(defaultEmptyOutputsBody);
         });
         it('should not contain any output parameters in output tab', () => {
             const parameterItems = getOutputParameterItems(parameterList);
@@ -159,7 +165,7 @@ describe('parameter-list', () => {
                 {name: 'subjectNameOrId', label: 'Subject Name or Id', isRequired: true},
                 {name: 'communityId', label: 'Community ID', isRequired: false},
                 ];
-            const inputParameters = parameterItems.items.map(parameterItem => {
+            const inputParameters = parameterItems.map(parameterItem => {
                 return {name: getValueFromHydratedItem(parameterItem.item.name), label: getValueFromHydratedItem(parameterItem.item.label), isRequired: parameterItem.item.isRequired};
             });
             expect(inputParameters).toEqual(expectedInputs);
@@ -174,7 +180,7 @@ describe('parameter-list', () => {
                 {name: 'accountId', label: 'Account ID', isRequired: false},
                 {name: 'feedId', label: 'Feed ID', isRequired: false},
                 ];
-            const outputParameters = parameterItems.items.map(parameterItem => {
+            const outputParameters = parameterItems.map(parameterItem => {
                 return {name: getValueFromHydratedItem(parameterItem.item.name), label: getValueFromHydratedItem(parameterItem.item.label), isRequired: parameterItem.item.isRequired};
             });
             expect(outputParameters).toEqual(expectedOutputs);

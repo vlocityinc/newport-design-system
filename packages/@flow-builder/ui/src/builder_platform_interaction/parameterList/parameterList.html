@@ -12,7 +12,8 @@
                     </template>
                 </ul>
                 <div if:true={emptyInputs} class='emptyInputsMessage'>
-                    {emptyInputsMessage}
+                    <builder_platform_interaction-gone-camping class='goneCamping' title={emptyInputsTitle} body={emptyInputsBody}>                        
+                    </builder_platform_interaction-gone-camping>
                 </div>
             </div>
         </lightning-tab>
@@ -28,7 +29,8 @@
                     </template>
                 </ul>
                 <div if:true={emptyOutputs} class='emptyOutputsMessage'>
-                    {emptyOutputsMessage}
+                    <builder_platform_interaction-gone-camping class='goneCamping' title={emptyOutputsTitle} body={emptyOutputsBody}>                        
+                    </builder_platform_interaction-gone-camping>
                 </div>
             </div>
         </lightning-tab>

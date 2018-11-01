@@ -22,16 +22,28 @@ export default class ParameterList extends LightningElement {
     @api outputTabHeader;
 
     /**
-     * Message when there is no input. It should be replaced by emptyState component when it's ready W-5383760
+     * Title message when there is no input.
      *
      */
-    @api emptyInputsMessage;
+    @api emptyInputsTitle;
 
     /**
-     * Message when there is no output. It should be replaced by emptyState component when it's ready W-5383760
+     * Body message when there is no input.
      *
      */
-    @api emptyOutputsMessage;
+    @api emptyInputsBody;
+
+    /**
+     * Title when there is no output.
+     *
+     */
+    @api emptyOutputsTitle;
+
+    /**
+     * Body when there is no output.
+     *
+     */
+    @api emptyOutputsBody;
 
     /**
      * List of input ParameterItem
