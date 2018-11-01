@@ -164,7 +164,6 @@ export function createScreenFieldMetadataObject(screenField) {
         {
             choiceReferences,
             dataType,
-            extensionName,
             fieldText,
             fieldType,
             helpText,
@@ -177,6 +176,11 @@ export function createScreenFieldMetadataObject(screenField) {
         },
         defaultValueMetadataObject,
     );
+
+    // This field is only allowed when the field type is extension.
+    if (isExtensionField(screenField)) {
+        mdScreenField.extensionName = extensionName;
+    }
 
     if (validationRule.formulaExpression) {
         mdScreenField.validationRule = validationRule;
