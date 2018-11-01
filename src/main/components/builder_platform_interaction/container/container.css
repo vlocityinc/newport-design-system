@@ -1,18 +1,4 @@
-/************* Left Panel *****************/
-/*.THIS builder_platform_interaction-left-panel .flow-resource-list .new-resource-button button {*/
-    /*flex-grow: 1;*/
-/*}*/
-
-/*.THIS builder_platform_interaction-palette .slds-icon-standard-decision svg {*/
-    /*transform: rotate(-45deg);*/
-/*}*/
-
-/************* Node *****************/
-/*.THIS builder_platform_interaction-node .rotate-icon svg.slds-icon_large {*/
-    /*transform: rotate(-45deg);*/
-    /*width: 2.75rem;*/
-    /*height: 2.75rem;*/
-/*}*/
+/* NOTE: Do not add any css in this file apart from any custom css associated with the connectors */
 
 /************* Connector *****************/
 .THIS builder_platform_interaction-canvas .canvas .jtk-connector {
