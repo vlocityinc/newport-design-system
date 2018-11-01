@@ -3,9 +3,9 @@
         <lightning-spinner variant='brand' alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
     </div>
 
-    <div if:true={screen} class='slds-grid screen-editor-container'>
+    <div if:true={screen} onwheel={handleWheel} class='slds-grid screen-editor-container'>
         <div class='slds-size_small slds-grow-none slds-shrink-none'>        
-            <builder_platform_interaction-screen-editor-palette screen-field-types={screenFieldTypes} extension-types={extensionTypes} onaddscreenfield={handleAddScreenField}> 
+            <builder_platform_interaction-screen-editor-palette screen-field-types={screenFieldTypes} extension-types={extensionTypes} onaddscreenfield={handleAddScreenField}>
             </builder_platform_interaction-screen-editor-palette>
         </div>
         <div class='canvas-container slds-grow slds-shrink slds-scrollable_x'>
