@@ -8,7 +8,7 @@ import { LABELS } from "./comboboxLabels";
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from "builder_platform_interaction/mergeFieldLib";
 import { DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE, DATE_DISPLAY_FORMAT, formatDateTime, getValidDateTime } from "builder_platform_interaction/dateTimeUtils";
 import { getElementFromParentElementCache } from "builder_platform_interaction/comboboxCache";
-import { isNonElementResourceId } from "builder_platform_interaction/systemLib";
+import { isGlobalConstantOrSystemVariableId } from "builder_platform_interaction/systemLib";
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
 };
@@ -971,6 +971,7 @@ export default class Combobox extends LightningElement {
      * Validates if the expression literal identifier is a valid dev name.
      * Eg: {!testVar} - is a valid expression, returns false
      *     {^testVar} - is a valid expression literal, returns true
+     *     {!$GlobalConstant.___}, {!$SystemVariable.___}, and any Global Variable are all expressions, return false
      * Dot at the end is allowed for SObject where dot signifies to fetch next level data
      * @param {String} valueToCheck the value to check, defaults to displayText
      * @param {boolean} allowDotSuffix to allow dot at the end of the expression identifier
@@ -983,7 +984,7 @@ export default class Combobox extends LightningElement {
             value = valueToCheck.substring(2, valueToCheck.length - 1);
         }
 
-        if (isNonElementResourceId(value)) {
+        if (isGlobalConstantOrSystemVariableId(value)) {
             return false;
         }
 

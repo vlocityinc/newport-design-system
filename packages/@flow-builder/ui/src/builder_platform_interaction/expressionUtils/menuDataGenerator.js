@@ -3,7 +3,7 @@ import {
     getDataTypeLabel,
     getDataTypeIcons,
 } from "builder_platform_interaction/dataTypeLib";
-import { isNonElementResourceId, SYSTEM_VARIABLE_PREFIX, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
+import { isGlobalConstantOrSystemVariableId, SYSTEM_VARIABLE_PREFIX, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
 import { getElementCategory } from "builder_platform_interaction/elementConfig";
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
@@ -136,7 +136,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     const newElement = {
         iconSize: ICON_SIZE
     };
-    const isNonElement = isNonElementResourceId(resource.guid);
+    const isNonElement = isGlobalConstantOrSystemVariableId(resource.guid);
     const resourceLabel = resource.type ? resource.type.label : resource.label;
     const resourceIcon = resource.type ? resource.type.icon : resource.iconName;
     // some screen fields do not have data type and we need to get them from the type object
@@ -232,7 +232,12 @@ const mutateSystemAndGlobalVariablesToComboboxShape = (value) => {
     };
 };
 
-const getGlobalVariableTypeComboboxItems = () => {
+/**
+ * Gets menu data global variable types.
+ *
+ * @return {MenuDataItem[]} menu data for global variables
+ */
+export const getGlobalVariableTypeComboboxItems = () => {
     const globalVariableTypes = getGlobalVariableTypes();
     const typeMenuData = [];
 
@@ -244,10 +249,21 @@ const getGlobalVariableTypeComboboxItems = () => {
     return typeMenuData;
 };
 
+/**
+ * The combobox item representing the System Variable ($Flow) category.
+ *
+ * @return {MenuDataItem[]} menu data for $Flow
+ */
 export const getFlowSystemVariableComboboxItem = () => {
     return mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_PREFIX);
 };
-
+/**
+ * Menu data for system and/or global variables.
+ *
+ * @param {Boolean} showSystemVariables   should include the system variable category
+ * @param {Boolean} showGlobalVariables   should include the global variable categories
+ * @return {MenuData} menu data showing system variables and/or global variables
+ */
 export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlobalVariables) => {
     const categories = [];
     if (showSystemVariables) {

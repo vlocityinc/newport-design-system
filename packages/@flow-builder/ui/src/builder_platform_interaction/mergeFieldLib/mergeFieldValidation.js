@@ -3,7 +3,7 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import * as sobjectLib from "builder_platform_interaction/sobjectLib";
 import { LABELS } from "./mergeFieldValidationLabels";
-import { GLOBAL_CONSTANT_PREFIX, getNonElementResource } from "builder_platform_interaction/systemLib";
+import { GLOBAL_CONSTANT_PREFIX, getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { format, splitStringByPeriod } from "builder_platform_interaction/commonUtils";
 import { isElementAllowed } from "builder_platform_interaction/expressionUtils";
@@ -155,7 +155,7 @@ export class MergeFieldsValidation {
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, LABELS.globalConstantsNotAllowed, index, endIndex);
             return Promise.resolve([validationError]);
         }
-        if (!getNonElementResource(mergeFieldReferenceValue)) {
+        if (!getGlobalConstantOrSystemVariable(mergeFieldReferenceValue)) {
             const validationErrorLabel = format(LABELS.invalidGlobalConstant, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_CONSTANT, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
@@ -164,8 +164,8 @@ export class MergeFieldsValidation {
     }
 
     _validateSystemVariable(mergeFieldReferenceValue, index) {
-        const endIndex = index + mergeFieldReferenceValue.length - 1;
-        if (!getNonElementResource(mergeFieldReferenceValue)) {
+        if (!getGlobalConstantOrSystemVariable(mergeFieldReferenceValue)) {
+            const endIndex = index + mergeFieldReferenceValue.length - 1;
             const validationErrorLabel = format(LABELS.invalidGlobalVariable, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_VARIABLE, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);

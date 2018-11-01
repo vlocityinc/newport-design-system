@@ -21,7 +21,7 @@ import {
     COMBOBOX_ITEM_DISPLAY_TYPE,
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
-import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, getProcessTypes } from "builder_platform_interaction/systemLib";
+import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, getProcessTypes, getGlobalVariables } from "builder_platform_interaction/systemLib";
 
 const { DATA_TYPE, SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
@@ -425,12 +425,13 @@ export function getSecondLevelItems(elementConfig, topLevelItemType, callback) {
         return writableItems;
     };
 
-    switch (topLevelItemType) {
-        case SYSTEM_VARIABLE_PREFIX:
-            callback(shouldBeWritable ? filterWritable(getSystemVariables()) : getSystemVariables());
-            break;
-        default:
-            sobjectLib.getFieldsForEntity(topLevelItemType, callback);
+    if (topLevelItemType === SYSTEM_VARIABLE_PREFIX) {
+        const systemVariables = getSystemVariables();
+        callback(shouldBeWritable ? filterWritable(systemVariables) : systemVariables);
+    } else if (getGlobalVariables(topLevelItemType)) {
+        callback(getGlobalVariables(topLevelItemType));
+    } else {
+        sobjectLib.getFieldsForEntity(topLevelItemType, callback);
     }
 }
 

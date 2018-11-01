@@ -12,7 +12,7 @@ import { removeFromAvailableConnections } from 'builder_platform_interaction/con
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 
-import { getNonElementResource } from "builder_platform_interaction/systemLib";
+import { getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment, getDefaultAvailableConnections }  from "./base/baseRecordElement";
 
@@ -47,7 +47,7 @@ export function createRecordCreate(recordCreate = {}) {
         if (inputReference) {
             // When the builder is loaded the store does not yet contain the variables
             // numberRecordsToStore can only be calculated at the opening on the element
-            const variable  = getElementByGuid(inputReference) || getNonElementResource(inputReference);
+            const variable  = getElementByGuid(inputReference) || getGlobalConstantOrSystemVariable(inputReference);
             if (variable) {
                 numberRecordsToStore = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
             }

@@ -1,4 +1,8 @@
-import { isNonElementResourceId, getNonElementResource } from "builder_platform_interaction/systemLib";
+import {
+    getGlobalConstantOrSystemVariable,
+    getGlobalVariable,
+    GLOBAL_CONSTANT_OBJECTS,
+} from "builder_platform_interaction/systemLib";
 import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
 import {
     mutateFieldToComboboxShape,
@@ -56,7 +60,11 @@ export const getItemOrDisplayText = (event) => {
  */
 export const getResourceByUniqueIdentifier = (identifier) => {
     const complexGuid = sanitizeGuid(identifier);
-    return getElementByGuid(complexGuid.guidOrLiteral) || getNonElementResource(identifier);
+    let resource = getElementByGuid(complexGuid.guidOrLiteral) || getGlobalConstantOrSystemVariable(identifier);
+    if (!resource && identifier && identifier.startsWith('$')) {
+        resource = getGlobalVariable(identifier);
+    }
+    return resource;
 };
 
 /**
@@ -67,9 +75,8 @@ export const getResourceByUniqueIdentifier = (identifier) => {
  * @returns {FEROV_DATA_TYPE|null}    the dataType category this value belongs to or null if it doesn't exist
  */
 export const getFerovDataTypeForValidId = (identifier) => {
-    if (isNonElementResourceId(identifier)) {
-        const resource = getNonElementResource(identifier);
-        return resource ? resource.dataType : null;
+    if (GLOBAL_CONSTANT_OBJECTS[identifier]) {
+        return GLOBAL_CONSTANT_OBJECTS[identifier].dataType;
     }
     return FEROV_DATA_TYPE.REFERENCE;
 };

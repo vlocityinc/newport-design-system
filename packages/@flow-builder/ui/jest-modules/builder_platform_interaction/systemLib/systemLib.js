@@ -52,11 +52,15 @@ export const GLOBAL_CONSTANT_OBJECTS = {
     },
 };
 
-export const isNonElementResourceId = (id) => {
+export const isGlobalConstantOrSystemVariableId = (id) => {
     id = removeCurlyBraces(id);
     return id === GLOBAL_CONSTANTS.BOOLEAN_TRUE || id === GLOBAL_CONSTANTS.BOOLEAN_FALSE || id === GLOBAL_CONSTANTS.EMPTY_STRING;
 };
 
-export const getNonElementResource = (id) => {
+export const getGlobalConstantOrSystemVariable = (id) => {
     return GLOBAL_CONSTANT_OBJECTS[removeCurlyBraces(id)];
-}
+};
+
+export const getGlobalVariables = () => {
+    return null;
+};

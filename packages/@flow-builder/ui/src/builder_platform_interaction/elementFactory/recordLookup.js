@@ -21,7 +21,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
-import { getNonElementResource } from "builder_platform_interaction/systemLib";
+import { getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 
 const elementType = ELEMENT_TYPE.RECORD_LOOKUP;
@@ -80,7 +80,7 @@ export function createRecordLookup(recordLookup = {}) {
 
     // When the builder is loaded the store does not yet contain the variables
     // numberRecordsToStore can only be calculated at the opening on the element
-    const variable  = getElementByGuid(outputReference) || getNonElementResource(outputReference);
+    const variable  = getElementByGuid(outputReference) || getGlobalConstantOrSystemVariable(outputReference);
     if (variable) {
         numberRecordsToStore = variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection ? NUMBER_RECORDS_TO_STORE.ALL_RECORDS : NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
     }

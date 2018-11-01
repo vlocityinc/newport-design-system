@@ -18,7 +18,7 @@ import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform
 import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
-import { mutateFlowResourceToComboboxShape, getFlowSystemVariableComboboxItem } from 'builder_platform_interaction/expressionUtils';
+import { mutateFlowResourceToComboboxShape, getFlowSystemVariableComboboxItem, getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
 import { setGlobalVariables, setSystemVariables, setProcessTypes } from 'builder_platform_interaction/systemLib';
@@ -339,6 +339,9 @@ export default class Editor extends LightningElement {
             // TODO: handle error case
         } else {
             setGlobalVariables(data);
+            getGlobalVariableTypeComboboxItems().forEach(item => {
+                addToParentElementCache(item.displayText, item);
+            });
         }
     };
 

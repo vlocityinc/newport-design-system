@@ -24,16 +24,16 @@ const convertTypeData = (data) => data.reduce((acc, obj) => {
  * @param {Array}
  *            data raw variable data from the server
  */
-const convertData = (data) => data.reduce((acc, obj) => {
-    const type = globalVariableTypes[obj.type.name];
+const convertData = (data, types) => data.reduce((acc, obj) => {
+    const type = types[obj.type.name];
     const name = `${type.name}.${obj.name}`;
     // TODO: Need to figure out dataType for the icon, it's not coming back from
     // the service.
     const variable = {
-        category: type.label,
         guid: name,
         label: obj.name,
-        name
+        name,
+        apiName: obj.name,
     };
 
     if (!acc[type.name]) {
@@ -52,14 +52,21 @@ const convertData = (data) => data.reduce((acc, obj) => {
  */
 export const setGlobalVariables = (data) => {
     const parsedTypes = JSON.parse(data.globalVariableTypes);
+    let allTypes;
     if (Array.isArray(parsedTypes)) {
-        globalVariableTypes = convertTypeData(parsedTypes);
+        allTypes = convertTypeData(parsedTypes);
     }
 
     const parsedVariables = JSON.parse(data.globalVariables);
     if (Array.isArray(parsedVariables)) {
-        globalVariables = convertData(parsedVariables);
+        globalVariables = convertData(parsedVariables, allTypes);
     }
+    globalVariableTypes = {};
+    Object.keys(allTypes).forEach((type) => {
+        if (globalVariables[type]) {
+            globalVariableTypes[type] = allTypes[type];
+        }
+    });
 };
 
 /**
@@ -82,4 +89,18 @@ export const getGlobalVariableTypes = () => {
  */
 export const getGlobalVariables = (typeName) => {
     return globalVariables[typeName];
+};
+
+/**
+ * Information about a single global variable
+ *
+ * @param {String} id      string with the format $____.______
+ * @returns {Object|null}  object representing the global variable if this id is valid
+ */
+export const getGlobalVariable = (id) => {
+    const ref = id.split('.');
+    if (globalVariables[ref[0]]) {
+        return globalVariables[ref[0]][ref[1]];
+    }
+    return null;
 };

@@ -29,10 +29,10 @@ jest.mock('builder_platform_interaction/systemLib', () => {
             BOOLEAN_TRUE: booleanTrue,
         },
         GLOBAL_CONSTANT_PREFIX: globalConstantPrefix,
-        getNonElementResource: (id) => {
+        getGlobalConstantOrSystemVariable: (id) => {
             return id === emptyString || id === booleanTrue;
         },
-        isNonElementResourceId: (id) => {
+        isGlobalConstantOrSystemVariableId: (id) => {
             return id.startsWith(globalConstantPrefix) || id.startsWith(systemVariablePrefix);
         },
     };

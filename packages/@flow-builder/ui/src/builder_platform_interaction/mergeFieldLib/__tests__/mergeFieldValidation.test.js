@@ -9,7 +9,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
             EMPTY_STRING: emptyString,
         },
         GLOBAL_CONSTANT_PREFIX: '$GlobalConstant',
-        getNonElementResource: (id) => {
+        getGlobalConstantOrSystemVariable: (id) => {
             return id === emptyString;
         }
     };
