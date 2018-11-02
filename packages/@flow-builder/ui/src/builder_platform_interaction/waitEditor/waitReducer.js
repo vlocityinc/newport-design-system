@@ -35,8 +35,11 @@ import {
     WaitEventDeleteParameterEvent,
     UpdateWaitEventEventTypeEvent,
 } from 'builder_platform_interaction/events';
-import {waitValidation } from './waitValidation';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import {waitValidation, shouldBeHoursDaysOrBlank } from './waitValidation';
+import { CONDITION_LOGIC, WAIT_TIME_EVENT_PARAMETER_NAMES } from 'builder_platform_interaction/flowMetadata';
+
+let lastValidInputParameters = [];
+let lastValidOutputParameters = [];
 
 const validateProperty = (state, event) => {
     event.detail.error = event.detail.error === null ? waitValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
@@ -217,6 +220,12 @@ const waitEventPropertyChanged = (state, event) => {
 
 const updateWaitEventParameter = (state, event) => {
     verifyParentGuidIsSet(event);
+
+    // Make sure the offset unit validates
+    if (event.detail.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT) {
+        event.detail.value.error = event.detail.value.error === null ? shouldBeHoursDaysOrBlank(event.detail.value.value) : event.detail.value.error;
+    }
+
     const updateParameter = parameters => {
         // Only set the params that are actually passed in
         const propsToUpdate = {};
@@ -323,6 +332,16 @@ const deleteAllWaitEventParameters = (state, event) => {
     );
 };
 
+const getWaitEventForGuid = (state, guid) => {
+    for (let i = 0; i < state.waitEvents.length; i++) {
+        if (state.waitEvents[i].guid === guid) {
+            return state.waitEvents[i];
+        }
+    }
+
+    throw new Error(`No wait event found with guid ${guid}`);
+};
+
 /**
  * Updates the event type for a wait event and do the parameters cleanup and add parameters with empty values.
  * The operations performed are
@@ -335,16 +354,21 @@ const deleteAllWaitEventParameters = (state, event) => {
  */
 const updateWaitEventEventType = (state, event) => {
     verifyParentGuidIsSet(event);
-    const { value, oldValue, error } = event.detail;
-
-    if (!error && value === oldValue) {
-        return state;
-    }
+    const { value, oldValue: lastValidValue, error } = event.detail;
 
     // update wait event
     const eventTypeUpdatedState = waitEventPropertyChanged(state, event);
 
-    if (!error && value !== oldValue) {
+    if (!error && value === lastValidValue) {
+        const inputParametersUpdatedState = waitEventReducer(eventTypeUpdatedState, event,
+            waitEventOperation(getParametersPropertyName(true), () => {
+                return lastValidInputParameters;
+            }));
+        return waitEventReducer(inputParametersUpdatedState, event,
+            waitEventOperation(getParametersPropertyName(false), () => {
+                return lastValidOutputParameters;
+            }));
+    } else if (!error && value !== lastValidValue) {
         // remove all the parameters for the wait event
         const parametersRemovedState = deleteAllWaitEventParameters(eventTypeUpdatedState, event);
 
@@ -359,6 +383,9 @@ const updateWaitEventEventType = (state, event) => {
             })
         );
 
+        lastValidInputParameters = inputParameters;
+        lastValidOutputParameters = outputParameters;
+
         // update the state with new output parameters
         return waitEventReducer(inputParamsAddedState, event,
             waitEventOperation(getParametersPropertyName(false), () => {
@@ -367,7 +394,11 @@ const updateWaitEventEventType = (state, event) => {
         );
     }
 
-    // error state
+    // error state - note the current input and output conditions so they can be restored when the error is fixed
+    const waitEvent = getWaitEventForGuid(eventTypeUpdatedState, event.detail.parentGUID);
+    lastValidInputParameters = waitEvent.inputParameters;
+    lastValidOutputParameters = waitEvent.outputParameters;
+
     return eventTypeUpdatedState;
 };
 

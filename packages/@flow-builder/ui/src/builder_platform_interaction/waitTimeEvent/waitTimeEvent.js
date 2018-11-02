@@ -17,6 +17,7 @@ const timeEventRules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYP
 const SELECTORS = {
     SALESFORCE_OBJECT_INPUT: '.salesforce-object',
     DIRECT_RECORD_BASE_TIME_INPUT: '.direct-record-basetime',
+    OFFSET_NUMBER: '.offset-number',
     OFFSET_UNIT: '.offset-unit',
 };
 
@@ -82,6 +83,9 @@ export default class WaitTimeEvent extends LightningElement {
 
             const directBaseTimeInput = this.template.querySelector(SELECTORS.DIRECT_RECORD_BASE_TIME_INPUT);
             this.setInputErrorMessage(directBaseTimeInput, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME));
+
+            const offsetNumberInput = this.template.querySelector(SELECTORS.OFFSET_NUMBER);
+            this.setInputErrorMessage(offsetNumberInput, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER));
 
             const offsetUnitInput = this.template.querySelector(SELECTORS.OFFSET_UNIT);
             this.setInputErrorMessage(offsetUnitInput, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT));
@@ -211,8 +215,7 @@ export default class WaitTimeEvent extends LightningElement {
             true,
             true,
             false,
-            FLOW_DATA_TYPE.DATE_TIME.value,
-            true // enableFieldDrilldown
+            FLOW_DATA_TYPE.DATE_TIME.value
         );
     }
 
@@ -297,7 +300,30 @@ export default class WaitTimeEvent extends LightningElement {
 
     handleOffsetNumberChange(event) {
         event.stopPropagation();
-        this.handleLiteralParameterChange(event, WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER, FLOW_DATA_TYPE.NUMBER.value, true);
+
+        let offset = event.target.value;
+
+        if (Number.isNaN(offset)) {
+            offset = 0;
+        }
+
+        offset = Math.trunc(offset);
+
+        event.target.value = offset;
+
+        if (!event.target.valid) {
+            event.target.reportValidity();
+        }
+
+        const updateParameterItem = new UpdateParameterItemEvent(
+            true,
+            null,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER,
+            offset,
+            FLOW_DATA_TYPE.NUMBER.value,
+            event.target.error
+        );
+        this.dispatchEvent(updateParameterItem);
     }
 
     handleOffsetUnitChange(event) {
