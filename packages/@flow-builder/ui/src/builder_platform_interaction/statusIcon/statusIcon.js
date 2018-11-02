@@ -21,6 +21,8 @@ export default class StatusIcon extends LightningElement {
     @api showOnlyNumberOfErrors = false;
     @api disableAutoOpen = false; // by default we open the popover automatically if there are errors/warnings
     @api closeOnClickOut = false; // close when we click out of the popover
+    @api showTotalCounts = false;
+    @api showSections = false;
 
     @api get messages() {
         return this.internalMessages;
@@ -183,12 +185,14 @@ export default class StatusIcon extends LightningElement {
         const type = this.type;
         const allCount = this.allCount;
         const showOnlyNumberOfErrors = this.showOnlyNumberOfErrors;
+        const showTotalCounts = this.showTotalCounts;
+        const showSections = this.showSections;
         const direction = this.direction;
         const referenceSelector = dotPrefixForClass + this.classForIcon + ' lightning-button-icon';
         const createPanel = this.onCreatePanel;
         const destroyPanel = this.onDestroyPanel;
         const closeOnClickOut = this.closeOnClickOut;
-        invokePopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount }, { direction, referenceSelector, createPanel, destroyPanel, closeOnClickOut });
+        invokePopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount, showTotalCounts, showSections }, { direction, referenceSelector, createPanel, destroyPanel, closeOnClickOut });
     }
 
     /**

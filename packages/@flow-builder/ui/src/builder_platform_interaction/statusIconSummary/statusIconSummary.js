@@ -9,6 +9,8 @@ export default class StatusIconSummary extends LightningElement {
     @api allCount
     @api handleClickCallback;
     @api showOnlyNumberOfErrors = false;
+    @api showTotalCounts;
+    @api showSections = false;
 
     labels = LABELS;
     /**
@@ -52,13 +54,21 @@ export default class StatusIconSummary extends LightningElement {
      * @returns {boolean} hasSectionHeader : section header based on type
      */
     get hasSectionHeader() {
-        return this.type  === 'warning';
+        return this.type  === 'warning' && this.showSections;
     }
 
     /**
      * @returns {string} sectionStyle: the section style css based on type
     */
     get hasSections() {
-        return this.type === 'warning' ? 'slds-item' : '';
+        return this.type === 'warning' ? 'slds-item' : 'slds-p-around_x-small';
+    }
+
+    /**
+     * @returns {string} sectionItemStyle: the section item style css based on type
+    */
+    get hasSectionItems() {
+        const sectionItemClasses = "slds-is-nested slds-list_vertical-space-medium";
+        return (this.type === 'warning' && this.showSections) || this.type === 'error' ? sectionItemClasses + ' slds-list_dotted' : sectionItemClasses;
     }
 }

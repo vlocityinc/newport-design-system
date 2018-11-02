@@ -28,6 +28,7 @@ export default class Toolbar extends LightningElement {
     @api isLightningFlowBuilder;
     @api hasUnsavedChanges;
     @api warnings;
+    @api hasWarningsAndErrors;
 
     labels = LABELS;
     headerTitleForErrorSummary = LABELS.errorPopOverHeader;

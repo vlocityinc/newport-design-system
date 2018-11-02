@@ -66,6 +66,7 @@ export default class Editor extends LightningElement {
     @track saveStatus;
     @track warnings;
     @track errors;
+    @track hasWarningsAndErrors = false;
 
     constructor() {
         super();
@@ -236,9 +237,18 @@ export default class Editor extends LightningElement {
             }));
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
             this.errors = {};
+            this.warnings = data.warnings;
+            this.hasWarningsAndErrors = false;
         } else {
             this.saveStatus = null;
             this.errors = data.errors;
+            this.warnings = data.warnings;
+            // TODO: this is going to be refaactored.
+            if (this.errors && this.warnings) {
+                if (Object.keys(this.errors).length > 0 && Object.keys(this.warnings).length > 0) {
+                    this.hasWarningsAndErrors = true;
+                }
+            }
         }
 
         if (this.flowId) {
@@ -246,7 +256,6 @@ export default class Editor extends LightningElement {
             this.saveStatus = LABELS.savedStatus;
         }
         this.disableSave = false;
-        this.warnings = data.warnings;
     };
 
     /**

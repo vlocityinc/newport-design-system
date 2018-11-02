@@ -27,14 +27,14 @@
         </header>
         <div class="slds-popover__body slds-popover__body_scrollable slds-p-around_none" id="dialog-body-id-2">
             <ul class="slds-has-dividers_bottom-space">
-                <li class="slds-item">{messageBody}</li>
+                <li if:true={showTotalCounts} class="slds-item">{messageBody}</li>
                 <template if:false={showOnlyNumberOfErrors} for:each={sections} for:item="section">
                     <li key={section.guid} if:true={hasSectionHeader} class="slds-item">{section.title} ({section.messages.length})
                     </li>
                     <li key={section.guid} if:true={hasSectionHeader} class="slds-p-around_x-small">{section.sectionInfo}
                     </li>
                     <li key={section.guid} class={hasSections}>
-                        <ul key={section.guid} class="slds-is-nested slds-list_dotted slds-list_vertical-space-medium">
+                        <ul key={section.guid} class={hasSectionItems}>
                             <template for:each={section.messages} for:item="info">
                                 <li key={info.guid} class="slds-item">{info.message}</li>
                             </template>

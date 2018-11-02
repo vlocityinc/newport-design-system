@@ -46,9 +46,13 @@
             </button>
             <div class="inline-display slds-m-left_xx-small">
                 <builder_platform_interaction-status-icon
+                    disable-auto-open={hasWarningsAndErrors}
                     messages={warnings}
                     type="warning"
                     direction="south"
+                    show-total-counts="true"
+                    show-sections="true"
+                    close-on-click-out
                     headerforsummary={headerTitleForWarningSummary}>
                 </builder_platform_interaction-status-icon>
             </div>
@@ -57,6 +61,8 @@
                     messages={errors}
                     type="error"
                     direction="south"
+                    close-on-click-out
+                    show-total-counts="true"
                     headerforsummary={headerTitleForErrorSummary}>
                 </builder_platform_interaction-status-icon>
             </div>
