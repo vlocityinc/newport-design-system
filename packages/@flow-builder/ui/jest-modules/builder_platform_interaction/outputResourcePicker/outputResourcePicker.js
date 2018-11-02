@@ -10,8 +10,6 @@ export default class OutputResourcePicker extends LightningElement {
 
     @api elementParam;
     
-    @api enableFieldDrilldown;
-    
     @api errorMessage;
 
 }

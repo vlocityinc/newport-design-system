@@ -536,6 +536,18 @@ describe('Combobox Tests', () => {
             });
         });
 
+        it('FetchMenuData is not fired when enableFieldDrilldown is false', () => {
+            combobox.enableFieldDrilldown = false;
+            combobox.value = '{!MyAccount}';
+
+            return Promise.resolve().then(() => {
+                textInputEvent = getTextInputEvent('{!MyAccount.}');
+
+                groupedCombobox.dispatchEvent(textInputEvent);
+                expect(fetchMenuDataHandler).not.toHaveBeenCalled();
+            });
+        });
+
         it('Clearing value should fire fetchMenuData event', () => {
             combobox.value = secondLevelMenuData[0];
             combobox.value = null;

@@ -469,7 +469,7 @@ describe('variable-constant-editor', () => {
             const constantEditor = setupComponentUnderTest(stringConstant);
             return Promise.resolve().then(() => {
                 const defaultValuePicker = getShadowRoot(constantEditor).querySelector(FerovResourcePicker.SELECTOR);
-                expect(defaultValuePicker.enableFieldDrilldown).toEqual(false);
+                expect(defaultValuePicker.comboboxConfig.enableFieldDrilldown).toEqual(false);
             });
         });
 
@@ -477,7 +477,7 @@ describe('variable-constant-editor', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
                 const defaultValuePicker = getShadowRoot(variableEditor).querySelector(FerovResourcePicker.SELECTOR);
-                expect(defaultValuePicker.enableFieldDrilldown).toEqual(true);
+                expect(defaultValuePicker.comboboxConfig.enableFieldDrilldown).toEqual(true);
             });
         });
     });

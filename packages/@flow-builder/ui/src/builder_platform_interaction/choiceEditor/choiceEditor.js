@@ -108,7 +108,8 @@ export default class ChoiceEditor extends LightningElement {
             true, // literalsAllowed
             false, // required
             !this.dataType, // disabled
-            this.dataType // type
+            this.dataType, // type
+            true // enableFieldDrilldown
         );
     }
 

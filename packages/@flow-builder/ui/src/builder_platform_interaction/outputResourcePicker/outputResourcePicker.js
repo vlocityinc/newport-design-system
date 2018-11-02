@@ -84,11 +84,11 @@ export default class OutputResourcePicker extends LightningElement {
     elementParam;
 
     /**
-     * If set to true, hasNext will be set to false for all menu items
-     * @type {Boolean}
+     * If true, hasNext will be set to true for all menu items
      */
-    @api
-    enableFieldDrilldown = false;
+    get enableFieldDrilldown() {
+        return !!this.comboboxConfig.enableFieldDrilldown;
+    }
 
     get parentItem() {
         return this.value && this.value.parent;

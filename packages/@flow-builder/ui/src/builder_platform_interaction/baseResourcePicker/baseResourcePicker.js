@@ -115,6 +115,7 @@ export default class BaseResourcePicker extends LightningElement {
      * @param {Boolean} required true if required field, false otherwise
      * @param {Boolean} disabled true if disabled field, false otherwise
      * @param {String} type the data type of the flow combobox, needed for validation if literals are allowed
+     * @param {Boolean} enableFieldDrilldown whether you can drill down into items with hasNext=true
      * @param {String} variant the variant for the combobox (label-hidden or standard)
      * @returns {ComboboxConfig} The combobox config object
      */
@@ -126,6 +127,7 @@ export default class BaseResourcePicker extends LightningElement {
         required = false,
         disabled = false,
         type = '',
+        enableFieldDrilldown = false,
         variant = LIGHTNING_INPUT_VARIANTS.STANDARD
     ) => {
         return {
@@ -136,6 +138,7 @@ export default class BaseResourcePicker extends LightningElement {
             required,
             disabled,
             type,
+            enableFieldDrilldown,
             variant
         };
     };

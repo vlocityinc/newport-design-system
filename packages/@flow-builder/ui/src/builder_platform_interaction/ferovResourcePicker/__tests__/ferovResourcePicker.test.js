@@ -230,7 +230,7 @@ describe('ferov-resource-picker', () => {
         normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
         const mockRules = ['rule1'];
         props.rules = mockRules;
-        props.enableFieldDrilldown = true;
+        props.comboboxConfig.enableFieldDrilldown = true;
         const ferovPicker = setupComponentUnderTest(props);
         const basePicker = getShadowRoot(ferovPicker).querySelector(BaseResourcePicker.SELECTOR);
 

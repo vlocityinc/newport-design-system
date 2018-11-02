@@ -153,7 +153,7 @@ describe('output-resource-picker', () => {
     });
 
     it('passes in enableFieldDrilldown to populateMenudata', () => {
-        const enableFieldDrilldown = props.enableFieldDrilldown = true;
+        const enableFieldDrilldown = props.comboboxConfig.enableFieldDrilldown = true;
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),

@@ -223,7 +223,8 @@ export default class VariableConstantEditor extends LightningElement {
             true,
             false,
             false,
-            this.dataType
+            this.dataType,
+            this.isVariable // enableFieldDrilldown
         );
     }
 

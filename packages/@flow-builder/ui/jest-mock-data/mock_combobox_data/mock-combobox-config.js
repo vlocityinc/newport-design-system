@@ -101,6 +101,7 @@ export const comboboxInitialConfig = {
     type: 'String',
     literalsAllowed: true,
     blockValidation: false,
+    enableFieldDrilldown: true,
     disabled: false,
     required: true,
     errorMessage: 'testErrorMessage',

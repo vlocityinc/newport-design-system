@@ -211,7 +211,8 @@ export default class WaitTimeEvent extends LightningElement {
             true,
             true,
             false,
-            FLOW_DATA_TYPE.DATE_TIME.value
+            FLOW_DATA_TYPE.DATE_TIME.value,
+            true // enableFieldDrilldown
         );
     }
 

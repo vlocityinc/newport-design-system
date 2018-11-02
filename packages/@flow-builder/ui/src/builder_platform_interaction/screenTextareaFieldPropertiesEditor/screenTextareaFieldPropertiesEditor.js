@@ -38,6 +38,7 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
             false, // required
             false, // disabled
             this.field.dataType, // type
+            false, // enableFieldDrilldown
             LIGHTNING_INPUT_VARIANTS.STANDARD); // variant
     }
 }

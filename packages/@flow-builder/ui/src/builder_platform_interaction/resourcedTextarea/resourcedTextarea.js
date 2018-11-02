@@ -24,7 +24,8 @@ export default class ResourcedTextarea extends LightningElement {
         false, // required
         false, // disabled
         'String', // type
-        LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN // variant
+        true, // enableFieldDrilldown
+        LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN, // variant
     );
 
     @api name;

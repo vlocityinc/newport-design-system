@@ -22,8 +22,8 @@ export default class BaseResourcePicker extends LightningElement {
         return this._fullMenuData;
     }
 
-    static getComboboxConfig = (label, placeholder, errorMessage, literalsAllowed, required, disabled, type) => {
-        return baseResourcePicker.getComboboxConfig(label, placeholder, errorMessage, literalsAllowed, required, disabled, type);
+    static getComboboxConfig = (label, placeholder, errorMessage, literalsAllowed, required, disabled, type, enableFieldDrilldown, variant) => {
+        return baseResourcePicker.getComboboxConfig(label, placeholder, errorMessage, literalsAllowed, required, disabled, type, enableFieldDrilldown, variant);
     };
 
     @api

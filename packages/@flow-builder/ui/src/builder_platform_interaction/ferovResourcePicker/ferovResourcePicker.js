@@ -131,14 +131,6 @@ export default class FerovResourcePicker extends LightningElement {
     elementParam;
 
     /**
-     * If set to true, hasNext will be set to true for sobjectVariables,
-     * and the allowedParamTypes will be passed to the combobox to enable validating fields
-     * @type {Boolean}
-     */
-    @api
-    enableFieldDrilldown = false;
-
-    /**
      * If set to true, global constants will not show up
      * @type {Boolean}
      */
@@ -160,6 +152,14 @@ export default class FerovResourcePicker extends LightningElement {
 
     get parentItem() {
         return this.value && this.value.parent;
+    }
+
+    /**
+     * If true, hasNext will be set to true for sobjectVariables,
+     * and the allowedParamTypes will be passed to the combobox to enable validating fields
+     */
+    get enableFieldDrilldown() {
+        return !!this.comboboxConfig.enableFieldDrilldown;
     }
 
     get allowedParamTypes() {

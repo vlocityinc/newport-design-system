@@ -300,6 +300,11 @@ export default class Combobox extends LightningElement {
     }
 
     /**
+     * If set to true, will allow fetching of different levels of menu data
+     */
+    @api enableFieldDrilldown = false;
+
+    /**
      * Blocks all the data validation on the component.
      * @type {boolean}
      */
@@ -563,15 +568,17 @@ export default class Combobox extends LightningElement {
      *                        If undefined or null first level of menu data is fetched.
      */
     fireFetchMenuDataEvent(item) {
-        if (item && this._mergeFieldLevel === 1) {
-            this._mergeFieldLevel++;
-        } else if (!item && this._mergeFieldLevel === MAX_LEVEL_MENU_DATA) {
-            this._mergeFieldLevel--;
+        if (this.enableFieldDrilldown) {
+            if (item && this._mergeFieldLevel === 1) {
+                this._mergeFieldLevel++;
+            } else if (!item && this._mergeFieldLevel === MAX_LEVEL_MENU_DATA) {
+                this._mergeFieldLevel--;
+            }
+            this.state.menuData = [];
+            const fetchMenuDataEvent = new FetchMenuDataEvent(item);
+            this.dispatchEvent(fetchMenuDataEvent);
+            this.state.showActivityIndicator = true;
         }
-        this.state.menuData = [];
-        const fetchMenuDataEvent = new FetchMenuDataEvent(item);
-        this.dispatchEvent(fetchMenuDataEvent);
-        this.state.showActivityIndicator = true;
     }
 
     /**

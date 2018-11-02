@@ -169,7 +169,8 @@ export default class ParameterItem extends LightningElement {
             this.state.parameterItem.isInput, // literalsAllowed
             this.state.parameterItem.isRequired, // required
             this.disabled, // disabled
-            this.getDataType()
+            this.getDataType(),
+            this.enableFieldDrilldown // enableFieldDrilldown
         );
     }
 

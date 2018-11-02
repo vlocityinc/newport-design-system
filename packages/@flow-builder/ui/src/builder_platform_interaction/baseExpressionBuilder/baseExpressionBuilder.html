@@ -11,6 +11,7 @@
                                                onfiltermatches={handleFilterLhsMatches}
                                                onfetchmenudata={handleFetchLhsMenuData}
                                                onitemselected={handleLhsItemSelected}
+                                               enable-field-drilldown
         >
         </builder_platform_interaction-combobox>
             <lightning-combobox if:false={hideOperator} class="operator slds-col slds-grow slds-size_x-small"
@@ -37,6 +38,7 @@
                                                onfetchmenudata={handleFetchRhsMenuData}
                                                disabled={state.operatorAndRhsDisabled}
                                                block-validation={blockRhsValidation}
+                                               enable-field-drilldown
         >
         </builder_platform_interaction-combobox>
     </div>
