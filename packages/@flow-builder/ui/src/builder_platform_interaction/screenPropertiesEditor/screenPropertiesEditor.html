@@ -5,7 +5,7 @@
                                                             description={screen.description} guid={screen.guid} onpropertychanged={handlePropertyChanged}> 
             </builder_platform_interaction-label-description>
         </div>
-        <lightning-accordion allow-multiple-sections-open active-section-name={allSectionNames} class='slds-has-divider slds-p-top_none'>
+        <lightning-accordion allow-multiple-sections-open active-section-name={expandedSectionNames} class='slds-has-divider slds-p-top_none'>
             <lightning-accordion-section name='containerOptions' label={labels.screenContainerOptions}>
                 <div slot='actions'>
                     <lightning-helptext class='slds-list_inline slds-m-left_small' content={labels.screenContainerTooltip}></lightning-helptext>

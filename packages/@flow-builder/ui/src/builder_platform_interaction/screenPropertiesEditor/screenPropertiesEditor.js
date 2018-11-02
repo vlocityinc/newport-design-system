@@ -3,7 +3,7 @@ import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 
-const ALL_SECTION_NAMES = ['containerOptions'];
+const EXPANDED_SECTION_NAMES = ['containerOptions'];
 
 /*
  * Screen element property editor
@@ -12,8 +12,8 @@ export default class ScreenPropertiesEditor extends LightningElement {
     @api screen;
     labels = LABELS;
 
-    get allSectionNames() {
-        return ALL_SECTION_NAMES;
+    get expandedSectionNames() {
+        return EXPANDED_SECTION_NAMES;
     }
 
     // Refire the event including the old value.

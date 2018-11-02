@@ -45,7 +45,7 @@
 
         <!--  Choice selectors -->
         <div>
-            <lightning-accordion allow-multiple-sections-open active-section-name={allSectionNames} class='slds-has-divider slds-p-top_none'>
+            <lightning-accordion allow-multiple-sections-open active-section-name={expandedSectionNames} class='slds-has-divider slds-p-top_none'>
                 <lightning-accordion-section name='choicesSection' label={labels.choices}>
                     <builder_platform_interaction-list items={field.choiceReferences}
                                                        onaddlistitem={handleChoiceAdded}
