@@ -1,5 +1,6 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { updateProperties, set, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
+import { logFlowBuilderError } from "builder_platform_interaction/loggingUtils";
 
 /**
  * @constant defaultRules - map of propertyName to validation rules
@@ -32,10 +33,13 @@ export class Validation {
      * @param {string} guidToBeValidated
      * @returns {string|null} errorString or null
      */
-    validateDevNameUniquenessLocally = (guidToNameList, devNameToBeValidated, guidToBeValidated) => {
-        const matches = guidToNameList.filter(existingLocalValue =>
-            (existingLocalValue.guid !== guidToBeValidated) &&
-            (existingLocalValue.name.toLowerCase() === devNameToBeValidated.toLowerCase()));
+    validateDevNameUniquenessLocally = (guidToNameList = [], devNameToBeValidated, guidToBeValidated) => {
+        if (!devNameToBeValidated || !guidToBeValidated) {
+            logFlowBuilderError('DevName && guidToBeValidated are required');
+        }
+        const matches = guidToNameList.filter(devNameToGuidItem =>
+            (devNameToGuidItem.guid !== guidToBeValidated) &&
+            (devNameToGuidItem.name.toLowerCase() === (devNameToBeValidated && devNameToBeValidated.toLowerCase())));
         return matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
     };
     /**

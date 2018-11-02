@@ -1,8 +1,13 @@
 import { Validation } from "builder_platform_interaction/validation";
 import * as ValidationRules from "builder_platform_interaction/validationRules";
-
+import { logFlowBuilderError } from "builder_platform_interaction/loggingUtils";
 const TRAILING_UNDERSCORE_ERROR = ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores;
 
+jest.mock('builder_platform_interaction/loggingUtils', () => {
+    return {
+        logFlowBuilderError: jest.fn()
+    };
+});
 
 describe('Default Validations', () => {
     const validation = new Validation();
@@ -62,6 +67,31 @@ describe('runRulesOnData method', () => {
             ValidationRules.shouldNotBeginOrEndWithUnderscores,
             ValidationRules.maximumCharactersLimit(3)
         ], 'testNameWithATrailingUnderScore_')).toBe(TRAILING_UNDERSCORE_ERROR);
+    });
+});
+describe('validateDevNameUniquenessLocally method', () => {
+    const validation = new Validation();
+    const mockGuidToNameList = [
+        {
+            guid: 'GUID_PARENT',
+            name: 'parentDevName'
+        },
+        {
+            guid: 'GUID_CHILD1',
+            name: 'childDevName1'
+        },
+    ];
+    it('logs an error if devName is not passed', () => {
+        validation.validateDevNameUniquenessLocally(mockGuidToNameList);
+        expect(logFlowBuilderError).toHaveBeenCalled();
+    });
+    it('returns null if the dev name is unique locally i.e. within the guidToDevNameList passed', () => {
+        const result = validation.validateDevNameUniquenessLocally(mockGuidToNameList, 'testDevName', 'testGuid');
+        expect(result).toBeNull();
+    });
+    it('returns an error if the dev name is not unique locally', () => {
+        const result = validation.validateDevNameUniquenessLocally(mockGuidToNameList, 'childDevName1', 'testGuid');
+        expect(result).toBe(ValidationRules.LABELS.fieldNotUnique);
     });
 });
 describe('getMergedRules method', () => {

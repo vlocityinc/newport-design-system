@@ -1,5 +1,5 @@
 import { screenValidation, getExtensionParameterValidation, getRulesForField } from "./screenValidation";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import { VALIDATE_ALL, isUniqueDevNameInStore } from "builder_platform_interaction/validationRules";
 import { updateProperties, set, deleteItem, insertItem, replaceItem, hydrateWithErrors, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { ReorderListEvent, PropertyChangedEvent, ValidationRuleChangedEvent, SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
 import { isScreen, isExtensionField, isPicklistField, isMultiSelectPicklistField,
@@ -303,13 +303,14 @@ const updateFieldInScreen = (screen, field, newField) => {
  * @returns {object} - A new screen/node with the changes applied
  */
 const handleScreenFieldPropertyChange = (data, screen, event, screenfield) => {
+    const newValueForProperty = data.newValue.value;
     if (data.property === 'name' && data.error === null) {
-        data.error = screenValidation.validateFieldNameUniquenessLocally(screen, data.newValue.value, event.detail.guid);
+        data.error = screenValidation.validateFieldNameUniquenessLocally(screen, newValueForProperty, event.detail.guid) || isUniqueDevNameInStore(newValueForProperty, [event.detail.guid]);
     }
 
     // If the default value is being cleared out, the dataType associated with the new value should be set
     // to undefined because we want to clear that property.
-    if (data.newValue.value === undefined || data.newValue.value === null || data.newValue.value === '') {
+    if (newValueForProperty === undefined || newValueForProperty === null || newValueForProperty === '') {
         data.dataType = undefined;
     }
 

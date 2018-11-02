@@ -1,7 +1,7 @@
 import { isPlainObject } from './isPlainObject';
 import { deepFreeze } from './deepFreeze';
 import { isDevMode } from "builder_platform_interaction/contextLib";
-
+import { logFlowBuilderError } from 'builder_platform_interaction/loggingUtils';
 /**
  * Library for UI state management
  *
@@ -37,11 +37,11 @@ let currentListeners = [];
 export class Store {
     constructor(reducer) {
         if (!reducer) {
-            throw new Error('Store must be initialized with reducer');
+            logFlowBuilderError('Store must be initialized with reducer');
         } else if (!currentReducer) {
             currentReducer = reducer;
         } else {
-            throw new Error('Reducer already exists');
+            logFlowBuilderError('Reducer already exists');
         }
     }
 
@@ -77,7 +77,7 @@ export class Store {
             if (index !== -1) {
                 currentListeners = [...currentListeners.slice(0, index), ...currentListeners.slice(index + 1)];
             } else {
-                throw new Error(`Failed to unsubscribe listener. Listener ${listener} not found!`);
+                logFlowBuilderError(`Failed to unsubscribe listener. Listener ${listener} not found!`);
             }
         };
     }
@@ -88,11 +88,11 @@ export class Store {
      */
     dispatch(action) {
         if (!isPlainObject(action)) {
-            throw new Error('Action is not a plain javascript object');
+            logFlowBuilderError('Action is not a plain javascript object');
         }
 
         if (!action.type) {
-            throw new Error('Type of action is not defined');
+            logFlowBuilderError('Type of action is not defined');
         }
 
         // Using deepFreeze has a performance impact which is why we only use
@@ -101,7 +101,6 @@ export class Store {
         if (isDevMode()) {
             currentState = deepFreeze(currentState);
         }
-
         // once state is changes, executing all the listeners
         currentListeners.forEach((listener) => {
             listener();
