@@ -1,3 +1,8 @@
+body {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 ng-form {
   display: inline-block;
   width: 100%;
@@ -10,6 +15,9 @@ section.nds-page-header {
   border: none;
   box-shadow: none;
   background: $color-border-tab-active;
+  border-bottom: 2px solid $color-grey-shaded;
+  padding-bottom: 45px;
+  border-radius: 0;
 }
 
 .vlocity-newport-file-selector {
