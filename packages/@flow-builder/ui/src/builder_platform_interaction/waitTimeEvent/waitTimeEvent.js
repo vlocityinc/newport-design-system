@@ -279,7 +279,7 @@ export default class WaitTimeEvent extends LightningElement {
             propertyName,
             event.target.value,
             literalDataType,
-            null
+            event.target.error
             );
         this.dispatchEvent(updateParameterItem);
     }

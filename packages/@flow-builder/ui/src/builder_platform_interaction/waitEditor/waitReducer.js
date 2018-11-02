@@ -6,6 +6,8 @@ import {
     hydrateWithErrors,
     omit,
     updateProperties,
+    getValueFromHydratedItem,
+    getErrorFromHydratedItem
 } from 'builder_platform_interaction/dataMutationLib';
 import {
     createInputParameter,
@@ -218,22 +220,28 @@ const updateWaitEventParameter = (state, event) => {
     const updateParameter = parameters => {
         // Only set the params that are actually passed in
         const propsToUpdate = {};
-        if (!isUndefinedOrNull(event.detail.name)) {
+
+        const nameValue = getValueFromHydratedItem(event.detail.name);
+        if (!isUndefinedOrNull(nameValue)) {
             propsToUpdate.name = {
-                value: event.detail.name,
-                error: null
+                value: nameValue,
+                error: getErrorFromHydratedItem(event.detail.name)
             };
         }
-        if (!isUndefinedOrNull(event.detail.value)) {
+
+        const valueValue = getValueFromHydratedItem(event.detail.value);
+        if (!isUndefinedOrNull(valueValue)) {
             propsToUpdate.value = {
-                value: event.detail.value,
-                error: event.detail.error
+                value: valueValue,
+                error: getErrorFromHydratedItem(event.detail.value)
             };
         }
-        if (!isUndefinedOrNull(event.detail.valueDataType)) {
+
+        const valueDataTypeValue = getValueFromHydratedItem(event.detail.valueDataType);
+        if (!isUndefinedOrNull(valueDataTypeValue)) {
             propsToUpdate.valueDataType = {
-                value: event.detail.valueDataType,
-                error: null
+                value: valueDataTypeValue,
+                error: getErrorFromHydratedItem(event.detail.valueDataType)
             };
         }
 
@@ -243,7 +251,7 @@ const updateWaitEventParameter = (state, event) => {
 
             if (index === null && parameters.length > 0) {
                 index = parameters.findIndex(param => {
-                    return param.name.value === event.detail.name;
+                    return param.name.value === nameValue;
                 });
             }
 
@@ -256,12 +264,12 @@ const updateWaitEventParameter = (state, event) => {
         }
 
         // Otherwise output parameters is a map
-        if (!parameters[event.detail.name]) {
-            throw new Error(`Attempting to update non-existent parameter item ${event.detail.name}`);
+        if (!parameters[nameValue]) {
+            throw new Error(`Attempting to update non-existent parameter item ${nameValue}`);
         }
 
-        const updatedParam = Object.assign({}, parameters[event.detail.name], propsToUpdate);
-        return Object.assign({}, parameters, { [event.detail.name]: updatedParam });
+        const updatedParam = Object.assign({}, parameters[nameValue], propsToUpdate);
+        return Object.assign({}, parameters, { [nameValue]: updatedParam });
     };
     return waitEventReducer(state, event, waitEventOperation(getParametersPropertyName(event.detail.isInputParameter), updateParameter));
 };
@@ -329,7 +337,6 @@ const updateWaitEventEventType = (state, event) => {
     verifyParentGuidIsSet(event);
     const { value, oldValue, error } = event.detail;
 
-    // noop when old and new eventType is same and there is no error
     if (!error && value === oldValue) {
         return state;
     }
@@ -337,31 +344,31 @@ const updateWaitEventEventType = (state, event) => {
     // update wait event
     const eventTypeUpdatedState = waitEventPropertyChanged(state, event);
 
-    // if there is error, do not clear the parameters
-    if (!isUndefinedOrNull(error)) {
-        return eventTypeUpdatedState;
+    if (!error && value !== oldValue) {
+        // remove all the parameters for the wait event
+        const parametersRemovedState = deleteAllWaitEventParameters(eventTypeUpdatedState, event);
+
+        // initialize the input and output parameters for the new event type
+        const inputParameters = hydrateWithErrors(createWaitEventInputParameters(value));
+        const outputParameters = hydrateWithErrors(createWaitEventOutputParameters(value));
+
+        // update the state with new input parameters
+        const inputParamsAddedState = waitEventReducer(parametersRemovedState, event,
+            waitEventOperation(getParametersPropertyName(true), () => {
+                return inputParameters;
+            })
+        );
+
+        // update the state with new output parameters
+        return waitEventReducer(inputParamsAddedState, event,
+            waitEventOperation(getParametersPropertyName(false), () => {
+                return outputParameters;
+            })
+        );
     }
 
-    // remove all the parameters for the wait event
-    const parametersRemovedState = deleteAllWaitEventParameters(eventTypeUpdatedState, event);
-
-    // initialize the input and output parameters for the new event type
-    const inputParameters = hydrateWithErrors(createWaitEventInputParameters(value));
-    const outputParameters = hydrateWithErrors(createWaitEventOutputParameters(value));
-
-    // update the state with new input parameters
-    const inputParamsAddedState = waitEventReducer(parametersRemovedState, event,
-        waitEventOperation(getParametersPropertyName(true), () => {
-            return inputParameters;
-        })
-    );
-
-    // update the state with new output parameters
-    return waitEventReducer(inputParamsAddedState, event,
-        waitEventOperation(getParametersPropertyName(false), () => {
-            return outputParameters;
-        })
-    );
+    // error state
+    return eventTypeUpdatedState;
 };
 
 /**

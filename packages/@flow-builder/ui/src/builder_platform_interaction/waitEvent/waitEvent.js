@@ -55,9 +55,18 @@ export default class WaitEvent extends LightningElement {
     handleParameterChanged(event) {
         event.stopPropagation();
         const waitEventParameterChanged = new WaitEventParameterChangedEvent(
-            event.detail.name,
-            event.detail.value,
-            event.detail.valueDataType,
+            {
+                value: event.detail.name,
+                error: null
+            },
+            {
+                value: event.detail.value,
+                error: event.detail.error
+            },
+            {
+                value: event.detail.valueDataType,
+                error: null
+            },
             event.detail.error,
             this.element.guid,
             event.detail.isInput,

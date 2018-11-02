@@ -235,9 +235,18 @@ describe('Wait Event', () => {
 
         it('handles UpdateParameterItem from waitResumeConditions and fires WaitEventParameterChangedEvent', () => {
             const isInput = true;
-            const propName = 'foo';
-            const newValue = 'my new value';
-            const newValueDataType = 'sfdcDataType';
+            const propName = {
+                value: 'foo',
+                error: null
+            };
+            const newValue = {
+                value: 'my new value',
+                error: null
+            };
+            const newValueDataType = {
+                value: 'sfdcDataType',
+                error: null
+            };
             const error = 'null';
             const parameterChanged = new UpdateParameterItemEvent(isInput, null, propName, newValue, newValueDataType, error);
 

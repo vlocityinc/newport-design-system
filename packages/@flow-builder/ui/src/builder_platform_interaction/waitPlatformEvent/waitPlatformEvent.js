@@ -164,6 +164,10 @@ export default class WaitPlatformEvent extends LightningElement {
         return this._eventType ? getValueFromHydratedItem(this._eventType) : null;
     }
 
+    get isEventTypeValid() {
+        return getValueFromHydratedItem(this._eventType) && !getErrorFromHydratedItem(this._eventType);
+    }
+
     /**
      * get the fields of the selected entity
      */
@@ -305,9 +309,18 @@ export default class WaitPlatformEvent extends LightningElement {
             case UpdateConditionEvent.EVENT_NAME:
                 this.dispatchEvent(new WaitEventParameterChangedEvent(
                     // EventType prefix should not be there in metadata/store
-                    event.detail.value.leftHandSide ? this.removeEventTypePrefix(event.detail.value.leftHandSide) : undefined,
-                    event.detail.value.rightHandSide ? event.detail.value.rightHandSide.value : undefined,
-                    event.detail.value.rightHandSideDataType ? event.detail.value.rightHandSideDataType.value : undefined,
+                    {
+                        value: event.detail.value.leftHandSide ? this.removeEventTypePrefix(event.detail.value.leftHandSide) : undefined,
+                        error: event.detail.value.leftHandSide ? event.detail.value.leftHandSide.error : null,
+                    },
+                    {
+                        value: event.detail.value.rightHandSide ? event.detail.value.rightHandSide.value : undefined,
+                        error: event.detail.value.rightHandSide ? event.detail.value.rightHandSide.error : null,
+                    },
+                    {
+                        value: event.detail.value.rightHandSideDataType ? event.detail.value.rightHandSideDataType.value : undefined,
+                        error: event.detail.value.rightHandSideDataType ? event.detail.value.rightHandSideDataType.error : null,
+                    },
                     event.detail.error,
                     event.detail.parentGUID,
                     true,
