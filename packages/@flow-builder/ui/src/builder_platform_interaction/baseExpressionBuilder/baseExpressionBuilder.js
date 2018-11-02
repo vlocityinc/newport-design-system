@@ -708,12 +708,14 @@ export default class BaseExpressionBuilder extends LightningElement {
         // if rhsItem in the event payload is an object then we know the user selected an item from the menu data
         if (isObject(rhsItem) && !error) {
             // if the rhs is a fer, we can store it as a single value without needing to preserve datatype or guid separately
-            if (this.rhsIsFer) {
-                rhs = rhsItem.value;
-            } else if (getResourceByUniqueIdentifier(rhsItem.value) || rhsItem.parent) {
+            if (getResourceByUniqueIdentifier(rhsItem.value) || rhsItem.parent) {
                 // rhs is a FEROV and the item references an element so we update the rhs with that element reference
-                rhs = rhsItem.displayText;
-                rhsdt = getFerovDataTypeForValidId(rhsItem.value);
+                if (this.rhsIsFer) {
+                    rhs = rhsItem.value;
+                } else {
+                    rhs = rhsItem.displayText;
+                    rhsdt = getFerovDataTypeForValidId(rhsItem.value);
+                }
             } else if (this.lhsActivePicklistValues && this.lhsActivePicklistValues.find((picklistItem) => picklistItem.value === rhsItem.value)) {
                 // the item references a picklist value
                 rhs = rhsItem.value;

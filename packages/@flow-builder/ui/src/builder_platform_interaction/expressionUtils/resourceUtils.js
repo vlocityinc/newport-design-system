@@ -189,7 +189,7 @@ export const populateLhsStateForField =  (fields, fieldName, fieldParent, isFiel
  *                              rightHandSideDataType - the data type of the rhs
  * @param {rhsDescribe} callback   function to be called with the initialized state values
  */
-export const populateRhsState = ({ rightHandSide, rightHandSideDataType }, callback) => {
+export const populateRhsState = ({ rightHandSide }, callback) => {
     const rhsState = {
         isField: false,
         fields: null,
@@ -197,7 +197,7 @@ export const populateRhsState = ({ rightHandSide, rightHandSideDataType }, callb
         value: rightHandSide.value,
     };
 
-    if (!rightHandSide.error && rightHandSideDataType) {
+    if (!rightHandSide.error) {
         const fer = getResourceByUniqueIdentifier(rightHandSide.value);
 
         if (fer) {
