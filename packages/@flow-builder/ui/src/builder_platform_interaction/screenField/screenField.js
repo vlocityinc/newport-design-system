@@ -11,10 +11,7 @@ import {
     isDateField,
     isDateTimeField,
     isCurrencyField,
-    isRadioField,
-    isMultiSelectCheckboxField,
-    isMultiSelectPicklistField,
-    isPicklistField,
+    isChoiceField,
     getPlaceHolderLabel
 } from "builder_platform_interaction/screenEditorUtils";
 
@@ -39,8 +36,7 @@ export default class ScreenField extends LightningElement {
     }
 
     get isChoiceField() {
-        return isRadioField(this.screenfield) || isMultiSelectCheckboxField(this.screenfield) ||
-               isMultiSelectPicklistField(this.screenfield) || isPicklistField(this.screenfield);
+        return isChoiceField(this.screenfield);
     }
 
     get isTextAreaType() {

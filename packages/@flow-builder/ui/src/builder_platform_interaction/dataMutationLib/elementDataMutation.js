@@ -33,7 +33,10 @@ const doHydrateWithErrors = (element, blackList) => {
  * @returns {object} - The hydrated value
  */
 export const hydrateIfNecessary = (value) => {
-    return (value && value.hasOwnProperty('value')) ? value : {value, error: null};
+    if (!isItemHydratedWithErrors(value) && (typeof value === 'string' || value === null)) {
+        return {value, error: null};
+    }
+    return value;
 };
 
 /**

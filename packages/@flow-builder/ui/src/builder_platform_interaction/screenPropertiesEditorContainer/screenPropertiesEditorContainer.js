@@ -51,8 +51,7 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     }
 
     get isChoiceField() {
-        return screenEditorUtils.isRadioField(this.node) || screenEditorUtils.isMultiSelectCheckboxField(this.node) ||
-            screenEditorUtils.isMultiSelectPicklistField(this.node) || screenEditorUtils.isPicklistField(this.node);
+        return screenEditorUtils.isChoiceField(this.node);
     }
 
     // Temporary function that is only needed while property editors are in development.
