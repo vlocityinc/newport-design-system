@@ -11,8 +11,10 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { mockAccountFields, mockAccountFieldWithPicklist } from "mock/serverEntityData";
 import { dateCollectionParam, dateParam } from "mock/ruleService";
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
+import { GLOBAL_CONSTANTS, setSystemVariables } from "builder_platform_interaction/systemLib";
 import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
+import { systemVariables } from "mock/systemGlobalVars";
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-base-expression-builder', { is: BaseExpressionBuilder });
@@ -316,6 +318,56 @@ describe('base expression builder', () => {
                 expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_GUID]).not.toBeDefined();
             });
         });
+        it('should add an error if given an LHS that does not exist and no error', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest(true, false);
+
+            rulesMock.getOperators.mockReturnValueOnce([rulesMock.RULE_OPERATOR.ASSIGN]);
+
+            return Promise.resolve().then(() => {
+                const invalidValue = 'invalid';
+                const displayText = 'displayText';
+                const expressionUpdates = {
+                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: displayText, error: genericErrorMessage},
+                };
+                const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+
+                const eventCallback = jest.fn();
+                expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+
+                lhsCombobox.dispatchEvent(new ComboboxStateChangedEvent({
+                    value: invalidValue,
+                }, displayText));
+
+                expect(eventCallback).toHaveBeenCalled();
+                const actualUpdates = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(actualUpdates).toMatchObject(expressionUpdates);
+            });
+        });
+        it('should add an error if given an RHS that does not exist and no error', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest(true, false);
+
+            rulesMock.getOperators.mockReturnValueOnce([rulesMock.RULE_OPERATOR.ASSIGN]);
+
+            return Promise.resolve().then(() => {
+                const invalidValue = 'invalid';
+                const displayText = 'displayText';
+                const expressionUpdates = {
+                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: displayText, error: genericErrorMessage},
+                };
+                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+
+                const eventCallback = jest.fn();
+                expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+
+                rhsCombobox.dispatchEvent(new ComboboxStateChangedEvent({
+                    value: invalidValue,
+                }, displayText));
+
+                expect(eventCallback).toHaveBeenCalled();
+                const actualUpdates = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(actualUpdates).toMatchObject(expressionUpdates);
+            });
+        });
     });
     describe('building expression from existing item', () => {
         it('should populate operator menu if LHS is set', () => {
@@ -421,6 +473,42 @@ describe('base expression builder', () => {
                 expect(eventCallback).toHaveBeenCalled();
                 expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.displayText);
                 expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE].value).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+            });
+        });
+    });
+    describe('building expression for system variable', () => {
+        it('should know system variables are "reference"', () => {
+            setSystemVariables(systemVariables);
+            const stringVariable = elements[stringVariableGuid];
+            const expressionBuilder = createComponentForTest({
+                lhsValue: expressionUtilsMock.mutateFlowResourceToComboboxShape(stringVariable),
+                lhsParam: rulesMock.elementToParam(stringVariable),
+                lhsIsField: false,
+                lhsFields: null,
+                lhsActivePicklistValues: null,
+                showLhsAsFieldReference: true,
+                operatorValue: rulesMock.RULE_OPERATOR.ASSIGN,
+                rhsValue: null,
+                rhsGuid: null,
+                rhsIsField: false,
+                rhsFields: null,
+                rhsLiteralsAllowed: true,
+            });
+            const systemVariable = '$Flow.CurrentRecord';
+            const item = {
+                displayText: addCurlyBraces(systemVariable),
+                value: systemVariable,
+            };
+            const eventCallback = jest.fn();
+            expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+            ourCBChangeEvent = new ComboboxStateChangedEvent(item);
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            rhsCombobox.dispatchEvent(ourCBChangeEvent);
+            return Promise.resolve().then(() => {
+                const newExpression = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(eventCallback).toHaveBeenCalled();
+                expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.displayText);
+                expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE].value).toEqual(FEROV_DATA_TYPE.REFERENCE);
             });
         });
     });

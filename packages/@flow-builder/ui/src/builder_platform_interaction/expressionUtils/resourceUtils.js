@@ -77,8 +77,10 @@ export const getResourceByUniqueIdentifier = (identifier) => {
 export const getFerovDataTypeForValidId = (identifier) => {
     if (GLOBAL_CONSTANT_OBJECTS[identifier]) {
         return GLOBAL_CONSTANT_OBJECTS[identifier].dataType;
+    } else if (getResourceByUniqueIdentifier(identifier)) {
+        return FEROV_DATA_TYPE.REFERENCE;
     }
-    return FEROV_DATA_TYPE.REFERENCE;
+    return null;
 };
 
 /**

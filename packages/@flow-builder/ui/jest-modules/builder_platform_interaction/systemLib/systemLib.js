@@ -1,3 +1,4 @@
+import * as mockSystemLib from '../../../modules/builder_platform_interaction/systemLib/systemLib.js';
 import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
 import globalConstantEmptyStringLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantEmptyString';
 import globalConstantTrueLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantTrue';
@@ -15,6 +16,7 @@ const removeCurlyBraces = (id) => {
 };
 
 export const GLOBAL_CONSTANT_PREFIX = globalConstantPrefixLabel;
+export const SYSTEM_VARIABLE_PREFIX = '$Flow';
 
 export const GLOBAL_CONSTANTS = {
     EMPTY_STRING: globalConstantPrefixLabel + '.' + globalConstantEmptyStringLabel,
@@ -54,13 +56,20 @@ export const GLOBAL_CONSTANT_OBJECTS = {
 
 export const isGlobalConstantOrSystemVariableId = (id) => {
     id = removeCurlyBraces(id);
-    return id === GLOBAL_CONSTANTS.BOOLEAN_TRUE || id === GLOBAL_CONSTANTS.BOOLEAN_FALSE || id === GLOBAL_CONSTANTS.EMPTY_STRING;
+    return id === GLOBAL_CONSTANTS.BOOLEAN_TRUE
+        || id === GLOBAL_CONSTANTS.BOOLEAN_FALSE
+        || id === GLOBAL_CONSTANTS.EMPTY_STRING
+        || getSystemVariables()[id];
 };
 
 export const getGlobalConstantOrSystemVariable = (id) => {
-    return GLOBAL_CONSTANT_OBJECTS[removeCurlyBraces(id)];
+    return GLOBAL_CONSTANT_OBJECTS[removeCurlyBraces(id)] || getSystemVariables()[id];
 };
 
-export const getGlobalVariables = () => {
-    return null;
-};
+export const getGlobalVariable = mockSystemLib.getGlobalVariable;
+export const getGlobalVariables = mockSystemLib.getGlobalVariables;
+export const getGlobalVariableTypes = mockSystemLib.getGlobalVariableTypes;
+export const setGlobalVariables = mockSystemLib.setGlobalVariables;
+
+export const getSystemVariables = mockSystemLib.getSystemVariables;
+export const setSystemVariables = mockSystemLib.setSystemVariables;

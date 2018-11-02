@@ -291,4 +291,40 @@ describe('ferov-resource-picker', () => {
             expect(normalizeRHS).toHaveBeenCalledWith(props.value);
         });
     });
+    describe('handles system & global variables', () => {
+        beforeEach(() => {
+            // if RHS doesn't exist, menu data isn't set
+            normalizeRHS.mockReturnValueOnce(Promise.resolve({itemOrDisplayText: 'foo'}));
+        });
+        it('defaults hideSystemVariables to false', () => {
+            setupComponentUnderTest(props);
+            return Promise.resolve().then(() => {
+                expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
+                true, false, Store.getStore(), true, undefined, undefined, true, false);
+            });
+        });
+        it('defaults showGlobalVariables to false', () => {
+            setupComponentUnderTest(props);
+            return Promise.resolve().then(() => {
+                expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
+                true, false, Store.getStore(), true, undefined, undefined, true, false);
+            });
+        });
+        it('passes along showSystemVariables setting', () => {
+            props.hideSystemVariables = true;
+            setupComponentUnderTest(props);
+            return Promise.resolve().then(() => {
+                expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
+                true, false, Store.getStore(), true, undefined, undefined, false, false);
+            });
+        });
+        it('passes along showGlobalVariables setting', () => {
+            props.showGlobalVariables = true;
+            setupComponentUnderTest(props);
+            return Promise.resolve().then(() => {
+                expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
+                true, false, Store.getStore(), true, undefined, undefined, true, true);
+            });
+        });
+    });
 });

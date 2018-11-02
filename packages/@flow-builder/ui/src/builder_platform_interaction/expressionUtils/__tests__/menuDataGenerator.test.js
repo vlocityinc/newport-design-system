@@ -7,6 +7,7 @@ jest.mock('builder_platform_interaction/dataTypeLib', () => {
         getDataTypeLabel: jest.fn().mockName('getDataTypeLabel'),
         getDataTypeIcons: jest.fn().mockName('getDataTypeIcons'),
         FLOW_DATA_TYPE: require.requireActual('builder_platform_interaction/dataTypeLib').FLOW_DATA_TYPE,
+        FEROV_DATA_TYPE: require.requireActual('builder_platform_interaction/dataTypeLib').FEROV_DATA_TYPE,
     };
 });
 

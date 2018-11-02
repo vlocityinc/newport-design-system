@@ -88,7 +88,7 @@ export const getGlobalVariableTypes = () => {
  * @returns {Object} global variables usable in menus
  */
 export const getGlobalVariables = (typeName) => {
-    return globalVariables[typeName];
+    return globalVariables && globalVariables[typeName];
 };
 
 /**
@@ -99,7 +99,7 @@ export const getGlobalVariables = (typeName) => {
  */
 export const getGlobalVariable = (id) => {
     const ref = id.split('.');
-    if (globalVariables[ref[0]]) {
+    if (globalVariables && globalVariables[ref[0]]) {
         return globalVariables[ref[0]][ref[1]];
     }
     return null;

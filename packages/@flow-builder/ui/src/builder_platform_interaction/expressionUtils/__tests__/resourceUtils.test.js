@@ -75,4 +75,9 @@ describe('getFerovInfoAndErrorFromEvent', () => {
         const result = getFerovInfoAndErrorFromEvent({ detail: mockItem });
         expect(result.dataType).toEqual(FEROV_DATA_TYPE.REFERENCE);
     });
+    it('returns an error if the item reference is invalid', () => {
+        const invalid = 'invalid';
+        const result = getFerovInfoAndErrorFromEvent({detail: {item: {value: invalid}, displayText: invalid}});
+        expect(result.error).toBeTruthy();
+    });
 });
