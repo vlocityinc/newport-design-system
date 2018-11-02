@@ -7,10 +7,10 @@
         <div class="slds-panel__body slds-p-around_none slds-grid ">
             <div class="flow-resource-list">
                 <lightning-tabset>
-                    <lightning-tab id="left-panel-tabitem-elements" label={labels.elementTabText} class="slds-p-around_none">
+                    <lightning-tab value="left-panel-tabitem-elements" label={labels.elementTabText} class="slds-p-around_none">
                         <builder_platform_interaction-left-panel-elements onpaletteitemclicked={handleElementClicked}></builder_platform_interaction-left-panel-elements>
                     </lightning-tab>
-                    <lightning-tab id="left-panel-tabitem-resources" label={labels.resourceTabText} class="slds-p-around_none">
+                    <lightning-tab value="left-panel-tabitem-resources" label={labels.resourceTabText} class="slds-p-around_none">
                         <div class="slds-p-horizontal_small slds-p-top_small">
                             <lightning-input type="search" variant="label-hidden" label={labels.resourceSearchLabel} placeholder={labels.resourceSearchPlaceholder} onchange={handleResourceSearch} class="slds-p-bottom_small"></lightning-input>
                             <lightning-button variant="Neutral" label={labels.newResourceButtonText} title={labels.newResourceButtonText} onclick={handleAddNewResourceButtonClick} class="new-resource-button"></lightning-button>
