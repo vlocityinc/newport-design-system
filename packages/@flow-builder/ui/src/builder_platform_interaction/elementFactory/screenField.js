@@ -23,7 +23,6 @@ export function createScreenField(screenField = {}) {
         fieldType,
         isNewField = false, // Client side only for purposes of editing new field only attributes.
         isRequired = false,
-        isVisible = false,
         dataType,
         helpText = '',
         defaultValue,
@@ -35,6 +34,7 @@ export function createScreenField(screenField = {}) {
         scale,
         validationRule,
         inputParameters,
+        isVisible,
         outputParameters,
         choiceReferences = []
     } = screenField;
@@ -71,6 +71,10 @@ export function createScreenField(screenField = {}) {
         validationRule = {formulaExpression: null, errorMessage: null};
     }
 
+    if (screenField.hasOwnProperty("isVisible")) {
+        isVisible = screenField.isVisible;
+    }
+
     return Object.assign(
         newScreenField,
         {
@@ -84,9 +88,9 @@ export function createScreenField(screenField = {}) {
             fieldText,
             helpText,
             inputParameters,
+            isVisible,
             isNewField,
             isRequired,
-            isVisible,
             outputParameters,
             scale,
             type,
