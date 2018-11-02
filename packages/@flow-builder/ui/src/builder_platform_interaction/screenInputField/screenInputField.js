@@ -1,6 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
 import { getVariant, booleanValue, getPlaceHolderLabel, CURRENCY_FORMAT, LIGHTNING_INPUT_TYPES } from "builder_platform_interaction/screenEditorUtils";
-import { isReference } from "builder_platform_interaction/commonUtils";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 
 /**
@@ -55,19 +54,13 @@ export default class ScreenInputField extends LightningElement {
         // The lightning components used to render canvas preview for date and dateTime need
         // to be ISO format in order to be previewed. Perform this translation for preview
         // purposes only.
-        if ((this.type === LIGHTNING_INPUT_TYPES.DATE || this.type === LIGHTNING_INPUT_TYPES.DATE_TIME) && displayValue) {
-            // If the value is a reference, display nothing in the preview.
-            if (isReference(displayValue)) {
-                return '';
-            }
-            if (displayValue && displayValue.trim() !== '' && this.valueType !== 'reference') {
-                // Don't try to convert to a date if the value is a reference.
-                // As long as this value isn't blank, we should get a valid date back. The value itself
-                // should have already been validated as being a valid date from the combobox component.
-                return new Date(displayValue).toISOString();
-            }
-            return '';
+        if ((this.type === LIGHTNING_INPUT_TYPES.DATE || this.type === LIGHTNING_INPUT_TYPES.DATE_TIME) && displayValue && displayValue.trim() !== '') {
+            // Don't try to convert to a date if the value is a reference.
+            // As long as this value isn't blank, we should get a valid date back. The value itself
+            // should have already been validated as being a valid date from the combobox component.
+            return new Date(displayValue).toISOString();
         }
+
         return displayValue;
     }
 

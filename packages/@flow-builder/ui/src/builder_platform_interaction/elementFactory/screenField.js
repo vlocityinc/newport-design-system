@@ -56,7 +56,6 @@ export function createScreenField(screenField = {}) {
             DEFAULT_VALUE_DATA_TYPE_PROPERTY
         );
     }
-    const previewDefaultValue = defaultValue;
 
     choiceReferences = choiceReferences.map((choiceReference) => createChoiceReference(choiceReference));
 
@@ -79,7 +78,6 @@ export function createScreenField(screenField = {}) {
             dataType,
             defaultValue,
             defaultValueDataType,
-            previewDefaultValue,
             validationRule,
             extensionName,
             fieldType,

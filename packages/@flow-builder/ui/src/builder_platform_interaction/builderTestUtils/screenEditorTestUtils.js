@@ -106,7 +106,7 @@ function getStringValue(value, defValue, hydrate) {
  */
 function getDefaultValue(type, valueType) {
     if (valueType === VALUE_TYPE_REF) {
-        return {elementReference:'VARIABLE_1'};
+        return {elementReference: (type + '--VARIABLE_1')};
     } else if (valueType === VALUE_TYPE_STATIC) {
         return SCREEN_FIELD_TYPES_AND_VALUES[type];
     }
@@ -255,7 +255,6 @@ function processDefaultValue(field) {
         );
 
         field.defaultValue = defaultValueFerovObject.defaultValue;
-        field.previewDefaultValue = defaultValueFerovObject.defaultValue;
         field.defaultValueDataType = defaultValueFerovObject.defaultValueDataType;
     }
 

@@ -179,7 +179,6 @@ const handleStandardScreenFieldPropertyChange = (data) => {
     // Default value needs special handling because defaultValueDataType may need to be updated
     if (data.property === 'defaultValue') {
         // First update the value.
-        // TODO: Hack: previewDefaultValue is needed for guid-devName swapping inconsistencies
         let updatedValueField;
         if (data.newValueGuid && data.newValueGuid in GLOBAL_CONSTANT_OBJECTS) {
             // If the new value is a reference, but it's also a global constant,
@@ -187,12 +186,10 @@ const handleStandardScreenFieldPropertyChange = (data) => {
             // by the rest of FlowBuilder.
             updatedValueField = updateProperties(data.field, {
                 'defaultValue': data.newValueGuid,
-                'previewDefaultValue': data.newValue
             });
         } else {
             updatedValueField = updateProperties(data.field, {
                 'defaultValue': data.newValue,
-                'previewDefaultValue': data.newValue
             });
         }
         // Now the defaultValue object.

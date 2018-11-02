@@ -210,7 +210,6 @@ export const REFERENCE_FIELDS = new Set([
     'leftValueReference',
     'outcomeReference',
     'childReference',
-    'previewDefaultValue',
     'source',
     'target',
     'leftHandSide',
@@ -229,7 +228,6 @@ export const REFERENCE_FIELDS = new Set([
 export const TEMPLATE_FIELDS = new Set([
     // TODO fill out more values and confirm that all FEROV stringValue fields allow this behaviour
     'stringValue', // field of a ferov
-    'previewDefaultValue', // single ferov
     'expression',  // represents body of a formula
     'text',        // represents body of a text template
     'fieldText',   // body of screen field of type Display Text

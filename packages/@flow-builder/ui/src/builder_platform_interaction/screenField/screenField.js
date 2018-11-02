@@ -1,11 +1,22 @@
 import { LightningElement, api } from 'lwc';
-import { isExtensionField, isNumberField, isCurrencyField, isRadioField, isMultiSelectCheckboxField, isMultiSelectPicklistField,
-         isPicklistField, getPlaceHolderLabel } from "builder_platform_interaction/screenEditorUtils";
 import { hydrateWithErrors, getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { isReference, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
+import { getElementByGuid } from "builder_platform_interaction/storeUtils";
+import {
+    isExtensionField,
+    isNumberField,
+    isDateField,
+    isDateTimeField,
+    isCurrencyField,
+    isRadioField,
+    isMultiSelectCheckboxField,
+    isMultiSelectPicklistField,
+    isPicklistField,
+    getPlaceHolderLabel
+} from "builder_platform_interaction/screenEditorUtils";
 
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
@@ -66,28 +77,20 @@ export default class ScreenField extends LightningElement {
     }
 
     get defaultValue() {
-        // Hack due to guid->devName swapping inconsistencies (Jesun David)
-        // TODO: Need to update this when changing uid swapping
-        const defaultValuePreview = this.screenfield.previewDefaultValue && this.screenfield.previewDefaultValue.hasOwnProperty('value') ?
-                             this.screenfield.previewDefaultValue.value : this.screenfield.previewDefaultValue;
-
-        // If the default value is global constant, pass the actual default value, not the preview version.
         const defaultValue = this.screenfield.defaultValue && this.screenfield.defaultValue.hasOwnProperty('value') ?
-            this.screenfield.defaultValue.value : this.screenfield.defaultValue;
-        if (defaultValue in GLOBAL_CONSTANT_OBJECTS) {
+                             this.screenfield.defaultValue.value : this.screenfield.defaultValue;
+
+        if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE) {
+            if (isCurrencyField(this.screenfield) || isNumberField(this.screenfield) || isDateField(this.screenfield) || isDateTimeField(this.screenfield)) {
+                return '';
+            }
+            // Resolve the devName from the guid and add curly braces
+            return addCurlyBraces(getElementByGuid(defaultValue).name);
+        } else if (defaultValue in GLOBAL_CONSTANT_OBJECTS) {
+            // If the default value is global constant, pass the actual default value, not the preview version.
             return defaultValue;
         }
 
-        if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && (isCurrencyField(this.screenfield) ||
-            isNumberField(this.screenfield))) {
-            // If the field has a reference for it's default value and the field type makes it such that we can't display
-            // the reference name (due to limitations of the components we're using to render the preview),
-            // don't display anything.
-            return '';
-        }
-        if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && !isReference(defaultValuePreview)) {
-            return addCurlyBraces(defaultValuePreview);
-        }
-        return defaultValuePreview;
+        return defaultValue;
     }
 }

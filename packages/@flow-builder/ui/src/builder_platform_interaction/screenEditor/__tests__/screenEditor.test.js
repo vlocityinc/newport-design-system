@@ -26,6 +26,28 @@ import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 const CANVAS_ELEMENT_NAME = 'builder_platform_interaction-screen-editor-canvas';
 const EDITOR_CONTAINER_ELEMENT_NAME = 'builder_platform_interaction-screen-properties-editor-container';
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByGuid(guid) {
+            const values = guid.split('--');
+            if (values.length === 2) {
+                const type = values[0];
+                const name = values[1];
+                return {
+                    dataType: type,
+                    elementType: "VARIABLE",
+                    guid,
+                    isCanvasElement:false,
+                    isCollection:false,
+                    name
+                };
+            }
+
+            throw new Error('Wrong guid for getElementByGuid in mock function');
+        }
+    };
+});
+
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-editor', {
         is: ScreenEditor

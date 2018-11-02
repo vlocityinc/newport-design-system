@@ -235,6 +235,22 @@ export function isDisplayTextField(field) {
 
 /**
  * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a date field
+ */
+export function isDateField(field) {
+    return field && field.dataType === 'Date';
+}
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a dateTime field
+ */
+export function isDateTimeField(field) {
+    return field && field.dataType === 'DateTime';
+}
+
+/**
+ * @param {object} field - field to test
  * @returns {boolean} Indicates if specified field is an input field
  */
 export function isInputField(field) {
