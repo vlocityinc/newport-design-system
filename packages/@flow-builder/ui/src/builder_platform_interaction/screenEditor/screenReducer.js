@@ -305,7 +305,7 @@ const updateFieldInScreen = (screen, field, newField) => {
 const handleScreenFieldPropertyChange = (data, screen, event, screenfield) => {
     const newValueForProperty = data.newValue.value;
     if (data.property === 'name' && data.error === null) {
-        data.error = screenValidation.validateFieldNameUniquenessLocally(screen, newValueForProperty, event.detail.guid) || isUniqueDevNameInStore(newValueForProperty, [event.detail.guid]);
+        data.error = screenValidation.validateFieldNameUniquenessLocally(screen, newValueForProperty, screenfield.guid) || isUniqueDevNameInStore(newValueForProperty, [event.detail.guid]);
     }
 
     // If the default value is being cleared out, the dataType associated with the new value should be set
