@@ -17,7 +17,7 @@ import { createOutputParameter, createOutputParameterMetadataObject } from './ou
 import { createConnectorObjects } from './connector';
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject} from "./base/baseMetadata";
-import { isObject } from 'builder_platform_interaction/commonUtils';
+import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from "./elementFactoryLabels";
 
 const elementType = ELEMENT_TYPE.WAIT;
@@ -71,10 +71,19 @@ const outputParameterArrayToMap = (parameters) => {
  * @returns {Object[]} list of metadata parameters
  */
 const outputParameterMapToArray = (parameters) => {
+    // filter parameter with empty values
+    const filterEmptyValueParams = (paramName) => {
+        const parameter = parameters[paramName];
+        if (parameter) {
+            const value = parameter.value;
+            return !isUndefinedOrNull(value) && value !== '';
+        }
+        return false;
+    };
     const mapToArray = (paramName) => {
         return createOutputParameterMetadataObject(parameters[paramName]);
     };
-    return Object.keys(parameters).map(mapToArray);
+    return Object.keys(parameters).filter(filterEmptyValueParams).map(mapToArray);
 };
 
 /**

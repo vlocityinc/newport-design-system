@@ -3,11 +3,21 @@ import { createWaitEvent, createWaitWithWaitEvents } from '../wait';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
 import { baseCanvasElement, baseChildElement, createCondition } from "../base/baseElement";
-import { ELEMENT_TYPE, CONDITION_LOGIC, CONNECTOR_TYPE} from "builder_platform_interaction/flowMetadata";
+import {
+    ELEMENT_TYPE,
+    CONDITION_LOGIC,
+    CONNECTOR_TYPE,
+    WAIT_TIME_EVENT_PARAMETER_NAMES,
+} from 'builder_platform_interaction/flowMetadata';
 import {baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject} from "../base/baseMetadata";
 import { createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor } from "../wait";
 import { LABELS } from "../elementFactoryLabels";
-import { createWaitMetadataObject, createWaitWithWaitEventReferences } from "../wait";
+import {
+    createWaitMetadataObject,
+    createWaitWithWaitEventReferences,
+    isWaitTimeEventType,
+    getParametersPropertyName
+} from "../wait";
 
 const newWaitGuid = 'newWait';
 const existingWaitGuid = 'existingWait';
@@ -31,6 +41,21 @@ const existingWaitEvent = {
         p2: {b:2, name: 'p2'}
     }
 };
+const emptyParameterValueWaitEventGuid = 'emptyParameterValueWaitEvent';
+const emptyParameterValueWaitEvent = {
+    guid: emptyParameterValueWaitEventGuid,
+    inputParameters: [
+        {name: 'p1', value: 1},
+        {name: 'p2', value: null},
+        {name: 'p3', value: ''}
+    ],
+    outputParameters: {
+        p1: {name: 'p1', value: 1},
+        p2: {name: 'p2', value: ''},
+        p3: {name: 'p3'},
+        p4: {name: 'p4', value: 0},
+    }
+};
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -46,6 +71,8 @@ getElementByGuid.mockImplementation((guid) => {
         return existingWait;
     } else if (guid === existingWaitEventGuid) {
         return existingWaitEvent;
+    } else if (guid === emptyParameterValueWaitEventGuid) {
+        return emptyParameterValueWaitEvent;
     }
 
     return {
@@ -211,8 +238,58 @@ describe('wait', () => {
             expect(waitEvent.conditionLogic).toEqual(CONDITION_LOGIC.NO_CONDITIONS);
         });
 
-        it('sets the input parameters with result of createParameterItem for every input parameter given', () => {
+        it('sets the output parameters with additional parameters needed for absolute time event', () => {
             const mockWaitEvent =  {
+                eventType: 'AlarmEvent',
+                outputParameters: [
+                    { name: WAIT_TIME_EVENT_PARAMETER_NAMES.RESUME_TIME, value: 'test' },
+                ],
+            };
+            const expectedAdditionalOutputParams = [
+                { name: WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS },
+            ];
+            const waitEvent = createWaitEvent(mockWaitEvent);
+
+            expect(createOutputParameter.mock.calls[0][0]).toEqual(mockWaitEvent.outputParameters[0]);
+            expect(createOutputParameter.mock.calls[1][0]).toEqual(expectedAdditionalOutputParams[0]);
+
+            expect(Object.keys(waitEvent.outputParameters)).toHaveLength(2);
+            expect(waitEvent.outputParameters[WAIT_TIME_EVENT_PARAMETER_NAMES.RESUME_TIME]).toEqual(createOutputParameter.mock.results[0].value);
+            expect(waitEvent.outputParameters[WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS]).toEqual(createOutputParameter.mock.results[1].value);
+        });
+
+        it('sets the input parameters with additional parameters needed for direct record type event', () => {
+            const mockWaitEvent =  {
+                eventType: 'DateRefAlarmEvent',
+                inputParameters: [
+                    { name: WAIT_TIME_EVENT_PARAMETER_NAMES.SALESFORCE_OBJECT, value: "Account" },
+                    { name: WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME, value: 'CreatedDate' },
+                ],
+            };
+            const expectedAdditionalInputParameters = [
+                { name: WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID },
+                { name: WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER },
+                { name: WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT },
+            ];
+
+            const waitEvent = createWaitEvent(mockWaitEvent);
+
+            let index = 0;
+            [...mockWaitEvent.inputParameters, ...expectedAdditionalInputParameters].forEach(inputParameter => {
+                expect(createInputParameter.mock.calls[index++][0]).toEqual(inputParameter);
+            });
+
+            expect(waitEvent.inputParameters).toHaveLength(5);
+            index = 0;
+            waitEvent.inputParameters.forEach(inputParameter => {
+                expect(inputParameter).toEqual(createInputParameter.mock.results[index++].value);
+            });
+        });
+
+        it('sets the input and output parameters for a platform event type', () => {
+            const platformEventName = 'PlatformEvent1__e';
+            const mockWaitEvent =  {
+                eventType: platformEventName,
                 inputParameters: [
                     {a:1},
                     {b:2},
@@ -226,23 +303,10 @@ describe('wait', () => {
             expect(waitEvent.inputParameters).toHaveLength(2);
             expect(waitEvent.inputParameters[0]).toEqual(createInputParameter.mock.results[0].value);
             expect(waitEvent.inputParameters[1]).toEqual(createInputParameter.mock.results[1].value);
-        });
 
-        it('sets the output parameters with result of createParameterItem for every output parameter given', () => {
-            const mockWaitEvent =  {
-                outputParameters: [
-                    {a:1, name: 'p1'},
-                    {b:2, name: 'p2'},
-                ],
-            };
-            const waitEvent = createWaitEvent(mockWaitEvent);
-
-            expect(createOutputParameter.mock.calls[0][0]).toEqual(mockWaitEvent.outputParameters[0]);
-            expect(createOutputParameter.mock.calls[1][0]).toEqual(mockWaitEvent.outputParameters[1]);
-
-            expect(Object.keys(waitEvent.outputParameters)).toHaveLength(2);
-            expect(waitEvent.outputParameters.p1).toEqual(createOutputParameter.mock.results[0].value);
-            expect(waitEvent.outputParameters.p2).toEqual(createOutputParameter.mock.results[1].value);
+            expect(createOutputParameter.mock.calls[0][0]).toEqual({ name: platformEventName });
+            expect(Object.keys(waitEvent.outputParameters)).toHaveLength(1);
+            expect(waitEvent.outputParameters[platformEventName]).toEqual(createOutputParameter.mock.results[0].value);
         });
     });
 
@@ -531,17 +595,39 @@ describe('wait', () => {
             });
 
             it('sets the input parameters with result of createParameterItemMetadataObject for every input parameter given', () => {
+                waitFromStore = {
+                    guid: existingWaitGuid,
+                    waitEventReferences: [
+                        {
+                            waitEventReference: emptyParameterValueWaitEventGuid,
+                        },
+                    ]
+                };
+
                 const wait = createWaitMetadataObject(waitFromStore);
 
-                expect(createInputParameterMetadataObject.mock.calls[0][0]).toEqual(wait.waitEvents[0].inputParameters[0]);
-                expect(createInputParameterMetadataObject.mock.calls[1][0]).toEqual(wait.waitEvents[0].inputParameters[1]);
+                let index = 0;
+                wait.waitEvents[0].inputParameters.forEach(inputParameter => {
+                    expect(createInputParameterMetadataObject.mock.calls[index++][0]).toEqual(inputParameter);
+                });
 
-                expect(wait.waitEvents[0].inputParameters).toHaveLength(2);
-                expect(wait.waitEvents[0].inputParameters[0]).toEqual(createInputParameterMetadataObject.mock.results[0].value);
-                expect(wait.waitEvents[0].inputParameters[1]).toEqual(createInputParameterMetadataObject.mock.results[1].value);
+                expect(wait.waitEvents[0].inputParameters).toHaveLength(3);
+                index = 0;
+                wait.waitEvents[0].inputParameters.forEach(inputParameter => {
+                    expect(createInputParameterMetadataObject.mock.results[index++].value).toEqual(inputParameter);
+                });
             });
 
-            it('sets the output parameters with result of createParameterItemMetadataObject for every output parameter given', () => {
+            it('sets the output parameters with result of createParameterItemMetadataObject for output parameters with non empty values', () => {
+                waitFromStore = {
+                    guid: existingWaitGuid,
+                    waitEventReferences: [
+                        {
+                            waitEventReference: emptyParameterValueWaitEventGuid,
+                        },
+                    ]
+                };
+
                 const wait = createWaitMetadataObject(waitFromStore);
 
                 expect(createOutputParameterMetadataObject.mock.calls[0][0]).toEqual(wait.waitEvents[0].outputParameters[0]);
@@ -567,6 +653,23 @@ describe('wait', () => {
 
                 expect(wait.defaultConnectorLabel).toEqual(defaultConnectorLabel);
             });
+        });
+    });
+
+    describe('isWaitTimeEventType', () => {
+        it('returns true for wait time event type', () => {
+            expect(isWaitTimeEventType('AlarmEvent')).toBe(true);
+            expect(isWaitTimeEventType('DateRefAlarmEvent')).toBe(true);
+        });
+        it('returns false for platform event type', () => {
+            expect(isWaitTimeEventType('PlatformEvent1__e')).toBe(false);
+        });
+    });
+
+    describe('getParametersPropertyName', () => {
+        it('returns correctly the parameter property name', () => {
+            expect(getParametersPropertyName(true)).toBe('inputParameters');
+            expect(getParametersPropertyName()).toBe('outputParameters');
         });
     });
 });
