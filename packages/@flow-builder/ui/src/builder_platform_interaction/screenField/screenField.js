@@ -75,13 +75,13 @@ export default class ScreenField extends LightningElement {
     get defaultValue() {
         const defaultValue = this.screenfield.defaultValue && this.screenfield.defaultValue.hasOwnProperty('value') ?
                              this.screenfield.defaultValue.value : this.screenfield.defaultValue;
-
         if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE) {
             if (isCurrencyField(this.screenfield) || isNumberField(this.screenfield) || isDateField(this.screenfield) || isDateTimeField(this.screenfield)) {
                 return '';
+            } else if (!(defaultValue.startsWith('{!') && defaultValue.endsWith('}'))) {
+                // Resolve the devName from the guid and add curly braces
+                return addCurlyBraces(getElementByGuid(defaultValue).name);
             }
-            // Resolve the devName from the guid and add curly braces
-            return addCurlyBraces(getElementByGuid(defaultValue).name);
         } else if (defaultValue in GLOBAL_CONSTANT_OBJECTS) {
             // If the default value is global constant, pass the actual default value, not the preview version.
             return defaultValue;
