@@ -44,6 +44,7 @@ describe('waitResumeConditions', () => {
             const props = {
                 eventType: WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME,
                 resumeTimeParameters: [],
+                outputParameters: {},
             };
             verifyResumeEventType(createComponentUnderTest(props), true);
         });
@@ -52,6 +53,7 @@ describe('waitResumeConditions', () => {
             const props = {
                 eventType: WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME,
                 resumeTimeParameters: [],
+                outputParameters: {},
             };
             verifyResumeEventType(createComponentUnderTest(props), true);
         });
@@ -60,6 +62,7 @@ describe('waitResumeConditions', () => {
             const props = {
                 eventType: 'MyEvent__e',
                 resumeTimeParameters: [],
+                outputParameters: {},
             };
             verifyResumeEventType(createComponentUnderTest(props), false);
         });
@@ -68,6 +71,7 @@ describe('waitResumeConditions', () => {
             const props = {
                 eventType: 'foo',
                 resumeTimeParameters: [],
+                outputParameters: {},
             };
             verifyResumeEventType(createComponentUnderTest(props), false);
         });
@@ -82,6 +86,7 @@ describe('waitResumeConditions', () => {
             const props = {
                 eventType: WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME,
                 resumeTimeParameters: [],
+                outputParameters: {},
             };
             const waitResumeConditions = createComponentUnderTest(props);
             dispatchChangeEvent(waitResumeConditions, resumeEventType.platformEventType);
@@ -95,6 +100,7 @@ describe('waitResumeConditions', () => {
                 const props = {
                     eventType: WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME,
                     resumeTimeParameters: [],
+                    outputParameters: {},
                 };
                 const waitResumeConditions = createComponentUnderTest(props);
                 dispatchChangeEvent(waitResumeConditions, resumeEventType.platformEventType);
@@ -112,6 +118,7 @@ describe('waitResumeConditions', () => {
                 const props = {
                     eventType: WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME,
                     resumeTimeParameters: ['param1'],
+                    outputParameters: {},
                 };
                 const waitResumeConditions = createComponentUnderTest(props);
                 dispatchChangeEvent(waitResumeConditions, resumeEventType.platformEventType);
@@ -133,8 +140,8 @@ describe('waitResumeConditions', () => {
         let waitResumeConditions;
         let props;
         beforeEach(() => {
-            const mockResumeTimeParameters = [{ name: 'foo' }];
-            const mockOutputParameters = [{name: 'bar' }];
+            const mockResumeTimeParameters = [{ name: { value: 'foo', error: null} }];
+            const mockOutputParameters = {p1: { name: 'p1', value: '', error: null }};
             const mockEventType = WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME;
             props = {
                 resumeTimeParameters: mockResumeTimeParameters,

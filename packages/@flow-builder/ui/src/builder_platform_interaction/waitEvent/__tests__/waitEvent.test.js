@@ -28,6 +28,7 @@ const waitEventWithOneConditional = {
         {name: 'condition1', rowIndex: 0}
     ],
     inputParameters: [],
+    outputParameters: {},
 };
 
 const waitEventWithInputParameters = {
@@ -37,9 +38,9 @@ const waitEventWithInputParameters = {
     conditionLogic: {value: '1'},
     eventType: 'mockEventType',
     inputParameters: [
-        {name: {value:'foo'}, value: {value:'bar'}, valueDataType: {value:'vdt'}}
+        {name: {value: 'foo', error: null}, value: {value: 'bar', error: null}, valueDataType: {value: 'vdt', error: null}}
     ],
-    outputParameters: [],
+    outputParameters: {},
 };
 
 const selectors = {
@@ -62,7 +63,6 @@ const createComponentUnderTest = (waitEvent) => {
     el.showDelete = true;
 
     document.body.appendChild(el);
-
 
     return el;
 };

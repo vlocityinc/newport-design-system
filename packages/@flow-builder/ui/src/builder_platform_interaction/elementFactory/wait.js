@@ -51,19 +51,6 @@ export const getParametersPropertyName = isInputParameter => {
     return isInputParameter ? WAIT_EVENT_FIELDS.INPUT_PARAMETERS : WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS;
 };
 
-/**
- * Turns an array of output parameters into an object where each property contains one index of the array
- * This also creates outputParameter for each param.
- * @param {Object[]} parameters list of parameters
- * @returns {Object} object where the key is the param name and the value is the parameter
- */
-const outputParameterArrayToMap = (parameters) => {
-    const arrayToMap = (acc, param) => {
-        acc[param.name] = createOutputParameter(param);
-        return acc;
-    };
-    return parameters.reduce(arrayToMap, {});
-};
 
 /**
  * Turns an object of parameters into an array of metadata output parameters
@@ -140,11 +127,20 @@ export const createWaitEventOutputParameters = (eventType, outputParameters = []
         outputParameters = [];
     }
 
+    const arrayToMap = (acc, param) => {
+        acc[param.name] = createOutputParameter(param);
+        return acc;
+    };
+
     if (Array.isArray(outputParameters)) {
         const additionalOutputParameters = getAdditionalParameters(eventType, outputParameters);
-        return outputParameterArrayToMap([...outputParameters, ...additionalOutputParameters]);
+        return [...outputParameters, ...additionalOutputParameters].reduce(arrayToMap, {});
     }
-    return outputParameters;
+
+    // store already has output parameters as object map, return a copy
+    // TODO: convert output parameters to Map. W-5568291
+    const outputParametersCopy = Object.values(outputParameters).reduce(arrayToMap, {});
+    return outputParametersCopy;
 };
 
 /**

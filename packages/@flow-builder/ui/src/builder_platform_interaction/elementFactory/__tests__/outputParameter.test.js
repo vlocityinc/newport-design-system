@@ -29,6 +29,12 @@ describe('outputParameter', () => {
             expect(result.value).toEqual(value);
             expect(result.valueDataType).toEqual(valueDataType);
         });
+
+        it('uses rowIndex from the element', () => {
+            const mockElement = { rowIndex: 'index1' };
+            const result = createOutputParameter(mockElement);
+            expect(result.rowIndex).toEqual(mockElement.rowIndex);
+        });
     });
 
     describe('createOutputParameterMetadataObject', () => {
