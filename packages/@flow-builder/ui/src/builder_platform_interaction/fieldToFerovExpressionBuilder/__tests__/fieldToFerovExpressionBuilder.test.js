@@ -12,8 +12,9 @@ import {
 } from "builder_platform_interaction/expressionUtils";
 import { mockAccountFields, mockAccountFieldWithPicklist } from "mock/serverEntityData";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
+import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, setSystemVariables, getSystemVariables } from "builder_platform_interaction/systemLib";
 import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
+import { systemVariables } from "mock/systemGlobalVars";
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-field-to-ferov-expression-builder', { is: FieldToFerovExpressionBuilder });
@@ -29,6 +30,7 @@ const numberVariable = elements[numberVariableGuid];
 const picklistField = 'AccountSource';
 const accountField = mockAccountFieldWithPicklist.AccountSource;
 const accountVariableComboboxShape = mutateFlowResourceToComboboxShape(elements[accountSObjectVariableGuid]);
+const systemVariableReference = '$Flow.CurrentRecord';
 
 function createMockPopulatedFieldExpression() {
     return {
@@ -262,6 +264,38 @@ describe('field-to-ferov-expression-builder', () => {
                 expect(baseExpressionBuilder.rhsIsField).toBeTruthy();
                 expect(baseExpressionBuilder.rhsFields).toBeTruthy();
             });
+        });
+        it('should handle system variable on RHS', () => {
+            setSystemVariables(systemVariables);
+            const expressionBuilder = createComponentForTest({
+                objectType: sobject,
+                lhsFields: mockAccountFields,
+                expression: {
+                    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+                        value: accountSObjectVariableGuid + '.' + picklistField,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
+                        value: RULE_OPERATOR.EQUAL_TO,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
+                        value: systemVariableReference,
+                        error: null,
+                    },
+                    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+                        value: 'reference',
+                        error: null,
+                    },
+                },
+            });
+            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+            expect(baseExpressionBuilder.rhsValue)
+                .toMatchObject(mutateFlowResourceToComboboxShape(getSystemVariables()[systemVariableReference]));
+            expect(baseExpressionBuilder.rhsIsField).toBeDefined();
+            expect(baseExpressionBuilder.rhsIsField).toBeFalsy();
+            expect(baseExpressionBuilder.rhsFields).toBeDefined();
+            expect(baseExpressionBuilder.rhsFields).toBeFalsy();
         });
         it('should handle Global Constant on RHS', () => {
             const expressionBuilder = createComponentForTest({
