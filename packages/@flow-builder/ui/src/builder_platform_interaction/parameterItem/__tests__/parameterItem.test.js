@@ -376,6 +376,15 @@ describe('parameter-item', () => {
             expect(badgeCmp).not.toBeNull();
             expect(badgeCmp.label).toEqual('Debug Only');
         });
+        it('should close popover when clicked out', () => {
+            parameterItemCmp = createComponentForTest({
+                item: createMockParameterItem(true, false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, parameterStringValue, FEROV_DATA_TYPE.STRING),
+                warningMessage: 'Warning message'
+            });
+            const statusIcon = getWarningIcon(parameterItemCmp);
+            expect(statusIcon).not.toBeNull();
+            expect(statusIcon.closeOnClickOut).toBe(true);
+        });
     });
     describe('when showDelete is TRUE', () => {
         let parameterItemCmp, deleteBtn;
