@@ -151,7 +151,19 @@ describe('Merge field validation', () => {
                     {
                         'endIndex': 18,
                         'errorType': 'invalidGlobalConstant',
-                        'message': 'FlowBuilderMergeFieldValidation.invalidGlobalConstant',
+                        'message': 'FlowBuilderCombobox.genericErrorMessage',
+                        'startIndex': 2
+                    }]);
+                done();
+            });
+        });
+        it('Returns a validation error when it references a global variable that does not exist', (done) => {
+            validateMergeField('{!$Flow.A}').then(validationErrors => {
+                expect(validationErrors).toEqual([
+                    {
+                        'endIndex': 8,
+                        'errorType': 'invalidGlobalVariable',
+                        'message': 'FlowBuilderCombobox.genericErrorMessage',
                         'startIndex': 2
                     }]);
                 done();

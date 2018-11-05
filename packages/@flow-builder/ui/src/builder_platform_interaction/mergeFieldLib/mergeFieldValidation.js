@@ -156,7 +156,7 @@ export class MergeFieldsValidation {
             return Promise.resolve([validationError]);
         }
         if (!getGlobalConstantOrSystemVariable(mergeFieldReferenceValue)) {
-            const validationErrorLabel = format(LABELS.invalidGlobalConstant, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
+            const validationErrorLabel = format(LABELS.genericErrorMessage, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_CONSTANT, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
@@ -166,7 +166,7 @@ export class MergeFieldsValidation {
     _validateSystemVariable(mergeFieldReferenceValue, index) {
         if (!getGlobalConstantOrSystemVariable(mergeFieldReferenceValue)) {
             const endIndex = index + mergeFieldReferenceValue.length - 1;
-            const validationErrorLabel = format(LABELS.invalidGlobalVariable, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
+            const validationErrorLabel = format(LABELS.genericErrorMessage, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_VARIABLE, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
