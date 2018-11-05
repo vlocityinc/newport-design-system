@@ -52,6 +52,7 @@ export function getParameterItemWarning(warnings, labels) {
     let shouldBeDeleted = false;
     let warningBadge;
     let hideIcon = false;
+    let grayPill = false;
     warnings.forEach(warning => {
         switch (warning) {
         case MERGE_WARNING_TYPE.NOT_AVAILABLE:
@@ -66,6 +67,7 @@ export function getParameterItemWarning(warnings, labels) {
         case MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_LATEST:
             warningMessage = labels.warningLatestOnly;
             warningBadge = labels.badgeDebugOnly;
+            grayPill = true;
             break;
         case MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_ACTIVE:
             warningMessage = labels.warningActiveOnly;
@@ -76,5 +78,5 @@ export function getParameterItemWarning(warnings, labels) {
         default:
         }
     });
-    return { warningBadge, warningMessage, shouldBeDeleted, hideIcon };
+    return { warningBadge, warningMessage, shouldBeDeleted, hideIcon, grayPill };
 }

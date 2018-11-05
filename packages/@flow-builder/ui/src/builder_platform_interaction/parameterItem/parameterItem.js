@@ -40,6 +40,9 @@ export default class ParameterItem extends LightningElement {
     @api
     warningMessage;
 
+    @api
+    grayPill = false;
+
     /**
      * Holds the rules used for fetching full menu data, used the ferovResourcePicker to display allowed inputs
      * @type {module:rules.operatorRule[]}
@@ -214,7 +217,7 @@ export default class ParameterItem extends LightningElement {
      */
     get badgeClasses() {
         let classes = 'slds-align-middle slds-m-left_xx-small';
-        if (this.state.parameterItem.isOutput || this.checked) {
+        if (!this.grayPill) {
             classes = `${classes} slds-theme_warning`;
         }
         return classes;

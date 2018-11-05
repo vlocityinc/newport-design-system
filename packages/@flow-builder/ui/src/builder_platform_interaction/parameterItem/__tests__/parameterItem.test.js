@@ -12,9 +12,9 @@ const parameterLabel = 'Parameter Label';
 const parameterName = 'parameterName';
 const parameterStringValue = 'Simple String Value';
 
-function createComponentForTest({ item = createMockParameterItem(true, true, 'string'), elementType = ELEMENT_TYPE.ACTION_CALL, itemIndex = 0, showDelete = false, warningMessage, warningBadge} = {}) {
+function createComponentForTest({ item = createMockParameterItem(true, true, 'string'), elementType = ELEMENT_TYPE.ACTION_CALL, itemIndex = 0, showDelete = false, warningMessage, warningBadge, grayPill = false} = {}) {
     const el = createElement('builder_platform_interaction-parameter-item', { is: ParameterItem });
-    Object.assign(el, {item, elementType, itemIndex, showDelete, warningMessage, warningBadge});
+    Object.assign(el, {item, elementType, itemIndex, showDelete, warningMessage, warningBadge, grayPill});
     document.body.appendChild(el);
     return el;
 }
@@ -375,6 +375,17 @@ describe('parameter-item', () => {
             const badgeCmp = getWarningBadge(parameterItemCmp);
             expect(badgeCmp).not.toBeNull();
             expect(badgeCmp.label).toEqual('Debug Only');
+            expect(badgeCmp.classList).toContain('slds-theme_warning');
+        });
+        it('should gray the badge', () => {
+            parameterItemCmp = createComponentForTest({
+                item: createMockParameterItem(true, false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING),
+                warningMessage: 'Warning',
+                warningBadge: 'Debug Only',
+                grayPill: true
+            });
+            const badgeCmp = getWarningBadge(parameterItemCmp);
+            expect(badgeCmp.classList).not.toContain('slds-theme_warning');
         });
         it('should close popover when clicked out', () => {
             parameterItemCmp = createComponentForTest({
@@ -413,7 +424,7 @@ describe('parameter-item', () => {
         });
     });
     describe('when error is not null', () => {
-        it('should show error message', () => {
+        it('should show error message for input', () => {
             const item = createMockParameterItem(true, false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING);
             item.value.error = 'Error message';
             const parameterItemCmp = createComponentForTest({
@@ -422,7 +433,15 @@ describe('parameter-item', () => {
             const ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
             expect(ferovResourcePicker.errorMessage).toEqual('Error message');
         });
-        // TODO: for outputResourcePicker, the errorMessage is not added - still in progress
+        it('should show error message for output', () => {
+            const item = createMockParameterItem(false, false, FLOW_DATA_TYPE.STRING.value, stringVariableGuid + '.' + stringVariableDevName, FEROV_DATA_TYPE.REFERENCE);
+            item.value.error = 'Error message';
+            const parameterItemCmp = createComponentForTest({
+                item
+            });
+            const ferovResourcePicker = getOutputResourcePickerElement(parameterItemCmp);
+            expect(ferovResourcePicker.errorMessage).toEqual('Error message');
+        });
     });
     describe('when value is empty', () => {
         it('should show combobox', () => {
@@ -435,13 +454,19 @@ describe('parameter-item', () => {
         });
     });
     describe('when data type is SObject', () => {
-        it('disable field drilldown', () => {
+        it('disable field drilldown for input', () => {
             const item = createMockParameterItem(true, false, FLOW_DATA_TYPE.SOBJECT.value, undefined, undefined, 'Account');
             const parameterItemCmp = createComponentForTest({
                 item
             });
             expect(getFerovResourcePickerElement(parameterItemCmp).enableFieldDrilldown).toBeFalsy();
         });
-        // TODO: for outputResourcePicker, the enableFieldDrilldown is not added - still in progress
+        it('disable field drilldown for output', () => {
+            const item = createMockParameterItem(false, false, FLOW_DATA_TYPE.SOBJECT.value, undefined, undefined, 'Account');
+            const parameterItemCmp = createComponentForTest({
+                item
+            });
+            expect(getOutputResourcePickerElement(parameterItemCmp).enableFieldDrilldown).toBeFalsy();
+        });
     });
 });
