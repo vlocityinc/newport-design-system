@@ -23,6 +23,11 @@ describe('When field type is NUMBER', () => {
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('scale', "18", rules.scale)).toBe(LABELS.overMaxIntegerValue);
     });
+    it('and default value is a reference, there should be no error', () => {
+        const field = createTestScreenField('field1', 'Number');
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('defaultValue', "{!myVar}", rules.defaultValue)).toBeNull();
+    });
 });
 
 describe('When field type is CURRENCY', () => {
@@ -46,6 +51,11 @@ describe('When field type is CURRENCY', () => {
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('scale', "18", rules.scale)).toBe(LABELS.overMaxIntegerValue);
     });
+    it('and default value is a reference, there should be no error', () => {
+        const field = createTestScreenField('field1', 'Currency');
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('defaultValue', "{!myVar}", rules.defaultValue)).toBeNull();
+    });
 });
 
 describe('When field type is DATE', () => {
@@ -58,6 +68,11 @@ describe('When field type is DATE', () => {
         const field = createTestScreenField('field1', 'Date');
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('defaultValue', "abc", rules.defaultValue)).toBe(LABELS.mustBeAValidDate);
+    });
+    it('and default value is a reference, there should be no error', () => {
+        const field = createTestScreenField('field1', 'Date');
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('defaultValue', "{!myVar}", rules.defaultValue)).toBeNull();
     });
 });
 
@@ -77,21 +92,26 @@ describe('When field type is DisplayText', () => {
 
 describe('When field type is TextBox', () => {
     it('and a formulaExpression is provided without an errorMessage, we should get an error', () => {
-        const field = createTestScreenField('field1', 'Number', SCREEN_NO_DEF_VALUE, {validation: false});
+        const field = createTestScreenField('field1', 'TextBox', SCREEN_NO_DEF_VALUE, {validation: false});
         field.validationRule.formulaExpression = {value: 'abc', error: null};
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('errorMessage', "", rules.validationRule.errorMessage)).toBe(LABELS.cannotBeBlank);
     });
     it('and a errorMessage is provided without an formulaExpression, we should get an error', () => {
-        const field = createTestScreenField('field1', 'Number', SCREEN_NO_DEF_VALUE, {validation: false});
+        const field = createTestScreenField('field1', 'TextBox', SCREEN_NO_DEF_VALUE, {validation: false});
         field.validationRule.errorMessage = {value: 'abc', error: null};
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('formulaExpression', "", rules.validationRule.formulaExpression)).toBe(LABELS.cannotBeBlank);
     });
     it('and both errorMessage and formulaExpression are provided, there should be no error', () => {
-        const field = createTestScreenField('field1', 'Number', SCREEN_NO_DEF_VALUE, {validation: true});
+        const field = createTestScreenField('field1', 'TextBox', SCREEN_NO_DEF_VALUE, {validation: true});
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('formulaExpression', field.validationRule.formulaExpression.value, rules.validationRule.formulaExpression)).toBeNull();
         expect(screenValidation.validateProperty('errorMessage', field.validationRule.errorMessage.value, rules.validationRule.errorMessage)).toBeNull();
+    });
+    it('and default value is a reference, there should be no error', () => {
+        const field = createTestScreenField('field1', 'TextBox');
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('defaultValue', "{!myVar}", rules.defaultValue)).toBeNull();
     });
 });
