@@ -252,7 +252,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "ShippingLatitude": {
         "label": "Shipping Latitude",
@@ -263,7 +264,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "Description": {
         "label": "Account Description",
@@ -274,7 +276,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "BillingCity": {
         "label": "Billing City",
@@ -285,7 +288,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "JigsawCompanyId": {
         "label": "Jigsaw Company ID",
@@ -296,7 +300,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "Website": {
         "label": "Website",
@@ -307,7 +312,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "LastReferencedDate": {
         "label": "Last Referenced Date",
@@ -318,7 +324,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "BillingLatitude": {
         "label": "Billing Latitude",
@@ -329,7 +336,7 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
     },
     "NumberOfEmployees": {
         "label": "Employees",
@@ -340,7 +347,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "Name": {
         "label": "Account Name",
@@ -351,7 +359,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "BillingAddress": {
         "label": "Billing Address",
@@ -362,7 +371,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "Industry": {
         "label": "Industry",
@@ -372,7 +382,8 @@ export const mockAccountFields = {
         "dataType": "Picklist",
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
         "activePicklistValues": [
             {
                 "value": "Agriculture",
@@ -609,7 +620,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "OwnerId": {
         "label": "Owner ID",
@@ -620,7 +632,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "BillingLongitude": {
         "label": "Billing Longitude",
@@ -631,7 +644,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "Phone": {
         "label": "Account Phone",
@@ -642,7 +656,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "AccountSource": {
         "collection":false,
@@ -652,7 +667,8 @@ export const mockAccountFields = {
         "filterable": true,
         "dataType": "Picklist",
         "sobjectName": "Account",
-        "readOnly": false,
+        "editable": false,
+        "creatable": false,
         "activePicklistValues": [
             {
                 "value": "Advertisement",
@@ -740,7 +756,8 @@ export const mockAccountFields = {
         "sortable": true,
         "filterable": true,
         "dataType": "Picklist",
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
         "activePicklistValues": [
             {
                 "value": "Address",
@@ -830,7 +847,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "BillingPostalCode": {
         "label": "Billing Zip/Postal Code",
@@ -840,7 +858,8 @@ export const mockAccountFields = {
         "dataType": "String",
         "activePicklistValues": null,
         "sobjectName": "Account",
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "ShippingCity": {
         "label": "Shipping City",
@@ -851,7 +870,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "PhotoUrl": {
         "label": "Photo URL",
@@ -862,7 +882,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "MasterRecordId": {
         "label": "Master Record ID",
@@ -873,7 +894,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "ParentId": {
         "label": "Parent Account ID",
@@ -884,7 +906,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "IsDeleted": {
         "label": "Deleted",
@@ -895,7 +918,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "LastViewedDate": {
         "label": "Last Viewed Date",
@@ -906,7 +930,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "ShippingGeocodeAccuracy": {
         "collection":false,
@@ -916,7 +941,8 @@ export const mockAccountFields = {
         "filterable": true,
         "dataType": "Picklist",
         "sobjectName": "Account",
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
         "activePicklistValues": [
             {
                 "value": "Address",
@@ -1006,7 +1032,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "SystemModstamp": {
         "label": "System Modstamp",
@@ -1017,7 +1044,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "Type": {
         "collection":false,
@@ -1027,7 +1055,8 @@ export const mockAccountFields = {
         "filterable": true,
         "dataType": "Picklist",
         "sobjectName": "Account",
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
         "activePicklistValues": [
             {
                 "value": "Analyst",
@@ -1110,7 +1139,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "BillingStreet": {
         "label": "Billing Street",
@@ -1121,7 +1151,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "ShippingAddress": {
         "label": "Shipping Address",
@@ -1132,7 +1163,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "ShippingPostalCode": {
         "label": "Shipping Zip/Postal Code",
@@ -1143,7 +1175,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "CreatedDate": {
         "label": "Created Date",
@@ -1154,7 +1187,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "LastActivityDate": {
         "label": "Last Activity",
@@ -1165,7 +1199,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "ShippingState": {
         "label": "Shipping State/Province",
@@ -1176,7 +1211,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "Id": {
         "label": "Account ID",
@@ -1187,7 +1223,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "SicDesc": {
         "label": "SIC Description",
@@ -1198,7 +1235,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "Fax": {
         "label": "Account Fax",
@@ -1209,7 +1247,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "LastModifiedById": {
         "label": "Last Modified By ID",
@@ -1220,7 +1259,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": true,
+        "editable": true,
+        "creatable": true,
     },
     "AnnualRevenue": {
         "label": "Annual Revenue",
@@ -1231,7 +1271,8 @@ export const mockAccountFields = {
         "sobjectName": "Account",
         "activePicklistValues": null,
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "BillingState": {
         "label": "Billing State/Province",
@@ -1242,7 +1283,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "ShippingLongitude": {
         "label": "Shipping Longitude",
@@ -1253,7 +1295,8 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     },
     "Jigsaw": {
         "label": "Data.com Key",
@@ -1264,6 +1307,7 @@ export const mockAccountFields = {
         "activePicklistValues": null,
         "sobjectName": "Account",
         "collection":false,
-        "readOnly": false,
+        "editable": false,
+        "creatable": true,
     }
 };

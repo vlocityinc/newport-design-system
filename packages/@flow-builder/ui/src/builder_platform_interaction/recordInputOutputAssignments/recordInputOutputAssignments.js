@@ -31,9 +31,6 @@ export default class RecordInputOutputAssignments extends LightningElement {
     @api
     rhsLabel = '';
 
-    @api
-    readOnlyFields = false;
-
     /**
      * @param {Object[]} rules  Rules to use when fetching menudata
      */
@@ -59,8 +56,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
     }
 
     /**
-     * Create an array containing the fields. Fields already selected in other input/output assignment item should not be included
-     *  as well as the readOnly is the parameter this.readOnlyFields is true.
+     * Create an array containing the fields. Fields already selected in other input/output assignment item should not be included.
      */
     get inputOutputAssignmentItemsWithLhsFields() {
         // Exclude Fields
@@ -79,7 +75,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
             const entityFilteredFields = [];
             fields.forEach(field => {
                 // The field list Should not contains the already selected field
-                if (this.includeField(excludedFields, field.apiName, itemApiName, field.sobjectName, field.readOnly)) {
+                if (this.includeField(excludedFields, field.apiName, itemApiName)) {
                     entityFilteredFields[field.apiName] = field;
                 }
             });
@@ -97,14 +93,10 @@ export default class RecordInputOutputAssignments extends LightningElement {
     }
 
     /**
-     * Field to include in the list :
-     * If this.readOnlyFields is true then only field editable should be added to the list.
      * if a field has already been select then it should not be possible to select it again.
      */
-    includeField(excludedFields, fieldApiName, itemApiName, itemSobjectName, isFieldReadOnly) {
-        const isFieldPartOfExcludedList  = !excludedFields.includes(fieldApiName) || fieldApiName === itemApiName;
-        const isReadOnlyField = !this.readOnlyFields || !isFieldReadOnly;
-        return isFieldPartOfExcludedList && isReadOnlyField;
+    includeField(excludedFields, fieldApiName, itemApiName) {
+        return !excludedFields.includes(fieldApiName) || fieldApiName === itemApiName;
     }
 
     /**

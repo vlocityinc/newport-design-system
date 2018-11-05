@@ -76,7 +76,7 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get recordFieldsToUpdate() {
-        return  Object.keys(this.state.entityFields).filter(key => !this.state.entityFields[key].readOnly).reduce((obj, key) => {
+        return  Object.keys(this.state.entityFields).filter(key => this.state.entityFields[key].editable).reduce((obj, key) => {
             obj[key] = this.state.entityFields[key];
             return obj;
           }, {});

@@ -201,6 +201,17 @@ describe('record-create-editor', () => {
             const recordStoreOption = getRecordStoreOption(recordCreateEditor);
             expect(recordStoreOption.wayToStoreFields).toBe(WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
         });
+        it('it should only display creatable fields', () => {
+            const inputOutputAssignments = getInputOutputAssignments(recordCreateEditor);
+            expect(inputOutputAssignments.recordFields).not.toBeNull();
+            const fields = Object.values(inputOutputAssignments.recordFields);
+            expect(fields).toContainEqual(expect.objectContaining({
+                creatable: true
+            }));
+            expect(fields).not.toContainEqual(expect.objectContaining({
+                creatable: false
+            }));
+        });
     });
     describe('Handle Events with fields', () => {
         let recordCreateEditor;

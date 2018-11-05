@@ -139,7 +139,7 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     get recordFieldsToCreate() {
-        return  Object.keys(this.state.entityFields).filter(key => !this.state.entityFields[key].readOnly).reduce((obj, key) => {
+        return  Object.keys(this.state.entityFields).filter(key => this.state.entityFields[key].creatable).reduce((obj, key) => {
             obj[key] = this.state.entityFields[key];
             return obj;
           }, {});

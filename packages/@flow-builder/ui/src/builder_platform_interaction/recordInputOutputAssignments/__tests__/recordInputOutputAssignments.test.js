@@ -112,12 +112,6 @@ describe('record-input-output-assignment', () => {
             element = createComponentUnderTest();
             expressionBuilders = getExpressionBuilders(element);
         });
-        it('should not contain readonly fields', () => {
-            const readOnlyFields = Object.values(expressionBuilders[0].lhsFields);
-            expect(readOnlyFields).toContainEqual(expect.objectContaining({
-                readOnly: false
-            }));
-        });
         it('should not contain duplicated fields', () => {
             expect(Object.values(expressionBuilders[0].lhsFields).map(field => field.apiName).includes("Name")).toBe(false);
             expect(Object.values(expressionBuilders[1].lhsFields).map(field => field.apiName).includes("Description")).toBe(false);

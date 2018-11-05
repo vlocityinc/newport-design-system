@@ -4,7 +4,6 @@ import { getShadowRoot } from 'lwc-test-utils';
 import * as storeMockedData from "mock/storeData";
 import {  SObjectReferenceChangedEvent } from "builder_platform_interaction/events";
 import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
-import { mockAccountFields } from "mock/serverEntityData";
 import { RecordStoreOptionChangedEvent,
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -27,6 +26,7 @@ const selectors = {
     recordFilter: 'builder_platform_interaction-record-filter',
     recordStoreOption: 'builder_platform_interaction-record-store-options',
     inputOutputAssignments: 'builder_platform_interaction-record-input-output-assignments',
+    fieldToFerovExpBuilder: 'builder_platform_interaction-field-to-ferov-expression-builder'
 };
 
 const defaultRecordUpdateElement = () => {
@@ -101,15 +101,15 @@ const inputAssignmentElement = {
     rowIndex: "724cafc2-7744-4e46-8eaa-f2df29539d2e"
 };
 
-// Mocking out the fetch function to return Account fields
-jest.mock('builder_platform_interaction/serverDataLib', () => {
+jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        fetch: (actionType, callback) => {
-            callback({
-                data: JSON.stringify(mockAccountFields),
-            });
-        },
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
+        getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
+            callback(require.requireActual('mock/serverEntityData').mockAccountFields);
+        }),
+        getUpdateableEntities: jest.fn().mockImplementation(() => {
+            return require.requireActual('mock/serverEntityData').mockEntities;
+        }),
+        ENTITY_TYPE: require.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE,
     };
 });
 
@@ -132,6 +132,7 @@ const getRecordFilter = (recordUpdateEditor) => {
 const getInputOutputAssignments = (recordUpdateEditor) => {
     return getShadowRoot(recordUpdateEditor).querySelector(selectors.inputOutputAssignments);
 };
+
 
 describe('record-update-editor', () => {
     describe('with default values', () => {
@@ -187,6 +188,17 @@ describe('record-update-editor usung fields', () => {
             const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
             expect(sObjectOrSObjectCollectionPicker).toBeNull();
             expect(entityResourcePicker).not.toBeNull();
+        });
+        it('it should only display editable fields', () => {
+            const inputOutputAssignments = getInputOutputAssignments(recordUpdateEditor);
+            expect(inputOutputAssignments.recordFields).not.toBeNull();
+            const fields = Object.values(inputOutputAssignments.recordFields);
+            expect(fields).toContainEqual(expect.objectContaining({
+                editable: true
+            }));
+            expect(fields).not.toContainEqual(expect.objectContaining({
+                editable: false
+            }));
         });
     });
     describe('Handle Events', () => {
