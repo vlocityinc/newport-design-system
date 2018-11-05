@@ -1,9 +1,9 @@
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { getScreenFieldTypeByName, getLocalExtensionFieldType } from "builder_platform_interaction/screenEditorUtils";
-import { mutateScreen, demutateScreen, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
+import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { createChoiceReference, createFEROV, DEFAULT_VALUE_DATA_TYPE_PROPERTY, DEFAULT_VALUE_PROPERTY } from "builder_platform_interaction/elementFactory";
+import { createScreenWithFields, createScreenField, createChoiceReference } from "builder_platform_interaction/elementFactory";
 import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTOR_REGEX = /(.*)\[([^$*^|~]*)(.*)?=["'](.*)["']\]/g;
@@ -124,7 +124,7 @@ function getDefaultValue(type, valueType) {
 function createScreen(name, fieldsProducer, config = {}) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
     const includeNonMDValues = booleanValue(config, 'includeNonMDValues', true);
-    const screen = {
+    let screen = {
         allowBack:booleanValue(config, 'allowBack', true),
         allowFinish:booleanValue(config, 'allowFinish', true),
         allowPause:booleanValue(config, 'allowPause', true),
@@ -151,7 +151,7 @@ function createScreen(name, fieldsProducer, config = {}) {
     }
 
     if (booleanValue(config, 'mutateScreen', true)) {
-        mutateScreen(screen);
+        screen = createScreenWithFields(screen);
     }
 
     if (hydrateValues) {
@@ -239,26 +239,7 @@ export function createTestScreenField(name, type, value, config = {}) {
 
     field = addConfigOptionsToField(field, name, config, fieldType, hydrateValues);
 
-    return field;
-}
-
-// TODO: W-5483251 - this function should be removed once the test utils that
-// create screen fields are updated to use elementFactory. This should no longer
-// be needed as the screen field created would be passed to the elementFactory,
-// which would do this work.
-function processDefaultValue(field) {
-    if (field.defaultValue) {
-        const defaultValueFerovObject = createFEROV(
-            field.defaultValue,
-            DEFAULT_VALUE_PROPERTY,
-            DEFAULT_VALUE_DATA_TYPE_PROPERTY
-        );
-
-        field.defaultValue = defaultValueFerovObject.defaultValue;
-        field.defaultValueDataType = defaultValueFerovObject.defaultValueDataType;
-    }
-
-    return field;
+    return createScreenField(field);
 }
 
 /**
@@ -298,13 +279,6 @@ function addConfigOptionsToField(field, name, config, fieldType, hydrateValues) 
     if (booleanValue(config, 'includeNonMDValues', true)) {
         field.guid = generateGuid();
         field.type = fieldType;
-    }
-
-    // TODO: W-5483251 - this should go away once test builder utils
-    // are updated to go through elementFactory. All tests that make use of this
-    // config param should delete this property from their config.
-    if (booleanValue(config, 'defaultValueFerovProcess', false)) {
-        field = processDefaultValue(field);
     }
 
     return field;
@@ -355,24 +329,6 @@ export function createTestScreenWithFields(name, screenFields = [], config = {})
     };
 
     return createScreen(name, fieldsProducer, config);
-}
-
-/**
- * Mutates the screen using the data mutation lib
- * @param {object} screen - The screen to mutate
- * @returns {object} the mutated screen
- */
-export function mutateTestScreen(screen) {
-    return mutateScreen(screen);
-}
-
-/**
- * Demutates the screen using the data mutation lib
- * @param {object} screen - The screen to demutate
- * @returns {object} the demutated screen
- */
-export function demutateTestScreen(screen) {
-    return demutateScreen(screen);
 }
 
 /**

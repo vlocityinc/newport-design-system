@@ -2,7 +2,6 @@ import { createElement } from 'lwc';
 import ScreenField from "../screenField";
 import { createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
 import { getShadowRoot } from 'lwc-test-utils';
-import { createScreenField } from "builder_platform_interaction/elementFactory";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 
 jest.mock('builder_platform_interaction/selectors', () => {
@@ -32,19 +31,10 @@ const createComponentUnderTest = (props) => {
     return el;
 };
 
-const createAndMutateField = (name, fieldType, defaultValue, config) => {
-    const field = createTestScreenField(name, fieldType, defaultValue, config);
-
-    // TODO - As part of W-5483251, we can remove this call. Once test builder utils
-    // are updated to use elementFactory, we won't need this.
-    const mutatedField = createScreenField(field);
-    return mutatedField;
-};
-
 describe('input screen field with no label', () => {
     let testScreenField;
     beforeEach(() => {
-        const textBoxField = createAndMutateField(emptyFieldName, 'TextBox', SCREEN_NO_DEF_VALUE);
+        const textBoxField = createTestScreenField(emptyFieldName, 'TextBox', SCREEN_NO_DEF_VALUE);
         testScreenField = createComponentUnderTest({
             screenfield: textBoxField
         });
@@ -61,7 +51,7 @@ describe('input screen field with no label', () => {
 describe('text area screen field with no label', () => {
     let testScreenField;
     beforeEach(() => {
-        const textAreaField = createAndMutateField(emptyFieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE);
+        const textAreaField = createTestScreenField(emptyFieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE);
         testScreenField = createComponentUnderTest({
             screenfield: textAreaField
         });
@@ -78,7 +68,7 @@ describe('text area screen field with no label', () => {
 describe('input screen field with a label', () => {
     let testScreenField;
     beforeEach(() => {
-        const textAreaField = createAndMutateField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE);
+        const textAreaField = createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE);
         testScreenField = createComponentUnderTest({
             screenfield: textAreaField
         });
@@ -95,7 +85,7 @@ describe('input screen field with a label', () => {
 describe('text area screen field with a label', () => {
     let testScreenField;
     beforeEach(() => {
-        const textAreaField = createAndMutateField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE);
+        const textAreaField = createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE);
         testScreenField = createComponentUnderTest({
             screenfield: textAreaField
         });
@@ -111,7 +101,7 @@ describe('text area screen field with a label', () => {
 
 describe('display text screen field with errors', () => {
     it('displays an error card', () => {
-        const textAreaField = createAndMutateField(fieldName, 'DisplayText', 'Displayed text');
+        const textAreaField = createTestScreenField(fieldName, 'DisplayText', 'Displayed text');
         textAreaField.fieldText.error = 'error';
         const testScreenField = createComponentUnderTest({
             screenfield: textAreaField
@@ -129,7 +119,7 @@ describe('display text screen field with text', () => {
     const displayText = 'show this';
     let testScreenField;
     beforeEach(() => {
-        const textAreaField = createAndMutateField(fieldName, 'DisplayText', displayText);
+        const textAreaField = createTestScreenField(fieldName, 'DisplayText', displayText);
         testScreenField = createComponentUnderTest({
             screenfield: textAreaField
         });
@@ -146,7 +136,7 @@ describe('display text screen field with text', () => {
 describe('display text screen field with no text', () => {
     let testScreenField;
     beforeEach(() => {
-        const field = createAndMutateField(emptyFieldName, 'DisplayText', SCREEN_NO_DEF_VALUE);
+        const field = createTestScreenField(emptyFieldName, 'DisplayText', SCREEN_NO_DEF_VALUE);
         testScreenField = createComponentUnderTest({
             screenfield: field
         });
@@ -163,7 +153,7 @@ describe('display text screen field with no text', () => {
 describe('currency field with no default', () => {
     let testScreenField;
     beforeEach(() => {
-        const field = createAndMutateField(emptyFieldName, 'Currency', SCREEN_NO_DEF_VALUE);
+        const field = createTestScreenField(emptyFieldName, 'Currency', SCREEN_NO_DEF_VALUE);
         testScreenField = createComponentUnderTest({
             screenfield: field
         });
@@ -172,7 +162,7 @@ describe('currency field with no default', () => {
         return Promise.resolve().then(() => {
             const renderedInputField = getShadowRoot(testScreenField).querySelector(SELECTORS.INPUT_FIELD);
             expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.value).not.toBeDefined();
+            expect(renderedInputField.value).toBe('');
         });
     });
 });
@@ -181,7 +171,7 @@ describe('currency field with no default', () => {
 describe('currency field with literal default', () => {
     let testScreenField;
     beforeEach(() => {
-        const field = createAndMutateField(emptyFieldName, 'Currency', 10, {defaultValueFerovProcess: true});
+        const field = createTestScreenField(emptyFieldName, 'Currency', 10);
         testScreenField = createComponentUnderTest({
             screenfield: field
         });
@@ -198,7 +188,7 @@ describe('currency field with literal default', () => {
 describe('number field with no default', () => {
     let testScreenField;
     beforeEach(() => {
-        const field = createAndMutateField(emptyFieldName, 'Number', SCREEN_NO_DEF_VALUE);
+        const field = createTestScreenField(emptyFieldName, 'Number', SCREEN_NO_DEF_VALUE);
         testScreenField = createComponentUnderTest({
             screenfield: field
         });
@@ -207,7 +197,7 @@ describe('number field with no default', () => {
         return Promise.resolve().then(() => {
             const renderedInputField = getShadowRoot(testScreenField).querySelector(SELECTORS.INPUT_FIELD);
             expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.value).not.toBeDefined();
+            expect(renderedInputField.value).toBe('');
         });
     });
 });
@@ -216,7 +206,7 @@ describe('number field with no default', () => {
 describe('number field with literal default', () => {
     let testScreenField;
     beforeEach(() => {
-        const field = createAndMutateField(emptyFieldName, 'Number', 10, {defaultValueFerovProcess: true});
+        const field = createTestScreenField(emptyFieldName, 'Number', 10);
         testScreenField = createComponentUnderTest({
             screenfield: field
         });

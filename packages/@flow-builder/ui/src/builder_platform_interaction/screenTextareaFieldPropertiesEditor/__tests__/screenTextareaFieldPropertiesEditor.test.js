@@ -36,7 +36,7 @@ describe('screen-textarea-field-properties-editor', () => {
     beforeEach(() => {
         screenTextAreaFieldPropEditor = createComponentUnderTest({
             field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE,
-                { defaultValueFerovProcess: true, validation: false, helpText: false}),
+                {validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -54,7 +54,7 @@ describe('screen-textarea-field-properties-editor', () => {
     it('Default value is empty when there is no default value', () => {
         return Promise.resolve().then(() => {
             const renderedDefaultValueField = query(screenTextAreaFieldPropEditor, SELECTORS.DEFAULT_VALUE_FIELD);
-            expect(renderedDefaultValueField.value).toBeUndefined();
+            expect(renderedDefaultValueField.value).toEqual('');
         });
     });
     it('Help text should be filled in', () => {
@@ -87,7 +87,7 @@ describe('screen-textarea-field-properties-editor with default value', () => {
     let screenTextAreaFieldPropEditor;
     beforeEach(() => {
         screenTextAreaFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'LargeTextArea', defaultVal, {defaultValueFerovProcess: true}),
+            field: createTestScreenField(fieldName, 'LargeTextArea', defaultVal),
         });
     });
     it('Default value is rendered', () => {
@@ -102,7 +102,7 @@ describe('screen-textarea-field-properties-editor with help text', () => {
     let screenTextAreaFieldPropEditor;
     beforeEach(() => {
         screenTextAreaFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE, {defaultValueFerovProcess: true}),
+            field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE),
         });
     });
     it('Help text is displayed', () => {
@@ -119,7 +119,7 @@ describe('screen-textarea-field-properties-editor with validationRule', () => {
     beforeEach(() => {
         screenTextAreaFieldPropEditor = createComponentUnderTest({
             field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE,
-                { defaultValueFerovProcess: true, validation: true, helpText: false}),
+                {validation: true, helpText: false}),
         });
     });
 

@@ -1,6 +1,7 @@
 import { createTestScreenField, createTestScreenWithFields, SCREEN_NULL_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
 import { screenReducer } from "../screenReducer";
 import {PropertyChangedEvent} from "builder_platform_interaction/events";
+import { createScreenField } from 'builder_platform_interaction/elementFactory';
 
 export const REFERENCE_VALUES = {
     STRING_1: {value:'{!String1}', valueGuid: 'GUID_String_1', isReference: true},
@@ -61,13 +62,17 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
 
     // Make sure everything went fine creating the screen
     expect(screen).toBeDefined();
-    expect(field[propertyName].value).toBe(valueBefore.value);
+    if (valueBefore.value) {
+        expect(field[propertyName].value).toBe(valueBefore.value);
+    } else {
+        expect(field[propertyName].value).toEqual('');
+    }
     if (valueBefore.isReference) {
         expect(field[dataTypePropName]).toBe('reference');
     } else if (valueBefore.value) {
             expect(field[dataTypePropName]).toBe('String');
     } else {
-        expect(field[dataTypePropName]).toBeUndefined();
+        expect(field[dataTypePropName]).toBeFalsy();
     }
 
     // Create event for the reducer to process and call the reducer
@@ -109,7 +114,7 @@ function testInputParamValue(valueBefore, valueAfter) {
         const field = createTestScreenField('lcfield1', 'Extension', 'c:fakeCmpName', config);
         field.inputParameters[0].value = value !== SCREEN_NULL_DEF_VALUE ? value : null;
         field.outputParameters[0].value = 'GUID_String_1';
-        return field;
+        return createScreenField(field);
     };
 
     const fieldProvider = (screen) => {
