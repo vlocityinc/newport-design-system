@@ -23,7 +23,7 @@ import {
     PARAM_PROPERTY,
     RULE_OPERATOR,
 } from "builder_platform_interaction/ruleLib";
-import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { isObject, isUndefined } from "builder_platform_interaction/commonUtils";
 import { Store } from 'builder_platform_interaction/storeLib';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
@@ -386,6 +386,11 @@ export default class BaseExpressionBuilder extends LightningElement {
             this._rhsDataType = null;
         } else {
             const allowedDataTypes = this.getPossibleRHSDataTypes();
+
+            // Currency & Number are treated the same by the combobox, so we shouldn't consider them as multiple different types
+            if (allowedDataTypes.length > 1 && allowedDataTypes.includes(FLOW_DATA_TYPE.CURRENCY.value) && allowedDataTypes.includes(FLOW_DATA_TYPE.NUMBER.value)) {
+                allowedDataTypes.splice(allowedDataTypes.indexOf(FLOW_DATA_TYPE.CURRENCY.value), 1);
+            }
 
             if (allowedDataTypes.length === 1) {
                 this._rhsDataType = allowedDataTypes[0];

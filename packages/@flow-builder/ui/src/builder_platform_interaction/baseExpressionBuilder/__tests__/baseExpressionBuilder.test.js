@@ -61,7 +61,7 @@ function createMockEmptyRHSExpression(lhsGuid) {
         lhsActivePicklistValues: null,
         showLhsAsFieldReference: true,
         operatorValue: rulesMock.RULE_OPERATOR.ASSIGN,
-        rhsValue: expressionUtilsMock.mutateFlowResourceToComboboxShape(numberVariable),
+        rhsValue: '',
         rhsIsField: false,
         rhsFields: null,
         rhsLiteralsAllowed: true,
@@ -608,6 +608,19 @@ describe('base expression builder', () => {
             }],
         };
 
+        const numberAndCurrencyTypes = {
+            Number: [{
+                paramType: 'Data',
+                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                dataType: 'Number',
+            }],
+            Currency: [{
+                paramType: 'Data',
+                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                dataType: 'Currency',
+            }],
+        };
+
         const booleanRHSType = {
             Boolean: [{
                 paramType: 'Data',
@@ -680,6 +693,16 @@ describe('base expression builder', () => {
                 return Promise.resolve().then(() => {
                     expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
                 });
+            });
+        });
+
+        it('RHS datatype should be set to Number regardless of LHS type if options are number and currency', () => {
+            rulesMock.getRHSTypes.mockReturnValue(numberAndCurrencyTypes);
+            const expressionBuilder = createMockEmptyRHSExpression(dateVariableGuid, true);
+
+            return Promise.resolve().then(() => {
+                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+                expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.NUMBER.value);
             });
         });
     });
