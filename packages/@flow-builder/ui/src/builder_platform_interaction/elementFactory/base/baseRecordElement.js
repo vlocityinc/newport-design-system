@@ -127,12 +127,8 @@ export const getDefaultAvailableConnections = () => [
     }
 ];
 
-export const createRecordFilters = (filters, object) => {
-    if (filters && filters.length > 0) {
-        filters = filters.map(filter => createFilter(filter, object));
-    } else {
-        const newFilter = createFilter();
-        filters = [newFilter];
-    }
-    return filters;
+export const createRecordFilters = (filters, object, defaultFilters = [createFilter()]) => {
+    return filters && filters.length > 0 ?
+         filters.map(filter => createFilter(filter, object)) :
+         defaultFilters;
 };

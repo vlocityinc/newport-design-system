@@ -11,19 +11,22 @@ import {
 } from "builder_platform_interaction/events";
 import RecordLookupFilter from "builder_platform_interaction/recordFilter";
 
-const mockDefaultRecordFilter = {
-    filterType: RECORD_FILTER_CRITERIA.NONE,
+const defaultMockFilterItems = [{
+    operator: {value: '', error: null},
+    leftHandSide: {value: '', error: null},
+    rightHandSide: {value: '', error: null},
+    rightHandSideDataType: {value: '', error: null},
+    rowIndex: 'RECORDLOOKUPFILTERITEM_1',
+}];
+
+const mockDefaultRecordFilter = (elementType = ELEMENT_TYPE.RECORD_LOOKUP,
+        filterType = RECORD_FILTER_CRITERIA.ALL, filterItems = defaultMockFilterItems) => ({
+    filterType,
     recordEntityName: 'Account',
-    filterItems: [{
-        operator: {value: '', error: null},
-        leftHandSide: {value: '', error: null},
-        rightHandSide: {value: '', error: null},
-        rightHandSideDataType: {value: '', error: null},
-        rowIndex: 'RECORDLOOKUPFILTERITEM_1',
-    }],
+    filterItems,
     recordFields: mockAccountFields,
-    elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-};
+    elementType,
+});
 
 const mock3FilterItems = [{
     operator: {value: 'EqualTo', error: null},
@@ -48,14 +51,17 @@ const mock3FilterItems = [{
 },
 ];
 
-const createComponentUnderTest = () => {
+const createComponentUnderTest = (elementType, filterType, filterItems) => {
     const el = createElement('builder_platform_interaction-record-filter', {
         is: RecordLookupFilter
     });
-    Object.assign(el, mockDefaultRecordFilter);
+    Object.assign(el, mockDefaultRecordFilter(elementType, filterType, filterItems));
     document.body.appendChild(el);
     return el;
 };
+
+const createComponentUnderTestForRecordUpdate = createComponentUnderTest.bind(null, ELEMENT_TYPE.RECORD_UPDATE);
+const createComponentUnderTestForRecordDelete = createComponentUnderTest.bind(null, ELEMENT_TYPE.RECORD_DELETE);
 
 const selectors = {
     filterRecordsCombobox: 'lightning-combobox',
@@ -94,123 +100,208 @@ class FilterTypeChangeEvent extends CustomEvent {
 
 describe('record-filter', () => {
     describe('Filter records combobox', () => {
-        let element;
-        beforeEach(() => {
-            element = createComponentUnderTest();
+        describe('For record lookup', () => {
+            let element;
+            beforeEach(() => {
+                element = createComponentUnderTest(ELEMENT_TYPE.RECORD_LOOKUP, RECORD_FILTER_CRITERIA.NONE);
+            });
+            it('"No Conditions" should be the default selected ', () => {
+                expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.NONE);
+            });
+            it('Do not display filter items list', () => {
+                expect(getFilterList(element)).toBeNull();
+            });
         });
-        it('"No Conditions" should be the default selected ', () => {
-            expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.NONE);
+        describe('For record update', () => {
+            let element;
+            beforeEach(() => {
+                element = createComponentUnderTestForRecordUpdate(RECORD_FILTER_CRITERIA.NONE);
+            });
+            it('"No Conditions" should be the default selected ', () => {
+                expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.NONE);
+            });
+            it('Do not display filter items list', () => {
+                expect(getFilterList(element)).toBeNull();
+            });
         });
-        it('Do not display filter lists', () => {
-            expect(getFilterList(element)).toBeNull();
+        describe('For record delete', () => {
+            let element;
+            beforeEach(() => {
+                element = createComponentUnderTestForRecordDelete();
+            });
+            it('"All criteria" should be the default selected ', () => {
+                expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);
+            });
+            it('Should display filter items list', () => {
+                expect(getFilterList(element)).toBeDefined();
+            });
         });
     });
 
-    describe('Labels', () => {
-        it('Check filter records combobox label for record lookup', () => {
+    describe('Combobox Labels', () => {
+        it('For record lookup', () => {
             const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
             expect(filterRecord.label).toBe('FlowBuilderRecordEditor.ruleFindingRecords');
+        });
+        it('For record update', () => {
+            const filterRecord = getFilterRecordsCombobox(createComponentUnderTestForRecordUpdate());
+            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+        });
+        it('For record delete', () => {
+            const filterRecord = getFilterRecordsCombobox(createComponentUnderTestForRecordDelete(RECORD_FILTER_CRITERIA.ALL));
+            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+        });
+    });
+
+    describe('Combobox options', () => {
+        it('For record lookup', () => {
+            const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
             expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaGet');
+            expect(filterRecord.options[1].label).toBe('FlowBuilderRecordEditor.filterAllCriterias');
         });
-        it('Check filter records combobox label for record update', () => {
-            mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_UPDATE;
-            const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
-            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
+        it('For record update', () => {
+            const filterRecord = getFilterRecordsCombobox(createComponentUnderTestForRecordUpdate());
             expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaUpdate');
-        });
-        it('Check filter records combobox label for record delete', () => {
-            mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_DELETE;
-            const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
-            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
-            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaDelete');
+            expect(filterRecord.options[1].label).toBe('FlowBuilderRecordEditor.filterAllCriterias');
+                });
+        it('For record delete', () => {
+            const filterRecord = getFilterRecordsCombobox(createComponentUnderTestForRecordDelete(RECORD_FILTER_CRITERIA.ALL));
+            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterAllCriterias');
         });
     });
 
     describe('Warning message', () => {
         let element;
-        it('Should not display warning icon for record lookup', () => {
-            mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_LOOKUP;
-            element = createComponentUnderTest();
+        it('Should not display warning icon for record lookup if "no conditions" filtering', () => {
+            element = createComponentUnderTest(ELEMENT_TYPE.RECORD_LOOKUP, RECORD_FILTER_CRITERIA.NONE);
             expect(getWarningIcon(element)).toBeNull();
             expect(getWarningMessage(element)).toBeNull();
         });
-        it('Should display warning icon and message for record update', () => {
-            mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_UPDATE;
-            element = createComponentUnderTest();
+        it('Should display warning icon and message for record update if "no conditions" filtering', () => {
+            element = createComponentUnderTestForRecordUpdate(RECORD_FILTER_CRITERIA.NONE);
             expect(getWarningIcon(element)).toBeDefined();
             expect(getWarningMessage(element).label).toBe('FlowBuilderRecordEditor.updateAllRecords');
         });
-        it('Should display warning icon and message for record delete', () => {
-            mockDefaultRecordFilter.elementType = ELEMENT_TYPE.RECORD_DELETE;
-            element = createComponentUnderTest();
-            expect(getWarningIcon(element)).toBeDefined();
-            expect(getWarningMessage(element).label).toBe('FlowBuilderRecordEditor.deleteAllRecords');
+        it('Should not display warning icon and message for record delete as no criteria disallowed', () => {
+            element = createComponentUnderTestForRecordDelete(RECORD_FILTER_CRITERIA.ALL);
+            expect(getWarningIcon(element)).toBeNull();
         });
     });
 
     describe('When filter type change', () => {
-        let element;
-        beforeEach(() => {
-            element = createComponentUnderTest();
-        });
-        it('Display the filter list when selecting "Conditions are Met"', () => {
-            getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
-            return Promise.resolve().then(() => {
-                expect(getFilterList(element)).not.toBeNull();
-                expect(getExpressionBuilders(element)).toHaveLength(1);
+        describe('For record lookup', () => {
+            let element;
+            beforeEach(() => {
+                element = createComponentUnderTest();
+            });
+            it('Display the filter items list when selecting "Conditions are Met"', () => {
+                getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
+                return Promise.resolve().then(() => {
+                    expect(getFilterList(element)).not.toBeNull();
+                    expect(getExpressionBuilders(element)).toHaveLength(1);
+                });
+            });
+            it('Hide the filter items list when selecting "No Conditions"', () => {
+                mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
+                getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
+                return Promise.resolve().then(() => {
+                    expect(getFilterList(element)).toBeNull();
+                });
             });
         });
-        it('Hide the filter list when selecting "No Conditions"', () => {
-            mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
-            getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
-            return Promise.resolve().then(() => {
-                expect(getFilterList(element)).toBeNull();
+
+        describe('For record update', () => {
+            let element;
+            beforeEach(() => {
+                element = createComponentUnderTest();
+            });
+            it('Display the filter items list when selecting "Conditions are Met"', () => {
+                getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
+                return Promise.resolve().then(() => {
+                    expect(getFilterList(element)).not.toBeNull();
+                    expect(getExpressionBuilders(element)).toHaveLength(1);
+                });
+            });
+            it('Hide the filter items list when selecting "No Conditions"', () => {
+                mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
+                getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
+                return Promise.resolve().then(() => {
+                    expect(getFilterList(element)).toBeNull();
+                });
             });
         });
     });
 
     describe('Filter Items', () => {
-        let element;
-        beforeEach(() => {
-            mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
-            mockDefaultRecordFilter.filterItems = mock3FilterItems;
-            element = createComponentUnderTest();
+        describe('For record lookup', () => {
+            let element;
+            beforeEach(() => {
+                element = createComponentUnderTest(ELEMENT_TYPE.RECORD_LOOKUP, RECORD_FILTER_CRITERIA.ALL, mock3FilterItems);
+            });
+            it('"Conditions are Met" should be the default selected ', () => {
+                expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);
+            });
+            it('Filter items list should be displayed', () => {
+                expect(getFilterList(element)).not.toBeNull();
+            });
+            it('All filter items should be displayed', () => {
+                expect(getExpressionBuilders(element)).toHaveLength(3);
+            });
         });
-        it('"Conditions are Met" should be the default selected ', () => {
-            expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);
+        describe('For record update', () => {
+            let element;
+            beforeEach(() => {
+                element = createComponentUnderTestForRecordUpdate(RECORD_FILTER_CRITERIA.ALL, mock3FilterItems);
+            });
+            it('"Conditions are Met" should be the default selected ', () => {
+                expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);
+            });
+            it('Filter items list should be displayed', () => {
+                expect(getFilterList(element)).not.toBeNull();
+            });
+            it('All filter items should be displayed', () => {
+                expect(getExpressionBuilders(element)).toHaveLength(3);
+            });
         });
-        it('Filter list should be displayed', () => {
-            expect(getFilterList(element)).not.toBeNull();
-        });
-        it('All filter items should be displayed', () => {
-            expect(getExpressionBuilders(element)).toHaveLength(3);
-        });
-    });
-
-    describe('handleAddFilter', () => {
-        it('fires addRecordFilterEvent', () => {
-            const element = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                element.addEventListener(AddRecordFilterEvent.EVENT_NAME, eventCallback);
-                const filterList = getFilterList(element);
-                filterList.dispatchEvent(new AddRecordFilterEvent());
-                expect(eventCallback).toHaveBeenCalled();
+        describe('For record delete', () => {
+            let element;
+            beforeEach(() => {
+                element = createComponentUnderTestForRecordDelete(RECORD_FILTER_CRITERIA.ALL, mock3FilterItems);
+            });
+            it('"Conditions are Met" should be the default selected ', () => {
+                expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);
+            });
+            it('Filter items list should be displayed', () => {
+                expect(getFilterList(element)).not.toBeNull();
+            });
+            it('All filter items should be displayed', () => {
+                expect(getExpressionBuilders(element)).toHaveLength(3);
             });
         });
     });
 
-    describe('handleUpdateFilter', () => {
+    describe('Filter items events dispatch', () => {
+        it('fires addRecordFilterEvent', () => {
+            const element = createComponentUnderTest();
+            const eventCallback = jest.fn();
+            element.addEventListener(AddRecordFilterEvent.EVENT_NAME, eventCallback);
+            const filterList = getFilterList(element);
+            return Promise.resolve().then(() => {
+                filterList.dispatchEvent(new AddRecordFilterEvent());
+                expect(eventCallback).toHaveBeenCalled();
+            });
+        });
+
         it('fires updateRecordFilterEvent', () => {
             const updateData = {
                 index: 0,
                 value: 'newValue',
             };
             const element = createComponentUnderTest();
+            const eventCallback = jest.fn();
+            element.addEventListener(UpdateRecordFilterEvent.EVENT_NAME, eventCallback);
+            const filterList = getFilterList(element);
             return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                element.addEventListener(UpdateRecordFilterEvent.EVENT_NAME, eventCallback);
-                const filterList = getFilterList(element);
                 filterList.dispatchEvent(new UpdateRecordFilterEvent(updateData.index, updateData.value));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -221,16 +312,14 @@ describe('record-filter', () => {
                 });
             });
         });
-    });
 
-    describe('handleDeleteFilter', () => {
         it('fires deleteRecordFilterEvent', () => {
             const deleteIndex = 1;
             const element = createComponentUnderTest();
+            const eventCallback = jest.fn();
+            element.addEventListener(DeleteRecordFilterEvent.EVENT_NAME, eventCallback);
+            const filterList = getFilterList(element);
             return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                element.addEventListener(DeleteRecordFilterEvent.EVENT_NAME, eventCallback);
-                const filterList = getFilterList(element);
                 filterList.dispatchEvent(new DeleteRecordFilterEvent(deleteIndex));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -242,7 +331,7 @@ describe('record-filter', () => {
         });
     });
 
-    describe('filterable fields', () => {
+    describe('Filterable fields', () => {
         it('should show only filterable fields', () => {
             const element = createComponentUnderTest();
             const filterableFields = Object.values(element.recordFields);

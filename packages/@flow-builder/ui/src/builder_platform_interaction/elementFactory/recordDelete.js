@@ -1,44 +1,35 @@
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElement,
-    baseCanvasElementsArrayToMap,
-    createAvailableConnection
-} from './base/baseElement';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { baseCanvasElement, baseCanvasElementsArrayToMap, createAvailableConnection } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getDefaultAvailableConnections, createRecordFilters, createFilterMetadataObject }  from "./base/baseRecordElement";
 
-const elementType = ELEMENT_TYPE.RECORD_DELETE;
-const maxConnections = 2;
-const getDefaultAvailableConnections = () => [
-    {
-        type: CONNECTOR_TYPE.REGULAR
-    },
-    {
-        type: CONNECTOR_TYPE.FAULT
-    }
-];
+const MAX_CONNECTIONS = 2;
+
+
+const getAvailableConnections = recordDelete => {
+    const { availableConnections } = recordDelete;
+    return availableConnections ?
+            availableConnections.map(availableConnection => createAvailableConnection(availableConnection)) :
+            getDefaultAvailableConnections();
+};
 
 export function createRecordDelete(recordDelete = {}) {
     const newRecordDelete = baseCanvasElement(recordDelete);
-    const { inputReference = '' } = recordDelete;
-    let { availableConnections = getDefaultAvailableConnections() } = recordDelete;
+    const { inputReference = '', object = '', filters } = recordDelete;
+    const availableConnections = getAvailableConnections(recordDelete);
 
-    availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
-
-    const recordDeleteObject = Object.assign(newRecordDelete, {
+    return Object.assign(newRecordDelete, {
         inputReference,
-        maxConnections,
+        object,
+        filters : createRecordFilters(filters, object, []),
+        maxConnections : MAX_CONNECTIONS,
         availableConnections,
-        elementType,
+        elementType : ELEMENT_TYPE.RECORD_DELETE,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     });
-
-    return recordDeleteObject;
 }
 
 export function createRecordDeleteWithConnectors(recordDelete) {
@@ -48,8 +39,10 @@ export function createRecordDeleteWithConnectors(recordDelete) {
         recordDelete,
         newRecordDelete.guid
     );
-    const defaultAvailableConnections = getDefaultAvailableConnections();
-    const availableConnections = removeFromAvailableConnections(defaultAvailableConnections, connectors);
+    const availableConnections = removeFromAvailableConnections(
+            getDefaultAvailableConnections(),
+            connectors
+    );
     const connectorCount = connectors ? connectors.length : 0;
 
     const recordDeleteObject = Object.assign(newRecordDelete, {
@@ -66,9 +59,18 @@ export function createRecordDeleteMetadataObject(recordDelete, config) {
     }
 
     const recordDeleteMetadata = baseCanvasElementMetadataObject(recordDelete, config);
-    const { inputReference } = recordDelete;
+    const { inputReference, object } = recordDelete;
+    if (inputReference) {
+        return Object.assign(recordDeleteMetadata, {
+            inputReference,
+            filters : []
+        });
+    }
 
+    let { filters = [] } = recordDelete;
+    filters = filters.map(filter => createFilterMetadataObject(filter));
     return Object.assign(recordDeleteMetadata, {
-        inputReference
+        object,
+        filters
     });
 }

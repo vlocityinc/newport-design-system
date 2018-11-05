@@ -5,8 +5,9 @@ import helpIdFieldPopulatedWithTextForDelete from '@salesforce/label/FlowBuilder
 import helpSObjectRecordDeleteAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectRecordDeleteAltText';
 import selectsObjectOrsObjectCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.selectsObjectOrsObjectCollectionVariable';
 import sObjectVariablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.sObjectVariablePlaceholder';
-import fieldAssignmentNotSupportedForDelete from '@salesforce/label/FlowBuilderRecordEditor.fieldAssignmentNotSupportedForDelete';
-
+import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
+import object from '@salesforce/label/FlowBuilderRecordEditor.object';
+import deleteRecordOfThisObjectType from '@salesforce/label/FlowBuilderRecordEditor.deleteRecordOfThisObjectType';
 export const LABELS = {
     recordVariableOrRecordCollectionVariable,
     recordDeleteTitle,
@@ -14,5 +15,7 @@ export const LABELS = {
     helpSObjectRecordDeleteAltText,
     selectsObjectOrsObjectCollectionVariable,
     sObjectVariablePlaceholder,
-    fieldAssignmentNotSupportedForDelete
+    objectPlaceholder,
+    object,
+    deleteRecordOfThisObjectType
 };

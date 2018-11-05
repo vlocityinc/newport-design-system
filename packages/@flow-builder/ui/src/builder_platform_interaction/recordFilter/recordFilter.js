@@ -95,14 +95,21 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterOptions() {
-        const FILTER_TYPE_OPTIONS = [{
+        // "No criteria" not allowed for record delete element
+        // (throwing error during flow saving process at metadata API validation level)
+        if (this.elementType === ELEMENT_TYPE.RECORD_DELETE) {
+            return [{
+                label : LABELS.filterAllCriterias,
+                value : RECORD_FILTER_CRITERIA.ALL
+            }];
+        }
+        return [{
             label : format(NO_CRITERIA_LABELS[this.elementType], this.resourceDisplayText),
             value : RECORD_FILTER_CRITERIA.NONE
-        }, {
+           }, {
             label : LABELS.filterAllCriterias,
             value : RECORD_FILTER_CRITERIA.ALL
-        }];
-        return FILTER_TYPE_OPTIONS;
+           }];
     }
 
     get showFilterList() {

@@ -3,12 +3,19 @@
         {labels.recordDeleteTitle}
     </div>
     <div class="slds-p-horizontal_small slds-p-top_small">
-      <builder_platform_interaction-label-description label={recordDeleteElement.label}
-        dev-name={recordDeleteElement.name}
-        description={recordDeleteElement.description}
-        guid={recordDeleteElement.guid}
-        onpropertychanged={handlePropertyValueChangedEvent}>
+      <builder_platform_interaction-label-description label={state.recordDeleteElement.label}
+        dev-name={state.recordDeleteElement.name}
+        description={state.recordDeleteElement.description}
+        guid={state.recordDeleteElement.guid}
+        onpropertychanged={handlePropertyOrListItemChanged}>
       </builder_platform_interaction-label-description>
+      <!-- filtering or not? -->
+      <builder_platform_interaction-record-store-options
+        element-type={elementType}
+        resource-display-text={state.resourceDisplayText}
+        number-of-records-to-store={numberRecordsToStoreValue}
+        onrecordstoreoptionchanged={handleRecordStoreOptionChanged}>
+      </builder_platform_interaction-record-store-options>
     </div>
     <div if:true={isSObjectMode}>
        <div class="slds-m-bottom_small slds-border_top">
@@ -20,8 +27,8 @@
                     placeholder={labels.sObjectVariablePlaceholder}
                     element-type={elementType}
                     value={inputReferenceValue}
-                    error-message={inputReferenceErrorMsg}
-                    onsobjectreferencechanged={handlePropertyValueChangedEvent}>
+                    error-message={state.recordDeleteElement.inputReference.error}
+                    onsobjectreferencechanged={handleInputReferenceChangedEvent}>
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>
             </div>
         </div>
@@ -33,8 +40,32 @@
         </div>
     </div>
     <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
-        <div class="slds-p-horizontal_small slds-form-element slds-m-bottom_small">
-            {labels.fieldAssignmentNotSupportedForDelete}
+        <!-- Entity picker (Object)-->
+        <div class="slds-m-bottom_small slds-border_top">
+            <h3 class="slds-text-heading_small slds-p-around_small">{labels.deleteRecordOfThisObjectType}</h3>
+            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
+                <builder_platform_interaction-entity-resource-picker
+                        combobox-config={entityComboboxConfig}
+                        value={recordEntityName}
+                        crud-filter-type={crudFilterType}
+                        oncomboboxstatechanged={handleResourceChanged}
+                        onitemselected={handleResourceChanged}>
+                </builder_platform_interaction-entity-resource-picker>
+            </div>
+        </div>
+        <div if:true={recordEntityName}>
+            <!-- Filter records -->
+            <builder_platform_interaction-record-filter 
+                element-type={elementType}
+                filter-items={state.recordDeleteElement.filters}
+                record-entity-name={recordEntityName}
+                resource-display-text={entityDisplayText}
+                record-fields={recordFieldsToFilter}
+                filter-type={filterType}
+                onaddrecordfilter={handlePropertyOrListItemChanged}
+                onupdaterecordfilter={handlePropertyOrListItemChanged}
+                ondeleterecordfilter={handlePropertyOrListItemChanged}>
+            </builder_platform_interaction-record-filter>
         </div>
     </div>
 </template>

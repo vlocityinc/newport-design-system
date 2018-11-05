@@ -208,7 +208,7 @@ const getPropertyEditorDescriptor = (mode, elementConfig) => {
  * @param {object} attributes - contains a callback and actual data
  * @return {object} - contains the attr for the editor and panel config
  */
-const getPropertyEditorConfig = (mode, attributes) => {
+export const getPropertyEditorConfig = (mode, attributes) => {
     if (!attributes.node || !attributes.nodeUpdate) {
         throw new Error('Attributes passed to invoke panel method are incorrect. Must contain node and nodeUpdate');
     }
@@ -230,7 +230,8 @@ const getPropertyEditorConfig = (mode, attributes) => {
         bodyComponent: {
             desc,
             attr: {
-                node
+                node,
+                mode
             }
         }
     };
