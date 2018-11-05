@@ -133,6 +133,7 @@ describe('waitTimeEvent', () => {
             const focusOut = new CustomEvent('focusout');
 
             const offsetNumber = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[0];
+            offsetNumber.reportValidity = jest.fn();
             offsetNumber.dispatchEvent(focusOut);
 
             return Promise.resolve().then(() => {
