@@ -16,6 +16,7 @@ const setupComponentUnderTest = (props) => {
 };
 
 const EDITOR_SELECTOR = '.editor_template';
+const NO_ACTION_TEMPLATE_SELECTOR = 'builder_platform_interaction-gone-camping';
 
 const mockSelectedAction = {
     actionName: 'chatterPost',
@@ -85,11 +86,17 @@ jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
     };
 });
 
-
 describe('callout-editor-container', () => {
     describe('When there is no selected action', () => {
+        let container;
+        beforeEach(() => {
+            container = setupComponentUnderTest();
+        });
+        it('should have an empty template', () => {
+            const innerEditor = getShadowRoot(container).querySelector(NO_ACTION_TEMPLATE_SELECTOR);
+            expect(innerEditor).not.toBeNull();
+        });
         it('should not have an inner node element without selected action', () => {
-            const container = setupComponentUnderTest();
             const innerNode = container.getNode();
             expect(innerNode).toBeUndefined();
         });
