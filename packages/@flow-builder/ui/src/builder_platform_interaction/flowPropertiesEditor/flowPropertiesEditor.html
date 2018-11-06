@@ -1,7 +1,14 @@
 <template>
-    <div if:true={showSaveTypeDescription} class='slds-p-horizontal_small slds-p-top_small'>
-        {saveTypeDescription}
-    </div>
+    <div if:true={showSaveAsTypePicker} class='slds-p-horizontal_small slds-p-top_small'>
+        <lightning-radio-group class='slds-text-align_center'
+                               label={labels.saveAsTypeLabel}
+                               name="saveAsType"
+                               options={saveAsTypeOptions}
+                               type="button"
+                               onchange={handleSaveAsTypeChange}
+                               value={flowProperties.saveType}>
+        </lightning-radio-group>
+    </div>    
     <div class='slds-p-around_small'>
         <builder_platform_interaction-label-description dev-name={flowProperties.name}
                                                         dev-name-label={labels.uniqueNameLabel}

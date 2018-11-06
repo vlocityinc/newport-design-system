@@ -26,6 +26,7 @@ export default class Toolbar extends LightningElement {
     @api lastModifiedDate;
     @api saveStatus;
     @api isLightningFlowBuilder;
+    @api canOnlySaveAsNewDefinition;
     @api hasUnsavedChanges;
     @api warnings;
     @api hasWarningsAndErrors;
@@ -67,7 +68,7 @@ export default class Toolbar extends LightningElement {
     }
 
     get saveDisabled() {
-        return this.isSaveDisabled || this.flowStatus === ACTIVE || this.flowStatus === OBSOLETE || !this.isLightningFlowBuilder || !this.hasUnsavedChanges;
+        return this.isSaveDisabled || this.flowStatus === ACTIVE || this.flowStatus === OBSOLETE || !this.isLightningFlowBuilder || this.canOnlySaveAsNewDefinition || !this.hasUnsavedChanges;
     }
 
     get statusBadgeLabel() {

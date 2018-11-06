@@ -458,11 +458,16 @@ export default class Editor extends LightningElement {
         } else {
             // Pop flow properties editor and do the following on callback.
             const node = getElementForPropertyEditor(storeInstance.getCurrentState().properties);
-
-            // TODO: We won't need to set the save type here after we introduce the save type
-            // selector in the flow-properties-editor component. Temporarily adding the save type
-            // to the flow properties object so we know how we're supposed to save in the callback.
-            const saveType = (mode === SaveFlowEvent.Type.SAVE) ? SaveType.CREATE : SaveType.NEW_VERSION;
+            let saveType;
+            if (mode === SaveFlowEvent.Type.SAVE) {
+                saveType = SaveType.CREATE;
+            } else if (mode === SaveFlowEvent.Type.SAVE_AS) {
+                if (node.canOnlySaveAsNewDefinition) {
+                    saveType = SaveType.NEW_DEFINITION;
+                } else {
+                    saveType = SaveType.NEW_VERSION;
+                }
+            }
             node.saveType = saveType;
 
             const nodeUpdate = this.flowPropertiesCallback;

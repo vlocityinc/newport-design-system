@@ -58,6 +58,7 @@ import {
     createAssignmentWithConnectors,
     createConstantForStore,
     createDecisionWithOutcomeReferences,
+    createFlowPropertiesForEditor,
     createFormulaForStore,
     createLoopWithConnectors,
     createWaitWithWaitEventReferences,
@@ -106,8 +107,9 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: false,
         factory: {
-            propertyEditor: createFlowProperties,
+            propertyEditor: createFlowPropertiesForEditor,
             uiToFlow: createFlowPropertiesMetadataObject,
+            flowToUi: createFlowProperties
         }
     },
     [ELEMENT_TYPE.START_ELEMENT]: {

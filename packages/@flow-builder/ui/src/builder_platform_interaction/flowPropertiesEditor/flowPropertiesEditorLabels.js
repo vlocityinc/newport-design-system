@@ -5,6 +5,8 @@ import saveAsNewVersionDescription from '@salesforce/label/FlowBuilderFlowProper
 import processTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.processTypeLabel';
 import processTypePlaceholderLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.processTypePlaceholderLabel';
 import processTypeRequiredLabel from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
+import saveAsNewVersionTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveAsNewVersionTypeLabel';
+import saveAsNewFlowTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveAsNewFlowTypeLabel';
 
 export const LABELS = {
     nameLabel,
@@ -13,5 +15,7 @@ export const LABELS = {
     saveAsNewVersionDescription,
     processTypeLabel,
     processTypePlaceholderLabel,
-    processTypeRequiredLabel
+    processTypeRequiredLabel,
+    saveAsNewVersionTypeLabel,
+    saveAsNewFlowTypeLabel
 };

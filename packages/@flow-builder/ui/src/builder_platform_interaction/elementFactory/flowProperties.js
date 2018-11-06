@@ -15,20 +15,35 @@ const ORIGIN_BUILDER_TYPE = 'OriginBuilderType';
  * @param {Object} flowProperties existing flowProperties which needs to be copied
  * @return {Object} new flow properties which is created
  */
+export function createFlowPropertiesForEditor(flowProperties = {}) {
+    const newFlowProperties = createFlowProperties(flowProperties);
+
+    if (newFlowProperties.canOnlySaveAsNewDefinition) {
+        newFlowProperties.label = '';
+        newFlowProperties.name = '';
+        newFlowProperties.description = '';
+        newFlowProperties.manageableState = null;
+        newFlowProperties.isTemplate = false;
+    }
+
+    return newFlowProperties;
+}
+
 export function createFlowProperties(flowProperties = {}) {
     const name = flowProperties.fullName || flowProperties.name || '';
-    const { versionNumber = null, lastModifiedDate = null } = flowProperties;
+    const { versionNumber = null, lastModifiedDate = null,  manageableState = null } = flowProperties;
     const {
         label = '',
         description = '',
         interviewLabel = '',
+        isTemplate = false,
         processType = null,
         status,
         processMetadataValues,
         hasUnsavedChanges = false
     } = flowProperties.metadata || flowProperties;
 
-    let { isLightningFlowBuilder = true, isCreatedOutsideLfb = false } = flowProperties;
+    let { isLightningFlowBuilder = true, isCreatedOutsideLfb = false, canOnlySaveAsNewDefinition = false } = flowProperties;
 
     if (processMetadataValues) {
         // isCreatedOutsideLFB can be true in 2 cases
@@ -38,6 +53,8 @@ export function createFlowProperties(flowProperties = {}) {
         isLightningFlowBuilder = checkIfLightningFlowBuilder(processMetadataValues);
     }
 
+    canOnlySaveAsNewDefinition = manageableState === 'installed';
+
     return {
             label,
             name,
@@ -45,8 +62,10 @@ export function createFlowProperties(flowProperties = {}) {
             versionNumber,
             lastModifiedDate,
             interviewLabel,
+            isTemplate,
             processType,
             status,
+            canOnlySaveAsNewDefinition,
             elementType,
             isLightningFlowBuilder,
             isCreatedOutsideLfb,
@@ -67,6 +86,7 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         label,
         description,
         interviewLabel,
+        isTemplate,
         processType,
         status,
         isCreatedOutsideLfb
@@ -79,6 +99,7 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
             label,
             description,
             interviewLabel,
+            isTemplate,
             processType,
             status,
             processMetadataValues

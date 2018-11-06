@@ -13,6 +13,7 @@ import { PropertyChangedEvent } from "builder_platform_interaction/events";
  * @author Aniko van der Lee
  * @since 216
  */
+
 export default class FlowPropertiesEditor extends LightningElement {
     @api
     get node() {
@@ -21,6 +22,10 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     set node(newValue) {
         this.flowProperties = unwrap(newValue);
+        this._originalLabel = this.flowProperties.label.value;
+        this._originalApiName = this.flowProperties.name.value;
+        this._originalDescription = this.flowProperties.description.value;
+        this._originalProcessType = this.flowProperties.processType.value;
     }
 
     /**
@@ -54,6 +59,15 @@ export default class FlowPropertiesEditor extends LightningElement {
     labels = LABELS;
 
     _processTypes;
+    _originalLabel;
+    _originalApiName;
+    _originalDescription;
+    _originalProcessType;
+
+    saveAsTypeOptions = [
+        { 'label': LABELS.saveAsNewVersionTypeLabel, 'value': SaveType.NEW_VERSION },
+        { 'label': LABELS.saveAsNewFlowTypeLabel, 'value': SaveType.NEW_DEFINITION},
+    ];
 
     /**
      * The value of the currently selected process type
@@ -73,33 +87,24 @@ export default class FlowPropertiesEditor extends LightningElement {
         return this.node.saveType === SaveType.NEW_VERSION || this.node.saveType === SaveType.UPDATE;
     }
 
-    get showSaveTypeDescription() {
+    get showSaveAsTypePicker() {
         let visible;
         switch (this.node.saveType) {
-            case SaveType.CREATE:
             case SaveType.NEW_VERSION:
                 visible = true;
+                break;
+            case SaveType.NEW_DEFINITION:
+                if (this.node.canOnlySaveAsNewDefinition) {
+                    visible = false;
+                } else {
+                    visible = true;
+                }
                 break;
             default:
                 visible = false;
                 break;
         }
         return visible;
-    }
-
-    get saveTypeDescription() {
-        let description;
-        switch (this.node.saveType) {
-            case SaveType.CREATE:
-                description = LABELS.createNewFlowDescription;
-                break;
-            case SaveType.NEW_VERSION:
-                description = LABELS.saveAsNewVersionDescription;
-                break;
-            default:
-                break;
-        }
-        return description;
     }
 
     /**
@@ -130,6 +135,13 @@ export default class FlowPropertiesEditor extends LightningElement {
         }
     }
 
+    updateProperty(propName, newValue) {
+        const propChangedEvent = new PropertyChangedEvent(
+                propName,
+                newValue);
+        this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, propChangedEvent);
+    }
+
     /* ********************** */
     /*     Event handlers     */
     /* ********************** */
@@ -143,14 +155,31 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     /**
+     * @param {object} event - change event coming from the radio-group component displaying save as types
+     */
+    handleSaveAsTypeChange(event) {
+        event.stopPropagation();
+        this.flowProperties.saveType = event.detail.value;
+        if (this.flowProperties.saveType === SaveType.NEW_VERSION) {
+            // If switching from new flow to new version then restore the original name, label, description and processtype
+            this.updateProperty('label', this._originalLabel);
+            this.updateProperty('name', this._originalApiName);
+            this.updateProperty('description', this._originalDescription);
+            this.updateProperty('processType', this._originalProcessType);
+        } else {
+            // If switching from new version to new flow, clear out label, name and description
+            this.updateProperty('label', null);
+            this.updateProperty('name', null);
+            this.updateProperty('description', null);
+        }
+    }
+
+    /**
      * @param {object} event - change event coming from the lightning-combobox component displaying process types
      */
     handleProcessTypeChange(event) {
         event.stopPropagation();
-        const propChangedEvent = new PropertyChangedEvent(
-            'processType',
-            event.detail.value);
-        this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, propChangedEvent);
+        this.updateProperty('processType', event.detail.value);
     }
 
     renderedCallback() {
