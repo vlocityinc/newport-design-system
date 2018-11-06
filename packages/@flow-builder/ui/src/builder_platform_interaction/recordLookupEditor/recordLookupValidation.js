@@ -2,6 +2,7 @@ import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { Validation } from "builder_platform_interaction/validation";
 import { SORT_ORDER, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
+import { WAY_TO_STORE_FIELDS, NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
@@ -67,7 +68,7 @@ export const recordLookupValidation = new Validation(additionalRules);
  * @param {Object} nodeElement the element that need to be validated
  * @return {Object} the override rules
  */
-export const getRules = (nodeElement) => {
+export const getRules = (nodeElement, {wayToStoreFields}) => {
     const overrideRules = { ...recordLookupValidation.finalizedRules};
     // validate filters if filter type is ALL
     if (nodeElement.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
@@ -77,17 +78,17 @@ export const getRules = (nodeElement) => {
     if (nodeElement.sortOrder.value !== SORT_ORDER.NOT_SORTED) {
         overrideRules.sortField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
     }
-    // validate queriedFields if store fields in sObject variable and queriedFiels contains 'ID' + more than one row
-    if (nodeElement.outputReference && nodeElement.outputReference.value && nodeElement.queriedFields.length > 2) {
-        overrideRules.queriedFields = validateQueriedField();
-    }
 
-    if (nodeElement.outputAssignments.length > 0) {
+    if (wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES && nodeElement.numberRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD) {
         if (nodeElement.object.value !== '') {
             overrideRules.outputAssignments = validateAssignments();
         }
     } else {
         overrideRules.outputReference = validateOutputReference();
+        if (nodeElement.outputReference && nodeElement.outputReference.value && nodeElement.queriedFields.length > 2) {
+            overrideRules.queriedFields = validateQueriedField();
+        }
     }
+
     return overrideRules;
 };

@@ -58,8 +58,8 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {Object[]} list of errors
      */
     @api validate() {
-        const event = { type: VALIDATE_ALL };
-        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, { type: VALIDATE_ALL,
+            wayToStoreFields : this.wayToStoreFieldsValue });
         return getErrorsFromHydratedElement(this.state.recordLookupElement);
     }
 

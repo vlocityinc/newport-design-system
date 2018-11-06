@@ -117,7 +117,7 @@ const resetQueriedFields = (state) => {
     return set(state, 'queriedFields', hydrateWithErrors([{field: 'Id', rowIndex: generateGuid()}, {field: '', rowIndex: generateGuid()}]));
 };
 
-const resetFilterErrors = (state) => {
+const resetFilter = (state) => {
     // reset filters: create one empty filter item
     return set(state, 'filters', [emptyFilterItem()]);
 };
@@ -129,9 +129,7 @@ const updateOutputReferenceAndQueriedFields = (state, value, error) => {
     return resetQueriedFields(state);
 };
 
-const resetRecordLookup = (state) => {
-    // reset filters: create one empty filter item
-    state = resetFilterErrors(state);
+const resetRecordLookupWithoutFilter = (state) => {
     // reset sortField & sortOrder
     state = updateProperties(state, {sortOrder: { value: SORT_ORDER.NOT_SORTED, error: null}});
     state = updateProperties(state, {sortField: { value: '', error: null}});
@@ -142,6 +140,8 @@ const resetRecordLookup = (state) => {
 
 const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  oldValue, value}) => {
     if (propertyName === 'wayToStoreFields') {
+        // reset outputReference and queried fields
+        state = updateOutputReferenceAndQueriedFields(state, '', null);
         return resetOutputAssignments(state);
     }
     if (!ignoreValidate) {
@@ -155,18 +155,20 @@ const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  old
     if (!error) {
         if (propertyName === 'object' && value !== oldValue) {
             // reset all filterItems, outputReference, queriedFields
-            state = resetRecordLookup(state);
+            state = resetRecordLookupWithoutFilter(state);
+            state = resetFilter(state);
         } else if (propertyName === 'outputReference' && value !== oldValue) {
             state = resetQueriedFields(state);
         } else if (propertyName === 'numberRecordsToStore' && value !== oldValue) {
             state = updateProperties(state, {[propertyName]: value});
-            state = resetRecordLookup(state);
+            state = resetRecordLookupWithoutFilter(state);
         } else if (propertyName === 'sortOrder' && value === SORT_ORDER.NOT_SORTED) {
+            state = resetFilter(state);
             // reset error if any, and preserve value
             state = updateProperties(state, {sortField: {value: state.sortField.value, error: null}});
         } else if (propertyName === 'filterType' && value === RECORD_FILTER_CRITERIA.NONE) {
             // reset errors in filters if any, and preserve values
-            state = resetFilterErrors(state);
+            state = resetFilter(state);
         } else if (propertyName === 'assignNullValuesIfNoRecordsFound') {
             state = updateProperties(state, {[propertyName]: value});
         }
@@ -203,7 +205,7 @@ export const recordLookupReducer = (state, event) => {
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event.detail);
         case VALIDATE_ALL:
-            return recordLookupValidation.validateAll(state, getRules(state));
+            return recordLookupValidation.validateAll(state, getRules(state, event));
         default:
             return state;
     }

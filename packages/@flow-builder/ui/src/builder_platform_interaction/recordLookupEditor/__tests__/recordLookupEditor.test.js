@@ -3,12 +3,15 @@ import RecordLookupEditor from "../recordLookupEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import * as expressionUtilsMock from "builder_platform_interaction/expressionUtils";
 import * as store from "mock/storeData";
-import { SORT_ORDER, NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
+import { SORT_ORDER, NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { RecordStoreOptionChangedEvent,
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
     UpdateRecordFilterEvent,
-    RecordFilterTypeChangedEvent } from "builder_platform_interaction/events";
+    RecordFilterTypeChangedEvent,
+    AddRecordFieldAssignmentEvent,
+    DeleteRecordFieldAssignmentEvent,
+    UpdateRecordFieldAssignmentEvent, } from "builder_platform_interaction/events";
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
@@ -38,7 +41,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getResourceByUniqueIdentifier: jest.fn(),
         getEntitiesMenuData: require.requireActual('builder_platform_interaction/expressionUtils').getEntitiesMenuData,
         EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
-        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
+        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems
     };
 });
 
@@ -49,6 +52,7 @@ const selectors = {
     sObjectOrSObjectCollectionPicker: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
     recordSort: 'builder_platform_interaction-record-sort',
     recordQueryFields: 'builder_platform_interaction-record-query-fields',
+    inputOutputAssignments: 'builder_platform_interaction-record-input-output-assignments',
 };
 
 const filterElement = {
@@ -59,7 +63,7 @@ const filterElement = {
     rightHandSideGuid: {value: "FORMULA_8", error: null}
 };
 
-const defaultRecordLookupElement = {
+const defaultRecordLookupElement = () => ({
     description : { value: '', error: null },
     elementType : 'RECORD_LOOKUP',
     guid : 'RECORDLOOKUP_1',
@@ -76,9 +80,9 @@ const defaultRecordLookupElement = {
     filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
     filters: [],
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
-};
+});
 
-const recordLookupElementWithSObject = {
+const recordLookupElementWithSObject = () => ({
     description : { value: '', error: null },
     elementType : 'RECORD_LOOKUP',
     guid : 'RECORDLOOKUP_1',
@@ -95,9 +99,9 @@ const recordLookupElementWithSObject = {
     filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
     filters: [],
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
-};
+});
 
-const recordLookupElementWithSObjectAndFilters = {
+const recordLookupElementWithSObjectAndFilters = () => ({
     description : { value: '', error: null },
     elementType : 'RECORD_LOOKUP',
     guid : 'RECORDLOOKUP_1',
@@ -112,12 +116,38 @@ const recordLookupElementWithSObjectAndFilters = {
     queriedFields: [],
     object: { value: 'Account', error: null},
     filterType: { error: null, value:'all'},
-    filters: [{leftHandSide: {value: "Account.billingAddress", error: null},
-        operator: {value: "EqualTo", error: null},
-        rightHandSide: {value: "my address", error: null},
-        rightHandSideDataType: {value: "String", error: null},
-        rowIndex: "RECORDLOOKUPFILTERITEM_122"}],
+    filters: [{leftHandSide: {value: 'Account.billingAddress', error: null},
+        operator: {value: 'EqualTo', error: null},
+        rightHandSide: {value: 'my address', error: null},
+        rightHandSideDataType: {value: 'String', error: null},
+        rowIndex: 'RECORDLOOKUPFILTERITEM_122'}],
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+});
+
+const recordLookupElementWithFields = () => ({
+    description : { value: '', error: null },
+    elementType : 'RECORD_LOOKUP',
+    guid : 'RECORDLOOKUP_1',
+    isCanvasElement : true,
+    label : { value: 'testRecordWithFields', error: null },
+    name : { value: 'testRecordWithFields', error: null },
+    outputAssignments : [{
+        leftHandSide: {value: 'Account.BillingCity', error: null},
+        rightHandSide: {value: 'vCity', error: null},
+        rowIndex: 'f972abcb-1df5-41f1-9d31-f5076cbc8'}],
+    sortField : { value:'', error:null},
+    sortOrder : { value: SORT_ORDER.NOT_SORTED, error: null},
+    assignNullValuesIfNoRecordsFound : false,
+    object: { value: 'Account', error: ''},
+    filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
+    filters: [],
+    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+});
+
+const outputAssignmentElement = {
+    leftHandSide: {value: "Account.Address", error: null},
+    rightHandSide: {value: "myAddress", error: null},
+    rowIndex: "724cafc2-7744-4e46-8eaa-f2df29539d2e"
 };
 
 const getRecordStoreOption = (recordLookupEditor) => {
@@ -144,11 +174,15 @@ const getsObjectOrSObjectCollectionPicker = (recordQueryFields) => {
     return getShadowRoot(recordQueryFields).querySelector(selectors.sObjectOrSObjectCollectionPicker);
 };
 
+const getInputOutputAssignments = (recordLookupEditor) => {
+    return getShadowRoot(recordLookupEditor).querySelector(selectors.inputOutputAssignments);
+};
+
 describe('record-lookup-editor', () => {
     describe('with default values', () => {
         let recordLookupEditor;
         beforeEach(() => {
-            recordLookupEditor = createComponentForTest(defaultRecordLookupElement);
+            recordLookupEditor = createComponentForTest(defaultRecordLookupElement());
         });
         it('contains an entity resource picker for sobject', () => {
             const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
@@ -186,7 +220,7 @@ describe('record-lookup-editor', () => {
         beforeEach(() => {
             const sobjectVariableElement = store.elements[store.accountSObjectVariableGuid];
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sobjectVariableElement);
-            recordLookupEditor = createComponentForTest(recordLookupElementWithSObject);
+            recordLookupEditor = createComponentForTest(recordLookupElementWithSObject());
         });
         it('record filter should be visible', () => {
             const recordFilter = getRecordFilter(recordLookupEditor);
@@ -208,9 +242,59 @@ describe('record-lookup-editor', () => {
             const recordStoreOption = getRecordStoreOption(recordLookupEditor);
             expect(recordStoreOption.numberOfRecordsToStore).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
         });
+        it('Way to store fields should be sObjectVariable', () => {
+            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
+            expect(recordStoreOption.wayToStoreFields).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
+        });
         it('sortOrder should be Not sorted', () => {
             const recordSort = getRecordSort(recordLookupEditor);
             expect(recordSort.sortOrder).toBe(SORT_ORDER.NOT_SORTED);
+        });
+        it('record filter criteria should be "none" ', () => {
+            const recordFilter = getRecordFilter(recordLookupEditor);
+            expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
+        });
+        it('record inputOutPutAssignments should not be visible', () => {
+            const recordOutputAssignments = getInputOutputAssignments(recordLookupEditor);
+            expect(recordOutputAssignments).toBeNull();
+        });
+    });
+    describe('Edit existing record element using Fields', () => {
+        let recordLookupEditor;
+        beforeEach(() => {
+            recordLookupEditor = createComponentForTest(recordLookupElementWithFields());
+        });
+        it('record filter should be visible', () => {
+            const recordFilter = getRecordFilter(recordLookupEditor);
+            expect(recordFilter).not.toBeNull();
+        });
+        it('recordStoreOption should be visible', () => {
+            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
+            expect(recordStoreOption).not.toBeNull();
+        });
+        it('recordSort should be visible', () => {
+            const recordSort = getRecordSort(recordLookupEditor);
+            expect(recordSort).not.toBeNull();
+        });
+        it('record inputOutPutAssignments should be visible', () => {
+            const recordOutputAssignments = getInputOutputAssignments(recordLookupEditor);
+            expect(recordOutputAssignments).not.toBeNull();
+        });
+        it('Number of record to store should be firstRecord', () => {
+            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
+            expect(recordStoreOption.numberOfRecordsToStore).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
+        });
+        it('Way to store fields should be separateVariables', () => {
+            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
+            expect(recordStoreOption.wayToStoreFields).toBe(WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+        });
+        it('sortOrder should be Not sorted', () => {
+            const recordSort = getRecordSort(recordLookupEditor);
+            expect(recordSort.sortOrder).toBe(SORT_ORDER.NOT_SORTED);
+        });
+        it('recordQueryField should be null', () => {
+            const recordQueryField = getRecordQueryFields(recordLookupEditor);
+            expect(recordQueryField).toBeNull();
         });
         it('record filter criteria should be "none" ', () => {
             const recordFilter = getRecordFilter(recordLookupEditor);
@@ -222,7 +306,7 @@ describe('record-lookup-editor', () => {
         beforeEach(() => {
             const sObjectVariableElement = store.elements[store.accountSObjectVariableGuid];
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sObjectVariableElement);
-            recordLookupEditor = createComponentForTest(recordLookupElementWithSObject);
+            recordLookupEditor = createComponentForTest(recordLookupElementWithSObject());
         });
         it('handles flow combobox value changed event', () => {
             let entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
@@ -285,7 +369,7 @@ describe('record-lookup-editor', () => {
         beforeEach(() => {
             const sObjectVariableElement = store.elements[store.accountSObjectVariableGuid];
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sObjectVariableElement);
-            recordLookupEditor = createComponentForTest(recordLookupElementWithSObjectAndFilters);
+            recordLookupEditor = createComponentForTest(recordLookupElementWithSObjectAndFilters());
         });
         it('record filter criteria should be all ', () => {
             const recordFilter = getRecordFilter(recordLookupEditor);
@@ -296,6 +380,42 @@ describe('record-lookup-editor', () => {
             getRecordFilter(recordLookupEditor).dispatchEvent(deleteRecordFilterEvent);
             return Promise.resolve().then(() => {
                 expect(recordLookupEditor.node.filters).toHaveLength(0);
+            });
+        });
+    });
+    describe('Handle Events for element using fields', () => {
+        let recordLookupEditor;
+        beforeEach(() => {
+            recordLookupEditor = createComponentForTest(recordLookupElementWithFields());
+        });
+        it('change number record to store to All records, sObject picker should changed', () => {
+            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false);
+            getRecordStoreOption(recordLookupEditor).dispatchEvent(event);
+            return Promise.resolve().then(() => {
+                const recordQueryFields = getRecordQueryFields(recordLookupEditor);
+                const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(recordQueryFields);
+                expect(sObjectOrSObjectCollectionPicker.value).toBe('');
+            });
+        });
+        it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', () => {
+            const addRecordFieldAssignmentEvent = new AddRecordFieldAssignmentEvent();
+            getInputOutputAssignments(recordLookupEditor).dispatchEvent(addRecordFieldAssignmentEvent);
+            return Promise.resolve().then(() => {
+                expect(recordLookupEditor.node.outputAssignments).toHaveLength(2);
+            });
+        });
+        it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', () => {
+            const updateRecordFieldAssignmentEvent = new UpdateRecordFieldAssignmentEvent(0, outputAssignmentElement, null);
+            getInputOutputAssignments(recordLookupEditor).dispatchEvent(updateRecordFieldAssignmentEvent);
+            return Promise.resolve().then(() => {
+                expect(recordLookupEditor.node.outputAssignments[0]).toMatchObject(outputAssignmentElement);
+            });
+        });
+        it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', () => {
+            const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(0); // This is using the numerical rowIndex not the property rowIndex
+            getInputOutputAssignments(recordLookupEditor).dispatchEvent(deleteRecordFieldAssignmentEvent);
+            return Promise.resolve().then(() => {
+                expect(recordLookupEditor.node.outputAssignments).toHaveLength(0);
             });
         });
     });
