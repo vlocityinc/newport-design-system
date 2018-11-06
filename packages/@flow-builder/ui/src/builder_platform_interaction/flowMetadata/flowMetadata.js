@@ -235,7 +235,9 @@ export const TEMPLATE_FIELDS = new Set([
     'pausedText', // Paused text for screens
     'interviewLabel', // interview label for the flow properties
     'errorMessage', // errorMessage field in validationRule Object for choice editor and screenField
-    'formulaExpression' // used in validation Rule Object for choice editor and screenField
+    'formulaExpression', // used in validation Rule Object for choice editor and screenField
+    'choiceText', // used in Choice Editor
+    'promptText', // used in Choice Editor
 ]);
 
 export const EXPRESSION_RE = /\{!([^}]+)\}/g;
