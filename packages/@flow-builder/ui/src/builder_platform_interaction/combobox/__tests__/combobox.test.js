@@ -349,6 +349,19 @@ describe('Combobox Tests', () => {
         });
     });
 
+    it('Setting an empty string or null error message should replace the existing one', () => {
+        createCombobox();
+        const error = 'errorMessage';
+        combobox.errorMessage = error;
+        expect(combobox.errorMessage).toEqual(error);
+        combobox.errorMessage = undefined;
+        expect(combobox.errorMessage).toEqual(error);
+        combobox.errorMessage = '';
+        expect(combobox.errorMessage).toEqual('');
+        combobox.errorMessage = null;
+        expect(combobox.errorMessage).toEqual(null);
+    });
+
     describe('Variant setter/getter tests', () => {
         it('Setting an invalid variant should result in an error', () => {
             createCombobox();
