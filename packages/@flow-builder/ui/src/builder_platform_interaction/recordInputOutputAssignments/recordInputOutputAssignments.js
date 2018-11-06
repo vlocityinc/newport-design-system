@@ -26,6 +26,9 @@ export default class RecordInputOutputAssignments extends LightningElement {
     title = '';
 
     @api
+    subtitle = '';
+
+    @api
     recordFields;
 
     @api

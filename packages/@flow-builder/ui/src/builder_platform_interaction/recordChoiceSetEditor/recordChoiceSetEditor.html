@@ -61,7 +61,8 @@
 
             <!-- Choice Template Section -->
             <div class="slds-border_top slds-p-around_small">
-                <h3 class="slds-text-heading_small slds-p-bottom_small">{labels.choiceTemplateHeading}</h3>
+                <div class="slds-text-heading_small slds-p-bottom_small">{labels.choiceTemplateHeading}</div>
+                <div class="slds-text-color_weak slds-p-bottom_small">{labels.choiceTemplateSubHeading}</div>
                 <!-- Choice Label Field Picker -->
                 <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
                     <builder_platform_interaction-field-picker
@@ -112,6 +113,7 @@
                     record-fields={menuDataFields}
                     element-type={recordChoiceSetResource.elementType}
                     title={outputAssignmentTitle}
+                    subtitle={labels.outputFieldsSubHeading}
                     rhs-label={labels.outputAssignmentRhsLabel}
                     rules={rules}
                     hide-new-resource={hideNewResourceButton}
