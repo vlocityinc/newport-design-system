@@ -15,6 +15,7 @@ import { addToParentElementCache } from 'builder_platform_interaction/comboboxCa
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { DEFAULT_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 
 
 // the property names in a variable element (after mutation), a subset of these are also constant properties
@@ -525,7 +526,8 @@ export default class VariableConstantEditor extends LightningElement {
         if (!errors.length && objectType && !this.variableConstantResource.isCollection) {
             // add sobject variable to combobox cache in required shape
             // we call dehydrate here since that is the shape in store as well. This should stay consistent
-            const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(dehydrate(this.variableConstantResource));
+            const clonedSObjectVariableResource = deepCopy(this.variableConstantResource);
+            const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(dehydrate(clonedSObjectVariableResource));
             addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
             // fetch fields and cache them
             getFieldsForEntity(objectType);
