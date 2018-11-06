@@ -79,17 +79,11 @@ export default class Node extends LightningElement {
     }
 
     /**
-     * Is the component running in test mode?
+     * Build main parent template div class adding some "test mode only" value to it to ease up Selenium effort
      */
-    get isTestMode() {
-        return isTestMode();
-    }
-
-    /**
-     * Build the 'test mode only' class used to ease up Selenium effort
-     */
-    get computedTestClass() {
-        return `test-node-${(this.node.elementType || '').toLowerCase()}`;
+    get parentDivComputedClass() {
+        return 'element-container node-container slds-is-absolute slds-text-align_center' + (isTestMode() ?
+            ` test-node-${(this.node.elementType || '').toLowerCase()}` : '');
     }
 
     isMultiSelect(event) {

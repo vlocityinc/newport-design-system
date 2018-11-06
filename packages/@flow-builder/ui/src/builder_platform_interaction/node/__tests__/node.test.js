@@ -2,7 +2,9 @@ import { createElement } from 'lwc';
 import { EditElementEvent, DeleteElementEvent, CANVAS_EVENT } from "builder_platform_interaction/events";
 import Node from "builder_platform_interaction/node";
 import { getShadowRoot } from 'lwc-test-utils';
+import {isTestMode} from 'builder_platform_interaction/contextLib';
 
+const ELEMENT_TYPE = 'ASSIGNMENT';
 const createComponentUnderTest = (isSelected) => {
     const el = createElement('builder_platform_interaction-node', {
         is: Node
@@ -11,7 +13,7 @@ const createComponentUnderTest = (isSelected) => {
         guid: '1',
         locationX : '20px',
         locationY : '40px',
-        elementType : 'ASSIGNMENT',
+        elementType : ELEMENT_TYPE,
         label : 'First Node',
         description : 'My first test node',
         config: {isSelected}
@@ -27,6 +29,10 @@ const selectors = {
     trash: '.trash-can'
 };
 
+jest.mock('builder_platform_interaction/contextLib', () => ({
+    isTestMode: jest.fn()
+}));
+
 const dblClick = (component) => {
     const doubleClickEvent = new Event('dblclick', {
         'bubbles'   : true,
@@ -39,15 +45,13 @@ const dblClick = (component) => {
 describe('node', () => {
     it('Checks if node is rendered correctly', () => {
         const nodeComponent = createComponentUnderTest(false);
-        return Promise.resolve().then(() => {
             expect(nodeComponent.node.guid).toEqual('1');
             expect(nodeComponent.node.locationX).toEqual('20px');
             expect(nodeComponent.node.locationY).toEqual('40px');
-            expect(nodeComponent.node.elementType).toEqual('ASSIGNMENT');
+            expect(nodeComponent.node.elementType).toEqual(ELEMENT_TYPE);
             expect(nodeComponent.node.label).toEqual('First Node');
             expect(nodeComponent.node.description).toEqual('My first test node');
             expect(nodeComponent.node.config.isSelected).toBeFalsy();
-        });
     });
 
     it('Checks if node selected event is dispatched when icon is clicked', () => {
@@ -73,9 +77,7 @@ describe('node', () => {
 
     it('Checks if a selected node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(true);
-        return Promise.resolve().then(() => {
-            expect(getShadowRoot(nodeComponent).querySelector(selectors.iconSelected)).toBeTruthy();
-        });
+        expect(getShadowRoot(nodeComponent).querySelector(selectors.iconSelected)).toBeTruthy();
     });
 
     it('Checks if an EditElementEvent is dispatched when icon is double clicked', () => {
@@ -100,6 +102,23 @@ describe('node', () => {
             nodeComponent.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
             getShadowRoot(nodeComponent).querySelector(selectors.trash).click();
             expect(callback).toHaveBeenCalled();
+        });
+    });
+
+    describe('parent div class', () => {
+        const testModeSpecificClassName = `test-node-${ELEMENT_TYPE.toLowerCase()}`;
+        let parentDiv;
+        it('in test mode  (test class added for parent div)', () => {
+            isTestMode.mockReturnValue(true);
+            const node = createComponentUnderTest();
+            parentDiv = getShadowRoot(node).querySelector('div');
+            expect(parentDiv.classList).toContain(testModeSpecificClassName);
+        });
+        it('NOT in test mode (no test class added for parent div)', () => {
+            isTestMode.mockReturnValue(false);
+            const node = createComponentUnderTest();
+            parentDiv = getShadowRoot(node).querySelector('div');
+            expect(parentDiv.classList).not.toContain(testModeSpecificClassName);
         });
     });
 });
