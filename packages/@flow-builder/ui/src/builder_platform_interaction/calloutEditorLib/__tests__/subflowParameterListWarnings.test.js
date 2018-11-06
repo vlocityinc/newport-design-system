@@ -6,11 +6,11 @@ describe('subflow ParameterList warnings', () => {
         describe('Duplicates', () => {
             it('should be deleted, have an icon and have no badge and warning message', () => {
                 const warning = getParameterItemWarning([MERGE_WARNING_TYPE.DUPLICATE], LABELS);
-                expect(warning).toEqual({ "shouldBeDeleted": true, "hideIcon" : false });
+                expect(warning).toEqual({ "grayPill": false, "shouldBeDeleted": true, "hideIcon" : false });
             });
             it('should have a badge and warning message if there is another warning for the same assignment', () => {
                 const warning = getParameterItemWarning([MERGE_WARNING_TYPE.DUPLICATE, MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_LATEST], LABELS);
-                expect(warning).toEqual({ "shouldBeDeleted": true, "hideIcon" : false, "warningBadge": "FlowBuilderSubflowEditor.badgeDebugOnly", "warningMessage": "FlowBuilderSubflowEditor.warningLatestOnly" });
+                expect(warning).toEqual({ "grayPill": true, "shouldBeDeleted": true, "hideIcon" : false, "warningBadge": "FlowBuilderSubflowEditor.badgeDebugOnly", "warningMessage": "FlowBuilderSubflowEditor.warningLatestOnly" });
             });
         });
         describe('assignment using variable not available in subflow', () => {

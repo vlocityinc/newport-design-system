@@ -24,11 +24,11 @@ describe('apexPlugin ParameterList warnings', () => {
         describe('Duplicates', () => {
             it('should be deleted, have an icon and have no badge and warning message', () => {
                 const warning = getParameterItemWarning([MERGE_WARNING_TYPE.DUPLICATE], LABELS);
-                expect(warning).toEqual({ "shouldBeDeleted": true, "hideIcon" : false });
+                expect(warning).toEqual({ "grayPill": false, "shouldBeDeleted": true, "hideIcon" : false });
             });
             it('should have a badge and warning message if there is another warning for the same parameter', () => {
                 const warning = getParameterItemWarning([MERGE_WARNING_TYPE.DUPLICATE, MERGE_WARNING_TYPE.NOT_AVAILABLE], LABELS);
-                expect(warning).toEqual({ "shouldBeDeleted": true, "hideIcon" : true, "warningBadge": "FlowBuilderApexPluginEditor.badgeWillCauseErrors", "warningMessage": "FlowBuilderApexPluginEditor.warningNotAvailable" });
+                expect(warning).toEqual({ "grayPill": false, "shouldBeDeleted": true, "hideIcon" : true, "warningBadge": "FlowBuilderApexPluginEditor.badgeWillCauseErrors", "warningMessage": "FlowBuilderApexPluginEditor.warningNotAvailable" });
             });
         });
     });
