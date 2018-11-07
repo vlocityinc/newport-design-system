@@ -22,4 +22,5 @@ export default class LightningCombobox extends LightningElement {
 @api showHelpMessageIfInvalid = jest.fn();
 @api checkValidity = jest.fn();
 @api messageWhenValueMissing;
+@api separator;
 }

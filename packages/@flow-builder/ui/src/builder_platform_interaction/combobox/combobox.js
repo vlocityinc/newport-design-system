@@ -27,14 +27,12 @@ const ERROR_MESSAGE = {
 };
 
 /**
- * Regex for merge fields
+ * This regex looks for potential merge fields. Not everything this regex catches is necessarily a valid dev name
  */
-const CONSECUTIVE_PERIODS_REGEX = new RegExp('\\.{2,}');
-// This regex looks for potential merge fields. Not everything this regex catches is necessarily a valid dev name
 const MERGE_FIELD_REGEX = new RegExp('^[a-zA-Z][a-zA-Z0-9_]*$');
 
-const isMatchWithTrailingPeriod = (text, textWithPeriodAndBracket) => {
-    return text.substring(0, text.length - 1) + '.}' === textWithPeriodAndBracket;
+const isMatchWithTrailingSeparator = (text, textWithSeparatorAndBracket, separator) => {
+    return text.substring(0, text.length - 1) + `${separator}}` === textWithSeparatorAndBracket;
 };
 
 /**
@@ -310,6 +308,13 @@ export default class Combobox extends LightningElement {
      */
     @api blockValidation = false;
 
+    /**
+     * Separator for multi-level menu data traversal.
+     * Defaults to period.
+     * @type {String}
+     */
+    @api separator = '.';
+
     /* ***************** */
     /* Private Variables */
     /* ***************** */
@@ -360,7 +365,7 @@ export default class Combobox extends LightningElement {
 
     /**
      * Flag indicating that the current set value is due to the user blurring out
-     * in which case, the user explicitly desired an sobject and thus set value will not append a period.
+     * in which case, the user explicitly desired an sobject and thus set value will not append a separator.
      *
      * This will be used (and managed) in set value
      */
@@ -453,7 +458,7 @@ export default class Combobox extends LightningElement {
         this.setMergeFieldState(item.displayText);
         this.updateInputIcon();
 
-        // And add a period if selected option has next level
+        // And add a separator if selected option has next level
         this.setValueAndCursor(item.displayText, itemHasNextLevel);
 
         if (!itemHasNextLevel) {
@@ -468,7 +473,7 @@ export default class Combobox extends LightningElement {
         this.setMergeFieldState(this.state.displayText, true);
 
         // Remove the last dot from the expression
-        if (this._isMergeField && this.state.displayText.charAt(this.state.displayText.length - 2) === '.') {
+        if (this._isMergeField && this.state.displayText.charAt(this.state.displayText.length - 2) === this.separator) {
             this.state.displayText = this.state.displayText.substring(0, this.state.displayText.length - 2) + '}';
         }
 
@@ -539,7 +544,7 @@ export default class Combobox extends LightningElement {
      * @returns {Boolean} returns true if the current displayText is a potential field
      */
     isPotentialField() {
-        const field = splitStringByPeriod(this.getSanitizedValue())[1];
+        const field = splitStringByPeriod(this.getSanitizedValue(), this.separator)[1];
         if (this._isMergeField && !this.hasMergeFieldCrossedMaxLevel() && !isUndefinedOrNull(field)) {
             return true;
         }
@@ -550,7 +555,7 @@ export default class Combobox extends LightningElement {
      * Grabs the flow element from the cache/store and gets the fields for the item
      */
     getParentElementAndFetchFields() {
-        const base = splitStringByPeriod(this.getSanitizedValue())[0];
+        const base = splitStringByPeriod(this.getSanitizedValue(), this.separator)[0];
         const baseMergeField = addCurlyBraces(base);
         if (this._mergeFieldLevel === 1 || (this._mergeFieldLevel === MAX_LEVEL_MENU_DATA && this._base !== baseMergeField)) {
             // get parent element from combobox cache
@@ -692,7 +697,7 @@ export default class Combobox extends LightningElement {
      * @returns {Boolean} true when the level is greater than max level.
      */
     hasMergeFieldCrossedMaxLevel() {
-        return splitStringByPeriod(this.state.displayText).length > MAX_LEVEL_MENU_DATA;
+        return splitStringByPeriod(this.state.displayText, this.separator).length > MAX_LEVEL_MENU_DATA;
     }
 
     /**
@@ -704,12 +709,12 @@ export default class Combobox extends LightningElement {
         const combobox = this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
         const input = combobox.getElementsByTagName('input')[0];
 
-        // Add a period to the end if selected value has a next level
+        // Add a separator to the end if selected value has a next level
         if (hasNextLevel) {
             if (value.startsWith('{!') && value.endsWith('}')) {
-                value = value.substring(0, value.length - 1) + '.}';
+                value = value.substring(0, value.length - 1) + `${this.separator}}`;
             } else {
-                value += '.';
+                value += this.separator;
             }
         }
 
@@ -742,7 +747,7 @@ export default class Combobox extends LightningElement {
      * @returns {String} the filter text to search on
      */
     getFilterText(sanitizedValue) {
-        const lastIndex = sanitizedValue.lastIndexOf('.');
+        const lastIndex = sanitizedValue.lastIndexOf(this.separator);
         if (this._isMergeField && lastIndex !== -1 && (this._item || this._base)) {
             return sanitizedValue.substring(lastIndex + 1);
         }
@@ -795,10 +800,10 @@ export default class Combobox extends LightningElement {
      * 1. This is not initialization
      * 2. This is not being called as a reaction to the user blurring
      * 3. The item has next
-     * 4. The item.displayText with a . inserted before the closing bracket matches state.displayText
-     * This catches the case where a  trailing period was stripped before firing ItemSelected and the parent component
-     * passes this new value (without the period) back down.  In which case, we still want the combobox display to
-     * include the period
+     * 4. The item.displayText with a separator inserted before the closing bracket matches state.displayText
+     * This catches the case where a trailing separator was stripped before firing ItemSelected and the parent component
+     * passes this new value (without the separator) back down.  In which case, we still want the combobox display to
+     * include the separator
      * @param {Object} item an item
      * @return {String} The display text to be used
      */
@@ -806,7 +811,7 @@ export default class Combobox extends LightningElement {
         let displayText = this.getStringValue(item.displayText);
 
         if (this._isInitialized && !this._isUserBlurred && item.hasNext &&
-            isMatchWithTrailingPeriod(item.displayText, this.state.displayText)) {
+            isMatchWithTrailingSeparator(item.displayText, this.state.displayText, this.separator)) {
             displayText = this.state.displayText;
         }
 
@@ -985,6 +990,7 @@ export default class Combobox extends LightningElement {
      * @returns {*} returns false if invalid dev name chars or regex result.
      */
     isExpressionIdentifierLiteral(valueToCheck = this.state.displayText, allowDotSuffix) {
+        const consecutiveSeparatorsRegex = new RegExp(`\\${this.separator}{2,}`);
         let value;
         let regexResult = true;
         if (valueToCheck.startsWith('{!') && valueToCheck.endsWith('}')) {
@@ -996,12 +1002,12 @@ export default class Combobox extends LightningElement {
         }
 
         if (value) {
-            // check that there aren't consecutive periods anywhere and doesn't start with a period
-            if (CONSECUTIVE_PERIODS_REGEX.exec(value) || value.startsWith('.')) {
+            // check that there aren't consecutive separators anywhere and doesn't start with a separator
+            if (consecutiveSeparatorsRegex.exec(value) || value.startsWith(this.separator)) {
                 return true;
             }
-            // split the merge field by period
-            const mergeFieldArray = splitStringByPeriod(value);
+            // split the merge field by separator
+            const mergeFieldArray = splitStringByPeriod(value, this.separator);
             let i = 0;
             while (regexResult && i < mergeFieldArray.length) {
                 // don't execute regex on empty strings
@@ -1018,8 +1024,8 @@ export default class Combobox extends LightningElement {
             return !regexResult;
         }
 
-        // The regex is valid dev name regex with optional trailing period
+        // The regex is valid dev name regex with optional trailing separator
         // With allowDotSuffix = false we need to check trailing dot does not exists
-        return !value.endsWith('.') && !regexResult;
+        return !value.endsWith(this.separator) && !regexResult;
     }
 }

@@ -40,12 +40,6 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 
 /**
  * Error message map for validation of literal value.
- *
- * Note that the labels here are not the actual labels, but rather the '<section_name.key_name>'.
- * This is due to the fact that we are importing labels via a Global Value Provider (GVP) and the
- * test runner returns default values for those imports. See the following for more info:
- *
- * http://raptor.sfdc.es/guide/testing-core.html#Handling-GVP-Imports
  */
 const VALIDATION_ERROR_MESSAGE = {
     CURRENCY : 'FlowBuilderCombobox.currencyErrorMessage',
@@ -156,6 +150,10 @@ describe('Combobox Tests', () => {
 
         it('has type', () => {
             expect(combobox.type).toEqual(comboboxInitialConfig.type);
+        });
+
+        it('has a default period separator', () => {
+            expect(combobox.separator).toEqual('.');
         });
 
         it('has error message', () => {
@@ -565,6 +563,18 @@ describe('Combobox Tests', () => {
             combobox.value = secondLevelMenuData[0];
             combobox.value = null;
             return Promise.resolve().then(() => {
+                expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
+            });
+        });
+
+        it('FetchMenuData is fired when separator is entered & item hasNext', () => {
+            combobox.value = '{!MyAccount}';
+            combobox.separator = '>';
+
+            return Promise.resolve().then(() => {
+                textInputEvent = getTextInputEvent('{!MyAccount>}');
+
+                groupedCombobox.dispatchEvent(textInputEvent);
                 expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
             });
         });
