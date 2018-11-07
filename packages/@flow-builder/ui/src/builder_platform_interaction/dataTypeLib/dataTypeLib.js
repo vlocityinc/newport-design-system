@@ -139,6 +139,34 @@ export const INPUT_FIELD_DATA_TYPE = {
 };
 
 /**
+ * Tries to return the right FLOW_DATA_TYPE for the provided dataType name, looking both in all flow data types and all the mappings
+ * @param {String} dataType - The data type name
+ * @returns {Object} the flow data type.
+ */
+export function getFlowType(dataType) {
+    if (dataType) {
+        const ucDataType = dataType.toUpperCase();
+        // Look in flow data types by name
+        if (FLOW_DATA_TYPE.hasOwnProperty(ucDataType)) {
+            return FLOW_DATA_TYPE[ucDataType];
+        }
+
+        // Look for the data type in mappings
+        for (const flowType in FLOW_DATA_TYPE) {
+            if (FLOW_DATA_TYPE.hasOwnProperty(flowType)) {
+                const flowDataType = FLOW_DATA_TYPE[flowType];
+                const type = TYPE_MAPPING[flowDataType.value].find(t => t.toUpperCase() === ucDataType);
+                if (type) {
+                    return flowDataType;
+                }
+            }
+        }
+    }
+
+    return null;
+}
+
+/**
  * Gets standard or utility icons based on the dataType
  *
  * @param {String} dataType - dataType value of the element
@@ -146,15 +174,21 @@ export const INPUT_FIELD_DATA_TYPE = {
  * @return {String} Returns the name of the standard or utility icon
  */
 export function getDataTypeIcons(dataType, iconType = 'standard') {
-    const dataTypeKey = FLOW_API_VALUE_TO_FLOW_DATA_TYPE[dataType];
     let iconName;
-    if (dataTypeKey) {
-        const data = FLOW_DATA_TYPE[dataTypeKey];
-        if (data) {
-            if (iconType === 'utility') {
-                iconName = data.utilityIconName;
-            } else {
-                iconName = data.iconName;
+
+    if (dataType) {
+        const flowType = getFlowType(dataType);
+        if (flowType) {
+            const dataTypeKey = FLOW_API_VALUE_TO_FLOW_DATA_TYPE[flowType.value];
+            if (dataTypeKey) {
+                const data = FLOW_DATA_TYPE[dataTypeKey];
+                if (data) {
+                    if (iconType === 'utility') {
+                        iconName = data.utilityIconName;
+                    } else {
+                        iconName = data.iconName;
+                    }
+                }
             }
         }
     }

@@ -218,6 +218,12 @@ function sObjectScalarsOrCollections(config) {
  * @returns filterInformation
  */
 function screenSelectors(shouldBeWritable, choices, dataType) {
+    if (shouldBeWritable) {
+        return {
+            selector: writableElementsSelector
+        };
+    }
+
     return {
         selector: choices ? choiceSelector(dataType) : readableElementsSelector,
     };

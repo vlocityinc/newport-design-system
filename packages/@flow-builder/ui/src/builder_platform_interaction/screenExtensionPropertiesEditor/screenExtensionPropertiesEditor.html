@@ -2,16 +2,24 @@
     <div if:true={field} class='full-height'>
         <div if:true={mergedField}>
             <section class='slds-p-horizontal_small slds-p-bottom_small'>
-                <builder_platform_interaction-screen-property-field name='name' label={labels.apiNameLabel} 
-                                                                    type='string' value={mergedField.name} 
-                                                                    required='required'>
+                <builder_platform_interaction-screen-property-field label={labels.apiNameLabel} 
+                                                                    name='name'
+                                                                    required='required'
+                                                                    type='string'
+                                                                    value={mergedField.name}>
                 </builder_platform_interaction-screen-property-field>
-        
+
                 <template for:each={mergedField.inputParameters} for:item='param'>
-                    <builder_platform_interaction-screen-property-field key={param.key} name={param.apiName} data-param-type='input'
-                                                                        label={param.label} type={param.dataType}
-                                                                        value={param.value} required={param.isRequired} 
-                                                                        allow-resources-for-parameter resource-picker-config={param.resourcePickerConfig}
+                    <builder_platform_interaction-screen-property-field key={param.key} 
+                                                                        allow-resources-for-parameter
+                                                                        data-param-type='input'
+                                                                        help-text={param.description}                                                               
+                                                                        label={param.label} 
+                                                                        name={param.apiName}
+                                                                        required={param.isRequired}
+                                                                        resource-picker-config={param.resourcePickerConfig}
+                                                                        type={param.dataType}
+                                                                        value={param.value} 
                                                                         onpropertychanged={handleInputPropertyChanged}>
                     </builder_platform_interaction-screen-property-field>
                 </template>
@@ -21,13 +29,23 @@
                 <!--  validation text -->
                 <lightning-accordion-section name='outputsSection' label={labels.extensionOutputsHeader}>
                     <template for:each={mergedField.outputParameters} for:item='param'>
-                        <builder_platform_interaction-screen-property-field key={param.key} name={param.apiName} data-param-type='output'
-                                                                            label={param.label} value={param.value}
-                                                                            type={param.dataType} allow-resources-for-output
-                                                                            resource-picker-config={param.resourcePickerConfig} 
-                                                                            hide-top-padding={param.isFirst}
-                                                                            onpropertychanged={handleOutputPropertyChanged}>                                                                            
-                        </builder_platform_interaction-screen-property-field>
+                        <div class='slds-grid' key={param.key}>
+                            <div class='slds-p-top_xx-small slds-p-right_x-small' if:true={param.icon}>                                
+                                <div if:false={param.isFirst} class='slds-p-top_xx-small'></div>
+                                <lightning-icon icon-name={param.icon} size='x-small'></lightning-icon>
+                            </div>
+                            <builder_platform_interaction-screen-property-field class='slds-grow'
+                                                                                allow-resources-for-output
+                                                                                data-param-type='output'
+                                                                                hide-top-padding={param.isFirst}
+                                                                                label={param.label}
+                                                                                name={param.apiName} 
+                                                                                resource-picker-config={param.resourcePickerConfig} 
+                                                                                type={param.dataType}
+                                                                                value={param.value} 
+                                                                                onpropertychanged={handleOutputPropertyChanged}>                                                                            
+                            </builder_platform_interaction-screen-property-field>        
+                        </div>
                     </template>               
                 </lightning-accordion-section>
             </lightning-accordion>

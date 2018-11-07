@@ -1,11 +1,11 @@
 import { LightningElement, api, track } from 'lwc';
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { booleanAttributeValue, getFlowDataTypeByName, booleanValue } from "builder_platform_interaction/screenEditorUtils";
-import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
+import { booleanAttributeValue, getFlowDataTypeByName, booleanValue, compareValues } from "builder_platform_interaction/screenEditorUtils";
 import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 
 // QUILL supported formats
 const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
@@ -39,7 +39,6 @@ export default class ScreenPropertyField extends LightningElement {
 
     constructor() {
         super();
-        this.topPadding = true;
         this.rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.SCREEN);
     }
 
@@ -97,7 +96,7 @@ export default class ScreenPropertyField extends LightningElement {
     }
 
     get elementParam() {
-        if (this.allowsResourcesForParameter) {
+        if (this.allowsResourcesForParameter || this.allowResourcesForOutput) {
             const param = {
                 dataType: getFlowDataTypeByName(this.type),
                 collection: this.resourcePickerConfig.collection
@@ -189,7 +188,7 @@ export default class ScreenPropertyField extends LightningElement {
 
     get domValue() {
         const input = this.input;
-        if (this.allowsResourcesForParameter || this.allowsResourcesForContext || this.allowResourcesForOutput) {
+        if (this.allowsResources) {
             return input.value && input.value.hasOwnProperty('value') ? input.value.value : input.value;
         } else if (this.isLongString || this.isRichString) {
             return input.value.value;
@@ -205,9 +204,20 @@ export default class ScreenPropertyField extends LightningElement {
     handleEvent = (event) => {
         event.stopPropagation();
 
+        // This block of code tries to filter events fired by the combobox even when there's been
+        // no user interaction. It seems that the combobox fires events even when a component
+        // is rerendered due to cahnges in its template...
+        if (event.type === 'comboboxstatechanged') {
+            const eventValue = event.detail.item || event.detail.displayText;
+
+            if (!compareValues(eventValue, this.propertyValue)) {
+                return;
+            }
+        }
+
         let newValue = null, newGuid = null, currentValue = null;
 
-        if (event.detail && event.detail.item && (this.allowResourcesForParameter || this.allowResourcesForContext)) { // And it contains a ferov
+        if (event.detail && event.detail.item && (this.allowResources)) { // And it contains a ferov
             newValue = event.detail.item.displayText;
             newGuid = event.detail.item.value;
         } else if (this.isList && event.detail.value) { // And it contains a ferov from a static list

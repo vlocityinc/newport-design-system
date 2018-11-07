@@ -2,6 +2,9 @@ import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDa
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
+import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
+
+const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
 
 let extensionCache = [];
 let extensionDescriptionCache = {};
@@ -94,6 +97,7 @@ function mergeParameters(fieldParameters, descParameters, valuePropName, isInput
             dataType: fieldParam.dataType,
             description: fieldParam.description,
             hasDefaultValue: fieldParam.hasDefaultValue,
+            icon: getDataTypeIcons(fieldParam.dataType, 'utility') || DEFAULT_ATTRIBUTE_TYPE_ICON,
             isRequired: isInput ? fieldParam.isRequired : false,
             label: fieldParam.label,
             maxOccurs: fieldParam.maxOccurs,
@@ -101,7 +105,7 @@ function mergeParameters(fieldParameters, descParameters, valuePropName, isInput
             guid: generateGuid(),
             key: (isInput ? 'input$$.' : 'output$$.') + fieldParam.apiName,
             resourcePickerConfig: {
-                allowLiterals: isInput,
+                allowLiterals: isInput && fieldParam.dataType && fieldParam.maxOccurs <= 1 && fieldParam.dataType.toLowerCase() !== 'sobject',
                 collection: fieldParam.maxOccurs > 1,
                 elementConfig: null,
                 hideGlobalConstants: !isInput,
