@@ -235,20 +235,20 @@ describe('Wait Event', () => {
 
         it('handles UpdateParameterItem from waitResumeConditions and fires WaitEventParameterChangedEvent', () => {
             const isInput = true;
+            const error = 'an error';
             const propName = {
                 value: 'foo',
                 error: null
             };
             const newValue = {
                 value: 'my new value',
-                error: null
+                error
             };
             const newValueDataType = {
                 value: 'sfdcDataType',
                 error: null
             };
-            const error = 'null';
-            const parameterChanged = new UpdateParameterItemEvent(isInput, null, propName, newValue, newValueDataType, error);
+            const parameterChanged = new UpdateParameterItemEvent(isInput, null, propName.value, newValue.value, newValueDataType.value, error);
 
             const waitResumeConditions = getShadowRoot(waitEvent).querySelector(selectors.waitResumeConditions);
             waitResumeConditions.dispatchEvent(parameterChanged);
