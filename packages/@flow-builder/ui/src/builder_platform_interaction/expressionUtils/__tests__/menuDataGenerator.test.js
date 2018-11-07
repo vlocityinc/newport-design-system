@@ -1,4 +1,4 @@
-import { mutateFlowResourceToComboboxShape } from '../menuDataGenerator';
+import { mutateFlowResourceToComboboxShape, mutatePicklistValue } from '../menuDataGenerator';
 import { getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { getElementCategory } from 'builder_platform_interaction/elementConfig';
 
@@ -55,6 +55,22 @@ describe('menuDataGenerator', () => {
         it('calls getDataTypeIcons when no icon exists', () => {
             mutateFlowResourceToComboboxShape(mockResource);
             expect(getDataTypeIcons).toHaveBeenCalledTimes(1);
+        });
+    });
+    describe('mutatePicklistValue', () => {
+        it('will display the value if no label exists', () => {
+            const val = 'Pick1';
+            const expectedMutatedValue = {
+                displayText: val,
+                iconSize: 'xx-small',
+                subText: 'FlowBuilderDataTypes.textDataTypeLabel',
+                text: val,
+                type: 'option-card',
+                value: val
+            };
+            const picklistValue = {value: val};
+            const mutatedValue = mutatePicklistValue(picklistValue);
+            expect(mutatedValue).toEqual(expectedMutatedValue);
         });
     });
 });

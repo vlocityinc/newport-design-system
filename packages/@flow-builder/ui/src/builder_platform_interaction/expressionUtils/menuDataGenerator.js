@@ -188,9 +188,9 @@ export const mutateEntitiesToComboboxShape = (entities) => {
 export const mutatePicklistValue = (picklistValue) => {
     return createMenuItem(
         COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
-        picklistValue.label,
+        picklistValue.label || picklistValue.value,
         FLOW_DATA_TYPE.STRING.label,
-        picklistValue.label,
+        picklistValue.label || picklistValue.value,
         getDataTypeIcons(FLOW_DATA_TYPE.STRING.value, ICON_TYPE),
         picklistValue.value,
     );
