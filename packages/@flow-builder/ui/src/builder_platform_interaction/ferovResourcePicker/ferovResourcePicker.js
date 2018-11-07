@@ -204,7 +204,7 @@ export default class FerovResourcePicker extends LightningElement {
         const item = event.detail.item;
         const displayText = event.detail.displayText;
 
-        this.value = item || displayText;
+        this.value = item && !this.errorMessage ? item : displayText;
     }
 
     handleFetchMenuData(event) {
