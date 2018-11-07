@@ -1,5 +1,7 @@
-import { createTestScreen, createTestScreenField } from "builder_platform_interaction/builderTestUtils";
+import { createTestScreen, createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
 import { screenReducer } from "../screenReducer";
+import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import { LABELS } from "builder_platform_interaction/validationRules";
 
 import {
     PropertyChangedEvent,
@@ -46,6 +48,50 @@ describe('screen reducer', () => {
         expect(newScreen).toBeDefined();
         expect(newScreen.fields[0].fieldText.value).toBe(newDisplayText);
         expect(newScreen.fields[0].name.value).toBe(screen.fields[0].name.value);
+    });
+
+    it('validate all when choice based field has no choice associated with it', () => {
+        const screen = createTestScreen(SCREEN_NAME, []);
+        screen.fields = [];
+        const field = createTestScreenField('radio1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', validation: false, helpText: false});
+        field.choiceReferences = [];
+        field.choiceReferences.push({choiceReference: {value: '', error: null}});
+        screen.fields.push(field);
+        const event = {
+            type: VALIDATE_ALL,
+            detail: {
+                type: VALIDATE_ALL
+            }
+        };
+        const newScreen = screenReducer(screen, event, screen.fields[0]);
+
+        // The screen should now have an error associated with the choice field.
+        expect(newScreen).toBeDefined();
+        expect(newScreen.fields[0].choiceReferences[0]).toBeDefined();
+        expect(newScreen.fields[0].choiceReferences[0].choiceReference).toBeDefined();
+        expect(newScreen.fields[0].choiceReferences[0].choiceReference.error).toBe(LABELS.cannotBeBlank);
+    });
+
+    it('validate all when choice based field has a choice assocaited with it', () => {
+        const screen = createTestScreen(SCREEN_NAME, []);
+        screen.fields = [];
+        const field = createTestScreenField('radio1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', validation: false, helpText: false});
+        field.choiceReferences = [];
+        field.choiceReferences.push({choiceReference: {value: 'choice1', error: null}});
+        screen.fields.push(field);
+        const event = {
+            type: VALIDATE_ALL,
+            detail: {
+                type: VALIDATE_ALL
+            }
+        };
+        const newScreen = screenReducer(screen, event, screen.fields[0]);
+
+        // The screen should now have an error associated with the choice field.
+        expect(newScreen).toBeDefined();
+        expect(newScreen.fields[0].choiceReferences[0]).toBeDefined();
+        expect(newScreen.fields[0].choiceReferences[0].choiceReference).toBeDefined();
+        expect(newScreen.fields[0].choiceReferences[0].choiceReference.error).toBeNull();
     });
 
     it('change screen field validation error message when there is none before', () => {

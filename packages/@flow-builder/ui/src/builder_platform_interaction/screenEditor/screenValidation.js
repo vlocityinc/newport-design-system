@@ -1,6 +1,6 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { Validation, defaultRules } from "builder_platform_interaction/validation";
-import { getCachedExtensions, isExtensionField } from "builder_platform_interaction/screenEditorUtils";
+import { getCachedExtensions, isExtensionField, isChoiceField } from "builder_platform_interaction/screenEditorUtils";
 import { isReference } from "builder_platform_interaction/commonUtils";
 
 const LONG_STRING_LEN = 65535;
@@ -202,6 +202,16 @@ const getRulesForInputField = (field, rules) => {
         addRules('defaultValue', rules, [
             createReferenceSafeRule(ValidationRules.shouldBeADate)
         ]);
+    }
+
+    // Choice based field
+    if (isChoiceField(field)) {
+        rules.choiceReferences = () => {
+            return {
+                choiceReference: [createReferenceSafeRule(ValidationRules.shouldNotBeBlank),
+                                  ValidationRules.shouldNotBeNullOrUndefined]
+            };
+        };
     }
 
     // DisplayText
