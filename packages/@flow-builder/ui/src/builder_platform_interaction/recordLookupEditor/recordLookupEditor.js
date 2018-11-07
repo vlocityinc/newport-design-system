@@ -10,6 +10,7 @@ import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
+import { format } from 'builder_platform_interaction/commonUtils';
 
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
@@ -141,6 +142,10 @@ export default class RecordLookupEditor extends LightningElement {
 
     get wayToStoreFieldsValue() {
         return this.state.wayToStoreFields;
+    }
+
+    get assignmentTitle() {
+        return format(this.labels.lookupAssignmentTitleFormat, this.resourceDisplayText);
     }
 
     /**

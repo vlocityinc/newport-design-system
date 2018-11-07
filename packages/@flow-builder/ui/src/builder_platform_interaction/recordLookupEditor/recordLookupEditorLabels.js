@@ -4,11 +4,13 @@ import object from "@salesforce/label/FlowBuilderRecordEditor.object";
 import objectPlaceholder from "@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder";
 import recordLookupTitle from '@salesforce/label/FlowBuilderRecordEditor.recordLookupTitle';
 import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.variable';
+import lookupAssignmentTitleFormat from '@salesforce/label/FlowBuilderRecordEditor.lookupAssignmentTitleFormat';
 
 export const LABELS = {
     getRecordsOfObjectType,
     object,
     objectPlaceholder,
     recordLookupTitle,
-    filterRhsLabel
+    filterRhsLabel,
+    lookupAssignmentTitleFormat
 };
