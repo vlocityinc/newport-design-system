@@ -40,7 +40,8 @@ export function createQueriedField(queriedField) {
 export function createRecordLookup(recordLookup = {}) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
-    let { availableConnections = getDefaultAvailableConnections(), filters, queriedFields = [], outputAssignments = [] } = recordLookup;
+    let { availableConnections = getDefaultAvailableConnections(), filters, queriedFields = [], outputAssignments = [],
+        numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD } = recordLookup;
     const {
         object = '',
         outputReference = '',
@@ -51,15 +52,13 @@ export function createRecordLookup(recordLookup = {}) {
 
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
-    let numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
-
     filters = createRecordFilters(filters, object);
 
     const filterType = filters[0].leftHandSide
         ? RECORD_FILTER_CRITERIA.ALL
         : RECORD_FILTER_CRITERIA.NONE;
 
-    if (outputAssignments.length > 0) {
+    if (outputReference === '' && outputAssignments.length > 0) {
         outputAssignments = outputAssignments.map(item => createFlowOutputFieldAssignment(item, object, 'assignToReference'));
 
         return Object.assign(newRecordLookup, {
