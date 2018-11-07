@@ -243,17 +243,6 @@ describe('Set Flow Operator Rules', () => {
         expect(storedRules[RULE_TYPES.ASSIGNMENT]).toHaveLength(0);
         expect(storedRules[RULE_TYPES.COMPARISON]).toHaveLength(0);
     });
-
-    it('Rules variable is a singleton ', () => {
-        const rulesLib = require.requireActual('builder_platform_interaction/ruleLib');
-        rulesLib.setRules();
-        const storedRules1 = rulesLib.getRules();
-        expect(storedRules1[RULE_TYPES.ASSIGNMENT]).toHaveLength(0);
-        rulesLib.setRules(mockRulesFromServiceAssignmentAndComparison);
-        const storedRules2 = rulesLib.getRules();
-        expect(storedRules1).toBe(storedRules2);
-        expect(storedRules1[RULE_TYPES.ASSIGNMENT]).toHaveLength(1);
-    });
     it('Stores assignment rules backwards to use as output rules', () => {
         const initialRule = JSON.parse(mockSingleAssignmentRule)[0];
         const initialLHS = initialRule[RULE_PROPERTY.LEFT];

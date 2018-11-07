@@ -1,4 +1,4 @@
-import { shallowCopyArray, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
+import { getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { isUndefinedOrNull, isUndefined } from "builder_platform_interaction/commonUtils";
 import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';
 import { ruleElementTypeToUIElementType } from "builder_platform_interaction/flowMetadata";
@@ -155,8 +155,6 @@ export const isMatch = (ruleParam, element) => {
         matches = propertyMatches(ruleParam, elementParam, propertiesToCompare[i]);
         i++;
     }
-
-    // TODO: need to add sysVar consideration
     return matches;
 };
 
@@ -171,48 +169,72 @@ const specialCaseAllowed = (param, flag) => {
 };
 
 /**
- * Get the allowed left hand side types based on the rule type
- * @param {String} elementType      elementType where this rule is being used
- * @param {operatorRule[]} rules         list of rules we are checking for lhs types. These are taken from the FlowOperatorRuleUtil service
- * @param {String} ruleType     the rule type of the given rules eg: assignment/comparator
- * @returns {allowedParamMap}   map of data types & element types to allowed left hand side types
+ * Checks if rule can be used in property editor for element type
+ * @param {operatorRule} rule
+ * @param {String} elementType
+ * @param {Boolean} true if rule is allowed, false if not
  */
-export const getLHSTypes = (elementType, rules, ruleType) => {
+const ruleAllowedInElementEditor = (rule, elementType) => {
+    return !rule[EXCLUDE_ELEMS] || !rule[EXCLUDE_ELEMS].includes(elementType);
+};
+
+/**
+ * Adds param to map under type
+ * @param {Object.map<String, Object.set<param>>} map   dataType/elementType/objectType to parameters relating to that type
+ * @param {param} param   Param to be stringified and added to the map
+ * @param {String} type   dataTypeLib.FLOW_DATA_TYPE, flowMetadata.ELEMENT_TYPE, or sObject api name
+ */
+const addParamToTypeMap = (map, param, type) => {
+    if (!type) {
+        type = getDataTypeOrElementType(param);
+    }
+    if (!map.hasOwnProperty(type)) {
+        map[type] = new Set();
+    }
+    map[type].add(JSON.stringify(param));
+};
+
+/**
+ * Turns the passed in map into an allowedParamMap (see above typedef)
+ * @param {Object.map<String, Object.set<param>>} map   dataType/elementType/objectType to parameters relating to that type
+ */
+const convertToAllowedParamMap = (stringifiedParamTypeMap) => {
     let canBeSystemVariable = false;
     let canBeSObjectField = false;
-    if (!Array.isArray(rules)) {
-        throw new Error(`Rules must be an Array but instead was ${typeof rules}`);
-    }
-    let allowedRules = rules;
-    // if the rule type was specified then we want to filter by rule type
-    if (ruleType !== undefined) {
-        allowedRules = filterByRuleType(rules, ruleType);
-    }
-    // create our dataType/elementType map. This helps sort allowed types by dataType/elementType
-    const paramTypeMap = {};
-    allowedRules.forEach((rule) => {
-        if ((!rule[EXCLUDE_ELEMS] || !rule[EXCLUDE_ELEMS].includes(elementType))) {
-            const type = getDataTypeOrElementType(rule[LEFT]);
-            // given the type, check to see if we have the key already in our map
-            if (!paramTypeMap.hasOwnProperty(type)) {
-                paramTypeMap[type] = new Set();
-            }
-            // serialize the type and add to our set to help avoid duplicates
-            const serializedValue = JSON.stringify(rule[LEFT]);
-            paramTypeMap[type].add(serializedValue);
-        }
-    });
-    // now iterate through the param type map and deserialize all the values and convert the sets to arrays
-    Object.keys(paramTypeMap).forEach((key) => {
-        paramTypeMap[key] = Array.from(paramTypeMap[key]).map((serializedValue) => {
+    Object.keys(stringifiedParamTypeMap).forEach((key) => {
+        stringifiedParamTypeMap[key] = Array.from(stringifiedParamTypeMap[key]).map((serializedValue) => {
             const param = JSON.parse(serializedValue);
             canBeSObjectField = canBeSObjectField || specialCaseAllowed(param, SOBJECT_FIELD_REQUIREMENT);
             canBeSystemVariable = canBeSystemVariable || specialCaseAllowed(param, SYSTEM_VARIABLE_REQUIREMENT);
             return param;
         });
     });
-    paramTypeMap[SOBJECT_FIELD_REQUIREMENT] = canBeSObjectField;
-    paramTypeMap[SYSTEM_VARIABLE_REQUIREMENT] = canBeSystemVariable;
+    stringifiedParamTypeMap[SOBJECT_FIELD_REQUIREMENT] = canBeSObjectField;
+    stringifiedParamTypeMap[SYSTEM_VARIABLE_REQUIREMENT] = canBeSystemVariable;
+};
+
+/**
+ * Get the allowed left hand side types based on the rule type
+ * @param {String} elementType      elementType where this rule is being used
+ * @param {operatorRule[]} rules    list of rules we are checking for lhs types. These are taken from the FlowOperatorRuleUtil service
+ * @param {String} ruleType     the rule type of the given rules eg: assignment/comparator
+ * @returns {allowedParamMap}   map of data types & element types to allowed left hand side types
+ */
+export const getLHSTypes = (elementType, rules, ruleType) => {
+    if (!Array.isArray(rules)) {
+        throw new Error(`Rules must be an Array but instead was ${typeof rules}`);
+    }
+    // if the rule type was specified then we want to filter by rule type
+    const allowedRules = ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
+
+    const paramTypeMap = {};
+    allowedRules.forEach((rule) => {
+        if (ruleAllowedInElementEditor(rule, elementType)) {
+            addParamToTypeMap(paramTypeMap, rule[LEFT]);
+        }
+    });
+
+    convertToAllowedParamMap(paramTypeMap);
     return paramTypeMap;
 };
 
@@ -232,21 +254,17 @@ export const getOperators = (elementType, lhsElement = {}, rules, ruleType) => {
     if (!Array.isArray(rules)) {
         throw new Error(`Rules must be an Array but instead was ${typeof rules}`);
     }
-    let allowedRules = rules;
     // if the rule type was specified then we want to filter by rule type
-    if (ruleType !== undefined) {
-        allowedRules = filterByRuleType(rules, ruleType);
-    }
+    const allowedRules = ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
+
     const reducer = (operatorSet, rule) => {
-        if ((!rule[EXCLUDE_ELEMS] || !rule[EXCLUDE_ELEMS].includes(elementType)) && isMatch(rule[LEFT], lhsElement)) {
+        if (ruleAllowedInElementEditor(rule, elementType) && isMatch(rule[LEFT], lhsElement)) {
             operatorSet.add(rule[OPERATOR]);
         }
         return operatorSet;
     };
-    // this set will work as our accumulator, collecting all the allowed operators
-    const allowedOperatorsSet = new Set();
-    allowedRules.reduce(reducer, allowedOperatorsSet);
-    return Array.from(allowedOperatorsSet);
+
+    return Array.from(allowedRules.reduce(reducer, new Set()));
 };
 
 /**
@@ -284,48 +302,23 @@ export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) 
     if (!Array.isArray(rules)) {
         throw new Error(`Rule must be an Array but instead was ${typeof rules}`);
     }
-    let canBeSystemVariable = false;
-    let canBeSObjectField = false;
-    let allowedRules = rules;
     // if the rule type was specified then we want to filter by rule type
-    if (ruleType !== undefined) {
-        allowedRules = filterByRuleType(rules, ruleType);
-    }
+    const allowedRules = ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
 
-    let allowedTypes = [];
-    let foundMatchingRule = false;
-    let rule;
-    let index = 0;
-    while (!foundMatchingRule && index < allowedRules.length) {
-        rule = allowedRules[index];
-        if (!rule[EXCLUDE_ELEMS] || !rule[EXCLUDE_ELEMS].includes(elementType)) {
-            const ruleOperator = rule[OPERATOR];
-            // first check if we have the correct operator and rule
-            if (ruleOperator === operator && isMatch(rule[LEFT], lhsElement)) {
-                foundMatchingRule = true;
-                // extract the allowed types
-                allowedTypes = shallowCopyArray(rule[RHS_PARAMS]);
-            }
-        }
-        index++;
-    }
-    // create our dataType/elementType/objectType map. This helps sort allowed types by dataType/elementType/objectType
     const paramTypeMap = {};
-    allowedTypes.forEach((rhsParam) => {
-        let type = getDataTypeOrElementType(rhsParam);
-        if (type === 'SObject') {
-            // if element is an sObject, we want to track by object type because sObject type must match exactly
-            type = lhsElement.objectType;
+    allowedRules.forEach((rule) => {
+        if (ruleAllowedInElementEditor(rule, elementType) &&
+        (operator === rule[OPERATOR] && isMatch(rule[LEFT], lhsElement))) {
+            rule[RHS_PARAMS].forEach((rhsParam) => {
+                let type = getDataTypeOrElementType(rhsParam);
+                if (type === 'SObject') {
+                    // if element is an sObject, we want to track by object type because sObject type must match exactly
+                    type = lhsElement.objectType;
+                }
+                addParamToTypeMap(paramTypeMap, rhsParam, type);
+            });
         }
-        // to remain consistent with getLHSTypes we place the rhsParam in an array
-        if (!paramTypeMap.hasOwnProperty(type)) {
-            paramTypeMap[type] = [];
-        }
-        canBeSObjectField = canBeSObjectField || specialCaseAllowed(rhsParam, SOBJECT_FIELD_REQUIREMENT);
-        canBeSystemVariable = canBeSystemVariable || specialCaseAllowed(rhsParam, SYSTEM_VARIABLE_REQUIREMENT);
-        paramTypeMap[type].push(rhsParam);
     });
-    paramTypeMap[SOBJECT_FIELD_REQUIREMENT] = canBeSObjectField;
-    paramTypeMap[SYSTEM_VARIABLE_REQUIREMENT] = canBeSystemVariable;
+    convertToAllowedParamMap(paramTypeMap);
     return paramTypeMap;
 };

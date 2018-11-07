@@ -233,7 +233,7 @@ describe('Operator Rule Util', () => {
         });
 
         it('should return an object with data type to param type mapping', () => {
-            let rhsTypes = getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, elements[dateVariableGuid], ASSIGNMENT_OPERATOR, mockRules, ASSIGNMENT);
+            const rhsTypes = getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, elements[dateVariableGuid], ASSIGNMENT_OPERATOR, mockRules, ASSIGNMENT);
             expect(Object.keys(rhsTypes)).toHaveLength(4);
             expect(rhsTypes).toMatchObject({
                 'Date': expect.any(Array),
@@ -241,10 +241,14 @@ describe('Operator Rule Util', () => {
                 [SOBJECT_FIELD_REQUIREMENT]: true,
                 [SYSTEM_VARIABLE_REQUIREMENT]: true,
             });
-            rhsTypes = getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, elements[stageGuid], EQUALS_OPERATOR, mockRules, COMPARISON);
-            expect(Object.keys(rhsTypes)).toHaveLength(3);
+        });
+        it('should return an object with data type to param type mapping for all rules that match', () => {
+            const rhsTypes = getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, elements[stageGuid], EQUALS_OPERATOR, mockRules, COMPARISON);
+            expect(Object.keys(rhsTypes)).toHaveLength(4);
+            // the Stage param & DateTime param come from two different rules that match the LHS & operator pair
             expect(rhsTypes).toMatchObject({
                 'STAGE': expect.any(Array),
+                'DateTime': expect.any(Array),
                 [SOBJECT_FIELD_REQUIREMENT]: false,
                 [SYSTEM_VARIABLE_REQUIREMENT]: true,
             });
