@@ -414,8 +414,19 @@ export function getFieldChoiceData(field) {
                 if (!choiceElement) {
                     throw new Error('Unable to find element: ' + choice);
                 }
+
+                // Figure out which property should be used as the label, based on choice type.
+                let label;
+                if (choiceElement.elementType === 'PICKLIST_CHOICE_SET') {
+                    label = choiceElement.picklistField;
+                } else if (choiceElement.elementType === 'RECORD_CHOICE_SET') {
+                    label = '[' + LABELS.dynamicRecordChoiceLabel + '] ' + choiceElement.displayField;
+                } else {
+                    label = choiceElement.choiceText;
+                }
+
                 return {
-                    label: choiceElement.name,
+                    label,
                     guid:  choiceElement.guid,
                     value: choiceElement.guid,
                     displayValue: '{!' + choiceElement.name + '}'
