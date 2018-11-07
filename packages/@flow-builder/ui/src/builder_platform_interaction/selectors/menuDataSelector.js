@@ -82,8 +82,8 @@ export const sObjectOrSObjectCollectionByEntitySelector = (retrieveOptions) => {
     return createSelector([elementsSelector], (elements) => getSObjectOrSObjectCollectionByEntityElements(elements, retrieveOptions));
 };
 
-export const byTypeElementsSelector = (dataType) => {
-    return createSelector([elementsSelector], getFilteredElements(element => element.dataType === dataType && !element.isCollection));
+export const byTypeWritableElementsSelector = (dataType) => {
+    return createSelector([elementsSelector], getFilteredElements(element => element.dataType === dataType && !element.isCollection && element.elementType === ELEMENT_TYPE.VARIABLE));
 };
 
 const choiceTypes = [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET];

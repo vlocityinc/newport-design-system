@@ -2,7 +2,7 @@ export { canvasSelector } from "./canvasSelector";
 export { readableElementsSelector,
     writableElementsSelector,
     collectionElementsSelector,
-    byTypeElementsSelector,
+    byTypeWritableElementsSelector,
     sObjectOrSObjectCollectionByEntitySelector,
     getSObjectOrSObjectCollectionByEntityElements,
     choiceSelector,

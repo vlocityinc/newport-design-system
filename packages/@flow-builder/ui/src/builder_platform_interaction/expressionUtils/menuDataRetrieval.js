@@ -3,7 +3,7 @@ import {
     writableElementsSelector,
     readableElementsSelector,
     collectionElementsSelector,
-    byTypeElementsSelector,
+    byTypeWritableElementsSelector,
     sObjectOrSObjectCollectionByEntitySelector,
     choiceSelector,
 } from "builder_platform_interaction/selectors";
@@ -158,7 +158,7 @@ function writableOrReadableElement(shouldBeWritable) {
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
  * @param {Object} elementType          the element type this expression builder lives in
  * @param {Boolean} isCollection        true if using selector to retrieve collection variables
- * @param {String} dataType             data type to pass in byTypeElementsSelector
+ * @param {String} dataType             data type for menu data items
  * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
  * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
  * @returns filterInformation
@@ -176,7 +176,7 @@ function queryableElements(shouldBeWritable, elementType, isCollection, dataType
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
  * @param {Object} elementType          the element type this expression builder lives in
  * @param {Boolean} isCollection        true if using selector to retrieve collection variables
- * @param {String} dataType             data type to pass in byTypeElementsSelector
+ * @param {String} dataType             data type for menu data items
  * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
  * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
  * @returns filterInformation
@@ -194,14 +194,14 @@ function createableElements(shouldBeWritable, elementType, isCollection, dataTyp
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
  * @param {Object} elementType          the element type this expression builder lives in
  * @param {Boolean} isCollection        true if using selector to retrieve collection variables
- * @param {String} dataType             data type to pass in byTypeElementsSelector
+ * @param {String} dataType             data type for menu data items
  * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
  * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
  * @returns filterInformation
  */
 function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
     return {
-        selector: isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeElementsSelector(dataType)),
+        selector: isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeWritableElementsSelector(dataType)),
     };
 }
 
@@ -213,7 +213,7 @@ function sObjectScalarsOrCollections(config) {
 
 /**
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
- * @param {String} dataType             data type to pass in byTypeElementsSelector
+ * @param {String} dataType             data type for menu data items
  * @param {Boolean} choices             optional: should this menu data only contain choices
  * @returns filterInformation
  */
@@ -253,7 +253,7 @@ const filterInformationProviderMap = {
  * @param {Object} elementType          the element type this expression builder lives in
  * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
  * @param {Boolean} isCollection        true if using selector to retrieve collection variables
- * @param {String} dataType             data type to pass in byTypeElementsSelector
+ * @param {String} dataType             data type for menu data items
  * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
  * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
  * @param {Boolean} choices             optional: should this menu data only contain choices

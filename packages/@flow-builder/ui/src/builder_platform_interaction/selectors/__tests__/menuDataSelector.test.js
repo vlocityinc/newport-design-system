@@ -1,4 +1,5 @@
-import { getSObjectOrSObjectCollectionByEntityElements } from "../menuDataSelector";
+import { getSObjectOrSObjectCollectionByEntityElements, byTypeWritableElementsSelector } from "../menuDataSelector";
+import * as storeLib from 'builder_platform_interaction/storeLib';
 
 const elementsInStore = {
     'guid1':{
@@ -48,6 +49,28 @@ const elementsInStore = {
         isOutput: false,
         name: 'opportunityDevName',
         objectType: 'Opportunity',
+    },
+    'guid5': {
+        dataType: 'Text',
+        description: '',
+        elementType: 'TEXT_TEMPLATE',
+        guid: 'guid5',
+        isCanvasElement: false,
+        isCollection: false,
+        isInput: false,
+        isOutput: false,
+        name: 'textTemplate',
+    },
+    'guid6': {
+        dataType: 'Text',
+        description: '',
+        elementType: 'VARIABLE',
+        guid: 'guid6',
+        isCanvasElement: false,
+        isCollection: false,
+        isInput: false,
+        isOutput: false,
+        name: 'textVariable',
     }
 };
 
@@ -108,7 +131,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
-describe('Menu data selector', () => {
+describe('getSObjectOrSObjectCollectionByEntityElements selector', () => {
     describe('Retrieve all sObject collection & sObject elements without any extra option', () => {
         it('Should return all sObject elements', () => {
             const retrieveAllSObjectOptions = {allSObjectsAndSObjectCollections:true};
@@ -147,5 +170,22 @@ describe('Menu data selector', () => {
             expect(result).toHaveLength(1);
             expect(result[0]).toHaveProperty('name', 'opportunityDevName');
         });
+    });
+});
+
+describe('byTypeWritableElementsSelector', () => {
+    it('should only retrieve variables of the given type', () => {
+        byTypeWritableElementsSelector(elementsInStore.guid6.dataType);
+        const selector = storeLib.createSelector.mock.calls[0][1];
+        const result = selector(elementsInStore);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toMatchObject(elementsInStore.guid6);
+    });
+    it('should call createSelector', () => {
+        const returnVal = 'returnVal';
+        storeLib.createSelector.mockImplementation(() => returnVal);
+        const result = byTypeWritableElementsSelector('Text');
+        expect(result).toBe(returnVal);
+        expect(storeLib.createSelector).toHaveBeenCalledTimes(1);
     });
 });
