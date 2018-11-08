@@ -8,7 +8,7 @@ import {
     UpdateRecordFieldAssignmentEvent,
     PropertyChangedEvent
 } from "builder_platform_interaction/events";
-import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
+import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import {EXPRESSION_PROPERTY_TYPE} from "builder_platform_interaction/expressionUtils";
 
 const recordUpdateUsingFieldsTemplate = () => {
@@ -126,6 +126,30 @@ describe('record-update-reducer using fields', () => {
             expect(newState).not.toBe(originalState);
             expect(newState.object.value).toEqual(value);
             expect(newState.object.error).toBe(error);
+        });
+    });
+    describe('update filterType to none', () => {
+        let newState;
+        beforeAll(() => {
+            const event = {
+                type: PropertyChangedEvent.EVENT_NAME,
+                detail: {
+                    propertyName: 'filterType',
+                    value: RECORD_FILTER_CRITERIA.NONE,
+                }
+            };
+            originalState.filters[0].leftHandSide.value = 'invalidValue';
+            originalState.filters[0].leftHandSide.error = 'You have entered an invalid value';
+            newState = recordUpdateReducer(originalState, event);
+        });
+        it('should update filterType', () => {
+            expect(newState.filterType.value).toBe(RECORD_FILTER_CRITERIA.NONE);
+            expect(newState).not.toBe(originalState);
+        });
+        it('should reset filter errors and value', () => {
+            expect(newState.filters).toHaveLength(1);
+            expect(newState.filters[0].leftHandSide.value).toBe('');
+            expect(newState.filters[0].leftHandSide.error).toBeNull();
         });
     });
     describe('handle list item events', () => {

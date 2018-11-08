@@ -13,6 +13,8 @@ import {
     DeleteRecordFilterEvent,
 } from "builder_platform_interaction/events";
 
+import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
+
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
@@ -21,6 +23,7 @@ const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 
 const INPUTASSIGNMENTS_PROP = 'inputAssignments';
 const FILTERS_PROP = 'filters';
+const FILTERS_TYPE_PROP = 'filterType';
 
 const emptyFilterItem = () => {
     return {
@@ -39,6 +42,11 @@ const emptyAssignmentItem = () => {
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
         rowIndex: generateGuid(),
     };
+};
+
+const resetFilter = (state) => {
+    // reset filters: create one empty filter item
+    return set(state, FILTERS_PROP, [emptyFilterItem()]);
 };
 
 const resetFilterErrors = (state) => {
@@ -95,8 +103,7 @@ const updateRecordRecordFieldAssignment = (state, event) => {
 };
 
 const resetRecordUpdate = (state, resetObject) => {
-    // reset filters: create one empty filter item
-    state = set(state, FILTERS_PROP, [emptyFilterItem()]);
+    state = resetFilter(state);
     // reset inputAssignments : create one empty assignment item
     state = set(state, INPUTASSIGNMENTS_PROP, [emptyAssignmentItem()]);
     if (resetObject) {
@@ -116,7 +123,9 @@ const managePropertyChanged = (state, event) => {
         if (propName === 'object' && event.detail.value !== event.detail.oldValue) {
             // reset all filterItems, outputReference, queriedFields
             state = resetRecordUpdate(state);
-        }  else if (propName === FILTERS_PROP) {
+        } else if (propName === FILTERS_TYPE_PROP && event.detail.value === RECORD_FILTER_CRITERIA.NONE) {
+            state = resetFilter(state);
+        } else if (propName === FILTERS_PROP) {
             // reset errors in filters if any, and preserve values
             state = resetFilterErrors(state);
         } else if (propName === INPUTASSIGNMENTS_PROP) {
