@@ -101,11 +101,11 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
     });
 });
 
-describe('screen-choice-field-properties-editor for multi-select picklist, type Date', () => {
+describe('screen-choice-field-properties-editor for multi-select picklist', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field: createTestScreenField(fieldName, 'MultiSelectPicklist', SCREEN_NO_DEF_VALUE, {dataType: 'Date', validation: false, helpText: false}),
+            field: createTestScreenField(fieldName, 'MultiSelectPicklist', SCREEN_NO_DEF_VALUE, {validation: false, helpText: false}),
         });
     });
     it('API Name field should be filled in', () => {
@@ -142,12 +142,19 @@ describe('screen-choice-field-properties-editor for multi-select picklist, type 
             expect(dataTypeDropDown.required).toBeTruthy();
         });
     });
-    it('Datatype drop down and set', () => {
+    it('Datatype drop down is set to Text', () => {
         return Promise.resolve().then(() => {
             const dataTypeDropDown = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
             expect(dataTypeDropDown).toBeDefined();
             expect(dataTypeDropDown.value).toBeDefined();
-            expect(dataTypeDropDown.value.dataType).toBe('Date');
+            expect(dataTypeDropDown.value.dataType).toBe('TextBox');
+        });
+    });
+    it('Datatype drop down is disabled', () => {
+        return Promise.resolve().then(() => {
+            const dataTypeDropDown = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
+            expect(dataTypeDropDown).toBeDefined();
+            expect(dataTypeDropDown.typeAndCollectionDisabled).toBeTruthy();
         });
     });
     it('Help text is present and filled in', () => {

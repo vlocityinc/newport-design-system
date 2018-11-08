@@ -3,7 +3,7 @@ import { PropertyChangedEvent, createChoiceAddedEvent, createChoiceChangedEvent,
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { INPUT_FIELD_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import {  getFieldChoiceData } from "builder_platform_interaction/screenEditorUtils";
+import { getFieldChoiceData, isMultiSelectCheckboxField, isMultiSelectPicklistField } from "builder_platform_interaction/screenEditorUtils";
 import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
 import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
 
@@ -95,9 +95,15 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         };
     }
 
-    get isFieldDisabled() {
-        // Left like this for testing during development
-        return !this.field.isNewField;
+    get isDataTypeDisabled() {
+        // For certain choice based fields, dataType will always be disabled because there is no option.
+        return !this.field.isNewField || isMultiSelectCheckboxField(this.field) || isMultiSelectPicklistField(this.field);
+    }
+
+    get isDataTypeRequired() {
+        // These field types don't offer a dataType option. We just display the only valid setting
+        // available. For the the rest, dataType is a configurable and required setting.
+        return !isMultiSelectCheckboxField(this.field) && !isMultiSelectPicklistField(this.field);
     }
 
     get dataTypePickerValue() {

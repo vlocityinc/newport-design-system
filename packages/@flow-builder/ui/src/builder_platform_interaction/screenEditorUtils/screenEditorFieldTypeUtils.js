@@ -98,14 +98,14 @@ const screenFieldTypes = [
     }, {
         name: 'MultiSelectCheckboxes',
         fieldType: 'MultiSelectCheckboxes',
-        dataType: null,
+        dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectCheckboxes,
         icon: 'utility:multi_select_checkbox',
         category: LABELS.fieldCategoryInput
     }, {
         name: 'MultiSelectPicklist',
         fieldType: 'MultiSelectPicklist',
-        dataType: null,
+        dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectPicklist,
         icon: 'utility:multi_picklist',
         category: LABELS.fieldCategoryInput
@@ -204,12 +204,11 @@ export function getScreenFieldType(field) {
         }
 
         // Special case for choice based fields.
-        // A reality, choice based fields have a dataType associated with them. However, we generically
+        // A reality, these choice based fields have a dataType associated with them. However, we generically
         // lump each type of choice based fields as one type in the screenFieldTypes map and dataType is ignored.
         // For this check only, just check the fieldType and ignore dataType.
         if (fieldType === type.fieldType &&
-            (fieldType === 'RadioButtons' || fieldType === 'MultiSelectCheckboxes' ||
-             fieldType === 'MultiSelectPicklist' || fieldType === 'DropdownBox')) {
+            (fieldType === 'RadioButtons' || fieldType === 'DropdownBox')) {
             return type;
         }
     }

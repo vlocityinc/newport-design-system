@@ -21,14 +21,16 @@
             </builder_platform_interaction-screen-property-field>
 
             <!--  Data type: This is read-only for existing fields -->
-            <builder_platform_interaction-data-type-picker
-                available-data-types={dataTypeList}
-                type-and-collection-disabled={isFieldDisabled}
-                required
-                value={dataTypePickerValue}
-                onvaluechanged={handleDataTypeChanged}>
-            </builder_platform_interaction-data-type-picker>
-            
+            <div class="slds-p-top_xx-small">
+                <builder_platform_interaction-data-type-picker
+                    available-data-types={dataTypeList}
+                    type-and-collection-disabled={isDataTypeDisabled}
+                    required={isDataTypeRequired}
+                    value={dataTypePickerValue}
+                    onvaluechanged={handleDataTypeChanged}>
+                </builder_platform_interaction-data-type-picker>
+            </div>
+
             <!--  default value: drop down resource list -->
             <builder_platform_interaction-screen-property-field
                     name="defaultSelectedChoiceReference"
