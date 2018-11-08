@@ -38,10 +38,17 @@ export default class ElementIcon extends LightningElement {
     }
 
     get svgClass() {
+        let commonClasses;
         if (this.iconName === 'standard:decision') {
-            return 'rotate-icon-svg';
+            commonClasses =  'rotate-icon-svg';
+        } else if (this.iconName === 'standard:flow' || this.iconName === 'standard:email' || this.iconName === 'standard:custom_notification') {
+            // 'action' types must all have the same background color
+            commonClasses = 'slds-m-right_x-small action-icon';
+            commonClasses = this.updateClassesForNonCanvasElements('', commonClasses);
+        } else {
+             commonClasses = 'slds-m-right_x-small';
+             commonClasses = this.updateClassesForNonCanvasElements('', commonClasses);
         }
-        const commonClasses = 'slds-m-right_x-small';
-        return this.updateClassesForNonCanvasElements('', commonClasses);
+        return commonClasses;
     }
 }
