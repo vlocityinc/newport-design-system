@@ -76,6 +76,7 @@ import booleanDataType from '@salesforce/label/FlowBuilderDataTypes.booleanDataT
 import dateDataType from '@salesforce/label/FlowBuilderDataTypes.dateDataTypeLabel';
 import dateTimeDataType from '@salesforce/label/FlowBuilderDataTypes.dateTimeDataTypeLabel';
 import dynamicRecordChoiceLabel from '@salesforce/label/FlowBuilderNewResource.dynamicRecordChoiceLabel';
+import appExchangeLink from '@salesforce/label/FlowBuilderScreenEditor.appExchangeLink';
 
 export const LABELS = {
     errorRequired,
@@ -154,5 +155,6 @@ export const LABELS = {
     booleanDataType,
     dateDataType,
     dateTimeDataType,
-    dynamicRecordChoiceLabel
+    dynamicRecordChoiceLabel,
+    appExchangeLink,
 };

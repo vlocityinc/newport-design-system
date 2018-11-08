@@ -117,3 +117,11 @@ describe('Screen Editor Palette', () => {
         expect(dragStartEvent.dataTransfer.effectAllowed).toBe('copy');
     });
 });
+
+describe('AppExchange link', () => {
+    it('points to https://appexchange.salesforce.com/appxStore?type=Flow', () => {
+        const element = createComponentForTest();
+        const link = getShadowRoot(element).querySelector('a.app-exchange-button');
+        expect(link.href).toEqual('https://appexchange.salesforce.com/appxStore?type=Flow');
+    });
+});

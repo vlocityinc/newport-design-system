@@ -15,6 +15,8 @@ export default class ScreenPalette extends LightningElement {
     _fieldTypes;
     _extensionTypes;
 
+    appExchangeLink = 'https://appexchange.salesforce.com/appxStore?type=Flow';
+
     labels = LABELS;
 
     set screenFieldTypes(fieldTypes) {
