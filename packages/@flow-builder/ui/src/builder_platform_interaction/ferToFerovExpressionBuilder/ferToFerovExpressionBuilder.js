@@ -22,7 +22,12 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
         lhsError: undefined,
         lhsActivePicklistValues: undefined,
         lhsDisplayOption: undefined,
-        rhsDescribe: undefined,
+        rhsDescribe: {
+            value : '',
+            error : undefined,
+            isField : false,
+            fields : null
+        }
     };
 
     @api

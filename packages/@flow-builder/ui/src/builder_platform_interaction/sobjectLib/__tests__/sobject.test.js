@@ -1,14 +1,10 @@
 import { mockEntities, mockAccountFields } from "mock/serverEntityData";
-import { setEntities, getAllEntities, getQueryableEntities, getCreateableEntities, getDeletableEntities, getUpdateableEntities, getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
+import { setEntities, getAllEntities, getQueryableEntities, getCreateableEntities, getDeletableEntities, getUpdateableEntities, getFieldsForEntity, fetchFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
-        fetch: jest.fn().mockImplementation((actionType, callback) => {
-            callback({
-                data: JSON.stringify(mockAccountFields),
-            });
-        }),
+        fetchOnce : jest.fn().mockImplementation(() => Promise.resolve(JSON.stringify(mockAccountFields))),
         SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
     };
 });
@@ -56,30 +52,19 @@ describe('SObject Lib Tests', () => {
         });
     });
 
-    describe('Get Entity Fields Callback Tests', () => {
-        it('Verify Fields Returned', () => {
+    describe('getFieldsForEntity', () => {
+        it('Verify Fields Returned', (done) => {
             getFieldsForEntity('Account', (fields) => {
                 expect(Object.keys(fields)).toHaveLength(45);
+                done();
             });
         });
+    });
 
-        it('Map to Flow String Data Type', () => {
-            getFieldsForEntity('Account', (fields) => {
-                expect(fields.Description.dataType).toEqual('String');
-            });
-        });
-
-        it('Maps Field Type to Flow Data Type', () => {
-            getFieldsForEntity('Account', (fields) => {
-                expect(fields.Phone.dataType).toEqual('String');
-            });
-        });
-
-        it('Get fields returns an empty object when validating and the cache does not contain the info', () => {
-            getFieldsForEntity('Contact', (fields) => {
-                expect(fields).toBeUndefined();
-            }, true);
+    describe('fetchFieldsForEntity', () => {
+        it('Returns fields for the entity', async () => {
+            const fields = await fetchFieldsForEntity('Account');
+            expect(Object.keys(fields)).toHaveLength(45);
         });
     });
 });
-

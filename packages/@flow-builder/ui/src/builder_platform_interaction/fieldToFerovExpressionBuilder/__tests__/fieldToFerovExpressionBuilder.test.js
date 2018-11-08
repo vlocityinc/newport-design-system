@@ -83,10 +83,8 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
-        fetch: jest.fn().mockImplementation((actionType, callback) => {
-            callback({
-                data: JSON.stringify(mockAccountFields),
-            });
+        fetchOnce: jest.fn().mockImplementation(() => {
+            return Promise.resolve(JSON.stringify(mockAccountFields));
         }),
         SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
     };
@@ -252,18 +250,18 @@ describe('field-to-ferov-expression-builder', () => {
             const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
             expect(baseExpressionBuilder.rhsIsFer).toBeTruthy();
         });
-        it('should handle field on sobject var on RHS', () => {
+        it('should handle field on sobject var on RHS', async () => {
             const expressionBuilder = createComponentForTest({
                 expression: createMockPopulatedFieldExpression(),
                 objectType: sobject,
                 lhsFields: mockAccountFields,
             });
-            return Promise.resolve().then(() => {
-                const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
-                expect(baseExpressionBuilder.rhsValue).toMatchObject(mutateFieldToComboboxShape(accountField, accountVariableComboboxShape, true, true));
-                expect(baseExpressionBuilder.rhsIsField).toBeTruthy();
-                expect(baseExpressionBuilder.rhsFields).toBeTruthy();
-            });
+            await Promise.resolve();
+            await Promise.resolve();
+            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+            expect(baseExpressionBuilder.rhsValue).toMatchObject(mutateFieldToComboboxShape(accountField, accountVariableComboboxShape, true, true));
+            expect(baseExpressionBuilder.rhsIsField).toBeTruthy();
+            expect(baseExpressionBuilder.rhsFields).toBeTruthy();
         });
         it('should handle system variable on RHS', () => {
             setSystemVariables(systemVariables);

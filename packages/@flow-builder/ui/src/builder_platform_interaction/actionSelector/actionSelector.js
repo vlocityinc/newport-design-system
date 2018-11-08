@@ -46,10 +46,9 @@ export default class ActionSelector extends LightningElement {
                 this.dispatchCannotRetrieveActionsEvent();
             }
         });
-        const keyProvider = (params) => params.flowProcessType;
         fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
             flowProcessType : this.flowProcessType
-        }, keyProvider).then((subflows) => {
+        }).then((subflows) => {
             if (this.connected) {
                 this.subflowsFetched = true;
                 this.subflows = subflows;
@@ -64,7 +63,7 @@ export default class ActionSelector extends LightningElement {
         });
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
             flowProcessType : this.flowProcessType
-        }, keyProvider).then((invocableActions) => {
+        }).then((invocableActions) => {
             if (this.connected) {
                 this.invocableActionsFetched = true;
                 this.invocableActions = invocableActions;

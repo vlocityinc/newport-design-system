@@ -1,4 +1,4 @@
-import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
+import { fetchOnce, isAlreadyFetched, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 
 const allEntities = [];
@@ -6,22 +6,6 @@ const queryableEntities = [];
 const createableEntities = [];
 const deletableEntities = [];
 const updateableEntities = [];
-
-const cachedEntityFields = {};
-
-/**
- * Callback once the fields have been fetched
- * @param {String} data The fields and their properties, in stringified format
- * @param {String} entityName The name of the parent object
- * @param {Function} callback The callback
- */
-const getFieldsForEntityCallback = (data, entityName, callback) => {
-    const fields = JSON.parse(data);
-    cachedEntityFields[entityName] = fields;
-    if (callback) {
-        callback(fields);
-    }
-};
 
 export const ENTITY_TYPE = {
     CREATABLE: 'CREATABLE',
@@ -98,28 +82,45 @@ export const getUpdateableEntities = () => {
     return updateableEntities;
 };
 
+export const areFieldsForEntityAlreadyFetched = (entityName) => {
+    const params = {
+        entityApiName: entityName
+    };
+    return isAlreadyFetched(SERVER_ACTION_TYPE.GET_ENTITY_FIELDS, params);
+};
+
+/**
+ * Fetch fields for given entity
+ *
+ * @param {string} entityName api name of the SObject
+ * @param {{background: (boolean|undefined), disableErrorModal: (boolean|undefined), messageForErrorModal: (string|undefined)}} optionalParams
+ *            background need to be set to true if request needs to be run as a background action
+ *            disableErrorModal need to be set to true to disable the default error modal panel
+ *            messageForErrorModal the message to use instead of the default error message
+ * @return {Promise} Promise object with the fields
+ */
+export const fetchFieldsForEntity = (entityName, { background = false, disableErrorModal = false, messageForErrorModal } = {}) => {
+    const params = {
+        entityApiName: entityName
+    };
+    return fetchOnce(SERVER_ACTION_TYPE.GET_ENTITY_FIELDS, params, { background, disableErrorModal, messageForErrorModal }).then(data => JSON.parse(data));
+};
+
 /**
  * Grabs the fields for a specific sObject, mutates it to combobox shape, then calls the callback
- * Only goes to the server if the fields for that sObject are not cached
+ * Only goes to the server if the fields for that sObject are not cached.
+ * On error, a modal with an error message is opened but callback is not called.
  * @param {String} entityName Api name of the SObject
  * @param {Function} callback Function to call once the server call is complete
- * @param {Boolean} isValidation whether the fields are being fetch for validation. Only uses the cache in this case
  */
-export const getFieldsForEntity = (entityName, callback, isValidation = false) => {
-    if (cachedEntityFields[entityName] && callback) {
-        callback(cachedEntityFields[entityName]);
-    } else if (!isValidation) {
-        const params = {
-            entityApiName: entityName
-        };
-        fetch(SERVER_ACTION_TYPE.GET_ENTITY_FIELDS, ({data, error}) => {
-            if (error) {
-                // TODO: handle error case
-            } else {
-                getFieldsForEntityCallback(data, entityName, callback);
+export const getFieldsForEntity = (entityName, callback) => {
+    fetchFieldsForEntity(entityName)
+        .then(fields => {
+            if (callback) {
+                callback(fields);
             }
-        }, params);
-    } else if (callback) {
-        callback();
-    }
+        })
+        .catch(() => {
+            // we use fetchOnce default behavior : modal with the error.
+        });
 };

@@ -11,8 +11,8 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetch: (serverActionType, callback) => {
-            callback({data : mockAccountFields});
+        fetchOnce: () => {
+            return Promise.resolve(mockAccountFields);
         }
     };
 });
@@ -152,11 +152,12 @@ describe('recordSort', () => {
         });
     });
     describe('sortable fields', () => {
-        it('should show only sortable fields', () => {
+        it('should show only sortable fields', async () => {
             const recordSortResultComponent = createComponentUnderTest({
                 resourceApiName,
                 sortOrder: SORT_ORDER.ASC,
             });
+            await Promise.resolve();
             const options = getFilterCombobox(recordSortResultComponent).fields;
             const mockAccFieldsArr = JSON.parse(mockAccountFields);
             Object.values(options).forEach(option => {

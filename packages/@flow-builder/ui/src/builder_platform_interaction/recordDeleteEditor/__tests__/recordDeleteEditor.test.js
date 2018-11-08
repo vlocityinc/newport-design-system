@@ -71,10 +71,8 @@ const filterElement = {
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
-        fetch: (actionType, callback) => {
-            callback({
-                data: JSON.stringify(mockAccountFields),
-            });
+        fetchOnce: () => {
+            return Promise.resolve(JSON.stringify(mockAccountFields));
         },
         SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
     };

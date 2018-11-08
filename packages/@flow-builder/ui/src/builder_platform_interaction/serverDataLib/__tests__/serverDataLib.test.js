@@ -1,4 +1,4 @@
-import { SERVER_ACTION_TYPE, setAuraFetch, fetch, fetchOnce, resetFetchOnceCache } from "../serverDataLib";
+import { SERVER_ACTION_TYPE, setAuraFetch, fetch, fetchOnce, resetFetchOnceCache, isAlreadyFetched } from "../serverDataLib";
 
 describe('Fetch function', () => {
     beforeEach(() => {
@@ -46,16 +46,17 @@ describe('Fetch function', () => {
     });
 });
 
-describe('fetchOnce function', () => {
-    const mockAuraFetch = (responseProvider) => jest.fn().mockImplementation((actionName, shouldExecuteCallback, callback, params) => {
-        Promise.resolve().then(() => {
-            if (shouldExecuteCallback()) {
-                callback(responseProvider(params));
-            }
-        });
+const mockAuraFetch = (responseProvider) => jest.fn().mockImplementation((actionName, shouldExecuteCallback, callback, params) => {
+    Promise.resolve().then(() => {
+        if (shouldExecuteCallback()) {
+            callback(responseProvider(params));
+        }
     });
-    const mockIdentityAuraFetch = mockAuraFetch(params => ({ data:params }));
-    const mockErrorAuraFetch = (error) => mockAuraFetch(() => ({ error }));
+});
+const mockIdentityAuraFetch = mockAuraFetch(params => ({ data:params }));
+const mockErrorAuraFetch = (error) => mockAuraFetch(() => ({ error }));
+
+describe('fetchOnce function', () => {
     afterEach(() => {
         resetFetchOnceCache();
     });
@@ -63,9 +64,8 @@ describe('fetchOnce function', () => {
         setAuraFetch(mockIdentityAuraFetch);
         const parameters1 = { actionName: 'actionName', actionType: 'actionType' };
         const parameters2 = { actionName: 'actionName2', actionType: 'actionType2' };
-        const keyProvider = (params) => `${params.actionName}-${params.actionType}`;
-        const firstCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters1, keyProvider);
-        const secondCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters2, keyProvider);
+        const firstCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters1);
+        const secondCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters2);
         await expect(firstCallPromise).resolves.toEqual(parameters1);
         await expect(secondCallPromise).resolves.toEqual(parameters2);
         expect(mockIdentityAuraFetch).toHaveBeenCalledTimes(2);
@@ -73,9 +73,8 @@ describe('fetchOnce function', () => {
     it('calls auraFetch only once if we do several calls with same paramaters', async () => {
         setAuraFetch(mockIdentityAuraFetch);
         const parameters = { actionName: 'actionName', actionType: 'actionType' };
-        const keyProvider = (params) => `${params.actionName}-${params.actionType}`;
-        const promise1 = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters, keyProvider);
-        const promise2 = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters, keyProvider);
+        const promise1 = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
+        const promise2 = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
         await expect(promise1).resolves.toEqual(parameters);
         await expect(promise2).resolves.toEqual(parameters);
         expect(mockIdentityAuraFetch).toHaveBeenCalledTimes(1);
@@ -84,15 +83,14 @@ describe('fetchOnce function', () => {
         const errorAuraFetch = mockErrorAuraFetch('error during the call');
         setAuraFetch(errorAuraFetch);
         const parameters = { actionName: 'actionName', actionType: 'actionType' };
-        const keyProvider = (params) => `${params.actionName}-${params.actionType}`;
-        const firstCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters, keyProvider);
+        const firstCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
         await expect(firstCallPromise).rejects.toEqual(new Error('error during the call'));
-        const secondCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters, keyProvider);
+        const secondCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
         await expect(secondCallPromise).rejects.toEqual(new Error('error during the call'));
         setAuraFetch(mockIdentityAuraFetch);
-        const thirdCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters, keyProvider);
+        const thirdCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
         await expect(thirdCallPromise).resolves.toEqual(parameters);
-        const fourthCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters, keyProvider);
+        const fourthCallPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
         await expect(fourthCallPromise).resolves.toEqual(parameters);
         expect(errorAuraFetch).toHaveBeenCalledTimes(2);
         expect(mockIdentityAuraFetch).toHaveBeenCalledTimes(1);
@@ -100,8 +98,7 @@ describe('fetchOnce function', () => {
     it('returns readonly objects', async () => {
         setAuraFetch(mockIdentityAuraFetch);
         const parameters = { prop1 : { prop2 : 'value'} };
-        const keyProvider = (params) => params.prop1.prop2;
-        const callPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters, keyProvider);
+        const callPromise = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
         const result = await callPromise;
         expect(result.prop1.prop2).toEqual('value');
         expect(() => {
@@ -115,12 +112,33 @@ describe('fetchOnce function', () => {
         const result = await callPromise;
         expect(result).toEqual(1);
     });
-    it('uses a default keyProvider if there are no parameters', async () => {
+});
+
+describe('isAlreadyFetched function', () => {
+    afterEach(() => {
+        resetFetchOnceCache();
+    });
+    it('returns false if not in cache', () => {
         setAuraFetch(mockIdentityAuraFetch);
-        const promise1 = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS);
-        const promise2 = fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS);
-        await expect(promise1).resolves.toEqual({});
-        await expect(promise2).resolves.toEqual({});
-        expect(mockIdentityAuraFetch).toHaveBeenCalledTimes(1);
+        const parameters = { actionName: 'actionName', actionType: 'actionType' };
+        expect(isAlreadyFetched(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters)).toBe(false);
+    });
+    it('returns true if has been fetched', async () => {
+        setAuraFetch(mockIdentityAuraFetch);
+        const parameters = { actionName: 'actionName', actionType: 'actionType' };
+        await fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
+        expect(isAlreadyFetched(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters)).toBe(true);
+    });
+    it('returns false if pending', async () => {
+        setAuraFetch(mockIdentityAuraFetch);
+        const parameters = { actionName: 'actionName', actionType: 'actionType' };
+        fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters);
+        expect(isAlreadyFetched(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters)).toBe(false);
+    });
+    it('returns false if it returned an error', async () => {
+        setAuraFetch(mockErrorAuraFetch('error during the call'));
+        const parameters = { actionName: 'actionName', actionType: 'actionType' };
+        await fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters).catch(() => {});
+        expect(isAlreadyFetched(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, parameters)).toBe(false);
     });
 });

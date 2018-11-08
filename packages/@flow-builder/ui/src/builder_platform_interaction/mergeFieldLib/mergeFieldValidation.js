@@ -288,22 +288,21 @@ export class MergeFieldsValidation {
     _getFieldForEntity(entityName, fieldName) {
         fieldName = fieldName.toLowerCase();
         return new Promise((resolve) => {
+            if (!sobjectLib.areFieldsForEntityAlreadyFetched(entityName)) {
+                // skip validation in the case that the fields are not cached
+                // save-time validation will take care of this
+                resolve({ skipValidation: true });
+            }
             sobjectLib.getFieldsForEntity(entityName, (fields) => {
-                if (!fields) {
-                    // skip validation in the case that the fields are not cached
-                    // save-time validation will take care of this
-                    resolve({ skipValidation: true });
-                } else {
-                    for (const apiName in fields) {
-                        if (fields.hasOwnProperty(apiName)) {
-                            if (fieldName === apiName.toLowerCase()) {
-                                resolve({ field: fields[apiName] });
-                            }
+                for (const apiName in fields) {
+                    if (fields.hasOwnProperty(apiName)) {
+                        if (fieldName === apiName.toLowerCase()) {
+                            resolve({ field: fields[apiName] });
                         }
                     }
-                    resolve({ field: undefined });
                 }
-            }, true);
+                resolve({ field: undefined });
+            });
         });
     }
 }

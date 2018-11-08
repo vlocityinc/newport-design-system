@@ -95,6 +95,16 @@ export function fetch(serverActionType, callback, params, { background = false, 
     return stopCallbackExecution;
 }
 
+const KEY_PROVIDER = {
+    [SERVER_ACTION_TYPE.GET_APEX_PLUGINS]: () => 'default',
+    [SERVER_ACTION_TYPE.GET_SUBFLOWS]: (params) => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: (params) => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]: (params) => `${params.actionName}-${params.actionType}`,
+    [SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS]: (params) => `${params.apexClass}`,
+    [SERVER_ACTION_TYPE.GET_ENTITY_FIELDS]: (params) => params.entityApiName,
+    [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: (params) => params.flowName,
+};
+
 const fetchOnceCache = { };
 
 /**
@@ -104,7 +114,6 @@ const fetchOnceCache = { };
  *            serverActionType type of action to be executed
  * @param {Object}
  *            params any parameters to make server call
- * @param {Function} keyProvider provides a unique key from the parameters
  * @param {{background: (boolean|undefined), disableErrorModal: (boolean|undefined), messageForErrorModal: (string|undefined)}} optionalParams
  *            background need to be set to true if request needs to be run as a background action
  *            disableErrorModal need to be set to true to disable the default error modal panel
@@ -112,13 +121,10 @@ const fetchOnceCache = { };
  * @return {Promise} Promise object represents the return value from the server
  *         side action
  */
-export function fetchOnce(serverActionType, params = {}, keyProvider, { background = false, disableErrorModal = false, messageForErrorModal } = {}) {
+export function fetchOnce(serverActionType, params = {}, { background = false, disableErrorModal = false, messageForErrorModal } = {}) {
+    const keyProvider = KEY_PROVIDER[serverActionType];
     if (!keyProvider) {
-        if (Object.keys(params).length === 0 && params.constructor === Object) {
-            keyProvider = () => 'default';
-        } else {
-            throw new Error("keyProvider is mandatory when there is a least one parameter");
-        }
+        throw new Error(`No keyProvider configured for ${serverActionType}`);
     }
     const key = keyProvider(params);
     let serverActionTypeCache = fetchOnceCache[serverActionType];
@@ -133,8 +139,10 @@ export function fetchOnce(serverActionType, params = {}, keyProvider, { backgrou
     }
     // we can use a promise because we don't use a storable action
     let rejected = false;
+    let pending = true;
     serverActionTypeCache[key] = new Promise((resolve, reject) => {
         fetch(serverActionType, ({data, error}) => {
+            pending = false;
             if (error) {
                 rejected = true;
                 reject(new Error(error));
@@ -143,8 +151,27 @@ export function fetchOnce(serverActionType, params = {}, keyProvider, { backgrou
             }
         }, params, { background, storable : false, disableErrorModal, messageForErrorModal });
     });
-    serverActionTypeCache[key].isRejected = () => rejected;
+    serverActionTypeCache[key].isRejected = () => !pending && rejected;
+    serverActionTypeCache[key].isFulfilled = () => !pending && !rejected;
+    serverActionTypeCache[key].isPending = () => pending;
     return serverActionTypeCache[key];
+}
+
+export function isAlreadyFetched(serverActionType, params = {}) {
+    const keyProvider = KEY_PROVIDER[serverActionType];
+    if (!keyProvider) {
+        throw new Error(`No keyProvider configured for ${serverActionType}`);
+    }
+    const key = keyProvider(params);
+    const serverActionTypeCache = fetchOnceCache[serverActionType];
+    if (!serverActionTypeCache) {
+        return false;
+    }
+    const promise = serverActionTypeCache[key];
+    if (!promise) {
+        return false;
+    }
+    return promise.isFulfilled();
 }
 
 export function resetFetchOnceCache() {

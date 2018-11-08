@@ -42,8 +42,7 @@ export default class SubflowEditor extends LightningElement {
         this.displaySpinner = true;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         const serverActionParams = { flowName };
-        const keyProvider = (params) => params.flowName;
-        fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES, serverActionParams, keyProvider).then((inputOutputVariables) => {
+        fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES, serverActionParams).then((inputOutputVariables) => {
             if (this.connected) {
                 this.displaySpinner = false;
                 const event = new CustomEvent(MERGE_WITH_VARIABLES, { detail : inputOutputVariables });
@@ -71,11 +70,10 @@ export default class SubflowEditor extends LightningElement {
     fetchSubflowDescriptor() {
         this.subflowDescriptor = undefined;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
-        const keyProvider = (params) => params.flowName;
         const options = {disableErrorModal : true};
         fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
             flowProcessType : this.flowProcessType
-        }, keyProvider, options).then((subflows) => {
+        }, options).then((subflows) => {
             if (this.connected) {
                 this.subflowDescriptor = subflows.find(f => f.fullName === flowName);
             }

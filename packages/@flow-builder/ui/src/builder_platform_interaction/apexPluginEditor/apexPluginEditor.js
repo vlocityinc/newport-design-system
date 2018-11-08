@@ -110,8 +110,7 @@ export default class ApexPluginEditor extends LightningElement {
 
     fetchApexPluginParameters() {
         const apexParams = { apexClass: getValueFromHydratedItem(this.apexPluginNode.apexClass)};
-        const keyProvider = (params) => `${params.apexClass}`;
-        fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS, apexParams, keyProvider).then((parameters) => {
+        fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS, apexParams).then((parameters) => {
             if (this.connected) {
                 this.displaySpinner = false;
                 const event = new CustomEvent(MERGE_WITH_PARAMETERS, { detail : parameters });

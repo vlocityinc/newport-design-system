@@ -1,7 +1,7 @@
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
 import { datetimeParamTypes } from "mock/ruleService";
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { areFieldsForEntityAlreadyFetched } from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/systemLib', () => {
     const emptyString = '$GlobalConstant.EmptyString';
@@ -21,6 +21,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
             callback(require.requireActual('mock/serverEntityData').mockAccountFields);
         }),
+        areFieldsForEntityAlreadyFetched: jest.fn().mockImplementation(() => true)
     };
 });
 
@@ -93,9 +94,7 @@ describe('Merge field validation', () => {
             });
         });
         it('Returns no validation errors if fields are not cached', (done) => {
-            getFieldsForEntity.mockImplementationOnce((entityName, callback) => {
-                callback();
-            });
+            areFieldsForEntityAlreadyFetched.mockImplementationOnce(() => false);
             validateMergeField('{!accVar1.Name}').then(validationErrors => {
                 expect(validationErrors).toEqual([]);
                 done();
