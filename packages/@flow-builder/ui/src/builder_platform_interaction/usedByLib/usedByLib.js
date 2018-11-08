@@ -2,7 +2,7 @@ import { EXPRESSION_RE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMe
 import { Store, isPlainObject } from 'builder_platform_interaction/storeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { addItem, getValueFromHydratedItem, dehydrate, unionOfArrays } from 'builder_platform_interaction/dataMutationLib';
-import { format, splitStringByPeriod } from 'builder_platform_interaction/commonUtils';
+import { format, splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './usedByLibLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { isTemplateField, isReferenceField, shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
@@ -184,11 +184,11 @@ function matchElement(elementGuids, object, key, value) {
             // After slice and split, occurences = ['var_1']
             const occurences = value.match(EXPRESSION_RE);
             if (occurences) {
-                return occurences.map((occurence) => splitStringByPeriod(occurence.slice(2, occurence.length - 1))[0])
+                return occurences.map((occurence) => splitStringBySeparator(occurence.slice(2, occurence.length - 1))[0])
                     .filter((guid) => elementGuids.includes(guid));
             }
         } else if (isReferenceField(object, key)) {
-            const guid = splitStringByPeriod(value)[0];
+            const guid = splitStringBySeparator(value)[0];
             return elementGuids && elementGuids.filter((elementGuid) => guid === elementGuid);
         }
     }

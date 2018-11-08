@@ -1,6 +1,6 @@
 import { isPlainObject } from "builder_platform_interaction/storeLib";
 import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE } from "builder_platform_interaction/flowMetadata";
-import { splitStringByPeriod, isReference, removeCurlyBraces } from "builder_platform_interaction/commonUtils";
+import { splitStringBySeparator, isReference, removeCurlyBraces } from "builder_platform_interaction/commonUtils";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { getDataTypeKey } from "builder_platform_interaction/elementFactory";
 
@@ -132,7 +132,7 @@ export const recursiveSwap = (object, swapFunction) => {
  * @returns {String}             the expression after swapping
  */
 export const swapSingleExpression = (expression, mapping) => {
-    const parts = splitStringByPeriod(expression);
+    const parts = splitStringBySeparator(expression);
     // TODO: Clean up this part: W-5535097
     const lowerCaseFirstPart = parts[0].toLowerCase();
     if (mapping[lowerCaseFirstPart]) {

@@ -1,5 +1,5 @@
 import { getElementByGuid, getElementByDevName } from "builder_platform_interaction/storeUtils";
-import { splitStringByPeriod } from "builder_platform_interaction/commonUtils";
+import { splitStringBySeparator } from "builder_platform_interaction/commonUtils";
 import { isGlobalConstantOrSystemVariableId } from "builder_platform_interaction/systemLib";
 import { EXPRESSION_RE } from "builder_platform_interaction/flowMetadata";
 
@@ -52,7 +52,7 @@ const devNameToGuid = (devName) => {
 };
 
 const replaceMergeFieldReference = (mergeFieldValue, mappingFunction) => {
-    const parts = splitStringByPeriod(mergeFieldValue);
+    const parts = splitStringBySeparator(mergeFieldValue);
     const value = mappingFunction(parts[0]);
     if (value) {
         parts[0] = value;

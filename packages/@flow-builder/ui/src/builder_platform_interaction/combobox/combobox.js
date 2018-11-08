@@ -2,7 +2,7 @@ import { LightningElement, api, track, unwrap } from 'lwc';
 import { FetchMenuDataEvent, ComboboxStateChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from "builder_platform_interaction/events";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { COMBOBOX_NEW_RESOURCE_VALUE } from "builder_platform_interaction/expressionUtils";
-import { format, isUndefinedOrNull, isObject, isValidNumber, addCurlyBraces, splitStringByPeriod } from "builder_platform_interaction/commonUtils";
+import { format, isUndefinedOrNull, isObject, isValidNumber, addCurlyBraces, splitStringBySeparator } from "builder_platform_interaction/commonUtils";
 import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
 import { LABELS } from "./comboboxLabels";
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from "builder_platform_interaction/mergeFieldLib";
@@ -577,7 +577,7 @@ export default class Combobox extends LightningElement {
      * @returns {Boolean} returns true if the current displayText is a potential field
      */
     isPotentialField() {
-        const field = splitStringByPeriod(this.getSanitizedValue(), this.separator)[1];
+        const field = splitStringBySeparator(this.getSanitizedValue(), this.separator)[1];
         if (this._isMergeField && !this.hasMergeFieldCrossedMaxLevel() && !isUndefinedOrNull(field)) {
             return true;
         }
@@ -588,7 +588,7 @@ export default class Combobox extends LightningElement {
      * Grabs the flow element from the cache/store and gets the fields for the item
      */
     getParentElementAndFetchFields() {
-        const base = splitStringByPeriod(this.getSanitizedValue(), this.separator)[0];
+        const base = splitStringBySeparator(this.getSanitizedValue(), this.separator)[0];
         const baseMergeField = addCurlyBraces(base);
         if (this._mergeFieldLevel === 1 || (this._mergeFieldLevel === MAX_LEVEL_MENU_DATA && this._base !== baseMergeField)) {
             // get parent element from combobox cache
@@ -730,7 +730,7 @@ export default class Combobox extends LightningElement {
      * @returns {Boolean} true when the level is greater than max level.
      */
     hasMergeFieldCrossedMaxLevel() {
-        return splitStringByPeriod(this.state.displayText, this.separator).length > MAX_LEVEL_MENU_DATA;
+        return splitStringBySeparator(this.state.displayText, this.separator).length > MAX_LEVEL_MENU_DATA;
     }
 
     /**
@@ -1034,7 +1034,7 @@ export default class Combobox extends LightningElement {
                 return true;
             }
             // split the merge field by separator
-            const mergeFieldArray = splitStringByPeriod(value, this.separator);
+            const mergeFieldArray = splitStringBySeparator(value, this.separator);
             let i = 0;
             while (regexResult && i < mergeFieldArray.length) {
                 // don't execute regex on empty strings

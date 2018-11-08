@@ -40,7 +40,7 @@ export const addCurlyBraces = (value) => {
  * @param {String} separator The separator string to split the value. Defaults to period.
  * @returns {Array} The string split by period
  */
-export const splitStringByPeriod = (value, separator = '.') => {
+export const splitStringBySeparator = (value, separator = '.') => {
     return value.split(separator);
 };
 

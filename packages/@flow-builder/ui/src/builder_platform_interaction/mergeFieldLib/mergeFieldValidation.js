@@ -5,7 +5,7 @@ import * as sobjectLib from "builder_platform_interaction/sobjectLib";
 import { LABELS } from "./mergeFieldValidationLabels";
 import { GLOBAL_CONSTANT_PREFIX, getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { format, splitStringByPeriod } from "builder_platform_interaction/commonUtils";
+import { format, splitStringBySeparator } from "builder_platform_interaction/commonUtils";
 import { isElementAllowed } from "builder_platform_interaction/expressionUtils";
 import { elementToParam } from "builder_platform_interaction/ruleLib";
 
@@ -253,7 +253,7 @@ export class MergeFieldsValidation {
 
     _validateSObjectVariableFieldMergeField(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
-        const parts = splitStringByPeriod(mergeFieldReferenceValue);
+        const parts = splitStringBySeparator(mergeFieldReferenceValue);
         const variableName = parts[0];
         const fieldName = parts[1];
         const element = getElementByDevName(variableName);
