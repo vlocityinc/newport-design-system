@@ -19,7 +19,6 @@ export default class StatusIcon extends LightningElement {
     @api direction = 'south'; // other options : north, east & west
     @api headerforsummary; // header for summary / body of panel
     @api showOnlyNumberOfErrors = false;
-    @api disableAutoOpen = false; // by default we open the popover automatically if there are errors/warnings
     @api closeOnClickOut = false; // close when we click out of the popover
     @api showTotalCounts = false;
     @api showSections = false;
@@ -37,9 +36,6 @@ export default class StatusIcon extends LightningElement {
 
         if (this.allCount > 0) {
             this.isIconVisible = true;
-            if (!this.disableAutoOpen) {
-                this.createPanel();
-            }
         } else {
             this.isIconVisible = false;
         }
@@ -179,6 +175,7 @@ export default class StatusIcon extends LightningElement {
     /**
      * creates a ui panel of type panel with the given params and sets statusIconSummary in the body of the panel
      */
+    @api
     createPanel() {
         const header = this.headerforsummary;
         const sections = this.internalMessages;
@@ -193,16 +190,5 @@ export default class StatusIcon extends LightningElement {
         const destroyPanel = this.onDestroyPanel;
         const closeOnClickOut = this.closeOnClickOut;
         invokePopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount, showTotalCounts, showSections }, { direction, referenceSelector, createPanel, destroyPanel, closeOnClickOut });
-    }
-
-    /**
-     * We are setting the id on lightning button icon in renderedCallback
-     * This is a temporary fix until W-5445508 is resolved
-     */
-    renderedCallback() {
-        const lightningButtonIcon = this.template.querySelector('lightning-button-icon');
-        if (lightningButtonIcon && lightningButtonIcon.id === "") {
-            lightningButtonIcon.id = generateGuid();
-        }
     }
 }

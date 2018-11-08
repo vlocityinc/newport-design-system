@@ -1,0 +1,25 @@
+<template>
+    <div class="inline-block-display">
+        <builder_platform_interaction-status-icon
+            type="warning"
+            class="warning-icon"
+            direction="south"
+            headerforsummary={labels.warningPopOverHeader}
+            close-on-click-out
+            show-total-counts="true"
+            show-sections="true"
+            messages={flowErrorsAndWarnings.warnings}>
+        </builder_platform_interaction-status-icon>
+    </div>
+    <div class="inline-block-display">
+        <builder_platform_interaction-status-icon
+            type="error"
+            class="error-icon"
+            direction="south"
+            headerforsummary={labels.errorPopOverHeader}
+            close-on-click-out
+            show-total-counts="true"
+            messages={flowErrorsAndWarnings.errors}>
+        </builder_platform_interaction-status-icon>
+    </div>
+</template>

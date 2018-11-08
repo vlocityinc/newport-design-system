@@ -36,7 +36,7 @@
                     <li key={section.guid} class={hasSections}>
                         <ul key={section.guid} class={hasSectionItems}>
                             <template for:each={section.messages} for:item="info">
-                                <li key={info.guid} class="slds-item">{info.message}</li>
+                                <li key={info.guid} class="slds-item message">{info.message}</li>
                             </template>
                         </ul>
                     </li>

@@ -285,4 +285,25 @@ export default class ParameterItem extends LightningElement {
         const itemDeleteEvent = new DeleteParameterItemEvent(this.state.parameterItem.isInput, this.state.parameterItem.rowIndex, getValueFromHydratedItem(this.state.parameterItem.name));
         this.dispatchEvent(itemDeleteEvent);
     }
+
+    /**
+     * Opens the popover on warnings
+     * @param {Object} warningMessages - opens the pop over on warnings.
+     */
+    openPopOver(warningMessages) {
+        if (warningMessages) {
+            if (Object.keys(this.warningMessages).length > 0) {
+                const icon = this.template.querySelector('.warning-icon');
+                icon.createPanel();
+            }
+        }
+    }
+
+    /**
+     * After rendering we are setting the popover to show up (if it warnings exists)
+     * via openPopOver
+     */
+    renderedCallback() {
+        this.openPopOver(this.warningMessage);
+    }
 }

@@ -17,11 +17,6 @@ function createComponentForTest({ disableAutoOpen = false } = {}) {
 
 describe('status-icon', () => {
     describe('When messages are set', () => {
-        it('opens the panel if auto-open is enabled', () => {
-            const statusIconCmp = createComponentForTest();
-            statusIconCmp.messages = {'PropertyEditorFooter': ['a message']};
-            expect(invokePopover).toHaveBeenCalled();
-        });
         it('does not open the panel auto-open is disabled', () => {
             const statusIconCmp = createComponentForTest({ disableAutoOpen : true});
             statusIconCmp.messages = {'PropertyEditorFooter': ['a message']};

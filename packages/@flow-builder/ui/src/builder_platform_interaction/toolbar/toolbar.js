@@ -22,18 +22,14 @@ export default class Toolbar extends LightningElement {
     @api isRunDebugDisabled;
     @api isSaveDisabled;
     @api isSaveAsDisabled;
-    @api errors;
     @api lastModifiedDate;
     @api saveStatus;
     @api isLightningFlowBuilder;
     @api canOnlySaveAsNewDefinition;
     @api hasUnsavedChanges;
-    @api warnings;
-    @api hasWarningsAndErrors;
+    @api flowErrorsAndWarnings;
 
     labels = LABELS;
-    headerTitleForErrorSummary = LABELS.errorPopOverHeader;
-    headerTitleForWarningSummary = LABELS.warningPopOverHeader;
 
     statusLabelAndTitle = {
         [ACTIVE]: {

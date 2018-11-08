@@ -24,6 +24,8 @@
                     }
                     cmp.set('v.isSaveDisabled', false);
                     cmp.set('v.messages', {'No Section': errors});
+                    var statusIconCmp = cmp.find('statusIcon');
+                    statusIconCmp.createPanel();
                 }
             }
         } 

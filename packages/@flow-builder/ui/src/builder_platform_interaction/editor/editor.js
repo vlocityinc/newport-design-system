@@ -41,6 +41,8 @@ const EDITOR = 'EDITOR';
  */
 export default class Editor extends LightningElement {
     currentFlowId;
+    runDebugUrl;
+    isFlowServerCallInProgress = false;
 
     @track
     appState = {
@@ -51,22 +53,18 @@ export default class Editor extends LightningElement {
         properties: {}
     };
 
+    @track
+    flowErrorsAndWarnings = {
+        errors: {},
+        warnings: {}
+    };
+
     @track backUrl;
-
     @track helpUrl;
-
-    runDebugUrl;
-
-    isFlowServerCallInProgress = false;
-
     @track showSpinner = false;
-
     @track hasNotBeenSaved = true;
     @track disableSave = true;
     @track saveStatus;
-    @track warnings;
-    @track errors;
-    @track hasWarningsAndErrors = false;
 
     constructor() {
         super();
@@ -236,19 +234,8 @@ export default class Editor extends LightningElement {
                 isLightningFlowBuilder: true
             }));
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
-            this.errors = {};
-            this.warnings = data.warnings;
-            this.hasWarningsAndErrors = false;
         } else {
             this.saveStatus = null;
-            this.errors = data.errors;
-            this.warnings = data.warnings;
-            // TODO: this is going to be refaactored.
-            if (this.errors && this.warnings) {
-                if (Object.keys(this.errors).length > 0 && Object.keys(this.warnings).length > 0) {
-                    this.hasWarningsAndErrors = true;
-                }
-            }
         }
 
         if (this.flowId) {
@@ -256,6 +243,10 @@ export default class Editor extends LightningElement {
             this.saveStatus = LABELS.savedStatus;
         }
         this.disableSave = false;
+        this.flowErrorsAndWarnings = {
+            errors: data.errors || {},
+            warnings: data.warnings || {}
+        };
     };
 
     /**

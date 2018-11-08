@@ -10,10 +10,10 @@
                         </lightning-badge>
                     </div>
                     <div class='slds-col'>
-                        <builder_platform_interaction-status-icon 
+                        <builder_platform_interaction-status-icon
+                            class="warning-icon"
                             if:true={warningMessage} type='warning' direction='north' 
                             headerforsummary={labels.warningHeaderForSummary}
-                            disable-auto-open
                             close-on-click-out
                             messages={warningMessages}>
                         </builder_platform_interaction-status-icon>
