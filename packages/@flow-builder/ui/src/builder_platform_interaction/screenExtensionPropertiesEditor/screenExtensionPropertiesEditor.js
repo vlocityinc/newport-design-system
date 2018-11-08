@@ -23,9 +23,11 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     }
 
     set extensionDescription(value) {
-        this._extensionDescription = value;
-        this.mergedField = null;
-        this.checkState();
+        if (!this._extensionDescription) {
+            this._extensionDescription = value;
+            this.mergedField = null;
+            this.checkState();
+        }
     }
 
     @api get extensionDescription() {
