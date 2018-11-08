@@ -311,24 +311,6 @@ export default class Canvas extends LightningElement {
     };
 
     /**
-     * Handling mouse enter event for canvas. Bringing the canvas in focus as mouse enters.
-     * @param {object} event - mouse enter event
-     */
-    handleCanvasMouseEnter = (event) => {
-        event.preventDefault();
-        this.canvasArea.focus();
-    };
-
-    /**
-     * Handling mouse leave event for canvas. Removing focus from canvas.
-     * @param {object} event - mouse leave event
-     */
-    handleCanvasMouseLeave = (event) => {
-        event.preventDefault();
-        this.canvasArea.blur();
-    };
-
-    /**
      * Handling mouse up event for canvas. If mouse up happens directly on canvas/innerCanvas then marking the nodes
      * as unselected.
      * @param {object} event - mouse up event

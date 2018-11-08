@@ -1,9 +1,12 @@
 ﻿<template>
-    <div class='canvas slds-is-relative' id='canvas' tabindex='0' onmouseenter={handleCanvasMouseEnter} onmouseleave={handleCanvasMouseLeave}
-         onmouseup={handleCanvasMouseUp} onkeydown={handleKeyDown} onkeyup={handleKeyUp} ondragover={handleDragOver} ondrop={handleDrop}>
+    <div class='canvas slds-is-relative' id='canvas' tabindex='0' onmouseup={handleCanvasMouseUp} onkeydown={handleKeyDown}
+         onkeyup={handleKeyUp} ondragover={handleDragOver} ondrop={handleDrop}>
+
+        <!--Overlay-->
         <div if:true={isPanModeOn} class='overlay slds-is-absolute' id='overlay' onmouseenter={handleOverlayMouseEnter} onmouseleave={handleOverlayMouseLeave}
              onmousedown={handleOverlayMouseDown} onmousemove={handleOverlayMouseMove} onmouseup={handleOverlayMouseUp} oncontextmenu={handleOverlayContextMenu}>
         </div>
+
         <!--Inner Canvas-->
         <div class='inner-canvas slds-is-relative' id='innerCanvas'>
             <!--Iterating over the nodes-->
