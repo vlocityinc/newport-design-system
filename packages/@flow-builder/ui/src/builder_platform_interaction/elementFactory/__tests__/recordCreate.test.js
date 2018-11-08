@@ -6,10 +6,10 @@ import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConsta
 import { matchers } from './elementFactoryMatchers';
 
 expect.extend(matchers);
-const mockGuid = 'mockGuid';
+const MOCK_GUID = 'mockGuid', MOCK_ASSIGN_RECORD_ID_TO_REFERENCE = 'myNewId';
 
 const flowRecordCreateFieldsMetadata = () => ({
-    assignRecordIdToReference: "myNewId",
+    assignRecordIdToReference: MOCK_ASSIGN_RECORD_ID_TO_REFERENCE,
     inputAssignments: [{
         field: "BillingCity",
         value: {elementReference: "myCity"}
@@ -25,7 +25,7 @@ const flowRecordCreateFieldsMetadata = () => ({
 });
 
 const flowRecordCreateFieldsStore = () => ({
-    assignRecordIdToReference: "myNewId",
+    assignRecordIdToReference: MOCK_ASSIGN_RECORD_ID_TO_REFERENCE,
     availableConnections: [{
             type: "REGULAR"
         }, {
@@ -36,7 +36,7 @@ const flowRecordCreateFieldsStore = () => ({
     dataType: "Boolean",
     description: "",
     elementType: "RECORD_CREATE",
-    guid: "mockGuid",
+    guid: MOCK_GUID,
     inputAssignments: [{
         leftHandSide: "Account.BillingCity",
         rightHandSide: "28221fc3-b4a3-45ca-a195-7a849faa1dc6",
@@ -76,7 +76,7 @@ const flowRecordCreateSObjectStore = () => ({
     dataType: "Boolean",
     description: "",
     elementType: "RECORD_CREATE",
-    guid: "mockGuid",
+    guid: MOCK_GUID,
     inputReference: "mySObjectVar",
     isCanvasElement: true,
     label: "myCreateFast",
@@ -123,7 +123,7 @@ const uiModelInputAssignmentFieldBooleanValue = {
 
 describe('recordCreate', () => {
     const storeLib = require.requireActual('builder_platform_interaction/storeLib');
-    storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
+    storeLib.generateGuid = jest.fn().mockReturnValue(MOCK_GUID);
     describe('createRecordCreate function', () => {
         let recordCreate;
         describe('when empty recordCreate is created', () => {
@@ -239,6 +239,15 @@ describe('recordCreate UI model => flow metadata', () => {
         it('has no common mutable object with record create store passed as parameter', () => {
             const actualResult = createRecordCreateMetadataObject(uiModelRecordCreateWithFields);
             expect(actualResult).toHaveNoCommonMutableObjectWith(uiModelRecordCreateWithFields);
+        });
+        it('"assignRecordIdToReference" with value (not empty string)', () => {
+            const actualResult = createRecordCreateMetadataObject(uiModelRecordCreateWithFields);
+            expect(actualResult).toHaveProperty('assignRecordIdToReference', MOCK_ASSIGN_RECORD_ID_TO_REFERENCE);
+        });
+        it('no "assignRecordIdToReference" with empty string value', () => {
+            uiModelRecordCreateWithFields.assignRecordIdToReference = '';
+            const actualResult = createRecordCreateMetadataObject(uiModelRecordCreateWithFields);
+            expect(actualResult).not.toHaveProperty('assignRecordIdToReference');
         });
     });
 });

@@ -99,14 +99,16 @@ export function createRecordCreateMetadataObject(recordCreate, config) {
         let { inputAssignments = [] } = recordCreate;
         inputAssignments = inputAssignments.map(input => createFlowInputFieldAssignmentMetadataObject(input));
 
-        return Object.assign(recordCreateMetadata, {
+        const newRecordCreateMetadata = Object.assign(recordCreateMetadata, {
             object,
             inputAssignments,
-            assignRecordIdToReference,
         });
+        if (assignRecordIdToReference !== '') {
+            newRecordCreateMetadata.assignRecordIdToReference = assignRecordIdToReference;
+        }
+        return newRecordCreateMetadata;
     }
-
     return Object.assign(recordCreateMetadata, {
-        inputReference
-    });
+            inputReference
+        });
 }
