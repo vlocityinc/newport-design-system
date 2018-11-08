@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import FerovResourcePicker from "../ferovResourcePicker";
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { ComboboxStateChangedEvent } from "builder_platform_interaction/events";
 import { normalizeRHS, getMenuData } from "builder_platform_interaction/expressionUtils";
 import * as mockRuleLib from "builder_platform_interaction/ruleLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
@@ -289,6 +290,43 @@ describe('ferov-resource-picker', () => {
         ferovResourcePicker.value = props.value;
         return Promise.resolve().then(() => {
             expect(normalizeRHS).toHaveBeenCalledWith(props.value);
+        });
+    });
+    describe('event handling', () => {
+        const comboboxValue = {
+            value: "value",
+        };
+        const displayText = "displayText";
+        it('when combobox changes to valid item, item is stored', () => {
+            const ferovResourcePicker = setupComponentUnderTest(props);
+            return Promise.resolve().then(() => {
+                const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(comboboxValue, displayText));
+                return Promise.resolve().then(() => {
+                    expect(ferovResourcePicker.value).toMatchObject(comboboxValue);
+                });
+            });
+        });
+        it('when combobox changes to valid literal, literal is stored', () => {
+            const ferovResourcePicker = setupComponentUnderTest(props);
+            return Promise.resolve().then(() => {
+                const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, displayText));
+                return Promise.resolve().then(() => {
+                    expect(ferovResourcePicker.value).toEqual(displayText);
+                });
+            });
+        });
+        it('when resource picker is in an invalid state, displayText is stored even if combobox fires an item', () => {
+            props.errorMessage = 'error';
+            const ferovResourcePicker = setupComponentUnderTest(props);
+            return Promise.resolve().then(() => {
+                const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(comboboxValue, displayText));
+                return Promise.resolve().then(() => {
+                    expect(ferovResourcePicker.value).toEqual(displayText);
+                });
+            });
         });
     });
     describe('handles system & global variables', () => {
