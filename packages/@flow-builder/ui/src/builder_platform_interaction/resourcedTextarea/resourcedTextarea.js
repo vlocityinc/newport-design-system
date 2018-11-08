@@ -37,6 +37,7 @@ export default class ResourcedTextarea extends LightningElement {
     @api spinnerAlternativeText;
     @api showGlobalVariables = false;
     @api hideNewResource = false;
+    @api quickValidation = false; // if true, we avoid server calls when validating merge fields
     @track error;
     @track spinnerActive;
     @track _value;
@@ -106,12 +107,10 @@ export default class ResourcedTextarea extends LightningElement {
         // In some rare cases validateTextWithMergeFields request object fields
         // from the server because we don't have them in memory yet. The
         // request may take a while so we should show a spinner.
-        // TODO: [W-5501621] If we have a way to track pending requests we
-        // won't need to make the a duplicate request for object fields in
-        // validateTextWithMergeFields.
         this.spinnerActive = true;
 
-        validateTextWithMergeFields(val, { allowGlobalConstants : false }).then(errors => {
+        const options = { allowGlobalConstants : false, quickValidation : this.quickValidation };
+        validateTextWithMergeFields(val, options).then(errors => {
             this.spinnerActive = false;
 
             // TODO: The screenEditor expects just an error message while the

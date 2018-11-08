@@ -18,10 +18,10 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
-            callback(require.requireActual('mock/serverEntityData').mockAccountFields);
+        fetchFieldsForEntity: jest.fn().mockImplementation(() => {
+            return Promise.resolve(require.requireActual('mock/serverEntityData').mockAccountFields);
         }),
-        areFieldsForEntityAlreadyFetched: jest.fn().mockImplementation(() => true)
+        areFieldsForEntityAlreadyFetched: jest.fn().mockImplementation(() => false)
     };
 });
 
@@ -93,9 +93,9 @@ describe('Merge field validation', () => {
                 done();
             });
         });
-        it('Returns no validation errors if fields are not cached', (done) => {
+        it('Returns no validation errors if quickValidation and fields are not cached', (done) => {
             areFieldsForEntityAlreadyFetched.mockImplementationOnce(() => false);
-            validateMergeField('{!accVar1.Name}').then(validationErrors => {
+            validateMergeField('{!accVar1.FieldName}', { quickValidation : true }).then(validationErrors => {
                 expect(validationErrors).toEqual([]);
                 done();
             });

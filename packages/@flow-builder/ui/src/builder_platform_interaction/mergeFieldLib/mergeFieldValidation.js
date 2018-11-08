@@ -25,7 +25,7 @@ const VALIDATION_ERROR_TYPE = {
 };
 
 /**
- * Validate merge fields. Only support "String" data type for now.
+ * Validate merge fields.
  * Cross-Object field references ({!sObjectVariable.objectName1.objectName2.fieldName}) are not supported.
  */
 export class MergeFieldsValidation {
@@ -34,6 +34,9 @@ export class MergeFieldsValidation {
     // The allowed param types for merge field based on rule service.
     // If present, this is used to validate the element merge field.
     allowedParamTypes = null;
+
+    // If quick validation is enabled, validation won't wait for server calls. This means some errors might be ignored.
+    quickValidation = false;
 
     /**
      * @typedef {Object} ValidationError
@@ -269,17 +272,20 @@ export class MergeFieldsValidation {
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
             return Promise.resolve([validationError]);
         }
-        return this._getFieldForEntity(element.objectType, fieldName).then(({ field, skipValidation }) => {
+        if (this.quickValidation && !sobjectLib.areFieldsForEntityAlreadyFetched(element.objectType)) {
+            // we do the call to have it in cache for next time
+            this._getFieldForEntity(element.objectType, fieldName);
+            return Promise.resolve([]);
+        }
+        return this._getFieldForEntity(element.objectType, fieldName).then(field => {
             let errors = [];
-            if (!skipValidation) {
-                if (!field) {
-                    const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.objectType);
-                    errors = [this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex)];
-                // validate field for the allowed param types
-                } else if (this.allowedParamTypes && !this._isElementValidForAllowedParamTypes(field)) {
-                    const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
-                    errors = [validationError];
-                }
+            if (!field) {
+                const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.objectType);
+                errors = [this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex)];
+            // validate field for the allowed param types
+            } else if (this.allowedParamTypes && !this._isElementValidForAllowedParamTypes(field)) {
+                const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
+                errors = [validationError];
             }
             return errors;
         });
@@ -287,36 +293,31 @@ export class MergeFieldsValidation {
 
     _getFieldForEntity(entityName, fieldName) {
         fieldName = fieldName.toLowerCase();
-        return new Promise((resolve) => {
-            if (!sobjectLib.areFieldsForEntityAlreadyFetched(entityName)) {
-                // skip validation in the case that the fields are not cached
-                // save-time validation will take care of this
-                resolve({ skipValidation: true });
-            }
-            sobjectLib.getFieldsForEntity(entityName, (fields) => {
-                for (const apiName in fields) {
-                    if (fields.hasOwnProperty(apiName)) {
-                        if (fieldName === apiName.toLowerCase()) {
-                            resolve({ field: fields[apiName] });
-                        }
+        return sobjectLib.fetchFieldsForEntity(entityName, { disableErrorModal : true }).then(fields => {
+            for (const apiName in fields) {
+                if (fields.hasOwnProperty(apiName)) {
+                    if (fieldName === apiName.toLowerCase()) {
+                        return fields[apiName];
                     }
                 }
-                resolve({ field: undefined });
-            });
+            }
+            return undefined;
         });
     }
 }
 
-export function validateTextWithMergeFields(textWithMergeFields, { allowGlobalConstants = true } = { }) {
+export function validateTextWithMergeFields(textWithMergeFields, { allowGlobalConstants = true, quickValidation = false } = { }) {
     const validation = new MergeFieldsValidation();
     validation.allowGlobalConstants = allowGlobalConstants;
+    validation.quickValidation = quickValidation;
     return validation.validateTextWithMergeFields(textWithMergeFields);
 }
 
-export function validateMergeField(mergeField, { allowGlobalConstants = true, allowedParamTypes = null } = { }) {
+export function validateMergeField(mergeField, { allowGlobalConstants = true, allowedParamTypes = null, quickValidation = false } = { }) {
     const validation = new MergeFieldsValidation();
     validation.allowGlobalConstants = allowGlobalConstants;
     validation.allowedParamTypes = allowedParamTypes;
+    validation.quickValidation = quickValidation;
     return validation.validateMergeField(mergeField);
 }
 
