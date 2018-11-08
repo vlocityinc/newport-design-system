@@ -9,7 +9,13 @@ import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields 
 import { removeCurlyBraces } from "builder_platform_interaction/commonUtils";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import unknownMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownMergeField';
-import { getValidDateTime, formatDateTime } from "builder_platform_interaction/dateTimeUtils";
+import {
+    normalizeDateTime,
+    createMetadataDateTime,
+    formatDateTime,
+    isValidFormattedDateTime,
+    getFormat,
+} from "builder_platform_interaction/dateTimeUtils";
 import { addToParentElementCache } from "builder_platform_interaction/comboboxCache";
 import { LABELS } from "../comboboxLabels";
 
@@ -60,8 +66,11 @@ jest.mock('builder_platform_interaction/mergeFieldLib', () => {
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
-        formatDateTime: jest.fn().mockName('builder_platform_interaction.formatDateTime'),
-        getValidDateTime: jest.fn().mockName('builder_platform_interaction.getValidDateTime'),
+        normalizeDateTime: jest.fn().mockName('normalizeDateTime'),
+        createMetadataDateTime: jest.fn().mockName('createMetadataDateTime'),
+        formatDateTime: jest.fn().mockName('formatDateTime'),
+        isValidFormattedDateTime: jest.fn().mockName('isValidFormattedDateTime'),
+        getFormat: jest.fn().mockName('getFormat'),
     };
 });
 
@@ -342,6 +351,134 @@ describe('Combobox Tests', () => {
                 combobox.value = validItemWithHasNextFalse;
                 return Promise.resolve().then(() => {
                     expect(groupedCombobox.inputText).toEqual(validItemWithHasNextFalse.displayText);
+                });
+            });
+
+            describe('setting dateTime literals', () => {
+                beforeEach(() => {
+                    createCombobox();
+                });
+
+                it('calls normalizeDateTime when given a literal and type is dateTime with literalsAllowed', () => {
+                    const normalizedLiteral = 'some normalized output';
+                    normalizeDateTime.mockReturnValueOnce(normalizedLiteral);
+
+                    const literal = 'some literal';
+                    combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
+                    combobox.literalsAllowed = true;
+                    combobox.value = literal;
+
+                    return Promise.resolve().then(() => {
+                        expect(normalizeDateTime).toHaveBeenCalledWith(literal, true);
+                        expect(combobox.value).toEqual(normalizedLiteral);
+                    });
+                });
+
+                it('calls normalizeDateTime when given a literal and type is date with literalsAllowed', () => {
+                    const normalizedLiteral = 'some normalized output';
+                    normalizeDateTime.mockReturnValueOnce(normalizedLiteral);
+
+                    const literal = 'some literal';
+                    combobox.type = FLOW_DATA_TYPE.DATE.value;
+                    combobox.literalsAllowed = true;
+                    combobox.value = literal;
+
+                    return Promise.resolve().then(() => {
+                        expect(normalizeDateTime).toHaveBeenCalledWith(literal, false);
+                        expect(combobox.value).toEqual(normalizedLiteral);
+                    });
+                });
+
+                it('does not normalize date literal when literalsAllowed is false', () => {
+                    const literal = 'some literal';
+                    combobox.type = FLOW_DATA_TYPE.DATE.value;
+                    combobox.literalsAllowed = false;
+                    combobox.value = literal;
+
+                    return Promise.resolve().then(() => {
+                        expect(normalizeDateTime).not.toHaveBeenCalled();
+                    });
+                });
+
+                it('does not normalize date literal when in error state', () => {
+                    const literal = 'some literal';
+                    combobox.type = FLOW_DATA_TYPE.DATE.value;
+                    combobox.literalsAllowed = true;
+                    combobox.errorMessage = 'some error';
+                    combobox.value = literal;
+
+                    return Promise.resolve().then(() => {
+                        expect(normalizeDateTime).not.toHaveBeenCalled();
+                    });
+                });
+
+                it('does not normalize date literal when type is neither date or date time', () => {
+                    const literal = 'some literal';
+                    combobox.type = FLOW_DATA_TYPE.NUMBER.value;
+                    combobox.literalsAllowed = true;
+                    combobox.value = literal;
+
+                    return Promise.resolve().then(() => {
+                        expect(normalizeDateTime).not.toHaveBeenCalled();
+                    });
+                });
+            });
+
+            describe('getting date time literals', () => {
+                const normalizedOutput = 'some normalized output';
+                beforeEach(() => {
+                    createCombobox();
+                    combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
+                    combobox.literalsAllowed = true;
+                    normalizeDateTime.mockReturnValueOnce(normalizedOutput);
+                    combobox.value = 'some literal';
+                });
+
+                it('calls createMetadataDateTime when type is dateTime and literalsAllowed', () => {
+                    const mockMetadataValue = 'some metadata value';
+                    createMetadataDateTime.mockReturnValueOnce(mockMetadataValue);
+                    const literal = combobox.value;
+                    expect(literal).toEqual(mockMetadataValue);
+                    expect(createMetadataDateTime).toHaveBeenCalledWith(normalizedOutput, true);
+                });
+
+                it('calls createMetadataDateTime when type is date and literalsAllowed', () => {
+                    combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
+                    const mockMetadataValue = 'some metadata value';
+                    createMetadataDateTime.mockReturnValueOnce(mockMetadataValue);
+
+                    return Promise.resolve().then(() => {
+                        const literal = combobox.value;
+                        expect(literal).toEqual(mockMetadataValue);
+                        expect(createMetadataDateTime).toHaveBeenCalledWith(normalizedOutput, true);
+                    });
+                });
+
+                it('uses the display text when type is date or date time but literalsAllowed is false', () => {
+                    combobox.literalsAllowed = false;
+
+                    return Promise.resolve().then(() => {
+                        const literal = combobox.value;
+                        expect(literal).toEqual(normalizedOutput);
+                        expect(createMetadataDateTime).not.toHaveBeenCalled();
+                    });
+                });
+
+                it('uses the display text when type is neither date or date time', () => {
+                    combobox.type = FLOW_DATA_TYPE.NUMBER.value;
+
+                    return Promise.resolve().then(() => {
+                        const literal = combobox.value;
+                        expect(literal).toEqual(normalizedOutput);
+                        expect(createMetadataDateTime).not.toHaveBeenCalled();
+                    });
+                });
+
+                it('uses the display text when createMetadataDateTime returns null', () => {
+                    createMetadataDateTime.mockReturnValueOnce(null);
+                    const literal = combobox.value;
+                    expect(literal).toEqual(normalizedOutput);
+                    expect(createMetadataDateTime).toHaveBeenCalledWith(normalizedOutput, true);
                 });
             });
         });
@@ -945,58 +1082,130 @@ describe('Combobox Tests', () => {
 
     describe('datetime validation', () => {
         let blurEvent;
+        const mockDatetime = '12/31/1999 11:59 pm';
+        const mockDate = '12/31/1999';
 
         beforeEach(() => {
             createCombobox();
-
             blurEvent = new CustomEvent('blur');
         });
 
-        it('calls getValidDateTime when validating date', () => {
+        it('calls isValidFormattedDateTime when validating date time', () => {
+            normalizeDateTime.mockReturnValueOnce(mockDatetime);
             combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
-            const string = '01/29/1995';
-            combobox.value = string;
+            combobox.value = mockDatetime;
             groupedCombobox.dispatchEvent(blurEvent);
 
             return Promise.resolve().then(() => {
-                expect(getValidDateTime).toHaveBeenCalledTimes(1);
+                expect(isValidFormattedDateTime).toHaveBeenCalledTimes(1);
+                expect(isValidFormattedDateTime).toHaveBeenCalledWith(mockDatetime, true);
             });
         });
 
-        it('calls getValidDateTime when validating date time', () => {
+        it('calls isValidFormattedDateTime when validating date', () => {
+            normalizeDateTime.mockReturnValueOnce(mockDate);
             combobox.type = FLOW_DATA_TYPE.DATE.value;
-            const string = '01/29/1995';
-            combobox.value = string;
+            combobox.value = mockDatetime;
             groupedCombobox.dispatchEvent(blurEvent);
 
             return Promise.resolve().then(() => {
-                expect(getValidDateTime).toHaveBeenCalledTimes(1);
+                expect(isValidFormattedDateTime).toHaveBeenCalledTimes(1);
+                expect(isValidFormattedDateTime).toHaveBeenCalledWith(mockDate, false);
             });
         });
 
         it('calls formatDateTime when given a date literal to validate', () => {
+            normalizeDateTime.mockReturnValueOnce(mockDate);
+            isValidFormattedDateTime.mockReturnValueOnce(true);
+
             combobox.type = FLOW_DATA_TYPE.DATE.value;
-            const string = '01/29/1995';
-            combobox.value = string;
-            getValidDateTime.mockReturnValueOnce(new Date());
+            combobox.value = mockDate;
             groupedCombobox.dispatchEvent(blurEvent);
 
             return Promise.resolve().then(() => {
                 expect(formatDateTime).toHaveBeenCalledTimes(1);
+                expect(formatDateTime).toHaveBeenCalledWith(mockDate, false);
+            });
+        });
+
+        it('calls formatDateTime when given a date time literal to validate', () => {
+            normalizeDateTime.mockReturnValueOnce(mockDatetime);
+            isValidFormattedDateTime.mockReturnValueOnce(true);
+
+            combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
+            combobox.value = mockDatetime;
+            groupedCombobox.dispatchEvent(blurEvent);
+
+            return Promise.resolve().then(() => {
+                expect(formatDateTime).toHaveBeenCalledTimes(1);
+                expect(formatDateTime).toHaveBeenCalledWith(mockDatetime, true);
             });
         });
 
         it('sets the error message when given an invalid date or date time', () => {
+            normalizeDateTime.mockReturnValueOnce(mockDatetime);
+            isValidFormattedDateTime.mockReturnValueOnce(false);
+
             combobox.type = FLOW_DATA_TYPE.DATE.value;
-            const string = '01/29/1995';
-            combobox.value = string;
-            getValidDateTime.mockReturnValueOnce(null);
+            combobox.value = 'bad date time';
 
             groupedCombobox.dispatchEvent(blurEvent);
             return Promise.resolve().then(() => {
-                expect(getValidDateTime).toHaveBeenCalledTimes(1);
                 expect(formatDateTime).not.toHaveBeenCalled();
                 expect(combobox.errorMessage).toEqual(LABELS.dateErrorMessage);
+            });
+        });
+    });
+
+    describe('placeholder logic', () => {
+        const mockDateFormat = 'mm/dd/yyy';
+        const mockDatetimeFormat = 'mm/dd/yyyy, hh:mm:ss';
+
+        beforeEach(() => {
+            createCombobox();
+        });
+
+        it('uses the default placeholder when no placeholder is given', () => {
+            expect(combobox.placeholder).toEqual(LABELS.defaultPlaceholder);
+        });
+
+        it('uses localized date format when type is date and literals are allowed', () => {
+            getFormat.mockReturnValueOnce(mockDateFormat);
+            combobox.type = FLOW_DATA_TYPE.DATE.value;
+            combobox.literalsAllowed = true;
+
+            return Promise.resolve().then(() => {
+                expect(combobox.placeholder).toEqual(mockDateFormat);
+                expect(getFormat).toHaveBeenCalledWith(false);
+            });
+        });
+
+        it('uses localized date time format when type is dateTime and literals are allowed', () => {
+            getFormat.mockReturnValueOnce(mockDatetimeFormat);
+            combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
+            combobox.literalsAllowed = true;
+
+            return Promise.resolve().then(() => {
+                expect(combobox.placeholder).toEqual(mockDatetimeFormat);
+                expect(getFormat).toHaveBeenCalledWith(true);
+            });
+        });
+
+        it('does not get the localized date format when literalsAllowed is false', () => {
+            combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
+            combobox.literalsAllowed = false;
+
+            return Promise.resolve().then(() => {
+                expect(getFormat).not.toHaveBeenCalled();
+            });
+        });
+
+        it('does not get the localized date format when type is neither date or dateTime', () => {
+            combobox.type = FLOW_DATA_TYPE.NUMBER.value;
+            combobox.literalsAllowed = true;
+
+            return Promise.resolve().then(() => {
+                expect(getFormat).not.toHaveBeenCalled();
             });
         });
     });

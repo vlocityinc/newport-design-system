@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent, DiffFlowEvent } from 'builder_platform_interaction/events';
-import { formatDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug } from "builder_platform_interaction/contextLib";
 import { LABELS } from './toolbarLabels';
 
@@ -58,9 +58,9 @@ export default class Toolbar extends LightningElement {
         return (this.saveStatus === LABELS.savedStatus && this.lastModifiedDate);
     }
 
-    // TODO: Update this work once lightning date-time-util is exposed (W-5398011)
     get currentDate() {
-        return new Date(formatDateTime(this.lastModifiedDate, true));
+        const { date } = parseMetadataDateTime(this.lastModifiedDate, true);
+        return date;
     }
 
     get saveDisabled() {

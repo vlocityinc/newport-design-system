@@ -6,9 +6,16 @@ import { format, isUndefinedOrNull, isObject, isValidNumber, addCurlyBraces, spl
 import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
 import { LABELS } from "./comboboxLabels";
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from "builder_platform_interaction/mergeFieldLib";
-import { DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE, DATE_DISPLAY_FORMAT, formatDateTime, getValidDateTime } from "builder_platform_interaction/dateTimeUtils";
 import { getElementFromParentElementCache } from "builder_platform_interaction/comboboxCache";
 import { isGlobalConstantOrSystemVariableId } from "builder_platform_interaction/systemLib";
+import {
+    normalizeDateTime,
+    createMetadataDateTime,
+    formatDateTime,
+    isValidFormattedDateTime,
+    getFormat,
+} from 'builder_platform_interaction/dateTimeUtils';
+
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
 };
@@ -19,8 +26,8 @@ const SELECTORS = {
 const ERROR_MESSAGE = {
     [FLOW_DATA_TYPE.CURRENCY.value]: LABELS.currencyErrorMessage,
     [FLOW_DATA_TYPE.NUMBER.value]: LABELS.numberErrorMessage,
-    [FLOW_DATA_TYPE.DATE.value] : format(LABELS.dateErrorMessage, DATE_DISPLAY_FORMAT),
-    [FLOW_DATA_TYPE.DATE_TIME.value] : format(LABELS.datetimeErrorMessage, DATE_TIME_DISPLAY_FORMAT_NO_TIME_ZONE),
+    [FLOW_DATA_TYPE.DATE.value] : format(LABELS.dateErrorMessage, getFormat()),
+    [FLOW_DATA_TYPE.DATE_TIME.value] : format(LABELS.datetimeErrorMessage, getFormat(true)),
     [FLOW_DATA_TYPE.BOOLEAN.value]: LABELS.genericErrorMessage,
     GENERIC: LABELS.genericErrorMessage,
     REQUIRED: LABELS.requiredErrorMessage
@@ -131,9 +138,8 @@ export default class Combobox extends LightningElement {
 
     /**
      * Input value for the combobox.
-     * Combobox returns date time value in 'MM/dd/yyyy h:mm a [GMT]ZZ' format,
-     * and can accept any the value in many formats that are valid for American locale.
-     * Note: Date time format might be localized in 218+ (W-5236170)
+     * Combobox returns date time literal value as ISO8601 UTC date string
+     * Combobox accepts date time literals of ISO8601 format
      * @param {menuDataRetrieval.MenuItem|String} itemOrDisplayText - The value of the combobox
      */
     set value(itemOrDisplayText) {
@@ -169,6 +175,9 @@ export default class Combobox extends LightningElement {
 
             this._item = null;
             displayText = this.getStringValue(unwrap(itemOrDisplayText));
+            if (this.isDateOrDateTime && this.literalsAllowed && !this.errorMessage) {
+                displayText = normalizeDateTime(displayText, this.isDateTime);
+            }
             this._mergeFieldLevel = 1;
         }
 
@@ -185,7 +194,7 @@ export default class Combobox extends LightningElement {
      */
     @api
     get value() {
-        return this._item ? this._item : this.state.displayText;
+        return this._item ? this._item : this.literalValue;
     }
 
     /**
@@ -252,6 +261,9 @@ export default class Combobox extends LightningElement {
 
     @api
     get placeholder() {
+        if (this.isDateOrDateTime && this.literalsAllowed) {
+            return getFormat(this.isDateTime);
+        }
         if (!this._placeholder) {
             this._placeholder = LABELS.defaultPlaceholder;
         }
@@ -287,6 +299,24 @@ export default class Combobox extends LightningElement {
      */
     @api allowedParamTypes = null;
 
+    /**
+     * Returns the literal value of the combobox (could be different from the displayed value)
+     */
+    get literalValue() {
+        if (this.isDateOrDateTime && this.literalsAllowed) {
+            return createMetadataDateTime(this.state.displayText, this.isDateTime) || this.state.displayText;
+        }
+        return this.state.displayText;
+    }
+
+    get isDateOrDateTime() {
+        return this.type === FLOW_DATA_TYPE.DATE.value || this.type === FLOW_DATA_TYPE.DATE_TIME.value;
+    }
+
+    get isDateTime() {
+        return this.type === FLOW_DATA_TYPE.DATE_TIME.value;
+    }
+
     renderedCallback() {
         if (!this._isInitialErrorMessageSet && this._errorMessage) {
             this.setErrorMessage(this._errorMessage);
@@ -295,6 +325,9 @@ export default class Combobox extends LightningElement {
 
     connectedCallback() {
         this._isInitialized = true;
+        if (this.isDateOrDateTime) {
+            this.state.displayText = normalizeDateTime(this.state.displayText, this.isDateTime);
+        }
     }
 
     /**
@@ -602,7 +635,7 @@ export default class Combobox extends LightningElement {
      * NOTE: This event is only fired if there have been changes
      */
     fireComboboxStateChangedEvent() {
-        const comboboxStateChangedEvent = new ComboboxStateChangedEvent(this._item, this.state.displayText, this._errorMessage);
+        const comboboxStateChangedEvent = new ComboboxStateChangedEvent(this._item, this.literalValue, this._errorMessage);
         this.dispatchEvent(comboboxStateChangedEvent);
     }
 
@@ -927,10 +960,8 @@ export default class Combobox extends LightningElement {
                     this.validateNumber();
                     break;
                 case FLOW_DATA_TYPE.DATE.value:
-                    this.validateAndFormatDate();
-                    break;
                 case FLOW_DATA_TYPE.DATE_TIME.value:
-                    this.validateAndFormatDate(true);
+                    this.validateDateOrDateTime();
                     break;
                 default:
                     break;
@@ -947,15 +978,9 @@ export default class Combobox extends LightningElement {
         }
     }
 
-    /**
-     * Validate the input string is a valid date or date time.
-     * If valid format it otherwise set error message.
-     * @param {Boolean} isDateTime whether to validate for date time
-     */
-    validateAndFormatDate(isDateTime) {
-        const dateValue = getValidDateTime(this.state.displayText);
-        if (dateValue) {
-            this.state.displayText = formatDateTime(dateValue, isDateTime);
+    validateDateOrDateTime() {
+        if (isValidFormattedDateTime(this.state.displayText, this.isDateTime)) {
+            this.state.displayText = formatDateTime(this.state.displayText, this.isDateTime);
         } else {
             this._errorMessage = ERROR_MESSAGE[this._dataType];
         }

@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import { EditFlowPropertiesEvent, SaveFlowEvent } from 'builder_platform_interaction/events';
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { getShadowRoot } from 'lwc-test-utils';
+import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { LABELS } from '../toolbarLabels';
 
 const createComponentUnderTest = (props = {}) => {
@@ -22,6 +23,12 @@ const selectors = {
     save: '.test-toolbar-save',
     lastSave: '.test-toolbar-last-saved'
 };
+
+jest.mock('builder_platform_interaction/dateTimeUtils', () => {
+    return {
+        parseMetadataDateTime: jest.fn().mockName('parseMetadataDateTime'),
+    };
+});
 
 describe('toolbar', () => {
     it('fires editflowproperties event when edit flow properties button is clicked', () => {
@@ -83,9 +90,9 @@ describe('toolbar', () => {
 
     it('Displays "Saved {relative time}" in the toolbar when saveStatus is set to "Saved"', () => {
         const currentDate = new Date();
-        currentDate.setMilliseconds(0);
+        parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
         const toolbarComponent = createComponentUnderTest({
-            lastModifiedDate: currentDate,
+            lastModifiedDate: currentDate.toISOString(),
             saveStatus: LABELS.savedStatus
         });
 
@@ -95,6 +102,7 @@ describe('toolbar', () => {
             expect(lastSavedButton.textContent.trim()).toEqual(LABELS.savedStatus);
             expect(relativeDateTimeComponent).not.toBeNull();
             expect(relativeDateTimeComponent.value).toEqual(currentDate);
+            expect(parseMetadataDateTime).toHaveBeenCalledWith(currentDate.toISOString(), true);
         });
     });
 });

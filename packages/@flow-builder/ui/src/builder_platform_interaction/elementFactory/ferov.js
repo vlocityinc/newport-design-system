@@ -3,10 +3,6 @@ import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from "builder_platform_interaction/da
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { addCurlyBraces, splitStringByPeriod } from "builder_platform_interaction/commonUtils";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
-import { getLocalizationService } from "lightning/configProvider";
-import { METADATA_DATE_FORMAT, formatDateTime } from "builder_platform_interaction/dateTimeUtils";
-
-const localizationService = getLocalizationService();
 
 // keys are the types we find in our ferov objects, values are flow builder ferov data types
 const META_DATA_TYPES_TO_FEROV_TYPES_MAP = {
@@ -40,24 +36,6 @@ function isFerovReference(metaDataType) {
  */
 function isFerovBoolean(metaDataType) {
     return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.BOOLEAN;
-}
-
-/**
- * Returns true if ferov is type date/time
- * @param {string}      metaDataType ferov object meta data type
- * @return {boolean}    true if metaDataType is date/time otherwise false
- */
-function isFerovDateTime(metaDataType) {
-    return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.DATETIME;
-}
-
-/**
- * Returns true if ferov is type date
- * @param {string}      metaDataType ferov object meta data type
- * @return {boolean}    true if metaDataType is date otherwise false
- */
-function isFerovDate(metaDataType) {
-    return META_DATA_TYPES_TO_FEROV_TYPES_MAP[metaDataType] === FEROV_DATA_TYPE.DATE;
 }
 
 /**
@@ -224,10 +202,6 @@ export const createFEROV = (ferovObject, valueProperty, dataTypeProperty) => {
                 props[valueProperty] = value.toString();
             } else if (isFerovString(metadataType) && value === '') {
                 props[valueProperty] = GLOBAL_CONSTANTS.EMPTY_STRING;
-            } else if (isFerovDate(metadataType)) {
-                props[valueProperty] = formatDateTime(value.split('T')[0], false);
-            } else if (isFerovDateTime(metadataType)) {
-                props[valueProperty] = formatDateTime(value, true);
             } else {
                 props[valueProperty] = value;
             }
@@ -276,20 +250,6 @@ export const createFEROVMetadataObject = (element, valueProperty, dataTypeProper
                 } else if (value === GLOBAL_CONSTANTS.BOOLEAN_FALSE) {
                     ferovValue = false;
                 }
-            } else if (isFerovDateTime(ferovDataTypeKey)) {
-                // the date time we get from the property editor (user)
-                const dateTime = new Date(element[valueProperty]);
-                // transform date to ISO string in UTC format
-                const utcDateTime = localizationService.parseDateTimeUTC(dateTime.toISOString());
-                // what we store on save, an ISO8601 formatted string in UTC
-                ferovValue = utcDateTime.toISOString();
-            } else if (isFerovDate(ferovDataTypeKey)) {
-                // the date we get from the property editor (user)
-                const date = new Date(element[valueProperty]);
-                // transform date to just date format (no time)
-                const utcDateString = localizationService.formatDateUTC(date.toISOString(), METADATA_DATE_FORMAT);
-                // what we store on save in yyyy-MM-dd
-                ferovValue = utcDateString;
             } else {
                 ferovValue = element[valueProperty];
             }
