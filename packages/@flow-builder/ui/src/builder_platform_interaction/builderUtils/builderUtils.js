@@ -74,27 +74,46 @@ const getTitleForModalHeader = (mode, elementType) => {
     let titlePrefix = '',
         label;
 
-    if (mode === EditElementEvent.EVENT_NAME) {
-        titlePrefix = LABELS.existingElementHeaderPrefix;
-    } else if (mode === AddElementEvent.EVENT_NAME || mode === AddNonCanvasElementEvent.EVENT_NAME) {
-        titlePrefix = LABELS.newElementHeaderPrefix;
-    } else if (mode === SaveFlowEvent.Type.SAVE || mode === SaveFlowEvent.Type.SAVE_AS) {
-        titlePrefix = LABELS.newElementHeaderPrefix;
-    } else if (mode === CANVAS_EVENT.ADD_CONNECTION) {
-        if (elementType === ELEMENT_TYPE.LOOP) {
-            titlePrefix = LABELS.loopConnectorPickerHeaderPrefix;
-        } else {
-            titlePrefix = LABELS.connectorPickerHeaderPrefix;
-        }
+    switch (mode) {
+        case SaveFlowEvent.Type.SAVE:
+            label = LABELS.createFlowTitle;
+            break;
+        case SaveFlowEvent.Type.SAVE_AS:
+            label = LABELS.saveFlowAsTitle;
+            break;
+        case EditElementEvent.EVENT_NAME:
+            titlePrefix = LABELS.existingElementHeaderPrefix;
+            label = elementConfig.labels.singular;
+            break;
+        case AddElementEvent.EVENT_NAME:
+        case AddNonCanvasElementEvent.EVENT_NAME:
+            titlePrefix = LABELS.newElementHeaderPrefix;
+            label = elementConfig.labels.singular;
+            break;
+        case CANVAS_EVENT.ADD_CONNECTION:
+            if (elementType === ELEMENT_TYPE.LOOP) {
+                titlePrefix = LABELS.loopConnectorPickerHeaderPrefix;
+            } else {
+                titlePrefix = LABELS.connectorPickerHeaderPrefix;
+            }
+            label = elementConfig.labels.connectorPickerHeaderSuffix;
+            break;
+        default:
+            label = elementConfig.labels.singular;
+            break;
     }
 
-    if (mode === CANVAS_EVENT.ADD_CONNECTION) {
-        label = elementConfig.labels.connectorPickerHeaderSuffix;
-    } else {
-        label = elementConfig.labels.singular;
-    }
+    // TODO: There may be languages where the concatenation of titlePrefix and label actually
+    // doesn't make sense. We should revisit the way we are constructing the title.
+    return titlePrefix ? titlePrefix + ' ' + label : label;
+};
 
-    return titlePrefix + ' ' + label;
+const getLabelForOkButton = (mode) => {
+    let label;
+    if (mode === SaveFlowEvent.Type.SAVE || mode === SaveFlowEvent.Type.SAVE_AS) {
+        label = LABELS.saveButtonLabel;
+    }
+    return label;
 };
 
 let newResourceConfig;
@@ -219,6 +238,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         elementType = attributes.node.elementType,
         elementConfig = getConfigForElementType(elementType),
         titleForModal = getTitleForModalHeader(mode, elementType),
+        labelForOkButton = getLabelForOkButton(mode),
         desc = getPropertyEditorDescriptor(mode, elementConfig);
         if (!desc) {
             throw new Error('descriptor is not defined in the element config for the element type: ' + elementType);
@@ -238,6 +258,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
 
     const panelConfig = {
         titleForModal,
+        labelForOkButton,
         flavor: elementConfig.modalSize,
         bodyClass: elementConfig.bodyCssClass || ''
     };
@@ -273,7 +294,12 @@ const getEditorConfig = (mode, attributes) => {
 const doInvoke = (cmpName, attr, panelConfig) => {
     const propertyEditorBodyPromise = createComponentPromise(cmpName, attr);
     const propertyEditorHeaderPromise = createComponentPromise("builder_platform_interaction:propertyEditorHeader", {titleForModal: panelConfig.titleForModal});
-    const propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter");
+    let propertyEditorFooterPromise;
+    if (panelConfig.labelForOkButton) {
+        propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter", {labelForOkButton: panelConfig.labelForOkButton});
+    } else {
+        propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter");
+    }
     Promise.all([propertyEditorBodyPromise, propertyEditorHeaderPromise, propertyEditorFooterPromise]).then((newComponents) => {
         const createPanelEventAttributes = {
             panelType: MODAL,
