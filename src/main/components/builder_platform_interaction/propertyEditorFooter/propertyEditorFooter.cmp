@@ -9,7 +9,7 @@
     <aura:attribute name="labelForOkButton" type="String" default="{#$Label.FlowBuilderCommonPropertyEditor.okButton}" description="label for ok button" />
     
     <div class="slds-grid slds-grid--align-end">
-        <div class="slds-col slds-p-right_xx-small">
+        <div class="slds-col slds-p-left_x-small">
             <builder_platform_interaction:statusIcon 
                 aura:id="statusIcon" messages="{!v.messages}"
                 direction="north" type="error"
@@ -18,10 +18,10 @@
                 headerforsummary="{#$Label.FlowBuilderValidation.errorPopOverHeader}">
             </builder_platform_interaction:statusIcon>
         </div>
-        <div class="slds-col slds-p-right_xx-small">
+        <div class="slds-col slds-p-left_x-small">
             <lightning:button class="test-property-editor-footer-cancel-button" title="{#$Label.FlowBuilderCommonPropertyEditor.cancelButton}" onclick="{!c.handleCancel}">{#$Label.FlowBuilderCommonPropertyEditor.cancelButton}</lightning:button>
         </div>
-        <div class="slds-col slds-p-right_xx-small">
+        <div class="slds-col slds-p-left_x-small">
             <lightning:button class="test-property-editor-footer-ok-button" variant="brand" disabled="{!v.isSaveDisabled}" title="{!v.labelForOkButton}"  onclick="{!c.handleOk}">{!v.labelForOkButton}</lightning:button>
         </div>
     </div>
