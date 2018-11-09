@@ -17,12 +17,21 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     labels = LABELS;
 
     set node(value) {
-        this.displaySpinner = false;
-        this._node = value;
-        if (this.isExtensionField) {
-            this.fetchDescription();
+        if (this._node && this._node.guid !== value.guid) {
+            this.displaySpinner = true;
+            this._node = null;
+            Promise.resolve().then(() => {
+                this.displaySpinner = false;
+                this._node = value;
+                if (this.isExtensionField) {
+                    this.fetchDescription();
+                } else {
+                    this.extendedInfo = null;
+                }
+            });
         } else {
-            this.extendedInfo = null;
+            this.displaySpinner = false;
+            this._node = value;
         }
     }
 

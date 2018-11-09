@@ -1,6 +1,6 @@
 <template>
     <div class='properties-container full-height slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-border_left slds-grid slds-grid_vertical slds-size_medium toggle-animated' aria-hidden='false' >
-        <div class='slds-panel__header slds-shrink-none -slds-border_bottom-none slds-grid'>
+        <div if:true={node} class='slds-panel__header slds-shrink-none -slds-border_bottom-none slds-grid'>
             <div class='slds-grow'>
                 <h2 class='slds-panel__header-title slds-text-heading_small'>
                     <span if:true={isScreen}>{labels.screenProperties}</span>

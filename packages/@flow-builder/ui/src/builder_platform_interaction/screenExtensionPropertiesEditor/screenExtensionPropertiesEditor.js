@@ -13,6 +13,10 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     labels = LABELS;
 
     set field(value) {
+        if (this._field && this._field.guid !== value.guid) {
+            this._extensionDescription = null;
+        }
+
         this._field = value;
         this.mergedField = null;
         this.checkState();
