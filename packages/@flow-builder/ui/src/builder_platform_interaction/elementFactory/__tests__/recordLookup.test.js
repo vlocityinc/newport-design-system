@@ -42,6 +42,36 @@ const recordLookupSObjectStore = () => ({
     sortOrder: "NotSorted"
 });
 
+const recordLookupSObjectCollectionStore = () => ({
+    assignNullValuesIfNoRecordsFound: false,
+    availableConnections: [
+        {
+            "type": "REGULAR"
+        }, {
+            "type": "FAULT"
+        }],
+    config: { isSelected: false },
+    connectorCount: 0,
+    dataType: "Boolean",
+    description: "",
+    elementType: "RECORD_LOOKUP",
+    filterType: "all",
+    filters: [],
+    guid: "mockGuid",
+    isCanvasElement: true,
+    label: "lookupSObject",
+    locationX: 304,
+    locationY: 629,
+    maxConnections: 2,
+    name: "lookupSObject",
+    numberRecordsToStore: "allRecords",
+    object: "Account",
+    outputReference: "vSobjectAccountCollection",
+    queriedFields: [{field: "BillingCountry",
+        rowIndex: "mockGuid"}],
+    sortField: "",
+    sortOrder: "NotSorted"
+});
 
 const recordLoookupSObjectMetadata = () => ({
     assignNullValuesIfNoRecordsFound: false,
@@ -164,6 +194,11 @@ describe('recordLookup', () => {
             });
             it('has no common mutable object with ecord lookup from store passed as parameter', () => {
                 expect(recordLookup).toHaveNoCommonMutableObjectWith(recordLookupSObjectStore());
+            });
+            it('has the "how many records" property set from the passed object', () => {
+                const valueFromObject = recordLookupSObjectCollectionStore().numberRecordsToStore;
+                const valueFromCreation = createRecordLookup(recordLookupSObjectCollectionStore()).numberRecordsToStore;
+                expect(valueFromCreation).toEqual(valueFromObject);
             });
         });
     });
