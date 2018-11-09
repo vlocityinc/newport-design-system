@@ -50,7 +50,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             hydrateIfNecessary(newValue),
             event.detail.error,
             event.detail.guid ? event.detail.guid : null,
-            hydrateIfNecessary(this.field.defaultValue)
+            hydrateIfNecessary(this.field.defaultSelectedChoiceReference)
         ));
     }
 

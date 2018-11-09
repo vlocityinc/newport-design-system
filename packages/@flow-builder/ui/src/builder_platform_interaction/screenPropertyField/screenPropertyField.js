@@ -208,6 +208,13 @@ export default class ScreenPropertyField extends LightningElement {
     handleEvent = (event) => {
         event.stopPropagation();
 
+        // If this is a change event and the input isn't checkbox, stop handling this event.
+        // It's too noisy. However, if the input type is checkbox, we don't want to force
+        // the user to blur in order to process the event, so keep going in that case.
+        if (event.type === 'change' && !this.isBoolean && !this.isList) {
+            return;
+        }
+
         // This block of code tries to filter events fired by the combobox even when there's been
         // no user interaction. It seems that the combobox fires events even when a component
         // is rerendered due to cahnges in its template...
