@@ -305,14 +305,14 @@ describe('Operator Rule Util', () => {
     });
 
     describe('isCollectionRequired', () => {
-        it('returns true when given no dataType', () => {
+        it('returns false when given no dataType', () => {
             const isRequired = isCollectionRequired({});
-            expect(isRequired).toEqual(true);
+            expect(isRequired).toEqual(false);
         });
 
-        it('returns true when there is no param for the given dataType', () => {
+        it('returns false when there is no param for the given dataType', () => {
             const isRequired = isCollectionRequired({}, 'fooDataType');
-            expect(isRequired).toEqual(true);
+            expect(isRequired).toEqual(false);
         });
 
         it('returns false when there is a param where literals are allowed', () => {

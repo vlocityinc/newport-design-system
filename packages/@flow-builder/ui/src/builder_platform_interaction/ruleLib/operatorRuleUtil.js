@@ -29,7 +29,7 @@ export const OBJECT_TYPE = 'objectType';
  * @param {String} dataType the data type of the field
  */
 export const isCollectionRequired = (paramTypes, dataType) => {
-    let collectionRequired = true;
+    let collectionRequired = false;
 
     if (dataType && paramTypes && paramTypes[dataType]) {
         const dataTypeParams = paramTypes[dataType];
