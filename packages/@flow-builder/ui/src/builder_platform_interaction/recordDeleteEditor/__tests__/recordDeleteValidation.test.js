@@ -116,5 +116,18 @@ describe('Record delete validations using fields', () => {
                 });
             });
         });
+        describe('"error"', () => {
+            describe('When object is an incorrect value', () => {
+                test('should return an error for the object but not for the filters', () => {
+                    recordDeleteUsingFields.filters[0].leftHandSide.value = '';
+                    recordDeleteUsingFields.object.value = 'myNotValidValue';
+                    recordDeleteUsingFields.object.error = 'Enter a valid value.';
+                    const errors = validate(recordDeleteUsingFields, event);
+                    expect(errors).toHaveLength(1);
+                    expect(errors[0].key).toBe('object');
+                    expect(errors[0].errorString).toBe('Enter a valid value.');
+                });
+            });
+        });
     });
 });

@@ -38,7 +38,7 @@ export const getRules = (nodeElement, wayToStoreFields) => {
     // case where a sObject has been selected
     if (getValueFromHydratedItem(nodeElement.numberRecordsToStore) ===  NUMBER_RECORDS_TO_STORE.FIRST_RECORD && wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES) {
         overrideRules.object = validateInputReference();
-        if (nodeElement.object.value !== '') {
+        if (nodeElement.object.value !== '' && !nodeElement.object.error) {
             overrideRules.inputAssignments = validateAssignments();
         }
     } else {

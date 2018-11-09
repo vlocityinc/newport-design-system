@@ -96,6 +96,18 @@ describe('Check validations update using fields', () => {
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
+    describe('object is not valid and assignment is empty', () => {
+        it('should return 1 error', () => {
+            recordUpdateUsingFields.inputAssignments[0].leftHandSide.value = '';
+            recordUpdateUsingFields.object.value = 'myNotValidValue';
+            recordUpdateUsingFields.object.error = 'Enter a valid value.';
+            const recordupdateEditor = createComponentForTest(recordUpdateUsingFields);
+            const errors = validate(recordupdateEditor.node);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('object');
+            expect(errors[0].errorString).toBe('Enter a valid value.');
+        });
+    });
     describe('inputAssignments item is empty', () => {
         it('should return an error when an inputAssignment is set without a value', () => {
             recordUpdateUsingFields.inputAssignments[0].leftHandSide.value = '';

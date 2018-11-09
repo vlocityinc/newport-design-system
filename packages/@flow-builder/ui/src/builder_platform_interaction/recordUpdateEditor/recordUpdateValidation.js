@@ -56,7 +56,7 @@ export const getRules = (nodeElement) => {
         overrideRules.inputReference = validateInputReference();
     } else if (nodeElement.inputAssignments) {
         overrideRules.object = validateInputReference();
-        if (nodeElement.object.value !== '') {
+        if (nodeElement.object.value !== '' && !nodeElement.object.error) {
             overrideRules.inputAssignments = validateAssignments();
             // validate filters if filter type is ALL
             if (nodeElement.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
