@@ -24,6 +24,8 @@ export default class CalloutEditorContainer extends LightningElement {
      */
     _selectedAction = null;
 
+    _location = {locationX: 0, locationY: 0};
+
     /**
      * The node that represents initial state of the currently selected editor
      * @type {Object}
@@ -43,6 +45,16 @@ export default class CalloutEditorContainer extends LightningElement {
         this.updateLabels();
     }
 
+    @api
+    get location() {
+        return this._location;
+    }
+
+    set location(newValue) {
+        this._location = newValue || {};
+        this.node.locationX = this._location.locationX;
+        this.node.locationY = this._location.locationY;
+    }
     /**
      * Sets the selected action
      * This will create a flow element of the corresponding element type
@@ -60,7 +72,7 @@ export default class CalloutEditorContainer extends LightningElement {
         let node = getElementForPropertyEditor({elementType});
 
         // assign values from _selectedAction to node
-        node = Object.assign(node, this._selectedAction);
+        node = Object.assign({}, node, {locationX: this.node.locationX, locationY: this.node.locationY}, this._selectedAction);
 
         // set this to our member variable so that we can pass to the selected property editor template
         this.node = node;

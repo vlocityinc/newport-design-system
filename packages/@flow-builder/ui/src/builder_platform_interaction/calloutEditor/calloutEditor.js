@@ -20,6 +20,8 @@ export default class CalloutEditor extends LightningElement {
 
     @track hasActions = {};
 
+    location = {};
+
     @api
     get node() {
         return this.calloutNode;
@@ -27,6 +29,8 @@ export default class CalloutEditor extends LightningElement {
 
     set node(newValue) {
         this.calloutNode = newValue || {};
+        this.location.locationX = this.calloutNode.locationX;
+        this.location.locationY = this.calloutNode.locationY;
         this.updateSelectedAction();
     }
 
