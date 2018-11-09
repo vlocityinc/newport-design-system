@@ -1,9 +1,9 @@
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 import errorMessage from '@salesforce/label/FlowBuilderScreenEditor.errorMessage';
-import validationFormula from '@salesforce/label/FlowBuilderFormulaTextarea.formulaValidationSpinnerAlternativeText';
+import formulaLabel from '@salesforce/label/FlowBuilderFormulaTextarea.formulaLabel';
 
 export const LABELS = {
     cannotBeBlank,
     errorMessage,
-    validationFormula
+    formulaLabel
 };
