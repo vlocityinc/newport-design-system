@@ -51,7 +51,8 @@ import allowPauseButton from "@salesforce/label/FlowBuilderScreenEditor.allowPau
 import allowPauseButtonTooltip from "@salesforce/label/FlowBuilderScreenEditor.allowPauseButtonTooltip";
 import pauseConfirmationMessage from "@salesforce/label/FlowBuilderScreenEditor.pauseConfirmationMessage";
 import pauseConfirmationMessageTooltip from "@salesforce/label/FlowBuilderScreenEditor.pauseConfirmationMessageTooltip";
-import helpText from "@salesforce/label/FlowBuilderScreenEditor.helpText";
+import helpTextForAccordion from "@salesforce/label/FlowBuilderScreenEditor.helpTextForAccordion";
+import helpSectionHeader from "@salesforce/label/FlowBuilderScreenEditor.helpSectionHeader";
 import required from "@salesforce/label/FlowBuilderScreenEditor.required";
 import errorMessage from "@salesforce/label/FlowBuilderScreenEditor.errorMessage";
 import deleteAlternativeText from "@salesforce/label/FlowBuilderScreenEditor.deleteAlternativeText";
@@ -132,7 +133,8 @@ export const LABELS = {
     allowPauseButtonTooltip,
     pauseConfirmationMessage,
     pauseConfirmationMessageTooltip,
-    helpText,
+    helpTextForAccordion,
+    helpSectionHeader,
     required,
     deleteAlternativeText,
     cancel,
