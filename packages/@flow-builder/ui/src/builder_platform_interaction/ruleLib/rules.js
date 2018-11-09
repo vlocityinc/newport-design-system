@@ -52,7 +52,7 @@
  */
 
 let rulesInstance = {};
-const outputRules = [];
+let outputRules = [];
 
 export const RULE_TYPES = {
     ASSIGNMENT: 'assignment',
@@ -182,6 +182,7 @@ const buildRulesInstanceForOutputRules = (stringifiedInputsToOutputs, assignment
 export const setRules = (rules = null) => {
     // rules are not expected to accumulate, if we're setting them we should start from scratch
     rulesInstance = {};
+    outputRules = [];
     let allRules = [];
     allRules = JSON.parse(rules);
     // Create the rules instance with all rule types, where
