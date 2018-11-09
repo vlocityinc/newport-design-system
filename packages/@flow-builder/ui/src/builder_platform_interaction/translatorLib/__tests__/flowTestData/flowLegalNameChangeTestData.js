@@ -1174,7 +1174,7 @@ export const flowLegalNameChange = {
         ],
         "label": "Unsupported Object Type Message",
         "locationX": 89,
-        "locationY": 71,
+        "locationY": 710,
         "name": "Unsupported_Object_Type_Message",
         "processMetadataValues": [],
         "rules": [],

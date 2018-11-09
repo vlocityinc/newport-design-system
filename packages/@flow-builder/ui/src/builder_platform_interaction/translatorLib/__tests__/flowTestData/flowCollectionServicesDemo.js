@@ -465,7 +465,7 @@ export const flowCollectionServicesDemo = {
             }
           ],
           "label": "Get Repair Procedures",
-          "locationX": 69,
+          "locationX": 690,
           "locationY": 55,
           "name": "Get_Repair_Procedures",
           "object": "RepairProcedure__c",

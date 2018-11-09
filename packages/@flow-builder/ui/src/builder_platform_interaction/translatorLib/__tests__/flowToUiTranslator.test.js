@@ -21,7 +21,8 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
                 elements: {
                     [guid]: {
                         name: 'startElementName',
-                        isCanvasElement: true
+                        isCanvasElement: true,
+                        guid
                     }
                 }
             };
