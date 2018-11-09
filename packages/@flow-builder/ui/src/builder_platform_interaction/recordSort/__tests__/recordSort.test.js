@@ -4,6 +4,7 @@ import RecordSortResult from "builder_platform_interaction/recordSort";
 import { getShadowRoot } from 'lwc-test-utils';
 import { ComboboxStateChangedEvent } from "builder_platform_interaction/events";
 import { SORT_ORDER } from "builder_platform_interaction/recordEditorLib";
+import { until } from 'builder_platform_interaction/builderTestUtils';
 
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
@@ -157,8 +158,7 @@ describe('recordSort', () => {
                 resourceApiName,
                 sortOrder: SORT_ORDER.ASC,
             });
-            await Promise.resolve();
-            const options = getFilterCombobox(recordSortResultComponent).fields;
+            const options = await until(() => getFilterCombobox(recordSortResultComponent).fields);
             const mockAccFieldsArr = JSON.parse(mockAccountFields);
             Object.values(options).forEach(option => {
                 expect(mockAccFieldsArr.find(field => field.apiName === option.apiName).sortable).toBeTruthy();

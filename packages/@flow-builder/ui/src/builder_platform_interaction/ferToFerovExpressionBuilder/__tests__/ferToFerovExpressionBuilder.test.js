@@ -11,6 +11,7 @@ import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, setSystemVariables, getSystemVariables } from "builder_platform_interaction/systemLib";
 import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
 import * as mockSystemLibData from "mock/systemGlobalVars";
+import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-fer-to-ferov-expression-builder', { is: FerToFerovExpressionBuilder });
@@ -175,14 +176,14 @@ describe('fer-to-ferov-expression-builder', () => {
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: createMockPopulatedFieldExpression(),
             });
-            await Promise.resolve();
-            await Promise.resolve();
-            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
-            expect(baseExpressionBuilder.lhsValue).toMatchObject(mutateFieldToComboboxShape(accountField, accountVariableComboboxShape, true, true));
-            expect(baseExpressionBuilder.lhsParam).toMatchObject(elementToParam(accountField));
-            expect(baseExpressionBuilder.lhsActivePicklistValues).toMatchObject(accountField.picklistValues);
-            expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE);
-            expect(baseExpressionBuilder.lhsFields).toBeTruthy();
+            await untilNoFailure(() => {
+                const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+                expect(baseExpressionBuilder.lhsValue).toMatchObject(mutateFieldToComboboxShape(accountField, accountVariableComboboxShape, true, true));
+                expect(baseExpressionBuilder.lhsParam).toMatchObject(elementToParam(accountField));
+                expect(baseExpressionBuilder.lhsActivePicklistValues).toMatchObject(accountField.picklistValues);
+                expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE);
+                expect(baseExpressionBuilder.lhsFields).toBeTruthy();
+            });
         });
         it('should handle system variable on LHS', () => {
             setSystemVariables(mockSystemLibData.systemVariables);
@@ -287,12 +288,12 @@ describe('fer-to-ferov-expression-builder', () => {
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: createMockPopulatedFieldExpression(),
             });
-            await Promise.resolve();
-            await Promise.resolve();
-            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
-            expect(baseExpressionBuilder.rhsValue).toMatchObject(mutateFieldToComboboxShape(accountField, accountVariableComboboxShape, true, true));
-            expect(baseExpressionBuilder.rhsIsField).toBeTruthy();
-            expect(baseExpressionBuilder.rhsFields).toBeTruthy();
+            await untilNoFailure(() => {
+                const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+                expect(baseExpressionBuilder.rhsValue).toMatchObject(mutateFieldToComboboxShape(accountField, accountVariableComboboxShape, true, true));
+                expect(baseExpressionBuilder.rhsIsField).toBeTruthy();
+                expect(baseExpressionBuilder.rhsFields).toBeTruthy();
+            });
         });
         it('should handle system variable on RHS', () => {
             setSystemVariables(mockSystemLibData.systemVariables);
