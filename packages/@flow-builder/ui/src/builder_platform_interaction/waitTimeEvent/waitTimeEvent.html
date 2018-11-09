@@ -10,11 +10,9 @@
             required>
         </lightning-radio-group>
 
-        <div class="slds-border_top slds-p-top_medium"></div>
-
         <!-- input paramters (resume time parameters) -->
-        <h3 class="slds-text-heading_small">{labels.resumeTimeHeader}</h3>
- 
+        <h3 class="slds-border_top slds-p-top_medium slds-text-heading_small">{labels.resumeTimeHeader}</h3>
+
         <div if:true={isAbsoluteTime} class="slds-form-element__row slds-p-top_small">
             <builder_platform_interaction-ferov-resource-picker
                 class="slds-size_1-of-2"
@@ -80,9 +78,8 @@
             field-level-help={labels.offsetUnitHelpText}
             onfocusout={handleOffsetUnitChange}>
         </lightning-input>
-        <div class="slds-border_top slds-m-top_small slds-m-bottom_small"></div>
 
-        <h3 class="slds-text-heading_small">{labels.assignOutputsToVariablesLabel}</h3>
+        <h3 class="slds-border_top slds-m-top_small slds-m-bottom_small slds-text-heading_small">{labels.assignOutputsToVariablesLabel}</h3>
 
         <!-- output parameters (assign outputs to variables) -->
         <div class="slds-form-element_row slds-p-top_small">
