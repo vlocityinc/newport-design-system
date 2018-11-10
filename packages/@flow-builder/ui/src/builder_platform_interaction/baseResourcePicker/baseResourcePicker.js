@@ -128,7 +128,8 @@ export default class BaseResourcePicker extends LightningElement {
         disabled = false,
         type = '',
         enableFieldDrilldown = false,
-        variant = LIGHTNING_INPUT_VARIANTS.STANDARD
+        variant = LIGHTNING_INPUT_VARIANTS.STANDARD,
+        fieldLevelHelp = undefined
     ) => {
         return {
             label,
@@ -139,7 +140,8 @@ export default class BaseResourcePicker extends LightningElement {
             disabled,
             type,
             enableFieldDrilldown,
-            variant
+            variant,
+            fieldLevelHelp
         };
     };
 

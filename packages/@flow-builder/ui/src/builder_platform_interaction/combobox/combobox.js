@@ -57,6 +57,9 @@ export default class Combobox extends LightningElement {
         menuData: [],
     };
 
+    @api
+    fieldLevelHelp;
+
     /**
      * Label for combobox.
      * If empty no label.
