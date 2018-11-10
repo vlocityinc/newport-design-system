@@ -70,7 +70,7 @@ export default class ResourcedTextarea extends LightningElement {
     }
 
     get classList() {
-        return  'container slds-input slds-grid slds-grid_vertical' + (this.error ? ' has-error' : '');
+        return  'container slds-grid slds-grid_vertical' + (this.error ? ' has-error' : '');
     }
 
     get isRequired() {

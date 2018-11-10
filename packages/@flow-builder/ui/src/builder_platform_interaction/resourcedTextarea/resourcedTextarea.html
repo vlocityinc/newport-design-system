@@ -17,7 +17,7 @@
                                                                     onitemselected={handleResourcePickerSelection}>
                 </builder_platform_interaction-ferov-resource-picker>
             </div>                
-            <textarea class='slds-textarea textarea-input' name={name} onblur={handleEvent} onchange={handleEvent} maxlength={maxLength}>{_value}</textarea>
+            <textarea class='slds-textarea slds-input textarea-input' name={name} onblur={handleEvent} onchange={handleEvent} maxlength={maxLength}>{_value}</textarea>
         </div>
         <div if:true={error} class='slds-has-error'>
             <div role='alert' class='slds-form-element__help'>{error}</div>
