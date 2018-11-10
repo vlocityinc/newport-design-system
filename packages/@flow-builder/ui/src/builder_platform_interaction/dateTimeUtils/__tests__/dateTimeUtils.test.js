@@ -80,7 +80,7 @@ describe('date-time-utils', () => {
         it('returns false for an invalid datetime literal', () => {
             const mockDatetimeLiteral = 'bad date time literal';
             const isDateTime = true;
-            localizationService.parseDateTimeUTC.mockReturnValueOnce(null);
+            localizationService.parseDateTimeUTC.mockReturnValueOnce(new Date(mockDatetimeLiteral));
 
             const isValid = isValidFormattedDateTime(mockDatetimeLiteral, isDateTime);
             expect(isValid).toEqual(false);
@@ -88,7 +88,7 @@ describe('date-time-utils', () => {
 
         it('returns false for an invalid date literal', () => {
             const mockDatetimeLiteral = 'bad date literal';
-            localizationService.parseDateTimeUTC.mockReturnValueOnce(null);
+            localizationService.parseDateTimeUTC.mockReturnValueOnce(new Date(mockDatetimeLiteral));
 
             const isValid = isValidFormattedDateTime(mockDatetimeLiteral);
             expect(isValid).toEqual(false);
@@ -109,9 +109,10 @@ describe('date-time-utils', () => {
         });
 
         it('returns null for date property when given an invalid literal', () => {
-            localizationService.parseDateTimeUTC.mockReturnValueOnce(null);
+            const badDateLiteral = '99/99/1999';
+            localizationService.parseDateTimeUTC.mockReturnValueOnce(new Date(badDateLiteral));
 
-            const { date } = parseFormattedDateTime('99/99/1999');
+            const { date } = parseFormattedDateTime(badDateLiteral);
             expect(date).toBeNull();
         });
 
@@ -146,9 +147,10 @@ describe('date-time-utils', () => {
         });
 
         it('returns null for date property when given an invalid literal', () => {
-            parseDateTimeUTC.mockReturnValueOnce(null);
+            const badDateLiteral = '99/99/1999';
+            parseDateTimeUTC.mockReturnValueOnce(new Date(badDateLiteral));
 
-            const { date } = parseMetadataDateTime('99/99/1999');
+            const { date } = parseMetadataDateTime(badDateLiteral);
             expect(date).toBeNull();
         });
 

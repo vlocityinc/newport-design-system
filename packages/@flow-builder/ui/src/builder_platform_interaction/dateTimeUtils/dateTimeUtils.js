@@ -51,6 +51,11 @@ const parseDateTime = (literal, isDateTime = false, isFormattedDate = false) => 
         date = parseDateTimeUTC(dateLiteral);
     }
 
+    // some dates are in an invalid state and have no timestamp
+    if (date instanceof Date && isNaN(date.valueOf())) {
+        date = null;
+    }
+
     return {
         date,
         dateLiteral,
