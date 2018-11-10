@@ -4,6 +4,9 @@
         var serverDataLib = serverDataLibInit.find('serverDataLib');
         var serverActionType = serverDataLib.SERVER_ACTION_TYPE.GET_CONTEXT;
         serverDataLib.fetch(serverActionType, this.getContextCallback);
+
+        var imageLib = cmp.find('imageLib');
+        imageLib.preloadImages();
     },
 
     getContextCallback : function(response) {

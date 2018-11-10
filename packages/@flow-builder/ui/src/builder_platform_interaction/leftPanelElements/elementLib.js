@@ -16,9 +16,11 @@ const mutateElements = (elements) => elements.reduce((acc, element) => {
         acc[element.section] = [];
     }
 
+    const nodeConfig = getConfigForElementType(element.elementType).nodeConfig;
     const item = deepCopy(element);
     item.guid = generateGuid();
-    item.iconName = getConfigForElementType(element.elementType).nodeConfig.iconName;
+    item.iconName = nodeConfig.iconName;
+    item.dragImageSrc = nodeConfig.dragImageSrc;
     delete item.section;
     acc[element.section].push(item);
     return acc;

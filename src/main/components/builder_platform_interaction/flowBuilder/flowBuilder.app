@@ -11,6 +11,8 @@
     <builder_platform_interaction:contextLib aura:id="contextLib"></builder_platform_interaction:contextLib>
     <builder_platform_interaction:userPreferencesLib aura:id="userPreferencesLib"></builder_platform_interaction:userPreferencesLib>
 
+    <builder_platform_interaction:imageLib aura:id="imageLib"></builder_platform_interaction:imageLib>
+
     <aura:if isTrue="{!v.ready}">
         <builder_platform_interaction:container flowId="{!v.flowId}"></builder_platform_interaction:container>
     </aura:if>

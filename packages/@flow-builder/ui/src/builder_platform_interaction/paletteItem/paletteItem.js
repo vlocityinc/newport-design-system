@@ -17,10 +17,22 @@ export default class PaletteItem extends LightningElement {
     @api iconName;
     @api label;
     @api iconSize;
+    @api dragImageSrc;
 
     @api
     get elementIcon() {
         return this.template.querySelector('builder_platform_interaction-element-icon');
+    }
+
+    @api
+    get dragImage() {
+        if (typeof this.dragImageSrc !== 'string' || this.dragImageSrc.length === 0) {
+            return undefined;
+        }
+
+        const img = new Image();
+        img.src = this.dragImageSrc;
+        return img;
     }
 
     get hasIcon() {

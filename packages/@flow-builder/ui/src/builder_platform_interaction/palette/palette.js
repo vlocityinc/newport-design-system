@@ -1,4 +1,4 @@
-import { LightningElement, api, track, unwrap } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
 import { flatten } from './paletteLib';
 import { LABELS } from './paletteLabels';
@@ -136,16 +136,19 @@ export default class Palette extends LightningElement {
             return;
         }
 
-        // TODO: The drag image should be a large version of the element icon.
         // TODO: The setDragImage function is not supported in IE11, we'll need
         // to create our own polyfill since the Raptor team doesn't plan on
         // creating one in the near future.
         const paletteItem = referenceElement.querySelector('builder_platform_interaction-palette-item');
-        const elementIcon = paletteItem.elementIcon;
-        const dragElement = elementIcon.iconElement;
+        let dragElement = paletteItem.dragImage;
+        if (!dragElement) {
+            const elementIcon = paletteItem.elementIcon;
+            dragElement = elementIcon.iconElement;
+        }
+
         event.dataTransfer.setData('text', item.elementType);
         if (event.dataTransfer.setDragImage && dragElement) {
-            event.dataTransfer.setDragImage(unwrap(dragElement), 0, 0);
+            event.dataTransfer.setDragImage(dragElement, 0, 0);
         }
         event.dataTransfer.effectAllowed = 'copy';
     }

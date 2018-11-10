@@ -17,7 +17,8 @@ const ELEMENT_DATA = [
                         "guid": "myGuid3",
                         "label": "myLabel3",
                         "description": "myDescription",
-                        "iconName": "myIconName"
+                        "iconName": "myIconName3",
+                        "dragImageSrc": "myDragImageSrc3"
                     },
                     // Items without a description should have an empty string
                     // as a description in the flattened version.
@@ -25,7 +26,8 @@ const ELEMENT_DATA = [
                         "elementType": "Variable",
                         "guid": "myGuid4",
                         "label": "myLabel4",
-                        "iconName": "myIconName"
+                        "iconName": "myIconName4",
+                        "dragImageSrc": "myDragImageSrc4"
                     }
                 ]
             }
@@ -40,13 +42,15 @@ const ELEMENT_DATA = [
                 "elementType": "Variable",
                 "guid": "myGuid6",
                 "label": "myLabel6",
-                "iconName": "myIconName"
+                "iconName": "myIconName6",
+                "dragImageSrc": "myDragImageSrc6"
             },
             {
                 "elementType": "Variable",
                 "guid": "myGuid7",
                 "label": "myLabel7",
-                "iconName": "myIconName"
+                "iconName": "myIconName7",
+                "dragImageSrc": "myDragImageSrc7"
             }
         ]
     },
@@ -55,7 +59,8 @@ const ELEMENT_DATA = [
         "elementType": "Variable",
         "guid": "leaf",
         "label": "myLabel8",
-        "iconName": "myIconName"
+        "iconName": "myIconName8",
+        "dragImageSrc": "myDragImageSrc8"
     }
 ];
 
@@ -97,7 +102,8 @@ const ELEMENT_DATA_FLATTENED = [
         "label": "myLabel3",
         "description": "myDescription",
         "elementType": "Variable",
-        "iconName": "myIconName"
+        "iconName": "myIconName3",
+        "dragImageSrc": "myDragImageSrc3"
     },
     {
         "isSection": false,
@@ -108,7 +114,8 @@ const ELEMENT_DATA_FLATTENED = [
         "label": "myLabel4",
         "description": "",
         "elementType": "Variable",
-        "iconName": "myIconName"
+        "iconName": "myIconName4",
+        "dragImageSrc": "myDragImageSrc4"
     },
     {
         "isSection": true,
@@ -131,7 +138,8 @@ const ELEMENT_DATA_FLATTENED = [
         "label": "myLabel8",
         "description": "",
         "elementType": "Variable",
-        "iconName": "myIconName"
+        "iconName": "myIconName8",
+        "dragImageSrc": "myDragImageSrc8"
     }
 ];
 
@@ -232,7 +240,8 @@ describe('palette-lib', () => {
                             "guid": "myGuid6",
                             "label": "myLabel6",
                             "description": "myDescription",
-                            "iconName": "myIconName"
+                            "iconName": "myIconName6",
+                            "dragImageSrc": "myDragImageSrc6"
                         }
                     ]
                 }
@@ -259,7 +268,8 @@ describe('palette-lib', () => {
                     "label": "myLabel6",
                     "description": "myDescription",
                     "elementType": "Variable",
-                    "iconName": "myIconName"
+                    "iconName": "myIconName6",
+                    "dragImageSrc": "myDragImageSrc6"
                 }
             ];
             expect(createLevel(input, { collapsedSections: {} }, 3)).toEqual(expected);
@@ -271,7 +281,8 @@ describe('palette-lib', () => {
                     "elementType": "Variable",
                     "guid": "leaf",
                     "label": "myLabel",
-                    "iconName": "myIconName"
+                    "iconName": "myIconName",
+                    "dragImageSrc": "myDragImageSrc"
                 }
             ];
             const expected = [
@@ -284,7 +295,8 @@ describe('palette-lib', () => {
                     "label": "myLabel",
                     "description": "",
                     "elementType": "Variable",
-                    "iconName": "myIconName"
+                    "iconName": "myIconName",
+                    "dragImageSrc": "myDragImageSrc"
                 }
             ];
             expect(createLevel(input, { collapsedSections: {} }, 2)).toEqual(expected);

@@ -1,5 +1,6 @@
 import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from "./elementConfigLabels";
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import {
@@ -131,6 +132,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:flow',
             utilityIconName: 'utility:flow',
+            dragImageSrc: ICONS_LARGE.SUBFLOW,
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -156,6 +158,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:custom_notification',
             utilityIconName: 'utility:fallback',
+            dragImageSrc: ICONS_LARGE.ACTION_CALL,
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -185,6 +188,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:apex_plugin',
             utilityIconName: 'utility:apex_plugin',
+            dragImageSrc: ICONS_LARGE.APEX_PLUGIN_CALL,
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -210,6 +214,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:apex',
             utilityIconName: 'utility:apex',
+            dragImageSrc: ICONS_LARGE.APEX_CALL,
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -236,6 +241,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:email',
             utilityIconName: 'utility:email',
+            dragImageSrc: ICONS_LARGE.EMAIL_ALERT,
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -259,6 +265,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:assignment',
             utilityIconName: 'utility:assignment',
+            dragImageSrc: ICONS_LARGE.ASSIGNMENT,
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -281,6 +288,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:screen',
             utilityIconName: 'utility:screen',
+            dragImageSrc: ICONS_LARGE.SCREEN,
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.LARGE,
@@ -306,6 +314,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:decision',
             utilityIconName: 'utility:signpost',
+            dragImageSrc: ICONS_LARGE.DECISION,
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.LARGE,
@@ -331,7 +340,8 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:waitEditor',
         nodeConfig: {
             iconName: 'standard:waits',
-            utilityIconName: 'utility:waits'
+            utilityIconName: 'utility:waits',
+            dragImageSrc: ICONS_LARGE.WAIT
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.WAITS,
@@ -373,6 +383,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:loop',
             utilityIconName: 'utility:loop',
+            dragImageSrc: ICONS_LARGE.LOOP,
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -396,6 +407,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:record_create',
             utilityIconName: 'utility:record_create',
+            dragImageSrc: ICONS_LARGE.RECORD_CREATE,
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -418,6 +430,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:record_lookup',
             utilityIconName: 'utility:record_lookup',
+            dragImageSrc: ICONS_LARGE.RECORD_LOOKUP,
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -441,6 +454,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:record_delete',
             utilityIconName: 'utility:record_delete',
+            dragImageSrc: ICONS_LARGE.RECORD_DELETE,
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -462,6 +476,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:record_update',
             utilityIconName: 'utility:record_update',
+            dragImageSrc: ICONS_LARGE.RECORD_UPDATE,
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -482,7 +497,7 @@ export const elementTypeToConfigMap = {
         // OUTCOME is not a canvas element, but is a first class element
         nodeConfig: {
             iconName: 'standard:outcome',
-            utilityIconName: 'utility:outcome',
+            utilityIconName: 'utility:outcome'
         },
         labels: {
             singular: LABELS.outcomeSingularLabel,
@@ -670,7 +685,7 @@ export const elementTypeToConfigMap = {
         // SCREEN FIELD is not a canvas element, but is a first class element
         nodeConfig: {
             iconName: 'standard:display_text',
-            utilityIconName: 'utility:display_text',
+            utilityIconName: 'utility:display_text'
         },
         labels: {
             singular: LABELS.screenFieldSingularLabel,

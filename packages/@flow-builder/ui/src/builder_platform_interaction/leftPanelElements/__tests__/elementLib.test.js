@@ -38,7 +38,8 @@ const SECTIONS = [
             "label": "Screen",
             "elementType": "SCREEN",
             "guid": "testGUID",
-            "iconName": "standard:screen"
+            "iconName": "standard:screen",
+            "dragImageSrc": "/flow/icons/large/screen.png"
         }],
         "guid": "testGUID",
         "label": "User Interaction"
@@ -49,14 +50,16 @@ const SECTIONS = [
             "label": "Assignment",
             "elementType": "ASSIGNMENT",
             "guid": "testGUID",
-            "iconName": "standard:assignment"
+            "iconName": "standard:assignment",
+            "dragImageSrc": "/flow/icons/large/assignment.png"
         },
         {
             "description": "Create paths for the flow to take based on conditions you set.",
             "label": "Decision",
             "elementType": "DECISION",
             "guid": "testGUID",
-            "iconName": "standard:decision"
+            "iconName": "standard:decision",
+            "dragImageSrc": "/flow/icons/large/decision.png"
         }],
         "guid": "testGUID",
         "label": "Logic"

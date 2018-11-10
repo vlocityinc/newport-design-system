@@ -8,10 +8,11 @@ const GUID = 'myGuid';
 const LABEL = 'myLabel';
 const ICON_SIZE = 'myIconSize';
 
-const createComponentUnderTest = (iconName) => {
+const createComponentUnderTest = (iconName, dragImageSrc) => {
     const el = createElement('builder_platform_interaction-palette-item', {
         is: PaletteItem
     });
+    el.dragImageSrc = dragImageSrc;
     el.elementType = ELEMENT_TYPE;
     el.guid = GUID;
     el.iconName = iconName;
@@ -88,6 +89,41 @@ describe('PaletteItem', () => {
             return Promise.resolve().then(() => {
                 const elementIcon = getShadowRoot(paletteItem).querySelector(selectors.elementIcon);
                 expect(elementIcon).not.toBeNull();
+            });
+        });
+    });
+
+    describe('dragImage', () => {
+        it('returns undefined when dragImageSrc is undefined', () => {
+            const paletteItem = createComponentUnderTest(undefined, undefined);
+            return Promise.resolve().then(() => {
+                expect(paletteItem.dragImage).toBeUndefined();
+            });
+        });
+
+        it('returns undefined when dragImageSrc is null', () => {
+            const paletteItem = createComponentUnderTest(undefined, null);
+            return Promise.resolve().then(() => {
+                expect(paletteItem.dragImage).toBeUndefined();
+            });
+        });
+
+        it('returns undefined when dragImageSrc is empty', () => {
+            const paletteItem = createComponentUnderTest(undefined, '');
+            return Promise.resolve().then(() => {
+                expect(paletteItem.dragImage).toBeUndefined();
+            });
+        });
+
+        it('returns an img element when dragImageSrc is non-empty', () => {
+            const dragImageSrc = '/flow/icons/large/assignment.png';
+            const expected = expect.stringMatching(new RegExp(dragImageSrc + '$'));
+            const paletteItem = createComponentUnderTest(undefined, dragImageSrc);
+            return Promise.resolve().then(() => {
+                const dragImage = paletteItem.dragImage;
+                expect(dragImage).not.toBeUndefined();
+                expect(dragImage.tagName).toEqual('IMG');
+                expect(dragImage.src).toEqual(expected);
             });
         });
     });
