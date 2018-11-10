@@ -428,7 +428,7 @@ export function getFieldChoiceData(field) {
                     label,
                     guid:  choiceElement.guid,
                     value: choiceElement.guid,
-                    displayValue: '{!' + choiceElement.name + '}'
+                    displayValue: {value: '{!' + choiceElement.name + '}', error: getErrorFromChoice(choice)}
                 };
             }
             // When a new choice is being added to a screen field, there will be
@@ -437,9 +437,16 @@ export function getFieldChoiceData(field) {
                 label: '',
                 guid:  generateGuid(),
                 value: '',
-                displayValue: null
+                displayValue: {value: null, error: getErrorFromChoice(choice)}
             };
         });
     }
     return [];
+}
+
+function getErrorFromChoice(choice) {
+    if (choice && choice.choiceReference) {
+        return choice.choiceReference.error;
+    }
+    return null;
 }

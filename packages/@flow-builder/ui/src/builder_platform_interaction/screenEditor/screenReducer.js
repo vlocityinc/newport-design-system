@@ -65,7 +65,9 @@ const changeChoice = (screen, event, field) => {
         throw new Error("Invalid position for choice deletion: " + event.detail.position);
     }
 
-    const updatedChoices = replaceItem(field.choiceReferences, hydrateWithErrors(createChoiceReference(event.detail.newValue.value)), event.detail.position);
+    const hydratedChoice = hydrateWithErrors(createChoiceReference(event.detail.newValue.value));
+    hydratedChoice.choiceReference.error = event.detail.newValue.error;
+    const updatedChoices = replaceItem(field.choiceReferences, hydratedChoice, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
     // Replace the field in the screen
