@@ -146,7 +146,10 @@ export default class OutputResourcePicker extends LightningElement {
             this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
 
             const identifier = isObject(this.value) ? this.value.value : this.value;
-            this.initializeResourcePicker(this.normalizeValue(identifier));
+            this.normalizeValue(identifier)
+                .then(normalizedValue => {
+                    this.initializeResourcePicker(normalizedValue);
+                });
         }
     }
 
@@ -154,7 +157,7 @@ export default class OutputResourcePicker extends LightningElement {
 
     initializeResourcePicker = (normalizedValue) => {
         // on first render we want to replace the given value with the normalized value
-        this.value = normalizedValue;
+        this._value = normalizedValue;
         this.populateMenuData(this.parentItem);
         this._isInitialized = true;
     }
@@ -175,9 +178,11 @@ export default class OutputResourcePicker extends LightningElement {
     populateMenuData = (parentItem) => {
         const showNewResource = true;
         if (this._baseResourcePicker) {
-            this._baseResourcePicker.setMenuData(
-                getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, false,
-                        this.enableFieldDrilldown, storeInstance, showNewResource, parentItem, undefined, false));
+            getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, false,
+                this.enableFieldDrilldown, storeInstance, showNewResource, parentItem, undefined, false)
+                .then(menuData => {
+                    this._baseResourcePicker.setMenuData(menuData);
+                });
         }
     }
 
@@ -197,20 +202,21 @@ export default class OutputResourcePicker extends LightningElement {
             if (fieldName) {
                 // TODO: W-4960448: the field will appear empty briefly when fetching the first time
                 const sobject = flowElement.objectType;
-                sobjectLib.getFieldsForEntity(sobject, (fields) => {
-                    const field = fields[fieldName];
-                    field.isCollection = false;
-
-                    const fieldParent = mutateFlowResourceToComboboxShape(flowElement);
-                    normalizedValue = mutateFieldToComboboxShape(field, fieldParent, true, true);
+                return new Promise(resolve => {
+                    sobjectLib.getFieldsForEntity(sobject, (fields) => {
+                        const field = fields[fieldName];
+                        field.isCollection = false;
+                        const fieldParent = mutateFlowResourceToComboboxShape(flowElement);
+                        const fieldItem = mutateFieldToComboboxShape(field, fieldParent, true, true);
+                        resolve(fieldItem);
+                    });
                 });
-            } else {
-                normalizedValue = mutateFlowResourceToComboboxShape(flowElement);
             }
+            normalizedValue = mutateFlowResourceToComboboxShape(flowElement);
         } else {
             // Pass in identifier as string in the default case
             normalizedValue = identifier;
         }
-        return normalizedValue;
+        return Promise.resolve(normalizedValue);
     };
 }

@@ -51,6 +51,17 @@ describe('resourcePickerUtils', () => {
                 }
             };
         });
+
+        it('returns a promise that contains array of field menu data once settled', () => {
+            const mockFieldMenuData = ['field2'];
+            filterFieldsForChosenElement.mockReturnValueOnce(mockFieldMenuData);
+
+            return getMenuData(null, null, resourcePicker.populateParamTypes, false, false, null, true, parentItem)
+            .then(result => {
+                expect(result).toEqual(['field2']);
+            });
+        });
+
         it('Should filter the fields when the fields already have been loaded', () => {
             getMenuData(null, null, resourcePicker.populateParamTypes, false, false, null, true, parentItem, fields);
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, paramTypes,
@@ -76,6 +87,18 @@ describe('resourcePickerUtils', () => {
                 enableFieldDrilldown: false
             };
         });
+
+        it('returns a promise that gives an array of element menu data once settled', () => {
+            const mockMenuData = ['foo'];
+            filterAndMutateMenuData.mockReturnValueOnce(mockMenuData);
+
+            return getMenuData('elementConfig', resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
+            resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, false)
+                .then(result => {
+                    expect(result).toEqual(mockMenuData);
+                });
+        });
+
         it('Should get menu data when there is no element config', () => {
             getMenuData(null, resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
                 resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, true);
