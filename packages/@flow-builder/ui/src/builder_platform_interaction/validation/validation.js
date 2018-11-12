@@ -18,7 +18,8 @@ export const defaultRules = {
         ValidationRules.shouldNotBeginOrEndWithUnderscores,
         ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
-        ValidationRules.maximumCharactersLimit(80)
+        ValidationRules.maximumCharactersLimit(80),
+        ValidationRules.checkDevNameUniqueness
     ]
 };
 
@@ -70,12 +71,13 @@ export class Validation {
     /**
      * @param {Array} rules - list of rules
      * @param {string} data - value on which rule is run
+     * @param {Object} parentElement - parent element object containing sibling fields for the data object
      * @returns {string|null} error - error string or null based on if the field value is valid or not
      */
-    runRulesOnData(rules, data) {
+    runRulesOnData(rules, data, parentElement) {
         let resultFromRule = null;
         for (let i = 0, rulesLen = rules.length; i < rulesLen; i++) {
-            resultFromRule = rules[i](data);
+            resultFromRule = rules[i](data, parentElement);
             if (resultFromRule !== null) {
                 break;
             }
@@ -107,7 +109,7 @@ export class Validation {
             if (nodeElement.hasOwnProperty(key) && nodeElement[key]) { // find out if the key exists in the top level object itself
                 const nodeElementValueObject = nodeElement[key];
                 if (Array.isArray(rules)) { // if there is an array of rules, evaluate it
-                    const errorReturnedFromRule = this.runRulesOnData(rules, getValueFromHydratedItem(nodeElementValueObject));
+                    const errorReturnedFromRule = this.runRulesOnData(rules, getValueFromHydratedItem(nodeElementValueObject), nodeElement);
                     if (errorReturnedFromRule !== null) {
                         nodeElement = updateProperties(nodeElement, {
                             [key] : { value: nodeElementValueObject.value, error: errorReturnedFromRule }

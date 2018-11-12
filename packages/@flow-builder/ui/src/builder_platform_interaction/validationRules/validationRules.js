@@ -205,6 +205,16 @@ export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) =
 };
 
 /**
+ * Dev Name uniqueness check method while doing validate all.
+ * @param {*} nameToBeTested - dev name to be tested for uniqueness in store.
+ * @param {*} parentElement - parent element object to get the guid.
+ */
+export const checkDevNameUniqueness = (nameToBeTested, parentElement) => {
+    const parentGuid = parentElement && parentElement.guid;
+    return isUniqueDevNameInStore(nameToBeTested, [parentGuid]);
+};
+
+/**
  * Checks the uniqueness of the order number amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
  * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
  * @param {number} orderNumberToBeTested - for uniqueness in store
@@ -218,5 +228,4 @@ export const isUniqueOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToS
         !listOfGuidsToSkip.includes(element.guid) && (element.stageOrder) === orderNumberToBeTested);
     return matches.length > 0 ? LABELS.orderNumberNotUnique : null;
 };
-
     /** Exported Validation Rules End **/

@@ -153,6 +153,15 @@ describe('isUniqueDevNameInStore method', () => {
     });
 });
 
+describe('checkDevNameUniqueness method', () => {
+    it('returns null if a unique dev name is passed', () => {
+        expect(rules.checkDevNameUniqueness("mockUniqueName", ["mockGuid"])).toBeNull();
+    });
+    it('returns an error if dev name passed is not unique', () => {
+        expect(rules.checkDevNameUniqueness(assignmentElementName.toUpperCase(), [assignmentElementGuid])).toBe(LABELS.fieldNotUnique);
+    });
+});
+
 describe('shouldBeUnderMaxValue method', () => {
     it('should return null when valid number is passed', () => {
         expect(rules.shouldBeUnderMaxValue(100)(100)).toBeNull();
