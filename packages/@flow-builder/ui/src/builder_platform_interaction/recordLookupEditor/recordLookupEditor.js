@@ -214,7 +214,8 @@ export default class RecordLookupEditor extends LightningElement {
         if (this.state.recordLookupElement.sortField.value !== event.detail.fieldApiName) {
             this.updateProperty('sortField', event.detail.fieldApiName, event.detail.error, false);
         } else {
-            this.updateProperty('sortOrder', event.detail.sortOrder, event.detail.error, false);
+            // Can't have error on this field, all errors are related to sortFields
+            this.updateProperty('sortOrder', event.detail.sortOrder, null, false);
         }
     }
 

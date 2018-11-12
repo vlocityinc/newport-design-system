@@ -17,7 +17,8 @@
                 error-message={sortFieldError}
                 value={selectedField}
                 fields={fields}
-                oncomboboxstatechanged={handleSelectedFieldChanged}>
+                oncomboboxstatechanged={handleSelectedFieldChanged}
+                required>
             </builder_platform_interaction-field-picker>
             <div if:false={showFieldSelector} class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText">
                 <lightning-icon icon-name="utility:warning" title={labels.warning} alternative-text={labels.warning} variant="warning" size="x-small" 
