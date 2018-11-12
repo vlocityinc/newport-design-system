@@ -182,7 +182,7 @@ describe('Merge field validation', () => {
         });
     });
     describe('Elements', () => {
-        it('Returns no validation error when it references a canvas element that can have a fault connector (actionCall ...)', (done) => {
+        it('Returns no validation error when it references a canvas element', (done) => {
             validateMergeField('{!actionCall1}').then(validationErrors => {
                 expect(validationErrors).toEqual([]);
                 done();
@@ -214,6 +214,30 @@ describe('Merge field validation', () => {
         });
         it('Returns no validation error when it references a decision outcome', (done) => {
             validateMergeField('{!outcome1}').then(validationErrors => {
+                expect(validationErrors).toEqual([]);
+                done();
+            });
+        });
+        it('Returns no validation error when it references a wait event', (done) => {
+            validateMergeField('{!waitEvent1}').then(validationErrors => {
+                expect(validationErrors).toEqual([]);
+                done();
+            });
+        });
+        it('Returns no validation error when it references a text template', (done) => {
+            validateMergeField('{!textTemplate1}').then(validationErrors => {
+                expect(validationErrors).toEqual([]);
+                done();
+            });
+        });
+        it('Returns no validation error when it references a stage', (done) => {
+            validateMergeField('{!stage1}').then(validationErrors => {
+                expect(validationErrors).toEqual([]);
+                done();
+            });
+        });
+        it('Returns no validation error when it references a choice', (done) => {
+            validateMergeField('{!numberChoice}').then(validationErrors => {
                 expect(validationErrors).toEqual([]);
                 done();
             });

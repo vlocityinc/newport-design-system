@@ -1,3 +1,5 @@
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+
 export const numberVariableGuid = 'guid1';
 export const accountSObjectVariableGuid = 'guid2';
 export const stringCollectionVariable1Guid = 'guid3';
@@ -17,6 +19,7 @@ export const decisionGuid = 'guid16';
 export const caseSObjectCollectionVariableGuid = 'guid17';
 export const stringConstantGuid = 'guid18';
 export const textTemplateGuid = 'guid19';
+export const waitEventGuid = 'guid20';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -38,6 +41,7 @@ export const outcomeDevName = "outcome1";
 export const decisionDevName = "decision1";
 export const caseSObjectCollectionVariableDevName = 'caseCollectionVar1';
 export const textTemplateDevName = 'textTemplate1';
+export const waitEventDevName = "waitEvent1";
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -58,6 +62,7 @@ export const actionCall = 'ACTION_CALL';
 export const outcome = 'OUTCOME';
 export const formula = 'FORMULA';
 export const textTemplate = 'TEXT_TEMPLATE';
+export const waitEvent = 'WAIT_EVENT';
 
 export const elements = {
     [numberVariableGuid]: {
@@ -241,19 +246,20 @@ export const elements = {
         config: {isSelected: false},
         availableConnections: [],
         connectorCount: 2,
-        maxConnections: 2
+        maxConnections: 2,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     },
     [outcomeGuid]: {
         conditionLogic: "and",
         conditions: [
-          {
-            leftValueReference: stringVariableDevName,
-            operator: "EqualTo",
-            processMetadataValues: [],
-            rightValue: {
-              stringValue: "text"
+            {
+                leftValueReference: stringVariableDevName,
+                operator: "EqualTo",
+                processMetadataValues: [],
+                rightValue: {
+                    stringValue: "text"
+                }
             }
-          }
         ],
         label: outcomeDevName,
         name: outcomeDevName,
@@ -262,8 +268,8 @@ export const elements = {
         elementType: outcome,
         guid: outcomeGuid,
         isCanvasElement: false
-      },
-      [decisionGuid]: {
+    },
+    [decisionGuid]: {
         defaultConnectorLabel: "[Default Outcome]",
         label: decisionDevName,
         locationX: 275,
@@ -275,22 +281,54 @@ export const elements = {
         isCanvasElement: true,
         config: {isSelected: false},
         outcomeReferences: [
-          {
-            outcomeReference: outcomeGuid
-          }
+            {
+                outcomeReference: outcomeGuid
+            }
         ],
         availableConnections: [
-          {
-            type: "REGULAR",
-            childReference: outcomeGuid
-          },
-          {
-            type: "DEFAULT"
-          }
+            {
+                type: "REGULAR",
+                childReference: outcomeGuid
+            },
+            {
+                type: "DEFAULT"
+            }
         ],
         connectorCount: 0,
         maxConnections: 2
-      },
+    },
+    [waitEventGuid]: {
+        conditionLogic: "and",
+        conditions: [
+            {
+                leftValueReference: stringVariableDevName,
+                operator: "EqualTo",
+                processMetadataValues: [],
+                rightValue: {
+                    stringValue: "text"
+                }
+            }
+        ],
+        label: waitEventDevName,
+        name: waitEventDevName,
+        processMetadataValues: [],
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+        elementType: waitEvent,
+        eventType: 'AlarmEvent',
+        guid: waitEventGuid,
+        isCanvasElement: false,
+        inputParameters: [],
+        outputParameters: [],
+    },
+    [textTemplateGuid]: {
+        description: 'text template random description',
+        elementType: textTemplate,
+        guid: textTemplateGuid,
+        isCanvasElement: false,
+        name: textTemplateDevName,
+        text: 'Hello {!World}',
+        dataType: FLOW_DATA_TYPE.STRING.value,
+    },
 };
 
 export const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCollectionVariable1Guid,
@@ -408,12 +446,13 @@ export const mutatedVariablesAndConstants = {
 };
 
 export const textTemplates = {
-        [textTemplateGuid]: {
-            description: 'text template random description',
-            elementType: textTemplate,
-            guid: textTemplateGuid,
-            isCanvasElement: false,
-            name: { value: textTemplateDevName, error: null },
-            text: { value: 'Hello {!World}', error: null }
-        }
+    [textTemplateGuid]: {
+        description: 'text template random description',
+        elementType: textTemplate,
+        guid: textTemplateGuid,
+        isCanvasElement: false,
+        name: { value: textTemplateDevName, error: null },
+        text: { value: 'Hello {!World}', error: null },
+        dataType: FLOW_DATA_TYPE.STRING.value,
+    }
 };

@@ -4,7 +4,6 @@ import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import * as sobjectLib from "builder_platform_interaction/sobjectLib";
 import { LABELS } from "./mergeFieldValidationLabels";
 import { GLOBAL_CONSTANT_PREFIX, getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
-import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { format, splitStringBySeparator } from "builder_platform_interaction/commonUtils";
 import { isElementAllowed } from "builder_platform_interaction/expressionUtils";
 import { elementToParam } from "builder_platform_interaction/ruleLib";
@@ -213,36 +212,20 @@ export class MergeFieldsValidation {
     }
 
     _getElementType(element) {
-        let dataType;
+        let dataType = element.dataType || null;
         let isCollection = false;
         let objectType;
         const elementType = element.elementType;
+
         switch (elementType) {
             case ELEMENT_TYPE.VARIABLE:
-                dataType = element.dataType;
                 isCollection = element.isCollection;
                 objectType = element.objectType;
                 break;
-            case ELEMENT_TYPE.FORMULA:
-            case ELEMENT_TYPE.CONSTANT:
-            case ELEMENT_TYPE.FLOW_CHOICE:
-                // TODO : screenField
-                // TODO : dynamicchoiceset
-                dataType = element.dataType;
+            case ELEMENT_TYPE.STAGE:
+                dataType = FLOW_DATA_TYPE.STRING.value;
                 break;
-            case ELEMENT_TYPE.OUTCOME:
-                // TODO : waitevent
-                dataType = FLOW_DATA_TYPE.BOOLEAN.value;
-                break;
-            default: {
-                const elementConfig = getConfigForElementType(elementType);
-                if (elementConfig.canHaveFaultConnector) {
-                    // Any element that supports a fault connector is available as a Boolean resource.
-                    dataType = FLOW_DATA_TYPE.BOOLEAN.value;
-                } else {
-                    dataType = null;
-                }
-            }
+            // no default
         }
         return {
             dataType,
