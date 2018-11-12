@@ -93,6 +93,11 @@ describe('waitTimeEvent', () => {
             expect(picker.comboboxConfig.type).toEqual(FLOW_DATA_TYPE.DATE_TIME.value);
         });
 
+        it('allows sobjects in menudata, so the user can select an sobject field', () => {
+            const picker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+            expect(picker.comboboxConfig.enableFieldDrilldown).toEqual(true);
+        });
+
         it('loads the existing offset number and unit values', () => {
             const offsetNumber = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[0];
             expect(offsetNumber.value).toEqual(-3);
