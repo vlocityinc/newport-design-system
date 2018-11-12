@@ -13,7 +13,6 @@ const SELECTORS = {
 export default class ResourcedTextarea extends LightningElement {
     elementConfig = {
         elementType: ELEMENT_TYPE.SCREEN,
-        shouldBeWritable: true
     };
 
     resourceComboBoxConfig = BaseResourcePicker.getComboboxConfig(
