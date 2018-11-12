@@ -1,51 +1,26 @@
 <template>
     <div if:true={field} class='full-height'>
-        <div if:true={mergedField}>
+        <div if:true={extensionDescription}>
             <section class='slds-p-horizontal_small slds-p-bottom_small'>
                 <builder_platform_interaction-screen-property-field label={labels.apiNameLabel} 
                                                                     name='name'
                                                                     required='required'
                                                                     type='string'
-                                                                    value={mergedField.name}>
+                                                                    value={field.name}>
                 </builder_platform_interaction-screen-property-field>
 
-                <template for:each={mergedField.inputParameters} for:item='param'>
-                    <builder_platform_interaction-screen-property-field key={param.key} 
-                                                                        allow-resources-for-parameter
-                                                                        data-param-type='input'
-                                                                        help-text={param.description}                                                               
-                                                                        label={param.label} 
-                                                                        name={param.apiName}
-                                                                        required={param.isRequired}
-                                                                        resource-picker-config={param.resourcePickerConfig}
-                                                                        type={param.dataType}
-                                                                        value={param.value} 
-                                                                        onpropertychanged={handleInputPropertyChanged}>
-                    </builder_platform_interaction-screen-property-field>
+                <template for:each={inputParameters} for:item='param' for:index='index'>
+                    <builder_platform_interaction-screen-extension-attribute-editor key={param.descriptor.apiName} index={index} descriptor={param.descriptor} attribute={param.attribute} attribute-type='input'>
+                    </builder_platform_interaction-screen-extension-attribute-editor>
                 </template>
             </section>
 
             <lightning-accordion if:true={hasOutputs} allow-multiple-sections-open active-section-name='outputsSection' class='slds-has-divider slds-p-top_none'>
                 <!--  validation text -->
                 <lightning-accordion-section name='outputsSection' label={labels.extensionOutputsHeader}>
-                    <template for:each={mergedField.outputParameters} for:item='param'>
-                        <div class='slds-grid' key={param.key}>
-                            <div class='slds-p-top_xx-small slds-p-right_x-small' if:true={param.icon}>                                
-                                <div if:false={param.isFirst} class='slds-p-top_xx-small'></div>
-                                <lightning-icon icon-name={param.icon} size='x-small'></lightning-icon>
-                            </div>
-                            <builder_platform_interaction-screen-property-field class='slds-grow'
-                                                                                allow-resources-for-output
-                                                                                data-param-type='output'
-                                                                                hide-top-padding={param.isFirst}
-                                                                                label={param.label}
-                                                                                name={param.apiName} 
-                                                                                resource-picker-config={param.resourcePickerConfig} 
-                                                                                type={param.dataType}
-                                                                                value={param.value} 
-                                                                                onpropertychanged={handleOutputPropertyChanged}>                                                                            
-                            </builder_platform_interaction-screen-property-field>        
-                        </div>
+                    <template for:each={outputParameters} for:item='param' for:index='index'>
+                        <builder_platform_interaction-screen-extension-attribute-editor key={param.descriptor.apiName} index={index} descriptor={param.descriptor} attribute={param.attribute} attribute-type='output'>
+                        </builder_platform_interaction-screen-extension-attribute-editor>
                     </template>               
                 </lightning-accordion-section>
             </lightning-accordion>

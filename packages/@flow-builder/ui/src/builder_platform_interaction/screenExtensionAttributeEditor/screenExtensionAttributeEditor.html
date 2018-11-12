@@ -1,0 +1,34 @@
+<template>
+    <div if:true={descriptor}>
+        <builder_platform_interaction-screen-property-field if:true={isInput}
+                                                            allow-resources-for-parameter
+                                                            data-param-type='input'
+                                                            help-text={descriptor.descriptor}                                                               
+                                                            label={descriptor.label} 
+                                                            name={descriptor.apiName}
+                                                            required={descriptor.isRequired}
+                                                            resource-picker-config={resourcePickerConfig}
+                                                            type={descriptor.dataType}
+                                                            value={value} 
+                                                            onpropertychanged={handlePropertyChanged}>
+        </builder_platform_interaction-screen-property-field>
+
+        <div class='slds-grid' if:true={isOutput}>
+            <div class='slds-p-top_xx-small slds-p-right_x-small' if:true={icon}>                                
+                <div if:false={isFirst} class='slds-p-top_xx-small'></div>
+                <lightning-icon icon-name={icon} size='x-small'></lightning-icon>
+            </div>
+            <builder_platform_interaction-screen-property-field class='slds-grow'
+                                                                allow-resources-for-output
+                                                                data-param-type='output'
+                                                                hide-top-padding={isFirst}
+                                                                label={descriptor.label}
+                                                                name={descriptor.apiName} 
+                                                                resource-picker-config={resourcePickerConfig} 
+                                                                type={descriptor.dataType}
+                                                                value={value} 
+                                                                onpropertychanged={handlePropertyChanged}>                                                                            
+            </builder_platform_interaction-screen-property-field>        
+        </div>
+    </div>
+</template>

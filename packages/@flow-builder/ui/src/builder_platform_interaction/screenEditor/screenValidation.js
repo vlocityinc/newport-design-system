@@ -158,7 +158,12 @@ const getRulesForExtensionField = (field, rules) => {
 const createConditionalRuleForTextProperty = (dependentValue) => {
     return (propertyValue) => {
         if (dependentValue && dependentValue.value && dependentValue.value.length) {
-            return ValidationRules.shouldNotBeBlank(propertyValue);
+            let error = ValidationRules.shouldNotBeBlank(propertyValue);
+            if (!error) {
+                error = ValidationRules.shouldNotBeNullOrUndefined(propertyValue);
+            }
+
+            return error;
         }
 
         return null;

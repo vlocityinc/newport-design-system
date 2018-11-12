@@ -1,6 +1,4 @@
 import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
-import { generateGuid } from "builder_platform_interaction/storeLib";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
 
@@ -57,7 +55,7 @@ function createDescription(name, data) {
     };
 
     for (const param of data) {
-        const newParam = freeze({
+        const newParam = {
             apiName: param.apiName,
             dataType: param.dataType,
             objectType: param.objectType,
@@ -66,7 +64,11 @@ function createDescription(name, data) {
             isRequired: param.isRequired,
             label: param.label,
             maxOccurs: param.maxOccurs
-        });
+        };
+
+        if (param.hasDefaultValue) {
+            newParam.defaultValue = param.defaultValue;
+        }
 
         if (param.isInput) {
             desc.inputParameters.push(newParam);
@@ -75,65 +77,11 @@ function createDescription(name, data) {
         if (param.isOutput) {
             desc.outputParameters.push(newParam);
         }
+
+        freeze(newParam);
     }
 
     return desc;
-}
-
-function mergeParameters(fieldParameters, descParameters, valuePropName, isInput) {
-    const fieldParamMap = [];
-    for (const param of fieldParameters) {
-        const fieldParam = {};
-        fieldParam.name = param.name.value;
-        fieldParam[valuePropName] = param[valuePropName];
-        fieldParamMap[param.name.value] = fieldParam;
-    }
-
-    const mergedParams = [];
-    for (const fieldParam of descParameters) {
-        const param = {
-            apiName: fieldParam.apiName,
-            name: fieldParam.apiName,
-            dataType: fieldParam.dataType,
-            description: fieldParam.description,
-            hasDefaultValue: fieldParam.hasDefaultValue,
-            icon: getDataTypeIcons(fieldParam.dataType, 'utility') || DEFAULT_ATTRIBUTE_TYPE_ICON,
-            isRequired: isInput ? fieldParam.isRequired : false,
-            label: fieldParam.label,
-            maxOccurs: fieldParam.maxOccurs,
-            isCollection: fieldParam.maxOccurs > 1,
-            guid: generateGuid(),
-            key: (isInput ? 'input$$.' : 'output$$.') + fieldParam.apiName,
-            resourcePickerConfig: {
-                allowLiterals: isInput && fieldParam.dataType && fieldParam.maxOccurs <= 1 && fieldParam.dataType.toLowerCase() !== 'sobject',
-                collection: fieldParam.maxOccurs > 1,
-                elementConfig: null,
-                hideGlobalConstants: !isInput,
-                hideNewResource: true
-            }
-        };
-
-        if (fieldParam.objectType) {
-            param.objectType = fieldParam.objectType;
-            param.resourcePickerConfig.objectType = fieldParam.objectType;
-        }
-
-        if (!isInput) {
-            param.resourcePickerConfig.elementType = ELEMENT_TYPE.VARIABLE;
-        } else if (!param.value) {
-            // Input param without value, create hydrated null value
-            param.value = {value: null, error: null};
-        }
-
-        const mdParam = fieldParamMap[param.apiName];
-        if (mdParam) {
-            param[valuePropName] = mdParam[valuePropName];
-        }
-
-        mergedParams.push(param);
-    }
-
-    return mergedParams;
 }
 
 /**
@@ -300,21 +248,6 @@ export function clearExtensionsCache() {
 }
 
 /**
- * Merges the metadata and the description of a field of type extension
- * @param {object} fieldMetadata - The screen field
- * @param {object} extensionDescription - The extension description
- * @returns {object} The merged object
- */
-export function mergeExtensionInfo(fieldMetadata, extensionDescription) {
-    return {
-        extensionName: extensionDescription.name,
-        name: fieldMetadata.name ? fieldMetadata.name : {value: '', error: null},
-        inputParameters: mergeParameters(fieldMetadata.inputParameters, extensionDescription.inputParameters, 'value', true),
-        outputParameters: mergeParameters(fieldMetadata.outputParameters, extensionDescription.outputParameters, 'value', false)
-    };
-}
-
-/**
  * Replaces all local (temporary) extension field types with their server versions (if available) in every field in the provided screen
  * @param {object} screen - the screen
  * @returns {object} the processed screen
@@ -403,4 +336,14 @@ export function addRequiredInputParameters(field, description) {
             }
         }
     }
+}
+
+/**
+ * Returns the icon for the type of the specified parameter.
+ *
+ * @param {Object} type - The parameter type
+ * @returns {String} - The icon name
+ */
+export function getIconForParameter(type) {
+    return getDataTypeIcons(type, 'utility') || DEFAULT_ATTRIBUTE_TYPE_ICON;
 }

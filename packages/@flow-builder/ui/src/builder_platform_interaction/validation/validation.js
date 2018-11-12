@@ -9,10 +9,12 @@ import { logFlowBuilderError } from "builder_platform_interaction/loggingUtils";
 export const defaultRules = {
     'label' : [
         ValidationRules.shouldNotBeBlank,
+        ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.maximumCharactersLimit(255)
     ],
     'name' : [
         ValidationRules.shouldNotBeBlank,
+        ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeginOrEndWithUnderscores,
         ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
