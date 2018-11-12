@@ -25,10 +25,9 @@ export function createRecordCreate(recordCreate = {}) {
     let { inputAssignments = [], availableConnections = getDefaultAvailableConnections()} = recordCreate;
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
-    let recordCreateObject = null;
-
     let numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
 
+    let recordCreateObject;
     if (object) {
         inputAssignments = inputAssignments.map(item => createFlowInputFieldAssignment(item, object));
 
@@ -36,6 +35,7 @@ export function createRecordCreate(recordCreate = {}) {
             object,
             inputAssignments,
             numberRecordsToStore,
+            inputReference,
             availableConnections,
             maxConnections,
             elementType,
@@ -109,6 +109,6 @@ export function createRecordCreateMetadataObject(recordCreate, config) {
         return newRecordCreateMetadata;
     }
     return Object.assign(recordCreateMetadata, {
-            inputReference
-        });
+        inputReference
+    });
 }

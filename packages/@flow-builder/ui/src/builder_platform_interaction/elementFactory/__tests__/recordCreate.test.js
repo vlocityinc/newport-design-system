@@ -203,6 +203,10 @@ describe('recordCreate flow metadata => UI model', () => {
             const actualResult = createRecordCreate(recordCreateUsingFields);
             expect(actualResult).toHaveNoCommonMutableObjectWith(recordCreateUsingFields);
         });
+        it('should have an "inputReference" with empty text value', () => {
+            const actualResult = createRecordCreate(recordCreateUsingFields);
+            expect(actualResult).toHaveProperty('inputReference', '');
+        });
     });
 });
 describe('recordCreate UI model => flow metadata', () => {
