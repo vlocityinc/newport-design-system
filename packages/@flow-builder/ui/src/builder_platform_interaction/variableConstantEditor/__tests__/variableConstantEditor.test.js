@@ -12,7 +12,7 @@ import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataM
 import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId, mutateFlowResourceToComboboxShape } from "builder_platform_interaction/expressionUtils";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
-import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
+import { fetchFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { addToParentElementCache } from "builder_platform_interaction/comboboxCache";
 import { getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -45,7 +45,7 @@ jest.mock('builder_platform_interaction/comboboxCache', () => {
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
-    mockSobjectLib.getFieldsForEntity = jest.fn();
+    mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => Promise.resolve());
     return mockSobjectLib;
 });
 
@@ -540,7 +540,7 @@ describe('variable-constant-editor', () => {
             const variableEditor = setupComponentUnderTest(accountVariable);
             getErrorsFromHydratedElement.mockReturnValueOnce([]);
             variableEditor.validate();
-            expect(getFieldsForEntity).toHaveBeenCalledWith(objectType);
+            expect(fetchFieldsForEntity).toHaveBeenCalledWith(objectType, expect.any(Object));
             expect(addToParentElementCache).toHaveBeenCalledTimes(1);
             expect(addToParentElementCache).toHaveBeenCalledWith(accountVariableInComboboxShape.displayText, accountVariableInComboboxShape);
         });
@@ -550,7 +550,7 @@ describe('variable-constant-editor', () => {
             const variableEditor = setupComponentUnderTest(accountVariable);
             getErrorsFromHydratedElement.mockReturnValueOnce(mockHydratedElementWithErrors);
             variableEditor.validate();
-            expect(getFieldsForEntity).not.toHaveBeenCalled();
+            expect(fetchFieldsForEntity).not.toHaveBeenCalled();
         });
 
         it('does not fetch fields for an sobject collection variable', () => {
@@ -559,7 +559,7 @@ describe('variable-constant-editor', () => {
             const variableEditor = setupComponentUnderTest(accountVariable);
             getErrorsFromHydratedElement.mockReturnValueOnce([]);
             variableEditor.validate();
-            expect(getFieldsForEntity).not.toHaveBeenCalled();
+            expect(fetchFieldsForEntity).not.toHaveBeenCalled();
         });
     });
 });

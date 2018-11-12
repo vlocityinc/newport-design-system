@@ -10,7 +10,7 @@ import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { LABELS } from "./variableConstantEditorLabels";
 import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId, mutateFlowResourceToComboboxShape, getItemOrDisplayText } from "builder_platform_interaction/expressionUtils";
 import { isObject } from "builder_platform_interaction/commonUtils";
-import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
+import { fetchFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { DEFAULT_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
@@ -530,7 +530,7 @@ export default class VariableConstantEditor extends LightningElement {
             const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(dehydrate(clonedSObjectVariableResource));
             addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
             // fetch fields and cache them
-            getFieldsForEntity(objectType);
+            fetchFieldsForEntity(objectType, { disableErrorModal : true }).catch(() => {});
         }
     }
 }
