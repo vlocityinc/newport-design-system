@@ -2,8 +2,6 @@ import {
     parseDateTimeUTC,
     syncUTCToWallTime,
     syncWallTimeToUTC,
-    formatDateTimeUTC,
-    formatDateUTC,
     getLocale,
 } from 'lightning/internalLocalizationService';
 
@@ -18,9 +16,9 @@ import {
  */
 export const getFormat = (isDateTime = false) => {
     if (isDateTime) {
-        return getLocale().datetimeFormat;
+        return getLocale().shortDatetimeFormat;
     }
-    return getLocale().dateFormat;
+    return getLocale().shortDateFormat;
 };
 
 /**
@@ -108,9 +106,9 @@ export const normalizeDateTime = (literal, isDateTime = false) => {
         if (isDateTime) {
             const timezone = getLocale().timezone;
             const wallDate = syncUTCToWallTime(date, timezone);
-            return formatDateTimeUTC(wallDate);
+            return getLocalizationService().formatDateTimeUTC(wallDate.toISOString(), getFormat(isDateTime));
         }
-        return formatDateUTC(date);
+        return getLocalizationService().formatDateUTC(date.toISOString(), getFormat(isDateTime));
     }
     return dateLiteral;
 };
@@ -150,9 +148,9 @@ export const formatDateTime = (literal, isDateTime = false) => {
     const { date, dateLiteral } = parseFormattedDateTime(literal, isDateTime);
     if (date) {
         if (isDateTime) {
-            return formatDateTimeUTC(date.toISOString());
+            return getLocalizationService().formatDateTimeUTC(date.toISOString(), getFormat(isDateTime));
         }
-        return formatDateUTC(date.toISOString());
+        return getLocalizationService().formatDateUTC(date.toISOString(), getFormat(isDateTime));
     }
     return dateLiteral;
 };
