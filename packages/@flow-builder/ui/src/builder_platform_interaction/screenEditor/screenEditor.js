@@ -127,12 +127,6 @@ export default class ScreenEditor extends LightningElement {
         this.setSelectedNode(this.screen.fields[position]);
     }
 
-    handleWheel(event) {
-        // TODO: This is needed a a temporary workaround until W-5580908 is resolved.
-        // Without this, scrolling in the screen editor may not work.
-        event.stopPropagation();
-    }
-
     /**
      * Handler for the delete screen element event. Invokes the delete confirmation modal.
      * @param {event} event - The event
