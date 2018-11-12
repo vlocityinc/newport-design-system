@@ -1,27 +1,24 @@
 <template>
     <div class='properties-container full-height slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-border_left slds-grid slds-grid_vertical slds-size_medium toggle-animated' aria-hidden='false' >
-        <div if:true={node} class='slds-panel__header slds-shrink-none -slds-border_bottom-none slds-grid'>
-            <div class='slds-grow'>
-                <h2 class='slds-panel__header-title slds-text-heading_small'>
-                    <span if:true={isScreen}>{labels.screenProperties}</span>
-                    <span if:false={isScreen}>
-                        <lightning-button-icon icon-name='utility:back' size='medium' variant='bare' class='slds-list_inline'
-                                   title={labels.screenProperties} onclick={handleScreenSelection}>
-                        </lightning-button-icon>
-                        <span class='slds-p-left_small'>{node.type.label}</span>
-                    </span>
+        <div if:true={node} class="slds-panel__header slds-truncate_container">
+            <lightning-button-icon  if:false={isScreen} variant="container" size="small" 
+                                    icon-name="utility:back" class="back-button slds-panel__back slds-shrink-none" 
+                                    onclick={handleScreenSelection} alternative-text={labels.screenProperties}  
+                                    title={labels.screenProperties}>
+            </lightning-button-icon>
+            <div class={panelHeaderTextClasses}>
+                <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" 
+                    title={getPanelTitle}>{getPanelTitle}
                 </h2>
             </div>
-
-            <lightning-button-icon if:true={hasErrors} class="slds-p-right_x-small" icon-name='utility:error' 
-                                                       icon-class='slds-icon-text-error' size='medium' 
-                                                       variant='bare' title={labels.errorIconTitle}>
+            <lightning-button-icon if:true={hasErrors} size='small' variant='container' 
+                                   icon-name='utility:error' icon-class='slds-icon-text-error' 
+                                   title={labels.errorIconTitle}>
             </lightning-button-icon>
-            <lightning-button-icon icon-name={toggleIconName} size='medium' variant='bare' 
+            <lightning-button-icon icon-name={toggleIconName} size='small' variant='container' 
                                    title={labels.togglePropertiesPanelTitle} onclick={handleToggleExpand}>
             </lightning-button-icon>
         </div>
-        
         <div if:true={displaySpinner} class='slds-is-relative full-height slds-shrink'>
             <lightning-spinner alternative-text={labels.spinnerAlternativeText} size='medium' variant='brand' class='spinner'></lightning-spinner>
         </div>

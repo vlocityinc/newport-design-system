@@ -73,6 +73,18 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         return getErrorsFromHydratedElement(this.node).length > 0;
     }
 
+    get getPanelTitle() {
+        return screenEditorUtils.isScreen(this.node) ? LABELS.screenProperties : this.node.type.label;
+    }
+
+    get panelHeaderTextClasses() {
+        let classes = 'slds-col slds-truncate';
+        if (!screenEditorUtils.isScreen(this.node)) {
+            classes = `${classes} slds-p-top_xxx-small`;
+        }
+        return classes;
+    }
+
     handleToggleExpand = (/* event */) => {
         const container = this.template.querySelector('.properties-container');
 
