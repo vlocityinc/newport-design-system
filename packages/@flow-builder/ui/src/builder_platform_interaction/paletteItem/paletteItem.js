@@ -35,6 +35,11 @@ export default class PaletteItem extends LightningElement {
         return img;
     }
 
+    @api
+    get isChildElement() {
+        return isChildElement(this.elementType);
+    }
+
     get hasIcon() {
         return this.iconName !== undefined && this.iconName !== null && this.iconName.length > 0;
     }
@@ -57,10 +62,8 @@ export default class PaletteItem extends LightningElement {
         event.stopPropagation();
         const elementType = this.elementType;
         const guid = this.guid;
-        if (!isChildElement(elementType)) {
-            const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);
-            this.dispatchEvent(paletteItemClickedEvent);
-        }
+        const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);
+        this.dispatchEvent(paletteItemClickedEvent);
     }
 
     handleKeyPress(event) {

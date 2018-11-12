@@ -14,6 +14,8 @@
         long text (SLDS directive) and we may run into issues when applying slds to a vanilla
         button once the shadow dom is introduced.
         -->
-        <a role="button" class="slds-truncate" title={description} onclick={handleLinkClick} onkeypress={handleKeyPress} tabindex="0">{label}</a>
+        <!-- TODO: [W-5609556] Temporarily rendering child resources as plan text, make them links in 220. -->
+        <a if:false={isChildElement} role="button" class="slds-truncate" title={description} onclick={handleLinkClick} onkeypress={handleKeyPress} tabindex="0">{label}</a>
+        <span if:true={isChildElement} class="slds-truncate" title={description}>{label}</span>
     </div>
 </template>
