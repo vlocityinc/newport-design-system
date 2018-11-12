@@ -12,6 +12,7 @@ export default class GroupedCombobox extends LightningElement {
     @api showActivityIndicator;
     @api required;
     @api variant;
+    @api fieldLevelHelp;
 
     @api
     setCustomValidity(value) {
