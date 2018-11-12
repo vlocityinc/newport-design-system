@@ -201,6 +201,10 @@ describe('record-lookup-reducer', () => {
                 expect(newState.sortField.value).toBe('invalidValue');
                 expect(newState.sortField.error).toBeNull();
             });
+            it('should not reset filters', () => {
+                expect(newState.filters).toHaveLength(1);
+                expect(newState.filters[0].leftHandSide.value).toBe('Account.BillingAddress');
+            });
         });
 
         describe('update filterType to none', () => {

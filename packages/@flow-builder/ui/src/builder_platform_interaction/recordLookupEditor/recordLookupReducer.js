@@ -163,7 +163,6 @@ const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  old
             state = updateProperties(state, {[propertyName]: value});
             state = resetRecordLookupWithoutFilter(state);
         } else if (propertyName === 'sortOrder' && value === SORT_ORDER.NOT_SORTED) {
-            state = resetFilter(state);
             // reset error if any, and preserve value
             state = updateProperties(state, {sortField: {value: state.sortField.value, error: null}});
         } else if (propertyName === 'filterType' && value === RECORD_FILTER_CRITERIA.NONE) {
