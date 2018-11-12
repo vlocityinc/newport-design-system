@@ -9,7 +9,7 @@ import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDa
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
-import { setEntities, getFieldsForEntity, setEventTypes } from 'builder_platform_interaction/sobjectLib';
+import { setEntities, fetchFieldsForEntity, setEventTypes } from 'builder_platform_interaction/sobjectLib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 import { LABELS } from './editorLabels';
 import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
@@ -213,7 +213,7 @@ export default class Editor extends LightningElement {
             const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(sobjectVariables[i]);
             addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
             // fetch fields and cache them
-            getFieldsForEntity(sobjectVariables[i].objectType);
+            fetchFieldsForEntity(sobjectVariables[i].objectType, { disableErrorModal : true }).catch(() => {});
         }
     }
 
