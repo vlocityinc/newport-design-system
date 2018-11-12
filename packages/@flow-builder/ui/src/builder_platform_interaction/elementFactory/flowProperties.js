@@ -19,9 +19,6 @@ export function createFlowPropertiesForEditor(flowProperties = {}) {
     const newFlowProperties = createFlowProperties(flowProperties);
 
     if (newFlowProperties.canOnlySaveAsNewDefinition) {
-        newFlowProperties.label = '';
-        newFlowProperties.name = '';
-        newFlowProperties.description = '';
         newFlowProperties.manageableState = null;
         newFlowProperties.isTemplate = false;
     }
@@ -44,6 +41,7 @@ export function createFlowProperties(flowProperties = {}) {
     } = flowProperties.metadata || flowProperties;
 
     let { isLightningFlowBuilder = true, isCreatedOutsideLfb = false, canOnlySaveAsNewDefinition = false } = flowProperties;
+    canOnlySaveAsNewDefinition |= manageableState === 'installed';
 
     if (processMetadataValues) {
         // isCreatedOutsideLFB can be true in 2 cases
@@ -53,7 +51,6 @@ export function createFlowProperties(flowProperties = {}) {
         isLightningFlowBuilder = checkIfLightningFlowBuilder(processMetadataValues);
     }
 
-    canOnlySaveAsNewDefinition = manageableState === 'installed';
 
     return {
             label,

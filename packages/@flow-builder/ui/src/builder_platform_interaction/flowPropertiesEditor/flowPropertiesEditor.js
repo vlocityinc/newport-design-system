@@ -26,6 +26,9 @@ export default class FlowPropertiesEditor extends LightningElement {
         this._originalApiName = this.flowProperties.name.value;
         this._originalDescription = this.flowProperties.description.value;
         this._originalProcessType = this.flowProperties.processType.value;
+        if (this.flowProperties.saveType === SaveType.NEW_DEFINITION) {
+            this.clearForNewDefinition();
+        }
     }
 
     /**
@@ -167,11 +170,15 @@ export default class FlowPropertiesEditor extends LightningElement {
             this.updateProperty('description', this._originalDescription);
             this.updateProperty('processType', this._originalProcessType);
         } else {
-            // If switching from new version to new flow, clear out label, name and description
-            this.updateProperty('label', null);
-            this.updateProperty('name', null);
-            this.updateProperty('description', null);
+            this.clearForNewDefinition();
         }
+    }
+
+    clearForNewDefinition() {
+        // If switching from new version to new flow, clear out label, name and description
+        this.updateProperty('label', null);
+        this.updateProperty('name', null);
+        this.updateProperty('description', null);
     }
 
     /**
