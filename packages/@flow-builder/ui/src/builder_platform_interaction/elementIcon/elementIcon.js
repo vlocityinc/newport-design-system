@@ -43,8 +43,8 @@ export default class ElementIcon extends LightningElement {
             commonClasses =  'rotate-icon-svg';
         } else if (this.iconName === 'standard:flow' || this.iconName === 'standard:email' || this.iconName === 'standard:custom_notification') {
             // 'action' types must all have the same background color
-            commonClasses = 'slds-m-right_x-small action-icon';
-            commonClasses = this.updateClassesForNonCanvasElements('', commonClasses);
+            commonClasses = 'slds-m-right_x-small';
+            commonClasses = this.updateClassesForNonCanvasElements('action-icon', commonClasses);
         } else {
              commonClasses = 'slds-m-right_x-small';
              commonClasses = this.updateClassesForNonCanvasElements('', commonClasses);
