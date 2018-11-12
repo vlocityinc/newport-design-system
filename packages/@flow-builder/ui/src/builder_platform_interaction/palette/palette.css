@@ -1,9 +1,9 @@
-th {
-    padding-left: 0.75rem !important;
+tbody tr th {
+    padding-left: 0.75rem;
 }
 
 tr.palette-item td:first-of-type {
-    padding-left: 1.5rem !important;
+    padding-left: 1.5rem;
 }
 
 td:last-of-type {
