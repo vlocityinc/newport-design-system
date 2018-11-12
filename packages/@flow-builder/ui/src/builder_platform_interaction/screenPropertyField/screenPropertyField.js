@@ -202,10 +202,9 @@ export default class ScreenPropertyField extends LightningElement {
     handleEvent = (event) => {
         event.stopPropagation();
 
-        // If this is a change event and the input isn't checkbox, stop handling this event.
-        // It's too noisy. However, if the input type is checkbox, we don't want to force
-        // the user to blur in order to process the event, so keep going in that case.
-        if (event.type === 'change' && !this.isBoolean && !this.isList) {
+        // If this is a change event, we don't want to always handle it, because it can
+        // be too noisy.
+        if (event.type === 'change' && !this.isBoolean && !this.isList && !this.isLongString) {
             return;
         }
 
