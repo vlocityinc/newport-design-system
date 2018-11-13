@@ -6,7 +6,8 @@ import eventDeliveryStatusLabel from '@salesforce/label/FlowBuilderWaitEditor.ev
 import baseTimeLabel from  '@salesforce/label/FlowBuilderWaitEditor.baseTimeLabel';
 import baseTimeHelpText from '@salesforce/label/FlowBuilderWaitEditor.baseTimeHelpText';
 import offsetNumberLabel from '@salesforce/label/FlowBuilderWaitEditor.offsetNumberLabel';
-import offsetNumberHelpText from '@salesforce/label/FlowBuilderWaitEditor.offsetNumberHelpText';
+import baseTimeoffsetNumberHelpText from '@salesforce/label/FlowBuilderWaitEditor.baseTimeoffsetNumberHelpText';
+import fieldOffsetNumberHelpText from '@salesforce/label/FlowBuilderWaitEditor.fieldOffsetNumberHelpText';
 import offsetUnitLabel from '@salesforce/label/FlowBuilderWaitEditor.offsetUnitLabel';
 import offsetUnitHelpText from '@salesforce/label/FlowBuilderWaitEditor.offsetUnitHelpText';
 import resumeTimeLabel from '@salesforce/label/FlowBuilderWaitEditor.resumeTimeLabel';
@@ -18,6 +19,7 @@ import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank
 import recordIdHelpText from '@salesforce/label/FlowBuilderWaitEditor.recordIdHelpText';
 import salesforceObjectHelpText from '@salesforce/label/FlowBuilderWaitEditor.salesforceObjectHelpText';
 import directRecordBaseTimeHelpText from '@salesforce/label/FlowBuilderWaitEditor.directRecordBaseTimeHelpText';
+import fieldLabel from '@salesforce/label/FlowBuilderWaitEditor.fieldLabel';
 
 export const LABELS = {
     timeTypeLabel,
@@ -28,7 +30,8 @@ export const LABELS = {
     baseTimeLabel,
     baseTimeHelpText,
     offsetNumberLabel,
-    offsetNumberHelpText,
+    baseTimeoffsetNumberHelpText,
+    fieldOffsetNumberHelpText,
     offsetUnitLabel,
     offsetUnitHelpText,
     resumeTimeLabel,
@@ -39,5 +42,6 @@ export const LABELS = {
     cannotBeBlank,
     recordIdHelpText,
     salesforceObjectHelpText,
-    directRecordBaseTimeHelpText
+    directRecordBaseTimeHelpText,
+    fieldLabel
 };

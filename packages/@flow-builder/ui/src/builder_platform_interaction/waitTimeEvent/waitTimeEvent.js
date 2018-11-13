@@ -256,6 +256,10 @@ export default class WaitTimeEvent extends LightningElement {
         return this.getResumeTimeParameterValue(WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME);
     }
 
+    get offsetNumberHelpText() {
+        return this.eventType === WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME ? this.labels.baseTimeoffsetNumberHelpText : this.labels.fieldOffsetNumberHelpText;
+    }
+
     handleEventTypeChange(event) {
         event.stopPropagation();
 

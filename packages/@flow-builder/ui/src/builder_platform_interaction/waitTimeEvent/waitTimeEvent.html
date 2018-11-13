@@ -41,7 +41,7 @@
             <div class="slds-size_medium slds-m-top_x-small">
                 <lightning-input
                     type="text"
-                    label={labels.baseTimeLabel}
+                    label={labels.fieldLabel}
                     onfocusout={handleDirectRecordBaseTimeChange}
                     value={directRecordBaseTime}
                     required
@@ -68,7 +68,7 @@
             class="slds-size_1-of-2 slds-p-top_small offset-number"
             value={offsetNumber}
             type="number" label={labels.offsetNumberLabel}
-            field-level-help={labels.offsetNumberHelpText}
+            field-level-help={offsetNumberHelpText}
             onfocusout={handleOffsetNumberChange}>
         </lightning-input>
 		<lightning-input
@@ -79,10 +79,10 @@
             onfocusout={handleOffsetUnitChange}>
         </lightning-input>
 
-        <h3 class="slds-border_top slds-m-top_small slds-m-bottom_small slds-text-heading_small">{labels.assignOutputsToVariablesLabel}</h3>
+        <h3 class="slds-border_top slds-m-top_medium slds-p-top_medium slds-text-heading_small">{labels.assignOutputsToVariablesLabel}</h3>
 
         <!-- output parameters (assign outputs to variables) -->
-        <div class="slds-form-element_row slds-p-top_small">
+        <div class="slds-form-element_row">
             <ul>
                 <builder_platform_interaction-parameter-item
                     item={outputResumeTime}
