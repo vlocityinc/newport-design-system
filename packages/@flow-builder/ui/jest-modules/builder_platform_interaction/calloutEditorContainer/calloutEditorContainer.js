@@ -5,4 +5,5 @@ export default class CalloutEditorContainer extends LightningElement {
     @api getNode = jest.fn();
     @api validate = jest.fn();
     @api hasActions;
+    @api location;
 }
