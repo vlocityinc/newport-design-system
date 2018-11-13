@@ -4,6 +4,7 @@ import { mockAccountFields } from "mock/serverEntityData";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { LABELS } from "../validationRulesLabels";
 import { format } from "builder_platform_interaction/commonUtils";
+import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
@@ -22,6 +23,12 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
             });
         }),
         SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
+    };
+});
+
+jest.mock('builder_platform_interaction/dateTimeUtils', () => {
+    return {
+        isValidMetadataDateTime: jest.fn().mockName('isValidMetadataDateTime'),
     };
 });
 
@@ -94,14 +101,53 @@ describe('shouldBeAPositiveIntegerOrZero method', () => {
 });
 
 describe('shouldBeADate method', () => {
+    it('calls isValidMetadataDateTime', () => {
+        const date = new Date();
+        rules.shouldBeADate(date.toISOString());
+        expect(isValidMetadataDateTime).toHaveBeenCalledWith(date.toISOString(), false);
+    });
     it('should return null when the input contains a valid date string', () => {
-        expect(rules.shouldBeADate(new Date().toString())).toBeNull();
+        isValidMetadataDateTime.mockReturnValueOnce(true);
+        expect(rules.shouldBeADate(new Date().toISOString())).toBeNull();
+    });
+    it('should return null when the input contains a null value', () => {
+        expect(rules.shouldBeADate(null)).toBeNull();
+    });
+    it('should return null when the input contains an empty string', () => {
+        expect(rules.shouldBeADate('')).toBeNull();
     });
     it('should return an error when the input contains non-alphanumeric characters', () => {
+        isValidMetadataDateTime.mockReturnValueOnce(false);
+        isValidMetadataDateTime.mockReturnValueOnce(false);
         expect(rules.shouldBeADate('aaa')).toBe(LABELS.mustBeAValidDate);
         expect(rules.shouldBeADate('13/13/13')).toBe(LABELS.mustBeAValidDate);
     });
 });
+
+describe('shouldBeADateTime method', () => {
+    it('calls isValidMetadataDateTime', () => {
+        const date = new Date();
+        rules.shouldBeADateTime(date.toISOString());
+        expect(isValidMetadataDateTime).toHaveBeenCalledWith(date.toISOString(), true);
+    });
+    it('should return null when the input contains a valid date time string', () => {
+        isValidMetadataDateTime.mockReturnValueOnce(true);
+        expect(rules.shouldBeADateTime(new Date().toISOString())).toBeNull();
+    });
+    it('should return null when the input contains a null value', () => {
+        expect(rules.shouldBeADateTime(null)).toBeNull();
+    });
+    it('should return null when the input contains an empty string', () => {
+        expect(rules.shouldBeADateTime('')).toBeNull();
+    });
+    it('should return an error when the input contains non-alphanumeric characters', () => {
+        isValidMetadataDateTime.mockReturnValueOnce(false);
+        isValidMetadataDateTime.mockReturnValueOnce(false);
+        expect(rules.shouldBeADateTime('aaa')).toBe(LABELS.mustBeAValidDate);
+        expect(rules.shouldBeADateTime('13/13/13')).toBe(LABELS.mustBeAValidDate);
+    });
+});
+
 describe('maximumCharactersLimit method', () => {
     const charLimit = 12;
     it('should return null if the input is within the character limit', () => {

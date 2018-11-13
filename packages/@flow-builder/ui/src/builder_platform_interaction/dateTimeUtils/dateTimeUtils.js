@@ -84,10 +84,22 @@ export const parseFormattedDateTime = (literal, isDateTime = false) => {
 /**
  * Check if the given string literal is a valid date
  * @param {String} literal the string literal to be tested as a valid date
+ * @param {Boolean} isDateTime true if literal is a datetime, false if literal is a date
  * @returns {Boolean} true if a valid date, false otherwise
  */
 export const isValidFormattedDateTime = (literal, isDateTime = false) => {
     const { date } = parseFormattedDateTime(literal, isDateTime);
+    return !!date;
+};
+
+/**
+ * Check if the given ISO string literal is a valid date
+ * @param {String} literal the string literal to be tested as a valid date
+ * @param {Boolean} isDateTime true if literal is a datetime, false if literal is a date
+ * @returns {Boolean} true if a valid date, false otherwise
+ */
+export const isValidMetadataDateTime = (literal, isDateTime) => {
+    const { date } = parseMetadataDateTime(literal, isDateTime);
     return !!date;
 };
 

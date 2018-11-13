@@ -1,6 +1,13 @@
 import { getRulesForField, screenValidation } from "../screenValidation";
 import { createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
 import { LABELS } from "builder_platform_interaction/validationRules";
+import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
+
+jest.mock('builder_platform_interaction/dateTimeUtils', () => {
+    return {
+        isValidMetadataDateTime: jest.fn().mockName('isValidMetadataDateTime'),
+    };
+});
 
 describe('When field type is NUMBER', () => {
     it('and when valid scale is passed, no error should be returned', () => {
@@ -60,17 +67,39 @@ describe('When field type is CURRENCY', () => {
 
 describe('When field type is DATE', () => {
     it('and when valid date is passed, no error should be returned', () => {
+        isValidMetadataDateTime.mockReturnValueOnce(true);
         const field = createTestScreenField('field1', 'Date');
         const rules = getRulesForField(field);
-        expect(screenValidation.validateProperty('defaultValue', "01/02/2000", rules.defaultValue)).toBeNull();
+        expect(screenValidation.validateProperty('defaultValue', "2000-02-01", rules.defaultValue)).toBeNull();
     });
     it('and when an invalid date is passed, a valid date error should be returned', () => {
+        isValidMetadataDateTime.mockReturnValueOnce(false);
         const field = createTestScreenField('field1', 'Date');
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('defaultValue', "abc", rules.defaultValue)).toBe(LABELS.mustBeAValidDate);
     });
     it('and default value is a reference, there should be no error', () => {
         const field = createTestScreenField('field1', 'Date');
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('defaultValue', "{!myVar}", rules.defaultValue)).toBeNull();
+    });
+});
+
+describe('When field type is DATE/TIME', () => {
+    it('and when valid date/time is passed, no error should be returned', () => {
+        isValidMetadataDateTime.mockReturnValueOnce(true);
+        const field = createTestScreenField('field1', 'DateTime');
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('defaultValue', "2000-02-01 3:30 PM", rules.defaultValue)).toBeNull();
+    });
+    it('and when an invalid date/time is passed, a valid date error should be returned', () => {
+        isValidMetadataDateTime.mockReturnValueOnce(false);
+        const field = createTestScreenField('field1', 'DateTime');
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('defaultValue', "abc", rules.defaultValue)).toBe(LABELS.mustBeAValidDate);
+    });
+    it('and default value is a reference, there should be no error', () => {
+        const field = createTestScreenField('field1', 'DateTime');
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('defaultValue', "{!myVar}", rules.defaultValue)).toBeNull();
     });

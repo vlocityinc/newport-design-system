@@ -1,6 +1,7 @@
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { isUndefinedOrNull, format } from "builder_platform_interaction/commonUtils";
 import { Store } from "builder_platform_interaction/storeLib";
+import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { LABELS as labels} from "./validationRulesLabels";
 
 /**
@@ -89,8 +90,28 @@ export const shouldBeAPositiveIntegerOrZero = (value) => evaluateRegex(regexConf
  * @returns {string|null} errorString or null
  */
 export const shouldBeADate = (value) => {
-    const d = new Date(value);
-    if (!(d instanceof Date && isFinite(d))) {
+    if (!value) {
+        return null;
+    }
+
+    if (!isValidMetadataDateTime(value, false)) {
+        return LABELS.mustBeAValidDate;
+    }
+
+    return null;
+};
+
+/**
+ * Function to test the value is a valid date/time
+ * @param {string} value - value to be tested
+ * @returns {string|null} errorString or null
+ */
+export const shouldBeADateTime = (value) => {
+    if (!value) {
+        return null;
+    }
+
+    if (!isValidMetadataDateTime(value, true)) {
         return LABELS.mustBeAValidDate;
     }
 

@@ -2,6 +2,7 @@ import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { Validation, defaultRules } from "builder_platform_interaction/validation";
 import { getCachedExtensions, isExtensionField, isChoiceField } from "builder_platform_interaction/screenEditorUtils";
 import { isReference } from "builder_platform_interaction/commonUtils";
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const LONG_STRING_LEN = 65535;
 const MAX_SCALE_VALUE = 17;
@@ -206,6 +207,13 @@ const getRulesForInputField = (field, rules) => {
     if (typeName === 'Date') {
         addRules('defaultValue', rules, [
             createReferenceSafeRule(ValidationRules.shouldBeADate)
+        ]);
+    }
+
+    // Date/Time
+    if (typeName === FLOW_DATA_TYPE.DATE_TIME.value) {
+        addRules('defaultValue', rules, [
+            createReferenceSafeRule(ValidationRules.shouldBeADateTime)
         ]);
     }
 

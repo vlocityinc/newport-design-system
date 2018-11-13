@@ -4,6 +4,7 @@ import {
     normalizeDateTime,
     getFormat,
     isValidFormattedDateTime,
+    isValidMetadataDateTime,
     parseFormattedDateTime,
     parseMetadataDateTime,
 } from '../dateTimeUtils';
@@ -58,7 +59,7 @@ describe('date-time-utils', () => {
             expect(isValid).toEqual(true);
         });
 
-        it('returns true for a valid date litearl', () => {
+        it('returns true for a valid date literal', () => {
             const mockDateLiteral = '12/31/1999';
             localizationService.parseDateTimeUTC.mockReturnValueOnce(new Date());
 
@@ -80,6 +81,48 @@ describe('date-time-utils', () => {
             localizationService.parseDateTimeUTC.mockReturnValueOnce(new Date(mockDatetimeLiteral));
 
             const isValid = isValidFormattedDateTime(mockDatetimeLiteral);
+            expect(isValid).toEqual(false);
+        });
+    });
+
+    describe('isValidMetadatadDateTime', () => {
+        it('throws an error if the literal is not a string', () => {
+            expect(() => {
+                isValidMetadataDateTime(42, true);
+            }).toThrow();
+        });
+
+        it('returns true for a valid datetime literal', () => {
+            const mockDatetimeLiteral = '1999-12-31T23:59:00.000+0000';
+            const isDateTime = true;
+            parseDateTimeUTC.mockReturnValueOnce(new Date(mockDatetimeLiteral));
+
+            const isValid = isValidMetadataDateTime(mockDatetimeLiteral, isDateTime);
+            expect(isValid).toEqual(true);
+        });
+
+        it('returns true for a valid date literal', () => {
+            const mockDateLiteral = '1999-12-31';
+            parseDateTimeUTC.mockReturnValueOnce(new Date(mockDateLiteral));
+
+            const isValid = isValidMetadataDateTime(mockDateLiteral);
+            expect(isValid).toEqual(true);
+        });
+
+        it('returns false for an invalid datetime literal', () => {
+            const mockDatetimeLiteral = 'bad date time literal';
+            const isDateTime = true;
+            parseDateTimeUTC.mockReturnValueOnce(new Date(mockDatetimeLiteral));
+
+            const isValid = isValidMetadataDateTime(mockDatetimeLiteral, isDateTime);
+            expect(isValid).toEqual(false);
+        });
+
+        it('returns false for an invalid date literal', () => {
+            const mockDateLiteral = 'bad date literal';
+            parseDateTimeUTC.mockReturnValueOnce(new Date(mockDateLiteral));
+
+            const isValid = isValidMetadataDateTime(mockDateLiteral);
             expect(isValid).toEqual(false);
         });
     });
