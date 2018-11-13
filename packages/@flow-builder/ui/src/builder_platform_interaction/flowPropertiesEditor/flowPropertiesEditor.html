@@ -29,5 +29,42 @@
                             dropdown-alignment="auto"
                             onchange={handleProcessTypeChange}>
         </lightning-combobox>
+
+        <div class="slds-m-top_small">
+            <lightning-button if:false={isAdvancedShown} variant="base"
+                              label={labels.showAdvanced} title={labels.showAdvanced}
+                              onclick={handleAdvancedToggle}></lightning-button>
+            <lightning-button if:true={isAdvancedShown} variant="base"
+                              label={labels.hideAdvanced} title={labels.hideAdvanced}
+                              onclick={handleAdvancedToggle}></lightning-button>
+        </div>
+
+        <div if:true={isAdvancedShown} class="advanced">
+            <builder_platform_interaction-resourced-textarea
+                label={labels.instanceLabel}
+                value={flowProperties.interviewLabel.value}
+                quick-validation
+                onblur={handleInstanceLabelChanged}
+                onchange={handleInstanceLabelChanged}>
+            </builder_platform_interaction-resourced-textarea>
+
+            <div class="slds-m-top_small">{labels.lastModified}</div>
+            <div class="lastModified">{lastModifiedText}</div>
+
+            <div if:true={savingExistingFlow} class="slds-m-top_small">{labels.currentFlowVersionDetails}</div>
+            <div class="slds-grid">
+                <div class="slds-size_1-of-3">
+                    {labels.status}:
+                    <div><lightning-badge title="Inactive" class="status-badge slds-align-middle slds-m-left_xx-small slds-badge">{flowProperties.status.value}</lightning-badge></div>
+                </div>
+                <div class="slds-size_1-of-3">{labels.currentType}:
+                    <div>{flowProperties.processType.value}</div>
+                </div>
+                <div class="slds-size_1-of-3">{labels.currentVersion}:
+                    <div>{flowProperties.versionNumber}</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>

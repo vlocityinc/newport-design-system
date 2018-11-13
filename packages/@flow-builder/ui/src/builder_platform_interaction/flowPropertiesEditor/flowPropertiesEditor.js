@@ -3,6 +3,8 @@ import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataM
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { LABELS } from "./flowPropertiesEditorLabels";
 import { flowPropertiesEditorReducer } from "./flowPropertiesEditorReducer";
+import { format } from "builder_platform_interaction/commonUtils";
+import { normalizeDateTime } from "builder_platform_interaction/dateTimeUtils";
 import { SaveType } from "builder_platform_interaction/saveType";
 import { getProcessTypesMenuData } from "builder_platform_interaction/expressionUtils";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
@@ -29,6 +31,8 @@ export default class FlowPropertiesEditor extends LightningElement {
         if (this.flowProperties.saveType === SaveType.NEW_DEFINITION) {
             this.clearForNewDefinition();
         }
+
+        this.isAdvancedShown = this.flowProperties.saveType === SaveType.UPDATE;
     }
 
     /**
@@ -58,6 +62,9 @@ export default class FlowPropertiesEditor extends LightningElement {
      */
     @track
     flowProperties;
+
+    @track
+    isAdvancedShown = false;
 
     labels = LABELS;
 
@@ -120,6 +127,16 @@ export default class FlowPropertiesEditor extends LightningElement {
             this._processTypes = getProcessTypesMenuData();
         }
         return this._processTypes;
+    }
+
+    /**
+     * Returns the localized string representing the last saved info
+     * Ex: Jane Smith last saved this version on
+     * @return {string}
+     */
+    get lastModifiedText() {
+        // TODO: user is currently an id.  We need to get the user name.  will happen as part of this story
+        return format(LABELS.lastModifiedText, 'some_user', normalizeDateTime(this.flowProperties.lastModifiedDate.value, true));
     }
 
     /**
@@ -187,6 +204,16 @@ export default class FlowPropertiesEditor extends LightningElement {
     handleProcessTypeChange(event) {
         event.stopPropagation();
         this.updateProperty('processType', event.detail.value);
+    }
+
+    handleAdvancedToggle(event) {
+        event.stopPropagation();
+        this.isAdvancedShown = !this.isAdvancedShown;
+    }
+
+    handleInstanceLabelChanged(event) {
+        event.stopPropagation();
+        this.updateProperty('interviewLabel', event.detail);
     }
 
     renderedCallback() {
