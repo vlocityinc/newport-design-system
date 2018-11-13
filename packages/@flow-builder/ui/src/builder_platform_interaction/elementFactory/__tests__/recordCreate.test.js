@@ -3,9 +3,9 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
 import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
-import { matchers } from './elementFactoryMatchers';
+import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
-expect.extend(matchers);
+expect.extend(deepFindMatchers);
 const MOCK_GUID = 'mockGuid', MOCK_ASSIGN_RECORD_ID_TO_REFERENCE = 'myNewId';
 
 const flowRecordCreateFieldsMetadata = () => ({

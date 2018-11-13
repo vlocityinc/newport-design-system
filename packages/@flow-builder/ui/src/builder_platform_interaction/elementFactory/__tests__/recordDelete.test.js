@@ -1,8 +1,8 @@
 import { createRecordDelete, createRecordDeleteMetadataObject } from '../recordDelete';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { matchers } from './elementFactoryMatchers';
+import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
-expect.extend(matchers);
+expect.extend(deepFindMatchers);
 
 const MOCK_GUID = '93f65bd6-d0ab-4e75-91b1-a8599dee54ed';
 

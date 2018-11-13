@@ -1,9 +1,9 @@
 import { createApexPlugin, createApexPluginMetadataObject } from '../apexPlugin';
 import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { matchers } from './elementFactoryMatchers';
+import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
-expect.extend(matchers);
+expect.extend(deepFindMatchers);
 
 const mockGuid = 'mockGuid';
 

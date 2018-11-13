@@ -8,6 +8,9 @@ import { flowCollectionServicesDemo } from './flowTestData/flowCollectionService
 import { reducer } from 'builder_platform_interaction/reducers';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { flowLegalNameChange } from './flowTestData/flowLegalNameChangeTestData';
+import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
+
+expect.extend(deepFindMatchers);
 
 const SAMPLE_FLOWS = [flowLegalNameChange, flowCollectionServicesDemo, flowWithVariables, flowWithAssignments];
 
@@ -127,18 +130,6 @@ const stringifyExpectedNumberValue = (givenElement, expectedElement, key, givenV
     }
 };
 
-const replaceDateTimeToDateJson = (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
-    if (expectedElement && key === 'dateTimeValue' && typeof expectedValue == 'string' && path[path.length - 2] === 'value') {
-        expectedElement[key] = new Date(expectedValue).toJSON();
-    }
-};
-
-const ignoreDateValue = (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
-    if (expectedElement && key === 'dateValue' && typeof expectedValue == 'string' && path[path.length - 2] === 'value') {
-        expectedElement[key] = givenValue;
-    }
-};
-
 const ignoreIfDefaultValue = (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
     if (!isEmpty(givenValue)) {
         return;
@@ -157,12 +148,11 @@ const getExpectedFlowMetadata = (uiFlow, flowFromMetadataAPI) => {
     const ignoredIfNotInGiven = [['createdById'], ['createdDate'], ['definitionId'], ['id'], ['lastModifiedById'],
         ['lastModifiedDate'], ['manageableState'], ['masterLabel'], ['processType'], ['status'], ['metadata', 'isTemplate']];
     const ignoredIfNotInExpected = [['metadata', 'processMetadataValues']];
-    // TODO : stringifyExpectedNumberValue : it would be better to have a number instead of a string
-    // TODO : ignoreDateValue, replaceDateTimeToDateJson : The date issues will also need to change once we get date time utils exposed
+    // TODO W-5583918 stringifyExpectedNumberValue : it would be better to have a number instead of a string
     return modifyExpected(uiFlow, deepCopy(flowFromMetadataAPI),
         all([ignoreEmptyFields, ignoreIfNotInGiven(ignoredIfNotInGiven),
              ignoreIfNotInExpected(ignoredIfNotInExpected), stringifyExpectedNumberValue,
-             replaceDateTimeToDateJson, ignoreIfDefaultValue, ignoreDateValue]));
+             ignoreIfDefaultValue]));
 };
 
 describe('Getting flow metadata, calling flow-to-ui translation and calling ui-to-flow', () => {
@@ -172,8 +162,8 @@ describe('Getting flow metadata, calling flow-to-ui translation and calling ui-t
     });
     SAMPLE_FLOWS.forEach(metadataFlow => {
         it(`returns the same metadata for sample flow ${metadataFlow.fullName}`, () => {
-            // TODO : deepCopy should not be necessary but currently translateFlowToUIModel modifies the metadataFlow given as parameter
-            const uiFlow = translateFlowToUIModel(deepCopy(metadataFlow));
+            const uiFlow = translateFlowToUIModel(metadataFlow);
+            expect(uiFlow).toHaveNoCommonMutableObjectWith(metadataFlow);
             store.dispatch(updateFlow(uiFlow));
             const newMetadataFlow = translateUIModelToFlow(uiFlow);
             const expected = getExpectedFlowMetadata(newMetadataFlow, metadataFlow);

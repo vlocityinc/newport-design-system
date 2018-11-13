@@ -4,9 +4,9 @@ import { NUMBER_RECORDS_TO_STORE,
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
 import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
-import { matchers } from './elementFactoryMatchers';
+import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
-expect.extend(matchers);
+expect.extend(deepFindMatchers);
 
 const recordUpdateUsingSobject = {
     name: 'RecordUpdate1',

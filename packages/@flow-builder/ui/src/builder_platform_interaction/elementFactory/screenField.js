@@ -46,6 +46,8 @@ export function createScreenField(screenField = {}) {
         outputParameters = screenField.outputParameters.map(outputParameter => createOutputParameter(outputParameter));
     } else {
         type = getScreenFieldType(screenField);
+        inputParameters = [];
+        outputParameters = [];
     }
 
     let defaultValueFerovObject;

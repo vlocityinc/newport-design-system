@@ -84,7 +84,7 @@ export const deepFindCommonElement = (object1, object2, isEqual = (e1, e2) => e1
 
 const isImmutable = (element) => element == null || typeof element === 'string' || typeof element === 'number' || typeof element === 'boolean';
 
-export const matchers = {
+export const deepFindMatchers = {
     toHaveNoCommonMutableObjectWith(received, object2) {
         const paths = deepFindCommonElement(received, object2, (e1, e2) =>  e1 === e2 && !isImmutable(e1));
         if (!paths) {

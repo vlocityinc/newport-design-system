@@ -1,9 +1,9 @@
 import { createSubflow, createSubflowMetadataObject, createSubflowWithConnectors } from '../subflow';
 import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
 import { deepCopy } from "builder_platform_interaction/storeLib";
-import { matchers } from './elementFactoryMatchers';
+import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
-expect.extend(matchers);
+expect.extend(deepFindMatchers);
 
 const subflowMetadata = {
     "connector": {

@@ -1,6 +1,6 @@
-import { deepFind, deepFindCommonElement } from './elementFactoryMatchers';
+import { deepFind, deepFindCommonElement } from '../deepFindMatchers';
 
-describe('element factory matchers', () => {
+describe('deepFindMatchers', () => {
     describe('deepFind', () => {
         it('returns undefined if element is not found', () => {
             expect(deepFind({ a : 1, b : 2, c : 3}, 4)).toBeUndefined();
