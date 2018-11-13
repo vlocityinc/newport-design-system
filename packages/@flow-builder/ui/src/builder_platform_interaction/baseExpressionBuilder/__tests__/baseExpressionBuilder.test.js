@@ -202,7 +202,6 @@ describe('base expression builder', () => {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: CBreturnItem.displayText, error},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: '', error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
-                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: '', error: null},
                 };
                 const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
@@ -280,7 +279,6 @@ describe('base expression builder', () => {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: numberVariableGuid, error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: '', error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
-                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: '', error: null},
                 };
                 const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
@@ -302,7 +300,6 @@ describe('base expression builder', () => {
                 const expressionUpdates = {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: newCBValue, error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
-                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: '', error: null},
                 };
                 const operatorCombobox = getLightningCombobox(expressionBuilder);
 
@@ -324,7 +321,6 @@ describe('base expression builder', () => {
                 const expressionUpdates = {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: numberVariableGuid, error: null},
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: '', error: null},
-                    [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {value: '', error: null},
                 };
                 const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
@@ -684,7 +680,7 @@ describe('base expression builder', () => {
         });
 
         it('RHS datatype should be set to Element', () => {
-            rulesMock.getRHSTypes.mockReturnValueOnce(booleanRHSType);
+            rulesMock.getRHSTypes.mockReturnValue(booleanRHSType);
             const expressionBuilder = createMockEmptyRHSExpression(assignmentElementGuid, true);
 
             return Promise.resolve().then(() => {

@@ -142,7 +142,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
             this._rhsParamTypes = undefined;
             this.setRhsMenuData();
-            this.setRhsDataType();
+            this._rhsDataType = this.getRhsDataType();
         } else {
             this.state.operatorAndRhsDisabled = true;
 
@@ -195,7 +195,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         this._rhsParamTypes = undefined;
         this.state[RHS_FULL_MENU_DATA] = this.state[RHS_FILTERED_MENU_DATA] = undefined;
         this.setRhsMenuData();
-        this.setRhsDataType();
+        this._rhsDataType = this.getRhsDataType();
     }
 
     @api
@@ -271,12 +271,29 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     set rhsLiteralsAllowed(allowed) {
         this._rhsLiteralsAllowedForContext = allowed;
-        this.setRhsDataType();
+        this._rhsDataType = this.getRhsDataType();
     }
 
     @api
     get rhsLiteralsAllowed() {
         return this._rhsLiteralsAllowedForContext && !isCollectionRequired(this._rhsParamTypes, this._rhsDataType);
+    }
+
+    get rhsDataType() {
+        return this._rhsDataType || FEROV_DATA_TYPE.STRING;
+    }
+
+    /**
+     * Initializes RHS paramtypes if they haven't been initialized
+     *
+     * @returns {rules/param[]} the params from the rules, based on LHS and operator value, that should be used to
+     * filter menu data for the RHS
+     */
+    get rhsParamTypes() {
+        if (!this._rhsParamTypes) {
+            this._rhsParamTypes = getRHSTypes(this.containerElement, this.lhsParam, this.operatorForRules(), this._rules);
+        }
+        return this._rhsParamTypes;
     }
 
     @api
@@ -366,26 +383,12 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * Initializes RHS paramtypes if they haven't been initialized
-     *
-     * @returns {rules/param[]} the params from the rules, based on LHS and operator value, that should be used to
-     * filter menu data for the RHS
+     * Determines dataType allowed on RHS based on the rules and the current LHS and operator value
      */
-    get rhsParamTypes() {
-        if (!this._rhsParamTypes) {
-            this._rhsParamTypes = getRHSTypes(this.containerElement, this.lhsParam, this.operatorForRules(), this._rules);
-        }
-        return this._rhsParamTypes;
-    }
-
-    /**
-     * Sets dataType allowed on RHS based on the rules and the current LHS and operator value
-     */
-    setRhsDataType() {
-        if (!this._rhsLiteralsAllowedForContext || !this.rhsParamTypes) {
-            this._rhsDataType = null;
-        } else {
-            const allowedDataTypes = this.getPossibleRHSDataTypes();
+    getRhsDataType(lhsParam = this.lhsParam, rhsTypes = this.rhsParamTypes) {
+        let dataType = null;
+        if (this._rhsLiteralsAllowedForContext && rhsTypes) {
+            const allowedDataTypes = this.getPossibleRHSDataTypes(rhsTypes);
 
             // Currency & Number are treated the same by the combobox, so we shouldn't consider them as multiple different types
             if (allowedDataTypes.length > 1 && allowedDataTypes.includes(FLOW_DATA_TYPE.CURRENCY.value) && allowedDataTypes.includes(FLOW_DATA_TYPE.NUMBER.value)) {
@@ -393,26 +396,21 @@ export default class BaseExpressionBuilder extends LightningElement {
             }
 
             if (allowedDataTypes.length === 1) {
-                this._rhsDataType = allowedDataTypes[0];
-            } else if (allowedDataTypes.length > 1 && this.lhsParam[DATA_TYPE]) {
-                this._rhsDataType = this.lhsParam[DATA_TYPE];
-            } else {
-                this._rhsDataType = null;
+                dataType = allowedDataTypes[0];
+            } else if (allowedDataTypes.length > 1 && lhsParam[DATA_TYPE]) {
+                dataType = lhsParam[DATA_TYPE];
             }
         }
-    }
-
-    get rhsDataType() {
-        return this._rhsDataType;
+        return dataType;
     }
 
     /**
      * @returns {String[]}  dataTypes allowed on RHS based on the rules and the current LHS and operator value
      */
-    getPossibleRHSDataTypes() {
-        return Object.keys(this.rhsParamTypes)
-            .filter(key => this.rhsParamTypes[key][0] && this.rhsParamTypes[key][0][DATA_TYPE])
-            .map(key => this.rhsParamTypes[key][0][DATA_TYPE]);
+    getPossibleRHSDataTypes(rhsTypes) {
+        return Object.keys(rhsTypes)
+            .filter(key => rhsTypes[key][0] && rhsTypes[key][0][DATA_TYPE])
+            .map(key => rhsTypes[key][0][DATA_TYPE]);
     }
 
     /**
@@ -618,31 +616,29 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * Clears all properties associated with the RHS
-     * @param {Object} newExpression   the changes already being made to the expression
-     */
-    clearRhs(newExpression) {
-        newExpression[RHS] = CLEARED_PROPERTY;
-        if (!this.rhsIsFer) {
-            newExpression[RHSDT] = CLEARED_PROPERTY;
-        }
-    }
-
-    /**
      * Clears RHS if it has become invalid
      *
      * @param {Object} expressionUpdates    represents any changes that are already being made to the expression
      * @param {rules/param} lhsParam        representation of the lhs value that can be used with the rules
      * @param {String} operator             operator value
      */
-    clearRhsIfNecessary(expressionUpdates, lhsParam, operator) {
+    clearRhsIfNecessary(expressionUpdates, lhsParam, operator, rhsTypes) {
         if (this.rhsValue && this.rhsValue.value) {
-            const newRhsTypes = getRHSTypes(this.containerElement, lhsParam, operator, this._rules);
             const rhsElementOrField = this.getElementOrField(this.rhsValue.value, this.rhsFields);
-            const rhsValid = isElementAllowed(newRhsTypes, elementToParam(rhsElementOrField));
+            const rhsValid = isElementAllowed(rhsTypes, elementToParam(rhsElementOrField));
             if (!rhsValid) {
-                this.clearRhs(expressionUpdates);
+                expressionUpdates[RHS] = CLEARED_PROPERTY;
             }
+        }
+    }
+
+    resetRhsProperties(expressionUpdates, lhsParam, operator) {
+        const rhsTypes = getRHSTypes(this.containerElement, lhsParam, operator, this._rules);
+        this.clearRhsIfNecessary(expressionUpdates, lhsParam, operator, rhsTypes);
+
+        const rhsDataType = operator ? this.getRhsDataType(lhsParam, rhsTypes) : CLEAR_VALUE;
+        if (rhsDataType !== this._rhsDataType) {
+            expressionUpdates[RHSDT] = {value: rhsDataType, error: CLEAR_ERROR};
         }
     }
 
@@ -654,33 +650,28 @@ export default class BaseExpressionBuilder extends LightningElement {
     handleLhsValueChanged(event) {
         event.stopPropagation();
         const expressionUpdates = {};
+        let newLhsParam;
         let newValue = event.detail.displayText || CLEAR_VALUE;
         let newError = event.detail.error || CLEAR_ERROR;
 
+        // update LHS value & error
         const lhsElementOrField = event.detail.item ? this.getElementOrField(event.detail.item.value, this.lhsFields) : null;
-
         if (lhsElementOrField && !newError) {
             newValue = event.detail.item.value;
-            const newLhsParam = elementToParam(lhsElementOrField);
-
-            if (!this.hideOperator && !getOperators(this.containerElement, newLhsParam, this._rules).includes(this.operatorValue)) {
-                // if the current operator is not valid
-                expressionUpdates[OPERATOR] = CLEARED_PROPERTY;
-                this.clearRhs(expressionUpdates);
-            } else {
-                this.clearRhsIfNecessary(expressionUpdates, newLhsParam, this.operatorForRules());
-            }
-        } else {
-            if (newValue && !newError) {
-                newError = genericErrorMessage;
-            }
-            // Operator & rhs will be invalid or disabled in this case
-            if (!this.hideOperator) {
-                expressionUpdates[OPERATOR] = CLEARED_PROPERTY;
-            }
-            this.clearRhs(expressionUpdates);
+            newLhsParam = elementToParam(lhsElementOrField);
+        } else if (newValue && !newError) {
+            newError = genericErrorMessage;
         }
         expressionUpdates[LHS] = {value: newValue, error: newError};
+
+        // clear operator if necessary
+        if (this.operatorValue && !(newLhsParam && getOperators(this.containerElement, newLhsParam, this._rules).includes(this.operatorValue))) {
+            expressionUpdates[OPERATOR] = CLEARED_PROPERTY;
+        }
+
+        // clear or update rhs & rhs data type if necessary
+        this.resetRhsProperties(expressionUpdates, newLhsParam, this.operatorForRules());
+
         this.fireRowContentsChangedEvent(expressionUpdates);
     }
 
@@ -694,7 +685,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         const newOperator = event.detail.value;
         const expressionUpdates = {[OPERATOR]: {value: newOperator, error: CLEAR_ERROR}};
 
-        this.clearRhsIfNecessary(expressionUpdates, this.lhsParam, newOperator);
+        this.resetRhsProperties(expressionUpdates, this.lhsParam, newOperator);
 
         this.fireRowContentsChangedEvent(expressionUpdates);
     }
