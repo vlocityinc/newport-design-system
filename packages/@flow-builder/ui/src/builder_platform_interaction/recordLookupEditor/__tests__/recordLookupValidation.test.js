@@ -191,6 +191,14 @@ describe('Record Lookup Validation using sObject', () => {
             expect(errors[0].key).toBe('outputReference');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
+        it('should not return 2 errors if outputReference is blank while object is blank', () => {
+            const recordLookupEditor = createRecordLookupEditor('');
+            recordLookupEditorNode.object.value = '';
+            const errors = validate(recordLookupEditor.node, event);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('object');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
     });
     describe('queriedFields contains empty field', () => {
         it('should return an error', () => {
