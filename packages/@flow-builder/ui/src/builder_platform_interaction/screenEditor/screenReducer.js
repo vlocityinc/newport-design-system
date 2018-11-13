@@ -65,10 +65,20 @@ const changeChoice = (screen, event, field) => {
         throw new Error("Invalid position for choice deletion: " + event.detail.position);
     }
 
+    const originalChoice = field.choiceReferences[event.detail.position];
+
     const hydratedChoice = hydrateWithErrors(createChoiceReference(event.detail.newValue.value));
     hydratedChoice.choiceReference.error = event.detail.newValue.error;
     const updatedChoices = replaceItem(field.choiceReferences, hydratedChoice, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
+
+    // If default value was set for this field, check to see if its set to the choice that was just
+    // changed. If it was, then clear the default value as it may no longer be valid.
+    if (field.defaultSelectedChoiceReference && field.defaultSelectedChoiceReference.value) {
+        if (field.defaultSelectedChoiceReference.value === originalChoice.choiceReference.value) {
+            updatedField.defaultSelectedChoiceReference.value = '';
+        }
+    }
 
     // Replace the field in the screen
     const fieldPosition = screen.getFieldIndexByGUID(field.guid);
