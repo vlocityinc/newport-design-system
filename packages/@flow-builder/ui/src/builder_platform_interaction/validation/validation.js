@@ -1,6 +1,5 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { updateProperties, set, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
-import { logFlowBuilderError } from "builder_platform_interaction/loggingUtils";
 
 /**
  * @constant defaultRules - map of propertyName to validation rules
@@ -38,7 +37,7 @@ export class Validation {
      */
     validateDevNameUniquenessLocally = (guidToNameList = [], devNameToBeValidated, guidToBeValidated) => {
         if (!devNameToBeValidated || !guidToBeValidated) {
-            logFlowBuilderError('DevName && guidToBeValidated are required');
+            throw new Error('DevName && guidToBeValidated are required');
         }
         const matches = guidToNameList.filter(devNameToGuidItem =>
             (devNameToGuidItem.guid !== guidToBeValidated) &&

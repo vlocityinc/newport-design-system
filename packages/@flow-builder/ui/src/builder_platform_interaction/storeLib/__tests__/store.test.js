@@ -1,4 +1,3 @@
-import { logFlowBuilderError } from 'builder_platform_interaction/loggingUtils';
 const canvasElementsReducer = jest
     .fn()
     .mockImplementation((canvasElements = [], action) => {
@@ -8,11 +7,7 @@ const canvasElementsReducer = jest
             default: return canvasElements;
         }
     });
-jest.mock('builder_platform_interaction/loggingUtils', () => {
-    return {
-        logFlowBuilderError: jest.fn()
-    };
-});
+
 describe('Store class', () => {
     let storeInstance;
     let Store;
@@ -56,30 +51,21 @@ describe('Store class', () => {
             });
             expect(listener).not.toHaveBeenCalled();
         });
-        it('unsubscribe fails and logs error if listener not found', () => {
-            const asynTestFn = () => {
-                unsubscribe();
-                expect(logFlowBuilderError).toHaveBeenCalled();
-                asynTestFn();
-            };
+        it('unsubscribe fails if listener not found', () => {
+            unsubscribe();
+            expect(unsubscribe).toThrow('Failed to unsubscribe listener.');
         });
     });
 
     describe('dispatch function', () => {
-        it('logs error if action is not an object', () => {
-            const asynTestFn = () => {
-                storeInstance.dispatch(() => {});
-                expect(logFlowBuilderError).toHaveBeenCalled();
-                asynTestFn();
-            };
+        it('throws error if action is not an object', () => {
+            const dispatchWithFunction = () => storeInstance.dispatch(() => {});
+            expect(dispatchWithFunction).toThrow();
         });
 
-        it('logs error if action does not have type property', () => {
-            const asynTestFn = () => {
-                storeInstance.dispatch({});
-                expect(logFlowBuilderError).toHaveBeenCalled();
-                asynTestFn();
-            };
+        it('throws error if action does not have type property', () => {
+            const dispatchWithEmptyObject = () => storeInstance.dispatch({});
+            expect(dispatchWithEmptyObject).toThrow();
         });
 
         it('update the state if correct action is passed', () => {

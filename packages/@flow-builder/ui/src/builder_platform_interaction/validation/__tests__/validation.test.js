@@ -1,13 +1,6 @@
 import { Validation } from "builder_platform_interaction/validation";
 import * as ValidationRules from "builder_platform_interaction/validationRules";
-import { logFlowBuilderError } from "builder_platform_interaction/loggingUtils";
 const TRAILING_UNDERSCORE_ERROR = ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores;
-
-jest.mock('builder_platform_interaction/loggingUtils', () => {
-    return {
-        logFlowBuilderError: jest.fn()
-    };
-});
 
 describe('Default Validations', () => {
     const validation = new Validation();
@@ -81,9 +74,10 @@ describe('validateDevNameUniquenessLocally method', () => {
             name: 'childDevName1'
         },
     ];
-    it('logs an error if devName is not passed', () => {
-        validation.validateDevNameUniquenessLocally(mockGuidToNameList);
-        expect(logFlowBuilderError).toHaveBeenCalled();
+    it('throws an error if devName is not passed', () => {
+        expect(() => {
+            validation.validateDevNameUniquenessLocally(mockGuidToNameList);
+        }).toThrow();
     });
     it('returns null if the dev name is unique locally i.e. within the guidToDevNameList passed', () => {
         const result = validation.validateDevNameUniquenessLocally(mockGuidToNameList, 'testDevName', 'testGuid');
