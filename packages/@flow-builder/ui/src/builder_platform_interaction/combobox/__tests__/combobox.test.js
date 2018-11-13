@@ -13,6 +13,7 @@ import {
     normalizeDateTime,
     createMetadataDateTime,
     formatDateTime,
+    isValidMetadataDateTime,
     isValidFormattedDateTime,
     getFormat,
 } from "builder_platform_interaction/dateTimeUtils";
@@ -70,6 +71,7 @@ jest.mock('builder_platform_interaction/dateTimeUtils', () => {
         createMetadataDateTime: jest.fn().mockName('createMetadataDateTime'),
         formatDateTime: jest.fn().mockName('formatDateTime'),
         isValidFormattedDateTime: jest.fn().mockName('isValidFormattedDateTime'),
+        isValidMetadataDateTime: jest.fn().mockName('isValidMetadataDateTime'),
         getFormat: jest.fn().mockName('getFormat'),
     };
 });
@@ -359,13 +361,32 @@ describe('Combobox Tests', () => {
                     createCombobox();
                 });
 
-                it('calls normalizeDateTime when given a literal and type is dateTime with literalsAllowed', () => {
+                it('calls normalizeDateTime when changing the type to dateTime with literalsAllowed', () => {
+                    const literal = 'some literal';
+                    combobox.value = literal;
+                    combobox.literalsAllowed = true;
+
                     const normalizedLiteral = 'some normalized output';
                     normalizeDateTime.mockReturnValueOnce(normalizedLiteral);
+                    isValidMetadataDateTime.mockReturnValueOnce(true);
+                    combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
 
+                    return Promise.resolve().then(() => {
+                        expect(normalizeDateTime).toHaveBeenCalledWith(literal, true);
+                        expect(combobox.value).toEqual(normalizedLiteral);
+                    });
+                });
+
+                it('calls normalizeDateTime when given a literal and type is dateTime with literalsAllowed', () => {
                     const literal = 'some literal';
                     combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
                     combobox.literalsAllowed = true;
+
+
+                    const normalizedLiteral = 'some normalized output';
+                    normalizeDateTime.mockReturnValueOnce(normalizedLiteral);
+                    isValidMetadataDateTime.mockReturnValueOnce(true);
+
                     combobox.value = literal;
 
                     return Promise.resolve().then(() => {
@@ -375,13 +396,36 @@ describe('Combobox Tests', () => {
                 });
 
                 it('calls normalizeDateTime when given a literal and type is date with literalsAllowed', () => {
-                    const normalizedLiteral = 'some normalized output';
-                    normalizeDateTime.mockReturnValueOnce(normalizedLiteral);
-
                     const literal = 'some literal';
                     combobox.type = FLOW_DATA_TYPE.DATE.value;
                     combobox.literalsAllowed = true;
+
+                    const normalizedLiteral = 'some normalized output';
+                    normalizeDateTime.mockReturnValueOnce(normalizedLiteral);
+                    isValidMetadataDateTime.mockReturnValueOnce(true);
+
                     combobox.value = literal;
+
+                    return Promise.resolve().then(() => {
+                        expect(normalizeDateTime).toHaveBeenCalledWith(literal, false);
+                        expect(combobox.value).toEqual(normalizedLiteral);
+                    });
+                });
+
+                it('calls normalizeDateTime when given a literal and type changed to date with literalsAllowed', () => {
+                    const normalizedLiteral = 'some normalized output';
+                    normalizeDateTime.mockReturnValueOnce(normalizedLiteral);
+                    isValidMetadataDateTime.mockReturnValueOnce(true);
+
+                    const literal = 'some literal';
+                    combobox.literalsAllowed = true;
+                    // set value before setting the type
+                    combobox.value = literal;
+
+                    // now set the type after setting the value
+                    normalizeDateTime.mockReturnValueOnce(normalizedLiteral);
+                    isValidMetadataDateTime.mockReturnValueOnce(true);
+                    combobox.type = FLOW_DATA_TYPE.DATE.value;
 
                     return Promise.resolve().then(() => {
                         expect(normalizeDateTime).toHaveBeenCalledWith(literal, false);
@@ -391,8 +435,8 @@ describe('Combobox Tests', () => {
 
                 it('does not normalize date literal when literalsAllowed is false', () => {
                     const literal = 'some literal';
-                    combobox.type = FLOW_DATA_TYPE.DATE.value;
                     combobox.literalsAllowed = false;
+                    combobox.type = FLOW_DATA_TYPE.DATE.value;
                     combobox.value = literal;
 
                     return Promise.resolve().then(() => {
@@ -402,9 +446,9 @@ describe('Combobox Tests', () => {
 
                 it('does not normalize date literal when in error state', () => {
                     const literal = 'some literal';
-                    combobox.type = FLOW_DATA_TYPE.DATE.value;
                     combobox.literalsAllowed = true;
                     combobox.errorMessage = 'some error';
+                    combobox.type = FLOW_DATA_TYPE.DATE.value;
                     combobox.value = literal;
 
                     return Promise.resolve().then(() => {
@@ -414,8 +458,8 @@ describe('Combobox Tests', () => {
 
                 it('does not normalize date literal when type is neither date or date time', () => {
                     const literal = 'some literal';
-                    combobox.type = FLOW_DATA_TYPE.NUMBER.value;
                     combobox.literalsAllowed = true;
+                    combobox.type = FLOW_DATA_TYPE.NUMBER.value;
                     combobox.value = literal;
 
                     return Promise.resolve().then(() => {
@@ -431,6 +475,7 @@ describe('Combobox Tests', () => {
                     combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
                     combobox.literalsAllowed = true;
                     normalizeDateTime.mockReturnValueOnce(normalizedOutput);
+                    isValidMetadataDateTime.mockReturnValueOnce(true);
                     combobox.value = 'some literal';
                 });
 
@@ -1105,7 +1150,7 @@ describe('Combobox Tests', () => {
         it('calls isValidFormattedDateTime when validating date', () => {
             normalizeDateTime.mockReturnValueOnce(mockDate);
             combobox.type = FLOW_DATA_TYPE.DATE.value;
-            combobox.value = mockDatetime;
+            combobox.value = mockDate;
             groupedCombobox.dispatchEvent(blurEvent);
 
             return Promise.resolve().then(() => {

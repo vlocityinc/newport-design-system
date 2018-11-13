@@ -13,6 +13,7 @@ import {
     createMetadataDateTime,
     formatDateTime,
     isValidFormattedDateTime,
+    isValidMetadataDateTime,
     getFormat,
 } from 'builder_platform_interaction/dateTimeUtils';
 
@@ -146,6 +147,7 @@ export default class Combobox extends LightningElement {
      * @param {menuDataRetrieval.MenuItem|String} itemOrDisplayText - The value of the combobox
      */
     set value(itemOrDisplayText) {
+        this._isNormalized = false;
         let displayText;
         if (isObject(itemOrDisplayText)) {
             if (itemOrDisplayText.value) {
@@ -178,9 +180,7 @@ export default class Combobox extends LightningElement {
 
             this._item = null;
             displayText = this.getStringValue(unwrap(itemOrDisplayText));
-            if (this.isDateOrDateTime && this.literalsAllowed && !this.errorMessage) {
-                displayText = normalizeDateTime(displayText, this.isDateTime);
-            }
+            displayText = this.normalizeIfMetadataDateTime(displayText);
             this._mergeFieldLevel = 1;
         }
 
@@ -211,6 +211,8 @@ export default class Combobox extends LightningElement {
                 throw new Error(`Data type must be a valid Flow Data Type but instead was ${dataType}`);
             }
             this._dataType = dataType;
+
+            this.state.displayText = this.normalizeIfMetadataDateTime(this.state.displayText);
 
             if (this._isValidationEnabled) {
                 this.doValidation();
@@ -328,9 +330,7 @@ export default class Combobox extends LightningElement {
 
     connectedCallback() {
         this._isInitialized = true;
-        if (this.isDateOrDateTime) {
-            this.state.displayText = normalizeDateTime(this.state.displayText, this.isDateTime);
-        }
+        this.state.displayText = this.normalizeIfMetadataDateTime(this.state.displayText);
     }
 
     /**
@@ -416,6 +416,13 @@ export default class Combobox extends LightningElement {
     _mergeFieldLevel = 1;
 
     _waitingForMenuDataDropdown = false;
+
+    /**
+     * Flag for when combobox needs to normalize the date/time ISO input
+     * We only want to normalize a date/time value once
+     * True if value has been normalized, false otherwise
+     */
+    _isNormalized = false;
 
     /* ********************** */
     /*     Event handlers     */
@@ -1057,5 +1064,16 @@ export default class Combobox extends LightningElement {
         // The regex is valid dev name regex with optional trailing separator
         // With allowDotSuffix = false we need to check trailing dot does not exists
         return !value.endsWith(this.separator) && !regexResult;
+    }
+
+    normalizeIfMetadataDateTime(text) {
+        let literal = text;
+        if (!this._isNormalized) {
+            if (this.isDateOrDateTime && this.literalsAllowed && !this.errorMessage && isValidMetadataDateTime(literal, this.isDateTime)) {
+                literal = normalizeDateTime(literal, this.isDateTime);
+                this._isNormalized = true;
+            }
+        }
+        return literal;
     }
 }
