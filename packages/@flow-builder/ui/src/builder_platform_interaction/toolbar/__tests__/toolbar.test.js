@@ -51,6 +51,14 @@ describe('toolbar', () => {
         });
     });
 
+    it('Status Icons section should be present', () => {
+        const toolbarComponent = createComponentUnderTest();
+        return Promise.resolve().then(() => {
+            const toolbarStatusIcons = getShadowRoot(toolbarComponent).querySelector('builder_platform_interaction-toolbar-status-icons');
+            expect(toolbarStatusIcons).not.toBeNull();
+        });
+    });
+
     it('fires save event when save button is clicked', () => {
         const toolbarComponent = createComponentUnderTest();
 

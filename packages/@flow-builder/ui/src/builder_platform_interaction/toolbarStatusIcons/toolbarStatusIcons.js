@@ -6,12 +6,26 @@ export default class ToolbarStatusIcons extends LightningElement {
 
     labels = LABELS;
 
+    get flowErrors() {
+        if (this.flowErrorsAndWarnings) {
+            return this.flowErrorsAndWarnings.errors;
+        }
+        return {};
+    }
+
+    get flowWarnings() {
+        if (this.flowErrorsAndWarnings) {
+            return this.flowErrorsAndWarnings.warnings;
+        }
+        return {};
+    }
+
     /**
      * Opens the popovers based on flow results ( warnings & errors )
      * @param {Object} flowErrorsAndWarnings
      */
     openPopOver(flowErrorsAndWarnings) {
-        if (flowErrorsAndWarnings.warnings || flowErrorsAndWarnings.errors) {
+        if (flowErrorsAndWarnings && (flowErrorsAndWarnings.warnings || flowErrorsAndWarnings.errors)) {
             if ((Object.keys(flowErrorsAndWarnings.warnings).length > 0 && Object.keys(flowErrorsAndWarnings.errors).length > 0) ||
                 Object.keys(flowErrorsAndWarnings.errors).length > 0) {
                 const icon = this.template.querySelector('.error-icon');
