@@ -20,15 +20,16 @@ it('change choice screen field by changing the 1st choice', () => {
         type: SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED,
         detail: {
             screenElement: field,
-            newValue: { value: newChoice.name, error: null},
+            newValue: { value: newChoice.name, error: 'error1'},
             position: 0
         }
     };
     const newScreen = screenReducer(screen, event, screen.fields[0]);
 
-    // The first chocie should be changed, the rest should be the same.
+    // The first choice should be changed, the rest should be the same.
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(newChoice.name);
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference.error).toBe('error1');
     expect(newScreen.fields[0].choiceReferences[1]).toBe(field.choiceReferences[1]);
     expect(newScreen.fields[0].choiceReferences[2]).toBe(field.choiceReferences[2]);
 });
@@ -149,7 +150,7 @@ it('Delete last choice from radio screen field', () => {
     };
     const newScreen = screenReducer(screen, event, screen.fields[0]);
 
-    // The last chocie should be gone, the others should be the same.
+    // The last choice should be gone, the others should be the same.
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences).toHaveLength(originalNumChoices - 1);
     expect(newScreen.fields[0].choiceReferences[0]).toBe(field.choiceReferences[0]);
