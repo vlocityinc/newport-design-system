@@ -176,13 +176,13 @@ const createConditionalRuleForTextProperty = (dependentValue) => {
  * @param {String} rule - The rule to execute if the value is not a reference
  * @returns {function} - The validation rule
  */
-const createReferenceSafeRule = (rule) => {
+const createReferenceSafeRule = (rule, dataType) => {
     return (value) => {
-        if (!isReference(value)) {
-            return rule(value);
+        if (isReference(value) || (dataType && dataType === 'reference')) {
+            return null;
         }
 
-        return null;
+        return rule(value);
     };
 };
 
@@ -206,7 +206,7 @@ const getRulesForInputField = (field, rules) => {
     // Date
     if (typeName === 'Date') {
         addRules('defaultValue', rules, [
-            createReferenceSafeRule(ValidationRules.shouldBeADate)
+            createReferenceSafeRule(ValidationRules.shouldBeADate, field.defaultValueDataType)
         ]);
     }
 

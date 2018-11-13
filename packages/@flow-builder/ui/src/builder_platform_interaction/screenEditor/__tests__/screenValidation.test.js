@@ -1,5 +1,6 @@
 import { getRulesForField, screenValidation } from "../screenValidation";
 import { createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
+import { generateGuid } from "builder_platform_interaction/storeLib";
 import { LABELS } from "builder_platform_interaction/validationRules";
 import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 
@@ -78,10 +79,19 @@ describe('When field type is DATE', () => {
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('defaultValue', "abc", rules.defaultValue)).toBe(LABELS.mustBeAValidDate);
     });
-    it('and default value is a reference, there should be no error', () => {
+    it('and default value is a devName, there should be no error', () => {
         const field = createTestScreenField('field1', 'Date');
+        field.defaultValue = {value: '{!myVar}', error: null};
+        field.defaultValueDataType = 'reference';
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('defaultValue', "{!myVar}", rules.defaultValue)).toBeNull();
+    });
+    it('and default value is a GUID, there should be no error', () => {
+        const field = createTestScreenField('field1', 'Date');
+        field.defaultValue = {value: generateGuid(), error: null};
+        field.defaultValueDataType = 'reference';
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('defaultValue', field.defaultValue.value, rules.defaultValue)).toBeNull();
     });
 });
 
