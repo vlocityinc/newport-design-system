@@ -159,12 +159,14 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             value: ''
         };
 
+        const defaultChoices = [defaultChoice];
         const choices = getFieldChoiceData((this.field));
-        return choices.reduce((acc, {label, guid}) => {
-            return [...acc, {
-                label,
-                value: guid
-            }];
-        }, [defaultChoice]);
+        for (let i = 0; i < choices.length; i++) {
+            // Do not use this choice it's not actually configured yet.
+            if (choices[i].label !== '') {
+                defaultChoices.push({label: choices[i].label, value: choices[i].guid});
+            }
+        }
+        return defaultChoices;
     }
 }

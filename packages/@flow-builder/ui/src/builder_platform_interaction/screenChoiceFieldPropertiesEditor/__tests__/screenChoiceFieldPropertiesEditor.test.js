@@ -135,11 +135,11 @@ describe('screen-choice-field-properties-editor for multi-select picklist', () =
             expect(renderedRequiredCheckbox.value).toBeFalsy();
         });
     });
-    it('Datatype drop down is set to required', () => {
+    it('Datatype drop down is set to not required', () => {
         return Promise.resolve().then(() => {
             const dataTypeDropDown = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
             expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.required).toBeTruthy();
+            expect(dataTypeDropDown.required).toBeFalsy();
         });
     });
     it('Datatype drop down is set to Text', () => {
@@ -200,11 +200,11 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
             expect(renderedRequiredCheckbox.value).toBeFalsy();
         });
     });
-    it('Datatype drop down is set to required', () => {
+    it('Datatype drop down is set to not required', () => {
         return Promise.resolve().then(() => {
             const dataTypeDropDown = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
             expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.required).toBeTruthy();
+            expect(dataTypeDropDown.required).toBeFalsy();
         });
     });
     it('Datatype drop down and set', () => {
@@ -239,9 +239,47 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
             expect(choiceSelectors).toBeDefined();
             expect(choiceSelectors).toHaveLength(3);
             expect(choiceSelectors[0].required).toBeTruthy();
-            expect(choiceSelectors[0].value).toMatch('choice0');
-            expect(choiceSelectors[1].value).toMatch('choice1');
-            expect(choiceSelectors[2].value).toMatch('choice2');
+            expect(choiceSelectors[0].value.value).toMatch('choice0');
+            expect(choiceSelectors[1].value.value).toMatch('choice1');
+            expect(choiceSelectors[2].value.value).toMatch('choice2');
+        });
+    });
+    it('Default choice drop down shows all choices associated with the field', () => {
+        return Promise.resolve().then(() => {
+            const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
+            expect(defaultValueProp).toBeDefined();
+            expect(defaultValueProp.listChoices).toBeDefined();
+            expect(defaultValueProp.listChoices).toHaveLength(4);
+            expect(defaultValueProp.listChoices[0].value).toMatch('');
+            expect(defaultValueProp.listChoices[1].value).toMatch('choice0');
+            expect(defaultValueProp.listChoices[2].value).toMatch('choice1');
+            expect(defaultValueProp.listChoices[3].value).toMatch('choice2');
+        });
+    });
+});
+
+describe('defaultValue combobox for choice based field', () => {
+    let screenChoiceFieldPropEditor;
+    beforeEach(() => {
+        // Create a radio field with 3 choices, plus a placeholder, which indicates that
+        // the user wants to add another choice, but hasn't set it yet.
+        const testField = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE,
+                                            {dataType: 'String', createChoices: true});
+        testField.choiceReferences.push({choiceReference: {value: '', error: null}});
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: testField
+        });
+    });
+    it('Default choice drop down shows only the configured choices', () => {
+        return Promise.resolve().then(() => {
+            const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
+            expect(defaultValueProp).toBeDefined();
+            expect(defaultValueProp.listChoices).toBeDefined();
+            expect(defaultValueProp.listChoices).toHaveLength(4);
+            expect(defaultValueProp.listChoices[0].value).toMatch('');
+            expect(defaultValueProp.listChoices[1].value).toMatch('choice0');
+            expect(defaultValueProp.listChoices[2].value).toMatch('choice1');
+            expect(defaultValueProp.listChoices[3].value).toMatch('choice2');
         });
     });
 });
