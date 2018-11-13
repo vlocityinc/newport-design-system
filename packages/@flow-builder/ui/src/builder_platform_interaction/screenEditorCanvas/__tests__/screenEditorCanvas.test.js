@@ -15,6 +15,17 @@ const createComponentUnderTest = (props) => {
     return el;
 };
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByGuid(guid) {
+            return {
+                name: guid,
+                guid,
+            };
+        }
+    };
+});
+
 const selectors = {
     lightningButtonIcon: 'lightning-button-icon',
     highlightFields: '.screen-editor-canvas-body builder_platform_interaction-screen-editor-highlight',
