@@ -73,6 +73,7 @@ export function createRecordLookup(recordLookup = {}) {
             maxConnections,
             availableConnections,
             elementType,
+            outputReference,
             dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         });
     }

@@ -30,7 +30,8 @@ const validateFilter = () => {
 const validateAssignments = () => {
     return () => {
         const rules = {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank]
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank],
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank]
         };
         return rules;
     };

@@ -251,6 +251,10 @@ describe('recordLookup flow metadata => UI model', () => {
             const actualResult = createRecordLookup(recordLookupUsingFields);
             expect(actualResult).toHaveNoCommonMutableObjectWith(recordLookupUsingFields);
         });
+        it('should have an "outputReference" with empty text value', () => {
+            const actualResult = createRecordLookup(recordLookupUsingFields);
+            expect(actualResult).toHaveProperty('outputReference', '');
+        });
     });
 });
 describe('recordLookup UI model => flow metadata', () => {

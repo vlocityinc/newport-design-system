@@ -229,13 +229,32 @@ describe('Record Lookup Validation using Fields', () => {
         event = {wayToStoreFields : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES};
     });
     describe('inputAssignments item is empty', () => {
-        it('should return an error when an outputAssignment is set without a value', () => {
+        it('should return an error when an outputAssignment lhs is set without a value', () => {
             recordLookupEditorNode.outputAssignments[0].leftHandSide.value = '';
             const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node, event);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('leftHandSide');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+        it('should return an error when an outputAssignment rhs does not have a value', () => {
+            recordLookupEditorNode.outputAssignments[0].rightHandSide.value = '';
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
+            const errors = validate(recordLookupEditor.node, event);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('rightHandSide');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+        it('should return 2 errors when an outputAssignment does not have any value', () => {
+            recordLookupEditorNode.outputAssignments[0].leftHandSide.value = '';
+            recordLookupEditorNode.outputAssignments[0].rightHandSide.value = '';
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
+            const errors = validate(recordLookupEditor.node, event);
+            expect(errors).toHaveLength(2);
+            expect(errors[0].key).toBe('leftHandSide');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+            expect(errors[1].key).toBe('rightHandSide');
+            expect(errors[1].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
 });
