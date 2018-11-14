@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { getIconForParameter } from "builder_platform_interaction/screenEditorUtils";
+import { getIconForParameter, getFerovTypeFromTypeName } from "builder_platform_interaction/screenEditorUtils";
 
 /*
  * Property editor for screen extensions attributes.
@@ -30,21 +30,27 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
 
     get resourcePickerConfig() {
         const collection = this.descriptor.maxOccurs > 1;
-        return {
+        const config = {
             allowLiterals: this.isInput && !collection && this.descriptor.dataType && this.descriptor.dataType.toLowerCase() !== 'sobject',
             collection,
             elementConfig: null,
             hideGlobalConstants: this.isOutput,
             hideNewResource: true
         };
+
+        if (this.descriptor.objectType) {
+            config.objectType = this.descriptor.objectType;
+        }
+
+        return config;
     }
 
     get value() {
         if (this.isInput) {
-            return this.attribute ? this.attribute.value.value : (this.descriptor.hasDefaultValue ? this.descriptor.defaultValue : null);
+            return this.attribute ? this.attribute.value : (this.descriptor.hasDefaultValue ? this.descriptor.defaultValue : null);
         }
 
-        return this.attribute ? this.attribute.value.value : null;
+        return this.attribute ? this.attribute.value : null;
     }
 
     /**
@@ -54,7 +60,7 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
     handlePropertyChanged = (event) => {
         const prefix = this.isInput ? 'input' : 'output';
         event.detail.propertyName = prefix + '.' + event.detail.propertyName;
-        event.detail.valueDataType = this.descriptor.dataType;
+        event.detail.valueDataType = getFerovTypeFromTypeName(this.descriptor.dataType) || this.descriptor.dataType;
         event.detail.required = this.descriptor.isRequired;
     }
 }

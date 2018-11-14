@@ -81,9 +81,9 @@ const createTypeValidationRule = (/* type */) => {
             }
         } else {
             const normalizedType = getFerovTypeFromTypeName(type);
-            if (normalizedType === 'number') {
+            if (normalizedType === 'Number') {
                 error = ValidationRules.shouldBeANumber(value);
-            } else if (normalizedType === 'date') {
+            } else if (normalizedType === 'Date') {
                 error = ValidationRules.shouldBeANumber(value);
             }
         }

@@ -214,7 +214,7 @@ export default class ScreenPropertyField extends LightningElement {
         if (event.type === 'comboboxstatechanged') {
             const eventValue = event.detail.item || event.detail.displayText;
 
-            if (!compareValues(eventValue, this.propertyValue)) {
+            if (!compareValues(eventValue, this.propertyValue) && this.error === event.detail.error) {
                 return;
             }
         }
@@ -244,6 +244,10 @@ export default class ScreenPropertyField extends LightningElement {
         if ((this.allowsResources || !this.isBoolean) && !this.isList) {
             newValue = hydrateIfNecessary(newValue);
             currentValue = hydrateIfNecessary(currentValue);
+
+            if (event.detail.error) {
+                newValue.error = event.detail.error;
+            }
         }
 
         const error = event.detail && event.detail.error ? event.detail.error : null;

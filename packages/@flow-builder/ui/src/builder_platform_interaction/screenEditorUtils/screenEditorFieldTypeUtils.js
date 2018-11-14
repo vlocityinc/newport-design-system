@@ -6,11 +6,11 @@ import { generateGuid } from "builder_platform_interaction/storeLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 const FEROV_TYPES = {
-    string: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
-    number: ['CURRENCY', 'NUMBER', 'DECIMAL', 'FLOAT', 'DOUBLE', 'LONG', 'INT', 'INTEGER', 'SHORT', 'BYTE'],
-    date: ['DATE'],
-    dateTime: ['DATETIME', 'DATE-TIME'],
-    boolean: ['BOOLEAN']
+    String: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
+    Number: ['CURRENCY', 'NUMBER', 'DECIMAL', 'FLOAT', 'DOUBLE', 'LONG', 'INT', 'INTEGER', 'SHORT', 'BYTE'],
+    Date: ['DATE'],
+    DateTime: ['DATETIME', 'DATE-TIME'],
+    Boolean: ['BOOLEAN']
 };
 
 /**

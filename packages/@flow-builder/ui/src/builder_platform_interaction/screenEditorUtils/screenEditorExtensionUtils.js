@@ -326,7 +326,7 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback) {
  */
 export function addRequiredInputParameters(field, description) {
     for (const param of description.inputParameters) {
-        if (param.isRequired) {
+        if (param.isRequired && !param.hasDefaultValue) {
             if (field.inputParameters.filter(p => p.name.value === param.apiName).length === 0) { // Param is not present
                 field.inputParameters.push({
                     name: {value: param.apiName, error: null},
