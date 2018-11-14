@@ -474,16 +474,26 @@ describe('Combobox Tests', () => {
 
             describe('getting date time literals', () => {
                 const normalizedOutput = 'some normalized output';
+                beforeAll(() => {
+                    isValidFormattedDateTime.mockReturnValue(true);
+                    isValidMetadataDateTime.mockReturnValue(true);
+                });
+
+                afterAll(() => {
+                    isValidFormattedDateTime.mockReset();
+                    isValidMetadataDateTime.mockReset();
+                });
+
                 beforeEach(() => {
                     createCombobox();
                     combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
                     combobox.literalsAllowed = true;
                     normalizeDateTime.mockReturnValueOnce(normalizedOutput);
-                    isValidMetadataDateTime.mockReturnValueOnce(true);
                     combobox.value = 'some literal';
                 });
 
-                it('calls createMetadataDateTime when type is dateTime and literalsAllowed', () => {
+                it('calls createMetadataDateTime when type is dateTime and literalsAllowed and no error', () => {
+                    combobox.errorMessage = null;
                     const mockMetadataValue = 'some metadata value';
                     createMetadataDateTime.mockReturnValueOnce(mockMetadataValue);
                     const literal = combobox.value;
@@ -491,20 +501,31 @@ describe('Combobox Tests', () => {
                     expect(createMetadataDateTime).toHaveBeenCalledWith(normalizedOutput, true);
                 });
 
-                it('calls createMetadataDateTime when type is date and literalsAllowed', () => {
-                    combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
+                it('calls createMetadataDateTime when type is date and literalsAllowed and no error', () => {
+                    combobox.type = FLOW_DATA_TYPE.DATE.value;
+                    combobox.errorMessage = null;
                     const mockMetadataValue = 'some metadata value';
                     createMetadataDateTime.mockReturnValueOnce(mockMetadataValue);
 
                     return Promise.resolve().then(() => {
                         const literal = combobox.value;
                         expect(literal).toEqual(mockMetadataValue);
-                        expect(createMetadataDateTime).toHaveBeenCalledWith(normalizedOutput, true);
+                        expect(createMetadataDateTime).toHaveBeenCalledWith(normalizedOutput, false);
                     });
                 });
 
                 it('uses the display text when type is date or date time but literalsAllowed is false', () => {
                     combobox.literalsAllowed = false;
+
+                    return Promise.resolve().then(() => {
+                        const literal = combobox.value;
+                        expect(literal).toEqual(normalizedOutput);
+                        expect(createMetadataDateTime).not.toHaveBeenCalled();
+                    });
+                });
+
+                it('uses the display text when type is date or date time but errorMessage is present', () => {
+                    combobox.errorMessage = 'some error';
 
                     return Promise.resolve().then(() => {
                         const literal = combobox.value;

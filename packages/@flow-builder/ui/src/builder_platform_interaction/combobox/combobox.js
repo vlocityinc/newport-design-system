@@ -320,7 +320,7 @@ export default class Combobox extends LightningElement {
      * Returns the literal value of the combobox (could be different from the displayed value)
      */
     get literalValue() {
-        if (this.isDateOrDateTime && this.literalsAllowed) {
+        if (this.isDateOrDateTime && this.literalsAllowed && !this.errorMessage) {
             return createMetadataDateTime(this.state.displayText, this.isDateTime) || this.state.displayText;
         }
         return this.state.displayText;
