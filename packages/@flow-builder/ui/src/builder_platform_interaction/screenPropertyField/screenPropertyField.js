@@ -245,7 +245,7 @@ export default class ScreenPropertyField extends LightningElement {
             newValue = hydrateIfNecessary(newValue);
             currentValue = hydrateIfNecessary(currentValue);
 
-            if (event.detail.error) {
+            if (event.detail && event.detail.error) {
                 newValue.error = event.detail.error;
             }
         }
