@@ -68,5 +68,26 @@ describe('callout-editor-container', () => {
             expect(node.locationX).toEqual(100);
             expect(node.locationY).toEqual(100);
         });
+        it('should preserve name, label, description when changing the referenced action', async () => {
+            const innerEditor = getShadowRoot(container).querySelector(EDITOR_SELECTOR);
+            // set name, label, description
+            const testNode = Object.assign({}, innerEditor.node, {
+                name : {value: 'test name', error: null},
+                label : {value: 'test label', error: null},
+                description : {value: 'test description', error: null}});
+            innerEditor.node = testNode;
+            await Promise.resolve();
+            const taskSelectedAction = {
+                    actionName: 'Task.UpdateStatus',
+                    actionType: 'quickAction',
+                    elementType : ELEMENT_TYPE.ACTION_CALL
+            };
+            container.selectedAction = taskSelectedAction;
+            await Promise.resolve();
+            const innerNode = innerEditor.getNode();
+            expect(innerNode.name.value).toEqual('test name');
+            expect(innerNode.label.value).toEqual('test label');
+            expect(innerNode.description.value).toEqual('test description');
+        });
     });
 });
