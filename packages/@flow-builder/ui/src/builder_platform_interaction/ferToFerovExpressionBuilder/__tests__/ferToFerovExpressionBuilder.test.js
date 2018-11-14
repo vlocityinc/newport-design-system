@@ -82,6 +82,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
             return ['Assign', 'Add'];
         }),
         getRHSTypes: jest.fn(),
+        getDataType: require.requireActual('builder_platform_interaction/ruleLib').getDataType,
         transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
         elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
         isCollectionRequired: jest.fn().mockReturnValue(false).mockName('isCollectionRequired'),

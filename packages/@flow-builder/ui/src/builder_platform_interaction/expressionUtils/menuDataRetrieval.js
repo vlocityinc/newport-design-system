@@ -1,4 +1,4 @@
-import { isMatch, PARAM_PROPERTY, OBJECT_TYPE } from "builder_platform_interaction/ruleLib";
+import { isMatch, PARAM_PROPERTY, OBJECT_TYPE, getDataType } from "builder_platform_interaction/ruleLib";
 import {
     writableElementsSelector,
     readableElementsSelector,
@@ -23,7 +23,7 @@ import {
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, getProcessTypes, getGlobalVariables } from "builder_platform_interaction/systemLib";
 
-const { DATA_TYPE, SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
+const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
 const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
 
@@ -109,13 +109,13 @@ function elementMatchesRule(allowedParamTypes, element) {
  */
 export function isElementAllowed(allowedParamTypes, element, showSObjectsForFields = false) {
     const isElementMatchForProperty = (property) => {
-        return (allowedParamTypes.hasOwnProperty(element[property]) && elementMatchesRule(allowedParamTypes[element[property]], element));
+        return (allowedParamTypes.hasOwnProperty(property) && elementMatchesRule(allowedParamTypes[property], element));
     };
 
     return !allowedParamTypes
-        || isElementMatchForProperty(DATA_TYPE)
-        || isElementMatchForProperty(PARAM_PROPERTY.ELEMENT_TYPE)
-        || isElementMatchForProperty(OBJECT_TYPE)
+        || isElementMatchForProperty(getDataType(element))
+        || isElementMatchForProperty(element[PARAM_PROPERTY.ELEMENT_TYPE])
+        || isElementMatchForProperty(element[OBJECT_TYPE])
         || (showSObjectsForFields && element.dataType === SObjectType && !element.isCollection);
 }
 

@@ -14,9 +14,8 @@ import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import { fetchFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { addToParentElementCache } from "builder_platform_interaction/comboboxCache";
-import { getRulesForElementType } from 'builder_platform_interaction/ruleLib';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 
 
@@ -77,6 +76,7 @@ jest.mock('../variableConstantReducer', () => {
 jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         getRHSTypes: jest.fn(),
+        getDataType: require.requireActual('builder_platform_interaction/ruleLib').getDataType,
         RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
         RULE_TYPES: require.requireActual('builder_platform_interaction/ruleLib').RULE_TYPES,

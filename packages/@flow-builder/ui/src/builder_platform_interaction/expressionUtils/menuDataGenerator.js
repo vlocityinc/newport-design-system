@@ -6,6 +6,7 @@ import {
 import { isGlobalConstantOrSystemVariableId, SYSTEM_VARIABLE_PREFIX, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
 import { getElementCategory } from "builder_platform_interaction/elementConfig";
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { getDataType } from "builder_platform_interaction/ruleLib";
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
@@ -139,8 +140,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     const isNonElement = isGlobalConstantOrSystemVariableId(resource.guid);
     const resourceLabel = resource.type ? resource.type.label : resource.label;
     const resourceIcon = resource.type ? resource.type.icon : resource.iconName;
-    // some screen fields do not have data type and we need to get them from the type object
-    const resourceDataType = resource.dataType || (resource.type && resource.type.type);
+    const resourceDataType = getDataType(resource);
 
     newElement.text = resource.name;
     newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resource.objectType, resourceLabel);

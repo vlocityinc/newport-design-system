@@ -44,6 +44,15 @@ export const isCollectionRequired = (paramTypes, dataType) => {
 };
 
 /**
+ * Some screen fields do not have data type and we need to get them from the type object
+ * @param {Object} element  an element from the store
+ * @return {dataTypeLib/FLOW_DATA_TYPE} flow data type
+ */
+export const getDataType = (element) => {
+    return getValueFromHydratedItem(element[DATA_TYPE]) || (element.type && element.type.type);
+};
+
+/**
  * Helper to get the value inside of either data type or element type. This accounts for
  * the inner value inside of the rules returned by the FlowOperatorRuleUtil service
  * Hopefully we will not need this in the future
@@ -97,7 +106,7 @@ export const elementToParam = (element) => {
 
     return {
         [OBJECT_TYPE]: element.objectType ? element.objectType : undefined,
-        [DATA_TYPE]: getValueFromHydratedItem(element.dataType),
+        [DATA_TYPE]: getDataType(element),
 
 
         [IS_SOBJECT_FIELD]: isSobjectField,

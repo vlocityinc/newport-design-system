@@ -6,7 +6,7 @@ import { LABELS } from "./mergeFieldValidationLabels";
 import { GLOBAL_CONSTANT_PREFIX, getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
 import { format, splitStringBySeparator } from "builder_platform_interaction/commonUtils";
 import { isElementAllowed } from "builder_platform_interaction/expressionUtils";
-import { elementToParam } from "builder_platform_interaction/ruleLib";
+import { elementToParam, getDataType } from "builder_platform_interaction/ruleLib";
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -212,7 +212,7 @@ export class MergeFieldsValidation {
     }
 
     _getElementType(element) {
-        let dataType = element.dataType || null;
+        let dataType = getDataType(element) || null;
         let isCollection = false;
         let objectType;
         const elementType = element.elementType;

@@ -60,6 +60,7 @@ function getBaseExpressionBuilder(fieldToFerovWrapper) {
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
+        getDataType: require.requireActual('builder_platform_interaction/ruleLib').getDataType,
         elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
         getRHSTypes: jest.fn(),
         isCollectionRequired: jest.fn().mockReturnValue(false).mockName('isCollectionRequired'),
