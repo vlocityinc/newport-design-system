@@ -244,8 +244,8 @@ export default class Editor extends LightningElement {
         }
         this.disableSave = false;
         this.flowErrorsAndWarnings = {
-            errors: data.errors || {},
-            warnings: data.warnings || {}
+            errors: (data && data.errors) || {},
+            warnings: (data && data.warnings) || {}
         };
     };
 
