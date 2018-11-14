@@ -165,7 +165,8 @@ function buildCludSelector(shouldBeWritable, sObjectSelector) {
         const selector = sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector(retrieveOptions)
                 : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
         return {
-            selector
+            selector,
+            isWritable: !sObjectSelector && shouldBeWritable,
         };
     };
 }

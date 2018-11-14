@@ -1,9 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
 import { recordLookupReducer } from "./recordLookupReducer";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { ENTITY_TYPE, getFieldsForEntity, getAllEntities } from "builder_platform_interaction/sobjectLib";
 import { LABELS } from "./recordLookupEditorLabels";
-import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
+import { getOutputRules } from "builder_platform_interaction/ruleLib";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
@@ -15,7 +14,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
 
-    rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.RECORD_LOOKUP);
+    outputRules = getOutputRules();
 
     /**
      * Internal state for the editor
