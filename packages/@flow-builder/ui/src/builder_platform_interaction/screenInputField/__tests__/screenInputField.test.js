@@ -250,11 +250,11 @@ describe('DateTime screen input field', () => {
     });
 });
 
-describe('DateTime screen input field with variable default vlaue', () => {
+describe('DateTime screen input field with default value set to a reference', () => {
     let inputWrapperCmp;
     beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
-            value: '{!myVar}',
+            value: '', // will come as empty string from screenField.js
             label: {value: testLabel, error: null},
             typeName: 'DateTime',
             helpText: {value: null, error: null}
@@ -293,11 +293,11 @@ describe('Date screen input field', () => {
     });
 });
 
-describe('Date screen input field with variable default vlaue', () => {
+describe('Date screen input field with default value to set a reference', () => {
     let inputWrapperCmp;
     beforeEach(() => {
         inputWrapperCmp = createComponentForTest({
-            value: '{!myVar}',
+            value: '', // will come as empty string from screenField.js
             label: {value: testLabel, error: null},
             typeName: 'Date',
             helpText: {value: null, error: null}
