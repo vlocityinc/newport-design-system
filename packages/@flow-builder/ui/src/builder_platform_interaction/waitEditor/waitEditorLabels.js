@@ -1,5 +1,4 @@
 /* Labels */
-import waitEventsSectionHeader from '@salesforce/label/FlowBuilderWaitEditor.waitEventsSectionHeader';
 import waitEventsSectionDescription from '@salesforce/label/FlowBuilderWaitEditor.waitEventsSectionDescription';
 import waitEventListHeader from '@salesforce/label/FlowBuilderWaitEditor.waitEventListHeader';
 import waitEventListHelptext from '@salesforce/label/FlowBuilderWaitEditor.waitEventListHelptext';
@@ -10,9 +9,9 @@ import defaultPathLabel from '@salesforce/label/FlowBuilderWaitEditor.defaultPat
 import defaultPathNoConditionsNeeded from '@salesforce/label/FlowBuilderWaitEditor.defaultPathNoConditionsNeeded';
 import defaultPathDescription from '@salesforce/label/FlowBuilderWaitEditor.defaultPathDescription';
 import shouldBeHoursOrDays from '@salesforce/label/FlowBuilderWaitEditor.shouldBeHoursOrDays';
+import defaultPathNameLabel from '@salesforce/label/FlowBuilderWaitEditor.defaultPathNameLabel';
 
 export const LABELS = {
-    waitEventsSectionHeader,
     waitEventsSectionDescription,
     waitEventListHeader,
     waitEventListHelptext,
@@ -20,7 +19,8 @@ export const LABELS = {
     waitEventsDetailsHeader,
     newWaitEventLabel,
     defaultPathLabel,
+    defaultPathNameLabel,
     defaultPathNoConditionsNeeded,
     defaultPathDescription,
-    shouldBeHoursOrDays
+    shouldBeHoursOrDays,
 };

@@ -1,12 +1,12 @@
 <template>
-    <div class="slds-vertical-tabs__nav">  
+    <div class="slds-vertical-tabs__nav slds-size_2-of-2">
         <div class="slds-text-title_caps slds-grid slds-grid_vertical-align-center slds-shrink-none slds-p-top_xx-small slds-p-bottom_xx-small slds-p-left_small -slds-theme_shade slds-border_bottom">
                  <slot name="header">
                      <!-- Example: -->
                      Item Order
                  </slot>
-        </div> 
-        <div class="slds-vertical-tabs__nav" role="tablist" aria-orientation="vertical">
+        </div>
+        <div class="slds-vertical-tabs__nav slds-size_2-of-2" role="tablist" aria-orientation="vertical">
             <template for:each={decoratedMenuItems} for:item="item" for:index="itemIndex">
                 <builder_platform_interaction-reorderable-vertical-navigation-item
                     has-front-icon={item.isDraggable}
@@ -25,7 +25,7 @@
                     <div slot='end-icon' class='slds-col_bump-left'>
                         <lightning-icon icon-name='utility:error' size='x-small' variant='error'></lightning-icon>
                     </div>
-                </builder_platform_interaction-reorderable-vertical-navigation-item>                
+                </builder_platform_interaction-reorderable-vertical-navigation-item>
             </template>
             <div if:false={hideFooter} class="slds-vertical-tabs__nav-item slds-p-around_small">
                 <slot name="footer">

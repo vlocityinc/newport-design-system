@@ -1,11 +1,7 @@
 <template>
-    <h3 class="slds-section__title slds-accordion__summary-heading slds-p-top_small slds-shrink-none">
-        <span>{labels.waitResumeConditionsSectionHeader}</span>
-    </h3>
     <div class="slds-text-color_weak slds-text-body_medium slds-p-top_small">
         {labels.waitResumeConditionsSectionDescription}
     </div>
-    
     <lightning-radio-group
         class="slds-p-top_small"
         label={labels.resumeEventTypeLabel}
@@ -16,7 +12,6 @@
         value={resumeEventType}
         required>
     </lightning-radio-group>
-    
     <div if:true={isPlatformEventTypeSelected}>
         <builder_platform_interaction-wait-platform-event
                 wait-event-guid={waitEventGuid}

@@ -1,6 +1,7 @@
 import waitEventsDetailsHeader from '@salesforce/label/FlowBuilderWaitEditor.waitEventsDetailsHeader';
 import deleteWaitEventLabel from '@salesforce/label/FlowBuilderWaitEditor.deleteWaitEventLabel';
 import waitEventApiName from '@salesforce/label/FlowBuilderWaitEditor.waitEventApiName';
+import waitEventName from '@salesforce/label/FlowBuilderWaitEditor.waitEventName';
 import waitConditionsTabText from '@salesforce/label/FlowBuilderWaitEditor.waitConditionsTabText';
 import resumeConditionsTabText from '@salesforce/label/FlowBuilderWaitEditor.resumeConditionsTabText';
 
@@ -22,6 +23,7 @@ import customLogicLabel from '@salesforce/label/FlowBuilderConditionList.customL
 export const LABELS = {
     waitEventsDetailsHeader,
     deleteWaitEventLabel,
+    waitEventName,
     waitEventApiName,
     waitConditionsTabText,
     resumeConditionsTabText,

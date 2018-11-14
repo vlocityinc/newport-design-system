@@ -7,7 +7,9 @@ import platformEventOutputLabel from '@salesforce/label/FlowBuilderWaitEditor.pl
 import noConditionsLabel from '@salesforce/label/FlowBuilderConditionList.noConditionsLabel';
 import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.andConditionLogicLabel';
 import platformEventFilterLhsLabel from '@salesforce/label/FlowBuilderWaitEditor.platformEventFilterLhsLabel';
+import platformEventFilterLhsPlaceholder from '@salesforce/label/FlowBuilderWaitEditor.platformEventFilterLhsPlaceholder';
 import platformEventFilterRhsLabel from '@salesforce/label/FlowBuilderWaitEditor.platformEventFilterRhsLabel';
+import waitFilterConditionsHeader from '@salesforce/label/FlowBuilderConditionList.waitFilterConditionsHeader';
 
 export const LABELS = {
     eventLabel,
@@ -19,5 +21,7 @@ export const LABELS = {
     noConditionsLabel,
     andConditionLogicLabel,
     platformEventFilterLhsLabel,
-    platformEventFilterRhsLabel
+    platformEventFilterLhsPlaceholder,
+    platformEventFilterRhsLabel,
+    waitFilterConditionsHeader,
 };
