@@ -154,6 +154,30 @@ class DrawingLib {
     };
 
     /**
+     * Sets the title attribute on the given element
+     * @param {Object} element Label Overlay object associated with the connector
+     * @param {String} title Text to be displayed on hovering over the connector label. Same as the label itself
+     */
+    setTitleAttribute = (element = {}, title = '') => {
+        if (element) {
+            element.setAttribute('title', title);
+        }
+    };
+
+    /**
+     * Sets the title on connector label overlay
+     * @param {Object} connection Connector object
+     * @param {String} title Text to be displayed on hovering over the connector label. Same as the label itself
+     */
+    setLabelOverlayTitle = (connection = {}, title = '') => {
+        const labelOverlay = connection.getOverlay(CONNECTOR_OVERLAY.LABEL);
+        if (labelOverlay) {
+            const labelOverlayElement = labelOverlay.getElement();
+            this.setTitleAttribute(labelOverlayElement, title);
+        }
+    };
+
+    /**
      * Sets all the existing connections while loading the flow in the canvas. If a connection is already set
      * then it doesn't do anything.
      * @param {String} sourceGuid - ID of the source node
@@ -184,6 +208,8 @@ class DrawingLib {
             } else {
                 connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label}]);
             }
+
+            this.setLabelOverlayTitle(connection, label);
         }
 
         connection.id = connectorGuid;
@@ -222,6 +248,8 @@ class DrawingLib {
         if (labelOverlay && labelOverlay.label) {
             connection.removeOverlay(CONNECTOR_OVERLAY.LABEL);
             connection.addOverlay(['Label', {id: CONNECTOR_OVERLAY.LABEL, label: labelOverlay.label, cssClass}]);
+
+            this.setLabelOverlayTitle(connection, labelOverlay.label);
         }
     };
 
