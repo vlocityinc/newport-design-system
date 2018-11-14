@@ -27,7 +27,7 @@
                             });
                         } else if (status === 'ERROR' || status === 'INCOMPLETE') {
                             if (showAlertModal && !disableErrorModal) {
-                                openAlertModal(status, messageForErrorModal);
+                                openAlertModal(result, messageForErrorModal);
                             }
                             return callback({
                                 error: result.getError()
@@ -44,17 +44,23 @@
             serverDataLib.setAuraFetch(auraFetch);
         }
 
-        var openAlertModal = function(status, errorMessage) {
+        var openAlertModal = function(result, errorMessage) {
             var headerTitle, bodyTextOne, buttonVariant, buttonLabel, alertModal;
             alertModal = cmp.find('builderUtils').invokeModal;
             buttonVariant = 'Brand';
             buttonLabel = $A.get('$Label.FlowBuilderAlertModal.okayButtonLabel');
+            var status = result.getState();
             if (status === 'ERROR') {
                 headerTitle = $A.get('$Label.FlowBuilderAlertModal.errorTitle');
                 if (errorMessage) {
-                    bodyTextOne = errorMessage;                    
+                    bodyTextOne = errorMessage;   
                 } else {
-                    bodyTextOne = $A.get('$Label.FlowBuilderAlertModal.errorMessage');
+                    var contextMessage = $A.get('$Label.FlowBuilderAlertModal.errorMessage');
+                    var error = result.getError()[0];
+                    if (error.data && error.data.contextMessage) {
+                        contextMessage = error.data.contextMessage;
+                    }
+                    bodyTextOne = contextMessage;
                 }
             } else if (status === 'INCOMPLETE') {
                 headerTitle = $A.get('$Label.FlowBuilderAlertModal.noNetworkConnectionTitle');
