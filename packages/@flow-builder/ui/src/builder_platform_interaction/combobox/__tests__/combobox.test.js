@@ -155,6 +155,10 @@ describe('Combobox Tests', () => {
             expect(combobox.literalsAllowed).toEqual(comboboxInitialConfig.literalsAllowed);
         });
 
+        it('has menuDataMaxLevel', () => {
+            expect(combobox.menuDataMaxLevel).toEqual(2);
+        });
+
         it('has blockValidation', () => {
             expect(combobox.blockValidation).toEqual(comboboxInitialConfig.blockValidation);
         });
@@ -540,6 +544,33 @@ describe('Combobox Tests', () => {
         expect(combobox.errorMessage).toEqual('');
         combobox.errorMessage = null;
         expect(combobox.errorMessage).toEqual(null);
+    });
+
+    describe('menuDataMaxLevel setter/getter tests', () => {
+        beforeEach(() => {
+            createCombobox();
+
+            for (const attribute in comboboxInitialConfig) {
+                if (comboboxInitialConfig.hasOwnProperty(attribute)) {
+                    combobox[attribute] = comboboxInitialConfig[attribute];
+                }
+            }
+        });
+
+        it('Valid number is allowed', () => {
+            const newMax = 4;
+            combobox.menuDataMaxLevel = newMax;
+            return Promise.resolve().then(() => {
+                expect(combobox.menuDataMaxLevel).toEqual(newMax);
+            });
+        });
+
+        it('Negative numbers are not allowed', () => {
+            combobox.menuDataMaxLevel = -4;
+            return Promise.resolve().then(() => {
+                expect(combobox.menuDataMaxLevel).toEqual(2);
+            });
+        });
     });
 
     describe('Variant setter/getter tests', () => {

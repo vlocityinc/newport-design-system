@@ -43,11 +43,8 @@ const isMatchWithTrailingSeparator = (text, textWithSeparatorAndBracket, separat
     return text.substring(0, text.length - 1) + `${separator}}` === textWithSeparatorAndBracket;
 };
 
-/**
- * The max level of data the combobox supports to show the menu items and perform validation.
- * @type {number} max level of data the combobox supports.
- */
-const MAX_LEVEL_MENU_DATA = 2;
+
+const MENU_DATA_MAX_LEVEL_DEFAULT_VALUE = 2;
 
 export default class Combobox extends LightningElement {
     @track
@@ -77,6 +74,21 @@ export default class Combobox extends LightningElement {
     @api
     get label() {
         return this._comboboxLabel;
+    }
+
+    /**
+     * The max level of data the combobox supports to show the menu items and perform validation.
+     * @type {number} max level of data the combobox supports.
+     */
+    set menuDataMaxLevel(value) {
+        if (value && typeof value === 'number' && value > 0) {
+            this._maxLevelMenuData = value;
+        }
+    }
+
+    @api
+    get menuDataMaxLevel() {
+        return this._maxLevelMenuData || MENU_DATA_MAX_LEVEL_DEFAULT_VALUE;
     }
 
     /**
@@ -168,7 +180,7 @@ export default class Combobox extends LightningElement {
                 // set the base value to parent for fetching previous level
                 if (itemOrDisplayText.parent) {
                     this._base = itemOrDisplayText.parent.displayText;
-                    this._mergeFieldLevel = MAX_LEVEL_MENU_DATA;
+                    this._mergeFieldLevel = this.menuDataMaxLevel;
                 }
             } else {
                 throw new Error('Setting an item on Flow Combobox without a value property!');
@@ -462,7 +474,7 @@ export default class Combobox extends LightningElement {
         if (this.isPotentialField()) {
             // Checks if base is a valid parent element and fetch menu data if so
             this.getParentElementAndFetchFields();
-        } else if (this._mergeFieldLevel === MAX_LEVEL_MENU_DATA && !this.hasMergeFieldCrossedMaxLevel()) {
+        } else if (this._mergeFieldLevel === this.menuDataMaxLevel && !this.hasMergeFieldCrossedMaxLevel()) {
             // if on the second level and no longer a potential field, get first level menu data
             this._base = null;
             this.fireFetchMenuDataEvent();
@@ -600,7 +612,7 @@ export default class Combobox extends LightningElement {
     getParentElementAndFetchFields() {
         const base = splitStringBySeparator(this.getSanitizedValue(), this.separator)[0];
         const baseMergeField = addCurlyBraces(base);
-        if (this._mergeFieldLevel === 1 || (this._mergeFieldLevel === MAX_LEVEL_MENU_DATA && this._base !== baseMergeField)) {
+        if (this._mergeFieldLevel === 1 || (this._mergeFieldLevel === this.menuDataMaxLevel && this._base !== baseMergeField)) {
             // get parent element from combobox cache
             const parentElementInComboboxShape = getElementFromParentElementCache(baseMergeField);
             if (parentElementInComboboxShape) {
@@ -619,7 +631,7 @@ export default class Combobox extends LightningElement {
         if (this.enableFieldDrilldown) {
             if (item && this._mergeFieldLevel === 1) {
                 this._mergeFieldLevel++;
-            } else if (!item && this._mergeFieldLevel === MAX_LEVEL_MENU_DATA) {
+            } else if (!item && this._mergeFieldLevel === this.menuDataMaxLevel) {
                 this._mergeFieldLevel--;
             }
             this.state.menuData = [];
@@ -740,7 +752,7 @@ export default class Combobox extends LightningElement {
      * @returns {Boolean} true when the level is greater than max level.
      */
     hasMergeFieldCrossedMaxLevel() {
-        return splitStringBySeparator(this.state.displayText, this.separator).length > MAX_LEVEL_MENU_DATA;
+        return splitStringBySeparator(this.state.displayText, this.separator).length > this.menuDataMaxLevel;
     }
 
     /**
