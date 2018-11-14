@@ -74,11 +74,6 @@ describe('validateDevNameUniquenessLocally method', () => {
             name: 'childDevName1'
         },
     ];
-    it('throws an error if devName is not passed', () => {
-        expect(() => {
-            validation.validateDevNameUniquenessLocally(mockGuidToNameList);
-        }).toThrow();
-    });
     it('returns null if the dev name is unique locally i.e. within the guidToDevNameList passed', () => {
         const result = validation.validateDevNameUniquenessLocally(mockGuidToNameList, 'testDevName', 'testGuid');
         expect(result).toBeNull();

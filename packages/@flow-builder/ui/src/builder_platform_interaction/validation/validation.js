@@ -36,9 +36,6 @@ export class Validation {
      * @returns {string|null} errorString or null
      */
     validateDevNameUniquenessLocally = (guidToNameList = [], devNameToBeValidated, guidToBeValidated) => {
-        if (!devNameToBeValidated || !guidToBeValidated) {
-            throw new Error('DevName && guidToBeValidated are required');
-        }
         const matches = guidToNameList.filter(devNameToGuidItem =>
             (devNameToGuidItem.guid !== guidToBeValidated) &&
             (devNameToGuidItem.name.toLowerCase() === (devNameToBeValidated && devNameToBeValidated.toLowerCase())));
