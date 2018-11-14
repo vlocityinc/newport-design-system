@@ -155,10 +155,12 @@ export default class FlowPropertiesEditor extends LightningElement {
         }
     }
 
-    updateProperty(propName, newValue) {
+    updateProperty(propName, newValue, error = null, doValidateProperty = true) {
         const propChangedEvent = new PropertyChangedEvent(
                 propName,
-                newValue);
+                newValue,
+                error,
+                doValidateProperty);
         this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, propChangedEvent);
     }
 
@@ -193,9 +195,9 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     clearForNewDefinition() {
         // If switching from new version to new flow, clear out label, name and description
-        this.updateProperty('label', null);
-        this.updateProperty('name', null);
-        this.updateProperty('description', null);
+        this.updateProperty('label', '', null, false);
+        this.updateProperty('name', '', null, false);
+        this.updateProperty('description', '', null, false);
     }
 
     /**
