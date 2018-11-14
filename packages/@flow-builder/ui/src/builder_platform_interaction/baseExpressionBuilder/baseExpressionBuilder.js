@@ -276,7 +276,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     @api
     get rhsLiteralsAllowed() {
-        return this._rhsLiteralsAllowedForContext && !isCollectionRequired(this._rhsParamTypes, this._rhsDataType);
+        return !this.rhsIsFer && this._rhsLiteralsAllowedForContext && !isCollectionRequired(this._rhsParamTypes, this._rhsDataType);
     }
 
     get rhsDataType() {
@@ -637,7 +637,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.clearRhsIfNecessary(expressionUpdates, lhsParam, operator, rhsTypes);
 
         const rhsDataType = operator ? this.getRhsDataType(lhsParam, rhsTypes) : CLEAR_VALUE;
-        if (rhsDataType !== this._rhsDataType) {
+        if (!this.rhsIsFer && rhsDataType !== this._rhsDataType) {
             expressionUpdates[RHSDT] = {value: rhsDataType, error: CLEAR_ERROR};
         }
     }
