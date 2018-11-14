@@ -243,3 +243,10 @@ export const TEMPLATE_FIELDS = new Set([
 ]);
 
 export const EXPRESSION_RE = /\{!([^}]+)\}/g;
+
+export const FLOW_STATUS = {
+    ACTIVE: 'Active',
+    OBSOLETE: 'Obsolete',
+    DRAFT: 'Draft',
+    INVALID_DRAFT: 'InvalidDraft',
+};

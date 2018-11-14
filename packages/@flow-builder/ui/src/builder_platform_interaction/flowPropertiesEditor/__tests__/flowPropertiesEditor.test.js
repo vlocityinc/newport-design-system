@@ -42,7 +42,7 @@ const defaultNode = {
     name: { value: 'flow name' },
     description: { value: 'flow description' },
     processType: { value: 'process type' },
-    status: { value: 'status' },
+    status: { value: 'Active' },
     interviewLabel: { value: 'interviewLabel' },
     lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' }
 };

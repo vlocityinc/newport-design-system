@@ -3,11 +3,7 @@ import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent, D
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug } from "builder_platform_interaction/contextLib";
 import { LABELS } from './toolbarLabels';
-
-const ACTIVE = 'Active';
-const OBSOLETE = 'Obsolete';
-const DRAFT = 'Draft';
-const INVALID_DRAFT = 'InvalidDraft';
+import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Toolbar component for flow builder.
@@ -31,25 +27,6 @@ export default class Toolbar extends LightningElement {
 
     labels = LABELS;
 
-    statusLabelAndTitle = {
-        [ACTIVE]: {
-            label: this.labels.activeLabel,
-            title: this.labels.activeTitle
-        },
-        [OBSOLETE]: {
-            label: this.labels.deactivatedLabel,
-            title: this.labels.deactivatedTitle
-        },
-        [DRAFT]: {
-            label: this.labels.draftLabel,
-            title: this.labels.draftTitle
-        },
-        [INVALID_DRAFT]: {
-            label: this.labels.draftLabel,
-            title: this.labels.draftTitle
-        }
-    };
-
     get showLastSavedPill() {
         return !!this.saveStatus;
     }
@@ -64,23 +41,8 @@ export default class Toolbar extends LightningElement {
     }
 
     get saveDisabled() {
-        return this.isSaveDisabled || this.flowStatus === ACTIVE || this.flowStatus === OBSOLETE || !this.isLightningFlowBuilder || this.canOnlySaveAsNewDefinition || !this.hasUnsavedChanges;
-    }
-
-    get statusBadgeLabel() {
-        return this.statusLabelAndTitle[this.flowStatus].label;
-    }
-
-    get statusBadgeTitle() {
-        return this.statusLabelAndTitle[this.flowStatus].title;
-    }
-
-    get statusBadgeClasses() {
-        let classes = 'status-badge slds-align-middle slds-m-left_xx-small';
-        if (this.flowStatus === ACTIVE) {
-            classes = `${classes} slds-theme_success`;
-        }
-        return classes;
+        return this.isSaveDisabled || this.flowStatus === FLOW_STATUS.ACTIVE || this.flowStatus === FLOW_STATUS.OBSOLETE ||
+            !this.isLightningFlowBuilder || this.canOnlySaveAsNewDefinition || !this.hasUnsavedChanges;
     }
 
     get isDiffFlowAllowed() {

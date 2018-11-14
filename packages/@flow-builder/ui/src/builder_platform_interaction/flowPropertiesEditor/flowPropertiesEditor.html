@@ -55,7 +55,9 @@
             <div class="slds-grid">
                 <div class="slds-size_1-of-3">
                     {labels.status}:
-                    <div><lightning-badge title="Inactive" class="status-badge slds-align-middle slds-m-left_xx-small slds-badge">{flowProperties.status.value}</lightning-badge></div>
+                    <div>
+                        <builder_platform_interaction-flow-status flow-status={flowProperties.status.value}></builder_platform_interaction-flow-status>
+                    </div>
                 </div>
                 <div class="slds-size_1-of-3">{labels.currentType}:
                     <div>{flowProperties.processType.value}</div>
