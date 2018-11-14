@@ -144,7 +144,7 @@ function getNewResourceItem() {
 // TODO: all of this regarding filtering & selectors will be revisited with W-5462144
 
 /**
- * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
+ * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
  * @returns filterInformation
  */
 function writableOrReadableElement(shouldBeWritable) {
@@ -155,43 +155,23 @@ function writableOrReadableElement(shouldBeWritable) {
 }
 
 /**
- * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
- * @param {Object} elementType          the element type this expression builder lives in
- * @param {Boolean} isCollection        true if using selector to retrieve collection variables
- * @param {String} dataType             data type for menu data items
- * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
+ * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
  * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
- * @returns filterInformation
+ * @param {Object} retrieveOptions      Object containing the parameter of the sObjectOrSObjectCollectionByEntitySelector
+ * @returns {Function}
  */
-function queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
-    const selector = sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, queryable:true})
-        : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
-    return {
-        selector,
-        isWritable: !sObjectSelector && shouldBeWritable,
+function buildCludSelector(shouldBeWritable, sObjectSelector) {
+    return function (retrieveOptions) {
+        const selector = sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector(retrieveOptions)
+                : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+        return {
+            selector
+        };
     };
 }
 
 /**
- * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
- * @param {Object} elementType          the element type this expression builder lives in
- * @param {Boolean} isCollection        true if using selector to retrieve collection variables
- * @param {String} dataType             data type for menu data items
- * @param {String} entityName           optional: name of the sobject, used to retrieve a list of sobject/sobject collection variables. If it's empty or null, retrieve all the sobject/sobject collection variables.
- * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
- * @returns filterInformation
- */
-function createableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
-    const selector = sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({isCollection, entityName, createable:true})
-        : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
-    return {
-        selector,
-        isWritable: !sObjectSelector && shouldBeWritable,
-    };
-}
-
-/**
- * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
+ * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
  * @param {Object} elementType          the element type this expression builder lives in
  * @param {Boolean} isCollection        true if using selector to retrieve collection variables
  * @param {String} dataType             data type for menu data items
@@ -205,14 +185,8 @@ function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, da
     };
 }
 
-function sObjectScalarsOrCollections(config) {
-    return {
-        selector: sObjectOrSObjectCollectionByEntitySelector(config),
-    };
-}
-
 /**
- * @param {Boolean} shouldBeWritable    if this is set, only writable elements will be returned
+ * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
  * @param {String} dataType             data type for menu data items
  * @param {Boolean} choices             optional: should this menu data only contain choices
  * @returns filterInformation
@@ -230,23 +204,23 @@ function screenSelectors(shouldBeWritable, choices, dataType) {
 }
 
 const filterInformationProviderMap = {
-    [ELEMENT_TYPE.ACTION_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.APEX_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.ASSIGNMENT]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.EMAIL_ALERT]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.SUBFLOW]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.VARIABLE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.CHOICE]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.RECORD_CHOICE_SET]: (shouldBeWritable) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.ACTION_CALL]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.APEX_CALL]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.ASSIGNMENT]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.EMAIL_ALERT]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.SUBFLOW]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.VARIABLE]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.CHOICE]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => writableOrReadableElement(),
     [ELEMENT_TYPE.WAIT]: () => writableOrReadableElement(),
-    [ELEMENT_TYPE.SCREEN]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices) => screenSelectors(shouldBeWritable, choices, dataType),
-    [ELEMENT_TYPE.RECORD_CREATE]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => createableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
-    [ELEMENT_TYPE.RECORD_UPDATE]: () => sObjectScalarsOrCollections({allSObjectsAndSObjectCollections: true, updateable: true}),
-    [ELEMENT_TYPE.RECORD_DELETE]: () => sObjectScalarsOrCollections({allSObjectsAndSObjectCollections: true, deleteable: true}),
-    [ELEMENT_TYPE.RECORD_LOOKUP]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => queryableElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
-    [ELEMENT_TYPE.LOOP]: (shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) => sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
+    [ELEMENT_TYPE.SCREEN]: ({shouldBeWritable, dataType, choices}) => screenSelectors(shouldBeWritable, choices, dataType),
+    [ELEMENT_TYPE.RECORD_CREATE]: ({shouldBeWritable, isCollection, entityName, sObjectSelector}) => buildCludSelector(shouldBeWritable, sObjectSelector)({ isCollection, entityName, createable:true}),
+    [ELEMENT_TYPE.RECORD_UPDATE]: ({shouldBeWritable, sObjectSelector}) => buildCludSelector(shouldBeWritable, sObjectSelector)({allSObjectsAndSObjectCollections: true, updateable:true}),
+    [ELEMENT_TYPE.RECORD_DELETE]: ({shouldBeWritable, sObjectSelector}) => buildCludSelector(shouldBeWritable, sObjectSelector)({allSObjectsAndSObjectCollections: true, deleteable:true}),
+    [ELEMENT_TYPE.RECORD_LOOKUP]: ({shouldBeWritable, isCollection, entityName, sObjectSelector}) => buildCludSelector(shouldBeWritable, sObjectSelector)({ isCollection, entityName, queryable:true}),
+    [ELEMENT_TYPE.LOOP]: ({shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector}) => sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
 };
 
 /**
@@ -259,8 +233,9 @@ const filterInformationProviderMap = {
  * @param {Boolean} choices             optional: should this menu data only contain choices
  * @returns filterInformation
  */
-function getFilterInformation({elementType, shouldBeWritable, isCollection, dataType, entityName, sObjectSelector, choices}) {
-    return filterInformationProviderMap[elementType] ? filterInformationProviderMap[elementType](shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector, choices) : {};
+function getFilterInformation(config = {}) {
+    const {elementType} = config;
+    return filterInformationProviderMap[elementType] ? filterInformationProviderMap[elementType](config) : {};
 }
 
 /**
@@ -272,9 +247,9 @@ function getFilterInformation({elementType, shouldBeWritable, isCollection, data
 export function getStoreElements(storeInstance, config) {
     let elements = [];
 
-    const filterInformation = getFilterInformation(config);
-    if (filterInformation.selector) {
-        elements = filterInformation.selector(storeInstance);
+    const {selector} = getFilterInformation(config);
+    if (selector) {
+        elements = selector(storeInstance);
     }
 
     return elements;

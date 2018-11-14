@@ -1,5 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { recordUpdateReducer } from "./recordUpdateReducer";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LABELS } from "./recordUpdateEditorLabels";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
@@ -23,7 +24,7 @@ export default class RecordUpdateEditor extends LightningElement {
         entityFields: [],
     }
 
-    rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementType);
+    rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.RECORD_UPDATE);
 
     /**
      * public api function to return the node

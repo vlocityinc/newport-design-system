@@ -201,6 +201,22 @@ describe('Menu data retrieval', () => {
         expect(menuData[1].items[0].value).toEqual(store.accountSObjectVariableGuid);
         selectorsMock.writableElementsSelector.mockClear();
     });
+    it('should have only sobject variables (record Update)', () => {
+        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(jest.fn().mockReturnValue([store.elements[store.accountSObjectVariableGuid]]));
+        const menuData = getElementsForMenuData({elementType: ELEMENT_TYPE.RECORD_UPDATE, sObjectSelector: true});
+        expect(menuData[0].label).toBe(sobjectVariable);
+        expect(menuData[0].items).toHaveLength(1);
+        expect(menuData[0].items[0].value).toEqual(store.accountSObjectVariableGuid);
+        selectorsMock.writableElementsSelector.mockClear();
+    });
+    it('should have only sobject collection variables  (record Update)', () => {
+        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(jest.fn().mockReturnValue([store.elements[store.accountSObjectCollectionVariableGuid]]));
+        const menuData = getElementsForMenuData({elementType: ELEMENT_TYPE.RECORD_UPDATE, sObjectSelector: true});
+        expect(menuData[0].label).toBe(sobjectCollectionVariable);
+        expect(menuData[0].items).toHaveLength(1);
+        expect(menuData[0].items[0].value).toEqual(store.accountSObjectCollectionVariableGuid);
+        selectorsMock.writableElementsSelector.mockClear();
+    });
     it('should have dataType populated for number variable', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
         const copiedElement = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
