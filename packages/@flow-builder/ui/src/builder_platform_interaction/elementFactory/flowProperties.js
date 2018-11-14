@@ -29,6 +29,8 @@ export function createFlowPropertiesForEditor(flowProperties = {}) {
 export function createFlowProperties(flowProperties = {}) {
     const name = flowProperties.fullName || flowProperties.name || '';
     const { versionNumber = null, lastModifiedDate = null,  manageableState = null } = flowProperties;
+    const lastModifiedBy = flowProperties.lastModifiedBy ? flowProperties.lastModifiedBy.name : undefined;
+
     const {
         label = '',
         description = '',
@@ -58,6 +60,7 @@ export function createFlowProperties(flowProperties = {}) {
             description,
             versionNumber,
             lastModifiedDate,
+            lastModifiedBy,
             interviewLabel,
             isTemplate,
             processType,
