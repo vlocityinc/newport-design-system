@@ -38,6 +38,7 @@ export class Validation {
     validateDevNameUniquenessLocally = (guidToNameList = [], devNameToBeValidated, guidToBeValidated) => {
         const matches = guidToNameList.filter(devNameToGuidItem =>
             (devNameToGuidItem.guid !== guidToBeValidated) &&
+            devNameToBeValidated !== "" &&
             (devNameToGuidItem.name.toLowerCase() === (devNameToBeValidated && devNameToBeValidated.toLowerCase())));
         return matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
     };
