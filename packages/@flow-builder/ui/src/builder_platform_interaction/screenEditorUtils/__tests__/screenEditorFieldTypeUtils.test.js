@@ -51,6 +51,7 @@ getElementByGuid.mockImplementation((guid) => {
             break;
         case choice3Guid:
             element.choiceText = 'Choice';
+            element.elementType = 'CHOICE';
             break;
         default:
     }
@@ -98,43 +99,53 @@ describe('getFieldChoiceData function', () => {
         };
         const choiceNameMergeField = '{!choiceName}';
         const expectedData = [{
+                defaultValueOption: false,
                 displayValue: {
                     error: 'error1',
                     value: choiceNameMergeField
                 },
                 guid: choice1Guid,
                 label: 'Industry',
+                name: 'choiceName',
                 value: choice1Guid
             }, {
+                defaultValueOption: false,
                 displayValue: {
                     error: 'error2',
                     value: choiceNameMergeField
                 },
                 guid: choice2Guid,
-                label: '[undefined] Choice',
+                label: '[FlowBuilderNewResource.dynamicRecordChoiceLabel] Choice',
+                name: 'choiceName',
                 value: choice2Guid
             }, {
+                defaultValueOption: true,
                 displayValue: {
                     error: 'error3',
                     value: choiceNameMergeField
                 }, guid: choice3Guid,
                 label: 'Choice',
+                name: 'choiceName',
                 value: choice3Guid
             }, {
+                defaultValueOption: false,
                 displayValue: {
                     error: 'error4',
                     value: null
                 },
                 guid: 'GUID_1',
                 label: '',
+                name: '',
                 value: ''
             }, {
+                defaultValueOption: false,
                 displayValue: {
                     error: null,
                     value: null
                 },
                 guid: 'GUID_1',
                 label: '',
+                name: '',
                 value: ''
             }
         ];

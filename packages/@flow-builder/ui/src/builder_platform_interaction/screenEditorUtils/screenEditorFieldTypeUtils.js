@@ -3,6 +3,7 @@ import { COMPONENT_INSTANCE, EXTENSION_TYPE_SOURCE, getAllCachedExtensionTypes, 
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { generateGuid } from "builder_platform_interaction/storeLib";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 const FEROV_TYPES = {
     string: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
@@ -416,19 +417,26 @@ export function getFieldChoiceData(field) {
 
                 // Figure out which property should be used as the label, based on choice type.
                 let label;
-                if (choiceElement.elementType === 'PICKLIST_CHOICE_SET') {
+                let defaultValueOption = false;
+                if (choiceElement.elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET) {
                     label = choiceElement.picklistField;
-                } else if (choiceElement.elementType === 'RECORD_CHOICE_SET') {
+                } else if (choiceElement.elementType === ELEMENT_TYPE.RECORD_CHOICE_SET) {
                     label = '[' + LABELS.dynamicRecordChoiceLabel + '] ' + choiceElement.displayField;
-                } else {
+                } else if (choiceElement.elementType === ELEMENT_TYPE.CHOICE) {
+                    // This choice can be used as a defaultValue. The other types cannot.
+                    defaultValueOption = true;
                     label = choiceElement.choiceText;
+                } else {
+                    throw new Error("Unknown choice type: " + choiceElement.elementType);
                 }
 
                 return {
                     label,
                     guid:  choiceElement.guid,
                     value: choiceElement.guid,
-                    displayValue: {value: '{!' + choiceElement.name + '}', error: getErrorFromChoice(choice)}
+                    displayValue: {value: '{!' + choiceElement.name + '}', error: getErrorFromChoice(choice)},
+                    name: choiceElement.name,
+                    defaultValueOption
                 };
             }
             // When a new choice is being added to a screen field, there will be
@@ -437,7 +445,9 @@ export function getFieldChoiceData(field) {
                 label: '',
                 guid:  generateGuid(),
                 value: '',
-                displayValue: {value: null, error: getErrorFromChoice(choice)}
+                displayValue: {value: null, error: getErrorFromChoice(choice)},
+                name: '',
+                defaultValueOption: false
             };
         });
     }

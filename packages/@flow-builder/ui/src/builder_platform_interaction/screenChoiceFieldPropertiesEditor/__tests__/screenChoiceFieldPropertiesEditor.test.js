@@ -12,10 +12,19 @@ jest.mock('builder_platform_interaction/selectors', () => {
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid(guid) {
+            let elementType;
+            if (guid.includes('RCS')) {
+                elementType = 'RECORD_CHOICE_SET';
+            } else if (guid.includes('PICKLIST')) {
+                elementType = 'PICKLIST_CHOICE_SET';
+            } else {
+                elementType = 'CHOICE';
+            }
                 return {
                     name: guid,
                     choiceText: 'choice text ' + guid,
                     guid,
+                    elementType
                 };
         }
     };
@@ -254,6 +263,30 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
             expect(defaultValueProp.listChoices[1].value).toMatch('choice0');
             expect(defaultValueProp.listChoices[2].value).toMatch('choice1');
             expect(defaultValueProp.listChoices[3].value).toMatch('choice2');
+        });
+    });
+});
+
+describe('DefaultValue options based on choice type', () => {
+    let screenChoiceFieldPropEditor;
+    beforeEach(() => {
+        const testField = createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE,
+            {dataType: 'String', createChoices: true});
+        testField.choiceReferences[0] = {choiceReference: {value: 'choice-RCS', error: null}};
+        testField.choiceReferences[1] = {choiceReference: {value: 'choice1', error: null}};
+        testField.choiceReferences[2] = {choiceReference: {value: 'choice-PICKLIST', error: null}};
+        screenChoiceFieldPropEditor = createComponentUnderTest({
+            field: testField
+        });
+    });
+    it('DefaultValue drop down does not include record or picklist choice sets', () => {
+        return Promise.resolve().then(() => {
+            const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
+            expect(defaultValueProp).toBeDefined();
+            expect(defaultValueProp.listChoices).toBeDefined();
+            expect(defaultValueProp.listChoices).toHaveLength(2);
+            expect(defaultValueProp.listChoices[0].value).toMatch('');
+            expect(defaultValueProp.listChoices[1].value).toMatch('choice1');
         });
     });
 });
