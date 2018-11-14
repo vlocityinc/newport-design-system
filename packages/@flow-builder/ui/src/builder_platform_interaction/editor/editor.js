@@ -5,7 +5,7 @@ import { canvasSelector, getSObjectOrSObjectCollectionByEntityElements } from 'b
 import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas, updatePropertiesAfterSaving } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from 'builder_platform_interaction/connectorUtils';
-import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
@@ -66,23 +66,58 @@ export default class Editor extends LightningElement {
     @track disableSave = true;
     @track saveStatus;
 
+
+    resolveOpenPropertyEditor;
+
+    openPropertyEditor = new Promise((resolve) => {
+        this.resolveOpenPropertyEditor = resolve;
+    });
+
+    propertyEditorBlockerCalls = [];
+
     constructor() {
         super();
         // Initialising store
         logPerfTransactionStart(EDITOR);
         storeInstance = Store.getStore(reducer);
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
+
         // TODO: Move these server calls after getting the Flow
-        fetch(SERVER_ACTION_TYPE.GET_RULES, this.getRulesCallback);
-        fetch(SERVER_ACTION_TYPE.GET_OPERATORS, this.getOperatorsCallback);
+
+        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_RULES).then(data => {
+            this.getRulesCallback(data);
+        }));
+        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_OPERATORS).then(data => {
+            this.getOperatorsCallback(data);
+        }));
         logPerfTransactionStart(SERVER_ACTION_TYPE.GET_ENTITIES);
-        fetch(SERVER_ACTION_TYPE.GET_ENTITIES, this.getEntitiesCallback, { crudType: 'ALL' }, {background: true});
-        fetch(SERVER_ACTION_TYPE.GET_HEADER_URLS, this.getHeaderUrlsCallBack);
-        fetch(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES, this.getResourceTypesCallback);
-        fetch(SERVER_ACTION_TYPE.GET_EVENT_TYPES, this.getEventTypesCallback, {}, { background: true });
-        fetch(SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES, this.getAllGlobalVariablesCallback, { flowProcessType: 'Flow' });
-        fetch(SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES, this.getSystemVariablesCallback, { flowProcessType: 'Flow' });
-        fetch(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, this.getProcessTypesCallback);
+        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_ENTITIES, { crudType: 'ALL' }, {background: true}).then(data => {
+            this.getEntitiesCallback(data);
+        }));
+        fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data => {
+            this.getHeaderUrlsCallBack(data);
+        });
+        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES).then(data => {
+            this.getResourceTypesCallback(data);
+        }));
+        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPES, { background: true }).then(data => {
+            this.getEventTypesCallback(data);
+        }));
+        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES, { flowProcessType: 'Flow' }).then(data => {
+            this.getAllGlobalVariablesCallback(data);
+        }));
+        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES, { flowProcessType: 'Flow' }).then(data => {
+            this.getSystemVariablesCallback(data);
+        }));
+        fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES).then(data => {
+            this.getProcessTypesCallback(data);
+        });
+
+        // resolve opening property editor once these calls are done
+        Promise.all(this.propertyEditorBlockerCalls).then(() => {
+            this.openPropertyEditor.resolved = true;
+            this.resolveOpenPropertyEditor();
+        });
     }
 
     @api
@@ -96,6 +131,7 @@ export default class Editor extends LightningElement {
             const params = {
                 id: newFlowId
             };
+            // Keeping this as fetch because we want to go to the server
             fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallback, params);
             this.isFlowServerCallInProgress = true;
             this.showSpinner = true;
@@ -213,7 +249,7 @@ export default class Editor extends LightningElement {
             const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(sobjectVariables[i]);
             addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
             // fetch fields and cache them
-            fetchFieldsForEntity(sobjectVariables[i].objectType, { disableErrorModal : true }).catch(() => {});
+            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjectVariables[i].objectType, { disableErrorModal : true }));
         }
     }
 
@@ -254,30 +290,18 @@ export default class Editor extends LightningElement {
      *
      * @param {Object} has error property if there is error fetching the data else has data property
      */
-    getRulesCallback = ({data, error}) => {
-        if (error) {
-            // TODO: handle error case
-        } else {
-            setRules(data);
-        }
+    getRulesCallback = (data) => {
+        setRules(data);
     };
 
-    getOperatorsCallback = ({data, error}) => {
-        if (error) {
-            // TODO: handle error case
-        } else {
-            setOperators(data);
-        }
+    getOperatorsCallback = (data) => {
+        setOperators(data);
     }
 
-    getEntitiesCallback = ({data, error}) => {
-        if (error) {
-            // TODO: handle error case
-        } else {
-            logPerfTransactionEnd(SERVER_ACTION_TYPE.GET_ENTITIES);
-            logPerfTransactionStart('setEntities');
-            setEntities(data);
-        }
+    getEntitiesCallback = (data) => {
+        logPerfTransactionEnd(SERVER_ACTION_TYPE.GET_ENTITIES);
+        logPerfTransactionStart('setEntities');
+        setEntities(data);
     };
 
     /**
@@ -285,30 +309,22 @@ export default class Editor extends LightningElement {
      *
      * @param {Object} has error property if there is error fetching the data else has data property
      */
-    getHeaderUrlsCallBack = ({data, error}) => {
-        if (error) {
-            // TODO: handle error case
-        } else {
-            let isFromAloha = data.preferred === 'CLASSIC';
-            if (window.location.search.indexOf('isFromAloha=true') >= 0) {
-                isFromAloha = true;
-            }
-            this.backUrl = isFromAloha ? data.flowUrl : data.lightningFlowUrl;
-            this.helpUrl = data.helpUrl;
-            this.runDebugUrl = data.runDebugUrl;
+    getHeaderUrlsCallBack = (data) => {
+        let isFromAloha = data.preferred === 'CLASSIC';
+        if (window.location.search.indexOf('isFromAloha=true') >= 0) {
+            isFromAloha = true;
         }
+        this.backUrl = isFromAloha ? data.flowUrl : data.lightningFlowUrl;
+        this.helpUrl = data.helpUrl;
+        this.runDebugUrl = data.runDebugUrl;
     };
 
     /**
      * Callback which gets executed after fetching the resource types for New Resource editor
      * @param {Object} has error property if there is error fetching the data else has data property
      */
-    getResourceTypesCallback = ({data, error}) => {
-        if (error) {
-            // TODO: handle error case
-        } else {
-            setResourceTypes(data);
-        }
+    getResourceTypesCallback = (data) => {
+        setResourceTypes(data);
     };
 
     /**
@@ -326,42 +342,26 @@ export default class Editor extends LightningElement {
      * Callback which gets executed after fetching the event types for wait event editor
      * @param {Object} has error property if there is error fetching the data else has data property
      */
-    getEventTypesCallback = ({ data, error }) => {
-        if (error) {
-            // Error is handled in auraFetch function to show error modal
-        } else {
-            setEventTypes(data);
-        }
+    getEventTypesCallback = (data) => {
+        setEventTypes(data);
     };
 
-    getAllGlobalVariablesCallback = ({ data, error }) => {
-        if (error) {
-            // TODO: handle error case
-        } else {
-            setGlobalVariables(data);
-            getGlobalVariableTypeComboboxItems().forEach(item => {
-                addToParentElementCache(item.displayText, item);
-            });
-        }
-    };
-
-    getSystemVariablesCallback = ({ data, error }) => {
-        if (error) {
-            // TODO: handle error case
-        } else {
-            const item = getFlowSystemVariableComboboxItem();
-            // system variables are treated like sobjects in the menu data so this category is a "parent element" as well
+    getAllGlobalVariablesCallback = (data) => {
+        setGlobalVariables(data);
+        getGlobalVariableTypeComboboxItems().forEach(item => {
             addToParentElementCache(item.displayText, item);
-            setSystemVariables(data);
-        }
+        });
     };
 
-    getProcessTypesCallback = ({ data, error }) => {
-        if (error) {
-            // TODO: handle error case
-        } else {
-            setProcessTypes(data);
-        }
+    getSystemVariablesCallback = (data) => {
+        const item = getFlowSystemVariableComboboxItem();
+        // system variables are treated like sobjects in the menu data so this category is a "parent element" as well
+        addToParentElementCache(item.displayText, item);
+        setSystemVariables(data);
+    };
+
+    getProcessTypesCallback = (data) => {
+        setProcessTypes(data);
     }
 
     /**
@@ -475,9 +475,10 @@ export default class Editor extends LightningElement {
         if (this.flowId) {
             // Get the saved copy from the DB as our 'before' flow for comparing.
             const params = {id: this.flowId};
+            // Keeping this as fetch because we want to go to the server
             fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallbackAndDiff, params);
         }
-    }
+    };
 
     /**
      * Callback which gets executed after clicking done on the Flow Properties Editor
@@ -497,6 +498,16 @@ export default class Editor extends LightningElement {
         }
     };
 
+    queueOpenPropertyEditor = (params) => {
+        if (!this.openPropertyEditor.resolved) {
+            this.showSpinner = true;
+        }
+        this.openPropertyEditor.then(() => {
+            this.showSpinner = false;
+            invokePropertyEditor(PROPERTY_EDITOR, params);
+        });
+    };
+
     /**
      * Handle click event fired by a child component. Fires another event
      * containing resources information, which is handled by container.cmp.
@@ -505,7 +516,7 @@ export default class Editor extends LightningElement {
     handleAddResourceElement = (event) => {
         const mode = event.type;
         const nodeUpdate = this.deMutateAndAddNodeCollection;
-        invokePropertyEditor(PROPERTY_EDITOR, { mode, nodeUpdate });
+        this.queueOpenPropertyEditor({ mode, nodeUpdate });
     };
 
     /** *********** Canvas and Node Event Handling *************** **/
@@ -526,7 +537,7 @@ export default class Editor extends LightningElement {
             });
             const nodeUpdate = this.deMutateAndAddNodeCollection;
             const newResourceCallback = this.newResourceCallback;
-            invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
+            this.queueOpenPropertyEditor({ mode, node, nodeUpdate, newResourceCallback });
         }
     };
 
@@ -545,7 +556,7 @@ export default class Editor extends LightningElement {
             const node = getElementForPropertyEditor(storeInstance.getCurrentState().elements[guid]);
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             const newResourceCallback = this.newResourceCallback;
-            invokePropertyEditor(PROPERTY_EDITOR, { mode, nodeUpdate, node, newResourceCallback });
+            this.queueOpenPropertyEditor({ mode, nodeUpdate, node, newResourceCallback });
         }
     };
 
@@ -812,6 +823,7 @@ export default class Editor extends LightningElement {
             saveType
         };
 
+        // Keeping this as fetch because we want to go to the server
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
         this.saveStatus = LABELS.savingStatus;
         this.hasNotBeenSaved = true;
@@ -841,6 +853,7 @@ export default class Editor extends LightningElement {
      * Callback passed to variour property editors which support inline creation
      */
     newResourceCallback = () => {
+        // This doesn't need the promise since a property editor already has to be open in this case
         invokePropertyEditor(PROPERTY_EDITOR, { mode: NewResourceEvent.EVENT_NAME, nodeUpdate: this.deMutateAndAddNodeCollection});
     };
 

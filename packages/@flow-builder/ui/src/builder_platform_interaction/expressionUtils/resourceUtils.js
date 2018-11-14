@@ -122,7 +122,6 @@ export const normalizeRHS = (rhsIdentifier) => {
     const fieldName = sanitizeGuid(rhsIdentifier).fieldName;
     if (flowElement && fieldName) {
         return new Promise((resolve) => {
-            // TODO: W-4960448: the field will appear empty briefly when fetching the first time
             sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
                 rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[fieldName], mutateFlowResourceToComboboxShape(flowElement), true, true);
                 rhs.fields = fields;
