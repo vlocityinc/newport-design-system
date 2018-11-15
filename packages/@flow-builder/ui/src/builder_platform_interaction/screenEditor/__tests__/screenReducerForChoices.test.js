@@ -215,6 +215,50 @@ it('Delete last choice from radio screen field', () => {
     expect(newScreen.fields[0].choiceReferences[1]).toBe(field.choiceReferences[1]);
 });
 
+it('Delete choice from radio screen field when it was the defaultValue', () => {
+    // Create screen with radio screenField and 3 choices
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
+    field.defaultSelectedChoiceReference = {value: 'choice1', error: null};
+    const screen = createTestScreen(SCREEN_NAME, []);
+    screen.fields = [field];
+
+    // Delete the choice that is the defaultValue
+    const event = {
+        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED,
+        detail: {
+            screenElement: field,
+            position: 1
+        }
+    };
+    const newScreen = screenReducer(screen, event, screen.fields[0]);
+
+    // DefaultValue should be gone because its corresponding choice was deleted.
+    expect(newScreen).toBeDefined();
+    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBe('');
+});
+
+it('Deleting choice from radio screen field when it is not the defaultValue', () => {
+    // Create screen with radio screenField and 3 choices
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', createChoices: true});
+    field.defaultSelectedChoiceReference = {value: 'choice1', error: null};
+    const screen = createTestScreen(SCREEN_NAME, []);
+    screen.fields = [field];
+
+    // Delete the choice that is the defaultValue
+    const event = {
+        type: SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED,
+        detail: {
+            screenElement: field,
+            position: 0
+        }
+    };
+    const newScreen = screenReducer(screen, event, screen.fields[0]);
+
+    // DefaultValue should be gone because its corresponding choice was deleted.
+    expect(newScreen).toBeDefined();
+    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBe('choice1');
+});
+
 it('validate all when choice based field has no choice associated with it', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];

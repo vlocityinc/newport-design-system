@@ -93,8 +93,17 @@ const changeChoice = (screen, event, field) => {
  * @param {*} field - The field that the choice should be deleted from.
  */
 const deleteChoice = (screen, event, field) => {
+    const originalChoice = field.choiceReferences[event.detail.position];
     const updatedChoices = deleteItem(field.choiceReferences, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
+
+    // If default value was set for this field, check to see if its set to the choice that was just
+    // delete. If it was, then clear the default value as it may no longer be valid.
+    if (field.defaultSelectedChoiceReference && field.defaultSelectedChoiceReference.value) {
+        if (field.defaultSelectedChoiceReference.value === originalChoice.choiceReference.value) {
+            updatedField.defaultSelectedChoiceReference.value = '';
+        }
+    }
 
     // Replace the field in the screen
     const fieldPosition = screen.getFieldIndexByGUID(field.guid);

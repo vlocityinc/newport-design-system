@@ -72,11 +72,11 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
-    it('Default value is empty when there is no default value', () => {
+    it('Default value is nothing', () => {
         return Promise.resolve().then(() => {
             const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
-            expect(renderedDefaultValueField.value).toBeUndefined();
+            expect(renderedDefaultValueField.value.value).toBe('');
         });
     });
     it('Required checkbox is present and not checked', () => {
@@ -130,11 +130,11 @@ describe('screen-choice-field-properties-editor for multi-select picklist', () =
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
-    it('Default value is empty when there is no default value', () => {
+    it('Default value is nothing', () => {
         return Promise.resolve().then(() => {
             const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
-            expect(renderedDefaultValueField.value).toBeUndefined();
+            expect(renderedDefaultValueField.value.value).toBe('');
         });
     });
     it('Required checkbox is present and not checked', () => {
@@ -195,11 +195,11 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
-    it('Default value is empty when there is no default value', () => {
+    it('Default value is set to nothing', () => {
         return Promise.resolve().then(() => {
             const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
             expect(renderedDefaultValueField).toBeDefined();
-            expect(renderedDefaultValueField.value).toBeUndefined();
+            expect(renderedDefaultValueField.value.value).toBe('');
         });
     });
     it('Required checkbox is present and not checked', () => {
@@ -403,13 +403,6 @@ describe('screen-choice-field-properties-editor for new field', () => {
             const dataTypeDropDown = getShadowRoot(screenChoiceFieldPropEditor).querySelector(SELECTORS.DATA_TYPE);
             expect(dataTypeDropDown).toBeDefined();
             expect(dataTypeDropDown.typeAndCollectionDisabled).toBeFalsy();
-        });
-    });
-    it('Default value is disabled because dataType is not yet set', () => {
-        return Promise.resolve().then(() => {
-            const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
-            expect(defaultValue).toBeDefined();
-            expect(defaultValue.disabled).toBeTruthy();
         });
     });
 });
