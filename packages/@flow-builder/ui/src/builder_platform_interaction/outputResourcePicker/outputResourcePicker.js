@@ -23,6 +23,9 @@ export default class OutputResourcePicker extends LightningElement {
     static RULES = getOutputRules();
 
     @track
+    _customValidity;
+
+    @track
     _value;
 
     @track
@@ -52,8 +55,30 @@ export default class OutputResourcePicker extends LightningElement {
         return this._value;
     }
 
+    /**
+     * Custom error message to display
+     * @param {String} message - The error message
+     */
     @api
-    errorMessage;
+    setCustomValidity(message) {
+        this._customValidity = message;
+        if (this._baseResourcePicker) {
+            this._baseResourcePicker.setCustomValidity(message);
+        }
+    }
+
+    /**
+     * Set the error message through props
+     * @param {String} error the new error message
+     */
+    set errorMessage(error) {
+        this.setCustomValidity(error);
+    }
+
+    @api
+    get errorMessage() {
+        return this._customValidity;
+    }
 
     /**
      * The combobox config for the resource picker
