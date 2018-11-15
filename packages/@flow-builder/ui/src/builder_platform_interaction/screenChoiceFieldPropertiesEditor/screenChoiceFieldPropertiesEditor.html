@@ -35,7 +35,6 @@
             <builder_platform_interaction-screen-property-field
                     name="defaultSelectedChoiceReference"
                     type="list"
-                    disabled={defaultValueDisabled}
                     list-choices={defaultValueChoices}
                     value={field.defaultSelectedChoiceReference}
                     label={labels.fieldDefaultValue}
@@ -60,11 +59,11 @@
                                         <div slot="rowBody">
                                             <builder_platform_interaction-screen-property-field 
                                                 name='choice'
-                                                key={choice.guid}
+                                                key={choice.value}
                                                 list-index={itemIndex}
                                                 label={labels.fieldTypeLabelChoice}
                                                 type={field.dataType}
-                                                value={choice.displayValue}
+                                                value={choice.label}
                                                 allow-resources-for-context
                                                 disabled={choiceDisabled}
                                                 required

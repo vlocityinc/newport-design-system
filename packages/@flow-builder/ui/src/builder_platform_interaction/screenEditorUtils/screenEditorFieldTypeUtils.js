@@ -2,7 +2,6 @@ import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { COMPONENT_INSTANCE, EXTENSION_TYPE_SOURCE, getAllCachedExtensionTypes, listExtensions } from "./screenEditorExtensionUtils";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import { generateGuid } from "builder_platform_interaction/storeLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 const FEROV_TYPES = {
@@ -415,37 +414,18 @@ export function getFieldChoiceData(field) {
                     throw new Error('Unable to find element: ' + choice);
                 }
 
-                // Figure out which property should be used as the label, based on choice type.
-                let label;
-                let defaultValueOption = false;
-                if (choiceElement.elementType === ELEMENT_TYPE.PICKLIST_CHOICE_SET) {
-                    label = choiceElement.picklistField;
-                } else if (choiceElement.elementType === ELEMENT_TYPE.RECORD_CHOICE_SET) {
-                    label = '[' + LABELS.dynamicRecordChoiceLabel + '] ' + choiceElement.displayField;
-                } else if (choiceElement.elementType === ELEMENT_TYPE.CHOICE) {
-                    // This choice can be used as a defaultValue. The other types cannot.
-                    defaultValueOption = true;
-                    label = choiceElement.choiceText;
-                } else {
-                    throw new Error("Unknown choice type: " + choiceElement.elementType);
-                }
-
                 return {
-                    label,
-                    guid:  choiceElement.guid,
                     value: choiceElement.guid,
-                    displayValue: {value: '{!' + choiceElement.name + '}', error: getErrorFromChoice(choice)},
+                    label: {value: '{!' + choiceElement.name + '}', error: getErrorFromChoice(choice)},
                     name: choiceElement.name,
-                    defaultValueOption
+                    defaultValueOption: choiceElement.elementType === ELEMENT_TYPE.CHOICE
                 };
             }
             // When a new choice is being added to a screen field, there will be
             // no data for the choice yet. In that case, display this placeholder data.
             return {
-                label: '',
-                guid:  generateGuid(),
                 value: '',
-                displayValue: {value: null, error: getErrorFromChoice(choice)},
+                label: {value: null, error: getErrorFromChoice(choice)},
                 name: '',
                 defaultValueOption: false
             };

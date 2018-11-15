@@ -100,51 +100,42 @@ describe('getFieldChoiceData function', () => {
         const choiceNameMergeField = '{!choiceName}';
         const expectedData = [{
                 defaultValueOption: false,
-                displayValue: {
+                label: {
                     error: 'error1',
                     value: choiceNameMergeField
                 },
-                guid: choice1Guid,
-                label: 'Industry',
                 name: 'choiceName',
                 value: choice1Guid
             }, {
                 defaultValueOption: false,
-                displayValue: {
+                label: {
                     error: 'error2',
                     value: choiceNameMergeField
                 },
-                guid: choice2Guid,
-                label: '[FlowBuilderNewResource.dynamicRecordChoiceLabel] Choice',
                 name: 'choiceName',
                 value: choice2Guid
             }, {
                 defaultValueOption: true,
-                displayValue: {
+                label: {
                     error: 'error3',
                     value: choiceNameMergeField
-                }, guid: choice3Guid,
-                label: 'Choice',
+                },
                 name: 'choiceName',
                 value: choice3Guid
             }, {
                 defaultValueOption: false,
-                displayValue: {
+                label: {
                     error: 'error4',
                     value: null
                 },
-                guid: 'GUID_1',
-                label: '',
                 name: '',
                 value: ''
             }, {
                 defaultValueOption: false,
-                displayValue: {
+                label: {
                     error: null,
                     value: null
                 },
-                guid: 'GUID_1',
-                label: '',
                 name: '',
                 value: ''
             }

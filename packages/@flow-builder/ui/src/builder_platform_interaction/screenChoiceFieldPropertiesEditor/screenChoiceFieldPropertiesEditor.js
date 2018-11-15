@@ -128,14 +128,6 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         throw new Error("Screen field data type is set, but unable to find corresponding flow data type: " + this.field.dataType);
     }
 
-
-    get defaultValueDisabled() {
-        // If the dataType isn't set yet, user should not be able to set default value.
-        // Or, if the only choice associated with this field is the placeholder choice, then don't let them set default value yet.
-        return this.field.dataType === null || (this.field.choiceReferences.length === 1 &&
-            this.field.choiceReferences[0].choiceReference.value.trim() === '');
-    }
-
     get choiceDisabled() {
         // If the dataType isn't set yet, user should not be able to set any choice values.
         return this.field.dataType === null;
@@ -164,7 +156,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         for (let i = 0; i < choices.length; i++) {
             // Only use this choice if it's a valid as a defaultValue option.
             if (choices[i].defaultValueOption) {
-                defaultChoices.push({label: choices[i].name, value: choices[i].guid});
+                defaultChoices.push({label: choices[i].name, value: choices[i].value});
             }
         }
         return defaultChoices;
