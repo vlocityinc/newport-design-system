@@ -64,6 +64,13 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         // We get the display value from the event, which might be something
         // like {!choice1}, but we want the devName. Get the devName by using the GUID.
         if (event && event.detail) {
+            // If the choice value didn't actually change, don't do anything.
+            if (this.field.choiceReferences[event.detail.listIndex] &&
+                this.field.choiceReferences[event.detail.listIndex].choiceReference &&
+                this.field.choiceReferences[event.detail.listIndex].choiceReference.value === event.detail.guid) {
+                return;
+            }
+
             this.dispatchEvent(createChoiceChangedEvent(this.field, {
                 value: event.detail.guid,
                 error: event.detail.error
