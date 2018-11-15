@@ -54,10 +54,17 @@ export default class ScreenChoiceField extends LightningElement {
 
     get defaultChoice() {
         // The component used to render preview for this type of field expects a list.
+        const defaultValue = getValueFromHydratedItem(this.field.defaultSelectedChoiceReference);
         if (this.isMultiSelectCheckboxField) {
-            return [getValueFromHydratedItem(this.field.defaultSelectedChoiceReference)];
+            if (defaultValue !== '') {
+                return [defaultValue];
+            }
+            // If no default is selected, return an empty list, not the actual default which
+            // is stored as '' because that can match a choice that is in the middle of being
+            // configured and make the preview render incorrectly.
+            return [];
         }
-        return getValueFromHydratedItem(this.field.defaultSelectedChoiceReference);
+        return defaultValue !== '' ? defaultValue : null;
     }
 
     get displayLabel() {

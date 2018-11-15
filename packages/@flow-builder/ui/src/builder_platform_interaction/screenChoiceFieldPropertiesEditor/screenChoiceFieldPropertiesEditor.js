@@ -18,6 +18,10 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     labels = LABELS;
     inputFieldMap = INPUT_FIELD_DATA_TYPE;
+    defaultValueNone = {
+        label: this.labels.select,
+        value: ''
+    };
 
     get expandedSectionNames() {
         return EXPANDED_SECTION_NAMES;
@@ -146,12 +150,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     // Used to figure out which choices are available as possible values for the default value setting.
     // The only options should be those that are associated with this field (not all choices in the flow).
     get defaultValueChoices() {
-        const defaultChoice = {
-            label: this.labels.select,
-            value: ''
-        };
-
-        const defaultChoices = [defaultChoice];
+        const defaultChoices = [this.defaultValueNone];
         const choices = getFieldChoiceData((this.field));
         for (let i = 0; i < choices.length; i++) {
             // Only use this choice if it's a valid as a defaultValue option.
@@ -160,5 +159,13 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             }
         }
         return defaultChoices;
+    }
+
+    get defaultValue() {
+        if (this.field.defaultSelectedChoiceReference && this.field.defaultSelectedChoiceReference.value !== '') {
+            return this.field.defaultSelectedChoiceReference;
+        }
+        // Select the 'nothing selected' option (i.e. no default set).
+        return this.defaultValueNone;
     }
 }
