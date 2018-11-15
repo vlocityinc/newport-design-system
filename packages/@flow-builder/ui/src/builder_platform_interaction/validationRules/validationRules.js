@@ -232,6 +232,9 @@ export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) =
  * @param {*} parentElement - parent element object to get the guid.
  */
 export const checkDevNameUniqueness = (nameToBeTested, parentElement) => {
+    if (!parentElement) {
+        return null; // no-op in case parent Element is not defined. This happens when this rule is called via validate property (Without parentElement this rule can provide false positives)
+    }
     const parentGuid = parentElement && parentElement.guid;
     return isUniqueDevNameInStore(nameToBeTested, [parentGuid]);
 };
