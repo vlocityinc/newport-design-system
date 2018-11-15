@@ -13,7 +13,7 @@ import {
     MODIFY_WAIT_WITH_WAIT_EVENTS,
     MODIFY_SCREEN_WITH_FIELDS
 } from "builder_platform_interaction/actions";
-import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+import { CONNECTOR_TYPE, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 const newElements = {
     guid2: {
@@ -582,6 +582,54 @@ describe('elements-reducer', () => {
 
                 expect(newState[wait.guid].connectorCount).toBe(wait.connectorCount - 1);
             });
+        });
+    });
+
+    describe('delete wait', () => {
+        let wait;
+        let event1, event2;
+        let originalState;
+
+        beforeEach(() => {
+            wait = {
+                elementType: ELEMENT_TYPE.WAIT,
+                guid: 'waitGuid',
+                label: 'test wait element',
+                waitEventReferences: [{waitEventReference: 'waitEventReference1'}, {waitEventReference: 'waitEventReference2'}],
+            };
+
+            event1 = {
+                guid: 'waitEventReference1',
+                label: 'event1 label'
+            };
+
+            event2 = {
+                    guid: 'waitEventReference2',
+                    label: 'event2 label'
+                };
+
+            originalState = {
+                [wait.guid]: wait,
+                [event1.guid]: event1,
+                [event2.guid]: event2
+            };
+        });
+
+        it('deletes the wait from the given state', () => {
+            const newState = elementReducer(originalState, {
+                type: DELETE_ELEMENT,
+                payload: { selectedElementGUIDs: [wait.guid], connectorsToDelete: []},
+            });
+            expect(newState).not.toHaveProperty(wait.guid);
+        });
+
+        it('deletes any wait events in the wait element', () => {
+            const newState = elementReducer(originalState, {
+                type: DELETE_ELEMENT,
+                payload: { selectedElementGUIDs: [wait.guid], connectorsToDelete: []},
+            });
+            expect(newState).not.toHaveProperty(event1.guid);
+            expect(newState).not.toHaveProperty(event2.guid);
         });
     });
 

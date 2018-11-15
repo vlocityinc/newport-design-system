@@ -319,6 +319,10 @@ function _getSubElementGuids(node) {
         for (let i = 0; i < node.fieldReferences.length; i++) {
             subElementsGuids.push(node.fieldReferences[i].fieldReference);
         }
+    } else if (node.elementType === ELEMENT_TYPE.WAIT) {
+        for (let i = 0; i < node.waitEventReferences.length; i++) {
+            subElementsGuids.push(node.waitEventReferences[i].waitEventReference);
+        }
     }
 
     return subElementsGuids;
