@@ -28,4 +28,7 @@ export default class BaseResourcePicker extends LightningElement {
 
     @api
     allowedParamTypes;
+    
+    @api
+    showActivityIndicator;
 }

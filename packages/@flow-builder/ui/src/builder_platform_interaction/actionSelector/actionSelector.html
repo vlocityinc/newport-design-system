@@ -4,7 +4,6 @@
                                 options={state.typeOptions} 
                                 value={state.selectedElementType} 
                                 onchange={handleElementTypeChanged}
-                                spinner-active={state.spinnerActive}
                                 dropdown-alignment="auto"
                                 class="slds-col slds-size_1-of-3 types">
             </lightning-combobox>
@@ -17,7 +16,8 @@
                                                    placeholder={actionComboPlaceholder}
                                                    class="slds-col slds-size_2-of-3"
                                                    disabled={actionComboDisabled}
-                                                   error-message={errorMessage}>
+                                                   error-message={errorMessage}
+                                                   show-activity-indicator={state.spinnerActive}>
              </builder_platform_interaction-combobox>
          </div>
 </template>

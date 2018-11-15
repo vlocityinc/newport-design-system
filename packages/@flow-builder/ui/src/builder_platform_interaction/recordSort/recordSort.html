@@ -18,6 +18,7 @@
                 value={selectedField}
                 fields={fields}
                 oncomboboxstatechanged={handleSelectedFieldChanged}
+                show-activity-indicator={loadingFields}
                 required>
             </builder_platform_interaction-field-picker>
             <div if:false={showFieldSelector} class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText">

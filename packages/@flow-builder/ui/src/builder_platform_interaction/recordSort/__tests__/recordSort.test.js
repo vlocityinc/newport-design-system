@@ -6,6 +6,8 @@ import { ComboboxStateChangedEvent } from "builder_platform_interaction/events";
 import { SORT_ORDER } from "builder_platform_interaction/recordEditorLib";
 import { until } from 'builder_platform_interaction/builderTestUtils';
 
+let mockEntityFieldsPromise = Promise.resolve(mockAccountFields);
+
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual('builder_platform_interaction/serverDataLib');
@@ -13,7 +15,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         SERVER_ACTION_TYPE,
         fetchOnce: () => {
-            return Promise.resolve(mockAccountFields);
+            return mockEntityFieldsPromise;
         }
     };
 });
@@ -49,6 +51,9 @@ const getFilterHelpText = (recordSortResultComponent) => {
 };
 
 describe('recordSort', () => {
+    afterEach(() => {
+        mockEntityFieldsPromise = Promise.resolve(mockAccountFields);
+    });
     describe('default', () => {
         let recordSortResultComponent, sortOrderCmb;
         beforeEach(() => {
@@ -80,7 +85,7 @@ describe('recordSort', () => {
             });
             sortOrderCmb = getSortOrderCombobox(recordSortResultComponent);
         });
-        it('fields combobox should be displayed with correct fields', () => {
+        it('fields combobox should be displayed with correct fields', async () => {
             expect(getSortOrderCombobox(recordSortResultComponent).value).toBe(SORT_ORDER.ASC);
             expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
             expect(Object.keys(getFilterCombobox(recordSortResultComponent).fields)).toHaveLength(mockAccountExpectedFields.length);
@@ -124,6 +129,22 @@ describe('recordSort', () => {
                 sortFieldError,
             });
             expect(getFilterCombobox(recordSortResultComponent).errorMessage).toEqual(sortFieldError);
+        });
+    });
+    describe('when entity fields cannot be loaded', () => {
+        let recordSortResultComponent;
+        beforeEach(() => {
+            mockEntityFieldsPromise = Promise.reject(Error('Cannot get fields'));
+            recordSortResultComponent = createComponentUnderTest({
+                resourceApiName,
+                sortOrder: SORT_ORDER.ASC,
+                selectedField,
+            });
+        });
+        it('fields combobox should be empty', async () => {
+            expect(getSortOrderCombobox(recordSortResultComponent).value).toBe(SORT_ORDER.ASC);
+            expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
+            expect(Object.keys(getFilterCombobox(recordSortResultComponent).fields)).toHaveLength(0);
         });
     });
     describe('sort order changes', () => {

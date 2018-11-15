@@ -24,6 +24,9 @@ export default class FieldPicker extends LightningElement {
     @api
     errorMessage;
 
+    @api
+    showActivityIndicator = false;
+
     /**
      * The inner base resource picker component, used to set the full menu data
      * @type {BaseResourcePicker}

@@ -51,12 +51,25 @@ export default class Combobox extends LightningElement {
     state = {
         displayText: '',
         showActivityIndicator: false,
+        forceShowActivityIndicator : false,
         inputIcon: 'utility:search',
         menuData: [],
     };
 
     @api
     fieldLevelHelp;
+
+    /**
+     * Force the activity indicator
+     */
+    set showActivityIndicator(value) {
+        this.state.forceShowActivityIndicator = value;
+    }
+
+    @api
+    get showActivityIndicator() {
+        return this.state.forceShowActivityIndicator || this.state.showActivityIndicator;
+    }
 
     /**
      * Label for combobox.

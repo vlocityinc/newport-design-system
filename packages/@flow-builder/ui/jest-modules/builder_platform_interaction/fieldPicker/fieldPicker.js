@@ -14,4 +14,6 @@ export default class FieldPicker extends LightningElement {
 @api required;
 
 @api disabled;
+
+@api showActivityIndicator;
 }

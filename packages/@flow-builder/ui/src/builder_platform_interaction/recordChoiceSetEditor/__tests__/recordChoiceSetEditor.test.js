@@ -179,9 +179,10 @@ describe('record-choice-set-editor', () => {
             });
         });
 
-        it('Changing value in entity-resource-picker should call getFieldsForEntity', () => {
+        it('Changing value in entity-resource-picker should call getFieldsForEntity', async () => {
+            getFieldsForEntity.mockClear();
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(getFieldsForEntity).toHaveBeenCalledTimes(3);
+            expect(getFieldsForEntity).toHaveBeenCalledTimes(1);
         });
 
         it('Changing value in entity-resource-picker should add an empty output assignment', () => {

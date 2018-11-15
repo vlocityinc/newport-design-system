@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from "./recordSortLabels";
-import { getFieldsForEntity } from "builder_platform_interaction/sobjectLib";
+import { fetchFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { SORT_ORDER } from "builder_platform_interaction/recordEditorLib";
 import { format } from "builder_platform_interaction/commonUtils";
 
@@ -23,7 +23,10 @@ export default class RecordSort extends LightningElement {
     _resourceApiName;
 
     @track
-    fields;
+    fields = {};
+
+    @track
+    loadingFields = false;
 
     @api
     resourceDisplayText = '';
@@ -75,16 +78,23 @@ export default class RecordSort extends LightningElement {
     }
 
     getFields(resourceApiName) {
-        getFieldsForEntity(resourceApiName, (fields) => {
-            this.fields = Object.values(fields)
-            .filter((field) => {
-                return field.sortable;
-            })
+        this.loadingFields = true;
+        this.fields = {};
+        fetchFieldsForEntity(resourceApiName).then((fields) => {
+            this.loadingFields = false;
+            this.fields = this.getSortableFields(fields);
+        }).catch(() => {
+            this.loadingFields = false;
+        });
+    }
+
+    getSortableFields(fields) {
+        return Object.values(fields)
+            .filter((field) => field.sortable)
             .reduce((options, field) => {
                 options[field.apiName] = field;
                 return options;
             }, {});
-        });
     }
 
     handleSortOrderChanged(event) {

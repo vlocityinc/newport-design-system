@@ -55,6 +55,9 @@ export default class BaseResourcePicker extends LightningElement {
     @api
     comboboxConfig = {};
 
+    @api
+    showActivityIndicator = false;
+
     /**
      * Custom error message to display
      * @param {string} message - The error message
