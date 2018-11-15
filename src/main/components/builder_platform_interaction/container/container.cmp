@@ -38,6 +38,7 @@
     <aura:dependency resource="markup://builder_platform_interaction:recordCreateEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:recordLookupEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:recordUpdateEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:recordDeleteEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:variableConstantEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:resourceEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:formulaEditor" type="MODULE" />    
