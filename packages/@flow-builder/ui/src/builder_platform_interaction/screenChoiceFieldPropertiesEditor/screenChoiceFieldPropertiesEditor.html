@@ -23,6 +23,7 @@
             <!--  Data type: This is read-only for existing fields -->
             <div class="slds-p-top_xx-small">
                 <builder_platform_interaction-data-type-picker
+                    class-name='slds-size_2-of-2'
                     available-data-types={dataTypeList}
                     type-and-collection-disabled={isDataTypeDisabled}
                     required={isDataTypeRequired}
@@ -38,6 +39,7 @@
                     list-choices={defaultValueChoices}
                     value={defaultValue}
                     label={labels.fieldDefaultValue}
+                    hide-top-padding
                     onpropertychanged={handleDefaultValuePropertyChanged}>
             </builder_platform_interaction-screen-property-field>
 
