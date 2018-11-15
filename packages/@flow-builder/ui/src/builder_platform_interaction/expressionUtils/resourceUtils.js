@@ -97,7 +97,7 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
     if (isObject(itemOrDisplayText) && !error) {
         const resourceDataType = getFerovDataTypeForValidId(itemOrDisplayText.value);
         if (resourceDataType) {
-            value = itemOrDisplayText.displayText;
+            value = itemOrDisplayText.value;
             dataType = resourceDataType;
         } else {
             error = genericErrorMessage;

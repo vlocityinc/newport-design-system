@@ -218,8 +218,14 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     rhsValue;
 
+    set rhsError(error) {
+        this._rhsError = error;
+    }
+
     @api
-    rhsError;
+    get rhsError() {
+        return this._rhsError;
+    }
 
     @api
     blockRhsValidation = false;
@@ -699,37 +705,29 @@ export default class BaseExpressionBuilder extends LightningElement {
         event.stopPropagation();
         const rhsItem = event.detail.item;
         let error = event.detail.error || CLEAR_ERROR;
-        let rhs, rhsdt;
+        let rhs = event.detail.displayText;
+        let rhsdt = rhs ? this._rhsDataType : CLEAR_VALUE;
 
         // if rhsItem in the event payload is an object then we know the user selected an item from the menu data
         if (isObject(rhsItem) && !error) {
-            // if the rhs is a fer, we can store it as a single value without needing to preserve datatype or guid separately
+            // an item's unique id is stored in value
+            rhs = rhsItem.value;
+            // this data type covers the error case, or if the item represents a picklist value
+            rhsdt = FEROV_DATA_TYPE.STRING;
             if (getResourceByUniqueIdentifier(rhsItem.value) || rhsItem.parent) {
-                // rhs is a FEROV and the item references an element so we update the rhs with that element reference
-                if (this.rhsIsFer) {
-                    rhs = rhsItem.value;
-                } else {
-                    rhs = rhsItem.displayText;
-                    rhsdt = getFerovDataTypeForValidId(rhsItem.value);
-                }
-            } else if (this.lhsActivePicklistValues && this.lhsActivePicklistValues.find((picklistItem) => picklistItem.value === rhsItem.value)) {
-                // the item references a picklist value
-                rhs = rhsItem.value;
-                rhsdt = FEROV_DATA_TYPE.STRING;
-            } else {
+                // if it's a store element it's FEROV dataType is 'REFERENCE', or it may be a faked element e.g. global constant false
+                rhsdt = getFerovDataTypeForValidId(rhsItem.value);
+            } else if (!this.lhsActivePicklistValues || !this.lhsActivePicklistValues.find((picklistItem) => picklistItem.value === rhsItem.value)) {
+                // if it isn't uniquely identifiable, and it's not a faked item for a picklist value, something else is wrong
                 rhs = event.detail.displayText;
-                rhsdt = FEROV_DATA_TYPE.STRING;
                 error = genericErrorMessage;
             }
-        } else {
-            // rhs isn't an item, so it's a literal or blank
-            rhs = event.detail.displayText;
-            rhsdt = rhs ? this._rhsDataType : CLEAR_VALUE;
         }
 
         const expressionUpdates = {
             [RHS]: {value: rhs, error},
         };
+        // if the rhs is a fer, we can store it as a single value without needing to preserve datatype or guid separately
         if (!this.rhsIsFer) {
             expressionUpdates[RHSDT] = {value: rhsdt, error: CLEAR_ERROR};
         }

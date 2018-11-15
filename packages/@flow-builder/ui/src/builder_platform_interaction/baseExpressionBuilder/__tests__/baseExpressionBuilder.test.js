@@ -236,7 +236,7 @@ describe('base expression builder', () => {
 
             return Promise.resolve().then(() => {
                 const expressionUpdates = {};
-                expressionUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = {value: addCurlyBraces(numberVariableDevName), error: null};
+                expressionUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = {value: numberVariableGuid, error: null};
                 expressionUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE] = {value: FEROV_DATA_TYPE.REFERENCE, error: null};
                 const rhsCombobox = getComboboxElements(expressionBuilder)[1];
 
@@ -508,7 +508,7 @@ describe('base expression builder', () => {
             return Promise.resolve().then(() => {
                 const newExpression = eventCallback.mock.calls[0][0].detail.newValue;
                 expect(eventCallback).toHaveBeenCalled();
-                expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.displayText);
+                expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.value);
                 expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE].value).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
         });
@@ -543,7 +543,7 @@ describe('base expression builder', () => {
             return Promise.resolve().then(() => {
                 const newExpression = eventCallback.mock.calls[0][0].detail.newValue;
                 expect(eventCallback).toHaveBeenCalled();
-                expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.displayText);
+                expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.value);
                 expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE].value).toEqual(FEROV_DATA_TYPE.REFERENCE);
             });
         });
