@@ -40,7 +40,7 @@ export class Validation {
             (devNameToGuidItem.guid !== guidToBeValidated) &&
             devNameToBeValidated !== "" &&
             (devNameToGuidItem.name.toLowerCase() === (devNameToBeValidated && devNameToBeValidated.toLowerCase())));
-        return matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
+        return matches && matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
     };
     /**
      * @param {object} existingRules - default/common rules for the fields specified

@@ -55,7 +55,6 @@ export function getScaleAndDeltaValues(action, currentScale, { viewportWidth, vi
 
     const scaleAndDeltaConfig = {};
 
-    // TODO: Move to separate helper methods. (W-4916024)
     if (action === ZOOM_ACTION.ZOOM_OUT && currentScale !== undefined) {
         scaleAndDeltaConfig.newScale = Math.max(SCALE_BOUNDS.MIN_SCALE, currentScale - SCALE_BOUNDS.SCALE_CHANGE);
         scaleAndDeltaConfig.deltaX = 0;

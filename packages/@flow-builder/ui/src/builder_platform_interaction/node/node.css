@@ -44,7 +44,7 @@
     transform: rotate(45deg);
 }
 
-/*TODO: Move decision icon svg and slds-icon_large styling from container.css to here (W-5278403)*/
+/*TODO: Need to reduce the size of the decision icon to 2.75rem (W-5584839)*/
 
 .icon {
     transition: transform 0.12s ease, box-shadow .1s ease-in;

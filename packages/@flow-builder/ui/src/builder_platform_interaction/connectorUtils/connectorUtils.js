@@ -39,7 +39,6 @@ export const getFlowBounds = (canvasElements) => {
     });
 
     // Spacing to add for icon width and height to get the correct flow width and height
-    // TODO: Update it based on UX feedback
     const CANVAS_ELEMENT_WIDTH_SPACING = 48;
     const CANVAS_ELEMENT_HEIGHT_SPACING = 96;
 

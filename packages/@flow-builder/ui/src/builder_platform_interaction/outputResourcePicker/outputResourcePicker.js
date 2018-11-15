@@ -200,7 +200,6 @@ export default class OutputResourcePicker extends LightningElement {
         if (flowElement) {
             const fieldName = sanitizeGuid(identifier).fieldName;
             if (fieldName) {
-                // TODO: W-4960448: the field will appear empty briefly when fetching the first time
                 const sobject = flowElement.objectType;
                 return new Promise(resolve => {
                     sobjectLib.getFieldsForEntity(sobject, (fields) => {

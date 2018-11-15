@@ -7,7 +7,6 @@ import { createFlowProperties } from "builder_platform_interaction/elementFactor
  * @return {Object} new state after reduction
  */
 
-// TODO: Replace this with user selected process type in 218. Hard coded to AutoLaunchedFlow for 216
 const flowProperties = createFlowProperties();
 
 export default function flowPropertiesReducer(state = flowProperties, action) {

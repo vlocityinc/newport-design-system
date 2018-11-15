@@ -4,7 +4,6 @@ import directRecordTimeLabel from '@salesforce/label/FlowBuilderWaitEditor.direc
 import resumeTimeHeader from '@salesforce/label/FlowBuilderWaitEditor.resumeTimeHeader';
 import eventDeliveryStatusLabel from '@salesforce/label/FlowBuilderWaitEditor.eventDeliveryStatusLabel';
 import baseTimeLabel from  '@salesforce/label/FlowBuilderWaitEditor.baseTimeLabel';
-import baseTimeHelpText from '@salesforce/label/FlowBuilderWaitEditor.baseTimeHelpText';
 import offsetNumberLabel from '@salesforce/label/FlowBuilderWaitEditor.offsetNumberLabel';
 import baseTimeoffsetNumberHelpText from '@salesforce/label/FlowBuilderWaitEditor.baseTimeoffsetNumberHelpText';
 import fieldOffsetNumberHelpText from '@salesforce/label/FlowBuilderWaitEditor.fieldOffsetNumberHelpText';
@@ -28,7 +27,6 @@ export const LABELS = {
     resumeTimeHeader,
     eventDeliveryStatusLabel,
     baseTimeLabel,
-    baseTimeHelpText,
     offsetNumberLabel,
     baseTimeoffsetNumberHelpText,
     fieldOffsetNumberHelpText,

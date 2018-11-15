@@ -49,8 +49,6 @@ export default class WaitEvent extends LightningElement {
 
         const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(propertyName, value, error, guid, oldValue);
         this.dispatchEvent(waitEventPropertyChangedEvent);
-
-        // TODO: W-5454625 handle label description changes
     }
 
     handleParameterChanged(event) {

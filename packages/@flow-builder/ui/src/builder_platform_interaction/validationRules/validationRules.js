@@ -219,11 +219,11 @@ export const validateExpressionWith3Properties = () => {
 export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
-    const matches = Object.values(elements).filter(element =>
+    const matches = elements && Object.values(elements).filter(element =>
         !listOfGuidsToSkip.includes(element.guid)
         && nameToBeTested !== '' // no need to run the validation in case of empty string
         && (element.name && element.name.toLowerCase()) === (nameToBeTested && nameToBeTested.toLowerCase()));
-    return matches.length > 0 ? LABELS.fieldNotUnique : null;
+    return matches && matches.length > 0 ? LABELS.fieldNotUnique : null;
 };
 
 /**

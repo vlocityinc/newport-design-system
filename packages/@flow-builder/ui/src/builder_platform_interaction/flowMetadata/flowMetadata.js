@@ -154,7 +154,7 @@ export const WAIT_TIME_EVENT_OFFSET_UNIT = {
 /**
  * All the input and output parameter names for various event types.
  * Note: We might need additional parameters for standard event.
- * TODO: W-5502328 once we fetch the event parameters from service we might not need it.
+ * TODO: W-5531948 once we fetch the event parameters from service we might not need it.
  */
 export const WAIT_TIME_EVENT_PARAMETER_NAMES = {
     ABSOLUTE_BASE_TIME: 'AlarmTime',
@@ -170,7 +170,7 @@ export const WAIT_TIME_EVENT_PARAMETER_NAMES = {
 /**
  * Map of input and output parameter names for an event type.
  * Note: We might need additional info for standard event type.
- * TODO: W-5502328 once we fetch the event parameters from service we might not need it.
+ * TODO: W-5531948 once we fetch the event parameters from service we might not need it.
  */
 export const WAIT_TIME_EVENT_FIELDS = {
     [WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME]: {

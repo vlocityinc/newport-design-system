@@ -163,7 +163,7 @@ export default class WaitTimeEvent extends LightningElement {
         { 'label': this.labels.directRecordTimeLabel, 'value': WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME },
     ];
 
-    // TODO: W-5502328 we might be able to remove this once the translation work for outputParameters is done
+    // TODO: W-5531948 we might be able to remove this once the translation work for outputParameters is done
     outputResumeTimeDefinition = {
         name: WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME,
         rowIndex: 0,
@@ -174,7 +174,7 @@ export default class WaitTimeEvent extends LightningElement {
         iconName: 'utility:date_input',
     };
 
-    // TODO: W-5502328 we might be able to remove this once the translation work for outputParameters is done
+    // TODO: W-5531948 we might be able to remove this once the translation work for outputParameters is done
     outputEventDeliveryStatusDefinition = {
         name: WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS,
         rowIndex: 1,
