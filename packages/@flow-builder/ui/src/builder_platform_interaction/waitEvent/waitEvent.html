@@ -19,7 +19,11 @@
     </builder_platform_interaction-label-description>
 
     <lightning-tabset>
-        <lightning-tab value="wait-conditions" label={upperCaseWaitConditionsTabText} class="slds-p-around_none">
+        <lightning-tab
+            value="wait-conditions"
+            label={upperCaseWaitConditionsTabText}
+            class="slds-p-around_none"
+            show-error-indicator={showErrorIndicatorWaitConditions}>
             <builder_platform_interaction-condition-list
                 parent-guid={waitEvent.guid}
                 conditions={waitEvent.conditions}
@@ -51,7 +55,11 @@
                 </div>
             </builder_platform_interaction-condition-list>
         </lightning-tab>
-        <lightning-tab value="resume-conditions" label={upperCaseResumeConditionsTabText} class="slds-p-around_none">
+        <lightning-tab
+            value="resume-conditions"
+            label={upperCaseResumeConditionsTabText}
+            class="slds-p-around_none"
+            show-error-indicator={showErrorIndicatorResumeConditions}>
             <builder_platform_interaction-wait-resume-conditions
                 wait-event-guid={waitEvent.guid}
                 resume-time-parameters={waitEvent.inputParameters}

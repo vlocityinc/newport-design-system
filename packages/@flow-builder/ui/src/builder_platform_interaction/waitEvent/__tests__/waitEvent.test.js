@@ -24,9 +24,8 @@ const waitEventWithOneConditional = {
     name: {value: 'Test Dev Name'},
     guid: {value: '123'},
     conditionLogic: {value: '1'},
-    conditions: [
-        {name: 'condition1', rowIndex: 0}
-    ],
+    conditions: [{name: 'condition1', rowIndex: 0}],
+    eventType: { value: 'mockEventType' },
     inputParameters: [],
     outputParameters: {},
 };
@@ -36,7 +35,7 @@ const waitEventWithInputParameters = {
     name: {value: 'Test Dev Name'},
     guid: {value: '123'},
     conditionLogic: {value: '1'},
-    eventType: 'mockEventType',
+    eventType: { value: 'mockEventType' },
     inputParameters: [
         {name: {value: 'foo', error: null}, value: {value: 'bar', error: null}, valueDataType: {value: 'vdt', error: null}}
     ],
@@ -52,6 +51,7 @@ const selectors = {
     customLogicInput: '.customLogic',
     removeButton: 'lightning-button.removeWaitEvent',
     waitResumeConditions: 'builder_platform_interaction-wait-resume-conditions',
+    tab: 'lightning-tab',
 };
 
 const createComponentUnderTest = (waitEvent) => {
@@ -194,6 +194,45 @@ describe('Wait Event', () => {
                 expect(waitEventUpdateSpy.mock.calls[0][0].detail.propertyName).toEqual(propNameToUpdate);
             });
         });
+
+        it('shows the error indicator in the wait conditions subtab when errors in conditions exist', () => {
+            const conditionWithErorr = {
+                name: 'condition1',
+                rowIndex: 0,
+                leftHandSide: { value: '{!foo}', error: 'someError' },
+            };
+            const waitEventWithErrorConditional = Object.assign({}, waitEventWithOneConditional, { conditions: [conditionWithErorr] });
+            waitEvent = createComponentUnderTest(waitEventWithErrorConditional);
+            const tabs = getShadowRoot(waitEvent).querySelectorAll(selectors.tab);
+            return Promise.resolve().then(() => {
+                expect(tabs[0].showErrorIndicator).toEqual(true);
+            });
+        });
+
+        it('shows the error indicator in the wait conditions subtab when errors in conditionLogic exist', () => {
+            const conditionLogicWithError = { value: '1', error: 'some error' };
+            const waitEventWithErrorConditionLogic = Object.assign({}, waitEventWithOneConditional, { conditionLogic: conditionLogicWithError });
+            waitEvent = createComponentUnderTest(waitEventWithErrorConditionLogic);
+            const tabs = getShadowRoot(waitEvent).querySelectorAll(selectors.tab);
+            return Promise.resolve().then(() => {
+                expect(tabs[0].showErrorIndicator).toEqual(true);
+            });
+        });
+
+        it('does not show the error indicator in the wait conditions subtab when there is no error', () => {
+            const conditionWithNoErorr = {
+                name: 'condition1',
+                rowIndex: 0,
+                leftHandSide: { value: '{!foo}', error: null },
+            };
+            const conditionLogicWithNoError = { value: '1', error: null };
+            const waitEventWithErrorConditional = Object.assign({}, waitEventWithOneConditional, { conditions: [conditionWithNoErorr], conditionLogic: conditionLogicWithNoError });
+            waitEvent = createComponentUnderTest(waitEventWithErrorConditional);
+            const tabs = getShadowRoot(waitEvent).querySelectorAll(selectors.tab);
+            return Promise.resolve().then(() => {
+                expect(tabs[0].showErrorIndicator).toEqual(false);
+            });
+        });
     });
 
     describe('resume conditions', () => {
@@ -260,6 +299,64 @@ describe('Wait Event', () => {
                 expect(waitEventParameterSpy.mock.calls[0][0].detail.value).toEqual(newValue);
                 expect(waitEventParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(newValueDataType);
                 expect(waitEventParameterSpy.mock.calls[0][0].detail.error).toEqual(error);
+            });
+        });
+
+        it('shows the error indicator in the resume conditions subtab when errors exist in inputParamters', () => {
+            const inputParameterWithError = {
+                name: {value: 'foo', error: null},
+                value: {value: 'bar', error: 'some error'},
+                valueDataType: {value: 'vdt', error: null}
+            };
+            const waitEventWithErrorInputParameters = Object.assign({}, waitEventWithInputParameters, { inputParameters: [inputParameterWithError] });
+            waitEvent = createComponentUnderTest(waitEventWithErrorInputParameters);
+            const tabs = getShadowRoot(waitEvent).querySelectorAll(selectors.tab);
+            return Promise.resolve().then(() => {
+                expect(tabs[1].showErrorIndicator).toEqual(true);
+            });
+        });
+
+        it('shows the error indicator in the resume conditions subtab when errors exist in outputParameters', () => {
+            const outputParameterWithError = {
+                name: {value: 'foo', error: null},
+                value: {value: 'bar', error: 'some error'},
+                valueDataType: {value: 'vdt', error: null}
+            };
+            const waitEventWithErrorOutputParameters = Object.assign({}, waitEventWithInputParameters, { inputParameters: [outputParameterWithError] });
+            waitEvent = createComponentUnderTest(waitEventWithErrorOutputParameters);
+            const tabs = getShadowRoot(waitEvent).querySelectorAll(selectors.tab);
+            return Promise.resolve().then(() => {
+                expect(tabs[1].showErrorIndicator).toEqual(true);
+            });
+        });
+
+        it('shows the error indicator in the resume conditions subtab when errors exist in eventType', () => {
+            const eventTypeWithError = { value: 'someEventType', error: 'some error' };
+            const waitEventWithErrorOutputParameters = Object.assign({}, waitEventWithInputParameters, { eventType: eventTypeWithError });
+            waitEvent = createComponentUnderTest(waitEventWithErrorOutputParameters);
+            const tabs = getShadowRoot(waitEvent).querySelectorAll(selectors.tab);
+            return Promise.resolve().then(() => {
+                expect(tabs[1].showErrorIndicator).toEqual(true);
+            });
+        });
+
+        it('does not show the error indicator in the resume conditions subtab when there is no error', () => {
+            const inputParameterWithNoError = {
+                name: {value: 'foo', error: null},
+                value: {value: 'bar', error: null},
+                valueDataType: {value: 'vdt', error: null}
+            };
+            const outputParameterWithNoError = {
+                name: {value: 'foo', error: null},
+                value: {value: 'bar', error: null},
+                valueDataType: {value: 'vdt', error: null}
+            };
+            const eventTypeWithNoError = { value: 'someEventType', error: null };
+            const waitEventWithErrorConditional = Object.assign({}, waitEventWithOneConditional, { inputParameters: [inputParameterWithNoError], outputParameters: [outputParameterWithNoError], eventType: eventTypeWithNoError });
+            waitEvent = createComponentUnderTest(waitEventWithErrorConditional);
+            const tabs = getShadowRoot(waitEvent).querySelectorAll(selectors.tab);
+            return Promise.resolve().then(() => {
+                expect(tabs[1].showErrorIndicator).toEqual(false);
             });
         });
     });

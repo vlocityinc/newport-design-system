@@ -5,4 +5,5 @@ export default class LightingTab extends LightningElement {
     @api label = jest.fn();
 
     @api value = jest.fn();
+    @api showErrorIndicator;
 }

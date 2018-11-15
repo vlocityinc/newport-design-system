@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { LABELS } from "./waitEventLabels";
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import {
     DeleteWaitEventEvent,
@@ -96,5 +97,28 @@ export default class WaitEvent extends LightningElement {
      */
     get showDeleteCondition() {
         return this.element.conditions && showDeleteCondition(this.element.conditions);
+    }
+
+    get showErrorIndicatorWaitConditions() {
+        if (!this.element.conditions && !this.element.conditionLogic) {
+            return false;
+        }
+        const conditions = this.element.conditions || [];
+        const conditionLogic = this.element.conditionLogic ? { conditionLogic: this.element.conditionLogic } : {};
+
+        return getErrorsFromHydratedElement(conditions).length > 0 || getErrorsFromHydratedElement(conditionLogic).length > 0;
+    }
+
+    get showErrorIndicatorResumeConditions() {
+        if (!this.element.inputParameters && !this.element.outputParameters && !this.element.eventType) {
+            return false;
+        }
+        const inputParams = this.element.inputParameters || [];
+        const outputParams = this.element.outputParameters || {};
+        const eventType = this.element.eventType ? { eventType: this.element.eventType } : {};
+
+        return getErrorsFromHydratedElement(inputParams).length > 0
+        || getErrorsFromHydratedElement(outputParams).length > 0
+        || getErrorsFromHydratedElement(eventType).length > 0;
     }
 }
