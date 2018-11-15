@@ -42,8 +42,7 @@
         <div if:true={isAdvancedShown} class="advanced">
             <builder_platform_interaction-resourced-textarea
                 label={labels.instanceLabel}
-                value={flowProperties.interviewLabel.value}
-                quick-validation
+                value={flowProperties.interviewLabel}
                 onblur={handleInstanceLabelChanged}
                 onchange={handleInstanceLabelChanged}>
             </builder_platform_interaction-resourced-textarea>
@@ -51,7 +50,6 @@
             <div class="slds-m-top_small">{labels.lastModified}</div>
             <div class="lastModified">{lastModifiedText}</div>
 
-            <div if:true={savingExistingFlow} class="slds-m-top_small">{labels.currentFlowVersionDetails}</div>
             <div class="slds-grid">
                 <div class="slds-size_1-of-3">
                     {labels.status}:

@@ -29,7 +29,7 @@ export function createFlowPropertiesForEditor(flowProperties = {}) {
 export function createFlowProperties(flowProperties = {}) {
     const name = flowProperties.fullName || flowProperties.name || '';
     const { versionNumber = null, lastModifiedDate = null,  manageableState = null } = flowProperties;
-    const lastModifiedBy = flowProperties.lastModifiedBy ? flowProperties.lastModifiedBy.name : undefined;
+    const lastModifiedBy = getLastModifiedBy(flowProperties.lastModifiedBy);
 
     const {
         label = '',
@@ -104,6 +104,22 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
             status,
             processMetadataValues
     };
+}
+
+/**
+ * Retrieve the name of the user who last modified the flow
+ * @param {Object} flowProperties
+ * @returns {Object|String} Either an Object with a name property or a string representing the user name or
+ * null if no lastModifiedBy
+ */
+function getLastModifiedBy(lastModifiedBy) {
+    // lastModifiedBy will be an object with property name if coming from flow metadata and a string inside of
+    // flow builder (when loading the flow data in to the flow properties editor, for example)
+    if (lastModifiedBy) {
+        return lastModifiedBy.name || lastModifiedBy;
+    }
+
+    return null;
 }
 
 /**

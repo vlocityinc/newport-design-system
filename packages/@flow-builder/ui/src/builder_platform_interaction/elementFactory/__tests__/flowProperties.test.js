@@ -68,6 +68,7 @@ describe('Flow properties', () => {
                 description: '',
                 versionNumber: null,
                 lastModifiedDate: null,
+                lastModifiedBy: null,
                 interviewLabel: '',
                 elementType: 'FLOW_PROPERTIES',
                 isLightningFlowBuilder: true,
@@ -110,6 +111,25 @@ describe('Flow properties', () => {
             it('returns a new flow properties object', () => {
                 const actualResult = createFlowProperties(flowPropertiesSavedInFlowBuilder);
                 expect(actualResult).not.toBe(flowPropertiesSavedInFlowBuilder);
+            });
+        });
+
+        describe('lastModifiedBy', () => {
+            it('for flow properties editor is the value of lastModifiedBy', () => {
+                const someUserName = 'foo';
+
+                const flowMetadataInFlowBuilder = Object.assign(flowMetadataSavedInFlowBuilder, {lastModifiedBy: someUserName});
+                const actualResult = createFlowProperties(flowMetadataInFlowBuilder);
+
+                expect(actualResult.lastModifiedBy).toEqual(someUserName);
+            });
+            it('from flow metadata is the value of lastModifiedBy.name', () => {
+                const someUserName = 'foo';
+
+                const flowMetadata = Object.assign(flowMetadataSavedInFlowBuilder, {lastModifiedBy: { name: someUserName}});
+                const actualResult = createFlowProperties(flowMetadata);
+
+                expect(actualResult.lastModifiedBy).toEqual(someUserName);
             });
         });
     });

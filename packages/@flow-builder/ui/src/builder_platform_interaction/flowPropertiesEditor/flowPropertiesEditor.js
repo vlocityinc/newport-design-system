@@ -131,7 +131,7 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     /**
      * Returns the localized string representing the last saved info
-     * Ex: Jane Smith last saved this version on
+     * E.g. something like: '1/1/2018 by Jane Smith'
      * @return {string}
      */
     get lastModifiedText() {
@@ -161,6 +161,7 @@ export default class FlowPropertiesEditor extends LightningElement {
                 newValue,
                 error,
                 doValidateProperty);
+        propChangedEvent.detail.doValidateProperty = doValidateProperty;
         this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, propChangedEvent);
     }
 
@@ -215,7 +216,7 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     handleInstanceLabelChanged(event) {
         event.stopPropagation();
-        this.updateProperty('interviewLabel', event.detail);
+        this.updateProperty('interviewLabel', event.detail.value, event.detail.error);
     }
 
     renderedCallback() {
