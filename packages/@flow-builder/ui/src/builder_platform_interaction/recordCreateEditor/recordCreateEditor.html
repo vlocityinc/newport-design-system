@@ -41,7 +41,7 @@
             <span if:true={isCollection}>{labels.helpSObjectCollectionText}</span>
             <span if:false={isCollection}>{labels.helpSObjectText}</span>
           </div>
-          <lightning-helptext class="slds-m-left_xx-small" content={labels.helpSObjectAltText}></lightning-helptext>
+          <lightning-helptext class="slds-m-left_xx-small" content={sObjectAltText}></lightning-helptext>
         </div>
     </div>
     <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">

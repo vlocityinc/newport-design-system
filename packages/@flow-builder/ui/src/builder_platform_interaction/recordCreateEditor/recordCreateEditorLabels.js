@@ -16,6 +16,7 @@ import createAssignmentTitleFormat from '@salesforce/label/FlowBuilderRecordEdit
 import storeIdInVariableFormat from '@salesforce/label/FlowBuilderRecordEditor.storeIdInVariableFormat';
 import variable from '@salesforce/label/FlowBuilderRecordEditor.variable';
 import variablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.variablePlaceholder';
+import helpSObjectCollAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectCollAltText';
 
 export const LABELS = {
     sObjectVariablePlaceholder,
@@ -34,5 +35,6 @@ export const LABELS = {
     createAssignmentTitleFormat,
     storeIdInVariableFormat,
     variable,
-    variablePlaceholder
+    variablePlaceholder,
+    helpSObjectCollAltText
 };

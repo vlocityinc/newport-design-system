@@ -193,6 +193,9 @@ export default class RecordCreateEditor extends LightningElement {
         return this.state.recordCreateElement.assignRecordIdToReference.error;
     }
 
+    get sObjectAltText() {
+        return this.isCollection ? this.labels.helpSObjectCollAltText : this.labels.helpSObjectAltText;
+    }
 
     handleRecordStoreOptionChangedEvent(event) {
         event.stopPropagation();
