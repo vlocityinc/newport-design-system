@@ -22,7 +22,6 @@ export function createScreenField(screenField = {}) {
         extensionName,
         fieldType,
         isNewField = false, // Client side only for purposes of editing new field only attributes.
-        isRequired = false,
         dataType,
         helpText = '',
         defaultValue,
@@ -34,6 +33,7 @@ export function createScreenField(screenField = {}) {
         scale,
         validationRule,
         inputParameters,
+        isRequired = false,
         isVisible,
         outputParameters,
         choiceReferences = []
@@ -41,7 +41,7 @@ export function createScreenField(screenField = {}) {
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
         type = getScreenFieldTypeByName(screenField.extensionName) || getLocalExtensionFieldType(screenField.extensionName);
-
+        isRequired = true;
         inputParameters = screenField.inputParameters.map(inputParameter => createInputParameter(inputParameter));
         outputParameters = screenField.outputParameters.map(outputParameter => createOutputParameter(outputParameter));
     } else {
