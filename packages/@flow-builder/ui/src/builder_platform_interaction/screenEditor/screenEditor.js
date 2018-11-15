@@ -93,6 +93,7 @@ export default class ScreenEditor extends LightningElement {
         getExtensionFieldTypes().then(data => {
             const rawScreen = unwrap(this.screen);
             this.extensionTypes = data;
+            // Force rerender of the canvas.
             this.screen = null;
             Promise.resolve().then(() => {
                 this.screen = processScreenExtensionTypes(rawScreen);

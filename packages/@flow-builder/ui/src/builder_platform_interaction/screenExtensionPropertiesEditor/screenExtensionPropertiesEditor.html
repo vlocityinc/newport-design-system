@@ -10,7 +10,7 @@
                 </builder_platform_interaction-screen-property-field>
 
                 <template for:each={inputParameters} for:item='param' for:index='index'>
-                    <builder_platform_interaction-screen-extension-attribute-editor key={param.descriptor.apiName} index={index} descriptor={param.descriptor} attribute={param.attribute} attribute-type='input'>
+                    <builder_platform_interaction-screen-extension-attribute-editor key={param.descriptor.apiName} index='-1' descriptor={param.descriptor} attribute={param.attribute} attribute-type='input'>
                     </builder_platform_interaction-screen-extension-attribute-editor>
                 </template>
             </section>
