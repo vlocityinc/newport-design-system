@@ -66,6 +66,14 @@ describe('entity-resource-picker', () => {
         });
     });
 
+    it('sets the value to the existing display text on initial load when it cannot be found in menu data', () => {
+        props.value = 'some object user does not have acess to';
+        const entityResourcePicker = setupComponentUnderTest(props);
+        return Promise.resolve().then(() => {
+            expect(entityResourcePicker.value).toEqual(props.value);
+        });
+    });
+
     it('sets the combobox config object of the base resource picker', () => {
         props.comboboxConfig = {
             label: 'test label'

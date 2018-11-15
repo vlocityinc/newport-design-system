@@ -136,7 +136,7 @@ export default class EntityResourcePicker extends LightningElement {
             // this may go away if combobox eventually does this work
             if (!isObject(this.value)) {
                 const foundValue = this._fullEntityMenuData.find((item => item.value === this.state.itemOrDisplayText));
-                this.state.itemOrDisplayText = foundValue;
+                this.state.itemOrDisplayText = foundValue || this.state.itemOrDisplayText;
             }
         }
     }
