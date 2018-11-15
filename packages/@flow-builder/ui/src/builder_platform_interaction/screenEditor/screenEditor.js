@@ -91,8 +91,12 @@ export default class ScreenEditor extends LightningElement {
         // Get all screen field types
         this.screenFieldTypes = getAllScreenFieldTypes();
         getExtensionFieldTypes().then(data => {
+            const rawScreen = unwrap(this.screen);
             this.extensionTypes = data;
-            this.screen = processScreenExtensionTypes(unwrap(this.screen));
+            this.screen = null;
+            Promise.resolve().then(() => {
+                this.screen = processScreenExtensionTypes(rawScreen);
+            });
         }).catch(error => {
             throw error;
         });
