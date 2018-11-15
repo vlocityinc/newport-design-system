@@ -5,7 +5,6 @@ import helpIdFieldPopulatedWithTextForUpdate from '@salesforce/label/FlowBuilder
 import helpSObjectRecordUpdateAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectRecordUpdateAltText';
 import selectsObjectOrsObjectCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.selectsObjectOrsObjectCollectionVariable';
 import sObjectVariablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.sObjectVariablePlaceholder';
-import fieldAssignmentNotSupportedForUpdate from '@salesforce/label/FlowBuilderRecordEditor.fieldAssignmentNotSupportedForUpdate';
 import updateRecordOfThisObject from '@salesforce/label/FlowBuilderRecordEditor.updateRecordOfThisObject';
 import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
 import object from '@salesforce/label/FlowBuilderRecordEditor.object';
@@ -20,7 +19,6 @@ export const LABELS = {
     helpSObjectRecordUpdateAltText,
     selectsObjectOrsObjectCollectionVariable,
     sObjectVariablePlaceholder,
-    fieldAssignmentNotSupportedForUpdate,
     updateRecordOfThisObject,
     objectPlaceholder,
     object,
