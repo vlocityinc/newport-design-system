@@ -158,7 +158,7 @@ function findReference(elementGuids, object, elementGuidsReferenced = new Set())
         for (let index = 0; index < keysLength; index += 1) {
             const key = keys[index];
             const value = getValueFromHydratedItem(object[key]);
-            if (shouldCallSwapFunction(key, value)) {
+            if (shouldCallSwapFunction(object, key, value)) {
                 const newElementGuidsReferenced = matchElement(elementGuids, object, key, value);
                 updateElementGuidsReferenced(elementGuidsReferenced, newElementGuidsReferenced);
             } else if (typeof (value) !== 'number') {

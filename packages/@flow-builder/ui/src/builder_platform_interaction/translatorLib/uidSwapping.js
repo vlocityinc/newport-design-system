@@ -33,7 +33,8 @@ export const isTemplateField = (object, fieldName) => {
  */
 export const isReferenceField = (object, fieldName) => {
     const dataType = getDataType(object, fieldName);
-    return dataType === FEROV_DATA_TYPE.REFERENCE || REFERENCE_FIELDS.has(fieldName);
+    // rightHandSide is in REFERENCE_FIELDS but should only be treated as a reference field in the cases when it doesn't have a data type
+    return dataType === FEROV_DATA_TYPE.REFERENCE || (!dataType && REFERENCE_FIELDS.has(fieldName));
 };
 
 /**
@@ -41,8 +42,8 @@ export const isReferenceField = (object, fieldName) => {
  * @param {*} propertyValue value of the property
  * @return true if swapping needs to happen, else it returns false.
  */
-export const shouldCallSwapFunction = (propertyName, propertyValue) => {
-    return propertyName && propertyValue && (typeof (propertyValue) === 'string' || (Array.isArray(propertyValue) && REFERENCE_FIELDS.has(propertyName)));
+export const shouldCallSwapFunction = (parentObject, propertyName, propertyValue) => {
+    return propertyName && propertyValue && (typeof (propertyValue) === 'string' || (Array.isArray(propertyValue) && isReferenceField(parentObject, propertyName)));
 };
 
 /**
@@ -107,7 +108,7 @@ export const recursiveSwap = (object, swapFunction) => {
         Object.keys(object).forEach(objectKey => {
             const value = object[objectKey];
 
-            if (shouldCallSwapFunction(objectKey, value)) {
+            if (shouldCallSwapFunction(object, objectKey, value)) {
                 // swap out the value unless the value is null or undefined
                 const newValue = swapFunction(object, objectKey, value);
 

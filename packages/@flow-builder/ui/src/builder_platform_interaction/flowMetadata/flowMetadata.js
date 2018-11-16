@@ -214,6 +214,7 @@ export const REFERENCE_FIELDS = new Set([
     'source',
     'target',
     'leftHandSide',
+    'rightHandSide', // rightHandSide is a reference when used in output assignments, like in Get Records
     'assignNextValueToReference',
     'collectionReference',
     'outputReference',
