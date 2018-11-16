@@ -1,15 +1,12 @@
 import {
-    FLOW_DATA_TYPE,
     getDataTypeLabel,
+    FLOW_DATA_TYPE,
 } from '../dataTypeLib';
 
-jest.mock('../dataTypeLibLabels', () => {
-    const labels = require.requireActual('../dataTypeLibLabels').LABELS;
-    // make multiPicklistDataTypeLabel undefined to simiulate a missing label
-    labels.multiPicklistDataTypeLabel = undefined;
-    return {
-        LABELS: labels,
-    };
+jest.mock('../dataTypeLib.js', () => {
+    const dataTypeLib = Object.assign({}, jest.requireActual('../dataTypeLib.js'));
+    dataTypeLib.FLOW_DATA_TYPE.MULTI_PICKLIST.label = undefined;
+    return dataTypeLib;
 });
 
 describe('dataTypeLib', () => {
