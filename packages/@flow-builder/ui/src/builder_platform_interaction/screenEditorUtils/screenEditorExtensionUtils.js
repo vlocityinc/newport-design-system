@@ -1,6 +1,7 @@
 import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
+import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 
 const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
 
@@ -67,7 +68,7 @@ function createDescription(name, data) {
         };
 
         if (param.hasDefaultValue) {
-            newParam.defaultValue = param.defaultValue;
+            newParam.defaultValue = transformDefaultValue(param.defaultValue);
         }
 
         if (param.isInput) {
@@ -82,6 +83,20 @@ function createDescription(name, data) {
     }
 
     return desc;
+}
+
+function transformDefaultValue(value) {
+    if (value) {
+        if (value === false || (value.toLowerCase && value.toLowerCase().trim() === 'false')) {
+            return GLOBAL_CONSTANTS.BOOLEAN_FALSE;
+        } else if (value === true || (value.toLowerCase && value.toLowerCase().trim() === 'true')) {
+            return GLOBAL_CONSTANTS.BOOLEAN_TRUE;
+        } else if (value && value.trim && value.trim() === '') {
+            return GLOBAL_CONSTANTS.EMPTY_STRING;
+        }
+    }
+
+    return value;
 }
 
 /**
