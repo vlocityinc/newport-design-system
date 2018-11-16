@@ -849,9 +849,7 @@ export default class Combobox extends LightningElement {
         const groupedCombobox = this.getGroupedCombobox();
         if (groupedCombobox) {
             groupedCombobox.setCustomValidity(customErrorMessage);
-            if (customErrorMessage && customErrorMessage.length) {
-                groupedCombobox.showHelpMessageIfInvalid();
-            }
+            groupedCombobox.showHelpMessageIfInvalid();
             this._isInitialErrorMessageSet = true;
         }
         this._errorMessage = customErrorMessage;
