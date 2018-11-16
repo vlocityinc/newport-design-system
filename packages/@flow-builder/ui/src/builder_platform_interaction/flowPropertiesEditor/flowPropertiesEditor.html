@@ -44,13 +44,16 @@
                 label={labels.instanceLabel}
                 value={flowProperties.interviewLabel}
                 onblur={handleInstanceLabelChanged}
-                onchange={handleInstanceLabelChanged}>
+                onchange={handleInstanceLabelChanged}
+                help-text={labels.instanceLabelHelpText}>
             </builder_platform_interaction-resourced-textarea>
 
-            <div class="slds-m-top_small">{labels.lastModified}</div>
-            <div class="lastModified">{lastModifiedText}</div>
+            <div if:true={savingExistingFlow} class="slds-m-top_small">
+                <div>{labels.lastModified}</div>
+                <div class="lastModified">{lastModifiedText}</div>
+            </div>
 
-            <div class="slds-grid">
+            <div if:true={savingExistingFlow} class="slds-grid slds-m-top_small">
                 <div class="slds-size_1-of-3">
                     {labels.status}:
                     <div>
@@ -61,6 +64,8 @@
                     <div>{flowProperties.processType.value}</div>
                 </div>
                 <div class="slds-size_1-of-3">{labels.currentVersion}:
+                    <lightning-helptext if:true={savingExistingFlowAsNewVersion}
+                                        class="slds-p-left_xx-small" content={currentVersionHelpText}></lightning-helptext>
                     <div>{flowProperties.versionNumber}</div>
                 </div>
             </div>

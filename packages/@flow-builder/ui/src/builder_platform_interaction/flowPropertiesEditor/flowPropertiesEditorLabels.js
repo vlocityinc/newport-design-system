@@ -8,12 +8,14 @@ import saveAsNewFlowTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesE
 import showAdvanced from '@salesforce/label/FlowBuilderFlowPropertiesEditor.showAdvanced';
 import hideAdvanced from '@salesforce/label/FlowBuilderFlowPropertiesEditor.hideAdvanced';
 import instanceLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.instanceLabel';
+import instanceLabelHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.instanceLabelHelpText';
 import lastModified from '@salesforce/label/FlowBuilderFlowPropertiesEditor.lastModified';
 import lastModifiedText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.lastModifiedText';
 import currentFlowVersionDetails from '@salesforce/label/FlowBuilderFlowPropertiesEditor.currentFlowVersionDetails';
 import status from '@salesforce/label/FlowBuilderFlowPropertiesEditor.status';
 import currentType from '@salesforce/label/FlowBuilderFlowPropertiesEditor.currentType';
 import currentVersion from '@salesforce/label/FlowBuilderFlowPropertiesEditor.currentVersion';
+import currentVersionHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.currentVersionHelpText';
 
 export const LABELS = {
     nameLabel,
@@ -26,10 +28,12 @@ export const LABELS = {
     showAdvanced,
     hideAdvanced,
     instanceLabel,
+    instanceLabelHelpText,
     lastModified,
     lastModifiedText,
     currentFlowVersionDetails,
     status,
     currentType,
     currentVersion,
+    currentVersionHelpText,
 };
