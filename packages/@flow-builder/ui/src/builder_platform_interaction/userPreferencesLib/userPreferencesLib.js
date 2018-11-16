@@ -30,7 +30,11 @@ export function getWelcomeMatPreference() {
 }
 
 function commitUserPreferences() {
-    fetch(SERVER_ACTION_TYPE.SET_USER_PREFERENCES, commitUserPreferencesCallback, { preferences: userPreferences });
+    fetch(SERVER_ACTION_TYPE.SET_USER_PREFERENCES, commitUserPreferencesCallback, {
+        preferences: userPreferences
+     }, {
+        disableErrorModal: true
+     });
 }
 
 function commitUserPreferencesCallback({error} = {}) {
