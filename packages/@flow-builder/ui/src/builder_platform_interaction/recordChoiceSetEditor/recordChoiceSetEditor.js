@@ -186,7 +186,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
      * Helper method to get entityFields based on the selected recordChoiceSetObject
      */
     getEntityFields() {
-        sobjectLib.getFieldsForEntity(this.recordChoiceSetResource.object.value, (fields) => {
+        sobjectLib.fetchFieldsForEntity(this.recordChoiceSetResource.object.value).then(fields => {
             this.menuDataFields = fields;
 
             if (!this.menuDataFields) {

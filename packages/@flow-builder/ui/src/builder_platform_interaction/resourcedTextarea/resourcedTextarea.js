@@ -36,7 +36,6 @@ export default class ResourcedTextarea extends LightningElement {
     @api spinnerAlternativeText;
     @api showGlobalVariables = false;
     @api hideNewResource = false;
-    @api quickValidation = false; // if true, we avoid server calls when validating merge fields
     @track error;
     @track spinnerActive;
     @track _value;
@@ -103,21 +102,13 @@ export default class ResourcedTextarea extends LightningElement {
         const val = event.target.value;
         this._value = val;
 
-        // In some rare cases validateTextWithMergeFields request object fields
-        // from the server because we don't have them in memory yet. The
-        // request may take a while so we should show a spinner.
-        this.spinnerActive = true;
-
-        const options = { allowGlobalConstants : false, quickValidation : this.quickValidation };
-        validateTextWithMergeFields(val, options).then(errors => {
-            this.spinnerActive = false;
-
-            // TODO: The screenEditor expects just an error message while the
-            // rest of the editors expect an array. We'll need to standardize
-            // this at some point.
-            const error = errors.length > 0 ? errors[0].message : null;
-            this.fireEvent(val, error);
-        });
+        const options = { allowGlobalConstants : false };
+        const errors = validateTextWithMergeFields(val, options);
+        // TODO: The screenEditor expects just an error message while the
+        // rest of the editors expect an array. We'll need to standardize
+        // this at some point.
+        const error = errors.length > 0 ? errors[0].message : null;
+        this.fireEvent(val, error);
     }
 
     fireEvent(value, error) {

@@ -13,16 +13,14 @@ const getFieldMenuData = (elementConfig, populateParamTypesFn, parentItem, entit
     const allowedParamTypes = populateParamTypesFn();
     if (entityFields) {
         menuData = filterFieldsForChosenElement(parentItem, allowedParamTypes, entityFields, showAsFieldReference, showSubText);
-        return Promise.resolve(menuData);
+        return menuData;
     }
-    // when handling fetch menu data (user selects new sobject) we will not have the fields yet
     const entityName = parentItem.objectType;
-    return new Promise(resolve => {
-        getSecondLevelItems(elementConfig, entityName, (fields) => {
-            menuData = filterFieldsForChosenElement(parentItem, allowedParamTypes, fields, showAsFieldReference, showSubText);
-            resolve(menuData);
-        });
+    // TODO: this no longer needs to be a callback
+    getSecondLevelItems(elementConfig, entityName, (fields) => {
+        menuData = filterFieldsForChosenElement(parentItem, allowedParamTypes, fields, showAsFieldReference, showSubText);
     });
+    return menuData;
 };
 
 const getFerovMenuData = (elementConfig, propertyEditorElementType, populateParamTypesFn, allowSobjectForFields,
@@ -46,15 +44,13 @@ const getFerovMenuData = (elementConfig, propertyEditorElementType, populatePara
  * @param {Object} includeNewResource    whether to show the "New Resource" option
  * @param {Object|undefined} parentItem    parent item
  * @param {Array} fields fields to be populated if parentItem is defined
- * @returns {Promise} Promise that when resolved gives array of resources
+ * @returns {Item[]} Array of resources
  */
 export const getMenuData = (elementConfig, propertyEditorElementType, populateParamTypesFn, allowSobjectForFields,
     enableFieldDrilldown, storeInstance, includeNewResource, parentItem, fields, showSystemVariables = true, showGlobalVariables = false) => {
     if (parentItem) {
         return getFieldMenuData(elementConfig, populateParamTypesFn, parentItem, fields);
     }
-    const menuData = getFerovMenuData(elementConfig, propertyEditorElementType, populateParamTypesFn, allowSobjectForFields,
+    return getFerovMenuData(elementConfig, propertyEditorElementType, populateParamTypesFn, allowSobjectForFields,
             enableFieldDrilldown, storeInstance, includeNewResource, showSystemVariables, showGlobalVariables);
-
-    return Promise.resolve(menuData);
 };

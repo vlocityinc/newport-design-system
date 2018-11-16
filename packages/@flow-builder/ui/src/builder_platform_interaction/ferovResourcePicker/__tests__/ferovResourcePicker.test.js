@@ -49,7 +49,9 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getMenuData: jest.fn().mockReturnValue(['ferovMenuData']).mockName('getMenuData'),
-        normalizeRHS: jest.fn().mockReturnValue(Promise.resolve()),
+        normalizeRHS: jest.fn().mockImplementation((rhsId) => {
+            return require.requireActual('builder_platform_interaction/expressionUtils').normalizeRHS(rhsId);
+        }),
     };
 });
 
@@ -127,7 +129,7 @@ describe('ferov-resource-picker', () => {
                 value: props.value,
             }
         };
-        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        normalizeRHS.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
@@ -144,7 +146,7 @@ describe('ferov-resource-picker', () => {
             },
             fields: ['mockField'],
         };
-        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        normalizeRHS.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
@@ -161,7 +163,7 @@ describe('ferov-resource-picker', () => {
             },
             fields: undefined,
         };
-        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        normalizeRHS.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
@@ -175,7 +177,7 @@ describe('ferov-resource-picker', () => {
                 value: props.value,
             }
         };
-        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        normalizeRHS.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
@@ -190,7 +192,7 @@ describe('ferov-resource-picker', () => {
                     value: props.value,
                 }
             };
-            normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+            normalizeRHS.mockReturnValueOnce(normalizedValue);
             const mockRules = ['rule1'];
             props.rules = mockRules;
             setupComponentUnderTest(props);
@@ -213,7 +215,7 @@ describe('ferov-resource-picker', () => {
                 value: props.value,
             }
         };
-        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        normalizeRHS.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(elementConfigProps);
         return Promise.resolve().then(() => {
             expect(mockRuleLib.getRHSTypes).not.toHaveBeenCalled();
@@ -228,7 +230,7 @@ describe('ferov-resource-picker', () => {
                 value: props.value,
             }
         };
-        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        normalizeRHS.mockReturnValueOnce(normalizedValue);
         const mockRules = ['rule1'];
         props.rules = mockRules;
         props.comboboxConfig.enableFieldDrilldown = true;
@@ -252,7 +254,7 @@ describe('ferov-resource-picker', () => {
                 value: props.value,
             }
         };
-        normalizeRHS.mockReturnValueOnce(Promise.resolve(normalizedValue));
+        normalizeRHS.mockReturnValueOnce(normalizedValue);
         const mockRules = ['rule1'];
         props.rules = mockRules;
         const ferovPicker = setupComponentUnderTest(props);
@@ -332,7 +334,7 @@ describe('ferov-resource-picker', () => {
     describe('handles system & global variables', () => {
         beforeEach(() => {
             // if RHS doesn't exist, menu data isn't set
-            normalizeRHS.mockReturnValueOnce(Promise.resolve({itemOrDisplayText: 'foo'}));
+            normalizeRHS.mockReturnValueOnce({itemOrDisplayText: 'foo'});
         });
         it('defaults hideSystemVariables to false', () => {
             setupComponentUnderTest(props);

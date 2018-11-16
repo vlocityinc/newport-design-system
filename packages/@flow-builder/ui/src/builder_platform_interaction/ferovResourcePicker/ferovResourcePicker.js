@@ -229,8 +229,7 @@ export default class FerovResourcePicker extends LightningElement {
             this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
 
             const identifier = isObject(this.value) ? this.value.value : this.value;
-            normalizeRHS(identifier)
-                .then(this.initializeResourcePicker);
+            this.initializeResourcePicker(normalizeRHS(identifier));
         }
     }
 
@@ -257,11 +256,9 @@ export default class FerovResourcePicker extends LightningElement {
 
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
-            getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, !this.hideGlobalConstants,
-                this.enableFieldDrilldown, storeInstance, !this.hideNewResource, parentItem, fields, !this.hideSystemVariables, this.showGlobalVariables)
-                .then(menuData => {
-                    this._baseResourcePicker.setMenuData(menuData);
-                });
+            this._baseResourcePicker.setMenuData(
+                getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, !this.hideGlobalConstants,
+                    this.enableFieldDrilldown, storeInstance, !this.hideNewResource, parentItem, fields, !this.hideSystemVariables, this.showGlobalVariables));
         }
     }
 }

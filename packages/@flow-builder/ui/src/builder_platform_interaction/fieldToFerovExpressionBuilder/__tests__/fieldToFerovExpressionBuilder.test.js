@@ -85,10 +85,15 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
-        fetchOnce: jest.fn().mockImplementation(() => {
-            return Promise.resolve(JSON.stringify(mockAccountFields));
-        }),
         SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
+    };
+});
+
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    return {
+        getFieldsForEntity: jest.fn().mockImplementation(() => {
+            return mockAccountFields;
+        }),
     };
 });
 

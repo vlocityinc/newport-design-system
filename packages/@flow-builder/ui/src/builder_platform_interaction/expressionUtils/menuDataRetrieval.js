@@ -413,7 +413,7 @@ export function getSecondLevelItems(elementConfig, topLevelItemType, callback) {
     } else if (getGlobalVariables(topLevelItemType)) {
         callback(getGlobalVariables(topLevelItemType));
     } else {
-        sobjectLib.getFieldsForEntity(topLevelItemType, callback);
+        callback(sobjectLib.getFieldsForEntity(topLevelItemType));
     }
 }
 

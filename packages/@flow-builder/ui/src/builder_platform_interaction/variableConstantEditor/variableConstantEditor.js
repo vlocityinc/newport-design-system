@@ -1,5 +1,5 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { dehydrate, getErrorsFromHydratedElement, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { variableConstantReducer } from "./variableConstantReducer";
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
@@ -8,14 +8,11 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { LABELS } from "./variableConstantEditorLabels";
-import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId, mutateFlowResourceToComboboxShape, getItemOrDisplayText } from "builder_platform_interaction/expressionUtils";
+import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId, getItemOrDisplayText } from "builder_platform_interaction/expressionUtils";
 import { isObject } from "builder_platform_interaction/commonUtils";
-import { fetchFieldsForEntity } from "builder_platform_interaction/sobjectLib";
-import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { DEFAULT_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 
 
 // the property names in a variable element (after mutation), a subset of these are also constant properties
@@ -510,27 +507,6 @@ export default class VariableConstantEditor extends LightningElement {
         // we might have to go through reducer to stuff the errors and call get errors method
         const event = { type: VALIDATE_ALL };
         this.variableConstantResource = variableConstantReducer(this.variableConstantResource, event);
-        const errors = getErrorsFromHydratedElement(this.variableConstantResource);
-        // fetch fields for valid sobject variables
-        this.fetchSobjectFields(errors);
-        return errors;
-    }
-
-    /**
-     * For valid sobject variables, fetch the fields for future use
-     * @param {Array} errors list of errors
-     */
-    fetchSobjectFields(errors) {
-        const objectType = getValueFromHydratedItem(this.variableConstantResource.objectType);
-        // if there are no errors & the chosen variable is an sobject, fetch the fields
-        if (!errors.length && objectType && !this.variableConstantResource.isCollection) {
-            // add sobject variable to combobox cache in required shape
-            // we call dehydrate here since that is the shape in store as well. This should stay consistent
-            const clonedSObjectVariableResource = deepCopy(this.variableConstantResource);
-            const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(dehydrate(clonedSObjectVariableResource));
-            addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
-            // fetch fields and cache them
-            fetchFieldsForEntity(objectType, { disableErrorModal : true }).catch(() => {});
-        }
+        return getErrorsFromHydratedElement(this.variableConstantResource);
     }
 }

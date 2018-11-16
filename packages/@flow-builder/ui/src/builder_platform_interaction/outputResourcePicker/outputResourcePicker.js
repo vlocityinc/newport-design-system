@@ -171,10 +171,7 @@ export default class OutputResourcePicker extends LightningElement {
             this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
 
             const identifier = isObject(this.value) ? this.value.value : this.value;
-            this.normalizeValue(identifier)
-                .then(normalizedValue => {
-                    this.initializeResourcePicker(normalizedValue);
-                });
+            this.initializeResourcePicker(this.normalizeValue(identifier));
         }
     }
 
@@ -203,11 +200,9 @@ export default class OutputResourcePicker extends LightningElement {
     populateMenuData = (parentItem) => {
         const showNewResource = true;
         if (this._baseResourcePicker) {
-            getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, false,
-                this.enableFieldDrilldown, storeInstance, showNewResource, parentItem, undefined, false)
-                .then(menuData => {
-                    this._baseResourcePicker.setMenuData(menuData);
-                });
+            this._baseResourcePicker.setMenuData(
+                getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, false,
+                    this.enableFieldDrilldown, storeInstance, showNewResource, parentItem, undefined, false));
         }
     }
 
@@ -226,21 +221,18 @@ export default class OutputResourcePicker extends LightningElement {
             const fieldName = sanitizeGuid(identifier).fieldName;
             if (fieldName) {
                 const sobject = flowElement.objectType;
-                return new Promise(resolve => {
-                    sobjectLib.getFieldsForEntity(sobject, (fields) => {
-                        const field = fields[fieldName];
-                        field.isCollection = false;
-                        const fieldParent = mutateFlowResourceToComboboxShape(flowElement);
-                        const fieldItem = mutateFieldToComboboxShape(field, fieldParent, true, true);
-                        resolve(fieldItem);
-                    });
-                });
+                const fields =  sobjectLib.getFieldsForEntity(sobject);
+                const field = fields[fieldName];
+                field.isCollection = false;
+                const fieldParent = mutateFlowResourceToComboboxShape(flowElement);
+                normalizedValue = mutateFieldToComboboxShape(field, fieldParent, true, true);
+            } else {
+                normalizedValue = mutateFlowResourceToComboboxShape(flowElement);
             }
-            normalizedValue = mutateFlowResourceToComboboxShape(flowElement);
         } else {
             // Pass in identifier as string in the default case
             normalizedValue = identifier;
         }
-        return Promise.resolve(normalizedValue);
+        return normalizedValue;
     };
 }

@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { recordLookupReducer } from "./recordLookupReducer";
-import { ENTITY_TYPE, getFieldsForEntity, getAllEntities } from "builder_platform_interaction/sobjectLib";
+import { ENTITY_TYPE, fetchFieldsForEntity, getAllEntities } from "builder_platform_interaction/sobjectLib";
 import { LABELS } from "./recordLookupEditorLabels";
 import { getOutputRules } from "builder_platform_interaction/ruleLib";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
@@ -152,7 +152,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     updateFields() {
         if (this.state.recordEntityName) {
-            getFieldsForEntity(this.state.recordEntityName, (fields) => {
+            fetchFieldsForEntity(this.state.recordEntityName).then(fields => {
                 this.state.fields = fields;
             });
         }

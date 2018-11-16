@@ -1074,15 +1074,12 @@ describe('Combobox Tests', () => {
 
         it('validateTextWithMergeFields sets the error message for strings with invalid merge fields', () => {
             isTextWithMergeFields.mockReturnValueOnce(true);
-            validateTextWithMergeFields.mockReturnValueOnce(Promise.resolve([{
-                message: unknownMergeField,
-            }]));
+            validateTextWithMergeFields.mockReturnValueOnce([{message: unknownMergeField}]);
             combobox.type = FLOW_DATA_TYPE.STRING.value;
             combobox.value = 'Hey, my name is {!blah}';
             groupedCombobox.dispatchEvent(blurEvent);
             return Promise.resolve().then(() => {
-                // called twice because stateChangedEvent always gets fired
-                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
+                expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
                 expect(combobox.errorMessage).toEqual(unknownMergeField);
             });
         });
@@ -1121,9 +1118,7 @@ describe('Combobox Tests', () => {
         it('custom fields get treated as merge fields', () => {
             const message = 'This merge field does not exist.';
             validateMergeField.mockReset();
-            validateMergeField.mockReturnValueOnce(Promise.resolve([{
-                message
-            }]));
+            validateMergeField.mockReturnValueOnce([{message}]);
             const comboboxValue = {
                 displayText: '{!MyAccount.customField__c}',
                 value: '{!MyAccount.customField__c}',

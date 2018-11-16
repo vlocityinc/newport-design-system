@@ -33,9 +33,7 @@ const createComponentUnderTest = () => {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: (entityName, callback) => {
-            callback(mockAccountFields);
-        }
+        fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
     };
 });
 

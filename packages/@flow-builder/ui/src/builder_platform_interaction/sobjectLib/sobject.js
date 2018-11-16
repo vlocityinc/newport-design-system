@@ -7,6 +7,8 @@ const createableEntities = [];
 const deletableEntities = [];
 const updateableEntities = [];
 
+const cachedEntityFields = {};
+
 export const ENTITY_TYPE = {
     CREATABLE: 'CREATABLE',
     QUERYABLE: 'QUERYABLE',
@@ -103,24 +105,18 @@ export const fetchFieldsForEntity = (entityName, { background = false, disableEr
     const params = {
         entityApiName: entityName
     };
-    return fetchOnce(SERVER_ACTION_TYPE.GET_ENTITY_FIELDS, params, { background, disableErrorModal, messageForErrorModal }).then(data => JSON.parse(data));
+    return fetchOnce(SERVER_ACTION_TYPE.GET_ENTITY_FIELDS, params, { background, disableErrorModal, messageForErrorModal })
+        .then(data => {
+            const fields = JSON.parse(data);
+            cachedEntityFields[entityName] = fields;
+            return fields;
+        });
 };
 
 /**
- * Grabs the fields for a specific sObject, mutates it to combobox shape, then calls the callback
- * Only goes to the server if the fields for that sObject are not cached.
- * On error, a modal with an error message is opened but callback is not called.
+ * Grabs the fields for a specific sObject from the cache, undefined if not a valid entityName
  * @param {String} entityName Api name of the SObject
- * @param {Function} callback Function to call once the server call is complete
  */
-export const getFieldsForEntity = (entityName, callback) => {
-    fetchFieldsForEntity(entityName)
-        .then(fields => {
-            if (callback) {
-                callback(fields);
-            }
-        })
-        .catch(() => {
-            // we use fetchOnce default behavior : modal with the error.
-        });
+export const getFieldsForEntity = (entityName) => {
+    return cachedEntityFields[entityName];
 };

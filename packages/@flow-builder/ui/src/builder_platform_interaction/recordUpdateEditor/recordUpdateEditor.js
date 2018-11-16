@@ -6,7 +6,7 @@ import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
-import { ENTITY_TYPE, getFieldsForEntity, getUpdateableEntities } from "builder_platform_interaction/sobjectLib";
+import { ENTITY_TYPE, fetchFieldsForEntity, getUpdateableEntities } from "builder_platform_interaction/sobjectLib";
 import { SUB_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
@@ -143,7 +143,7 @@ export default class RecordUpdateEditor extends LightningElement {
     updateFields() {
         this.state.entityFields = [];
         if (this.state.recordEntityName) {
-            getFieldsForEntity(this.state.recordEntityName, (fields) => {
+            fetchFieldsForEntity(this.state.recordEntityName).then(fields => {
                 this.state.entityFields = fields;
             });
         }

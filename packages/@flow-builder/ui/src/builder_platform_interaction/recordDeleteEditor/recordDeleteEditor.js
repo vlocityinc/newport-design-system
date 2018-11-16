@@ -6,7 +6,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { AddElementEvent, PropertyChangedEvent } from "builder_platform_interaction/events";
 import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
-import { ENTITY_TYPE, getDeletableEntities, getFieldsForEntity} from "builder_platform_interaction/sobjectLib";
+import { ENTITY_TYPE, getDeletableEntities, fetchFieldsForEntity} from "builder_platform_interaction/sobjectLib";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
@@ -171,10 +171,9 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     updateFields() {
          if (this.recordEntityName) {
-             getFieldsForEntity(this.recordEntityName, fields => {
-                     this.state.entityFields = fields;
-                 }
-             );
+             fetchFieldsForEntity(this.recordEntityName).then(fields => {
+                this.state.entityFields = fields;
+             });
          } else {
              this.state.entityFields = [];
          }

@@ -103,8 +103,10 @@ const inputAssignmentElement = {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
-            callback(require.requireActual('mock/serverEntityData').mockAccountFields);
+        fetchFieldsForEntity: jest.fn().mockImplementation(() => {
+            return Promise.resolve().then(() => {
+                return require.requireActual('mock/serverEntityData').mockAccountFields;
+            });
         }),
         getUpdateableEntities: jest.fn().mockImplementation(() => {
             return require.requireActual('mock/serverEntityData').mockEntities;

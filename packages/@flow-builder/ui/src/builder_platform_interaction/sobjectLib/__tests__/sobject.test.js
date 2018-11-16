@@ -52,18 +52,16 @@ describe('SObject Lib Tests', () => {
         });
     });
 
-    describe('getFieldsForEntity', () => {
-        it('Verify Fields Returned', (done) => {
-            getFieldsForEntity('Account', (fields) => {
-                expect(Object.keys(fields)).toHaveLength(45);
-                done();
-            });
-        });
-    });
-
     describe('fetchFieldsForEntity', () => {
         it('Returns fields for the entity', async () => {
             const fields = await fetchFieldsForEntity('Account');
+            expect(Object.keys(fields)).toHaveLength(45);
+        });
+    });
+
+    describe('getFieldsForEntity', () => {
+        it('Verify Fields Returned', () => {
+            const fields = getFieldsForEntity('Account');
             expect(Object.keys(fields)).toHaveLength(45);
         });
     });

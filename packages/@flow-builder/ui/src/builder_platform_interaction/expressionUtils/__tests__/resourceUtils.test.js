@@ -25,11 +25,9 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 describe('RHS normalize', () => {
     it('should match an rhs value with a picklist api name to a menu item', () => {
         const rhsApiValue = 'AccountSource';
-        normalizeRHS(rhsApiValue)
-            .then((rhs) => {
-                expect(rhs.itemOrDisplayText).toBeDefined();
-                expect(rhs.itemOrDisplayText).toEqual(rhsApiValue);
-            });
+        const rhs = normalizeRHS(rhsApiValue);
+        expect(rhs.itemOrDisplayText).toBeDefined();
+        expect(rhs.itemOrDisplayText).toEqual(rhsApiValue);
     });
 });
 

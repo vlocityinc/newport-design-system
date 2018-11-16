@@ -19,7 +19,7 @@ const createComponentUnderTest = (props) => {
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
-        validateTextWithMergeFields: jest.fn().mockResolvedValue([]),
+        validateTextWithMergeFields: jest.fn().mockReturnValue([]),
     };
 });
 
@@ -125,22 +125,21 @@ describe('Events from the textarea', () => {
         expect(eventCallback.mock.calls[0][0]).toMatchObject({ detail: { value, error } });
     };
 
-    beforeEach(async () => {
+    beforeEach(() => {
         eventCallback = jest.fn();
     });
 
-    it('Should fire change event on blur', async () => {
+    it('Should fire change event on blur', () => {
         const resourcedTextarea = createComponentUnderTest({value: '1+1'});
         resourcedTextarea.addEventListener('change', eventCallback);
 
         const textarea = getShadowRoot(resourcedTextarea).querySelector(selectors.textarea);
         textarea.value = '2+2';
         textarea.dispatchEvent(new CustomEvent('blur'));
-        await Promise.resolve();
         expectValueChangedEventWithValue('2+2', null);
     });
 
-    it('Should fire change event on blur with validation errors', async () => {
+    it('Should fire change event on blur with validation errors', () => {
         const resourcedTextarea = createComponentUnderTest({value: '{!unknownMergeField}'});
         resourcedTextarea.addEventListener('change', eventCallback);
 
@@ -150,11 +149,10 @@ describe('Events from the textarea', () => {
             startIndex : 0,
             endIndex : 0
         };
-        validateTextWithMergeFields.mockResolvedValue([validationError]);
+        validateTextWithMergeFields.mockReturnValue([validationError]);
 
         const textarea = getShadowRoot(resourcedTextarea).querySelector(selectors.textarea);
         textarea.dispatchEvent(new CustomEvent('blur'));
-        await Promise.resolve();
         expectValueChangedEventWithValue('{!unknownMergeField}', validationError.message);
     });
 });

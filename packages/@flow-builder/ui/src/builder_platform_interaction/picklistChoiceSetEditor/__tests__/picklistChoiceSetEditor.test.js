@@ -5,7 +5,7 @@ import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interacti
 import { picklistChoiceSetReducer } from '../picklistChoiceSetReducer';
 import { PropertyChangedEvent, ValueChangedEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 
 const SELECTORS = {
@@ -41,7 +41,7 @@ jest.mock('../picklistChoiceSetReducer', () => {
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
-    mockSobjectLib.getFieldsForEntity = jest.fn();
+    mockSobjectLib.fetchFieldsForEntity = jest.fn().mockResolvedValue();
     return mockSobjectLib;
 });
 
@@ -139,7 +139,7 @@ describe('picklist-choice-set-editor', () => {
 
         it('Changing value in entity-resource-picker should call getFieldsForEntity', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(getFieldsForEntity).toHaveBeenCalledTimes(2);
+            expect(fetchFieldsForEntity).toHaveBeenCalledTimes(2);
         });
 
         it('Changing value in entity-resource-picker should update picklistField', () => {

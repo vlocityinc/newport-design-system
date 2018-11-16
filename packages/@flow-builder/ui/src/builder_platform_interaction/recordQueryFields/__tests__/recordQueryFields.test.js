@@ -68,14 +68,14 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: (entityName, callback) => {
+        fetchFieldsForEntity: jest.fn().mockResolvedValue(() => {
             const accountFields = {};
             const fields = Object.keys(mockAccountFields);
             fields.forEach((field) => {
                 accountFields[field] = field;
             });
-            callback(accountFields);
-        }
+            return accountFields;
+        }),
     };
 });
 

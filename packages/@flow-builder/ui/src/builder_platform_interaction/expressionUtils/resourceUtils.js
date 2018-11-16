@@ -114,26 +114,22 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
  * @param {String} rhsIdentifier    used to identify RHS, could be GUID or literal
- * @returns {Promise}               Promise that resolves with combobox display value
+ * @returns {Item}                  Combobox display value
  */
 export const normalizeRHS = (rhsIdentifier) => {
     const rhs = {};
     const flowElement = getResourceByUniqueIdentifier(rhsIdentifier);
     const fieldName = sanitizeGuid(rhsIdentifier).fieldName;
     if (flowElement && fieldName) {
-        return new Promise((resolve) => {
-            sobjectLib.getFieldsForEntity(flowElement.objectType, (fields) => {
-                rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[fieldName], mutateFlowResourceToComboboxShape(flowElement), true, true);
-                rhs.fields = fields;
-                resolve(rhs);
-            });
-        });
+        const fields = sobjectLib.getFieldsForEntity(flowElement.objectType);
+        rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[fieldName], mutateFlowResourceToComboboxShape(flowElement), true, true);
+        rhs.fields = fields;
     } else if (flowElement) {
         rhs.itemOrDisplayText = mutateFlowResourceToComboboxShape(flowElement);
     } else {
         rhs.itemOrDisplayText = rhsIdentifier;
     }
-    return Promise.resolve(rhs);
+    return rhs;
 };
 
 /**
@@ -207,13 +203,10 @@ export const populateRhsState = ({ rightHandSide }, callback) => {
             const fieldName = sanitizeGuid(rightHandSide.value).fieldName;
             if (fieldName) {
                 const isFieldOnSobjectVar = true;
-                sobjectLib.getFieldsForEntity(fer.objectType, (fields) => {
-                    rhsState.isField = true;
-                    rhsState.value = mutateFieldToComboboxShape(fields[fieldName], rhsItem, isFieldOnSobjectVar, isFieldOnSobjectVar);
-                    rhsState.fields = fields;
-                    callback(rhsState);
-                });
-                return;
+                const fields = sobjectLib.getFieldsForEntity(fer.objectType);
+                rhsState.isField = true;
+                rhsState.value = mutateFieldToComboboxShape(fields[fieldName], rhsItem, isFieldOnSobjectVar, isFieldOnSobjectVar);
+                rhsState.fields = fields;
             }
         }
     }

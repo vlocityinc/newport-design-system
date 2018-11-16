@@ -12,7 +12,7 @@ import {
     createAction,
     PROPERTY_EDITOR_ACTION
 } from 'builder_platform_interaction/actions';
-import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
@@ -52,7 +52,7 @@ jest.mock('../recordChoiceSetReducer', () => {
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
-    mockSobjectLib.getFieldsForEntity = jest.fn();
+    mockSobjectLib.fetchFieldsForEntity = jest.fn().mockResolvedValue();
     return mockSobjectLib;
 });
 const newRecordObjectOrField = {item: {value: 'Contact'}, displayText: 'contact', error: null};
@@ -180,9 +180,9 @@ describe('record-choice-set-editor', () => {
         });
 
         it('Changing value in entity-resource-picker should call getFieldsForEntity', async () => {
-            getFieldsForEntity.mockClear();
+            fetchFieldsForEntity.mockClear();
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(getFieldsForEntity).toHaveBeenCalledTimes(1);
+            expect(fetchFieldsForEntity).toHaveBeenCalledTimes(1);
         });
 
         it('Changing value in entity-resource-picker should add an empty output assignment', () => {

@@ -61,16 +61,21 @@ export default class Editor extends LightningElement {
 
     @track backUrl;
     @track helpUrl;
-    @track showSpinner = false;
+    @track spinners = {
+        showFlowMetadataSpinner: false,
+        showPropertyEditorSpinner: false
+    };
     @track hasNotBeenSaved = true;
     @track disableSave = true;
     @track saveStatus;
 
 
     resolveOpenPropertyEditor;
+    rejectOpenPropertyEditor;
 
-    openPropertyEditor = new Promise((resolve) => {
+    openPropertyEditor = new Promise((resolve, reject) => {
         this.resolveOpenPropertyEditor = resolve;
+        this.rejectOpenPropertyEditor = reject;
     });
 
     propertyEditorBlockerCalls = [];
@@ -117,6 +122,8 @@ export default class Editor extends LightningElement {
         Promise.all(this.propertyEditorBlockerCalls).then(() => {
             this.openPropertyEditor.resolved = true;
             this.resolveOpenPropertyEditor();
+        }).catch(() => {
+            this.rejectOpenPropertyEditor();
         });
     }
 
@@ -134,7 +141,7 @@ export default class Editor extends LightningElement {
             // Keeping this as fetch because we want to go to the server
             fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallback, params);
             this.isFlowServerCallInProgress = true;
-            this.showSpinner = true;
+            this.spinners.showFlowMetadataSpinner = true;
         } else {
             // Create start element
             const startElement = getElementForStore({
@@ -143,6 +150,10 @@ export default class Editor extends LightningElement {
             storeInstance.dispatch(addElement(startElement));
             this.disableSave = false;
         }
+    }
+
+    get showSpinner() {
+        return this.spinners.showFlowMetadataSpinner || this.spinners.showPropertyEditorSpinner;
     }
 
     get shouldCreateCanvas() {
@@ -249,7 +260,7 @@ export default class Editor extends LightningElement {
             const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(sobjectVariables[i]);
             addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
             // fetch fields and cache them
-            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjectVariables[i].objectType, { disableErrorModal : true }));
+            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjectVariables[i].objectType));
         }
     }
 
@@ -500,11 +511,13 @@ export default class Editor extends LightningElement {
 
     queueOpenPropertyEditor = (params) => {
         if (!this.openPropertyEditor.resolved) {
-            this.showSpinner = true;
+            this.spinners.showPropertyEditorSpinner = true;
         }
         this.openPropertyEditor.then(() => {
-            this.showSpinner = false;
+            this.spinners.showPropertyEditorSpinner = false;
             invokePropertyEditor(PROPERTY_EDITOR, params);
+        }).catch(() => {
+            this.spinners.showPropertyEditorSpinner = false;
         });
     };
 
@@ -834,19 +847,34 @@ export default class Editor extends LightningElement {
      * Method for talking to validation library and store for updating the node collection/flow data.
      * @param {object} node - node object for the particular property editor update
      */
-    deMutateAndUpdateNodeCollection(node) {
+    deMutateAndUpdateNodeCollection = (node) => {
         // This deepCopy is needed as a temporary workaround because the unwrap() function that the property editor
         // calls on OK doesn't actually work and keeps the proxy wrappers.
         const nodeForStore = getElementForStore(node);
         storeInstance.dispatch(updateElement(nodeForStore));
     }
 
-    deMutateAndAddNodeCollection(node) {
+    deMutateAndAddNodeCollection = (node) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
         const nodeForStore = getElementForStore(node);
+        // Fetches and caches the fields for new sobject fields. Shows spinner till this is done
+        this.cacheNewSobjectFields(nodeForStore);
         storeInstance.dispatch(addElement(nodeForStore));
+    };
+
+    cacheNewSobjectFields(node) {
+        if (node.elementType === ELEMENT_TYPE.VARIABLE && node.objectType && !node.isCollection) {
+            const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(node);
+            addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
+            this.spinners.showPropertyEditorSpinner = true;
+            fetchFieldsForEntity(node.objectType).then(() => {
+                this.spinners.showPropertyEditorSpinner = false;
+            }).catch(() => {
+                this.spinners.showPropertyEditorSpinner = false;
+            });
+        }
     }
 
     /**
@@ -858,8 +886,8 @@ export default class Editor extends LightningElement {
     };
 
     renderedCallback() {
-        if (!this.isFlowServerCallInProgress && this.showSpinner) {
-            this.showSpinner = false;
+        if (!this.isFlowServerCallInProgress && this.spinners.showFlowMetadataSpinner) {
+            this.spinners.showFlowMetadataSpinner = false;
             logPerfTransactionEnd(EDITOR, {
                 numOfNodes: this.appState.canvas.nodes.length,
                 numOfConnectors: this.appState.canvas.connectors.length

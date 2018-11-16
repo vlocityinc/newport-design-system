@@ -7,7 +7,7 @@ import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { getRulesForElementType, RULE_TYPES, PARAM_PROPERTY } from "builder_platform_interaction/ruleLib";
-import { ENTITY_TYPE, getFieldsForEntity, getCreateableEntities } from "builder_platform_interaction/sobjectLib";
+import { ENTITY_TYPE, fetchFieldsForEntity, getCreateableEntities } from "builder_platform_interaction/sobjectLib";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 import { format } from 'builder_platform_interaction/commonUtils';
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
@@ -151,8 +151,8 @@ export default class RecordCreateEditor extends LightningElement {
      updateFields() {
          this.state.entityFields = [];
          if (this.state.recordEntityName) {
-             getFieldsForEntity(this.state.recordEntityName, (fields) => {
-                 this.state.entityFields = fields;
+             fetchFieldsForEntity(this.state.recordEntityName).then(fields => {
+                this.state.entityFields = fields;
              });
          }
      }

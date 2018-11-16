@@ -1048,20 +1048,11 @@ export default class Combobox extends LightningElement {
      * @param {function} validateFunctionRef a existing function reference from merge field lib that returns promise.
      */
     validateUsingMergeFieldLib(validateFunctionRef) {
-        validateFunctionRef.call(this, this.state.displayText, {allowGlobalConstants: true, allowedParamTypes: this.allowedParamTypes})
-            .then(this.resolveMergeFieldValidation)
-            .catch(() => {
-                this.state.showActivityIndicator = false;
-            });
-    }
-
-    resolveMergeFieldValidation = (errors) => {
-        this.state.showActivityIndicator = false;
+        const errors = validateFunctionRef.call(this, this.state.displayText, {allowGlobalConstants: true, allowedParamTypes: this.allowedParamTypes});
         if (errors.length > 0) {
             this._errorMessage = errors[0].message;
-            this.fireComboboxStateChangedEvent();
         }
-    };
+    }
 
     /**
      * Validates if the expression literal identifier is a valid dev name.

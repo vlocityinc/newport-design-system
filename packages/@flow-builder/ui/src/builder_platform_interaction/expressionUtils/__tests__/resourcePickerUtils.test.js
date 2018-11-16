@@ -36,8 +36,8 @@ jest.mock('../menuDataRetrieval', () => {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: jest.fn((entityName, fieldsFn) => {
-            fieldsFn(['field2']);
+        getFieldsForEntity: jest.fn(() => {
+            return ['field2'];
         }),
     };
 });
@@ -56,10 +56,8 @@ describe('resourcePickerUtils', () => {
             const mockFieldMenuData = ['field2'];
             filterFieldsForChosenElement.mockReturnValueOnce(mockFieldMenuData);
 
-            return getMenuData(null, null, resourcePicker.populateParamTypes, false, false, null, true, parentItem)
-            .then(result => {
-                expect(result).toEqual(['field2']);
-            });
+            const result = getMenuData(null, null, resourcePicker.populateParamTypes, false, false, null, true, parentItem);
+            expect(result).toEqual(['field2']);
         });
 
         it('Should filter the fields when the fields already have been loaded', () => {
@@ -70,7 +68,7 @@ describe('resourcePickerUtils', () => {
 
         it('Should filter the fields after waiting for the fields to load', () => {
             getMenuData(null, null, resourcePicker.populateParamTypes, false, false, null, true, parentItem);
-            expect(getFieldsForEntity).toHaveBeenCalledWith(objectName, expect.anything());
+            expect(getFieldsForEntity).toHaveBeenCalledWith(objectName);
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, paramTypes,
                 ['field2'], true, true);
         });
@@ -92,11 +90,9 @@ describe('resourcePickerUtils', () => {
             const mockMenuData = ['foo'];
             filterAndMutateMenuData.mockReturnValueOnce(mockMenuData);
 
-            return getMenuData('elementConfig', resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
-            resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, false)
-                .then(result => {
-                    expect(result).toEqual(mockMenuData);
-                });
+            const result = getMenuData('elementConfig', resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
+            resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, false);
+            expect(result).toEqual(mockMenuData);
         });
 
         it('Should get menu data when there is no element config', () => {
