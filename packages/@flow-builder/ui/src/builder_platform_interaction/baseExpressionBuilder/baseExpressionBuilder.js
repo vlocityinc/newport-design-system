@@ -218,14 +218,8 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     rhsValue;
 
-    set rhsError(error) {
-        this._rhsError = error;
-    }
-
     @api
-    get rhsError() {
-        return this._rhsError;
-    }
+    rhsError;
 
     @api
     blockRhsValidation = false;
@@ -282,7 +276,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     @api
     get rhsLiteralsAllowed() {
-        return !this.rhsIsFer && this._rhsLiteralsAllowedForContext && !isCollectionRequired(this._rhsParamTypes, this._rhsDataType);
+        return !this.rhsIsFer && this._rhsLiteralsAllowedForContext && !isCollectionRequired(this.getRhsParamTypes(), this._rhsDataType);
     }
 
     get rhsDataType() {
@@ -290,16 +284,12 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * Initializes RHS paramtypes if they haven't been initialized
-     *
-     * @returns {rules/param[]} the params from the rules, based on LHS and operator value, that should be used to
+     * @returns {rules/param[]|undefined} the params from the rules, based on LHS and operator value, that should be used to
      * filter menu data for the RHS
+     * OR if RHS is a FER we do not want to pass down the allowedParamTypes because we want to force the combobox to validate against the menu data
      */
     get rhsParamTypes() {
-        if (!this._rhsParamTypes) {
-            this._rhsParamTypes = getRHSTypes(this.containerElement, this.lhsParam, this.operatorForRules(), this._rules);
-        }
-        return this._rhsParamTypes;
+        return this.rhsIsFer ? undefined : this.getRhsParamTypes();
     }
 
     @api
@@ -391,7 +381,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     /**
      * Determines dataType allowed on RHS based on the rules and the current LHS and operator value
      */
-    getRhsDataType(lhsParam = this.lhsParam, rhsTypes = this.rhsParamTypes) {
+    getRhsDataType(lhsParam = this.lhsParam, rhsTypes = this.getRhsParamTypes()) {
         let dataType = null;
         if (this._rhsLiteralsAllowedForContext && rhsTypes) {
             const allowedDataTypes = this.getPossibleRHSDataTypes(rhsTypes);
@@ -408,6 +398,18 @@ export default class BaseExpressionBuilder extends LightningElement {
             }
         }
         return dataType;
+    }
+
+    /**
+     * Initializes rhsParamTypes if they are undefined
+     *
+     * @returns {rules/param[]} The param types that should be used to build rhs menu data & validate rhs when it's a ferov
+     */
+    getRhsParamTypes() {
+        if (!this._rhsParamTypes) {
+            this._rhsParamTypes = getRHSTypes(this.containerElement, this.lhsParam, this.operatorForRules(), this._rules);
+        }
+        return this._rhsParamTypes;
     }
 
     /**
@@ -552,7 +554,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         const picklistValues = this.rhsIsFer ? null : this.lhsActivePicklistValues;
 
         this.populateMenuData(getFields, parentMenuItem, RHS_FULL_MENU_DATA, RHS_FILTERED_MENU_DATA, RHS_FIELDS,
-            this.rhsParamTypes, shouldBeWritable, isDisplayedAsFieldReference, !this.rhsIsFer, picklistValues);
+            this.getRhsParamTypes(), shouldBeWritable, isDisplayedAsFieldReference, !this.rhsIsFer, picklistValues);
     }
 
     /**

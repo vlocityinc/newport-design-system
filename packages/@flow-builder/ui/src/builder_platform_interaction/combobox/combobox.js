@@ -54,6 +54,7 @@ export default class Combobox extends LightningElement {
         forceShowActivityIndicator : false,
         inputIcon: 'utility:search',
         menuData: [],
+        disabled: false,
     };
 
     @api
@@ -150,6 +151,7 @@ export default class Combobox extends LightningElement {
         const previousIsLiteralAllowed = this._isLiteralAllowed;
         this._isLiteralAllowed = isAllowed ? isAllowed !== 'false' : false;
         if (this._isValidationEnabled && (previousIsLiteralAllowed !== this._isLiteralAllowed)) {
+            this._needsValidationOnEnable = true;
             this.doValidation();
             this.fireComboboxStateChangedEvent();
         }
@@ -240,6 +242,7 @@ export default class Combobox extends LightningElement {
             this.state.displayText = this.normalizeIfMetadataDateTime(this.state.displayText);
 
             if (this._isValidationEnabled) {
+                this._needsValidationOnEnable = true;
                 this.doValidation();
                 this.fireComboboxStateChangedEvent();
             } else {
@@ -275,11 +278,24 @@ export default class Combobox extends LightningElement {
         return this.state.menuData;
     }
 
+    set disabled(disabled) {
+        const wasDisabled = this.state.disabled;
+        this.state.disabled = !!disabled;
+
+        if (!this.state.disabled && wasDisabled && this._needsValidationOnEnable) {
+            this.doValidation();
+            this.fireComboboxStateChangedEvent();
+        }
+    }
+
     /**
      * Set this attribute to disable the combobox.
      * @type {Boolean}
      */
-    @api disabled = false;
+    @api
+    get disabled() {
+        return this.state.disabled;
+    }
 
     /**
      * Placeholder text for the combobox input field.
@@ -448,6 +464,13 @@ export default class Combobox extends LightningElement {
      * True if value has been normalized, false otherwise
      */
     _isNormalized = false;
+
+    /**
+     * Combobox does not validate itself when disabled because a disabled combobox does not show errors.
+     * However, if an attribute is changed which would normally trigger re-validation, it is tracked with this
+     * flag and validation is run when the combobox is enabled
+     */
+    _needsValidationOnEnable = false;
 
     /* ********************** */
     /*     Event handlers     */
@@ -904,6 +927,7 @@ export default class Combobox extends LightningElement {
         if (this.disabled) {
             return;
         }
+        this._needsValidationOnEnable = false;
 
         if (isTextWithMergeFields(this.state.displayText)) {
             this.validateMultipleMergeFieldsWithText();
