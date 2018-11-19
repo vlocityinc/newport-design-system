@@ -4,6 +4,7 @@ import { getShadowRoot } from 'lwc-test-utils';
 import * as storeMockedData from "mock/storeData";
 import {  SObjectReferenceChangedEvent } from "builder_platform_interaction/events";
 import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
+import { mockAccountFields } from "mock/serverEntityData";
 import { RecordStoreOptionChangedEvent,
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -103,11 +104,7 @@ const inputAssignmentElement = {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        fetchFieldsForEntity: jest.fn().mockImplementation(() => {
-            return Promise.resolve().then(() => {
-                return require.requireActual('mock/serverEntityData').mockAccountFields;
-            });
-        }),
+        fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
         getUpdateableEntities: jest.fn().mockImplementation(() => {
             return require.requireActual('mock/serverEntityData').mockEntities;
         }),
