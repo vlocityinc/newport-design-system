@@ -27,15 +27,22 @@ import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 const elementType = ELEMENT_TYPE.RECORD_LOOKUP;
 const maxConnections = 2;
 
-export function createQueriedField(queriedField) {
-    // In metadata the queried fields are stored as ['someField'...],
+/**
+ * Build query field (see "queryFields" element property)
+ * @param {(Object|string)} queriedField - query field about to be built
+ * @param {string} queriedField.field - if not undefined contains the query field name (eg: "id")
+ * @returns {Object} - query field built
+ */
+export const createQueriedField = queriedField => {
+    // In Metadata the queried fields are stored as ['someField'...],
     // but in the store they are stored as [{field: 'someField', rowIndex: '1'}...]
-    const field = queriedField.field || queriedField;
+    // const fieldName = queriedField.field !== undefined ? queriedField.field : queriedField;
+    const {field = queriedField }  = queriedField;
     return {
         field,
         rowIndex: generateGuid()
     };
-}
+};
 
 export function createRecordLookup(recordLookup = {}) {
     const newRecordLookup = baseCanvasElement(recordLookup);

@@ -1,11 +1,11 @@
-import { createRecordLookup, createRecordLookupMetadataObject } from '../recordLookup';
+import { createRecordLookup, createRecordLookupMetadataObject, createQueriedField} from '../recordLookup';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
 expect.extend(deepFindMatchers);
 
-const mockGuid = 'mockGuid';
+const MOCK_GUID = 'mockGuid';
 
 const recordLookupSObjectStore = () => ({
     assignNullValuesIfNoRecordsFound: false,
@@ -26,8 +26,8 @@ const recordLookupSObjectStore = () => ({
         operator: "EqualTo",
         rightHandSide: "vCity",
         rightHandSideDataType: "reference",
-        rowIndex: "mockGuid"}],
-    guid: "mockGuid",
+        rowIndex: MOCK_GUID}],
+    guid: MOCK_GUID,
     isCanvasElement: true,
     label: "lookupSObject",
     locationX: 304,
@@ -37,7 +37,8 @@ const recordLookupSObjectStore = () => ({
     object: "Account",
     outputReference: "vSobjectAccount",
     queriedFields: [{field: "BillingCountry",
-        rowIndex: "mockGuid"}],
+        rowIndex: MOCK_GUID}, {field: "",
+            rowIndex: MOCK_GUID}],
     sortField: "",
     sortOrder: "NotSorted"
 });
@@ -57,7 +58,7 @@ const recordLookupSObjectCollectionStore = () => ({
     elementType: "RECORD_LOOKUP",
     filterType: "all",
     filters: [],
-    guid: "mockGuid",
+    guid: MOCK_GUID,
     isCanvasElement: true,
     label: "lookupSObject",
     locationX: 304,
@@ -68,7 +69,8 @@ const recordLookupSObjectCollectionStore = () => ({
     object: "Account",
     outputReference: "vSobjectAccountCollection",
     queriedFields: [{field: "BillingCountry",
-        rowIndex: "mockGuid"}],
+        rowIndex: MOCK_GUID}, {field: "",
+            rowIndex: MOCK_GUID}],
     sortField: "",
     sortOrder: "NotSorted"
 });
@@ -124,8 +126,8 @@ const recordLoookupFieldsStore = () => ({
         operator: "EqualTo",
         rightHandSide: "vCity",
         rightHandSideDataType: "reference",
-        rowIndex: "mockGuid"}],
-    guid: "mockGuid",
+        rowIndex: MOCK_GUID}],
+    guid: MOCK_GUID,
     isCanvasElement: true,
     label: "lookup with Fields",
     locationX: 431,
@@ -163,7 +165,7 @@ const uiModelOutputAssignmentField = {
 
 describe('recordLookup', () => {
     const storeLib = require.requireActual('builder_platform_interaction/storeLib');
-    storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
+    storeLib.generateGuid = jest.fn().mockReturnValue(MOCK_GUID);
     describe('createRecordLookup function', () => {
         let recordLookup;
         describe('when empty recordLookup is created', () => {
@@ -202,9 +204,8 @@ describe('recordLookup', () => {
             });
         });
     });
-});
-describe('recordLookup new element from left panel', () => {
-    it('returns a new record lookup object when no argument is passed; numberRecordsToStore should be set to FIRSt_RECORD by default', () => {
+    describe('recordLookup new element from left panel', () => {
+     it('returns a new record lookup object when no argument is passed; numberRecordsToStore should be set to FIRSt_RECORD by default', () => {
         const uiModelResult = {
             name: '',
             description: '',
@@ -214,9 +215,9 @@ describe('recordLookup new element from left panel', () => {
         const actualResult = createRecordLookup();
         expect(actualResult).toMatchObject(uiModelResult);
     });
-});
-describe('recordLookup flow metadata => UI model', () => {
-    describe('recordLookup function using sObject', () => {
+   });
+   describe('recordLookup flow metadata => UI model', () => {
+     describe('recordLookup function using sObject', () => {
         it('returns a new record update object with same value and the numberRecordsToStore calculated from the inputReference', () => {
             const recordLookupSObjectMetadata = recordLoookupFieldsMetadata();
             const actualResult = createRecordLookup(recordLookupSObjectMetadata);
@@ -227,8 +228,8 @@ describe('recordLookup flow metadata => UI model', () => {
             const actualResult = createRecordLookup(recordLookupSObjectMetadata);
             expect(actualResult).toHaveNoCommonMutableObjectWith(recordLookupSObjectMetadata);
         });
-    });
-    describe('recordLookup function using Fields', () => {
+     });
+     describe('recordLookup function using Fields', () => {
         let recordLookupUsingFields;
         let uiModelRecordLookupWithFields;
         beforeEach(() => {
@@ -255,10 +256,10 @@ describe('recordLookup flow metadata => UI model', () => {
             const actualResult = createRecordLookup(recordLookupUsingFields);
             expect(actualResult).toHaveProperty('outputReference', '');
         });
+      });
     });
-});
-describe('recordLookup UI model => flow metadata', () => {
-    describe('recordLookup function using sObject', () => {
+    describe('recordLookup UI model => flow metadata', () => {
+     describe('recordLookup function using sObject', () => {
         it('record lookup using sObject', () => {
             const actualResult = createRecordLookupMetadataObject(recordLookupSObjectStore());
             expect(actualResult).toMatchObject(recordLoookupSObjectMetadata());
@@ -268,8 +269,8 @@ describe('recordLookup UI model => flow metadata', () => {
             const actualResult = createRecordLookupMetadataObject(recordCreateSObjectStore);
             expect(actualResult).toHaveNoCommonMutableObjectWith(recordCreateSObjectStore);
         });
-    });
-    describe('recordLookup function using Fields', () => {
+      });
+      describe('recordLookup function using Fields', () => {
         let recordLookupUsingFields;
         let uiModelRecordLookupWithFields;
         beforeEach(() => {
@@ -293,4 +294,23 @@ describe('recordLookup UI model => flow metadata', () => {
             expect(actualResult).toHaveNoCommonMutableObjectWith(uiModelRecordLookupWithFields);
         });
     });
+  });
+  describe('createQueriedField', () => {
+     test('when passing a string parameter not empty', () => {
+      const actualResult = createQueriedField("id");
+      expect(actualResult).toMatchObject({field: "id", rowIndex: MOCK_GUID});
+     });
+     test('when passing a string parameter (empty string)', () => {
+         const actualResult = createQueriedField("");
+         expect(actualResult).toMatchObject({field: "", rowIndex: MOCK_GUID});
+        });
+     test('when passing an object parameter with a field property that has an empty string value', () => {
+         const actualResult = createQueriedField({field:"", rowIndex: MOCK_GUID});
+         expect(actualResult).toMatchObject({field: "", rowIndex: MOCK_GUID});
+     });
+     test('when passing an object parameter with a field property that has not an empty string value', () => {
+         const actualResult = createQueriedField({field:"id", rowIndex: MOCK_GUID});
+         expect(actualResult).toMatchObject({field: "id", rowIndex: MOCK_GUID});
+     });
+  });
 });
