@@ -1,3 +1,5 @@
+import { escapeForRegExp } from 'builder_platform_interaction/commonUtils';
+
 /**
  * Persist original text/subText else clear highlight if present.
  * @param {Object} groupOrItem - Menu data group or item to clear highlighting.
@@ -44,14 +46,15 @@ function hasHighlight(text) {
 /**
  * Highlights the text and subText in the item.
  * @param {String} filterText - The value used to filter
+ * @param {String} escapedFilterText - The filter text value with regex special char escaped
  * @param {Object} item - One item that has matching values in text and/or subText
  */
-function highlightItem(filterText, item) {
+function highlightItem(filterText, escapedFilterText, item) {
     if (!isEmpty(filterText)) {
-        item.text = highlight(filterText, item.text);
+        item.text = highlight(filterText, escapedFilterText, item.text);
 
         if (item.subText) {
-            item.subText = highlight(filterText, item.subText);
+            item.subText = highlight(filterText, escapedFilterText, item.subText);
         }
     }
 }
@@ -59,10 +62,11 @@ function highlightItem(filterText, item) {
 /**
  * Creates an array defining parts of the text to highlight in a format that the combobox uses
  * @param {String} filterText - The value used to filter
+ * @param {String} escapedFilterText - The filter text value with regex special char escaped
  * @param {String} targetText - The text that needs to be highlighted
  * @return {Array} The new array with highlighted text
  */
-function highlight(filterText, targetText) {
+function highlight(filterText, escapedFilterText, targetText) {
     // covers small edge case where target text is not a string caused by empty menu item label
     if (typeof targetText !== 'string') {
         return '';
@@ -74,10 +78,10 @@ function highlight(filterText, targetText) {
     // The 'u' tag causes opening sequence characters to be invalid so { will cause an issue
     // So we try to account for as much unicode as possible, then try without the 'u' tag, then default to no highlight
     try {
-        regex = new RegExp('(' + filterText + ')', 'ui');
+        regex = new RegExp('(' + escapedFilterText + ')', 'ui');
     } catch (error1) {
         try {
-            regex = new RegExp('(' + filterText + ')', 'i');
+            regex = new RegExp('(' + escapedFilterText + ')', 'i');
         } catch (error2) {
             return targetText;
         }
@@ -147,10 +151,11 @@ export function filterMatches(filterText, menuData, isMergeField) {
             return isEmpty(filterText) || getIndex(filterText, menuItem.text) !== -1 || getIndex(filterText, menuItem.subText) !== -1;
         });
 
+        const escapedFilterText = escapeForRegExp(filterText);
         // Only add group with matched items
         if (matchedItems && matchedItems.length > 0) {
             matchedItems.forEach(menuItem => {
-                highlightItem(filterText, menuItem);
+                highlightItem(filterText, escapedFilterText, menuItem);
             });
             // a menu data group
             if (menuData[i].items) {

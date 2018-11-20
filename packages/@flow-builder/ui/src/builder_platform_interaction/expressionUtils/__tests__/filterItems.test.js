@@ -8,7 +8,9 @@ const filterText = {
     curlyBraces: '{',
     specialChar: '@#$%',
     newResource: 'new resource',
-    esperanto: '«คู้Eöש是[[Activate Session-Based Permission Set]]是שöEคู้是שöEคู้»'
+    esperanto: '«คู้Eöש是[[Activate Session-Based Permission Set]]是שöEคู้是שöEคู้»',
+    regexSpecialChar1: '$',
+    regexSpecialChar2: '$%^',
 };
 
 const menuData = [
@@ -97,6 +99,18 @@ const filteredTextNewResource = {
     text: 'New Resource'
 };
 
+const filteredTextHighlightSpecialChar1 = [
+    { highlight: false, text: 'a!@#' },
+    { highlight: true, text: '$' },
+    { highlight: false, text: '%^_)(*&:' },
+];
+
+const filteredTextHighlightSpecialChar2 = [
+    { highlight: false, text: 'a!@#' },
+    { highlight: true, text: '$%^' },
+    { highlight: false, text: '_)(*&:' },
+];
+
 const labelSObjectVariables = 'SObject Variables';
 const labelVariables = 'Variables';
 
@@ -180,6 +194,22 @@ describe('Combobox Search Library', () => {
             expect(() => {
                 filterMatches(filterText.esperanto, menuData);
             }).not.toThrow();
+        });
+
+        it('Search should work for regex special char $', () => {
+            const filteredArray = filterMatches(filterText.regexSpecialChar1, menuData);
+            expect(filteredArray).toHaveLength(1);
+            expect(filteredArray[0].label).toBe(labelVariables);
+            expect(filteredArray[0].items).toHaveLength(1);
+            expect(filteredArray[0].items[0].text).toEqual(filteredTextHighlightSpecialChar1);
+        });
+
+        it('Search should work for regex special char $%^', () => {
+            const filteredArray = filterMatches(filterText.regexSpecialChar2, menuData);
+            expect(filteredArray).toHaveLength(1);
+            expect(filteredArray[0].label).toBe(labelVariables);
+            expect(filteredArray[0].items).toHaveLength(1);
+            expect(filteredArray[0].items[0].text).toEqual(filteredTextHighlightSpecialChar2);
         });
     });
 });
