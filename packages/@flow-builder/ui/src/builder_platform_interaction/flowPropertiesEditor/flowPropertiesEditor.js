@@ -68,7 +68,7 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     labels = LABELS;
 
-    _processTypes;
+    _processTypes = getProcessTypesMenuData();
     _originalLabel;
     _originalApiName;
     _originalDescription;
@@ -88,6 +88,21 @@ export default class FlowPropertiesEditor extends LightningElement {
             retVal = this.flowProperties.processType.value;
         }
         return retVal;
+    }
+
+    /**
+     * The label of the currently selected process type
+     */
+    get processTypeLabel() {
+        let label = null;
+        if (this.flowProperties.processType) {
+            const processType = this._processTypes.find((pt) => {
+                return pt.value === this.flowProperties.processType.value;
+            });
+
+            label = processType ? processType.label : null;
+        }
+        return label;
     }
 
     /**
@@ -134,13 +149,9 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     /**
      * Returns the process types
-     * If the process type menu data is not populated we call the expression utils to create the menu data
      * @returns {module:builder_platform_interaction/expressionUtils.MenuItem[]} Menu items representing allowed process types
      */
     get processTypes() {
-        if (!this._processTypes) {
-            this._processTypes = getProcessTypesMenuData();
-        }
         return this._processTypes;
     }
 

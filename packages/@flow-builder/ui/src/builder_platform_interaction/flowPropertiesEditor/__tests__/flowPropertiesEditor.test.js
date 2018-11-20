@@ -1,4 +1,5 @@
 import { createElement } from 'lwc';
+import { getProcessTypesMenuData } from "builder_platform_interaction/expressionUtils";
 import FlowPropertiesEditor from '../flowPropertiesEditor';
 import { getShadowRoot } from 'lwc-test-utils';
 import { SaveType } from "builder_platform_interaction/saveType";
@@ -9,7 +10,16 @@ import format from 'builder_platform_interaction/commonUtils';
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getProcessTypesMenuData() {
-            return [];
+            return [
+                {
+                    value: 'processType1',
+                    label: 'processTypeLabel1'
+                },
+                {
+                    value: 'processType2',
+                    label: 'processTypeLabel2'
+                },
+            ];
         }
     };
 });
@@ -44,7 +54,9 @@ const defaultNode = {
     processType: { value: 'process type' },
     status: { value: 'Active' },
     interviewLabel: { value: 'interviewLabel' },
-    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' }
+    lastModifiedBy: { value: 'some user' },
+    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+    saveType: SaveType.UPDATE,
 };
 
 function createComponentForTest(props) {
@@ -62,7 +74,8 @@ function createComponentForTest(props) {
 const SELECTORS = {
     ADVANCED_TOGGLE: 'lightning-button',
     ADVANCED: 'div.advanced',
-    LAST_MODIFIED: 'div.lastModified'
+    LAST_MODIFIED: 'div.lastModified',
+    LAST_PROCESS_TYPE: 'div.lastProcessType',
 };
 
 
@@ -70,6 +83,7 @@ describe('FlowPropertiesEditor', () => {
     describe('advanced properties', () => {
         it('is hidden by default', () => {
             const component = createComponentForTest();
+            component.node = Object.assign(component.node, {saveType: SaveType.CREATE});
 
             return Promise.resolve().then(() => {
                 expect(getShadowRoot(component).querySelector(SELECTORS.ADVANCED)).toBeNull();
@@ -78,7 +92,6 @@ describe('FlowPropertiesEditor', () => {
 
         it('defaults to shown for saveType UPDATE', () => {
             const component = createComponentForTest();
-            component.node = Object.assign(component.node, {saveType: SaveType.UPDATE});
 
             return Promise.resolve().then(() => {
                 expect(getShadowRoot(component).querySelector(SELECTORS.ADVANCED)).not.toBeNull();
@@ -88,6 +101,7 @@ describe('FlowPropertiesEditor', () => {
         describe('handleAdvancedToggle', () => {
             it('shows advanced properties if hidden', () => {
                 const component = createComponentForTest();
+                component.node = Object.assign(component.node, {saveType: SaveType.CREATE});
 
                 return Promise.resolve().then(() => {
                     getShadowRoot(component).querySelector(SELECTORS.ADVANCED_TOGGLE).click();
@@ -99,7 +113,6 @@ describe('FlowPropertiesEditor', () => {
 
             it('hides advanced properties if shown', () => {
                 const component = createComponentForTest();
-                component.node = Object.assign(component.node, {saveType: SaveType.UPDATE});
 
                 return Promise.resolve().then(() => {
                     getShadowRoot(component).querySelector(SELECTORS.ADVANCED_TOGGLE).click();
@@ -110,11 +123,31 @@ describe('FlowPropertiesEditor', () => {
             });
         });
 
+        describe('process type', () => {
+            it('is empty if no process type found for the value', () => {
+                const component = createComponentForTest();
+                component.node = Object.assign(component.node, {processType: 'bad process type'});
+
+                return Promise.resolve().then(() => {
+                    expect(getShadowRoot(component).querySelector(SELECTORS.LAST_PROCESS_TYPE).textContent).toEqual('');
+                });
+            });
+
+            it('displays the label associated with the current process type', () => {
+                const processTypes = getProcessTypesMenuData();
+
+                const component = createComponentForTest();
+                component.node = Object.assign(component.node, {processType: { value: processTypes[1].value}});
+
+                return Promise.resolve().then(() => {
+                    expect(getShadowRoot(component).querySelector(SELECTORS.LAST_PROCESS_TYPE).textContent).toEqual(processTypes[1].label);
+                });
+            });
+        });
+
         describe('lastModifiedText', () => {
             it('returns the localized label with the correct user name and last modified date/time', () => {
                 const component = createComponentForTest();
-                // Make sure advanced is shown
-                component.node = Object.assign(component.node, {saveType: SaveType.UPDATE});
 
                 return Promise.resolve().then(() => {
                     expect(getShadowRoot(component).querySelector(SELECTORS.LAST_MODIFIED).textContent).toEqual(mockFormattedLabel);
@@ -123,8 +156,6 @@ describe('FlowPropertiesEditor', () => {
 
             it('calls normalizeDateTime with the the last modified datetime', () => {
                 const component = createComponentForTest();
-                // Make sure advanced is shown
-                component.node = Object.assign(component.node, {saveType: SaveType.UPDATE});
 
                 return Promise.resolve().then(() => {
                     expect(normalizeDateTime.normalizeDateTime).toHaveBeenCalledWith(component.node.lastModifiedDate.value, true);
@@ -133,11 +164,9 @@ describe('FlowPropertiesEditor', () => {
 
             it('calls format with the label, user and datetime', () => {
                 const component = createComponentForTest();
-                // Make sure advanced is shown
-                component.node = Object.assign(component.node, {saveType: SaveType.UPDATE});
 
                 return Promise.resolve().then(() => {
-                    expect(format.format).toHaveBeenCalledWith(LABELS.lastModifiedText, 'some_user', mockDateTimeString);
+                    expect(format.format).toHaveBeenCalledWith(LABELS.lastModifiedText, component.node.lastModifiedBy.value, mockDateTimeString);
                 });
             });
         });
