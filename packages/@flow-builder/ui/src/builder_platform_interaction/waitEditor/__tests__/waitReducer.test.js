@@ -7,6 +7,7 @@ import {
     DeleteWaitEventEvent,
     WaitEventPropertyChangedEvent,
     WaitEventParameterChangedEvent,
+    UpdateWaitEventEventTypeEvent,
 } from 'builder_platform_interaction/events';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
@@ -28,6 +29,10 @@ describe('wait-reducer', () => {
     };
     const directRecordRecordId = {
         value: 'EntityObjectId',
+        error: null
+    };
+    const resumeTime = {
+        value: 'AlarmTime',
         error: null
     };
     const stringDataType = {
@@ -68,6 +73,14 @@ describe('wait-reducer', () => {
             rowIndex: rowIndexGuid,
             valueDataType: { value: referenceDataType, error : null}
         }];
+    const mockDirectRecordTimeOutputParameters = {
+            [resumeTime.value] : [{
+                name: resumeTime,
+                value: {value: '{!varDateTime}', error: null},
+                rowIndex: rowIndexGuid,
+                valueDataType: { value: referenceDataType, error : null}
+            }]
+        };
     beforeEach(() => {
         currCondition = createCondition();
         initState = {
@@ -83,6 +96,7 @@ describe('wait-reducer', () => {
                     name : {value: 'waitEvent1', error: null},
                     guid: absoluteBaseTimeTypeWaitEventGUID,
                     inputParameters: mockAbsoluteTimeInputParameters,
+                    outputParameters: mockDirectRecordTimeOutputParameters,
                     conditions: [
                         currCondition,
                     ],
@@ -124,18 +138,6 @@ describe('wait-reducer', () => {
         const resultObj = waitReducer(initState, event);
         expect(resultObj.label.value).toBe('label');
         expect(resultObj.label.error).toBe('errorForThisProperty');
-    });
-    it('returns the unchanged state for an unknown event type', () => {
-        const event = {
-            type: 'unknown event',
-            detail: {
-                propertyName: 'label',
-                value: 'newlabel',
-                error: null
-            }
-        };
-        const resultObj = waitReducer(initState, event);
-        expect(resultObj).toEqual(initState);
     });
     it('adds a condition', () => {
         const addConditionEvent = new AddConditionEvent(absoluteBaseTimeTypeWaitEventGUID);
@@ -337,6 +339,35 @@ describe('wait-reducer', () => {
             const resultObj = waitReducer(initState, propertyChangedEvent);
             expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(newConditionLogic);
             expect(resultObj.waitEvents[0].conditions).toHaveLength(1);
+        });
+    });
+
+    describe('event type', () => {
+        it('returns the unchanged state for an unknown event type', () => {
+            const event = {
+                type: 'unknown event',
+                detail: {
+                    propertyName: 'label',
+                    value: 'newlabel',
+                    error: null
+                }
+            };
+            const resultObj = waitReducer(initState, event);
+            expect(resultObj).toEqual(initState);
+        });
+        it('update does not clear the parameters for same event type', () => {
+            const updateEventTypeEvent = {
+                type: UpdateWaitEventEventTypeEvent.EVENT_NAME,
+                detail: {
+                    propertyName: 'name',
+                    value: 'waitEvent1',
+                    parentGUID: absoluteBaseTimeTypeWaitEventGUID,
+                    oldValue: 'waitEvent1',
+                    error: null,
+                }
+            };
+            const resultObj = waitReducer(initState, updateEventTypeEvent);
+            expect(resultObj).toEqual(initState);
         });
     });
 });
