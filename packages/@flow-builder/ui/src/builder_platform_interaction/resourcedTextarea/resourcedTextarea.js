@@ -35,7 +35,11 @@ export default class ResourcedTextarea extends LightningElement {
     @api maxLength;
     @api spinnerAlternativeText;
     @api showGlobalVariables = false;
+
+    // IMPORTANT: For new resource to work, the containing property editor must have newResourcesCallback included
+    // in the call to invokePropertyEditor in editor.js
     @api hideNewResource = false;
+
     @track error;
     @track spinnerActive;
     @track _value;

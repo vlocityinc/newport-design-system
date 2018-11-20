@@ -429,8 +429,9 @@ export default class Editor extends LightningElement {
         const node = getElementForPropertyEditor(storeInstance.getCurrentState().properties);
         node.saveType = SaveType.UPDATE;
         const nodeUpdate = this.flowPropertiesCallback;
-        invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate });
-    };
+        const newResourceCallback = this.newResourceCallback;
+        invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
+};
 
     /**
      * Handles the run flow event fired by the toolbar. Opens and runs the flow in a different tab.
