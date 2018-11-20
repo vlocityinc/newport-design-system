@@ -138,14 +138,14 @@ function isElementOverlappingStartElement(element = {}, translateX = 0, properti
  * @return {Object} Returns a new element with the updated location
  */
 function updateCanvasElementLocation(element = {}, translateX = 0) {
-    if (element && element.locationX) {
+    if (element && element.hasOwnProperty('locationX')) {
         const newLocationX = element.locationX + translateX;
 
         return Object.assign({}, element, {
             locationX: newLocationX
         });
     }
-    return {};
+    return element;
 }
 
 /**
