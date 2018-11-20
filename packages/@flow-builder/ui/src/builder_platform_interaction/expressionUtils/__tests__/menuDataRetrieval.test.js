@@ -192,7 +192,8 @@ describe('Menu data retrieval', () => {
     it('should have one sobject variable and one sobject collection variable', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(jest.fn().mockReturnValue([store.elements[store.accountSObjectVariableGuid], store.elements[store.accountSObjectCollectionVariableGuid]]));
         const menuData = getElementsForMenuData({elementType: ELEMENT_TYPE.RECORD_LOOKUP, sObjectSelector: true});
-        expect(menuData).toHaveLength(2);
+        // TODO: W-5624868 when getElementsForMenuData is removed, this test should pass showSystemVariables = false so that menuData only expects length 2
+        expect(menuData).toHaveLength(3);
         expect(menuData[0].label).toBe(sobjectCollectionVariable);
         expect(menuData[1].label).toBe(sobjectVariable);
         expect(menuData[0].items).toHaveLength(1);

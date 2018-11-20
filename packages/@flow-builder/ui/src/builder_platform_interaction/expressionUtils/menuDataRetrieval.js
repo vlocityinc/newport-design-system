@@ -333,7 +333,7 @@ export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, inc
         })
         .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
 
-    const systemVariablesAllowed = showSystemVariables && allowedParamTypes && allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT];
+    const systemVariablesAllowed = showSystemVariables && (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
     if (systemVariablesAllowed || showGlobalVariables) {
         menuData.push(getSystemAndGlobalVariableMenuData(systemVariablesAllowed, showGlobalVariables));
     }
