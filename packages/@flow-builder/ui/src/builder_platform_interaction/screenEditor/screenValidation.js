@@ -131,7 +131,7 @@ const getRulesForExtensionField = (field, rules) => {
         } else {
             // here we have the attribute from the definition and the parameter from the field, let's make sure that the type and the requiredness match
             const type = attributeDescriptors[0].dataType;
-            const required = attributeDescriptors[0].isRequired;
+            const required = attributeDescriptors[0].isRequired && !attributeDescriptors[0].hasDefaultValue;
             return {value: getExtensionParameterRules(type, required)};
         }
     };
