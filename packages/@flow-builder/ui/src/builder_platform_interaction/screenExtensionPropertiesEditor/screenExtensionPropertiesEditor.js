@@ -44,17 +44,28 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         const fieldName = this._field ? this._field.name : null;
 
         if (this._extensionDescription && extName !== fieldName) {
-            this.inputParameters = this.createParametersMapping('inputParameters');
-            this.outputParameters = this.createParametersMapping('outputParameters');
+            this.inputParameters = this.createParametersMapping('inputParameters', true);
+            this.outputParameters = this.createParametersMapping('outputParameters', false);
         }
-    }
+    };
 
-    createParametersMapping = (name) => {
+    createParametersMapping = (name, sort) => {
         const params = [];
         for (let i = 0; i <  this._extensionDescription[name].length; i++) {
             const descriptor = this._extensionDescription[name][i];
             const attribute = this.field[name].find(param => descriptor.apiName === param.name.value);
             params.push({attribute, descriptor});
+        }
+
+        if (sort) {
+            params.sort((p1, p2) => {
+                if (p1.descriptor.isRequired !== p2.descriptor.isRequired) {
+                    return p1.descriptor.isRequired ? -1 : 1;
+                }
+                const p1Label = (p1.descriptor.label || p1.descriptor.apiName || '').toLowerCase();
+                const p2Label = (p2.descriptor.label || p2.descriptor.apiName || '').toLowerCase();
+                return p1Label.localeCompare(p2Label);
+            });
         }
 
         return params;
