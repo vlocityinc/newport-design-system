@@ -58,6 +58,7 @@ describe('Merge field validation', () => {
             expect(validationErrors).toEqual([]);
         });
         it('Returns a validation error when it does not reference an existing variable record field', () => {
+            // we will have the same error if user does not have access to this record field
             const validationErrors = validateMergeField('{!accVar1.Unknown}');
             expect(validationErrors).toEqual([
                 {

@@ -252,32 +252,30 @@ export class MergeFieldsValidation {
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
             return [validationError];
         }
-        this._validateFieldForEntity = (field) => {
-            let errors = [];
-            if (!field) {
-                const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.objectType);
-                errors = [this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex)];
+        const field = this._getFieldForEntity(element.objectType, fieldName);
+        let errors = [];
+        if (!field) {
+            const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.objectType);
+            errors = [this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex)];
+        } else if (this.allowedParamTypes && !this._isElementValidForAllowedParamTypes(field)) {
             // validate field for the allowed param types
-            } else if (this.allowedParamTypes && !this._isElementValidForAllowedParamTypes(field)) {
-                const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
-                errors = [validationError];
-            }
-            return errors;
-        };
-        return this._getFieldsForEntity(element.objectType, fieldName);
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
+            errors = [validationError];
+        }
+        return errors;
     }
 
-    _getFieldsForEntity(entityName, fieldName) {
+    _getFieldForEntity(entityName, fieldName) {
         fieldName = fieldName.toLowerCase();
         const fields = sobjectLib.getFieldsForEntity(entityName);
         for (const apiName in fields) {
             if (fields.hasOwnProperty(apiName)) {
                 if (fieldName === apiName.toLowerCase()) {
-                    return this._validateFieldForEntity(fields[apiName]);
+                    return fields[apiName];
                 }
             }
         }
-        return this._validateFieldForEntity(undefined);
+        return undefined;
     }
 }
 
