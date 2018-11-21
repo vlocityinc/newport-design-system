@@ -1,4 +1,4 @@
-import { LightningElement, api, track, unwrap } from "lwc";
+import { LightningElement, api, track } from "lwc";
 import { drawingLibInstance as lib} from "builder_platform_interaction/drawingLib";
 import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from "./zoomPanUtils";
 import { isCanvasElement } from "builder_platform_interaction/elementConfig";
@@ -404,7 +404,7 @@ export default class Canvas extends LightningElement {
         if (!lib.getContainer()) {
             this.canvasArea = this.template.querySelector(SELECTORS.CANVAS);
             this.innerCanvasArea = this.template.querySelector(SELECTORS.INNER_CANVAS);
-            lib.setContainer(unwrap(this.innerCanvasArea));
+            lib.setContainer(this.innerCanvasArea);
         }
         const canvasElements = this.template.querySelectorAll('builder_platform_interaction-node');
         const connectors = this.template.querySelectorAll('builder_platform_interaction-connector');
@@ -416,7 +416,7 @@ export default class Canvas extends LightningElement {
             const dragStart = canvasElementContainerTemplate.dragStart;
             const dragStop = canvasElementContainerTemplate.dragStop;
             const drag = canvasElementContainerTemplate.drag;
-            const canvasElementContainer = unwrap(canvasElementContainerTemplate).firstChild;
+            const canvasElementContainer = canvasElementContainerTemplate.shadowRoot.firstChild;
             if (!canvasElementContainer.getAttribute('id')) {
                 canvasElementContainer.setAttribute('id', canvasElementContainerTemplate.node.guid);
             }
