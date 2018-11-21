@@ -13,6 +13,7 @@ import warningNotAvailable from "@salesforce/label/FlowBuilderSubflowEditor.warn
 import warningDataTypeChanged from "@salesforce/label/FlowBuilderSubflowEditor.warningDataTypeChanged";
 import warningActiveOnly from "@salesforce/label/FlowBuilderSubflowEditor.warningActiveOnly";
 import subflowTypeLabel from "@salesforce/label/FlowBuilderSubflowEditor.subflowTypeLabel";
+import editPropertyEditorTitle from "@salesforce/label/FlowBuilderSubflowEditor.editPropertyEditorTitle";
 
 export const LABELS = {
     subtitle,
@@ -29,5 +30,6 @@ export const LABELS = {
     warningNotAvailable,
     warningDataTypeChanged,
     subflowTypeLabel,
+    editPropertyEditorTitle
 };
 

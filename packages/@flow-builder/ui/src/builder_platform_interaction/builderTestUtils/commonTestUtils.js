@@ -30,10 +30,20 @@ export const until = (condition, maxTicks = DEFAULT_MAX_TICKS) => {
  * Returns a promise that is fulfilled when expectations are met
  * @param {Function} expectations should throw an exception if an expectation is not met
  * @param {number} maxTicks max number of event loop ticks before the condition becomes truthy
+ * @returns {Promise} fulfilled when expectations are met
  */
 export const untilNoFailure = (expectations, maxTicks = DEFAULT_MAX_TICKS) => {
     return until(() => {
         expectations();
         return true;
     }, maxTicks);
+};
+
+/**
+ * Returns a promise that is fulfilled after the given number of event loop ticks
+ * @param {number} maxTicks number of event loop ticks before the promise is fulfilled
+ * @returns {Promise} fulfilled after the given number of event loop ticks
+ */
+export const ticks = (maxTicks = DEFAULT_MAX_TICKS) => {
+    return until(() => false, maxTicks).catch(() => {});
 };

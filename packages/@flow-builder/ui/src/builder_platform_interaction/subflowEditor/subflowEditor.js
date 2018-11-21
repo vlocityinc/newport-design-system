@@ -7,7 +7,7 @@ import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from "
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
-import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 
 export default class SubflowEditor extends LightningElement {
     @track subflowNode = {};
@@ -17,7 +17,7 @@ export default class SubflowEditor extends LightningElement {
     @track subflowDescriptor;
 
     labels = LABELS;
-    connected = false
+    connected = false;
 
     // true if we are creating a new subflow element, false if editing an existing subflow element
     @api
@@ -28,6 +28,7 @@ export default class SubflowEditor extends LightningElement {
 
     connectedCallback() {
         this.connected = true;
+        this.updatePropertyEditorTitle();
         if (this.subflowNode) {
             this.fetchSubflowDescriptor();
             this.fetchFlowInputOutputVariables();
@@ -76,10 +77,21 @@ export default class SubflowEditor extends LightningElement {
         }, options).then((subflows) => {
             if (this.connected) {
                 this.subflowDescriptor = subflows.find(f => f.fullName === flowName);
+                this.updatePropertyEditorTitle();
             }
         }).catch(() => {
             // ignore the error : we won't use the subflowDescriptor in this case
         });
+    }
+
+    updatePropertyEditorTitle() {
+        if (this.isNewMode || !this.subflowNode) {
+            return;
+        }
+        const flowName = this.subflowDescriptor != null ? this.subflowDescriptor.masterLabel : getValueFromHydratedItem(this.subflowNode.flowName);
+        const title = format(this.labels.editPropertyEditorTitle, flowName);
+        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(title);
+        this.dispatchEvent(setPropertyEditorTitleEvent);
     }
 
     @api

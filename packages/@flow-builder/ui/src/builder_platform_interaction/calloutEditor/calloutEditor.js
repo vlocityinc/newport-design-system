@@ -2,8 +2,8 @@ import { LightningElement, api, track } from 'lwc';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
-import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
-
+import { ClosePropertyEditorEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import { LABELS } from './calloutEditorLabels';
 const CONTAINER_SELECTOR = 'builder_platform_interaction-callout-editor-container';
 
 export default class CalloutEditor extends LightningElement {
@@ -20,7 +20,19 @@ export default class CalloutEditor extends LightningElement {
 
     @track hasActions = {};
 
+    labels = LABELS;
+
     location = {};
+
+    connectedCallback() {
+        this.updatePropertyEditorTitle();
+    }
+
+    updatePropertyEditorTitle() {
+        const title = this.labels.newActionPropertyEditorTitle;
+        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(title);
+        this.dispatchEvent(setPropertyEditorTitleEvent);
+    }
 
     @api
     get node() {

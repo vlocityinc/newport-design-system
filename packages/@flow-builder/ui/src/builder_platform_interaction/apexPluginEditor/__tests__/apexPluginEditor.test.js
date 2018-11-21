@@ -2,7 +2,8 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import ApexPluginEditor from "../apexPluginEditor";
 import { mockApexPluginParameters, mockApexPlugins } from "mock/calloutData";
-import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
@@ -131,6 +132,25 @@ describe('Apex Plugin editor', () => {
                 document.removeEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
                 expect(eventCallback).toHaveBeenCalled();
             });
+        });
+        it('should dispatch a SetPropertyEditorTitleEvent with a title containing the apex plugin label', async () => {
+            const eventCallback = jest.fn();
+            document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
+            createComponentUnderTest(defaultNode, {isNewMode:false});
+            await untilNoFailure(() => {
+                expect(eventCallback).toHaveBeenCalledTimes(2);
+                expect(eventCallback.mock.calls[0][0].detail.title).toBe('FlowBuilderApexPluginEditor.editPropertyEditorTitle(flowchat)');
+                expect(eventCallback.mock.calls[1][0].detail.title).toBe('FlowBuilderApexPluginEditor.editPropertyEditorTitle(flow chat plugin)');
+            });
+        });
+        it('should dispatch a SetPropertyEditorTitleEvent with a title containing the apex plugin unique name if we cannot get the apex plugin label', async () => {
+            mockApexPluginsPromise = Promise.reject();
+            const eventCallback = jest.fn();
+            document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
+            createComponentUnderTest(defaultNode, {isNewMode:false});
+            await ticks(10);
+            expect(eventCallback).toHaveBeenCalledTimes(1);
+            expect(eventCallback.mock.calls[0][0].detail.title).toBe('FlowBuilderApexPluginEditor.editPropertyEditorTitle(flowchat)');
         });
     });
     describe('New apex plugin node', () => {

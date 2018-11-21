@@ -11,6 +11,7 @@ import warningNotAvailable from "@salesforce/label/FlowBuilderInvocableActionEdi
 import coreActionTypeLabel from "@salesforce/label/FlowBuilderInvocableActionEditor.coreActionTypeLabel";
 import apexTypeLabel from "@salesforce/label/FlowBuilderInvocableActionEditor.apexTypeLabel";
 import emailAlertTypeLabel from "@salesforce/label/FlowBuilderInvocableActionEditor.emailAlertTypeLabel";
+import editPropertyEditorTitle from "@salesforce/label/FlowBuilderInvocableActionEditor.editPropertyEditorTitle";
 
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
@@ -27,6 +28,7 @@ export const LABELS = {
     coreActionTypeLabel,
     apexTypeLabel,
     emailAlertTypeLabel,
+    editPropertyEditorTitle,
 };
 
 export const ACTION_TYPE_LABEL = {

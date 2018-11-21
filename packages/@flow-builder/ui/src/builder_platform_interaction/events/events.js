@@ -62,3 +62,4 @@ export { ClosePropertyEditorEvent } from './closePropertyEditorEvent';
 export { CannotRetrieveCalloutParametersEvent } from './cannotRetrieveCalloutParametersEvent';
 export { CannotRetrieveActionsEvent } from './cannotRetrieveActionsEvent';
 export { ActionsLoadedEvent } from './actionsLoadedEvent';
+export { SetPropertyEditorTitleEvent } from './setPropertyEditorTitleEvent';

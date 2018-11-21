@@ -29,5 +29,14 @@
             typeOf: 'ui:closePanel',
             callback: closeActionCallback(panelInstance)
         }).fire();
+    },
+    
+    setHeaderTitle: function(cmp, title) {
+    	var panelInstance = cmp.get('v.panelInstance');
+    	if (!panelInstance) {
+    		return;
+    	}
+    	var headerComponent = panelInstance.get('v.header')[0];
+        headerComponent.set('v.titleForModal', title);
     }
 })

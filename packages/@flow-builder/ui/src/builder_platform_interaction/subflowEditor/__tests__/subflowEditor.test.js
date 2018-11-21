@@ -3,7 +3,8 @@ import SubflowEditor from "../subflowEditor";
 import { mockSubflows } from 'mock/calloutData';
 import { mockSubflowVariables} from 'mock/calloutData';
 import { getShadowRoot } from 'lwc-test-utils';
-import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = (node, { isNewMode = false} = {}) => {
     const el = createElement('builder_platform_interaction-subflow-editor', { is: SubflowEditor });
@@ -115,7 +116,7 @@ describe('subflow-editor', () => {
         const baseCalloutEditor = getBaseCalloutEditor(subflowEditor);
         expect(baseCalloutEditor.subtitle).toBe('FlowBuilderSubflowEditor.subtitle(my subflow)');
     });
-    it('should display a subtitle using unique name if call to GET_SUBFLOWS failed', async () => {
+    it('should display a subtitle using unique name if we cannot get the subflow label', async () => {
         mockSubflowsPromise = Promise.reject();
         subflowEditor = createComponentUnderTest(subflowNode, {isNewMode:false});
         await mockSubflowsPromise.catch(() => {
@@ -124,7 +125,7 @@ describe('subflow-editor', () => {
         });
     });
     describe('Edit existing subflow', () => {
-        it('should dispatch a ClosePropertyEditorEvent if call to GET_FLOW_INPUT_OUTPUT_VARIABLES failed', async () => {
+        it('should dispatch a ClosePropertyEditorEvent if we cannot get the input/output variables', async () => {
             mockSubflowVariablesPromise = Promise.reject();
             subflowEditor = createComponentUnderTest(subflowNode, {isNewMode:false});
             const eventCallback = jest.fn();
@@ -135,9 +136,28 @@ describe('subflow-editor', () => {
                 expect(eventCallback).toHaveBeenCalled();
             });
         });
+        it('should dispatch a SetPropertyEditorTitleEvent with a title containing the flow label', async () => {
+            const eventCallback = jest.fn();
+            document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
+            subflowEditor = createComponentUnderTest(subflowNode, {isNewMode:false});
+            await untilNoFailure(() => {
+                expect(eventCallback).toHaveBeenCalledTimes(2);
+                expect(eventCallback.mock.calls[0][0].detail.title).toBe('FlowBuilderSubflowEditor.editPropertyEditorTitle(mynamespace__subflow)');
+                expect(eventCallback.mock.calls[1][0].detail.title).toBe('FlowBuilderSubflowEditor.editPropertyEditorTitle(my subflow)');
+            });
+        });
+        it('should dispatch a SetPropertyEditorTitleEvent with a title containing the flow unique name if we cannot get the flow label', async () => {
+            mockSubflowsPromise = Promise.reject();
+            const eventCallback = jest.fn();
+            document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
+            subflowEditor = createComponentUnderTest(subflowNode, {isNewMode:false});
+            await ticks(10);
+            expect(eventCallback).toHaveBeenCalledTimes(1);
+            expect(eventCallback.mock.calls[0][0].detail.title).toBe('FlowBuilderSubflowEditor.editPropertyEditorTitle(mynamespace__subflow)');
+        });
     });
     describe('New subflow node', () => {
-        it('should dispatch a CannotRetrieveCalloutParametersEvent if call to GET_FLOW_INPUT_OUTPUT_VARIABLES failed', async () => {
+        it('should dispatch a CannotRetrieveCalloutParametersEvent if we cannot get the input/output variables', async () => {
             mockSubflowVariablesPromise = Promise.reject();
             subflowEditor = createComponentUnderTest(subflowNode, {isNewMode:true});
             const eventCallback = jest.fn();

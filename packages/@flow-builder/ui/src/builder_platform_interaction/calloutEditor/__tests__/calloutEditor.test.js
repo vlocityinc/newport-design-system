@@ -2,7 +2,9 @@ import { createElement } from 'lwc';
 import CalloutEditor  from "../calloutEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
+import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+
 const setupComponentUnderTest = () => {
     const element = createElement('builder_platform_interaction-callout-editor', {
         is: CalloutEditor,
@@ -52,31 +54,43 @@ const dispatchSelectedApexChangeEvent = (component, apexClass) =>
 const dispatchSelectedSubflowChangeEvent = (component, flowName) =>
     dispatchValueChangeEvent(component, { flowName, elementType : ELEMENT_TYPE.SUBFLOW });
 
+const getActionSelector = (calloutEditor) => {
+    return getShadowRoot(calloutEditor).querySelector(selectors.ACTION_SELECTOR);
+};
+
 describe('callout-editor', () => {
-    let calloutEditor, actionSelector;
+    let calloutEditor;
     const getContainer = () => getShadowRoot(calloutEditor).querySelector(selectors.CONTAINER);
-    beforeEach(() => {
-        calloutEditor = setupComponentUnderTest();
-        actionSelector = getShadowRoot(calloutEditor).querySelector(selectors.ACTION_SELECTOR);
-    });
     describe('general things', () => {
         it('updates hasActions on receiving actions Loaded Event with no actions', async () => {
+            calloutEditor = setupComponentUnderTest();
             const changeEvent = new ActionsLoadedEvent(mockSelectedAction.actionName, 0);
-            actionSelector.dispatchEvent(changeEvent);
+            getActionSelector(calloutEditor).dispatchEvent(changeEvent);
             await Promise.resolve();
             expect(getContainer().hasActions).toEqual({ value: false });
         });
         it('updates hasActions on receiving actions Loaded Event with actions', async () => {
+            calloutEditor = setupComponentUnderTest();
             const changeEvent = new ActionsLoadedEvent(mockSelectedAction.actionName, 3);
-            actionSelector.dispatchEvent(changeEvent);
+            getActionSelector(calloutEditor).dispatchEvent(changeEvent);
             await Promise.resolve();
             expect(getContainer().hasActions).toEqual({ value: true });
         });
+        it('should dispatch a SetPropertyEditorTitleEvent', async () => {
+            const eventCallback = jest.fn();
+            document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
+            calloutEditor = setupComponentUnderTest();
+            await untilNoFailure(() => expect(eventCallback).toHaveBeenCalled());
+            expect(eventCallback.mock.calls[0][0].detail.title).toBe('FlowBuilderActionCallEditor.newActionPropertyEditorTitle');
+        });
     });
     it('has an action-selector component', () => {
-        expect(actionSelector).not.toBeNull();
+        calloutEditor = setupComponentUnderTest();
+        expect(getActionSelector(calloutEditor)).not.toBeNull();
     });
     it('reset the selected action if an error occurs while retrieving parameters', async () => {
+        calloutEditor = setupComponentUnderTest();
+        const actionSelector = getActionSelector(calloutEditor);
         dispatchSelectedActionChangeEvent(actionSelector, mockSelectedAction.actionName, mockSelectedAction.actionType);
         await Promise.resolve();
         const container = getContainer();
@@ -87,6 +101,8 @@ describe('callout-editor', () => {
     });
     describe('invocable-action', () => {
         it('has an inner callout-editor-container component that takes in the selected action', () => {
+            calloutEditor = setupComponentUnderTest();
+            const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedActionChangeEvent(actionSelector, mockSelectedAction.actionName, mockSelectedAction.actionType);
             return Promise.resolve().then(() => {
                 const container = getShadowRoot(calloutEditor).querySelector(selectors.CONTAINER);
@@ -95,6 +111,8 @@ describe('callout-editor', () => {
             });
         });
         it('calls the inner container validate method on validate', () => {
+            calloutEditor = setupComponentUnderTest();
+            const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedActionChangeEvent(actionSelector, mockSelectedAction.actionName, mockSelectedAction.actionType);
             return Promise.resolve().then(() => {
                 const container = getShadowRoot(calloutEditor).querySelector(selectors.CONTAINER);
@@ -106,6 +124,7 @@ describe('callout-editor', () => {
             });
         });
         it('calls the inner container getNode method on getNode', () => {
+            calloutEditor = setupComponentUnderTest();
             const container = getShadowRoot(calloutEditor).querySelector(selectors.CONTAINER);
             const node = {
                     name: 'my node',
@@ -118,6 +137,8 @@ describe('callout-editor', () => {
     });
     describe('apex-plugin', () => {
         it('has an inner callout-editor-container component that takes in the selected apex class', () => {
+            calloutEditor = setupComponentUnderTest();
+            const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedApexChangeEvent(actionSelector, mockSelectedApex.apexClass);
             return Promise.resolve().then(() => {
                 const container = getShadowRoot(calloutEditor).querySelector(selectors.CONTAINER);
@@ -128,6 +149,8 @@ describe('callout-editor', () => {
     });
     describe('subflow', () => {
         it('has an inner callout-editor-container component that takes in the selected apex class', () => {
+            calloutEditor = setupComponentUnderTest();
+            const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedSubflowChangeEvent(actionSelector, mockSelectedSubflow.flowName);
             return Promise.resolve().then(() => {
                 const container = getShadowRoot(calloutEditor).querySelector(selectors.CONTAINER);
@@ -139,11 +162,14 @@ describe('callout-editor', () => {
     describe('Validation', () => {
         const mockError = 'mockError';
         it('returns an error when there is no selected action', () => {
+            calloutEditor = setupComponentUnderTest();
             const errors = calloutEditor.validate();
             expect(errors).toEqual(["FlowBuilderValidation.cannotBeBlank"]);
         });
 
         it('returns an error when typing the invalid action', () => {
+            calloutEditor = setupComponentUnderTest();
+            const actionSelector = getActionSelector(calloutEditor);
             dispatchValueChangeEvent(actionSelector, { elementType : ELEMENT_TYPE.ACTION_CALL }, mockError);
             return Promise.resolve().then(() => {
                 const errors = calloutEditor.validate();
@@ -152,6 +178,8 @@ describe('callout-editor', () => {
         });
 
         it('returns no error when referenced action is selected', () => {
+            calloutEditor = setupComponentUnderTest();
+            const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedActionChangeEvent(actionSelector, mockSelectedAction.actionName, mockSelectedAction.actionType);
             return Promise.resolve().then(() => {
                 const container = getShadowRoot(calloutEditor).querySelector(selectors.CONTAINER);

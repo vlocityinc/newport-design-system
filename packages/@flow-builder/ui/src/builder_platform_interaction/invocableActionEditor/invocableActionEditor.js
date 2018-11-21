@@ -7,7 +7,7 @@ import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_
 import { invocableActionReducer } from './invocableActionReducer';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS, getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 
 export default class InvocableActionEditor extends LightningElement {
     /**
@@ -23,6 +23,7 @@ export default class InvocableActionEditor extends LightningElement {
 
     connectedCallback() {
         this.connected = true;
+        this.updatePropertyEditorTitle();
         if (this.node) {
             this.fetchInvocableActionDescriptor();
             this.fetchActionParameters();
@@ -105,6 +106,7 @@ export default class InvocableActionEditor extends LightningElement {
         }, options).then((invocableActions) => {
             if (this.connected) {
                 this.invocableActionDescriptor = invocableActions.find(action => action.name === actionParams.actionName && action.type === actionParams.actionType);
+                this.updatePropertyEditorTitle();
             }
         }).catch(() => {
             // ignore the error : we won't use the invocableActionDescriptor in this case
@@ -146,5 +148,15 @@ export default class InvocableActionEditor extends LightningElement {
     handleEvent(event) {
         event.stopPropagation();
         this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
+    }
+
+    updatePropertyEditorTitle() {
+        if (this.isNewMode || !this.actionCallNode) {
+            return;
+        }
+        const actionName = this.invocableActionDescriptor != null ? this.invocableActionDescriptor.label : getValueFromHydratedItem(this.actionCallNode.actionName);
+        const title = format(this.labels.editPropertyEditorTitle, actionName, ACTION_TYPE_LABEL[this.elementType]);
+        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(title);
+        this.dispatchEvent(setPropertyEditorTitleEvent);
     }
 }

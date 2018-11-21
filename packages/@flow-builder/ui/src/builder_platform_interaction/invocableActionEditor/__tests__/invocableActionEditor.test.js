@@ -2,7 +2,8 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import InvocableActionEditor from "../invocableActionEditor";
 import { mockActionParameters, mockActions } from "mock/calloutData";
-import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
@@ -132,6 +133,25 @@ describe('Invocable Action editor', () => {
                 document.removeEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
                 expect(eventCallback).toHaveBeenCalled();
             });
+        });
+        it('should dispatch a SetPropertyEditorTitleEvent with a title containing the action call label', async () => {
+            const eventCallback = jest.fn();
+            document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
+            createComponentUnderTest(defaultNode, {isNewMode:false});
+            await untilNoFailure(() => {
+                expect(eventCallback).toHaveBeenCalledTimes(2);
+                expect(eventCallback.mock.calls[0][0].detail.title).toBe('FlowBuilderInvocableActionEditor.editPropertyEditorTitle(chatterPost,FlowBuilderInvocableActionEditor.coreActionTypeLabel)');
+                expect(eventCallback.mock.calls[1][0].detail.title).toBe('FlowBuilderInvocableActionEditor.editPropertyEditorTitle(Post to Chatter,FlowBuilderInvocableActionEditor.coreActionTypeLabel)');
+            });
+        });
+        it('should dispatch a SetPropertyEditorTitleEvent with a title containing the action call unique name if we cannot get the action call label', async () => {
+            mockActionsPromise = Promise.reject();
+            const eventCallback = jest.fn();
+            document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
+            createComponentUnderTest(defaultNode, {isNewMode:false});
+            await ticks(10);
+            expect(eventCallback).toHaveBeenCalledTimes(1);
+            expect(eventCallback.mock.calls[0][0].detail.title).toBe('FlowBuilderInvocableActionEditor.editPropertyEditorTitle(chatterPost,FlowBuilderInvocableActionEditor.coreActionTypeLabel)');
         });
     });
     describe('New invocable action node', () => {

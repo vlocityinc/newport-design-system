@@ -6,7 +6,7 @@ import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_
 import { apexPluginReducer } from './apexPluginReducer';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS, getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 
 export default class ApexPluginEditor extends LightningElement {
     /**
@@ -22,6 +22,7 @@ export default class ApexPluginEditor extends LightningElement {
 
     connectedCallback() {
         this.connected = true;
+        this.updatePropertyEditorTitle();
         if (this.node) {
             this.fetchApexPluginDescriptor();
             this.fetchApexPluginParameters();
@@ -102,6 +103,7 @@ export default class ApexPluginEditor extends LightningElement {
         fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, {}, undefined, options).then((apexPlugins) => {
             if (this.connected) {
                 this.apexPluginDescriptor = apexPlugins.find(apexPlugin => apexPlugin.apexClass === getValueFromHydratedItem(this.apexPluginNode.apexClass));
+                this.updatePropertyEditorTitle();
             }
         }).catch(() => {
             // ignore the error : we won't use the apexPluginDescriptor in this case
@@ -141,5 +143,15 @@ export default class ApexPluginEditor extends LightningElement {
     handleEvent(event) {
         event.stopPropagation();
         this.apexPluginNode = apexPluginReducer(this.apexPluginNode, event);
+    }
+
+    updatePropertyEditorTitle() {
+        if (this.isNewMode || !this.apexPluginNode) {
+            return;
+        }
+        const name = this.apexPluginDescriptor != null ? this.apexPluginDescriptor.name : getValueFromHydratedItem(this.apexPluginNode.apexClass);
+        const title = format(this.labels.editPropertyEditorTitle, name);
+        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(title);
+        this.dispatchEvent(setPropertyEditorTitleEvent);
     }
 }

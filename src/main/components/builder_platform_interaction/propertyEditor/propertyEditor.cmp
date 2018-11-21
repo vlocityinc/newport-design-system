@@ -7,11 +7,16 @@
     <aura:attribute name="bodyComponent" type="Object" description="contains descriptor and attributes for inner component"/>
     <aura:attribute type="Object" name="panelInstance" description="set after panel creation" />
     <aura:attribute type="Object" name="closeActionCallback" description="set after panel creation" />
+    <aura:attribute name="title" type="String" access="private" description="property editor title"/>
     <!-- Handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler name="change" value="{!v.panelInstance}" action="{!c.panelInstanceChange}"/>
     <!-- Body -->
     
-    <div id="modal-content-id" aura:id="body-content" onaddnewresource="{!c.handleAddNewResource}" onclosepropertyeditor="{!c.handleClose}">
+    <div id="modal-content-id" aura:id="body-content" 
+    	onaddnewresource="{!c.handleAddNewResource}" 
+    	onsetpropertyeditortitle="{!c.setPropertyEditorTitle}"
+    	onclosepropertyeditor="{!c.handleClose}">
         {!v.body}
     </div>
 </aura:component>
