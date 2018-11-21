@@ -151,9 +151,12 @@ export default class RecordLookupEditor extends LightningElement {
      * get the fields of the selected entity
      */
     updateFields() {
+        this.state.fields = {};
         if (this.state.recordEntityName) {
             fetchFieldsForEntity(this.state.recordEntityName).then(fields => {
                 this.state.fields = fields;
+            }).catch(() => {
+                // fetchFieldsForEntity displays an error message
             });
         }
     }

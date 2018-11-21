@@ -21,7 +21,7 @@ export default class RecordUpdateEditor extends LightningElement {
         numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
         recordUpdateElement: {},
         recordEntityName: '',
-        entityFields: [],
+        entityFields: {},
     }
 
     rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.RECORD_UPDATE);
@@ -141,10 +141,12 @@ export default class RecordUpdateEditor extends LightningElement {
     * get the fields of the selected entity
     */
     updateFields() {
-        this.state.entityFields = [];
+        this.state.entityFields = {};
         if (this.state.recordEntityName) {
             fetchFieldsForEntity(this.state.recordEntityName).then(fields => {
                 this.state.entityFields = fields;
+            }).catch(() => {
+                // fetchFieldsForEntity displays an error message
             });
         }
     }

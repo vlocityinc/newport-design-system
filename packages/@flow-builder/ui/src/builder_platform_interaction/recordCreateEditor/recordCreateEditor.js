@@ -24,7 +24,7 @@ export default class RecordCreateEditor extends LightningElement {
     state = {
         recordCreateElement: {},
         recordEntityName: '',
-        entityFields: [],
+        entityFields: {},
         wayToStoreFields: '',
         resourceDisplayText: ''
     }
@@ -149,10 +149,12 @@ export default class RecordCreateEditor extends LightningElement {
      * get the fields of the selected entity
      */
      updateFields() {
-         this.state.entityFields = [];
+         this.state.entityFields = {};
          if (this.state.recordEntityName) {
              fetchFieldsForEntity(this.state.recordEntityName).then(fields => {
                 this.state.entityFields = fields;
+             }).catch(() => {
+                 // fetchFieldsForEntity displays an error message
              });
          }
      }

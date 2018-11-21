@@ -35,6 +35,8 @@ export default class RecordFieldPickerRow extends LightningElement {
                 this._recordEntityName = name;
                 this._entityFields = fields;
                 this.setupMenuDataFields();
+            }).catch(() => {
+                // fetchFieldsForEntity displays an error message
             });
         }
     }

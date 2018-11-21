@@ -21,7 +21,7 @@ export default class RecordDeleteEditor extends LightningElement {
     state = {
             recordDeleteElement : {},
             numberRecordsToStoreValue : NUMBER_RECORDS_TO_STORE.FIRST_RECORD, // in current context means no conditions
-            entityFields: []
+            entityFields: {}
     };
 
     /**
@@ -170,13 +170,14 @@ export default class RecordDeleteEditor extends LightningElement {
      * get the fields of the selected entity and set the state accordingly
      */
     updateFields() {
-         if (this.recordEntityName) {
-             fetchFieldsForEntity(this.recordEntityName).then(fields => {
+        this.state.entityFields = {};
+        if (this.recordEntityName) {
+            fetchFieldsForEntity(this.recordEntityName).then(fields => {
                 this.state.entityFields = fields;
-             });
-         } else {
-             this.state.entityFields = [];
-         }
+            }).catch(() => {
+                // fetchFieldsForEntity displays an error message
+            });
+        }
     }
 
     /**
