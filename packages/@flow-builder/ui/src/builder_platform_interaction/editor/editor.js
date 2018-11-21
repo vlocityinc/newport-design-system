@@ -474,7 +474,8 @@ export default class Editor extends LightningElement {
             node.saveType = saveType;
 
             const nodeUpdate = this.flowPropertiesCallback;
-            invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate });
+            const newResourceCallback = this.newResourceCallback;
+            invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
         }
     };
 
