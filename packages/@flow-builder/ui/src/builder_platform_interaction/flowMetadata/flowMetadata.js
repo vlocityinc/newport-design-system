@@ -221,7 +221,8 @@ export const REFERENCE_FIELDS = new Set([
     'inputReference',
     'choiceReference',
     'defaultSelectedChoiceReference',
-    'fieldReference'
+    'fieldReference',
+    'waitEventReference',
 ]);
 
 /**
