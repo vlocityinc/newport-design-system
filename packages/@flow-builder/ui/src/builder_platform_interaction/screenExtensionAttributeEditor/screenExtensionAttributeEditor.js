@@ -45,6 +45,10 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
         return config;
     }
 
+    get label() {
+        return this.descriptor.label || this.descriptor.apiName;
+    }
+
     get value() {
         if (this.isInput) {
             return this.attribute ? this.attribute.value : (this.descriptor.hasDefaultValue ? this.descriptor.defaultValue : null);
