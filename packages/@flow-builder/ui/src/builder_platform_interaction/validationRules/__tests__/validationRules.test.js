@@ -186,6 +186,30 @@ describe('validateExpressionWith3Properties', () => {
         expect(rulesObject).toEqual({[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [rules.shouldNotBeBlank], [EXPRESSION_PROPERTY_TYPE.OPERATOR]: [rules.shouldNotBeBlank]});
     });
 });
+describe('getDuplicateDevNameElements', () => {
+    const mockElements = {
+        'mockGuid': {
+            guid: 'mockGuid',
+            name: 'testName'
+        },
+        'mockGuid2': {
+            guid: 'mockGuid2',
+            name: 'testName2'
+        }
+    };
+    it('should return an empty array if no elements are passed', () => {
+        const result = rules.getDuplicateDevNameElements({}, "test", "testGUID");
+        expect(result).toEqual([]);
+    });
+    it('should return an empty array if dev name passed is not duplicate', () => {
+        const result = rules.getDuplicateDevNameElements(mockElements, "testName3", "testGUID");
+        expect(result).toEqual([]);
+    });
+    it('should return an array with one element if duplicate dev name is detected', () => {
+        const result = rules.getDuplicateDevNameElements(mockElements, "testName", "testGUID");
+        expect(result).toEqual([mockElements.mockGuid]);
+    });
+});
 describe('isUniqueDevNameInStore method', () => {
     it('returns null when a unique dev name is tested against store data', () => {
         const uniqueName = 'idiosyncraticName';

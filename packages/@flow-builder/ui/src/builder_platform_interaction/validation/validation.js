@@ -36,10 +36,7 @@ export class Validation {
      * @returns {string|null} errorString or null
      */
     validateDevNameUniquenessLocally = (guidToNameList = [], devNameToBeValidated, guidToBeValidated) => {
-        const matches = guidToNameList.filter(devNameToGuidItem =>
-            (devNameToGuidItem.guid !== guidToBeValidated) &&
-            devNameToBeValidated !== "" &&
-            (devNameToGuidItem.name.toLowerCase() === (devNameToBeValidated && devNameToBeValidated.toLowerCase())));
+        const matches = ValidationRules.getDuplicateDevNameElements(guidToNameList, devNameToBeValidated, [guidToBeValidated]);
         return matches && matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
     };
     /**

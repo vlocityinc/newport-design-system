@@ -210,6 +210,20 @@ export const validateExpressionWith3Properties = () => {
 };
 
 /**
+ * Common function to return duplicate dev name elements
+ * @param {Object[]} elements
+ * @param {string} nameToBeTested
+ * @param {string[]} listOfGuidsToSkip
+ * @returns {Object[]} matchingElements Object list
+ */
+export const getDuplicateDevNameElements = (elements = {}, nameToBeTested, listOfGuidsToSkip = []) => {
+    return elements && Object.values(elements).filter(element =>
+        !listOfGuidsToSkip.includes(element.guid)
+        && nameToBeTested !== '' // no need to run the validation in case of empty string
+        && (element.name && element.name.toLowerCase()) === (nameToBeTested && nameToBeTested.toLowerCase()));
+};
+
+/**
  * Checks the uniqueness of the devName string amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
  * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
  * @param {string} nameToBeTested - for uniqueness in store
@@ -219,10 +233,7 @@ export const validateExpressionWith3Properties = () => {
 export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
-    const matches = elements && Object.values(elements).filter(element =>
-        !listOfGuidsToSkip.includes(element.guid)
-        && nameToBeTested !== '' // no need to run the validation in case of empty string
-        && (element.name && element.name.toLowerCase()) === (nameToBeTested && nameToBeTested.toLowerCase()));
+    const matches = getDuplicateDevNameElements(elements, nameToBeTested, listOfGuidsToSkip) || [];
     return matches && matches.length > 0 ? LABELS.fieldNotUnique : null;
 };
 
