@@ -139,6 +139,17 @@ describe('Events from the textarea', () => {
         expectValueChangedEventWithValue('2+2', null);
     });
 
+    it('should fire a change event with unchanged text literal that includes whitespace', () => {
+        const resourcedTextarea = createComponentUnderTest();
+        resourcedTextarea.addEventListener('change', eventCallback);
+
+        const textarea = getShadowRoot(resourcedTextarea).querySelector(selectors.textarea);
+        const valueWithWhiteSpace = 'my text       ';
+        textarea.value = valueWithWhiteSpace;
+        textarea.dispatchEvent(new CustomEvent('blur'));
+        expectValueChangedEventWithValue(valueWithWhiteSpace, null);
+    });
+
     it('Should fire change event on blur with validation errors', () => {
         const resourcedTextarea = createComponentUnderTest({value: '{!unknownMergeField}'});
         resourcedTextarea.addEventListener('change', eventCallback);
