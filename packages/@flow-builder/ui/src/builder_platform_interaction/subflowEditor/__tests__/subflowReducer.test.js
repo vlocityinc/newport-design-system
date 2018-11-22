@@ -183,6 +183,14 @@ describe('subflowReducer', () => {
         newState = subflowReducer(newState, event);
         expect(getParameterItemsWithName(newState.inputAssignments, 'inputNumberVariable')[0].value).toEqual({"value": null, "error": null});
       });
+      it('set then value to null when we assign an empty string', () => {
+          const rowId = 'ade1a71a-1f7b-4de1-bd42-3aace88ea956';
+          const value = '';
+          const valueDataType = 'Number';
+          const event = new UpdateParameterItemEvent(false, rowId, 'outputNumberVariable', value, valueDataType);
+          newState = subflowReducer(newState, event);
+          expect(getParameterItemsWithName(newState.outputAssignments, 'outputNumberVariable')[0].value).toEqual({"value": null, "error": null});
+        });
     });
     describe('DeleteParameterItemEvent', () => {
         let newState;

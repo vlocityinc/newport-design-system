@@ -27,9 +27,14 @@ const getNodeOutputsPropertyName = (elementType) => {
  * @return {Object} the updated node
  */
 export const updateParameterItem = (state, param) => {
-    const {isInput, rowIndex, value, valueDataType, error} = param;
+    const {isInput, rowIndex, valueDataType, error} = param;
+    let {value} = param;
     const propertyName = isInput ? getNodeInputsPropertyName(state.elementType) : getNodeOutputsPropertyName(state.elementType);
     const paramIndex = state[propertyName].findIndex(parameter => getValueFromHydratedItem(parameter.rowIndex) === rowIndex);
+    // consider no output variable assignment if value is ''
+    if (!isInput && value === '') {
+        value = null;
+    }
     const updatedParam = updateProperties(state[propertyName][paramIndex], {value: {value, error}, valueDataType});
     const path = [[propertyName], paramIndex];
     state = set(state, path, updatedParam);

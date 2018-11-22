@@ -148,6 +148,22 @@ describe('apex-plugin-reducer', () => {
             expect(newState.outputParameters).toHaveLength(2);
             expect(newState.outputParameters[0].value.value).toEqual('accountIdVar');
         });
+        it('set then value to null when we assign an empty string', () => {
+            const event = {
+                type: UpdateParameterItemEvent.EVENT_NAME,
+                detail: {
+                    isInput: false,
+                    name: 'AccountId',
+                    rowIndex: '41d02758-f34f-4207-9bf2-42e2c9930100',
+                    value: '',
+                    valueDataType: 'reference',
+                    error: null,
+                }
+            };
+            const newState = apexPluginReducer(originalState, event);
+            expect(newState.outputParameters).toHaveLength(2);
+            expect(newState.outputParameters[0].value.value).toBeNull();
+        });
     });
 
     describe('delete parameter', () => {
