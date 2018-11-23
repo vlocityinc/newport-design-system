@@ -175,6 +175,23 @@ describe('base expression builder', () => {
             expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalled();
             expect(lhsCombobox.menuData).toBeDefined();
         });
+        it('should not pass allowed param types to lhs combobox', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest();
+            const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+            expect(lhsCombobox.allowedParamTypes).toBeFalsy();
+        });
+        it('should pass allowed param types to rhs combobox by default', () => {
+            const params = { 'Date' : [dateParam]};
+            rulesMock.getRHSTypes.mockReturnValueOnce(params);
+            const expressionBuilder = createDefaultFerToFerovComponentForTest();
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            expect(rhsCombobox.allowedParamTypes).toMatchObject(params);
+        });
+        it('should not pass allowed param types to rhs combobox when rhs is fer', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest(false, true);
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            expect(rhsCombobox.allowedParamTypes).toBeFalsy();
+        });
     });
 
     describe('handling value change events from combobox', () => {
