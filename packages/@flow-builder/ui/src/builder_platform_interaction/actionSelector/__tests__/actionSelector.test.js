@@ -58,9 +58,9 @@ describe('Action selector', () => {
     it('displays all action types', () => {
         actionSelectorComponent = createComponentUnderTest();
         expect(lightningCombobox().options.map(option => option.label)).toEqual(
-            ['FlowBuilderActionCallEditor.actionTypeOption', 'FlowBuilderActionCallEditor.apexTypeOption',
-                'FlowBuilderActionCallEditor.apexPluginTypeOption', 'FlowBuilderActionCallEditor.emailAlertTypeOption',
-                'FlowBuilderActionCallEditor.subflowTypeOption']);
+            ['FlowBuilderActionSelector.actionTypeOption', 'FlowBuilderActionSelector.apexTypeOption',
+                'FlowBuilderActionSelector.apexPluginTypeOption', 'FlowBuilderActionSelector.emailAlertTypeOption',
+                'FlowBuilderActionSelector.subflowTypeOption']);
     });
     describe('By default', () => {
         beforeEach(() => {
@@ -76,10 +76,10 @@ describe('Action selector', () => {
             expect(groupedCombobox().items.map(item => item.text)).toEqual(expect.arrayContaining([standardActionText, quickActionText, localActionText]));
         });
         test('Combobox placeholder should be : Find an Action...', () => {
-            expect(groupedCombobox().placeholder).toBe('FlowBuilderActionCallEditor.actionComboboxPlaceholder');
+            expect(groupedCombobox().placeholder).toBe('FlowBuilderActionSelector.actionComboboxPlaceholder');
         });
         test('Combobox Label should be : Referenced Action', () => {
-            expect(groupedCombobox().label).toBe('FlowBuilderActionCallEditor.actionComboboxLabel');
+            expect(groupedCombobox().label).toBe('FlowBuilderActionSelector.actionComboboxLabel');
         });
     });
     describe('When user selects an action type', () => {
@@ -154,13 +154,13 @@ describe('Action selector', () => {
             actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_CALL };
             await Promise.resolve();
             expect(lightningCombobox().value).toBe(ELEMENT_TYPE.APEX_CALL);
-            expect(groupedCombobox().placeholder).toBe('FlowBuilderActionCallEditor.apexComboboxPlaceholder');
+            expect(groupedCombobox().placeholder).toBe('FlowBuilderActionSelector.apexComboboxPlaceholder');
         });
         it('should update the combobox label', async () => {
             actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_CALL };
             await Promise.resolve();
             expect(lightningCombobox().value).toBe(ELEMENT_TYPE.APEX_CALL);
-            expect(groupedCombobox().label).toBe('FlowBuilderActionCallEditor.apexComboboxLabel');
+            expect(groupedCombobox().label).toBe('FlowBuilderActionSelector.apexComboboxLabel');
         });
         it('should display no value for the Action combobox', async () => {
             actionSelectorComponent.selectedAction = {
@@ -308,7 +308,7 @@ describe('Action selector', () => {
         it('should be "Global - {Description}" for global quick actions', () => {
             return Promise.resolve().then(() => {
                 const item = groupedComboboxItemWithValue('quickAction-mynamespace__LogACall');
-                expect(item.subText).toBe('FlowBuilderActionCallEditor.globalQuickActionSubTextPrefix');
+                expect(item.subText).toBe('FlowBuilderActionSelector.globalQuickActionSubTextPrefix');
             });
         });
         it('should be "{Object} - {Description}" for object quick actions', () => {
