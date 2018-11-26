@@ -359,7 +359,14 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     get operatorMenuData() {
         if (this.areAllDefined([this.containerElement, this.lhsParam]) && !this._operatorMenuData) {
-            this._operatorMenuData = transformOperatorsForCombobox(getOperators(this.containerElement, this.lhsParam, this._rules));
+            let operators = [];
+            if (this.lhsParam) {
+                operators = getOperators(this.containerElement, this.lhsParam, this._rules);
+            } else if (this.operatorValue) {
+                // we want to display the current operator
+                operators = [this.operatorValue];
+            }
+            this._operatorMenuData = transformOperatorsForCombobox(operators);
         }
         return this._operatorMenuData;
     }

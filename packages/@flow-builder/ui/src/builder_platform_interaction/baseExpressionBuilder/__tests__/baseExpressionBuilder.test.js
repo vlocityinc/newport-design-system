@@ -453,6 +453,26 @@ describe('base expression builder', () => {
                 expect(rhsCombobox.value.displayText).toEqual(addCurlyBraces(numberVariableDevName));
             });
         });
+        it('should populate operator menu with the item operator if lhs fields is empty', () => {
+            // lhsParam is null if we cannot get this entity field (no access ...)
+            const expressionBuilder = createComponentForTest({
+                lhsValue: 'RepairProcedure__c.Model__c',
+                lhsParam: null,
+                lhsIsField: true,
+                lhsFields: {},
+                lhsActivePicklistValues: null,
+                showLhsAsFieldReference: true,
+                operatorValue: rulesMock.RULE_OPERATOR.ASSIGN,
+                rhsValue: null,
+                rhsIsField: false,
+                rhsFields: null,
+                rhsLiteralsAllowed: true,
+            });
+            return Promise.resolve().then(() => {
+                const operatorCombobox = getLightningCombobox(expressionBuilder);
+                expect(operatorCombobox.value).toEqual(rulesMock.RULE_OPERATOR.ASSIGN);
+            });
+        });
     });
     describe('building expression for picklist values', () => {
         const accountVariable = expressionUtilsMock.mutateFlowResourceToComboboxShape(elements[accountSObjectVariableGuid]);
