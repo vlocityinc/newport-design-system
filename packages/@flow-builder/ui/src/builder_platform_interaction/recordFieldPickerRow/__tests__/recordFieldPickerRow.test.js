@@ -9,11 +9,6 @@ import RecordFieldPickerRow from "builder_platform_interaction/recordFieldPicker
 
 const ID_FIELD = 'Id';
 
-const mockDefaultConfig = {
-    fieldIndex: 1,
-    recordEntityName: 'Account'
-};
-
 const selectors = {
     fieldPicker: 'builder_platform_interaction-field-picker',
 };
@@ -22,22 +17,25 @@ const getFieldPicker = (recordFieldPickerRow) => {
     return getShadowRoot(recordFieldPickerRow).querySelector(selectors.fieldPicker);
 };
 
-const createComponentUnderTest = () => {
+const createComponentUnderTest = ({ fieldIndex = 1, recordEntityName = 'Account', value = undefined, queriedFields = [] } = {}) => {
     const el = createElement('builder_platform_interaction-record-field-picker-row', {
         is: RecordFieldPickerRow
     });
-    Object.assign(el, mockDefaultConfig);
+    Object.assign(el, { fieldIndex, recordEntityName, value, queriedFields });
     document.body.appendChild(el);
     return el;
 };
 
-jest.mock('builder_platform_interaction/sobjectLib', () => {
-    return {
-        fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
-    };
-});
+let mockAccountFieldsPromise = Promise.resolve(mockAccountFields);
+
+jest.mock('builder_platform_interaction/sobjectLib', () => ({
+    fetchFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFieldsPromise),
+}));
 
 describe('record-field-picker-row', () => {
+    beforeEach(() => {
+        mockAccountFieldsPromise = Promise.resolve(mockAccountFields);
+    });
     describe('Load all fields', () => {
         let recordFieldPickerRow, fieldPicker;
         beforeEach(() => {
@@ -56,35 +54,42 @@ describe('record-field-picker-row', () => {
         });
     });
 
+    describe('When it cannot fetch entity fields', () => {
+        it('set fields menu data to an empty menu data if it cannot retrieve fields', () => {
+            mockAccountFieldsPromise = Promise.reject(Error('Cannot find entity'));
+            const recordFieldPickerRow = createComponentUnderTest();
+            const fieldPicker = getFieldPicker(recordFieldPickerRow);
+            const fields = Object.keys(fieldPicker.fields);
+            expect(fields).toHaveLength(0);
+        });
+    });
+
     describe('Set the value', () => {
         it('should not display record-field-picker-row combobox if value is Id', () => {
-            mockDefaultConfig.value = ID_FIELD;
-            const fieldPicker = getFieldPicker(createComponentUnderTest());
+            const fieldPicker = getFieldPicker(createComponentUnderTest({ value : ID_FIELD }));
             expect(fieldPicker).toBeNull();
-            mockDefaultConfig.value = undefined;
         });
 
-        it('should have "Description" as value', () => {
-            mockDefaultConfig.value = 'Description';
-            const fieldPicker = getFieldPicker(createComponentUnderTest());
-            expect(fieldPicker.value).toEqual(mockDefaultConfig.value);
-            mockDefaultConfig.value = undefined;
+        it('should set field picker value', () => {
+            const fieldPicker = getFieldPicker(createComponentUnderTest({ value : 'Description' }));
+            expect(fieldPicker.value).toEqual('Description');
         });
     });
 
     describe('Exclude some fields', () => {
         let recordFieldPickerRow, fieldPicker;
+        let queriedFields;
         beforeEach(() => {
-            mockDefaultConfig.value = 'Description';
-            mockDefaultConfig.queriedFields = [{field: {value: 'Description'}}, {field: {value: 'Fax'}}, {field: {value: 'Name'}}];
-            recordFieldPickerRow = createComponentUnderTest();
+            const value = 'Description';
+            queriedFields = [{field: {value: 'Description'}}, {field: {value: 'Fax'}}, {field: {value: 'Name'}}];
+            recordFieldPickerRow = createComponentUnderTest({ value, queriedFields });
             fieldPicker = getFieldPicker(recordFieldPickerRow);
         });
 
         it('should not contain "Fax", "Name" and "Id"', () => {
             const fields = Object.keys(fieldPicker.fields);
             expect(fieldPicker.value).toEqual("Description");
-            expect(fields).toHaveLength(Object.keys(mockAccountFields).length - mockDefaultConfig.queriedFields.length);
+            expect(fields).toHaveLength(Object.keys(mockAccountFields).length - queriedFields.length);
             expect(fields.some(item => ["Fax", "Name", "Id"].indexOf(item.text) >= 0)).toBe(false);
         });
     });

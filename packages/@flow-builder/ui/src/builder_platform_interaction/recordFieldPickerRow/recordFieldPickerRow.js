@@ -31,8 +31,10 @@ export default class RecordFieldPickerRow extends LightningElement {
      */
     set recordEntityName(name) {
         if (!this._entityFields && this._recordEntityName !== name) {
+            this._recordEntityName = name;
+            this._entityFields = {};
+            this.setupMenuDataFields();
             sobjectLib.fetchFieldsForEntity(name).then(fields => {
-                this._recordEntityName = name;
                 this._entityFields = fields;
                 this.setupMenuDataFields();
             }).catch(() => {
