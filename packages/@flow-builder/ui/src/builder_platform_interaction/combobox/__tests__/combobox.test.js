@@ -1172,6 +1172,60 @@ describe('Combobox Tests', () => {
         });
     });
 
+    describe('validation on enable', () => {
+        let comboboxStateChangedHandler;
+        beforeEach(() => {
+            createCombobox({
+                               value: 'abcd',
+                               literalsAllowed: true,
+                               type: FLOW_DATA_TYPE.STRING.value,
+            });
+            comboboxStateChangedHandler = jest.fn();
+            combobox.addEventListener(ComboboxStateChangedEvent.EVENT_NAME, comboboxStateChangedHandler);
+        });
+        it('should validate when enabled if literalsAllowed is changed while disabled is true', () => {
+            combobox.disabled = true;
+            return Promise.resolve().then(() => {
+                combobox.literalsAllowed = false;
+                return Promise.resolve().then(() => {
+                    expect(combobox.errorMessage).toBeNull();
+                    combobox.disabled = false;
+                    return Promise.resolve().then(() => {
+                        expect(combobox.errorMessage).toBeTruthy();
+
+                    // gets fired once when literalsAllowed changes, even if no error has been set, and again when disabled = false
+                    expect(comboboxStateChangedHandler).toBeCalledTimes(2);
+                    });
+                });
+            });
+        });
+        it('should validate when enabled if type is changed while disabled is true', () => {
+            combobox.disabled = true;
+            return Promise.resolve().then(() => {
+                combobox.type = FLOW_DATA_TYPE.NUMBER.value;
+                return Promise.resolve().then(() => {
+                    expect(combobox.errorMessage).toBeNull();
+                    combobox.disabled = false;
+                    return Promise.resolve().then(() => {
+                        expect(combobox.errorMessage).toBeTruthy();
+
+                        // gets fired once when type changes, even if no error has been set, and again when disabled = false
+                        expect(comboboxStateChangedHandler).toBeCalledTimes(2);
+                    });
+                });
+            });
+        });
+        it('should not fire state changed event when enabled if nothing changes while disabled is false', () => {
+            combobox.disabled = true;
+            return Promise.resolve().then(() => {
+                combobox.disabled = false;
+                return Promise.resolve().then(() => {
+                    expect(comboboxStateChangedHandler).toBeCalledTimes(0);
+                });
+            });
+        });
+    });
+
     describe('datetime validation', () => {
         let blurEvent;
         const mockDatetime = '12/31/1999 11:59 pm';
