@@ -121,7 +121,7 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
     }
 
     set lhsFields(fields) {
-        if (fields && Object.keys(fields).length) {
+        if (fields) {
             this._lhsFields = fields;
             this.populateLhsState();
         }
