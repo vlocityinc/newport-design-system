@@ -288,38 +288,13 @@ export default class ActionSelector extends LightningElement {
     }
 
     getComboItemFromInvocableAction(action) {
-        let subText;
-        if (action.type === ACTION_TYPE.QUICK_ACTION) {
-            const object = this.getQuickActionObject(action);
-            // TODO add {Category} when available
-            subText = object || this.labels.globalQuickActionSubTextPrefix;
-            subText += (action.description ? ' - ' + action.description : '');
-        } else {
-            subText = action.description || '';
-        }
         return {
             type : 'option-card',
             text : action.label,
             value: action.durableId,
             displayText: action.label,
-            subText
+            subText: action.durableId
         };
-    }
-
-    /**
-     * Get the object devName from quick action.
-     *
-     * @param {InvocableAction} action the quick action
-     * @return {string|undefined} the object devName or undefined if global quick action
-     */
-    getQuickActionObject(action) {
-        // Case.mynamespace__NewChildCase for object quick action
-        // mynamespace__NewCase for global quick action
-        const parts = action.name.split('.');
-        if (parts.length === 2) {
-            return parts[0];
-        }
-        return undefined;
     }
 
     getComboItemFromApexPlugin(apexPlugin) {
@@ -328,7 +303,7 @@ export default class ActionSelector extends LightningElement {
             text : apexPlugin.name,
             value: apexPlugin.apexClass,
             displayText: apexPlugin.name,
-            subText : apexPlugin.description || ''
+            subText : apexPlugin.apexClass
         };
     }
 
@@ -338,7 +313,7 @@ export default class ActionSelector extends LightningElement {
             text : subflow.masterLabel,
             value: subflow.fullName,
             displayText: subflow.masterLabel,
-            subText : subflow.fullName + (subflow.description ? ' - ' + subflow.description : '')
+            subText : subflow.fullName
         };
     }
 

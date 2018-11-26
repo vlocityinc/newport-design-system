@@ -305,30 +305,30 @@ describe('Action selector', () => {
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
         });
-        it('should be "Global - {Description}" for global quick actions', () => {
+        it('should be "{UniqueName}" for global quick actions', () => {
             return Promise.resolve().then(() => {
                 const item = groupedComboboxItemWithValue('quickAction-mynamespace__LogACall');
-                expect(item.subText).toBe('FlowBuilderActionSelector.globalQuickActionSubTextPrefix');
+                expect(item.subText).toBe('quickAction-mynamespace__LogACall');
             });
         });
-        it('should be "{Object} - {Description}" for object quick actions', () => {
+        it('should be "{Uniquename}" for object quick actions', () => {
             return Promise.resolve().then(() => {
                 const item = groupedComboboxItemWithValue('quickAction-Case.mynamespace__LogACall');
-                expect(item.subText).toBe('Case');
+                expect(item.subText).toBe('quickAction-Case.mynamespace__LogACall');
             });
         });
-        it('should be "{Unique Name} - {Description}" for subflows', async () => {
+        it('should be "{Unique Name}" for subflows', async () => {
             actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.SUBFLOW };
             return Promise.resolve().then(() => {
                 const item = groupedComboboxItemWithValue('mynamespace__LFB_Sample_Huge_Flow');
                 expect(item.subText).toBe('mynamespace__LFB_Sample_Huge_Flow');
             });
         });
-        it('should be "{Description}" for apex plugins', async () => {
+        it('should be "{Unique Name}" for apex plugins', async () => {
             actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_PLUGIN_CALL };
             return Promise.resolve().then(() => {
                 const item = groupedComboboxItemWithValue('mynamespace__lookUpAccountPlugin');
-                expect(item.subText).toBe('Code copied from https://help.salesforce.com/articleView?id=vpm_designer_elements_apex.htm');
+                expect(item.subText).toBe('mynamespace__lookUpAccountPlugin');
             });
         });
     });
