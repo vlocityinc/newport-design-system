@@ -165,7 +165,7 @@ describe('parameter-list', () => {
                 {name: 'subjectNameOrId', label: 'Subject Name or Id', isRequired: true},
                 {name: 'communityId', label: 'Community ID', isRequired: false},
                 ];
-            const inputParameters = parameterItems.items.map(parameterItem => {
+            const inputParameters = [...parameterItems].map(parameterItem => {
                 return {name: getValueFromHydratedItem(parameterItem.item.name), label: getValueFromHydratedItem(parameterItem.item.label), isRequired: parameterItem.item.isRequired};
             });
             expect(inputParameters).toEqual(expectedInputs);
@@ -180,7 +180,7 @@ describe('parameter-list', () => {
                 {name: 'accountId', label: 'Account ID', isRequired: false},
                 {name: 'feedId', label: 'Feed ID', isRequired: false},
                 ];
-            const outputParameters = parameterItems.items.map(parameterItem => {
+            const outputParameters = [...parameterItems].map(parameterItem => {
                 return {name: getValueFromHydratedItem(parameterItem.item.name), label: getValueFromHydratedItem(parameterItem.item.label), isRequired: parameterItem.item.isRequired};
             });
             expect(outputParameters).toEqual(expectedOutputs);
