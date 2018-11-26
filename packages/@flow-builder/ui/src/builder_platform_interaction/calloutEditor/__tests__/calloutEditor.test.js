@@ -81,7 +81,7 @@ describe('callout-editor', () => {
             document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
             calloutEditor = setupComponentUnderTest();
             await untilNoFailure(() => expect(eventCallback).toHaveBeenCalled());
-            expect(eventCallback.mock.calls[0][0].detail.title).toBe('FlowBuilderActionSelector.newActionPropertyEditorTitle');
+            expect(eventCallback.mock.calls[0][0].detail.title).toBe('FlowBuilderCalloutEditor.newActionPropertyEditorTitle');
         });
     });
     it('has an action-selector component', () => {
