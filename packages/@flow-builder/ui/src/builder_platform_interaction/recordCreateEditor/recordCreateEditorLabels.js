@@ -17,6 +17,7 @@ import storeIdInVariableFormat from '@salesforce/label/FlowBuilderRecordEditor.s
 import variable from '@salesforce/label/FlowBuilderRecordEditor.variable';
 import variablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.variablePlaceholder';
 import helpSObjectCollAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectCollAltText';
+import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel';
 
 export const LABELS = {
     sObjectVariablePlaceholder,
@@ -36,5 +37,6 @@ export const LABELS = {
     storeIdInVariableFormat,
     variable,
     variablePlaceholder,
-    helpSObjectCollAltText
+    helpSObjectCollAltText,
+    filterRhsLabel,
 };
