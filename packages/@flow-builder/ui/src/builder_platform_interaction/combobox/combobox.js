@@ -201,8 +201,12 @@ export default class Combobox extends LightningElement {
                 throw new Error('Setting an item on Flow Combobox without a value property!');
             }
         } else {
-            if (!itemOrDisplayText && this.state.displayText && this._mergeFieldLevel > 1) {
-                this.fireFetchMenuDataEvent();
+            if (!itemOrDisplayText && this.state.displayText) {
+                if (this._mergeFieldLevel > 1) {
+                    this.fireFetchMenuDataEvent();
+                } else {
+                    this.fireFilterMatchesEvent('', true);
+                }
             }
 
             this._item = null;

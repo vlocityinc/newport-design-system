@@ -726,6 +726,15 @@ describe('Combobox Tests', () => {
             expect(filterMatchesHandler).not.toHaveBeenCalled();
         });
 
+        it('FilterMatches is fired when combobox first level value is cleared', () => {
+            combobox.value = '{!myVar1}';
+            combobox.value = null;
+            return Promise.resolve().then(() => {
+                expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
+                expect(filterMatchesHandler.mock.calls[0][0].detail.value).toBe('');
+            });
+        });
+
         it('FetchMenuData is fired when a . is entered & item hasNext', () => {
             combobox.value = '{!MyAccount}';
 
@@ -793,11 +802,19 @@ describe('Combobox Tests', () => {
             });
         });
 
-        it('Clearing value should fire fetchMenuData event', () => {
+        it('Clearing second level merge field value should fire fetchMenuData event', () => {
             combobox.value = secondLevelMenuData[0];
             combobox.value = null;
             return Promise.resolve().then(() => {
                 expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
+            });
+        });
+
+        it('Clearing first level value should not fire fetchMenuData event', () => {
+            combobox.value = '{!var1}';
+            combobox.value = null;
+            return Promise.resolve().then(() => {
+                expect(fetchMenuDataHandler).not.toHaveBeenCalled();
             });
         });
 
