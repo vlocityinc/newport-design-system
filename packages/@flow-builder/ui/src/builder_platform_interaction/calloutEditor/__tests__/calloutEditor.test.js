@@ -5,10 +5,11 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 
-const setupComponentUnderTest = () => {
+const setupComponentUnderTest = ({node = {elementType: ELEMENT_TYPE.ACTION_CALL}} = {}) => {
     const element = createElement('builder_platform_interaction-callout-editor', {
         is: CalloutEditor,
     });
+    Object.assign(element, {node});
     document.body.appendChild(element);
     return element;
 };
@@ -181,6 +182,18 @@ describe('callout-editor', () => {
             calloutEditor = setupComponentUnderTest();
             const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedActionChangeEvent(actionSelector, mockSelectedAction.actionName, mockSelectedAction.actionType);
+            return Promise.resolve().then(() => {
+                const container = getShadowRoot(calloutEditor).querySelector(selectors.CONTAINER);
+                container.validate.mockReturnValueOnce([]);
+                const errors = calloutEditor.validate();
+                expect(errors).toHaveLength(0);
+            });
+        });
+
+        it('returns no error when changing action type from action call to subflow', () => {
+            calloutEditor = setupComponentUnderTest();
+            const actionSelector = getActionSelector(calloutEditor);
+            dispatchSelectedSubflowChangeEvent(actionSelector, mockSelectedSubflow.flowName);
             return Promise.resolve().then(() => {
                 const container = getShadowRoot(calloutEditor).querySelector(selectors.CONTAINER);
                 container.validate.mockReturnValueOnce([]);
