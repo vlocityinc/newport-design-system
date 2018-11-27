@@ -70,7 +70,7 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
     if (valueBefore.isReference) {
         expect(field[dataTypePropName]).toBe('reference');
     } else if (valueBefore.value) {
-            expect(field[dataTypePropName]).toBe('String');
+        expect(field[dataTypePropName]).toBe('String');
     } else {
         expect(field[dataTypePropName]).toBeFalsy();
     }
@@ -96,15 +96,21 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
 
     // Make sure everything went well
     expect(newScreen).toBeDefined();
-    expect(newField[propertyName].value).toBe(valueAfter.value);
-    if (valueAfter.isReference && valueAfter.globalConstantDataType) {
-        expect(newField[dataTypePropName]).toBe(valueAfter.globalConstantDataType);
-    } else if (valueAfter.isReference) {
-        expect(newField[dataTypePropName]).toBe('reference');
-    } else if (valueAfter.value) {
-            expect(newField[dataTypePropName]).toBe('String');
+
+    if (valueAfter.shouldBeUndefined) {
+        expect(newField).toBeUndefined();
     } else {
-        expect(newField[dataTypePropName]).toBeUndefined();
+        expect(newField[propertyName].value).toBe(valueAfter.value);
+
+        if (valueAfter.isReference && valueAfter.globalConstantDataType) {
+            expect(newField[dataTypePropName]).toBe(valueAfter.globalConstantDataType);
+        } else if (valueAfter.isReference) {
+            expect(newField[dataTypePropName]).toBe('reference');
+        } else if (valueAfter.value) {
+            expect(newField[dataTypePropName]).toBe('String');
+        } else {
+            expect(newField[dataTypePropName]).toBeUndefined();
+        }
     }
 }
 
@@ -196,7 +202,7 @@ describe('screen reducer change LC screen field input parameter value value', ()
     });
 
     it('from literal to null', () => {
-        testInputParamValue({value:'BEFORE', isReference: false}, {value:null, isReference:false});
+        testInputParamValue({value:'BEFORE', isReference: false}, {value:null, isReference:false, shouldBeUndefined:true}); // LC Atts set to null must be removed from the params list
     });
 
     it('from null to literal', () => {
@@ -216,7 +222,7 @@ describe('screen reducer change LC screen field input parameter value value', ()
     });
 
     it('from reference to null', () => {
-        testInputParamValue(REFERENCE_VALUES.STRING_1, {value:null, isReference:false});
+        testInputParamValue(REFERENCE_VALUES.STRING_1, {value:null, isReference:false, shouldBeUndefined:true}); // LC Atts set to null must be removed from the params list
     });
 
     it('from null to reference', () => {
