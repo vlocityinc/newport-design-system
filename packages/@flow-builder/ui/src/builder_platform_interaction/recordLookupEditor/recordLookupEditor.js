@@ -183,12 +183,15 @@ export default class RecordLookupEditor extends LightningElement {
     handleResourceChanged(event) {
         event.stopPropagation();
         const oldRecordEntityName = this.state.recordEntityName;
-        if (event.detail.item && !event.detail.error && this.state.recordEntityName !== event.detail.item.value) {
-            this.state.recordEntityName = event.detail.item.value;
-            this.updateFields();
+        const {item, error, displayText} = event.detail;
+        const value = item ? item.value : displayText;
+        if (oldRecordEntityName !== value) {
+           this.state.recordEntityName = value;
+           if (item) {
+             this.updateFields();
+           }
         }
-        const value = event.detail.item ? event.detail.item.value : event.detail.displayText;
-        this.updateProperty('object', value, event.detail.error, false, oldRecordEntityName);
+        this.updateProperty('object', value, error, false, oldRecordEntityName);
     }
 
     /**

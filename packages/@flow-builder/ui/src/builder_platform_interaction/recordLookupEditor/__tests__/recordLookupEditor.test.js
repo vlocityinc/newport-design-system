@@ -22,11 +22,12 @@ function createComponentForTest(node) {
     return el;
 }
 
-const defaultValueItem = {item: {value: 'guid1', displayText: 'var 1'}};
+const defaultValueItem = {item: {value: 'guid1', displayText: 'var 1'}},
+      eventDetailOnObjectRemoval = {item: null, displayText: '', error : 'A value is required.'};
 
-function getComboboxStateChangedEvent() {
+function getComboboxStateChangedEvent(detail = defaultValueItem) {
     return new CustomEvent('comboboxstatechanged', {
-        detail: defaultValueItem,
+        detail
     });
 }
 
@@ -213,6 +214,34 @@ describe('record-lookup-editor', () => {
                 expect(getRecordSort(recordLookupEditor)).not.toBeNull();
                 expect(getRecordQueryFields(recordLookupEditor)).not.toBeNull();
             });
+        });
+    });
+    describe('Existing record element remove "object"', () => {
+        let recordLookupEditor;
+        beforeEach(() => {
+            recordLookupEditor = createComponentForTest(recordLookupElementWithSObject());
+            const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
+            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent(eventDetailOnObjectRemoval));
+        });
+        it('record filter should NOT be visible', () => {
+            const recordFilter = getRecordFilter(recordLookupEditor);
+            expect(recordFilter).toBeNull();
+        });
+        it('recordStoreOption should NOT be visible', () => {
+            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
+            expect(recordStoreOption).toBeNull();
+        });
+        it('recordSort should NOT be visible', () => {
+            const recordSort = getRecordSort(recordLookupEditor);
+            expect(recordSort).toBeNull();
+        });
+        it('recordQueryField should NOT be visible', () => {
+            const recordQueryField = getRecordQueryFields(recordLookupEditor);
+            expect(recordQueryField).toBeNull();
+        });
+        it('record inputOutPutAssignments should NOT be visible', () => {
+            const recordOutputAssignments = getInputOutputAssignments(recordLookupEditor);
+            expect(recordOutputAssignments).toBeNull();
         });
     });
     describe('Edit existing record element using sObject', () => {
