@@ -97,6 +97,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             allowLiterals: false,
             collection: false,
             hideGlobalConstants: true,
+            hideSystemVariables: true,
             hideNewResource: false,
             elementConfig: {
                 elementType: ELEMENT_TYPE.SCREEN,
