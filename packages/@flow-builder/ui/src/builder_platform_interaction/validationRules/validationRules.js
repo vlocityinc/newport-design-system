@@ -2,6 +2,7 @@ import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressio
 import { isUndefinedOrNull, format } from "builder_platform_interaction/commonUtils";
 import { Store } from "builder_platform_interaction/storeLib";
 import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS as labels} from "./validationRulesLabels";
 
 /**
@@ -263,5 +264,17 @@ export const isUniqueOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToS
     const matches = Object.values(elements).filter(element =>
         !listOfGuidsToSkip.includes(element.guid) && (element.stageOrder) === orderNumberToBeTested);
     return matches.length > 0 ? LABELS.orderNumberNotUnique : null;
+};
+
+/**
+ * Calls validation libarary on the given text
+ * @param {Object} options list of options to provide to merge field validation
+ * @returns {Function} function that accepts the text to be validated. Returns an error from validation operation
+ */
+export const isValidTextWithMergeFields = (options) => {
+    return (text) => {
+        const errors = validateTextWithMergeFields(text, options);
+        return errors.length > 0 ? errors[0].message : null;
+    };
 };
     /** Exported Validation Rules End **/

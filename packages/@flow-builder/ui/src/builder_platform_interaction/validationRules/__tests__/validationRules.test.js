@@ -5,12 +5,19 @@ import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressio
 import { LABELS } from "../validationRulesLabels";
 import { format } from "builder_platform_interaction/commonUtils";
 import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
         isMatch: require.requireActual('builder_platform_interaction/ruleLib').isMatch,
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
+    };
+});
+
+jest.mock('builder_platform_interaction/mergeFieldLib', () => {
+    return {
+        validateTextWithMergeFields: jest.fn().mockName('validateTextWithMergeFields').mockReturnValue([]),
     };
 });
 
@@ -254,6 +261,41 @@ describe('isUniqueOrderNumberInStore method', () => {
     });
     it('returns an error when the order number is not unique', () => {
         expect(rules.isUniqueOrderNumberInStore(stageOrderNumber)).toBe(LABELS.orderNumberNotUnique);
+    });
+});
+
+describe('isValidTextWithMergeFields', () => {
+    it('returns a function', () => {
+        const rule = rules.isValidTextWithMergeFields();
+        expect(rule).toEqual(expect.any(Function));
+    });
+
+    it('calls validateTextWithMergeFields with the text', () => {
+        const rule = rules.isValidTextWithMergeFields();
+        const text = 'some merge {!field}';
+        rule(text);
+        expect(validateTextWithMergeFields).toHaveBeenCalledWith(text, undefined);
+    });
+
+    it('calls validateTextWithMergeFields with given options', () => {
+        const options = { globalConstantsAllowed: false };
+        const rule = rules.isValidTextWithMergeFields(options);
+        rule(undefined, options);
+        expect(validateTextWithMergeFields).toHaveBeenCalledWith(undefined, options);
+    });
+
+    it('returns null when no errors are found', () => {
+        const rule = rules.isValidTextWithMergeFields();
+        const result = rule();
+        expect(result).toBeNull();
+    });
+
+    it('returns the first error message when errors are found', () => {
+        const mockErrors = [{ message: 'firstError' }, { message:'secondError' }];
+        validateTextWithMergeFields.mockReturnValueOnce(mockErrors);
+        const rule = rules.isValidTextWithMergeFields();
+        const result = rule();
+        expect(result).toEqual(mockErrors[0].message);
     });
 });
 
