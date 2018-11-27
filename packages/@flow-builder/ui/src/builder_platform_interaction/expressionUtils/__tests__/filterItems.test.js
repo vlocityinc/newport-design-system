@@ -211,5 +211,17 @@ describe('Combobox Search Library', () => {
             expect(filteredArray[0].items).toHaveLength(1);
             expect(filteredArray[0].items[0].text).toEqual(filteredTextHighlightSpecialChar2);
         });
+        it('Search should work for null filter text', () => {
+            const filteredArray = filterMatches(null, menuData);
+            expect(filteredArray).toEqual(menuData);
+        });
+        it('Search should work for undefined filter text', () => {
+            const filteredArray = filterMatches(undefined, menuData);
+            expect(filteredArray).toEqual(menuData);
+        });
+        it('Search should work for empty filter text', () => {
+            const filteredArray = filterMatches('', menuData);
+            expect(filteredArray).toEqual(menuData);
+        });
     });
 });

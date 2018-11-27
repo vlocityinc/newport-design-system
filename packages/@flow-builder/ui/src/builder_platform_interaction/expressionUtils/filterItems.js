@@ -151,7 +151,7 @@ export function filterMatches(filterText, menuData, isMergeField) {
             return isEmpty(filterText) || getIndex(filterText, menuItem.text) !== -1 || getIndex(filterText, menuItem.subText) !== -1;
         });
 
-        const escapedFilterText = escapeForRegExp(filterText);
+        const escapedFilterText = isEmpty(filterText) ? filterText : escapeForRegExp(filterText);
         // Only add group with matched items
         if (matchedItems && matchedItems.length > 0) {
             matchedItems.forEach(menuItem => {
