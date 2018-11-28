@@ -30,9 +30,7 @@ export default class GroupedCombobox extends LightningElement {
     }
 
     @api
-    showHelpMessageIfInvalid() {
-        // shows the error message
-    }
+    showHelpMessageIfInvalid = jest.fn().mockName('showHelpMessageIfInvalid');
 
     @api
     focusAndOpenDropdownIfNotEmpty() {
