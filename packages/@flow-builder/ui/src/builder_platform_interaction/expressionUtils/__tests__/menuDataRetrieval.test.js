@@ -13,6 +13,8 @@ import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.vari
 import { platformEvent1ApiName, platformEvent1Label } from 'mock/eventTypesData';
 import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const collectionVariable = LABELS.collectionVariablePluralLabel.toUpperCase();
 const sobjectVariable = LABELS.sObjectVariablePluralLabel.toUpperCase();
 const sobjectCollectionVariable = LABELS.sObjectCollectionVariablePluralLabel.toUpperCase();

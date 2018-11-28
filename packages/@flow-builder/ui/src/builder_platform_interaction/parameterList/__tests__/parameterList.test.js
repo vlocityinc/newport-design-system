@@ -5,6 +5,9 @@ import { getShadowRoot } from 'lwc-test-utils';
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
+
 const defaultInputTabHeader = 'Send to action';
 const defaultOutputTabHeader = 'Received from action';
 const defaultEmptyInputsTitle = 'No inputs';

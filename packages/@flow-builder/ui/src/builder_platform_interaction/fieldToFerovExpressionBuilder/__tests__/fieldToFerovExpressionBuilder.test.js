@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
-// Importing using relative path here to ensure that we get the actual component and not the mocked version
 import FieldToFerovExpressionBuilder from "../fieldToFerovExpressionBuilder.js";
 import { numberVariableGuid, accountSObjectVariableGuid, accountSObjectVariableDevName, elements } from "mock/storeData";
 import { elementToParam, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
@@ -16,6 +15,9 @@ import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, setSystemVariables, getSyste
 import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
 import { systemVariables } from "mock/systemGlobalVars";
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/systemLib', () => require('builder_platform_interaction_mocks/systemLib'));
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-field-to-ferov-expression-builder', { is: FieldToFerovExpressionBuilder });
@@ -68,20 +70,6 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
     };
 });
-
-jest.mock('builder_platform_interaction/expressionUtils', () => {
-    return {
-        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
-        validateExpressionShape: require.requireActual('builder_platform_interaction/expressionUtils').validateExpressionShape,
-        LHS_DISPLAY_OPTION: require.requireActual('builder_platform_interaction/expressionUtils').LHS_DISPLAY_OPTION,
-        populateLhsStateForField: require.requireActual('builder_platform_interaction/expressionUtils').populateLhsStateForField,
-        populateRhsState: require.requireActual('builder_platform_interaction/expressionUtils').populateRhsState,
-        mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
-        mutateFieldToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFieldToComboboxShape,
-        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
-    };
-});
-
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {

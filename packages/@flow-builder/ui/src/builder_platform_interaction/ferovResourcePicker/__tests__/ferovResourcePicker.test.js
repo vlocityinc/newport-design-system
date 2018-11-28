@@ -9,6 +9,8 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "../../dataTypeLib/dataTypeLib";
 import { Store } from 'builder_platform_interaction/storeLib';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker',
 };

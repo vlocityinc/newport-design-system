@@ -3,6 +3,9 @@ import LoopEditor from "../loopEditor";
 import {PropertyChangedEvent, ComboboxStateChangedEvent} from "builder_platform_interaction/events";
 import { getShadowRoot } from 'lwc-test-utils';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 const IAMERRORED = 'IAMERRORED';
 const VARIABLE = 'VARIABLE_GUID';
 

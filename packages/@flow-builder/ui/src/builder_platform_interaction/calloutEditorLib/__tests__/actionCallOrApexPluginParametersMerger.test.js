@@ -1,6 +1,8 @@
 import { mergeInputOutputParameters, MERGE_WARNING_TYPE } from "../calloutEditorLib";
 import { mockActionParameters } from "mock/calloutData";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const mockGuid = 'mockGuid';
 
 const nodeInputParameters = [
@@ -205,7 +207,7 @@ const notAvailableParameter = [
 const getParameterItem = (parameterItems, name) => parameterItems.find(parameterItem => parameterItem.name === name);
 
 describe('ActionCall/ApexPlugin parameters merge', () => {
-    const storeLib = require.requireActual('builder_platform_interaction/storeLib');
+    const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
     describe('When there is no warning', () => {
         it('merges input and output parameters', () => {

@@ -12,6 +12,10 @@ import { LABELS } from "../waitEventLabels";
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
+jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
+jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder'));
+
 jest.mock('builder_platform_interaction/conditionListUtils', () => {
     return {
         getConditionsWithPrefixes: jest.fn().mockName('getConditionsWithPrefixes'),

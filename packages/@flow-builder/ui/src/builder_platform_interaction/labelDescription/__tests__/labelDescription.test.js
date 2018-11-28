@@ -3,6 +3,8 @@ import LabelDescription from "builder_platform_interaction/labelDescription";
 import {PropertyChangedEvent} from "builder_platform_interaction/events";
 import { getShadowRoot } from 'lwc-test-utils';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-label-description', {
         is: LabelDescription

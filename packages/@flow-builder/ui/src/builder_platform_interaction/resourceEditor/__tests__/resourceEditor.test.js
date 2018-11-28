@@ -3,6 +3,8 @@ import ResourceEditor  from "../resourceEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import { shouldNotBeNullOrUndefined } from "builder_platform_interaction/validationRules";
 
+jest.mock('builder_platform_interaction/resourceEditorContainer', () => require('builder_platform_interaction_mocks/resourceEditorContainer'));
+
 const setupComponentUnderTest = () => {
     const element = createElement('builder_platform_interaction-resource-editor', {
         is: ResourceEditor,

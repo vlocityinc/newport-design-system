@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
-// Importing using relative path here to ensure that we get the actual component and not the mocked version
 import FerToFerovExpressionBuilder from "../ferToFerovExpressionBuilder.js";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { numberVariableGuid, accountSObjectVariableGuid, accountSObjectVariableDevName, elements } from "mock/storeData";
@@ -12,6 +11,9 @@ import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, setSystemVariables, getSyste
 import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
 import * as mockSystemLibData from "mock/systemGlobalVars";
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/systemLib', () => require('builder_platform_interaction_mocks/systemLib'));
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-fer-to-ferov-expression-builder', { is: FerToFerovExpressionBuilder });

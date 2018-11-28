@@ -1,5 +1,7 @@
 import { createVariable, createVariableForStore, createVariableMetadataObject } from '../variable';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const variableWithDefaultValueAsString = {
     name: 'Var1',
     description: 'This is description',

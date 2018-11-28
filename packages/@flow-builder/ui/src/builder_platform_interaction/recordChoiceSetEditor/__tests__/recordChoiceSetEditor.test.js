@@ -17,6 +17,8 @@ import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib'
 import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
+
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',

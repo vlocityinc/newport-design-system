@@ -3,6 +3,8 @@ import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 expect.extend(deepFindMatchers);
 
 const mockGuid = 'mockGuid';
@@ -112,7 +114,7 @@ const parametersWithoutProcessMetaDataValue = (parameters, isInput) => {
     });
 };
 describe('apexPlugin', () => {
-    const storeLib = require.requireActual('builder_platform_interaction/storeLib');
+    const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
     describe('createApexPlugin function', () => {
         let apexPlugin;

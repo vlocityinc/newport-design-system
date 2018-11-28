@@ -7,6 +7,10 @@ import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEdit
 import { mockAccountFields } from "mock/serverEntityData";
 import { RecordStoreOptionChangedEvent, AddRecordFilterEvent, DeleteRecordFilterEvent, UpdateRecordFilterEvent} from "builder_platform_interaction/events";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
+
 const createComponentForTest = (node, mode) => {
     const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
     Object.assign(el, {node, mode});

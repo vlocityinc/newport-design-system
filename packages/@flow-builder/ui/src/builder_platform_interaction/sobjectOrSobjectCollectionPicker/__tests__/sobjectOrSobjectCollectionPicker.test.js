@@ -10,6 +10,9 @@ import SObjectOrSObjectCollectionPicker from "builder_platform_interaction/sobje
 import { sObjectOrSObjectCollectionByEntitySelector }  from "builder_platform_interaction/selectors";
 import * as store from "mock/storeData";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 const mockDefaultConfig = {
     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
 };

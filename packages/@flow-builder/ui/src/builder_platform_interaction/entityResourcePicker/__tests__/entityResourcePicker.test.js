@@ -5,6 +5,8 @@ import { ComboboxStateChangedEvent, ItemSelectedEvent } from 'builder_platform_i
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import EntityResourcePicker from '../entityResourcePicker';
 
+jest.mock('builder_platform_interaction/baseResourcePicker', () => require('builder_platform_interaction_mocks/baseResourcePicker'));
+
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-entity-resource-picker', {
         is: EntityResourcePicker,

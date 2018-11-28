@@ -5,6 +5,8 @@ import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstan
 import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 expect.extend(deepFindMatchers);
 const MOCK_GUID = 'mockGuid', MOCK_ASSIGN_RECORD_ID_TO_REFERENCE = 'myNewId';
 
@@ -122,7 +124,7 @@ const uiModelInputAssignmentFieldBooleanValue = {
 };
 
 describe('recordCreate', () => {
-    const storeLib = require.requireActual('builder_platform_interaction/storeLib');
+    const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(MOCK_GUID);
     describe('createRecordCreate function', () => {
         let recordCreate;

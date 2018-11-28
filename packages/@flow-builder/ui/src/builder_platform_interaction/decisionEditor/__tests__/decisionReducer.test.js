@@ -9,6 +9,8 @@ import {
 import {PROPERTY_EDITOR_ACTION} from "builder_platform_interaction/actions";
 import { EXPRESSION_PROPERTY_TYPE} from "builder_platform_interaction/expressionUtils";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 describe('decision-reducer', () => {
     let originalState;
 
@@ -92,7 +94,7 @@ describe('decision-reducer', () => {
 
     describe('Add Outcome', () => {
         it('adds outcomes', () => {
-            const storeLib = require.requireActual('builder_platform_interaction/storeLib');
+            const storeLib = require('builder_platform_interaction/storeLib');
 
             const mockGuid1 = 'ABC';
             storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid1);
@@ -146,7 +148,7 @@ describe('decision-reducer', () => {
         it('adds valid condition with rowIndex', () => {
             const mockGuid = 'ABC';
 
-            const storeLib = require.requireActual('builder_platform_interaction/storeLib');
+            const storeLib = require('builder_platform_interaction/storeLib');
             storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
 
             const outcome = originalState.outcomes[1];

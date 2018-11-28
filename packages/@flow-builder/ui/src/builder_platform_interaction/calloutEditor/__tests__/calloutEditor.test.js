@@ -5,6 +5,8 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 
+jest.mock('builder_platform_interaction/calloutEditorContainer', () => require('builder_platform_interaction_mocks/calloutEditorContainer'));
+
 const setupComponentUnderTest = ({node = {elementType: ELEMENT_TYPE.ACTION_CALL}} = {}) => {
     const element = createElement('builder_platform_interaction-callout-editor', {
         is: CalloutEditor,

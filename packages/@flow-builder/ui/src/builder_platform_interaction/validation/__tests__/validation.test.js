@@ -2,6 +2,8 @@ import { Validation } from "builder_platform_interaction/validation";
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 const TRAILING_UNDERSCORE_ERROR = ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores;
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 describe('Default Validations', () => {
     const validation = new Validation();
 

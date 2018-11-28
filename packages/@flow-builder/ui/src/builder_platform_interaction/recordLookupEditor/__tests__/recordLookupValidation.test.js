@@ -5,6 +5,10 @@ import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataM
 import { SORT_ORDER, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS, NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 import { LABELS } from "builder_platform_interaction/validationRules";
 
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
     if (node) {

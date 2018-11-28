@@ -3,6 +3,9 @@ import ApexPluginEditor from "../apexPluginEditor";
 import { apexPluginValidation } from "../apexPluginValidation.js";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/baseCalloutEditor', () => require('builder_platform_interaction_mocks/baseCalloutEditor'));
+
 const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-apex-plugin-editor', { is: ApexPluginEditor });
     el.node = node;

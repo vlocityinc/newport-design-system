@@ -3,6 +3,8 @@ import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
 import { deepCopy } from "builder_platform_interaction/storeLib";
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 expect.extend(deepFindMatchers);
 
 const subflowMetadata = {

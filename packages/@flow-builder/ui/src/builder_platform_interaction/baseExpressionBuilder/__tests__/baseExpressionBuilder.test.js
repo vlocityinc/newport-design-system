@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
-// Importing using relative path here to ensure that we get the actual component and not the mocked version
 import BaseExpressionBuilder from "../baseExpressionBuilder.js";
 import { RowContentsChangedEvent, ComboboxStateChangedEvent } from "builder_platform_interaction/events";
 import { numberVariableGuid, numberVariableDevName, stringVariableGuid,
@@ -15,6 +14,8 @@ import { GLOBAL_CONSTANTS, setSystemVariables } from "builder_platform_interacti
 import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
 import { systemVariables } from "mock/systemGlobalVars";
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-base-expression-builder', { is: BaseExpressionBuilder });

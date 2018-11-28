@@ -1,5 +1,6 @@
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
+
 describe('Record Choice Set Reducer', () => {
     const recordChoiceObject = {
         elementType: 'RECORD_CHOICE_SET',

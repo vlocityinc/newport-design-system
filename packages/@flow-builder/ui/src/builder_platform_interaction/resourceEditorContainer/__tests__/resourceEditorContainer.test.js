@@ -4,6 +4,8 @@ import ResourceEditorContainer from "../resourceEditorContainer";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getElementForPropertyEditor } from "builder_platform_interaction/propertyEditorFactory";
 
+jest.mock('builder_platform_interaction/variableConstantEditor', () => require('builder_platform_interaction_mocks/variableConstantEditor'));
+
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-resource-editor-container', {
         is: ResourceEditorContainer,

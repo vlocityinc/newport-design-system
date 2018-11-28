@@ -3,6 +3,8 @@ import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeF
 import { LABELS } from "../../validationRules/validationRulesLabels";
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
         validateTextWithMergeFields: jest.fn().mockName('validateTextWithMergeFields').mockReturnValue([]),

@@ -4,6 +4,8 @@ import { PropertyChangedEvent, AddListItemEvent, DeleteListItemEvent, UpdateList
 import {deepCopy} from "builder_platform_interaction/storeLib";
 import { getShadowRoot } from 'lwc-test-utils';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-assignment-editor', { is: AssignmentEditor });
     document.body.appendChild(el);

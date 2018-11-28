@@ -1,4 +1,4 @@
-import * as mockSystemLib from '../../../modules/builder_platform_interaction/systemLib/systemLib.js';
+const mockSystemLib = require.requireActual('builder_platform_interaction/systemLib');
 import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
 import globalConstantEmptyStringLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantEmptyString';
 import globalConstantTrueLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantTrue';

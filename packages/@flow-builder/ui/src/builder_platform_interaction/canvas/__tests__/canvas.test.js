@@ -5,6 +5,8 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { DeleteElementEvent } from "builder_platform_interaction/events";
 import { getShadowRoot } from 'lwc-test-utils';
 
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
+
 const SELECTORS = {
     CANVAS_DIV: '.canvas',
     OVERLAY: '.overlay',

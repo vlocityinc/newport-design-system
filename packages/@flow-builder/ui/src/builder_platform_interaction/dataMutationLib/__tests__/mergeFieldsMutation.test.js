@@ -1,6 +1,8 @@
 import { mutateTextWithMergeFields, demutateTextWithMergeFields } from '../mergeFieldsMutation';
 import { Store } from "builder_platform_interaction/storeLib";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const ELEMENTS = {
     VARIABLE_1 : {
         guid : 'VARIABLE_1',

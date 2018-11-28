@@ -8,6 +8,9 @@ import { stringVariableDevName, stringVariableGuid } from 'mock/storeData';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
+jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 const parameterLabel = 'Parameter Label';
 const parameterName = 'parameterName';
 const parameterStringValue = 'Simple String Value';

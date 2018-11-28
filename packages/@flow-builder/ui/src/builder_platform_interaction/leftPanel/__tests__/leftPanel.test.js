@@ -7,6 +7,8 @@ import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newRes
 
 import { getShadowRoot } from 'lwc-test-utils';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-left-panel', { is: LeftPanel });
     document.body.appendChild(el);

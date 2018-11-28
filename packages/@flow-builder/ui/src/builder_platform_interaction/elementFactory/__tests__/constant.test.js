@@ -1,5 +1,7 @@
 import { createConstant, createConstantForStore, createConstantMetadataObject } from '../constant';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const constantWithDefaultValueAsString = {
     name: "const1",
     description: "This is description",

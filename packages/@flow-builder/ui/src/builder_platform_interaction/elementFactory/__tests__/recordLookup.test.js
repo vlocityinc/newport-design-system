@@ -3,6 +3,8 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 expect.extend(deepFindMatchers);
 
 const MOCK_GUID = 'mockGuid';
@@ -164,7 +166,7 @@ const uiModelOutputAssignmentField = {
 };
 
 describe('recordLookup', () => {
-    const storeLib = require.requireActual('builder_platform_interaction/storeLib');
+    const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(MOCK_GUID);
     describe('createRecordLookup function', () => {
         let recordLookup;

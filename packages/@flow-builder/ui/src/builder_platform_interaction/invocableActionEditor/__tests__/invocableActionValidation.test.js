@@ -3,6 +3,10 @@ import InvocableActionEditor from "../invocableActionEditor";
 import { invocableActionValidation } from "../invocableActionValidation.js";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
+
 const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     el.node = node;

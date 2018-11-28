@@ -8,6 +8,8 @@ import {
     createAddScreenFieldEvent
 } from "builder_platform_interaction/events";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const SCREEN_NAME = 'TestScreen1';
 
 describe('screen reducer', () => {

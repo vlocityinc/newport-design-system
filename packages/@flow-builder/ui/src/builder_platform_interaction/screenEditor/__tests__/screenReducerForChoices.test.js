@@ -8,6 +8,8 @@ import {
     SCREEN_EDITOR_EVENT_NAME
 } from "builder_platform_interaction/events";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const SCREEN_NAME = 'TestScreen1';
 
 it('change choice screen field by changing the 1st choice', () => {

@@ -6,6 +6,10 @@ import { LABELS } from "builder_platform_interaction/validationRules";
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
+jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordCreateEditor });

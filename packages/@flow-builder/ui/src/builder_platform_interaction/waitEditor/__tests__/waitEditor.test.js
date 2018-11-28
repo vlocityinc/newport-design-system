@@ -12,6 +12,9 @@ import { getShadowRoot } from 'lwc-test-utils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { waitReducer } from '../waitReducer';
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
+
 function createComponentForTest(props) {
     let el = createElement('builder_platform_interaction-wait-editor', { is: WaitEditor });
     el = Object.assign(el, props);

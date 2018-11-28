@@ -7,6 +7,8 @@ import * as store from "mock/storeData";
 import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         writableElementsSelector: jest.fn(),

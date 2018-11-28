@@ -5,6 +5,9 @@ import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 
+jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         readableElementsSelector: jest.fn(data => Object.values(data.elements)),

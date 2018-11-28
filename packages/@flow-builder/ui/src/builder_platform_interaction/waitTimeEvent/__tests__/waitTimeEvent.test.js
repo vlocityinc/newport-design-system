@@ -14,8 +14,10 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import WaitTimeEvent from '../waitTimeEvent';
-
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+
+jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 
 const createComponentUnderTest = (props) => {
     let el = createElement('builder_platform_interaction-wait-time-event', {

@@ -9,6 +9,8 @@ import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId } from 'build
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { LABELS } from '../choiceEditorLabels';
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     CHOICE_TEXT: '.choice-label',

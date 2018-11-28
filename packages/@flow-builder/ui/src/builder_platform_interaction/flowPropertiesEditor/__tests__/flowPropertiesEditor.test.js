@@ -8,6 +8,8 @@ import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
 import format from 'builder_platform_interaction/commonUtils';
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getProcessTypesMenuData() {

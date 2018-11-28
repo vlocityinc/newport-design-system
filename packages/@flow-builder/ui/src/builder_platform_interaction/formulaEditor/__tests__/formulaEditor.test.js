@@ -4,6 +4,8 @@ import { getShadowRoot } from 'lwc-test-utils';
 import { createFormula } from "builder_platform_interaction/elementFactory";
 import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 const createComponentUnderTest = (node) => {
     const el = createElement('builder_platform_interaction-formula-editor', { is: FormulaEditor });
     el.node = node;

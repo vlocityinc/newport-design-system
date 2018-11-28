@@ -2,6 +2,8 @@ import { createRecordDelete, createRecordDeleteMetadataObject } from '../recordD
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 expect.extend(deepFindMatchers);
 
 const MOCK_GUID = '93f65bd6-d0ab-4e75-91b1-a8599dee54ed';
@@ -123,7 +125,7 @@ const recordDeleteFieldsMetadata = () => ({
 });
 
 describe('recordDelete', () => {
-    const storeLib = require.requireActual('builder_platform_interaction/storeLib');
+    const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(MOCK_GUID);
     describe('createRecordDelete "factory" function', () => {
         let recordDelete;

@@ -3,6 +3,9 @@ import ChoiceEditor from '../choiceEditor';
 import { choiceValidation } from '../choiceValidation.js';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const setupComponentUnderTest = (defaultChoiceObject) => {
     const element = createElement('builder_platform_interaction-choice-editor', {
         is: ChoiceEditor,

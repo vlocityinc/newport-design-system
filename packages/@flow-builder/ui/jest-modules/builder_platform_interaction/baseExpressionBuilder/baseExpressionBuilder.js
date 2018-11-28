@@ -2,7 +2,7 @@ import { LightningElement, api } from 'lwc';
 
 export default class BaseExpressionBuilder extends LightningElement {
     @api
-    containerElemnt;
+    containerElement;
 
     @api
     lhsPlaceholder;
@@ -66,4 +66,10 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     @api
     hideNewResource;
+    
+    @api
+    rules;
+    
+    @api
+    objectType;
 }

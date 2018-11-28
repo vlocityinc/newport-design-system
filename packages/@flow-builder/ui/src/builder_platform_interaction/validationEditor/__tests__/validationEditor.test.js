@@ -2,6 +2,8 @@ import { createElement } from 'lwc';
 import ValidationEditor from "../validationEditor";
 import { query } from "builder_platform_interaction/builderTestUtils";
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         readableElementsSelector: jest.fn(data => Object.values(data.elements)),

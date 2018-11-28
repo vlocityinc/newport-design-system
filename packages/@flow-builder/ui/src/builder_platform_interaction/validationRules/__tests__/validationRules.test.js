@@ -7,6 +7,8 @@ import { format } from "builder_platform_interaction/commonUtils";
 import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
         elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,

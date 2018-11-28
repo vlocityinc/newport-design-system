@@ -10,6 +10,8 @@ import {
 } from 'builder_platform_interaction/events';
 import RecordInputOutputAssignments from '../recordInputOutputAssignments.js';
 
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
+
 const mockDefaultRecordInputAssignment = {
     object: 'Account',
     inputOutputAssignmentsItems: [{

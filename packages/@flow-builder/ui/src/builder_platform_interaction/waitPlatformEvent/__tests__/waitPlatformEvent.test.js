@@ -17,6 +17,9 @@ import {
     WaitEventParameterChangedEvent,
 } from 'builder_platform_interaction/events';
 
+jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
+
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getEventTypes: require.requireActual('builder_platform_interaction/sobjectLib').getEventTypes,

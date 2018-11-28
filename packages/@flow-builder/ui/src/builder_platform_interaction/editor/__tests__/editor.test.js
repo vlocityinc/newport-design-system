@@ -7,6 +7,8 @@ import { translateUIModelToFlow } from "builder_platform_interaction/translatorL
 import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { getShadowRoot } from 'lwc-test-utils';
 
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
+
 jest.mock('builder_platform_interaction/translatorLib', () => {
     return {
         translateUIModelToFlow: jest.fn()
@@ -19,8 +21,6 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
     };
 });
-
-jest.unmock('builder_platform_interaction/storeLib');
 
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-editor', {

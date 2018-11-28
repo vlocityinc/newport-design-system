@@ -1,5 +1,7 @@
 import { usedBy, usedByStoreAndElementState } from "builder_platform_interaction/usedByLib";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const elements = {
     WAIT_1: {
         waitEventReferences: [

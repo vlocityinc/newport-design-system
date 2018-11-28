@@ -2,6 +2,8 @@ import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields 
 import { datetimeParamTypes } from "mock/ruleService";
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 jest.mock('builder_platform_interaction/systemLib', () => {
     const emptyString = '$GlobalConstant.EmptyString';
     return {

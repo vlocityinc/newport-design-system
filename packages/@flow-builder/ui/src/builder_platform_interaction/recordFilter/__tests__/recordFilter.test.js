@@ -11,6 +11,8 @@ import {
 } from "builder_platform_interaction/events";
 import RecordLookupFilter from "builder_platform_interaction/recordFilter";
 
+jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
+
 const defaultMockFilterItems = [{
     operator: {value: '', error: null},
     leftHandSide: {value: '', error: null},

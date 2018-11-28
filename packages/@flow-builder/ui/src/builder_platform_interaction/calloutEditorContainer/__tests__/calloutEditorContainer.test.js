@@ -3,6 +3,8 @@ import { getShadowRoot } from 'lwc-test-utils';
 import CalloutEditorContainer from "../calloutEditorContainer";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-callout-editor-container', {
         is: CalloutEditorContainer,

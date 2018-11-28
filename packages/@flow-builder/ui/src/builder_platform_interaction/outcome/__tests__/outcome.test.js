@@ -6,6 +6,8 @@ import {
 import { getShadowRoot } from 'lwc-test-utils';
 import { LABELS } from "../outcomeLabels";
 
+jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder'));
+
 const outcomeWithOneConditional = {
     label: {value: 'Test Name of the Outcome'},
     name: {value: 'Test Dev Name'},

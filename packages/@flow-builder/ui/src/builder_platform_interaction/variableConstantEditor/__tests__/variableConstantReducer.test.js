@@ -6,6 +6,8 @@ import * as mockStoreData from 'mock/storeData';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-variable-constant-editor', {
         is: VariableConstantEditor,

@@ -3,6 +3,8 @@ import ResourcedTextarea from '../resourcedTextarea';
 import { getShadowRoot } from 'lwc-test-utils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 const label = 'Help Text';
 const changeEventName = 'change';
 const itemText = '{!var}';

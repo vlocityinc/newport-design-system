@@ -1,6 +1,8 @@
 import { getElementByDevName } from '../storeQuery';
 import { assignmentElementName } from "mock/storeData";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 describe('getElementByDevName', () => {
     it('returns element in a case-insensitive way by default', () => {
         const element = getElementByDevName(assignmentElementName.toUpperCase());

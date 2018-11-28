@@ -4,6 +4,8 @@ import { LABELS } from '../../validationRules/validationRulesLabels';
 
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 jest.mock('builder_platform_interaction/elementFactory', () => {
     return {
         createCondition: jest.fn().mockReturnValue({

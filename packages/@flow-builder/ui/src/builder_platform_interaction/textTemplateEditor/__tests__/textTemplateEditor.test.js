@@ -9,6 +9,8 @@ import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     RESOURCED_TEXTAREA: 'builder_platform_interaction-resourced-textarea',

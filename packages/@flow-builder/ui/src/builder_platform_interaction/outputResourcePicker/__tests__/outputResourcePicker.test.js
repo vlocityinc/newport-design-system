@@ -8,6 +8,8 @@ import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-output-resource-picker', {
         is: OutputResourcePicker,
