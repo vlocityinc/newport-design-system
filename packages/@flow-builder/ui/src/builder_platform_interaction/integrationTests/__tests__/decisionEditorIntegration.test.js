@@ -6,7 +6,7 @@ import { CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
 import { resolveRenderCycles} from '../resolveRenderCycles';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const mockStoreLib = require.requireActual('builder_platform_interaction_mocks/storeLib');
+    const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');
     const originalCreateSelector = require.requireActual('builder_platform_interaction/storeLib').createSelector;
     const partialStoreLibMock = Object.assign({}, mockStoreLib);
     partialStoreLibMock.createSelector = originalCreateSelector;

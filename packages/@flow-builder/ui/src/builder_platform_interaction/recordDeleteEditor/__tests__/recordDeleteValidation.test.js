@@ -3,6 +3,8 @@ import * as storeMockedData from "mock/storeData";
 import { LABELS } from "builder_platform_interaction/validationRules";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const INPUT_REFERENCE_PROPERTY_NAME = 'inputReference', OBJECT_PROPERTY_NAME = 'object', FILTERS_PROPERTY_NAME = 'filters',
     MOCK_GUID = '724cafc2-7744-4e46-8eaa-f2df29539d1d';
 
