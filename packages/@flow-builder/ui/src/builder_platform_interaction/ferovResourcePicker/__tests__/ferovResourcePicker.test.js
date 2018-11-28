@@ -96,7 +96,8 @@ describe('ferov-resource-picker', () => {
         });
 
         it('has the value set as an item', () => {
-            props.value = { value: 'testValue', displayText: 'test display text'};
+            props.value = { value: '{!testValue}', displayText: 'test display text'};
+            normalizeRHS.mockImplementationOnce(() => ({itemOrDisplayText: props.value}));
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
                 const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
