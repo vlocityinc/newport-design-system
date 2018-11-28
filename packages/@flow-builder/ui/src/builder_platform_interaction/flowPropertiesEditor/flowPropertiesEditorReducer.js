@@ -1,9 +1,7 @@
 import { flowPropertiesEditorValidation } from "./flowPropertiesEditorValidation";
 import { updateProperties } from "builder_platform_interaction/dataMutationLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import {
-    PropertyChangedEvent
-} from "builder_platform_interaction/events";
+import { PropertyChangedEvent } from "builder_platform_interaction/events";
 
 const flowPropertiesPropertyChanged = (state, event) => {
     event.detail.error = event.detail.error === null ?

@@ -32,9 +32,11 @@
 
         <div class="slds-m-top_small">
             <lightning-button if:false={isAdvancedShown} variant="base"
+                              class="show-advanced-button"
                               label={labels.showAdvanced} title={labels.showAdvanced}
                               onclick={handleAdvancedToggle}></lightning-button>
             <lightning-button if:true={isAdvancedShown} variant="base"
+                              class="hide-advanced-button"
                               label={labels.hideAdvanced} title={labels.hideAdvanced}
                               onclick={handleAdvancedToggle}></lightning-button>
         </div>
