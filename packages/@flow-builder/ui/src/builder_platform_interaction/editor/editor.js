@@ -69,15 +69,6 @@ export default class Editor extends LightningElement {
     @track disableSave = true;
     @track saveStatus;
 
-
-    resolveOpenPropertyEditor;
-    rejectOpenPropertyEditor;
-
-    openPropertyEditor = new Promise((resolve, reject) => {
-        this.resolveOpenPropertyEditor = resolve;
-        this.rejectOpenPropertyEditor = reject;
-    });
-
     propertyEditorBlockerCalls = [];
 
     constructor() {
@@ -88,43 +79,45 @@ export default class Editor extends LightningElement {
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
 
         // TODO: Move these server calls after getting the Flow
+        // added catch so that error are ignored in Chrome (fetchOnce already displays an error message)
+        const setRulesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_RULES).then(data => setRules(data));
+        setRulesPromise.catch(() => {});
+        this.propertyEditorBlockerCalls.push(setRulesPromise);
 
-        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_RULES).then(data => {
-            this.getRulesCallback(data);
-        }));
-        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_OPERATORS).then(data => {
-            this.getOperatorsCallback(data);
-        }));
+        const setOperatorsPromise = fetchOnce(SERVER_ACTION_TYPE.GET_OPERATORS).then(data => setOperators(data));
+        setOperatorsPromise.catch(() => {});
+        this.propertyEditorBlockerCalls.push(setOperatorsPromise);
+
         logPerfTransactionStart(SERVER_ACTION_TYPE.GET_ENTITIES);
-        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_ENTITIES, { crudType: 'ALL' }, {background: true}).then(data => {
-            this.getEntitiesCallback(data);
-        }));
-        fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data => {
-            this.getHeaderUrlsCallBack(data);
+        const setEntitiesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_ENTITIES, { crudType: 'ALL' }, {background: true}).then(data => {
+            logPerfTransactionEnd(SERVER_ACTION_TYPE.GET_ENTITIES);
+            logPerfTransactionStart('setEntities');
+            setEntities(data);
         });
-        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES).then(data => {
-            this.getResourceTypesCallback(data);
-        }));
-        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPES, { background: true }).then(data => {
-            this.getEventTypesCallback(data);
-        }));
-        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES, { flowProcessType: 'Flow' }).then(data => {
-            this.getAllGlobalVariablesCallback(data);
-        }));
-        this.propertyEditorBlockerCalls.push(fetchOnce(SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES, { flowProcessType: 'Flow' }).then(data => {
-            this.getSystemVariablesCallback(data);
-        }));
-        fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES).then(data => {
-            this.getProcessTypesCallback(data);
-        });
+        setEntitiesPromise.catch(() => {});
+        this.propertyEditorBlockerCalls.push(setEntitiesPromise);
 
-        // resolve opening property editor once these calls are done
-        Promise.all(this.propertyEditorBlockerCalls).then(() => {
-            this.openPropertyEditor.resolved = true;
-            this.resolveOpenPropertyEditor();
-        }).catch(() => {
-            this.rejectOpenPropertyEditor();
-        });
+        const setHeaderUrlsPromise = fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data => this.getHeaderUrlsCallBack(data));
+        setHeaderUrlsPromise.catch(() => {});
+
+        const setResourceTypesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES).then(data => setResourceTypes(data));
+        setResourceTypesPromise.catch(() => {});
+        this.propertyEditorBlockerCalls.push(setResourceTypesPromise);
+
+        const setEventTypesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPES, { background: true }).then(data => setEventTypes(data));
+        setEventTypesPromise.catch(() => {});
+        this.propertyEditorBlockerCalls.push(setEventTypesPromise);
+
+        const setAllGlobalVariablesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES, { flowProcessType: 'Flow' }).then(data => this.getAllGlobalVariablesCallback(data));
+        setAllGlobalVariablesPromise.catch(() => {});
+        this.propertyEditorBlockerCalls.push(setAllGlobalVariablesPromise);
+
+        const setSystemVariablesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES, { flowProcessType: 'Flow' }).then(data => this.getSystemVariablesCallback(data));
+        setSystemVariablesPromise.catch(() => {});
+        this.propertyEditorBlockerCalls.push(setSystemVariablesPromise);
+
+        const getProcessTypesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES).then(data => setProcessTypes(data));
+        getProcessTypesPromise.catch(() => {});
     }
 
     @api
@@ -139,7 +132,7 @@ export default class Editor extends LightningElement {
                 id: newFlowId
             };
             // Keeping this as fetch because we want to go to the server
-            fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallback, params);
+            fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallback, params, {background: true});
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
         } else {
@@ -260,7 +253,7 @@ export default class Editor extends LightningElement {
             const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(sobjectVariables[i]);
             addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
             // fetch fields and cache them
-            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjectVariables[i].objectType));
+            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjectVariables[i].objectType).catch(() => {}));
         }
     }
 
@@ -298,28 +291,7 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Callback which gets executed after getting rules for expression builder
-     *
-     * @param {Object} has error property if there is error fetching the data else has data property
-     */
-    getRulesCallback = (data) => {
-        setRules(data);
-    };
-
-    getOperatorsCallback = (data) => {
-        setOperators(data);
-    }
-
-    getEntitiesCallback = (data) => {
-        logPerfTransactionEnd(SERVER_ACTION_TYPE.GET_ENTITIES);
-        logPerfTransactionStart('setEntities');
-        setEntities(data);
-    };
-
-    /**
      * Callback which gets executed after getting data urls for header
-     *
-     * @param {Object} has error property if there is error fetching the data else has data property
      */
     getHeaderUrlsCallBack = (data) => {
         let isFromAloha = data.preferred === 'CLASSIC';
@@ -329,33 +301,6 @@ export default class Editor extends LightningElement {
         this.backUrl = isFromAloha ? data.flowUrl : data.lightningFlowUrl;
         this.helpUrl = data.helpUrl;
         this.runDebugUrl = data.runDebugUrl;
-    };
-
-    /**
-     * Callback which gets executed after fetching the resource types for New Resource editor
-     * @param {Object} has error property if there is error fetching the data else has data property
-     */
-    getResourceTypesCallback = (data) => {
-        setResourceTypes(data);
-    };
-
-    /**
-     * Callback which gets executed after fetching the extensions for Screen editor
-     * @param {Array} data doesn't get used here
-     * @param {String} error the error that gets returned
-     */
-    getExtensionsCallback = (data, error) => {
-        if (error) {
-            // TODO: handle error case
-        }
-    };
-
-    /**
-     * Callback which gets executed after fetching the event types for wait event editor
-     * @param {Object} has error property if there is error fetching the data else has data property
-     */
-    getEventTypesCallback = (data) => {
-        setEventTypes(data);
     };
 
     getAllGlobalVariablesCallback = (data) => {
@@ -371,10 +316,6 @@ export default class Editor extends LightningElement {
         addToParentElementCache(item.displayText, item);
         setSystemVariables(data);
     };
-
-    getProcessTypesCallback = (data) => {
-        setProcessTypes(data);
-    }
 
     /**
      * Helper method to construct the url for the run/debug mode and launch the window in a new tab
@@ -513,13 +454,13 @@ export default class Editor extends LightningElement {
     };
 
     queueOpenPropertyEditor = (params) => {
-        if (!this.openPropertyEditor.resolved) {
-            this.spinners.showPropertyEditorSpinner = true;
-        }
-        this.openPropertyEditor.then(() => {
+        this.spinners.showPropertyEditorSpinner = true;
+        Promise.all(this.propertyEditorBlockerCalls).then(() => {
             this.spinners.showPropertyEditorSpinner = false;
+            this.propertyEditorBlockerCalls = [];
             invokePropertyEditor(PROPERTY_EDITOR, params);
         }).catch(() => {
+            // we don't open the property editor because at least one promise was rejected
             this.spinners.showPropertyEditorSpinner = false;
         });
     };
@@ -871,12 +812,7 @@ export default class Editor extends LightningElement {
         if (node.elementType === ELEMENT_TYPE.VARIABLE && node.objectType && !node.isCollection) {
             const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(node);
             addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
-            this.spinners.showPropertyEditorSpinner = true;
-            fetchFieldsForEntity(node.objectType).then(() => {
-                this.spinners.showPropertyEditorSpinner = false;
-            }).catch(() => {
-                this.spinners.showPropertyEditorSpinner = false;
-            });
+            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(node.objectType).catch(() => {}));
         }
     }
 
