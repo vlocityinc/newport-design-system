@@ -278,7 +278,8 @@ export default class Editor extends LightningElement {
                 versionNumber: data.versionNumber,
                 status: data.status,
                 lastModifiedDate: data.lastModifiedDate,
-                isLightningFlowBuilder: true
+                isLightningFlowBuilder: true,
+                lastModifiedBy: data.lastModifiedBy,
             }));
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
         } else {
