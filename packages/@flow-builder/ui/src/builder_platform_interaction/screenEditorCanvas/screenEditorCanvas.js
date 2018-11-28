@@ -62,6 +62,7 @@ export default class ScreenEditorCanvas extends LightningElement {
     }
 
     handleDrop(event) {
+        event.preventDefault();
         this.handleDragEnd();
         const range = this.getDraggingRange(event);
 
