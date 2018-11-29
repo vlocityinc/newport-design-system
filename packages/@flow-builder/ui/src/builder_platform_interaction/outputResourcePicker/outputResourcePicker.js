@@ -202,7 +202,7 @@ export default class OutputResourcePicker extends LightningElement {
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
                 getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, false,
-                    this.enableFieldDrilldown, storeInstance, showNewResource, parentItem, undefined, false));
+                    this.enableFieldDrilldown, storeInstance, showNewResource, parentItem));
         }
     }
 

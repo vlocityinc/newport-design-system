@@ -135,7 +135,7 @@ describe('output-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                false, false, Store.getStore(), true, undefined, undefined, false);
+                false, false, Store.getStore(), true, undefined);
         });
     });
 
@@ -149,7 +149,7 @@ describe('output-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                false, false, Store.getStore(), true, parentItem, undefined, false);
+                false, false, Store.getStore(), true, parentItem);
         });
     });
 
@@ -158,7 +158,7 @@ describe('output-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                false, enableFieldDrilldown, Store.getStore(), true, undefined, undefined, false);
+                false, enableFieldDrilldown, Store.getStore(), true, undefined);
         });
     });
 
@@ -166,7 +166,7 @@ describe('output-resource-picker', () => {
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                false, false, Store.getStore(), true, undefined, undefined, false);
+                false, false, Store.getStore(), true, undefined);
         });
     });
 
