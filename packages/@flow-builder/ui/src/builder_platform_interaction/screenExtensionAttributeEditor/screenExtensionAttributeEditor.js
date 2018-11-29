@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { getIconForParameter, getFerovTypeFromTypeName } from "builder_platform_interaction/screenEditorUtils";
+import { getIconForParameter, getFerovTypeFromTypeName, EXTENSION_PARAM_PREFIX } from "builder_platform_interaction/screenEditorUtils";
 
 /*
  * Property editor for screen extensions attributes.
@@ -9,6 +9,7 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
     @api attribute;
     @api attributeType;
     @api index;
+    @api attributeIndex = 0;
 
     sIndex = 0;
 
@@ -70,9 +71,13 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
      * @param {Event} event - The property change event
      */
     handlePropertyChanged = (event) => {
-        const prefix = this.isInput ? 'input' : 'output';
+        const input = this.isInput;
+        const prefix = input ? EXTENSION_PARAM_PREFIX.INPUT : EXTENSION_PARAM_PREFIX.OUTPUT;
         event.detail.propertyName = prefix + '.' + event.detail.propertyName;
         event.detail.valueDataType = getFerovTypeFromTypeName(this.descriptor.dataType) || this.descriptor.dataType;
-        event.detail.required = this.descriptor.isRequired;
+        event.detail.required = input && this.descriptor.isRequired;
+        if (!input && this.attributeIndex > 0) {
+            event.detail.attributeIndex = this.attributeIndex;
+        }
     }
 }

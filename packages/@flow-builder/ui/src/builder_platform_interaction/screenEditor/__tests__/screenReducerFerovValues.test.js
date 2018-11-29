@@ -1,7 +1,8 @@
 import { createTestScreenField, createTestScreenWithFields, SCREEN_NULL_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
 import { screenReducer } from "../screenReducer";
-import {PropertyChangedEvent} from "builder_platform_interaction/events";
+import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { createScreenField } from 'builder_platform_interaction/elementFactory';
+import { EXTENSION_PARAM_PREFIX } from "builder_platform_interaction/screenEditorUtils";
 
 export const REFERENCE_VALUES = {
     STRING_1: {value:'{!String1}', valueGuid: 'GUID_String_1', isReference: true},
@@ -128,7 +129,7 @@ function testInputParamValue(valueBefore, valueAfter) {
     };
 
     const propertyNameProvider = (field) => {
-        return 'input.' + field.name.value;
+        return EXTENSION_PARAM_PREFIX.INPUT + '.' + field.name.value;
     };
 
     testFerovValue(valueBefore, valueAfter, 'value', screenFieldProvider, fieldProvider, propertyNameProvider, 'String');

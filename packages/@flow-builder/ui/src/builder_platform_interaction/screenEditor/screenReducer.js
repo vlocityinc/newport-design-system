@@ -2,14 +2,20 @@ import { screenValidation, getExtensionParameterValidation, getRulesForField } f
 import { VALIDATE_ALL, isUniqueDevNameInStore } from "builder_platform_interaction/validationRules";
 import { updateProperties, set, deleteItem, insertItem, replaceItem, hydrateWithErrors, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { ReorderListEvent, PropertyChangedEvent, ValidationRuleChangedEvent, SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
-import { isScreen, isExtensionField, isPicklistField, isMultiSelectPicklistField,
-    isMultiSelectCheckboxField, isRadioField,
-    getFerovTypeFromFieldType, compareValues } from "builder_platform_interaction/screenEditorUtils";
 import { createEmptyScreenFieldOfType } from "builder_platform_interaction/elementFactory";
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { createChoiceReference } from "builder_platform_interaction/elementFactory";
 import { GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
+import { isScreen,
+         isExtensionField,
+         isPicklistField,
+         isMultiSelectPicklistField,
+         isMultiSelectCheckboxField,
+         isRadioField,
+         getFerovTypeFromFieldType,
+         compareValues,
+         EXTENSION_PARAM_PREFIX } from "builder_platform_interaction/screenEditorUtils";
 
 const isHydrated = (value) => {
     return value && value.hasOwnProperty('value') && value.hasOwnProperty('error');
@@ -201,10 +207,8 @@ const handleStandardScreenFieldPropertyChange = (data) => {
     if (data.property === 'defaultValue') {
         // First update the value.
         let updatedValueField;
-        if (data.newValueGuid && data.newValueGuid in GLOBAL_CONSTANT_OBJECTS) {
-            // If the new value is a reference, but it's also a global constant,
-            // set the value to the GUID (which is really a devName that is understood
-            // by the rest of FlowBuilder.
+        if (data.newValueGuid) {
+            // If the new value is a reference, set the value to the GUID
             updatedValueField = updateProperties(data.field, {
                 'defaultValue': data.newValueGuid,
             });
@@ -239,17 +243,18 @@ const handleStandardScreenFieldPropertyChange = (data) => {
  * Applies changes to the input/output parameters of an extension screen field
  *
  * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType, required}
+ * @param {*} attributeIndex - the index of the property (for output attributes assigned to more than one variable)
  * @returns {screenfield} - The new screenfield after the change
  */
-const handleExtensionFieldPropertyChange = (data) => {
+const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
     let prefix;
     let parametersPropName;
 
-    if (data.property.startsWith('input.')) {
-        prefix = 'input';
+    if (data.property.startsWith(EXTENSION_PARAM_PREFIX.INPUT + '.')) {
+        prefix = EXTENSION_PARAM_PREFIX.INPUT;
         parametersPropName = 'inputParameters';
-    } else if (data.property.startsWith('output.')) {
-        prefix = 'output';
+    } else if (data.property.startsWith(EXTENSION_PARAM_PREFIX.OUTPUT + '.')) {
+        prefix = EXTENSION_PARAM_PREFIX.OUTPUT;
         parametersPropName = 'outputParameters';
     } else {
         throw new Error('Unknown parameter type: ' + data.property);
@@ -257,7 +262,13 @@ const handleExtensionFieldPropertyChange = (data) => {
 
     let field = data.field;
     const paramName = data.property.substring(prefix.length + 1); // + 1 to remove the dot
-    let param = field[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
+    let param = null;
+    if (attributeIndex > 0) {
+        const params = field[parametersPropName].filter(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
+        param = params[attributeIndex - 1];
+    } else {
+        param = field[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
+    }
 
     // Going from no value to having a value
     if (!param) {
@@ -283,7 +294,6 @@ const handleExtensionFieldPropertyChange = (data) => {
     if (error && data.hydrated) {
         data.newValue.error = error;
     }
-
 
     // Replace the property in the parameter
     let updatedParams = null;
@@ -337,7 +347,7 @@ const handleScreenFieldPropertyChange = (data, screen, event, screenfield) => {
 
     let newField = null;
     if (isExtensionField(screenfield) && data.property !== 'name') {
-        newField = handleExtensionFieldPropertyChange(data);
+        newField = handleExtensionFieldPropertyChange(data, event.detail.attributeIndex);
     } else {
         newField = handleStandardScreenFieldPropertyChange(data);
     }

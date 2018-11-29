@@ -53,8 +53,14 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         const params = [];
         for (let i = 0; i <  this._extensionDescription[name].length; i++) {
             const descriptor = this._extensionDescription[name][i];
-            const attribute = this.field[name].find(param => descriptor.apiName === param.name.value);
-            params.push({attribute, descriptor});
+            const attributes = this.field[name].filter(param => descriptor.apiName === param.name.value);
+            if (attributes && attributes.length > 0) {
+                for (let j = 0; j < attributes.length; j++) {
+                    params.push({attribute: attributes[j], descriptor, index: j + 1});
+                }
+            } else {
+                params.push({attribute: undefined, descriptor});
+            }
         }
 
         if (sort) {

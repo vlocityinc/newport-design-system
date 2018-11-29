@@ -23,6 +23,11 @@ export const CANVAS_SCREEN_GUIDS = {
     FOOTER_GUID: 'showFooter'
 };
 
+export const EXTENSION_PARAM_PREFIX = {
+    INPUT: '$$input$$',
+    OUTPUT: '$$output$$'
+};
+
 export const SELECTED_CLASS = 'selected';
 export const DRAGGING_CLASS = 'dragging';
 export const CONTAINER_DIV_SELECTOR = 'div.highlight';
