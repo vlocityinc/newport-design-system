@@ -6,6 +6,9 @@ import { Validation } from "builder_platform_interaction/validation";
  * @type {Object}
  */
 const additionalRules = {
+    'interviewLabel': [
+        ValidationRules.maximumCharactersLimit(1000)
+    ],
     'processType' : [
         ValidationRules.shouldNotBeNullOrUndefined
     ]

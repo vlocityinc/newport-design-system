@@ -10,4 +10,18 @@ describe('FlowPropertiesValidations', () => {
             expect(flowPropertiesEditorValidation.validateProperty('stageOrder', 'Autolauched Flow')).toBe(null);
         });
     });
+    describe('Interview Label property', () => {
+        it('should return null when valid string is passed.', () => {
+            expect(flowPropertiesEditorValidation.validateProperty('interviewLabel', 'valid string')).toBeNull();
+        });
+
+        it('should return null when a empty string is passed.', () => {
+            expect(flowPropertiesEditorValidation.validateProperty('interviewLabel', '')).toBeNull();
+        });
+
+        it('should return - {string} Cannot accept more than 1000 characters when string length more than 1000 characters.', () => {
+            const test = 'hello'.repeat(1000);
+            expect(flowPropertiesEditorValidation.validateProperty('interviewLabel', test)).toBe(LABELS.maximumCharactersLimit);
+        });
+    });
 });
