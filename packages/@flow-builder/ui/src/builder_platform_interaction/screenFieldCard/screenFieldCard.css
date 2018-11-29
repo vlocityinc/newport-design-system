@@ -5,3 +5,7 @@
 .bordered {
     border: var(--lwc-borderWidthThin) solid var(--lwc-cardColorBorder);
 }
+
+.card-icon {
+    margin-bottom: auto;
+}
