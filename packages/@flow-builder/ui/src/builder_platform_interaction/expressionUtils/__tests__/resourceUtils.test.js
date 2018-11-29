@@ -5,6 +5,7 @@ import {
 } from '../resourceUtils';
 import * as store from "mock/storeData";
 import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
+import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -30,6 +31,11 @@ describe('RHS normalize', () => {
         const rhs = normalizeRHS(rhsApiValue);
         expect(rhs.itemOrDisplayText).toBeDefined();
         expect(rhs.itemOrDisplayText).toEqual(rhsApiValue);
+    });
+    it('should handle values that traverse more than two levels by cleaning display value, but not passing item', () => {
+        const fieldTraversal = ".Owner.Id";
+        const normalizedRHS = normalizeRHS(store.accountSObjectVariableGuid + fieldTraversal);
+        expect(normalizedRHS.itemOrDisplayText).toEqual(addCurlyBraces(store.elements[store.accountSObjectVariableGuid].name + fieldTraversal));
     });
 });
 

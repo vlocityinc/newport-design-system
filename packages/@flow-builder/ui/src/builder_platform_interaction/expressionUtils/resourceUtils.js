@@ -12,7 +12,7 @@ import * as sobjectLib from "builder_platform_interaction/sobjectLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { elementToParam } from "builder_platform_interaction/ruleLib";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { isObject } from 'builder_platform_interaction/commonUtils';
+import { isObject, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 
 export const EXPRESSION_PROPERTY_TYPE = {
@@ -117,17 +117,21 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
  * @returns {Item}                  Combobox display value
  */
 export const normalizeRHS = (rhsIdentifier) => {
-    const rhs = {};
+    const rhs = { itemOrDisplayText: rhsIdentifier };
     const flowElement = getResourceByUniqueIdentifier(rhsIdentifier);
-    const fieldName = sanitizeGuid(rhsIdentifier).fieldName;
-    if (flowElement && fieldName) {
-        const fields = sobjectLib.getFieldsForEntity(flowElement.objectType);
-        rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[fieldName], mutateFlowResourceToComboboxShape(flowElement), true, true);
-        rhs.fields = fields;
-    } else if (flowElement) {
-        rhs.itemOrDisplayText = mutateFlowResourceToComboboxShape(flowElement);
-    } else {
-        rhs.itemOrDisplayText = rhsIdentifier;
+    if (flowElement) {
+        const item = mutateFlowResourceToComboboxShape(flowElement);
+        const sanitizedGuid = sanitizeGuid(rhsIdentifier);
+        const fieldName = sanitizedGuid.fieldName;
+        if (!fieldName) {
+            rhs.itemOrDisplayText = item;
+        } else if (fieldName.indexOf('.') >= 0) {
+            rhs.itemOrDisplayText = addCurlyBraces(item.text + '.' + fieldName);
+        } else {
+            const fields = sobjectLib.getFieldsForEntity(flowElement.objectType);
+            rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[fieldName], item, true, true);
+            rhs.fields = fields;
+        }
     }
     return rhs;
 };
@@ -187,28 +191,16 @@ export const populateLhsStateForField =  (fields, fieldName, fieldParent, isFiel
  * @param {rhsDescribe} callback   function to be called with the initialized state values
  */
 export const populateRhsState = ({ rightHandSide }, callback) => {
-    const rhsState = {
+    let rhsState = {
         isField: false,
         fields: null,
         error: rightHandSide.error,
-        value: rightHandSide.value,
+        itemOrDisplayText: rightHandSide.value,
     };
 
     if (!rightHandSide.error) {
-        const fer = getResourceByUniqueIdentifier(rightHandSide.value);
-
-        if (fer) {
-            const rhsItem = mutateFlowResourceToComboboxShape(fer);
-            rhsState.value = rhsItem;
-            const fieldName = sanitizeGuid(rightHandSide.value).fieldName;
-            if (fieldName) {
-                const isFieldOnSobjectVar = true;
-                const fields = sobjectLib.getFieldsForEntity(fer.objectType);
-                rhsState.isField = true;
-                rhsState.value = mutateFieldToComboboxShape(fields[fieldName], rhsItem, isFieldOnSobjectVar, isFieldOnSobjectVar);
-                rhsState.fields = fields;
-            }
-        }
+        rhsState = Object.assign(rhsState, normalizeRHS(rightHandSide.value));
+        rhsState.isField = !!rhsState.fields;
     }
     callback(rhsState);
 };

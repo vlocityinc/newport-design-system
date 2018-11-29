@@ -145,7 +145,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     newElement.text = resource.name;
     newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resource.objectType, resourceLabel);
     newElement.value = resource.guid;
-    newElement.displayText = '{!' + resource.name + '}';
+    newElement.displayText = addCurlyBraces(resource.name);
     newElement.hasNext = resourceDataType === SOBJECT_TYPE && !resource.isCollection;
     newElement.category = resource.category || getElementCategory(resource.elementType, resourceDataType, resource.isCollection).toUpperCase();
     newElement.iconName = resourceIcon || getDataTypeIcons(resourceDataType, ICON_TYPE);
